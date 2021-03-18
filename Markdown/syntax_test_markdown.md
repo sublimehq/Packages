@@ -253,6 +253,13 @@ Paragraph break.
 
 Paragraph break.
 
+- `<Logo>` | `<logo>` (components/Logo.vue)
+- `<MyComponent>` | `<my-component>` | (components/my-component.vue)
+| <- markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown
+
+Paragraph break.
+
   * Unordered list item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
 | ^ markup.list.unnumbered.bullet punctuation.definition.list_item
@@ -1730,6 +1737,25 @@ not a table |
  --- | ---
  --- | ---
 | ^^^^ meta.block-level meta.table - meta.table.header
+
+ a | b
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+
+ a | b
+ -:| -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+| ^ punctuation.definition.table-cell-alignment.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
 
 | test | me |
 |------|----|

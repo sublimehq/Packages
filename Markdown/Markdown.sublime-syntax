@@ -91,8 +91,12 @@ variables:
       )
     table_first_row: |-
         (?x:
-            (?:{{balanced_table_cell}}?\|){2}           # at least 2 non-escaped pipe chars on the line
-        |   (?!\s+\|){{balanced_table_cell}}\|(?!\s+$)  # something other than whitespace followed by a pipe char, followed by something other than whitespace and the end of the line
+          # at least 2 non-escaped pipe chars on the line
+          (?:{{balanced_table_cell}}?\|){2}
+
+          # something other than whitespace followed by a pipe char or hyphon,
+          # followed by something other than whitespace and the end of the line
+        | (?! \s*\-\s+ | \s+\|){{balanced_table_cell}}\|(?!\s+$)
         )
     fenced_code_block_start: |-
         (?x:
