@@ -5,12 +5,12 @@ name: ASP
 scope: source.asp
 
 file_extensions:
-  - asa # asp is handled by HTML-ASP.sublime-syntax
+  - asa # asp is handled by HTML (ASP).sublime-syntax
   - vbs # Visual Basic Script
 
 first_line_match: |-
   (?xi:
-    ^ \s* \' \s* -\*- .*? \b(asp|vbs|vbscript)\b .*? -\*-  # editorconfig
+    ^ \s* \' \s* -\*- .*? \b(vbs|vbscript)\b .*? -\*-  # editorconfig
   )
 
 variables:
