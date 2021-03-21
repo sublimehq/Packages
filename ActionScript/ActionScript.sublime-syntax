@@ -9,7 +9,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .* \baction-?script\b .* -\*-  # editorconfig
+    ^ \s* // \s* -\*- .*? \baction-?script\b .*? -\*-  # editorconfig
   )
 
 contexts:
