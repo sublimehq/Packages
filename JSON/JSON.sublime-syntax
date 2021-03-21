@@ -1,6 +1,8 @@
 %YAML 1.2
 ---
 name: JSON
+scope: source.json
+
 file_extensions:
   - json
   - sublime-settings
@@ -16,7 +18,12 @@ file_extensions:
   - sublime-color-scheme
   - ipynb
   - Pipfile.lock
-scope: source.json
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // \s* -\*- .*? \bjson\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   prototype:
     - include: comments

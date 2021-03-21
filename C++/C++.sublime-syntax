@@ -2,7 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C++
-comment: I don't think anyone uses .hp. .cp tends to be paired with .h. (I could be wrong. :) -- chris
+scope: source.c++
+
 file_extensions:
   - cpp
   - cc
@@ -17,8 +18,12 @@ file_extensions:
   - h++
   - inl
   - ipp
-first_line_match: '-\*- C\+\+ -\*-'
-scope: source.c++
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // \s* -\*- .*? \b(c\+\+|cpp\b) .*? -\*-  # editorconfig
+  )
+
 variables:
   # number digits
   bin_digit: '[01'']'

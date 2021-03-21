@@ -2,6 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Perl
+scope: source.perl
+
 file_extensions:
   - pl
   - pc
@@ -9,12 +11,12 @@ file_extensions:
   - pmc
   - pod
   - t
+
 first_line_match: |-
   (?xi:
-    ^\#! .* \bperl\b |                     # shebang
-    ^\# \s* -\*- [^*]* perl [^*]* -\*-     # editorconfig
+    ^ \#! .* \bperl\b                        # shebang
+  | ^ \s* \# \s* -\*- .*? \bperl\b .*? -\*-  # editorconfig
   )
-scope: source.perl
 
 variables:
   break: \b(?!::)

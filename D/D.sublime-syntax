@@ -2,12 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: D
-comment: D language
+scope: source.d
+
 file_extensions:
   - d
   - di
-first_line_match: ^#!.*\bg?dmd\b.
-scope: source.d
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \bg?dmd\b                           # shebang
+  | ^ \s* // \s* -\*- .*? \bd(lang)?\b .*? -\*-  # editorconfig
+  )
+
 variables:
   name: '[[:alpha:]_][[:alpha:]0-9_]*'
   name_lookahead: '(?=\b{{name}}\b)'

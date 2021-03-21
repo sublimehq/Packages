@@ -2,11 +2,19 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: MATLAB
+scope: source.matlab
+
 file_extensions:
   - matlab
-scope: source.matlab
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \%+ \s* -\*- .*? \bmatlab\b .*? -\*-  # editorconfig
+  )
+
 variables:
   id: '[A-Za-z_]\w*'
+
 contexts:
   main:
     - include: function

@@ -9,6 +9,8 @@
 #
 # All number references refer to the "Make manual" (see link above).
 name: Makefile
+scope: source.makefile
+
 file_extensions:
   - make
   - GNUmakefile
@@ -21,12 +23,13 @@ file_extensions:
   - OCamlMakefile
   - mak
   - mk
+
 first_line_match: |-
   (?xi:
-    ^\#! .* \bmake\b |                     # shebang
-    ^\# \s* -\*- [^*]* makefile [^*]* -\*- # editorconfig
+    ^ \#! .* \bmake\b |                          # shebang
+    ^ \s* \# \s* -\*- .*? \bmakefile\b .*? -\*-  # editorconfig
   )
-scope: source.makefile
+
 #-------------------------------------------------------------------------------
 variables:
 

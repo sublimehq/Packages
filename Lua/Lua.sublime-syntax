@@ -1,8 +1,16 @@
 %YAML 1.2
 ---
+name: Lua
+scope: source.lua
+
 file_extensions:
   - lua
-scope: source.lua
+
+first_line_match: |-
+  (?xi:
+    ^ \s* -- \s* -\*- .*? \blua\b .*? -\*-  # editorconfig
+  )
+
 variables:
   reserved_word: |-
     (?x:(?:

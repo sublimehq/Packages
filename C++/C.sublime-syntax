@@ -2,11 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C
+scope: source.c
+
 file_extensions:
   - c
   - h
-first_line_match: "-[*]-( Mode:)? C -[*]-"
-scope: source.c
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // \s* -\*- .*? \bc\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   # number digits

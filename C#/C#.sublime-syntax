@@ -6,10 +6,16 @@
 # MIT license: https://opensource.org/licenses/mit-license.php
 
 name: C#
+scope: source.cs
+
 file_extensions:
   - cs
   - csx
-scope: source.cs
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // \s* -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
+  )
 
 variables:
 

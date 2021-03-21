@@ -2,11 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Graphviz (DOT)
+scope: source.dot
+
 file_extensions:
   - dot
   - DOT
   - gv
-scope: source.dot
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // \s* -\*- .*? \b(dot|graphviz)\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - include: expressions

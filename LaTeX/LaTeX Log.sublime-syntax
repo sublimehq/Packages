@@ -2,8 +2,10 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: LaTeX Log
-first_line_match: "This is (pdf|pdfe)?TeXk?, Version "
 scope: text.log.latex
+
+first_line_match: "This is (pdf|pdfe)?TeXk?, Version "
+
 contexts:
   main:
     - match: ".*Warning:"

@@ -2,10 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Batch File
+scope: source.dosbatch
+
 file_extensions:
   - bat
   - cmd
-scope: source.dosbatch
+
+first_line_match: |-
+  (?xi:
+    ^ \s* (\:|rem) \s* -\*- .*? \bbat\b .*? -\*-  # editorconfig
+  | ^ \s* @echo\s+off\b
+  )
+
 variables:
   colon_comment_start: '(?::[+=,;: ])'
   command_terminators: (?=$\n|[&|><)])

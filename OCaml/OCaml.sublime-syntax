@@ -2,10 +2,17 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: OCaml
+scope: source.ocaml
+
 file_extensions:
   - ml
   - mli
-scope: source.ocaml
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \(\* \s* -\*- .*? \bocaml\b .*? -\*-  # editorconfig
+  )
+
 variables:
   sign: (?:-|\b)
   suffix: (?:[lLn]|(?!\.))\b

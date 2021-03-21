@@ -16,9 +16,9 @@ hidden_extensions:
   - emakefile
 
 first_line_match: |-
-  (?x:
-    ^ \#! .* \b(erlang|escript)\b |                # shebang
-    ^ \s* \%+ \s* -\*- .*? \b[Ee]rlang\b .*? -\*-  # editorconfig
+  (?xi:
+    ^ \#! .* \b(erlang|escript)\b               # shebang
+  | ^ \s* \%+ \s* -\*- .*? \berlang\b .*? -\*-  # editorconfig
   )
 
 ###############################################################################

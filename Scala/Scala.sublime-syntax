@@ -2,11 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Scala
+scope: source.scala
+
 file_extensions:
   - scala
   - sbt
   - sc
-scope: source.scala
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // \s* -\*- .*? \bscala\b .*? -\*-  # editorconfig
+  )
+
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
   keywords: '\b(?:abstract|case|catch|class|def|do|else|extends|false|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'

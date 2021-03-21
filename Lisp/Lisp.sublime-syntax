@@ -6,6 +6,8 @@
 # http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/index.html
 #
 name: Lisp
+scope: source.lisp
+
 file_extensions:
   - lisp
   - cl
@@ -17,7 +19,12 @@ file_extensions:
   - ss
   - lsp
   - fasl # Scheme dialect of Lisp
-scope: source.lisp
+
+first_line_match: |-
+  (?xi:
+    ^ \s* ; \s* -\*- .*? \blisp\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - include: comments
