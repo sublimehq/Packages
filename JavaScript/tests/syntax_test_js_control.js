@@ -1,56 +1,121 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
-if (true)
-// <- keyword.control.conditional.if
-{
-    bar()
-}
+    if ( true ) { } ;
+//  ^^^^^^^^^^^^^^^ meta.conditional
+//  ^^ keyword.control.conditional.if
+//     ^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//       ^^^^ constant.language.boolean.true
+//            ^ punctuation.section.group.end
+//              ^^^ meta.block
+//              ^ punctuation.section.block.begin
+//                ^ punctuation.section.block.end
+//                 ^ - meta.conditional
+//                  ^ punctuation.terminator.statement.empty
 
-if (Infinity > qux) {
-// <- meta.conditional.js keyword.control.conditional.if
-// ^^^^^^^^^^^^^^^ meta.conditional
-//  ^^^^^^^^ constant.language.infinity
-    a;
-//  ^ meta.conditional meta.block
-}
-// <- meta.conditional meta.block
+    if ( true ) null ;
+//  ^^^^^^^^^^^^^^^^^^ meta.conditional
+//  ^^ keyword.control.conditional.if
+//     ^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//       ^^^^ constant.language.boolean.true
+//            ^ punctuation.section.group.end
+//              ^^^^ constant.language.null
+//                   ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+//                    ^ - meta.conditional
 
-if (foo bar)
-    baz = "test"
+    if (true) {}/**/
+//              ^^^^ - meta.conditional
 
-if(false){}/**/
-//         ^ - meta.conditional
+    if (true) ;
+//  ^^^^^^^^^^ meta.conditional
+//            ^ punctuation.terminator.statement.empty
 
-do {
-// <- meta.do-while keyword.control.loop.do-while
-// ^ meta.block
-    qux += 1
-//  ^^^^^^^^ meta.do-while meta.block
-} while(qux < 20);
-// <- meta.block
-// ^^^^^^^^^^^^^^ meta.do-while - meta.block
-// ^^^^ keyword.control.loop.while
-//      ^^^^^^^^ meta.group
+    if (true) ;
+    else { } ;
+//  ^^^^^^^^ meta.conditional
+//  ^^^^ keyword.control.conditional.else
+//       ^^^ meta.block
+//       ^ punctuation.section.block.begin
+//         ^ punctuation.section.block.end
+//          ^ - meta.conditional
+//           ^ punctuation.terminator.statement.empty
 
-do // Incomplete statement
-    42;
-//  ^^ constant.numeric - meta.do-while
+    else if (true) { } ;
+//  ^^^^^^^^^^^^^^^^^^ meta.conditional
+//  ^^^^^^^ keyword.control.conditional.elseif
+//          ^^^^^^ meta.group
+//          ^ punctuation.section.group.begin
+//           ^^^^ constant.language.boolean.true
+//               ^ punctuation.section.group.end
+//                 ^^^ meta.block
+//                 ^ punctuation.section.block.begin
+//                   ^ punctuation.section.block.end
+//                    ^^^ - meta.conditional
+//                     ^ punctuation.terminator.statement.empty
 
-do {} while (false)/**/
-// <- meta.do-while keyword.control.loop.do-while
-//^^^^^^^^^^^^^^^^^ meta.do-while.js
-//                 ^^ - meta.do-while
-//    ^^^^^ keyword.control.loop.while.js
+    do { } while ( true ) ;
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.do-while
+//  ^^ keyword.control.loop.do-while
+//     ^^^ meta.block
+//     ^ punctuation.section.block.begin
+//       ^ punctuation.section.block.end
+//         ^^^^^ keyword.control.loop.while
+//               ^^^^^^^^ meta.group
+//               ^ punctuation.section.group.begin
+//                 ^^^^ constant.language.boolean.true
+//                      ^ punctuation.section.group.end
+//                       ^ - meta.do-while
+//                        ^ punctuation.terminator.statement.empty
 
-for (var i = 0; i < 10; i++) {
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//   ^^^^^^^^^^^^^^^^^^^^^^ meta.group
-//   ^^^ storage.type.js
-//                           ^ meta.block
-    i += 1;
-//  ^^^^^^^ meta.for meta.block
-}
-// <- meta.block
+    do 42 ; while ( true ) ;
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.do-while
+//  ^^ keyword.control.loop.do-while
+//     ^^ meta.number.integer.decimal constant.numeric.value
+//        ^ punctuation.terminator.statement
+//          ^^^^^ keyword.control.loop.while
+//                ^^^^^^^^ meta.group
+//                ^ punctuation.section.group.begin
+//                  ^^^^ constant.language.boolean.true
+//                       ^ punctuation.section.group.end
+//                         ^ punctuation.terminator.statement.empty
+
+    do {} while (false)/**/
+//                     ^ - meta.do-while
+
+    for (var i = 0; i < 10; i++) { } ;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group
+//       ^^^ storage.type
+//           ^ meta.binding.name variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^ meta.number.integer.decimal constant.numeric.value
+//                ^ punctuation.separator.expression
+//                  ^ variable.other.readwrite
+//                    ^ keyword.operator.comparison
+//                      ^^ meta.number.integer.decimal constant.numeric.value
+//                        ^ punctuation.separator.expression
+//                          ^ variable.other.readwrite
+//                           ^^ keyword.operator.arithmetic
+//                             ^ punctuation.section.group
+//                               ^^^ meta.block
+//                               ^ punctuation.section.block.begin
+//                                 ^ punctuation.section.block.end
+//                                  ^ - meta.for
+//                                   ^ punctuation.terminator.statement.empty
+
+    for (;;) 42;
+//  ^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^ meta.group
+//      ^ punctuation.section.group
+//       ^^ punctuation.separator.expression
+//         ^ punctuation.section.group
+//           ^^ meta.number.integer.decimal constant.numeric.value
+//             ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+//              ^ - meta.for
 
     for (; x in list;) {}
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.for
@@ -192,6 +257,16 @@ while (true)
 }
 // <- meta.block
 
+    while (true) 42 ;
+//  ^^^^^^^^^^^^^ meta.while
+//  ^^^^^ keyword.control.loop.while
+//        ^^^^^^ meta.group
+//        ^ punctuation.section.group.begin
+//         ^^^^ constant.language.boolean.true
+//             ^ punctuation.section.group.end
+//               ^^ meta.number.integer.decimal constant.numeric.value
+//                  ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
 while // Incomplete statement
     42;
 //  ^^ constant.numeric - meta.while
@@ -288,6 +363,3 @@ catch{}/**/
 //     ^ - meta.catch
 finally{}/**/
 //       ^ - meta.finally
-
-if (true) {};
-// <- keyword.control.conditional
