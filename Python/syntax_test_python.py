@@ -1395,6 +1395,9 @@ result = [i async for i in aiter() if i % 2]
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
+foo, bar = get_vars()
+#  ^ punctuation.separator.sequence.python
+#        ^ keyword.operator.assignment.python
 
 t = (*tuple(), *[1, 2], 3*1)
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
