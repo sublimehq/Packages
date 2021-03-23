@@ -1778,7 +1778,6 @@ contexts:
         - function-declaration-expect-parameters
         - method-name
         - method-declaration-expect-prefix
-        - function-declaration-expect-async
 
   method-declaration-expect-prefix:
     - match: \*
