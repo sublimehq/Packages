@@ -285,7 +285,11 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.lua
       push: expression-begin
-    - include: variable-modifier
+    - match: (?=<(?![<=]))
+      branch_point: left-angle
+      branch:
+        - left-angle-is-variable-modifier
+        - left-angle-is-less-than
     - include: expression-end
 
   expression-begin:
@@ -304,10 +308,15 @@ contexts:
 
     - include: else-pop
 
-  variable-modifier:
+  left-angle-is-less-than:
+    - match: '<'
+      scope: keyword.operator.comparison.lua
+      pop: true
+
+  left-angle-is-variable-modifier:
     - match: '<'
       scope: punctuation.definition.modifier.begin.lua
-      push: variable-modifier-body
+      set: variable-modifier-body
 
   variable-modifier-body:
     - meta_scope: meta.modifier.lua
@@ -316,7 +325,8 @@ contexts:
       pop: 1
     - match: (?:const|close){{identifier_break}}
       scope: storage.modifier.lua
-    - include: else-pop
+    - match: (?=\S)
+      fail: left-angle
 
   infix-operator:
     - match: (?:[=<>~]=)
