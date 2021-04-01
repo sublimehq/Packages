@@ -37,7 +37,7 @@ variables:
       {{illegal_keywords}}
     )
   declaration_keywords: |-
-    (?:class|enum|@?interface|var|void|extends|implements|import|package)
+    (?:class|enum|@?interface|record|var|void|extends|implements|import|package)
   control_keywords: |-
     (?x:
       assert|break|case|catch|continue|do|else|finally|for|if|return|switch|
@@ -297,6 +297,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
+    - include: record-keyword
     - include: class-modifiers
     - include: declaration-else-fail
 
@@ -800,6 +801,58 @@ contexts:
     - meta_scope: meta.interface.java meta.block.java
     - include: class-block-body
 
+###[ RECORD DECLARATIONS ]#####################################################
+
+  record-keyword:
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
+    - match: record{{break}}
+      scope: keyword.declaration.record.java
+      set:
+        - class-block
+        - record-extends
+        - record-parameters
+        - maybe-type-parameter
+        - class-name
+
+  record-parameters:
+    - meta_content_scope: meta.class.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - record-parameter-body
+        - parameter-maybe-identifier
+        - parameter-maybe-variadic
+        - maybe-array-modifiers
+        - parameter-type
+    - include: else-pop
+
+  record-parameter-body:
+    - meta_scope: meta.class.parameters.java meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set:
+        - meta_content_scope: meta.class.java
+        - include: else-pop
+    - include: method-parameters-body
+
+  record-extends:
+    - match: extends{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - class-extends-object-type-list
+        - inherited-object-type
+    - match: implements{{break}}
+      scope: storage.modifier.implements.java
+      push:
+        - class-implements-object-type-list
+        - inherited-object-type
+    - match: permits{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - class-permits-object-type-list
+        - inherited-object-type
+    - include: else-pop
+
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member-declarations:
@@ -825,6 +878,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
+    - include: record-keyword
     - include: class-modifiers
     - include: member-else-fail
 

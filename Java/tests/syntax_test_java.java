@@ -2224,6 +2224,115 @@ Bar             // comment
 //                                             ^ punctuation.section.braces.end.java
 }
 
+/******************************************************************************
+ * Record Class Tests
+ * https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
+ *****************************************************************************/
+
+record
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^ meta.class.identifier.java
+
+record RecordTest
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^^ meta.class.identifier.java
+//     ^^^^^^^^^^ entity.name.class.java
+
+record RecordTest<>
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
+//               ^^ meta.class.identifier.java meta.generic.declaration.java
+//                 ^ meta.class.identifier.java - meta.generic
+//     ^^^^^^^^^^ entity.name.class.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^ punctuation.definition.generic.end.java
+
+record RecordTest<T>
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
+//               ^^^ meta.class.identifier.java meta.generic.declaration.java
+//                  ^ meta.class.identifier.java - meta.generic
+//     ^^^^^^^^^^ entity.name.class.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^ variable.parameter.type.java
+//                 ^ punctuation.definition.generic.end.java
+
+record RecordTest( {  }
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^ meta.class.identifier.java
+//               ^^ meta.class.parameters.java meta.group.java
+//                 ^^^^ meta.class.java meta.block.java
+//     ^^^^^^^^^^ entity.name.class.java
+//               ^ punctuation.section.group.begin.java
+//                 ^ punctuation.section.block.begin.java
+//                    ^ punctuation.section.block.end.java
+
+record RecordTest<>( {  }
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
+//               ^^ meta.class.identifier.java meta.generic.declaration.java
+//                 ^^ meta.class.parameters.java meta.group.java
+//                   ^^^^ meta.class.java meta.block.java
+//     ^^^^^^^^^^ entity.name.class.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^ punctuation.definition.generic.end.java
+//                 ^ punctuation.section.group.begin.java
+//                   ^ punctuation.section.block.begin.java
+//                      ^ punctuation.section.block.end.java
+
+record RecordTest(int x, int y) { }
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^ meta.class.identifier.java
+//               ^^^^^^^^^^^^^^ meta.class.parameters.java meta.group.java
+//                             ^ meta.class.java
+//                              ^^^ meta.class.java meta.block.java
+//     ^^^^^^^^^^ entity.name.class.java
+//               ^ punctuation.section.group.begin.java
+//                ^^^ storage.type.primitive.java
+//                    ^ variable.parameter.java
+//                     ^ punctuation.separator.comma.java
+//                       ^^^ storage.type.primitive.java
+//                           ^ variable.parameter.java
+//                            ^ punctuation.section.group.end.java
+//                              ^ punctuation.section.block.begin.java
+//                                ^ punctuation.section.block.end.java
+
+record RecordTest<T>(int x, @notnull foo bar) implements Foo, Bar { }
+// <- meta.class.java keyword.declaration.record.java
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^^^^^^^^ meta.class.identifier.java
+//               ^^^ meta.generic.declaration.java
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.parameters.java meta.group.java
+//                          ^^^^^^^^ meta.annotation.identifier.java
+//                                           ^ meta.class.java
+//                                            ^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
+//                                                                ^^^ meta.class.java meta.block.java
+//     ^^^^^^^^^^ entity.name.class.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^ variable.parameter.type.java
+//                 ^ punctuation.definition.generic.end.java
+//                  ^ punctuation.section.group.begin.java
+//                   ^^^ storage.type.primitive.java
+//                       ^ variable.parameter.java
+//                        ^ punctuation.separator.comma.java
+//                          ^ punctuation.definition.annotation.java
+//                           ^^^^^^^ variable.annotation.java
+//                                   ^^^ storage.type.class.java
+//                                       ^^^ variable.parameter.java
+//                                          ^ punctuation.section.group.end.java
+//                                            ^^^^^^^^^^ storage.modifier.implements.java
+//                                                       ^^^ entity.other.inherited-class.java
+//                                                          ^ punctuation.separator.comma.java
+//                                                            ^^^ entity.other.inherited-class.java
+//                                                                ^ punctuation.section.block.begin.java
+//                                                                  ^ punctuation.section.block.end.java
 
 /******************************************************************************
  * Field Declaration Tests
