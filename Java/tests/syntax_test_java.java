@@ -5393,6 +5393,42 @@ class SwitchStatementTests {
 }
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
 
+class SwitchExpressionsTests {
+
+   void run() {
+      int numLetters = switch (day) {
+//    ^^^ storage.type.primitive.java
+//        ^^^^^^^^^^ variable.other.java
+//                   ^ keyword.operator.assignment.java
+//                     ^^^^^^^^^^^^^^^ meta.switch.java
+//                     ^^^^^^ keyword.control.conditional.switch.java
+          case MONDAY, FRIDAY, SUNDAY -> 6;
+//        ^^^^ keyword.control.conditional.case.java
+//             ^^^^^^ constant.other.java
+//                   ^ punctuation.separator.comma.java
+//                                    ^^ keyword.declaration.function.arrow.java
+//                                       ^ constant.numeric.value.java
+//                                        ^ punctuation.terminator.java
+          case TUESDAY                -> 7;
+//        ^^^^ keyword.control.conditional.case.java
+//             ^^^^^^^ constant.other.java
+//                                    ^^ keyword.declaration.function.arrow.java
+//                                       ^ constant.numeric.value.java
+//                                        ^ punctuation.terminator.java
+          default -> {
+//        ^^^^^^^ keyword.control.conditional.default.java
+//                ^^ keyword.declaration.function.arrow.java
+//                   ^ punctuation.section.block.begin.java
+            String s = day.toString();
+            int result = s.length();
+            yield result;
+          }
+//        ^ punctuation.section.block.end.java
+      };
+//    ^ punctuation.section.block.end.java
+   }
+// ^ punctuation.section.block.end.java
+}
 
 /******************************************************************************
  * While Statement Tests
