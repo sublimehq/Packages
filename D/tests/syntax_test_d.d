@@ -2109,6 +2109,16 @@ extern(1)
 //                                           ^^^^^ string.quoted.double.d
 //                                                ^ punctuation.terminator.d
 
+  foo* bar = foo* bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//         ^ keyword.operator.assignment.d
+//           ^^^ variable.other.d
+//              ^ keyword.operator.arithmetic.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+
   foo bar = (baz *var[foo* bar]);
 //^^^ storage.type.d
 //    ^^^ variable.other.d
