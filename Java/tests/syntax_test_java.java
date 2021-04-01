@@ -2334,6 +2334,22 @@ record RecordTest<T>(int x, @notnull foo bar) implements Foo, Bar { }
 //                                                                ^ punctuation.section.block.begin.java
 //                                                                  ^ punctuation.section.block.end.java
 
+record CompactConstructorTests(int foo) {
+   CompactConstructorTests {
+// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.identifier.java
+//                         ^^ meta.class.java meta.block.java meta.function.java meta.block.java
+//                         ^ punctuation.section.block.begin.java
+      foo = 20;
+//   ^^^^^^^^^^^ meta.function.java meta.block.java
+//    ^^^ variable.other.java
+//        ^ keyword.operator.assignment.java
+//          ^^ constant.numeric.value.java
+//            ^ punctuation.terminator.java
+   }
+// ^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+}
+// <- meta.class.java meta.block.java punctuation.section.block.end.java
+
 /******************************************************************************
  * Field Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4

@@ -1063,6 +1063,8 @@ contexts:
   method-expect-parameters:
     - meta_content_scope: meta.function.identifier.java
     - include: method-parameters
+    - match: (?=\{)
+      pop: 1
     - include: member-else-fail
 
   method-maybe-parameters:
