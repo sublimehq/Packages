@@ -8360,6 +8360,22 @@ class TypeComparisonExpressionsTests {
 //                                    ^ punctuation.terminator.java
  }
  // <- meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+
+  void instanceofPatternsTests () {
+
+      obj instanceof String s && s.length() > 5
+//    ^^^ variable.other.java
+//        ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                   ^^^^^^ storage.type.class.java
+//                          ^ variable.other.java
+//                            ^^ keyword.operator.logical.java
+//                               ^ variable.other.java
+//                                ^ punctuation.accessor.dot.java
+//                                 ^^^^^^ variable.function.java
+//                                       ^^ meta.group.java
+//                                          ^ keyword.operator.comparison.java
+//                                            ^ constant.numeric.value.java
+  }
 }
 // <- meta.class.java meta.block.java punctuation.section.block.end.java
 
