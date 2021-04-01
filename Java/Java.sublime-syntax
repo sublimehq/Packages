@@ -49,21 +49,21 @@ variables:
   # Storage Modifiers
   storage_modifiers: (?:{{class_modifier}}|{{class_no_modifier}})
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
-  class_modifier: (?:public|protected|private|abstract|static|final|strictfp)
+  class_modifier: (?:public|protected|private|abstract|static|final|strictfp|sealed)
   class_no_modifier: (?:native|synchronized|default|transient|volatile)
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
   constructor_modifier: (?:public|protected|private)
-  constructor_no_modifier: (?:abstract|static|final|strictfp|native|synchronized|default|transient|volatile)
+  constructor_no_modifier: (?:abstract|static|final|strictfp|native|synchronized|default|transient|volatile|sealed)
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3.1
   field_modifier: (?:public|protected|private|static|final|transient|volatile)
-  field_no_modifier: (?:abstract|native|synchronized|strictfp|default)
+  field_no_modifier: (?:abstract|native|synchronized|strictfp|default|sealed)
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
-  interface_modifier: (?:public|protected|private|abstract|static|strictfp)
+  interface_modifier: (?:public|protected|private|abstract|static|strictfp|sealed)
   interface_no_modifier: (?:final|native|synchronized|default|transient|volatile)
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.4
   method_modifier: (?:public|protected|private|abstract|default|static|final|synchronized)
-  method_no_modifier: (?:native|strictfp|transient|volatile)
+  method_no_modifier: (?:native|strictfp|transient|volatile|sealed)
 
   # Storage Types
   storage_types: (?:boolean|byte|char|short|int|float|long|double)
@@ -584,6 +584,11 @@ contexts:
       push:
         - class-implements-object-type-list
         - inherited-object-type
+    - match: permits{{break}}
+      scope: storage.modifier.permits.java
+      push:
+        - class-permits-object-type-list
+        - inherited-object-type
     - include: else-pop
 
   class-extends-object-type-list:
@@ -593,6 +598,11 @@ contexts:
 
   class-implements-object-type-list:
     - meta_scope: meta.class.implements.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  class-permits-object-type-list:
+    - meta_scope: meta.class.permits.java
     - include: inherited-object-type-list
     - include: else-pop
 
@@ -650,6 +660,11 @@ contexts:
       push:
         - enum-implements-object-type-list
         - inherited-object-type
+    - match: permits{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - enum-permits-object-type-list
+        - inherited-object-type
     - include: else-pop
 
   enum-extends-object-type-list:
@@ -659,6 +674,11 @@ contexts:
 
   enum-implements-object-type-list:
     - meta_scope: meta.enum.implements.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  enum-permits-object-type-list:
+    - meta_scope: meta.enum.permits.java
     - include: inherited-object-type-list
     - include: else-pop
 
@@ -748,6 +768,11 @@ contexts:
       push:
         - interface-implements-object-type-list
         - inherited-object-type
+    - match: permits{{break}}
+      scope: storage.modifier.permits.java
+      push:
+        - interface-permits-object-type-list
+        - inherited-object-type
     - include: else-pop
 
   interface-extends-object-type-list:
@@ -757,6 +782,11 @@ contexts:
 
   interface-implements-object-type-list:
     - meta_scope: meta.interface.implements.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  interface-permits-object-type-list:
+    - meta_scope: meta.interface.permits.java
     - include: inherited-object-type-list
     - include: else-pop
 

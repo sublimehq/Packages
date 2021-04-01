@@ -854,6 +854,36 @@ class ExtendsTest extends @NonNull Foo {}
 //                                     ^ punctuation.section.block.begin.java
 //                                      ^ punctuation.section.block.end.java
 
+public abstract sealed class SealedClassTest permits
+// <- meta.class.java storage.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
+//                          ^^^^^^^^^^^^^^^^^ meta.class.identifier.java
+//                                           ^^^^^^^^ meta.class.permits.java
+//^^^^ storage.modifier.java
+//     ^^^^^^^^ storage.modifier.java
+//              ^^^^^^ storage.modifier.java
+//                     ^^^^^ keyword.declaration.class.java
+//                           ^^^^^^^^^^^^^^^ entity.name.class.java
+//                                           ^^^^^^^ storage.modifier.permits.java
+
+public abstract sealed class SealedClassTest permits Circle, Rectangle {}
+// <- meta.class.java storage.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
+//                          ^^^^^^^^^^^^^^^^^ meta.class.identifier.java
+//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.permits.java
+//                                                                     ^^ meta.class.java meta.block.java
+//^^^^ storage.modifier.java
+//     ^^^^^^^^ storage.modifier.java
+//              ^^^^^^ storage.modifier.java
+//                     ^^^^^ keyword.declaration.class.java
+//                           ^^^^^^^^^^^^^^^ entity.name.class.java
+//                                           ^^^^^^^ storage.modifier.permits.java
+//                                                   ^^^^^^ entity.other.inherited-class.java
+//                                                         ^ punctuation.separator.comma.java
+//                                                           ^^^^^^^^^ entity.other.inherited-class.java
+//                                                                     ^ punctuation.section.block.begin.java
+//                                                                      ^ punctuation.section.block.end.java
+
 class GenericTest<
 //<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
@@ -1565,6 +1595,23 @@ public enum EnumTest {FOO, BAR}
 //                         ^^^ meta.constant.identifier.java entity.name.constant.java
 //                            ^ punctuation.section.block.end.java
 
+public enum EnumTest permits OtherClass {FOO, BAR}
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^^ meta.enum.identifier.java
+//                   ^^^^^^^^^^^^^^^^^^^ meta.enum.permits.java
+//                                      ^^^^^^^^^^ meta.enum.java meta.block.java
+//     ^^^^
+//         ^ - entity - keyword - storage
+//          ^^^^^^^^ entity.name.enum.java
+//                  ^ - entity - punctuation
+//                   ^^^^^^^ invalid.illegal.unexpected-keyword.java
+//                           ^^^^^^^^^^ entity.other.inherited-class.java
+//                                      ^ punctuation.section.block.begin.java
+//                                       ^^^ meta.constant.identifier.java entity.name.constant.java
+//                                          ^ punctuation.separator.comma.java
+//                                            ^^^ meta.constant.identifier.java entity.name.constant.java
+//                                               ^ punctuation.section.block.end.java
+
 public enum FooEnum {
 //^^^^^^^^^ meta.enum.java
 //         ^^^^^^^^^ meta.enum.identifier.java
@@ -1980,6 +2027,36 @@ public interface /**/ TestIntf <T1, T2> /**/ extends /**/ A /**/, /**/ BB /**/ {
 //                                                                        ^^^^ comment.block.empty.java
 //                                                                             ^ punctuation.section.block.begin.java
 //                                                                              ^ punctuation.section.block.end.java
+
+public abstract sealed interface SealedClassTest permits
+// <- meta.interface.java storage.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java
+//                              ^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                                               ^^^^^^^^ meta.interface.permits.java
+//^^^^ storage.modifier.java
+//     ^^^^^^^^ storage.modifier.java
+//              ^^^^^^ storage.modifier.java
+//                     ^^^^^^^^^ keyword.declaration.interface.java
+//                               ^^^^^^^^^^^^^^^ entity.name.interface.java
+//                                               ^^^^^^^ storage.modifier.permits.java
+
+public abstract sealed interface SealedClassTest permits Circle, Rectangle {}
+// <- meta.interface.java storage.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java
+//                              ^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.permits.java
+//                                                                         ^^ meta.interface.java meta.block.java
+//^^^^ storage.modifier.java
+//     ^^^^^^^^ storage.modifier.java
+//              ^^^^^^ storage.modifier.java
+//                     ^^^^^^^^^ keyword.declaration.interface.java
+//                               ^^^^^^^^^^^^^^^ entity.name.interface.java
+//                                               ^^^^^^^ storage.modifier.permits.java
+//                                                       ^^^^^^ entity.other.inherited-class.java
+//                                                             ^ punctuation.separator.comma.java
+//                                                               ^^^^^^^^^ entity.other.inherited-class.java
+//                                                                         ^ punctuation.section.block.begin.java
+//                                                                          ^ punctuation.section.block.end.java
 
 @Anno           // comment
 //<- meta.interface.java meta.annotation.identifier.java punctuation.definition.annotation.java
