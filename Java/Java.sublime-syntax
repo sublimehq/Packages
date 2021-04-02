@@ -23,54 +23,71 @@ variables:
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
   reserved_words: |-
     (?x:
-      {{keywords}} |
-      {{storage_types}} |
-      {{storage_modifiers}} |
-      {{constants}} |
-      {{variables}}
+      {{keywords}}
+    | {{storage_types}}
+    | {{storage_modifiers}}
+    | {{constants}}
+    | {{variables}}
     )
   keywords: |-
     (?x:
-      {{declaration_keywords}} |
-      {{control_keywords}} |
-      {{operator_keywords}} |
-      {{illegal_keywords}}
+      {{declaration_keywords}}
+    | {{control_keywords}}
+    | {{operator_keywords}}
+    | {{illegal_keywords}}
     )
   declaration_keywords: |-
-    (?:class|enum|@?interface|record|var|void|extends|implements|import|package)
+    (?x: class | enum | @?interface | record | var | void | extends | implements | import | package )
   control_keywords: |-
-    (?x:
-      assert|break|case|catch|continue|do|else|finally|for|if|return|switch|
-      throw|throws|try|while
-    )
-  operator_keywords: (?:new|instanceof)
-  illegal_keywords: (?:const|goto)
+    (?x: assert | break | case | catch | continue | do | else | finally | for
+    | if | return | switch | throw | throws | try | while )
+  operator_keywords: |-
+    (?x: new | instanceof )
+  illegal_keywords: |-
+    (?x: const | goto )
 
   # Storage Modifiers
-  storage_modifiers: (?:{{class_modifier}}|{{class_no_modifier}})
+  storage_modifiers: |-
+    (?x:
+      {{class_modifier}}
+    | {{class_no_modifier}}
+    )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
-  class_modifier: (?:public|protected|private|abstract|static|final|strictfp|sealed)
-  class_no_modifier: (?:native|synchronized|default|transient|volatile)
+  class_modifier: |-
+    (?x: public | protected | private | abstract | final | sealed | static | strictfp )
+  class_no_modifier: |-
+    (?x: default | native | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
-  constructor_modifier: (?:public|protected|private)
-  constructor_no_modifier: (?:abstract|static|final|strictfp|native|synchronized|default|transient|volatile|sealed)
+  constructor_modifier: |-
+    (?x: public | protected | private )
+  constructor_no_modifier: |-
+    (?x: abstract | default | final | native | sealed | static | strictfp | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3.1
-  field_modifier: (?:public|protected|private|static|final|transient|volatile)
-  field_no_modifier: (?:abstract|native|synchronized|strictfp|default|sealed)
+  field_modifier: |-
+    (?x: public | protected | private | final | static | transient | volatile )
+  field_no_modifier: |-
+    (?x: abstract | default | native | sealed | strictfp | synchronized )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
-  interface_modifier: (?:public|protected|private|abstract|static|strictfp|sealed)
-  interface_no_modifier: (?:final|native|synchronized|default|transient|volatile)
+  interface_modifier: |-
+    (?x: public | protected | private | abstract | sealed | static | strictfp )
+  interface_no_modifier: |-
+    (?x: default | final | native | synchronized | transient | volatile )
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.4
-  method_modifier: (?:public|protected|private|abstract|default|static|final|synchronized)
-  method_no_modifier: (?:native|strictfp|transient|volatile|sealed)
+  method_modifier: |-
+    (?x: public | protected | private | abstract | default | final | static | synchronized )
+  method_no_modifier: |-
+    (?x: native | sealed | strictfp | transient | volatile )
 
   # Storage Types
-  storage_types: (?:boolean|byte|char|short|int|float|long|double)
+  storage_types: |-
+    (?x: boolean | byte | char | short | int | float | long | double )
 
   # Literals
-  constants: (?:false|null|true)
-  variables: (?:_|super|this)
+  constants: |-
+    (?x: false | null | true )
+  variables: |-
+    (?x: _ | super | this )
 
   # Identifiers
   break: (?!{{id_char}})
