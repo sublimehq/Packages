@@ -854,6 +854,43 @@ class ExtendsTest extends @NonNull Foo {}
 //                                     ^ punctuation.section.block.begin.java
 //                                      ^ punctuation.section.block.end.java
 
+class ExtendsTest extends @NonNull /**/ a /**/ . /**/ b /**/ . /**/ @a /**/ . b /**/ Foo /**/ {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                ^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class - meta.path
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java meta.path.java - meta.class meta.class
+//                                                                                      ^^^^^^ meta.class.extends.java - meta.class meta.class - meta.path
+//                                                                                            ^^ meta.class.java meta.block.java - meta.class meta.class
+//^^^ keyword.declaration.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^ entity.name.class.java
+//               ^ - entity - keyword - storage
+//                ^^^^^^^ storage.modifier.extends.java
+//                        ^ punctuation.definition.annotation.java
+//                         ^^^^^^^ variable.annotation.java
+//                                ^ - comment - entity - keyword - storage - variable
+//                                 ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                      ^ variable.namespace.java
+//                                        ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                             ^ punctuation.accessor.dot.java
+//                                               ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                    ^ variable.namespace.java
+//                                                      ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                           ^ punctuation.accessor.dot.java
+//                                                             ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                                  ^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
+//                                                                  ^ punctuation.definition.annotation.java
+//                                                                   ^ variable.annotation.namespace.java
+//                                                                     ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                                          ^ punctuation.accessor.dot.java
+//                                                                            ^ variable.annotation.java
+//                                                                              ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                                                   ^^^ entity.other.inherited-class.java
+//                                                                                      ^ - comment - entity - keyword - storage
+//                                                                                       ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                                                            ^ punctuation.section.block.begin.java
+//                                                                                             ^ punctuation.section.block.end.java
+
 public abstract sealed class SealedClassTest permits
 // <- meta.class.java storage.modifier.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
