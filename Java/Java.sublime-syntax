@@ -109,6 +109,8 @@ variables:
   hex_digit: '[\h_]'
   dec_exponent: '[eE][-+]?{{dec_digit}}*'
   hex_exponent: '[pP][-+]?{{dec_digit}}*'
+  float_suffix: '[dDfF]{{break}}'
+  int_suffix: '[lL]{{break}}'
 
   escape_octal: \\[0-3]?[0-7]{1,2}
   escape_other: \\[btnfr"'\\]
@@ -2197,7 +2199,7 @@ contexts:
     - match: |-
         (?x)
         # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1 | 0x.1, 0x.1p1, 0x.1p-1
-        (0[xX]) ( {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ([dDfF]{{break}})?
+        (0[xX]) ( {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ({{float_suffix}})?
       scope: meta.number.float.hexadecimal.java
       captures:
         1: constant.numeric.base.java
@@ -2210,13 +2212,13 @@ contexts:
         ([0-9]{{dec_digit}}*)
         (?:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
-          ( (\.) {{dec_digit}}* (?:{{dec_exponent}})? ) ([dDfF]{{break}})?
+          ( (\.) {{dec_digit}}* (?:{{dec_exponent}})? ) ({{float_suffix}})?
           # 1e1 1e1d
-          | ({{dec_exponent}}) ([dDfF]{{break}})?
+          | ({{dec_exponent}}) ({{float_suffix}})?
           # 1d
-          | ([dDfF]{{break}})
+          | ({{float_suffix}})
         )
-        | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ([dDfF]{{break}})?
+        | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ({{float_suffix}})?
       scope: meta.number.float.decimal.java
       captures:
         1: constant.numeric.value.java
@@ -2230,28 +2232,28 @@ contexts:
         9: punctuation.separator.decimal.java
         10: constant.numeric.suffix.java
     # binary integers
-    - match: (0[bB])({{bin_digit}}*)([lL]{{break}})?
+    - match: (0[bB])({{bin_digit}}*)({{int_suffix}})?
       scope: meta.number.integer.binary.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: constant.numeric.suffix.java
     # hexadecimal integers
-    - match: (0[xX])({{hex_digit}}*)([lL]{{break}})?
+    - match: (0[xX])({{hex_digit}}*)({{int_suffix}})?
       scope: meta.number.integer.hexadecimal.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: constant.numeric.suffix.java
     # octal integers
-    - match: (0)({{oct_digit}}+)([lL]{{break}}|(?![\d_]))
+    - match: (0)({{oct_digit}}+)({{int_suffix}}|(?![\d_]))
       scope: meta.number.integer.octal.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: constant.numeric.suffix.java
     # decimal integers
-    - match: ((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))([lL]{{break}})?
+    - match: ((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))({{int_suffix}})?
       scope: meta.number.integer.decimal.java
       captures:
         1: constant.numeric.value.java
