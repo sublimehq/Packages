@@ -1333,6 +1333,8 @@ contexts:
     - match: ':'
       scope: meta.case.java punctuation.separator.expressions.java
       pop: 1
+    - match: (?=->)
+      pop: 1
 
 ###[ DO WHILE STATEMENTS ]#####################################################
 

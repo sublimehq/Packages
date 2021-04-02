@@ -5646,7 +5646,7 @@ class SwitchStatementTests {
 
 class SwitchExpressionsTests {
 
-   void run() {
+   void testArrowCaseLabels() {
       int numLetters = switch (day) {
 //    ^^^ storage.type.primitive.java
 //        ^^^^^^^^^^ variable.other.java
@@ -5654,19 +5654,33 @@ class SwitchExpressionsTests {
 //                     ^^^^^^^^^^^^^^^ meta.switch.java
 //                     ^^^^^^ keyword.control.conditional.switch.java
           case MONDAY, FRIDAY, SUNDAY -> 6;
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.switch.java meta.block.java
+//        ^^^^^ meta.case.java
+//             ^^^^^^^^^^^^^^^^^^^^^^^ meta.case.label.java
+//                                    ^^^^ meta.function.anonymous.java - meta.case
 //        ^^^^ keyword.control.conditional.case.java
 //             ^^^^^^ constant.other.java
 //                   ^ punctuation.separator.comma.java
+//                     ^^^^^^ constant.other.java
+//                           ^ punctuation.separator.comma.java
+//                             ^^^^^^ constant.other.java
 //                                    ^^ keyword.declaration.function.arrow.java
 //                                       ^ constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
           case TUESDAY                -> 7;
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.switch.java meta.block.java
+//        ^^^^^ meta.case.java
+//             ^^^^^^^^^^^^^^^^^^^^^^^ meta.case.label.java
+//                                    ^^^^ meta.function.anonymous.java - meta.case
 //        ^^^^ keyword.control.conditional.case.java
 //             ^^^^^^^ constant.other.java
 //                                    ^^ keyword.declaration.function.arrow.java
 //                                       ^ constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
           default -> {
+//       ^^^^^^^^^^^^^^ meta.switch.java meta.block.java
+//        ^^^^^^^^ meta.case.default.java
+//                ^^^^^ meta.function.anonymous.java - meta.case
 //        ^^^^^^^ keyword.control.conditional.default.java
 //                ^^ keyword.declaration.function.arrow.java
 //                   ^ punctuation.section.block.begin.java
