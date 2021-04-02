@@ -146,10 +146,7 @@ contexts:
 
   expressions:
     - include: groups
-    - include: literal-chars
-    - include: literal-strings
-    - include: literal-numbers
-    - include: literal-constants
+    - include: literals
     - include: punctuations
     - include: lambdas
     - include: operators
@@ -2174,6 +2171,12 @@ contexts:
     - include: else-pop
 
 ###[ LITERALS ]################################################################
+
+  literals:
+    - include: literal-chars
+    - include: literal-strings
+    - include: literal-numbers
+    - include: literal-constants
 
   literal-constants:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
