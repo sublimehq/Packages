@@ -2465,7 +2465,7 @@ contexts:
         - entity-class-unqualified-identifier
 
   entity-class-qualified-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2483,7 +2483,7 @@ contexts:
           fail: entity-class
 
   entity-class-qualifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.namespace.java
       set:
         - entity-class-accessor
@@ -2495,14 +2495,14 @@ contexts:
       fail: entity-class-path
 
   entity-class-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.class.java
       set:
         - immediately-pop2
         - maybe-type-argument
 
   entity-class-unqualified-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.class.java
       set: maybe-type-argument
 
@@ -2516,7 +2516,7 @@ contexts:
         - entity-module-unqualified-identifier
 
   entity-module-qualified-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2534,7 +2534,7 @@ contexts:
           fail: entity-module
 
   entity-module-qualifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.namespace.java
       set: entity-module-accessor
 
@@ -2544,12 +2544,12 @@ contexts:
       fail: entity-module-path
 
   entity-module-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.namespace.module.java
       pop: 2
 
   entity-module-unqualified-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.namespace.module.java
       pop: 1
 
@@ -2563,7 +2563,7 @@ contexts:
         - entity-package-unqualified-identifier
 
   entity-package-qualified-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2581,7 +2581,7 @@ contexts:
           fail: entity-package
 
   entity-package-qualifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.namespace.java
       set: entity-package-accessor
 
@@ -2591,12 +2591,12 @@ contexts:
       fail: entity-package-path
 
   entity-package-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.namespace.package.java
       pop: 2
 
   entity-package-unqualified-identifier:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.namespace.package.java
       pop: 1
 
@@ -2661,7 +2661,7 @@ contexts:
         - qualified-object-type
 
   unqualified-object-type:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: storage.type.class.java
       push:
         - unqualiefied-object-type-end
@@ -2781,7 +2781,7 @@ contexts:
     - include: annotation-else-pop
 
   unqualified-inherited-object-type:
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
         - unqualiefied-inherited-object-type-end
