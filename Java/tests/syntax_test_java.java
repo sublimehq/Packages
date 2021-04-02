@@ -903,23 +903,26 @@ public abstract sealed class SealedClassTest permits
 //                           ^^^^^^^^^^^^^^^ entity.name.class.java
 //                                           ^^^^^^^ storage.modifier.permits.java
 
-public abstract sealed class SealedClassTest permits Circle, Rectangle {}
-// <- meta.class.java storage.modifier.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
-//                          ^^^^^^^^^^^^^^^^^ meta.class.identifier.java
-//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.permits.java
-//                                                                     ^^ meta.class.java meta.block.java
+public abstract sealed interface SealedClassTest permits Foo, bar.Baz {}
+// <- meta.interface.java storage.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java
+//                              ^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                                               ^^^^^^^^^^^^^^^^^^^^^ meta.interface.permits.java
+//                                                                    ^^ meta.interface.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^^^^^ storage.modifier.java
 //              ^^^^^^ storage.modifier.java
-//                     ^^^^^ keyword.declaration.class.java
-//                           ^^^^^^^^^^^^^^^ entity.name.class.java
-//                                           ^^^^^^^ storage.modifier.permits.java
-//                                                   ^^^^^^ entity.other.inherited-class.java
-//                                                         ^ punctuation.separator.comma.java
-//                                                           ^^^^^^^^^ entity.other.inherited-class.java
-//                                                                     ^ punctuation.section.block.begin.java
-//                                                                      ^ punctuation.section.block.end.java
+//                     ^^^^^^^^^ keyword.declaration.interface.java
+//                               ^^^^^^^^^^^^^^^ entity.name.interface.java
+//                                               ^^^^^^^ storage.modifier.permits.java
+//                                                       ^^^ entity.other.inherited-class.java
+//                                                          ^ punctuation.separator.comma.java
+//                                                            ^^^^^^^ meta.path.java
+//                                                            ^^^ variable.namespace.java
+//                                                               ^ punctuation.accessor.dot.java
+//                                                                ^^^ entity.other.inherited-class.java
+//                                                                    ^ punctuation.section.block.begin.java
+//                                                                     ^ punctuation.section.block.end.java
 
 class GenericTest<
 //<- meta.class.java keyword.declaration.class.java
@@ -2065,35 +2068,38 @@ public interface /**/ TestIntf <T1, T2> /**/ extends /**/ A /**/, /**/ BB /**/ {
 //                                                                             ^ punctuation.section.block.begin.java
 //                                                                              ^ punctuation.section.block.end.java
 
-public abstract sealed interface SealedClassTest permits
+public abstract sealed interface SealedInterfaceTest permits
 // <- meta.interface.java storage.modifier.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java
-//                              ^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
-//                                               ^^^^^^^^ meta.interface.permits.java
+//                              ^^^^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                                                   ^^^^^^^^ meta.interface.permits.java
 //^^^^ storage.modifier.java
 //     ^^^^^^^^ storage.modifier.java
 //              ^^^^^^ storage.modifier.java
 //                     ^^^^^^^^^ keyword.declaration.interface.java
-//                               ^^^^^^^^^^^^^^^ entity.name.interface.java
-//                                               ^^^^^^^ storage.modifier.permits.java
+//                               ^^^^^^^^^^^^^^^^^^^ entity.name.interface.java
+//                                                   ^^^^^^^ storage.modifier.permits.java
 
-public abstract sealed interface SealedClassTest permits Circle, Rectangle {}
+public abstract sealed interface SealedInterfaceTest permits Foo, bar.Baz {}
 // <- meta.interface.java storage.modifier.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java
-//                              ^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
-//                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.permits.java
-//                                                                         ^^ meta.interface.java meta.block.java
+//                              ^^^^^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                                                   ^^^^^^^^^^^^^^^^^^^^^ meta.interface.permits.java
+//                                                                        ^^ meta.interface.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^^^^^ storage.modifier.java
 //              ^^^^^^ storage.modifier.java
 //                     ^^^^^^^^^ keyword.declaration.interface.java
-//                               ^^^^^^^^^^^^^^^ entity.name.interface.java
-//                                               ^^^^^^^ storage.modifier.permits.java
-//                                                       ^^^^^^ entity.other.inherited-class.java
-//                                                             ^ punctuation.separator.comma.java
-//                                                               ^^^^^^^^^ entity.other.inherited-class.java
-//                                                                         ^ punctuation.section.block.begin.java
-//                                                                          ^ punctuation.section.block.end.java
+//                               ^^^^^^^^^^^^^^^^^^^ entity.name.interface.java
+//                                                   ^^^^^^^ storage.modifier.permits.java
+//                                                           ^^^ entity.other.inherited-class.java
+//                                                              ^ punctuation.separator.comma.java
+//                                                                ^^^^^^^ meta.path.java
+//                                                                ^^^ variable.namespace.java
+//                                                                   ^ punctuation.accessor.dot.java
+//                                                                    ^^^ entity.other.inherited-class.java
+//                                                                        ^ punctuation.section.block.begin.java
+//                                                                         ^ punctuation.section.block.end.java
 
 @Anno           // comment
 //<- meta.interface.java meta.annotation.identifier.java punctuation.definition.annotation.java
