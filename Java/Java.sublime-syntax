@@ -234,6 +234,7 @@ contexts:
     - include: annotation-parameters
 
   annotation-qualified-identifier:
+    - meta_include_prototype: false
     - meta_scope: meta.annotation.identifier.java meta.path.java
     - match: ''
       branch_point: annotation-qualified-identifier
@@ -338,6 +339,7 @@ contexts:
 
   declaration-maybe-variable:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+    - meta_include_prototype: false
     - match: ''
       set:
         - variable-declaration-list
@@ -908,6 +910,7 @@ contexts:
 
   member-maybe-field:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
+    - meta_include_prototype: false
     - match: ''
       set:
         - field-identifier-list
@@ -919,6 +922,7 @@ contexts:
 
   member-maybe-constructor:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
+    - meta_include_prototype: false
     - match: ''
       set:
         - method-block
@@ -930,6 +934,7 @@ contexts:
 
   member-maybe-method:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    - meta_include_prototype: false
     - match: ''
       set:
         - method-block
@@ -1102,6 +1107,7 @@ contexts:
     - include: expression-terminator
 
   method-array-modifiers:
+    - meta_include_prototype: false
     - match: ''
       set: method-array-modifiers-content
 
@@ -1213,6 +1219,7 @@ contexts:
         - variable-maybe-assignment
 
   variable-maybe-assignment:
+    - meta_include_prototype: false
     - match: ''
       set:
         - variable-maybe-modifier
@@ -1223,6 +1230,7 @@ contexts:
     - include: maybe-only-array-modifiers
 
   variable-maybe-declaration:
+    - meta_include_prototype: false
     - match: ''
       set:
         - variable-declaration-list
@@ -1761,6 +1769,7 @@ contexts:
   cast-expression-group:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
     - meta_scope: meta.typecast.java meta.group.java
+    - meta_include_prototype: false
     - match: ''
       set:
         - cast-expression-group-body
@@ -1825,6 +1834,7 @@ contexts:
     - include: expect-expression-terminator
 
   lambda-parameter-declaration:
+    - meta_include_prototype: false
     - match: ''
       set:
         - lambda-parameter-declaration-identifier
@@ -1864,6 +1874,7 @@ contexts:
     - include: annotation-else-pop
 
   receiver:
+    - meta_include_prototype: false
     - match: ''
       set:
         - immediately-pop2
@@ -1942,6 +1953,7 @@ contexts:
       fail: receiver-or-parameter
 
   receiver-qualified-identifier:
+    - meta_include_prototype: false
     - match: ''
       branch_point: receiver-qualified-identifier
       branch:
@@ -1978,6 +1990,7 @@ contexts:
     - include: annotation-else-pop3
 
   parameter:
+    - meta_include_prototype: false
     - match: ''
       set:
         - immediately-pop2
@@ -2393,6 +2406,7 @@ contexts:
     - include: else-pop2
 
   qualified-constant:
+    - meta_include_prototype: false
     - meta_content_scope: meta.path.java
     - match: ''
       branch_point: qualified-constant
@@ -2659,6 +2673,7 @@ contexts:
     - include: else-pop3
 
   qualified-object-type:
+    - meta_include_prototype: false
     - meta_scope: meta.path.java
     - match: ''
       branch_point: qualified-object-type
@@ -2779,6 +2794,7 @@ contexts:
     - include: annotation-else-pop3
 
   qualified-inherited-object-type:
+    - meta_include_prototype: false
     - meta_scope: meta.path.java
     - match: ''
       branch_point: qualified-inherited-object-type
