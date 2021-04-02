@@ -2257,36 +2257,38 @@ contexts:
 
   literal-chars:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.4
-    - match: (')(?:({{escape_unicode}})|({{escape_octal}})|({{escape_other}}))(')
+    - match: (')(?:({{escape_unicode}})|({{escape_octal}})|({{escape_other}})|([^']))(')
       scope: meta.string.java string.quoted.single.java
       captures:
         1: punctuation.definition.string.begin.java
         2: constant.character.escape.unicode.java
         3: constant.character.escape.octal.java
         4: constant.character.escape.other.java
-        5: punctuation.definition.string.end.java
-    - match: (')(.)(')
-      scope: meta.string.java string.quoted.single.java
-      captures:
-        1: punctuation.definition.string.begin.java
-        2: constant.character.literal.java
-        3: punctuation.definition.string.end.java
+        5: constant.character.literal.java
+        6: punctuation.definition.string.end.java
+
+  literal-strings:
+    - include: literal-single-quoted-strings
+    - include: literal-double-quoted-strings
+
+  literal-single-quoted-strings:
+    # Java doesn't support single quoted strings, but Groovy does.
     - match: (')[^']+(')
       scope: invalid.illegal.not-a-char.java
 
-  literal-strings:
+  literal-double-quoted-strings:
     # https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
     - match: (\"{3})(.*)$
       captures:
         1: punctuation.definition.string.begin.java
         2: invalid.illegal.unexpected-content.java
-      push: literal-triple-quoted-string-body
+      push: literal-double-quoted-multiline-string-body
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
     - match: \"
       scope: punctuation.definition.string.begin.java
       push: literal-double-quoted-string-body
 
-  literal-triple-quoted-string-body:
+  literal-double-quoted-multiline-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.java string.quoted.triple.java
     - match: \"{3}
