@@ -5638,6 +5638,12 @@ class SwitchStatementTests {
 }
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
 
+
+/******************************************************************************
+ * Switch Expression Tests
+ * https://docs.oracle.com/javase/specs/jls/se16/html/jls-15.html#jls-15.28
+ *****************************************************************************/
+
 class SwitchExpressionsTests {
 
    void run() {
@@ -5667,10 +5673,59 @@ class SwitchExpressionsTests {
             String s = day.toString();
             int result = s.length();
             yield result;
+//          ^^^^^^^^^^^^ meta.yield.java
+//          ^^^^^ keyword.control.flow.yield.java
+//                ^^^^^^ variable.other.java
           }
 //        ^ punctuation.section.block.end.java
       };
-//    ^ punctuation.section.block.end.java
+//    ^ meta.switch.java meta.block.java punctuation.section.block.end.java
+//     ^ punctuation.terminator.java - meta.switch
+   }
+// ^ punctuation.section.block.end.java
+
+   void testClassicCaseLabels(boolean startWeek) {
+
+      int numLetters = switch (day) {
+         case startWeek ? MONDAY : FRIDAY :
+//       ^^^^^ meta.case.java
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.case.label.java
+//                                        ^ meta.case.java
+//                                         ^ - meta.case
+//       ^^^^ keyword.control.conditional.case.java
+//            ^^^^^^^^^ variable.other.java
+//                      ^ keyword.operator.ternary.java
+//                        ^^^^^^ constant.other.java
+//                               ^ keyword.operator.ternary.java
+//                                 ^^^^^^ constant.other.java
+//                                        ^ punctuation.separator.expressions.java
+         case SUNDAY:
+            yield 6;
+//          ^^^^^^^ meta.switch.java meta.block.java meta.yield.java
+//          ^^^^^ keyword.control.flow.yield.java
+//                ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                 ^ punctuation.terminator.java
+         case TUESDAY:
+            yield 7;
+//          ^^^^^^^ meta.switch.java meta.block.java meta.yield.java
+//          ^^^^^ keyword.control.flow.yield.java
+//                ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                 ^ punctuation.terminator.java
+         default:
+            throw new IllegalStateException("Invalid day: " + day);
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.throw.java
+//          ^^^^^ keyword.control.flow.throw.java
+//                ^^^ keyword.other.storage.new.java
+//                    ^^^^^^^^^^^^^^^^^^^^^ storage.type.class.java
+//                                         ^ punctuation.section.group.begin.java
+//                                          ^^^^^^^^^^^^^^^ string.quoted.double.java
+//                                                          ^ keyword.operator.arithmetic.java
+//                                                            ^^^ variable.other.java
+//                                                               ^ punctuation.section.group.end.java
+//                                                                ^ punctuation.terminator.java
+      };
+//    ^ meta.switch.java meta.block.java punctuation.section.block.end.java
+//     ^ punctuation.terminator.java - meta.switch
    }
 // ^ punctuation.section.block.end.java
 }

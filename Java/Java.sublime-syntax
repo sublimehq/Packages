@@ -1445,6 +1445,10 @@ contexts:
     - match: throw{{break}}
       scope: keyword.control.flow.throw.java
       push: throw-statement-body
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-14.html#jls-14.21
+    - match: yield{{break}}
+      scope: keyword.control.flow.yield.java
+      push: yield-statement-body
 
   assert-statement-body:
     - meta_scope: meta.assertion.java
@@ -1466,6 +1470,10 @@ contexts:
 
   throw-statement-body:
     - meta_scope: meta.throw.java
+    - include: expression
+
+  yield-statement-body:
+    - meta_scope: meta.yield.java
     - include: expression
 
   variable-label:
