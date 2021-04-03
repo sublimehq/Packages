@@ -2273,8 +2273,9 @@ contexts:
         6: punctuation.definition.string.end.java
 
   literal-strings:
-    - include: literal-single-quoted-strings
+    - include: literal-double-quoted-textblocks
     - include: literal-double-quoted-strings
+    - include: literal-single-quoted-strings
 
   literal-single-quoted-strings:
     # Java doesn't support single quoted strings, but Groovy does.
@@ -2282,24 +2283,10 @@ contexts:
       scope: invalid.illegal.not-a-char.java
 
   literal-double-quoted-strings:
-    # https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
-    - match: (\"{3})(.*)$
-      captures:
-        1: punctuation.definition.string.begin.java
-        2: invalid.illegal.unexpected-content.java
-      push: literal-double-quoted-multiline-string-body
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
     - match: \"
       scope: punctuation.definition.string.begin.java
       push: literal-double-quoted-string-body
-
-  literal-double-quoted-multiline-string-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.java string.quoted.triple.java
-    - match: \"{3}
-      scope: punctuation.definition.string.end.java
-      pop: 1
-    - include: literal-string-escapes
 
   literal-double-quoted-string-body:
     - meta_include_prototype: false
@@ -2308,6 +2295,22 @@ contexts:
       scope: punctuation.definition.string.end.java
       pop: 1
     - include: illegal-newline
+    - include: literal-string-escapes
+
+  literal-double-quoted-textblocks:
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-3.html#jls-3.10.6
+    - match: (\"{3})\s*(.*)$
+      captures:
+        1: punctuation.definition.string.begin.java
+        2: invalid.illegal.unexpected-content.java
+      push: literal-double-quoted-textblock-body
+
+  literal-double-quoted-textblock-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.java string.quoted.triple.java
+    - match: \"{3}
+      scope: punctuation.definition.string.end.java
+      pop: 1
     - include: literal-string-escapes
 
   literal-string-escapes:
