@@ -117,7 +117,7 @@ variables:
   escape_unicode: \\u+\h{4}
 
   # accessor but no variadic operator
-  accessor_dot: \.(?!\.\.)
+  single_dot: \.(?!\.)
 
 ###############################################################################
 
@@ -228,7 +228,7 @@ contexts:
 
   annotation-unqualified-parameters:
     # fail: looks like a qualified annotation
-    - match: (?=\s*{{accessor_dot}})
+    - match: (?=\s*{{single_dot}})
       fail: annotation-identifier
     - include: annotation-parameters
 
@@ -1914,7 +1914,7 @@ contexts:
   receiver-unqualified-type-end:
     - match: (?={{id_first_char}})
       pop: 3
-    - match: (?={{accessor_dot}})
+    - match: (?={{single_dot}})
       fail: receiver-type
     - match: (?=\S)
       fail: receiver-or-parameter
@@ -1929,7 +1929,7 @@ contexts:
     - include: annotation-else-pop2
 
   receiver-qualified-type-end:
-    - match: \s*({{accessor_dot}})
+    - match: \s*({{single_dot}})
       captures:
         1: punctuation.accessor.dot.java
       pop: 1
@@ -1956,7 +1956,7 @@ contexts:
     - include: annotation-else-pop2
 
   receiver-unqualified-identifier-end:
-    - match: (?={{accessor_dot}})
+    - match: (?={{single_dot}})
       fail: receiver-identifier
     - match: (?=\S)
       fail: receiver-or-parameter
@@ -2093,7 +2093,7 @@ contexts:
 
   variable-namespace-accessor:
     - meta_scope: meta.path.java
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: punctuation.accessor.dot.java
       set:
         - match: '{{classcase_id}}'
@@ -2199,7 +2199,7 @@ contexts:
     - match: |-
         (?x)
         # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1 | 0x.1, 0x.1p1, 0x.1p-1
-        (0[xX]) ( {{hex_digit}}* (?: ({{accessor_dot}}) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ({{float_suffix}})?
+        (0[xX]) ( {{hex_digit}}* (?: ({{single_dot}}) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ({{float_suffix}})?
       scope: meta.number.float.hexadecimal.java
       captures:
         1: constant.numeric.base.java
@@ -2212,13 +2212,13 @@ contexts:
         ([0-9]{{dec_digit}}*)
         (?:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
-          ( ({{accessor_dot}}) {{dec_digit}}* (?:{{dec_exponent}})? ) ({{float_suffix}})?
+          ( ({{single_dot}}) {{dec_digit}}* (?:{{dec_exponent}})? ) ({{float_suffix}})?
           # 1e1 1e1d
           | ({{dec_exponent}}) ({{float_suffix}})?
           # 1d
           | ({{float_suffix}})
         )
-        | ( ({{accessor_dot}}) {{dec_digit}}+ (?:{{dec_exponent}})? ) ({{float_suffix}})?
+        | ( ({{single_dot}}) {{dec_digit}}+ (?:{{dec_exponent}})? ) ({{float_suffix}})?
       scope: meta.number.float.decimal.java
       captures:
         1: constant.numeric.value.java
@@ -2368,7 +2368,7 @@ contexts:
       push:
         - maybe-function-reference
         - maybe-type-argument
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: punctuation.accessor.dot.java
       push:
         - include: variable-language-class
@@ -2376,16 +2376,16 @@ contexts:
     - include: punctuation-separator-comma
 
   punctuation-accessor-dot:
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: punctuation.accessor.dot.java
 
   punctuation-accessor-dot-pop:
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: punctuation.accessor.dot.java
       pop: 1
 
   punctuation-accessor-dot-pop2:
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: punctuation.accessor.dot.java
       pop: 2
 
@@ -2418,7 +2418,7 @@ contexts:
     - include: immediately-pop2
 
   unqualified-constant-end:
-    - match: (?={{accessor_dot}})
+    - match: (?={{single_dot}})
       fail: constant
     - include: else-pop2
 
@@ -2486,7 +2486,7 @@ contexts:
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
-        - match: '{{accessor_dot}}'
+        - match: '{{single_dot}}'
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
@@ -2537,7 +2537,7 @@ contexts:
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
-        - match: '{{accessor_dot}}'
+        - match: '{{single_dot}}'
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
@@ -2584,7 +2584,7 @@ contexts:
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
-        - match: '{{accessor_dot}}'
+        - match: '{{single_dot}}'
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
@@ -2639,7 +2639,7 @@ contexts:
         - maybe-type-argument
 
   maybe-object-type-child:
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: punctuation.accessor.dot.java
       set: object-types-child-identifier
     - include: else-pop
@@ -2685,7 +2685,7 @@ contexts:
         - maybe-type-argument
 
   unqualiefied-object-type-end:
-    - match: (?={{accessor_dot}})
+    - match: (?={{single_dot}})
       fail: object-type
     - include: else-pop3
 
@@ -2726,7 +2726,7 @@ contexts:
       pop: 1
 
   qualified-object-type-end:
-    - match: \s*({{accessor_dot}})
+    - match: \s*({{single_dot}})
       captures:
         1: punctuation.accessor.dot.java
       pop: 1
@@ -2805,7 +2805,7 @@ contexts:
         - maybe-type-argument
 
   unqualiefied-inherited-object-type-end:
-    - match: (?={{accessor_dot}})
+    - match: (?={{single_dot}})
       fail: inherited-object-type
     - include: illegal-array-modifiers
     - include: annotation-else-pop3
@@ -3069,7 +3069,7 @@ contexts:
       pop: 1
 
   illegal-members:
-    - match: '{{accessor_dot}}'
+    - match: '{{single_dot}}'
       scope: invalid.illegal.unexpected-accessor.java
       push:
         - maybe-illegal-array-modifiers
