@@ -2199,7 +2199,7 @@ contexts:
     - match: |-
         (?x)
         # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1 | 0x.1, 0x.1p1, 0x.1p-1
-        (0[xX]) ( {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ({{float_suffix}})?
+        (0[xX]) ( {{hex_digit}}* (?: ({{accessor_dot}}) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ({{float_suffix}})?
       scope: meta.number.float.hexadecimal.java
       captures:
         1: constant.numeric.base.java
@@ -2212,13 +2212,13 @@ contexts:
         ([0-9]{{dec_digit}}*)
         (?:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
-          ( (\.) {{dec_digit}}* (?:{{dec_exponent}})? ) ({{float_suffix}})?
+          ( ({{accessor_dot}}) {{dec_digit}}* (?:{{dec_exponent}})? ) ({{float_suffix}})?
           # 1e1 1e1d
           | ({{dec_exponent}}) ({{float_suffix}})?
           # 1d
           | ({{float_suffix}})
         )
-        | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ({{float_suffix}})?
+        | ( ({{accessor_dot}}) {{dec_digit}}+ (?:{{dec_exponent}})? ) ({{float_suffix}})?
       scope: meta.number.float.decimal.java
       captures:
         1: constant.numeric.value.java
