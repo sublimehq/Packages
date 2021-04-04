@@ -4987,6 +4987,7 @@ class LocalVariableDeclarationTests {
   }
 }
 
+
 /******************************************************************************
  * Labeled Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
@@ -5743,6 +5744,7 @@ class SwitchExpressionsTests {
    }
 // ^ punctuation.section.block.end.java
 }
+
 
 /******************************************************************************
  * While Statement Tests
