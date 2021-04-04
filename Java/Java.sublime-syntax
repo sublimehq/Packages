@@ -1887,8 +1887,8 @@ contexts:
   receiver:
     - meta_include_prototype: false
     - match: ''
+      pop: 1
       set:
-        - immediately-pop2
         - receiver-identifier
         - receiver-type
 
@@ -2003,8 +2003,8 @@ contexts:
   parameter:
     - meta_include_prototype: false
     - match: ''
+      pop: 1
       set:
-        - immediately-pop2
         - parameter-maybe-identifier
         - parameter-maybe-variadic
         - maybe-array-modifiers
