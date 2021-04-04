@@ -358,6 +358,7 @@ contexts:
           set: package-identifier
 
   package-identifier:
+    - meta_include_prototype: false
     - meta_content_scope: meta.namespace.package.identifier.java
     - include: entity-package
     - include: immediately-pop
@@ -377,6 +378,7 @@ contexts:
             - module-identifier
 
   module-identifier:
+    - meta_include_prototype: false
     - include: entity-module
     - include: immediately-pop
 
@@ -2053,6 +2055,7 @@ contexts:
     - include: variable-item-access
 
   method-call-identifier:
+    - meta_include_prototype: false
     - match: '{{id}}'
       scope:
         meta.function-call.identifier.java
@@ -2073,6 +2076,7 @@ contexts:
     - include: group-body
 
   lambda-parameter:
+    - meta_include_prototype: false
     - match: '{{id}}'
       scope:
         meta.function.anonymous.parameters.java
@@ -2108,10 +2112,12 @@ contexts:
       fail: variables
 
   variable-namespace-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.path.java
     - include: immediately-pop2
 
   variable-other:
+    - meta_include_prototype: false
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
@@ -2126,6 +2132,7 @@ contexts:
     - include: variable-item-access-end
 
   variable-qualifier:
+    - meta_include_prototype: false
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
@@ -2419,6 +2426,7 @@ contexts:
         - qualified-constant
 
   unqualified-constant:
+    - meta_include_prototype: false
     - match: '{{identifier}}'
       scope: constant.other.java
       set: unqualified-constant-end
@@ -2461,6 +2469,7 @@ contexts:
     - include: else-pop3
 
   qualified-constant-class:
+    - meta_include_prototype: false
     - match: '{{identifier}}'
       scope: storage.type.class.java
       set:
@@ -2474,6 +2483,7 @@ contexts:
       fail: qualified-constant-class-or-name
 
   qualified-constant-name:
+    - meta_include_prototype: false
     - match: '{{identifier}}'
       scope: constant.other.java
       pop: 4
