@@ -1122,9 +1122,9 @@ EOT
   ~
 # ^ keyword.operator.bitwise.perl
   .
-# ^ keyword.operator.concat.perl
+# ^ keyword.operator.concatenation.perl
   .=
-# ^^ keyword.operator.concat.perl
+# ^^ keyword.operator.concatenation.perl
   ..
 # ^^ keyword.operator.range.perl
   \  \\  \\\
@@ -1205,7 +1205,7 @@ EOT
   0b1.0b1
 # ^^ meta.number.integer.binary.perl constant.numeric.base.perl
 #   ^ meta.number.integer.binary.perl constant.numeric.value.perl
-#    ^ keyword.operator.concat.perl
+#    ^ keyword.operator.concatenation.perl
 #     ^^ meta.number.integer.binary.perl constant.numeric.base.perl
 #       ^ meta.number.integer.binary.perl constant.numeric.value.perl
   0b11__011        # binary integer
@@ -1242,7 +1242,7 @@ EOT
   0x9.0x10         # hexadecimal integer
 # ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
 #   ^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
-#    ^ keyword.operator.concat.perl
+#    ^ keyword.operator.concatenation.perl
 #     ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
 #       ^^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   01.1             # normal float
@@ -1550,7 +1550,7 @@ EOT
 #            ^ keyword.operator.dereference.perl
 #             ^ punctuation.definition.variable.begin.perl
 #               ^^^^^^^^^^^^^ string.quoted.double.perl
-#                             ^ keyword.operator.concat.perl
+#                             ^ keyword.operator.concatenation.perl
 #                               ^^^^ variable.other.readwrite.perl
 #                                   ^ punctuation.section.item-access.begin.perl
 #                                    ^^^ constant.other.key.perl
@@ -3452,9 +3452,9 @@ EOT
 # ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 # ^^^^^^^ keyword.control.import.require.perl
 #         ^^^ meta.string.perl string.unquoted.perl
-#            ^ keyword.operator.concat.perl
+#            ^ keyword.operator.concatenation.perl
 #             ^^^^ variable.other.readwrite.perl
-#                 ^ keyword.operator.concat.perl
+#                 ^ keyword.operator.concatenation.perl
 #                  ^^ variable.function.perl
 #                    ^ punctuation.terminator.statement.perl
   require-name;
@@ -3468,7 +3468,7 @@ EOT
 # ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 #             ^ - meta.preprocessor.require
 # ^^^^^^^ keyword.control.import.require.perl
-#        ^ keyword.operator.concat.perl
+#        ^ keyword.operator.concatenation.perl
 #         ^^^^ variable.function.perl
 #             ^ punctuation.terminator.statement.perl
   CORE::require;
@@ -3733,7 +3733,7 @@ our $VERSION = do {
 # ^^^^^^^ support.function.perl
 #         ^^^^^ meta.string.perl string.quoted.double.perl
 #          ^^ constant.other.placeholder
-#              ^ keyword.operator.concat.perl
+#              ^ keyword.operator.concatenation.perl
 #               ^^^^^^ meta.string.perl string.quoted.double.perl
 #                ^^^^ constant.other.placeholder
 #                      ^ keyword.operator.arithmetic.perl
