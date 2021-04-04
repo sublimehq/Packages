@@ -2184,11 +2184,15 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
     - match: _{{break}}
       scope: variable.language.anonymous.java
-    - match: (?:super|this){{break}}
-      scope: variable.language.java
+    - match: super{{break}}
+      scope: variable.language.super.java
+    - match: this{{break}}
+      scope: variable.language.this.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.java
+    - match: false{{break}}
+      scope: constant.language.boolean.false.java
+    - match: true{{break}}
+      scope: constant.language.boolean.true.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
       scope: constant.language.null.java
