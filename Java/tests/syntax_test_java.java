@@ -10270,13 +10270,15 @@ module java.base {
 //                   ^^^^^^^^ entity.name.class.java
 //                           ^ punctuation.terminator.java
 
-  provides java.nio.file.spi.FileSystemProvider with jdk.internal.jrtfs.JrtFileSystemProvider;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java
+  provides java.nio.file.spi.FileSystemProvider<Base> with jdk.internal.jrtfs.JrtFileSystemProvider;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java
+//^^^^^^^^^ - meta.path
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                                   ^^^^^^ - meta.path
+//                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //^^^^^^^^ keyword.other.module.provides.java
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                                              ^^^^ keyword.other.module.with.java
-//                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                                                                                           ^ punctuation.terminator.java
+//                                                    ^^^^ keyword.other.module.with.java
+//                                                                                                 ^ punctuation.terminator.java
 
   provides incomplete.but.should.not.break.next.Statement;
 //                                                       ^ punctuation.terminator.java
