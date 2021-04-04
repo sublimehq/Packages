@@ -2497,21 +2497,21 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - match: (?={{identifier}})
+            - match: ''
               branch_point: entity-class-path
               branch:
                 - entity-class-qualifier
                 - entity-class-identifier
-            - include: else-pop
         - match: (?=\S)
           fail: entity-class
 
   entity-class-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set:
         - entity-class-accessor
         - maybe-type-argument
+    - include: else-pop2
 
   entity-class-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2519,11 +2519,12 @@ contexts:
       fail: entity-class-path
 
   entity-class-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.class.java
       set:
         - immediately-pop2
         - maybe-type-argument
+    - include: else-pop2
 
   entity-class-unqualified-identifier:
     - match: '{{id}}'
@@ -2548,19 +2549,19 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - match: (?={{identifier}})
+            - match: ''
               branch_point: entity-module-path
               branch:
                 - entity-module-qualifier
                 - entity-module-identifier
-            - include: else-pop
         - match: (?=\S)
           fail: entity-module
 
   entity-module-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set: entity-module-accessor
+    - include: else-pop2
 
   entity-module-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2568,9 +2569,10 @@ contexts:
       fail: entity-module-path
 
   entity-module-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.namespace.module.java
       pop: 2
+    - include: else-pop2
 
   entity-module-unqualified-identifier:
     - match: '{{id}}'
@@ -2595,19 +2597,19 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - match: (?={{identifier}})
+            - match: ''
               branch_point: entity-package-path
               branch:
                 - entity-package-qualifier
                 - entity-package-identifier
-            - include: else-pop
         - match: (?=\S)
           fail: entity-package
 
   entity-package-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set: entity-package-accessor
+    - include: else-pop2
 
   entity-package-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2615,9 +2617,10 @@ contexts:
       fail: entity-package-path
 
   entity-package-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.namespace.package.java
       pop: 2
+    - include: else-pop2
 
   entity-package-unqualified-identifier:
     - match: '{{id}}'
