@@ -8,7 +8,7 @@
 		<key>cancelCompletion</key>
 		<string><![CDATA[(?x)
 			# prevent completions for class/enum/package names
-			^ (.*\*/)? \s* (class|enum|interface|package)\s*[\w$]*$
+			^ (.*\*/)? \s* (class|enum|@?interface|package|record)\s*[\w$]*\s*$
 		]]></string>
 	</dict>
 </dict>
