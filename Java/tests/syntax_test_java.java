@@ -6612,11 +6612,11 @@ class TryStatementTests {
 //  ^^^^^^ variable.other.java - keyword
 
     catch
-//  ^^^^^^ meta.catch.java
+//  ^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 
     catch (int e)
-//  ^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^^^^^^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^ invalid.illegal.unexpected-keyword.java
@@ -6624,7 +6624,7 @@ class TryStatementTests {
 //              ^ punctuation.section.group.end.java
 
     catch (int[] e)
-//  ^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^^^^^^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^ invalid.illegal.unexpected-keyword.java
@@ -6633,7 +6633,7 @@ class TryStatementTests {
 //                ^ punctuation.section.group.end.java
 
     catch (foo[] e)
-//  ^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^^^^^^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^ storage.type.class.java
@@ -6642,7 +6642,7 @@ class TryStatementTests {
 //                ^ punctuation.section.group.end.java
 
     catch (foo[] | bar[] | int e)
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^ storage.type.class.java
@@ -6656,7 +6656,7 @@ class TryStatementTests {
 //                              ^ punctuation.section.group.end.java
 
     catch (5 + 10)
-//  ^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^^^^^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^ invalid.illegal.unexpected-token.java
@@ -6682,14 +6682,14 @@ class TryStatementTests {
 
     // ensure not to break highlighting even though braces are missing
     try foo() catch (Exception e) bar(e) finally baz()
-//  ^^^^^^^^^^ meta.try.java - meta.try meta.try - meta.catch - meta.finally
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.catch meta.catch - meta.finally - meta.try
-//            ^^^^^^ meta.catch.java - meta.group
-//                  ^^^^^^^^^^^^^ meta.catch.java meta.group.java
-//                               ^^^^ meta.catch.java - meta.group
-//                                   ^^^ meta.catch.java meta.group.java
-//                                      ^ meta.catch.java - meta.group
-//                                       ^^^^^^^^^^^^^ meta.finally.java - meta.finally meta.finally - meta.catch - meta.try
+//  ^^^^^^^^^^ meta.try.java - meta.try meta.try - meta.statement.exception.catch - meta.finally
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.exception.catch meta.statement.exception.catch - meta.finally - meta.try
+//            ^^^^^^ meta.statement.exception.catch.java - meta.group
+//                  ^^^^^^^^^^^^^ meta.statement.exception.catch.java meta.group.java
+//                               ^^^^ meta.statement.exception.catch.java - meta.group
+//                                   ^^^ meta.statement.exception.catch.java meta.group.java
+//                                      ^ meta.statement.exception.catch.java - meta.group
+//                                       ^^^^^^^^^^^^^ meta.finally.java - meta.finally meta.finally - meta.statement.exception.catch - meta.try
 //  ^^^ keyword.control.exception.try.java
 //      ^^^ variable.function.java
 //            ^^^^^ keyword.control.exception.catch.java
@@ -6700,10 +6700,10 @@ class TryStatementTests {
     try { foo(); } catch (Exception e) { bar(e); } finally { baz(); }
 //  ^^^^ meta.try.java - meta.try meta.block - meta.try meta.try
 //      ^^^^^^^^^^ meta.try.java meta.block.java - meta.try meta.try
-//                 ^^^^^^ meta.catch.java - meta.catch meta.catch
-//                       ^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
-//                                    ^ meta.catch.java - meta.catch meta.catch
-//                                     ^^^^^^^^^^^ meta.catch.java meta.block.java - meta.catch meta.catch
+//                 ^^^^^^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//                       ^^^^^^^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
+//                                    ^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//                                     ^^^^^^^^^^^ meta.statement.exception.catch.java meta.block.java - meta.statement.exception.catch meta.statement.exception.catch
 //                                                 ^^^^^^^^ meta.finally.java - meta.finally meta.finally
 //                                                         ^^^^^^^^^^ meta.finally.java meta.block.java - meta.finally meta.finally
 //  ^^^ keyword.control.exception.try.java
@@ -6729,11 +6729,11 @@ class TryStatementTests {
       foo();
     } catch (Exception e) {
 //  ^ meta.try.java meta.block.java
-//   ^ - meta.try - meta.catch - meta.finally
-//    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
-//                       ^ meta.catch.java - meta.catch meta.catch
-//                        ^^ meta.catch.java meta.block.java - meta.catch meta.catch
+//   ^ - meta.try - meta.statement.exception.catch - meta.finally
+//    ^^^^^^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//          ^^^^^^^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
+//                       ^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//                        ^^ meta.statement.exception.catch.java meta.block.java - meta.statement.exception.catch meta.statement.exception.catch
 //  ^ punctuation.section.block.end.java
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.group.begin.java
@@ -6743,8 +6743,8 @@ class TryStatementTests {
 //                        ^ punctuation.section.block.begin.java
       bar(e);
     } finally {
-//  ^ meta.catch.java meta.block.java
-//   ^ - meta.try - meta.catch - meta.finally
+//  ^ meta.statement.exception.catch.java meta.block.java
+//   ^ - meta.try - meta.statement.exception.catch - meta.finally
 //    ^^^^^^^^ meta.finally.java - meta.finally meta.finally
 //            ^^ meta.finally.java meta.block.java - meta.finally meta.finally
 //  ^ punctuation.section.block.end.java
@@ -6753,7 +6753,7 @@ class TryStatementTests {
       baz();
     }
 //  ^ meta.finally.java meta.block.java punctuation.section.block.end.java
-//   ^ - meta.try - meta.catch - meta.finally
+//   ^ - meta.try - meta.statement.exception.catch - meta.finally
   }
 
   void testTryCatchFinallyWithResource() {
@@ -6764,11 +6764,11 @@ class TryStatementTests {
 //                            ^ meta.try.java - meta.try meta.try - meta.group
 //                             ^^ meta.try.java meta.block.java
 //                               ^ - meta.try
-//                                ^^^^^^ meta.catch.java - meta.catch meta.group
-//                                      ^^^^^^^ meta.catch.java meta.group.java
-//                                             ^ meta.catch.java - meta.catch meta.group - meta.catch meta.block
-//                                              ^^ meta.catch.java meta.block.java
-//                                                ^ - meta.catch
+//                                ^^^^^^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.group
+//                                      ^^^^^^^ meta.statement.exception.catch.java meta.group.java
+//                                             ^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.group - meta.statement.exception.catch meta.block
+//                                              ^^ meta.statement.exception.catch.java meta.block.java
+//                                                ^ - meta.statement.exception.catch
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.group.begin.java
 //       ^ punctuation.separator.comma.java
@@ -6864,11 +6864,11 @@ class TryStatementTests {
 
     } catch (IOException ignore) {
 //^^^ meta.try.java meta.block.java
-//   ^ - meta.try - meta.catch
-//    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
-//                              ^ meta.catch.java - meta.catch meta.catch
-//                               ^^ meta.catch.java meta.block.java
+//   ^ - meta.try - meta.statement.exception.catch
+//    ^^^^^^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//          ^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
+//                              ^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//                               ^^ meta.statement.exception.catch.java meta.block.java
 //  ^ punctuation.section.block.end.java
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.group.begin.java
@@ -6877,10 +6877,10 @@ class TryStatementTests {
 //                             ^ punctuation.section.group.end.java
 //                               ^ punctuation.section.block.begin.java
     } catch (final MyException | com.net.org.Foo.Bar |
-//^^^ meta.catch.java meta.block.java
-//   ^ - meta.catch
-//    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
+//^^^ meta.statement.exception.catch.java meta.block.java
+//   ^ - meta.statement.exception.catch
+//    ^^^^^^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.group.begin
 //           ^^^^^ storage.modifier.java
@@ -6897,12 +6897,12 @@ class TryStatementTests {
 //                                               ^^^ storage.type.class.java
 //                                                   ^ punctuation.separator.pipe.java
           YourException
-//       ^^^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
+//       ^^^^^^^^^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
 //        ^^^^^^^^^^^^^ storage.type.class.java
           ignore) {}
-//       ^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
-//               ^ meta.catch.java - meta.catch meta.catch
-//                ^^ meta.catch.java meta.block.java
+//       ^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
+//               ^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
+//                ^^ meta.statement.exception.catch.java meta.block.java
 //        ^^^^^^ variable.parameter.java
 //              ^ punctuation.section.group.end.java
 //                ^ punctuation.section.block.begin.java

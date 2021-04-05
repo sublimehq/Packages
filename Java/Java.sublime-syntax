@@ -1525,7 +1525,7 @@ contexts:
 
   catch-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.catch.java
+    - meta_scope: meta.statement.exception.catch.java
     - include: immediately-pop
 
   catch-parameters:
