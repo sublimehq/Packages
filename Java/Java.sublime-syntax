@@ -1268,7 +1268,7 @@ contexts:
 
   else-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.else.java
+    - meta_scope: meta.statement.conditional.else.java
     - include: immediately-pop
 
 ###[ SWITCH CASE STATEMENTS ]##################################################

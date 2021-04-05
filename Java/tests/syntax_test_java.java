@@ -5005,7 +5005,7 @@ class LabeledStatementTests {
 //      ^^^^^ entity.name.label.java
 //           ^ punctuation.separator.colon.java
 //             ^^^^^^^^ meta.statement.conditional.if.java
-//                      ^^^^^^^ meta.else.java
+//                      ^^^^^^^ meta.statement.conditional.else.java
 
         label: run();
 //      ^^^^^ entity.name.label.java
@@ -5088,11 +5088,11 @@ class IfStatementTests {
 //                                  ^ punctuation.section.block.end.java
 
     if (foo) else
-//  ^^^^^^^^^ - meta.else
+//  ^^^^^^^^^ - meta.statement.conditional.else
 //  ^^^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.group
 //     ^^^^^ meta.statement.conditional.if.java meta.group.java
 //          ^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.block - meta.statement.conditional.if meta.group
-//           ^^^^^ meta.else.java - meta.statement.conditional.if
+//           ^^^^^ meta.statement.conditional.else.java - meta.statement.conditional.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.java
@@ -5100,15 +5100,15 @@ class IfStatementTests {
 //           ^^^^ keyword.control.conditional.else.java
 
     if (foo) {} else {}
-//  ^^^^^^^^^^^^ - meta.else
+//  ^^^^^^^^^^^^ - meta.statement.conditional.else
 //  ^^^ meta.statement.conditional.if.java - meta.group
 //     ^^^^^ meta.statement.conditional.if.java meta.group.java
 //          ^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.block - meta.statement.conditional.if meta.group
 //           ^^ meta.statement.conditional.if.java meta.block.java
 //             ^^^^^^^^ - meta.statement.conditional.if
-//              ^^^^^ meta.else.java - meta.else meta.block
-//                   ^^ meta.else.java meta.block.java
-//                     ^ - meta.statement.conditional.if - meta.else
+//              ^^^^^ meta.statement.conditional.else.java - meta.statement.conditional.else meta.block
+//                   ^^ meta.statement.conditional.else.java meta.block.java
+//                     ^ - meta.statement.conditional.if - meta.statement.conditional.else
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.java
@@ -5120,21 +5120,21 @@ class IfStatementTests {
 //                    ^ punctuation.section.block.end.java
 
     if (foo) else if (bar) else
-//  ^^^^^^^^^ - meta.else
+//  ^^^^^^^^^ - meta.statement.conditional.else
 //  ^^^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.group
 //     ^^^^^ meta.statement.conditional.if.java meta.group.java
 //          ^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.block - meta.statement.conditional.if meta.group
-//           ^^^^^ meta.else.java - meta.statement.conditional.if
+//           ^^^^^ meta.statement.conditional.else.java - meta.statement.conditional.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.java
 //         ^ punctuation.section.group.end.java
 //           ^^^^ keyword.control.conditional.else.java
-//                ^^^^^^^^^ - meta.else
+//                ^^^^^^^^^ - meta.statement.conditional.else
 //                ^^^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.group
 //                   ^^^^^ meta.statement.conditional.if.java meta.group.java
 //                        ^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.block - meta.statement.conditional.if meta.group
-//                         ^^^^^ meta.else.java - meta.statement.conditional.if
+//                         ^^^^^ meta.statement.conditional.else.java - meta.statement.conditional.if
 //                ^^ keyword.control.conditional.if.java
 //                   ^ punctuation.section.group.begin.java
 //                    ^^^ variable.other.java
@@ -5142,16 +5142,16 @@ class IfStatementTests {
 //                         ^^^^ keyword.control.conditional.else.java
 
     if (foo() == true) fun() else if (bar != 0) bar = 1 else baz++
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.else
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.conditional.else
 //  ^^^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.group
 //     ^^^^^^^^^^^^^^^ meta.statement.conditional.if.java meta.group.java
 //                    ^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.group
 //                     ^^^^^^ meta.statement.conditional.if.java
-//                           ^^^^^ meta.else.java - meta.statement.conditional.if
-//                                ^^^^^^^^^^^^^^^^^^^^^^ - meta.else
+//                           ^^^^^ meta.statement.conditional.else.java - meta.statement.conditional.if
+//                                ^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.conditional.else
 //                                ^^^ meta.statement.conditional.if.java - meta.statement.conditional.if meta.group
 //                                   ^^^^^^^^^^ meta.statement.conditional.if.java meta.group.java
-//                                                      ^^^^^ meta.else.java - meta.statement.conditional.if
+//                                                      ^^^^^ meta.statement.conditional.else.java - meta.statement.conditional.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.function.java
