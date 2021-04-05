@@ -1134,7 +1134,7 @@ contexts:
 
   constants:
     - match: \b(?i:nul)\b
-      scope: constant.language.dosbatch
+      scope: constant.language.null.dosbatch
 
   numbers:
     - match: \b(0[xX])(\h*)\b
@@ -1215,7 +1215,7 @@ contexts:
 
   redirection-path:
     - match: (?i:nul)\b
-      scope: constant.language.dosbatch
+      scope: constant.language.null.dosbatch
       pop: 1
     - match: \d\b
       scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch

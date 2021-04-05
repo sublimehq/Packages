@@ -933,7 +933,7 @@ ECHO : Not a comment ^
 ::      ^^^^^^ meta.redirection.dosbatch
 ::            ^ - meta.redirection
 ::      ^^ keyword.operator.assignment.redirection.dosbatch
-::         ^^^ constant.language.dosbatch
+::         ^^^ constant.language.null.dosbatch
 
    dir > f.txt 2>&1
 ::    ^ - meta.redirection
@@ -955,10 +955,10 @@ ECHO : Not a comment ^
 ::                    ^ - meta.redirection
 ::         ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
 ::          ^ keyword.operator.assignment.redirection.dosbatch
-::           ^^^ constant.language.dosbatch
+::           ^^^ constant.language.null.dosbatch
 ::               ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
 ::                ^ keyword.operator.assignment.redirection.dosbatch
-::                 ^^^ constant.language.dosbatch
+::                 ^^^ constant.language.null.dosbatch
 
 :: Redirect any error message into a file
    command 2> filename
@@ -1013,13 +1013,13 @@ ECHO : Not a comment ^
 :: ^^^^^^^ variable.function.dosbatch
 ::         ^ constant.numeric.value.dosbatch
 ::          ^ keyword.operator.assignment.redirection.dosbatch
-::            ^^^ constant.language.dosbatch
+::            ^^^ constant.language.null.dosbatch
 
 :: Redirect error and output to NUL
    command >nul 2>&1
 :: ^^^^^^^ variable.function.dosbatch
 ::         ^ keyword.operator.assignment.redirection.dosbatch
-::          ^^^ constant.language.dosbatch
+::          ^^^ constant.language.null.dosbatch
 ::              ^ constant.numeric.value.dosbatch
 ::               ^^ keyword.operator.assignment.redirection.dosbatch
 ::                 ^ constant.numeric.value.dosbatch
@@ -1031,7 +1031,7 @@ ECHO : Not a comment ^
 ::           ^^^^^^^ string.unquoted.dosbatch
 ::                   ^ constant.numeric.value.dosbatch
 ::                    ^ keyword.operator.assignment.redirection.dosbatch
-::                      ^^^ constant.language.dosbatch
+::                      ^^^ constant.language.null.dosbatch
 
 :: Redirect output to file but suppress CMD.exe errors
   (command)>filename 2> nul
@@ -1040,7 +1040,7 @@ ECHO : Not a comment ^
 ::           ^^^^^^^ string.unquoted.dosbatch
 ::                   ^ constant.numeric.value.dosbatch
 ::                    ^ keyword.operator.assignment.redirection.dosbatch
-::                      ^^^ constant.language.dosbatch
+::                      ^^^ constant.language.null.dosbatch
 
 :: Redirect all output to stdout using variables
    command >%STDOUT% %STDERR%>&%STDOUT%
@@ -1277,7 +1277,7 @@ ECHO : Not a comment ^
 ::     ^ - meta.string - string
 ::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
 ::              ^ keyword.operator.assignment.redirection.dosbatch
-::               ^^^ constant.language.dosbatch
+::               ^^^ constant.language.null.dosbatch
 ::                   ^^ keyword.operator.conditional.dosbatch
 ::                      ^^^^ support.function.builtin.dosbatch
 ::                           ^^^ meta.string.dosbatch string.unquoted.dosbatch
