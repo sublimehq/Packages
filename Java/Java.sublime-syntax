@@ -1560,7 +1560,7 @@ contexts:
 
   finally-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.finally.java
+    - meta_scope: meta.statement.exception.finally.java
     - include: immediately-pop
 
   try-meta:
