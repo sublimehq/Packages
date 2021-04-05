@@ -1110,12 +1110,12 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
-    - match: '@(?=\S)'
+    - match: \@(?=\S)
       scope: keyword.operator.at.dosbatch
-    - match: '&&?|\|\|'
+    - match: \&\&?|\|\|
       scope: keyword.operator.conditional.dosbatch
-    - match: '\|'
-      scope: keyword.operator.pipe.dosbatch
+    - match: \|
+      scope: keyword.operator.assignment.pipe.dosbatch
       push: illegal-comment-pop
 
   separator-comma:

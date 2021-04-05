@@ -67,7 +67,7 @@ ECHO ||:: A comment
 ::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
 
 ECHO |:: Not a comment
-::   ^ keyword.operator.pipe.dosbatch
+::   ^ keyword.operator.assignment.pipe.dosbatch
 ::    ^^^^^^^^^^^^^^^^ invalid.illegal.unexpected.dosbatch
 
 ECHO : Not a comment ^
@@ -629,7 +629,7 @@ ECHO : Not a comment ^
    FOR %%| IN (0,1) DO md %%|
 ::     ^^^ invalid.illegal.parameter.dosbatch
 ::                        ^^^ - variable
-::                          ^ keyword.operator.pipe.dosbatch
+::                          ^ keyword.operator.assignment.pipe.dosbatch
 
    FOR %%^> IN (0,1) DO md %%^>
 ::     ^^^^ variable.other.readwrite.dosbatch
@@ -916,7 +916,7 @@ ECHO : Not a comment ^
 :::: [ Commands ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    FIND "a" |
-::          ^ keyword.operator.pipe.dosbatch
+::          ^ keyword.operator.assignment.pipe.dosbatch
 
 
 :::: [ Redirections ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -1843,7 +1843,7 @@ ECHO : Not a comment ^
 ::               ^^^ meta.interpolation.dosbatch
 
    set |
-::     ^ keyword.operator.pipe.dosbatch
+::     ^ keyword.operator.assignment.pipe.dosbatch
 
    set ^> & echo %>%
 ::     ^^ variable.other.readwrite.dosbatch
