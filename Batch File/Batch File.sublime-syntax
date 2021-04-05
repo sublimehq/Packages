@@ -328,6 +328,7 @@ contexts:
       scope: invalid.illegal.stray.dosbatch
 
   control-if-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.if.dosbatch
     - include: immediatelly-pop
 
@@ -436,6 +437,7 @@ contexts:
         - control-for-switches
 
   control-for-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.for.dosbatch
     - include: immediatelly-pop
 
@@ -792,6 +794,7 @@ contexts:
       pop: 1
 
   command-set-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.command.set.dosbatch
     - include: immediatelly-pop
 
@@ -924,6 +927,7 @@ contexts:
         - command-set-arithmetic-unquoted
 
   command-set-arithmetic-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.expression.dosbatch
     - include: immediatelly-pop
 
@@ -1037,6 +1041,7 @@ contexts:
         - command-set-variable
 
   command-set-prompt-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.prompt.dosbatch
     - include: immediatelly-pop
 
@@ -1193,9 +1198,10 @@ contexts:
         - redirection-path
 
   redirection-interpolations-meta:
-        - clear_scopes: 1
-        - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
-        - include: immediatelly-pop
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
+    - include: immediatelly-pop
 
   redirections:
     - match: (?=\d*(<&?|>[&>]?))
@@ -1219,6 +1225,7 @@ contexts:
     - include: else-pop
 
   redirection-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.redirection.dosbatch
     - include: immediatelly-pop
 
@@ -1332,6 +1339,7 @@ contexts:
 
   clear-string-scope:
     - clear_scopes: 1
+    - meta_include_prototype: false
     - include: immediatelly-pop
 
   variables:
