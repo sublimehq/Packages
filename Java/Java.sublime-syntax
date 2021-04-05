@@ -1460,23 +1460,23 @@ contexts:
     - include: expression
 
   break-statement-end:
-    - meta_scope: meta.break.java
+    - meta_scope: meta.statement.flow.break.java
     - include: expect-expression-terminator
 
   continue-statement-end:
-    - meta_scope: meta.continue.java
+    - meta_scope: meta.statement.flow.continue.java
     - include: expect-expression-terminator
 
   return-statement-body:
-    - meta_scope: meta.return.java
+    - meta_scope: meta.statement.flow.return.java
     - include: expression
 
   throw-statement-body:
-    - meta_scope: meta.throw.java
+    - meta_scope: meta.statement.flow.throw.java
     - include: expression
 
   yield-statement-body:
-    - meta_scope: meta.yield.java
+    - meta_scope: meta.statement.flow.yield.java
     - include: expression
 
   variable-label:

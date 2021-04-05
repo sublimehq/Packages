@@ -3478,20 +3478,20 @@ class MethodDelcarationTests {
 //                                                          ^ punctuation.section.block.begin.java
     throw
 //^^^^^^^^ meta.function.java meta.block.java
-//  ^^^^^^ meta.throw.java
+//  ^^^^^^ meta.statement.flow.throw.java
 //  ^^^^^ keyword.control.flow.throw.java
         new
 //^^^^^^^^^^ meta.function.java meta.block.java
-//     ^ meta.throw.java - meta.instantiation
-//      ^^^^ meta.throw.java meta.instantiation.java
+//     ^ meta.statement.flow.throw.java - meta.instantiation
+//      ^^^^ meta.statement.flow.throw.java meta.instantiation.java
 //      ^^^ keyword.other.storage.new.java
         MyException
 //^^^^^^^^^^^^^^^^^^ meta.function.java meta.block.java
-//     ^^^^^^^^^^^^^ meta.throw.java meta.instantiation.java
+//     ^^^^^^^^^^^^^ meta.statement.flow.throw.java meta.instantiation.java
 //      ^^^^^^^^^^^ storage.type.class.java
         ("hello (world)");
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.java meta.block.java
-//      ^^^^^^^^^^^^^^^^^ meta.throw.java meta.instantiation.java meta.group.java
+//      ^^^^^^^^^^^^^^^^^ meta.statement.flow.throw.java meta.instantiation.java meta.group.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^^^^^^^^^^^ string.quoted.double.java
 //                      ^ punctuation.section.group.end.java
@@ -5600,11 +5600,11 @@ class SwitchStatementTests {
 //                 ^^^^^^^ variable.namespace.java
 //                         ^^^^^^^^^ constant.other.java
         break
-//      ^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.break.java
+//      ^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.break.java
 //      ^^^^^ keyword.control.flow.break.java
 
       case mod.sub.myclass.enumconst:
-//   ^ meta.statement.conditional.switch.java meta.block.java meta.break.java - meta.statement.conditional.case
+//   ^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.break.java - meta.statement.conditional.case
 //    ^^^^^ meta.statement.conditional.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.statement.conditional.case.label.java meta.path.java
 //                                  ^ meta.statement.conditional.case.java - meta.path
@@ -5688,7 +5688,7 @@ class SwitchExpressionsTests {
             String s = day.toString();
             int result = s.length();
             yield result;
-//          ^^^^^^^^^^^^ meta.yield.java
+//          ^^^^^^^^^^^^ meta.statement.flow.yield.java
 //          ^^^^^ keyword.control.flow.yield.java
 //                ^^^^^^ variable.other.java
           }
@@ -5716,19 +5716,19 @@ class SwitchExpressionsTests {
 //                                        ^ punctuation.separator.expressions.java
          case SUNDAY:
             yield 6;
-//          ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.yield.java
+//          ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.yield.java
 //          ^^^^^ keyword.control.flow.yield.java
 //                ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                 ^ punctuation.terminator.java
          case TUESDAY:
             yield 7;
-//          ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.yield.java
+//          ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.yield.java
 //          ^^^^^ keyword.control.flow.yield.java
 //                ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                 ^ punctuation.terminator.java
          default:
             throw new IllegalStateException("Invalid day: " + day);
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.throw.java
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.throw.java
 //          ^^^^^ keyword.control.flow.throw.java
 //                ^^^ keyword.other.storage.new.java
 //                    ^^^^^^^^^^^^^^^^^^^^^ storage.type.class.java
@@ -6173,40 +6173,40 @@ class BreakStatementTests {
 //  ^^^^^^ variable.other.java - keyword
 
     break
-// ^ - meta.break
-//  ^^^^^^ meta.break.java
+// ^ - meta.statement.flow.break
+//  ^^^^^^ meta.statement.flow.break.java
 //  ^^^^^ keyword.control.flow.break.java
 
     break ;
-// ^^^^^^^ meta.break.java
-//        ^ - meta.break
+// ^^^^^^^ meta.statement.flow.break.java
+//        ^ - meta.statement.flow.break
 //  ^^^^^ keyword.control.flow.break.java
 //        ^ punctuation.terminator.java
 
     break label;
-// ^ - meta.break
-//  ^^^^^^^^^^^ meta.break.java
-//             ^ - meta.break
+// ^ - meta.statement.flow.break
+//  ^^^^^^^^^^^ meta.statement.flow.break.java
+//             ^ - meta.statement.flow.break
 //  ^^^^^ keyword.control.flow.break.java
 //        ^^^^^ variable.label.java
 //             ^ punctuation.terminator.java
 
     break
-// ^ - meta.break
-//  ^^^^^^ meta.break.java
+// ^ - meta.statement.flow.break
+//  ^^^^^^ meta.statement.flow.break.java
 //  ^^^^^ keyword.control.flow.break.java
         label
-//     ^^^^^^^ meta.break.java
+//     ^^^^^^^ meta.statement.flow.break.java
 //      ^^^^^ variable.label.java
         ;
-//     ^ meta.break.java
-//      ^ - meta.break
+//     ^ meta.statement.flow.break.java
+//      ^ - meta.statement.flow.break
 //      ^ punctuation.terminator.java
 
     break str + 5;
-// ^ - meta.break
-//  ^^^^^^^^^^^^^ meta.break.java
-//               ^ - meta.break
+// ^ - meta.statement.flow.break
+//  ^^^^^^^^^^^^^ meta.statement.flow.break.java
+//               ^ - meta.statement.flow.break
 //  ^^^^^ keyword.control.flow.break.java
 //        ^^^ variable.label.java
 //            ^ invalid.illegal.expect-terminator.java
@@ -6214,9 +6214,9 @@ class BreakStatementTests {
 //               ^ punctuation.terminator.java
 
     break 5 + 5;
-// ^ - meta.break
-//  ^^^^^^^^^^^ meta.break.java
-//             ^ - meta.break
+// ^ - meta.statement.flow.break
+//  ^^^^^^^^^^^ meta.statement.flow.break.java
+//             ^ - meta.statement.flow.break
 //  ^^^^^ keyword.control.flow.break.java
 //        ^ invalid.illegal.expect-terminator.java
 //          ^ invalid.illegal.expect-terminator.java
@@ -6250,40 +6250,40 @@ class ContinueStatementTests {
 //  ^^^^^^^^^ variable.other.java - keyword
 
     continue
-// ^ - meta.continue
-//  ^^^^^^^^^ meta.continue.java
+// ^ - meta.statement.flow.continue
+//  ^^^^^^^^^ meta.statement.flow.continue.java
 //  ^^^^^^^^ keyword.control.flow.continue.java
 
     continue ;
-// ^^^^^^^^^^ meta.continue.java
-//           ^ - meta.continue
+// ^^^^^^^^^^ meta.statement.flow.continue.java
+//           ^ - meta.statement.flow.continue
 //  ^^^^^^^^ keyword.control.flow.continue.java
 //           ^ punctuation.terminator.java
 
     continue label;
-// ^ - meta.continue
-//  ^^^^^^^^^^^^^^ meta.continue.java
-//                ^ - meta.continue
+// ^ - meta.statement.flow.continue
+//  ^^^^^^^^^^^^^^ meta.statement.flow.continue.java
+//                ^ - meta.statement.flow.continue
 //  ^^^^^^^^ keyword.control.flow.continue.java
 //           ^^^^^ variable.label.java
 //                ^ punctuation.terminator.java
 
     continue
-// ^ - meta.continue
-//  ^^^^^^^^^ meta.continue.java
+// ^ - meta.statement.flow.continue
+//  ^^^^^^^^^ meta.statement.flow.continue.java
 //  ^^^^^^^^ keyword.control.flow.continue.java
         label
-//     ^^^^^^^ meta.continue.java
+//     ^^^^^^^ meta.statement.flow.continue.java
 //      ^^^^^ variable.label.java
         ;
-//     ^ meta.continue.java
-//      ^ - meta.continue
+//     ^ meta.statement.flow.continue.java
+//      ^ - meta.statement.flow.continue
 //      ^ punctuation.terminator.java
 
     continue str + 5;
-// ^ - meta.continue
-//  ^^^^^^^^^^^^^^^^ meta.continue.java
-//                  ^ - meta.continue
+// ^ - meta.statement.flow.continue
+//  ^^^^^^^^^^^^^^^^ meta.statement.flow.continue.java
+//                  ^ - meta.statement.flow.continue
 //  ^^^^^^^^ keyword.control.flow.continue.java
 //           ^^^ variable.label.java
 //               ^ invalid.illegal.expect-terminator.java
@@ -6291,9 +6291,9 @@ class ContinueStatementTests {
 //                  ^ punctuation.terminator.java
 
     continue 5 + 5;
-// ^ - meta.continue
-//  ^^^^^^^^^^^^^^ meta.continue.java
-//                ^ - meta.continue
+// ^ - meta.statement.flow.continue
+//  ^^^^^^^^^^^^^^ meta.statement.flow.continue.java
+//                ^ - meta.statement.flow.continue
 //  ^^^^^^^^ keyword.control.flow.continue.java
 //           ^ invalid.illegal.expect-terminator.java
 //             ^ invalid.illegal.expect-terminator.java
@@ -6319,25 +6319,25 @@ class ReturnStatementTests {
 //  ^^^^^^^ variable.other.java - keyword
 
     return
-// ^ - meta.return - keyword
-//  ^^^^^^^ meta.return.java
+// ^ - meta.statement.flow.return - keyword
+//  ^^^^^^^ meta.statement.flow.return.java
 //  ^^^^^^ keyword.control.flow.return.java
 
     return;
-// ^^^^^^^ meta.return.java
-//        ^ - meta.return
+// ^^^^^^^ meta.statement.flow.return.java
+//        ^ - meta.statement.flow.return
 //  ^^^^^^ keyword.control.flow.return.java
 //        ^ punctuation.terminator.java
 
     return variable
-// ^ - meta.return - keyword
-//  ^^^^^^^^^^^^^^^^ meta.return.java
+// ^ - meta.statement.flow.return - keyword
+//  ^^^^^^^^^^^^^^^^ meta.statement.flow.return.java
 //  ^^^^^^ keyword.control.flow.return.java
 //         ^^^^^^^^ variable.other.java
 
     return variable + func(10);
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.return.java
-//                            ^ - meta.return
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.flow.return.java
+//                            ^ - meta.statement.flow.return
 //  ^^^^^^ keyword.control.flow.return.java
 //         ^^^^^^^^ variable.other.java
 //                  ^ keyword.operator.arithmetic.java
@@ -6348,36 +6348,36 @@ class ReturnStatementTests {
 //                            ^ punctuation.terminator.java
 
     return
-// ^ - meta.return - keyword
-//  ^^^^^^^ meta.return.java
+// ^ - meta.statement.flow.return - keyword
+//  ^^^^^^^ meta.statement.flow.return.java
 //  ^^^^^^ keyword.control.flow.return.java
         variable
-//     ^^^^^^^^^^ meta.return.java
+//     ^^^^^^^^^^ meta.statement.flow.return.java
 //      ^^^^^^^^ variable.other.java
         +
-//     ^^^ meta.return.java
+//     ^^^ meta.statement.flow.return.java
 //      ^ keyword.operator.arithmetic.java
         func
-//     ^^^^^^ meta.return.java
+//     ^^^^^^ meta.statement.flow.return.java
 //      ^^^^ variable.function.java
         (
-//     ^^^ meta.return.java
+//     ^^^ meta.statement.flow.return.java
 //      ^ punctuation.section.group.begin.java
             10
-//         ^^^^ meta.return.java
+//         ^^^^ meta.statement.flow.return.java
 //          ^^ meta.number.integer.decimal.java constant.numeric.value.java
         )
-//     ^^^ meta.return.java
+//     ^^^ meta.statement.flow.return.java
 //      ^ punctuation.section.group.end.java
         ;
-//     ^ meta.return.java
-//      ^ - meta.return
+//     ^ meta.statement.flow.return.java
+//      ^ - meta.statement.flow.return
 //      ^ punctuation.terminator.java
 
     return new MyClass();
-// ^ - meta.return - keyword
-//  ^^^^^^^^^^^^^^^^^^^^ meta.return.java
-//                      ^ - meta.return
+// ^ - meta.statement.flow.return - keyword
+//  ^^^^^^^^^^^^^^^^^^^^ meta.statement.flow.return.java
+//                      ^ - meta.statement.flow.return
 //  ^^^^^^ keyword.control.flow.return.java
 //         ^^^ keyword.other.storage.new.java
 //             ^^^^^^^ storage.type.class.java
@@ -6386,10 +6386,10 @@ class ReturnStatementTests {
 //                      ^ punctuation.terminator.java
 
     return (a, int b) -> a + b;
-// ^ - meta.return - keyword
-//  ^^^^^^^ meta.return.java - meta.function.anonymous - meta.group
-//         ^^^^^^^^^^ meta.return.java meta.function.anonymous.parameters.java meta.group.java
-//                   ^^^^^^^^^ meta.return.java meta.function.anonymous.java - meta.group
+// ^ - meta.statement.flow.return - keyword
+//  ^^^^^^^ meta.statement.flow.return.java - meta.function.anonymous - meta.group
+//         ^^^^^^^^^^ meta.statement.flow.return.java meta.function.anonymous.parameters.java meta.group.java
+//                   ^^^^^^^^^ meta.statement.flow.return.java meta.function.anonymous.java - meta.group
 //  ^^^^^^ keyword.control.flow.return.java
 //         ^ punctuation.section.group.begin.java
 //          ^ variable.parameter.java
@@ -6423,25 +6423,25 @@ class ThrowStatementTests {
 //  ^^^^^^ variable.other.java - keyword
 
     throw
-// ^ - meta.throw - keyword
-//  ^^^^^^ meta.throw.java
+// ^ - meta.statement.flow.throw - keyword
+//  ^^^^^^ meta.statement.flow.throw.java
 //  ^^^^^ keyword.control.flow.throw.java
 
     throw;
-// ^^^^^^ meta.throw.java
-//       ^ - meta.throw
+// ^^^^^^ meta.statement.flow.throw.java
+//       ^ - meta.statement.flow.throw
 //  ^^^^^ keyword.control.flow.throw.java
 //       ^ punctuation.terminator.java
 
     throw variable
-// ^ - meta.throw - keyword
-//  ^^^^^^^^^^^^^^^ meta.throw.java
+// ^ - meta.statement.flow.throw - keyword
+//  ^^^^^^^^^^^^^^^ meta.statement.flow.throw.java
 //  ^^^^^ keyword.control.flow.throw.java
 //        ^^^^^^^^ variable.other.java
 
     throw variable + func(10);
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.throw.java
-//                           ^ - meta.throw
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.flow.throw.java
+//                           ^ - meta.statement.flow.throw
 //  ^^^^^ keyword.control.flow.throw.java
 //        ^^^^^^^^ variable.other.java
 //                 ^ keyword.operator.arithmetic.java
@@ -6452,36 +6452,36 @@ class ThrowStatementTests {
 //                           ^ punctuation.terminator.java
 
     throw
-// ^ - meta.throw - keyword
-//  ^^^^^^ meta.throw.java
+// ^ - meta.statement.flow.throw - keyword
+//  ^^^^^^ meta.statement.flow.throw.java
 //  ^^^^^ keyword.control.flow.throw.java
         variable
-//     ^^^^^^^^^^ meta.throw.java
+//     ^^^^^^^^^^ meta.statement.flow.throw.java
 //      ^^^^^^^^ variable.other.java
         +
-//     ^^^ meta.throw.java
+//     ^^^ meta.statement.flow.throw.java
 //      ^ keyword.operator.arithmetic.java
         func
-//     ^^^^^^ meta.throw.java
+//     ^^^^^^ meta.statement.flow.throw.java
 //      ^^^^ variable.function.java
         (
-//     ^^^ meta.throw.java
+//     ^^^ meta.statement.flow.throw.java
 //      ^ punctuation.section.group.begin.java
             10
-//         ^^^^ meta.throw.java
+//         ^^^^ meta.statement.flow.throw.java
 //          ^^ meta.number.integer.decimal.java constant.numeric.value.java
         )
-//     ^^^ meta.throw.java
+//     ^^^ meta.statement.flow.throw.java
 //      ^ punctuation.section.group.end.java
         ;
-//     ^ meta.throw.java
-//      ^ - meta.throw
+//     ^ meta.statement.flow.throw.java
+//      ^ - meta.statement.flow.throw
 //      ^ punctuation.terminator.java
 
     throw new MyClass();
-// ^ - meta.throw - keyword
-//  ^^^^^^^^^^^^^^^^^^^ meta.throw.java
-//                     ^ - meta.throw
+// ^ - meta.statement.flow.throw - keyword
+//  ^^^^^^^^^^^^^^^^^^^ meta.statement.flow.throw.java
+//                     ^ - meta.statement.flow.throw
 //  ^^^^^ keyword.control.flow.throw.java
 //        ^^^ keyword.other.storage.new.java
 //            ^^^^^^^ storage.type.class.java
@@ -6490,10 +6490,10 @@ class ThrowStatementTests {
 //                     ^ punctuation.terminator.java
 
     throw (a, int b) -> a + b;
-// ^ - meta.throw - keyword
-//  ^^^^^^ meta.throw.java - meta.function.anonymous - meta.group
-//        ^^^^^^^^^^ meta.throw.java meta.function.anonymous.parameters.java meta.group.java
-//                  ^^^^^^^^^ meta.throw.java meta.function.anonymous.java - meta.group
+// ^ - meta.statement.flow.throw - keyword
+//  ^^^^^^ meta.statement.flow.throw.java - meta.function.anonymous - meta.group
+//        ^^^^^^^^^^ meta.statement.flow.throw.java meta.function.anonymous.parameters.java meta.group.java
+//                  ^^^^^^^^^ meta.statement.flow.throw.java meta.function.anonymous.java - meta.group
 //  ^^^^^ keyword.control.flow.throw.java
 //        ^ punctuation.section.group.begin.java
 //         ^ variable.parameter.java
@@ -8783,8 +8783,8 @@ class LambdasExpressionsTests {
 //                        ^ punctuation.section.block.begin
       return;
 //   ^^^^^^^^^ meta.function-call.arguments.java meta.group.java meta.function.anonymous.java meta.block.java
-//    ^^^^^^ meta.return.java keyword.control.flow.return.java
-//          ^ punctuation.terminator.java - meta.return
+//    ^^^^^^ meta.statement.flow.return.java keyword.control.flow.return.java
+//          ^ punctuation.terminator.java - meta.statement.flow.return
     });
 //  ^ punctuation.section.block.end.java
 //   ^ punctuation.section.group.end.java
