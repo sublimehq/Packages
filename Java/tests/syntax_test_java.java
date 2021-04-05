@@ -6550,15 +6550,15 @@ class SynchronizedStatementTests {
 //  ^^^^^^^^^^^^^ variable.other.java - keyword
 
     synchronized
-// ^ - meta.synchronized - keyword
-//  ^^^^^^^^^^^^^ meta.synchronized.java
+// ^ - meta.statement.flow.synchronized - keyword
+//  ^^^^^^^^^^^^^ meta.statement.flow.synchronized.java
 //  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
 //              ^ - keyword
 
     synchronized ()  ;
-//^^^^^^^^^^^^^^^^^^^ meta.synchronized.java
+//^^^^^^^^^^^^^^^^^^^ meta.statement.flow.synchronized.java
 //               ^^ meta.group.java
-//                   ^ - meta.synchronized
+//                   ^ - meta.statement.flow.synchronized
 // ^ - keyword
 //  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
 //              ^ - keyword
@@ -6567,11 +6567,11 @@ class SynchronizedStatementTests {
 //                   ^ punctuation.terminator.java
 
     synchronized () {}
-// ^ - meta.synchronized
-//  ^^^^^^^^^^^^^^^^^^ meta.synchronized.java
+// ^ - meta.statement.flow.synchronized
+//  ^^^^^^^^^^^^^^^^^^ meta.statement.flow.synchronized.java
 //               ^^ meta.group.java
 //                  ^^ meta.block.java
-//                    ^ - meta.synchronized
+//                    ^ - meta.statement.flow.synchronized
 // ^ - keyword
 //  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
 //              ^ - keyword

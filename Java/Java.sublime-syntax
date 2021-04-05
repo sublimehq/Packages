@@ -1498,7 +1498,7 @@ contexts:
 
   synchronized-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.synchronized.java
+    - meta_scope: meta.statement.flow.synchronized.java
     - include: immediately-pop
 
 ###[ TRY CATCH STATEMENTS ]####################################################
