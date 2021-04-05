@@ -1565,7 +1565,7 @@ contexts:
 
   try-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.try.java
+    - meta_scope: meta.statement.exception.try.java
     - include: immediately-pop
 
   try-parameters:
