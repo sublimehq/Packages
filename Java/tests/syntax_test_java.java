@@ -5301,30 +5301,30 @@ class SwitchStatementTests {
 //  ^^^^^^^ variable.other.java - keyword
 
     switch
-//  ^^^^^^^ meta.switch.java
+//  ^^^^^^^ meta.statement.conditional.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 
     switch foo
-//  ^^^^^^^^^^^ meta.switch.java
+//  ^^^^^^^^^^^ meta.statement.conditional.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^^^ variable.other.java
 
     switch (foo)
-//  ^^^^^^^^^^^^^ - meta.switch meta.switch
-//  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.java meta.group.java
-//              ^ meta.switch.java
+//  ^^^^^^^^^^^^^ - meta.statement.conditional.switch meta.statement.conditional.switch
+//  ^^^^^^^ meta.statement.conditional.switch.java
+//         ^^^^^ meta.statement.conditional.switch.java meta.group.java
+//              ^ meta.statement.conditional.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.java
 //             ^ punctuation.section.group.end.java
 
     switch (foo) {}
-//  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
-//  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.java meta.group.java
-//              ^ meta.switch.java
-//               ^^ meta.switch.java meta.block.java
+//  ^^^^^^^^^^^^^^^ - meta.statement.conditional.switch meta.statement.conditional.switch
+//  ^^^^^^^ meta.statement.conditional.switch.java
+//         ^^^^^ meta.statement.conditional.switch.java meta.group.java
+//              ^ meta.statement.conditional.switch.java
+//               ^^ meta.statement.conditional.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.java
@@ -5333,10 +5333,10 @@ class SwitchStatementTests {
 //                ^ punctuation.section.block.end.java
 
     switch (foo {}
-//  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
-//  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.java meta.group.java
-//              ^^ meta.switch.java meta.block.java
+//  ^^^^^^^^^^^^^^^ - meta.statement.conditional.switch meta.statement.conditional.switch
+//  ^^^^^^^ meta.statement.conditional.switch.java
+//         ^^^^^ meta.statement.conditional.switch.java meta.group.java
+//              ^^ meta.statement.conditional.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.java
@@ -5352,54 +5352,54 @@ class SwitchStatementTests {
 //    ^^^^^ variable.other.java - keyword
 
       case
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
 //    ^^^^ keyword.control.conditional.case.java
 
       case :
-//   ^^^^^^^ meta.switch.java meta.block.java meta.case.java
-//          ^ meta.switch.java meta.block.java - meta.case
+//   ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//          ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ punctuation.separator.expressions.java
 
       case 0:
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^ meta.switch.java meta.block.java meta.case.label.java
-//          ^ meta.switch.java meta.block.java meta.case.java
-//           ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//          ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//           ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //          ^ punctuation.separator.expressions.java
 
       case 1: bar()
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^ meta.switch.java meta.block.java meta.case.label.java
-//          ^ meta.switch.java meta.block.java meta.case.java
-//           ^^^^^^^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//          ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//           ^^^^^^^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //          ^ punctuation.separator.expressions.java
 //            ^^^ variable.function.java
 
       case 3: ;
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^ meta.switch.java meta.block.java meta.case.label.java
-//          ^ meta.switch.java meta.block.java meta.case.java
-//           ^^^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//          ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//           ^^^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //          ^ punctuation.separator.expressions.java
 //            ^ punctuation.terminator.java
 
       case 5: {}
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^ meta.switch.java meta.block.java meta.case.label.java
-//          ^ meta.switch.java meta.block.java meta.case.java
-//           ^^^^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//          ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//           ^^^^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //          ^ punctuation.separator.expressions.java
@@ -5407,21 +5407,21 @@ class SwitchStatementTests {
 //             ^ punctuation.section.block.end.java
 
       case "string":
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java
-//                 ^ meta.switch.java meta.block.java meta.case.java
-//                  ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//                 ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//                  ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ string.quoted.double.java
 //                 ^ punctuation.separator.expressions.java
 
       case 'S':
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^ meta.switch.java meta.block.java meta.case.label.java
-//            ^ meta.switch.java meta.block.java meta.case.java
-//             ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//            ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//             ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^ meta.string.java string.quoted.single.java
 //         ^ punctuation.definition.string.begin.java
@@ -5430,11 +5430,11 @@ class SwitchStatementTests {
 //            ^ punctuation.separator.expressions.java
 
       case '\n' + foo():
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java
-//                     ^ meta.switch.java meta.block.java meta.case.java
-//                      ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//                     ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//                      ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^ meta.string.java string.quoted.single.java
 //         ^ punctuation.definition.string.begin.java
@@ -5445,11 +5445,11 @@ class SwitchStatementTests {
 //                     ^ punctuation.separator.expressions.java
 
       case constant + 5:
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java
-//                     ^ meta.switch.java meta.block.java meta.case.java
-//                      ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//                     ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//                      ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ variable.other.java
 //                  ^ keyword.operator.arithmetic.java
@@ -5457,12 +5457,12 @@ class SwitchStatementTests {
 //                     ^ punctuation.separator.expressions.java
 
       case (constant << 0x5) :
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java - meta.group
-//         ^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java meta.group.java
-//                          ^ meta.switch.java meta.block.java meta.case.label.java - meta.group
-//                           ^ meta.switch.java meta.block.java meta.case.java - meta.group
-//                            ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java - meta.group
+//         ^^^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java meta.group.java
+//                          ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.group
+//                           ^ meta.statement.conditional.switch.java meta.block.java meta.case.java - meta.group
+//                            ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^^^^^^ variable.other.java
@@ -5473,76 +5473,76 @@ class SwitchStatementTests {
 //                           ^ punctuation.separator.expressions.java
 
       case CONSTANT
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
 
       case CONSTANT:
-//   ^ meta.switch.java meta.block.java meta.case.label.java
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
-//                 ^ meta.switch.java meta.block.java meta.case.java
-//                  ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
+//                 ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//                  ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
 //                 ^ punctuation.separator.expressions.java
 
       case constant
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
 
       case constant
-//   ^ meta.switch.java meta.block.java meta.case.label.java
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
+//   ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
       { }
-//    ^^^ meta.switch.java meta.block.java meta.block.java
+//    ^^^ meta.statement.conditional.switch.java meta.block.java meta.block.java
 
       case constant
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
       ;
-//    ^ meta.switch.java meta.block.java punctuation.terminator.java
+//    ^ meta.statement.conditional.switch.java meta.block.java punctuation.terminator.java
 
       case constant:
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
-//                 ^ meta.switch.java meta.block.java meta.case.java
-//                  ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
+//                 ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//                  ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
 //                 ^ punctuation.separator.expressions.java
 
       case EnumConst
-//   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^^ constant.other.java
 
       case EnumConst:
-//   ^ meta.switch.java meta.block.java meta.case.label.java - meta.path
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java - meta.path
-//                  ^ meta.switch.java meta.block.java meta.case.java
-//                   ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//         ^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.label.java - meta.path
+//                  ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//                   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^^ constant.other.java
 //                  ^ punctuation.separator.expressions.java
 
       case module.CONSTANT:
-//   ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^  meta.case.label.java meta.path.java
 //                        ^ meta.case.java - meta.path
@@ -5553,7 +5553,7 @@ class SwitchStatementTests {
 //                        ^ punctuation.separator.expressions.java
 
       case MyClass.CONSTANT:
-//   ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^  meta.case.label.java meta.path.java
 //                         ^ meta.case.java - meta.path
@@ -5564,7 +5564,7 @@ class SwitchStatementTests {
 //                         ^ punctuation.separator.expressions.java
 
       case mod.sub.MyClass.EnumConst
-//   ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.label.java meta.path.java
 //    ^^^^ keyword.control.conditional.case.java
@@ -5589,7 +5589,7 @@ class SwitchStatementTests {
 //                                  ^ punctuation.separator.expressions.java
 
       case mod.sub.myclass.enumconst
-//   ^ meta.switch.java meta.block.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.label.java meta.path.java
 //    ^^^^ keyword.control.conditional.case.java
@@ -5600,11 +5600,11 @@ class SwitchStatementTests {
 //                 ^^^^^^^ variable.namespace.java
 //                         ^^^^^^^^^ constant.other.java
         break
-//      ^^^^^^ meta.switch.java meta.block.java meta.break.java
+//      ^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.break.java
 //      ^^^^^ keyword.control.flow.break.java
 
       case mod.sub.myclass.enumconst:
-//   ^ meta.switch.java meta.block.java meta.break.java - meta.case
+//   ^ meta.statement.conditional.switch.java meta.block.java meta.break.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.label.java meta.path.java
 //                                  ^ meta.case.java - meta.path
@@ -5618,10 +5618,10 @@ class SwitchStatementTests {
 //                                  ^ punctuation.separator.expressions.java
 
       default : {}
-//  ^^ meta.switch.java meta.block.java - meta.case.default
-//    ^^^^^^^^ meta.switch.java meta.block.java meta.case.default.java
-//            ^ meta.switch.java meta.block.java meta.case.java
-//             ^^^^ meta.switch.java meta.block.java - meta.case
+//  ^^ meta.statement.conditional.switch.java meta.block.java - meta.case.default
+//    ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.case.default.java
+//            ^ meta.statement.conditional.switch.java meta.block.java meta.case.java
+//             ^^^^ meta.statement.conditional.switch.java meta.block.java - meta.case
 //    ^^^^^^^ keyword.control.conditional.default.java
 //            ^ punctuation.separator.expressions.java
 //              ^ punctuation.section.block.begin.java
@@ -5633,7 +5633,7 @@ class SwitchStatementTests {
       $default ;
 //    ^^^^^^^^ variable.other.java - keyword
     }
-//  ^ meta.switch.java meta.block.java punctuation.section.block.end.java
+//  ^ meta.statement.conditional.switch.java meta.block.java punctuation.section.block.end.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 }
@@ -5652,10 +5652,10 @@ class SwitchExpressionsTests {
 //    ^^^ storage.type.primitive.java
 //        ^^^^^^^^^^ variable.other.java
 //                   ^ keyword.operator.assignment.java
-//                     ^^^^^^^^^^^^^^^ meta.switch.java
+//                     ^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java
 //                     ^^^^^^ keyword.control.conditional.switch.java
           case MONDAY, FRIDAY, SUNDAY -> 6;
-//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.switch.java meta.block.java
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^ meta.case.java
 //             ^^^^^^^^^^^^^^^^^^^^^^^ meta.case.label.java
 //                                    ^^^^ meta.function.anonymous.java - meta.case
@@ -5669,7 +5669,7 @@ class SwitchExpressionsTests {
 //                                       ^ constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
           case TUESDAY                -> 7;
-//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.switch.java meta.block.java
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^ meta.case.java
 //             ^^^^^^^^^^^^^^^^^^^^^^^ meta.case.label.java
 //                                    ^^^^ meta.function.anonymous.java - meta.case
@@ -5679,7 +5679,7 @@ class SwitchExpressionsTests {
 //                                       ^ constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
           default -> {
-//       ^^^^^^^^^^^^^^ meta.switch.java meta.block.java
+//       ^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^^^^ meta.case.default.java
 //                ^^^^^ meta.function.anonymous.java - meta.case
 //        ^^^^^^^ keyword.control.conditional.default.java
@@ -5694,8 +5694,8 @@ class SwitchExpressionsTests {
           }
 //        ^ punctuation.section.block.end.java
       };
-//    ^ meta.switch.java meta.block.java punctuation.section.block.end.java
-//     ^ punctuation.terminator.java - meta.switch
+//    ^ meta.statement.conditional.switch.java meta.block.java punctuation.section.block.end.java
+//     ^ punctuation.terminator.java - meta.statement.conditional.switch
    }
 // ^ punctuation.section.block.end.java
 
@@ -5716,19 +5716,19 @@ class SwitchExpressionsTests {
 //                                        ^ punctuation.separator.expressions.java
          case SUNDAY:
             yield 6;
-//          ^^^^^^^ meta.switch.java meta.block.java meta.yield.java
+//          ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.yield.java
 //          ^^^^^ keyword.control.flow.yield.java
 //                ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                 ^ punctuation.terminator.java
          case TUESDAY:
             yield 7;
-//          ^^^^^^^ meta.switch.java meta.block.java meta.yield.java
+//          ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.yield.java
 //          ^^^^^ keyword.control.flow.yield.java
 //                ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                 ^ punctuation.terminator.java
          default:
             throw new IllegalStateException("Invalid day: " + day);
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.throw.java
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.throw.java
 //          ^^^^^ keyword.control.flow.throw.java
 //                ^^^ keyword.other.storage.new.java
 //                    ^^^^^^^^^^^^^^^^^^^^^ storage.type.class.java
@@ -5739,8 +5739,8 @@ class SwitchExpressionsTests {
 //                                                               ^ punctuation.section.group.end.java
 //                                                                ^ punctuation.terminator.java
       };
-//    ^ meta.switch.java meta.block.java punctuation.section.block.end.java
-//     ^ punctuation.terminator.java - meta.switch
+//    ^ meta.statement.conditional.switch.java meta.block.java punctuation.section.block.end.java
+//     ^ punctuation.terminator.java - meta.statement.conditional.switch
    }
 // ^ punctuation.section.block.end.java
 }

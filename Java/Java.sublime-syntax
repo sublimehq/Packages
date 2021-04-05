@@ -1293,7 +1293,7 @@ contexts:
 
   switch-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.switch.java
+    - meta_scope: meta.statement.conditional.switch.java
     - include: immediately-pop
 
   case-default-end:
