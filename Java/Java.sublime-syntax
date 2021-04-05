@@ -1356,12 +1356,12 @@ contexts:
 
   do-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.do.java
+    - meta_scope: meta.statement.loop.do-while.java
     - include: immediately-pop
 
   while-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.while.java
+    - meta_scope: meta.statement.loop.while.java
     - include: immediately-pop
 
 ###[ FOR LOOP STATEMENTS ]#####################################################

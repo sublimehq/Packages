@@ -5278,7 +5278,7 @@ class AssertStatementTests {
 
     assert while (true) {}
 //  ^^^^^^^ meta.assertion.java
-//         ^^^^^^^^^^^^^^^ meta.while.java - meta.assertion
+//         ^^^^^^^^^^^^^^^ meta.statement.loop.while.java - meta.assertion
 
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
@@ -5762,30 +5762,30 @@ class WhileStatementTests {
 //  ^^^^^^ variable.other.java - keyword
 
     while
-//  ^^^^^^ meta.while.java
+//  ^^^^^^ meta.statement.loop.while.java
 //  ^^^^^ keyword.control.loop.while.java
 
     while false
-//  ^^^^^^^^^^^^ meta.while.java
+//  ^^^^^^^^^^^^ meta.statement.loop.while.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^^^^^ constant.language.boolean.false.java
 
     while (false)
-//  ^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java - meta.group
-//        ^^^^^^^ meta.while.java meta.group.java
-//               ^ meta.while.java - meta.group
+//  ^^^^^^^^^^^^^^ - meta.statement.loop.while meta.statement.loop.while
+//  ^^^^^^ meta.statement.loop.while.java - meta.group
+//        ^^^^^^^ meta.statement.loop.while.java meta.group.java
+//               ^ meta.statement.loop.while.java - meta.group
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.false.java
 //              ^ punctuation.section.group.end.java
 
     while (false) {  }
-//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java - meta.group
-//        ^^^^^^^ meta.while.java meta.group.java
-//               ^ meta.while.java - meta.while.java meta.group - meta.while.java meta.block
-//                ^^^^ meta.while.java meta.block.java
+//  ^^^^^^^^^^^^^^^^^^ - meta.statement.loop.while meta.statement.loop.while
+//  ^^^^^^ meta.statement.loop.while.java - meta.group
+//        ^^^^^^^ meta.statement.loop.while.java meta.group.java
+//               ^ meta.statement.loop.while.java - meta.statement.loop.while.java meta.group - meta.statement.loop.while.java meta.block
+//                ^^^^ meta.statement.loop.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.false.java
@@ -5794,10 +5794,10 @@ class WhileStatementTests {
 //                   ^ punctuation.section.block.end.java
 
     while (false {  }
-//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java
-//        ^^^^^^^ meta.while.java meta.group.java
-//               ^^^^ meta.while.java meta.block.java
+//  ^^^^^^^^^^^^^^^^^^ - meta.statement.loop.while meta.statement.loop.while
+//  ^^^^^^ meta.statement.loop.while.java
+//        ^^^^^^^ meta.statement.loop.while.java meta.group.java
+//               ^^^^ meta.statement.loop.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.false.java
