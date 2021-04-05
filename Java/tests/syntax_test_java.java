@@ -8152,31 +8152,31 @@ class CastExpressionsTests {
   void primitiveTypeCastExpression() {
 
     () foo;
-//  ^^ meta.typecast.java meta.group.java
-//    ^^^^ - meta.typecast - meta.group
+//  ^^ meta.cast.java meta.group.java
+//    ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^ punctuation.section.group.end.java
 //     ^^^ variable.other.java
 
     (int) foo;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
 //        ^^^ variable.other.java
 
     (int$) foo;
-//  ^^^^^^ meta.typecast.java meta.group.java
-//        ^^^^ - meta.typecast - meta.group
+//  ^^^^^^ meta.cast.java meta.group.java
+//        ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.section.group.end.java
 //         ^^^ variable.other.java
 
     (int) foo[10];
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^^^^^^^^ - meta.cast - meta.group
 //        ^^^ meta.variable.identifier.java
 //           ^^^^ meta.variable.item-access.java meta.brackets.java
 //  ^ punctuation.section.group.begin.java
@@ -8185,8 +8185,8 @@ class CastExpressionsTests {
 //        ^^^ variable.other.java
 
     (int) foo();
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.function-call - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^ - meta.function-call - meta.cast - meta.group
 //        ^^^ meta.function-call.identifier.java
 //           ^^ meta.function-call.arguments.java meta.group.java
 //  ^ punctuation.section.group.begin.java
@@ -8198,8 +8198,8 @@ class CastExpressionsTests {
 //             ^ punctuation.terminator.java
 
     (int) foo -> {return 0};
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.function.anonymous - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^ - meta.function.anonymous - meta.cast - meta.group
 //        ^^^ meta.function.anonymous.parameters.java
 //           ^^^^^^^^^^^^^^ meta.function.anonymous.java
 //  ^ punctuation.section.group.begin.java
@@ -8214,8 +8214,8 @@ class CastExpressionsTests {
 //                         ^ punctuation.terminator.java
 
     (int) this;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
@@ -8223,8 +8223,8 @@ class CastExpressionsTests {
 //            ^ punctuation.terminator.java
 
     (int) super.class;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^^^^^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^^^^^^^^^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
@@ -8234,8 +8234,8 @@ class CastExpressionsTests {
 //                   ^ punctuation.terminator.java
 
     (int) TestClass;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^^^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^^^^^^^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
@@ -8243,9 +8243,9 @@ class CastExpressionsTests {
 //                 ^ punctuation.terminator.java
 
     (int) new TestClass();
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.typecast - meta.group - meta.instantiation
-//        ^^^^^^^^^^^^^^^ meta.instantiation.java - meta.typecast
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^ - meta.cast - meta.group - meta.instantiation
+//        ^^^^^^^^^^^^^^^ meta.instantiation.java - meta.cast
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
@@ -8256,11 +8256,11 @@ class CastExpressionsTests {
 //                       ^ punctuation.terminator.java
 
     (int) (char) (foo + 10);
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.typecast - meta.group
-//        ^^^^^^ meta.typecast.java meta.group.java
-//              ^ - meta.typecast - meta.group
-//               ^^^^^^^^^^ meta.group.java - meta.typecast
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^ - meta.cast - meta.group
+//        ^^^^^^ meta.cast.java meta.group.java
+//              ^ - meta.cast - meta.group
+//               ^^^^^^^^^^ meta.group.java - meta.cast
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
@@ -8274,8 +8274,8 @@ class CastExpressionsTests {
 //                        ^ punctuation.section.group.end.java
 
     (int[]) foo;
-//  ^^^^^^^ meta.typecast.java meta.group.java
-//         ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^ meta.cast.java meta.group.java
+//         ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^^ storage.modifier.array.java
@@ -8283,8 +8283,8 @@ class CastExpressionsTests {
 //          ^^^ variable.other.java
 
     (int[]) ! foo;
-//  ^^^^^^^ meta.typecast.java meta.group.java
-//         ^^^^^^ - meta.typecast - meta.group
+//  ^^^^^^^ meta.cast.java meta.group.java
+//         ^^^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^^ storage.modifier.array.java
@@ -8293,8 +8293,8 @@ class CastExpressionsTests {
 //            ^^^ variable.other.java
 
     (int[]) ~ foo;
-//  ^^^^^^^ meta.typecast.java meta.group.java
-//         ^^^^^^ - meta.typecast - meta.group
+//  ^^^^^^^ meta.cast.java meta.group.java
+//         ^^^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^^ storage.modifier.array.java
@@ -8303,8 +8303,8 @@ class CastExpressionsTests {
 //            ^^^ variable.other.java
 
     (var) foo;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java
+//       ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^ invalid.illegal.unexpected-keyword.java
 //      ^ punctuation.section.group.end.java
@@ -8314,16 +8314,16 @@ class CastExpressionsTests {
   void classTypeCastExpression() {
 
     (TestClass) foo;
-//  ^^^^^^^^^^^ meta.typecast.java meta.group.java
-//             ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^ meta.cast.java meta.group.java
+//             ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //            ^ punctuation.section.group.end.java
 //              ^^^ variable.other.java
 
     (TestClass[]) foo;
-//  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//               ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^^^ meta.cast.java meta.group.java
+//               ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //            ^^ storage.modifier.array.java
@@ -8331,16 +8331,16 @@ class CastExpressionsTests {
 //                ^^^ variable.other.java
 
     (testclass) foo;
-//  ^^^^^^^^^^^ meta.typecast.java meta.group.java
-//             ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^ meta.cast.java meta.group.java
+//             ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //            ^ punctuation.section.group.end.java
 //              ^^^ variable.other.java
 
     (testclass[]) foo;
-//  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//               ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^^^ meta.cast.java meta.group.java
+//               ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //            ^^ storage.modifier.array.java
@@ -8348,8 +8348,8 @@ class CastExpressionsTests {
 //                ^^^ variable.other.java
 
     (TestClass & OtherClass) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//                          ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.java meta.group.java
+//                          ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //             ^ keyword.operator.logical.java
@@ -8358,8 +8358,8 @@ class CastExpressionsTests {
 //                           ^^^ variable.other.java
 
     (testclass & otherclass) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//                          ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.java meta.group.java
+//                          ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //             ^ keyword.operator.logical.java
@@ -8368,8 +8368,8 @@ class CastExpressionsTests {
 //                           ^^^ variable.other.java
 
     (@anno testclass & @anno otherclass) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//                                      ^^^^ - meta.typecast - meta.group
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.java meta.group.java
+//                                      ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^ meta.annotation.identifier.java
 //         ^^^^^^^^^ storage.type.class.java
@@ -8402,10 +8402,10 @@ class CastExpressionsTests {
 //            ^^^ variable.other.java
 
     (List<T>) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^ meta.typecast.java meta.group.java - meta.generic
-//           ^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java - meta.generic
+//       ^^^ meta.cast.java meta.group.java meta.generic.java
+//          ^ meta.cast.java meta.group.java - meta.generic
+//           ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.definition.generic.begin.java
@@ -8415,10 +8415,10 @@ class CastExpressionsTests {
 //            ^^^ variable.other.java
 
     (List<T>[]) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^^^ meta.typecast.java meta.group.java - meta.generic
-//             ^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java - meta.generic
+//       ^^^ meta.cast.java meta.group.java meta.generic.java
+//          ^^^ meta.cast.java meta.group.java - meta.generic
+//             ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.definition.generic.begin.java
@@ -8429,10 +8429,10 @@ class CastExpressionsTests {
 //              ^^^ variable.other.java
 
     (list<t>) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^ meta.typecast.java meta.group.java - meta.generic
-//           ^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java - meta.generic
+//       ^^^ meta.cast.java meta.group.java meta.generic.java
+//          ^ meta.cast.java meta.group.java - meta.generic
+//           ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.definition.generic.begin.java
@@ -8442,10 +8442,10 @@ class CastExpressionsTests {
 //            ^^^ variable.other.java
 
     (list<t>[]) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^^^ meta.typecast.java meta.group.java - meta.generic
-//             ^^^^ - meta.typecast - meta.group
+//  ^^^^^ meta.cast.java meta.group.java - meta.generic
+//       ^^^ meta.cast.java meta.group.java meta.generic.java
+//          ^^^ meta.cast.java meta.group.java - meta.generic
+//             ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.definition.generic.begin.java
@@ -8456,7 +8456,7 @@ class CastExpressionsTests {
 //              ^^^ variable.other.java
 
     (list<t>[] & OtherList<T> & None) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.cast.java meta.group.java
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.definition.generic.begin.java
@@ -8474,10 +8474,10 @@ class CastExpressionsTests {
 //                                    ^^^ variable.other.java
 
     (<T>) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^^ - meta.typecast - meta.group
+//  ^ meta.cast.java meta.group.java - meta.generic
+//   ^^^ meta.cast.java meta.group.java meta.generic.java
+//      ^ meta.cast.java meta.group.java - meta.generic
+//       ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^ punctuation.definition.generic.begin.java
 //    ^ storage.type.class.java
@@ -8486,10 +8486,10 @@ class CastExpressionsTests {
 //        ^^^ variable.other.java
 
     (<T>[]) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^^^ meta.typecast.java meta.group.java - meta.generic
-//         ^^^^ - meta.typecast - meta.group
+//  ^ meta.cast.java meta.group.java - meta.generic
+//   ^^^ meta.cast.java meta.group.java meta.generic.java
+//      ^^^ meta.cast.java meta.group.java - meta.generic
+//         ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^ punctuation.definition.generic.begin.java
 //    ^ storage.type.class.java
@@ -8499,10 +8499,10 @@ class CastExpressionsTests {
 //          ^^^ variable.other.java
 
     (<t>) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^^ - meta.typecast - meta.group
+//  ^ meta.cast.java meta.group.java - meta.generic
+//   ^^^ meta.cast.java meta.group.java meta.generic.java
+//      ^ meta.cast.java meta.group.java - meta.generic
+//       ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^ punctuation.definition.generic.begin.java
 //    ^ storage.type.class.java
@@ -8511,10 +8511,10 @@ class CastExpressionsTests {
 //        ^^^ variable.other.java
 
     (<t>[]) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^^^ meta.typecast.java meta.group.java - meta.generic
-//         ^^^^ - meta.typecast - meta.group
+//  ^ meta.cast.java meta.group.java - meta.generic
+//   ^^^ meta.cast.java meta.group.java meta.generic.java
+//      ^^^ meta.cast.java meta.group.java - meta.generic
+//         ^^^^ - meta.cast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^ punctuation.definition.generic.begin.java
 //    ^ storage.type.class.java
@@ -8791,7 +8791,7 @@ class LambdasExpressionsTests {
 //    ^ punctuation.terminator.java
 
     a = (int) a + (a, int b) -> { return c };
-//      ^^^^^ meta.typecast.java meta.group.java
+//      ^^^^^ meta.cast.java meta.group.java
 //           ^^^^^ - meta.group
 //                ^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java
 //                          ^^^^ meta.function.anonymous.java - meta.group - meta.function.anonymous meta.block
@@ -8817,7 +8817,7 @@ class LambdasExpressionsTests {
 
     a = ((int) a + (a, int b) -> { return c });
 //      ^ meta.group.java - meta.group meta.group
-//       ^^^^^ meta.group.java meta.typecast.java meta.group.java
+//       ^^^^^ meta.group.java meta.cast.java meta.group.java
 //            ^^^^^ meta.group.java - meta.group meta.group
 //                 ^^^^^^^^^^ meta.group.java meta.function.anonymous.parameters.java meta.group.java
 //                           ^^^^ meta.group.java meta.function.anonymous.java - meta.group meta.group - meta.function.anonymous meta.block

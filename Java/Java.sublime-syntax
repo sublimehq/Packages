@@ -1779,7 +1779,7 @@ contexts:
 
   cast-expression-group:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
-    - meta_scope: meta.typecast.java meta.group.java
+    - meta_scope: meta.cast.java meta.group.java
     - meta_include_prototype: false
     - match: ''
       set:
@@ -1788,7 +1788,7 @@ contexts:
         - cast-expression-type
 
   cast-expression-group-body:
-    - meta_scope: meta.typecast.java meta.group.java
+    - meta_scope: meta.cast.java meta.group.java
     - match: \)
       scope: punctuation.section.group.end.java
       set: cast-expression-group-end
