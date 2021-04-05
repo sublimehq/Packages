@@ -1263,7 +1263,7 @@ contexts:
 
   if-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.if.java
+    - meta_scope: meta.statement.conditional.if.java
     - include: immediately-pop
 
   else-meta:
