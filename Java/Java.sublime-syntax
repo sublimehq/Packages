@@ -1454,7 +1454,7 @@ contexts:
       push: yield-statement-body
 
   assert-statement-body:
-    - meta_scope: meta.assertion.java
+    - meta_scope: meta.statement.conditional.assertion.java
     - match: ':'
       scope: punctuation.separator.expressions.java
     - include: expression

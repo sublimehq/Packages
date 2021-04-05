@@ -5183,24 +5183,24 @@ class AssertStatementTests {
 //  ^^^^^^^ variable.other.java - keyword
 
     assert
-// ^ - meta.assertion
-//  ^^^^^^^ meta.assertion.java
+// ^ - meta.statement.conditional.assertion
+//  ^^^^^^^ meta.statement.conditional.assertion.java
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword
 
     assert ;
-// ^^^^^^^^ meta.assertion.java
-//         ^ - meta.assertion
+// ^^^^^^^^ meta.statement.conditional.assertion.java
+//         ^ - meta.statement.conditional.assertion
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^^ - keyword
 //         ^ punctuation.terminator.java
 
     assert true;
-// ^ - meta.assertion
-//  ^^^^^^^ meta.assertion.java
-//             ^ - meta.assertion
+// ^ - meta.statement.conditional.assertion
+//  ^^^^^^^ meta.statement.conditional.assertion.java
+//             ^ - meta.statement.conditional.assertion
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword - constant
@@ -5208,16 +5208,16 @@ class AssertStatementTests {
 //             ^ punctuation.terminator.java
 
     assert :
-// ^ - meta.assertion
-//  ^^^^^^^^^ meta.assertion.java
+// ^ - meta.statement.conditional.assertion
+//  ^^^^^^^^^ meta.statement.conditional.assertion.java
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword - punctuation
 //         ^ punctuation.separator.expressions.java
 
     assert : ;
-// ^^^^^^^^^^ meta.assertion.java
-//           ^ - meta.assertion
+// ^^^^^^^^^^ meta.statement.conditional.assertion.java
+//           ^ - meta.statement.conditional.assertion
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword - punctuation
@@ -5227,9 +5227,9 @@ class AssertStatementTests {
 
 // Note: Only two expressions are allowed, but we don't care here.
     assert : : ;
-// ^ - meta.assertion
-//  ^^^^^^^^^^^ meta.assertion.java
-//             ^ - meta.assertion
+// ^ - meta.statement.conditional.assertion
+//  ^^^^^^^^^^^ meta.statement.conditional.assertion.java
+//             ^ - meta.statement.conditional.assertion
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword - punctuation
@@ -5239,9 +5239,9 @@ class AssertStatementTests {
 //             ^ punctuation.terminator.java
 
     assert foo():bar.baz();
-// ^ - meta.assertion
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
-//                        ^ - meta.assertion
+// ^ - meta.statement.conditional.assertion
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.assertion.java
+//                        ^ - meta.statement.conditional.assertion
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword - variable
@@ -5253,7 +5253,7 @@ class AssertStatementTests {
 //                        ^ punctuation.terminator.java
 
     assert scale > -100 : foo == true;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.assertion.java
 //  ^^^^^^ keyword.control.flow.assert.java
 //         ^^^^^ variable.other.java
 //               ^ keyword.operator.comparison.java
@@ -5266,19 +5266,19 @@ class AssertStatementTests {
 //                                   ^ punctuation.terminator.java
 
     assert int foo=0;
-//  ^^^^^^^ meta.assertion.java
-//         ^^^^ meta.declaration.type.java - meta.assertion
-//             ^^^ meta.declaration.identifier.java - meta.assertion
-//                ^ meta.declaration.java - meta.assertion
-//                 ^ meta.declaration.value.java - meta.assertion
+//  ^^^^^^^ meta.statement.conditional.assertion.java
+//         ^^^^ meta.declaration.type.java - meta.statement.conditional.assertion
+//             ^^^ meta.declaration.identifier.java - meta.statement.conditional.assertion
+//                ^ meta.declaration.java - meta.statement.conditional.assertion
+//                 ^ meta.declaration.value.java - meta.statement.conditional.assertion
 
     assert if (true) {}
-//  ^^^^^^^ meta.assertion.java
-//         ^^^^^^^^^^^^ meta.statement.conditional.if.java - meta.assertion
+//  ^^^^^^^ meta.statement.conditional.assertion.java
+//         ^^^^^^^^^^^^ meta.statement.conditional.if.java - meta.statement.conditional.assertion
 
     assert while (true) {}
-//  ^^^^^^^ meta.assertion.java
-//         ^^^^^^^^^^^^^^^ meta.statement.loop.while.java - meta.assertion
+//  ^^^^^^^ meta.statement.conditional.assertion.java
+//         ^^^^^^^^^^^^^^^ meta.statement.loop.while.java - meta.statement.conditional.assertion
 
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
