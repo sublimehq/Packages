@@ -1377,7 +1377,7 @@ contexts:
 
   for-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.for.java
+    - meta_scope: meta.statement.loop.for.java
     - include: immediately-pop
 
   for-parameters:

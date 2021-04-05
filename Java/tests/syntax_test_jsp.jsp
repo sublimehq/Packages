@@ -450,7 +450,7 @@
 //         ^^^^^ keyword.declaration.cdata.html
 //              ^ punctuation.definition.tag.begin.html
           for (int i = 1; i<=10; i++) {}
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html meta.for.java
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html meta.statement.loop.for.java
         ]]>
 //      ^^^ source.java.embedded.html meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
         out.println("Done!");

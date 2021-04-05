@@ -5823,25 +5823,25 @@ class ForStatementTests {
 //  ^^^^ variable.other.java - keyword
 
     for
-//  ^^^^ meta.for.java
+//  ^^^^ meta.statement.loop.for.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 
     for ()
-//  ^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^ meta.for.java meta.group.java
+//  ^^^^^^ - meta.statement.loop.for meta.statement.loop.for
+//  ^^^^ meta.statement.loop.for.java - meta.group
+//      ^^ meta.statement.loop.for.java meta.group.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
 //       ^ punctuation.section.group.end.java
 
     for () {}
-//  ^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^ meta.for.java meta.group.java
-//        ^ meta.for.java - meta.block meta.block meta.block
-//         ^^ meta.for.java meta.block.java
+//  ^^^^^^^^^ - meta.statement.loop.for meta.statement.loop.for
+//  ^^^^ meta.statement.loop.for.java - meta.group
+//      ^^ meta.statement.loop.for.java meta.group.java
+//        ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//         ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
@@ -5850,10 +5850,10 @@ class ForStatementTests {
 //          ^ punctuation.section.block.end.java
 
     for ( {}
-//  ^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^ meta.for.java meta.group.java
-//        ^^ meta.for.java meta.block.java
+//  ^^^^^^^^ - meta.statement.loop.for meta.statement.loop.for
+//  ^^^^ meta.statement.loop.for.java - meta.group
+//      ^^ meta.statement.loop.for.java meta.group.java
+//        ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
@@ -5861,10 +5861,10 @@ class ForStatementTests {
 //         ^ punctuation.section.block.end.java
 
     for (; {}
-//  ^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^^ meta.for.java meta.group.java
-//         ^^ meta.for.java meta.block.java
+//  ^^^^^^^^^ - meta.statement.loop.for meta.statement.loop.for
+//  ^^^^ meta.statement.loop.for.java - meta.group
+//      ^^^ meta.statement.loop.for.java meta.group.java
+//         ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
@@ -5873,10 +5873,10 @@ class ForStatementTests {
 //          ^ punctuation.section.block.end.java
 
     for (;; {}
-//  ^^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^^^ meta.for.java meta.group.java
-//          ^^ meta.for.java meta.block.java
+//  ^^^^^^^^^^ - meta.statement.loop.for meta.statement.loop.for
+//  ^^^^ meta.statement.loop.for.java - meta.group
+//      ^^^^ meta.statement.loop.for.java meta.group.java
+//          ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
@@ -5885,11 +5885,11 @@ class ForStatementTests {
 //           ^ punctuation.section.block.end.java
 
     for (;;;;) {;;;}
-//  ^^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^^^^^ meta.for.java meta.group.java
-//            ^ meta.for.java - meta.block meta.block meta.block
-//             ^^^^^ meta.for.java meta.block.java
+//  ^^^^^^^^^^ - meta.statement.loop.for meta.statement.loop.for
+//  ^^^^ meta.statement.loop.for.java - meta.group
+//      ^^^^^^ meta.statement.loop.for.java meta.group.java
+//            ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//             ^^^^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
@@ -5901,10 +5901,10 @@ class ForStatementTests {
 //                 ^ punctuation.section.block.end.java
 
     for (i = 0; i < 10; i += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                             ^ meta.for.java - meta.block meta.block meta.block
-//                              ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
+//                             ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//                              ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^ variable.other.java
@@ -5923,10 +5923,10 @@ class ForStatementTests {
 //                               ^ punctuation.section.block.end.java
 
     for (i = , =, , 0; < 10 &&; += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                   ^ meta.for.java - meta.block meta.block meta.block
-//                                    ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
+//                                   ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//                                    ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^ variable.other.java
@@ -5948,10 +5948,10 @@ class ForStatementTests {
 //                                     ^ punctuation.section.block.end.java
 
     for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
-//                                                  ^ meta.for.java - meta.block meta.block meta.block
-//                                                   ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java - meta.statement.loop.for meta.statement.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java - meta.statement.loop.for meta.statement.loop.for
+//                                                  ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//                                                   ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^ variable.other.java
@@ -5977,10 +5977,10 @@ class ForStatementTests {
 //                                                   ^ punctuation.section.block.begin.java
 
     for (int i = 0; i < 10; i += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                 ^ meta.for.java - meta.block meta.block meta.block
-//                                  ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
+//                                 ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//                                  ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
@@ -5999,10 +5999,10 @@ class ForStatementTests {
 //                                  ^ punctuation.section.block.begin.java
 
     for (int i = , =, , 0; < 10 &&; += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                       ^ meta.for.java - meta.block meta.block meta.block
-//                                        ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
+//                                       ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//                                        ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
@@ -6025,10 +6025,10 @@ class ForStatementTests {
 //                                         ^ punctuation.section.block.end.java
 
     for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
-//                                                      ^ meta.for.java - meta.block meta.block meta.block
-//                                                       ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java - meta.statement.loop.for meta.statement.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java - meta.statement.loop.for meta.statement.loop.for
+//                                                      ^ meta.statement.loop.for.java - meta.block meta.block meta.block
+//                                                       ^^ meta.statement.loop.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
@@ -6055,8 +6055,8 @@ class ForStatementTests {
 //                                                       ^ punctuation.section.block.begin.java
 
     for (final int x = 10;;) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
+//  ^^^^ meta.statement.loop.for.java - meta.statement.loop.for meta.statement.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java - meta.statement.loop.for meta.statement.loop.for
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^ storage.modifier.java
 //             ^^^ storage.type.primitive.java
@@ -6067,8 +6067,8 @@ class ForStatementTests {
 //                         ^ punctuation.section.group.end.java
 
     for (native int x = 10;;) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
+//  ^^^^ meta.statement.loop.for.java - meta.statement.loop.for meta.statement.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java - meta.statement.loop.for meta.statement.loop.for
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^^ invalid.illegal.unexpected-keyword.java
 //              ^^^ storage.type.primitive.java
@@ -6079,18 +6079,18 @@ class ForStatementTests {
 //                          ^ punctuation.section.group.end.java
 
     for (var i=0;i<new Test(i).run();i=new Test(i).iter()){}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                                        ^^ meta.for.java meta.block.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
+//                                                        ^^ meta.statement.loop.for.java meta.block.java
 
     for (final @Anno Class iter : cond ? new Foo<> : new Bar[]) echo(iter);
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
-//                                                              ^^^^^^^^^^ meta.for.java
-//                                                                        ^ - meta.for
+//                                                              ^^^^^^^^^^ meta.statement.loop.for.java
+//                                                                        ^ - meta.statement.loop.for
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^ storage.modifier.java
@@ -6116,13 +6116,13 @@ class ForStatementTests {
 //                                                                        ^ punctuation.terminator.java
 
     for (private @Anno var iter : cond ? new Foo<> : new Bar[]) echo(iter);
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//  ^^^^ meta.statement.loop.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.java meta.group.java
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
-//                                                              ^^^^^^^^^^ meta.for.java
-//                                                                        ^ - meta.for
+//                                                              ^^^^^^^^^^ meta.statement.loop.for.java
+//                                                                        ^ - meta.statement.loop.for
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^^^ invalid.illegal.unexpected-keyword.java
