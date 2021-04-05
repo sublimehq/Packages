@@ -1297,12 +1297,12 @@ contexts:
     - include: immediately-pop
 
   case-default-end:
-    - meta_scope: meta.case.default.java
+    - meta_scope: meta.statement.conditional.case.default.java
     - include: case-label-end
     - include: else-pop
 
   case-label-constant:
-    - meta_scope: meta.case.java
+    - meta_scope: meta.statement.conditional.case.java
     - match: (?=\S)
       set:
         - case-label-constant-end
@@ -1313,7 +1313,7 @@ contexts:
     - include: else-pop
 
   case-label-constant-end:
-    - meta_content_scope: meta.case.label.java
+    - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
     - match: (?=[;{}]|{{reserved_words}})
       pop: 1
@@ -1321,18 +1321,18 @@ contexts:
       fail: case-label
 
   case-label-expression:
-    - meta_scope: meta.case.java
+    - meta_scope: meta.statement.conditional.case.java
     - match: (?=\S)
       set: case-label-expression-body
 
   case-label-expression-body:
-    - meta_content_scope: meta.case.label.java
+    - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
     - include: expression
 
   case-label-end:
     - match: ':'
-      scope: meta.case.java punctuation.separator.expressions.java
+      scope: meta.statement.conditional.case.java punctuation.separator.expressions.java
       pop: 1
     - match: (?=->)
       pop: 1

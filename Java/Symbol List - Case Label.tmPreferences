@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.java meta.case.label.java</string>
+	<string>source.java meta.statement.conditional.case.label.java</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
