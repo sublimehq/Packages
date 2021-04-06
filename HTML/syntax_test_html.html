@@ -157,7 +157,8 @@
             comment -->
         ##  ^^^^^^^^^^^ comment.block.html
             <div></div>
-        ##  ^^^^^^^^^^^ text.html.basic meta.tag.block.any
+        ##  ^^^^^ text.html.basic meta.tag.block.begin.html
+        ##       ^^^^^^ text.html.basic meta.tag.block.end.html
             <script type=text/javascript>
         ##  ^ text.html.basic - source.js.embedded.html
                 function test() {}
@@ -841,8 +842,8 @@ class="foo"></div>
         ##                   ^ meta.function-call.js support.function
 
         <article><span><othertag></othertag><othertag /></span></article>
-        ## ^^^^^ entity.name.tag.block.any.html
-        ##        ^^^^ entity.name.tag.inline.any.html
+        ## ^^^^^ entity.name.tag.block.html
+        ##        ^^^^ entity.name.tag.inline.html
         ##              ^^^^^^^^ entity.name.tag.other.html
         ##                                           ^ - punctuation.definition.tag.end.html
         ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
@@ -922,38 +923,38 @@ class="foo"></div>
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
 
         <form name="formName" type="post">
-        ## ^ entity.name.tag.block.form.html
+        ## ^ entity.name.tag.form.html
         ## <- punctuation.definition.tag.begin.html
         ##                               ^ punctuation.definition.tag.end.html
             <label for="inputId">
-            ## ^ entity.name.tag.inline.form.html
+            ## ^ entity.name.tag.form.html
             ##     ^ entity.other.attribute-name.html
             ##        ^ punctuation.separator.key-value.html
             <input id="inputId" type="text" value="value">
-            ## ^ entity.name.tag.inline.form.html
+            ## ^ entity.name.tag.form.html
             ##                   ^ entity.other.attribute-name.html
             <textarea name="texareaName"></textarea>
-            ## ^ entity.name.tag.inline.form.html
+            ## ^ entity.name.tag.form.html
         </form>
 
         <table border="0" cellspacing="0" cellpadding="2" class="editor">
-        ## ^ entity.name.tag.inline.table.html
+        ## ^ entity.name.tag.table.html
             <thead>
-            ## ^ entity.name.tag.inline.table.html
+            ## ^ entity.name.tag.table.html
                 <tr>
-            ##   ^ entity.name.tag.inline.table.html
+            ##   ^ entity.name.tag.table.html
                     <th> </th>
                 </tr>
             </thead>
-            ## ^ entity.name.tag.inline.table.html
+            ## ^ entity.name.tag.table.html
             <tfoot>
-            ## ^ entity.name.tag.inline.table.html
+            ## ^ entity.name.tag.table.html
                 <tr>
                     <td> </td>
-                    ##^ entity.name.tag.inline.table.html
+                    ##^ entity.name.tag.table.html
                 </tr>
             </tfoot>
-            ## ^ entity.name.tag.inline.table.html
+            ## ^ entity.name.tag.table.html
             <tbody>
                 <tr>
                     <td> </td>
@@ -1004,14 +1005,14 @@ class="foo"></div>
         ##                                     ^ punctuation.separator.path.html
 
         <hr/><hr />
-        ## ^^ meta.tag.block.any punctuation.definition.tag.end
-        ##    ^^ entity.name.tag.block.any
+        ## ^^ meta.tag.block punctuation.definition.tag.end
+        ##    ^^ entity.name.tag.block
         ##       ^^ punctuation.definition.tag.end
 
         # make sure to stop tag names before the next < to prevent php
         # and other syntaxes from breaking.
         <article<?php>
-        ##^^^^^^ entity.name.tag.block.any.html
+        ##^^^^^^ entity.name.tag.block.html
         ##      ^^^^^^ - entity.name.tag
 
         <_notag>
