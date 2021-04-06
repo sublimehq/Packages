@@ -172,6 +172,14 @@ contexts:
         - meta_scope: meta.tag.block.any.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
+    - match: (</?)({{html_table_tags}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.block.table.html
+      push:
+        - meta_scope: meta.tag.block.table.html
+        - include: tag-end-maybe-self-closing
+        - include: tag-attributes
     - match: (</?)((?i:form|fieldset){{tag_name_break}})
       captures:
         1: punctuation.definition.tag.begin.html
@@ -196,14 +204,6 @@ contexts:
         2: entity.name.tag.inline.form.html
       push:
         - meta_scope: meta.tag.inline.form.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (</?)({{html_table_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.inline.table.html
-      push:
-        - meta_scope: meta.tag.inline.table.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
 
