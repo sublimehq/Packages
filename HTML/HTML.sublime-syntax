@@ -19,19 +19,94 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 ###############################################################################
 
 variables:
-  block_tag_name: |-
-    (?ix:
-      address|applet|article|aside|blockquote|center|dd|dir|div|dl|dt|figcaption|figure|footer|frame|frameset|h1|h2|h3|h4|h5|h6|header|iframe|menu|nav|noframes|object|ol|p|pre|section|ul
+  # HTML tags
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+  # Note: Sections are sorted by expected frequency.
+
+  html_block_tags: |-
+    (?x:
+      {{html_text_content_tags}}
+    | {{html_section_tags}}
+    | {{html_embedded_tags}}
+    | {{html_web_tags}}
+    | {{html_header_tags}}
+    | {{html_deprecated_tags}}
+    )
+
+  html_inline_tags: |-
+    (?x:
+      {{html_text_semantic_tags}}
+    | {{html_markup_tags}}
+    | {{html_media_tags}}
+    | {{html_interactive_tags}}
+    | {{html_script_tags}}
+    )
+
+  # Aggregates structural root notes from
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element#main_root
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element#document_metadata
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element#sectioning_root
+  html_structure_tags: |-
+    (?xi: html | head | body ){{tag_name_break}}
+
+  # Note: <head> is moved to `html_structure_tags`
+  html_header_tags: |-
+    (?xi: base | link | meta | script | style | title ){{tag_name_break}}
+
+  html_section_tags: |-
+    (?xi:
+      address | article | aside | footer | header | h1 | h2 | h3 | h4 | h5 | h6
+    | hgroup | main | nav | section
     ){{tag_name_break}}
 
-  inline_tag_name: |-
-    (?ix:
-      abbr|acronym|area|audio|b|base|basefont|bdi|bdo|big|br|canvas|caption|cite|code|del|details|dfn|dialog|em|font|head|html|i|img|ins|isindex|kbd|li|link|map|mark|menu|menuitem|meta|noscript|param|picture|q|rp|rt|rtc|ruby|s|samp|script|small|source|span|strike|strong|style|sub|summary|sup|time|title|track|tt|u|var|video|wbr
+  html_text_content_tags: |-
+    (?xi:
+      blockquote | cite | dd | dt | dl | div | figcaption | figure | hr | li
+    | ol | p | pre | ul
     ){{tag_name_break}}
 
-  form_tag_name: |-
-    (?ix:
-      button|datalist|input|label|legend|meter|optgroup|option|output|progress|select|template|textarea
+  html_text_semantic_tags: |-
+    (?xi:
+      a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i | kbd
+    | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
+    | sub | sup | u | var | wbr
+    ){{tag_name_break}}
+
+  html_media_tags: |-
+    (?xi: area | audio | img | map | track | video ){{tag_name_break}}
+
+  html_embedded_tags: |-
+    (?xi: embed | iframe | object | param | picture | source ){{tag_name_break}}
+
+  html_script_tags: |-
+    (?xi: canvas | noscript  script ){{tag_name_break}}
+
+  html_markup_tags: |-
+    (?xi: del | ins ){{tag_name_break}}
+
+  html_table_tags: |-
+    (?xi:
+      caption | col | colgroup | table | tbody | tr | td | tfoot | th | thead
+    ){{tag_name_break}}
+
+  html_forms_tags: |-
+    (?xi:
+      button | datalist | option | fieldset | label | form | input | legend
+    | meter | optgroup | select | output | progress | textarea
+    ){{tag_name_break}}
+
+  html_interactive_tags: |-
+    (?xi: details | dialog | menu | summary ){{tag_name_break}}
+
+  html_web_tags: |-
+    (?xi: slot | template ){{tag_name_break}}
+
+  html_deprecated_tags: |-
+    (?xi:
+      acronym | applet | basefont | bgsound | big | blink | center | command
+    | content | dir | element | font | frame | frameset | image | isindex
+    | keygen | listing | marquee | menuitem | multicol | nextid | nobr
+    | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
     ){{tag_name_break}}
 
   javascript_mime_type: |-
@@ -58,17 +133,28 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   tag-html:
+    - include: tag-html-style
+    - include: tag-html-script
+    - include: tag-html-block
+    - include: tag-html-inline
+    - include: tag-html-structure
+
+  tag-html-style:
     - match: (<)((?i:style)){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push: style-css
+
+  tag-html-script:
     - match: (<)((?i:script)){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push: script-javascript
-    - match: (</?)((?i:body|head|html){{tag_name_break}})
+
+  tag-html-structure:
+    - match: (</?)({{html_structure_tags}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.structure.any.html
@@ -76,15 +162,9 @@ contexts:
         - meta_scope: meta.tag.structure.any.html
         - include: tag-end
         - include: tag-attributes
-    - match: (</?)({{block_tag_name}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.block.any.html
-      push:
-        - meta_scope: meta.tag.block.any.html
-        - include: tag-end
-        - include: tag-attributes
-    - match: (</?)((?i:hr){{tag_name_break}})
+
+  tag-html-block:
+    - match: (</?)({{html_block_tags}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.any.html
@@ -100,7 +180,9 @@ contexts:
         - meta_scope: meta.tag.block.form.html
         - include: tag-end
         - include: tag-attributes
-    - match: (</?)({{inline_tag_name}})
+
+  tag-html-inline:
+    - match: (</?)({{html_inline_tags}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.any.html
@@ -108,7 +190,7 @@ contexts:
         - meta_scope: meta.tag.inline.any.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
-    - match: (</?)({{form_tag_name}})
+    - match: (</?)({{html_forms_tags}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.form.html
@@ -116,15 +198,7 @@ contexts:
         - meta_scope: meta.tag.inline.form.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
-    - match: (</?)((?i:a){{tag_name_break}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.inline.a.html
-      push:
-        - meta_scope: meta.tag.inline.a.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (</?)((?i:col|colgroup|table|tbody|td|tfoot|th|thead|tr){{tag_name_break}})
+    - match: (</?)({{html_table_tags}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.table.html
