@@ -872,6 +872,18 @@ class="foo"></div>
         ##                                           ^ - punctuation.definition.tag.end.html
         ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
 
+        <slot name=""></slot>
+        ## <- meta.tag.block.any.html punctuation.definition.tag.begin.html
+        ##^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
+        ##^^^ entity.name.tag.block.any.html
+        ##    ^^^^ meta.attribute-with-value.html entity.other.attribute-name.html
+        ##        ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+        ##         ^^ meta.attribute-with-value.html meta.string.html string.quoted.double.html
+        ##           ^ punctuation.definition.tag.end.html
+        ##            ^^ punctuation.definition.tag.begin.html
+        ##              ^^^^ entity.name.tag.block.any.html
+        ##                  ^ punctuation.definition.tag.end.html
+
         <body·other attrib=1/>
         ## ^^^^^^^^ entity.name.tag.other.html
         ##          ^^^^^^ entity.other.attribute-name.html

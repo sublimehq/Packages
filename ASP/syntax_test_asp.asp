@@ -1209,7 +1209,7 @@ test = "hello%>
        '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
             %><li><%= item %></li><%
                     '^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp
-           '  ^ meta.tag.inline.any.html punctuation.definition.tag.begin.html
+           '  ^ punctuation.definition.tag.begin.html
            '      ^^^ punctuation.section.embedded.begin.inside-block.asp
            '               ^^ punctuation.section.embedded.end.inside-block.asp
         Next
