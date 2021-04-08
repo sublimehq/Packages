@@ -195,7 +195,7 @@ tag `template`;
 
 x ? y // y is a template tag!
 `template` : z;
-//         ^ keyword.operator.ternary
+//         ^ keyword.operator.conditional.ternary
 
     1``
     /a/;
@@ -1342,9 +1342,9 @@ var query = {
     type: type==undefined ? null : {$in: type.split(',')}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 //              ^^^^^^^^^ constant.language.undefined
-//                        ^ keyword.operator.ternary
+//                        ^ keyword.operator.conditional.ternary
 //                          ^^^^ constant.language.null
-//                               ^ keyword.operator.ternary
+//                               ^ keyword.operator.conditional.ternary
 //                                 ^ punctuation.section.block.begin
 //                                   ^^ meta.mapping.key.js
 //                                     ^ punctuation.separator.key-value.js
@@ -1523,9 +1523,9 @@ debugger
 //    ^^^ keyword.operator.assignment.augmented
 
     a ?.5 : .7;
-//    ^ keyword.operator.ternary
+//    ^ keyword.operator.conditional.ternary
 //     ^^ constant.numeric
-//        ^ keyword.operator.ternary
+//        ^ keyword.operator.conditional.ternary
 
     a?.b?.c;
 //   ^^ punctuation.accessor

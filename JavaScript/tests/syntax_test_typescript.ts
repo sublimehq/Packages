@@ -361,26 +361,26 @@ function f(this : any) {}
 
     x ? (y) : z;
 //  ^ variable.other.readwrite
-//    ^ keyword.operator.ternary
+//    ^ keyword.operator.conditional.ternary
 //      ^^^ meta.group
 //       ^ variable.other.readwrite
-//          ^ keyword.operator.ternary
+//          ^ keyword.operator.conditional.ternary
 
     x ? (y) : T => r : z;
 //  ^ variable.other.readwrite
-//    ^ keyword.operator.ternary
+//    ^ keyword.operator.conditional.ternary
 //      ^^^^^^^^^^^^^ meta.function
 //       ^ meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.type
 //            ^ meta.type support.class
 //              ^^ keyword.declaration.function.arrow
 //                 ^meta.block variable.other.readwrite
-//                   ^ keyword.operator.ternary
+//                   ^ keyword.operator.conditional.ternary
 //                     ^ variable.other.readwrite
 
     x ? y : T => z;
 //      ^ variable.other.readwrite - variable.parameter
-//        ^ keyword.operator.ternary
+//        ^ keyword.operator.conditional.ternary
 //          ^^^^^^ meta.function
 //          ^ variable.parameter.function
 //            ^^ keyword.declaration.function.arrow
@@ -397,11 +397,11 @@ function f(this : any) {}
     x ? async (y) : T => r : z;
 //      ^^^^^^^^^^^^^^^^^^ meta.function
 //                ^ punctuation.separator.type
-//                         ^ keyword.operator.ternary
+//                         ^ keyword.operator.conditional.ternary
 
     x ? async (y) : T;
 //      ^^^^^ variable.function
-//                ^ keyword.operator.ternary
+//                ^ keyword.operator.conditional.ternary
 
 /* Assertions */
 
