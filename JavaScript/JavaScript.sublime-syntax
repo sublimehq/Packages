@@ -1259,14 +1259,14 @@ contexts:
 
   ternary-operator:
     - match: '\?(?=[^.]|\.[0-9])'
-      scope: keyword.operator.ternary.js
+      scope: keyword.operator.conditional.ternary.js
       set:
         - ternary-operator-expect-colon
         - expression-no-comma
 
   ternary-operator-expect-colon:
     - match: ':'
-      scope: keyword.operator.ternary.js
+      scope: keyword.operator.conditional.ternary.js
       set: expression-no-comma
     - include: else-pop
 
