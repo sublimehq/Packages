@@ -275,11 +275,11 @@ contexts:
     - match: \.
       scope: keyword.operator.string.php
     - match: \?
-      scope: keyword.operator.ternary.php
+      scope: keyword.operator.conditional.ternary.php
       push:
         - include: expressions
         - match: ':'
-          scope: keyword.operator.ternary.php
+          scope: keyword.operator.conditional.ternary.php
           pop: 1
     - match: "="
       scope: keyword.operator.assignment.php

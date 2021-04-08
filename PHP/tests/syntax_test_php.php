@@ -238,16 +238,16 @@ function foo(?stinrg ...$args) {}
 //                      ^^^^^ variable.parameter
 
 $a = $b ? $c::MY_CONST : $d * 5;
-//      ^ keyword.operator.ternary
+//      ^ keyword.operator.conditional.ternary
 //        ^^ variable.other
 //          ^^ punctuation.accessor.double-colon
 //            ^^^^^^^^ constant.other.class
-//                     ^ keyword.operator.ternary
+//                     ^ keyword.operator.conditional.ternary
 //                          ^ keyword.operator.arithmetic
 
 $a = $b ? : $c::MY_CONST;
-//      ^ keyword.operator.ternary
-//        ^ keyword.operator.ternary
+//      ^ keyword.operator.conditional.ternary
+//        ^ keyword.operator.conditional.ternary
 //          ^^ variable.other
 //            ^^ punctuation.accessor.double-colon
 //              ^^^^^^^^ constant.other.class
