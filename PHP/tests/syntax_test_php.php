@@ -1785,7 +1785,7 @@ echo <<<SQL
 SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
-//     ^ variable.language.star
+//     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
 SQL;
@@ -1798,7 +1798,7 @@ echo <<<'SQL'
 SELECT * FROM users WHERE first_name = 'John'\n
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
-//     ^ variable.language.star
+//     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                           ^^ - constant.character.escape.php
 SQL;
