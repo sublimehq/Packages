@@ -323,12 +323,12 @@ contexts:
 
   script-javascript:
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: script-close-tag
         - include: script-javascript-content
+    - include: script-common
 
   script-javascript-content:
     - match: (?=\S)
@@ -338,7 +338,6 @@ contexts:
 
   script-html:
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
@@ -346,13 +345,14 @@ contexts:
         - include: comment
         - include: script-close-tag
         - include: main
+    - include: script-common
 
   script-other:
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-close-tag
+    - include: script-common
 
   script-close-tag:
     - match: <!--
@@ -373,7 +373,7 @@ contexts:
   script-common:
     - include: script-type-attribute
     - include: tag-attributes
-    - include: tag-end-self-closing
+    - include: tag-end
 
   script-type-attribute:
     - match: (?i:type){{attribute_name_break}}
@@ -419,12 +419,12 @@ contexts:
 
   style-css:
     - meta_scope: meta.tag.style.begin.html
-    - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
         - include: style-css-content
+    - include: style-common
 
   style-css-content:
     - match: ''
@@ -434,10 +434,10 @@ contexts:
 
   style-other:
     - meta_scope: meta.tag.style.begin.html
-    - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-close-tag
+    - include: style-common
 
   style-close-tag:
     - match: (</)((?i:style){{tag_name_break}})
@@ -452,7 +452,7 @@ contexts:
   style-common:
     - include: style-type-attribute
     - include: tag-attributes
-    - include: tag-end-self-closing
+    - include: tag-end
 
   style-type-attribute:
     - match: (?i:type){{attribute_name_break}}
