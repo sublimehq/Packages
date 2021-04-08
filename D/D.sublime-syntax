@@ -1423,7 +1423,7 @@ contexts:
       scope: keyword.operator.arithmetic.d
       set: value-maybe-pointer-after
     - match: '\?'
-      scope: keyword.operator.ternary.d
+      scope: keyword.operator.conditional.ternary.d
       set: [value-condition-after, value-condition]
     - match: '(?=\b(function|delegate)\b)'
       set: [value-after, basic-type2]
@@ -1462,7 +1462,7 @@ contexts:
     - include: value-no-mapping-key
   value-condition-after:
     - match: ':'
-      scope: keyword.operator.ternary.d
+      scope: keyword.operator.conditional.ternary.d
       set: value
     - include: not-whitespace-illegal-pop
   value-parens-after:
