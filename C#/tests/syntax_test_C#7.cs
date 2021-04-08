@@ -681,10 +681,10 @@ void TestFoo() => Foo ("hello", 123, new Point (2, 3));
 
 // https://msdn.microsoft.com/en-us/magazine/mt814808.aspx
 Span<byte> bytes = length > 128 ? new byte[length] : stackalloc byte[length];
-///                             ^ keyword.operator.ternary
+///                             ^ keyword.operator.conditional.ternary
 ///                               ^^^ keyword.operator.new
 ///                               ^^^^^^^^^^^^^^^^ meta.instance
-///                                                ^ keyword.operator.ternary - meta.instance
+///                                                ^ keyword.operator.conditional.ternary - meta.instance
 ///                                                  ^^^^^^^^^^ storage.modifier
 ///                                                             ^^^^ storage.type
 ///                                                                 ^ punctuation.section.brackets.begin

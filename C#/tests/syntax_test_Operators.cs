@@ -70,8 +70,8 @@ A?.B?.C?[0] == E;
 ///       ^^ keyword.operator
 
 condition ? first_expression : second_expression;
-///       ^ keyword.operator.ternary
-///                          ^ keyword.operator.ternary
+///       ^ keyword.operator.conditional.ternary
+///                          ^ keyword.operator.conditional.ternary
 
     ((Test.Example . State)item.State).ToString();
 ///  ^^^^^^^^^^^^^^^^^^^^^^ meta.cast

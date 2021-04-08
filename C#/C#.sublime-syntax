@@ -1298,10 +1298,10 @@ contexts:
     - match: '@'
       scope: invalid.illegal.reserved-char.cs
     - match: \?
-      scope: keyword.operator.ternary.cs
+      scope: keyword.operator.conditional.ternary.cs
       push:
         - match: ':'
-          scope: keyword.operator.ternary.cs
+          scope: keyword.operator.conditional.ternary.cs
           pop: true
         - include: line_of_code_in
     - match: '(\()\s*(\*)\s*({{name}})\s*(\))'
