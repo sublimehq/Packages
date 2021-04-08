@@ -46,6 +46,7 @@ file_extensions:
   - Podfile
   - podspec
   - prawn
+  - pryrc
   - rabl
   - rake
   - Rakefile
