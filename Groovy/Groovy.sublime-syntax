@@ -174,13 +174,13 @@ contexts:
     - match: (?<=\S)\?\.(?=\S)
       scope: punctuation.accessor.groovy
     - match: \?
-      scope: keyword.operator.ternary.groovy
+      scope: keyword.operator.conditional.ternary.groovy
       push:
         - meta_scope: meta.evaluation.ternary.groovy
         - match: $|(?=\})
           pop: true
         - match: ":"
-          scope: keyword.operator.ternary.expression-separator.groovy
+          scope: keyword.operator.conditional.ternary.groovy
         - include: groovy-code-minus-map-keys
     - match: "==~"
       scope: keyword.operator.match.groovy

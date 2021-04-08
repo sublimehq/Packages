@@ -59,11 +59,11 @@ def greeting = "Hello ${true ? 'World' : 'Home'}"
 //                      ^^^^ constant.language
 //                           ^^^^^^^^^^^^^^^^^^ meta.evaluation.ternary
 //                                             ^^ - meta.evaluation.ternary
-//                           ^ keyword.operator.ternary
+//                           ^ keyword.operator.conditional.ternary
 //                             ^ punctuation.definition.string.begin
 //                             ^^^^^^^ string.quoted.single
 //                                   ^ punctuation.definition.string.end
-//                                     ^ keyword.operator.ternary.expression-separator
+//                                     ^ keyword.operator.conditional.ternary
 //                                       ^ punctuation.definition.string.begin
 //                                       ^^^^^^ string.quoted.single
 //                                            ^ punctuation.definition.string.end
