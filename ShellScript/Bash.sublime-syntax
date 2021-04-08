@@ -1362,7 +1362,7 @@ contexts:
     - match: \,
       scope: punctuation.separator.sequence.shell
     - match: \:|\?
-      scope: keyword.operator.ternary.shell
+      scope: keyword.operator.conditional.ternary.shell
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion

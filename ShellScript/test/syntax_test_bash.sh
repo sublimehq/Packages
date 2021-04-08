@@ -3889,8 +3889,8 @@ true false
 #         ^^ keyword.operator.logical.shell
 
 (( a ? 0 : 1 ))
-#    ^ keyword.operator.ternary.shell
-#        ^ keyword.operator.ternary.shell
+#    ^ keyword.operator.conditional.ternary.shell
+#        ^ keyword.operator.conditional.ternary.shell
 (((a>b) ? (a>c?a:c) : (b>c?b:c)))
 # <- meta.arithmetic.shell punctuation.section.arithmetic.begin.shell - meta.group
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
@@ -3904,17 +3904,17 @@ true false
 # ^ punctuation.section.group.begin.shell
 #   ^ keyword.operator.comparison.shell
 #     ^ punctuation.section.group.end.shell
-#       ^ keyword.operator.ternary.shell
+#       ^ keyword.operator.conditional.ternary.shell
 #         ^ punctuation.section.group.begin.shell
 #           ^ keyword.operator.comparison.shell
-#             ^ keyword.operator.ternary.shell
-#               ^ keyword.operator.ternary.shell
+#             ^ keyword.operator.conditional.ternary.shell
+#               ^ keyword.operator.conditional.ternary.shell
 #                 ^ punctuation.section.group.end.shell
-#                   ^ keyword.operator.ternary.shell
+#                   ^ keyword.operator.conditional.ternary.shell
 #                     ^ punctuation.section.group.begin.shell
 #                       ^ keyword.operator.comparison.shell
-#                         ^ keyword.operator.ternary.shell
-#                           ^ keyword.operator.ternary.shell
+#                         ^ keyword.operator.conditional.ternary.shell
+#                           ^ keyword.operator.conditional.ternary.shell
 #                             ^ punctuation.section.group.end.shell
 #                              ^^ punctuation.section.arithmetic.end.shell
 
