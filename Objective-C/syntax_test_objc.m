@@ -77,8 +77,8 @@ struct foo {
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
  /* <- meta.preprocessor.macro meta.group variable.parameter */
   /* <- meta.preprocessor.macro meta.group punctuation.section.group.end */
- /*               ^ keyword.operator.ternary */
- /*                 ^ keyword.operator.ternary */
+ /*               ^ keyword.operator.conditional.ternary */
+ /*                 ^ keyword.operator.conditional.ternary */
 
 #define PACKED __attribute__((aligned(1),packed))
 /*      ^ entity.name.constant */

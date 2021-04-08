@@ -297,7 +297,7 @@ contexts:
       scope: keyword.operator.assignment.c
     # Negative lookahead prevents match :: when included in C++
     - match: '\?|:(?!:)'
-      scope: keyword.operator.ternary.c
+      scope: keyword.operator.conditional.ternary.c
     - match: '\.\.\.'
       scope: keyword.operator.variadic.c
 

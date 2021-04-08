@@ -157,8 +157,8 @@ some_namespace::some_function(int a_parameter, double another_parameter) {
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
  /* <- meta.preprocessor.macro meta.group variable.parameter */
   /* <- meta.preprocessor.macro meta.group punctuation.section.group.end */
- /*               ^ keyword.operator.ternary */
- /*                 ^ keyword.operator.ternary */
+ /*               ^ keyword.operator.conditional.ternary */
+ /*                 ^ keyword.operator.conditional.ternary */
 
 #if 0
 #ifdef moo
