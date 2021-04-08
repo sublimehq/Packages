@@ -216,8 +216,10 @@ contexts:
       scope: meta.character.greater-than.html
 
   tag-end:
-    - match: '>'
-      scope: punctuation.definition.tag.end.html
+    - match: (/?)(>)
+      captures:
+        1: invalid.illegal.punctuation.html
+        2: punctuation.definition.tag.end.html
       pop: 1
 
   tag-end-self-closing:
@@ -228,6 +230,16 @@ contexts:
   tag-end-maybe-self-closing:
     - match: /?>
       scope: punctuation.definition.tag.end.html
+      pop: 1
+
+  tag-end-illegal-self-closing:
+    # Note: This context is used in <script> and <style> to not break existing
+    # 3rd-party packages (e.g.: Vue Syntax Highlight or Elixir) which extend
+    # ST's HTML.sublime-syntax
+    - match: (/)(>)
+      captures:
+        1: invalid.illegal.punctuation.html
+        2: punctuation.definition.tag.end.html
       pop: 1
 
 ###[ HTML TAGS ]##############################################################
