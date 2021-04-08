@@ -568,7 +568,7 @@ extern(1)
 //    ^ variable.other.d
 //     ^ punctuation.terminator.d
   foo[string] b = 123;
-//^^^ variable.other.d
+//^^^ storage.type.d
 //   ^ punctuation.section.brackets.begin.d
 //    ^^^^^^ storage.type.d
 //          ^ punctuation.section.brackets.end.d
@@ -577,10 +577,22 @@ extern(1)
 //                ^^^ meta.number.integer.decimal.d
 //                   ^ punctuation.terminator.d
   bar* some_long_Name;
-//^^^ variable.other.d
+//^^^ storage.type.d
 //   ^ keyword.operator.pointer.d
 //     ^^^^^^^^^^^^^^ variable.other.d
 //                   ^ punctuation.terminator.d
+  bar *some_long_Name;
+//^^^ storage.type.d
+//    ^ keyword.operator.pointer.d
+//     ^^^^^^^^^^^^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+  foo[BAR] baz;
+//^^^ storage.type.d
+//   ^ punctuation.section.brackets.begin.d
+//    ^^^ variable.other.d
+//       ^ punctuation.section.brackets.end.d
+//         ^^^ variable.other.d
+//            ^ punctuation.terminator.d
   auto foo = 3;
 //^^^^ storage.modifier.d
 //     ^^^ variable.other.d
@@ -1081,7 +1093,7 @@ extern(1)
     }
   //^ meta.function.d meta.block.d punctuation.section.block.end.d
     T[] map(T, void fn)(T[] array) {
-  //^ variable.other.d
+  //^ storage.type.d
   // ^ punctuation.section.brackets.begin.d
   //  ^ punctuation.section.brackets.end.d
   //    ^^^ meta.function.d entity.name.function.d
@@ -2096,6 +2108,32 @@ extern(1)
 //                                         ^ keyword.operator.concatenation.d
 //                                           ^^^^^ string.quoted.double.d
 //                                                ^ punctuation.terminator.d
+
+  foo* bar = foo* bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//         ^ keyword.operator.assignment.d
+//           ^^^ variable.other.d
+//              ^ keyword.operator.arithmetic.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+
+  foo bar = (baz *var[foo* bar]);
+//^^^ storage.type.d
+//    ^^^ variable.other.d
+//        ^ keyword.operator.assignment.d
+//          ^ punctuation.section.group.begin.d
+//           ^^^ variable.other.d
+//               ^ keyword.operator.arithmetic.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.section.brackets.begin.d
+//                    ^^^ variable.other.d
+//                       ^ keyword.operator.arithmetic.d
+//                         ^^^ variable.other.d
+//                            ^ punctuation.section.brackets.end.d
+//                             ^ punctuation.section.group.end.d
+//                              ^ punctuation.terminator.d
 
   auto f = foo ? 12 : 15;
 //^^^^ storage.modifier.d
