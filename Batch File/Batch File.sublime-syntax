@@ -391,7 +391,9 @@ contexts:
         - match: \n
           scope: comment.line.rem.dosbatch
           pop: true
-        - match: '[(|)]'
+          # '[(|)]' should create a illegal comment statements, but don't
+          # https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb490986(v=technet.10)?redirectedfrom=MSDN
+        - match: ''
           scope: invalid.illegal.unexpected-character.dosbatch
 
   strings:
