@@ -52,17 +52,17 @@ REM This follows a REM command
 :: ^^^^^^^ comment.line.colon.dosbatch
 
 ECHO &&:: A comment
-::   ^^ keyword.operator.conditional.dosbatch
+::   ^^ keyword.operator.logical.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch
 ::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
 
 ECHO &:: A comment
-::   ^ keyword.operator.conditional.dosbatch
+::   ^ keyword.operator.logical.dosbatch
 ::    ^^ punctuation.definition.comment.dosbatch
 ::    ^^^^^^^^^^^^ comment.line.colon.dosbatch
 
 ECHO ||:: A comment
-::   ^^ keyword.operator.conditional.dosbatch
+::   ^^ keyword.operator.logical.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch
 ::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
 
@@ -620,7 +620,7 @@ ECHO : Not a comment ^
    FOR %%& IN (0,1) DO md %%&
 ::     ^^^ invalid.illegal.parameter.dosbatch
 ::                        ^^^ - variable
-::                          ^ keyword.operator.conditional.dosbatch
+::                          ^ keyword.operator.logical.dosbatch
 
    FOR %%^| IN (0,1) DO md %%^|
 ::     ^^^^ variable.other.readwrite.dosbatch
@@ -880,10 +880,10 @@ ECHO : Not a comment ^
 ::                                                  ^ - meta.command
 :: ^^^^^^^^ keyword.control.namespace.setlocal.dosbatch
 ::          ^^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
-::                   ^ keyword.operator.conditional.dosbatch
+::                   ^ keyword.operator.logical.dosbatch
 ::                     ^^^^ support.function.builtin.dosbatch
 ::                          ^^^^^ string.unquoted.dosbatch
-::                                ^ keyword.operator.conditional.dosbatch
+::                                ^ keyword.operator.logical.dosbatch
 ::                                  ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
 ::                                           ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
@@ -901,12 +901,12 @@ ECHO : Not a comment ^
 ::                  ^ punctuation.definition.string.begin.dosbatch
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted
 ::                                          ^ punctuation.definition.string.end.dosbatch
-::                                            ^ keyword.operator.conditional.dosbatch - string
+::                                            ^ keyword.operator.logical.dosbatch - string
 ::                                              ^^^^ support.function.builtin.dosbatch
 ::                                                                      ^^^^^^^^^ meta.interpolation.dosbatch
    ENDLOCAL & set return=%example%
 :: ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
-::          ^ keyword.operator.conditional.dosbatch
+::          ^ keyword.operator.logical.dosbatch
 ::            ^^^ support.function.builtin.dosbatch
 ::                ^^^^^^ variable.other.readwrite.dosbatch
 ::                      ^ keyword.operator.assignment.dosbatch
@@ -1067,11 +1067,11 @@ ECHO : Not a comment ^
 
    ECHO || ECHO && ECHO &
 :: ^^^^ support.function.builtin.dosbatch
-::      ^^ keyword.operator.conditional.dosbatch
+::      ^^ keyword.operator.logical.dosbatch
 ::         ^^^^ support.function.builtin.dosbatch
-::              ^^ keyword.operator.conditional.dosbatch
+::              ^^ keyword.operator.logical.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
-::                      ^ keyword.operator.conditional.dosbatch
+::                      ^ keyword.operator.logical.dosbatch
 
    @ECHO OFF
 :: ^ - meta.command
@@ -1090,7 +1090,7 @@ ECHO : Not a comment ^
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
 ::       ^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                           ^ keyword.operator.conditional.dosbatch
+::                           ^ keyword.operator.logical.dosbatch
 ::                             ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
 
    @ECHO ON & :: comment
@@ -1101,7 +1101,7 @@ ECHO : Not a comment ^
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
 ::       ^^ constant.language.dosbatch
-::          ^ keyword.operator.conditional.dosbatch
+::          ^ keyword.operator.logical.dosbatch
 ::            ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
 
    ECHO /?
@@ -1278,7 +1278,7 @@ ECHO : Not a comment ^
 ::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
 ::              ^ keyword.operator.assignment.redirection.dosbatch
 ::               ^^^ constant.language.null.dosbatch
-::                   ^^ keyword.operator.conditional.dosbatch
+::                   ^^ keyword.operator.logical.dosbatch
 ::                      ^^^^ support.function.builtin.dosbatch
 ::                           ^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::                              ^ - meta.command - meta.string - string
@@ -1662,7 +1662,7 @@ ECHO : Not a comment ^
    ECHO %&echo %echo%
 ::      ^^ - meta.interpolation - punctuation - variable
 ::             ^^^^^^ meta.interpolation.dosbatch
-::       ^ keyword.operator.conditional.dosbatch
+::       ^ keyword.operator.logical.dosbatch
 ::        ^^^^ support.function.builtin.dosbatch
 ::             ^ punctuation.section.interpolation.begin.dosbatch
 ::              ^^^^ variable.other.readwrite.dosbatch
@@ -1671,7 +1671,7 @@ ECHO : Not a comment ^
    ECHO %& echo %echo%
 ::      ^^ - meta.interpolation - punctuation - variable
 ::              ^^^^^^ meta.interpolation.dosbatch
-::       ^ keyword.operator.conditional.dosbatch
+::       ^ keyword.operator.logical.dosbatch
 ::         ^^^^ support.function.builtin.dosbatch
 ::              ^ punctuation.section.interpolation.begin.dosbatch
 ::               ^^^^ variable.other.readwrite.dosbatch
@@ -1679,7 +1679,7 @@ ECHO : Not a comment ^
 
    ECHO %foo & ECHO !bar
 ::      ^^^^ - meta.interpolation - keyword - punctuation - variable
-::           ^ keyword.operator.conditional.dosbatch
+::           ^ keyword.operator.logical.dosbatch
 ::             ^^^^ support.function.builtin.dosbatch
 ::                  ^^^^ - meta.interpolation - keyword - punctuation - variable
 
@@ -1816,30 +1816,30 @@ ECHO : Not a comment ^
 
    set # & echo %#%
 ::     ^ variable.other.readwrite.dosbatch
-::       ^ keyword.operator.conditional.dosbatch
+::       ^ keyword.operator.logical.dosbatch
 ::              ^^^ meta.interpolation.dosbatch
 
    set % & echo !%!
 ::     ^ variable.other.readwrite.dosbatch
-::       ^ keyword.operator.conditional.dosbatch
+::       ^ keyword.operator.logical.dosbatch
 ::              ^^^ meta.interpolation.dosbatch
 
    set ! & echo %!%
 ::     ^ variable.other.readwrite.dosbatch
-::       ^ keyword.operator.conditional.dosbatch
+::       ^ keyword.operator.logical.dosbatch
 ::              ^^^ meta.interpolation.dosbatch
 
    set ^& & echo %&%
 ::     ^^ variable.other.readwrite.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::               ^^^ meta.interpolation.dosbatch
 
    set &
-::     ^ keyword.operator.conditional.dosbatch
+::     ^ keyword.operator.logical.dosbatch
 
    set ^| & echo %|%
 ::     ^^ variable.other.readwrite.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::               ^^^ meta.interpolation.dosbatch
 
    set |
@@ -1847,7 +1847,7 @@ ECHO : Not a comment ^
 
    set ^> & echo %>%
 ::     ^^ variable.other.readwrite.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::               ^^^ meta.interpolation.dosbatch
 
    set >
@@ -1855,7 +1855,7 @@ ECHO : Not a comment ^
 
    set ^< & echo %<%
 ::     ^^ variable.other.readwrite.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::               ^^^ meta.interpolation.dosbatch
 
    set <
@@ -1896,7 +1896,7 @@ ECHO : Not a comment ^
 ::     ^^^^^^^^ variable.other.readwrite
 ::             ^ keyword.operator.assignment
 ::               ^^^ string.unquoted
-::                   ^ keyword.operator.conditional.dosbatch
+::                   ^ keyword.operator.logical.dosbatch
 ::                     ^^^^ support.function.builtin.dosbatch
 ::                          ^^^^^^^^^^ meta.interpolation.dosbatch
 
@@ -1914,7 +1914,7 @@ ECHO : Not a comment ^
 ::           ^^^^^ string.quoted.double.dosbatch
 ::               ^ punctuation.definition.string.end
 ::                ^ - string
-::                 ^ keyword.operator.conditional.dosbatch
+::                 ^ keyword.operator.logical.dosbatch
 ::                   ^^^^ support.function.builtin.dosbatch
 
    set "foo"=bar" & echo !foo"!
@@ -1930,7 +1930,7 @@ ECHO : Not a comment ^
 ::           ^^^^ string.quoted.double.dosbatch
 ::              ^ punctuation.definition.string.end
 ::               ^ - string
-::                ^ keyword.operator.conditional.dosbatch
+::                ^ keyword.operator.logical.dosbatch
 ::                  ^^^^ support.function.builtin.dosbatch
 
    set "foo"="bar & echo !foo"!
@@ -1945,7 +1945,7 @@ ECHO : Not a comment ^
 ::          ^ keyword.operator.assignment
 ::           ^ punctuation.definition.string.end
 ::            ^^^ comment.line.ignored.dosbatch
-::                ^ keyword.operator.conditional.dosbatch
+::                ^ keyword.operator.logical.dosbatch
 ::                  ^^^^ support.function.builtin.dosbatch
 
    set "foo"=ba"r & echo !foo"!
@@ -1961,7 +1961,7 @@ ECHO : Not a comment ^
 ::           ^^^ string.quoted.double.dosbatch
 ::             ^ punctuation.definition.string.end
 ::              ^ comment.line.ignored.dosbatch
-::                ^ keyword.operator.conditional.dosbatch
+::                ^ keyword.operator.logical.dosbatch
 ::                  ^^^^ support.function.builtin.dosbatch
 
    set "foo"=b"ar ba"z & echo !foo"!
@@ -1977,7 +1977,7 @@ ECHO : Not a comment ^
 ::           ^^^^^^^^ string.quoted.double.dosbatch
 ::                  ^ punctuation.definition.string.end
 ::                   ^ comment.line.ignored.dosbatch
-::                     ^ keyword.operator.conditional.dosbatch
+::                     ^ keyword.operator.logical.dosbatch
 ::                       ^^^^ support.function.builtin.dosbatch
 
    set "foo"=b"ar "ba"z & echo !foo"!
@@ -1993,7 +1993,7 @@ ECHO : Not a comment ^
 ::           ^^^^^^^^^ string.quoted.double.dosbatch
 ::                   ^ punctuation.definition.string.end
 ::                    ^ comment.line.ignored.dosbatch
-::                      ^ keyword.operator.conditional.dosbatch
+::                      ^ keyword.operator.logical.dosbatch
 ::                        ^^^^ support.function.builtin.dosbatch
 
    set "foo"=b"ar^
@@ -2001,7 +2001,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^^^ - meta.command.set - string
 ::          ^^^^^ meta.command.echo.dosbatch
 ::               ^^^^^^ meta.command.echo.output.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::          ^^^^ support.function.builtin.dosbatch
 
    set "foo"=b"a"r^
@@ -2009,7 +2009,7 @@ ECHO : Not a comment ^
 :: ^^^^^ string.quoted.double.dosbatch
 ::     ^ punctuation.definition.string.end
 ::      ^ comment.line.ignored.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::          ^^^^ support.function.builtin.dosbatch
 
    set "foo=b"ar^
@@ -2017,7 +2017,7 @@ ECHO : Not a comment ^
 :: ^^^^^ string.quoted.double.dosbatch
 ::     ^ punctuation.definition.string.end
 ::      ^ comment.line.ignored.dosbatch
-::        ^ keyword.operator.conditional.dosbatch
+::        ^ keyword.operator.logical.dosbatch
 ::          ^^^^ support.function.builtin.dosbatch
 
    SET T=%TIME: =0%
@@ -2297,7 +2297,7 @@ ECHO : Not a comment ^
 ::                ^ punctuation.definition.string.end
 
    set /a a&=a12b
-::         ^ keyword.operator.conditional - meta.expression.dosbatch
+::         ^ keyword.operator.logical - meta.expression.dosbatch
 
    set /a " world"=12
 ::        ^^^^^^^^ string.quoted.double
@@ -2420,7 +2420,7 @@ ECHO : Not a comment ^
 ::          ^ variable.other.readwrite
 ::            ^ keyword.operator.arithmetic
 ::             ^ variable.other.readwrite
-::              ^ keyword.operator.conditional
+::              ^ keyword.operator.logical
 ::               ^^^^^^ variable.function.dosbatch
 
    set /a (a+"b)*2"-1
@@ -2515,7 +2515,7 @@ ECHO : Not a comment ^
 ::                                 ^^^ keyword.declaration.rem.dosbatch
 ::                                    ^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 ::                                                         ^^^^^^^^^^^^^^^^ - comment
-::                                                          ^ keyword.operator.conditional - comment
+::                                                          ^ keyword.operator.logical - comment
 ::                                                            ^^^^ support.function.builtin.dosbatch
 ::                                                                 ^^^^^^^ meta.interpolation.dosbatch
 
@@ -2543,7 +2543,7 @@ ECHO : Not a comment ^
 ::                               ^ punctuation.definition.string.end.dosbatch
 ::                                 ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                                                  ^^^^^^^^^^^^^^^^ - comment
-::                                                   ^ keyword.operator.conditional - comment
+::                                                   ^ keyword.operator.logical - comment
 ::                                                     ^^^^ support.function.builtin.dosbatch
 ::                                                          ^^^^^^^ meta.interpolation.dosbatch
 
@@ -2557,7 +2557,7 @@ ECHO : Not a comment ^
 ::        ^ - comment - string
 ::         ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                          ^^^^^^^^^^^^^^^^^^^^^^ - comment
-::                           ^^ keyword.operator.conditional - comment
+::                           ^^ keyword.operator.logical - comment
 ::                              ^^^ support.function.builtin.dosbatch
 
    set /p today="enter a^
@@ -2568,7 +2568,7 @@ ECHO : Not a comment ^
 ::                               ^ - meta.command
 :: ^^^^^^^^^ comment.line.ignored.dosbatch
 ::          ^^^^^^^^^^^^^^^^^^^^^^ - comment
-::           ^^ keyword.operator.conditional - comment
+::           ^^ keyword.operator.logical - comment
 ::              ^^^ support.function.builtin.dosbatch
 
    set /p "today"="enter a) %date%: " REM this is a comment & echo !today!
@@ -2598,7 +2598,7 @@ ECHO : Not a comment ^
 ::                                    ^^^ keyword.declaration.rem.dosbatch
 ::                                       ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 ::                                                         ^^^^^^^^^^^^^^^^ - comment
-::                                                          ^ keyword.operator.conditional - comment
+::                                                          ^ keyword.operator.logical - comment
 ::                                                            ^^^^ support.function.builtin.dosbatch
 ::                                                                 ^^^^^^^ meta.interpolation.dosbatch
 
@@ -2624,7 +2624,7 @@ ECHO : Not a comment ^
 ::                               ^ punctuation.definition.prompt.end.dosbatch
 ::                                 ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                                                  ^^^^^^^^^^^^^^^^ - comment
-::                                                   ^ keyword.operator.conditional - comment
+::                                                   ^ keyword.operator.logical - comment
 ::                                                     ^^^^ support.function.builtin.dosbatch
 ::                                                          ^^^^^^^ meta.interpolation.dosbatch
 
@@ -2645,7 +2645,7 @@ ECHO : Not a comment ^
 ::               ^ punctuation.definition.prompt.end.dosbatch
 ::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                                                 ^^^^^^^^^^^^^^^^ - comment
-::                                                  ^ keyword.operator.conditional - comment
+::                                                  ^ keyword.operator.logical - comment
 ::                                                    ^^^^ support.function.builtin.dosbatch
 ::                                                         ^^^^^^^ meta.interpolation.dosbatch
 

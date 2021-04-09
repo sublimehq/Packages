@@ -1127,7 +1127,7 @@ contexts:
     - match: \@(?=\S)
       scope: keyword.operator.at.dosbatch
     - match: \&\&?|\|\|
-      scope: keyword.operator.conditional.dosbatch
+      scope: keyword.operator.logical.dosbatch
     - match: \|
       scope: keyword.operator.assignment.pipe.dosbatch
       push: illegal-comment-pop
