@@ -206,7 +206,7 @@ ECHO : Not a comment ^
 ::                ^ punctuation.separator.path.dosbatch
 ::                     ^ punctuation.definition.variable.dosbatch
 ::                     ^^^^^^ variable.parameter.option.dosbatch
-::                           ^ punctuation.separator.mapping.key-value.dosbatch
+::                           ^ keyword.operator.assignment.dosbatch
 ::                            ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL ..\%foo%\bar.exe /param:str
@@ -227,7 +227,7 @@ ECHO : Not a comment ^
 ::                  ^ punctuation.separator.path.dosbatch
 ::                       ^ punctuation.definition.variable.dosbatch
 ::                       ^^^^^^ variable.parameter.option.dosbatch
-::                             ^ punctuation.separator.mapping.key-value.dosbatch
+::                             ^ keyword.operator.assignment.dosbatch
 
    CALL foo\bar.exe /pa_am:%var%
 ::^ - meta.function-call
@@ -241,7 +241,7 @@ ECHO : Not a comment ^
 ::             ^ punctuation.separator.path.dosbatch
 ::                  ^ punctuation.definition.variable.dosbatch
 ::                  ^^^^^^ variable.parameter.option.dosbatch
-::                        ^ punctuation.separator.mapping.key-value.dosbatch
+::                        ^ keyword.operator.assignment.dosbatch
 
    CALL %foo%\bar.exe /pa-am:-10
 ::^ - meta.function-call
@@ -258,7 +258,7 @@ ECHO : Not a comment ^
 ::               ^ punctuation.separator.path.dosbatch
 ::                    ^ punctuation.definition.variable.dosbatch
 ::                    ^^^^^^ variable.parameter.option.dosbatch
-::                          ^ punctuation.separator.mapping.key-value.dosbatch
+::                          ^ keyword.operator.assignment.dosbatch
 
    CALL "d:\foo %bar%\baz.exe" /par-am=10 /D
 ::^ - meta.function-call
@@ -279,7 +279,7 @@ ECHO : Not a comment ^
 ::                           ^ punctuation.definition.string.end.dosbatch
 ::                             ^ punctuation.definition.variable.dosbatch
 ::                             ^^^^^^^ variable.parameter.option.dosbatch
-::                                    ^ punctuation.separator.mapping.key-value.dosbatch
+::                                    ^ keyword.operator.assignment.dosbatch
 
 
    EXIT
@@ -766,7 +766,7 @@ ECHO : Not a comment ^
 ::        ^ punctuation.definition.string.begin.dosbatch
 ::        ^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch
 ::         ^^^^^^ constant.language.dosbatch
-::               ^ punctuation.separator.mapping.key-value.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
 ::                 ^ punctuation.definition.string.end.dosbatch
 ::                   ^^ punctuation.definition.variable.dosbatch
 ::                   ^^^ variable.other.readwrite.dosbatch

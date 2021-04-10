@@ -491,7 +491,7 @@ contexts:
     - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - include: string-common
     - match: =
-      scope: punctuation.separator.mapping.key-value.dosbatch
+      scope: keyword.operator.assignment.dosbatch
     - match: \b(delims|eol|skip|tokens)\b
       scope: constant.language.dosbatch
     - match: \busebackq\b
@@ -713,7 +713,7 @@ contexts:
       captures:
         1: variable.parameter.option.dosbatch
         2: punctuation.definition.variable.dosbatch
-        3: punctuation.separator.mapping.key-value.dosbatch
+        3: keyword.operator.assignment.dosbatch
 
 ###[ COMMAND ECHO ]###########################################################
 
