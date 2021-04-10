@@ -103,7 +103,7 @@ ECHO : Not a comment ^
    CALL:This is a #@$虎 strange label
 ::^ - meta.command - meta.function-call
 :: ^^^^ meta.command.call.dosbatch - meta.function-call
-::     ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::     ^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                                  ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -114,7 +114,7 @@ ECHO : Not a comment ^
    CALL:EOF
 ::^ - meta.command - meta.function-call
 :: ^^^^ meta.command.call.dosbatch - meta.function-call
-::     ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::     ^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::         ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
@@ -122,7 +122,7 @@ ECHO : Not a comment ^
 
    CALL ^
    :EOF
-:: ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+:: ^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::     ^ - meta.command - meta.function-call
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
@@ -130,7 +130,7 @@ ECHO : Not a comment ^
    CALL :foo 10 %1
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::      ^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::          ^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -142,7 +142,7 @@ ECHO : Not a comment ^
    CALL :foo%bar% 10
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::      ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::                ^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                  ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -153,7 +153,7 @@ ECHO : Not a comment ^
    CALL :foo %bar% 10
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::      ^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::           ^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                   ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -165,17 +165,17 @@ ECHO : Not a comment ^
    CALL foo %bar%
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::      ^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::         ^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::               ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^^^ meta.function-call.name.dosbatch variable.function.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::         ^^^^^^ meta.function-call.arguments.dosbatch
 ::          ^^^^^ meta.interpolation.dosbatch
 
    CALL ^
    foo
-:: ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch
+:: ^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch
 
    CALL SET _str=%%_var:~%_start%,%_length%%%
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
@@ -196,7 +196,7 @@ ECHO : Not a comment ^
    CALL ..\foo\bar.exe /param:10
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::      ^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch
 ::                    ^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                              ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -212,9 +212,9 @@ ECHO : Not a comment ^
    CALL ..\%foo%\bar.exe /param:str
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
-::         ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch
-::              ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::      ^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
+::         ^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch meta.interpolation.dosbatch
+::              ^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
 ::                      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                                 ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -232,7 +232,7 @@ ECHO : Not a comment ^
    CALL foo\bar.exe /pa_am:%var%
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch
+::      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::                 ^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch - meta.interpolation
 ::                         ^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch meta.interpolation.dosbatch
 ::                              ^ - meta.command - meta.function-call
@@ -246,8 +246,8 @@ ECHO : Not a comment ^
    CALL %foo%\bar.exe /pa-am:-10
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch
-::           ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::      ^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch meta.interpolation.dosbatch
+::           ^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
 ::                   ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                              ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -263,9 +263,9 @@ ECHO : Not a comment ^
    CALL "d:\foo %bar%\baz.exe" /par-am=10 /D
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
-::              ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch
-::                   ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::      ^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
+::              ^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch meta.interpolation.dosbatch
+::                   ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
 ::                            ^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                                          ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch

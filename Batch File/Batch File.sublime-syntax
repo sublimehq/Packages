@@ -554,7 +554,7 @@ contexts:
     - include: command-other
 
   control-call-label:
-    - meta_scope: meta.function-call.name.dosbatch variable.label.dosbatch
+    - meta_scope: meta.function-call.identifier.dosbatch variable.label.dosbatch
     - match: (?=\s)
       set: function-arguments
     - include: variable-interpolations
@@ -629,10 +629,10 @@ contexts:
 
   command-builtin:
     - match: '{{builtin_commands}}'
-      scope: meta.function-call.name.dosbatch support.function.builtin.dosbatch
+      scope: meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
       push: function-arguments
     - match: '{{external_commands}}'
-      scope: meta.function-call.name.dosbatch support.function.external.dosbatch
+      scope: meta.function-call.identifier.dosbatch support.function.external.dosbatch
       push: function-arguments
 
   command-other:
@@ -647,7 +647,7 @@ contexts:
         - path-pattern-relative
 
   command-name-quoted:
-    - meta_scope: meta.function-call.name.dosbatch variable.function.dosbatch
+    - meta_scope: meta.function-call.identifier.dosbatch variable.function.dosbatch
     - match: \"
       scope: punctuation.definition.variable.end.dosbatch
       set: function-arguments
@@ -655,7 +655,7 @@ contexts:
     - include: illegal-eol-pop
 
   command-name-unquoted:
-    - meta_scope: meta.function-call.name.dosbatch variable.function.dosbatch
+    - meta_scope: meta.function-call.identifier.dosbatch variable.function.dosbatch
     - match: (?=\s)
       set: function-arguments
     - include: path-pattern-common
