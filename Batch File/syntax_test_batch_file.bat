@@ -1087,6 +1087,15 @@ put arg1 arg2
 ::           ^ punctuation.separator.path.dosbatch
 ::               ^ punctuation.definition.string.end.dosbatch
 
+   command arg^
+::         ^^^^^ meta.function-call.arguments.dosbatch
+::            ^^ punctuation.separator.continuation.line.dosbatch
+
+   command arg^
+   for
+::^^^^ meta.function-call.arguments.dosbatch
+::    ^ - meta.function-call
+
    command /? ignored tail & other
 :: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::        ^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
@@ -1095,6 +1104,94 @@ put arg1 arg2
 ::            ^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                         ^ keyword.operator.logical.dosbatch
 ::                           ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+
+   command /param:value %id%
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::         ^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
+::               ^ meta.parameter.dosbatch
+::                ^^^^^ meta.parameter.value.dosbatch
+::                     ^^^^^ - meta.parameter
+::         ^ punctuation.definition.variable.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
+::                      ^^^^ meta.interpolation.dosbatch
+::                      ^ punctuation.section.interpolation.begin.dosbatch
+::                       ^^ variable.other.readwrite.dosbatch
+::                         ^ punctuation.section.interpolation.end.dosbatch
+
+   command /param:value-%id%
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::         ^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
+::               ^ meta.parameter.dosbatch
+::                ^^^^^^^^^^ meta.parameter.value.dosbatch
+::         ^ punctuation.definition.variable.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
+::                      ^^^^ meta.interpolation.dosbatch
+::                      ^ punctuation.section.interpolation.begin.dosbatch
+::                       ^^ variable.other.readwrite.dosbatch
+::                         ^ punctuation.section.interpolation.end.dosbatch
+
+   command /param:"value %id%"
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::         ^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
+::               ^ meta.parameter.dosbatch
+::                ^^^^^^^^^^^^ meta.parameter.value.dosbatch meta.string.dosbatch
+::         ^ punctuation.definition.variable.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
+::                ^^^^^^^ string.quoted.double.dosbatch
+::                       ^^^^ - string
+::                           ^ string.quoted.double.dosbatch
+::                ^ punctuation.definition.string.begin.dosbatch
+::                       ^^^^ meta.interpolation.dosbatch
+::                       ^ punctuation.section.interpolation.begin.dosbatch
+::                        ^^ variable.other.readwrite.dosbatch
+::                          ^ punctuation.section.interpolation.end.dosbatch
+::                           ^ punctuation.definition.string.end.dosbatch
+
+   command /%para%
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^ meta.function-call.arguments.dosbatch - meta.parameter
+::         ^ meta.function-call.arguments.dosbatch meta.parameter.option.dosbatch - meta.interpolation
+::          ^^^^^^ meta.function-call.arguments.dosbatch meta.parameter.option.dosbatch meta.interpolation.dosbatch
+::         ^ variable.parameter.option.dosbatch punctuation.definition.variable.dosbatch
+::          ^ punctuation.section.interpolation.begin.dosbatch
+::           ^^^^ variable.other.readwrite.dosbatch
+::               ^ punctuation.section.interpolation.end.dosbatch
+
+   command /"par am %id%"
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::         ^ meta.parameter.option.dosbatch - meta.string - meta.interpolation
+::          ^^^^^^^^ meta.parameter.option.dosbatch meta.string.dosbatch - meta.interpolation
+::                  ^^^^ meta.parameter.option.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                      ^ meta.parameter.option.dosbatch meta.string.dosbatch - meta.interpolation
+::         ^^^^^^^^^ variable.parameter.option.dosbatch
+::                  ^^^^ - variable.parameter
+::         ^ punctuation.definition.variable.dosbatch
+::          ^ punctuation.definition.string.begin.dosbatch
+::                  ^ punctuation.section.interpolation.begin.dosbatch
+::                   ^^ variable.other.readwrite.dosbatch
+::                     ^ punctuation.section.interpolation.end.dosbatch
+::                      ^ variable.parameter.option.dosbatch punctuation.definition.string.end.dosbatch
+
+   command ..\folder2\ /type:*.txt
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::                                ^ - meta.function-call
+::         ^^^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch
+::                    ^ - meta.path - meta.parameter
+::                     ^^^^^ meta.parameter.option.dosbatch
+::                          ^ meta.parameter.dosbatch
+::                           ^^^^^ meta.parameter.value.dosbatch meta.path.dosbatch meta.string.dosbatch
+::         ^^^^^^^^^^^ string.unquoted.dosbatch
+::         ^^ constant.language.path.parent.dosbatch
+::           ^ punctuation.separator.path.dosbatch
+::                   ^ punctuation.separator.path.dosbatch
+::                     ^^^^^ variable.parameter.option.dosbatch
+::                          ^ keyword.operator.assignment.dosbatch
+::                           ^^^^^ string.unquoted.dosbatch
 
 :::: [ Redirections ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -1888,6 +1985,9 @@ put arg1 arg2
 ::                               ^ punctuation.section.interpolation.end.dosbatch
 
    powershell get-date -uformat "%%Y%%m%%d" > today.txt
+::            ^^^^^^^^ - variable.parameter
+::                     ^^^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
+::                     ^ punctuation.definition.variable.dosbatch
 ::                              ^^^^^^^^^^^ string.quoted.double.dosbatch
 ::                               ^^ constant.character.escape.dosbatch
 ::                                 ^ - constant.character.escape.dosbatch
@@ -1905,11 +2005,11 @@ put arg1 arg2
 
    mode /? ignored
 :: ^^^^ meta.command.mode.dosbatch
-::     ^^^ meta.command.mode.arguments.dosbatch
-::        ^^^^^^^^^ - meta.command
+::     ^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
 :: ^^^^ support.function.external.dosbatch
 ::      ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
 ::       ^ variable.parameter.help.dosbatch - punctuation
+::         ^^^^^^^ comment.line.ignored.dosbatch
 
    mode con
 :: ^^^^ meta.command.mode.dosbatch

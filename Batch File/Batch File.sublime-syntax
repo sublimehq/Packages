@@ -20,14 +20,20 @@ variables:
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘,’, ‘;’,
   # ‘(’, ‘)’, ‘<’, or ‘>’.
-  metachar: '[\s|&<>=,;]'
+  metachar: '[\s|&<>=,;()]'
 
   # Command names are non-posix identifiers
   cmd_begin: (?={{cmd_char}})
   cmd_break: (?!{{cmd_char}})
   cmd_char: '[^{{metachar}}]'
 
-  command_terminator_chars: '&<|>\)'
+  # Command arguments are identifiers, which may start with interpolation.
+  opt_punctuation: (?:\s+|^)(--?|//?){{arg_begin}}
+  arg_begin: (?={{arg_char}})
+  arg_break: (?!{{arg_char}})
+  arg_char: '[^{{metachar}}:]'
+
+  command_terminator_chars: '[|&<>\)]'
   command_terminators: (?:$|(?=\s*[{{command_terminator_chars}}]))
 
   label: '[^+=,;:\s%!{{command_terminator_chars}}][^%!{{command_terminator_chars}}]*'
@@ -168,7 +174,6 @@ contexts:
     - include: variables
     - include: line-continuation
     - include: escaped-characters
-    - include: switches
     - match: (?=[^\s|{{command_terminator_chars}}]*?[.:?*\\])
       push: path-pattern
 
@@ -719,20 +724,71 @@ contexts:
 
   cmd-args-common:
     - include: redirections
-    - include: expressions
+    - include: cmd-args-options
+    - include: cmd-args-values
     - include: eoc-pop
 
-  switches:
-    - match: (/)\?{{cmd_break}}
+  cmd-args-options:
+    - match: (?:^|\s*)((/)\?){{arg_break}}
       captures:
-        0: variable.parameter.help.dosbatch
-        1: punctuation.definition.variable.dosbatch
-      set: ignored-tail
-    - match: (([-/][-/]?)[-_[:alnum:]]+)(?:([=:])|{{cmd_break}})
-      captures:
-        1: variable.parameter.option.dosbatch
+        1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-        3: keyword.operator.assignment.dosbatch
+      set: ignored-tail
+    - match: '{{opt_punctuation}}'
+      captures:
+        1: meta.parameter.option.dosbatch
+           variable.parameter.option.dosbatch
+           punctuation.definition.variable.dosbatch
+      push: cmd-args-option-identifier
+
+  cmd-args-option-identifier:
+    - meta_content_scope:
+        meta.parameter.option.dosbatch
+        variable.parameter.option.dosbatch
+    - match: '[=:]'
+      scope:
+        meta.parameter.dosbatch
+        keyword.operator.assignment.dosbatch
+      set: cmd-args-option-value
+    - match: \"
+      scope: punctuation.definition.string.begin.dosbatch
+      push: cmd-args-option-identifier-quoted-common
+    - include: line-continuation
+    - include: variable-interpolations
+    - match: '{{arg_break}}'
+      pop: 1
+
+  cmd-args-option-identifier-quoted-common:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.string.dosbatch variable.parameter.option.dosbatch
+    - include: string-end
+    - include: variable-interpolations
+    - include: illegal-eol-pop
+
+  cmd-args-option-value:
+    - meta_content_scope: meta.parameter.value.dosbatch
+    - include: cmd-args-values
+    - include: immediatelly-pop
+
+  cmd-args-values:
+    - include: constants
+    - include: numbers
+    - match: '{{arg_begin}}'
+      branch_point: cmd-args-values
+      branch:
+        - cmd-args-value-chars
+        - path-pattern
+
+  cmd-args-value-chars:
+    - match: (?=(\.\.?|\:)[\\%{{metachar}}]|[\\?*])
+      fail: cmd-args-values
+    - match: '{{arg_break}}'
+      pop: 1
+    - include: strings
+    - include: variables
+    - include: line-continuation
+    - include: escaped-characters
 
 ###[ COMMAND ECHO ]###########################################################
 
@@ -797,17 +853,16 @@ contexts:
       scope:
         meta.command.mode.dosbatch
         support.function.external.dosbatch
-      push: cmd-mode-args
+      push:
+        - cmd-mode-args-meta
+        - cmd-mode-args
+
+  cmd-mode-args-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.command.mode.arguments.dosbatch
+    - include: immediatelly-pop
 
   cmd-mode-args:
-    - meta_content_scope: meta.command.mode.arguments.dosbatch
-    - include: eoc-pop
-    - match: \s*((/)\?)
-      scope: meta.command.mode.arguments.dosbatch
-      captures:
-        1: variable.parameter.help.dosbatch
-        2: punctuation.definition.variable.dosbatch
-      set: ignored-tail
     - match: \b(?i:COM\d+|CON|LPT\d+)(:|\b)
       scope: variable.language.device.dosbatch
     # known option values
@@ -821,9 +876,9 @@ contexts:
       scope: variable.parameter.option.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
-    - include: numbers
-    - include: switches
-    - include: variables
+    - include: cmd-args-options
+    - include: cmd-args-values
+    - include: eoc-pop
 
 ###[ COMMAND REM ]############################################################
 
@@ -883,7 +938,7 @@ contexts:
         1: punctuation.definition.variable.dosbatch
       set: cmd-set-prompt
     # SET /illegal
-    - match: /[^=\s{{command_terminator_chars}}]+
+    - match: /{{arg_char}}+
       scope: invalid.illegal.parameter.dosbatch
     # SET "variable=string"
     # SET "variable="
