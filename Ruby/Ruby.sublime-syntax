@@ -547,16 +547,16 @@ contexts:
       scope: keyword.operator.bitwise.ruby
       push: after-operator
     - match: \?
-      scope: keyword.operator.conditional.ternary.ruby
+      scope: keyword.operator.ternary.ruby
       push:
         # Handle hash-key-lookalike of identifier: in ternary
         - match: \s*{{identifier}}(:)(?!:)
           captures:
-            1: keyword.operator.conditional.ternary.ruby
+            1: keyword.operator.ternary.ruby
           set: after-operator
         - include: after-operator
     - match: :(?!:)
-      scope: keyword.operator.conditional.ternary.ruby
+      scope: keyword.operator.ternary.ruby
       push: after-operator
     - match: \.\.\.?
       scope: keyword.operator.range.ruby
@@ -617,7 +617,7 @@ contexts:
     # Handles a : right after an identifier. In this case it can't be the
     # beginning of a symbol, so it must be part of a ternary operator
     - match: ':(?!:)'
-      scope: keyword.operator.conditional.ternary.ruby
+      scope: keyword.operator.ternary.ruby
       pop: true
     - match: ''
       pop: true

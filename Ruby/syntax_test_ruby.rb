@@ -747,7 +747,7 @@ Symbol === :foo
 #       ^ punctuation.definition.constant.ruby
 #       ^^ constant.character.ruby
 #         ^ - constant
-#          ^ keyword.operator.conditional.ternary.ruby
+#          ^ keyword.operator.ternary.ruby
 #           ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
@@ -888,9 +888,9 @@ module: 'module'
   !
 # ^ keyword.operator.logical.ruby
   ?
-# ^ keyword.operator.conditional.ternary.ruby
+# ^ keyword.operator.ternary.ruby
   :
-# ^ keyword.operator.conditional.ternary.ruby
+# ^ keyword.operator.ternary.ruby
   ~
 # ^ keyword.operator.bitwise.ruby
   &
@@ -1207,36 +1207,36 @@ method? 1
 #     ^ - keyword.operator
 
 (methodname)?foobar : baz
-#           ^ keyword.operator.conditional.ternary
-#                   ^ keyword.operator.conditional.ternary
+#           ^ keyword.operator.ternary
+#                   ^ keyword.operator.ternary
 
 methodname ?foo : baz
-#          ^ keyword.operator.conditional.ternary
-#               ^ keyword.operator.conditional.ternary
+#          ^ keyword.operator.ternary
+#               ^ keyword.operator.ternary
 
 puts 1 ?1 : 2
-#      ^ keyword.operator.conditional.ternary
+#      ^ keyword.operator.ternary
 #       ^ constant.numeric
-#         ^ keyword.operator.conditional.ternary
+#         ^ keyword.operator.ternary
 
 puts 1 ?12 : 2
-#      ^ keyword.operator.conditional.ternary
+#      ^ keyword.operator.ternary
 #       ^^ constant.numeric
-#          ^ keyword.operator.conditional.ternary
+#          ^ keyword.operator.ternary
 
 puts ?1
 #    ^^ constant.character.ruby
 
 puts 1 ? foo:bar
-#      ^ keyword.operator.conditional.ternary
-#           ^ keyword.operator.conditional.ternary
+#      ^ keyword.operator.ternary
+#           ^ keyword.operator.ternary
 #        ^^^ - constant.other.symbol
 
 puts 1 ? foo::baz:bar
-#      ^ keyword.operator.conditional.ternary
+#      ^ keyword.operator.ternary
 #           ^^ punctuation.accessor.double-colon
 #             ^^^ - constant.other.symbol
-#                ^ keyword.operator.conditional.ternary
+#                ^ keyword.operator.ternary
 
 puts foo: bar
 #    ^^^^ constant.other.symbol
