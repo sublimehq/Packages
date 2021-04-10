@@ -563,7 +563,9 @@ contexts:
         meta.function-call.identifier.dosbatch
         variable.label.dosbatch
     - match: '{{cmd_break}}'
-      set: function-arguments
+      set:
+        - cmd-args-meta
+        - cmd-args-common
     - include: variable-interpolations
 
 ###[ CONTROL EXIT ]###########################################################
@@ -658,7 +660,9 @@ contexts:
       scope:
         meta.function-call.identifier.dosbatch
         support.function.builtin.dosbatch
-      push: function-arguments
+      push:
+        - cmd-args-meta
+        - cmd-args-common
 
   command-extern:
     - match: (")({{external_commands}})(")
@@ -667,12 +671,16 @@ contexts:
          1: punctuation.definition.string.begin.dosbatch
          2: support.function.external.dosbatch
          3: punctuation.definition.string.end.dosbatch
-      push: function-arguments
+      push:
+        - cmd-args-meta
+        - cmd-args-common
     - match: '{{external_commands}}'
       scope:
         meta.function-call.identifier.dosbatch
         support.function.external.dosbatch
-      push: function-arguments
+      push:
+        - cmd-args-meta
+        - cmd-args-common
 
   command-other:
     - match: '{{cmd_begin}}'
@@ -686,7 +694,9 @@ contexts:
         variable.function.dosbatch
     - include: line-continuation
     - match: '{{cmd_break}}'
-      set: function-arguments
+      set:
+        - cmd-args-meta
+        - cmd-args-common
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push:
@@ -702,14 +712,23 @@ contexts:
     - include: path-pattern-common
     - include: illegal-eol-pop
 
-  function-arguments:
+  cmd-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.dosbatch
+    - include: immediatelly-pop
+
+  cmd-args-common:
     - include: redirections
     - include: expressions
     - include: eoc-pop
 
   switches:
-    - match: \s+(/\?|([-/][-/]?)[-_[:alnum:]]+)(?:([=:])|(?=\s))
+    - match: (/)\?{{cmd_break}}
+      captures:
+        0: variable.parameter.help.dosbatch
+        1: punctuation.definition.variable.dosbatch
+      set: ignored-tail
+    - match: (([-/][-/]?)[-_[:alnum:]]+)(?:([=:])|{{cmd_break}})
       captures:
         1: variable.parameter.option.dosbatch
         2: punctuation.definition.variable.dosbatch

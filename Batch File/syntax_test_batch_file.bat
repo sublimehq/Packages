@@ -1087,6 +1087,15 @@ put arg1 arg2
 ::           ^ punctuation.separator.path.dosbatch
 ::               ^ punctuation.definition.string.end.dosbatch
 
+   command /? ignored tail & other
+:: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::        ^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::         ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
+::          ^ variable.parameter.help.dosbatch - punctuation
+::            ^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                         ^ keyword.operator.logical.dosbatch
+::                           ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+
 :::: [ Redirections ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    ECHO Hello World! > hello.txt
