@@ -541,7 +541,7 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ CONTROL FLOW ]###########################################################
+###[ CONTROL CALL ]###########################################################
 
   control-call:
     # https://ss64.com/nt/call.html
@@ -571,70 +571,90 @@ contexts:
     - include: variable-interpolations
     - include: eoc-pop
 
+###[ CONTROL EXIT ]###########################################################
+
   control-exit:
     # https://ss64.com/nt/exit.html
     - match: \b(?i:exit)\b
       scope: keyword.control.flow.exit.dosbatch
-      push:
-        - meta_scope: meta.command.exit.dosbatch
-        - match: (?i:(/)b)\b
-          scope: variable.parameter.dosbatch
-          captures:
-            1: punctuation.definition.variable.dosbatch
-        - include: numbers
-        - include: variables
-        - include: expect-eoc-pop
+      push: control-exit-args
+
+  control-exit-args:
+    - meta_scope: meta.command.exit.dosbatch
+    - match: (?i:(/)b)\b
+      scope: variable.parameter.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+    - include: numbers
+    - include: variables
+    - include: expect-eoc-pop
+
+###[ CONTROL GOTO ]###########################################################
 
   control-goto:
     # https://ss64.com/nt/goto.html
     - match: \b(?i:goto)\b
       scope: keyword.control.flow.goto.dosbatch
-      push:
-        - meta_scope: meta.command.goto.dosbatch
+      push: control-goto-args
+
+  control-goto-args:
+    - meta_scope: meta.command.goto.dosbatch
+    - include: eoc-pop
+    - match: (:)(?i:(eof))\b
+      scope: variable.label.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+        2: keyword.control.flow.return.dosbatch
+      pop: 1
+    - match: (:)?(?=\S)
+      scope: variable.label.dosbatch punctuation.definition.variable.dosbatch
+      set:
+        - meta_content_scope: meta.command.goto.dosbatch variable.label.dosbatch
+        - include: escaped-characters
+        - include: variables
         - include: eoc-pop
-        - match: (:)(?i:(eof))\b
-          scope: variable.label.dosbatch
-          captures:
-            1: punctuation.definition.variable.dosbatch
-            2: keyword.control.flow.return.dosbatch
-          pop: 1
-        - match: (:)?(?=\S)
-          scope: variable.label.dosbatch punctuation.definition.variable.dosbatch
-          set:
-            - meta_content_scope: meta.command.goto.dosbatch variable.label.dosbatch
-            - include: escaped-characters
-            - include: variables
-            - include: eoc-pop
+
+###[ CONTROL PAUSE ]##########################################################
 
   control-pause:
     # https://ss64.com/nt/pause.html
     - match: \b(?i:pause)\b
       scope: keyword.control.flow.pause.dosbatch
-      push:
-        - meta_scope: meta.command.pause.dosbatch
-        - include: expect-eoc-pop
+      push: control-pause-args
+
+  control-pause-args:
+    - meta_scope: meta.command.pause.dosbatch
+    - include: expect-eoc-pop
+
+###[ CONTROL SETLOCAL ]#######################################################
 
   control-setlocal:
     # https://ss64.com/nt/setlocal.html
     - match: \b(?i:setlocal)\b
       scope: keyword.control.namespace.setlocal.dosbatch
-      push:
-        - meta_scope: meta.command.setlocal.dosbatch
-        - match: |-
-            \b(?xi:
-              EnableDelayedExpansion | DisableDelayedExpansion |
-              EnableExtensions | DisableExtensions
-            )\b
-          scope: constant.language.dosbatch
-        - include: expect-eoc-pop
+      push: control-setlocal-args
+
+  control-setlocal-args:
+    - meta_scope: meta.command.setlocal.dosbatch
+    - match: |-
+        \b(?xi:
+          EnableDelayedExpansion | DisableDelayedExpansion |
+          EnableExtensions | DisableExtensions
+        )\b
+      scope: constant.language.dosbatch
+    - include: expect-eoc-pop
+
+###[ CONTROL ENDLOCAL ]#######################################################
 
   control-endlocal:
     # https://ss64.com/nt/endlocal.html
     - match: \b(?i:endlocal)\b
       scope: keyword.control.namespace.endlocal.dosbatch
-      push:
-        - meta_scope: meta.command.endlocal.dosbatch
-        - include: expect-eoc-pop
+      push: control-endlocal-args
+
+  control-endlocal-args:
+    - meta_scope: meta.command.endlocal.dosbatch
+    - include: expect-eoc-pop
 
 ###[ COMMANDS ]###############################################################
 
