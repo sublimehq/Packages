@@ -546,30 +546,25 @@ contexts:
   control-call:
     # https://ss64.com/nt/call.html
     - match: \b(?i:call)\b
-      scope: keyword.control.flow.call.dosbatch
-      push:
-        - control-call-meta
-        - control-call-name
+      scope:
+        meta.function-call.dosbatch
+        keyword.control.flow.call.dosbatch
+      push: control-call-identifier
 
-  control-call-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.command.call.dosbatch
-    - include: immediatelly-pop
-
-  control-call-name:
-    - include: eoc-pop
+  control-call-identifier:
+    - meta_content_scope: meta.function-call.dosbatch
     - match: ':'
       scope: punctuation.definition.variable.dosbatch
       set: control-call-label
-    - include: commands
-    - include: command-other
+    - include: else-pop
 
   control-call-label:
-    - meta_scope: meta.function-call.identifier.dosbatch variable.label.dosbatch
-    - match: (?=\s)
+    - meta_scope:
+        meta.function-call.identifier.dosbatch
+        variable.label.dosbatch
+    - match: '{{cmd_break}}'
       set: function-arguments
     - include: variable-interpolations
-    - include: eoc-pop
 
 ###[ CONTROL EXIT ]###########################################################
 
