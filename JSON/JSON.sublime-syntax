@@ -64,8 +64,13 @@ contexts:
       captures:
         1: punctuation.definition.comment.json
   constant:
-    - match: \b(?:true|false|null)\b
-      scope: constant.language.json
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.json
+    - match: \btrue\b
+      scope: constant.language.boolean.true.json
+    - match: \bnull\b
+      scope: constant.language.null.json
+
   number:
     # handles integer and decimal numbers
     - match: (-?)((?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+)))
