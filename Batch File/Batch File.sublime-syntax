@@ -18,8 +18,9 @@ variables:
   metachar: '[\s=,;{{command_terminator_chars}}]'
 
   # Command names are non-posix identifiers
-  cmd_begin: (?={{cmd_char}})
+  cmd_begin: (?={{cmd_start}})
   cmd_break: (?!{{cmd_char}})
+  cmd_start: '[^{{metachar}}()]'
   cmd_char: '[^{{metachar}}(]'
 
   # Command arguments are identifiers, which may start with interpolation.
@@ -288,6 +289,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       push: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
+    - match: \)
+      scope: invalid.illegal.stray.dosbatch
 
   block-common:
     - meta_scope: meta.group.dosbatch

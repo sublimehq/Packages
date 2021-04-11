@@ -617,10 +617,12 @@ ECHO : Not a comment ^
 ::  ^ - meta.group
 :: ^ punctuation.section.group.end.dosbatch
 
-   ELSE echo baz
-:: ^^^^ invalid.illegal.stray.dosbatch
-::      ^^^^ support.function.builtin.dosbatch
-::           ^^^ string.unquoted.dosbatch
+   ) ELSE echo baz
+:: ^ invalid.illegal.stray.dosbatch
+::  ^ - invalid
+::   ^^^^ invalid.illegal.stray.dosbatch
+::        ^^^^ support.function.builtin.dosbatch
+::             ^^^ string.unquoted.dosbatch
 
    IF "%FOO%" == "BAR" ( SET BAZ=42 )
 ::                     ^ punctuation.section.group.begin
