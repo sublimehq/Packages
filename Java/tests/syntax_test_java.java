@@ -2916,13 +2916,13 @@ class FieldDeclarationTests {
 //               ^^ storage.modifier.array.java
 //                  ^ keyword.operator.assignment.java
 //                    ^^^^^^^^^ variable.other.java
-//                              ^ keyword.operator.conditional.ternary.java
+//                              ^ keyword.operator.ternary.java
 //                                ^ punctuation.section.braces.begin.java
 //                                 ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                  ^ punctuation.separator.comma.java
 //                                    ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                     ^ punctuation.section.braces.end.java
-//                                       ^ keyword.operator.conditional.ternary.java
+//                                       ^ keyword.operator.ternary.java
 //                                         ^ punctuation.section.braces.begin.java
 //                                          ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                           ^ punctuation.separator.comma.java
@@ -2942,23 +2942,23 @@ class FieldDeclarationTests {
 //               ^^ storage.modifier.array.java
 //                  ^ keyword.operator.assignment.java
 //                    ^^^^^^^^^ variable.other.java
-//                              ^ keyword.operator.conditional.ternary.java
+//                              ^ keyword.operator.ternary.java
 //                                ^^^ variable.function.java
 //                                   ^ punctuation.section.group.begin.java
 //                                    ^ punctuation.section.group.end.java
-//                                      ^ keyword.operator.conditional.ternary.java
+//                                      ^ keyword.operator.ternary.java
 //                                        ^ punctuation.section.braces.begin.java
 //                                         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                          ^ punctuation.separator.comma.java
 //                                            ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                             ^ punctuation.section.braces.end.java
-//                                               ^ keyword.operator.conditional.ternary.java
+//                                               ^ keyword.operator.ternary.java
 //                                                 ^ punctuation.section.braces.begin.java
 //                                                  ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                   ^ punctuation.separator.comma.java
 //                                                     ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                      ^ punctuation.section.braces.end.java
-//                                                        ^ keyword.operator.conditional.ternary.java
+//                                                        ^ keyword.operator.ternary.java
 //                                                          ^ punctuation.section.braces.begin.java
 //                                                           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                            ^ punctuation.separator.comma.java
@@ -5709,9 +5709,9 @@ class SwitchExpressionsTests {
 //                                         ^ - meta.statement.conditional.case
 //       ^^^^ keyword.control.conditional.case.java
 //            ^^^^^^^^^ variable.other.java
-//                      ^ keyword.operator.conditional.ternary.java
+//                      ^ keyword.operator.ternary.java
 //                        ^^^^^^ constant.other.java
-//                               ^ keyword.operator.conditional.ternary.java
+//                               ^ keyword.operator.ternary.java
 //                                 ^^^^^^ constant.other.java
 //                                        ^ punctuation.separator.expressions.java
          case SUNDAY:
@@ -6099,11 +6099,11 @@ class ForStatementTests {
 //                         ^^^^ variable.other.java
 //                              ^ keyword.operator.assignment.java
 //                                ^^^^ variable.other.java
-//                                     ^ keyword.operator.conditional.ternary.java
+//                                     ^ keyword.operator.ternary.java
 //                                       ^^^ keyword.other.storage.new.java
 //                                           ^^^ storage.type.class.java
 //                                              ^^ punctuation.definition.generic.diamond.java
-//                                                 ^ keyword.operator.conditional.ternary.java
+//                                                 ^ keyword.operator.ternary.java
 //                                                   ^^^ keyword.other.storage.new.java
 //                                                       ^^^ storage.type.class.java
 //                                                          ^ punctuation.section.brackets.begin.java
@@ -6131,11 +6131,11 @@ class ForStatementTests {
 //                         ^^^^ variable.other.java
 //                              ^ keyword.operator.assignment.java
 //                                ^^^^ variable.other.java
-//                                     ^ keyword.operator.conditional.ternary.java
+//                                     ^ keyword.operator.ternary.java
 //                                       ^^^ keyword.other.storage.new.java
 //                                           ^^^ storage.type.class.java
 //                                              ^^ punctuation.definition.generic.diamond.java
-//                                                 ^ keyword.operator.conditional.ternary.java
+//                                                 ^ keyword.operator.ternary.java
 //                                                   ^^^ keyword.other.storage.new.java
 //                                                       ^^^ storage.type.class.java
 //                                                          ^ punctuation.section.brackets.begin.java
@@ -8073,14 +8073,14 @@ class MethodReferenceExpressionsTests {
 //                         ^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ variable.other.java
-//        ^ keyword.operator.conditional.ternary.java
+//        ^ keyword.operator.ternary.java
 //          ^^^^ variable.other.java
 //              ^ punctuation.accessor.dot.java
 //               ^^^^^^^^^^ variable.function.java
 //                          ^^^^^^ storage.type.class.java
 //                                ^^ punctuation.accessor.double-colon.java
 //                                  ^^^^ variable.function.reference.java
-//                                        ^ keyword.operator.conditional.ternary.java
+//                                        ^ keyword.operator.ternary.java
 //                                          ^^^^ variable.other.java
 //                                              ^ punctuation.section.group.end.java
 //                                                ^^ punctuation.accessor.double-colon.java
@@ -8668,9 +8668,9 @@ class TypeComparisonExpressionsTests {
 //      ^ variable.other.java
 //        ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //                   ^ storage.type.class.java
-//                    ^ keyword.operator.conditional.ternary.java
+//                    ^ keyword.operator.ternary.java
 //                     ^^^^ constant.numeric.value.java
-//                         ^ keyword.operator.conditional.ternary.java
+//                         ^ keyword.operator.ternary.java
 //                          ^^ constant.numeric.base.java
 //                            ^^^^^^^^ constant.numeric.value.java
 //                                    ^ punctuation.terminator.java
@@ -9332,9 +9332,9 @@ public class Foo {
 //           ^ punctuation.section.group.end.java
 //            ^ keyword.operator.comparison.java
 //              ^ variable.other.java
-//               ^ keyword.operator.conditional.ternary.java
+//               ^ keyword.operator.ternary.java
 //                ^ variable.other.java
-//                 ^ keyword.operator.conditional.ternary.java
+//                 ^ keyword.operator.ternary.java
 //                  ^ variable.other.java
 
     b=e.a(b<b)>b?b:b;
@@ -9351,9 +9351,9 @@ public class Foo {
 //           ^ punctuation.section.group.end.java
 //            ^ keyword.operator.comparison.java
 //             ^ variable.other.java
-//              ^ keyword.operator.conditional.ternary.java
+//              ^ keyword.operator.ternary.java
 //               ^ variable.other.java
-//                ^ keyword.operator.conditional.ternary.java
+//                ^ keyword.operator.ternary.java
 //                 ^ variable.other.java
 
     a[0] = true;
@@ -9475,9 +9475,9 @@ public class Foo {
 
     int foo = true ? 1 : 2;
 //            ^^^^ constant.language.boolean.true.java
-//                 ^ keyword.operator.conditional.ternary.java
+//                 ^ keyword.operator.ternary.java
 //                   ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                     ^ keyword.operator.conditional.ternary.java
+//                     ^ keyword.operator.ternary.java
 //                       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                        ^ punctuation.terminator.java
 

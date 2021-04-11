@@ -1701,7 +1701,7 @@ contexts:
 
   ternary-initializers:
     - match: \?
-      scope: keyword.operator.conditional.ternary.java
+      scope: keyword.operator.ternary.java
       push: ternary-initializer-body
 
   ternary-initializer-body:
@@ -2356,7 +2356,7 @@ contexts:
     - match: '[~|&\^]'
       scope: keyword.operator.bitwise.java
     - match: '\?'
-      scope: keyword.operator.conditional.ternary.java
+      scope: keyword.operator.ternary.java
       push: ternary-expression
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
     - match: instanceof{{break}}
@@ -2367,7 +2367,7 @@ contexts:
 
   operator-ternary-colon:
     - match: ':'
-      scope: keyword.operator.conditional.ternary.java
+      scope: keyword.operator.ternary.java
       pop: 1
 
   ternary-expression:
