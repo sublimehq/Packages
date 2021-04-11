@@ -226,8 +226,7 @@ contexts:
         - include: atx-heading
         - include: thematic-break
         - include: table
-        - match: ''
-          pop: 1
+        - include: immediately-pop
     - match: ^([ ]{0,3})([*+-])( (\[[ xX]\]))?(?=\s)
       captures:
         1: markup.list.unnumbered.markdown
@@ -338,8 +337,7 @@ contexts:
       branch:
         - paragraph
         - heading1
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   paragraph:
       - meta_scope: meta.paragraph.markdown
@@ -1074,8 +1072,7 @@ contexts:
     - match: '^(?={{fenced_code_block_start}})'
       push:
         - include: fenced-code-block
-        - match: ''
-          pop: 1
+        - include: immediately-pop
     - match: \s+(?=\S)
       push:
         - match: ^\s*$
@@ -1817,8 +1814,7 @@ contexts:
                       push:
                         - include: bold
                         - include: italic
-                        - match: ''
-                          pop: 1
+                        - include: immediately-pop
                     - match: |-
                         (?x)
                         (?!{{backticks}})
