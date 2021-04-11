@@ -36,15 +36,15 @@ contexts:
     - include: object
 
   array:
-    - match: '\['
+    - match: \[
       scope: punctuation.section.sequence.begin.json
       push:
         - meta_scope: meta.sequence.json
-        - match: '\]'
+        - match: \]
           scope: punctuation.section.sequence.end.json
           pop: 1
         - include: value
-        - match: ","
+        - match: ','
           scope: punctuation.separator.sequence.json
         - match: '[^\s\]]'
           scope: invalid.illegal.expected-sequence-separator.json
@@ -92,21 +92,21 @@ contexts:
 
   object:
     # a JSON object
-    - match: '\{'
+    - match: \{
       scope: punctuation.section.mapping.begin.json
       push:
         - meta_scope: meta.mapping.json
-        - match: '\}'
+        - match: \}
           scope: punctuation.section.mapping.end.json
           pop: 1
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.begin.json
           push:
             - clear_scopes: 1
             - meta_scope: meta.mapping.key.json string.quoted.double.json
             - meta_include_prototype: false
             - include: inside-string
-        - match: ":"
+        - match: ':'
           scope: punctuation.separator.mapping.key-value.json
           push:
             - match: ',|\s?(?=\})'
@@ -131,14 +131,14 @@ contexts:
           scope: invalid.illegal.expected-mapping-key.json
 
   string:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.json
       push: inside-string
 
   inside-string:
     - meta_scope: string.quoted.double.json
     - meta_include_prototype: false
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.end.json
       pop: 1
     - include: string-escape
