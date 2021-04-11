@@ -513,28 +513,39 @@ ECHO : Not a comment ^
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
 ::                   ^^^^ support.function.builtin.dosbatch
-::                        ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                        ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch - meta.group
 
    IF EXIST file.txt (ECHO Some(more)Potatoes)
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
 ::                   ^^^^^^^^^^^^^^^^ meta.group
+::                                   ^^^^^^^^^ - meta.group
 ::                    ^^^^ support.function.builtin.dosbatch
-::                         ^^^^^^^^^^ string.unquoted.dosbatch
+::                         ^^^^^^^^^ string.unquoted.dosbatch
+::                                  ^ punctuation.section.group.end.dosbatch
+::                                   ^^^^^^^^^ invalid.illegal.dosbatch
 
    IF EXIST file.txt (ECHO Some[more]Potatoes)
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
-::                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+::                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.dosbatch
+::                                            ^ - meta.group
+::                   ^ punctuation.section.group.begin.dosbatch
 ::                    ^^^^ support.function.builtin.dosbatch
 ::                         ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                                           ^ punctuation.section.group.end.dosbatch
 
    IF EXIST file.txt (ECHO Some^(more^)Potatoes)
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
-::                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+::                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.dosbatch
+::                                              ^ - meta.group
+::                   ^ punctuation.section.group.begin.dosbatch
 ::                    ^^^^ support.function.builtin.dosbatch
 ::                         ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                             ^^ constant.character.escape.dosbatch
+::                                   ^^ constant.character.escape.dosbatch
+::                                             ^ punctuation.section.group.end.dosbatch
 
    IF foo GTR (2) (ECHO bar) ELSE (ECHO baz)
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -562,15 +573,41 @@ ECHO : Not a comment ^
 ::            ^^^ meta.group.dosbatch
 ::              ^ punctuation.section.group.end.dosbatch
 ::                ^ punctuation.section.group.begin.dosbatch
-      ECHO bar
-::    ^^^^ support.function.builtin.dosbatch
+      IF bar == "" ( ECHO baz )
+::    ^^^^^^^^^^^^^ meta.group.dosbatch - meta.group meta.group
+::                 ^^^^^^^^^^^^ meta.group.dosbatch meta.group.dosbatch
+::                             ^ meta.group.dosbatch - meta.group meta.group
+::    ^^ keyword.control.conditional.if.dosbatch
+::       ^^^ variable.other.readwrite.dosbatch
+::           ^^ keyword.operator.comparison.dosbatch
+::              ^^ string.quoted.double.dosbatch
+::                 ^ punctuation.section.group.begin.dosbatch
+::                   ^^^^ support.function.builtin.dosbatch
+::                        ^^^ string.unquoted.dosbatch
+::                            ^ punctuation.section.group.end.dosbatch
    ) ELSE (
+::^^ meta.group.dosbatch
+::  ^^^^^^ - meta.group
+::        ^^ meta.group.dosbatch
 :: ^ punctuation.section.group.end.dosbatch
 ::   ^^^^ keyword.control.conditional.else.dosbatch
 ::        ^ punctuation.section.group.begin.dosbatch
-      ECHO baz
-::    ^^^^ support.function.builtin.dosbatch
+      IF foo == (4) ( ECHO baz )
+::    ^^^^^^^^^^ meta.group.dosbatch - meta.group meta.group
+::              ^^^ meta.group.dosbatch meta.group.dosbatch
+::                 ^ meta.group.dosbatch - meta.group meta.group
+::                  ^^^^^^^^^^^^ meta.group.dosbatch meta.group.dosbatch
+::                              ^ meta.group.dosbatch - meta.group meta.group
+::    ^^ keyword.control.conditional.if.dosbatch
+::       ^^^ variable.other.readwrite.dosbatch
+::           ^^ keyword.operator.comparison.dosbatch
+::                  ^ punctuation.section.group.begin.dosbatch
+::                    ^^^^ support.function.builtin.dosbatch
+::                         ^^^ string.unquoted.dosbatch
+::                             ^ punctuation.section.group.end.dosbatch
    )
+::^^ meta.group.dosbatch
+::  ^ - meta.group
 :: ^ punctuation.section.group.end.dosbatch
 
    ELSE echo baz

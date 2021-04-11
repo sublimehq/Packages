@@ -1,8 +1,5 @@
 %YAML 1.2
 ---
-# TODO:
-# - if 1 (echo str()) else ()
-
 # https://www.sublimetext.com/docs/syntax.html
 name: Batch File
 scope: source.dosbatch
@@ -16,14 +13,14 @@ file_extensions:
 
 variables:
   # A character that, when unquoted, separates words. A metacharacter is a
-  # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘,’, ‘;’,
-  # ‘(’, ‘)’, ‘<’, or ‘>’.
-  metachar: '[\s|&<>=,;()]'
+  # space, tab, newline, or one of the following characters:
+  # ‘|’, ‘&’, ‘,’, ‘;’, ‘<’, or ‘>’.
+  metachar: '[\s=,;{{command_terminator_chars}}]'
 
   # Command names are non-posix identifiers
   cmd_begin: (?={{cmd_char}})
   cmd_break: (?!{{cmd_char}})
-  cmd_char: '[^{{metachar}}]'
+  cmd_char: '[^{{metachar}}(]'
 
   # Command arguments are identifiers, which may start with interpolation.
   opt_punctuation: (?:\s+|^)(--?|//?){{arg_begin}}
@@ -31,7 +28,7 @@ variables:
   arg_break: (?!{{arg_char}})
   arg_char: '[^{{metachar}}:]'
 
-  command_terminator_chars: '[|&<>\)]'
+  command_terminator_chars: '[|&<>]'
   command_terminators: (?:$|(?=\s*[{{command_terminator_chars}}]))
 
   label_comment: ':[^{{label_start}}]'
@@ -302,14 +299,14 @@ contexts:
   ctl-block:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      set: block-common
-    - include: eoc-pop
+      set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
     - include: statements
+    - include: eoc-pop
 
   blocks:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      push: block-common
+      push: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
 
   block-common:
     - meta_scope: meta.group.dosbatch
@@ -321,7 +318,7 @@ contexts:
   groups:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      push: group-common
+      push: Packages/Batch File/Batch File (Compound).sublime-syntax#group-common
 
   group-common:
     - meta_scope: meta.group.dosbatch
@@ -525,7 +522,7 @@ contexts:
   ctl-for-set:
     - match: \(
       scope: punctuation.section.set.begin.dosbatch
-      set: ctl-for-set-body
+      set: Packages/Batch File/Batch File (Compound).sublime-syntax#ctl-for-set-body
     - include: else-pop
 
   ctl-for-set-body:
