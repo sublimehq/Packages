@@ -167,14 +167,8 @@ contexts:
 
   expressions:
     - include: groups
-    - include: constants
-    - include: numbers
-    - include: strings
-    - include: variables
-    - include: line-continuation
-    - include: escaped-characters
-    - match: (?=[^\s|{{command_terminator_chars}}]*?[.:?*\\])
-      push: path-pattern
+    - include: redirections
+    - include: cmd-args-values
 
 ###[ PROTOTYPES ]#############################################################
 
