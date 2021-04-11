@@ -51,6 +51,18 @@ REM This follows a REM command
    Me too!
 :: ^^^^^^^ comment.line.colon.dosbatch
 
+   :& ignored content ( & | )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :| ignored content ( & | )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :%var% ignored content ( & | )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :!var! ignored content ( & | )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+
 ECHO &&:: A comment
 ::   ^^ keyword.operator.logical.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch

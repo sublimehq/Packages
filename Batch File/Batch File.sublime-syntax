@@ -15,8 +15,6 @@ file_extensions:
 ###############################################################################
 
 variables:
-  colon_comment_start: ':[+=,;: ]'
-
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘,’, ‘;’,
   # ‘(’, ‘)’, ‘<’, or ‘>’.
@@ -36,7 +34,11 @@ variables:
   command_terminator_chars: '[|&<>\)]'
   command_terminators: (?:$|(?=\s*[{{command_terminator_chars}}]))
 
-  label: '[^+=,;:\s%!{{command_terminator_chars}}][^%!{{command_terminator_chars}}]*'
+  label_comment: ':[^{{label_start}}]'
+  label_name: '{{label_start}}{{label_char}}*'
+  label_start: '[^\s+=,;:%!{{command_terminator_chars}}]'
+  label_char: '[^%!{{command_terminator_chars}}]'
+
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
   set_quoted_end: \"(?![^&|]*(\"|\^$))
@@ -212,7 +214,7 @@ contexts:
       pop: 1
 
   illegal-comment-pop:
-    - match: '{{colon_comment_start}}'
+    - match: '{{label_comment}}'
       set:
         - meta_scope: invalid.illegal.unexpected.dosbatch
         - include: eol-pop
@@ -235,7 +237,7 @@ contexts:
 
   comments:
     # https://ss64.com/nt/rem.html
-    - match: '{{colon_comment_start}}'
+    - match: '{{label_comment}}'
       scope: punctuation.definition.comment.dosbatch
       push: comment-body
 
@@ -247,7 +249,7 @@ contexts:
 
   ignored-tail:
     - include: eoc-pop
-    - match: '{{colon_comment_start}}'
+    - match: '{{label_comment}}'
       scope: punctuation.definition.comment.dosbatch
       set: ignored-tail-comment
     - match: (?i:rem)\b
@@ -274,7 +276,7 @@ contexts:
 ###[ LABELS ]#################################################################
 
   labels:
-    - match: ^\s*((:){{label}})
+    - match: ^\s*((:){{label_name}})
       captures:
         1: entity.name.label.dosbatch
         2: punctuation.definition.label.dosbatch
