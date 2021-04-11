@@ -1,6 +1,9 @@
 %YAML 1.2
 ---
 name: JSON
+scope: source.json
+version: 2
+
 file_extensions:
   - json
   - sublime-settings
@@ -16,18 +19,22 @@ file_extensions:
   - sublime-color-scheme
   - ipynb
   - Pipfile.lock
-scope: source.json
+
 contexts:
+
   prototype:
     - include: comments
+
   main:
     - include: value
+
   value:
     - include: constant
     - include: number
     - include: string
     - include: array
     - include: object
+
   array:
     - match: '\['
       scope: punctuation.section.sequence.begin.json
@@ -35,12 +42,13 @@ contexts:
         - meta_scope: meta.sequence.json
         - match: '\]'
           scope: punctuation.section.sequence.end.json
-          pop: true
+          pop: 1
         - include: value
         - match: ","
           scope: punctuation.separator.sequence.json
         - match: '[^\s\]]'
           scope: invalid.illegal.expected-sequence-separator.json
+
   comments:
     - match: /\*\*(?!/)
       scope: punctuation.definition.comment.json
@@ -48,7 +56,7 @@ contexts:
         - meta_scope: comment.block.documentation.json
         - meta_include_prototype: false
         - match: \*/
-          pop: true
+          pop: 1
         - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.json
@@ -58,14 +66,16 @@ contexts:
         - meta_scope: comment.block.json
         - meta_include_prototype: false
         - match: \*/
-          pop: true
+          pop: 1
     - match: (//).*$\n?
       scope: comment.line.double-slash.js
       captures:
         1: punctuation.definition.comment.json
+
   constant:
     - match: \b(?:true|false|null)\b
       scope: constant.language.json
+
   number:
     # handles integer and decimal numbers
     - match: (-?)((?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+)))
@@ -79,6 +89,7 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.json
         2: constant.numeric.value.json
+
   object:
     # a JSON object
     - match: '\{'
@@ -87,7 +98,7 @@ contexts:
         - meta_scope: meta.mapping.json
         - match: '\}'
           scope: punctuation.section.mapping.end.json
-          pop: true
+          pop: 1
         - match: '"'
           scope: punctuation.definition.string.begin.json
           push:
@@ -100,7 +111,7 @@ contexts:
           push:
             - match: ',|\s?(?=\})'
               scope: invalid.illegal.expected-mapping-value.json
-              pop: true
+              pop: 1
             - match: (?=\S)
               set:
                 - clear_scopes: 1
@@ -110,28 +121,31 @@ contexts:
                   set:
                     - match: ','
                       scope: punctuation.separator.mapping.pair.json
-                      pop: true
+                      pop: 1
                     - match: \s*(?=\})
-                      pop: true
+                      pop: 1
                     - match: \s(?!/[/*])(?=[^\s,])|[^\s,]
                       scope: invalid.illegal.expected-mapping-separator.json
-                      pop: true
+                      pop: 1
         - match: '[^\s\}]'
           scope: invalid.illegal.expected-mapping-key.json
+
   string:
     - match: '"'
       scope: punctuation.definition.string.begin.json
       push: inside-string
+
   inside-string:
     - meta_scope: string.quoted.double.json
     - meta_include_prototype: false
     - match: '"'
       scope: punctuation.definition.string.end.json
-      pop: true
+      pop: 1
     - include: string-escape
-    - match: $\n?
+    - match: \n
       scope: invalid.illegal.unclosed-string.json
-      pop: true
+      pop: 1
+
   string-escape:
     - match: |-
         (?x:                # turn on extended mode
