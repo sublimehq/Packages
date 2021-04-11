@@ -246,27 +246,10 @@ contexts:
 
   ignored-tail:
     - include: eoc-pop
-    - match: '{{label_comment}}'
-      scope: punctuation.definition.comment.dosbatch
-      set: ignored-tail-comment
-    - match: (?i:rem)\b
-      scope: keyword.declaration.rem.dosbatch
-      set: ignored-tail-rem
     - match: (?=\S)
-      set: ignored-tail-other
+      set: ignored-tail-body
 
-  ignored-tail-comment:
-    - meta_scope: comment.line.colon.dosbatch
-    - include: eoc-pop
-
-  ignored-tail-rem:
-    - meta_scope: meta.command.rem.dosbatch
-    # meta_content_scope is used since rem should not be
-    # highlighted as a comment, but a command
-    - meta_content_scope: comment.line.rem.dosbatch
-    - include: eoc-pop
-
-  ignored-tail-other:
+  ignored-tail-body:
     - meta_scope: comment.line.ignored.dosbatch
     - include: eoc-pop
 
@@ -732,7 +715,7 @@ contexts:
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-      set: ignored-tail
+      push: ignored-tail
     - match: '{{opt_punctuation}}'
       captures:
         1: meta.parameter.option.dosbatch
@@ -803,16 +786,14 @@ contexts:
     - meta_content_scope: meta.command.echo.arguments.dosbatch
     - include: eoc-pop
     - match: \s*((/)\?)
-      scope: meta.command.echo.arguments.dosbatch
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-      set: ignored-tail
+      push: ignored-tail
     - match: \s*((?i:on|off)){{command_terminators}}
-      scope: meta.command.echo.arguments.dosbatch
       captures:
         1: constant.language.dosbatch
-      set: ignored-tail
+      push: ignored-tail
     - match: '[.:]'
       scope:
         meta.command.echo.dosbatch
@@ -852,16 +833,10 @@ contexts:
       scope:
         meta.command.mode.dosbatch
         support.function.external.dosbatch
-      push:
-        - cmd-mode-args-meta
-        - cmd-mode-args
-
-  cmd-mode-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.command.mode.arguments.dosbatch
-    - include: immediatelly-pop
+      push: cmd-mode-args
 
   cmd-mode-args:
+    - meta_content_scope: meta.command.mode.arguments.dosbatch
     - match: \b(?i:COM\d+|CON|LPT\d+)(:|\b)
       scope: variable.language.device.dosbatch
     # known option values
@@ -904,14 +879,9 @@ contexts:
     - match: \b(?i:set)\b
       scope: support.function.builtin.dosbatch
       push:
-        - ignored-tail
         - cmd-set-meta
+        - ignored-tail
         - cmd-set-type
-
-  cmd-set-end:
-    - include: line-continuation
-    - match: $|(?=[&<|>])
-      pop: 1
 
   cmd-set-meta:
     - meta_include_prototype: false
@@ -1226,11 +1196,10 @@ contexts:
     - meta_content_scope: meta.command.title.arguments.dosbatch
     - include: eoc-pop
     - match: \s*((/)\?)
-      scope: meta.command.title.arguments.dosbatch
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-      set: ignored-tail
+      push: ignored-tail
     - match: \s*
       scope: meta.command.title.dosbatch
       set: cmd-title-output
