@@ -145,6 +145,10 @@ contexts:
     - include: control
     - include: commands
 
+  statement:
+    - include: eoc-pop
+    - include: statements
+
   commands:
     - include: cmd-echo
     - include: cmd-rem
@@ -277,8 +281,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
-    - include: statements
-    - include: eoc-pop
+    - match: (?=\S)
+      set: statement
 
   blocks:
     - match: \(
@@ -345,8 +349,7 @@ contexts:
       set:
         - ctl-else
         - ctl-block
-    - include: eoc-pop
-    - include: statements
+    - include: statement
 
   ctl-if-checks:
     - include: eoc-pop
