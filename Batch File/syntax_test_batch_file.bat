@@ -6,6 +6,13 @@
    REM I'm a (com|ment)
 :: ^^^ keyword.declaration.rem.dosbatch - comment
 ::    ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+   ( rem comment )
+:: ^^^^^^^^^^^^^^^^ meta.group.dosbatch
+:: ^ punctuation.section.group.begin.dosbatch
+::   ^^^ keyword.declaration.rem.dosbatch
+::       ^^^^^^^^^^ comment.line.rem.dosbatch
+   )
+:: ^ meta.group.dosbatch punctuation.section.group.end.dosbatch
 
    REM ^
    I'm a (com|ment)
