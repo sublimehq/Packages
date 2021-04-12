@@ -1126,15 +1126,17 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                  ^^^^^ variable.parameter
   end
 
-  def keyword_args a: nil, b: true
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                  ^^^^^^^^^^^^^^^ meta.function.parameters
+  def keyword_args a: nil, b: true, c: false
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                   ^^^^^ meta.function.parameters.default-value
 #                   ^ punctuation.separator
-#                     ^^^ constant.language
+#                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language
+#                             ^^^^ constant.language.boolean
+#                                 ^ punctuation.separator.ruby
+#                                      ^^^^^ constant.language.boolean.ruby
   end
 
   def multiline_args(a, # a comment
