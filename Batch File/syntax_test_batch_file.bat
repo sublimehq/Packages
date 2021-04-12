@@ -6,6 +6,7 @@
    REM I'm a (com|ment)
 :: ^^^ keyword.declaration.rem.dosbatch - comment
 ::    ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+
    ( rem comment )
 :: ^^^^^^^^^^^^^^^^ meta.group.dosbatch
 :: ^ punctuation.section.group.begin.dosbatch
@@ -530,7 +531,7 @@ ECHO : Not a comment ^
 ::                    ^^^^ support.function.builtin.dosbatch
 ::                         ^^^^^^^^^ string.unquoted.dosbatch
 ::                                  ^ punctuation.section.group.end.dosbatch
-::                                   ^^^^^^^^^ invalid.illegal.dosbatch
+::                                   ^^^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    IF EXIST file.txt (ECHO Some[more]Potatoes)
 :: ^^ keyword.control.conditional.if

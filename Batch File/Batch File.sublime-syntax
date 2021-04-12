@@ -162,7 +162,7 @@ contexts:
 
   control:
     - include: ctl-call
-    - include: ctl-conditional
+    - include: ctl-if
     - include: ctl-endlocal
     - include: ctl-exit
     - include: ctl-for
@@ -282,8 +282,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
-    - match: (?=\S)
-      set: statement
+    - include: statement
 
   blocks:
     - match: \(
@@ -315,20 +314,19 @@ contexts:
 
 ###[ CONTROL CONDITIONAL ]####################################################
 
-  ctl-conditional:
+  ctl-if:
     # https://ss64.com/nt/if.html
     - match: (?i:if)\b
       scope: keyword.control.conditional.if.dosbatch
       push:
         - ctl-if-meta
-        - ctl-if-block
         - ctl-if-condition
     - match: (?i:else)\b
       scope: invalid.illegal.stray.dosbatch
 
   ctl-if-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.if.dosbatch
+    - meta_scope: meta.statement.conditional.dosbatch
     - include: immediatelly-pop
 
   ctl-if-condition:
@@ -338,21 +336,18 @@ contexts:
       captures:
         1: punctuation.definition.variable.dosbatch
       set:
+        - ctl-else
+        - ctl-block
         - maybe-operand
         - expect-operator-comparison
         - maybe-operand
         - maybe-operator-not
     - match: (?=\S)
       set:
-        - ctl-if-checks
-        - maybe-operator-not
-
-  ctl-if-block:
-    - match: (?=\()
-      set:
         - ctl-else
         - ctl-block
-    - include: statement
+        - ctl-if-checks
+        - maybe-operator-not
 
   ctl-if-checks:
     - include: eoc-pop
@@ -410,14 +405,10 @@ contexts:
     - include: else-pop
 
   ctl-else:
-    - match: (?i:else)\b|(?=\()
+    - match: (?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
       set: ctl-block
-    - match: $|(?=[&<|>])
-      pop: 1
-    - include: line-continuation
-    - match: \S
-      scope: invalid.illegal.dosbatch
+    - include: expect-eoc-pop
 
 ###[ CONTROL FOR ]############################################################
 
