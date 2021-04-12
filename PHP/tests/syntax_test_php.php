@@ -461,7 +461,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 
 /**
     *
-//  ^ text.html.basic meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
+//  ^ text.html.php meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
 */
 
 /** @var Properties: class properties. */

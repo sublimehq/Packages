@@ -1,0 +1,38 @@
+%YAML 1.2
+---
+name: PHP JavaScript
+hidden: true
+scope: source.js.php
+version: 2
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: php-tag-start
+
+  php-tag-start:
+    - match: <\?(?i:php|=)?(?![^?]*\?>)
+      scope: punctuation.section.embedded.begin.php
+      push:
+        - meta_scope: meta.embedded.block.php
+        - meta_content_scope: source.php.embedded.css
+        - include: php-end-tag-pop
+        - include: scope:source.php
+          apply_prototype: true
+    - match: <\?(?i:php|=)?
+      scope: punctuation.section.embedded.begin.php
+      push:
+        - meta_scope: meta.embedded.line.php
+        - meta_content_scope: source.php.embedded.css
+        - include: php-end-tag-pop
+        - include: scope:source.php
+          apply_prototype: true
+
+  php-end-tag-pop:
+    - match: (\?>)(\s*\n)?
+      captures:
+        1: punctuation.section.embedded.end.php
+        2: meta.css-newline-after-php.php
+      pop: 1

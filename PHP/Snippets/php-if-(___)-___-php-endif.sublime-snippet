@@ -3,6 +3,6 @@
 	$0
 <?${TM_PHP_OPEN_TAG:php} endif ?>]]></content>
 	<tabTrigger>if</tabTrigger>
-	<scope>embedding.php text.html - source.php</scope>
+	<scope>text.html.php - source.php</scope>
 	<description>&lt;?php if (…) ?&gt; … &lt;?php endif ?&gt;</description>
 </snippet>

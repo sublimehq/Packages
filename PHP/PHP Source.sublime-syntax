@@ -87,7 +87,7 @@ contexts:
         1: punctuation.section.embedded.end.php
         2: meta.html-newline-after-php.php
       push:
-        - meta_scope: embedding.php text.html.basic
+        - meta_scope: text.html.php
         - clear_scopes: true
         - match: <\?(?i:php)?
           scope: meta.embedded.block.php punctuation.section.embedded.begin.php
