@@ -252,6 +252,11 @@ contexts:
     - meta_scope: comment.line.ignored.dosbatch
     - include: eoc-pop
 
+  ignored-tail-inner:
+    - match: .*$\n?
+      scope: comment.line.ignored.dosbatch
+      pop: 1
+
 ###[ LABELS ]#################################################################
 
   labels:
@@ -871,7 +876,6 @@ contexts:
       scope: support.function.builtin.dosbatch
       push:
         - cmd-set-meta
-        - ignored-tail
         - cmd-set-type
 
   cmd-set-meta:
@@ -880,125 +884,191 @@ contexts:
     - include: immediatelly-pop
 
   cmd-set-type:
-    # SET
     - include: eoc-pop
+    - include: cmd-set-arithmetic
+    - include: cmd-set-prompt
+    - include: cmd-args-illegal-parameter
+    - include: cmd-set-quoted
+    - include: cmd-set-unquoted
+
+  cmd-args-illegal-parameter:
+    # SET /illegal
+    - match: /{{arg_char}}+
+      scope: invalid.illegal.parameter.dosbatch
+
+###[ COMMAND SET "VARIABLE=VALUE" ]############################################
+
+  cmd-set-quoted:
+    # Quoted assignments require some magic to mimic correct interpreter
+    # behaviour, with regards to line continuation and quotation marks.
+    #
+    # Even though quotation marks (except the very last one) are not removed
+    # from the variable or its value, they still effect whether line continuation
+    # or logical operators (e.g.: `&`) are effective or not.
+    #
+    # A line continuation operator following an even occurrence of a quote
+    # causes the following line to be concatenated to the value.
+    #
+    # After doing so, the very last quotation mark is used as value terminator.
+    # All content behind is ignored.
+    #
+    # Logical operators are effective only, if not followed by a quotation mark.
+    #
+    # The contexts of this section try their best to do so. The main reason
+    # for all that effort is to provide some assistance to avoid otherwise
+    # hard to debug interpreter issues.
+    #
+    # SET "variable"=
+    # SET "variable="
+    # SET "variable=string"
+    # SET "variable=string with literal "quotes" !"
+    - match: \"
+      scope: punctuation.definition.string.begin.dosbatch
+      set:
+        - cmd-set-quoted-meta
+        - cmd-set-quoted-variable-inner
+
+  cmd-set-quoted-meta:
+    - meta_scope: meta.string.dosbatch
+    - include: immediatelly-pop
+
+  cmd-set-quoted-variable-inner:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.readwrite.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      set: cmd-set-quoted-value-inner
+    - match: \"
+      set: cmd-set-quoted-variable-outer
+    - include: cmd-set-quoted-variable-common
+
+  cmd-set-quoted-variable-outer:
+    - meta_include_prototype: false
+    - meta_scope: variable.other.readwrite.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      pop: 1
+      push: cmd-set-quoted-value-outer
+    - match: \"
+      set: cmd-set-quoted-variable-inner
+    - include: cmd-set-quoted-variable-common
+    - include: line-continuation
+
+  cmd-set-quoted-variable-common:
+    - match: '{{command_terminators}}'
+      pop: 1
+    - match: \^=
+      scope: invalid.illegal.parameter.dosbatch
+    - match: \^\S
+
+  cmd-set-quoted-value-inner:
+    - meta_include_prototype: false
+    - meta_content_scope: string.unquoted.dosbatch
+    # match the very last quotation mark of a non-continued line
+    - match: \"(?![^"{{command_terminator_chars}}]*(\"|\^$))
+      scope: punctuation.definition.string.end.dosbatch
+      set: ignored-tail
+    - match: \"
+      scope: string.unquoted.dosbatch
+      set: cmd-set-quoted-value-outer
+    - include: cmd-set-quoted-value-common
+    - match: $
+      pop: 1
+
+  cmd-set-quoted-value-outer:
+    - meta_include_prototype: false
+    - meta_content_scope: string.unquoted.dosbatch
+    # match the very last quotation mark of the current line
+    - match: \"(?=[^"]*$)
+      scope: punctuation.definition.string.end.dosbatch
+      pop: 1
+      set: ignored-tail-inner
+    - match: \"
+      scope: string.unquoted.dosbatch
+      set: cmd-set-quoted-value-inner
+    - include: cmd-set-quoted-value-common
+    - include: eoc-pop
+
+  cmd-set-quoted-value-common:
+    - include: escaped-characters
+    - include: variable-interpolations
+
+###[ COMMAND SET VARIABLE=VALUE ]##############################################
+
+  cmd-set-unquoted:
+    # SET variable
+    # SET variable=string
+    # SET variable="string"
+    - match: (?=\S)
+      set: cmd-set-unquoted-variable-outer
+
+  cmd-set-unquoted-variable-inner:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.readwrite.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      set: cmd-set-unquoted-value-inner
+    - match: \"
+      set: cmd-set-unquoted-variable-outer
+    - include: cmd-set-unquoted-variable-common
+
+  cmd-set-unquoted-variable-outer:
+    - meta_include_prototype: false
+    - meta_scope: variable.other.readwrite.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      pop: 1
+      push: cmd-set-unquoted-value-outer
+    - match: \"
+      set: cmd-set-unquoted-variable-inner
+    - include: cmd-set-unquoted-variable-common
+    - include: line-continuation
+
+  cmd-set-unquoted-variable-common:
+    - match: '{{command_terminators}}'
+      pop: 1
+    - match: \^=
+      scope: invalid.illegal.parameter.dosbatch
+    - match: \^\S
+
+  cmd-set-unquoted-value-inner:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
+    - include: cmd-set-unquoted-value-common
+    - match: \"
+      scope: meta.string.dosbatch string.unquoted.dosbatch
+      set: cmd-set-unquoted-value-outer
+
+  cmd-set-unquoted-value-outer:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
+    - include: cmd-set-unquoted-value-common
+    - include: line-continuation
+    - match: \"
+      scope: meta.string.dosbatch string.unquoted.dosbatch
+      set: cmd-set-unquoted-value-inner
+
+  cmd-set-unquoted-value-common:
+    - match: '{{command_terminators}}'
+      pop: 1
+    - include: escaped-characters
+    - include: variable-interpolations
+
+###[ COMMAND SET /A ]#########################################################
+
+  cmd-set-arithmetic:
+    # SET /A "variable"=expression
     # SET /A "variable=expression"
     # SET /A variable=expression
     - match: (?i:(/)a)\b
       scope: variable.parameter.expression.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-      set: cmd-set-arithmetic
-    # SET /P "variable=[promptString]" REM ...
-    # SET /P variable="[promptString]" REM ...
-    # SET /P variable=[promptString]
-    - match: (?i:(/)p)\b
-      scope: variable.parameter.prompt.dosbatch
-      captures:
-        1: punctuation.definition.variable.dosbatch
-      set: cmd-set-prompt
-    # SET /illegal
-    - match: /{{arg_char}}+
-      scope: invalid.illegal.parameter.dosbatch
-    # SET "variable=string"
-    # SET "variable="
+      set: cmd-set-arithmetic-body
+
+  cmd-set-arithmetic-body:
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
-      set: [cmd-set-quoted, cmd-set-variable]
-    # SET variable
-    # SET variable=string
-    - match: (?=\S)
-      set: [cmd-set-unquoted, cmd-set-variable]
-
-  cmd-set-quoted:
-    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-    - match: '{{set_quoted_end}}'
-      scope: punctuation.definition.string.end.dosbatch
-      pop: 1
-    - include: cmd-set-nested-quotes
-    - include: escaped-characters
-    - include: variable-interpolations
-    - include: eol-pop
-
-  cmd-set-nested-quotes:
-    - match: \"
-      push:
-        # Consume quotation mark, if it is in the middle of the string
-        # Otherwise let the parent context do.
-        - match: (?={{set_quoted_end}})|\"
-          pop: 1
-        - include: escaped-characters
-        - include: variable-interpolations
-        - include: illegal-eol-pop
-
-  cmd-set-unquoted:
-    - include: eoc-pop
-    - match: (?=\S)
-      set:
-        - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-        - include: escaped-characters
-        - include: variable-interpolations
-        - include: eoc-pop
-
-  cmd-set-variable:
-    - match: ''
-      set: cmd-set-variable-chars
-
-  cmd-set-variable-chars:
-    - meta_content_scope: variable.other.readwrite.dosbatch
-    - match: =
-      scope: keyword.operator.assignment.dosbatch
-      pop: 1
-    - match: \^=
-      scope: invalid.illegal.parameter.dosbatch
-    - match: \^\S
-    - include: eoc-pop
-
-  inside-cmd-set:
-      - include: eoc-pop
-      - include: escaped-characters
-      - include: variables
-      - match: (")\s*([^ ][^=]*)(=)
-        captures:
-          1: punctuation.definition.string.begin.dosbatch
-          2: variable.other.readwrite.dosbatch
-          3: keyword.operator.assignment.dosbatch
-        push:
-          - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-          - match: '"(?=\s*(?:$|[{{command_terminator_chars}}]))'
-            scope: punctuation.definition.string.end.dosbatch
-            pop: 1
-          - include: line-continuation
-          - include: escaped-characters
-          - include: variables
-          - include: numbers
-          - include: groups
-      - match: ([^ ][^=]*)(=)
-        captures:
-          1: variable.other.readwrite.dosbatch
-          2: keyword.operator.assignment.dosbatch
-        push:
-          - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-          - include: eoc-pop
-          - include: escaped-characters
-          - include: variables
-          - match: \"
-            scope: punctuation.definition.string.begin.dosbatch
-            push:
-              - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-              - clear_scopes: 1
-              - include: string-common
-      - include: numbers
-      - include: groups
-      - match: \b([^ ][^=\n]*)$
-        scope: variable.other.readwrite.dosbatch
-      - include: strings
-
-###[ COMMAND SET /A ]#########################################################
-
-  cmd-set-arithmetic:
-    - match: \"
-      scope: punctuation.definition.prompt.begin.dosbatch
       set:
         - cmd-set-arithmetic-meta
         - cmd-set-arithmetic-quoted
@@ -1109,22 +1179,55 @@ contexts:
 ###[ COMMAND SET /P ]#########################################################
 
   cmd-set-prompt:
+    # SET /P "variable"=[promptString] REM ...
+    # SET /P "variable=[promptString]" REM ...
+    # SET /P variable="[promptString]" REM ...
+    # SET /P variable=[promptString]
+    - match: (?i:(/)p)\b
+      scope: variable.parameter.prompt.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      set:
+        - ignored-tail
+        - cmd-set-prompt-body
+
+  cmd-set-prompt-body:
     - match: \"
-      scope: punctuation.definition.prompt.begin.dosbatch
+      scope: punctuation.definition.string.begin.dosbatch
       set:
         - cmd-set-prompt-meta
-        - cmd-set-prompt-quoted
-        - cmd-set-variable
+        - cmd-set-propmpt-unquoted-variable-inner
     - match: (?=\S)
       set:
         - cmd-set-prompt-meta
-        - cmd-set-prompt-unquoted
-        - cmd-set-variable
+        - cmd-set-prompt-unquoted-variable-outer
 
   cmd-set-prompt-meta:
     - meta_include_prototype: false
     - meta_scope: meta.prompt.dosbatch
     - include: immediatelly-pop
+
+  cmd-set-propmpt-unquoted-variable-inner:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.readwrite.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      set: cmd-set-prompt-quoted
+    - match: \"
+      set: cmd-set-prompt-unquoted-variable-outer
+    - include: cmd-set-unquoted-variable-common
+
+  cmd-set-prompt-unquoted-variable-outer:
+    - meta_include_prototype: false
+    - meta_scope: variable.other.readwrite.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      pop: 1
+      push: cmd-set-prompt-unquoted
+    - match: \"
+      set: cmd-set-propmpt-unquoted-variable-inner
+    - include: cmd-set-unquoted-variable-common
+    - include: line-continuation
 
   cmd-set-prompt-quoted:
     # quoted value in quoted prompt
@@ -1134,7 +1237,7 @@ contexts:
         - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
         - match: \"
           scope:
-            punctuation.definition.prompt.end.dosbatch
+            punctuation.definition.string.end.dosbatch
             punctuation.definition.string.end.dosbatch
           pop: 1
         - include: cmd-set-prompt-output
@@ -1143,7 +1246,7 @@ contexts:
       set:
         - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
         - match: \"
-          scope: punctuation.definition.prompt.end.dosbatch
+          scope: punctuation.definition.string.end.dosbatch
           pop: 1
         - include: cmd-set-prompt-output
     - include: eol-pop
