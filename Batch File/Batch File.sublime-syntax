@@ -1232,33 +1232,39 @@ contexts:
 
   numbers:
     - match: \b(0[xX])(\h*)\b
-      scope: meta.number.integer.hexadecimal.dosbatch
       captures:
+        0: meta.number.integer.hexadecimal.dosbatch
         1: constant.numeric.base.dosbatch
         2: constant.numeric.value.dosbatch
-    - match: \b(0)([0-7]+)\b
-      scope: meta.number.integer.octal.dosbatch
+    - match: ([-+]|\b)(0)([0-7]+)\b
       captures:
-        1: constant.numeric.base.dosbatch
-        2: constant.numeric.value.dosbatch
-    - match: \b(?:0|[1-9][0-9]*)\b
-      scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+        0: meta.number.integer.octal.dosbatch
+        1: keyword.operator.arithmetic.dosbatch
+        2: constant.numeric.base.dosbatch
+        3: constant.numeric.value.dosbatch
+    - match: ([-+]|\b)(?:0|[1-9][0-9]*)\b
+      captures:
+        0: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+        1: keyword.operator.arithmetic.dosbatch
 
   number:
     - match: \b(0[xX])(\h*)\b
-      scope: meta.number.integer.hexadecimal.dosbatch
       captures:
+        0: meta.number.integer.hexadecimal.dosbatch
         1: constant.numeric.base.dosbatch
         2: constant.numeric.value.dosbatch
       pop: 1
-    - match: \b(0)([0-7]+)\b
-      scope: meta.number.integer.octal.dosbatch
+    - match: ([-+]|\b)(0)([0-7]+)\b
       captures:
-        1: constant.numeric.base.dosbatch
-        2: constant.numeric.value.dosbatch
+        0: meta.number.integer.octal.dosbatch
+        1: keyword.operator.arithmetic.dosbatch
+        2: constant.numeric.base.dosbatch
+        3: constant.numeric.value.dosbatch
       pop: 1
-    - match: \b(?:0|[1-9][0-9]*)\b
-      scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+    - match: ([-+]|\b)(?:0|[1-9][0-9]*)\b
+      captures:
+        0: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+        1: keyword.operator.arithmetic.dosbatch
       pop: 1
 
 ###[ PATH PATTERNS ]##########################################################

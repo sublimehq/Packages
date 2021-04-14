@@ -279,6 +279,7 @@ ECHO : Not a comment ^
 ::                    ^ punctuation.definition.variable.dosbatch
 ::                    ^^^^^^ variable.parameter.option.dosbatch
 ::                          ^ keyword.operator.assignment.dosbatch
+::                           ^^^ constant.numeric
 
    CALL "d:\foo %bar%\baz.exe" /par-am=10 /D
 ::^ - meta.function-call
@@ -300,6 +301,7 @@ ECHO : Not a comment ^
 ::                             ^ punctuation.definition.variable.dosbatch
 ::                             ^^^^^^^ variable.parameter.option.dosbatch
 ::                                    ^ keyword.operator.assignment.dosbatch
+::                                     ^^ constant.numeric
 
 
    EXIT
