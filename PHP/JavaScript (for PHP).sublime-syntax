@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: PHP JavaScript
+name: JavaScript (for PHP)
 hidden: true
 scope: source.js.php
 version: 2
@@ -34,5 +34,5 @@ contexts:
     - match: (\?>)(\s*\n)?
       captures:
         1: punctuation.section.embedded.end.php
-        2: meta.css-newline-after-php.php
+        2: meta.js-newline-after-php.php
       pop: 1

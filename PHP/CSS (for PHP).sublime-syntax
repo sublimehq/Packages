@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: PHP CSS
+name: CSS (for PHP)
 hidden: true
 scope: source.css.php
 version: 2
