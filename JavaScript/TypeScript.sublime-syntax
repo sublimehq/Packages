@@ -35,6 +35,8 @@ variables:
       (?:=>|:)
     )
 
+  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare){{identifier_break}})
+
 contexts:
   detect-parenthesized-arrow:
     - meta_prepend: true
@@ -230,8 +232,7 @@ contexts:
     - match: '\+|-'
       scope: storage.modifier.js
 
-    - match: readonly{{identifier_break}}
-      scope: storage.modifier.js
+    - include: class-element-modifiers
 
     - match: (?=[<(])
       push:
@@ -415,32 +416,40 @@ contexts:
         - ts-type-expression-begin
     - include: else-pop
 
-  function-parameter-binding-pattern:
+  function-parameter:
     - match: ''
       set:
-        - - include: ts-type-annotation
-        - - include: ts-type-annotation-optional
-        - - include: function-parameter-binding-name
-          - include: function-parameter-binding-array-destructuring
-          - include: function-parameter-binding-object-destructuring
-          - include: else-pop
+        - initializer
+        - ts-type-annotation
+        - ts-type-annotation-optional
+        - function-parameter-binding-pattern
 
   function-parameter-binding-list:
     - meta_prepend: true
 
     - include: decorator
 
-    - match: (?:private|public|protected|readonly){{identifier_break}}
-      scope: storage.modifier.js
+    - include: function-parameter-modifiers
 
     - match: this{{identifier_break}}
       scope: variable.language.this.js
       push: ts-type-annotation
 
-  class-body-contents:
-    - meta_prepend: true
-    - match: (?:private|public|protected|readonly|abstract|declare){{identifier_break}}
+  function-parameter-modifiers:
+    - match: (?={{modifier}})
+      branch_point: function-parameter-modifier
+      branch:
+        - function-parameter-modifier
+        - function-parameter
+
+  function-parameter-modifier:
+    - match: '{{modifier}}'
       scope: storage.modifier.js
+      set:
+        - match: (?={{binding_pattern_lookahead}}|\.\.\.)
+          pop: true
+        - match: (?=\S)
+          fail: function-parameter-modifier
 
   class-field:
     - match: ''
@@ -466,8 +475,7 @@ contexts:
         - function-declaration-expect-parameters
         - ts-type-parameter-list
         - method-name
-        - method-declaration-expect-prefix
-        - function-declaration-expect-async
+        - method-declaration-expect-asterisk
 
   expression-end:
     - meta_prepend: true
@@ -857,3 +865,21 @@ contexts:
           push:
             - ts-type-annotation
             - ts-type-annotation-optional
+
+  object-literal-contents:
+    - meta_prepend: true
+
+    - match: (?={{modifier}})
+      branch_point: ts-object-literal-element-modifier
+      branch:
+        - ts-object-literal-element-modifier
+        - object-literal-element
+
+  ts-object-literal-element-modifier:
+    - match: '{{modifier}}'
+      scope: storage.modifier.js
+      set:
+        - match: (?={{property_name}})
+          pop: true
+        - match: (?=\S)
+          fail: ts-object-literal-element-modifier

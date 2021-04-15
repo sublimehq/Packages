@@ -181,10 +181,20 @@
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
 
-        private static foo;
+        readonly;
+//      ^^^^^^^^ variable.other.readwrite
+
+        readonly() {}
+//      ^^^^^^^^^^ meta.function
+//      ^^^^^^^^ entity.name.function
+
+        private static readonly abstract declare public;
 //      ^^^^^^^ storage.modifier
 //              ^^^^^^ storage.modifier
-//                     ^^^ variable.other.readwrite
+//                     ^^^^^^^^ storage.modifier
+//                              ^^^^^^^^ storage.modifier
+//                                       ^^^^^^^ storage.modifier
+//                                               ^^^^^^ variable.other.readwrite
 
         foo(): any {}
 //      ^^^^^^^^^^^^^ meta.function
@@ -209,6 +219,33 @@
         abstract foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
+
+        abstract foo();
+//      ^^^^^^^^ storage.modifier
+//               ^^^ entity.name.function
+
+        abstract *foo();
+//      ^^^^^^^^ storage.modifier
+//               ^ keyword.generator.asterisk
+//                ^^^ entity.name.function
+
+        abstract async foo();
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^ keyword.declaration.async
+//                     ^^^ entity.name.function
+
+        abstract async() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^ entity.name.function
+
+        abstract get foo() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^ storage.type.accessor
+//                   ^^^ entity.name.function
+
+        abstract get() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^ entity.name.function
 
     }
 
@@ -293,6 +330,14 @@ function f(public x) {}
 function f(readonly x) {}
 //         ^^^^^^^^ storage.modifier
 //                  ^ meta.binding.name variable.parameter.function
+
+function f(readonly ...x) {}
+//         ^^^^^^^^ storage.modifier
+//                  ^^^keyword.operator.spread
+//                     ^ meta.binding.name variable.parameter.function
+
+function f(readonly) {}
+//         ^^^^^^^^ meta.binding.name variable.parameter.function
 
 function f(x?: any) {}
 //          ^ storage.modifier.optional
@@ -876,3 +921,31 @@ const f = (): any => {};
 
     a != b;
 //    ^^ keyword.operator.comparison
+
+const x = {
+    readonly: true,
+//  ^^^^^^^^ meta.mapping.key
+    readonly readonly: true,
+//  ^^^^^^^^ storage.modifier
+//           ^^^^^^^^ meta.mapping.key
+
+    readonly,
+//  ^^^^^^^^ variable.other.readwrite
+
+    readonly get() {},
+//  ^^^^^^^^ storage.modifier
+//           ^^^ entity.name.function
+
+    readonly get foo() {},
+//  ^^^^^^^^ storage.modifier
+//           ^^^ storage.type.accessor
+//               ^^^ entity.name.function
+
+    readonly get: 42,
+//  ^^^^^^^^ storage.modifier
+//           ^^^ meta.mapping.key
+
+    readonly get,
+//  ^^^^^^^^ storage.modifier
+//           ^^^ variable.other.readwrite
+}
