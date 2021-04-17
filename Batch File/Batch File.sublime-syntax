@@ -186,13 +186,16 @@ contexts:
       pop: 1
     - include: line-continuation
 
-  eol-pop:
+  quoted-eol-pop:
     - match: $
       pop: 1
+
+  unquoted-eol-pop:
+    - include: quoted-eol-pop
     - include: line-continuation
 
   else-pop:
-    - include: eol-pop
+    - include: unquoted-eol-pop
     - include: any-pop
 
   immediatelly-pop:
@@ -213,14 +216,14 @@ contexts:
     - match: '{{label_comment}}'
       set:
         - meta_scope: invalid.illegal.unexpected.dosbatch
-        - include: eol-pop
+        - include: unquoted-eol-pop
     - include: else-pop
 
   illegal-token-pop:
     - match: \S+
       scope: invalid.illegal.unexpected.dosbatch
       set: else-pop
-    - include: eol-pop
+    - include: unquoted-eol-pop
 
   line-continuation:
     - match: \^\n
@@ -374,7 +377,7 @@ contexts:
         - maybe-operand
 
   maybe-operand:
-    - include: eol-pop
+    - include: unquoted-eol-pop
     - match: (?=\S)
       set: operand-body
 
@@ -490,7 +493,7 @@ contexts:
       pop: 1
     - match: \S
       scope: invalid.illegal.parameter.dosbatch
-    - include: eol-pop
+    - include: unquoted-eol-pop
 
   ctl-for-in:
     - match: \b(?i:in)\b
@@ -972,8 +975,7 @@ contexts:
       scope: string.unquoted.dosbatch
       set: cmd-set-quoted-value-outer
     - include: cmd-set-quoted-value-common
-    - match: $
-      pop: 1
+    - include: quoted-eol-pop
 
   cmd-set-quoted-value-outer:
     - meta_include_prototype: false
@@ -1132,7 +1134,7 @@ contexts:
           set: cmd-set-group-newly-quoted
     - include: cmd-set-arithmetic-operator-quoted
     - include: inside-cmd-set-arithmetic
-    - include: eol-pop
+    - include: unquoted-eol-pop
 
   cmd-set-group-already-quoted:
     - meta_scope: meta.group.dosbatch
@@ -1242,7 +1244,7 @@ contexts:
           scope: punctuation.definition.string.end.dosbatch
           pop: 1
         - include: cmd-set-prompt-output
-    - include: eol-pop
+    - include: unquoted-eol-pop
 
   cmd-set-prompt-unquoted:
     # quoted value in unquoted prompt
@@ -1262,7 +1264,7 @@ contexts:
         - include: redirection-interpolations
         - include: variable-interpolations
         - include: eoc-pop
-    - include: eol-pop
+    - include: unquoted-eol-pop
 
   cmd-set-prompt-output:
     - include: escaped-characters
@@ -1421,7 +1423,7 @@ contexts:
     - include: path-pattern
 
   path-pattern:
-    - include: eol-pop
+    - include: unquoted-eol-pop
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set:
@@ -1481,8 +1483,7 @@ contexts:
     - include: string-end
     - include: escaped-characters
     - include: variable-interpolations
-    - match: $
-      pop: 1
+    - include: quoted-eol-pop
 
   string-end:
     - match: \"
