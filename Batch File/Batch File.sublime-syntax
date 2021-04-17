@@ -774,6 +774,10 @@ contexts:
     - include: line-continuation
     - include: escaped-characters
 
+  cmd-arg-illegal-options:
+    - match: /{{arg_char}}+
+      scope: invalid.illegal.parameter.dosbatch
+
 ###[ COMMAND ECHO ]###########################################################
 
   cmd-echo:
@@ -892,7 +896,7 @@ contexts:
     - include: unquoted-eoc-pop
     - include: cmd-set-arithmetic
     - include: cmd-set-prompt
-    - include: cmd-args-illegal-parameter
+    - include: cmd-arg-illegal-options
     - include: cmd-set-quoted
     - include: cmd-set-unquoted
 
@@ -900,11 +904,6 @@ contexts:
     - match: \^=
       scope: invalid.illegal.parameter.dosbatch
     - match: \^\S
-
-  cmd-args-illegal-parameter:
-    # SET /illegal
-    - match: /{{arg_char}}+
-      scope: invalid.illegal.parameter.dosbatch
 
 ###[ COMMAND SET "VARIABLE=VALUE" ]############################################
 
