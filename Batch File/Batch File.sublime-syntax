@@ -811,8 +811,7 @@ contexts:
         meta.string.dosbatch string.unquoted.dosbatch
     - match: \"
       push: cmd-echo-output-quoted
-    - include: escaped-characters
-    - include: variable-interpolations
+    - include: escapes-and-interpolations
     - include: unquoted-eoc-pop
 
   cmd-echo-output-quoted:
@@ -976,7 +975,7 @@ contexts:
     - match: \"
       scope: string.unquoted.dosbatch
       set: cmd-set-quoted-value-outer
-    - include: cmd-set-quoted-value-common
+    - include: escapes-and-interpolations
     - include: quoted-eol-pop
 
   cmd-set-quoted-value-outer:
@@ -990,12 +989,8 @@ contexts:
     - match: \"
       scope: string.unquoted.dosbatch
       set: cmd-set-quoted-value-inner
-    - include: cmd-set-quoted-value-common
+    - include: escapes-and-interpolations
     - include: unquoted-eoc-pop
-
-  cmd-set-quoted-value-common:
-    - include: escaped-characters
-    - include: variable-interpolations
 
 ###[ COMMAND SET VARIABLE=VALUE ]##############################################
 
@@ -1035,8 +1030,8 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-outer
-    - include: cmd-set-unquoted-value-common
-    - include: quoted-eoc-pop
+    - include: escapes-and-interpolations
+    - include: quoted-eol-pop
 
   cmd-set-unquoted-value-outer:
     - meta_include_prototype: false
@@ -1044,12 +1039,8 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-inner
-    - include: cmd-set-unquoted-value-common
+    - include: escapes-and-interpolations
     - include: unquoted-eoc-pop
-
-  cmd-set-unquoted-value-common:
-    - include: escaped-characters
-    - include: variable-interpolations
 
 ###[ COMMAND SET /A ]#########################################################
 
@@ -1270,8 +1261,7 @@ contexts:
     - include: unquoted-eol-pop
 
   cmd-set-prompt-output:
-    - include: escaped-characters
-    - include: variable-interpolations
+    - include: escapes-and-interpolations
     - include: line-continuation
     - include: illegal-eol-pop
 
@@ -1454,8 +1444,7 @@ contexts:
     - include: path-pattern-common
 
   path-pattern-common:
-    - include: escaped-characters
-    - include: variable-interpolations
+    - include: escapes-and-interpolations
     - match: '[.:\\/]'
       scope: punctuation.separator.path.dosbatch
       push: path-pattern-relative
@@ -1484,8 +1473,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - include: string-end
-    - include: escaped-characters
-    - include: variable-interpolations
+    - include: escapes-and-interpolations
     - include: quoted-eol-pop
 
   string-end:
@@ -1498,6 +1486,10 @@ contexts:
       scope: constant.character.escape.dosbatch
 
 ###[ VARIABLES ]##############################################################
+
+  escapes-and-interpolations:
+    - include: escaped-characters
+    - include: variable-interpolations
 
   # NOTE: To be used in strings to remove `string` scope.
   variable-interpolations:
