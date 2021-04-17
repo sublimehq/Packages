@@ -891,6 +891,13 @@ contexts:
     - include: cmd-set-quoted
     - include: cmd-set-unquoted
 
+  cmd-set-variable-common:
+    - match: '{{command_terminators}}'
+      pop: 1
+    - match: \^=
+      scope: invalid.illegal.parameter.dosbatch
+    - match: \^\S
+
   cmd-args-illegal-parameter:
     # SET /illegal
     - match: /{{arg_char}}+
@@ -940,7 +947,7 @@ contexts:
       set: cmd-set-quoted-value-inner
     - match: \"
       set: cmd-set-quoted-variable-outer
-    - include: cmd-set-quoted-variable-common
+    - include: cmd-set-variable-common
 
   cmd-set-quoted-variable-outer:
     - meta_include_prototype: false
@@ -951,15 +958,8 @@ contexts:
       push: cmd-set-quoted-value-outer
     - match: \"
       set: cmd-set-quoted-variable-inner
-    - include: cmd-set-quoted-variable-common
+    - include: cmd-set-variable-common
     - include: line-continuation
-
-  cmd-set-quoted-variable-common:
-    - match: '{{command_terminators}}'
-      pop: 1
-    - match: \^=
-      scope: invalid.illegal.parameter.dosbatch
-    - match: \^\S
 
   cmd-set-quoted-value-inner:
     - meta_include_prototype: false
@@ -1010,7 +1010,7 @@ contexts:
       set: cmd-set-unquoted-value-inner
     - match: \"
       set: cmd-set-unquoted-variable-outer
-    - include: cmd-set-unquoted-variable-common
+    - include: cmd-set-variable-common
 
   cmd-set-unquoted-variable-outer:
     - meta_include_prototype: false
@@ -1021,32 +1021,25 @@ contexts:
       push: cmd-set-unquoted-value-outer
     - match: \"
       set: cmd-set-unquoted-variable-inner
-    - include: cmd-set-unquoted-variable-common
+    - include: cmd-set-variable-common
     - include: line-continuation
-
-  cmd-set-unquoted-variable-common:
-    - match: '{{command_terminators}}'
-      pop: 1
-    - match: \^=
-      scope: invalid.illegal.parameter.dosbatch
-    - match: \^\S
 
   cmd-set-unquoted-value-inner:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-    - include: cmd-set-unquoted-value-common
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-outer
+    - include: cmd-set-unquoted-value-common
 
   cmd-set-unquoted-value-outer:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-    - include: cmd-set-unquoted-value-common
-    - include: line-continuation
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-inner
+    - include: cmd-set-unquoted-value-common
+    - include: line-continuation
 
   cmd-set-unquoted-value-common:
     - match: '{{command_terminators}}'
@@ -1215,7 +1208,7 @@ contexts:
       set: cmd-set-prompt-quoted
     - match: \"
       set: cmd-set-prompt-unquoted-variable-outer
-    - include: cmd-set-unquoted-variable-common
+    - include: cmd-set-variable-common
 
   cmd-set-prompt-unquoted-variable-outer:
     - meta_include_prototype: false
@@ -1226,7 +1219,7 @@ contexts:
       push: cmd-set-prompt-unquoted
     - match: \"
       set: cmd-set-propmpt-unquoted-variable-inner
-    - include: cmd-set-unquoted-variable-common
+    - include: cmd-set-variable-common
     - include: line-continuation
 
   cmd-set-prompt-quoted:
