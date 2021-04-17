@@ -606,12 +606,12 @@ contexts:
     - meta_scope: meta.command.pause.dosbatch
     - include: expect-eoc-pop
 
-###[ CONTROL SETLOCAL ]#######################################################
+###[ CONTEXT SETLOCAL ]#######################################################
 
   ctl-setlocal:
     # https://ss64.com/nt/setlocal.html
     - match: \b(?i:setlocal)\b
-      scope: keyword.control.namespace.setlocal.dosbatch
+      scope: keyword.context.setlocal.dosbatch
       push: ctl-setlocal-args
 
   ctl-setlocal-args:
@@ -624,12 +624,12 @@ contexts:
       scope: constant.language.dosbatch
     - include: expect-eoc-pop
 
-###[ CONTROL ENDLOCAL ]#######################################################
+###[ CONTEXT ENDLOCAL ]#######################################################
 
   ctl-endlocal:
     # https://ss64.com/nt/endlocal.html
     - match: \b(?i:endlocal)\b
-      scope: keyword.control.namespace.endlocal.dosbatch
+      scope: keyword.context.endlocal.dosbatch
       push: ctl-endlocal-args
 
   ctl-endlocal-args:

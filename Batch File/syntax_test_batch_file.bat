@@ -927,9 +927,9 @@ ECHO : Not a comment ^
 :::: [ SETLOCAL ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    SETLOCAL
-:: ^^^^^^^^ meta.command.setlocal.dosbatch keyword.control.namespace.setlocal.dosbatch
+:: ^^^^^^^^ meta.command.setlocal.dosbatch keyword.context.setlocal.dosbatch
    ENDLOCAL
-:: ^^^^^^^^ meta.command.endlocal.dosbatch keyword.control.namespace.endlocal.dosbatch
+:: ^^^^^^^^ meta.command.endlocal.dosbatch keyword.context.endlocal.dosbatch
 
    setlocal endlocal & echo hello & endlocal illegal
 :: ^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
@@ -939,19 +939,19 @@ ECHO : Not a comment ^
 ::                               ^^^ - meta.command
 ::                                  ^^^^^^^^^^^^^^^^ meta.command.endlocal.dosbatch
 ::                                                  ^ - meta.command
-:: ^^^^^^^^ keyword.control.namespace.setlocal.dosbatch
+:: ^^^^^^^^ keyword.context.setlocal.dosbatch
 ::          ^^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 ::                   ^ keyword.operator.logical.dosbatch
 ::                     ^^^^ support.function.builtin.dosbatch
 ::                          ^^^^^ string.unquoted.dosbatch
 ::                                ^ keyword.operator.logical.dosbatch
-::                                  ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
+::                                  ^^^^^^^^ keyword.context.endlocal.dosbatch
 ::                                           ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    SETLOCAL EnableDelayedExpansion but DisableExtensions
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
 ::                                                      ^ - meta.command
-:: ^^^^^^^^ keyword.control.namespace.setlocal.dosbatch
+:: ^^^^^^^^ keyword.context.setlocal.dosbatch
 ::          ^^^^^^^^^^^^^^^^^^^^^^ constant.language.dosbatch
 ::                                 ^^^ invalid.illegal.expect-end-of-command.dosbatch
 ::                                     ^^^^^^^^^^^^^^^^^ constant.language.dosbatch
@@ -966,7 +966,7 @@ ECHO : Not a comment ^
 ::                                              ^^^^ support.function.builtin.dosbatch
 ::                                                                      ^^^^^^^^^ meta.interpolation.dosbatch
    ENDLOCAL & set return=%example%
-:: ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
+:: ^^^^^^^^ keyword.context.endlocal.dosbatch
 ::          ^ keyword.operator.logical.dosbatch
 ::            ^^^ support.function.builtin.dosbatch
 ::                ^^^^^^ variable.other.readwrite.dosbatch
