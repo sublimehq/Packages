@@ -2231,6 +2231,16 @@ put arg1 arg2
 ::                     ^^^^ support.function.builtin.dosbatch
 ::                          ^^^^^^^^^^ meta.interpolation.dosbatch
 
+   set foo=b"a"r^
+   b)az & echo !foo"
+:: ^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::     ^^^ - meta.command
+::        ^^^^^^^^^^ meta.command.echo
+:: ^^^^ string.unquoted.dosbatch
+::      ^ keyword.operator.logical.dosbatch
+::        ^^^^ support.function.builtin.dosbatch
+::             ^^^^^ string.unquoted.dosbatch
+
    set foo"=bar^
 :: ^^^^^^^^^^^^^ meta.command.set.dosbatch
 :: ^^^ support.function.builtin.dosbatch
@@ -2422,6 +2432,16 @@ put arg1 arg2
 :: ^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
 :: ^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::                  ^ punctuation.definition.string.end.dosbatch
+
+   set "foo=b"ar^
+   b)az & echo !foo"
+:: ^^^^ meta.command.set.dosbatch
+::     ^^^ - meta.command
+::        ^^^^^^^^^^ meta.command.echo
+:: ^^^^ comment.line.ignored
+::      ^ keyword.operator.logical.dosbatch
+::        ^^^^ support.function.builtin.dosbatch
+::             ^^^^^ string.unquoted.dosbatch
 
    SET T=%TIME: =0%
 :: ^^^^^^^^^^^^^^^^ meta.command.set.dosbatch

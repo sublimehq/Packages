@@ -967,15 +967,38 @@ contexts:
   cmd-set-quoted-value-inner:
     - meta_include_prototype: false
     - meta_content_scope: string.unquoted.dosbatch
-    # match the very last quotation mark of a non-continued line
-    - match: \"(?![^"{{command_terminator_chars}}]*(\"|\^$))
-      scope: punctuation.definition.string.end.dosbatch
-      set: ignored-tail
+    # match the very last quotation mark
+    - match: (?=\"(?![^"{{command_terminator_chars}}]*\"))
+      branch_point: cmd-set-quoted-value-inner
+      branch:
+        - cmd-set-quoted-value-inner-continue
+        - cmd-set-quoted-value-inner-end
     - match: \"
       scope: string.unquoted.dosbatch
       set: cmd-set-quoted-value-outer
     - include: escapes-and-interpolations
     - include: quoted-eol-pop
+
+  cmd-set-quoted-value-inner-continue:
+    - meta_include_prototype: false
+    - match: \"
+      set: cmd-set-quoted-value-inner-nextline
+
+  cmd-set-quoted-value-inner-nextline:
+    - meta_include_prototype: false
+    - match: \"(?=(?![^"{{command_terminator_chars}}]*\"))
+      pop: 1
+    - match: '{{command_terminators}}'
+      fail: cmd-set-quoted-value-inner
+    - include: escapes-and-interpolations
+    - include: line-continuation
+
+  cmd-set-quoted-value-inner-end:
+    - meta_include_prototype: false
+    - match: \"
+      scope: meta.string.dosbatch punctuation.definition.string.end.dosbatch
+      pop: 2
+      set: [clear-string-scope, ignored-tail]
 
   cmd-set-quoted-value-outer:
     - meta_include_prototype: false
