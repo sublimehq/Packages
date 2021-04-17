@@ -232,7 +232,8 @@ contexts:
     - match: \^\n
       scope: punctuation.separator.continuation.line.dosbatch
       push:
-        - match: ^
+        # Note: empty lines are ignored
+        - match: ^(?!$)
           pop: 1
 
 ###[ COMMENTS ]###############################################################
