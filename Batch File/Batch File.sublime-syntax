@@ -81,7 +81,7 @@ variables:
   builtin_commands: |-
     \b(?xi:
       assoc | break | cd | chdir | cls | color | copy | date | del | dir
-    | dpath | erase | ftype | keys | md | mkdir | mklink | move | path | pause
+    | dpath | erase | ftype | keys | md | mkdir | mklink | move | path
     | popd | prompt | pushd | ren | rename | rd | rmdir | set | shift | start
     | time | title | type | ver | verify | vol
     )(?=[\s{{command_terminator_chars}}])
