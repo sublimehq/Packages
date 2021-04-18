@@ -250,7 +250,13 @@ contexts:
     - match: \n
       pop: 1
 
-  ignored-tail:
+  ignored-tail-inner:
+    - match: \s*(.*$\n?)
+      captures:
+        1: comment.line.ignored.dosbatch
+      pop: 1
+
+  ignored-tail-outer:
     - include: unquoted-eoc-pop
     - match: (?=\S)
       set: ignored-tail-body
@@ -258,11 +264,6 @@ contexts:
   ignored-tail-body:
     - meta_scope: comment.line.ignored.dosbatch
     - include: unquoted-eoc-pop
-
-  ignored-tail-inner:
-    - match: .*$\n?
-      scope: comment.line.ignored.dosbatch
-      pop: 1
 
 ###[ LABELS ]#################################################################
 
@@ -718,7 +719,7 @@ contexts:
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-      push: ignored-tail
+      push: ignored-tail-outer
     - match: '{{opt_punctuation}}'
       captures:
         1: meta.parameter.option.dosbatch
@@ -796,11 +797,11 @@ contexts:
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-      push: ignored-tail
+      push: ignored-tail-outer
     - match: \s*((?i:on|off)){{command_terminators}}
       captures:
         1: constant.language.dosbatch
-      push: ignored-tail
+      push: ignored-tail-outer
     - match: '[.:]'
       scope:
         meta.command.echo.dosbatch
@@ -999,7 +1000,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch punctuation.definition.string.end.dosbatch
       pop: 2
-      set: [clear-string-scope, ignored-tail]
+      set: [clear-string-scope, ignored-tail-outer]
 
   cmd-set-quoted-value-outer:
     - meta_include_prototype: false
@@ -1199,7 +1200,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.dosbatch
       set:
-        - ignored-tail
+        - ignored-tail-outer
         - cmd-set-prompt-body
 
   cmd-set-prompt-body:
@@ -1304,7 +1305,7 @@ contexts:
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
-      push: ignored-tail
+      push: ignored-tail-outer
     - match: \s*
       scope: meta.command.title.dosbatch
       set: cmd-title-output
