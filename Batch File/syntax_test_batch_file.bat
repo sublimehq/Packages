@@ -2627,14 +2627,14 @@ put arg1 arg2
 ::                    ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /A "hello*=wow"
-::        ^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
+::        ^^^^^^^^^^^^ meta.expression.dosbatch
 ::        ^ punctuation.definition.string.begin
 ::         ^^^^^ variable.other.readwrite
 ::              ^^ keyword.operator.assignment.augmented
 ::                   ^ punctuation.definition.string.end
 
    set /A "%hello%+%wow%"
-::        ^^^^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
+::        ^^^^^^^^^^^^^^^ meta.expression.dosbatch
 ::        ^ punctuation.definition.string.begin
 ::         ^^^^^^^ meta.interpolation.dosbatch
 ::         ^ punctuation.section.interpolation.begin
@@ -2647,7 +2647,7 @@ put arg1 arg2
 ::                      ^ punctuation.definition.string.end
 
    set /A "%hello%+wow"
-::        ^^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
+::        ^^^^^^^^^^^^^ meta.expression.dosbatch
 ::         ^^^^^^^ meta.interpolation.dosbatch
 ::         ^ punctuation.section.interpolation.begin
 ::               ^ punctuation.section.interpolation.end
@@ -2656,7 +2656,6 @@ put arg1 arg2
    set /A 1+"%hello%"
 ::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
-::          ^^^^^^^^^ string.quoted.double
 ::          ^ punctuation.definition.string.begin
 ::           ^ punctuation.section.interpolation.begin
 ::           ^^^^^^^ meta.interpolation.dosbatch
@@ -2691,14 +2690,14 @@ put arg1 arg2
 ::         ^^^^ variable.other.readwrite
 
    set /a "! a12b"
-::        ^^^^^^^^ meta.expression.dosbatch string.quoted.double
+::        ^^^^^^^^ meta.expression.dosbatch
 ::        ^ punctuation.definition.string.begin
 ::         ^ keyword.operator.logical
 ::           ^^^^ variable.other.readwrite
 ::               ^ punctuation.definition.string.end
 
    set /a "! %a12b%"
-::        ^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
+::        ^^^^^^^^^^ meta.expression.dosbatch
 ::        ^ punctuation.definition.string.begin
 ::         ^ keyword.operator.logical
 ::           ^^^^^^ meta.interpolation.dosbatch
@@ -2722,30 +2721,28 @@ put arg1 arg2
 ::         ^ keyword.operator.logical - meta.expression.dosbatch
 
    set /a " world"=12
-::        ^^^^^^^^ string.quoted.double
+::        ^^^^^^^^^^^ meta.command.set.dosbatch meta.expression.dosbatch
 ::          ^^^^^ variable.other.readwrite
 ::               ^ punctuation.definition.string.end
 ::                ^ keyword.operator.assignment
 ::                 ^^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a "wow"+="2"
-::        ^^^^^  string.quoted.double
+::        ^^^^^^^^^^ meta.command.set.dosbatch meta.expression.dosbatch
 ::         ^^^ variable.other.readwrite
 ::             ^^ keyword.operator.assignment.augmented - string
-::               ^^^ string.quoted.double
 ::                ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a wow"+="2
+::        ^^^^^^^^ meta.command.set.dosbatch meta.expression.dosbatch
 ::        ^^^ variable.other.readwrite
-::           ^^^^ string.quoted.double
 ::            ^^ keyword.operator.assignment.augmented
-::               ^ meta.number.integer.decimal - string constant.numeric.value.dosbatch
+::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    set /a 4*"2+-wow+(3"-2)
-::        ^^^^^^^^^^^^^^^^ meta.expression.dosbatch - string string - meta.group meta.group
+::        ^^^^^^^^^^^^^^^^ meta.expression.dosbatch - meta.group meta.group
 ::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
-::          ^^^^^^^^^^^ string.quoted.double
 ::          ^ punctuation.definition.string.begin
 ::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^^ keyword.operator.arithmetic
@@ -2758,15 +2755,12 @@ put arg1 arg2
 ::                     ^ keyword.operator.arithmetic
 ::                      ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                       ^ punctuation.section.group.end
-::                     ^^^ - string
-::                  ^^^ string.quoted.double meta.group
 
    set /a (8"2")
-::        ^^^^^^ meta.group
+::        ^^^^^^ meta.command.set.dosbatch meta.expression.dosbatch meta.group.dosbatch
 ::        ^ punctuation.section.group.begin
 ::         ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::          ^ punctuation.definition.string.begin
-::          ^^^ string.quoted.double
 ::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^ punctuation.definition.string.end
 ::             ^ punctuation.section.group.end
@@ -2774,7 +2768,6 @@ put arg1 arg2
    set /a 4*"2+1"1
 ::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
-::          ^^^^^ string.quoted.double
 ::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^ keyword.operator.arithmetic
 ::             ^ meta.number.integer.decimal constant.numeric.value.dosbatch
@@ -2783,13 +2776,11 @@ put arg1 arg2
    set /a 4*"2++1"
 ::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
-::          ^^^^^^ string.quoted.double
 ::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^^ keyword.operator.arithmetic
 ::              ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a 4*"2++w"ow
-::          ^^^^^^ string.quoted.double
 ::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^^ keyword.operator.arithmetic
 ::              ^ variable.other.readwrite
@@ -2821,7 +2812,6 @@ put arg1 arg2
 ::                      ^ keyword.operator.arithmetic
 ::                       ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                        ^ punctuation.section.group.end
-::                         ^^^^^^^^ string.quoted.double
 ::                         ^ punctuation.definition.string.begin
 ::                          ^ keyword.operator.arithmetic
 ::                           ^ meta.group punctuation.section.group.begin
@@ -2838,7 +2828,6 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.expression.dosbatch
-::         ^^^ string.quoted.double
 ::          ^ variable.other.readwrite
 ::            ^ keyword.operator.arithmetic
 ::             ^ variable.other.readwrite
@@ -2851,7 +2840,6 @@ put arg1 arg2
 ::         ^ variable.other.readwrite
 ::          ^ keyword.operator.arithmetic
 ::           ^ punctuation.definition.string.begin
-::           ^^^^^^ string.quoted.double
 ::            ^ variable.other.readwrite
 ::             ^ punctuation.section.group.end
 ::              ^ keyword.operator.arithmetic - meta.group
@@ -2860,6 +2848,35 @@ put arg1 arg2
 ::                 ^ keyword.operator.arithmetic - meta.group
 ::                  ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
+   ( set /a wow=(1+2) )
+:: ^^ meta.group.dosbatch - meta.command
+::   ^^^^^^^ meta.group.dosbatch meta.command.set.dosbatch - meta.expression
+::          ^^^^ meta.group.dosbatch meta.command.set.dosbatch meta.expression.dosbatch - meta.group meta.group
+::              ^^^^ meta.group.dosbatch meta.command.set.dosbatch meta.expression.dosbatch meta.group.dosbatch
+::                  ^ meta.group.dosbatch - meta.command - meta.expression - meta.group meta.group
+::                   ^^ - meta.group - meta.command
+:: ^ punctuation.section.group.begin.dosbatch
+::   ^^^ support.function.builtin.dosbatch
+::       ^^ variable.parameter.expression.dosbatch
+::          ^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^ punctuation.section.group.begin.dosbatch
+::               ^ constant.numeric.value.dosbatch
+::                ^ keyword.operator.arithmetic.dosbatch
+::                 ^ constant.numeric.value.dosbatch
+::                  ^ punctuation.section.group.end.dosbatch
+::                    ^ invalid.illegal.stray.dosbatch
+
+   ( set /a "wow=(1+2)" )
+:: ^^ meta.group.dosbatch - meta.command
+::   ^^^^^^^ meta.group.dosbatch meta.command.set.dosbatch - meta.expression
+::          ^^^^^ meta.group.dosbatch meta.command.set.dosbatch meta.expression.dosbatch meta.string.dosbatch - meta.group meta.group
+::               ^^^^^ meta.group.dosbatch meta.command.set.dosbatch meta.expression.dosbatch meta.string.dosbatch meta.group.dosbatch
+::                    ^ meta.group.dosbatch meta.command.set.dosbatch meta.expression.dosbatch meta.string.dosbatch - meta.group meta.group
+::                     ^^ meta.group.dosbatch - meta.command
+::                       ^ - meta.group - meta.command
+:: ^ punctuation.section.group.begin.dosbatch
+::                      ^ punctuation.section.group.end.dosbatch
 
 :::: [ SET /P variable=[promptString ]:::::::::::::::::::::::::::::::::::::::::
 

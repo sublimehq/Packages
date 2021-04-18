@@ -1069,6 +1069,16 @@ contexts:
 ###[ COMMAND SET /A ]#########################################################
 
   cmd-set-arithmetic:
+    # All quotation marks
+    # 1. have the same meaning
+    # 2. are removed from output
+    # 3. split an expression into sections which support
+    #    a) line continuation
+    #    b) command terminations via `&` or `|`
+    #    and those which don't.
+    #
+    # Variables may not contain whitespace nor any kind of operator char.
+    #
     # SET /A "variable"=expression
     # SET /A "variable=expression"
     # SET /A variable=expression
@@ -1076,11 +1086,16 @@ contexts:
       scope: variable.parameter.expression.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-      set: cmd-set-arithmetic-body
+      set: cmd-set-arithmetic-start
 
-  cmd-set-arithmetic-body:
+  cmd-set-arithmetic-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.expression.dosbatch
+    - include: immediatelly-pop
+
+  cmd-set-arithmetic-start:
     - match: \"
-      scope: punctuation.definition.string.begin.dosbatch
+      scope: meta.string.dosbatch punctuation.definition.string.begin.dosbatch
       set:
         - cmd-set-arithmetic-meta
         - cmd-set-arithmetic-quoted
@@ -1089,40 +1104,86 @@ contexts:
         - cmd-set-arithmetic-meta
         - cmd-set-arithmetic-unquoted
 
-  cmd-set-arithmetic-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.expression.dosbatch
-    - include: immediatelly-pop
+  cmd-set-arithmetic-quoted:
+    - meta_content_scope: meta.string.dosbatch
+    - match: \"
+      scope: meta.string.dosbatch punctuation.definition.string.end.dosbatch
+      set: cmd-set-arithmetic-unquoted
+    - match: \(
+      scope: meta.group.dosbatch punctuation.section.group.begin.dosbatch
+      set: cmd-set-arithmetic-quoted-first-group
+    - include: cmd-set-arithmetic-quoted-common
+    - include: quoted-eol-pop
+
+  cmd-set-arithmetic-quoted-first-group:
+    - meta_scope: meta.string.dosbatch
+    - meta_content_scope: meta.group.dosbatch
+    - match: \"
+      scope: meta.group.dosbatch punctuation.definition.string.end.dosbatch
+      set: cmd-set-arithmetic-unquoted-group
+    - match: \(
+      scope: meta.group.dosbatch punctuation.section.group.begin.dosbatch
+      push: cmd-set-arithmetic-quoted-group
+    - match: \)
+      scope: meta.group.dosbatch punctuation.section.group.end.dosbatch
+      set: cmd-set-arithmetic-quoted
+    - include: cmd-set-arithmetic-quoted-common
+    - include: quoted-eol-pop
+
+  cmd-set-arithmetic-quoted-group:
+    - meta_content_scope: meta.group.dosbatch
+    - match: \"
+      scope: meta.group.dosbatch punctuation.definition.string.end.dosbatch
+      set: cmd-set-arithmetic-unquoted-group
+    - match: \(
+      scope: meta.group.dosbatch punctuation.section.group.begin.dosbatch
+      push: cmd-set-arithmetic-quoted-group
+    - match: \)
+      scope: meta.group.dosbatch punctuation.section.group.end.dosbatch
+      pop: 1
+    - include: cmd-set-arithmetic-quoted-common
+    - include: quoted-eol-pop
+
+  cmd-set-arithmetic-quoted-common:
+    - match: '{{set_arithmetic_operators_quoted}}='
+      scope: keyword.operator.assignment.augmented.dosbatch
+    - match: '{{set_arithmetic_operators_quoted}}'
+      scope: keyword.operator.arithmetic.dosbatch
+    - include: cmd-set-arithmetic-unquoted-common
 
   cmd-set-arithmetic-unquoted:
-    - include: unquoted-eoc-pop
-    - include: cmd-set-arithmetic-operator-common
-    - match: \(
-      scope: punctuation.section.group.begin.dosbatch
-      push: cmd-set-group-unquoted
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push: cmd-set-arithmetic-quoted
-    - include: inside-cmd-set-arithmetic
+    - match: \(
+      scope: meta.group.dosbatch punctuation.section.group.begin.dosbatch
+      push: cmd-set-arithmetic-unquoted-group
+    - include: cmd-set-arithmetic-unquoted-common
+    - include: unquoted-eoc-pop
 
-  cmd-set-group-unquoted:
-    - meta_scope: meta.group.dosbatch
-    - match: \)
-      scope: punctuation.section.group.end.dosbatch
-      pop: 1
+  cmd-set-arithmetic-unquoted-group:
+    - meta_content_scope: meta.group.dosbatch
+    # Note: must be included before \) pattern to support compound termination
+    - include: unquoted-eoc-pop
     - match: \"
-      scope: punctuation.definition.string.begin.dosbatch
-      set: cmd-set-group-newly-quoted
-    - include: cmd-set-arithmetic-unquoted
+      scope: meta.group.dosbatch punctuation.definition.string.begin.dosbatch
+      set: cmd-set-arithmetic-quoted-first-group
+    - match: \(
+      scope: meta.group.dosbatch punctuation.section.group.begin.dosbatch
+      push: cmd-set-arithmetic-unquoted-group
+    - match: \)
+      scope: meta.group.dosbatch punctuation.section.group.end.dosbatch
+      pop: 1
+    - include: cmd-set-arithmetic-unquoted-common
 
-  cmd-set-arithmetic-operator-common:
-    - match: ({{set_arithmetic_operators_unquoted}})=
+  cmd-set-arithmetic-unquoted-common:
+    - match: '{{set_arithmetic_operators_unquoted}}='
       scope: keyword.operator.assignment.augmented.dosbatch
     - match: (\^)(\^=)
       captures:
         1: constant.character.escape.dosbatch
         2: keyword.operator.assignment.augmented.dosbatch
-    - match: ({{set_arithmetic_operators_unquoted}})
+    - match: '{{set_arithmetic_operators_unquoted}}'
       scope: keyword.operator.arithmetic.dosbatch
     - match: (\^)(\^)
       captures:
@@ -1130,62 +1191,13 @@ contexts:
         2: keyword.operator.arithmetic.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
-
-  cmd-set-arithmetic-operator-quoted:
-    - match: ({{set_arithmetic_operators_quoted}})=
-      scope: keyword.operator.assignment.augmented.dosbatch
-    - match: ({{set_arithmetic_operators_quoted}})
-      scope: keyword.operator.arithmetic.dosbatch
-    - include: cmd-set-arithmetic-operator-common
-
-  cmd-set-arithmetic-quoted:
-    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-    - match: \"
-      scope: punctuation.definition.string.end.dosbatch
-      pop: 1
-    - match: \(
-      scope: punctuation.section.group.begin.dosbatch
-      set:
-        - meta_scope: meta.group.dosbatch
-        - match: ''
-          set: cmd-set-group-newly-quoted
-    - include: cmd-set-arithmetic-operator-quoted
-    - include: inside-cmd-set-arithmetic
-    - include: unquoted-eol-pop
-
-  cmd-set-group-already-quoted:
-    - meta_scope: meta.group.dosbatch
-    - match: \)
-      scope: punctuation.section.group.end.dosbatch
-      pop: 1
-    - match: \"
-      scope: punctuation.definition.string.end.dosbatch
-      set:
-        - match: ''
-          set: cmd-set-group-unquoted
-    - include: cmd-set-arithmetic-quoted
-
-  cmd-set-group-newly-quoted:
-    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch meta.group.dosbatch
-    - match: \(
-      scope: punctuation.section.group.begin.dosbatch
-      push: cmd-set-group-already-quoted
-    - match: \)
-      scope: punctuation.section.group.end.dosbatch
-      set:
-        - match: ''
-          set: cmd-set-arithmetic-quoted
-    - include: cmd-set-group-already-quoted
-
-  inside-cmd-set-arithmetic:
     - match: '!'
       scope: keyword.operator.logical.dosbatch
     - include: numbers
     - include: separator-comma
-    - include: variables
     - include: escaped-characters
-    - include: line-continuation
-    - match: (?:(?!{{set_arithmetic_operators_unquoted}}|{{set_arithmetic_operators_quoted}}|[=")])\S)+
+    - include: variables
+    - match: '[^-+*/%~=()"''^{{metachar}}]+'
       scope: variable.other.readwrite.dosbatch
 
 ###[ COMMAND SET /P ]#########################################################
