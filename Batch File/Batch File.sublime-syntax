@@ -872,41 +872,36 @@ contexts:
     # SET "variable=string"
     # SET "variable=string with literal "quotes" !"
     - match: \"
-      scope: punctuation.definition.string.begin.dosbatch
-      set:
-        - cmd-set-quoted-meta
-        - cmd-set-quoted-variable-inner
-
-  cmd-set-quoted-meta:
-    - meta_scope: meta.string.dosbatch
-    - include: immediatelly-pop
+      scope: meta.string.dosbatch punctuation.definition.string.begin.dosbatch
+      set: cmd-set-quoted-variable-inner
 
   cmd-set-quoted-variable-inner:
     - meta_include_prototype: false
-    - meta_content_scope: variable.other.readwrite.dosbatch
+    - meta_content_scope: meta.string.dosbatch variable.other.readwrite.dosbatch
     - match: =
-      scope: keyword.operator.assignment.dosbatch
+      scope: meta.string.dosbatch keyword.operator.assignment.dosbatch
       set: cmd-set-quoted-value-inner
     - match: \"
+      scope: meta.string.dosbatch variable.other.readwrite.dosbatch
       set: cmd-set-quoted-variable-outer
     - include: cmd-set-variable-common
     - include: quoted-eoc-pop
 
   cmd-set-quoted-variable-outer:
     - meta_include_prototype: false
-    - meta_scope: variable.other.readwrite.dosbatch
+    - meta_content_scope: meta.string.dosbatch variable.other.readwrite.dosbatch
     - match: =
-      scope: keyword.operator.assignment.dosbatch
-      pop: 1
-      push: cmd-set-quoted-value-outer
+      scope: meta.string.dosbatch keyword.operator.assignment.dosbatch
+      set: cmd-set-quoted-value-outer
     - match: \"
+      scope: meta.string.dosbatch variable.other.readwrite.dosbatch
       set: cmd-set-quoted-variable-inner
     - include: cmd-set-variable-common
     - include: unquoted-eoc-pop
 
   cmd-set-quoted-value-inner:
     - meta_include_prototype: false
-    - meta_content_scope: string.unquoted.dosbatch
+    - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
     # match the very last quotation mark
     - match: (?={{set_quoted_end}})
       branch_point: cmd-set-quoted-value-inner
@@ -914,7 +909,7 @@ contexts:
         - cmd-set-quoted-value-inner-continue
         - cmd-set-quoted-value-inner-end
     - match: \"
-      scope: string.unquoted.dosbatch
+      scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-value-outer
     - include: escapes-and-interpolations
     - include: quoted-eol-pop
@@ -935,21 +930,22 @@ contexts:
 
   cmd-set-quoted-value-inner-end:
     - meta_include_prototype: false
+    - clear_scopes: 1
     - match: \"
-      scope: meta.string.dosbatch punctuation.definition.string.end.dosbatch
+      scope: punctuation.definition.string.end.dosbatch
       pop: 2
-      set: [clear-string-scope, ignored-tail-outer]
+      set: ignored-tail-outer
 
   cmd-set-quoted-value-outer:
     - meta_include_prototype: false
-    - meta_content_scope: string.unquoted.dosbatch
+    - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
     # match the very last quotation mark of the current line
     - match: \"(?=[^"]*$)
-      scope: punctuation.definition.string.end.dosbatch
+      scope: meta.string.dosbatch punctuation.definition.string.end.dosbatch
       pop: 1
       set: ignored-tail-inner
     - match: \"
-      scope: string.unquoted.dosbatch
+      scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-value-inner
     - include: escapes-and-interpolations
     - include: unquoted-eoc-pop
@@ -970,18 +966,19 @@ contexts:
       scope: keyword.operator.assignment.dosbatch
       set: cmd-set-unquoted-value-inner
     - match: \"
+      scope: variable.other.readwrite.dosbatch
       set: cmd-set-unquoted-variable-outer
     - include: cmd-set-variable-common
     - include: quoted-eoc-pop
 
   cmd-set-unquoted-variable-outer:
     - meta_include_prototype: false
-    - meta_scope: variable.other.readwrite.dosbatch
+    - meta_content_scope: variable.other.readwrite.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
-      pop: 1
-      push: cmd-set-unquoted-value-outer
+      set: cmd-set-unquoted-value-outer
     - match: \"
+      scope: variable.other.readwrite.dosbatch
       set: cmd-set-unquoted-variable-inner
     - include: cmd-set-variable-common
     - include: unquoted-eoc-pop
@@ -1176,6 +1173,7 @@ contexts:
       scope: keyword.operator.assignment.dosbatch
       set: cmd-set-prompt-quoted
     - match: \"
+      scope: variable.other.readwrite.dosbatch
       set: cmd-set-prompt-unquoted-variable-outer
     - include: cmd-set-variable-common
     - include: quoted-eoc-pop
@@ -1185,9 +1183,9 @@ contexts:
     - meta_scope: variable.other.readwrite.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
-      pop: 1
-      push: cmd-set-prompt-unquoted
+      set: cmd-set-prompt-unquoted
     - match: \"
+      scope: variable.other.readwrite.dosbatch
       set: cmd-set-propmpt-unquoted-variable-inner
     - include: cmd-set-variable-common
     - include: unquoted-eoc-pop

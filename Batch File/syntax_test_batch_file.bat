@@ -2211,17 +2211,21 @@ put arg1 arg2
 ::     ^^^ variable.other.readwrite.dosbatch
 ::        ^ keyword.operator.assignment.dosbatch
 
-   set rem=bar
-:: ^^^^^^^^^^^ meta.command.set.dosbatch
-::            ^ - meta.command
+   set rem=set
+:: ^^^^^^^^ meta.command.set.dosbatch - meta.string
+::         ^^^ meta.command.set.dosbatch meta.string.dosbatch
+::            ^ - meta.command - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^ variable.other.readwrite.dosbatch
 ::        ^ keyword.operator.assignment.dosbatch
 ::         ^^^ string.unquoted.dosbatch
 
-   set rem bar = baz & echo %rem bar %
-:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
-::                  ^ - meta.command
+   set rem set = baz & echo %rem bar %
+:: ^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::              ^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::                  ^^^ - meta.command - meta.string
+::                     ^^^^^ meta.command.echo.dosbatch
+::                          ^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - variable.other.readwrite
 ::     ^^^^^^^^ variable.other.readwrite.dosbatch
@@ -2229,80 +2233,142 @@ put arg1 arg2
 ::               ^^^ string.unquoted
 ::                   ^ keyword.operator.logical.dosbatch
 ::                     ^^^^ support.function.builtin.dosbatch
-::                          ^^^^^^^^^^ meta.interpolation.dosbatch
+::                          ^ punctuation.section.interpolation.begin.dosbatch
+::                           ^^^^^^^^ variable.other.readwrite.dosbatch
+::                                   ^ punctuation.section.interpolation.end.dosbatch
+
+   set foo=bar^
+   baz & echo !foo!"
+:: ^^^ meta.command.set.dosbatch meta.string.dosbatch
+::    ^^^ - meta.command - meta.string
+::       ^^^^^ meta.command.echo.dosbatch - meta.string - meta.interpolation
+::            ^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                 ^ meta.command.echo.output.dosbatch meta.string.dosbatch - meta.interpolation
+:: ^^^ string.unquoted.dosbatch
+::     ^ keyword.operator.logical.dosbatch
+::       ^^^^ support.function.builtin.dosbatch
+
+   set foo=bar^
+   baz" & echo !foo!"
+:: ^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::             ^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                  ^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                   ^ - meta.command - meta.string
+:: ^^^^^^^^^^^^ string.unquoted.dosbatch
+::             ^ punctuation.section.interpolation.begin.dosbatch
+::              ^^^ variable.other.readwrite.dosbatch
+::                 ^ punctuation.section.interpolation.end.dosbatch
+::                  ^ string.unquoted.dosbatch
+
+   set foo="bar^
+   baz & echo !foo!"
+:: ^^^ meta.function-call.identifier.dosbatch 
+::    ^^^ - meta.command - meta.string
+::       ^^^^^ meta.command.echo.dosbatch - meta.string - meta.interpolation
+::            ^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                 ^ meta.command.echo.output.dosbatch meta.string.dosbatch - meta.interpolation
+:: ^^^ variable.function.dosbatch
+::     ^ keyword.operator.logical.dosbatch
+::       ^^^^ support.function.builtin.dosbatch
+
+   set foo="bar^
+   baz" & echo !foo!"
+:: ^^^ meta.function-call.identifier.dosbatch
+::    ^^^^^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch
+::             ^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                  ^ meta.function-call.identifier.dosbatch meta.string.dosbatch 
+::                   ^ - meta.function-call - meta.string
+:: ^^^^^^^^^^^^ variable.function.dosbatch
+::             ^ punctuation.section.interpolation.begin.dosbatch
+::              ^^^ variable.other.readwrite.dosbatch
+::                 ^ punctuation.section.interpolation.end.dosbatch
+::                  ^ variable.function.dosbatch punctuation.definition.string.end.dosbatch
 
    set foo=b"a"r^
-   b)az & echo !foo"
-:: ^^^^ meta.command.set.dosbatch meta.string.dosbatch
-::     ^^^ - meta.command
-::        ^^^^^^^^^^ meta.command.echo
-:: ^^^^ string.unquoted.dosbatch
-::      ^ keyword.operator.logical.dosbatch
-::        ^^^^ support.function.builtin.dosbatch
-::             ^^^^^ string.unquoted.dosbatch
+   baz & echo !foo!"
+:: ^^^ meta.command.set.dosbatch meta.string.dosbatch
+::    ^^^ - meta.command - meta.string
+::       ^^^^^ meta.command.echo.dosbatch - meta.string - meta.interpolation
+::            ^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                 ^ meta.command.echo.output.dosbatch meta.string.dosbatch - meta.interpolation
+:: ^^^ string.unquoted.dosbatch
+::     ^ keyword.operator.logical.dosbatch
+::       ^^^^ support.function.builtin.dosbatch
 
    set foo"=bar^
-:: ^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::          ^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::              ^ - meta.command - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch
-::          ^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::          ^^^^ string.unquoted.dosbatch
 ::             ^ - punctuation
 
    set foo"=bar^
    baz
 :: ^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 
-   set fo"o"=bar^
-:: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+   set foo"="bar^
+:: ^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::          ^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
 :: ^^^ support.function.builtin.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::     ^^^^ variable.other.readwrite.dosbatch
+::         ^ keyword.operator.assignment.dosbatch
+::          ^^^^^^ string.unquoted.dosbatch
 ::              ^^ punctuation.separator.continuation.line.dosbatch
 
-   set fo"o"=bar^
+   set foo"="bar^
    baz
 :: ^^^ meta.command.set.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::    ^ - meta.command - meta.string
 
-   set foo"="bar^
-:: ^^^^^^^^^^^^^^ meta.command.set.dosbatch
+   set foo"="bar"^
+:: ^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::          ^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::                ^ - meta.command - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch
 ::          ^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
-::              ^^ punctuation.separator.continuation.line.dosbatch
-
-   set foo"="bar^
-   baz
-:: ^^^ meta.command.set.dosbatch meta.string.dosbatch string.unquoted.dosbatch
-
-   set fo"o"="bar^
-:: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
-:: ^^^ support.function.builtin.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::               ^ - punctuation
 
-   set fo"o"="bar^
+   set foo"="bar"^
    baz
 :: ^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 
-   set foo"="bar"^
-:: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+
+   set fo"o"=bar^
+:: ^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::           ^^^^^ meta.command.set.dosbatch meta.string.dosbatch
 :: ^^^ support.function.builtin.dosbatch
-::     ^^^^ variable.other.readwrite.dosbatch
-::         ^ keyword.operator.assignment.dosbatch
-::          ^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^ string.unquoted.dosbatch
+::              ^^ punctuation.separator.continuation.line.dosbatch
+
+   set fo"o"=bar^
+   baz
+:: ^^^ meta.command.set.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::    ^ - meta.command - meta.string
+
+   set fo"o"="bar^
+:: ^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::           ^^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::                ^ - meta.command - meta.string
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::               ^ - punctuation
 
-   set foo"="bar"^
+   set fo"o"="bar^
    baz
 :: ^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 
    set fo"o"="bar"^
-:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::           ^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
@@ -2312,28 +2378,104 @@ put arg1 arg2
    set fo"o"="bar"^
    baz
 :: ^^^ meta.command.set.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::    ^ - meta.command - meta.string
+
+   set foo=%TEMP%\subfolder\
+:: ^^^^^^^^ meta.command.set.dosbatch - meta.string - meta.interpolation
+::         ^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::               ^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                          ^ - meta.command - meta.string
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.assignment.dosbatch
+::         ^ punctuation.section.interpolation.begin.dosbatch
+::          ^^^^ variable.other.readwrite.dosbatch
+::              ^ punctuation.section.interpolation.end.dosbatch
+::               ^^^^^^^^^^^ string.unquoted.dosbatch - variable.other
+
+   set bar="c:\program files (x86)\%example%_%%test"abc
+:: ^^^^^^^^ meta.command.set.dosbatch - meta.string - meta.interpolation
+::         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                                 ^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                                          ^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                                                      ^ - meta.command - meta.string
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.assignment.dosbatch
+::         ^ - punctuation
+::         ^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                                 ^^^^^^^^^ - string
+::                                          ^^^^^^^^^^^ string.unquoted.dosbatch
+::                                           ^^ constant.character.escape.dosbatch
+::                                                 ^ - punctuation
+
+   SET T=%TIME: =0%
+:: ^^^^^^ meta.command.set.dosbatch - meta.string - meta.interpolation
+::       ^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation meta.interpolation
+::       ^^^^^ meta.interpolation.dosbatch
+::            ^ meta.interpolation.substitution.dosbatch
+::             ^ meta.interpolation.substitution.pattern.dosbatch
+::              ^ meta.interpolation.substitution.dosbatch
+::               ^ meta.interpolation.substitution.replacement.dosbatch
+::                ^ meta.interpolation.dosbatch
+::                 ^ - meta.command - meta.interpolation
+:: ^^^ support.function.builtin.dosbatch
+::     ^ variable.other.readwrite
+::      ^ keyword.operator.assignment
+::       ^ punctuation.section.interpolation.begin.dosbatch
+::        ^^^^ variable.other.readwrite.dosbatch
+::            ^ punctuation.separator.dosbatch
+::              ^ keyword.operator.asignment.dosbatch
+::               ^ string.unquoted.dosbatch
+::                ^ punctuation.section.interpolation.end.dosbatch
+
+
+:::: [ SET "variable=string" ] ::::::::::::::::::::::::::::::::::::::::::::::::
+
+   set "foo="
+:: ^^^^ meta.command.set.dosbatch
+::     ^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::           ^ - meta.command - meta.string
+:: ^^^ support.function.builtin.dosbatch
+::     ^ punctuation.definition.string.begin.dosbatch
+::      ^^^ variable.other.readwrite.dosbatch
+::         ^ keyword.operator.assignment.dosbatch
+::          ^ punctuation.definition.string.end.dosbatch
 
 :: "bar is output as no quote follows.
    set "foo="bar" & echo !foo!
-::     ^^^^^^^^^^ meta.string.dosbatch
+:: ^^^^ meta.command.set.dosbatch
+::     ^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
+::               ^^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+:: ^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.definition.string.begin.dosbatch
+::      ^^^ variable.other.readwrite.dosbatch
+::         ^ keyword.operator.assignment.dosbatch
 ::          ^ - punctuation
+::           ^^^ string.unquoted.dosbatch
 ::              ^ punctuation.definition.string.end.dosbatch
+::                ^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
-   set "foo="bar" & echo !foo"!
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
-::     ^^^^^^^^^^^^^^^^^^ meta.string.dosbatch - meta.interpolation
-::                       ^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch
+   set "foo="bar" & echo !foo!"
+:: ^^^^ meta.command.set.dosbatch
+::     ^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                       ^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                            ^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                             ^ - meta.command - meta.string
 ::     ^ punctuation.definition.string.begin.dosbatch
+::      ^^^ variable.other.readwrite.dosbatch
 ::          ^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::          ^ - punctuation
 ::              ^ - punctuation
+::                ^ - keyword
 ::                       ^ punctuation.section.interpolation.begin.dosbatch
-::                        ^^^^ variable.other.readwrite.dosbatch
-::                            ^ punctuation.section.interpolation.end.dosbatch
+::                        ^^^ variable.other.readwrite.dosbatch
+::                           ^ punctuation.section.interpolation.end.dosbatch
+::                            ^ punctuation.definition.string.end.dosbatch
 
    set "foo"="bar" & echo !foo"!
-:: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^^ meta.command.set.dosbatch
+::     ^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
 ::                ^^^ - meta.command
 ::                   ^^^^^ meta.command.echo.dosbatch
 ::                        ^^^^^^ meta.command.echo.output.dosbatch
@@ -2344,16 +2486,17 @@ put arg1 arg2
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^ - punctuation
 ::           ^^^^ string.unquoted.dosbatch
-::               ^^ - string
-::               ^ punctuation.definition.string.end.dosbatch
+::               ^ punctuation.definition.string.end.dosbatch - string
 ::                 ^ keyword.operator.logical.dosbatch
 ::                   ^^^^ support.function.builtin.dosbatch
 ::                        ^ punctuation.section.interpolation.begin.dosbatch
 ::                         ^^^^ variable.other.readwrite.dosbatch
 ::                             ^ punctuation.section.interpolation.end.dosbatch
 
-   set "foo"=bar" & echo !foo" ignored
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+   set "foo"="bar & echo !foo" ignored
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                            ^^^^^^^^ meta.command.set.dosbatch - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite.dosbatch
@@ -2363,31 +2506,45 @@ put arg1 arg2
 ::              ^ - punctuation
 ::                ^ - keyword
 ::                  ^^^^ - support
-::                           ^ punctuation.definition.string.end.dosbatch
+::                           ^ punctuation.definition.string.end.dosbatch - string
 ::                             ^^^^^^^ comment.line.ignored.dosbatch
 
-   set "foo"="bar & echo !foo"
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+   set "foo"=bar" & echo !foo" ignored
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                            ^^^^^^^^ meta.command.set.dosbatch - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite.dosbatch
 ::         ^ - punctuation
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                           ^ punctuation.definition.string.end.dosbatch
+::              ^ - punctuation
+::                ^ - keyword
+::                  ^^^^ - support
+::                           ^ punctuation.definition.string.end.dosbatch - string
+::                             ^^^^^^^ comment.line.ignored.dosbatch
 
-   set "foo"=ba"r & echo !foo"
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+   set "foo"=ba"r & echo !foo" ignored
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                            ^^^^^^^^ meta.command.set.dosbatch - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite.dosbatch
 ::         ^ - punctuation
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                           ^ punctuation.definition.string.end.dosbatch
+::              ^ - punctuation
+::                ^ - keyword
+::                  ^^^^ - support
+::                           ^ punctuation.definition.string.end.dosbatch - string
+::                             ^^^^^^^ comment.line.ignored.dosbatch
 
    set "foo"=b"ar ba"z & echo !foo"!
-:: ^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                   ^ meta.command.set.dosbatch - meta.string
 ::                    ^^^ - meta.command
 ::                       ^^^^^ meta.command.echo.dosbatch
 ::                            ^^^^^^ meta.command.echo.output.dosbatch
@@ -2402,20 +2559,24 @@ put arg1 arg2
 ::                     ^ keyword.operator.logical.dosbatch
 ::                       ^^^^ support.function.builtin.dosbatch
 
-   set "foo"=b"ar "ba"z & echo !foo"
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+   set "foo"=b"ar "ba"z & echo !foo"!
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                             ^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                                   ^ - meta.command - meta.string
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite.dosbatch
 ::         ^ - punctuation
 ::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                                 ^ punctuation.definition.string.end.dosbatch
+::           ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                             ^ punctuation.section.interpolation.begin.dosbatch
+::                              ^^^^ variable.other.readwrite.dosbatch
+::                                  ^ punctuation.section.interpolation.end.dosbatch
 
-   :: line continuation in quotes not supported
    set "foo"=b"ar^
 ::     ^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
-::             ^^^^ meta.command.set.dosbatch comment.line.ignored.dosbatch
+::             ^^^^ meta.command.set.dosbatch comment.line.ignored.dosbatch - meta.string
 
    set "foo"=b"ar^
     b)a"z & echo !foo"
@@ -2443,67 +2604,42 @@ put arg1 arg2
 ::        ^^^^ support.function.builtin.dosbatch
 ::             ^^^^^ string.unquoted.dosbatch
 
-   SET T=%TIME: =0%
-:: ^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
-::      ^ - meta.interpolation
-::       ^^^^^^^^^^ - meta.interpolation meta.interpolation
-::       ^^^^^ meta.interpolation.dosbatch
-::            ^ meta.interpolation.substitution.dosbatch
-::             ^ meta.interpolation.substitution.pattern.dosbatch
-::              ^ meta.interpolation.substitution.dosbatch
-::               ^ meta.interpolation.substitution.replacement.dosbatch
-::                ^ meta.interpolation.dosbatch
-::                 ^ - meta.command - meta.interpolation
-:: ^^^ support.function.builtin.dosbatch
-::     ^ variable.other.readwrite
-::      ^ keyword.operator.assignment
-::       ^ punctuation.section.interpolation.begin.dosbatch
-::        ^^^^ variable.other.readwrite.dosbatch
-::                ^ punctuation.section.interpolation.end.dosbatch
+:: Double quotes after the equal sign, or part of a quoted assignment are literal chars
+   set "XML=<foo bar="%ATTR1%" baz="prefix-%ATTR2%" />"
+:: ^^^^ meta.command.set.dosbatch
+::     ^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                    ^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                           ^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                                         ^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                                                ^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                                                     ^ - meta.command - meta.string
+:: ^^^ support.function.builtin.dosbatch   
+::     ^ punctuation.definition.string.begin
+::      ^^^ variable.other.readwrite.dosbatch
+::         ^ keyword.operator.assignment.dosbatch
+::          ^^^^^^^^^^ string.unquoted.dosbatch
+::                   ^ - punctuation
+::                    ^ punctuation.section.interpolation.begin.dosbatch
+::                     ^^^^^ variable.other.readwrite.dosbatch
+::                          ^ punctuation.section.interpolation.end.dosbatch
+::                           ^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                           ^ - punctuation
+::                                 ^ - punctuation
+::                                         ^ punctuation.section.interpolation.begin.dosbatch
+::                                          ^^^^^ variable.other.readwrite.dosbatch
+::                                               ^ punctuation.section.interpolation.end.dosbatch
+::                                                ^^^^ string.unquoted.dosbatch
+::                                                ^ - punctuation
+::                                                    ^ punctuation.definition.string.end.dosbatch - string
+
+
+:::: [ SET /A "variable=expression" ]::::::::::::::::::::::::::::::::::::::::::
 
    set abc /a = 1+2
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^^^^^ variable.other.readwrite
 ::            ^ keyword.operator.assignment - meta.expression.dosbatch
 ::              ^^^ string.unquoted
-
-
-:: Double quotes after the equal sign, or part of a quoted assignment are literal chars
-   set "XML=<foo bar="%ATTR1%" baz="prefix-%ATTR2%" />"
-::     ^ punctuation.definition.string.begin
-::                   ^ - punctuation
-::                    ^^^^^^^ meta.interpolation.dosbatch
-::                           ^ - punctuation
-::                                 ^ - punctuation
-::                                         ^^^^^^^ meta.interpolation.dosbatch
-::                                                ^ - punctuation
-::                                                    ^ punctuation.definition.string.end
-
-   set folder=%TEMP%\subfolder\
-::     ^^^^^^ variable.other.readwrite.dosbatch
-::            ^^^^^^ meta.interpolation.dosbatch
-::                  ^^^^^^^^^^^ string.unquoted - variable.other
-
-   set test="c:\program files (x86)\%example%_%%test"abc
-::     ^^^^ variable.other.readwrite.dosbatch
-::         ^ keyword.operator.assignment.dosbatch
-::          ^ - punctuation
-::          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation
-::                                  ^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch - string
-::                                           ^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation
-::                                            ^^ constant.character.escape.dosbatch
-::                                                  ^ - punctuation
-
-   set "X="
-::     ^^^^ meta.string.dosbatch
-::     ^ punctuation.definition.string.begin
-::      ^ variable.other.readwrite
-::       ^ keyword.operator.assignment
-::        ^ punctuation.definition.string.end
-::         ^ - string
-
-
-:::: [ SET /A "variable=expression" ]::::::::::::::::::::::::::::::::::::::::::
 
    set /A hello_world
 :: ^^^ support.function.builtin.dosbatch
