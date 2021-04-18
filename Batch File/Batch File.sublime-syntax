@@ -39,7 +39,7 @@ variables:
 
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
-  set_quoted_end: \"(?![^&|]*(\"|\^$))
+  set_quoted_end: \"(?![^"{{command_terminator_chars}}]*\")
 
   expansion_begin: |-
     (?x:
@@ -970,7 +970,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: string.unquoted.dosbatch
     # match the very last quotation mark
-    - match: (?=\"(?![^"{{command_terminator_chars}}]*\"))
+    - match: (?={{set_quoted_end}})
       branch_point: cmd-set-quoted-value-inner
       branch:
         - cmd-set-quoted-value-inner-continue
@@ -988,7 +988,7 @@ contexts:
 
   cmd-set-quoted-value-inner-nextline:
     - meta_include_prototype: false
-    - match: \"(?=(?![^"{{command_terminator_chars}}]*\"))
+    - match: '{{set_quoted_end}}'
       pop: 1
     - match: '{{command_terminators}}'
       fail: cmd-set-quoted-value-inner
