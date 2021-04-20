@@ -106,10 +106,6 @@ contexts:
     - include: control
     - include: commands
 
-  statement:
-    - include: unquoted-eoc-pop
-    - include: statements
-
   commands:
     - include: cmd-echo
     - include: cmd-rem
@@ -128,11 +124,6 @@ contexts:
     - include: ctl-goto
     - include: ctl-pause
     - include: ctl-setlocal
-
-  expressions:
-    - include: groups
-    - include: redirections
-    - include: cmd-args-values
 
 ###[ COMMENTS ]###############################################################
 
@@ -193,7 +184,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
-    - include: statement
+    - include: unquoted-eoc-pop
+    - include: statements
 
   blocks:
     - match: \(
@@ -219,9 +211,11 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.dosbatch
       pop: 1
+    - include: groups
     - include: separator-semicolon
     - include: separator-comma
-    - include: expressions
+    - include: redirections
+    - include: cmd-args-values
 
 ###[ CONTROL CONDITIONAL ]####################################################
 
@@ -1526,10 +1520,6 @@ contexts:
   redirections:
     - match: (?=\d*(<&?|>[&>]?))
       push: redirection-body
-
-  redirection:
-    - match: (?=\d*(<&?|>[&>]?))
-      set: redirection-body
 
   redirection-body:
     - match: (\d*)(<&?|>[&>]?)
