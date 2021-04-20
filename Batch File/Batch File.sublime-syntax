@@ -180,7 +180,7 @@ contexts:
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
 
-  ctl-block:
+  statement:
     - match: \(
       scope: punctuation.section.block.begin.dosbatch
       set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
@@ -242,7 +242,7 @@ contexts:
         1: punctuation.definition.variable.dosbatch
       set:
         - ctl-else
-        - ctl-block
+        - statement
         - maybe-operand
         - expect-operator-comparison
         - maybe-operand
@@ -250,7 +250,7 @@ contexts:
     - match: (?=\S)
       set:
         - ctl-else
-        - ctl-block
+        - statement
         - ctl-if-checks
         - maybe-operator-not
 
@@ -312,7 +312,7 @@ contexts:
   ctl-else:
     - match: (?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
-      set: ctl-block
+      set: statement
     - include: expect-eoc
 
 ###[ CONTROL FOR ]############################################################
@@ -323,7 +323,7 @@ contexts:
       scope: keyword.control.loop.for.dosbatch
       push:
         - ctl-for-meta
-        - ctl-block
+        - statement
         - ctl-for-do
         - ctl-for-set
         - ctl-for-in
