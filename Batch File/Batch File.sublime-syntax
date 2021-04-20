@@ -37,6 +37,9 @@ variables:
   label_start: '[^\s+=,;:%!{{command_terminator_chars}}]'
   label_char: '[^%!{{command_terminator_chars}}]'
 
+  path_terminator_chars: '[\s,;"{{command_terminator_chars}}]'
+  path_terminators: (?={{path_terminator_chars}})
+
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
   set_quoted_end: \"(?![^"{{command_terminator_chars}}]*\")
@@ -560,7 +563,6 @@ contexts:
     - meta_scope:
         meta.function-call.identifier.dosbatch
         variable.function.dosbatch
-    - include: line-continuations
     - match: '{{cmd_break}}'
       set:
         - cmd-args-meta
@@ -570,15 +572,14 @@ contexts:
       push:
         - cmd-other-identifier-quoted-common
         - path-pattern-relative
+    - include: line-continuations
     - include: path-pattern-common
 
   cmd-other-identifier-quoted-common:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.string.dosbatch variable.function.dosbatch
-    - include: string-end
-    - include: path-pattern-common
-    - include: illegal-eol-pop
+    - include: path-pattern-quoted-body
 
   cmd-args-meta:
     - meta_include_prototype: false
@@ -625,9 +626,7 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.string.dosbatch variable.parameter.option.dosbatch
-    - include: string-end
-    - include: variable-interpolations
-    - include: illegal-eol-pop
+    - include: string-common
 
   cmd-args-option-value:
     - meta_content_scope: meta.parameter.value.dosbatch
@@ -1574,18 +1573,18 @@ contexts:
 
   path-pattern-quoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
-    - match: \"
-      scope: punctuation.definition.string.end.dosbatch
-      pop: 1
-    - include: illegal-eol-pop
+    - include: string-end
     - include: path-pattern-common
 
   path-pattern-unquoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
-    - match: (?=[\s,;"])
-      pop: 1
-    - include: unquoted-eoc-pop
+    - include: path-pattern-unquoted-end
     - include: path-pattern-common
+
+  path-pattern-unquoted-end:
+    - match: '{{path_terminators}}'
+      pop: 1
+    - include: line-continuations
 
   path-pattern-common:
     - include: escapes-and-interpolations
@@ -1618,12 +1617,12 @@ contexts:
     - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - include: string-end
     - include: escapes-and-interpolations
-    - include: quoted-eol-pop
 
   string-end:
     - match: \"
       scope: punctuation.definition.string.end.dosbatch
       pop: 1
+    - include: quoted-eol-pop
 
   escaped-characters:
     - match: '%%|\^\^!|\^.'
@@ -1831,11 +1830,6 @@ contexts:
       scope: invalid.illegal.unexpected.dosbatch
       pop: 1
     - include: else-pop
-
-  illegal-eol-pop:
-    - match: \n
-      scope: invalid.illegal.newline.dosbatch
-      pop: 1
 
   illegal-token-pop:
     - match: \S+

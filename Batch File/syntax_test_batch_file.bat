@@ -1004,9 +1004,9 @@ put arg1 arg2
 ::      ^ punctuation.definition.string.end.dosbatch
 
    out"^
-:: ^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+:: ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::      ^ - meta.function-call - variable
 ::     ^ - punctuation.separator.continuation
-::      ^ invalid.illegal.newline.dosbatch
 
    out"^
 "put arg1 arg2
@@ -1017,8 +1017,8 @@ put arg1 arg2
    out"^
    "put arg1 arg2
 :: ^^^^^^^^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::               ^ - meta.function-call - variable
 :: ^ punctuation.definition.string.begin.dosbatch
-::               ^ invalid.illegal.newline.dosbatch
 
    "out"put arg1 arg2
 :: ^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
