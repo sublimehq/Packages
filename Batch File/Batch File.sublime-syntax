@@ -182,22 +182,22 @@ contexts:
 
   ctl-block:
     - match: \(
-      scope: punctuation.section.group.begin.dosbatch
+      scope: punctuation.section.block.begin.dosbatch
       set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
     - include: unquoted-eoc-pop
     - include: statements
 
   blocks:
     - match: \(
-      scope: punctuation.section.group.begin.dosbatch
+      scope: punctuation.section.block.begin.dosbatch
       push: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
     - match: \)
       scope: invalid.illegal.stray.dosbatch
 
   block-common:
-    - meta_scope: meta.group.dosbatch
+    - meta_scope: meta.block.dosbatch
     - match: \)
-      scope: punctuation.section.group.end.dosbatch
+      scope: punctuation.section.block.end.dosbatch
       pop: 1
     - include: main
 
