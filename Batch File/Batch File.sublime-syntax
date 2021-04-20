@@ -131,67 +131,6 @@ contexts:
     - include: redirections
     - include: cmd-args-values
 
-###[ PROTOTYPES ]#############################################################
-
-  any-pop:
-    - match: (?=\S)
-      pop: 1
-
-  quoted-eoc-pop:
-    - match: '{{command_terminators}}'
-      pop: 1
-
-  unquoted-eoc-pop:
-    - include: quoted-eoc-pop
-    - include: line-continuation
-
-  quoted-eol-pop:
-    - match: $
-      pop: 1
-
-  unquoted-eol-pop:
-    - include: quoted-eol-pop
-    - include: line-continuation
-
-  else-pop:
-    - include: unquoted-eol-pop
-    - include: any-pop
-
-  immediatelly-pop:
-    - match: ''
-      pop: 1
-
-  expect-unquoted-eoc-pop:
-    - include: unquoted-eoc-pop
-    - match: \S
-      scope: invalid.illegal.expect-end-of-command.dosbatch
-
-  illegal-eol-pop:
-    - match: \n
-      scope: invalid.illegal.newline.dosbatch
-      pop: 1
-
-  illegal-comment-pop:
-    - match: '{{label_comment}}'
-      set:
-        - meta_scope: invalid.illegal.unexpected.dosbatch
-        - include: unquoted-eol-pop
-    - include: else-pop
-
-  illegal-token-pop:
-    - match: \S+
-      scope: invalid.illegal.unexpected.dosbatch
-      set: else-pop
-    - include: unquoted-eol-pop
-
-  line-continuation:
-    - match: \^\n
-      scope: punctuation.separator.continuation.line.dosbatch
-      push:
-        # Note: empty lines are ignored
-        - match: ^(?!$)
-          pop: 1
-
 ###[ COMMENTS ]###############################################################
 
   comments:
@@ -202,7 +141,7 @@ contexts:
 
   comment-body:
     - meta_scope: comment.line.colon.dosbatch
-    - include: line-continuation
+    - include: line-continuations
     - match: \n
       pop: 1
 
@@ -377,7 +316,7 @@ contexts:
     - match: (?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
       set: ctl-block
-    - include: expect-unquoted-eoc-pop
+    - include: expect-eoc
 
 ###[ CONTROL FOR ]############################################################
 
@@ -531,7 +470,7 @@ contexts:
         1: punctuation.definition.variable.dosbatch
     - include: numbers
     - include: variables
-    - include: expect-unquoted-eoc-pop
+    - include: expect-eoc
 
 ###[ CONTROL GOTO ]###########################################################
 
@@ -568,7 +507,7 @@ contexts:
 
   ctl-pause-args:
     - meta_scope: meta.command.pause.dosbatch
-    - include: expect-unquoted-eoc-pop
+    - include: expect-eoc
 
 ###[ CONTEXT SETLOCAL ]#######################################################
 
@@ -586,7 +525,7 @@ contexts:
           EnableExtensions | DisableExtensions
         )\b
       scope: constant.language.dosbatch
-    - include: expect-unquoted-eoc-pop
+    - include: expect-eoc
 
 ###[ CONTEXT ENDLOCAL ]#######################################################
 
@@ -598,7 +537,7 @@ contexts:
 
   ctl-endlocal-args:
     - meta_scope: meta.command.endlocal.dosbatch
-    - include: expect-unquoted-eoc-pop
+    - include: expect-eoc
 
 ###[ COMMANDS ]###############################################################
 
@@ -621,7 +560,7 @@ contexts:
     - meta_scope:
         meta.function-call.identifier.dosbatch
         variable.function.dosbatch
-    - include: line-continuation
+    - include: line-continuations
     - match: '{{cmd_break}}'
       set:
         - cmd-args-meta
@@ -677,7 +616,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push: cmd-args-option-identifier-quoted-common
-    - include: line-continuation
+    - include: line-continuations
     - include: variable-interpolations
     - match: '{{arg_break}}'
       pop: 1
@@ -711,7 +650,7 @@ contexts:
       pop: 1
     - include: strings
     - include: variables
-    - include: line-continuation
+    - include: line-continuations
     - include: escaped-characters
 
   cmd-arg-illegal-options:
@@ -812,7 +751,7 @@ contexts:
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
     - meta_content_scope: comment.line.rem.dosbatch
-    - include: line-continuation
+    - include: line-continuations
     - match: \n
       scope: comment.line.rem.dosbatch
       pop: 1
@@ -928,7 +867,7 @@ contexts:
     - match: '{{command_terminators}}'
       fail: cmd-set-quoted-value-inner
     - include: escapes-and-interpolations
-    - include: line-continuation
+    - include: line-continuations
 
   cmd-set-quoted-value-inner-end:
     - meta_include_prototype: false
@@ -1269,7 +1208,7 @@ contexts:
     - match: '{{command_terminators}}'
       fail: cmd-set-quoted-prompt-quoted-value-inner
     - include: escapes-and-interpolations
-    - include: line-continuation
+    - include: line-continuations
 
   cmd-set-quoted-prompt-quoted-value-inner-end:
     - meta_include_prototype: false
@@ -1322,7 +1261,7 @@ contexts:
     - match: '{{command_terminators}}'
       fail: cmd-set-quoted-prompt-unquoted-value-inner
     - include: escapes-and-interpolations
-    - include: line-continuation
+    - include: line-continuations
 
   cmd-set-quoted-prompt-unquoted-value-inner-end:
     - clear_scopes: 2
@@ -1429,7 +1368,7 @@ contexts:
     - match: '{{command_terminators}}'
       fail: cmd-set-unquoted-prompt-inner
     - include: escapes-and-interpolations
-    - include: line-continuation
+    - include: line-continuations
 
   cmd-set-unquoted-prompt-quoted-value-inner-end:
     - meta_include_prototype: false
@@ -1505,7 +1444,7 @@ contexts:
       scope: keyword.operator.logical.dosbatch
     - match: \|
       scope: keyword.operator.assignment.pipe.dosbatch
-      push: illegal-comment-pop
+      push: maybe-illegal-comment
 
   separator-comma:
     - match: ','
@@ -1569,6 +1508,7 @@ contexts:
       push: redirection-interpolations-body
 
   redirection-interpolations-body:
+    - meta_include_prototype: false
     - match: (\d*)(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
@@ -1878,3 +1818,67 @@ contexts:
     # Note: This makes the whole expansion being handled as plain text.
     - match: ':[^%!{{command_terminator_chars}}]*'
       scope: invalid.illegal.unexpected.dosbatch
+
+###[ ILLEGALS ]###############################################################
+
+  expect-eoc:
+    - include: unquoted-eoc-pop
+    - match: \S
+      scope: invalid.illegal.expect-end-of-command.dosbatch
+
+  maybe-illegal-comment:
+    - match: '{{label_comment}}.*$\n?'
+      scope: invalid.illegal.unexpected.dosbatch
+      pop: 1
+    - include: else-pop
+
+  illegal-eol-pop:
+    - match: \n
+      scope: invalid.illegal.newline.dosbatch
+      pop: 1
+
+  illegal-token-pop:
+    - match: \S+
+      scope: invalid.illegal.unexpected.dosbatch
+      set: else-pop
+    - include: unquoted-eol-pop
+
+###[ PROTOTYPES ]#############################################################
+
+  any-pop:
+    - match: (?=\S)
+      pop: 1
+
+  bol-pop:
+    # Note: empty lines are ignored
+    - match: ^(?!$)
+      pop: 1
+
+  else-pop:
+    - include: unquoted-eol-pop
+    - include: any-pop
+
+  immediatelly-pop:
+    - match: ''
+      pop: 1
+
+  line-continuations:
+    - match: \^\n
+      scope: punctuation.separator.continuation.line.dosbatch
+      push: bol-pop
+
+  quoted-eoc-pop:
+    - match: '{{command_terminators}}'
+      pop: 1
+
+  quoted-eol-pop:
+    - match: $
+      pop: 1
+
+  unquoted-eoc-pop:
+    - include: quoted-eoc-pop
+    - include: line-continuations
+
+  unquoted-eol-pop:
+    - include: quoted-eol-pop
+    - include: line-continuations
