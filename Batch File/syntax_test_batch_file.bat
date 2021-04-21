@@ -927,6 +927,20 @@ ECHO : Not a comment ^
 ::                                    ^^ invalid.illegal.operator.dosbatch
 ::                                          ^^ invalid.illegal.operator.dosbatch
 
+   for %%i in (1, 2,  3) do (
+      for %%j in (%%i) do (
+::        ^^^ variable.parameter.dosbatch
+::            ^^ keyword.operator.logical.dosbatch
+::               ^ punctuation.section.set.begin.dosbatch
+::                ^^^  string.unquoted.dosbatch
+::                ^^ constant.character.escape.dosbatch
+::                   ^ punctuation.section.set.end.dosbatch 
+::                     ^^ keyword.control.loop.do.dosbatch
+::                        ^ punctuation.section.block.begin.dosbatch
+      )
+::    ^ punctuation.section.block.end.dosbatch
+   )
+:: ^ punctuation.section.block.end.dosbatch
 
 :::: [ SETLOCAL ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 

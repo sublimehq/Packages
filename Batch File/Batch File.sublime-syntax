@@ -410,12 +410,8 @@ contexts:
       pop: 1
     - include: invalid-operators
     - include: separator-comma
-    - include: constants
-    - include: numbers
     - include: embedded
-    - include: variables
-    - match: (?=\S)
-      push: path-pattern
+    - include: cmd-args-values
 
   ctl-for-do:
     - match: \b(?i:do)\b
