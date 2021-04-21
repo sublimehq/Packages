@@ -74,12 +74,11 @@ variables:
 
   parameter: (%)(?:(?:~([fdpnxsatz]|\$PATH:)*)?\d|\*)
 
-  # variables
-  variable: '{{varchars}}+{{varbreak}}'
-  varbreak: (?![^="\s])
-  varchars:  (?:{{varchar}}|{{varescape}})
-  varchar: '[^="\^\s{{command_terminator_chars}}]'
-  varescape: \^[^=\s]
+  var_parameter: (%%)(?:~[fdpnxsatz]*)?{{var_char}}{{var_break}}
+  var_break: (?![^%{{metachar}}])
+  var_char:  (?:{{var_literal}}|{{var_escape}})
+  var_escape: \^[^=\s]
+  var_literal: '[^="\^\s{{command_terminator_chars}}]'
 
   builtin_commands: |-
     \b(?xi:
@@ -383,14 +382,14 @@ contexts:
   ctl-for-parameter:
     - match: (?=(?i:in|do)\b|\()
       pop: 1
-    - match: (%%){{variable}}
-      scope: meta.interpolation.dosbatch variable.other.readwrite.dosbatch
+    - match: '{{var_parameter}}'
+      scope: variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       pop: 1
+    - include: unquoted-eol-pop
     - match: \S
       scope: invalid.illegal.parameter.dosbatch
-    - include: unquoted-eol-pop
 
   ctl-for-in:
     - match: \b(?i:in)\b
@@ -637,14 +636,31 @@ contexts:
         - path-pattern
 
   cmd-args-value-chars:
-    - match: (?=(\.\.?|\:)[\\%{{metachar}}]|[\\?*])
+    - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
+    - match: (?=(\.\.?|\:)[\\%{{metachar}}]|[?*]|\\(?!"))
       fail: cmd-args-values
+    - include: cmd-args-quoted
+    - include: escapes-and-interpolations
+    - include: line-continuations
     - match: '{{arg_break}}'
       pop: 1
-    - include: strings
-    - include: variables
-    - include: line-continuations
-    - include: escaped-characters
+
+  cmd-args-quoted:
+    - match: \"
+      push: cmd-args-quoted-body
+
+  cmd-args-quoted-body:
+    # echo "text" outputs quotation marks no matter where they are located.
+    # Hence no `punctuation` nor `string.quoted` scopes are applied.
+    # This context is needed as a limited set of escaped chars and no line
+    # continuation operators are supported within quotes.
+    - match: \"
+      pop: 1
+    - match: $
+      pop: 2
+    - match: '%%|\^[\W&&\S]'
+      scope: constant.character.escape.dosbatch
+    - include: variable-interpolations
 
   cmd-arg-illegal-options:
     - match: /{{arg_char}}+
@@ -685,23 +701,9 @@ contexts:
     - meta_content_scope:
         meta.command.echo.output.dosbatch
         meta.string.dosbatch string.unquoted.dosbatch
-    - match: \"
-      push: cmd-echo-output-quoted
+    - include: cmd-args-quoted
     - include: escapes-and-interpolations
     - include: unquoted-eoc-pop
-
-  cmd-echo-output-quoted:
-    # Note: echo "text" outputs the quotation marks no matter where they are
-    #       located. Hence `punctuation` scopes and `string.quoted` feel not
-    #       correct in this situation. Distinction is needed anyway as escaped
-    #       chars and line continuation are ignored within quotes.
-    - meta_include_prototype: false
-    - match: \"
-      pop: 1
-    - match: $
-      pop: 2
-    - match: \^\^!|%% # prevent variable interpolation
-    - include: variable-interpolations
 
 ###[ COMMAND MODE ]###########################################################
 
@@ -1618,7 +1620,7 @@ contexts:
     - match: '%%|\^\^!|\^.'
       scope: constant.character.escape.dosbatch
 
-###[ VARIABLES ]##############################################################
+###[ INTERPOLATIONS ]#########################################################
 
   escapes-and-interpolations:
     - include: escaped-characters
@@ -1626,7 +1628,11 @@ contexts:
 
   # NOTE: To be used in strings to remove `string` scope.
   variable-interpolations:
-    # parameters
+    - include: parameter-interpolations
+    - include: expansion-interpolations
+    - include: delayed-interpolations
+
+  parameter-interpolations:
     - match: '{{parameter}}'
       scope:
         meta.interpolation.dosbatch
@@ -1634,7 +1640,8 @@ contexts:
       captures:
         1: punctuation.definition.variable.dosbatch
       push: clear-string-scope
-    # variable expansions
+
+  expansion-interpolations:
     - match: '{{expansion_begin}}'
       scope:
         meta.interpolation.dosbatch
@@ -1642,7 +1649,8 @@ contexts:
       push:
         - clear-string-scope
         - variable-expansion-name
-    # delayed variable expansions
+
+  delayed-interpolations:
     - match: '{{delayed_expansion_begin}}'
       scope:
         meta.interpolation.dosbatch
@@ -1656,6 +1664,8 @@ contexts:
     - meta_include_prototype: false
     - include: immediatelly-pop
 
+###[ VARIABLES ]##############################################################
+
   variables:
     - include: variable-parameters
     - include: variable-expansions
@@ -1666,12 +1676,6 @@ contexts:
       scope:
         meta.interpolation.dosbatch
         variable.parameter.dosbatch
-      captures:
-        1: punctuation.definition.variable.dosbatch
-    - match: (%%){{variable}}
-      scope:
-        meta.interpolation.dosbatch
-        variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
 
