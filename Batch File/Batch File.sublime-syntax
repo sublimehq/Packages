@@ -1522,17 +1522,15 @@ contexts:
       push: redirection-body
 
   redirection-body:
+    - meta_include_prototype: false
     - match: (\d*)(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
         2: keyword.operator.assignment.redirection.dosbatch
-      push:
+      set:
         - redirection-meta
         - redirection-path
-    - include: strings
-    - include: variables
-    - include: else-pop
 
   redirection-meta:
     - meta_include_prototype: false
