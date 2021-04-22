@@ -75,6 +75,7 @@ variables:
   parameter: (%)(?:(?:~([fdpnxsatz]|\$PATH:)*)?\d|\*)
 
   var_parameter: (%%)(?:~[fdpnxsatz]*)?{{var_char}}{{var_break}}
+  var_name: '{{var_char}}+{{var_break}}'
   var_break: (?![^%{{metachar}}])
   var_char:  (?:{{var_literal}}|{{var_escape}})
   var_escape: \^[^=\s]
@@ -265,7 +266,7 @@ contexts:
       set: path-pattern
     - match: (?i:defined)\b
       scope: support.function.builtin.dosbatch
-      set: maybe-operand
+      set: maybe-variable
     - match: (?=\S)
       set:
         - maybe-operand
@@ -279,13 +280,14 @@ contexts:
 
   operand-body:
     - include: groups
-    - include: numbers
-    - include: strings
-    - include: variables
-    - match: '[^-+*=\s{{command_terminator_chars}})][^=\s{{command_terminator_chars}}]*'
+    - include: cmd-args-values
+    - include: immediatelly-pop
+
+  maybe-variable:
+    - match: '{{var_name}}'
       scope: variable.other.readwrite.dosbatch
       pop: 1
-    - include: immediatelly-pop
+    - include: else-pop
 
   expect-operator-comparison:
     - match: '{{operator_comparison}}|=='
