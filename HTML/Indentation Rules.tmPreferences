@@ -26,8 +26,9 @@
 			^.* (
 				# a valid non-self-closing HTML tag that doesn't close itself on the same line
 				<(?!
-					  !--   # no comment
-					| [?%]  # no section
+					  !--      # no comment
+					| [?%]     # no preprocessor section like PHP/ASP
+					| !DOCTYPE # no document type
 					| (?i:area|base|br|col|frame|hr|html|img|input|link|meta|param)[\t\n\f /<>]
 				)(?:
 					# tag name
@@ -43,8 +44,8 @@
 				| <\?(?!.*?\?>)
 				# sections that don't close themselves on the same line
 				| <\%(?!.*?\%>)
-				# open curly braces that don't have close braces or string punctuation after them
-				| \{(?![}"'])
+				# open curly braces at the end of a line with comments allowed
+				| \{(?=\s*(?:<!--.*)?$)
 			)
 		]]></string>
 		<key>bracketIndentNextLinePattern</key>

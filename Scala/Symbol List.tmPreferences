@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>scope</key>
+  <string>
+    source.scala entity.name.class,
+    source.scala entity.name.function,
+    source.scala entity.name.namespace.scoped,
+    source.scala entity.name.type,
+    source.scala variable.other.constant,
+    source.scala variable.other.readwrite
+  </string>
+  <key>settings</key>
+  <dict>
+    <key>showInSymbolList</key>
+    <integer>1</integer>
+    <key>showInIndexedSymbolList</key>
+    <integer>1</integer>
+  </dict>
+</dict>
+</plist>

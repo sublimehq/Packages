@@ -888,7 +888,7 @@ $var = <<JAVASCRIPT;
 #                   ^ - source.js.embedded.perl
   var basic;
 # <- meta.string.heredoc.perl source.js.embedded.perl source.js
-# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js storage.type.js
+# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js keyword.declaration
 JAVASCRIPT
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
 #^^^^^^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
@@ -1122,9 +1122,9 @@ EOT
   ~
 # ^ keyword.operator.bitwise.perl
   .
-# ^ keyword.operator.concat.perl
+# ^ keyword.operator.concatenation.perl
   .=
-# ^^ keyword.operator.concat.perl
+# ^^ keyword.operator.concatenation.perl
   ..
 # ^^ keyword.operator.range.perl
   \  \\  \\\
@@ -1167,210 +1167,219 @@ EOT
 ###[ CONSTANTS ] #############################################################
 
   1234             # decimal integer
-# ^^^^ constant.numeric.integer.decimal.perl
+# ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   12_4             # decimal integer
-# ^^^^ constant.numeric.integer.decimal.perl
+# ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   +1234            # decimal integer
 # ^ keyword.operator.arithmetic.perl
-#  ^^^^ constant.numeric.integer.decimal.perl
+#  ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   + 1234           # decimal integer
 # ^ keyword.operator.arithmetic.perl
-#   ^^^^ constant.numeric.integer.decimal.perl
+#   ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   1234+            # decimal integer
-# ^^^^ constant.numeric.integer.decimal.perl
+# ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #     ^ keyword.operator.arithmetic.perl
   -1234            # decimal integer
 # ^ keyword.operator.arithmetic.perl
-#  ^^^^ constant.numeric.integer.decimal.perl
+#  ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   - 1234           # decimal integer
 # ^ keyword.operator.arithmetic.perl
-#   ^^^^ constant.numeric.integer.decimal.perl
+#   ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   1234-            # decimal integer
-# ^^^^ constant.numeric.integer.decimal.perl
+# ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #     ^ keyword.operator.arithmetic.perl
   0B0              # binary integer
-# ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#   ^  constant.numeric.integer.binary.perl - punctuation
+# ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#   ^ meta.number.integer.binary.perl constant.numeric.value.perl
   0b0              # binary integer
-# ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#   ^  constant.numeric.integer.binary.perl - punctuation
+# ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#   ^ meta.number.integer.binary.perl constant.numeric.value.perl
   -0b0             # binary integer
 # ^ keyword.operator.arithmetic.perl
-#  ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#    ^  constant.numeric.integer.binary.perl - punctuation
+#  ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#    ^ meta.number.integer.binary.perl constant.numeric.value.perl
   0b0-             # binary integer
-# ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#   ^  constant.numeric.integer.binary.perl - punctuation
+# ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#   ^ meta.number.integer.binary.perl constant.numeric.value.perl
 #    ^ keyword.operator.arithmetic.perl
   0b1.0b1
-# ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#   ^  constant.numeric.integer.binary.perl - punctuation
-#    ^ keyword.operator.concat.perl
-#     ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#       ^  constant.numeric.integer.binary.perl - punctuation
+# ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#   ^ meta.number.integer.binary.perl constant.numeric.value.perl
+#    ^ keyword.operator.concatenation.perl
+#     ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#       ^ meta.number.integer.binary.perl constant.numeric.value.perl
   0b11__011        # binary integer
-# ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
-#   ^^^^^^^  constant.numeric.integer.binary.perl - punctuation
+# ^^ meta.number.integer.binary.perl constant.numeric.base.perl
+#   ^^^^^^^ meta.number.integer.binary.perl constant.numeric.value.perl
   01_34            # octal integer
-# ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
-#  ^^^^ constant.numeric.integer.octal.perl - punctuation
+# ^ meta.number.integer.octal.perl constant.numeric.base.perl
+#  ^^^^ meta.number.integer.octal.perl constant.numeric.value.perl
   -01234            # octal integer
 # ^ keyword.operator.arithmetic.perl
-#  ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
-#   ^^^^ constant.numeric.integer.octal.perl - punctuation
+#  ^ meta.number.integer.octal.perl constant.numeric.base.perl
+#   ^^^^ meta.number.integer.octal.perl constant.numeric.value.perl
   012_4-           # octal integer
-# ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
-#  ^^^^ constant.numeric.integer.octal.perl - punctuation
+# ^ meta.number.integer.octal.perl constant.numeric.base.perl
+#  ^^^^ meta.number.integer.octal.perl constant.numeric.value.perl
 #      ^ keyword.operator.arithmetic.perl
   0x_234           # hexadecimal integer
-# ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#   ^^^^ constant.numeric.integer.hexadecimal.perl - punctuation
+# ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#   ^^^^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   0X123_           # hexadecimal integer
-# ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#   ^^^^ constant.numeric.integer.hexadecimal.perl - punctuation
+# ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#   ^^^^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   0x9              # hexadecimal integer
-# ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#   ^ constant.numeric.integer.hexadecimal.perl - punctuation
+# ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#   ^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   +0x9             # hexadecimal integer
 # ^ keyword.operator.arithmetic.perl
-#  ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#    ^ constant.numeric.integer.hexadecimal.perl - punctuation
+#  ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#    ^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   0x9-             # hexadecimal integer
-# ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#   ^ constant.numeric.integer.hexadecimal.perl - punctuation
+# ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#   ^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
 #    ^ keyword.operator.arithmetic.perl
   0x9.0x10         # hexadecimal integer
-# ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#   ^ constant.numeric.integer.hexadecimal.perl - punctuation
-#    ^ keyword.operator.concat.perl
-#     ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
-#       ^ constant.numeric.integer.hexadecimal.perl - punctuation
+# ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#   ^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
+#    ^ keyword.operator.concatenation.perl
+#     ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
+#       ^^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   01.1             # normal float
-# ^^^^ constant.numeric.float.decimal.perl
+# ^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   1.1              # normal float
-# ^^^ constant.numeric.float.decimal.perl
+# ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #  ^ punctuation.separator.decimal.perl
   -1.1             # normal float
 # ^ keyword.operator.arithmetic.perl
-#  ^^^ constant.numeric.float.decimal.perl
+#  ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   1.1-             # normal float
-# ^^^ constant.numeric.float.decimal.perl
+# ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #  ^ punctuation.separator.decimal.perl
 #    ^ keyword.operator.arithmetic.perl
   .1               # normal float
 # ^ punctuation.separator.decimal.perl
-# ^^ constant.numeric.float.decimal.perl
+# ^^ meta.number.float.decimal.perl constant.numeric.value.perl
   -.1              # normal float
 # ^ keyword.operator.arithmetic.perl
 #  ^ punctuation.separator.decimal.perl
-#  ^^ constant.numeric.float.decimal.perl
+#  ^^ meta.number.float.decimal.perl constant.numeric.value.perl
   .1-              # normal float
 # ^ punctuation.separator.decimal.perl
-# ^^ constant.numeric.float.decimal.perl
+# ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ keyword.operator.arithmetic.perl
   1.               # normal float
-# ^^ constant.numeric.float.decimal.perl
+# ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #  ^ punctuation.separator.decimal.perl
   -1.              # normal float
 # ^ keyword.operator.arithmetic.perl
-#  ^^ constant.numeric.float.decimal.perl
+#  ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   1.-              # normal float
-# ^^ constant.numeric.float.decimal.perl
+# ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #  ^ punctuation.separator.decimal.perl
 #   ^ keyword.operator.arithmetic.perl
   1e5 1E5          # exponential notation
-# ^^^ constant.numeric.float.decimal.perl
-#     ^^^ constant.numeric.float.decimal.perl
-#     ^^^ constant.numeric.float.decimal.perl
+# ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
+#     ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
+#     ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
   -1e5             # exponential notation
 # ^ keyword.operator.arithmetic.perl
-#  ^^^ constant.numeric.float.decimal.perl
+#  ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
   1e5-             # exponential notation
-# ^^^ constant.numeric.float.decimal.perl
+# ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #    ^ keyword.operator.arithmetic.perl
   1.e5             # exponential notation
-# ^^^^ constant.numeric.float.decimal.perl
+# ^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #  ^ punctuation.separator.decimal.perl
   12.34e56         # exponential notation
-# ^^^^^^^^ constant.numeric.float.decimal.perl
+# ^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   _2._4E_6         # exponential notation
-# ^^^^^^^^ constant.numeric.float.decimal.perl
+# ^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   -12.34e-56       # exponential notation
 # ^ keyword.operator.arithmetic.perl
-#  ^^^^^^^^^ constant.numeric.float.decimal.perl
+#  ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #    ^ punctuation.separator.decimal.perl
   - 12.34e-56      # exponential notation
 # ^ keyword.operator.arithmetic.perl
-#   ^^^^^^^^^ constant.numeric.float.decimal.perl
+#   ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #     ^ punctuation.separator.decimal.perl
   12.34e+56        # exponential notation
-# ^^^^^^^^^ constant.numeric.float.decimal.perl
+# ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   12.34e+56-       # exponential notation
-# ^^^^^^^^^ constant.numeric.float.decimal.perl
+# ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
 #          ^ keyword.operator.arithmetic.perl
   "12_4"           # number specified as a string
 # ^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^ constant.numeric.integer.decimal.perl
+#  ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   "-1234"          # number specified as a string
 # ^^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^^ constant.numeric.integer.decimal.perl
+#  ^ meta.number.integer.decimal.perl constant.numeric.sign.perl
+#   ^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   "01234"          # number specified as a string
 # ^^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^^ constant.numeric.integer.decimal.perl - punctuation
+#  ^^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl - punctuation
   "-01234"         # number specified as a string
 # ^^^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^^^ constant.numeric.integer.decimal.perl - punctuation
+#  ^ meta.number.integer.decimal.perl constant.numeric.sign.perl
+#   ^^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
   "1.1"            # normal float
 # ^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^ constant.numeric.float.decimal.perl
+#  ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   "-1.1"           # normal float
 # ^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^ constant.numeric.float.decimal.perl
+#  ^ meta.number.float.decimal.perl constant.numeric.sign.perl
+#   ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #    ^ punctuation.separator.decimal.perl
   ".1"             # normal float
 # ^^^^ meta.string.perl string.quoted.double.perl
 #  ^ punctuation.separator.decimal.perl
-#  ^^ constant.numeric.float.decimal.perl
+#  ^^ meta.number.float.decimal.perl constant.numeric.value.perl
   "-.1"            # normal float
 # ^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^ constant.numeric.float.decimal.perl
+#  ^ meta.number.float.decimal.perl constant.numeric.sign.perl
+#   ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   "1."             # normal float
 # ^^^^ meta.string.perl string.quoted.double.perl
-#  ^^ constant.numeric.float.decimal.perl
+#  ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   "-1."            # normal float
 # ^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^ constant.numeric.float.decimal.perl
+#  ^ meta.number.float.decimal.perl constant.numeric.sign.perl
+#   ^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #    ^ punctuation.separator.decimal.perl
   "1e5"            # exponential notation
 # ^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^ constant.numeric.float.decimal.perl
+#  ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
   "-1e5"           # exponential notation
 # ^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^ constant.numeric.float.decimal.perl
+#  ^ meta.number.float.decimal.perl constant.numeric.sign.perl
+#   ^^^ meta.number.float.decimal.perl constant.numeric.value.perl
   "1.e5"           # exponential notation
 # ^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^ constant.numeric.float.decimal.perl
+#  ^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #   ^ punctuation.separator.decimal.perl
   "12.34e56"       # exponential notation
 # ^^^^^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^^^^^ constant.numeric.float.decimal.perl
+#  ^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #    ^ punctuation.separator.decimal.perl
   "-12.34e-56"     # exponential notation
 # ^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl
-#  ^^^^^^^^^^ constant.numeric.float.decimal.perl
+#  ^ meta.number.float.decimal.perl constant.numeric.sign.perl
+#   ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
+#         ^ - constant.numeric.sign
 #     ^ punctuation.separator.decimal.perl
   '0.00_01'
-#  ^^^^^^^ constant.numeric.float.decimal.perl
+#  ^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
+#   ^ punctuation.separator.decimal.perl
   '01bau'
 #  ^^^^^ - constant.numeric
   __PACKAGE__
@@ -1485,24 +1494,34 @@ EOT
 #                                ^ meta.string.perl string.quoted.angle.perl
 #                                 ^ meta.string.perl string.quoted.angle.perl punctuation.definition.string.end.perl
 #                                  ^ - meta.string - string
-  "quoted \"interpolated\" foo 'bar' $baz $"
+  "quoted \"interpolated\" \foo 'bar' $baz $"
 # ^ punctuation.definition.string.begin.perl
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
-#                                    ^^^^ meta.string.perl meta.interpolation.perl - string
-#                                        ^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
+#                                     ^^^^ meta.string.perl meta.interpolation.perl - string
+#                                         ^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
 #         ^^ constant.character.escape.perl
 #                       ^^ constant.character.escape.perl
-#                                    ^^^^ variable.other.readwrite.perl
-#                                         ^ - variable
-#                                          ^ punctuation.definition.string.end.perl
-  'quoted "interpolated" foo \'bar\' $baz $'
+#                          ^^ constant.character.escape.perl
+#                                     ^^^^ variable.other.readwrite.perl
+#                                          ^ - variable
+#                                           ^ punctuation.definition.string.end.perl
+  'quoted "interpolated" \foo \'bar\' $baz $'
 # ^ punctuation.definition.string.begin.perl
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
-#                            ^^ constant.character.escape.perl
-#                                 ^^ constant.character.escape.perl
-#                                    ^^^^ - variable
-#                                         ^ - variable
-#                                          ^ punctuation.definition.string.end.perl
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
+#                        ^^ - constant.character.escape
+#                             ^^ constant.character.escape.perl
+#                                  ^^ constant.character.escape.perl
+#                                     ^^^^ - variable
+#                                          ^ - variable
+#                                           ^ punctuation.definition.string.end.perl
+  'foo \' foo\\\' bar\\\\'
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
+# ^ punctuation.definition.string.begin.perl
+#      ^^ constant.character.escape.perl
+#            ^^^^ constant.character.escape.perl
+#                    ^^^^ constant.character.escape.perl
+#                        ^ punctuation.definition.string.end.perl
+#                         ^ - meta.string - string
   `quoted "interpolated" foo \`bar\` $baz $`
 # ^ punctuation.definition.string.begin.perl
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.backtick.perl - meta.interpolation
@@ -1531,7 +1550,7 @@ EOT
 #            ^ keyword.operator.dereference.perl
 #             ^ punctuation.definition.variable.begin.perl
 #               ^^^^^^^^^^^^^ string.quoted.double.perl
-#                             ^ keyword.operator.concat.perl
+#                             ^ keyword.operator.concatenation.perl
 #                               ^^^^ variable.other.readwrite.perl
 #                                   ^ punctuation.section.item-access.begin.perl
 #                                    ^^^ constant.other.key.perl
@@ -1543,22 +1562,29 @@ EOT
 #                                                  ^ - variable
 #                                                   ^ punctuation.definition.string.end.perl
 #                                                     ^ keyword.operator.comparison.perl
+  # Note: The \/ can't be highlighted as escaped due to ST backref limitations.
   q/quoted "interpolated" foo 'bar' \/ $baz/
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl - string
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation
-#                                   ^^ constant.character.escape.perl
 #                                      ^^^^ - variable
 #                                          ^ punctuation.section.generic.end.perl - string
-  q\quoted "interpolated" foo 'bar' / $baz\
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+  q/foo \/ foo\\\/ bar\\\\/
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl - string
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.perl
-#                                     ^^^^ - variable
-#                                         ^ punctuation.section.generic.end.perl - string
-  q{quoted "interpolated" {foo} 'bar' \/ $baz}
+#                         ^ punctuation.section.generic.end.perl - meta.string - string
+  q\quoted "interpolated" foo 'bar' \\ $baz\
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl - string
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.perl
+#                                   ^ punctuation.section.generic.end.perl - string
+#                                    ^ keyword.operator.reference.perl
+#                                      ^^^^ variable.other.readwrite.perl
+#                                          ^ keyword.operator.reference.perl
+  q{quoted "interpolated" {foo} 'bar' \} $baz}
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.braces.begin.perl - string
@@ -1576,6 +1602,15 @@ EOT
 #                                     ^^ constant.character.escape.perl
 #                                        ^^^^ - variable
 #                                            ^ punctuation.section.brackets.end.perl - string
+  q[foo \] foo\\\] bar\\\\]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.brackets.begin.perl - string
+#       ^^ constant.character.escape.perl
+#             ^^^^ constant.character.escape.perl
+#                     ^^^^ constant.character.escape.perl
+#                         ^ punctuation.section.brackets.end.perl
+#                         ^ - meta.string - string
   q<quoted "interpolated" <foo> 'bar' \> $baz>
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -1585,7 +1620,16 @@ EOT
 #                                     ^^ constant.character.escape.perl
 #                                        ^^^^ - variable
 #                                            ^ punctuation.section.generic.end.perl - string
-  q(quoted "interpolated" [foo] 'bar' \] $baz)
+  q<foo \> foo\\\> bar\\\\>
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl - string
+#       ^^ constant.character.escape.perl
+#             ^^^^ constant.character.escape.perl
+#                     ^^^^ constant.character.escape.perl
+#                         ^ punctuation.section.generic.end.perl
+#                         ^ - meta.string - string
+  q(quoted "interpolated" [foo] 'bar' \) $baz)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.parens.begin.perl - string
@@ -1594,6 +1638,15 @@ EOT
 #                                     ^^ constant.character.escape.perl
 #                                        ^^^^ - variable
 #                                            ^ punctuation.section.parens.end.perl - string
+  q(foo \) foo\\\) bar\\\\)
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.parens.begin.perl - string
+#       ^^ constant.character.escape.perl
+#             ^^^^ constant.character.escape.perl
+#                     ^^^^ constant.character.escape.perl
+#                         ^ punctuation.section.parens.end.perl
+#                         ^ - meta.string - string
   q['
 # ^ support.function.perl
 #  ^ punctuation.section.brackets.begin.perl - string
@@ -2334,7 +2387,7 @@ EOT
 #         ^ punctuation.section.item-access.begin.perl
 #          ^^ variable.language.regexp.match-group.perl
 #            ^ punctuation.section.item-access.begin.perl
-#             ^ constant.numeric.integer.decimal.perl
+#             ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #              ^^ punctuation.section.item-access.end.perl
 
 # Variables related to input/output formating
@@ -2555,7 +2608,7 @@ EOT
 # ^ punctuation.definition.variable.perl
 #     ^ punctuation.section.item-access.begin.perl
 #     ^^^^^^^^^^^ meta.item-access.perl
-#      ^^ constant.numeric.integer.decimal.perl
+#      ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #         ^ keyword.operator.arithmetic.perl
 #           ^^^^ variable.other.readwrite.perl
 #               ^ punctuation.section.item-access.end.perl
@@ -2695,7 +2748,7 @@ EOT
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
 #               ^ punctuation.section.item-access.begin.perl
-#                ^ constant.numeric.integer
+#                ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                 ^ punctuation.section.item-access.end.perl
   $FOO::BAR::baz{key} # baz is a hash
 # ^^^^^^^^^^^^^^ meta.path.perl - meta.item-access
@@ -2775,7 +2828,7 @@ EOT
 #   ^^^^  variable.other.readwrite.perl
 #       ^ punctuation.definition.variable.end.perl
 #        ^ punctuation.section.item-access.begin.perl
-#         ^ constant.numeric.integer.decimal.perl
+#         ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #          ^ punctuation.separator.sequence.perl
 #              ^ punctuation.section.item-access.end.perl
   ${ &$coderef() };    # Call by function reference
@@ -2802,7 +2855,7 @@ EOT
 #   ^^^^^^^^^^^^ meta.string.perl string.unquoted.perl
 #               ^ punctuation.definition.variable.end.perl
 #                ^ punctuation.section.item-access.begin.perl
-#                 ^ constant.numeric.integer.decimal.perl
+#                 ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                  ^ punctuation.section.item-access.end.perl
   ${/\w+$/g = $var}
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
@@ -2998,7 +3051,7 @@ EOT
 #       ^  punctuation.definition.variable.begin.perl
 #         ^ punctuation.definition.variable.perl
 #             ^ punctuation.section.item-access.begin.perl
-#              ^ constant.numeric.integer
+#              ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #               ^ punctuation.section.item-access.end.perl
 #                 ^ punctuation.definition.variable.end.perl
 #                  ^ punctuation.separator.sequence.perl
@@ -3014,7 +3067,7 @@ EOT
 # ^^ variable.language.perl
 #    ^ keyword.operator.assignment.perl
 #      ^ keyword.operator.reference.perl
-#       ^^ storage.type.variable.perl
+#       ^^ keyword.declaration.variable.perl
 #          ^ punctuation.definition.variable.perl
 #          ^^ variable.language.perl
 #            ^ punctuation.terminator.statement.perl
@@ -3134,33 +3187,33 @@ EOT
 ###[ PACKAGE DEFINITION ]#####################################################
 
   package;
-# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ meta.namespace.perl keyword.declaration.namespace.perl
 #        ^ punctuation.terminator.statement.perl - meta.namespace
   package; # comment
-# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ meta.namespace.perl keyword.declaration.namespace.perl
 #        ^^^^^^^^^^^ - meta.namespace
 #        ^ punctuation.terminator.statement.perl
 #          ^^^^^^^^^ comment.line.number-sign.perl
   package package;
 # ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^^^^^^ entity.name.namespace.perl
 #                ^ punctuation.terminator.statement.perl
   package Package;
 # ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^^^^^^ entity.name.namespace.perl
 #                ^ punctuation.terminator.statement.perl
   package PACKAGE;
 # ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^^^^^^ entity.name.namespace.perl
 #                ^ punctuation.terminator.statement.perl
   package # comment
-# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ meta.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^^^^^^ meta.namespace.perl comment.line.number-sign.perl
   if; # Perl allows namespaces looking like keywords
 # ^^ meta.namespace.perl entity.name.namespace.perl
@@ -3168,17 +3221,17 @@ EOT
   package name 5.023_234;
 # ^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                       ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^^^ entity.name.namespace.perl
-#              ^^^^^^^^^ constant.numeric.version.perl
+#              ^^^^^^^^^ meta.number.version.perl constant.numeric.value.perl
 #               ^ punctuation.separator.decimal.perl
 #                       ^ punctuation.terminator.statement.perl
   package name 5.023_234 { print "block" };
 # ^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                        ^^^^^^^^^^^^^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^^^ entity.name.namespace.perl
-#              ^^^^^^^^^ constant.numeric.version.perl
+#              ^^^^^^^^^ meta.number.version.perl constant.numeric.value.perl
 #               ^ punctuation.separator.decimal.perl
 #                        ^ punctuation.section.block.begin.perl
 #                                         ^ punctuation.terminator.statement.perl
@@ -3186,13 +3239,13 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^ meta.namespace.perl meta.path.perl
 #               ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^ punctuation.accessor.double-colon.perl
 #           ^^^^ entity.name.namespace.perl
 #               ^ punctuation.terminator.statement.perl
   package
 # ^^^^^^^^ meta.namespace.perl
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
     ::name;
 # ^^ meta.namespace.perl - meta.path
 #   ^^^^^^ meta.namespace.perl meta.path.perl
@@ -3204,7 +3257,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^ meta.namespace.perl meta.path.perl
 #                 ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3213,7 +3266,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^ meta.namespace.perl meta.path.perl
 #                 ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3222,7 +3275,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^ meta.namespace.perl meta.path.perl
 #                 ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3231,7 +3284,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^^^^^^^ meta.namespace.perl meta.path.perl
 #                       ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3240,7 +3293,7 @@ EOT
 #                       ^ punctuation.terminator.statement.perl
   package
 # ^^^^^^^^ meta.namespace.perl - meta.path
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
     NS::NAME
 # ^^ meta.namespace.perl - meta.path
 #   ^^^^^^^^ meta.namespace.perl meta.path.perl
@@ -3250,35 +3303,37 @@ EOT
     v5.24.1;
 #^^^^^^^^^^ meta.namespace.perl
 #          ^ - meta.namespace
-#   ^^^^^^^ constant.numeric.version.perl
-#   ^ punctuation.definition.version.perl
+#   ^^^^^^^ meta.number.version.perl constant.numeric.value.perl
 #     ^ punctuation.separator.decimal.perl
 #        ^ punctuation.separator.decimal.perl
 #          ^ punctuation.terminator.statement.perl
   package 5.0;
 # ^^^^^^^^^^^ meta.namespace.perl - meta.path
 #            ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
-#         ^^^ constant.numeric.version.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
+#         ^^^ meta.namespace.perl meta.number.version.perl constant.numeric.value.perl
+#          ^ punctuation.separator.decimal.perl
   package "5.0";
 # ^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #              ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
 #         ^^^^^ meta.string.perl string.quoted.double.perl
+#          ^^^ meta.number.version.perl constant.numeric.value.perl
+#           ^ punctuation.separator.decimal.perl
   package $name;
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
   package-name;
 # ^^^^^^^ meta.namespace.perl - meta.path
 #        ^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
   package.name;
 # ^^^^^^^ meta.namespace.perl - meta.path
 #        ^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+# ^^^^^^^ keyword.declaration.namespace.perl
   CORE::package;
-#       ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
+#       ^^^^^^^ keyword.declaration.namespace.perl
   core::package;
 # ^^^^^^^^^^^^^^ - meta.namespace.perl
 #       ^^^^^^^ - storage
@@ -3307,15 +3362,14 @@ EOT
 # ^^^^^^^^^^^^^ meta.preprocessor.require.perl
 #              ^ - meta.preprocessor
 # ^^^^^^^ keyword.control.import.require.perl
-#         ^^^^^ constant.numeric.float.decimal.perl
+#         ^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #          ^ punctuation.separator.decimal.perl
 #              ^ punctuation.terminator.statement.perl
   require v5.24.1;    # run time version check
 # ^^^^^^^^^^^^^^^ meta.preprocessor.require.perl
 #                 ^ - meta.preprocessor
 # ^^^^^^^ keyword.control.import.require.perl
-#         ^ punctuation.definition.version.perl
-#         ^^^^^^^ constant.numeric.version.perl
+#         ^^^^^^^ meta.number.version.perl constant.numeric.value.perl
 #           ^ punctuation.separator.decimal.perl
 #              ^ punctuation.separator.decimal.perl
 #                ^ punctuation.terminator.statement.perl
@@ -3324,7 +3378,7 @@ EOT
 # ^^^^^^^^^^^^^^ meta.preprocessor.require.perl
 #                ^ - meta.preprocessor
 # ^^^^^^^ keyword.control.import.require.perl
-#         ^^^^^^ constant.numeric.version.perl
+#         ^^^^^^ meta.number.version.perl constant.numeric.value.perl
 #          ^ punctuation.separator.decimal.perl
 #             ^ punctuation.separator.decimal.perl
 #               ^ punctuation.terminator.statement.perl
@@ -3333,7 +3387,7 @@ EOT
 # ^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl
 #                  ^ - meta.preprocessor
 # ^^^^^^^ keyword.control.import.require.perl
-#         ^^^^^^^^^ constant.numeric.float.decimal.perl
+#         ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #          ^ punctuation.separator.decimal.perl
 #                  ^ punctuation.terminator.statement.perl
 #                     ^ comment.line.number-sign.perl
@@ -3343,7 +3397,7 @@ EOT
     5.024_001;  # ditto; older syntax compatible
 # ^^^^^^^^^^^ meta.preprocessor.require.perl
 #            ^ - meta.preprocessor
-#   ^^^^^^^^^ constant.numeric.float.decimal.perl
+#   ^^^^^^^^^ meta.number.float.decimal.perl constant.numeric.value.perl
 #    ^ punctuation.separator.decimal.perl
 #            ^ punctuation.terminator.statement.perl
 #               ^ comment.line.number-sign.perl
@@ -3398,9 +3452,9 @@ EOT
 # ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 # ^^^^^^^ keyword.control.import.require.perl
 #         ^^^ meta.string.perl string.unquoted.perl
-#            ^ keyword.operator.concat.perl
+#            ^ keyword.operator.concatenation.perl
 #             ^^^^ variable.other.readwrite.perl
-#                 ^ keyword.operator.concat.perl
+#                 ^ keyword.operator.concatenation.perl
 #                  ^^ variable.function.perl
 #                    ^ punctuation.terminator.statement.perl
   require-name;
@@ -3414,7 +3468,7 @@ EOT
 # ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 #             ^ - meta.preprocessor.require
 # ^^^^^^^ keyword.control.import.require.perl
-#        ^ keyword.operator.concat.perl
+#        ^ keyword.operator.concatenation.perl
 #         ^^^^ variable.function.perl
 #             ^ punctuation.terminator.statement.perl
   CORE::require;
@@ -3544,24 +3598,24 @@ use strict "vars";
 ###[ DECLARATIONS ]###########################################################
 
 my
-# <- storage.type.variable.perl
-#^ storage.type.variable.perl
+# <- keyword.declaration.variable.perl
+#^ keyword.declaration.variable.perl
   my $foo
 #^ - storage
-# ^^ storage.type.variable.perl
-#   ^ - storage.type.variable - variable.other.readwrite
+# ^^ keyword.declaration.variable.perl
+#   ^ - keyword.declaration.variable - variable.other.readwrite
 #    ^ punctuation.definition.variable.perl
 #    ^^^^ variable.other.readwrite.perl
 #        ^ - variable.other.readwrite
 my $foo;
-# <-  storage.type.variable.perl
-#^ storage.type.variable.perl
+# <-  keyword.declaration.variable.perl
+#^ keyword.declaration.variable.perl
 #  ^ punctuation.definition.variable.perl
 #  ^^^^ variable.other.readwrite.perl
 #      ^ punctuation.terminator.statement.perl
 my $foo = "bar";
-# <-  storage.type.variable.perl
-#^ storage.type.variable.perl
+# <-  keyword.declaration.variable.perl
+#^ keyword.declaration.variable.perl
 #  ^ punctuation.definition.variable.perl
 #  ^^^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
@@ -3570,8 +3624,8 @@ my $foo = "bar";
 #             ^ punctuation.definition.string.end.perl
 #              ^ punctuation.terminator.statement.perl
 my (
-# <- storage.type.variable.perl
-#^ storage.type.variable.perl
+# <- keyword.declaration.variable.perl
+#^ keyword.declaration.variable.perl
   $foo, $bar,
 # ^ punctuation.definition.variable.perl
 # ^^^^ variable.other.readwrite.perl
@@ -3587,7 +3641,7 @@ my (
   eval { my $foo = /pattern/; }
 # ^^^^ support.function.perl
 #      ^ punctuation.section.block.begin.perl
-#        ^^ storage.type.variable.perl
+#        ^^ keyword.declaration.variable.perl
 #           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
@@ -3598,7 +3652,7 @@ my (
   CORE::my
 # ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^ storage.type.variable.perl
+#       ^^ keyword.declaration.variable.perl
   core::my
 # ^^^^^^^^ meta.path.perl
 # ^^^^ variable.namespace.perl
@@ -3611,25 +3665,25 @@ my (
 #     ^^^^ variable.function.perl
 
 our
-# <-  storage.type.variable.perl
-#^^ storage.type.variable.perl
+# <-  keyword.declaration.variable.perl
+#^^ keyword.declaration.variable.perl
   our $foo
 # <-
 #^ - storage
-# ^^^ storage.type.variable.perl
-#    ^ - storage.type.variable - variable.other.readwrite
+# ^^^ keyword.declaration.variable.perl
+#    ^ - keyword.declaration.variable - variable.other.readwrite
 #     ^ punctuation.definition.variable.perl
 #     ^^^^ variable.other.readwrite.perl
 #         ^ - variable.other.readwrite
 our $foo;
-# <-  storage.type.variable.perl
-#^^ storage.type.variable.perl
+# <-  keyword.declaration.variable.perl
+#^^ keyword.declaration.variable.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #       ^ punctuation.terminator.statement.perl
 our $foo = "bar";
-# <-  storage.type.variable.perl
-#^^ storage.type.variable.perl
+# <-  keyword.declaration.variable.perl
+#^^ keyword.declaration.variable.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #        ^ keyword.operator.assignment.perl
@@ -3638,8 +3692,8 @@ our $foo = "bar";
 #              ^ punctuation.definition.string.end.perl
 #               ^ punctuation.terminator.statement.perl
 our (
-# <- storage.type.variable.perl
-#^^ storage.type.variable.perl
+# <- keyword.declaration.variable.perl
+#^^ keyword.declaration.variable.perl
   $foo, $bar,
 # ^ punctuation.definition.variable.perl
 # ^^^^ variable.other.readwrite.perl
@@ -3653,14 +3707,14 @@ our (
 # ^ punctuation.section.group.end.perl
 #  ^ punctuation.terminator.statement.perl
 our $VERSION = do {
-# <- storage.type.variable.perl
-#^^ storage.type.variable.perl
+# <- keyword.declaration.variable.perl
+#^^ keyword.declaration.variable.perl
 #   ^^^^^^^^ variable.other.readwrite.perl
 #            ^ keyword.operator.assignment.perl
 #              ^^ keyword.control.flow.do.perl
 #                 ^ punctuation.section.block.begin.perl
   my @r = (q$Revision: 2.20 $ =~ /\d+/g);
-# ^^ storage.type.variable.perl
+# ^^ keyword.declaration.variable.perl
 #    ^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
 #         ^ punctuation.section.group.begin.perl
@@ -3679,7 +3733,7 @@ our $VERSION = do {
 # ^^^^^^^ support.function.perl
 #         ^^^^^ meta.string.perl string.quoted.double.perl
 #          ^^ constant.other.placeholder
-#              ^ keyword.operator.concat.perl
+#              ^ keyword.operator.concatenation.perl
 #               ^^^^^^ meta.string.perl string.quoted.double.perl
 #                ^^^^ constant.other.placeholder
 #                      ^ keyword.operator.arithmetic.perl
@@ -3689,13 +3743,13 @@ our $VERSION = do {
 };
 # <- punctuation.section.block.end.perl
 state
-# <- storage.type.variable.perl
-#^^^^ storage.type.variable.perl
+# <- keyword.declaration.variable.perl
+#^^^^ keyword.declaration.variable.perl
   state $foo
 # <-
 #^ - storage
-# ^^^^^ storage.type.variable.perl
-#      ^ - storage.type.variable - variable.other.readwrite
+# ^^^^^ keyword.declaration.variable.perl
+#      ^ - keyword.declaration.variable - variable.other.readwrite
 #       ^ punctuation.definition.variable.perl
 #       ^^^^ variable.other.readwrite.perl
 #           ^ - variable.other.readwrite
@@ -3717,7 +3771,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub BEGIN {
 # ^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^^ entity.name.function.prepocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
@@ -3726,7 +3780,7 @@ state
 # ^^^^ meta.function.perl - meta.path.perl - meta.block
 #     ^^^^^^^ meta.function.perl meta.path.perl - meta.block
 #            ^ meta.function.perl - meta.path.perl - meta.block
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^ entity.name.function.prepocessor.perl
 #             ^ punctuation.section.block.begin.perl
@@ -3740,7 +3794,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub CHECK {
 # ^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^^ entity.name.function.prepocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
@@ -3753,7 +3807,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub END {
 # ^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^ entity.name.function.prepocessor.perl
 #         ^ punctuation.section.block.begin.perl
   }
@@ -3766,7 +3820,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub INIT {
 # ^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.prepocessor.perl
 #          ^ punctuation.section.block.begin.perl
   }
@@ -3779,7 +3833,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub UNITCHECK {
 # ^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^^^^^^ entity.name.function.prepocessor.perl
 #               ^ punctuation.section.block.begin.perl
   }
@@ -3788,7 +3842,7 @@ state
 # ^^^^^^^^^^^^^ meta.function.perl
 #              ^^ meta.function.parameters.perl
 #                ^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^^^^^ entity.name.function.callback.perl
   sub ::AUTOLOAD () {}
 # ^^^^ meta.function.perl - meta.path
@@ -3796,40 +3850,40 @@ state
 #               ^ meta.function.perl - meta.function.parameters.perl - meta.path
 #                ^^ meta.function.parameters.perl - meta.function.perl - meta.path
 #                  ^ meta.function.perl - meta.function.parameters.perl - meta.path
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^^^^ entity.name.function.callback.perl
 
 ###[ UNQUALIFIED SUBROUTINE DEFINITIONS ]######################################
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
 #    ^ - invalid
   sub # comment
 # ^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #    ^ - comment - entity - keyword - invalid
 #     ^^^^^^^^^ comment.line.number-sign.perl
   sub func
 # ^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - entity - invalid
   sub func # comment
 # ^^^^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - comment - entity - invalid
 #          ^^^^^^^^^ comment.line.number-sign.perl
   sub func invalid
 # ^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - entity - invalid
 #          ^^^^^^^ invalid.illegal.identifier.perl
   sub func invalid # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - entity - invalid
 #          ^^^^^^^ invalid.illegal.identifier.perl
@@ -3837,12 +3891,12 @@ state
 #                  ^^^^^^^^^ comment.line.number-sign.perl
   sub func;
 # ^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.terminator.statement.perl
   sub func invalid;
 # ^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^^^^^ invalid.illegal.identifier.perl
 #                 ^ punctuation.terminator.statement.perl
@@ -3850,7 +3904,7 @@ state
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^ meta.function.perl meta.annotation.perl
 #           ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.definition.annotation.perl
 #      ^^^^ variable.annotation.attribute.perl
 #           ^ punctuation.terminator.statement.perl
@@ -3858,7 +3912,7 @@ state
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^ meta.function.perl meta.annotation.perl
 #                 ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -3867,7 +3921,7 @@ state
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                        ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -3878,7 +3932,7 @@ state
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                        ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -3888,7 +3942,7 @@ state
 # ^^^^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
 #                  ^^^^^ meta.function.perl meta.annotation.perl
 #                       ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^^^^^ invalid.illegal.identifier.perl
 #                  ^ punctuation.definition.annotation.perl
@@ -3897,7 +3951,7 @@ state
 
   sub # comment
 # ^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #    ^ - comment - entity - keyword - invalid
 #     ^^^^^^^^^ comment.line.number-sign.perl
   func
@@ -3924,14 +3978,14 @@ state
   sub { say "Hello"; }
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.section.block.begin.perl
 #       ^^^ support.function.perl
 #                    ^ punctuation.section.block.end.perl
   sub func { say "Hello"; }
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.section.block.begin.perl
 #            ^^^ support.function.perl
@@ -3939,7 +3993,7 @@ state
   sub func invalid { say "Hello"; }
 # ^^^^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
 #                  ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^^^^^ invalid.illegal.identifier.perl
 #                  ^ punctuation.section.block.begin.perl
@@ -3949,7 +4003,7 @@ state
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^ meta.function.perl meta.annotation.perl
 #           ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.definition.annotation.perl
 #      ^^^^ variable.annotation.attribute.perl
 #           ^ punctuation.section.block.begin.perl
@@ -3959,7 +4013,7 @@ state
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                   ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.definition.annotation.perl
 #      ^^^^ variable.annotation.attribute.perl
 #           ^^^^^^^ invalid.illegal.identifier.perl
@@ -3970,7 +4024,7 @@ state
 # ^^^^^^^^ meta.function.perl - meta.annotation
 #         ^^^^^^ meta.function.perl meta.annotation.perl
 #               ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.definition.annotation.perl
 #          ^^^^ variable.annotation.attribute.perl
@@ -3981,7 +4035,7 @@ state
 # ^^^^^^^^ meta.function.perl - meta.annotation
 #         ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                       ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.definition.annotation.perl
 #          ^^^^ variable.annotation.attribute.perl
@@ -3991,13 +4045,13 @@ state
 #                                      ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   { }
 # ^ punctuation.section.block.begin.perl
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   { }
@@ -4005,7 +4059,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   invalid
@@ -4015,7 +4069,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   :
 # ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
   attr
@@ -4025,7 +4079,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   :
 # ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
   attr
@@ -4037,7 +4091,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   invalid
@@ -4051,7 +4105,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
+# ^^^ meta.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   invalid
@@ -4077,7 +4131,7 @@ state
 #     ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
 #        ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #         ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.section.parameters.begin.perl
 #      ^ variable.parameter.perl
 #       ^ punctuation.section.parameters.end.perl
@@ -4088,7 +4142,7 @@ state
 #        ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #         ^^ - meta.annotation
 #           ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.section.parameters.begin.perl
 #      ^ variable.parameter.perl
 #       ^ punctuation.section.parameters.end.perl
@@ -4100,7 +4154,7 @@ state
 #          ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #           ^^ - meta.annotation
 #             ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^ punctuation.section.parameters.begin.perl
 #      ^ variable.parameter.perl
 #       ^ punctuation.separator.sequence.perl
@@ -4114,7 +4168,7 @@ state
 #                ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                 ^^ - meta.annotation
 #                   ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.section.parameters.begin.perl
 #          ^ variable.parameter.perl
@@ -4132,7 +4186,7 @@ state
 #                 ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                  ^^ - meta.annotation
 #                    ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.definition.annotation.perl
 #          ^^^^ variable.annotation.attribute.perl
@@ -4148,7 +4202,7 @@ state
 #                      ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                       ^^^ - meta.annotation
 #                          ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -4164,7 +4218,7 @@ state
 #             ^^^^^^ meta.function.perl meta.annotation.perl - meta.block
 #                   ^^
 #                     ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.section.parameters.begin.perl
 #          ^ variable.parameter.perl
@@ -4181,7 +4235,7 @@ state
 #                   ^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters
 #                         ^^
 #                           ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #           ^^^^ variable.annotation.attribute.perl
@@ -4204,13 +4258,13 @@ state
 #                                     ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                                      ^^
 #                                        ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^ punctuation.section.parameters.begin.perl
 #             ^^^^ variable.other.readwrite.perl
 #                 ^ punctuation.separator.sequence.perl
-#                   ^ constant.numeric.integer.decimal.perl
+#                   ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                    ^ punctuation.section.parameters.end.perl
 #                      ^ punctuation.section.parameters.begin.perl
 #                       ^ variable.parameter.perl
@@ -4218,9 +4272,9 @@ state
 #                          ^ punctuation.definition.annotation.perl
 #                            ^ punctuation.section.parameters.begin.perl
 #                             ^ punctuation.section.brackets.begin.perl
-#                              ^ constant.numeric.integer.decimal.perl
+#                              ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                               ^ punctuation.separator.sequence.perl
-#                                 ^^ constant.numeric.integer.decimal.perl
+#                                 ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                   ^ punctuation.section.brackets.end.perl
 #                                    ^ punctuation.section.parameters.end.perl
 #                                      ^ punctuation.section.block.begin.perl
@@ -4237,14 +4291,14 @@ state
 #                                               ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                                                ^^
 #                                                  ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
 #                 ^ punctuation.section.parameters.begin.perl
 #                  ^^^^ variable.other.readwrite.perl
 #                      ^ punctuation.separator.sequence.perl
-#                        ^ constant.numeric.integer.decimal.perl
+#                        ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                         ^ punctuation.section.parameters.end.perl
 #                           ^ punctuation.section.parameters.begin.perl
 #                            ^ variable.parameter.perl
@@ -4253,9 +4307,9 @@ state
 #                                 ^^^^ variable.annotation.attribute.perl
 #                                      ^ punctuation.section.parameters.begin.perl
 #                                       ^ punctuation.section.brackets.begin.perl
-#                                        ^ constant.numeric.integer.decimal.perl
+#                                        ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                         ^ punctuation.separator.sequence.perl
-#                                           ^^ constant.numeric.integer.decimal.perl
+#                                           ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                             ^ punctuation.section.brackets.end.perl
 #                                              ^ punctuation.section.parameters.end.perl
 #                                                ^ punctuation.section.block.begin.perl
@@ -4273,7 +4327,7 @@ state
 #                                                                          ^^^^^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                                                                               ^^
 #                                                                                 ^ - meta.function
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^ invalid.illegal.identifier.perl
 #              ^ punctuation.definition.annotation.perl
@@ -4282,7 +4336,7 @@ state
 #                         ^ punctuation.section.parameters.begin.perl
 #                          ^^^^ variable.other.readwrite.perl
 #                              ^ punctuation.separator.sequence.perl
-#                                ^ constant.numeric.integer.decimal.perl
+#                                ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                 ^ punctuation.section.parameters.end.perl
 #                                   ^^^ invalid.illegal.identifier.perl
 #                                       ^ punctuation.section.parameters.begin.perl
@@ -4297,9 +4351,9 @@ state
 #                                                             ^^^ invalid.illegal.identifier.perl
 #                                                                 ^ punctuation.section.parameters.begin.perl
 #                                                                  ^ punctuation.section.brackets.begin.perl
-#                                                                   ^ constant.numeric.integer.decimal.perl
+#                                                                   ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                                                    ^ punctuation.separator.sequence.perl
-#                                                                      ^^ constant.numeric.integer.decimal.perl
+#                                                                      ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                                                        ^ punctuation.section.brackets.end.perl
 #                                                                         ^ punctuation.section.parameters.end.perl
 #                                                                           ^^^ invalid.illegal.identifier.perl
@@ -4312,7 +4366,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - entity - invalid
@@ -4320,7 +4374,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - comment - entity - invalid
@@ -4329,7 +4383,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - entity - invalid
@@ -4338,7 +4392,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - entity - invalid
@@ -4349,7 +4403,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^ - meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ punctuation.terminator.statement.perl
@@ -4357,7 +4411,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #            ^^^^^^^ invalid.illegal.identifier.perl
@@ -4366,7 +4420,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.path
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ punctuation.definition.annotation.perl
@@ -4379,7 +4433,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.path
-# ^^^ storage.type.function.perl keyword.declaration.function.perl
+# ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ punctuation.definition.annotation.perl
@@ -4511,7 +4565,7 @@ state
 #       ^^^^ meta.function.perl
 # ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ storage.type.function.perl keyword.declaration.function.perl
+#       ^^^ keyword.declaration.function.perl
 #           ^ punctuation.terminator.statement.perl
   core::sub;
 # ^^^^^^^^^ - meta.function.perl
@@ -4656,7 +4710,7 @@ state
 #     ^ punctuation.separator.perl
 #      ^^^^ keyword.control.flow.exit.perl
 #           ^ keyword.operator.arithmetic.perl
-#            ^ constant.numeric.integer.decimal.perl
+#            ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 
 ###[ UNQUALIFIED FUNCTION CALLS ]#############################################
 
@@ -4678,10 +4732,21 @@ state
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
-#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
-#                 ^ punctuation.terminator.statement.perl
+  print(grep /^Client-/, $res->header_field_names)
+# ^^^^^ support.function.perl
+#      ^ punctuation.section.group.begin.perl
+#       ^^^^ support.function.perl
+#            ^ punctuation.section.generic.begin.perl
+#             ^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#                     ^ punctuation.section.generic.end.perl
+#                      ^ punctuation.separator.sequence.perl
+#                        ^^^^ variable.other.readwrite.perl
+#                            ^^ punctuation.accessor.arrow.perl
+#                              ^^^^^^^^^^^^^^^^^^ variable.function.member.perl
+#                                                ^ punctuation.section.group.end.perl
   print "string";
 # ^^^^^ support.function.perl
 #       ^^^^^^^^ meta.string.perl string.quoted.double.perl
@@ -4727,13 +4792,30 @@ state
   func "string";
 # ^^^^ variable.function.perl
 #      ^^^^^^^^ meta.string.perl string.quoted.double.perl
+
+  # Patterns an ambigious argument and need parentheses
   func /pattern/g;
 # ^^^^ variable.function.perl
-#      ^ punctuation.section.generic.begin.perl
-#       ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
-#              ^ punctuation.section.generic.end.perl
-#               ^ constant.language.flags.regexp.perl
+#      ^ - punctuation.section.generic.begin
+#       ^^^^^^^ - string.regexp
+#              ^ - punctuation.section.generic.end
+#               ^ - constant.language.flags.regexp
 #                ^ punctuation.terminator.statement.perl
+  func / 10
+# ^^^^ variable.function.perl
+#      ^ keyword.operator.arithmetic.perl
+#        ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
+
+  func / 10; $a = 10/2
+# ^^^^ variable.function.perl
+#      ^ keyword.operator.arithmetic.perl
+#        ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
+#          ^ punctuation.terminator.statement.perl
+#            ^^ variable.language.perl
+#               ^ keyword.operator.assignment.perl
+#                 ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
+#                   ^ keyword.operator.arithmetic.perl
+#                    ^ meta.number.integer.decimal.perl constant.numeric.value.perl
   Func x::path
 # ^^^^ variable.function.perl
 #      ^^^^^^^ meta.path.perl
@@ -4796,6 +4878,18 @@ _EOD_
   no_func and 1
 # ^^^^^^^ - variable.function
 #         ^^^ keyword.operator.logical.perl
+
+  ## Some functions are known to not be followed by patterns.
+  ## Thus multiple slashes in the line don't denote /<pattern>/
+
+  time / 86400 << 16 / 50
+# ^^^^ meta.function-call.perl support.function.perl
+#      ^ keyword.operator.arithmetic.perl
+#        ^^^^^ meta.number.integer.decimal.perl constant.numeric.value.perl
+#              ^^ keyword.operator.bitwise.perl
+#                 ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
+#                    ^ keyword.operator.arithmetic.perl
+#                      ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 
   ## To ensure the interpreter identifies a function correctly,
   ## the arguments need to be encapsulated in parentheses.
@@ -4918,10 +5012,10 @@ _EOD_
 # ^^^^^^ meta.path.perl
 # ^^ punctuation.accessor.double-colon.perl
 #   ^^^^ variable.function.perl
-#        ^ punctuation.section.generic.begin.perl
-#         ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
-#                ^ punctuation.section.generic.end.perl
-#                 ^ constant.language.flags.regexp.perl
+#        ^ - punctuation.section.generic.begin
+#         ^^^^^^^ - string.regexp
+#                ^ - punctuation.section.generic.end
+#                 ^ - constant.language.flags.regexp
 #                  ^ punctuation.terminator.statement.perl
   ::Func x::path
 # ^^^^^^ meta.path.perl
@@ -5122,7 +5216,7 @@ _EOD_
 #     ^^ punctuation.accessor.arrow.perl
 #       ^^^^^^ variable.function.member.perl
 #             ^ punctuation.section.group.begin.perl
-#              ^ constant.numeric.integer.decimal.perl
+#              ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #               ^ punctuation.separator.sequence.perl
 #                 ^^^^^ meta.string.perl string.quoted.double.perl
 #                      ^ punctuation.separator.sequence.perl
@@ -5159,21 +5253,21 @@ _EOD_
 #     ^^ punctuation.accessor.arrow.perl
 #       ^^^^^^ variable.function.member.perl
 #              ^ keyword.operator.arithmetic.perl
-#                ^ constant.numeric.integer.decimal.perl
+#                ^ meta.number.integer.decimal.perl constant.numeric.value.perl
   # call method and multiply 1 to the returned matrice
   $obj->method x 1
 # ^^^^ variable.other.readwrite.perl
 #     ^^ punctuation.accessor.arrow.perl
 #       ^^^^^^ variable.function.member.perl
 #              ^ keyword.operator.arithmetic.perl
-#                ^ constant.numeric.integer.decimal.perl
+#                ^ meta.number.integer.decimal.perl constant.numeric.value.perl
   # call method and associate returned bool with TRUE
   $obj->method and 1
 # ^^^^ variable.other.readwrite.perl
 #     ^^ punctuation.accessor.arrow.perl
 #       ^^^^^^ variable.function.member.perl
 #              ^^^ keyword.operator.logical.perl
-#                  ^ constant.numeric.integer.decimal.perl
+#                  ^ meta.number.integer.decimal.perl constant.numeric.value.perl
   # call method of an nested object
   $obj->{bar}->method
 # ^^^^ variable.other.readwrite.perl
@@ -5278,12 +5372,12 @@ _EOT_
 
   for my $i (0..9) {
 # ^^^ keyword.control.loop.for.perl
-#     ^^ storage.type.variable.perl
+#     ^^ keyword.declaration.variable.perl
 #        ^^ variable.other.readwrite.perl
 #           ^ punctuation.section.group.begin.perl
-#            ^ constant.numeric.integer.decimal.perl
+#            ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #             ^^ keyword.operator.range.perl
-#               ^ constant.numeric.integer.decimal.perl
+#               ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                ^ punctuation.section.group.end.perl
 #                  ^ punctuation.section.block.begin.perl
     CORE::break;
@@ -5295,7 +5389,7 @@ _EOT_
 
   foreach my $vsn_mk (<lib/*/vsn.mk>, <erts/vsn.mk>) {
 # ^^^^^^^ keyword.control.loop.foreach.perl
-#         ^^ storage.type.variable.perl
+#         ^^ keyword.declaration.variable.perl
 #            ^ punctuation.definition.variable.perl
 #            ^^^^^^^ variable.other.readwrite.perl
 #                    ^ punctuation.section.group.begin.perl
@@ -5332,11 +5426,11 @@ _EOT_
 #                  ^^ keyword.operator.arithmetic.perl
 #                     ^ keyword.operator.comparison.perl
 #                     ^^^^^^^^^^^^^^ - string
-#                       ^^ constant.numeric.integer.decimal.perl
+#                       ^^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                          ^^ keyword.operator.logical.perl
 #                             ^^^^ variable.other.readwrite.perl
 #                                  ^ keyword.operator.comparison.perl
-#                                    ^ constant.numeric.integer.decimal.perl
+#                                    ^ meta.number.integer.decimal.perl constant.numeric.value.perl
 #                                     ^ punctuation.section.group.end.perl
 #                                         ^^^^ keyword.control.flow.next.perl
 #                                              ^^^^ variable.label.perl

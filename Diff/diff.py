@@ -65,7 +65,7 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
             v.set_name(os.path.basename(files[1]) + " -> " + os.path.basename(files[0]))
             v.set_scratch(True)
             v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
-            v.run_command('append', {'characters': difftxt})
+            v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
 
     def is_visible(self, files):
         return len(files) == 2
@@ -114,7 +114,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
             v.settings().set('word_wrap', self.view.settings().get('word_wrap'))
 
-        v.run_command('append', {'characters': difftxt})
+        v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
 
         if not use_buffer:
             win.run_command("show_panel", {"panel": "output.unsaved_changes"})

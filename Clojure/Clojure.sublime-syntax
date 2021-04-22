@@ -6,7 +6,6 @@ name: Clojure
 file_extensions:
   - clj
   - cljc
-  - cljs
   - edn
 scope: source.clojure
 
@@ -25,12 +24,12 @@ variables:
   # Similar to the number regexps in the Clojure reader.
   # This doesn't include evil octals and dot-terminated decimals.
   sign: '[-+]?'
-  exponent: (?:[eE]{{sign}}\d+)
-  dec_integer: ({{sign}})\d+(N?)(?=[{{non_number_chars}}])
-  hex_integer: ({{sign}})(0[Xx])\h+(N?)(?=[{{non_number_chars}}])
-  other_integer: ({{sign}})((?:[2-9]|[1-9]\d+)[Rr])[0-9A-Za-z]+(?=[{{non_number_chars}}])
-  rational: ({{sign}})\d+(/)\d+(?=[{{non_number_chars}}])
-  float: ({{sign}})\d+(?:(?:(\.)\d+{{exponent}}?|{{exponent}})(M)?|(M))(?=[{{non_number_chars}}])
+  dec_exponent: (?:[eE]{{sign}}\d+)
+  dec_integer: ({{sign}})(\d+)(N?)(?=[{{non_number_chars}}])
+  hex_integer: ({{sign}})(0[Xx])(\h+)(N?)(?=[{{non_number_chars}}])
+  other_integer: ({{sign}})((?:[2-9]|[1-9]\d+)[Rr])([0-9A-Za-z]+)(?=[{{non_number_chars}}])
+  rational: ({{sign}})(\d+)(/)(\d+)(?=[{{non_number_chars}}])
+  float: ({{sign}})(\d+)(?:((\.)\d+{{dec_exponent}}?|{{dec_exponent}})(M)?|(M))(?=[{{non_number_chars}}])
 
 contexts:
   main:
@@ -77,33 +76,40 @@ contexts:
     - match: '{{evil_octal}}'
       scope: invalid.deprecated.clojure
     - match: '{{dec_integer}}'
-      scope: constant.numeric.integer.decimal.clojure
+      scope: meta.number.integer.decimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: storage.type.numeric.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.value.clojure
+        3: constant.numeric.suffix.clojure
     - match: '{{hex_integer}}'
-      scope: constant.numeric.integer.hexadecimal.clojure
+      scope: meta.number.integer.hexadecimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.base.clojure
-        3: storage.type.numeric.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.base.clojure
+        3: constant.numeric.value.clojure
+        4: constant.numeric.suffix.clojure
     - match: '{{other_integer}}'
-      scope: constant.numeric.integer.other.clojure
+      scope: meta.number.integer.other.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.base.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.base.clojure
+        3: constant.numeric.value.clojure
     - match: '{{rational}}'
-      scope: constant.numeric.rational.decimal.clojure
+      scope: meta.number.rational.decimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.separator.rational.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.value.clojure
+        3: punctuation.separator.rational.clojure
+        4: constant.numeric.value.clojure
     - match: '{{float}}'
-      scope: constant.numeric.float.decimal.clojure
+      scope: meta.number.float.decimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.separator.decimal.clojure
-        3: storage.type.numeric.clojure
-        4: storage.type.numeric.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.value.clojure
+        3: constant.numeric.value.clojure
+        4: punctuation.separator.decimal.clojure
+        5: constant.numeric.suffix.clojure
+        6: constant.numeric.suffix.clojure
     - match: '{{atom}}'
 
   pop-expr:
@@ -152,37 +158,44 @@ contexts:
       scope: invalid.deprecated.clojure
       pop: true
     - match: '{{dec_integer}}'
-      scope: constant.numeric.integer.decimal.clojure
+      scope: meta.number.integer.decimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: storage.type.numeric.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.value.clojure
+        3: constant.numeric.suffix.clojure
       pop: true
     - match: '{{hex_integer}}'
-      scope: constant.numeric.integer.hexadecimal.clojure
+      scope: meta.number.integer.hexadecimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.base.clojure
-        3: storage.type.numeric.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.base.clojure
+        3: constant.numeric.value.clojure
+        4: constant.numeric.suffix.clojure
       pop: true
     - match: '{{other_integer}}'
-      scope: constant.numeric.integer.other.clojure
+      scope: meta.number.integer.other.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.base.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.base.clojure
+        3: constant.numeric.value.clojure
       pop: true
     - match: '{{rational}}'
-      scope: constant.numeric.rational.decimal.clojure
+      scope: meta.number.rational.decimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.separator.rational.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.value.clojure
+        3: punctuation.separator.rational.clojure
+        4: constant.numeric.value.clojure
       pop: true
     - match: '{{float}}'
-      scope: constant.numeric.float.decimal.clojure
+      scope: meta.number.float.decimal.clojure
       captures:
-        1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.separator.decimal.clojure
-        3: storage.type.numeric.clojure
-        4: storage.type.numeric.clojure
+        1: keyword.operator.arithmetic.clojure
+        2: constant.numeric.value.clojure
+        3: constant.numeric.value.clojure
+        4: punctuation.separator.decimal.clojure
+        5: constant.numeric.suffix.clojure
+        6: constant.numeric.suffix.clojure
       pop: true
     - match: '{{atom}}'
       pop: true

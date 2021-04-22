@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 name: PHP
+version: 2
 file_extensions:
   - php
   - php3
@@ -37,4 +38,4 @@ contexts:
       captures:
         1: punctuation.section.embedded.end.php
         2: meta.html-newline-after-php.php
-      pop: true
+      pop: 1

@@ -39,8 +39,8 @@ variables:
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
-  definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
-  definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\b({{type_qualifier}})\b)'
+  definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
+  definitely_declaration_lookahead: '(?=({{name}})(\s+\*|(\*|\[.*\])?\s+)({{name}})|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
@@ -194,24 +194,27 @@ contexts:
     - include: integer-opt
     - include: not-whitespace-illegal-pop
   integer-opt:
-    - match: '(0[bB])(_?){{bin_digits}}({{integer_suffix}})?'
-      scope: constant.numeric.integer.binary.d
+    - match: (0[bB])(_?)({{bin_digits}})({{integer_suffix}})?
+      scope: meta.number.integer.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
-    - match: '(0[xX])(_?){{hex_digits}}({{integer_suffix}})?'
-      scope: constant.numeric.integer.hexadecimal.d
+    - match: (0[xX])(_?)({{hex_digits}})({{integer_suffix}})?
+      scope: meta.number.integer.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
-    - match: '{{dec_integer}}({{integer_suffix}})?'
-      scope: constant.numeric.integer.decimal.d
+    - match: ({{dec_integer}})({{integer_suffix}})?
+      scope: meta.number.integer.decimal.d
       captures:
-        1: storage.type.numeric.d
+        1: constant.numeric.value.d
+        2: constant.numeric.suffix.d
       pop: true
 
   floating-point:
@@ -219,18 +222,19 @@ contexts:
     - include: not-whitespace-illegal-pop
   floating-point-opt:
     # decimal imaginary numbers
-    - match: '{{dec_integer}}?(?:(\.){{dec_digits}}?)?{{dec_exponent}}?({{imaginary_suffix}})'
-      scope: constant.numeric.imaginary.decimal.d
+    - match: ({{dec_integer}}?(?:(\.){{dec_digits}}?)?{{dec_exponent}}?)({{imaginary_suffix}})
+      scope: meta.number.imaginary.decimal.d
       captures:
-        1: punctuation.separator.decimal.d
-        2: storage.type.numeric.d
+        1: constant.numeric.value.d
+        2: punctuation.separator.decimal.d
+        3: constant.numeric.suffix.d
       pop: true
     # decimal floats
     - match: |-
         (?x:
-          {{dec_integer}}
+          ({{dec_integer}})
           (?:
-            (?:
+            (
               (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
@@ -246,51 +250,58 @@ contexts:
             | ({{float_suffix}})
           )
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | (\.) {{dec_digits}} {{dec_exponent}}? ({{integer_float_suffix}})?
+          | ( (\.) {{dec_digits}} {{dec_exponent}}? ) ({{integer_float_suffix}})?
         )
-      scope: constant.numeric.float.decimal.d
+      scope: meta.number.float.decimal.d
       captures:
-        1: punctuation.separator.decimal.d
-        2: storage.type.numeric.d
-        3: storage.type.numeric.d
-        4: punctuation.separator.decimal.d
-        5: storage.type.numeric.d
+        1: constant.numeric.value.d
+        2: constant.numeric.value.d
+        3: punctuation.separator.decimal.d
+        4: constant.numeric.suffix.d
+        5: constant.numeric.suffix.d
+        6: constant.numeric.value.d
+        7: punctuation.separator.decimal.d
+        8: constant.numeric.suffix.d
       pop: true
 
     # hexadecimal imaginary numbers
-    - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?({{imaginary_suffix}})
-      scope: constant.numeric.imaginary.hexadecimal.d
+    - match: (0[xX])(_?)({{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?)({{imaginary_suffix}})
+      scope: meta.number.imaginary.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: punctuation.separator.decimal.d
-        4: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: punctuation.separator.decimal.d
+        5: constant.numeric.suffix.d
       pop: true
     # hexadecimal floats
-    - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}({{integer_float_suffix}})?
-      scope: constant.numeric.float.hexadecimal.d
+    - match: (0[xX])(_?)({{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}})({{integer_float_suffix}})?
+      scope: meta.number.float.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: punctuation.separator.decimal.d
-        4: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: punctuation.separator.decimal.d
+        5: constant.numeric.suffix.d
       pop: true
 
     # binary imaginary numbers
-    - match: (0[bB])(_?){{bin_digits}}({{imaginary_suffix}})
-      scope: constant.numeric.imaginary.binary.d
+    - match: (0[bB])(_?)({{bin_digits}})({{imaginary_suffix}})
+      scope: meta.number.imaginary.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
     # binary floats
-    - match: (0[bB])(_?){{bin_digits}}({{float_suffix}})
-      scope: constant.numeric.float.binary.d
+    - match: (0[bB])(_?)({{bin_digits}})({{float_suffix}})
+      scope: meta.number.float.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
 
   character-in:
@@ -748,6 +759,12 @@ contexts:
     - match: '\bauto\b'
       scope: keyword.other.d
       pop: true
+    - match: '\bmixin\b'
+      scope: keyword.control.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [basic-type2, basic-type2-after-parens, value]
     - match: '{{name_lookahead}}'
       set: [basic-type2, type-identifier-ref]
     - match: '(?=\S)'
@@ -1023,6 +1040,11 @@ contexts:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after
+    - match: '\b(mixin)\s*(\()'
+      captures:
+        1: keyword.control.d
+        2: punctuation.section.parens.begin.d
+      set: [first-value-parens-after, value]
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
@@ -1077,6 +1099,13 @@ contexts:
     - include: first-value-parens-after
 
   value:
+    - match: '\b({{name}})\s*(:)'
+      captures:
+        1: variable.other.d
+        2: punctuation.separator.mapping.key-value.d
+      set: value
+    - include: value-no-mapping-key
+  value-no-mapping-key:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
@@ -1199,16 +1228,11 @@ contexts:
     - match: '\b({{name}})\s*(=>)'
       captures:
         1: variable.parameter.d
-        2: storage.type.function.d keyword.declaration.function.lambda.d
+        2: keyword.declaration.function.anonymous.d
       set: [meta-function, value]
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d
       set: [value-after, value-identifier]
-    - match: '\b({{name}})\s*(:)'
-      captures:
-        1: variable.other.d
-        2: punctuation.separator.mapping.key-value.d
-      set: value
     - match: '{{name_lookahead}}'
       set: [value-after, value-identifier]
     - include: not-whitespace-illegal-pop
@@ -1224,7 +1248,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   new-after:
     - match: '\bclass\b'
-      scope: meta.class.d storage.type.class.d keyword.declaration.class.d
+      scope: meta.class.d keyword.declaration.class.d
       set: [meta-class, new-class]
     - match: (?={{identifier_ref}}\s*\()
       set: [new-after-named, new-type-identifier-ref]
@@ -1291,7 +1315,7 @@ contexts:
           pop: true
         - include: type-specialization
     - match: '\b(?:struct|union|class|interface|enum)\b'
-      scope: storage.type.d keyword.declaration.d
+      scope: keyword.declaration.d
       set:
         - match: '(?=\))'
           pop: true
@@ -1321,7 +1345,7 @@ contexts:
     - match: (?={)
       set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
+      scope: meta.function.d keyword.declaration.function.anonymous.d
       set: [meta-function, value]
     - match: (?=\S)
       set: value-after
@@ -1331,7 +1355,7 @@ contexts:
     - match: (?={)
       set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
+      scope: meta.function.d keyword.declaration.function.anonymous.d
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
@@ -1400,7 +1424,7 @@ contexts:
       set: value-maybe-pointer-after
     - match: '\?'
       scope: keyword.operator.ternary.d
-      set: [value-condition-after, value]
+      set: [value-condition-after, value-condition]
     - match: '(?=\b(function|delegate)\b)'
       set: [value-after, basic-type2]
     - match: '(?=\S)'
@@ -1432,6 +1456,10 @@ contexts:
       set: basic-type2
     - match: '(?=\S)'
       set: value
+  value-condition:
+    - match: (?=:)
+      pop: 1
+    - include: value-no-mapping-key
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d
@@ -1456,6 +1484,11 @@ contexts:
       pop: true
     - match: '(?=\S)'
       set: [value-list-after, value]
+  value-list-no-mapping-key:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: '(?=\S)'
+      set: [value-list-after, value-no-mapping-key]
   value-list-after:
     - match: '(?=\)|}|]|;|:)'
       pop: true
@@ -1534,7 +1567,7 @@ contexts:
 
   class-in:
     - match: '\b(class)\b'
-      scope: storage.type.class.d keyword.declaration.class.d
+      scope: keyword.declaration.class.d
       push: [meta-class, class-name]
   class-name:
     - match: '\b({{name}})\b'
@@ -1566,7 +1599,7 @@ contexts:
 
   interface-in:
     - match: '\b(interface)\b'
-      scope: storage.type.interface.d keyword.declaration.interface.d
+      scope: keyword.declaration.interface.d
       push: [meta-interface, interface-name]
   interface-name:
     - match: '\b({{name}})\b'
@@ -1587,7 +1620,7 @@ contexts:
 
   struct-in:
     - match: '\b(struct)\b'
-      scope: storage.type.struct.d keyword.declaration.struct.d
+      scope: keyword.declaration.struct.d
       push: [meta-struct, struct-name]
   struct-name:
     - match: '\b({{name}})\b'
@@ -1603,7 +1636,7 @@ contexts:
 
   union-in:
     - match: '\b(union)\b'
-      scope: storage.type.union.d keyword.declaration.union.d
+      scope: keyword.declaration.union.d
       push: [meta-union, union-name]
   union-name:
     - match: '\b({{name}})\b'
@@ -1619,7 +1652,7 @@ contexts:
 
   enum-in:
     - match: '\b(enum)\b'
-      scope: storage.type.enum.d keyword.declaration.enum.d
+      scope: keyword.declaration.enum.d
       push: [meta-enum, enum-after-kw]
   enum-after-kw:
     - match: '(?=\b({{basic_type}})\b)'
@@ -1870,7 +1903,7 @@ contexts:
 
   template-in:
     - match: '\b(template)\b'
-      scope: storage.type.d keyword.declaration.template.d
+      scope: keyword.declaration.template.d
       push: template
   template:
     - match: '\b({{name}})\b'
@@ -1886,7 +1919,7 @@ contexts:
     - match: '\b(mixin)\s+(template)\b'
       captures:
         1: keyword.control.d
-        2: storage.type.d keyword.declaration.template.d
+        2: keyword.declaration.template.d
       push: template
     - match: '\b(mixin)(?!\s*\()'
       scope: keyword.control.d
@@ -2048,9 +2081,10 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [switch-after, value]
+        - include: not-whitespace-illegal-pop
     - match: '\bcase\b'
       scope: keyword.control.flow.d
-      push: [case-after, value-list]
+      push: [case-after, value-list-no-mapping-key]
     - match: '\bdefault\b'
       scope: keyword.control.flow.d
       push:
@@ -2072,7 +2106,7 @@ contexts:
           set:
             - match: '\bcase\b'
               scope: keyword.control.flow.d
-              set: [case-after, value]
+              set: [case-after, value-no-mapping-key]
             - include: not-whitespace-illegal-pop
         - match: '(?=\S)'
           pop: true
@@ -2085,6 +2119,9 @@ contexts:
         - match: '\)'
           scope: punctuation.section.parens.end.d
           pop: true
+        - match: ';'
+          scope: punctuation.terminator.d
+          push: first-value
         - include: statement-list-in
     - include: not-whitespace-illegal-pop
 

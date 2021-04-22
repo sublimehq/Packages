@@ -9,13 +9,25 @@ first_line_match: "-[*]-( Mode:)? C -[*]-"
 scope: source.c
 
 variables:
+  # number digits
+  bin_digit: '[01]'
+  oct_digit: '[0-7]'
+  dec_digit: '\d'
+  hex_digit: '\h'
+
+  dec_digits: '{{dec_digit}}+'
+
   # number exponents
-  dec_exponent: '(?:[eE][-+]??\d+)'
-  hex_exponent: '(?:[pP][-+]??\d+)'
+  dec_exponent: '(?:[eE][-+]?{{dec_digit}}*)'
+  hex_exponent: '(?:[pP][-+]?{{dec_digit}}*)'
 
   # number suffixes
+  bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
+  oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
   hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  double_suffix: '[fFlL]'
+  float_suffix: '[fF]'
   integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
@@ -162,7 +174,9 @@ contexts:
       scope: support.function.C99.c
 
   types:
-    - match: \b({{basic_types}}|{{before_tag}})\b
+    - match: \b({{before_tag}})\b
+      scope: keyword.declaration.c
+    - match: \b({{basic_types}})\b
       scope: storage.type.c
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t|ptrdiff_t)\b
       scope: support.type.sys-types.c
@@ -183,75 +197,85 @@ contexts:
     # decimal floats
     - match: |-
         (?x:
-          \b\d+
+          \b({{dec_digits}})
           (?:
-            (?: (\.) (?: \d+ {{dec_exponent}}? | {{dec_exponent}} | (?=[^.])) | {{dec_exponent}} )
-            (?: ([fFlL])\b | ({{dec_suffix}})? ) | ([fF])\b
-          )
-          | (\.) \d+ {{dec_exponent}}? (?: ([fFlL])\b | ({{dec_suffix}})? )
+            ( (\.)
+              (?:
+                # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
+                {{dec_digit}}+ {{dec_exponent}}?
+                # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
+                | {{dec_exponent}}
+                # 1., 1.f, 1.L # but not `..`
+                | (?!\.)
+              )
+              # 1e1 1e1f 1e1L
+              | {{dec_exponent}}
+            ) ({{double_suffix}})?
+            # 1f
+            | ({{float_suffix}})
+          ) ({{dec_suffix}})?
+          # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
+          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
         )
-      scope: constant.numeric.float.decimal.c
+      scope: meta.number.float.decimal.c
       captures:
-        1: punctuation.separator.decimal.c
-        2: storage.type.numeric.c
-        3: invalid.illegal.numeric.suffix.c
-        4: storage.type.numeric.c
-        5: punctuation.separator.decimal.c
-        6: storage.type.numeric.c
-        7: invalid.illegal.numeric.suffix.c
+        1: constant.numeric.value.c
+        2: constant.numeric.value.c
+        3: punctuation.separator.decimal.c
+        4: constant.numeric.suffix.c
+        5: constant.numeric.suffix.c
+        6: invalid.illegal.numeric.suffix.c
+        7: constant.numeric.value.c
+        8: punctuation.separator.decimal.c
+        9: constant.numeric.suffix.c
+        10: invalid.illegal.numeric.suffix.c
+
     # hexadecimal float (C99)
-    - match: \b0[xX](?=[[:alnum:].]+?[pP])
-      scope: punctuation.definition.numeric.base.c
-      push:
-        - meta_include_prototype: false
-        - meta_scope: constant.numeric.float.hexadecimal.c
-        - match: '{{hex_exponent}}\b'
-          pop: true
-        - match: \.
-          scope: punctuation.separator.decimal.c
-        - match: \H
-          scope: invalid.illegal.numeric.digit.c
+    - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})(?:([fFlL]\b)|({{dec_suffix}}))?
+      scope: meta.number.float.hexadecimal.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: punctuation.separator.decimal.c
+        4: constant.numeric.suffix.c
+        5: invalid.illegal.numeric.suffix.c
 
     # https://en.cppreference.com/w/c/language/integer_constant
 
+    # binary integer (C23)
+    - match: \b(0[bB])({{bin_digit}}*)(?:({{integer_suffix}})|({{bin_suffix}}))?
+      scope: meta.number.integer.binary.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: constant.numeric.suffix.c
+        4: invalid.illegal.numeric.suffix.c
+
     # hexadecimal integer
-    - match: \b0[xX]
-      scope: punctuation.definition.numeric.base.c
-      push:
-        - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.hexadecimal.c
-        - include: hexadecimal-suffix
+    - match: \b(0[xX])({{hex_digit}}*)(?:({{integer_suffix}})|({{hex_suffix}}))?
+      scope: meta.number.integer.hexadecimal.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: constant.numeric.suffix.c
+        4: invalid.illegal.numeric.suffix.c
+
     # octal integer
-    - match: \b0(?=\d)
-      scope: punctuation.definition.numeric.base.c
-      push:
-        - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.octal.c
-        - match: '[89]'
-          scope: invalid.illegal.numeric.digit.c
-        - include: decimal-suffix
+    - match: \b(0)({{oct_digit}}+)(?:({{integer_suffix}})|({{oct_suffix}}))?
+      scope: meta.number.integer.octal.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: constant.numeric.suffix.c
+        4: invalid.illegal.numeric.suffix.c
+
     # decimal integer
-    - match: \b\d+
-      push:
-        - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.decimal.c
-        - include: decimal-suffix
-
-  decimal-suffix:
-    - match: (?:{{integer_suffix}})?\b
-      scope: storage.type.numeric.c
-      pop: true
-    - match: '{{dec_suffix}}'
-      scope: invalid.illegal.numeric.suffix.c
-      pop: true
-
-  hexadecimal-suffix:
-    - match: (?:{{integer_suffix}})?\b
-      scope: storage.type.numeric.c
-      pop: true
-    - match: '{{hex_suffix}}'
-      scope: invalid.illegal.numeric.suffix.c
-      pop: true
+    - match: \b({{dec_digits}})(?:({{integer_suffix}})|({{dec_suffix}}))?
+      scope: meta.number.integer.decimal.c
+      captures:
+        1: constant.numeric.value.c
+        2: constant.numeric.suffix.c
+        3: invalid.illegal.numeric.suffix.c
 
   operators:
     - match: (?:\+\+|--)
@@ -431,7 +455,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.c
+        1: keyword.declaration.c
       set: global-maybe-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/union
@@ -533,15 +557,15 @@ contexts:
   data-structures:
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: storage.type.c
+      scope: keyword.declaration.c
     - match: '\bstruct\b'
-      scope: storage.type.c
+      scope: keyword.declaration.struct.c
       set: data-structures-struct-definition
     - match: '\benum\b'
-      scope: storage.type.c
+      scope: keyword.declaration.enum.c
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.c
+      scope: keyword.declaration.union.c
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -755,7 +779,7 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.c
+      scope: keyword.declaration.type.c
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
@@ -763,7 +787,7 @@ contexts:
           pop: true
         - match: \b(struct)\s+({{identifier}})
           captures:
-            1: storage.type.c
+            1: keyword.declaration.struct.c
         - include: expressions
 
   function-call:
@@ -793,7 +817,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.integer.decimal.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -819,7 +843,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.integer.decimal.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -863,7 +887,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.integer.decimal.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -890,7 +914,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.integer.decimal.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -995,7 +1019,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.integer.decimal.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1021,7 +1045,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.integer.decimal.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

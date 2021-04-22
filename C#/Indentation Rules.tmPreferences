@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.cs</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>(?x)
+			^                                    # the beginning of the line
+			(.*\*/)?                             # optionally followed by the end of a block comment
+			\s*                                  # followed by any amount of whitespace
+			\}                                   # followed by a closing brace
+			(                                    # followed by
+			    [^}{"']* \{                      # - anything thats not a brace or a string (or nothing), followed by an opening brace
+			|   \s* while \s* \( .*              # - or any whitespace followed by `while` followed by any whitespace followed by an opening paren
+			|   ,                                # - or a comma
+			)?                                   # optional
+			[;\s]*                               # followed by any number of semi-colons or whitespace characters
+			(//.*|/\*.*\*/\s*)?                  # optionally followed by a comment
+			$                                    # the end of the line
+		</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)
+		^                                        # the beginning of the line
+		.*                                       # followed by anything
+		\{                                       # followed by an open brace
+		[^}"']*                                  # followed by any number of characters that isn't a close brace or a string
+		$                                        # the end of the line
+		</string>
+		<key>indentNextLinePattern</key>
+		<string>(?x)^
+		(?! .* [;:{}]                   # do not indent when line ends with ;, :, {, or }
+		    \s* (//|/[*] .* [*]/ \s* $) #  …account for potential trailing comment
+		)
+		.* [^\s;:{}] \s* $              # indent next if this one isn’t
+		                                #  terminated with ;, :, {, or }
+		</string>
+		<key>unIndentedLinePattern</key>
+		<string>^\s*((/\*|\*/|//|#).*)?$</string>
+	</dict>
+</dict>
+</plist>

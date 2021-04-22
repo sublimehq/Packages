@@ -1,0 +1,37 @@
+## SYNTAX TEST reindent-unchanged "Packages/HTML/HTML.sublime-syntax"
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title Here</title>
+    <!-- this comment's
+        indentation should
+        be unchanged
+    -->
+</head>
+<body>
+
+    <div class="main">
+        <span class="something">Blah</span>
+        <span class="something">
+            Foobar
+        </span>
+    </div>
+
+    <script type="text/javascript" src="/some_script.js"></script>
+
+    <!-- Curly braces -->
+    foo {
+        bar { <!-- comment -->
+            baz
+        }
+    }
+    text
+    { <p></p> }
+    text
+    {{template}}
+    text
+
+</body>
+</html>

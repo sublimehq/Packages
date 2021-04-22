@@ -1,0 +1,39 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/file_patterns.html
+name: Sublime File Pattern
+hidden: true
+scope: source.file-pattern
+
+contexts:
+  main:
+    - include: multiple
+
+  multiple:
+    - match: ','
+      scope: punctuation.separator.file-pattern
+    - include: single
+
+  single:
+    - match: \s*(-)?(//)?(?=.)
+      captures:
+        1: keyword.operator.logical.file-pattern
+        2: meta.path.file-pattern constant.language.file-pattern
+      push: pattern
+
+  pattern:
+    - meta_content_scope: meta.path.file-pattern
+    - match: (?=\s*(?:,|$))
+      pop: true
+    - match: \*{2,}
+      scope: invalid.illegal.file-pattern
+    - match: \[|\]
+      scope: invalid.illegal.file-pattern
+    - match: (\*)/|/(\*)(?!\*)
+      captures:
+        1: variable.language.wildcard.file-pattern
+        2: variable.language.wildcard.file-pattern
+    - match: '[*?]'
+      scope: keyword.operator.wildcard.file-pattern
+    - match: <(?:current file|open files|open folders|project filters)>
+      scope: support.constant.file-pattern

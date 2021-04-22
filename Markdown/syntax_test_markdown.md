@@ -21,10 +21,13 @@ http://spec.commonmark.org/0.28/#example-44
 |             ^ - punctuation.definition.heading.end.markdown
 
 Alternate Heading
+| <- markup.heading.1
 =================
 |^^^^^^^^^^^^^^^^ markup.heading.1 punctuation.definition
+|                ^ meta.whitespace.newline
 
 heading underlined with dashes
+| <- markup.heading.2
 ------------------------------
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.2 punctuation.definition.heading
 
@@ -250,6 +253,13 @@ Paragraph break.
 
 Paragraph break.
 
+- `<Logo>` | `<logo>` (components/Logo.vue)
+- `<MyComponent>` | `<my-component>` | (components/my-component.vue)
+| <- markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown
+
+Paragraph break.
+
   * Unordered list item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
 | ^ markup.list.unnumbered.bullet punctuation.definition.list_item
@@ -276,7 +286,7 @@ Paragraph break.
 	<tag>
 |^^^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown markup.raw.code-fence.xml.markdown-gfm text.xml meta.tag.xml
 	```
-|^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown meta.code-fence.definition.end.xml.markdown-gfm punctuation.definition.raw.code-fence.end.markdown  
+|^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown meta.code-fence.definition.end.xml.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
 Paragraph break.
 
@@ -284,6 +294,12 @@ Paragraph break.
 > Including things like *italics*
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote
 |                       ^^^^^^^^^ markup.italic
+
+Paragraph break.
+
+---
+|^^^ meta.block-level meta.separator.thematic-break
+|^^ punctuation.definition.thematic-break
 
 Paragraph break.
 
@@ -397,6 +413,9 @@ paragraph
     >=
 |   ^^ - punctuation.definition.blockquote.markdown
 
+>==
+| <- punctuation.definition.blockquote.markdown
+
 Code block below:
 
     this is code!
@@ -495,11 +514,40 @@ a.b-c_d@a.b.
 this is a raw ampersand & does not require HTML escaping
 |                       ^ meta.other.valid-ampersand
 
-this is a raw bracket < <= <- << does not require HTML escaping
+this is a raw bracket < > does not require HTML escaping
+|                     ^^^ - meta.tag 
 |                     ^ meta.other.valid-bracket
-|                       ^^ - meta.other-valid-bracket - meta.tag
-|                          ^^ - meta.other-valid-bracket - meta.tag
-|                             ^^ - meta.other-valid-bracket - meta.tag
+|                       ^ - meta.other.valid-bracket
+
+these are raw ligatures << <<< <<<< <<<<< >>>>> >>>> >>> >>
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures <- <-- <--- <---- <-< <--< <---< <----<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures -> --> ---> ----> >-> >--> >---> >---->
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >- >-- >--- >---- ----< ---< --< -<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >< >-< >--< >---< <---> <--> <-> <>
+|                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures <= <== <=== <==== <=< <==< <===< <====<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures => ==> ===> ====> >=> >==> >===> >====>
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >= >== >=== >==== ====< ===< ==< =<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >< >=< >==< >===< <===> <==> <=> <>
+|                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures - -- --- ---- ----- ===== ==== === == =
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
 
 [2]: https://github.com/sublimehq/Packages "Packages Repo"
 | <- meta.link.reference.def
@@ -573,6 +621,28 @@ because it doesn't begin with the number one:
 * list continues
 | <- markup.list.unnumbered punctuation.definition.list_item - markup.raw.block
 * list continues
+* [ ] Unticked GitHub-flavored-markdown checkbox
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^^^ constant.language.checkbox
+* [x] Ticked GFM checkbox
+| ^^^ constant.language.checkbox
+* [X] Another ticked checkbox
+| ^^^ constant.language.checkbox
+    + [ ] Sub-item with checkbox
+|     ^^^ constant.language.checkbox
+* [] Not a checkbox
+| ^^^^^^^^^^^^^^^^^ - storage - constant
+* [/] Not a checkbox
+| ^^^^^^^^^^^^^^^^^^ - storage
+* Not [ ] a [x] checkbox [X]
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - storage - constant
+* [ ] [Checkbox][] with next word linked
+| ^^^ constant.language.checkbox
+|     ^^^^^^^^^^^^ meta.link
+* list has `unclosed code
+* list continues
+| ^^^^^^^^^^^^^^^ - markup.raw
+
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
@@ -1250,6 +1320,12 @@ for (var i = 0; i < 10; i++) {
 ```
 | <- punctuation.definition.raw.code-fence.end
 
+```ts
+|  ^^ constant.other.language-name
+declare type foo = 'bar'
+|       ^^^^ source.ts meta.type-alias storage.type
+```
+
 ```testing``123```
 | <- punctuation.definition.raw.begin
 |         ^^ - punctuation
@@ -1487,22 +1563,26 @@ _foo [**bar**](/url)_
 |^^^^^^^^^^^ meta.link.reference.def entity.name.reference.link
 |            ^ punctuation.separator.key-value
 |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                                ^ - meta.link - markup
 
 [//]: # (This is a comment without a line-break.)
 |     ^ meta.link.reference.def markup.underline.link
 |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                ^ - meta.link
 
 [//]: # (This is a comment with a
 |     ^ meta.link.reference.def markup.underline.link
 |       ^ punctuation.definition.string.begin
         line-break.)
 |                  ^ punctuation.definition.string.end
+|                   ^ - meta.link
 
 [//]: # (testing)blah
+|^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
 |       ^ punctuation.definition.string.begin
-|^^^^^^^^^^^^^^^^ meta.link.reference.def
 |               ^ punctuation.definition.string.end
 |                ^^^^ invalid.illegal.expected-eol
+|                    ^ - meta.link - invalid
 
 [//]: # (testing
 blah
@@ -1512,17 +1592,23 @@ blah
 text
 | <- meta.paragraph - meta.link.reference.def
 
-[foo]: <bar> "test"
+[foo]: <bar> "test" 
+|^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
+|                   ^ - meta.link
 |      ^ punctuation.definition.link.begin
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |            ^^^^^^ string.other.link.description.title
+|                  ^ - invalid.illegal.expected-eol
 
-[foo]: <bar>> "test"
+[foo]: <bar>> "test" 
+|^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
+|                    ^ - meta.link
 |      ^ punctuation.definition.link.begin
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |           ^^^^^^^^ invalid.illegal.expected-eol
+|                   ^ - invalid.illegal.expected-eol
 
 https://michelf.ca/projects/php-markdown/extra/#footnotes
 That's some text with a footnote.[^1]
@@ -1651,6 +1737,25 @@ not a table |
  --- | ---
  --- | ---
 | ^^^^ meta.block-level meta.table - meta.table.header
+
+ a | b
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+
+ a | b
+ -:| -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+| ^ punctuation.definition.table-cell-alignment.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
 
 | test | me |
 |------|----|
@@ -1938,6 +2043,18 @@ okay
 1. Test 2
 |^ markup.list.numbered.bullet punctuation.definition.list_item
 
+```clojure
+|^^^^^^^^^ meta.code-fence.definition.begin.clojure
+|  ^^^^^^^ constant.other.language-name
+ (/ 10 3.0)
+|<- source.clojure
+|^^^^^^^^^^ source.clojure
+| ^ variable.function
+|   ^^ meta.number
+|      ^^^ meta.number
+```
+|^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
@@ -2046,3 +2163,26 @@ end
 > > -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
 | ^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
 |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level - constant - keyword - variable
+
+\<div>
+|<- constant.character.escape
+|^ constant.character.escape
+|^^^^^^ - meta.tag
+
+\<div\>
+|^ constant.character.escape
+|^^^^^^ - meta.tag
+|    ^^ constant.character.escape
+
+link with a single underscore inside the text : [@_test](http://example.com)
+|                                                ^^^^^^ meta.paragraph meta.link.inline.description - punctuation.definition
+|                                                      ^ meta.paragraph meta.link.inline punctuation.definition.link.end
+
+# h1
+- list
+## h2
+|^ punctuation.definition.heading.begin
+1. list
+### h3
+|^^ punctuation.definition.heading.begin
+

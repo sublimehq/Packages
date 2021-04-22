@@ -1,7 +1,15 @@
 {
     "scope": "meta.mapping.expect-value & meta.attribute.builtin.eol.git.attributes",
     "completions": [
-        {"trigger": "crlf\teol", "contents": "crlf"},
-        {"trigger": "lf\teol", "contents": "lf"}
+        {
+            "trigger": "crlf",
+            "contents": "crlf",
+            "kind": ["variable", "o", "EOL"]
+        },
+        {
+            "trigger": "lf",
+            "contents": "lf",
+            "kind": ["variable", "o", "EOL"]
+        },
     ]
 }

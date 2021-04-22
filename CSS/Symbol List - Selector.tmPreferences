@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.css meta.selector</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\/\*.*?\*\///g;		# remove comments
+			s/\s+([,)\]}])/$1/g;	# remove whitespace before punctuation
+			s/([(\[{])\s+/$1/g;		# remove whitespace after punctuation
+			s/\s+/ /g;				# remove multiple whitespace
+		</string>
+	</dict>
+</dict>
+</plist>

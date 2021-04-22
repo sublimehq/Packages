@@ -65,12 +65,13 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 ///                            ^ variable.other
 ///                                  ^ punctuation.separator
-///                                   ^^^ constant.numeric.integer.decimal
+///                                   ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                   ^ keyword.operator.arithmetic.cs
 ///                                      ^ punctuation.section.interpolation.end
 ///                                        ^ punctuation.section.interpolation.begin
 ///                                         ^ variable.other
 ///                                                         ^ punctuation.separator
-///                                                          ^ constant.numeric.integer.decimal
+///                                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                                           ^ punctuation.separator
 ///                                                            ^^ constant.other.format-spec
 ///                                                                ^^ constant.character.escape
@@ -103,7 +104,7 @@ string unclosed_interpolation = $"inner {
 
 string unclosed_interpolation = $"inner {2}
 ///                                     ^ punctuation.section.interpolation.begin.cs
-///                                      ^ constant.numeric.integer.decimal.cs
+///                                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                       ^ punctuation.section.interpolation.end.cs
 ///                                        ^ invalid.illegal.unclosed-string.cs
 
@@ -153,7 +154,7 @@ string Frag
 {
 /// <- punctuation.section.block.begin
     get
-/// ^^^ - storage.type.function
+/// ^^^ - keyword.declaration.function
     {
 /// ^ punctuation.section.block.begin
         var list = new List<string>();

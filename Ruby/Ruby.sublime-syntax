@@ -46,6 +46,7 @@ file_extensions:
   - Podfile
   - podspec
   - prawn
+  - pryrc
   - rabl
   - rake
   - Rakefile
@@ -66,17 +67,17 @@ first_line_match: |-
   )
 scope: source.ruby
 variables:
-  bdigits: (?:[01]+(?:_[01]+)*)
-  ddigits: (?:\d+(?:_\d+)*)
-  hdigits: (?:\h+(?:_\h+)*)
-  odigits: (?:[0-7]+(?:_[0-7]+)*)
-  exponent: (?:[Ee][-+]?{{ddigits}})
-  heredoc_type_css: (?:[[:upper:]_]_)?CSS
-  heredoc_type_html: (?:[[:upper:]_]_)?HTML
-  heredoc_type_js: (?:[[:upper:]_]_)?(?:JS|JAVASCRIPT)
-  heredoc_type_ruby: (?:[[:upper:]_]_)?RUBY
-  heredoc_type_shell: (?:[[:upper:]_]_)?(?:SH|SHELL)
-  heredoc_type_sql: (?:[[:upper:]_]_)?SQL
+  bin_digits: (?:[01]+(?:_[01]+)*)
+  dec_digits: (?:\d+(?:_\d+)*)
+  hex_digits: (?:\h+(?:_\h+)*)
+  oct_digits: (?:[0-7]+(?:_[0-7]+)*)
+  dec_exponent: (?:[Ee][-+]?{{dec_digits}})
+  heredoc_type_css: (?:[[:upper:]_]_)?CSS\b
+  heredoc_type_html: (?:[[:upper:]_]_)?HTML\b
+  heredoc_type_js: (?:[[:upper:]_]_)?(?:JS|JAVASCRIPT)\b
+  heredoc_type_ruby: (?:[[:upper:]_]_)?RUBY\b
+  heredoc_type_shell: (?:[[:upper:]_]_)?(?:SH|SHELL)\b
+  heredoc_type_sql: (?:[[:upper:]_]_)?SQL\b
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
   method_punctuation: '(?:[?!]|=(?![>=]))?'
   method_name: '{{identifier}}{{method_punctuation}}'
@@ -122,14 +123,14 @@ contexts:
 
   class:
     # Defining a class method
-    - match: \b(class)\b(?=\s*<)
-      scope: keyword.control.class.ruby
-    - match: '\b(class)\b'
-      scope: meta.class.ruby keyword.control.class.ruby
+    - match: \bclass\b(?=\s*<)
+      scope: keyword.declaration.class.ruby
+    - match: \bclass\b
+      scope: keyword.declaration.class.ruby
       push: class-declaration
 
   class-declaration:
-    - meta_content_scope: meta.class.ruby
+    - meta_scope: meta.class.ruby
     - match: '(?={{path_lookahead}})'
       set: class-name
     # Escape if no valid match
@@ -162,15 +163,15 @@ contexts:
       pop: true
 
   module:
-    - match: \b(module)\b
-      scope: meta.module.ruby keyword.control.module.ruby
+    - match: \bmodule\b
+      scope: keyword.declaration.namespace.ruby
       push: module-declaration
 
   module-declaration:
-    - meta_content_scope: meta.module.ruby
+    - meta_scope: meta.namespace.ruby
     - match: '(?=(::)?({{identifier}}::)*{{identifier}})'
       set:
-        - meta_content_scope: meta.module.ruby entity.name.module.ruby
+        - meta_content_scope: meta.namespace.ruby entity.name.namespace.ruby
         - include: name-parts
         - match: ''
           pop: true
@@ -206,97 +207,114 @@ contexts:
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
     # hexadecimal imaginary numbers: 0xAi, 0xAri
-    - match: '\b(0[xX]){{hdigits}}(r?i)(r)?\b'
-      scope: constant.numeric.imaginary.hexadecimal.ruby
+    - match: '\b(0[xX])({{hex_digits}})(r?i(r)?)\b'
+      scope: meta.number.imaginary.hexadecimal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: storage.type.numeric.ruby
-        3: invalid.illegal.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
+        4: invalid.illegal.numeric.ruby
     # octal imaginary numbers: 0o1i, 0o1ri, 01i, 01ri
-    - match: '\b(0[oO]?){{odigits}}(r?i)(r)?\b'
-      scope: constant.numeric.imaginary.octal.ruby
+    - match: '\b(0[oO]?)({{oct_digits}})(r?i(r)?)\b'
+      scope: meta.number.imaginary.octal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: storage.type.numeric.ruby
-        3: invalid.illegal.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
+        4: invalid.illegal.numeric.ruby
     # binary imaginary numbers: 0b1i, 0b1ri
-    - match: '\b(0[bB]){{bdigits}}(r?i)(r)?\b'
-      scope: constant.numeric.imaginary.binary.ruby
+    - match: '\b(0[bB])({{bin_digits}})(r?i(r)?)\b'
+      scope: meta.number.imaginary.binary.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: storage.type.numeric.ruby
-        3: invalid.illegal.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
+        4: invalid.illegal.numeric.ruby
     # decimal imaginary numbers: 0d1i, 0d1ri, 1i, 1ri, 1.1i, 1.1ri, 1e1i, 1.1e1i
     - match: |-
         \b(?x:
           (?:
             # 0d1i, 0d1ri, 1i, 1ri | 1.1i, 1.1ri
-            (?: (0[dD])? {{ddigits}} | {{ddigits}} (\.) {{ddigits}} ) (r?i)
+            (?: (0[dD])? ({{dec_digits}}) | ({{dec_digits}} (\.) {{dec_digits}}) ) (r?i)
             # 1e1i, 1.1e1i
-            | {{ddigits}} (?: (\.) {{ddigits}} )? {{exponent}} (r)? (i)
+            | ({{dec_digits}} (?: (\.) {{dec_digits}} )? {{dec_exponent}}) (r)?(i)
           ) (r)?
         )\b
-      scope: constant.numeric.imaginary.decimal.ruby
+      scope: meta.number.imaginary.decimal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: punctuation.separator.decimal.ruby
-        3: storage.type.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.value.ruby
         4: punctuation.separator.decimal.ruby
-        5: invalid.illegal.numeric.ruby
-        6: storage.type.numeric.ruby
-        7: invalid.illegal.numeric.ruby
+        5: constant.numeric.suffix.ruby
+        6: constant.numeric.value.ruby
+        7: punctuation.separator.decimal.ruby
+        8: constant.numeric.suffix.ruby invalid.illegal.numeric.ruby
+        9: constant.numeric.suffix.ruby
+        10: constant.numeric.suffix.ruby invalid.illegal.numeric.ruby
     # hexadecimal rational numbers: 0xAr
-    - match: '\b(0[xX]){{hdigits}}(r)\b'
-      scope: constant.numeric.rational.hexadecimal.ruby
+    - match: '\b(0[xX])({{hex_digits}})(r)\b'
+      scope: meta.number.rational.hexadecimal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: storage.type.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
     # octal rational numbers: 0o1r, 01r
-    - match: '\b(0[oO]?){{odigits}}(r)\b'
-      scope: constant.numeric.rational.octal.ruby
+    - match: '\b(0[oO]?)({{oct_digits}})(r)\b'
+      scope: meta.number.rational.octal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: storage.type.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
     # binary rational numbers: 0b1r
-    - match: '\b(0[bB]){{bdigits}}(r)\b'
-      scope: constant.numeric.rational.binary.ruby
+    - match: '\b(0[bB])({{bin_digits}})(r)\b'
+      scope: meta.number.rational.binary.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: storage.type.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
     # decimal rational numbers: 0d1r, 1r, 1.1r
-    - match: '\b(?:(0[dD])?{{ddigits}}|{{ddigits}}(\.){{ddigits}})(r)\b'
-      scope: constant.numeric.rational.decimal.ruby
+    - match: '\b(0[dD])?({{dec_digits}}|{{dec_digits}}(\.){{dec_digits}})(r)\b'
+      scope: meta.number.rational.decimal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
-        2: punctuation.separator.decimal.ruby
-        3: storage.type.numeric.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: punctuation.separator.decimal.ruby
+        4: constant.numeric.suffix.ruby
     # decimal floating point numbers: 1.1, 1e1, 1.1e1
-    - match: '\b{{ddigits}}(?:(\.){{ddigits}}|(?:(\.){{ddigits}})?{{exponent}}(r)?)\b'
-      scope: constant.numeric.float.decimal.ruby
+    - match: '\b({{dec_digits}})(?:((\.){{dec_digits}})|((?:(\.){{dec_digits}})?{{dec_exponent}})(r)?)\b'
+      scope: meta.number.float.decimal.ruby
       captures:
-        1: punctuation.separator.decimal.ruby
-        2: punctuation.separator.decimal.ruby
-        3: invalid.illegal.numeric.rational.ruby
+        1: constant.numeric.value.ruby
+        2: constant.numeric.value.ruby
+        3: punctuation.separator.decimal.ruby
+        4: constant.numeric.value.ruby
+        5: punctuation.separator.decimal.ruby
+        6: constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
     # hexadecimal integer numbers: 0xA
-    - match: '\b(0[xX]){{hdigits}}\b'
-      scope: constant.numeric.integer.hexadecimal.ruby
+    - match: '\b(0[xX])({{hex_digits}})\b'
+      scope: meta.number.integer.hexadecimal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # octal integer numbers: 0o1, 01
-    - match: '\b(0[oO]?){{odigits}}\b'
-      scope: constant.numeric.integer.octal.ruby
+    - match: '\b(0[oO]?)({{oct_digits}})\b'
+      scope: meta.number.integer.octal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # binary integer numbers: 0b1
-    - match: '\b(0[bB]){{bdigits}}\b'
-      scope: constant.numeric.integer.binary.ruby
+    - match: '\b(0[bB])({{bin_digits}})\b'
+      scope: meta.number.integer.binary.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # decimal integer numbers: 0d1, 1
-    - match: '\b(0[dD])?{{ddigits}}\b'
-      scope: constant.numeric.integer.decimal.ruby
+    - match: '\b(0[dD])?({{dec_digits}})\b'
+      scope: meta.number.integer.decimal.ruby
       captures:
-        1: punctuation.definition.numeric.base.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby
@@ -350,7 +368,7 @@ contexts:
           scope: meta.braces.ruby punctuation.section.braces.end.ruby
           pop: true
         - match: \h{0,6}
-          scope: constant.numeric.integer.hexadecimal.ruby
+          scope: meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
         - match: \S
           scope: invalid.illegal.escape.ruby
     - match: |-
@@ -385,9 +403,8 @@ contexts:
         2: invalid.illegal.character.ruby
 
   blocks:
-    - match: \b(do)\b\s*
-      captures:
-        1: keyword.control.start-block.ruby
+    - match: \bdo\b
+      scope: keyword.control.block.do.ruby
       push: maybe-block-parameters
     - match: \{
       scope: punctuation.section.scope.ruby
@@ -426,22 +443,86 @@ contexts:
             - include: expressions
 
   keywords:
-    - match: '\b(BEGIN|END)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(class|module)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(begin|end|ensure|rescue)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(case|else|ensure|for|in|then)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(elsif|if|unless|when|while|until)\b(?![?!])'
-      scope: keyword.control.ruby
+    # blocks
+    - match: \bbegin\b(?![?!])
+      scope: keyword.control.block.begin.ruby
       push: after-keyword
-    - match: \b(and|not|or)\b
+    - match: \bend\b(?![?!])
+      scope: keyword.control.block.end.ruby
+    # conditional
+    - match: \bcase\b(?![?!])
+      scope: keyword.control.conditional.case.ruby
+      push: after-keyword
+    - match: \belse\b(?![?!])
+      scope: keyword.control.conditional.if.ruby
+      push: after-keyword
+    - match: \belsif\b(?![?!])
+      scope: keyword.control.conditional.elseif.ruby
+      push: after-keyword
+    - match: \bif\b(?![?!])
+      scope: keyword.control.conditional.if.ruby
+      push: after-keyword
+    - match: \bthen\b(?![?!])
+      scope: keyword.control.conditional.then.ruby
+    - match: \bunless\b(?![?!])
+      scope: keyword.control.conditional.unless.ruby
+      push: after-keyword
+    - match: \bwhen\b(?![?!])
+      scope: keyword.control.conditional.when.ruby
+      push: after-keyword
+    # exception
+    - match: \bensure\b(?![?!])
+      scope: keyword.control.exception.ensure.ruby
+      push: after-keyword
+    - match: \brescue\b(?![?!])
+      scope: keyword.control.exception.rescue.ruby
+      push: after-keyword
+    # loop
+    - match: \bfor\b(?![?!])
+      scope: keyword.control.loop.for.ruby
+      push: after-keyword
+    - match: \buntil\b(?![?!])
+      scope: keyword.control.loop.until.ruby
+      push: after-keyword
+    - match: \bwhile\b(?![?!])
+      scope: keyword.control.loop.while.ruby
+      push: after-keyword
+    # flow
+    - match: \bbreak\b(?![?!])
+      scope: keyword.control.flow.break.ruby
+    - match: \bnext\b(?![?!])
+      scope: keyword.control.flow.next.ruby
+    - match: \bredo\b(?![?!])
+      scope: keyword.control.flow.redo.ruby
+    - match: \bretry\b(?![?!])
+      scope: keyword.control.flow.retry.ruby
+    - match: \breturn\b(?![?!])
+      scope: keyword.control.flow.return.ruby
+    - match: \byield\b(?![?!])
+      scope: keyword.control.flow.yield.ruby
+    # declarations
+    - match: \b(?:alias|alias_method)\b(?![?!])
+      scope: keyword.declaration.alias.ruby
+      push: after-keyword
+    - match: \bundef\b(?![?!])
+      scope: keyword.declaration.undef.ruby
+      push: after-keyword
+    # operators
+    - match: \b(?:and|not|or)\b
       scope: keyword.operator.logical.ruby
       push: after-keyword
-    - match: '\b(alias|alias_method|break|next|redo|retry|return|super|undef|yield)\b(?![?!])|\bdefined\?|\bblock_given\?'
-      scope: keyword.control.pseudo-method.ruby
+    - match: \bin\b(?![?!])
+      scope: keyword.operator.logical.ruby
+      push: after-keyword
+    # other functions
+    - match: \b(?:BEGIN|END)\b(?![?!])
+      scope: entity.name.function.prepocessor.ruby
+    - match: \b(?:defined|block_given)\?
+      scope: support.function.builtin.ruby
+      push: after-keyword
+    - match: \bsuper\b(?![?!])
+      scope: support.function.builtin.ruby
+      push: after-keyword
 
   operators:
     - match: '>>'
@@ -575,11 +656,24 @@ contexts:
       scope: variable.other.constant.ruby
 
   well-known-methods:
-    - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
+    # exceptions
+    - match: \bcatch\b(?![?!])
+      scope: keyword.control.exception.catch.ruby
+      push: function-call-arguments
+    # flow
+    - match: \b(?:fail|raise|throw)\b(?![?!])
+      scope: keyword.control.flow.throw.ruby
+      push: function-call-arguments
+    # loop
+    - match: \bloop\b(?![?!])
+      scope: keyword.control.loop.loop.ruby
+      push: function-call-arguments
+    # other
+    - match: \b(initialize|new|include|extend|prepend|attr_reader|attr_writer|attr_accessor|attr|module_function|public|protected|private)\b(?![?!])
       scope: keyword.other.special-method.ruby
       push: function-call-arguments
     - match: \b(require|require_relative|gem)\b
-      scope: keyword.other.special-method.ruby
+      scope: keyword.control.import.ruby
       push:
         - meta_scope: meta.require.ruby
         - match: $|(?=[#}])
@@ -784,6 +878,10 @@ contexts:
         )
       scope: support.function.builtin.ruby
       push: function-call-arguments
+    # Lambda operator from the Kernel class not handled elsewhere
+    - match: '->'
+      scope: meta.function.ruby keyword.declaration.function.anonymous.ruby
+      push: function-call-arguments
     # Methods from the Module class not handled elsewhere
     - match: |-
         (?x:
@@ -838,8 +936,8 @@ contexts:
     - include: try-regex
 
   method:
-    - match: \b(def)\b
-      scope: meta.function.ruby keyword.control.def.ruby
+    - match: \bdef\b
+      scope: meta.function.ruby keyword.declaration.function.ruby
       push:
         - meta_content_scope: meta.function.ruby
         - match: '(self)(\.)({{identifier}}{{method_punctuation}}|===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?)'
@@ -1063,7 +1161,7 @@ contexts:
 
   late-strings:
     # literal capable of interpolation ()
-    - match: '%[QWI]?\('
+    - match: '%[QW]?\('
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1074,7 +1172,7 @@ contexts:
         - include: escaped-char
         - include: nest-parens-i
     # "literal capable of interpolation []"
-    - match: '%[QWI]?\['
+    - match: '%[QW]?\['
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1085,7 +1183,7 @@ contexts:
         - include: escaped-char
         - include: nest-brackets-i
     # literal capable of interpolation <>
-    - match: '%[QWI]?\<'
+    - match: '%[QW]?\<'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1096,7 +1194,7 @@ contexts:
         - include: escaped-char
         - include: nest-ltgt-i
     # literal capable of interpolation -- {}
-    - match: '%[QWI]?\{'
+    - match: '%[QW]?\{'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
@@ -1107,7 +1205,7 @@ contexts:
         - include: escaped-char
         - include: nest-curly-i
     # literal capable of interpolation -- wildcard
-    - match: '%[QWI]([^\w])'
+    - match: '%[QW]([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1126,8 +1224,72 @@ contexts:
           pop: true
         - include: interpolated-ruby
         - include: escaped-char
+    # literal capable of interpolation ()
+    - match: '%I\('
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: \)
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-parens-i
+    # "literal capable of interpolation []"
+    - match: '%I\['
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\]'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-brackets-i
+    # literal capable of interpolation <>
+    - match: '%I\<'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \>
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-ltgt-i
+    # literal capable of interpolation -- {}
+    - match: '%I\{'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\}'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-curly-i
+    # literal capable of interpolation -- wildcard
+    - match: '%I([^\w])'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \1
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
     # literal incapable of interpolation -- ()
-    - match: '%[qwsi]\('
+    - match: '%[qws]\('
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1138,7 +1300,7 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-parens
     # literal incapable of interpolation -- <>
-    - match: '%[qwsi]\<'
+    - match: '%[qws]\<'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1149,7 +1311,7 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-ltgt
     # literal incapable of interpolation -- []
-    - match: '%[qwsi]\['
+    - match: '%[qws]\['
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1160,7 +1322,7 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-brackets
     # literal incapable of interpolation -- {}
-    - match: '%[qwsi]\{'
+    - match: '%[qws]\{'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1171,10 +1333,74 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-curly
     # literal incapable of interpolation -- wildcard
-    - match: '%[qwsi]([^\w])'
+    - match: '%[qws]([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
+        - match: \1
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        # Cant be named because its not necessarily an escape
+        - match: \\.
+    # symbol literal incapable of interpolation -- ()
+    - match: '%i\('
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \)
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: \\\)|\\\\
+          scope: constant.character.escape.ruby
+        - include: nest-parens
+    # symbol literal incapable of interpolation -- <>
+    - match: '%i\<'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \>
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: \\\>|\\\\
+          scope: constant.character.escape.ruby
+        - include: nest-ltgt
+    # symbol literal incapable of interpolation -- []
+    - match: '%i\['
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\]'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: '\\\]|\\\\'
+          scope: constant.character.escape.ruby
+        - include: nest-brackets
+    # symbol literal incapable of interpolation -- {}
+    - match: '%i\{'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\}'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: '\\\}|\\\\'
+          scope: constant.character.escape.ruby
+        - include: nest-curly
+    # symbol literal incapable of interpolation -- wildcard
+    - match: '%i([^\w])'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1544,17 +1770,33 @@ contexts:
     - include: heredoc-plain
 
   heredoc-css:
-    - match: <<[-~]["`]?({{heredoc_type_css}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)({{heredoc_type_css}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-css-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'({{heredoc_type_css}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')({{heredoc_type_css}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-css-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?({{heredoc_type_css}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)({{heredoc_type_css}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-css-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'({{heredoc_type_css}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')({{heredoc_type_css}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-css-unindented-literal, trailing-heredoc-start]
 
   heredoc-css-indented-interpolated:
@@ -1585,17 +1827,33 @@ contexts:
     - include: scope:source.css
 
   heredoc-js:
-    - match: <<[-~]["`]?({{heredoc_type_js}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)({{heredoc_type_js}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-js-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'({{heredoc_type_js}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')({{heredoc_type_js}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-js-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?({{heredoc_type_js}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)({{heredoc_type_js}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-js-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'({{heredoc_type_js}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')({{heredoc_type_js}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-js-unindented-literal, trailing-heredoc-start]
 
   heredoc-js-indented-interpolated:
@@ -1626,17 +1884,33 @@ contexts:
     - include: scope:source.js
 
   heredoc-html:
-    - match: <<[-~]["`]?({{heredoc_type_html}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)({{heredoc_type_html}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-html-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'({{heredoc_type_html}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')({{heredoc_type_html}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-html-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?({{heredoc_type_html}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)({{heredoc_type_html}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-html-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'({{heredoc_type_html}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')({{heredoc_type_html}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-html-unindented-literal, trailing-heredoc-start]
 
   heredoc-html-indented-interpolated:
@@ -1667,17 +1941,33 @@ contexts:
     - include: scope:text.html.basic
 
   heredoc-ruby:
-    - match: <<[-~]["`]?({{heredoc_type_ruby}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)({{heredoc_type_ruby}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-ruby-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'({{heredoc_type_ruby}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')({{heredoc_type_ruby}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-ruby-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?({{heredoc_type_ruby}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)({{heredoc_type_ruby}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-ruby-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'({{heredoc_type_ruby}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')({{heredoc_type_ruby}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-ruby-unindented-literal, trailing-heredoc-start]
 
   heredoc-ruby-indented-interpolated:
@@ -1709,17 +1999,33 @@ contexts:
     - include: expressions
 
   heredoc-plain:
-    - match: <<[-~]["`]?(\w+)["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)(\w+)(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-plain-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'(\w+)'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')(\w+)(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-plain-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?(\w+)["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)(\w+)(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-plain-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'(\w+)'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')(\w+)(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-plain-unindented-literal, trailing-heredoc-start]
 
   heredoc-plain-indented-interpolated:
@@ -1747,17 +2053,33 @@ contexts:
     - include: unindented-heredoc-end
 
   heredoc-shell:
-    - match: <<[-~]["`]?({{heredoc_type_shell}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)({{heredoc_type_shell}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-shell-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'({{heredoc_type_shell}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')({{heredoc_type_shell}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-shell-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?({{heredoc_type_shell}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)({{heredoc_type_shell}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-shell-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'({{heredoc_type_shell}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')({{heredoc_type_shell}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-shell-unindented-literal, trailing-heredoc-start]
 
   heredoc-shell-indented-interpolated:
@@ -1788,17 +2110,33 @@ contexts:
     - include: scope:source.shell
 
   heredoc-sql:
-    - match: <<[-~]["`]?({{heredoc_type_sql}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(["`]?)({{heredoc_type_sql}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-sql-indented-interpolated, trailing-heredoc-start]
-    - match: <<[-~]'({{heredoc_type_sql}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<[-~])(')({{heredoc_type_sql}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-sql-indented-literal, trailing-heredoc-start]
-    - match: <<["`]?({{heredoc_type_sql}})["`]?
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(["`]?)({{heredoc_type_sql}})(["`]?)
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-sql-unindented-interpolated, trailing-heredoc-start]
-    - match: <<'({{heredoc_type_sql}})'
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+    - match: (<<)(')({{heredoc_type_sql}})(')
+      captures:
+        1: punctuation.definition.heredoc.ruby
+        2: meta.tag.heredoc.ruby punctuation.definition.tag.begin.ruby
+        3: meta.tag.heredoc.ruby entity.name.tag.ruby
+        4: meta.tag.heredoc.ruby punctuation.definition.tag.end.ruby
       push: [heredoc-sql-unindented-literal, trailing-heredoc-start]
 
   heredoc-sql-indented-interpolated:
@@ -1829,15 +2167,15 @@ contexts:
     - include: scope:source.sql
 
   indented-heredoc-end:
-    - match: ^\s*(\1)$ # HEREDOC delimiter
-      scope: string.unquoted.heredoc.ruby
+    - match: ^\s*(\3)$ # HEREDOC delimiter
+      scope: meta.tag.heredoc.ruby
       captures:
-        1: punctuation.definition.string.end.ruby
+        1: entity.name.tag.ruby
       pop: true
 
   unindented-heredoc-end:
-    - match: ^\1$ # HEREDOC delimiter
-      scope: string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+    - match: ^\3$ # HEREDOC delimiter
+      scope: meta.tag.heredoc.ruby entity.name.tag.ruby
       pop: true
 
   trailing-heredoc-start:

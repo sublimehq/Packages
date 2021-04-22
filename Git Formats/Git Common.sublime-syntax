@@ -8,7 +8,9 @@ scope: text.git.common
 
 variables:
   comment_char: '[#;]'
-  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw
+  hash: \b\h{7,}\b
+  repository_ref: '(?x: \b(?: [\w-]+ (/) )? [\w-]+)'  # user (optional) / repo
+  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
   pretty_formats_empty_value_modifiers: '[-+ ]?'
 
 contexts:
@@ -63,6 +65,7 @@ contexts:
     - include: issue
     - include: email
     - include: username
+    - include: commit
 
   issue:
     # issue reference
@@ -76,9 +79,7 @@ contexts:
           )?                         # keyword is optional
           # user/repo#issue
           (
-            (?:
-              \b(?: \w+ (/) )? \w+   # user (optional) / repo
-            )?
+            {{repository_ref}}?
             (\#)[0-9]+               # issue number
           )\b
       scope: meta.reference.issue.git
@@ -86,7 +87,7 @@ contexts:
         1: keyword.other.resolved-issue.git
         2: punctuation.separator.mapping.pair.resolved-issue.git
         3: constant.other.reference.issue.git
-        4: punctuation.separator.reference.issue.git
+        4: punctuation.separator.reference.issue.git  # (inside repository_ref)
         5: punctuation.definition.reference.issue.git
 
   email:
@@ -124,6 +125,13 @@ contexts:
       scope: meta.reference.username.git entity.name.reference.username.git
       captures:
         1: punctuation.definition.reference.username.git
+
+  commit:
+    - match: (?:{{repository_ref}}(@))?{{hash}}
+      scope: constant.other.hash.git
+      captures:
+        1: punctuation.separator.reference.commit.git  # (inside repository_ref)
+        2: punctuation.separator.reference.commit.git
 
 ##[ FNMATCH ]##########################################################
 
@@ -228,7 +236,7 @@ contexts:
         # 1: punctuation.definition.parameter.shell
         # 2: variable.parameter.option.shell
         # 3: keyword.operator.assignment.option.shell
-        # 4: constant.language.pretty-formats.git
+        4: constant.language.pretty-formats.git
         5: keyword.declaration.pretty-formats.git
         6: keyword.operator.assignment.option.pretty-formats.git
       push: include-pretty-formats
@@ -273,7 +281,7 @@ contexts:
           %{{pretty_formats_empty_value_modifiers}}
           (?:
             [HhTtPpdDesSfbBNmn]| # single-char
-            [ac][nNeEdDrtiI]|    # author and committer
+            [ac][nNeElLdDsrtiI]| # author and committer
             G[G?DKFP]|           # GPG
             g[dnNeEs]            # reflog
           )
@@ -295,7 +303,7 @@ contexts:
           scope: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.end.pretty-formats.git
           pop: true
         - match: \d+
-          scope: constant.numeric.integer.pretty-formats.git
+          scope: meta.number.integer.decimal.git constant.numeric.value.git
         - match: ',,'
           scope: invalid.illegal.pretty-formats.git
         - match: ','
@@ -317,7 +325,7 @@ contexts:
         1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
         2: meta.function-call.arguments.pretty-formats.git
         3: punctuation.section.parens.begin.pretty-formats.git
-        4: constant.numeric.integer.pretty-formats.git
+        4: meta.number.integer.decimal.git constant.numeric.value.git
         5: punctuation.separator.parameters.pretty-formats.git
         6: support.constant.truncation.pretty-formats.git
         7: punctuation.section.parens.end.pretty-formats.git

@@ -1,10 +1,13 @@
 %YAML 1.2
 ---
 name: Shell-Unix-Generic
-hidden: true
 scope: source.shell
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Bash.sublime-syntax
+
 contexts:
-  prototype:
-    - include: scope:source.shell.bash#prototype
   main:
-    - include: scope:source.shell.bash
+    # skip shebang
+    - include: statements

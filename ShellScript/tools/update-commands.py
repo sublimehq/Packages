@@ -1,139 +1,100 @@
-from __future__ import print_function
-import yaml
-import sys
 import os
+import sys
+import yaml
 
 
 def main():
-    parent = "scope:source.shell.{}#".format(
-        os.path.splitext(sys.argv[1])[0].split("-")[-1])
     with open(sys.argv[1], "r") as stream:
-        commands_input = yaml.load(stream)
+        commands_input = yaml.load(stream, Loader=yaml.SafeLoader)
+
     main = []
-    main_bt = []
-    contexts = {"main": main, "main-bt": main_bt}
-    eoo = {
-        "match": r"(?:\s+|^)--(?=\s|$)",
-        "scope": r"keyword.operator.end-of-options.shell",
-        "set": [
-            {"meta_content_scope": r"meta.function-call.arguments.shell"},
-            {"include": parent + r"expansion-and-string"},
-            {"include": parent + r"line-continuation-or-pop-at-end"}
-        ]
+    contexts = {
+        "main": [{"match": ''}],
+        "cmd-builtins": main
     }
-    opt_end_boundary = r"(?=\s|;|$|`|\))"
+
     for command, value in commands_input.items():
         if not value:
             value = {}
-        match = value.get("match", None)
-        short_options = value.get("short-options", None)
-        long_options = value.get("long-options", None)
-        short_option_prefixes = value.get("short-option-prefixes", None)
-        short_options_compact = value.get("short-options-compact", None)
+
+        cmd_args = [{"meta_content_scope": "meta.function-call.arguments.shell"}]
+
         allow_eoo = value.get("allow-end-of-options-token", True)
-        scope = value.get("scope", None)
-        if not scope:
-            scope = "support.function.{}.shell".format(command)
-        scope = "meta.function-call.shell " + scope
-        cmd_args_base = []
-        cmd_args = []
-        cmd_args_bt = []
-        if match:
-            match = "{{boundary_begin}}%s{{boundary_end}}" % match
-        else:
-            match = "{{boundary_begin}}%s{{boundary_end}}" % command
         if allow_eoo:
-            cmd_args_base.append(eoo)
+            cmd_args.append({"include": "cmd-args-boilerplate-with-end-of-options"})
+        else:
+            cmd_args.append({"include": "cmd-args-boilerplate"})
+
+        long_options = value.get("long-options")
         if long_options:
-            thedict = {
-                "match": r"(?:\s+|^)((--)" + "|".join(long_options)
-                                           + r")"
-                                           + opt_end_boundary,
+            cmd_args.append({
+                "match": rf"(--)(?:{'|'.join(long_options)}){{{{opt_break}}}}",
+                "scope": "meta.parameter.option.shell variable.parameter.option.shell",
                 "captures": {
-                    2: "punctuation.definition.parameter.shell",
-                    1: "variable.parameter.option.shell"
-                }
-            }
-            cmd_args_base.append(thedict)
-        thedict = {}
-        thelist = []
-        opts = ""
+                    1: "punctuation.definition.parameter.shell"
+                },
+                "push": "cmd-args-option-maybe-assignment"
+            })
+
+        short_options = value.get("short-options")
+        short_options_compact = value.get("short-options-compact")
+
         if short_options:
-            opts += "[" + short_options + "]"
-        if short_options_compact:
-            if opts:
-                opts += "|"
-            opts += "[" + short_options_compact + "]+"
-        if opts:
-            if short_option_prefixes:
-                prefix = "|".join(short_option_prefixes)
-                thedict = {
-                        "match": r"(?:\s+|^)((" + prefix
-                                                + r")(?:"
-                                                + opts
-                                                + r"))"
-                                                + opt_end_boundary,
-                        "captures": {
-                            2: "punctuation.definition.parameter.shell",
-                            1: "variable.parameter.option.shell"
-                        }
-                    }
+            if short_options_compact:
+                opts = f"[{short_options_compact}]*[{short_options}]"
             else:
-                thedict = {
-                    "match": r"(?:\s+|^)((-)" + opts + r")" + opt_end_boundary,
-                    "captures": {
-                        2: "punctuation.definition.parameter.shell",
-                        1: "variable.parameter.option.shell"
-                    }
+                opts = f"[{short_options}]"
+
+            cmd_args.append({
+                "match": rf"([-+]){opts}",
+                "scope": "meta.parameter.option.shell variable.parameter.option.shell",
+                "captures": {
+                    1: "punctuation.definition.parameter.shell"
+                },
+                "push": "cmd-args-option-maybe-value"
+            })
+
+        if short_options_compact:
+            cmd_args.append({
+                "match": rf"([-+])[{short_options_compact}]+",
+                "scope": "meta.parameter.option.shell variable.parameter.option.shell",
+                "captures": {
+                    1: "punctuation.definition.parameter.shell"
                 }
-        if thedict:
-            cmd_args_base.append(thedict)
-        if thelist:
-            cmd_args_base.extend(thelist)
-        cmd_args.append({"meta_scope": "meta.function-call.arguments.shell"})
-        cmd_args.append({"include": parent + r"cmd-args-boilerplate"})
-        cmd_args_bt.append({
-            "meta_scope": "meta.function-call.arguments.shell"})
-        cmd_args_bt.append({"include": parent + r"cmd-args-boilerplate-bt"})
-        if len(cmd_args_base) > 0:
-            cmd_args.append({"include": "cmd-args-{}-base".format(command)})
-            cmd_args_bt.append({"include": "cmd-args-{}-base".format(command)})
-            contexts["cmd-args-{}-base".format(command)] = cmd_args_base
-        cmd_args = [{"match": "", "set": cmd_args}]
-        cmd_args_bt = [{"match": "", "set": cmd_args_bt}]
-        contexts["cmd-args-{}".format(command)] = cmd_args
-        contexts["cmd-args-{}-bt".format(command)] = cmd_args_bt
+            })
+
+        allow_numeric_args = value.get("allow-numeric-args")
+        if allow_numeric_args:
+            cmd_args.append({"include": "numbers"})
+
+        contexts[f"cmd-{command}-args"] = cmd_args
+
+        match = f"{value.get('match', command)}{{{{cmd_break}}}}"
+        scope = "meta.function-call.identifier.shell " + value.get("scope", f"support.function.{command}.shell")
         main.append({
             "match": match,
             "scope": scope,
-            "set": [
-                "{}cmd-post".format(parent),
-                "cmd-args-{}".format(command)]
+            "push": f"cmd-{command}-args"
         })
-        main_bt.append({
-            "match": match,
-            "scope": scope,
-            "set": [
-                "{}cmd-post".format(parent),
-                "cmd-args-{}-bt".format(command)]
-        })
-    contexts["prototype"] = [{
-        "include": parent + r"prototype"
-    }]
 
     commands_output = {
         "scope": os.path.splitext(sys.argv[1])[0].replace("-", "."),
+        "version": 2,
         "hidden": True,
-        "variables": {
-            "boundary_end": r"(?=\s|;|$|>|<|\|)",
-            "boundary_begin": ''
-        },
         "contexts": contexts
     }
 
     with open(sys.argv[2], "w") as stream:
         print("%YAML 1.2\n---", file=stream)
-        print("# Automatically generated file -- do not edit!", file=stream)
+        print(
+            "# Automatically generated file -- do not edit!\n"
+            "#\n"
+            "# The main context is filled with relevant rules by the Bash.sublime-syntax\n"
+            "# Don't include `cmd-builtin` here as essential contexts are missing in this\n"
+            "# abstract syntax defintion.",
+            file=stream
+        )
+
         noalias_dumper = yaml.dumper.SafeDumper
         noalias_dumper.ignore_aliases = lambda self, data: True
         yaml.dump(commands_output,
@@ -141,6 +102,7 @@ def main():
                   default_flow_style=False,
                   allow_unicode=True,
                   default_style='',
+                  sort_keys=False,
                   Dumper=noalias_dumper)
 
     return 0

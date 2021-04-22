@@ -6,5 +6,5 @@
  # ^^ support.function.double-brace.end
 
  # make sure the prototype is included
- # <- comment.line.number-sign punctuation.definition.comment.begin
+ # <- comment.line.number-sign punctuation.definition.comment
  #^^^^^^^^ comment.line.number-sign

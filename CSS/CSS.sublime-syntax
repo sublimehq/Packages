@@ -1,62 +1,248 @@
 %YAML 1.2
 ---
+# https://www.sublimetext.com/docs/syntax.html
 # Derived from https://github.com/i-akhmadullin/Sublime-CSS3
 name: CSS
+scope: source.css
+version: 2
+
 file_extensions:
   - css
   - css.erb
   - css.liquid
-scope: source.css
+
+###############################################################################
+
 variables:
-  # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
-  unicode: '\\\h{1,6}[ \t\n\f]?'
-  escape: '(?:{{unicode}}|\\[^\n\f\h])'
-  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[[:^ascii:]]]'
-  nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
-  nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
-  ident: '(?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)'
+  # Basic tokens
+  # https://www.w3.org/TR/css3-selectors/#lex
+  unicode: \\\h{1,6}[ \t\n\f]?
+  escape: (?:{{unicode}}|\\[^\n\f\h])
+  nmstart: (?:[_[:alpha:][:^ascii:]]|{{escape}})
+  nmchar: (?:[-_[:alnum:][:^ascii:]]|{{escape}})
+
+  # Identifier Break
+  # The proper pattern would be (?!{{nmchar}}), but its impact on performance
+  # is just too high, thus several optimizations are applied.
+  # 1. Use positive lookahead with \Z to handle `eof`
+  # 2. Breaks are ascii characters other than denoted by {{nmchar}}.
+  # 3. Assume unicode or escape character if backslash is matched, instead of
+  #    matching (?!{{escape}}) which also effects performance negative.
+  break: (?=[[^-_[:alnum:]\\]&&[[:ascii:]]]|\Z)
+
+  # Identifiers  
+  # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
+  # https://www.w3.org/TR/css3-selectors/#lex
+  ident: (?:{{custom_ident}}|{{generic_ident}})
+  custom_ident: (?:--{{nmchar}}*)
+  generic_ident: (?:-?{{nmstart}}{{nmchar}}*)
+
+  # Ilegal Custom Identifier Names
+  # https://www.w3.org/TR/css-values-4/#custom-idents
+  illegal_custom_ident: |-
+    \b{{illegal_custom_ident_tokens}}{{break}}
+  illegal_custom_ident_tokens: |-
+    (?xi: auto | default | inherit | initial | none | unset )
 
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
-  integer: '(?:[-+]?\d+)'
-  float:  '(?:[-+]?\d*(\.)\d+(?:[eE]{{integer}})*)'
+  # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
+  integer: ([-+]?)(\d+)
+  float: ([-+]?)(\d*(\.)\d+(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
-  font_relative_lengths: '(?i:em|ex|ch|rem)'
-  viewport_percentage_lengths: '(?i:vw|vh|vmin|vmax)'
-  absolute_lengths: '(?i:cm|mm|q|in|pt|pc|px|fr)'
-  angle_units: '(?i:deg|grad|rad|turn)'
-  duration_units: '(?i:s|ms)'
-  frequency_units: '(?i:Hz|kHz)'
-  resolution_units: '(?i:dpi|dpcm|dppx)'
+  units: |-
+    (?x:
+      %
+    | {{absolute_lengths}}
+    | {{angle_units}}
+    | {{duration_units}}
+    | {{font_relative_lengths}}
+    | {{frequency_units}}
+    | {{resolution_units}}
+    | {{viewport_percentage_lengths}}
+    )
+  font_relative_lengths: (?i:em|ex|ch|rem)\b
+  viewport_percentage_lengths: (?i:vw|vh|vmin|vmax)\b
+  absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)\b
+  angle_units: (?i:deg|grad|rad|turn)\b
+  duration_units: (?i:s|ms)\b
+  frequency_units: (?i:Hz|kHz)\b
+  resolution_units: (?i:dpi|dpcm|dppx)\b
 
+  # Combinators
+  # https://drafts.csswg.org/selectors-4/#combinators
+  combinators: (?:>{1,3}|[~+]|\|{2})
+
+  vendor_prefix: -(?:webkit|moz|ms|o)-
+
+  # Custom Element Names
+  # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
+  custom_element_tags: \b[a-z]{{custom_element_chars}}*-{{custom_element_chars}}*{{break}}
+  # Note: Excludes `.` as it is used to identify attribute access
   custom_element_chars: |-
     (?x:
-        [-_a-z0-9\x{00B7}]
-      | \\\.
-      | [\x{00C0}-\x{00D6}]
-      | [\x{00D8}-\x{00F6}]
-      | [\x{00F8}-\x{02FF}]
-      | [\x{0300}-\x{037D}]
-      | [\x{037F}-\x{1FFF}]
-      | [\x{200C}-\x{200D}]
-      | [\x{203F}-\x{2040}]
-      | [\x{2070}-\x{218F}]
-      | [\x{2C00}-\x{2FEF}]
-      | [\x{3001}-\x{D7FF}]
-      | [\x{F900}-\x{FDCF}]
-      | [\x{FDF0}-\x{FFFD}]
-      | [\x{10000}-\x{EFFFF}]
+      [-_a-z0-9\x{00B7}]
+    | [\x{00C0}-\x{00D6}]
+    | [\x{00D8}-\x{00F6}]
+    | [\x{00F8}-\x{02FF}]
+    | [\x{0300}-\x{037D}]
+    | [\x{037F}-\x{1FFF}]
+    | [\x{200C}-\x{200D}]
+    | [\x{203F}-\x{2040}]
+    | [\x{2070}-\x{218F}]
+    | [\x{2C00}-\x{2FEF}]
+    | [\x{3001}-\x{D7FF}]
+    | [\x{F900}-\x{FDCF}]
+    | [\x{FDF0}-\x{FFFD}]
+    | [\x{10000}-\x{EFFFF}]
     )
 
-  combinators: '(?:>{1,3}|[~+])'
+  # HTML tags
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+  # Note: Sections are sorted by expected frequency.
+  html_tags:  |-
+    (?x:
+      {{html_inline_tags}}
+    | {{html_text_tags}}
+    | {{html_section_tags}}
+    | {{html_table_tags}}
+    | {{html_embedded_tags}}
+    | {{html_forms_tags}}
+    | {{html_media_tags}}
+    | {{html_interactive_tags}}
+    | {{html_script_tags}}
+    | {{html_web_tags}}
+    | {{html_markup_tags}}
+    | {{html_header_tags}}
+    | {{html_root_tags}}
+    | {{html_deprecated_tags}}
+    )
+
+  html_root_tags: |-
+    \b(?xi: html | body ){{break}}
+
+  html_header_tags: |-
+    \b(?xi: base | head | link | meta | script | style | title ){{break}}
+
+  html_section_tags: |-
+    \b(?xi:
+        address | article | aside | footer | header | h1 | h2 | h3 | h4 | h5 | h6
+      | hgroup | main | nav | section
+    ){{break}}
+
+  html_text_tags: |-
+    \b(?xi:
+        blockquote | cite | dd | dt | dl | div | figcaption | figure | hr | li
+      | ol | p | pre | ul
+    ){{break}}
+
+  html_inline_tags: |-
+    \b(?xi:
+        a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i | kbd
+      | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
+      | sub | sup | u | var | wbr
+    ){{break}}
+
+  html_media_tags: |-
+    \b(?xi: area | audio | source | img | map | track | video ){{break}}
+
+  html_embedded_tags: |-
+    \b(?xi: embed | iframe | object | param | picture | source ){{break}}
+
+  html_script_tags: |-
+    \b(?xi: canvas | noscript | script ){{break}}
+
+  html_markup_tags: |-
+    \b(?xi: del | ins ){{break}}
+
+  html_table_tags: |-
+    \b(?xi:
+        caption | col | colgroup | table | tbody | tr | td | tfoot | th | thead
+    ){{break}}
+
+  html_forms_tags: |-
+    \b(?xi:
+        button | datalist | option | fieldset | label | form | input | legend
+      | meter | optgroup | select | output | progress | textarea
+    ){{break}}
+
+  html_interactive_tags: |-
+    \b(?xi: details | dialog | menu | summary ){{break}}
+
+  html_web_tags: |-
+    \b(?xi: slot | template ){{break}}
+
+  html_deprecated_tags: |-
+    \b(?xi:
+        acronym | applet | basefont | bgsound | big | blink | center | command
+      | content | dir | element | font | frame | frameset | image | isindex
+      | keygen | listing | marquee | menuitem | multicol | nextid | nobr
+      | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
+    ){{break}}
+
+  # SVG tag names
+  # maintained from previous CSS.sublime-syntax
+  svg_tags: |-
+    \b(?xi:
+        circle | clipPath | defs | ellipse | eventsource | filter | foreignObject
+      | g | glyph | glyphRef | line | linearGradient | marker | mask | path
+      | pattern | polygon | polyline | radialGradient | rect | stop | svg
+      | switch | symbol | text | textPath | tref | tspan | use
+      # custom element like tags reserved for SVG/MathML
+      | annotation-xml | color-profile | missing-glyph
+      | font-face(?: -src | -uri | -format | -name )?
+    ){{break}}
+
+  # Predefined Color Values (Standard Set)
+  # https://www.w3.org/TR/CSS22/syndata.html#color-units
+  standard_colors: |-
+    \b(?xi:
+        aqua | black | blue | fuchsia | gray | green | lime | maroon | navy
+      | olive | orange | purple | red | silver | teal | white | yellow
+    ){{break}}
+
+  # Predefined Color Values (Extended Set)
+  # https://www.w3.org/TR/css3-color/#svg-color
+  extended_colors: |-
+    \b(?xi:
+        aliceblue | antiquewhite | aquamarine | azure | beige | bisque
+      | blanchedalmond | blueviolet | brown | burlywood | cadetblue | chartreuse
+      | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue
+      | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki
+      | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred
+      | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey
+      | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey
+      | dodgerblue | firebrick | floralwhite | forestgreen | gainsboro
+      | ghostwhite | gold | goldenrod | greenyellow | grey | honeydew | hotpink
+      | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen
+      | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow
+      | lightgray | lightgreen | lightgrey | lightpink | lightsalmon
+      | lightseagreen | lightskyblue | lightslategray | lightslategrey
+      | lightsteelblue | lightyellow | limegreen | linen | magenta
+      | mediumaquamarine | mediumblue | mediumorchid | mediumpurple
+      | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise
+      | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin
+      | navajowhite | oldlace | olivedrab | orangered | orchid | palegoldenrod
+      | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru
+      | pink | plum | powderblue | rebeccapurple | rosybrown | royalblue
+      | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna
+      | skyblue | slateblue | slategray | slategrey | snow | springgreen
+      | steelblue | tan | thistle | tomato | turquoise | violet | wheat
+      | whitesmoke | yellowgreen
+    ){{break}}
+
+  # Illegal Counter Style Definition Names
+  # https://drafts.csswg.org/css-counter-styles-3/#typedef-counter-style-name
+  counter_style_illegal_names: |-
+    \b(?xi: decimal | disc | {{illegal_custom_ident_tokens}} ){{break}}
 
   # Predefined Counter Styles
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
-  counter_styles: |-
-    (?xi:
-        arabic-indic | armenian | bengali | cambodian | circle
+  counter_style_names: |-
+    \b(?xi:
+        none | arabic-indic | armenian | bengali | cambodian | circle
       | cjk-decimal | cjk-earthly-branch | cjk-heavenly-stem | decimal-leading-zero
       | decimal | devanagari | disclosure-closed | disclosure-open | disc
       | ethiopic-numeric | georgian | gujarati | gurmukhi | hebrew
@@ -69,14 +255,409 @@ variables:
       | square | tamil | telugu | thai | tibetan
       | trad-chinese-formal | trad-chinese-informal
       | upper-alpha | upper-armenian | upper-latin | upper-roman
+    ){{break}}
+
+  # Predefined Counter Speak As Property Constants
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
+  counter_speak_as_constants: |-
+    \b(?xi: auto | bullets | numbers | words | spell-out ){{break}}
+
+  # Predefined Counter Style System Constants
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  counter_system_constants: |-
+    \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
+
+  # Page Margin Property Names
+  # https://www.w3.org/TR/css-page-3/#margin-at-rule
+  page_margin_property_names: |-
+    \b(?xi:
+        (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
+      | (?: left | right ) - (?: top | middle | bottom )
+    ){{break}}
+
+  # Property names are sorted by popularity in descending order.
+  # Note:
+  # 1) Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
+  # 2) Properties starting with `alias-` or `webkit-` are removed
+  property_names: |-
+    \b(?xi:
+      width | height | display | position | padding | border | margin | top
+    | left | margin-top | color | font-size | background-color | text-align
+    | opacity | font-weight | font-family | background | overflow | line-height
+    | float | box-sizing | text-decoration | z-index | cursor | margin-left
+    | border-radius | vertical-align | margin-bottom | margin-right | right
+    | padding-top | padding-left | max-width | box-shadow | bottom | content
+    | padding-right | transform | white-space | min-height | padding-bottom
+    | background-image | border-bottom | visibility | outline
+    | background-position | min-width | transition | border-top | border-color
+    | background-repeat | text-transform | background-size | max-height
+    | list-style | clear | font-style | justify-content | border-left
+    | align-items | border-right | border-width | font | text-overflow
+    | overflow-y | pointer-events | border-style | flex-direction | animation
+    | overflow-x | letter-spacing | flex | word-wrap | flex-wrap | fill
+    | transform-origin | list-style-type | border-collapse
+    | border-top-left-radius | border-bottom-left-radius | user-select | clip
+    | text-shadow | border-bottom-right-radius | word-break | flex-grow
+    | border-top-right-radius | border-bottom-color | border-top-color
+    | flex-shrink | align-self | text-rendering | animation-timing-function
+    | direction | background-clip | zoom | border-spacing | text-indent
+    | outline-offset | border-left-color | transition-property | src
+    | border-right-color | animation-name | stroke | touch-action
+    | animation-duration | transition-delay | filter | overflow-wrap
+    | animation-delay | border-bottom-width | variable | font-variant
+    | flex-basis | transition-duration | border-top-width | animation-fill-mode
+    | object-fit | transition-timing-function | will-change | outline-width
+    | order | outline-style | stroke-width | border-right-width | align-content
+    | resize | table-layout | appearance | animation-iteration-count
+    | border-left-width | flex-flow | stroke-dashoffset | stroke-dasharray
+    | backface-visibility | unicode-bidi | unicode-range | border-bottom-style
+    | text-size-adjust | border-top-style | animation-direction | word-spacing
+    | contain | speak | grid-template-columns | font-feature-settings
+    | perspective | list-style-position | clip-path | image-rendering
+    | font-display | transform-style | border-left-style | outline-color
+    | background-position-x | background-attachment | border-right-style
+    | margin-block-end | background-origin | animation-play-state | hyphens
+    | stroke-linecap | font-stretch | object-position | page-break-inside
+    | column-gap | counter-reset | counter-increment | background-position-y
+    | margin-block-start | size | grid-template-rows | column-count | quotes
+    | padding-inline-end | text-decoration-skip | border-image | all
+    | page-break-after | fill-opacity | font-variant-ligatures
+    | scroll-boundary-behavior | empty-cells | list-style-image | justify-self
+    | overflow-anchor | padding-inline-start | grid-gap | text-decoration-color
+    | margin-inline-start | caret-color | grid-column-gap | aspect-ratio
+    | stroke-opacity | margin-inline-end | grid-column | perspective-origin
+    | caption-side | columns | scroll-behavior | justify-items | line-break
+    | grid-row-gap | column-width | orphans | widows | backdrop-filter
+    | mix-blend-mode | tab-size | stop-color | column-rule | grid-area
+    | stroke-miterlimit | text-align-last | page-break-before
+    | grid-column-start | border-image-slice | border-image-repeat
+    | text-decoration-style | border-image-width | grid-column-end | grid-row
+    | scroll-snap-align | scroll-snap-type | border-image-outset
+    | text-decoration-line | column-fill | border-inline-end-width
+    | border-inline-start-width | grid-row-start | stroke-linejoin
+    | inset-inline-end | inset-inline-start | grid-auto-flow | grid-auto-rows
+    | grid-template-areas | border-image-source | fill-rule | font-kerning
+    | grid-row-end | font-variant-numeric | break-inside | shape-outside
+    | color-scheme | shape-image-threshold | scroll-boundary-behavior-y
+    | text-decoration-skip-ink | page | isolation | background-blend-mode
+    | page-orientation | inset | gap | scroll-snap-margin | column-rule-color
+    | place-items | column-rule-style | shape-rendering | content-visibility
+    | grid-auto-columns | scroll-boundary-behavior-x | writing-mode | clip-rule
+    | font-variant-caps | scroll-padding | text-anchor | mask | row-gap
+    | background-repeat-x | intrinsic-size | text-underline-position
+    | font-variant-east-asian | column-span | vector-effect | dominant-baseline
+    | stop-opacity | break-after | grid-template | break-before | mask-type
+    | scroll-snap-stop | border-inline-start-color | border-inline-end-color | r
+    | alignment-baseline | text-decoration-thickness | column-rule-width | d
+    | image-orientation | rx | text-orientation | cx | baseline-shift
+    | scroll-padding-top | padding-block-start | padding-block-end | cy
+    | min-inline-size | inline-size | background-repeat-y | shape-margin
+    | block-size | marker | min-block-size | paint-order | ry
+    | scroll-snap-margin-top | border-block-end-color | border-block-end-width
+    | border-inline-start-style | border-inline-end-style
+    | border-block-end-style | font-variation-settings
+    | border-block-start-width | border-block-start-color
+    | border-block-start-style | place-content | y | x | ruby-position
+    | text-combine-upright | color-interpolation-filters | color-interpolation
+    | color-rendering | transform-box | marker-end | flood-color | marker-start
+    | marker-mid | flood-opacity | lighting-color | forced-color-adjust
+    | buffered-rendering | place-self | offset-path | scroll-padding-left
+    | offset-distance | offset-rotate | text-underline-offset | max-inline-size
+    | max-block-size | border-inline-end | scroll-snap-margin-inline-start
+    | scroll-padding-inline-start | scroll-snap-margin-block-end
+    | scroll-snap-margin-block-start | scroll-padding-block-end
+    | scroll-snap-margin-inline-end | scroll-padding-block-start
+    | scroll-padding-inline-end | font-optical-sizing | grid
+    | scroll-padding-bottom | scroll-snap-margin-left | inset-block-end
+    | overscroll-behavior-block | overscroll-behavior-inline | inset-block-start
+    | scroll-snap-margin-right | scroll-padding-right
+    | scroll-snap-margin-bottom | border-inline-start | margin-inline
+    | border-end-start-radius | border-end-end-radius | margin-block
+    | border-start-start-radius | border-start-end-radius | padding-inline
+    | counter-set | padding-block | border-block-end | offset
+    | border-block-start | inset-inline | inset-block | scroll-snap-margin-block
+    | scroll-padding-inline | scroll-padding-block | scroll-snap-margin-inline
+    | border-block | offset-rotation | border-inline | border-block-color
+    | border-inline-width | border-inline-color | border-block-style
+    | border-block-width | border-inline-style | motion | motion-offset
+    | motion-path | font-size-adjust | text-justify | scale | scrollbar-gutter
+    | animation-timeline | rotate | translate | snap-height | math-style
+    | math-shift | math-depth | offset-anchor | offset-position
+    | glyph-orientation-vertical | internal-callback | text-line-through
+    | text-line-through-color | text-line-through-mode | text-line-through-style
+    | text-line-through-width | text-overline | text-overline-color
+    | text-overline-mode | text-overline-style | text-overline-width
+    | text-underline | text-underline-color | text-underline-mode
+    | text-underline-style | text-underline-width | shape-inside | shape-padding
+    | enable-background | color-profile | glyph-orientation-horizontal | kerning
+    | image-resolution | max-zoom | min-zoom | orientation | user-zoom
+    | mask-source-type | touch-action-delay | scroll-blocks-on | motion-rotation
+    | scroll-snap-points-x | scroll-snap-points-y | scroll-snap-coordinate
+    | scroll-snap-destination | apply-at-rule | viewport-fit | overflow-block
+    | syntax | content-size | intrinsic-block-size | intrinsic-height
+    | intrinsic-inline-size | intrinsic-width | render-subtree
+    | origin-trial-test-property | subtree-visibility
+    | math-superscript-shift-style | start
+    # END OF QUERY RESULTS
+    # BEGIN OF legacy properties which existed before the last query
+    | box-direction | line-box-contain
+    | prefix | mask-image | mask-origin | flex-order | system | speak-as
+    | font-synthesis | line-clamp | flex-negative | blend-mode
+    | font-variant-position | flex-align | column-break-before | negative
+    | flex-item-align | azimuth | user-drag | range | mask-repeat | box-flex
+    | flex-preferred-size | font-language-override | box-align | pad
+    | text-emphasis-color | box-ordinal-group | mask-composite
+    | transform-origin-y | pause | tap-highlight-color | text-fill-color
+    | suffix | text-emphasis-style | transform-origin-x | text-emphasis-position
+    | box-pack | box-decoration-break | box-orient | additive-symbols
+    | text-emphasis | symbols | mask-clip | nbsp-mode | pause-after | pitch
+    | text-height | mask-position | flex-line-pack | perspective-origin-x
+    | mask-size | font-variant-alternates | perspective-origin-y
+    | font-smoothing | overflow-scrolling | flex-positive | pitch-range
+    ){{break}}
+
+  property_value_constants: |-
+    (?x:
+      {{font_display_constants}}
+    | {{font_property_constants}}
+    | {{font_size_constants}}
+    | {{font_style_constants}}
+    | {{unsorted_property_constants}}
     )
 
+  unsorted_property_constants: |-
+    \b(?xi:
+      absolute|active|add
+    | all(-(petite|small)-caps|-scroll)?
+    | alpha(betic)?
+    | alternate(-reverse)?
+    | always|annotation|antialiased|at
+    | auto(hiding-scrollbar|-flow)?
+    | avoid(-column|-page|-region)?
+    | background(-color|-image|-position|-size)?
+    | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
+    | block-line-height
+    | blur
+    | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
+    | border-(bottom|top)-(left|right)-radius
+    | border-image(-outset|-repeat|-slice|-source|-width)?
+    | border(-bottom|-left|-right|-top|-collapse|-spacing|-box)?
+    | both|bottom
+    | box(-shadow)?
+    | break-(all|word)
+    | brightness
+    | butt(on)?
+    | capitalize
+    | cent(er|ral)
+    | char(acter-variant)?
+    | cjk-ideographic|clip|clone|close-quote
+    | closest-(corner|side)
+    | col-resize|collapse
+    | color(-stop|-burn|-dodge)?
+    | column((-count|-gap|-reverse|-rule(-color|-width)?|-width)|s)?
+    | common-ligatures|condensed|consider-shifts|contain
+    | content(-box|s)?
+    | contextual|contrast|cover
+    | crisp(-e|E)dges
+    | crop
+    | cross(hair)?
+    | da(rken|shed)
+    | default|dense|diagonal-fractions|difference|disabled
+    | discretionary-ligatures|disregard-shifts
+    | distribute(-all-lines|-letter|-space)?
+    | dotted|double|drop-shadow
+    | (nwse|nesw|ns|ew|sw|se|nw|ne|w|s|e|n)-resize
+    | ease(-in-out|-in|-out)?
+    | element|ellipsis|embed|end|EndColorStr|evenodd
+    | exclu(de(-ruby)?|sion)
+    | expanded
+    | (extra|semi|ultra)-(condensed|expanded)
+    | farthest-(corner|side)?
+    | fill(-box|-opacity)?
+    | filter|first|fixed|flat
+    | fit-content
+    | flex((-basis|-end|-grow|-shrink|-start)|box)?
+    | flip|flood-color
+    | font(-size(-adjust)?|-stretch|-weight)?
+    | forwards
+    | from(-image)?
+    | full-width|geometricPrecision|glyphs|gradient|grayscale
+    | grid(-height)?
+    | groove|hand|hanging|hard-light|height|help|hidden|hide
+    | historical-(forms|ligatures)
+    | horizontal(-tb)?
+    | hue
+    | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
+    | inactive|include-ruby|infinite|inherit|initial
+    | inline(-block|-box|-flex(box)?|-line-height|-table)?
+    | inset|inside
+    | inter(-ideograph|-word|sect)
+    | invert|isolat(e|ion)
+    | jis(04|78|83|90)
+    | justify(-all)?
+    | keep-all
+    | landscape|ledger|legal|letter|A[3-5]|(JIS-)?B[4-5]|portrait
+    | last|left|letter-spacing|legacy
+    | light(e[nr]|ing-color)
+    | line(-edge|-height|-through)?
+    | linear(-gradient|RGB)?
+    | lining-nums|list-item|local|loose|lowercase|lr-tb|ltr
+    | lumin(osity|ance)|manual
+    | margin(-bottom|-box|-left|-right|-top)?
+    | marker(-offset|s)?
+    | mathematical
+    | max-(content|height|lines|size|width)
+    | medium|middle
+    | min-(content|height|width)
+    | miter|mixed|move|multiply|newspaper
+    | no-(change|clip|(close|open)-quote|(common|discretionary|historical)-ligatures|contextual|drop|repeat)
+    | none|nonzero|not-allowed|nowrap
+    | offset(-after|-before|-end|-start)?
+    | oldstyle-nums|opacity|open-quote
+    | optimize(Legibility|Precision|Quality|Speed)
+    | order|ordinal|ornaments
+    | outline(-color|-offset|-width)?
+    | outset|outside|over(line|-edge|lay)
+    | padding(-bottom|-box|-left|-right|-top)?
+    | page|painted|paused
+    | perspective-origin
+    | petite-caps|pixelated|pointer
+    | pre(-line|-wrap)?
+    | preserve-3d
+    | progid:DXImageTransform.Microsoft.(Alpha|Blur|dropshadow|gradient|Shadow)
+    | progress
+    | proportional-(nums|width)
+    | radial-gradient|recto|region|relative
+    | repeat(-[xy])?
+    | repeating-(linear|radial)-gradient
+    | replaced|reset-size|reverse|ridge|right
+    | round
+    | row(-resize|-reverse)?
+    | run-in
+    | ruby(-base|-text)?(-container)?
+    | rtl|running|saturat(e|ion)|screen
+    | safe
+    | scroll(-position|bar)?
+    | separate|sepia
+    | scale-down
+    | shape-(image-threshold|margin|outside)
+    | show
+    | sideways(-lr|-rl)?
+    | simplified
+    | slashed-zero|slice
+    | smooth|snap|solid|soft-light
+    | space(-around|-between|-evenly)?
+    | span|sRGB
+    | stack(ed-fractions)?
+    | start(ColorStr)?
+    | static
+    | step-(end|start)
+    | sticky
+    | stop-(color|opacity)
+    | stretch|strict
+    | stroke(-box|-dash(array|offset)|-miterlimit|-opacity|-width)?
+    | style(set)?
+    | stylistic
+    | sub(grid|pixel-antialiased|tract)?
+    | super|swash
+    | table(-caption|-cell|(-column|-footer|-header|-row)-group|-column|-row)?
+    | tabular-nums|tb-rl
+    | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under|after|before)-edge|-shadow|-size(-adjust)?|-top)|field)?
+    | thi(ck|n)
+    | titling-ca(ps|se)
+    | to[p]?
+    | touch|traditional
+    | transform(-origin)?
+    | under(-edge|line)?
+    | unicase|unsafe|unset|uppercase|upright
+    | use-(glyph-orientation|script)
+    | verso
+    | vertical(-align|-ideographic|-lr|-rl|-text)?
+    | view-box
+    | viewport-fill(-opacity)?
+    | visibility
+    | visible(Fill|Painted|Stroke)?
+    | wait|wavy|weight|whitespace|width|word-spacing
+    | wrap(-reverse)?
+    | z-index|zero
+    | zoom(-in|-out)?
+    ){{break}}
+
+  # https://www.w3.org/TR/css-fonts-4/#font-display-desc
+  font_display_constants: |-
+    \b(?xi:
+    block | swap | fallback | optional
+    ){{break}}
+
+  # Generic Font Families
+  font_family_constants: |-
+    \b(?xi:
+    # CSS 2 fonts
+    # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
+      sans-serif | serif | cursive | monospace | fantasy
+    # CSS 3 level 4 fonts
+    # https://www.w3.org/TR/2019/WD-css-fonts-4-20191113/#generic-family-value
+    | emoji | math | fangsong | system-ui
+    # https://www.w3.org/TR/2019/WD-css-fonts-4-20191113/#standard-font-families
+    | ui-sans-serif | ui-serif | ui-monospace | ui-rounded
+    ){{break}}
+
+  # https://www.w3.org/TR/CSS22/fonts.html#font-shorthand
+  font_property_constants: |-
+    \b(?xi:
+      caption | icon | menu | message-box | small-caption | status-bar 
+    ){{break}}
+
+  # https://www.w3.org/TR/CSS22/fonts.html#font-size-props
+  font_size_constants: |-
+    \b(?xi:
+      larger | large | medium | small | smaller | x{1,2}-(?: large | small ) 
+    ){{break}}
+
+  # https://www.w3.org/TR/CSS22/fonts.html#font-boldness
+  # https://www.w3.org/TR/CSS22/fonts.html#font-styling
+  # https://www.w3.org/TR/CSS22/fonts.html#small-caps
+  font_style_constants: |-
+    \b(?xi:
+      normal | bold | bolder | lighter | italic | oblique | small-caps 
+    ){{break}}
+
+###############################################################################
+
 contexts:
+
   main:
-    - include: comment-block
-    - include: selector
+    - include: comments
+    - include: selectors
     - include: at-rules
-    - include: property-list
+    - include: property-lists
+    - include: rule-terminators
+    - include: illegal-groups
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    # empty block comment
+    - match: (/\*+)(\*/)
+      scope: comment.block.css
+      captures:
+         1: punctuation.definition.comment.begin.css
+         2: punctuation.definition.comment.end.css
+    # normal block comment
+    - match: /\*+
+      scope: punctuation.definition.comment.begin.css
+      push: comments-content
+
+  comments-content:
+    - meta_scope: comment.block.css
+    - match: \*+/
+      scope: punctuation.definition.comment.end.css
+      pop: 1
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.css
+
+###[ AT RULES ]################################################################
 
   at-rules:
     - include: at-charset
@@ -89,1980 +670,2379 @@ contexts:
     - include: at-media
     - include: at-namespace
     - include: at-page
+    - include: at-page-margin
     - include: at-supports
+    - include: at-other
+
+  # @charset
+  # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
+  at-charset:
+    - match: (@)(?i:charset){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-charset-content
+
+  at-charset-content:
+    - meta_scope: meta.at-rule.charset.css
+    - include: quoted-strings
+    - include: at-rule-end
+
+  # @counter-style
+  # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
+  at-counter-style:
+    - match: (@)(?i:counter-style){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-counter-style-content
+
+  at-counter-style-content:
+    - meta_scope: meta.at-rule.counter-style.css
+    - include: rule-list
+    - include: at-counter-style-names
+    - include: at-rule-end
+
+  at-counter-style-names:
+    - match: '{{counter_style_illegal_names}}'
+      scope: invalid.illegal.identifier.css
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
+
+  # @custom-media
+  # https://??
+  at-custom-media:
+    - match: (@)(?i:custom-media){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-custom-media-content
+        - at-custom-media-identifier
+
+  at-custom-media-identifier:
+    - match: '{{custom_ident}}'
+      scope: entity.other.custom-media.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  at-custom-media-content:
+    - meta_scope: meta.at-rule.custom-media.css
+    - include: media-queries
+    - include: at-rule-end
+
+  # @document
+  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
+  at-document:
+    - match: (@)(?i:document){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-document-content
+
+  at-document-content:
+    - meta_scope: meta.at-rule.document.css
+    - include: comma-delimiters
+    - include: url-functions
+    - include: at-document-functions
+    - include: at-rule-block
+    - include: at-rule-end
+
+  # @font-face
+  # https://www.w3.org/TR/css-fonts-4/#at-font-face-rule
+  at-font-face:
+    - match: (@)(?i:font-face){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-font-face-content
+
+  at-font-face-content:
+    - meta_scope: meta.at-rule.font-face.css
+    - include: rule-list
+    - include: at-rule-end
+
+  # @import
+  # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
+  at-import:
+    - match: (@)(?i:import){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-import-content
+
+  at-import-content:
+    - meta_scope: meta.at-rule.import.css
+    - include: quoted-strings
+    - include: url-functions
+    - include: media-queries
+    - include: at-rule-end
+
+  # @keyframes
+  # https://www.w3.org/TR/css3-animations/#at-ruledef-keyframes
+  at-keyframes:
+    - match: (@)(?i:keyframes){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-keyframe-content
+
+  at-keyframe-content:
+    - meta_scope: meta.at-rule.keyframe.css
+    - include: comma-delimiters
+    - include: at-keyframe-block
+    - include: at-keyframe-names
+    - include: at-rule-end
+
+  at-keyframe-names:
+    - match: '{{illegal_custom_ident}}'
+      scope: invalid.illegal.identifier.css
+    - match: '{{ident}}'
+      scope: entity.other.animation-name.css
+    - include: quoted-strings
+
+  at-keyframe-block:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-keyframe-block-content
+
+  at-keyframe-block-content:
+    - meta_scope: meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: property-lists
+    - include: at-keyframe-selectors
+
+  at-keyframe-selectors:
+    - match: (?=[[:alnum:].,%])
+      push: at-keyframe-selector-content
+
+  at-keyframe-selector-content:
+    - meta_scope: meta.selector.css
+    - include: comma-delimiters
+    - include: percentage-constants
+    - match: \b(?i:from|to){{break}}
+      scope: keyword.other.selector.css
+    - include: selector-end
+
+  # @media
+  # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
+  at-media:
+    - match: (@)(?i:media){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-media-content
+
+  at-media-content:
+    - meta_scope: meta.at-rule.media.css
+    - include: media-queries
+    - include: at-rule-block
+    - include: at-rule-end
+
+  # @namespace
+  # https://www.w3.org/TR/css3-namespace/
+  at-namespace:
+    - match: (@)(?i:namespace){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-namespace-content
+        - at-namespace-identifier
+
+  at-namespace-identifier:
+    - match: '{{ident}}(?!{{nmchar}}|\()'
+      scope: entity.other.namespace-prefix.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  at-namespace-content:
+    - meta_scope: meta.at-rule.namespace.css
+    - include: var-functions
+    - include: url-functions
+    - include: quoted-urls
+    - include: at-rule-end
+
+  # @page
+  # https://www.w3.org/TR/css3-page/#at-ruledef-page
+  at-page:
+    - match: (@)(?i:page){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-page-content
+
+  at-page-content:
+    - meta_scope: meta.at-rule.page.css
+    - include: comma-delimiters
+    - include: at-page-block
+    - include: at-page-names
+    - include: at-rule-end
+
+  at-page-names:
+    - match: (:)(?i:blank|first|left|right){{break}}
+      captures:
+        0: entity.other.pseudo-class.css
+        1: punctuation.definition.entity.css
+    - match: (:){{nmchar}}*
+      captures:
+        # 0: invalid.illegal.pseudo-class.css
+        1: punctuation.definition.entity.css
+    - match: '{{ident}}'
+      scope: entity.other.page-name.css
+
+  at-page-block:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-page-block-content
+
+  at-page-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: at-page-margin
+    - include: at-other
+    - include: property-lists
+    - include: rule-list-body
+
+  # @top-center, ...
+  # https://www.w3.org/TR/css-page-3/#margin-at-rule
+  at-page-margin:
+    - match: (@){{page_margin_property_names}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-page-margin-content
+
+  at-page-margin-content:
+    - meta_scope: meta.at-rule.margin.css
+    - include: at-page-block
+    - include: at-rule-end
+
+  # @supports
+  # https://drafts.csswg.org/css-conditional-3/#at-supports
+  at-supports:
+    - match: (@)(?i:supports){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-supports-content
+
+  at-supports-content:
+    - meta_scope: meta.at-rule.supports.css
+    - include: at-supports-groups
+    - include: at-supports-operators
+    - include: at-rule-block
+    - include: at-rule-end
+
+  at-supports-operators:
+    - match: \b(?i:and|or|not){{break}}
+      scope: keyword.operator.logical.css
+
+  at-supports-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: at-supports-group-content
+
+  at-supports-group-content:
+    - meta_scope: meta.group.css
+    - include: group-end
+    - include: at-rule-end
+    - include: at-supports-groups
+    - include: at-supports-operators
+    - include: rule-list-body
+
+  # @<ident>
+  # Fallback context for incomplete or unknown at-rules.
+  # https://www.w3.org/TR/css-syntax-3/#at-rule
+  # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
+  at-other:
+    - match: (@){{ident}}
+      push: at-other-content
+
+  at-other-content:
+    - meta_scope: meta.at-rule.other.css
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-other-block-content
+    - include: at-rule-end
+
+  at-other-block-content:
+    - meta_scope: meta.block.css
+    - include: block-end2
+
+  at-rule-block:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-rule-block-content
+
+  at-rule-block-content:
+    - meta_scope: meta.block.css
+    - include: block-end2
+    - include: main
+
+  at-rule-end:
+    - match: (?=[;{}])
+      pop: 1
+    - include: comments
+
+###[ MEDIA QUERIES ]###########################################################
+
+  # https://drafts.csswg.org/mediaqueries-5/#media
+  media-queries:
+    - include: comma-delimiters
+    - include: media-query-conditions
+    - include: media-query-media-types
+
+  media-query-conditions:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: media-query-group-content
+    - match: '[<>]=?|='
+      scope: keyword.operator.comparison.css
+    - match: \b(?i:and|or|not|only){{break}}
+      scope: keyword.operator.logic.css
+
+  media-query-group-content:
+    - meta_scope: meta.group.css
+    - match: (?=[,;{}])
+      pop: 1
+    - include: group-end
+    - include: comments
+    - include: media-query-conditions
+    - include: media-query-property-names
+    - include: media-query-property-values
+    - include: var-functions
+    - include: calc-functions
+    - include: scalar-rational-constants
+    - include: numeric-constants
+
+  media-query-property-names:
+    - match: |-
+        (?xi:
+          ({{vendor_prefix}})?
+          (
+            (?: min- | max- )?
+            (?:
+              color (?: -gamut | -index )?
+            | monochrome | resolution | update
+            | (?: device- )? (?: height | width | aspect-ratio | pixel-ratio )
+            )
+          | (?:any-)?(?: pointer | hover )
+          | display-mode | grid | orientation | scan | scripting
+          | overflow-(?: block | inline )
+          )
+        ){{break}}
+      captures:
+        1: support.type.vendor-prefix.css
+        2: support.type.property-name.css
+
+  media-query-property-values:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      push: media-query-property-value-content
+
+  media-query-property-value-content:
+    - match: |-
+        \b(?xi:
+        # global css constants
+          all | inherit | initial | none | unset
+        # color-gamut / color-index:
+        | srgb | p3 | rec2020
+        # display-mode:
+        | browser | fullscreen | standalone | minimal-ui
+        # hover:
+        | hover
+        # orientation:
+        | landscape | portrait
+        # overflow:
+        | optional-paged | paged | scroll
+        # pointer:
+        | coarse | fine
+        # scan:
+        | interlace | progressive
+        # scripting:
+        | enabled | initial-only
+        # update:
+        | fast | normal | slow
+        ){{break}}
+      scope: support.constant.property-value.css
+      pop: 1
+    - include: else-pop
+
+  media-query-media-types:
+    # Media Types:
+    # https://www.w3.org/TR/CSS21/media.html
+    # https://drafts.csswg.org/mediaqueries-5/#media-types
+    - match: |-
+        \b(?xi:
+        # global css constants
+          all | inherit | initial | none | unset
+        # specs
+        | print | screen | speech
+        # deprecated
+        | aural | braille | embossed | handheld | projection | tty | tv
+        ){{break}}
+      scope: support.constant.media.css
+
+###[ SELECTORS ]###############################################################
+
+  selectors:
+    - match: (?=[:.*#[:alpha:]\[]|{{combinators}})
+      push: selector-content
+
+  selector-content:
+    - meta_scope: meta.selector.css
+    - include: selector-end
+    - include: comma-delimiters
+    # Html Tags
+    - match: '{{html_tags}}'
+      scope: entity.name.tag.html.css
+    - match: '{{svg_tags}}'
+      scope: entity.name.tag.svg.css
+    # Custom Elements
+    # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
+    - match: '{{custom_element_tags}}'
+      scope: entity.name.tag.custom.css
+    - match: \*
+      scope: variable.language.wildcard.asterisk.css
+    # Class and Id Selectors
+    # https://drafts.csswg.org/selectors-4/#class-html
+    - match: \.
+      scope: punctuation.definition.entity.css
+      push:
+        - meta_scope: entity.other.attribute-name.class.css
+        - match: '{{generic_ident}}'
+          pop: 1
+        - include: immediately-pop
+    # https://drafts.csswg.org/selectors-4/#id-selectors
+    - match: \#
+      scope: punctuation.definition.entity.css
+      push:
+        - meta_scope: entity.other.attribute-name.id.css
+        - match: '{{generic_ident}}'
+          pop: 1
+        - include: immediately-pop
+    # Attribute Selectors
+    # https://drafts.csswg.org/selectors-4/#attribute-selectors
+    - match: \[
+      scope: punctuation.section.brackets.begin.css
+      push:
+        - attribute-selector-meta
+        - attribute-selector-key
+    # Pseudo Elements
+    # https://drafts.csswg.org/selectors-4/#pseudo-elements
+    - match: '::'
+      scope: punctuation.definition.pseudo-element.css
+      push:
+        - meta_include_prototype: false
+        - include: vendor-prefixes
+        - include: pseudo-element-function
+        - include: pseudo-element-regular
+        - include: immediately-pop
+    # Pseudo Classes
+    # https://drafts.csswg.org/selectors-4/#pseudo-classes
+    - match: ':'
+      scope: punctuation.definition.pseudo-class.css
+      push:
+        - meta_include_prototype: false
+        - include: vendor-prefixes
+        - include: pseudo-element-css2
+        - include: pseudo-class-function
+        - include: pseudo-class-regular
+        - include: immediately-pop
+    # Combinators
+    # https://drafts.csswg.org/selectors-4/#combinators
+    # https://drafts.csswg.org/css-scoping/#deep-combinator
+    - match: '{{combinators}}(?![>~+|])'
+      scope: keyword.operator.combinator.css
+    - match: '{{combinators}}{2,}|\|{3,}'
+      scope: invalid.illegal.combinator.css
+
+  selector-end:
+    - match: (?=\s*[;@(){}])
+      pop: 1
+    - include: comments
+
+  # Qualified Names
+  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
+  namespace-prefixes:
+    - match: (?:({{ident}})|(\*))?(\|)(?!=)
+      captures:
+        1: entity.other.namespace-prefix.css
+        2: variable.language.wildcard.asterisk.css
+        3: punctuation.separator.namespace.css
+
+  vendor-prefixes:
+    - match: '{{vendor_prefix}}'
+      scope: support.type.vendor-prefix.css
+
+###[ SELECTORS / ATTRIBUTE SELECTORS ]#########################################
+
+  attribute-selector-meta:
+    - meta_scope: meta.attribute-selector.css meta.brackets.css
+    - include: immediately-pop
+
+  attribute-selector-key:
+    - include: namespace-prefixes
+    - match: '{{ident}}'
+      scope: entity.other.attribute-name.css
+      set: attribute-selector-operator
+    - match: \*
+      scope: variable.language.wildcard.asterisk.css
+      set: attribute-selector-operator
+    - include: attribute-selector-operator
+
+  attribute-selector-operator:
+    - match: '[~*|^$]?='
+      scope: keyword.operator.logical.css
+      set:
+        - attribute-selector-flag
+        - attribute-selector-value
+    - include: attribute-selector-flag
+
+  attribute-selector-value:
+    - include: comments
+    - include: quoted-string
+    - match: '[^\s\]\[''"]+'
+      scope: meta.string.css string.unquoted.css
+      pop: 1
+    - include: else-pop
+
+  attribute-selector-flag:
+    - match: \b[iI]{{break}}
+      scope: keyword.other.flag.css
+      set: attribute-selector-end
+    - include: attribute-selector-end
+
+  attribute-selector-end:
+    - match: \]
+      scope: punctuation.section.brackets.end.css
+      pop: 1
+    - include: selector-end
+    - match: \S
+      scope: invalid.illegal.css
+
+###[ SELECTORS / PSEUDO CLASSES ]##############################################
+
+  # Functional Pseudo Classes
+  # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
+  pseudo-class-function:
+    - include: pseudo-class-function-dir
+    - include: pseudo-class-function-lang
+    - include: pseudo-class-function-with-anb-args
+    - include: pseudo-class-function-with-selector-args
+    - include: pseudo-class-function-with-generic-args
+
+  # Special :dir() pseudo-class
+  # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
+  pseudo-class-function-dir:
+    - match: (?i:dir)(?=\()
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: direction-constants
+
+  # Special :lang() pseudo-class
+  # https://drafts.csswg.org/selectors-4/#the-lang-pseudo
+  pseudo-class-function-lang:
+    - match: (?i:lang)(?=\()
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: quoted-strings
+            - include: language-ranges
+
+  # Functional Pseudo Classes with `An+B` param
+  # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
+  pseudo-class-function-with-anb-args:
+    - match: |-
+        (?xi:
+        # https://drafts.csswg.org/selectors-4/#table-pseudos
+          nth-last-col
+        | nth-col
+        # https://drafts.csswg.org/selectors-4/#typed-child-index
+        | nth-last-child
+        | nth-child
+        | nth-last-of-type
+        | nth-of-type
+        )(?=\()
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: anb-notation-values
+            - include: scalar-integer-constants
+
+  anb-notation-values:
+    - match: \b(even|odd){{break}}
+      scope: support.constant.property-value.css
+    - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?
+      captures:
+        1: meta.number.integer.decimal.css
+        2: keyword.operator.arithmetic.css
+        3: constant.numeric.value.css
+        4: constant.numeric.suffix.css
+        5: meta.number.integer.decimal.css
+        6: keyword.operator.arithmetic.css
+        7: constant.numeric.value.css
+    - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
+      scope: invalid.illegal.numeric.css
+
+  # Functional Pseudo Classes with selector list
+  pseudo-class-function-with-selector-args:
+    - match: (?i:matches|not|has)(?=\()
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: selectors
+
+  # Functional Pseudo Classes with generic arguments
+  pseudo-class-function-with-generic-args:
+    - match: '{{ident}}(?=\()'
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set: other-functions-arguments
+
+  # Regular Pseudo Classes
+  # https://drafts.csswg.org/selectors-4/#pseudo-classes
+  pseudo-class-regular:
+    - match: '{{ident}}'
+      scope: entity.other.pseudo-class.css
+      pop: 1
+
+  # Legacy Pseudo Elements
+  # https://drafts.csswg.org/selectors-4/#pseudo-elements
+  pseudo-element-css2:
+    # Note: CSS1 & CSS2 compatibility requires those to be matched after `:`
+    - match: (?i:before|after|first-line|first-letter){{break}}
+      scope: entity.other.pseudo-element.css
+      pop: 1
+
+  # Functional Pseudo Elements
+  # https://drafts.csswg.org/selectors-4/#pseudo-elements
+  pseudo-element-function:
+    - match: '{{ident}}(?=\()'
+      scope: meta.function-call.identifier.css entity.other.pseudo-element.css
+      set: other-functions-arguments
+
+  # Pseudo Elements
+  # https://drafts.csswg.org/selectors-4/#pseudo-elements
+  pseudo-element-regular:
+    - match: '{{ident}}'
+      scope: entity.other.pseudo-element.css
+      pop: 1
+
+###[ PROPERTY LISTS ]##########################################################
+
+  property-lists:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: property-list-content
+
+  property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 1
+    - include: rule-list-body
+
+  rule-list:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: rule-list-content
+
+  rule-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: rule-list-body
+
+  rule-list-body:
+    # Note: This context is used by HTML.sublime-syntax
+    - include: comments
+    - include: property-identifiers
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+###[ PROPERTY IDENTIFIERS ]####################################################
+
+  property-identifiers:
+    - match: (?=[-[:alpha:]])
+      push: property-identifier-content
+
+  property-identifier-content:
+    - meta_scope: meta.property-name.css
+    - include: vendor-prefixes
+    # specific properties with special treatment
+    - include: counter-property
+    - include: counter-style-fallback-property
+    - include: counter-style-system-property
+    - include: counter-style-speak-as-property
+    - include: font-property
+    # common properties
+    - include: builtin-property
+    - include: custom-property
+    - include: deprecated-property
+    - include: other-property
+    # bailout
+    - include: immediately-pop
+
+  builtin-property:
+    - match: '{{property_names}}'
+      scope: support.type.property-name.css
+      pop: 1
+
+  # Custom Properties
+  # https://drafts.csswg.org/css-variables/#typedef-custom-property
+  custom-property:
+    # custom property definition
+    - match: '{{custom_ident}}'
+      scope: entity.other.custom-property.css
+      pop: 1
+
+  deprecated-property:
+    - match: \b(var-)({{ident}})
+      scope: invalid.deprecated.custom-property.css
+      captures:
+        1: entity.other.custom-property.prefix.css
+        2: entity.other.custom-property.name.css
+      pop: 1
+
+  other-property:
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
+      pop: 1
+
+###[ PROPERTY VALUES ]#########################################################
+
+  property-values:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      push: property-value-content
+
+  property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: comma-delimiters
+    - include: common-operators
+    - include: builtin-values
+    - include: other-functions
+    - include: other-constants
+
+  builtin-values:
+    - include: quoted-strings
+    - include: builtin-functions
+    - include: color-values
+    - include: line-names
+    - include: unicode-ranges
+    - include: numeric-constants
+    - include: common-constants
+    - include: generic-font-names
+    - include: vendor-prefixes
 
   # When including `color-values` and `color-adjuster-functions`, make sure it is
   # included after the color adjustors to prevent `color-values` from consuming
   # conflicting function names & color constants such as `red`, `green`, or `blue`.
   color-values:
     - include: color-functions
-      # https://www.w3.org/TR/CSS22/syndata.html#color-units
-    - match: \b(aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow)\b
-      scope: support.constant.color.w3c-standard-color-name.css
-      # https://www.w3.org/TR/css3-color/#svg-color
-    - match: \b(aliceblue|antiquewhite|aquamarine|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|gold|goldenrod|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|limegreen|linen|magenta|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olivedrab|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rebeccapurple|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|whitesmoke|yellowgreen)\b
-      scope: support.constant.color.w3c-extended-color-keywords.css
-      # Special Color Keywords
-      # https://www.w3.org/TR/css3-color/#currentcolor
-      # https://www.w3.org/TR/css3-color/#transparent-def
-    - match: \b((?i)currentColor|transparent)\b
-      scope: support.constant.color.w3c-special-color-keyword.css
-      # Hex Color
-    - match: '(#)(\h{3}|\h{6})\b'
-      scope: constant.other.color.rgb-value.css
-      captures:
-        1: punctuation.definition.constant.css
-      # RGBA Hexadecimal Colors
-      # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
-    - match: '(#)(\h{4}|\h{8})\b'
-      scope: constant.other.color.rgba-value.css
-      captures:
-        1: punctuation.definition.constant.css
+    - include: color-constants
 
-  comment-block:
-    - match: /\*
-      scope: punctuation.definition.comment.css
-      push:
-        - meta_scope: comment.block.css
-        - match: \*/
-          scope: punctuation.definition.comment.css
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.css
+  # Counter Symbol Values
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
+  counter-symbol-values:
+    - include: image-values
+    - include: counter-system-constants
+    - include: scalar-integer-constants
+    - include: quoted-strings
 
-  at-charset:
-    - match: \s*((@)charset\b)\s*
-      captures:
-        1: keyword.control.at-rule.charset.css
-        2: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.charset.css
-        - include: at-rule-punctuation
-        - include: literal-string
+  # 2D Image Values
+  # https://drafts.csswg.org/css-images-4/#image-values
+  image-values:
+    - include: cross-fade-functions
+    - include: gradient-functions
+    - include: image-functions
+    - include: image-set-functions
+    - include: url-functions
 
-  # @counter-style
-  # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
-  at-counter-style:
-    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))?\s*(?=\{|$)
-      captures:
-        1: keyword.control.at-rule.counter-style.css
-        2: punctuation.definition.keyword.css
-        3: invalid.illegal.counter-style-name.css
-        4: entity.other.counter-style-name.css
-      push:
-        - meta_scope: meta.at-rule.counter-style.css
-        - include: comment-block
-        - include: rule-list-terminator
-        - include: rule-list
+###[ COUNTER PROPERTY ]########################################################
 
-  at-custom-media:
-    - match: (?=\s*@custom-media\b)
-      push:
-        - match: ;
-          scope: punctuation.terminator.css
-          pop: true
-        - match: \s*((@)custom-media)
-          captures:
-            1: keyword.control.at-rule.custom-media.css
-            2: punctuation.definition.keyword.css
-            3: support.constant.custom-media.css
-          push:
-            - meta_scope: meta.at-rule.custom-media.css
-            - match: \s*(?=;)
-              pop: true
-            - include: media-query-list
+  counter-property:
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
+    - match: \b(?i:counter-(increment|reset|set)){{break}}
+      scope: support.type.property-name.css
+      set: counter-property-value
 
-  # @document
-  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
-  at-document:
-    - match: '((@)document)'
-      captures:
-        1: keyword.control.at-rule.document.css
-        2: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.document.css
-        - match: '\{'
-          scope: punctuation.definition.block.begin.css
-          push:
-            - meta_scope: meta.block.css
-            - match: '(?=\})'
-              pop: true
-            - include: main
-        - match: '\}'
-          scope: meta.block.css punctuation.definition.block.end.css
-          pop: true
-        - include: comment-block
-        - include: url-function
-        - include: url-prefix-function
-        - include: domain-function
-        - include: regexp-function
-        - include: comma-delimiter
+  counter-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set:
+        - property-value-content
+        - counter-identifier
+    - include: else-pop
 
-  at-font-face:
-    - match: '\s*((@)font-face)\s*(?=\{|$)'
-      captures:
-        1: keyword.control.at-rule.font-face.css
-        2: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.font-face.css
-        - include: comment-block
-        - include: rule-list-terminator
-        - include: rule-list
+  counter-identifier:
+    - match: '{{ident}}'
+      scope: entity.other.counter-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
-  at-import:
-    - match: \s*((@)import\b)\s*
-      captures:
-        1: keyword.control.at-rule.import.css
-        2: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.import.css
-        - include: at-rule-punctuation
-        - include: literal-string
-        - include: url-function
-        - include: media-query-list
+###[ COUNTER STYLE FALLBACK PROPERTY ]#########################################
 
-  # https://drafts.csswg.org/css-animations/#propdef-animation-name
-  keyframe-name:
-    - match: '\s*({{ident}})?'
-      captures:
-        1: entity.other.animation-name.css
-      push:
-        - match: '\s*(?:(,)|(?=[{;]))'
-          captures:
-            1: punctuation.definition.arbitrary-repetition.css
-          pop: true
+  # Counter Style Fallback
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-fallback
+  counter-style-fallback-property:
+    - match: \b(?i:fallback){{break}}
+      scope: support.type.property-name.css
+      set: counter-style-fallback-property-value
 
-  # @keyframes
-  # https://drafts.csswg.org/css-animations/#keyframes
-  at-keyframes:
-    - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\b)
-      push:
-        - include: rule-list-terminator
-        - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)
-          captures:
-            1: keyword.control.at-rule.keyframe.css
-            2: punctuation.definition.keyword.css
-            3: support.type.property-vendor.css
-            4: support.constant.keyframe.css
-          push:
-            - meta_scope: meta.at-rule.keyframe.css
-            - match: '\s*(?=\{)'
-              pop: true
-            - match: '\s*(?=[^{;])'
-              push:
-                - match: '\s*(?=[{;])'
-                  pop: true
-                - include: keyframe-name
-        - match: '\s*(\{)'
-          captures:
-            1: punctuation.section.property-list.css
-          push:
-            - match: '(?=\})'
-              pop: true
-            - match: \b(from|to)\b
-              scope: keyword.keyframe-selector.css
-            - include: comma-delimiter
-            - include: numeric-values
-            - include: main
+  counter-style-fallback-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: counter-style-fallback-property-value-content
+    - include: else-pop
 
-  at-media:
-    - match: (?=\s*@media\b)
-      push:
-        - include: rule-list-terminator
-        - match: \s*((@)media)
-          captures:
-            1: keyword.control.at-rule.media.css
-            2: punctuation.definition.keyword.css
-            3: support.constant.media.css
-          push:
-            - meta_scope: meta.at-rule.media.css
-            - match: '\s*(?=\{)'
-              pop: true
-            - include: media-query-list
-        - match: '\s*(\{)'
-          captures:
-            1: punctuation.section.property-list.css
-          push:
-            - match: '(?=\})'
-              pop: true
-            - include: main
+  counter-style-fallback-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
+    - include: counter-style-identifiers
 
-  media-query:
-    # Media Types: https://www.w3.org/TR/CSS21/media.html
-    - include: comment-block
-    - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
-      scope: support.constant.media.css
-    - match: \b(?i:and|or|not|only)\b
-      scope: keyword.operator.logic.media.css
-    - match: ','
-      scope: punctuation.definition.arbitrary-repetition.css
-    - match: \(
-      scope: punctuation.definition.group.begin.css
-      push:
-        - match: \)
-          scope: punctuation.definition.group.end.css
-          pop: true
-        - include: comment-block
-        - match: |-
-            (?x)
-            (
-              (?:
-                (-webkit-|-o-)?
-                (?:min-|max-)?
-                (-moz-)?
-                (?:
-                  (?:device-)?(?:height|width|aspect-ratio|pixel-ratio)
-                  |color(?:-index)?|monochrome|resolution
-                )
-              )
-              |grid|scan|orientation
-            )\s*(:)?
-          captures:
-            1: support.type.property-name.media.css
-            2: support.type.vendor-prefix.css
-            3: support.type.vendor-prefix.css
-            4: punctuation.separator.key-value.css
-        - match: \b(portrait|landscape|progressive|interlace)\b
-          scope: support.constant.property-value.css
-        - match: \s*(\d+)(/)(\d+)
-          captures:
-            1: constant.numeric.integer.decimal.css
-            2: keyword.operator.arithmetic.css
-            3: constant.numeric.integer.decimal.css
-        - include: numeric-values
+  counter-style-identifiers:
+    - match: '{{counter_style_names}}'
+      scope: support.constant.counter-style-name.css
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
 
-  media-query-list:
-    - match: '\s*(?=[^{;])'
-      push:
-        - match: '\s*(?=[{;])'
-          pop: true
-        - include: media-query
+###[ COUNTER STYLE SYSTEM PROPERTY ]###########################################
 
-  # @namespace
-  # https://www.w3.org/TR/css3-namespace/
-  at-namespace:
-    - match: '\s*((@)namespace)\s+({{ident}}(?!{{nmchar}}|\())?'
-      captures:
-        1: keyword.control.at-rule.namespace.css
-        2: punctuation.definition.keyword.css
-        3: entity.other.namespace-prefix.css
-      push:
-        - meta_scope: meta.at-rule.namespace.css
-        - include: at-rule-punctuation
-        - include: literal-string
-        - include: url-function
-        - include: comment-block
+  # Counter Style System
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  counter-style-system-property:
+    - match: \b(?i:system){{break}}
+      scope: support.type.property-name.css
+      set: counter-style-system-property-value
 
-  # @page
-  # https://www.w3.org/TR/CSS2/page.html
-  at-page:
-    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{|$)'
-      captures:
-        1: keyword.control.at-rule.page.css
-        2: punctuation.definition.keyword.css
-        3: punctuation.definition.entity.css
-        4: entity.other.pseudo-class.css
-      push:
-        - meta_scope: meta.at-rule.page.css
-        - include: comment-block
-        - include: rule-list-terminator
-        - include: rule-list
+  counter-style-system-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: counter-style-system-property-value-content
+    - include: else-pop
 
-  # @supports
-  # https://drafts.csswg.org/css-conditional-3/#at-supports
-  at-supports:
-    - match: '((@)supports)'
-      captures:
-        1: keyword.control.at-rule.supports.css
-        2: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.supports.css
-        - match: '\{'
-          scope: punctuation.definition.block.begin.css
-          push:
-            - meta_scope: meta.block.css
-            - match: '(?=\})'
-              pop: true
-            - include: main
-        - match: '\}'
-          scope: meta.block.css punctuation.definition.block.end.css
-          pop: true
-        - include: at-supports-operators
-        - include: at-supports-parens
+  counter-style-system-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
+    - include: counter-symbol-values
+    - match: \b(?i:extends){{break}}
+      scope: keyword.declaration.extends.css
+      push: counter-style-identifier
 
-  at-supports-operators:
-    - match: '\b(?i:and|or|not)\b'
-      scope: keyword.operator.logic.css
+  counter-style-identifier:
+    - match: '{{counter_style_names}}'
+      scope: support.constant.counter-style-name.css
+      pop: 1
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
-  at-supports-parens:
-    - match: '\('
-      scope: punctuation.definition.group.begin.css
-      push:
-        - meta_scope: meta.group.css
-        - match: '\)'
-          scope: punctuation.definition.group.end.css
-          pop: true
-        - include: at-supports-operators
-        - include: at-supports-parens
-        - include: rule-list-body
+###[ COUNTER STYLE SPEAK AS PROPERTY ]#########################################
 
-  property-list:
-    - match: '(?=\{)'
-      push:
-        - match: '\}'
-          scope: punctuation.section.property-list.css
-          pop: true
-        - include: rule-list
+  # Counter Style Speak As
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
+  counter-style-speak-as-property:
+    - match: \b(?i:speak-as){{break}}
+      scope: support.type.property-name.css
+      set: counter-style-speak-as-property-value
 
-  property-value-constants:
-    - match: |-
-            (?x)\b(
-                absolute|active|add
-              | all(-(petite|small)-caps|-scroll)?
-              | alpha(betic)?
-              | alternate(-reverse)?
-              | always|annotation|antialiased|at
-              | auto(hiding-scrollbar|-flow)?
-              | avoid(-column|-page|-region)?
-              | background(-color|-image|-position|-size)?
-              | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
-              | block(-line-height)?
-              | blur
-              | bold(er)?
-              | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
-              | border-(bottom|top)-(left|right)-radius
-              | border-image(-outset|-repeat|-slice|-source|-width)?
-              | border(-bottom|-left|-right|-top|-collapse|-spacing|-box)?
-              | both|bottom
-              | box(-shadow)?
-              | break-(all|word)
-              | brightness
-              | butt(on)?
-              | capitalize
-              | cent(er|ral)
-              | char(acter-variant)?
-              | cjk-ideographic|clip|clone|close-quote
-              | closest-(corner|side)
-              | col-resize|collapse
-              | color(-stop|-burn|-dodge)?
-              | column((-count|-gap|-reverse|-rule(-color|-width)?|-width)|s)?
-              | common-ligatures|condensed|consider-shifts|contain
-              | content(-box|s)?
-              | contextual|contrast|cover
-              | crisp(-e|E)dges
-              | crop
-              | cross(hair)?
-              | da(rken|shed)
-              | default|dense|diagonal-fractions|difference|disabled
-              | discretionary-ligatures|disregard-shifts
-              | distribute(-all-lines|-letter|-space)?
-              | dotted|double|drop-shadow
-              | (nwse|nesw|ns|ew|sw|se|nw|ne|w|s|e|n)-resize
-              | ease(-in-out|-in|-out)?
-              | element|ellipsis|embed|end|EndColorStr|evenodd
-              | exclu(de(-ruby)?|sion)
-              | expanded
-              | (extra|semi|ultra)-(condensed|expanded)
-              | farthest-(corner|side)?
-              | fill(-box|-opacity)?
-              | filter|first|fixed|flat
-              | fit-content
-              | flex((-basis|-end|-grow|-shrink|-start)|box)?
-              | flip|flood-color
-              | font(-size(-adjust)?|-stretch|-weight)?
-              | forwards
-              | from(-image)?
-              | full-width|geometricPrecision|glyphs|gradient|grayscale
-              | grid(-height)?
-              | groove|hand|hanging|hard-light|height|help|hidden|hide
-              | historical-(forms|ligatures)
-              | horizontal(-tb)?
-              | hue
-              | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
-              | inactive|include-ruby|infinite|inherit|initial
-              | inline(-block|-box|-flex(box)?|-line-height|-table)?
-              | inset|inside
-              | inter(-ideograph|-word|sect)
-              | invert|isolat(e|ion)|italic
-              | jis(04|78|83|90)
-              | justify(-all)?
-              | keep-all
-              | large[r]?
-              | last|left|letter-spacing
-              | light(e[nr]|ing-color)
-              | line(-edge|-height|-through)?
-              | linear(-gradient|RGB)?
-              | lining-nums|list-item|local|loose|lowercase|lr-tb|ltr
-              | lumin(osity|ance)|manual
-              | margin(-bottom|-box|-left|-right|-top)?
-              | marker(-offset|s)?
-              | mathematical
-              | max-(content|height|lines|size|width)
-              | medium|middle
-              | min-(content|height|width)
-              | miter|mixed|move|multiply|newspaper
-              | no-(change|clip|(close|open)-quote|(common|discretionary|historical)-ligatures|contextual|drop|repeat)
-              | none|nonzero|normal|not-allowed|nowrap|oblique
-              | offset(-after|-before|-end|-start)?
-              | oldstyle-nums|opacity|open-quote
-              | optimize(Legibility|Precision|Quality|Speed)
-              | order|ordinal|ornaments
-              | outline(-color|-offset|-width)?
-              | outset|outside|over(line|-edge|lay)
-              | padding(-bottom|-box|-left|-right|-top)?
-              | page|painted|paused
-              | perspective-origin
-              | petite-caps|pixelated|pointer
-              | pre(-line|-wrap)?
-              | preserve-3d
-              | progid:DXImageTransform.Microsoft.(Alpha|Blur|dropshadow|gradient|Shadow)
-              | progress
-              | proportional-(nums|width)
-              | radial-gradient|recto|region|relative
-              | repeat(-[xy])?
-              | repeating-(linear|radial)-gradient
-              | replaced|reset-size|reverse|ridge|right
-              | round
-              | row(-resize|-reverse)?
-              | run-in
-              | ruby(-base|-text)?(-container)?
-              | rtl|running|saturat(e|ion)|screen
-              | safe
-              | scroll(-position|bar)?
-              | separate|sepia
-              | scale-down
-              | shape-(image-threshold|margin|outside)
-              | show
-              | sideways(-lr|-rl)?
-              | simplified
-              | slashed-zero|slice
-              | small(-caps|er)?
-              | smooth|snap|solid|soft-light
-              | space(-around|-between|-evenly)?
-              | span|sRGB
-              | stack(ed-fractions)?
-              | start(ColorStr)?
-              | static
-              | step-(end|start)
-              | sticky
-              | stop-(color|opacity)
-              | stretch|strict
-              | stroke(-box|-dash(array|offset)|-miterlimit|-opacity|-width)?
-              | style(set)?
-              | stylistic
-              | sub(grid|pixel-antialiased|tract)?
-              | super|swash
-              | table(-caption|-cell|(-column|-footer|-header|-row)-group|-column|-row)?
-              | tabular-nums|tb-rl
-              | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under|after|before)-edge|-shadow|-size(-adjust)?|-top)|field)?
-              | thi(ck|n)
-              | titling-ca(ps|se)
-              | to[p]?
-              | touch|traditional
-              | transform(-origin)?
-              | under(-edge|line)?
-              | unicase|unsafe|unset|uppercase|upright
-              | use-(glyph-orientation|script)
-              | verso
-              | vertical(-align|-ideographic|-lr|-rl|-text)?
-              | view-box
-              | viewport-fill(-opacity)?
-              | visibility
-              | visible(Fill|Painted|Stroke)?
-              | wait|wavy|weight|whitespace|width|word-spacing
-              | wrap(-reverse)?
-              | x{1,2}-(large|small)
-              | z-index|zero
-              | zoom(-in|-out)?
-              | ({{counter_styles}})
-            )\b
-      scope: support.constant.property-value.css
-      # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
-    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b(?=\s*[;,\n}])
-      scope: support.constant.font-name.css
+  counter-style-speak-as-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: counter-style-speak-as-property-value-content
+    - include: else-pop
 
-  property-values:
-    - include: comment-block
-    - include: vendor-prefix
-    - include: builtin-functions
-    - include: line-names
-    - include: unicode-range
-    - include: numeric-values
-    - include: color-values
-    - include: property-value-constants
-    - include: literal-string
-    - match: \!\s*important
-      scope: keyword.other.important.css
+  counter-style-speak-as-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
+    - include: quoted-strings
+    - include: counter-speak-as-constants
+    - include: counter-style-identifiers
 
-  rule-list-terminator:
-    - match: '\s*(\})'
-      captures:
-        1: punctuation.section.property-list.css
-      pop: true
+###[ FONT PROPERTY ]###########################################################
 
-  rule-list:
-    - match: '\{'
-      scope: punctuation.section.property-list.css
-      push:
-        - meta_scope: meta.property-list.css
-        - match: '(?=\s*\})'
-          pop: true
-        - include: rule-list-body
+  # Font and Font-Family Property
+  # https://drafts.csswg.org/css-fonts-3/#font-family-prop
+  # https://drafts.csswg.org/css-fonts-3/#font-prop
+  font-property:
+    - match: \b(?i:font(-family)?){{break}}
+      scope: support.type.property-name.css
+      set: font-property-value
 
-  rule-list-body:
-    - include: comment-block
-    - match: "(?=[-a-z])"
-      push:
-        - meta_scope: meta.property-name.css
-        - match: "$|(?![-a-z])"
-          pop: true
-        - include: vendor-prefix
-        - match: '\b(var-)({{ident}})(?=\s)'
-          scope: invalid.deprecated.custom-property.css
-          captures:
-            1: keyword.other.custom-property.prefix.css
-            2: support.type.custom-property.name.css
-        - include: custom-property-name
-        - match: \bfont(-family)?(?!-)\b
-          scope: support.type.property-name.css
-          push:
-            - match: (:)([ \t]*)
-              captures:
-                1: punctuation.separator.key-value.css
-                2: meta.property-value.css
-              push:
-                - meta_content_scope: meta.property-value.css
-                - match: '\s*(;)|(?=[})])'
-                  captures:
-                    1: punctuation.terminator.rule.css
-                  pop: true
-                - include: property-values
-                - include: comma-delimiter
-                - match: '{{ident}}(\s+{{ident}})*'
-                  scope: string.unquoted.css
-            - match: ''
-              pop: true
-        # Property names are sorted by popularity in descending order.
-        # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
-        - match: |-
-            \b(?x)(
-                display|width|background-color|height|position|font-family|font-weight
-              | top|opacity|cursor|background-image|right|visibility|box-sizing
-              | user-select|left|float|margin-left|margin-top|line-height
-              | padding-left|z-index|margin-bottom|margin-right|margin
-              | vertical-align|padding-top|white-space|border-radius|padding-bottom
-              | padding-right|padding|bottom|clear|max-width|box-shadow|content
-              | border-color|min-height|min-width|font-style|border-width
-              | border-collapse|background-size|text-overflow|max-height|text-transform
-              | text-shadow|text-indent|border-style|overflow-y|list-style-type
-              | word-wrap|border-spacing|appearance|zoom|overflow-x|border-top-left-radius
-              | border-bottom-left-radius|border-top-color|pointer-events
-              | border-bottom-color|align-items|justify-content|letter-spacing
-              | border-top-right-radius|border-bottom-right-radius|border-right-width
-              | font-smoothing|border-bottom-width|border-right-color|direction
-              | border-top-width|src|border-left-color|border-left-width
-              | tap-highlight-color|table-layout|background-clip|word-break
-              | transform-origin|resize|filter|backface-visibility|text-rendering
-              | box-orient|transition-property|transition-duration|word-spacing
-              | quotes|outline-offset|animation-timing-function|animation-duration
-              | animation-name|transition-timing-function|border-bottom-style
-              | border-bottom|transition-delay|transition|unicode-bidi|border-top-style
-              | border-top|unicode-range|list-style-position|orphans|outline-width
-              | line-clamp|order|flex-direction|box-pack|animation-fill-mode
-              | outline-color|list-style-image|list-style|touch-action|flex-grow
-              | border-left-style|border-left|animation-iteration-count
-              | page-break-inside|box-flex|box-align|page-break-after|animation-delay
-              | widows|border-right-style|border-right|flex-align|outline-style
-              | outline|background-origin|animation-direction|fill-opacity
-              | background-attachment|flex-wrap|transform-style|counter-increment
-              | overflow-wrap|counter-reset|animation-play-state|animation
-              | will-change|box-ordinal-group|image-rendering|mask-image|flex-flow
-              | background-position-y|stroke-width|background-position-x|background-position
-              | background-blend-mode|flex-shrink|flex-basis|flex-order|flex-item-align
-              | flex-line-pack|flex-negative|flex-pack|flex-positive|flex-preferred-size
-              | flex|user-drag|font-stretch|column-count|empty-cells|align-self
-              | caption-side|mask-size|column-gap|mask-repeat|box-direction
-              | font-feature-settings|mask-position|align-content|object-fit
-              | columns|text-fill-color|clip-path|stop-color|font-kerning
-              | page-break-before|stroke-dasharray|size|fill-rule|border-image-slice
-              | column-width|break-inside|column-break-before|border-image-width
-              | stroke-dashoffset|border-image-repeat|border-image-outset|line-break
-              | stroke-linejoin|stroke-linecap|stroke-miterlimit|stroke-opacity
-              | stroke|shape-rendering|border-image-source|border-image|border
-              | tab-size|writing-mode|perspective-origin-y|perspective-origin-x
-              | perspective-origin|perspective|text-align-last|text-align|clip-rule
-              | clip|text-anchor|column-rule-color|box-decoration-break|column-fill
-              | fill|column-rule-style|mix-blend-mode|text-emphasis-color
-              | baseline-shift|dominant-baseline|page|alignment-baseline
-              | column-rule-width|column-rule|break-after|font-variant-ligatures
-              | transform-origin-y|transform-origin-x|transform|object-position
-              | break-before|column-span|isolation|shape-outside|all
-              | color-interpolation-filters|marker|marker-end|marker-start
-              | marker-mid|color-rendering|color-interpolation|background-repeat-x
-              | background-repeat-y|background-repeat|background|mask-type
-              | flood-color|flood-opacity|text-orientation|mask-composite
-              | text-emphasis-style|paint-order|lighting-color|shape-margin
-              | text-emphasis-position|text-emphasis|shape-image-threshold
-              | mask-clip|mask-origin|mask|font-variant-caps|font-variant-alternates
-              | font-variant-east-asian|font-variant-numeric|font-variant-position
-              | font-variant|font-size-adjust|font-size|font-language-override
-              | font-display|font-synthesis|font|line-box-contain|text-justify
-              | text-decoration-color|text-decoration-style|text-decoration-line
-              | text-decoration|text-underline-position|grid-template-rows
-              | grid-template-columns|grid-template-areas|grid-template|rotate|scale
-              | translate|scroll-behavior|grid-column-start|grid-column-end
-              | grid-column-gap|grid-row-start|grid-row-end|grid-auto-rows
-              | grid-area|grid-auto-flow|grid-auto-columns|image-orientation
-              | hyphens|overflow-scrolling|overflow|color-profile|kerning
-              | nbsp-mode|color|image-resolution|grid-row-gap|grid-row|grid-column
-              | blend-mode|azimuth|pause-after|pause-before|pause|pitch-range|pitch
-              | text-height|system|negative|prefix|suffix|range|pad|fallback
-              | additive-symbols|symbols|speak-as|speak|grid-gap
-            )\b
-          scope: support.type.property-name.css
-    - match: (:)([ \t]*)
-      captures:
-        1: punctuation.separator.key-value.css
-        2: meta.property-value.css
-      push:
-        - meta_content_scope: meta.property-value.css
-        - match: '\s*(;)|(?=[})])'
-          captures:
-            1: punctuation.terminator.rule.css
-          pop: true
-        - include: property-values
+  font-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: font-property-value-content
+    - include: else-pop
 
-  selector:
-    - match: (?=[:.*#a-zA-Z\[])
-      push:
-        - meta_scope: meta.selector.css
-        - match: "(?=[/@{)])"
-          pop: true
-          # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
-        - match: '\b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b'
-          scope: entity.name.tag.custom.css
-        - match: '\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|content|data|datalist|dd|del|details|dfn|dir|dialog|div|dl|dt|element|em|embed|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|h[1-6]|head|header|hgroup|hr|html|i|iframe|img|input|ins|isindex|kbd|keygen|label|legend|li|link|main|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|rtc|s|samp|script|section|select|shadow|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr|xmp|circle|clipPath|defs|ellipse|filter|foreignObject|g|glyph|glyphRef|image|line|linearGradient|marker|mask|path|pattern|polygon|polyline|radialGradient|rect|stop|switch|symbol|text|textPath|tref|tspan|use)\b'
-          scope: entity.name.tag.css
-          # https://drafts.csswg.org/selectors-4/#class-html
-        - match: '(\.){{ident}}'
-          scope: entity.other.attribute-name.class.css
-          captures:
-            1: punctuation.definition.entity.css
-          # https://drafts.csswg.org/selectors-4/#id-selectors
-        - match: "(#){{ident}}"
-          scope: entity.other.attribute-name.id.css
-          captures:
-            1: punctuation.definition.entity.css
-        - match: \*
-          scope: entity.name.tag.wildcard.css
-          # Combinators
-          # https://drafts.csswg.org/selectors-4/#combinators
-          # https://drafts.csswg.org/css-scoping/#deep-combinator
-        - match: '({{combinators}})(?![>~+])'
-          scope: punctuation.separator.combinator.css
-        - match: '({{combinators}}){2,}'
-          scope: invalid.illegal.combinator.css
-        - include: pseudo-elements
-        - include: pseudo-classes # pseudo-classes must be included after pseudo-elements
-        # Attribute Selectors
-        # https://drafts.csswg.org/selectors-4/#attribute-selectors
-        - match: '\['
-          scope: punctuation.definition.entity.css
-          push:
-            - meta_scope: meta.attribute-selector.css
-            - include: qualified-name
-            - match: '({{ident}})'
-              scope: entity.other.attribute-name.css
-            - match: '\s*([~*|^$]?=)\s*'
-              captures:
-                1: keyword.operator.attribute-selector.css
-              push:
-                - match: '[^\s\]\[''"]'
-                  scope: string.unquoted.css
-                - include: literal-string
-                - match: '(?=(\s|\]))'
-                  pop: true
-            - match: '(?:\s+([iI]))?'  # case insensitive flag
-              captures:
-                1: keyword.other.css
-            - match: '\]'
-              scope: punctuation.definition.entity.css
-              pop: true
-        - include: comma-delimiter
+  font-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: comma-delimiters
+    - include: common-operators
+    - include: builtin-values
+    - include: font-family-names
 
-  # Pseudo Elements
-  # https://drafts.csswg.org/selectors-4/#pseudo-elements
-  pseudo-elements:
-    - match: |-
-        (?x:
-            (:{1,2})(?:before|after|first-line|first-letter) # CSS1 & CSS2 require : or ::
-          | (::)(-(?:moz|ms|webkit)-)?(?:{{ident}}) # CSS3 requires ::
-        )\b
-      scope: entity.other.pseudo-element.css
-      captures:
-        1: punctuation.definition.entity.css
-        2: punctuation.definition.entity.css
-        3: support.type.vendor-prefix.css
-
-  # Pseudo Classes
-  # https://drafts.csswg.org/selectors-4/#pseudo-classes
-  pseudo-classes:
-      # Functional Pseudo Classes
-      # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
-
-      # Functional Pseudo Classes with a single unquoted string
-    - match: '(:)(dir|lang)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: unquoted-string
-
-      # Functional Pseudo Classes with selector list
-    - match: '(:)(matches|not|has)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: selector
-
-      # Special :drop() pseudo-class
-    - match: '(:)(drop)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: \b(active|valid|invalid)\b
-            scope: keyword.other.pseudo-class.css
-
-      # Functional Pseudo Classes with `An+B` param
-      # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
-      # nth-last-child(), nth-child(), nth-last-of-type(), nth-of-type()
-    - match: '(:)(nth-last-child|nth-child|nth-last-of-type|nth-of-type)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: \b(even|odd)\b
-            scope: keyword.other.pseudo-class.css
-          - match: '([-+]?\d*(n))\s*([-+]\s*\d+)?'
-            captures:
-              1: constant.numeric.integer.decimal.css
-              2: keyword.other.unit.css
-              3: constant.numeric.integer.decimal.css
-          - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
-            scope: invalid.illegal.numeric.css
-          - include: integer-type
-
-      # Regular Pseudo Classes
-    - match: '(:)({{ident}})'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
+###[ BUILTIN FUNCTIONS ]#######################################################
 
   builtin-functions:
-    - include: attr-function
-    - include: calc-function
-    - include: cross-fade-function
-    - include: filter-functions
-    - include: gradient-functions
-    - include: image-function
-    - include: image-set-function
-    - include: minmax-function
-    - include: url-function
-    - include: var-function
+    - include: at-counter-functions
+    - include: at-font-functions
+    - include: attr-functions
+    - include: calc-functions
     - include: color-adjuster-functions
+    - include: cross-fade-functions
+    - include: filter-functions
+    - include: filters-functions
+    - include: gradient-functions
+    - include: image-functions
+    - include: image-set-functions
+    - include: minmax-functions
+    - include: repeat-functions
+    - include: shape-functions
+    - include: timing-functions
+    - include: toggle-functions
+    - include: transform-functions
+    - include: url-functions
+    - include: var-functions
 
-      # filter()
-      # https://drafts.fxtf.org/filters/#funcdef-filter
-    - match: '\b(filter)(?=\()'
-      scope: support.function.filter.css
+  function-arguments-common:
+    - include: group-end
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
+
+###[ BUILTIN AT RULE FUNCTIONS ]###############################################
+
+  at-counter-functions:
+    # counter()
+    # https://drafts.csswg.org/css-lists-3/#funcdef-counter
+    # counters()
+    # https://drafts.csswg.org/css-lists-3/#funcdef-counters
+    - match: \b(?i:counters?)(?=\()
+      scope: meta.function-call.identifier.css support.function.counter.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: image-type
-          - include: literal-string
-          - include: filter-functions
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - - meta_scope: meta.function-call.arguments.css meta.group.css
+              - include: function-arguments-common
+              - include: comma-delimiters
+              - include: counter-style-identifiers
+              - include: quoted-strings
+            - counter-identifier
 
-      # counter()
-      # https://drafts.csswg.org/css-lists-3/#funcdef-counter
-    - match: '\b(counter)(?=\()'
-      scope: support.function.counter.css
+    # symbols()
+    # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
+    - match: \b(?i:symbols)(?=\()
+      scope: meta.function-call.identifier.css support.function.counter.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: '({{ident}})'
-            scope: entity.other.counter-name.css string.unquoted.css
-          - match: '(?=,)'
-            push:
-              - match: '(?=\))'
-                pop: true
-              - include: comma-delimiter
-              - match: '\b({{counter_styles}}|none)\b'
-                scope: support.constant.property-value.counter-style.css
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: counter-symbol-values
 
-      # counters()
-      # https://drafts.csswg.org/css-lists-3/#funcdef-counters
-    - match: '\b(counters)(?=\()'
-      scope: support.function.counter.css
+  at-document-functions:
+    # url-prefix()
+    # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-prefix
+    - match: \b(?i:url-prefix)(?=\()
+      scope: meta.function-call.identifier.css support.function.url-prefix.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: '({{ident}})'
-            scope: entity.other.counter-name.css string.unquoted.css
-          - match: '(?=,)'
-            push:
-              - match: '(?=\))'
-                pop: true
-              - include: comma-delimiter
-              - include: literal-string
-              - match: '\b({{counter_styles}}|none)\b'
-                scope: support.constant.property-value.counter-style.css
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: quoted-urls
+            - include: unquoted-urls
 
-      # symbols()
-      # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
-    - match: '\b(symbols)(?=\()'
-      scope: support.function.counter.css
+    # domain()
+    # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-domain
+    - match: \b(?i:domain)(?=\()
+      scope: meta.function-call.identifier.css support.function.domain.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: '\b(cyclic|numeric|alphabetic|symbolic|fixed)\b'
-            scope: support.constant.symbol-type.css
-          - include: comma-delimiter
-          - include: literal-string
-          - include: image-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: quoted-urls
+            - include: unquoted-urls
 
-      # format()
-      # https://drafts.csswg.org/css-fonts-3/#descdef-src
-      # format() is also mentioned in `issue 2` at https://drafts.csswg.org/css-images-3/#issues-index
-      # but does not seem to be implemented in any manner
-    - match: '\b(format)(?=\()'
-      scope: support.function.font-face.css
+    # regexp()
+    # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-regexp
+    - match: \b(?i:regexp)(?=\()
+      scope: meta.function-call.identifier.css support.function.regexp.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: quoted-strings
 
-      # local()
-      # https://drafts.csswg.org/css-fonts-3/#descdef-src
-    - match: '\b(local)(?=\()'
-      scope: support.function.font-face.css
+  at-font-functions:
+    # format()
+    # https://drafts.csswg.org/css-fonts-3/#descdef-src
+    # format() is also mentioned in `issue 2` at https://drafts.csswg.org/css-images-3/#issues-index
+    # but does not seem to be implemented in any manner
+    - match: \b(?i:format)(?=\()
+      scope: meta.function-call.identifier.css support.function.font-face.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
-          - include: unquoted-string
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: quoted-strings
 
-      # Transform Functions
-      # https://www.w3.org/TR/css-transforms-1/#transform-functions
-
-      # transform functions with comma separated <number> types
-      # matrix(), scale(), matrix3d(), scale3d()
-    - match: '\b(matrix3d|scale3d|matrix|scale)(?=\()'
-      scope: support.function.transform.css
+    # local()
+    # https://drafts.csswg.org/css-fonts-3/#descdef-src
+    - match: \b(?i:local)(?=\()
+      scope: meta.function-call.identifier.css support.function.font-face.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: number-type
-          - include: var-function
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: quoted-strings
+            - include: generic-font-names
+            - include: font-family-names
 
-      # transform functions with comma separated <number> or <length> types
-      # translate(), translate3d()
-    - match: '\b(translate(3d)?)(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: percentage-type
-          - include: length-type
-          - include: number-type
-          - include: var-function
-
-      # transform functions with a single <number> or <length> type
-      # translateX(), translateY()
-    - match: '\b(translate[XY])(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: percentage-type
-          - include: length-type
-          - include: number-type
-
-      # transform functions with a single <angle> type
-      # rotate(), skewX(), skewY(), rotateX(), rotateY(), rotateZ()
-    - match: '\b(rotate[XYZ]?|skew[XY])(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: angle-type
-
-      # transform functions with comma separated <angle> types
-      # skew()
-    - match: '\b(skew)(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: angle-type
-
-      # transform functions with a single <length> type
-      # translateZ(), perspective()
-    - match: '\b(translateZ|perspective)(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: length-type
-
-      # transform functions with a comma separated <number> or <angle> types
-      # rotate3d()
-    - match: '\b(rotate3d)(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: angle-type
-          - include: number-type
-
-      # transform functions with a single <number> type
-      # scaleX(), scaleY(), scaleZ()
-    - match: '\b(scale[XYZ])(?=\()'
-      scope: support.function.transform.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: number-type
-
-      # Timing Functions
-      # https://www.w3.org/TR/web-animations-1/#timing-functions
-
-      # cubic-bezier()
-      # https://www.w3.org/TR/web-animations-1/#cubic-bzier-timing-function
-    - match: '\b(cubic-bezier)(?=\()'
-      scope: support.function.timing.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: number-type
-
-      # steps()
-      # https://www.w3.org/TR/web-animations-1/#step-timing-function
-    - match: '\b(steps)(?=\()'
-      scope: support.function.timing.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: integer-type
-          - match: (end|middle|start)
-            scope: support.keyword.timing-direction.css
-
-      # Shape Functions
-      # https://www.w3.org/TR/css-shapes-1/#typedef-basic-shape
-
-      # rect() - Deprecated
-      # https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect
-    - match: '\b(rect)(?=\()'
-      scope: support.function.shape.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: \bauto\b
-            scope: support.constant.property-value.css
-          - include: length-type
-
-      # inset()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
-    - match: '\b(inset)(?=\()'
-      scope: support.function.shape.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: '\bround\b'
-            scope: keyword.other.css
-          - include: length-type
-          - include: percentage-type
-
-      # circle()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-circle
-      # ellipse()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-ellipse
-    - match: '\b(circle|ellipse)(?=\()'
-      scope: support.function.shape.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: '\bat\b'
-            scope: keyword.other.css
-          - match: '\b(top|right|bottom|left|center|closest-side|farthest-side)\b'
-            scope: support.constant.property-value.css
-          - include: length-type
-          - include: percentage-type
-
-      # polygon()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
-    - match: '\b(polygon)(?=\()'
-      scope: support.function.shape.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - include: comment-block
-          - match: '(?=\))'
-            pop: true
-          - match: '\b(nonzero|evenodd)\b'
-            scope: support.constant.property-value.css
-          - include: length-type
-          - include: percentage-type
-          - include: calc-function
-          - include: comma-delimiter
-
-      # toggle()
-      # https://www.w3.org/TR/css3-values/#toggle-notation
-    - match: '\b(toggle)(?=\()'
-      scope: support.function.toggle.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: vendor-prefix
-          - include: property-value-constants
-          - include: numeric-values
-          - include: color-values
-          - include: literal-string
-
-      # repeat()
-      # https://drafts.csswg.org/css-grid/#funcdef-repeat
-    - match: '\b(repeat)(?=\()'
-      scope: support.function.grid.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: length-type
-          - include: percentage-type
-          - include: minmax-function
-          - include: integer-type
-          - include: var-function
-          - include: line-names
-          - match: \b(auto-fill|auto-fit)\b
-            scope: support.keyword.repetitions.css
-          - match: \b(max-content|min-content|auto)\b
-            scope: support.constant.property-value.css
-
-  # var()
-  # https://drafts.csswg.org/css-variables/#funcdef-var
-  var-function:
-    - match: '\b(var)(?=\()'
-      scope: support.function.var.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: custom-property-name
-
-  # Filter Functions
-  # https://drafts.fxtf.org/filters/#typedef-filter-function
-  filter-functions:
-      # blur()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-blur
-    - match: '\b(blur)(?=\()'
-      scope: support.function.filter.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: length-type
-
-      # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-brightness
-    - match: '\b(brightness|contrast|grayscale|invert|opacity|saturate|sepia)(?=\()'
-      scope: support.function.filter.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: percentage-type
-          - include: number-type
-
-      # drop-shadow()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-drop-shadow
-    - match: '\b(drop-shadow)(?=\()'
-      scope: support.function.filter.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: length-type
-          - include: color-values
-
-      # hue-rotate()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-hue-rotate
-    - match: '\b(hue-rotate)(?=\()'
-      scope: support.function.filter.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: angle-type
-
-  # calc()
-  # https://www.w3.org/TR/css3-values/#funcdef-calc
-  calc-function:
-    - match: '\b(calc)(?=\()'
-      scope: support.function.calc.css
-      push:
-        - meta_scope: meta.function-call.css
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push: inside-calc-parens
-        - match: ''
-          pop: true
-
-  inside-calc-parens:
-    - meta_scope: meta.group.css
-    - match: '(?=\))'
-      set: function-notation-terminator
-    - include: comment-block
-    - include: calc-function
-    - include: var-function
-    - include: numeric-values
-    - include: attr-function
-    - match: "[-/*+]"
-      scope: keyword.operator.css
-    - match: '\('
-      scope: punctuation.definition.group.begin.css
-      push: inside-calc-parens
-
-  # attr()
-  # https://www.w3.org/TR/css3-values/#funcdef-attr
-  attr-function:
-    - match: '\b(attr)(?=\()'
-      scope: support.function.attr.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: qualified-name
-          - include: literal-string
-          - match: '({{ident}})'
-            scope: entity.other.attribute-name.css
-            push:
-            - match: |-
-                (?x)\b(
-                    {{font_relative_lengths}}
-                  | {{viewport_percentage_lengths}}
-                  | {{absolute_lengths}}
-                  | {{angle_units}}
-                  | {{duration_units}}
-                  | {{frequency_units}}
-                  | {{resolution_units}}
-                )\b
-              scope: keyword.other.unit.css
-            - match: '(?=\))'
-              pop: true
-            - include: comma-delimiter
-            - include: property-value-constants
-            - include: numeric-values
-            - include: color-values
-
-  # url()
-  # https://drafts.csswg.org/css-images-3/#url-notation
-  url-function:
-    - match: '\b(url)(?=\()'
-      scope: support.function.url.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
-          - include: unquoted-string
-
-  # url-prefix()
-  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-prefix
-  url-prefix-function:
-    - match: '\b(url-prefix)(?=\()'
-      scope: support.function.url-prefix.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
-          - include: unquoted-string
-
-  # domain()
-  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-domain
-  domain-function:
-    - match: '\b(domain)(?=\()'
-      scope: support.function.domain.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
-          - include: unquoted-string
-
-  # regexp()
-  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-regexp
-  regexp-function:
-    - match: '\b(regexp)(?=\()'
-      scope: support.function.regexp.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
-
-  # image()
-  # https://drafts.csswg.org/css-images-3/#funcdef-image
-  image-function:
-    - match: '\b(image)(?=\()'
-      scope: support.function.image.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: image-type
-          - include: literal-string
-          - include: color-values
-          - include: comma-delimiter
-          - include: unquoted-string
-
-  # image-set()
-  # https://drafts.csswg.org/css-images-3/#funcdef-image-set
-  image-set-function:
-    - match: '\b(image-set)(?=\()'
-      scope: support.function.image.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: literal-string
-          - include: color-values
-          - include: comma-delimiter
-          - include: resolution-type
-          - include: image-type
-          - match: '[0-9]+(x)'
-            scope: constant.numeric.integer.decimal.css
-            captures:
-              1: keyword.other.unit.css
-          - include: unquoted-string
-
-  # Gradient Functions
-  # https://drafts.csswg.org/css-images-3/#gradients
-  gradient-functions:
-      # linear-gradient()
-      # https://drafts.csswg.org/css-images-3/#linear-gradients
-      # repeating-linear-gradient()
-      # https://drafts.csswg.org/css-images-3/#funcdef-repeating-linear-gradient
-    - match: '\b((?:repeating-)?linear-gradient)(?=\()'
-      scope: support.function.gradient.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: angle-type
-          - include: comma-delimiter
-          - include: color-values
-          - include: percentage-type
-          - include: length-type
-          - match: '\bto\b'
-            scope: keyword.other.css
-          - match: \b(top|right|bottom|left)\b
-            scope: support.constant.property-value.css
-
-      # radial-gradient()
-      # https://drafts.csswg.org/css-images-3/#radial-gradients
-      # repeating-radial-gradient()
-      # https://drafts.csswg.org/css-images-3/#funcdef-repeating-radial-gradient
-    - match: '\b((?:repeating-)?radial-gradient)(?=\()'
-      scope: support.function.gradient.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: color-values
-          - include: percentage-type
-          - include: length-type
-          - match: '\b(at|circle|ellipse)\b'
-            scope: keyword.other.css
-          - match: |-
-              (?x)\b(
-                  left
-                | center
-                | right
-                | top
-                | bottom
-                | closest-corner
-                | closest-side
-                | farthest-corner
-                | farthest-side
-              )\b
-            scope: support.constant.property-value.css
-
-  # cross-fade()
-  # https://drafts.csswg.org/css-images-3/#cross-fade-function
-  cross-fade-function:
-    - match: '\b(cross-fade)(?=\()'
-      scope: support.function.image.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: percentage-type
-          - include: color-values
-          - include: image-type
-          - include: literal-string
-          - include: unquoted-string
-
-  # minmax()
-  # https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-minmax
-  minmax-function:
-    - match: '\b(minmax)(?=\()'
-      scope: support.function.grid.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: length-type
-          - include: percentage-type
-          - match: \b(auto|max-content|min-content)\b
-            scope: support.constant.property-value.css
+###[ BUILTIN COLOR FUNCTIONS ]#################################################
 
   # Color Functions
   # https://drafts.csswg.org/css-color
   color-functions:
-      # rgb(), rgba()
-      # https://drafts.csswg.org/css-color/#rgb-functions
-    - match: '\b(rgba?)(?=\()'
-      scope: support.function.color.css
+    # rgb(), rgba()
+    # https://drafts.csswg.org/css-color/#rgb-functions
+    - match: \b(?i:rgba?)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: percentage-type
-          - include: number-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: percentage-constants
+            - include: scalar-constants
 
-      # hsl(), hsla()
-      # https://drafts.csswg.org/css-color/#the-hsl-notation
-      # hwb() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-hwb
-    - match: '\b(hsla?|hwb)(?=\()'
-      scope: support.function.color.css
+    # hsl(), hsla()
+    # https://drafts.csswg.org/css-color/#the-hsl-notation
+    # hwb() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-hwb
+    - match: \b(?i:hsla?|hwb)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: angle-type
-          - include: percentage-type
-          - include: number-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: angle-constants
+            - include: percentage-constants
+            - include: scalar-constants
 
-      # gray() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-gray
-    - match: '\b(gray)(?=\()'
-      scope: support.function.color.css
+    # gray() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-gray
+    - match: \b(?i:gray)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: percentage-type
-          - include: number-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: percentage-constants
+            - include: scalar-constants
 
-      # device-cmyk() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
-    - match: '\b(device-cmyk)(?=\()'
-      scope: support.function.color.css
+    # device-cmyk() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
+    - match: \b(?i:device-cmyk)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: color-adjuster-functions # must be included before `color-values`
-          - include: color-values
-          - include: percentage-type
-          - include: number-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: color-adjuster-functions # must be included before `color-values`
+            - include: color-values
+            - include: percentage-constants
+            - include: scalar-constants
 
-      # color-mod() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-color-mod
-    - match: '\b(color)(?=\()'
-      scope: support.function.color.css
+    # color-mod() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-color-mod
+    - match: \b(?i:color)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: comma-delimiter
-          - include: color-adjuster-functions # must be included before `color-values`
-          - include: var-function
-          - include: color-values
-          - include: angle-type
-          - include: number-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: color-adjuster-functions # must be included before `color-values`
+            - include: color-values
+            - include: angle-constants
+            - include: scalar-constants
 
   # Color Adjuster Functions - Not yet implemented by browsers
   # https://drafts.csswg.org/css-color/#typedef-color-adjuster
   color-adjuster-functions:
-      # red(), green(), blue(), alpha() - Not yet implemented by browsers
-    - match: '\b(red|green|blue|alpha|a)(?=\()'
-      scope: support.function.color.css
+    # red(), green(), blue(), alpha() - Not yet implemented by browsers
+    - match: \b(?i:red|green|blue|alpha|a)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: color-adjuster-operators
-          - include: percentage-type
-          - include: number-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: color-adjuster-operators
+            - include: percentage-constants
+            - include: scalar-constants
 
-      # hue() - Not yet implemented by browsers
-    - match: '\b(hue|h)(?=\()'
-      scope: support.function.color.css
+    # hue() - Not yet implemented by browsers
+    - match: \b(?i:hue|h)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: color-adjuster-operators
-          - include: angle-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: color-adjuster-operators
+            - include: angle-constants
 
-      # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
-    - match: '\b(saturation|lightness|whiteness|blackness|[slwb])(?=\()'
-      scope: support.function.color.css
+    # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
+    - match: \b(?i:saturation|lightness|whiteness|blackness|[slwb])(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: color-adjuster-operators
-          - include: percentage-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: color-adjuster-operators
+            - include: percentage-constants
 
-      # tint(), shade(), contrast() - Not yet implemented by browsers
-      # contrast() interferes with the contrast() filter function;
-      # therefore, it is not yet implemented here
-    - match: '\b(tint|shade)(?=\()'
-      scope: support.function.color.css
+    # tint(), shade(), contrast() - Not yet implemented by browsers
+    # contrast() interferes with the contrast() filter function;
+    # therefore, it is not yet implemented here
+    - match: \b(?i:tint|shade)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: percentage-type
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: percentage-constants
 
-      # blend(), blenda() - Not yet implemented by browsers
-    - match: '\b(blenda|blend)(?=\()'
-      scope: support.function.color.css
+    # blend(), blenda() - Not yet implemented by browsers
+    - match: \b(?i:blenda|blend)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - match: '\b(rgb|hsl|hwb)\b'
-            scope: keyword.other.color-space.css
-          - include: color-values
-          - include: percentage-type
-          - include: var-function
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: color-values
+            - include: percentage-constants
+            - match: \b(?i:rgb|hsl|hwb){{break}}
+              scope: keyword.other.color-space.css
 
-  unicode-range:
-    - match: |-
-        (?xi)
-            (u\+)
-            ([0-9a-f?]{1,6}
-            (?:(-)[0-9a-f]{1,6})?)
-      scope: support.unicode-range.css
+###[ BUILTIN FILTER FUNCTIONS ]################################################
+
+  filter-functions:
+    # filter()
+    # https://drafts.fxtf.org/filters/#funcdef-filter
+    - match: \b(?i:filter)(?=\()
+      scope: meta.function-call.identifier.css support.function.filter.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: filters-functions
+            - include: image-values
+            - include: quoted-strings
+
+  # Filter Functions
+  # https://drafts.fxtf.org/filters/#typedef-filter-function
+  filters-functions:
+    # blur()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-blur
+    - match: \b(?i:blur)(?=\()
+      scope: meta.function-call.identifier.css support.function.filter.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: length-constants
+
+    # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-brightness
+    - match: \b(?i:brightness|contrast|grayscale|invert|opacity|saturate|sepia)(?=\()
+      scope: meta.function-call.identifier.css support.function.filter.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: percentage-constants
+            - include: scalar-constants
+
+    # drop-shadow()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-drop-shadow
+    - match: \b(?i:drop-shadow)(?=\()
+      scope: meta.function-call.identifier.css support.function.filter.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: color-values
+            - include: length-constants
+
+    # hue-rotate()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-hue-rotate
+    - match: \b(?i:hue-rotate)(?=\()
+      scope: meta.function-call.identifier.css support.function.filter.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: angle-constants
+
+###[ BUILTIN GRID FUNCTIONS ]##################################################
+
+  # minmax()
+  # https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-minmax
+  minmax-functions:
+    - match: \b(?i:minmax)(?=\()
+      scope: meta.function-call.identifier.css support.function.grid.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: grid-constants
+            - include: length-constants
+            - include: percentage-constants
+
+  # repeat()
+  # https://drafts.csswg.org/css-grid/#funcdef-repeat
+  repeat-functions:
+    - match: \b(?i:repeat)(?=\()
+      scope: meta.function-call.identifier.css support.function.grid.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:auto-fill|auto-fit){{break}}
+              scope: keyword.other.grid.css
+            - include: calc-functions
+            - include: minmax-functions
+            - include: grid-constants
+            - include: length-constants
+            - include: percentage-constants
+            - include: scalar-integer-constants
+            - include: line-names
+
+###[ BUILTIN IMAGE FUNCTIONS ]#################################################
+
+  # cross-fade()
+  # https://drafts.csswg.org/css-images-4/#funcdef-cross-fade
+  cross-fade-functions:
+    - match: \b(?i:cross-fade)(?=\()
+      scope: meta.function-call.identifier.css support.function.image.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: color-values
+            - include: image-values
+            - include: percentage-constants
+            - include: quoted-urls
+
+  # image()
+  # https://drafts.csswg.org/css-images-4/#funcdef-image
+  image-functions:
+    - match: \b(?i:image)(?=\()
+      scope: meta.function-call.identifier.css support.function.image.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: color-values
+            - include: image-values
+            - include: quoted-urls
+            - include: direction-constants
+
+  # image-set()
+  # https://drafts.csswg.org/css-images-4/#funcdef-image-set
+  image-set-functions:
+    - match: \b(?i:image-set)(?=\()
+      scope: meta.function-call.identifier.css support.function.image.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: color-values
+            - include: image-values
+            - include: quoted-urls
+            - include: resolution-constants
+            - match: ([0-9]+)(x)
+              scope: meta.number.integer.decimal.css
+              captures:
+                1: constant.numeric.value.css
+                2: constant.numeric.suffix.css
+
+  # Gradient Functions
+  # https://drafts.csswg.org/css-images-3/#gradients
+  gradient-functions:
+    # conic-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/conic-gradient()
+    # repeating-conic-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-conic-gradient()
+    - match: \b((?:repeating-)?conic-gradient)(?=\()
+      scope: meta.function-call.identifier.css support.function.gradient.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:at|from){{break}}
+              scope: keyword.other.gradient.css
+            - match: \b(?i:bottom|center|left|right|top){{break}}
+              scope: support.constant.property-value.css
+            - include: color-values
+            - include: angle-constants
+            - include: length-constants
+            - include: percentage-constants
+
+    # linear-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()
+    # repeating-linear-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-linear-gradient()
+    - match: \b((?:repeating-)?linear-gradient)(?=\()
+      scope: meta.function-call.identifier.css support.function.gradient.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:to){{break}}
+              scope: keyword.other.gradient.css
+            - match: \b(?i:bottom|left|right|top){{break}}
+              scope: support.constant.property-value.css
+            - include: color-values
+            - include: angle-constants
+            - include: length-constants
+            - include: percentage-constants
+
+    # radial-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient()
+    # repeating-radial-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-radial-gradient()
+    - match: \b((?:repeating-)?radial-gradient)(?=\()
+      scope: meta.function-call.identifier.css support.function.gradient.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:at|circle|ellipse){{break}}
+              scope: keyword.other.gradient.css
+            - match: \b(?i:bottom|center|left|right|top|(closest|farthest)-(corner|side)){{break}}
+              scope: support.constant.property-value.css
+            - include: color-values
+            - include: length-constants
+            - include: percentage-constants
+
+###[ BUILTIN SHAPE FUNCTIONS ]#################################################
+
+  # Shape Functions
+  # https://www.w3.org/TR/css-shapes-1/#typedef-basic-shape
+  shape-functions:
+    # rect() - Deprecated
+    # https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect
+    - match: \b(?i:rect)(?=\()
+      scope: meta.function-call.identifier.css support.function.shape.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - match: \b(?i:auto){{break}}
+              scope: support.constant.property-value.css
+            - include: calc-functions
+            - include: length-constants
+
+    # inset()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
+    - match: \b(?i:inset)(?=\()
+      scope: meta.function-call.identifier.css support.function.shape.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - match: \b(?i:round){{break}}
+              scope: keyword.other.shape.css
+            - include: calc-functions
+            - include: length-constants
+            - include: percentage-constants
+
+    # circle()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-circle
+    # ellipse()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-ellipse
+    - match: \b(?i:circle|ellipse)(?=\()
+      scope: meta.function-call.identifier.css support.function.shape.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - match: \b(?i:at){{break}}
+              scope: keyword.other.shape.css
+            - match: \b(?i:top|right|bottom|left|center|closest-side|farthest-side){{break}}
+              scope: support.constant.property-value.css
+            - include: calc-functions
+            - include: length-constants
+            - include: percentage-constants
+
+    # polygon()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
+    - match: \b(?i:polygon)(?=\()
+      scope: meta.function-call.identifier.css support.function.shape.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:nonzero|evenodd){{break}}
+              scope: support.constant.property-value.css
+            - include: calc-functions
+            - include: length-constants
+            - include: percentage-constants
+
+###[ BUILTIN TIMING FUNCTIONS ]################################################
+
+  # Timing Functions
+  # https://www.w3.org/TR/web-animations-1/#timing-functions
+  timing-functions:
+    # cubic-bezier()
+    # https://www.w3.org/TR/web-animations-1/#cubic-bzier-timing-function
+    - match: \b(?i:cubic-bezier)(?=\()
+      scope: meta.function-call.identifier.css support.function.timing.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: scalar-constants
+
+    # steps()
+    # https://www.w3.org/TR/web-animations-1/#step-timing-function
+    - match: \b(?i:steps)(?=\()
+      scope: meta.function-call.identifier.css support.function.timing.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - match: \b(?i:end|middle|start){{break}}
+              scope: keyword.other.timing.css
+            - include: scalar-integer-constants
+
+###[ BUILTIN TRANSFORM FUNCTIONS ]#############################################
+
+  # Transform Functions
+  # https://www.w3.org/TR/css-transforms-1/#transform-functions
+  transform-functions:
+    # transform functions with comma separated <number> types
+    # matrix(), scale(), matrix3d(), scale3d()
+    - match: \b(?i:matrix3d|scale3d|matrix|scale)(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: scalar-constants
+
+    # transform functions with comma separated <number> or <length> types
+    # translate(), translate3d()
+    - match: \b(?i:translate(3d)?)(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: percentage-constants
+            - include: length-constants
+            - include: scalar-constants
+
+    # transform functions with a single <number> or <length> type
+    # translateX(), translateY()
+    - match: \b(?i:translate[XY])(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: percentage-constants
+            - include: length-constants
+            - include: scalar-constants
+
+    # transform functions with a single <angle> type
+    # rotate(), skewX(), skewY(), rotateX(), rotateY(), rotateZ()
+    - match: \b(?i:rotate[XYZ]?|skew[XY])(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: angle-constants
+
+    # transform functions with comma separated <angle> types
+    # skew()
+    - match: \b(?i:skew)(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: angle-constants
+
+    # transform functions with a single <length> type
+    # translateZ(), perspective()
+    - match: \b(?i:translateZ|perspective)(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: calc-functions
+            - include: length-constants
+
+    # transform functions with a comma separated <number> or <angle> types
+    # rotate3d()
+    - match: \b(?i:rotate3d)(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: angle-constants
+            - include: scalar-constants
+
+    # transform functions with a single <number> type
+    # scaleX(), scaleY(), scaleZ()
+    - match: \b(?i:scale[XYZ])(?=\()
+      scope: meta.function-call.identifier.css support.function.transform.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: scalar-constants
+
+###[ BUILTIN VALUE FUNCTIONS ]#################################################
+
+  # attr()
+  # https://www.w3.org/TR/css3-values/#funcdef-attr
+  attr-functions:
+    - match: \b(?i:attr)(?=\()
+      scope: meta.function-call.identifier.css support.function.attr.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - attr-function-arguments-value
+            - attr-function-arguments-identifier
+
+  attr-function-arguments-identifier:
+    - include: namespace-prefixes
+    - include: quoted-string
+    - include: var-function
+    - match: '{{ident}}'
+      scope: entity.other.attribute-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  attr-function-arguments-value:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: function-arguments-common
+    - include: comma-delimiters
+    - match: '{{units}}'
+      scope: keyword.other.unit.css
+    - include: color-values
+    - include: common-constants
+    - include: generic-font-names
+    - include: numeric-constants
+
+  calc-functions:
+    # calc()
+    # https://www.w3.org/TR/css3-values/#funcdef-calc
+    - match: \b(?i:calc)(?=\()
+      scope: meta.function-call.identifier.css support.function.calc.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: calc-function-arguments-content
+
+    # clamp()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()
+    # max()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/max()
+    # min()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/min()
+    - match: \b(?i:clamp|max|min)(?=\()
+      scope: meta.function-call.identifier.css support.function.calc.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: calc-function-arguments-content
+            - include: comma-delimiters
+
+  calc-function-arguments-content:
+    - meta_scope: meta.group.css
+    - match: \)
+      scope: punctuation.section.group.end.css
+      set: maybe-illegal-operator
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: calc-function-arguments-content
+    - include: terminator-pop
+    - include: comments
+    - include: attr-functions
+    - include: calc-functions
+    - include: var-functions
+    - match: '{{float}}({{units}})?'
+      scope: meta.number.float.decimal.css
       captures:
-        1: support.constant.unicode-range.prefix.css
-        2: constant.codepoint-range.css
-        3: punctuation.section.range.css
-
-  # Qualified Name
-  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
-  qualified-name:
-    - match: '(?:({{ident}})|(\*))?([|])(?!=)'
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{units}})?'
+      scope: meta.number.integer.decimal.css
       captures:
-        1: entity.other.namespace-prefix.css
-        2: entity.name.namespace.wildcard.css
-        3: punctuation.separator.namespace.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '[-+*/]'
+      scope: keyword.operator.arithmetic.css
 
-  # Custom Properties
-  # https://drafts.csswg.org/css-variables/#typedef-custom-property-name
-  custom-property-name:
-    - match: '(--)({{nmchar}}+)'
-      scope: support.type.custom-property.css
+  toggle-functions:
+    # toggle()
+    # https://www.w3.org/TR/css3-values/#toggle-notation
+    - match: \b(?i:toggle)(?=\()
+      scope: meta.function-call.identifier.css support.function.toggle.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: calc-functions
+            - include: vendor-prefixes
+            - include: color-values
+            - include: common-constants
+            - include: numeric-constants
+            - include: quoted-strings
+
+  # url()
+  # https://drafts.csswg.org/css-values-3/#urls
+  url-functions:
+    - match: \b(?i:url)(?=\()
+      scope: meta.function-call.identifier.css support.function.url.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: quoted-urls
+            - include: unquoted-urls
+
+  # var()
+  # https://drafts.csswg.org/css-variables/#funcdef-var
+  # Note: Match valid groups before `var-functions` context is included.
+  var-functions:
+    - match: \b(?i:var)(?=\()
+      scope: meta.function-call.identifier.css support.function.var.css
+      push: var-function-arguments
+    - include: illegal-groups
+
+  var-function:
+    - match: \b(?i:var)(?=\()
+      scope: meta.function-call.identifier.css support.function.var.css
+      set: var-function-arguments
+    - include: illegal-groups
+
+  var-function-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      set:
+        - var-function-arguments-defaults
+        - var-function-arguments-identifier
+
+  var-function-arguments-defaults:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: group-end
+    - include: font-property-value-content
+
+  var-function-arguments-identifier:
+    - match: '{{custom_ident}}'
+      scope: variable.other.custom-property.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+###[ OTHER FUNCTIONS ]#########################################################
+
+  other-functions:
+    - match: '{{ident}}(?=\()'
+      scope: meta.function-call.identifier.css variable.function.css
+      push: other-functions-arguments
+
+  other-functions-arguments:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      set:
+        - meta_scope: meta.function-call.arguments.css meta.group.css
+        - include: function-arguments-common
+        - include: comma-delimiters
+        - include: calc-functions
+        - include: quoted-strings
+        - include: numeric-constants
+        - include: other-constants
+
+###[ CONSTANTS ]###############################################################
+
+  color-constants:
+    # https://www.w3.org/TR/CSS22/syndata.html#color-units
+    - match: '{{standard_colors}}'
+      scope: support.constant.color.w3c.standard.css
+    # https://www.w3.org/TR/css3-color/#svg-color
+    - match: '{{extended_colors}}'
+      scope: support.constant.color.w3c.extended.css
+    # Special Color Keywords
+    # https://www.w3.org/TR/css3-color/#currentcolor
+    # https://www.w3.org/TR/css3-color/#transparent-def
+    - match: \b(?i:currentColor|transparent){{break}}
+      scope: support.constant.color.w3c.special.css
+    # Hex Color
+    - match: (#)(\h{3}|\h{6}){{break}}
+      scope: constant.other.color.rgb-value.css
       captures:
-        1: punctuation.definition.custom-property.css
-        2: support.type.custom-property.name.css
-
-  color-adjuster-operators:
-    - match: '[\-\+*](?=\s+)'
-      scope: keyword.operator.css
-
-  comma-delimiter:
-    - match: '\s*(,)\s*'
+        1: punctuation.definition.constant.css
+    # RGBA Hexadecimal Colors
+    # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
+    - match: (#)(\h{4}|\h{8}){{break}}
+      scope: constant.other.color.rgba-value.css
       captures:
-        1: punctuation.separator.sequence.css
+        1: punctuation.definition.constant.css
 
-  vendor-prefix:
-    - match: "-(?:webkit|moz|ms|o)-"
-      scope: support.type.vendor-prefix.css
+  common-constants:
+    - match: '{{property_value_constants}}'
+      scope: support.constant.property-value.css
 
-  function-notation-terminator:
-    - match: '\)'
-      scope: meta.group.css punctuation.definition.group.end.css
-      pop: true
+  counter-speak-as-constants:
+    - match: '{{counter_speak_as_constants}}'
+      scope: support.constant.property-value.css
 
-  at-rule-punctuation:
-    - match: \;
-      scope: punctuation.terminator.rule.css
-    - match: (?=;|$)
-      pop: true
+  counter-system-constants:
+    - match: '{{counter_system_constants}}'
+      scope: support.constant.symbol-type.css
+
+  direction-constants:
+    - match: \b(ltr|rtl){{break}}
+      scope: support.constant.property-value.css
+
+  # Generic Font Families
+  # https://drafts.csswg.org/css-fonts-3/#family-name-value
+  generic-font-names:
+    - match: '{{font_family_constants}}'
+      scope: support.constant.property-value.css
+
+  grid-constants:
+    - match: \b(?i:auto|max-content|min-content){{break}}
+      scope: support.constant.property-value.css
+
+  other-constants:
+    - match: '{{ident}}'
+      scope: constant.other.css
+
+###[ NUMERIC CONSTANTS ]#######################################################
+
+  # https://www.w3.org/TR/css3-values/#numeric-constantss
+  numeric-constants:
+    - match: '{{float}}({{units}})?'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{units}})?'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+
+  # Make sure `scalar-constants` is included after any other numeric values
+  # as `scalar-constants` will consume all numeric values.
+  scalar-constants:
+    - include: scalar-float-constants
+    - include: scalar-integer-constants
+
+  scalar-float-constants:
+    - match: '{{float}}'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+
+  scalar-integer-constants:
+    - match: '{{integer}}'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+
+  scalar-rational-constants:
+    - match: \d+(/)\d+
+      scope: meta.number.rational.css constant.numeric.value.css
+      captures:
+        1: keyword.operator.arithmetic.css
+
+  angle-constants:
+    - match: '{{float}}({{angle_units}})'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{angle_units}})'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+    - match: \b0\b(?!%)
+      scope: meta.number.integer.decimal.css constant.numeric.value.css
+
+  frequency-constants:
+    - match: '{{float}}({{frequency_units}})'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{frequency_units}})'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+
+  length-constants:
+    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+    - match: \b0\b(?!%)
+      scope: meta.number.integer.decimal.css constant.numeric.value.css
+
+  resolution-constants:
+    - match: '{{float}}({{resolution_units}})'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{resolution_units}})'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+
+  percentage-constants:
+    - match: '{{float}}(%)'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}(%)'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+
+  time-constants:
+    - match: '{{float}}({{duration_units}})'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{duration_units}})'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+
+  # Unicode Ranges
+  # https://www.w3.org/TR/css-syntax-3/#urange
+  unicode-ranges:
+    - match: ([Uu]\+)([\h?]{1,6}(?:(-)\h{1,6})?)
+      scope: meta.number.unicode-range.css
+      captures:
+        1: constant.numeric.prefix.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.range.css
+
+###[ STRING CONSTANTS ]########################################################
+
+  # Font Family Names
+  # https://drafts.csswg.org/css-fonts-3/#family-name-value
+  font-family-names:
+    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
+      scope: meta.string.css string.unquoted.css
+
+  # Language Ranges
+  # https://drafts.csswg.org/selectors-4/#language-range
+  language-ranges:
+    - match: (?={{nmstart}}|\*)
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.css string.unquoted.css
+        - include: string-content
+        - match: \*
+          scope: variable.language.wildcard.asterisk.css
+        - match: (?!{{nmchar}})
+          pop: 1
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
   line-names:
-    - match: '\['
-      scope: punctuation.section.begin.css
-      push:
-        - match: '{{ident}}'
-          scope: string.unquoted.line-name.css
-        - match: '\]'
-          scope: punctuation.section.end.css
-          pop: true
+    - match: \[
+      scope: punctuation.section.brackets.begin.css
+      push: line-names-content
 
-  unquoted-string:
-    - match: '[^\s''"]'
-      scope: string.unquoted.css
+  line-names-content:
+    - meta_scope: meta.line-names.css meta.brackets.css
+    - match: \]
+      scope: punctuation.section.brackets.end.css
+      pop: 1
+    - match: '{{ident}}'
+      scope: meta.string.css string.unquoted.line-name.css
+    - include: terminator-pop
 
-  literal-string:
-    - match: \'
-      scope: punctuation.definition.string.begin.css
-      push:
-        - meta_scope: string.quoted.single.css
-        - match: \'
-          scope: punctuation.definition.string.end.css
-          pop: true
-        - include: string-content
+  quoted-strings:
     - match: \"
       scope: punctuation.definition.string.begin.css
-      push:
-        - meta_scope: string.quoted.double.css
-        - match: \"
-          scope: punctuation.definition.string.end.css
-          pop: true
-        - include: string-content
+      push: double-quoted-string-content
+    - match: \'
+      scope: punctuation.definition.string.begin.css
+      push: single-quoted-string-content
+
+  quoted-string:
+    - match: \"
+      scope: punctuation.definition.string.begin.css
+      set: double-quoted-string-content
+    - match: \'
+      scope: punctuation.definition.string.begin.css
+      set: single-quoted-string-content
+
+  double-quoted-string-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.css string.quoted.double.css
+    - match: \"
+      scope: punctuation.definition.string.end.css
+      pop: 1
+    - include: string-content
+
+  single-quoted-string-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.css string.quoted.single.css
+    - match: \'
+      scope: punctuation.definition.string.end.css
+      pop: 1
+    - include: string-content
 
   string-content:
+    - meta_include_prototype: false
     - match: \n
       scope: invalid.illegal.newline.css
-      pop: true
+      pop: 1
     - match: \\\s*\n
       scope: constant.character.escape.newline.css
     - match: \\(?:\h{1,6}|.)
       scope: constant.character.escape.css
 
-  # https://www.w3.org/TR/css3-values/#numeric-types
-  numeric-values:
-    - include: dimensions
-    - include: percentage-type
-    - include: number-type
+###[ URL STRING CONSTANTS ]####################################################
 
-  float-type:
-    - match: '{{float}}'
-      scope: constant.numeric.float.decimal.css
-      captures:
-        1: punctuation.separator.decimal.css
+  quoted-urls:
+    - match: \"
+      scope:
+        meta.string.css string.quoted.double.css
+        punctuation.definition.string.begin.css
+      push: double-quoted-url-content
+    - match: \'
+      scope:
+        meta.string.css string.quoted.single.css
+        punctuation.definition.string.begin.css
+      push: single-quoted-url-content
 
-  integer-type:
-    - match: '{{integer}}'
-      scope: constant.numeric.integer.decimal.css
+  double-quoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.css
+        meta.string.css string.quoted.double.css
+    - match: \"
+      scope:
+        meta.string.css string.quoted.double.css
+        punctuation.definition.string.end.css
+      pop: 1
+    - include: string-content
+    - include: url-content
 
-  # Make sure `number-type` is included after any other numeric values
-  # as `number-type` will consume all numeric values.
-  number-type:
-    - include: float-type
-    - include: integer-type
+  single-quoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.css
+        meta.string.css string.quoted.single.css
+    - match: \'
+      scope:
+        meta.string.css string.quoted.single.css
+        punctuation.definition.string.end.css
+      pop: 1
+    - include: string-content
+    - include: url-content
 
-  percentage-type:
-    - match: '{{float}}(%)'
-      scope: constant.numeric.float.decimal.css
-      captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}(%)'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
+  # Unquoted URL token
+  # https://drafts.csswg.org/css-syntax-3/#consume-a-url-token
+  unquoted-urls:
+    - match: (?=[[:alnum:]/])
+      push: unquoted-url-content
 
-  dimensions:
-    - include: angle-type
-    - include: frequency-type
-    - include: length-type
-    - include: resolution-type
-    - include: time-type
+  unquoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.css
+        meta.string.css string.unquoted.css
+    - match: '["''(]'
+      scope: invalid.illegal.unexpected-token.css
+      set:
+        - meta_include_prototype: false
+        - match: (?=\))
+          pop: 1
+        - include: string-content
+    - match: (?=\))
+      pop: 1
+    - include: url-content
 
-  length-type:
-    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: constant.numeric.float.decimal.css
+  url-content:
+    - include: string-content
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.css
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
-    - match: '0\b(?!%)'
-      scope: constant.numeric.integer.decimal.css
+        1: punctuation.definition.escape.css
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.css
 
-  time-type:
-    - match: '{{float}}({{duration_units}})\b'
-      scope: constant.numeric.float.decimal.css
-      captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{duration_units}})\b'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
+###[ OPERATORS ]###############################################################
 
-  frequency-type:
-    - match: '{{float}}({{frequency_units}})\b'
-      scope: constant.numeric.float.decimal.css
-      captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{frequency_units}})\b'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
+  common-operators:
+    - match: \!\s*(?i:important){{break}}
+      scope: keyword.other.important.css
+    - match: /
+      scope: keyword.operator.arithmetic.css
 
-  resolution-type:
-    - match: '{{float}}({{resolution_units}})\b'
-      scope: constant.numeric.float.decimal.css
-      captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{resolution_units}})\b'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
+  color-adjuster-operators:
+    - match: '[-+*](?=\s)'
+      scope: keyword.operator.arithmetic.css
+    - match: '[-+*/]'
+      scope: invalid.illegal.operator.css
 
-  angle-type:
-    - match: '{{float}}({{angle_units}})\b'
-      scope: constant.numeric.float.decimal.css
+  maybe-illegal-operator:
+    - match: '[-+](?=\s*\d)'
+      scope: invalid.illegal.operator.css
+      pop: 1
+    - match: \s*([-+])(?=\d)
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{angle_units}})\b'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
-    - match: '0\b(?!%)'
-      scope: constant.numeric.integer.decimal.css
+        1: invalid.illegal.operator.css
+      pop: 1
+    - include: immediately-pop
 
-  # https://drafts.csswg.org/css-images-3/#typedef-image
-  image-type:
-    - include: cross-fade-function
-    - include: gradient-functions
-    - include: image-function
-    - include: image-set-function
-    - include: url-function
+###[ PUNCTUATION ]#############################################################
+
+  comma-delimiters:
+    - match: ','
+      scope: punctuation.separator.sequence.css
+
+  block-end2:
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 2
+
+  group-end:
+    - match: \)
+      scope: punctuation.section.group.end.css
+      pop: 1
+
+  rule-terminators:
+    - match: ;
+      scope: punctuation.terminator.rule.css
+
+  illegal-blocks:
+    # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
+    - match: \{
+      scope: invalid.illegal.unexpected-token.css
+      push:
+        - match: \}
+          scope: invalid.illegal.unexpected-token.css
+          pop: 1
+    - match: \}
+      scope: invalid.illegal.unexpected-token.css
+
+  illegal-groups:
+    # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
+    - match: \(
+      scope: invalid.illegal.unexpected-token.css
+      push:
+        - match: \)
+          scope: invalid.illegal.unexpected-token.css
+          pop: 1
+    - match: \)
+      scope: invalid.illegal.unexpected-token.css
+
+###[ PROTOTYPES ]##############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+  terminator-pop:
+    - match: (?=[;){}])
+      pop: 1

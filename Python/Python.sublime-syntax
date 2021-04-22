@@ -117,87 +117,100 @@ contexts:
     - match: \b(import)\b
       scope: keyword.control.import.python
       push:
-        - meta_scope: meta.statement.import.python
-        - include: line-continuation-or-pop
-        - match: ','
-          scope: punctuation.separator.import-list.python
-        - match: \.
-          scope: invalid.illegal.unexpected-relative-import.python
-        - include: import-alias
-        - include: qualified-name
-        - match: (?=\S)
-          pop: true
+        - imports-import-body
+        - expect-absolute-import
     - match: \b(from)\b
       scope: keyword.control.import.from.python
       push:
-        - meta_scope: meta.statement.import.python
-        - meta_content_scope: meta.import-source.python
-        - include: line-continuation-or-pop
-        - match: \b(import)\b
+        - imports-from-body
+        - maybe-relative-import
+
+  imports-import-body:
+    - meta_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - match: ','
+      scope: punctuation.separator.import-list.python
+      push: expect-absolute-import
+    - match: (?=\bas\b)
+      set: import-alias-list
+    - include: qualified-name
+    - match: (?=\S)
+      pop: true
+
+  imports-from-body:
+    - meta_scope: meta.statement.import.python
+    - meta_content_scope: meta.import-source.python
+    - include: line-continuation-or-pop
+    - match: (?=\bas\b)
+      set: import-alias-list
+    - match: (?=\bimport\b)
+      set:
+        - meta_include_prototype: false
+        - match: import
           scope: keyword.control.import.python
+          set: imports-from-import-body
+    - match: '{{illegal_names}}\b'
+      scope: meta.import-path.python invalid.illegal.name.python
+    - match: '{{identifier}}'
+      scope: meta.import-path.python meta.import-name.python
+    - match: \s*(\.) *(?={{identifier}}|$)
+      captures:
+        0: meta.import-path.python
+        1: punctuation.accessor.dot.python
+    - match: \s*(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+      captures:
+        0: meta.import-path.python
+        1: invalid.illegal.name.python
+    - match: (?=\S)
+      pop: true
+
+  imports-from-import-body:
+    - meta_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - match: (?=\()
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.import-list.begin.python
           set:
-            - meta_scope: meta.statement.import.python
-            - include: line-continuation-or-pop
-            - match: ' *(\()'
-              captures:
-                1: punctuation.section.import-list.begin.python
-              set:
-                - meta_scope: meta.statement.import.python
-                - include: comments
-                - match: \)
-                  scope: punctuation.section.import-list.end.python
-                  pop: true
-                - include: import-name-list
-                - match: (?=\S)
-                  pop: true
-            - match: ''
-              set:
-                - meta_scope: meta.statement.import.python
-                - include: line-continuation-or-pop
-                - include: import-name-list
-                - match: (?=\S)
-                  pop: true
-            - match: (?=\S)
+            - meta_scope: meta.statement.import.python meta.import-list.python
+            - match: \)
+              scope: punctuation.section.import-list.end.python
               pop: true
-        - include: import-from-name
-        - match: (?=\S)
-          pop: true
+            - include: comments
+            - include: import-name-list
+    - match: (?=\S)
+      set: import-alias-list
+
+  import-alias-list:
+    - meta_content_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - include: import-name-list
 
   import-name-list:
     - match: ','
       scope: punctuation.separator.import-list.python
-    - include: import-alias
-    - include: name
     - match: \*
       scope: constant.language.import-all.python
-    - match: \S+
-      scope: invalid.illegal.name.import.python
-
-  import-alias:
     - match: \b(as)\b
       scope: keyword.control.import.as.python
+    - include: name
+    - match: '[^\s,)]+'
+      scope: invalid.illegal.name.import.python
 
-  import-from-name:
+  expect-absolute-import:
+    - include: line-continuation-or-pop
+    - match: \.+
+      scope: invalid.illegal.unexpected-relative-import.python
+    - match: (?=\S)
+      pop: true
+
+  maybe-relative-import:
+    - include: line-continuation-or-pop
     - match: \.+
       scope: meta.import-path.python keyword.control.import.relative.python
-    - match: (?={{path}})
-      push:
-        - meta_scope: meta.import-path.python
-        - match: '{{illegal_names}}\b'
-          scope: invalid.illegal.name.python
-        - match: '{{identifier}}'
-          scope: meta.import-name.python
-        - match: \s*(\.) *(?:({{illegal_names}}\b)|({{identifier}}))
-          captures:
-            1: punctuation.accessor.dot.python
-            2: invalid.illegal.name.python
-            3: meta.import-name.python
-        - match: \ *(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
-          captures:
-            1: invalid.illegal.name.python
-          pop: true
-        - match: ''
-          pop: true
+    - match: (?=\S)
+      pop: true
 
   block-statements:
     # async for ... in ...:
@@ -375,12 +388,7 @@ contexts:
     - match: '\s*(\()'
       captures:
         1: punctuation.section.arguments.begin.python
-      push:
-        - meta_scope: meta.function-call.arguments.python
-        - match: \)
-          scope: punctuation.section.arguments.end.python
-          pop: true
-        - include: arguments
+      push: [function-call-arguments, allow-unpack-operators]
     # item access
     - match: '\s*(\[)'
       captures:
@@ -427,52 +435,62 @@ contexts:
   numbers:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
     # hexadecimal
-    - match: \b(?i)(0x)\h*(L) # py2
-      scope: constant.numeric.integer.hexadecimal.python
+    - match: \b(0[xX])(\h*)([lL]) # py2
+      scope: meta.number.integer.hexadecimal.python
       captures:
-        1: punctuation.definition.numeric.base.python
-        2: storage.type.numeric.python
-    - match: \b(?i)(0x)(_?\h)+
-      scope: constant.numeric.integer.hexadecimal.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+        3: constant.numeric.suffix.python
+    - match: \b(0[xX])((?:_?\h)+)
+      scope: meta.number.integer.hexadecimal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
     # octal
-    - match: \b(?i)(0o?)(?=o|[0-7])[0-7]*(L) # py2
-      scope: constant.numeric.integer.octal.python
+    - match: \b(0[oO]?)((?=[oO]|[0-7])[0-7]*)([lL]) # py2
+      scope: meta.number.integer.octal.python
       captures:
-        1: punctuation.definition.numeric.base.python
-        2: storage.type.numeric.python
-    - match: \b(?i)(0)[0-7]+ # py2
-      scope: constant.numeric.integer.octal.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+        3: constant.numeric.suffix.python
+    - match: \b(0)([0-7]+) # py2
+      scope: meta.number.integer.octal.python
       captures:
-        1: punctuation.definition.numeric.base.python
-    - match: \b(?i)(0o)(_?[0-7])+
-      scope: constant.numeric.integer.octal.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+    - match: \b(0[oO])((?:_?[0-7])+)
+      scope: meta.number.integer.octal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
     # binary
-    - match: \b(?i)(0b)[01]*(L) # py2
-      scope: constant.numeric.integer.binary.python
+    - match: \b(0[bB])([01]*)([lL]) # py2
+      scope: meta.number.integer.binary.python
       captures:
-        1: punctuation.definition.numeric.base.python
-        2: storage.type.numeric.python
-    - match: \b(?i)(0b)(_?[01])*
-      scope: constant.numeric.integer.binary.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+        3: constant.numeric.suffix.python
+    - match: \b(0[bB])((?:_?[01])*)
+      scope: meta.number.integer.binary.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
     # complex
     - match: |-
-        (?x:
+        (?x)
+        (
           # 1.j, 1.1j, 1.1e1j, 1.1e-1j, 1.e1j, 1.e-1 | 1e1j, 1e-1j
           \b{{digits}} (\.)? {{digits}}? {{exponent}}?
           # .1j, .1e1j, .1e-1j
           | (\.) {{digits}} {{exponent}}?
-        )([jJ])
-      scope: constant.numeric.imaginary.decimal.python
+        )
+        ([jJ])
+      scope: meta.number.imaginary.decimal.python
       captures:
-        1: punctuation.separator.decimal.python
+        1: constant.numeric.value.python
         2: punctuation.separator.decimal.python
-        3: storage.type.numeric.python
+        3: punctuation.separator.decimal.python
+        4: constant.numeric.suffix.python
     # floating point
     - match: |-
         (?x:
@@ -481,17 +499,18 @@ contexts:
           # .1, .1e1, .1e-1
           | (\.) {{digits}} {{exponent}}?
         )
-      scope: constant.numeric.float.decimal.python
+      scope: meta.number.float.decimal.python constant.numeric.value.python
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
     # integer
-    - match: \b(?i)(?:[1-9]\d*|0)(L)\b # py2
-      scope: constant.numeric.integer.decimal.python
+    - match: \b([1-9]\d*|0)([lL])\b # py2
+      scope: meta.number.integer.decimal.python
       captures:
-        1: storage.type.numeric.python
-    - match: \b(?i)([1-9][\d_]*|0)\b
-      scope: constant.numeric.integer.decimal.python
+        1: constant.numeric.value.python
+        2: constant.numeric.suffix.python
+    - match: \b([1-9][\d_]*|0)\b
+      scope: meta.number.integer.decimal.python constant.numeric.value.python
 
   modifiers:
     - match: \b(?:(global)|(nonlocal))\b
@@ -541,6 +560,8 @@ contexts:
       scope: keyword.operator.logical.python
     - match: '@'
       scope: keyword.operator.matrix.python
+    - match: ','
+      scope: punctuation.separator.sequence.python
 
   allow-unpack-operators:
     # Match unpacking operators, if present
@@ -560,7 +581,7 @@ contexts:
   classes:
     - match: '^\s*(class)\b'
       captures:
-        1: storage.type.class.python keyword.declaration.class.python
+        1: keyword.declaration.class.python
       push:
         - meta_scope: meta.class.python
         - include: line-continuation-or-pop
@@ -609,8 +630,8 @@ contexts:
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
-        1: storage.modifier.async.python
-        2: storage.type.function.python keyword.declaration.function.python
+        1: keyword.declaration.async.python
+        2: keyword.declaration.function.python
       push:
         - meta_scope: meta.function.python
         - include: line-continuation-or-pop
@@ -704,22 +725,26 @@ contexts:
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
-    - match: '(?=->)'
-      set:
-        - meta_content_scope: meta.function.annotation.return.python
-        - match: ->
-          scope: punctuation.separator.annotation.return.python
-        - include: illegal-assignment-expression
-        - match: '(?=:)'
-          set: function-after-parameters
-        - include: line-continuation-or-pop
-        - include: expression-in-a-statement
+    - match: (?=->)
+      set: [function-return-type, function-return-type-separator]
+    - include: function-terminator
+
+  function-return-type:
+    - meta_content_scope: meta.function.annotation.return.python
+    - include: illegal-assignment-expression
+    - include: function-terminator
+    - include: expression-in-a-statement
+
+  function-return-type-separator:
+    - match: ->
+      scope: punctuation.separator.annotation.return.python
+      pop: true
+
+  function-terminator:
     - match: ':'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
-    - include: comments
-    - match: (?=\S)
-      pop: true
+    - include: line-continuation-or-pop
 
   decorators:
     - match: ^\s*(?=@)
@@ -732,7 +757,7 @@ contexts:
           pop: true
         - include: line-continuation-or-pop
         - match: (?=\.?\s*{{path}}\s*\() # now we do
-          set: [decorator-function-call-wrapper, qualified-name-until-leaf]
+          set: [after-expression, decorator-function-call-wrapper, qualified-name-until-leaf]
         - match: (?=\.?\s*{{path}})
           push: [decorator-wrapper, qualified-name-until-leaf]
         - match: \S
@@ -762,15 +787,10 @@ contexts:
     - meta_scope: meta.annotation.function.python
     - match: \)
       scope: punctuation.section.arguments.end.python
-      set: after-expression
+      pop: true
     - match: \(
       scope: meta.annotation.function.python punctuation.section.arguments.begin.python
-      push:
-        - clear_scopes: 1
-        - meta_content_scope: meta.annotation.arguments.python
-        - match: (?=\))
-          pop: true
-        - include: arguments
+      push: [decorator-function-call-arguments, allow-unpack-operators]
     - match: (\.)\s*
       captures:
         1: punctuation.accessor.dot.python
@@ -788,6 +808,13 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
+
+  decorator-function-call-arguments:
+    - clear_scopes: 1
+    - meta_content_scope: meta.annotation.arguments.python
+    - match: (?=\))
+      pop: true
+    - include: arguments
 
   item-access:
     - match: '(?={{path}}\s*\[)'
@@ -821,12 +848,7 @@ contexts:
       set:
         - match: \(
           scope: punctuation.section.arguments.begin.python
-          set:
-            - meta_scope: meta.function-call.arguments.python
-            - match: \)
-              scope: punctuation.section.arguments.end.python
-              set: after-expression
-            - include: arguments
+          set: [after-expression, function-call-arguments, allow-unpack-operators]
     - match: (\.)\s*(?={{identifier}})
       captures:
         1: punctuation.accessor.dot.python
@@ -844,6 +866,13 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
+
+  function-call-arguments:
+    - meta_scope: meta.function-call.arguments.python
+    - match: \)
+      scope: punctuation.section.arguments.end.python
+      pop: true
+    - include: arguments
 
   arguments:
     - include: keyword-arguments
@@ -870,11 +899,13 @@ contexts:
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
-      scope: storage.type.function.inline.python keyword.declaration.function.inline.python
+      scope:
+        meta.function.inline.python
+        storage.type.function.inline.python
+        keyword.declaration.function.inline.python
       push: [lambda-parameters, allow-unpack-operators]
 
   lambda-parameters:
-    - meta_scope: meta.function.inline.python
     - meta_content_scope: meta.function.inline.parameters.python
     - include: line-continuation-or-pop
     - match: '\:'
@@ -889,7 +920,7 @@ contexts:
             # or line-statement context at this point.
             # If we're in a group, the underlying context will take over
             # at the end of the line.
-            - match: (?=[,):])|$
+            - match: (?=[,:)}\]])|$
               pop: true
             - include: expression-in-a-statement
     - match: ','
@@ -1042,7 +1073,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.mapping.python
           set: inside-dictionary
-    - match: (?=for\b)
+    - match: (?=(?:async|for)\b)
       push:
         - match: (?=\})
           pop: true
@@ -1055,7 +1086,7 @@ contexts:
       push:
         - clear_scopes: 1
         - meta_content_scope: meta.mapping.value.python
-        - match: (?=\s*(\}|,|for\b))
+        - match: (?=\s*(\}|,|(?:async|for)\b))
           pop: true
         - include: expression-in-a-group
 
@@ -1084,38 +1115,46 @@ contexts:
   builtin-exceptions:
     - match: |-
         (?x)\b(
-        	(
-        		Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
-        		Connection(Aborted|Refused|Reset)?|EOF|Environment|FileExists|
-        		FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
-        		Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
-        		NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
-        		Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
-        		Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
-        	)Error|
-        	((Pending)?Deprecation|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
-        	(Base)?Exception|
-        	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
+          (?:
+            Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
+            Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
+            FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
+            Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
+            NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
+            Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
+            Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
+          )Error|
+          (?:(?:Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+          (?:Base)?Exception|
+          SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
       scope: support.type.exception.python
 
   builtin-functions:
     - match: |-
-        (?x)\b(
-        	__import__|all|abs|any|apply|ascii|bin|breakpoint|callable|chr|classmethod|cmp|coerce|
-        	compile|delattr|dir|divmod|enumerate|eval|exec|execfile|filter|format|getattr|
-        	globals|hasattr|hash|help|hex|id|input|intern|isinstance|issubclass|iter|
-        	len|locals|map|max|min|next|oct|open|ord|pow|print|property|range|
-        	raw_input|reduce|reload|repr|reversed|round|setattr|sorted|staticmethod|
-        	sum|super|type|unichr|vars|zip
+        (?x)\b(?:
+          __import__|all|abs|any|ascii|bin|callable|chr|classmethod|
+          compile|delattr|dir|divmod|enumerate|eval|filter|format|getattr|
+          globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|
+          len|locals|map|max|min|next|oct|open|ord|pow|property|range|
+          repr|reversed|round|setattr|sorted|staticmethod|
+          sum|super|type|vars|zip
+          # Python 2 functions
+          |apply|cmp|coerce|execfile|intern|raw_input|reduce|reload|unichr|xrange
+          # Python 3 functions
+          |breakpoint|exec|print
         )\b
       scope: support.function.builtin.python
 
   builtin-types:
     - match: |-
-        (?x)\b(
-        	basestring|bool|buffer|bytearray|bytes|complex|dict|float|frozenset|int|
-        	list|long|memoryview|object|range|set|slice|str|tuple|unicode|xrange
+        (?x)\b(?:
+          bool|bytearray|bytes|complex|dict|float|frozenset|int|
+          list|memoryview|object|set|slice|str|tuple
+          # Python 2 types
+          |basestring|long|unicode
+          # Python 2 types prone to conflicts
+          # |buffer|file
         )\b
       scope: support.type.python
 
@@ -1149,6 +1188,8 @@ contexts:
         - include: dotted-name
         - match: ''
           pop: true
+    - match: \.
+      scope: punctuation.accessor.dot.python
 
   qualified-name-until-leaf:
     # Push this together with another context to match a qualified name
@@ -1395,37 +1436,57 @@ contexts:
 
   formatting-syntax:
     # https://docs.python.org/3.6/library/string.html#formatstrings
+    # Technically allows almost every character for the key,
+    # but those are rarely used if ever.
     - match: |- # simple form
         (?x)
         (\{)
-          (?: [\w.\[\]]+)?             # field_name
-          (   ! [ars])?                # conversion
-          (   : (?:{{format_spec}}|    # format_spec OR
-                   [^}%]*%.[^}]*)      # any format-like string
+          (?: [\w.\[\]]+)?           # field_name
+          (   ! [ars])?              # conversion
+          (?: (:) ({{format_spec}}|  # format_spec OR
+                   [^}%]*%.[^}]*)    # any format-like string
           )?
         (\})
       scope: constant.other.placeholder.python
       captures:
         1: punctuation.definition.placeholder.begin.python
         2: storage.modifier.conversion.python
-        3: constant.other.format-spec.python
-        4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}"']+\{[^"']*\}) # complex (nested) form
+        3: punctuation.separator.format-spec.python
+        4: meta.format-spec.python constant.other.format-spec.python
+        5: punctuation.definition.placeholder.end.python
+    - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
+      branch_point: formatting-syntax-branch
+      branch:
+        - formatting-syntax-complex
+        - formatting-syntax-fallback
+
+  formatting-syntax-fallback:
+    - match: \{
+      scope: meta.debug.formatting-syntax-fallback.python
+      pop: true
+
+  formatting-syntax-complex:
+    - match: \{
       scope: punctuation.definition.placeholder.begin.python
-      push:
+      set:
         - meta_scope: constant.other.placeholder.python
         - match: \}
           scope: punctuation.definition.placeholder.end.python
           pop: true
-        - match: '[\w.\[\]]+'
+        # TODO could match numeric indices or everything else as a key
+        # and also [] indexing
         - match: '![ars]'
           scope: storage.modifier.conversion.python
         - match: ':'
+          scope: punctuation.separator.format-spec.python
           push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
             - match: (?=\})
               pop: true
-            - include: formatting-syntax
+            - match: (?=\{)
+              push: formatting-syntax-complex
+        - match: '[{"''\n]'
+          fail: formatting-syntax-branch
 
   f-string-content:
     # https://www.python.org/dev/peps/pep-0498/
@@ -1595,7 +1656,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1606,7 +1667,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1622,7 +1683,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
@@ -1915,7 +1976,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1926,7 +1987,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1942,7 +2003,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape

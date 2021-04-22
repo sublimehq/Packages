@@ -31,20 +31,20 @@ contexts:
         2: punctuation.accessor.dot.matlab
       push: transpose_post_parens
   all_matlab_comments:
-    - match: (%%).*$\n?
-      scope: comment.double.percentage.matlab
-      captures:
-        1: punctuation.definition.comment.matlab
-    - match: '^\s*(%\{)\s*\n'
+    - match: ^\s*(%\{)\s*\n
       captures:
         1: punctuation.definition.comment.matlab
       push:
         - meta_scope: comment.block.percentage.matlab
-        - match: '^\s*(%\})\s*$\n?'
+        - match: ^\s*(%\})\s*$\n?
           captures:
             1: punctuation.definition.comment.matlab
           pop: true
-    - match: (%).*$\n?
+    - match: (%%(?!%)).*\n?
+      scope: comment.line.double-percentage.matlab
+      captures:
+        1: punctuation.definition.comment.matlab
+    - match: (%+).*\n?
       scope: comment.line.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
@@ -113,8 +113,10 @@ contexts:
     - include: number
     - include: variable_invalid
     - include: operators
-    - match: \.\.\.
-      scope: punctuation.separator.continuation.matlab
+    - match: (\.\.\.)\s*(\S.*\n?)?
+      captures:
+        1: punctuation.separator.continuation.matlab
+        2: comment.line.matlab
   brackets:
     - match: '\['
       scope: punctuation.section.brackets.begin.matlab
@@ -434,9 +436,28 @@ contexts:
       comment: Not equal is written ~= not !=.
       scope: invalid.illegal.invalid-inequality.matlab
   number:
-    - match: '\d*\.?\d+([eE][+-]?\d)?([0-9&&[^\.]])*(i|j)?\b'
-      comment: "Valid numbers: 1, .1, 1.1, .1e1, 1.1e1, 1e1, 1i, 1j, 1e2j"
-      scope: constant.numeric.matlab
+    - match: '\b(0[xX])(\h+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+      scope: meta.number.integer.hexadecimal.matlab
+      captures:
+        1: constant.numeric.base.matlab
+        2: constant.numeric.value.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '\b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+      scope: meta.number.integer.binary.matlab
+      captures:
+        1: constant.numeric.base.matlab
+        2: constant.numeric.value.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '((?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?)(i|j)\b'
+      scope: meta.number.imaginary.decimal.matlab
+      captures:
+        1: constant.numeric.value.matlab
+        2: punctuation.separator.decimal.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?\b'
+      scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
+      captures:
+        1: punctuation.separator.decimal.matlab
   operators:
     - match: \s*(==|~=|~|>|>=|<|<=|=|&|&&|:|\||\|\||\+|-|\*|\.\*|/|\./|\\|\.\\|\^|\.\^)\s*
       comment: Operator symbols
