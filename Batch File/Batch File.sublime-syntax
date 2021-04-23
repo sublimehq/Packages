@@ -476,10 +476,16 @@ contexts:
     # https://ss64.com/nt/goto.html
     - match: (?i:goto){{keyword_break}}
       scope: keyword.control.flow.goto.dosbatch
-      push: ctl-goto-args
+      push:
+        - ctl-goto-meta
+        - ctl-goto-args
+
+  ctl-goto-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.command.goto.dosbatch
+    - include: immediatelly-pop
 
   ctl-goto-args:
-    - meta_scope: meta.command.goto.dosbatch
     - include: unquoted-eoc-pop
     - match: (:)(?i:(eof)){{cmd_break}}
       scope: variable.label.dosbatch
@@ -488,12 +494,15 @@ contexts:
         2: keyword.control.flow.return.dosbatch
       pop: 1
     - match: (:)?(?=\S)
-      scope: variable.label.dosbatch punctuation.definition.variable.dosbatch
-      set:
-        - meta_content_scope: meta.command.goto.dosbatch variable.label.dosbatch
-        - include: escaped-characters
-        - include: variables
-        - include: unquoted-eoc-pop
+      scope: punctuation.definition.variable.dosbatch
+      set: clt-goto-label
+
+  clt-goto-label:
+    - meta_scope: variable.label.dosbatch
+    - match: '{{cmd_break}}'
+      set: ignored-tail-outer
+    - include: escaped-characters
+    - include: variables
 
 ###[ CONTROL PAUSE ]##########################################################
 

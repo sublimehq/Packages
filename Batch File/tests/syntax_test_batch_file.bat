@@ -361,16 +361,18 @@ ECHO : Not a comment ^
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.label.dosbatch - keyword
+::     ^^^^^ variable.label.dosbatch - keyword
+::           ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    GOTO This is a #@$虎 strange label
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.label.dosbatch - keyword
+::      ^^^^ variable.label.dosbatch - keyword
+::           ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    GOTO This is^
    a #%@$虎 strange label
-:: ^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch variable.label.dosbatch - keyword
+:: ^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    GOTO %%i
 :: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.interpolation
