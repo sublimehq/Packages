@@ -17,6 +17,9 @@ variables:
   # ‘|’, ‘&’, ‘,’, ‘;’, ‘<’, or ‘>’.
   metachar: '[\s=,;{{command_terminator_chars}}]'
 
+  # Keywords
+  keyword_break: (?![^{{metachar}}(.:\\/])
+
   # Command names are non-posix identifiers
   cmd_begin: (?={{cmd_start}})
   cmd_break: (?!{{cmd_char}})
@@ -35,7 +38,7 @@ variables:
   label_comment: ':[^{{label_start}}]'
   label_name: '{{label_start}}{{label_char}}*'
   label_start: '[^\s+=,;:%!{{command_terminator_chars}}]'
-  label_char: '[^%!{{command_terminator_chars}}]'
+  label_char: '[^{{metachar}}(%!]'
 
   path_terminator_chars: '[\s,;"{{command_terminator_chars}}]'
   path_terminators: (?={{path_terminator_chars}})
@@ -87,9 +90,9 @@ variables:
     | dpath | erase | ftype | keys | md | mkdir | mklink | move | path
     | popd | prompt | pushd | ren | rename | rd | rmdir | set | shift | start
     | time | title | type | ver | verify | vol
-    )(?=[\s{{command_terminator_chars}}])
+    ){{keyword_break}}
 
-  operator_comparison: (?xi:equ | neq | lss | leq | gtr | geq)\b
+  operator_comparison: (?xi:equ | neq | lss | leq | gtr | geq){{keyword_break}}
 
 ###############################################################################
 
@@ -161,6 +164,7 @@ contexts:
       captures:
         1: entity.name.label.dosbatch
         2: punctuation.definition.label.dosbatch
+      push: ignored-tail-outer
 
 ###[ BLOCKS ]#################################################################
 
@@ -221,12 +225,12 @@ contexts:
 
   ctl-if:
     # https://ss64.com/nt/if.html
-    - match: (?i:if)\b
+    - match: (?i:if){{keyword_break}}
       scope: keyword.control.conditional.if.dosbatch
       push:
         - ctl-if-meta
         - ctl-if-condition
-    - match: (?i:else)\b
+    - match: (?i:else){{keyword_break}}
       scope: invalid.illegal.stray.dosbatch
 
   ctl-if-meta:
@@ -236,7 +240,7 @@ contexts:
 
   ctl-if-condition:
     - include: unquoted-eoc-pop
-    - match: (?i:(/)i)\b
+    - match: (?i:(/)i){{arg_break}}
       scope: variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
@@ -256,15 +260,15 @@ contexts:
 
   ctl-if-checks:
     - include: unquoted-eoc-pop
-    - match: (?i:errorlevel|cmdextversion)\b
+    - match: (?i:errorlevel|cmdextversion){{keyword_break}}
       scope: variable.language.dosbatch
       set:
         - maybe-operand
         - maybe-operator-equal
-    - match: (?i:exist)\b
+    - match: (?i:exist){{keyword_break}}
       scope: support.function.builtin.dosbatch
       set: path-pattern
-    - match: (?i:defined)\b
+    - match: (?i:defined){{keyword_break}}
       scope: support.function.builtin.dosbatch
       set: maybe-variable
     - match: (?=\S)
@@ -305,13 +309,13 @@ contexts:
     - include: else-pop
 
   maybe-operator-not:
-    - match: (?i:not)\b
+    - match: (?i:not){{keyword_break}}
       scope: keyword.operator.logical.dosbatch
       pop: 1
     - include: else-pop
 
   ctl-else:
-    - match: (?i:else)\b
+    - match: (?i:else){{keyword_break}}
       scope: keyword.control.conditional.else.dosbatch
       set: statement
     - include: expect-eoc
@@ -320,7 +324,7 @@ contexts:
 
   ctl-for:
     # https://ss64.com/nt/for.html
-    - match: \b(?i:for)\b
+    - match: (?i:for){{keyword_break}}
       scope: keyword.control.loop.for.dosbatch
       push:
         - ctl-for-meta
@@ -338,28 +342,28 @@ contexts:
 
   ctl-for-switches:
     # https://ss64.com/nt/for_d.html
-    - match: (?i:(/)d)\b
+    - match: (?i:(/)d){{arg_break}}
       scope: variable.parameter.dir.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
     # https://ss64.com/nt/for_l.html
-    - match: (?i:(/)l)\b
+    - match: (?i:(/)l){{arg_break}}
       scope: variable.parameter.range.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
     # https://ss64.com/nt/for_f.html
-    - match: (?i:(/)f)\b
+    - match: (?i:(/)f){{arg_break}}
       scope: variable.parameter.files.dosbatch
       push: ctl-for-maybe-f-args
       captures:
         1: punctuation.definition.variable.dosbatch
     # https://ss64.com/nt/for_r.html
-    - match: (?i:(/)r)\b
+    - match: (?i:(/)r){{arg_break}}
       scope: variable.parameter.recursive.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       push: path-pattern
-    - match: (?i:/\S+)\b
+    - match: (?i:/\S+){{arg_break}}
       scope: invalid.illegal.parameter.dosbatch
       pop: 1
     - include: else-pop
@@ -376,13 +380,13 @@ contexts:
     - include: string-common
     - match: =
       scope: keyword.operator.assignment.dosbatch
-    - match: \b(delims|eol|skip|tokens)\b
+    - match: (?:delims|eol|skip|tokens){{arg_break}}
       scope: constant.language.dosbatch
-    - match: \busebackq\b
+    - match: usebackq{{arg_break}}
       scope: constant.language.dosbatch
 
   ctl-for-parameter:
-    - match: (?=(?i:in|do)\b|\()
+    - match: (?=(?i:in|do){{keyword_break}}|\()
       pop: 1
     - match: '{{var_parameter}}'
       scope: variable.parameter.dosbatch
@@ -394,7 +398,7 @@ contexts:
       scope: invalid.illegal.parameter.dosbatch
 
   ctl-for-in:
-    - match: \b(?i:in)\b
+    - match: (?i:in){{keyword_break}}
       scope: keyword.operator.logical.dosbatch
       pop: 1
     - include: else-pop
@@ -416,7 +420,7 @@ contexts:
     - include: cmd-args-values
 
   ctl-for-do:
-    - match: \b(?i:do)\b
+    - match: (?i:do){{keyword_break}}
       scope: keyword.control.loop.do.dosbatch
       pop: 1
     - include: else-pop
@@ -425,7 +429,7 @@ contexts:
 
   ctl-call:
     # https://ss64.com/nt/call.html
-    - match: \b(?i:call)\b
+    - match: (?i:call){{keyword_break}}
       scope:
         meta.function-call.dosbatch
         keyword.control.flow.call.dosbatch
@@ -452,13 +456,13 @@ contexts:
 
   ctl-exit:
     # https://ss64.com/nt/exit.html
-    - match: \b(?i:exit)\b
+    - match: (?i:exit){{keyword_break}}
       scope: keyword.control.flow.exit.dosbatch
       push: ctl-exit-args
 
   ctl-exit-args:
     - meta_scope: meta.command.exit.dosbatch
-    - match: (?i:(/)b)\b
+    - match: (?i:(/)b){{arg_break}}
       scope: variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
@@ -470,14 +474,14 @@ contexts:
 
   ctl-goto:
     # https://ss64.com/nt/goto.html
-    - match: \b(?i:goto)\b
+    - match: (?i:goto){{keyword_break}}
       scope: keyword.control.flow.goto.dosbatch
       push: ctl-goto-args
 
   ctl-goto-args:
     - meta_scope: meta.command.goto.dosbatch
     - include: unquoted-eoc-pop
-    - match: (:)(?i:(eof))\b
+    - match: (:)(?i:(eof)){{cmd_break}}
       scope: variable.label.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
@@ -495,7 +499,7 @@ contexts:
 
   ctl-pause:
     # https://ss64.com/nt/pause.html
-    - match: \b(?i:pause)\b
+    - match: (?i:pause){{keyword_break}}
       scope: keyword.control.flow.pause.dosbatch
       push: ctl-pause-args
 
@@ -507,7 +511,7 @@ contexts:
 
   ctl-setlocal:
     # https://ss64.com/nt/setlocal.html
-    - match: \b(?i:setlocal)\b
+    - match: (?i:setlocal){{keyword_break}}
       scope: keyword.context.setlocal.dosbatch
       push: ctl-setlocal-args
 
@@ -517,7 +521,7 @@ contexts:
         \b(?xi:
           EnableDelayedExpansion | DisableDelayedExpansion |
           EnableExtensions | DisableExtensions
-        )\b
+        ){{arg_break}}
       scope: constant.language.dosbatch
     - include: expect-eoc
 
@@ -525,7 +529,7 @@ contexts:
 
   ctl-endlocal:
     # https://ss64.com/nt/endlocal.html
-    - match: \b(?i:endlocal)\b
+    - match: (?i:endlocal){{keyword_break}}
       scope: keyword.context.endlocal.dosbatch
       push: ctl-endlocal-args
 
@@ -668,7 +672,7 @@ contexts:
 
   cmd-echo:
     # https://ss64.com/nt/echo.html
-    - match: \b(?i:echo)\b
+    - match: (?i:echo){{keyword_break}}
       scope:
         meta.command.echo.dosbatch
         support.function.builtin.dosbatch
@@ -677,7 +681,7 @@ contexts:
   cmd-echo-args:
     - meta_content_scope: meta.command.echo.arguments.dosbatch
     - include: unquoted-eoc-pop
-    - match: \s*((/)\?)
+    - match: \s*((/)\?){{arg_break}}
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
@@ -691,7 +695,7 @@ contexts:
         meta.command.echo.dosbatch
         punctuation.separator.arguments.dosbatch
       set: cmd-echo-output
-    - match: \s+
+    - match: \s+(?!\^\n)
       scope: meta.command.echo.dosbatch
       set: cmd-echo-output
 
@@ -706,7 +710,7 @@ contexts:
 ###[ COMMAND MODE ]###########################################################
 
   cmd-mode:
-    - match: \b(?i:mode)\b
+    - match: (?i:mode){{keyword_break}}
       scope:
         meta.command.mode.dosbatch
         support.function.external.dosbatch
@@ -714,16 +718,16 @@ contexts:
 
   cmd-mode-args:
     - meta_content_scope: meta.command.mode.arguments.dosbatch
-    - match: \b(?i:COM\d+|CON|LPT\d+)(:|\b)
+    - match: (?i:COM\d+|CON|LPT\d+):?{{arg_break}}
       scope: variable.language.device.dosbatch
     # known option values
-    - match: \b(?i:on|off|hs|tg)\b
+    - match: (?i:on|off|hs|tg){{arg_break}}
       scope: constant.language.dosbatch
     # COM/LPT options
-    - match: \b(?i:BAUD|PARITY|DATA|STOP|to|xon|odsr|octs|dtr|rts|idsr)\b
+    - match: (?i:BAUD|PARITY|DATA|STOP|to|xon|odsr|octs|dtr|rts|idsr){{arg_break}}
       scope: variable.parameter.option.dosbatch
     # CON options
-    - match: \b(?i:CP|SELECT|COLS|LINES|RATE|DELAY)\b
+    - match: (?i:CP|SELECT|COLS|LINES|RATE|DELAY){{arg_break}}
       scope: variable.parameter.option.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
@@ -735,7 +739,7 @@ contexts:
 
   cmd-rem:
     # https://ss64.com/nt/rem.html
-    - match: \b(?i:rem)\b
+    - match: (?i:rem){{keyword_break}}
       scope: keyword.declaration.rem.dosbatch
       push: cmd-rem-body
 
@@ -753,7 +757,7 @@ contexts:
 
   cmd-set:
     # https://ss64.com/nt/set.html
-    - match: \b(?i:set)\b
+    - match: (?i:set){{keyword_break}}
       scope: support.function.builtin.dosbatch
       push:
         - cmd-set-meta
@@ -954,7 +958,7 @@ contexts:
     # SET /A "variable"=expression
     # SET /A "variable=expression"
     # SET /A variable=expression
-    - match: (?i:(/)a)\b
+    - match: (?i:(/)a){{arg_break}}
       scope: variable.parameter.expression.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
@@ -1075,7 +1079,7 @@ contexts:
 ###[ COMMAND SET /P ]#########################################################
 
   cmd-set-prompt:
-    - match: (?i:(/)p)\b
+    - match: (?i:(/)p){{arg_break}}
       scope: variable.parameter.prompt.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
@@ -1404,7 +1408,7 @@ contexts:
 ###[ COMMAND TITLE ]##########################################################
 
   cmd-title:
-    - match: \b(?i:title)\b
+    - match: (?i:title){{keyword_break}}
       scope:
         meta.command.title.dosbatch
         support.function.builtin.dosbatch
@@ -1413,12 +1417,12 @@ contexts:
   cmd-title-args:
     - meta_content_scope: meta.command.title.arguments.dosbatch
     - include: unquoted-eoc-pop
-    - match: \s*((/)\?)
+    - match: \s*((/)\?){{arg_break}}
       captures:
         1: variable.parameter.help.dosbatch
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
-    - match: \s*
+    - match: \s*(?!\^\n)
       scope: meta.command.title.dosbatch
       set: cmd-title-output
 
@@ -1454,7 +1458,7 @@ contexts:
 ###[ CONSTANTS ]##############################################################
 
   constants:
-    - match: \b(?i:nul)\b
+    - match: \b(?i:nul){{keyword_break}}
       scope: constant.language.null.dosbatch
 
   numbers:
@@ -1538,7 +1542,7 @@ contexts:
     - include: immediatelly-pop
 
   redirection-path:
-    - match: (?i:nul)\b
+    - match: (?i:nul){{keyword_break}}
       scope: constant.language.null.dosbatch
       pop: 1
     - match: \d\b

@@ -111,7 +111,8 @@ ECHO : Not a comment ^
 
   :This is a #@$虎 strange label
 ::^ punctuation.definition.label.dosbatch
-::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
+::^^^^^ entity.name.label.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
   :End
 ::^ punctuation.definition.label.dosbatch
@@ -303,6 +304,13 @@ ECHO : Not a comment ^
 ::                                    ^ keyword.operator.assignment.dosbatch
 ::                                     ^^ constant.numeric
 
+   CALL set-foo bar
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^^^^^ meta.function-call.identifier.dosbatch
+::             ^^^^ meta.function-call.arguments.dosbatch
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^^^^^^^ variable.function.dosbatch
+::              ^^^ meta.string.dosbatch string.unquoted.dosbatch
 
    EXIT
 :: ^^^^ meta.command.exit.dosbatch keyword.control.flow.exit.dosbatch
@@ -501,22 +509,26 @@ ECHO : Not a comment ^
 ::    ^^^ keyword.operator.logical.dosbatch
 ::        ^^^^^ support.function.builtin.dosbatch
 ::              ^^^^^^^^^^^^^ string.quoted.double.dosbatch
-
+   
    IF^
+:: ^^ - keyword.control.conditional
+::   ^^ punctuation.separator.continuation.line.dosbatch
+
+   IF ^
    NOT EXIST "C:\file.log"
 :: ^^^ keyword.operator.logical.dosbatch
 ::     ^^^^^ support.function.builtin.dosbatch
 ::           ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
-   IF^
-   NOT^
+   IF ^
+   NOT ^
    EXIST "C:\file.log"
 :: ^^^^^ support.function.builtin.dosbatch
 ::       ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
-   IF^
-   NOT^
-   EXIST^
+   IF ^
+   NOT ^
+   EXIST ^
    "C:\file.log"
 :: ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
@@ -655,7 +667,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^^^^ meta.block.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
 
-   IF^
+   IF ^
    /i
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^ variable.parameter.dosbatch
@@ -763,7 +775,7 @@ ECHO : Not a comment ^
 ::                                                              ^^^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::                                                              ^^ constant.character.escape.dosbatch
 
-   FOR^
+   FOR ^
    /D /r %%f IN (folder1, ..\folder2, C:\folder) DO command
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^ variable.parameter.dir.dosbatch
@@ -1533,12 +1545,12 @@ put arg1 arg2
 ::        ^ - keyword - variable - comment
 ::                    ^ - comment
 
-   ECHO^
+   ECHO ^
 :: ^^^^ meta.command.echo.dosbatch support.function.builtin.dosbatch
-::     ^^ meta.command.echo.arguments.dosbatch
-::     ^ punctuation.separator.continuation.line.dosbatch
+::     ^^^ meta.command.echo.arguments.dosbatch
+::      ^ punctuation.separator.continuation.line.dosbatch
 
-   ECHO^
+   ECHO ^
    /? ignored
 ::^^^^^^^^^^^ meta.command.echo.arguments.dosbatch
 :: ^ punctuation.definition.variable.dosbatch
@@ -1601,8 +1613,9 @@ put arg1 arg2
 
    ECHO ^
    do not break out of an echo with an escaped newline
-:: <- string.unquoted.dosbatch
-::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+:: <- meta.command.echo.dosbatch
+::^ meta.command.echo.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 ::                                                    ^ - meta.string - string
 ::    ^^^ - keyword.operator
 ::        ^^^^^ - support.function
@@ -3100,7 +3113,7 @@ put arg1 arg2
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch - variable
 
-   set^
+   set ^
    /p today=
 ::^^^^ meta.command.set.dosbatch - meta.prompt
 ::    ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch
@@ -3112,14 +3125,14 @@ put arg1 arg2
 ::    ^^^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch - variable
 
-   set /p^
+   set /p ^
    today=
 ::^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch
 ::       ^ - meta.command
 ::^^^^^^ variable.other.readwrite.dosbatch
 ::      ^ keyword.operator.assignment.dosbatch - variable
 
-   set /p^
+   set /p ^
    today^
    =
 :: ^ meta.command.set.dosbatch meta.prompt.dosbatch
@@ -3449,15 +3462,15 @@ put arg1 arg2
    :: line continuation not applied within quoted section
    set /p today=enter "a^
    date: " arguments || echo done
-:: ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+:: ^^^^ meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 
    :: even number of quotes in l-value
    :: line continuation not applied within quoted section
    set /p today=enter "a^
    date: arguments || echo done
-:: ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
-::      ^^^^^^^^^^ meta.function-call.arguments.dosbatch
+:: ^^^^ meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
+::     ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                ^^^^ - meta.command
 ::                    ^^^^^^^^^ meta.command.echo
 ::                              ^ - meta.command
@@ -3490,8 +3503,8 @@ put arg1 arg2
    :: content of following line has no effect
    set /p today="enter a^
    date: arguments || echo done
-:: ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
-::      ^^^^^^^^^^ meta.function-call.arguments.dosbatch
+:: ^^^^ meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
+::     ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                ^^^^ - meta.command
 ::                    ^^^^^^^^^ meta.command.echo
 ::                             ^ - meta.command
@@ -3503,8 +3516,8 @@ put arg1 arg2
    :: content of following line has no effect
    set /p today="enter a^
    date: " arguments || echo done
-:: ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+:: ^^^^ meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 
    :: even number of quotes in l-value
    :: quoted value
