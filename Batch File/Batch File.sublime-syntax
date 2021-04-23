@@ -143,7 +143,7 @@ contexts:
       pop: 1
 
   ignored-tail-inner:
-    - match: \s*(.*$\n?)
+    - match: \s*(.*)$
       captures:
         1: comment.line.ignored.dosbatch
       pop: 1

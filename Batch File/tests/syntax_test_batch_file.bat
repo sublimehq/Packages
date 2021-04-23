@@ -2528,7 +2528,8 @@ put arg1 arg2
    set "foo="bar" & echo !foo!
 :: ^^^^ meta.command.set.dosbatch
 ::     ^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
-::               ^^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::               ^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.string
+::                            ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.definition.string.begin.dosbatch
 ::      ^^^ variable.other.readwrite.dosbatch
@@ -2536,7 +2537,7 @@ put arg1 arg2
 ::          ^ - punctuation
 ::           ^^^ string.unquoted.dosbatch
 ::              ^ punctuation.definition.string.end.dosbatch
-::                ^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                ^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    set "foo="bar" & echo !foo!"
 :: ^^^^ meta.command.set.dosbatch
@@ -2658,7 +2659,8 @@ put arg1 arg2
 
    set "foo"=b"ar^
 ::     ^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
-::             ^^^^ meta.command.set.dosbatch comment.line.ignored.dosbatch - meta.string
+::             ^^^ meta.command.set.dosbatch comment.line.ignored.dosbatch - meta.string
+::                ^ - meta.command
 
    set "foo"=b"ar^
     b)a"z & echo !foo"
@@ -3273,7 +3275,8 @@ put arg1 arg2
 ::              ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                            ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                          ^ - meta.command
 ::              ^^^^^^^^ string.quoted.double.dosbatch
 ::              ^ punctuation.definition.string.begin.dosbatch
 ::                      ^^^^^^ - string
@@ -3376,7 +3379,8 @@ put arg1 arg2
 ::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                            ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                          ^ - meta.command
 ::               ^^^^^^^ string.quoted.double.dosbatch
 ::               ^ punctuation.definition.string.begin.dosbatch
 ::                      ^^^^^^ - string
@@ -3555,7 +3559,8 @@ put arg1 arg2
    set /p today="enter "a^
    date: " arguments || echo done
 :: ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::        ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                               ^ - meta.command
 :: ^^^^^^^ string.quoted.double.dosbatch
 ::       ^ punctuation.definition.string.end.dosbatch
 ::         ^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
@@ -3631,12 +3636,13 @@ put arg1 arg2
 ::               ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                     ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                           ^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                                           ^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                           ^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                        ^ - meta.command
 ::               ^^^^^^ string.unquoted.dosbatch
 ::                     ^^^^^^ - string
 ::                           ^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::                                           ^ punctuation.definition.prompt.end.dosbatch - string
-::                                             ^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                             ^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, even number of quotes in l-value
    :: quoted value with missing end quotation mark
@@ -3659,13 +3665,14 @@ put arg1 arg2
 ::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                            ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                          ^ - meta.command
 ::               ^^^^^^^ string.quoted.double.dosbatch
 ::               ^ punctuation.definition.string.begin.dosbatch
 ::                      ^^^^^^ - string
 ::                            ^^ string.quoted.double.dosbatch
 ::                             ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch
-::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, even number of quotes in l-value
    :: quoted value with even number of quotes, & ignoredd within quotes
@@ -3686,11 +3693,12 @@ put arg1 arg2
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                           ^ - meta.command
 ::               ^^^^^^^ string.quoted.double.dosbatch
 ::               ^ punctuation.definition.string.begin.dosbatch
 ::                     ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch 
-::                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
    
    :: quoted prompt, odd number of quotes in l-value
    :: unquoted value
@@ -3724,12 +3732,13 @@ put arg1 arg2
 ::                ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                            ^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                                           ^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                           ^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                        ^ - meta.command
 ::                ^^^^^^ string.unquoted.dosbatch
 ::                      ^^^^^^ - string
 ::                            ^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::                                           ^ punctuation.definition.prompt.end.dosbatch - string
-::                                             ^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                             ^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
    :: unquoted value with even number of literal quotes
@@ -3771,9 +3780,10 @@ put arg1 arg2
    :: quoted value with missing end quotation markd
    set /p "today"="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
-::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                        ^ - meta.command
 ::                ^ punctuation.definition.prompt.end.dosbatch - string
-::                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
    :: quoted value with even number of quotes, & applied outside quotes
@@ -3800,9 +3810,10 @@ put arg1 arg2
    :: quoted value with even number of quotes, & ignoredd within quotes
    set /p "today"="enter %date%: not a comment & echo done" text
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
-::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                              ^ - meta.command
 ::                ^ punctuation.definition.prompt.end.dosbatch - string
-::                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
    :: quoted value with odd number of quotes, & ignored within quotes
@@ -3812,13 +3823,14 @@ put arg1 arg2
 ::                ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                              ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                                            ^ - meta.command
 ::                ^^^^^^^^ string.quoted.double.dosbatch
 ::                ^ punctuation.definition.string.begin.dosbatch
 ::                        ^^^^^^ - string
 ::                              ^^ string.quoted.double.dosbatch
 ::                               ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch
-::                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
 
 :::: [ SET /P variable=promptString < redirection ]::::::::::::::::::::::::::::
