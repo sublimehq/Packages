@@ -354,9 +354,9 @@ contexts:
     # https://ss64.com/nt/for_f.html
     - match: (?i:(/)f){{arg_break}}
       scope: variable.parameter.files.dosbatch
-      push: ctl-for-maybe-f-args
       captures:
         1: punctuation.definition.variable.dosbatch
+      push: ctl-for-maybe-f-args
     # https://ss64.com/nt/for_r.html
     - match: (?i:(/)r){{arg_break}}
       scope: variable.parameter.recursive.dosbatch
