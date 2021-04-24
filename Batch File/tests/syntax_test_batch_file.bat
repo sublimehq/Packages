@@ -3976,28 +3976,32 @@ put arg1 arg2
 :::: [ TITLE ] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    title
-:: ^^^^^ meta.command.title.dosbatch support.function.builtin.dosbatch
+:: ^^^^^ meta.command.title.dosbatch meta.function-call.identifier.dosbatch
+:: ^^^^^ support.function.builtin.dosbatch
 ::      ^ - meta.command
 
    title Foo 123.5 bar
-:: ^^^^^^ meta.command.title.dosbatch
-::       ^^^^^^^^^^^^^ meta.command.title.arguments.dosbatch meta.string.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^ meta.command.title.dosbatch
+:: ^^^^^ meta.function-call.identifier.dosbatch
+::       ^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch meta.string.dosbatch
 ::                    ^ - meta.command - meta.string
 :: ^^^^^ support.function.builtin.dosbatch
 ::       ^^^^^^^^^^^^^ string.unquoted.dosbatch - constant
 ::                    ^ - string
 
    title:Foo
-:: ^^^^^ meta.command.title.dosbatch
-::      ^^^^ meta.command.title.arguments.dosbatch meta.string.dosbatch
+:: ^^^^^^^^^ meta.command.title.dosbatch
+:: ^^^^^ meta.function-call.identifier.dosbatch
+::      ^^^^ meta.function-call.arguments.dosbatch meta.string.dosbatch
 ::          ^ - meta.command - meta.string
 :: ^^^^^ support.function.builtin.dosbatch
 ::      ^^^^ string.unquoted.dosbatch - constant
 ::          ^ - string
 
    title /? ignored
-:: ^^^^^ meta.command.title.dosbatch
-::      ^^^^^^^^^^^ meta.command.title.arguments.dosbatch
+:: ^^^^^^^^^^^^^^^^ meta.command.title.dosbatch
+:: ^^^^^ meta.function-call.identifier.dosbatch
+::      ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 :: ^^^^^ support.function.builtin.dosbatch
 ::       ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
 ::        ^ variable.parameter.help.dosbatch - punctuation

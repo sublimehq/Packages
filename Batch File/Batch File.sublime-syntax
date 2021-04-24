@@ -1417,12 +1417,13 @@ contexts:
   cmd-title:
     - match: (?i:title){{keyword_break}}
       scope:
-        meta.command.title.dosbatch
+        meta.function-call.identifier.dosbatch
         support.function.builtin.dosbatch
       push: cmd-title-args
 
   cmd-title-args:
-    - meta_content_scope: meta.command.title.arguments.dosbatch
+    - meta_scope: meta.command.title.dosbatch
+    - meta_content_scope: meta.function-call.arguments.dosbatch
     - include: unquoted-eoc-pop
     - match: \s*((/)\?){{arg_break}}
       captures:
@@ -1430,12 +1431,12 @@ contexts:
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
     - match: \s*(?!\^\n)
-      scope: meta.command.title.dosbatch
       set: cmd-title-output
 
   cmd-title-output:
     - meta_content_scope:
-        meta.command.title.arguments.dosbatch
+        meta.command.title.dosbatch
+        meta.function-call.arguments.dosbatch
         meta.string.dosbatch string.unquoted.dosbatch
     - include: unquoted-eoc-pop
 
