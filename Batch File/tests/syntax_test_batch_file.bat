@@ -2155,32 +2155,32 @@ put arg1 arg2
 :::: [ MODE command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    mode
-:: ^^^^ meta.command.mode.dosbatch support.function.external.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch support.function.external.dosbatch
 ::     ^ - meta.command
 
    mode /? ignored
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 :: ^^^^ support.function.external.dosbatch
 ::      ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
 ::       ^ variable.parameter.help.dosbatch - punctuation
 ::         ^^^^^^^ comment.line.ignored.dosbatch
 
    mode con
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::         ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 
    mode con:
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::          ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 
    mode com1=lpt1
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::               ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 ::      ^^^^ variable.language.device.dosbatch
@@ -2188,8 +2188,8 @@ put arg1 arg2
 ::           ^^^^ variable.language.device.dosbatch
 
    mode com1:=lpt1:
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::                 ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 ::      ^^^^^ variable.language.device.dosbatch
@@ -2197,8 +2197,8 @@ put arg1 arg2
 ::            ^^^^^ variable.language.device.dosbatch
 
    mode com1: /status
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::                   ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 ::      ^^^^^ variable.language.device.dosbatch
@@ -2206,8 +2206,8 @@ put arg1 arg2
 ::             ^^^^^^ variable.parameter.option.dosbatch - punctuation
 
    mode com1: baud=9600 parity=1 xon=on dtr=hs
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::                                            ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 ::      ^^^^^ variable.language.device.dosbatch
@@ -2225,8 +2225,8 @@ put arg1 arg2
 ::                                          ^^ constant.language.dosbatch
 
    mode con cols=98 lines=30 rate=40 delay=20
-:: ^^^^ meta.command.mode.dosbatch
-::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+:: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 ::                                           ^ - meta.command
 :: ^^^^ support.function.external.dosbatch
 ::      ^^^ variable.language.device.dosbatch

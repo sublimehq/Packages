@@ -718,12 +718,13 @@ contexts:
   cmd-mode:
     - match: (?i:mode){{keyword_break}}
       scope:
-        meta.command.mode.dosbatch
+        meta.function-call.identifier.dosbatch
         support.function.external.dosbatch
       push: cmd-mode-args
 
   cmd-mode-args:
-    - meta_content_scope: meta.command.mode.arguments.dosbatch
+    - meta_scope: meta.command.mode.dosbatch
+    - meta_content_scope: meta.function-call.arguments.dosbatch
     - match: (?i:COM\d+|CON|LPT\d+):?{{arg_break}}
       scope: variable.language.device.dosbatch
     # known option values
