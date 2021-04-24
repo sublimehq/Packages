@@ -337,7 +337,7 @@ contexts:
 
   ctl-for-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.for.dosbatch
+    - meta_scope: meta.statement.loop.for.dosbatch
     - include: immediatelly-pop
 
   ctl-for-switches:
