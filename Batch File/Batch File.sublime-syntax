@@ -684,11 +684,12 @@ contexts:
     - match: (?i:echo){{keyword_break}}
       scope:
         meta.command.echo.dosbatch
+        meta.function-call.identifier.dosbatch
         support.function.builtin.dosbatch
       push: cmd-echo-args
 
   cmd-echo-args:
-    - meta_content_scope: meta.command.echo.arguments.dosbatch
+    - meta_content_scope: meta.command.echo.dosbatch meta.function-call.arguments.dosbatch
     - include: unquoted-eoc-pop
     - match: \s*((/)\?){{arg_break}}
       captures:
@@ -700,18 +701,14 @@ contexts:
         1: constant.language.dosbatch
       push: ignored-tail-outer
     - match: '[.:]'
-      scope:
-        meta.command.echo.dosbatch
-        punctuation.separator.arguments.dosbatch
+      scope: punctuation.separator.arguments.dosbatch
       set: cmd-echo-output
     - match: \s+(?!\^\n)
-      scope: meta.command.echo.dosbatch
       set: cmd-echo-output
 
   cmd-echo-output:
-    - meta_content_scope:
-        meta.command.echo.output.dosbatch
-        meta.string.dosbatch string.unquoted.dosbatch
+    - meta_scope: meta.command.echo.dosbatch meta.function-call.arguments.dosbatch
+    - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
     - include: cmd-args-quoted
     - include: escapes-and-interpolations
     - include: unquoted-eoc-pop
