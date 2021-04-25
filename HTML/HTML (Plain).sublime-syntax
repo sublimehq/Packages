@@ -148,6 +148,7 @@ contexts:
         - doctype-name
 
   doctype-end:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.sgml.doctype.html
     - include: tag-end
 
@@ -229,21 +230,31 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   tag-html:
-    - match: </?(?=[A-Za-z])
+    - match: <(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-html-content
+        - tag-html-opening
+        - tag-html-name
+    - match: </(?=[A-Za-z])
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - tag-html-closing
         - tag-html-name
 
   tag-html-name:
-      - meta_content_scope: entity.name.tag.html
-      - match: '{{tag_name_break}}'
-        pop: 1
+    - meta_content_scope: entity.name.tag.html
+    - match: '{{tag_name_break}}'
+      pop: 1
 
-  tag-html-content:
-      - meta_scope: meta.tag.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
+  tag-html-opening:
+    - meta_scope: meta.tag.html.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
+
+  tag-html-closing:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.html.end.html
+    - include: tag-end
 
 ###[ ATTRIBUTES ]#############################################################
 
