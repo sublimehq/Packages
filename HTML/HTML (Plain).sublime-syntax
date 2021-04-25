@@ -145,16 +145,15 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: keyword.declaration.doctype.html
       push:
-        - doctype-meta
+        - doctype-end
         - doctype-content
         - doctype-content-type
         - doctype-name
 
-  doctype-meta:
+  doctype-end:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.sgml.doctype.html
-    - match: '>'
-      scope: punctuation.definition.tag.end.html
-      pop: 1
+    - include: tag-end
 
   doctype-name:
     - match: '{{tag_name}}'
@@ -234,21 +233,31 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   tag-html:
-    - match: </?(?=[A-Za-z])
+    - match: <(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-html-content
+        - tag-html-opening-content
+        - tag-html-name
+    - match: </(?=[A-Za-z])
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - tag-html-closing-content
         - tag-html-name
 
   tag-html-name:
-      - meta_content_scope: entity.name.tag.html
-      - match: '{{tag_name_break}}'
-        pop: 1
+    - meta_content_scope: entity.name.tag.html
+    - match: '{{tag_name_break}}'
+      pop: 1
 
-  tag-html-content:
-      - meta_scope: meta.tag.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
+  tag-html-opening-content:
+    - meta_scope: meta.tag.html.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
+
+  tag-html-closing-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.html.end.html
+    - include: tag-end
 
 ###[ ATTRIBUTES ]#############################################################
 

@@ -846,7 +846,7 @@ class="foo"></div>
         ##        ^^^^ entity.name.tag.inline.html
         ##              ^^^^^^^^ entity.name.tag.other.html
         ##                                           ^ - punctuation.definition.tag.end.html
-        ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
+        ##                                            ^^ punctuation.definition.tag.end.html
 
         <body·other attrib=1/>
         ## ^^^^^^^^ entity.name.tag.other.html
@@ -879,9 +879,9 @@ class="foo"></div>
         ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.other.html - invalid
+        ##^^^^^^^^^^^^^^^^ meta.tag.other.begin.html - invalid
         ##              ^^ punctuation.definition.tag.end.html
-        ##                ^ - meta.tag.other.html - punctuation.definition.tag.end.html
+        ##                ^ - meta.tag - punctuation.definition.tag
 
         <body-custom·tag₡name/>
         ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
@@ -904,7 +904,7 @@ class="foo"></div>
         ## ^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
 
         <A{{template}} {{attr}}={{value}} />
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.begin.html
         ## ^^^^^^^^^^^ entity.name.tag.other.html
         ##             ^^^^^^^^ entity.other.attribute-name.html
         ##                     ^ punctuation.separator.key-value.html

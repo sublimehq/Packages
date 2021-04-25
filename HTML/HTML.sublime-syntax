@@ -240,6 +240,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.block.end.html
         - include: tag-end
 
@@ -265,6 +266,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.form.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.form.end.html
         - include: tag-end
 
@@ -290,6 +292,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.inline.end.html
         - include: tag-end
 
@@ -307,6 +310,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.structure.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.structure.end.html
         - include: tag-end
 
@@ -332,27 +336,38 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.table.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.table.end.html
         - include: tag-end
 
 ###[ OTHER TAG ]##############################################################
 
   tag-other:
-    - match: </?(?=[A-Za-z])
+    - match: <(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-other-content
+        - tag-other-opening-content
+        - tag-other-name
+    - match: </(?=[A-Za-z])
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - tag-other-closing-content
         - tag-other-name
 
   tag-other-name:
-      - meta_content_scope: entity.name.tag.other.html
-      - match: '{{tag_name_break}}'
-        pop: 1
+    - meta_content_scope: entity.name.tag.other.html
+    - match: '{{tag_name_break}}'
+      pop: 1
 
-  tag-other-content:
-      - meta_scope: meta.tag.other.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
+  tag-other-opening-content:
+    - meta_scope: meta.tag.other.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
+
+  tag-other-closing-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.end.html
+    - include: tag-end
 
 ###[ SCRIPT TAG ]#############################################################
 
