@@ -31,7 +31,6 @@ variables:
     | {{html_script_tags}}
     | {{html_web_tags}}
     | {{html_header_tags}}
-    | {{html_deprecated_tags}}
     )
 
   html_block_tags_selfclosing: |-
@@ -177,6 +176,7 @@ contexts:
         | ({{html_table_tags}})
         | ({{html_forms_tags}})
         | ({{html_structure_tags}})
+        | ({{html_deprecated_tags}})
         )
       captures:
         1: punctuation.definition.tag.begin.html
@@ -185,6 +185,7 @@ contexts:
         4: entity.name.tag.table.html
         5: entity.name.tag.form.html
         6: entity.name.tag.structure.html
+        7: entity.name.tag.deprecated.html
       push: tag-html-any-closing-attributes
 
   tag-html-any-closing-attributes:
@@ -226,6 +227,8 @@ contexts:
         | ({{html_block_tags_selfclosing}})
         | ({{html_table_tags_selfclosing}})
         | ({{html_forms_tags_selfclosing}})
+        # don't highlight illegal self-closing punctuation
+        | ({{html_deprecated_tags}})
         )
       captures:
         1: punctuation.definition.tag.begin.html
@@ -233,6 +236,7 @@ contexts:
         3: entity.name.tag.block.html
         4: entity.name.tag.table.html
         5: entity.name.tag.form.html
+        6: entity.name.tag.deprecated.html
       push: tag-html-any-selfclosing-attributes
 
   tag-html-any-selfclosing-attributes:
