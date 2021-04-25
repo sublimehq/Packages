@@ -64,10 +64,8 @@ contexts:
       captures:
         1: punctuation.definition.comment.json
   constant:
-    - match: \bfalse\b
-      scope: constant.language.boolean.false.json
-    - match: \btrue\b
-      scope: constant.language.boolean.true.json
+    - match: \b(?:false|true)\b
+      scope: constant.language.boolean.json
     - match: \bnull\b
       scope: constant.language.null.json
 

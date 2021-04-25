@@ -5,7 +5,7 @@
   "bool": false,
 //^^^^^^ meta.mapping.key.json
 //^^^^^^^^^^^^^^ - meta.mapping meta.mapping
-//        ^^^^^ constant.language.boolean.false.json
+//        ^^^^^ constant.language.boolean.json
 
   "null": null,
 //^^^^^^ meta.mapping.key.json
