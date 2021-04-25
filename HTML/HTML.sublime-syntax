@@ -350,10 +350,7 @@ contexts:
           captures:
             1: punctuation.definition.tag.begin.html
             2: entity.name.tag.block.html
-          set:
-            - meta_scope: meta.tag.html.closing.html
-            - include: tag-end
-            - include: tag-attributes
+          set: tag-html-any-closing-content
 
   script-common:
     - include: script-type-attribute
@@ -436,10 +433,7 @@ contexts:
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.html
-      set:
-        - meta_scope: meta.tag.html.closing.html
-        - include: tag-end
-        - include: tag-attributes
+      set: tag-html-any-closing-content
 
   style-common:
     - include: style-type-attribute
