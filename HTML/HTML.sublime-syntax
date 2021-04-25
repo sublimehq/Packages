@@ -378,11 +378,11 @@ contexts:
     - match: (<)((?i:style)){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
+        2: entity.name.tag.block.html
       push: style-css
 
   style-css:
-    - meta_scope: meta.tag.style.begin.html
+    - meta_scope: meta.tag.html.opening.html
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
@@ -397,7 +397,7 @@ contexts:
       escape: '{{style_close_lookahead}}'
 
   style-other:
-    - meta_scope: meta.tag.style.begin.html
+    - meta_scope: meta.tag.html.opening.html
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-close-tag
@@ -407,9 +407,9 @@ contexts:
     - match: (</)((?i:style){{tag_name_break}})
       captures:
         1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
+        2: entity.name.tag.block.html
       set:
-        - meta_scope: meta.tag.style.end.html
+        - meta_scope: meta.tag.html.closing.html
         - include: tag-end
         - include: tag-attributes
 
@@ -422,11 +422,11 @@ contexts:
     - match: (?i:type){{attribute_name_break}}
       scope: entity.other.attribute-name.html
       set:
-        - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+        - meta_scope: meta.tag.html.opening.html meta.attribute-with-value.html
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+            - meta_content_scope: meta.tag.html.opening.html meta.attribute-with-value.html
             - include: style-type-decider
         - match: (?=\S)
           set: style-css

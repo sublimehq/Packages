@@ -113,8 +113,8 @@
         ## <- meta.tag.html.closing.html punctuation.definition.tag.end.html
 
         <style type="text/css"> <!--
-        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
-        ## ^ entity.name.tag.style.html
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.html.opening.html
+        ## ^ entity.name.tag.block.html
         ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
         ##      ^ entity.other.attribute-name
         ##                     ^ - meta.tag
@@ -127,8 +127,8 @@
             }
         --> </style>
         ## <- - comment
-        ##  ^^^^^^^^ meta.tag.style.end.html - source.css.embedded.html
-        ##    ^^^^^ entity.name.tag.style.html
+        ##  ^^^^^^^^ meta.tag.html.closing.html - source.css.embedded.html
+        ##    ^^^^^ entity.name.tag.block.html
         ##          ^ - meta.tag
 
         <style
@@ -146,12 +146,12 @@
             div {}
         ##  ^^^^^^ - source.css
         </style
-        ##^^^^^ meta.tag.style.end.html entity.name.tag.style.html
+        ##^^^^^ meta.tag.html.closing.html entity.name.tag.block.html
         >
-        ## <- meta.tag.style.end.html punctuation.definition.tag.end.html
+        ## <- meta.tag.html.closing.html punctuation.definition.tag.end.html
         <style />
         ##       ^ - source.css.embedded.html
-        ## ^ meta.tag.style entity.name.tag.style
+        ## ^ meta.tag.html.opening.html entity.name.tag.block.html
         <script />
         ##        ^ - source.js.embedded.html
         ## ^ meta.tag.html.opening.html entity.name.tag.block.html
