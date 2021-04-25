@@ -1524,9 +1524,10 @@ contexts:
   disable-markdown-pop-at-tag:
     - match: (</)(\1)(>)
       captures:
-        1: meta.tag.block.any.html punctuation.definition.tag.begin.html
-        2: meta.tag.block.any.html entity.name.tag.block.any.html
-        3: meta.tag.block.any.html punctuation.definition.tag.end.html
+        0: meta.tag.html.closing.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.block.html
+        3: punctuation.definition.tag.end.html
       pop: true
     - include: disable-markdown
   disable-markdown-pop-after-tag:

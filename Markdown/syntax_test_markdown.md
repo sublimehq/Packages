@@ -325,7 +325,7 @@ non-disabled markdown
 <div>this is HTML until there are two blank lines
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
 still <span>HTML</span>
-|      ^^^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+|      ^^^^ entity.name.tag.inline.html
 </div>
 | ^^^^ meta.disable-markdown
 
@@ -333,14 +333,14 @@ non-disabled markdown
 | <- - meta.disable-markdown
 
 <pre>nested tags don't count <pre>test</pre>
-|                                     ^^^^^^ meta.disable-markdown meta.tag.block.any.html
+|                                     ^^^^^^ meta.disable-markdown meta.tag.html.closing.html
 non-disabled markdown
 | <- - meta.disable-markdown
 
 <div>nested tags don't count <div>test
 |                                 ^^^^^ meta.disable-markdown
 </div>
-| ^^^ meta.disable-markdown entity.name.tag.block.any.html
+| ^^^ meta.disable-markdown entity.name.tag.block.html
 
 non-disabled markdown
 | <- - meta.disable-markdown
@@ -355,7 +355,8 @@ non-disabled markdown
 
 <div>another</div> <span>disable</span> test
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
-|                  ^^^^^^ meta.tag.inline.any.html
+|                  ^^^^^^ meta.tag.html.opening.html
+|                               ^^^^^^^ meta.tag.html.closing.html
 disabled markdown
 | <- meta.disable-markdown
 
@@ -646,7 +647,7 @@ because it doesn't begin with the number one:
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
-|          ^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html
+|          ^^^^^^^^^^^^^^^^^^^ meta.tag.html
  3. [see `demo`](#demo "demo")
 | ^ punctuation.definition.list_item
 |   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
@@ -709,38 +710,38 @@ because it doesn't begin with the number one:
 *italic text <span>HTML element</span> end of italic text*
 | <- punctuation.definition.italic
 |                                                        ^ punctuation.definition.italic
-|            ^^^^^^ meta.tag.inline.any.html
-|                              ^^^^^^^ meta.tag.inline.any.html
+|            ^^^^^^ meta.tag.html.opening.html
+|                              ^^^^^^^ meta.tag.html.closing.html
 
 _italic text <SPAN>HTML element</SPAN> end of italic text_
 | <- punctuation.definition.italic
 |                                                        ^ punctuation.definition.italic
-|            ^^^^^^ meta.tag.inline.any.html
-|                              ^^^^^^^ meta.tag.inline.any.html
+|            ^^^^^^ meta.tag.html.opening.html
+|                              ^^^^^^^ meta.tag.html.closing.html
 
 **bold text <span>HTML element</span> end of bold text**
 | <- punctuation.definition.bold
 |                                                     ^^ punctuation.definition.bold
-|           ^^^^^^ meta.tag.inline.any.html
-|                             ^^^^^^^ meta.tag.inline.any.html
+|           ^^^^^^ meta.tag.html.opening.html
+|                             ^^^^^^^ meta.tag.html.closing.html
 
 __bold text <span>HTML element</span> end of bold text__
 | <- punctuation.definition.bold
 |                                                     ^^ punctuation.definition.bold
-|           ^^^^^^ meta.tag.inline.any.html
-|                             ^^^^^^^ meta.tag.inline.any.html
+|           ^^^^^^ meta.tag.html.opening.html
+|                             ^^^^^^^ meta.tag.html.closing.html
 
 *italic text <span>HTML element</span> end of italic text*
 | <- punctuation.definition.italic
 |                                                        ^ punctuation.definition.italic
-|            ^^^^^^ meta.tag.inline.any.html
-|                              ^^^^^^^ meta.tag.inline.any.html
+|            ^^^^^^ meta.tag.html.opening.html
+|                              ^^^^^^^ meta.tag.html.closing.html
 
 _italic text <span>HTML element</span> end of italic text_
 | <- punctuation.definition.italic
 |                                                        ^ punctuation.definition.italic
-|            ^^^^^^ meta.tag.inline.any.html
-|                              ^^^^^^^ meta.tag.inline.any.html
+|            ^^^^^^ meta.tag.html.opening.html
+|                              ^^^^^^^ meta.tag.html.closing.html
 
 [link [containing] [square] brackets](#backticks)
 |<- punctuation.definition.link.begin
@@ -758,7 +759,7 @@ _italic text <span>HTML element</span> end of italic text_
 |                                                     ^^ punctuation.definition.raw.end
 |                                                       ^ punctuation.definition.link.end
 `inline markup <span></span>`
-|              ^^^^^^^^^^^^^ markup.raw.inline - meta.tag.inline.any.html
+|              ^^^^^^^^^^^^^ markup.raw.inline - meta.tag.html.opening.html
 escaped backtick \`this is not code\`
 |                ^^ constant.character.escape
 |                                  ^^ constant.character.escape
@@ -785,7 +786,7 @@ http://spec.commonmark.org/0.28/#example-324
 
 http://spec.commonmark.org/0.28/#example-325
 <a href="`">`
-| ^^^^^^^^^ meta.tag.inline.a
+| ^^^^^^^^^^ meta.tag.html.opening.html
 |           ^ punctuation.definition.raw.begin
 
 | <- invalid.illegal.non-terminated.raw
@@ -1673,7 +1674,7 @@ abc
 | --- | --- |
 | baz | bim <kbd>Ctrl+C</kbd> |
 | <- meta.block-level meta.table punctuation.separator.table-cell
-|           ^^^^^ meta.tag.inline.any
+|           ^^^^^ meta.tag.html.opening.html
 |                             ^ punctuation.separator.table-cell
 
 | <- - meta.block-level - meta.table
@@ -1858,7 +1859,7 @@ http://spec.commonmark.org/0.28/#example-120
 | ^^^^^^^ meta.paragraph markup.italic - meta.disable-markdown
 
 </DIV>
-| ^^^ meta.disable-markdown meta.tag.block.any.html
+| ^^^ meta.disable-markdown meta.tag.html.closing.html
 
 http://spec.commonmark.org/0.28/#example-127
 
@@ -1886,18 +1887,18 @@ http://spec.commonmark.org/0.28/#example-131
 *bar*
 |^^^^^ meta.disable-markdown
 </Warning>
-| ^^^^^^^ meta.disable-markdown meta.tag.other.html entity.name.tag.other.html
+| ^^^^^^^ meta.disable-markdown meta.tag.other.closing.html entity.name.tag.other.html
 
 http://spec.commonmark.org/0.28/#example-135
 
 <del>
-| ^^ meta.disable-markdown meta.tag.inline.any.html entity.name.tag.inline.any.html
+| ^^ meta.disable-markdown meta.tag.html.opening.html entity.name.tag.inline.html
 
 *foo*
 | ^^ meta.paragraph markup.italic
 
 </del>
-| ^^^ meta.disable-markdown meta.tag.inline.any.html entity.name.tag.inline.any.html
+| ^^^ meta.disable-markdown meta.tag.html.closing.html entity.name.tag.inline.html
 
 <del>
 *foo*
@@ -1907,15 +1908,15 @@ http://spec.commonmark.org/0.28/#example-135
 http://spec.commonmark.org/0.28/#example-136
 
 <del>*foo*</del>
-| ^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+| ^^ meta.tag.html.opening.html entity.name.tag.inline.html
 |    ^^^^^ markup.italic
-|           ^^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+|           ^^^ meta.tag.html.closing.html entity.name.tag.inline.html
 |^^^^^^^^^^^^^^^ meta.paragraph - meta.disable-markdown
 
 http://spec.commonmark.org/0.28/#example-137
 
 <pre language="haskell"><code>
-| ^^ meta.disable-markdown meta.tag.block.any.html entity.name.tag.block.any.html
+| ^^ meta.disable-markdown meta.tag.html.opening.html entity.name.tag.block.html
 import Text.HTML.TagSoup
 
 main :: IO ()
@@ -1923,21 +1924,21 @@ main :: IO ()
 main = print $ parseTags tags
 </code></pre>
 | ^^^^^^^^^^^ meta.disable-markdown
-|        ^^^ meta.tag.block.any.html entity.name.tag.block.any.html
+|        ^^^ meta.tag.html.closing.html entity.name.tag.block.html
 okay
 | <- - meta.disable-markdown
 
 http://spec.commonmark.org/0.28/#example-138
 
 <script type="text/javascript">
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.script.begin.html
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.html.opening.html
 // JavaScript example
 | ^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown source.js.embedded.html comment.line.double-slash.js
 
 document.getElementById("demo").innerHTML = "Hello JavaScript!";
 | ^^^^^^ meta.disable-markdown source.js.embedded.html support.type.object.dom.js
 </script>
-| ^^^^^^ meta.disable-markdown meta.tag.script.end.html entity.name.tag.script.html
+| ^^^^^^ meta.disable-markdown meta.tag.html.closing.html entity.name.tag.block.html
 okay
 | <- - meta.disable-markdown
 
@@ -1945,14 +1946,14 @@ http://spec.commonmark.org/0.28/#example-139
 
 <style
   type="text/css">
-| ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.style.begin.html meta.attribute-with-value.html
+| ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.html.opening.html meta.attribute-with-value.html
 h1 {color:red;}
 |   ^^^^^ meta.disable-markdown source.css.embedded.html meta.property-list.css meta.property-name.css support.type.property-name.css
 
 p {color:blue;}
 |  ^^^^^ meta.disable-markdown source.css.embedded.html meta.property-list.css meta.property-name.css support.type.property-name.css
 </style>
-| ^^^^^ meta.disable-markdown meta.tag.style.end.html entity.name.tag.style.html
+| ^^^^^ meta.disable-markdown meta.tag.html.closing.html entity.name.tag.block.html
 okay
 | <- - meta.disable-markdown
 
@@ -2103,7 +2104,7 @@ var_dump(expression);
 
 ```html+php
 <div></div>
-|^^^ entity.name.tag.block.any.html
+|^^^ entity.name.tag.block.html
 <?php
 |^^^^ punctuation.section.embedded.begin.php
 var_dump(expression);
