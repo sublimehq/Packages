@@ -1,38 +1,38 @@
 %YAML 1.2
 ---
 name: CSS (for PHP)
-hidden: true
 scope: source.css.php
 version: 2
+hidden: true
 
 extends: Packages/CSS/CSS.sublime-syntax
 
 contexts:
   prototype:
     - meta_prepend: true
-    - include: php-tag-start
+    - include: php-embedded
 
-  php-tag-start:
+  php-embedded:
     - match: <\?(?i:php|=)?(?![^?]*\?>)
       scope: punctuation.section.embedded.begin.php
-      push:
-        - meta_scope: meta.embedded.block.php
-        - meta_content_scope: source.php.embedded.css
-        - include: php-end-tag-pop
-        - include: scope:source.php
-          apply_prototype: true
+      push: php-embedded-block
     - match: <\?(?i:php|=)?
       scope: punctuation.section.embedded.begin.php
-      push:
-        - meta_scope: meta.embedded.line.php
-        - meta_content_scope: source.php.embedded.css
-        - include: php-end-tag-pop
-        - include: scope:source.php
-          apply_prototype: true
+      push: php-embedded-line
 
-  php-end-tag-pop:
-    - match: (\?>)(\s*\n)?
-      captures:
-        1: punctuation.section.embedded.end.php
-        2: meta.css-newline-after-php.php
+  php-embedded-block:
+    - meta_scope: meta.embedded.block.php
+    - meta_content_scope: source.php.embedded.css
+    - include: php-embedded-content
+
+  php-embedded-line:
+    - meta_scope: meta.embedded.line.php
+    - meta_content_scope: source.php.embedded.css
+    - include: php-embedded-content
+
+  php-embedded-content:
+    - match: \?>
+      scope: punctuation.section.embedded.end.php
       pop: 1
+    - include: scope:source.php
+      apply_prototype: true

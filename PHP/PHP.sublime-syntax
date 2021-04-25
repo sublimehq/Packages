@@ -21,7 +21,7 @@ first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
 contexts:
   prototype:
     - meta_prepend: true
-    - include: php-tags
+    - include: php-embedded
 
   tag-attribute-value-content:
     - meta_prepend: true
@@ -45,37 +45,35 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.html meta.embedded.block.php
     - meta_content_scope: source.php.embedded.html
-    - include: php-tag-content
+    - include: php-embedded-content
 
   php-interpolation-line:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.html meta.embedded.line.php
     - meta_content_scope: source.php.embedded.html
-    - include: php-tag-content
+    - include: php-embedded-content
 
-  php-tags:
+  php-embedded:
     - match: <\?(?i:php|=)?(?![^?]*\?>)
       scope: punctuation.section.embedded.begin.php
-      push: php-tag-block
+      push: php-embedded-block
     - match: <\?(?i:php|=)?
       scope: punctuation.section.embedded.begin.php
-      push: php-tag-line
+      push: php-embedded-line
 
-  php-tag-block:
+  php-embedded-block:
     - meta_scope: meta.embedded.block.php
     - meta_content_scope: source.php.embedded.html
-    - include: php-tag-content
+    - include: php-embedded-content
 
-  php-tag-line:
+  php-embedded-line:
     - meta_scope: meta.embedded.line.php
     - meta_content_scope: source.php.embedded.html
-    - include: php-tag-content
+    - include: php-embedded-content
 
-  php-tag-content:
-    - match: (\?>)(\s*\n)?
-      captures:
-        1: punctuation.section.embedded.end.php
-        2: meta.html-newline-after-php.php
+  php-embedded-content:
+    - match: \?>
+      scope: punctuation.section.embedded.end.php
       pop: 1
     - include: scope:source.php
       apply_prototype: true
