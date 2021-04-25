@@ -2242,10 +2242,8 @@ contexts:
     - match: this{{break}}
       scope: variable.language.this.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
-    - match: false{{break}}
-      scope: constant.language.boolean.false.java
-    - match: true{{break}}
-      scope: constant.language.boolean.true.java
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
       scope: constant.language.null.java

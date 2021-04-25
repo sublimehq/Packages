@@ -5157,7 +5157,7 @@ class IfStatementTests {
 //                                   ^ - meta.statement.conditional.if
 //                   ^ punctuation.section.block.begin.java
 //                     ^^^^^^ keyword.control.flow.return.java
-//                            ^^^^^ constant.language.boolean.false.java
+//                            ^^^^^ constant.language.boolean.java
 //                                  ^ punctuation.section.block.end.java
 
     if (foo) else
@@ -5229,7 +5229,7 @@ class IfStatementTests {
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.function.java
 //            ^^ keyword.operator.comparison.java
-//               ^^^^ constant.language.boolean.true.java
+//               ^^^^ constant.language.boolean.java
 //                   ^ punctuation.section.group.end.java
 //                     ^^^ variable.function.java
 //                           ^^^^ keyword.control.conditional.else.java
@@ -5277,7 +5277,7 @@ class AssertStatementTests {
 // ^ - keyword
 //  ^^^^^^ keyword.control.flow.assert.java
 //        ^ - keyword - constant
-//         ^^^^ constant.language.boolean.true.java
+//         ^^^^ constant.language.boolean.java
 //             ^ punctuation.terminator.java
 
     assert :
@@ -5335,7 +5335,7 @@ class AssertStatementTests {
 //                      ^ punctuation.separator.expressions.java
 //                        ^^^ variable.other.java
 //                            ^^ keyword.operator.comparison.java
-//                               ^^^^ constant.language.boolean.true.java
+//                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.terminator.java
 
     assert int foo=0;
@@ -5841,7 +5841,7 @@ class WhileStatementTests {
     while false
 //  ^^^^^^^^^^^^ meta.statement.loop.while.java
 //  ^^^^^ keyword.control.loop.while.java
-//        ^^^^^ constant.language.boolean.false.java
+//        ^^^^^ constant.language.boolean.java
 
     while (false)
 //  ^^^^^^^^^^^^^^ - meta.statement.loop.while meta.statement.loop.while
@@ -5850,7 +5850,7 @@ class WhileStatementTests {
 //               ^ meta.statement.loop.while.java - meta.group
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
-//         ^^^^^ constant.language.boolean.false.java
+//         ^^^^^ constant.language.boolean.java
 //              ^ punctuation.section.group.end.java
 
     while (false) {  }
@@ -5861,7 +5861,7 @@ class WhileStatementTests {
 //                ^^^^ meta.statement.loop.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
-//         ^^^^^ constant.language.boolean.false.java
+//         ^^^^^ constant.language.boolean.java
 //              ^ punctuation.section.group.end.java
 //                ^ punctuation.section.block.begin.java
 //                   ^ punctuation.section.block.end.java
@@ -5873,7 +5873,7 @@ class WhileStatementTests {
 //               ^^^^ meta.statement.loop.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
-//         ^^^^^ constant.language.boolean.false.java
+//         ^^^^^ constant.language.boolean.java
 //               ^ punctuation.section.block.begin.java
 //                  ^ punctuation.section.block.end.java
   }
@@ -7216,7 +7216,7 @@ class MethodInvocationExpressionsTests {
 //                 ^ punctuation.accessor.dot.java
 //                  ^^^^^^^^^^^^ variable.function.java
 //                              ^ punctuation.section.group.begin.java
-//                               ^^^^ constant.language.boolean.true.java
+//                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.section.group.end.java
 //                                    ^ punctuation.terminator.java
 
@@ -7238,7 +7238,7 @@ class MethodInvocationExpressionsTests {
 //                  ^ punctuation.accessor.dot.java
 //                   ^^^^^^^^^^^^ variable.function.java
 //                               ^ punctuation.section.group.begin.java
-//                                ^^^^ constant.language.boolean.true.java
+//                                ^^^^ constant.language.boolean.java
 //                                    ^ punctuation.section.group.end.java
 //                                     ^ punctuation.terminator.java
   }
@@ -7460,7 +7460,7 @@ class InstanceCreationExpressionsTests {
 //                   ^^^^^^^^ storage.type.class.java
 //                           ^^^ meta.brackets.java
 //                              ^ punctuation.separator.comma.java
-//                                ^^^^ constant.language.boolean.true.java
+//                                ^^^^ constant.language.boolean.java
 //                                    ^ punctuation.section.group.end.java
 //                                     ^ punctuation.terminator.java
 
@@ -7501,7 +7501,7 @@ class InstanceCreationExpressionsTests {
 //         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.java
 //              ^^ keyword.operator.comparison.java
-//                 ^^^^ constant.language.boolean.true.java
+//                 ^^^^ constant.language.boolean.java
 //                     ^ punctuation.section.group.end.java
 //                       ^ punctuation.section.block.begin.java
 //                        ^ punctuation.section.block.end.java
@@ -9033,7 +9033,7 @@ class LambdasExpressionsTests {
 //                         ^ punctuation.section.group.begin.java
 //                          ^ punctuation.section.group.end.java
 //                            ^^ keyword.declaration.function.arrow.java
-//                               ^^^^ constant.language.boolean.true.java
+//                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.terminator.java
 }
 
@@ -9438,7 +9438,7 @@ public class Foo {
 //    ^ constant.numeric.value.java
 //     ^ punctuation.section.brackets.end.java
 //       ^ keyword.operator.assignment.java
-//         ^^^^ constant.language.boolean.true.java
+//         ^^^^ constant.language.boolean.java
 //             ^ punctuation.terminator.java
 
     a[0][0] = true;
@@ -9453,7 +9453,7 @@ public class Foo {
 //       ^ constant.numeric.value.java
 //        ^ punctuation.section.brackets.end.java
 //          ^ keyword.operator.assignment.java
-//            ^^^^ constant.language.boolean.true.java
+//            ^^^^ constant.language.boolean.java
 //                ^ punctuation.terminator.java
 
     a [ 0 ] [ 0 ] = true;
@@ -9471,7 +9471,7 @@ public class Foo {
 //            ^ constant.numeric.value.java
 //              ^ punctuation.section.brackets.end.java
 //                ^ keyword.operator.assignment.java
-//                  ^^^^ constant.language.boolean.true.java
+//                  ^^^^ constant.language.boolean.java
 //                      ^ punctuation.terminator.java
 
     a /**/ [ /**/ 0 /**/ ] /**/ [ /**/ 0 /**/ ] /**/ = /**/ true;
@@ -9490,7 +9490,7 @@ public class Foo {
 //                                     ^ constant.numeric.value.java
 //                                            ^ punctuation.section.brackets.end.java
 //                                                   ^ keyword.operator.assignment.java
-//                                                          ^^^^ constant.language.boolean.true.java
+//                                                          ^^^^ constant.language.boolean.java
 //                                                              ^ punctuation.terminator.java
 
     a
@@ -9509,7 +9509,7 @@ public class Foo {
     =
 //  ^ keyword.operator.assignment.java
     true;
-//  ^^^^ constant.language.boolean.true.java
+//  ^^^^ constant.language.boolean.java
 //      ^ punctuation.terminator.java
 
     a.c = true;
@@ -9522,7 +9522,7 @@ public class Foo {
 //   ^ punctuation.accessor.dot.java
 //    ^ variable.other.java
 //      ^ keyword.operator.assignment.java
-//        ^^^^ constant.language.boolean.true.java
+//        ^^^^ constant.language.boolean.java
 //            ^ punctuation.terminator.java
 
     a[0].c[1] = true;
@@ -9543,11 +9543,11 @@ public class Foo {
 //         ^ constant.numeric.value.java
 //          ^ punctuation.section.brackets.end.java
 //            ^ keyword.operator.assignment.java
-//              ^^^^ constant.language.boolean.true.java
+//              ^^^^ constant.language.boolean.java
 //                  ^ punctuation.terminator.java
 
     int foo = true ? 1 : 2;
-//            ^^^^ constant.language.boolean.true.java
+//            ^^^^ constant.language.boolean.java
 //                 ^ keyword.operator.ternary.java
 //                   ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                     ^ keyword.operator.ternary.java
