@@ -1,13 +1,13 @@
 %YAML 1.2
 ---
-name: SQL (Rails)
-scope: source.sql.rails
+name: CSS (Rails)
+scope: source.css.rails
+version: 2
 
-extends: Packages/SQL/SQL.sublime-syntax
+extends: Packages/CSS/CSS.sublime-syntax
 
 file_extensions:
-  - sql.erb
-  - erbsql
+  - css.erb
 
 contexts:
 

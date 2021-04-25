@@ -1,11 +1,14 @@
 %YAML 1.2
 ---
 name: Ruby Haml
+scope: text.haml
+
 file_extensions:
   - haml
   - sass
-scope: text.haml
+
 contexts:
+
   main:
     - match: ^(!!!)($|\s.*)
       scope: meta.prolog.haml
@@ -22,7 +25,7 @@ contexts:
         - meta_scope: comment.block.haml
         - match: ^(?!\1  )
           pop: true
-        - include: "Ruby Haml.sublime-syntax"
+        - include: main
     - match: '^\s*(?:((%)([\w:]+))|(?=\.|#))'
       captures:
         1: meta.tag.haml
@@ -40,14 +43,14 @@ contexts:
             - meta_scope: meta.section.attributes.haml
             - match: '\}|$|^(?!.*\|\s*$)'
               pop: true
-            - include: "Ruby on Rails.sublime-syntax"
+            - include: Ruby (Rails).sublime-syntax
             - include: continuation
         - match: '\[(?=.*\]|.*\|\s*$)'
           push:
             - meta_scope: meta.section.object.haml
             - match: '\]|$|^(?!.*\|\s*$)'
               pop: true
-            - include: "Ruby on Rails.sublime-syntax"
+            - include: Ruby (Rails).sublime-syntax
             - include: continuation
         - include: rubyline
         - match: /
@@ -60,10 +63,12 @@ contexts:
         - match: $
           pop: true
         - include: rubyline
+
   continuation:
     - match: (\|)\s*\n
       captures:
         1: punctuation.separator.continuation.haml
+
   rubyline:
     - match: "=|-|~"
       push:
@@ -77,5 +82,5 @@ contexts:
         - match: "#.*$"
           comment: Hack to let ruby comments work in this context properly
           scope: comment.line.number-sign.ruby
-        - include: Packages/Rails/Ruby on Rails.sublime-syntax
+        - include: Ruby (Rails).sublime-syntax
         - include: continuation

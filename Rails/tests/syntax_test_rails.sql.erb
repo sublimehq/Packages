@@ -1,0 +1,31 @@
+# SYNTAX TEST "Packages/Rails/SQL (Rails).sublime-syntax"
+
+    SELECT * FROM table
+#^^^^^^^^^^^^^^^^^^^^^^^ source.sql.rails
+#   ^^^^^^ keyword.other
+#          ^ variable.language.wildcard
+#            ^^^^ keyword.other
+
+  <%# ruby comment %>
+# ^^^^^^^^^^^^^^^^^^^ comment.block
+# ^^^ punctuation.definition.comment.begin
+#                  ^^ punctuation.definition.comment.end
+
+  <% if true # comment inside embedded %>
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.rails
+# ^^ punctuation.section.embedded.begin.rails
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby.embedded.rails
+#            ^ punctuation.definition.comment
+#                                      ^^ punctuation.section.embedded.end.rails
+
+    SELECT <%- $cols %> FROM <%- $table %>
+#   ^^^^^^ keyword.other
+#          ^^^^^^^^^^^^ meta.embedded.rails
+#                       ^^^^ keyword.other
+#                            ^^^^^^^^^^^^^ meta.embedded.rails
+
+  <% end %>
+# ^^^^^^^^^ meta.embedded.rails
+# ^^ punctuation.section.embedded.begin.rails
+#   ^^^^^ source.ruby.embedded.rails
+#        ^^ punctuation.section.embedded.end.rails

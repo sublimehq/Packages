@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Rails/Ruby on Rails.sublime-syntax"
+# SYNTAX TEST "Packages/Rails/Ruby (Rails).sublime-syntax"
 
 class ApplicationController < ApplicationController
 # <- keyword.declaration.class

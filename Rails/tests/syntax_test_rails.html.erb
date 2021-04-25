@@ -1,0 +1,69 @@
+# SYNTAX TEST "Packages/Rails/HTML (Rails).sublime-syntax"
+# <- text.html.rails
+
+  <p>Normal HTML</p>
+# ^^^ meta.tag
+# ^ punctuation.definition.tag.begin
+#  ^ entity.name.tag
+#   ^ punctuation.definition.tag.end
+
+  <%# ruby comment %>
+# ^^^^^^^^^^^^^^^^^^^ comment.block
+# ^^^ punctuation.definition.comment.begin
+#                  ^^ punctuation.definition.comment.end
+
+  <% if true # comment inside embedded %>
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.rails
+# ^^ punctuation.section.embedded.begin.rails
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby.embedded.rails
+#            ^ punctuation.definition.comment
+#                                      ^^ punctuation.section.embedded.end.rails
+  
+    <p>Normal HTML</p>
+#      ^ text.html.rails
+
+  <% end %>
+# ^^^^^^^^^ meta.embedded.rails
+# ^^ punctuation.section.embedded.begin.rails
+#   ^^^^^ source.ruby.embedded.rails
+#        ^^ punctuation.section.embedded.end.rails
+
+  <% if false -%><p>inline erb</p><% end -%>
+# ^^^^^^^^^^^^^^^ meta.embedded.rails
+#                ^^^^^^^^^^^^^^^^^ - meta.embedded
+#                                 ^^^^^^^^^^ meta.embedded.rails
+# ^^ punctuation.section.embedded.begin.rails
+#   ^^^^^^^^^^ source.ruby.embedded.rails
+#             ^^^ punctuation.section.embedded
+#                                 ^^ punctuation.section.embedded.begin.rails
+#                                   ^^^^^ source.ruby.embedded.rails
+#                                        ^^^ punctuation.section.embedded.end.rails
+
+<p style="font-weight: <% if show_bold %>bold<% else %>normal<% end %>">
+#        ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html
+#                      ^^^^^^^^^^^^^^^^^^ meta.property-value.css meta.embedded.rails
+#                                        ^^^^ meta.property-value.css - meta.embedded
+#                                            ^^^^^^^^^^ meta.property-value.css meta.embedded.rails
+#                                                      ^^^^^^ meta.property-value.css - meta.embedded
+#                                                            ^^^^^^^^^ meta.property-value.css meta.embedded.rails
+#                                                                     ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+#        ^ string.quoted.double.html punctuation.definition.string.begin.html
+#         ^^^^^^^^^^^ support.type.property-name
+#                      ^^ punctuation.section.embedded.begin.rails
+#                        ^^^^^^^^^^^^^^ source.ruby.embedded.rails
+#                         ^ keyword.control
+#                                      ^^ punctuation.section.embedded.end.rails
+#                                        ^^^^ support.constant
+#                                            ^^ punctuation.section.embedded.begin.rails
+#                                              ^^^^^^ source.ruby.embedded.rails
+#                                               ^ keyword.control
+#                                                    ^^ punctuation.section.embedded.end.rails
+#                                                      ^^^^^^ support.constant
+#                                                            ^^ punctuation.section.embedded.begin.rails
+#                                                              ^^^^^ source.ruby.embedded.rails
+#                                                               ^ keyword.control
+#                                                                   ^^ punctuation.section.embedded.end.rails
+#                                                                     ^ string.quoted.double.html punctuation.definition.string.end.html
+#                                                                      ^ punctuation.definition.tag.end.html
+</p>

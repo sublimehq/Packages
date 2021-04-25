@@ -1,20 +1,25 @@
 %YAML 1.2
 ---
-name: Ruby on Rails
+name: Ruby (Rails)
+scope: source.ruby.rails
+
+extends: Packages/Ruby/Ruby.sublime-syntax
+
 file_extensions:
   - rxml
   - builder
-scope: source.ruby.rails
+
 contexts:
+
   main:
     - include: early-expressions
     - include: late-expressions
-    - include: 'scope:source.ruby#expressions'
+    - include: expressions
 
   embedded-expressions:
     - include: early-expressions
     # This is placed here to prevent the lookaheads from causing infinite recursion
-    - include: scope:source.ruby
+    - include: expressions
     - include: late-expressions
 
   early-expressions:
