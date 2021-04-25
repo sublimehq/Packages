@@ -186,9 +186,9 @@ contexts:
         5: entity.name.tag.form.html
         6: entity.name.tag.structure.html
         7: entity.name.tag.deprecated.html
-      push: tag-html-any-closing-attributes
+      push: tag-html-any-closing-content
 
-  tag-html-any-closing-attributes:
+  tag-html-any-closing-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.html.closing.html
     - include: tag-end
@@ -211,9 +211,9 @@ contexts:
         4: entity.name.tag.table.html
         5: entity.name.tag.form.html
         6: entity.name.tag.structure.html
-      push: tag-html-any-opening-attributes
+      push: tag-html-any-opening-content
 
-  tag-html-any-opening-attributes:
+  tag-html-any-opening-content:
     - meta_scope: meta.tag.html.opening.html
     - include: tag-end
     - include: tag-attributes
@@ -237,9 +237,9 @@ contexts:
         4: entity.name.tag.table.html
         5: entity.name.tag.form.html
         6: entity.name.tag.deprecated.html
-      push: tag-html-any-selfclosing-attributes
+      push: tag-html-any-selfclosing-content
 
-  tag-html-any-selfclosing-attributes:
+  tag-html-any-selfclosing-content:
     - meta_scope: meta.tag.html.selfclosing.html
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
