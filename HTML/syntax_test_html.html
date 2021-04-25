@@ -625,7 +625,7 @@ class="foo"></div>
         ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.other.opening.html - invalid
+        ##^^^^^^^^^^^^^^^^ meta.tag.other.selfclosing.html - invalid
         ##              ^^ punctuation.definition.tag.end.html
         ##                ^ - meta.tag - punctuation.definition.tag
 
@@ -650,7 +650,7 @@ class="foo"></div>
         ## ^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
 
         <A{{template}} {{attr}}={{value}} />
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.opening.html
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.selfclosing.html
         ## ^^^^^^^^^^^ entity.name.tag.other.html
         ##             ^^^^^^^^ entity.other.attribute-name.html
         ##                     ^ punctuation.separator.key-value.html

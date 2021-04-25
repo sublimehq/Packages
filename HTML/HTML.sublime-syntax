@@ -249,29 +249,53 @@ contexts:
   tag-other:
     - match: <(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
-      push:
-        - tag-other-opening
-        - tag-other-name
+      branch_point: tag-other
+      branch:
+        - tag-other-maybe-opening
+        - tag-other-otherwise-selfclosing
     - match: </(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-other-closing
+        - tag-other-closing-content
         - tag-other-name
+
+  tag-other-closing-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.closing.html
+    - include: tag-end
+
+  tag-other-maybe-opening:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.opening.html
+    - match: ''
+      set:
+        - tag-other-opening-content
+        - tag-other-name
+
+  tag-other-opening-content:
+    - meta_scope: meta.tag.other.opening.html
+    - match: (?=/>)
+      fail: tag-other
+    - include: tag-end
+    - include: tag-attributes
+
+  tag-other-otherwise-selfclosing:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.selfclosing.html
+    - match: ''
+      set:
+        - tag-other-selfclosing-content
+        - tag-other-name
+
+  tag-other-selfclosing-content:
+    - meta_scope: meta.tag.other.selfclosing.html
+    - include: tag-end-self-closing
+    - include: tag-attributes
 
   tag-other-name:
     - meta_content_scope: entity.name.tag.other.html
     - match: '{{tag_name_break}}'
       pop: 1
-
-  tag-other-opening:
-    - meta_scope: meta.tag.other.opening.html
-    - include: tag-end-maybe-self-closing
-    - include: tag-attributes
-
-  tag-other-closing:
-    - meta_include_prototype: false
-    - meta_scope: meta.tag.other.closing.html
-    - include: tag-end
 
 ###[ HTML SCRIPT TAG ]########################################################
 
