@@ -11,7 +11,7 @@
 #     <%  ... %>
 #   </style>
 #
-# The primary task is to add `jsp-interpolations` context to CSS's prototype
+# The primary task is to add `jsp-embedded` context to CSS's prototype
 # to highlight all the <% %> tags.
 ###############################################################################
 
@@ -25,4 +25,4 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: HTML (JSP).sublime-syntax#jsp-interpolations
+    - include: HTML (JSP).sublime-syntax#jsp-embedded

@@ -16,7 +16,7 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: jsp-interpolations
+    - include: jsp-embedded
 
 ###[ HTML CUSTOM TAGS ]#######################################################
 
@@ -98,11 +98,11 @@ contexts:
 
   tag-attribute-value-content:
     - meta_prepend: true
-    - include: jsp-string-interpolations
+    - include: jsp-interpolations
 
   strings-common-content:
     - meta_prepend: true
-    - include: jsp-string-interpolations
+    - include: jsp-interpolations
 
 ###[ JSP TAG DECLARATION ]####################################################
 
@@ -290,63 +290,66 @@ contexts:
 
 ###[ JSP INTERPOLATIONS ]#####################################################
 
-  jsp-string-interpolations:
-    - match: (?=<%)
-      push:
-        - clear_scopes: 1
-        - meta_include_prototype: false
-        - include: jsp-interpolations
-        - include: immediately-pop
-
   jsp-interpolations:
-    - include: jsp-interpolations-comments
-    - include: jsp-interpolations-declarations
-    - include: jsp-interpolations-directives
-    - include: jsp-interpolations-expressions
-    - include: jsp-interpolations-scriptlets
+    - match: (?=<%)
+      push: jsp-interpolation-content
 
-  jsp-interpolations-comments:
+  jsp-interpolation-content:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.html
+    - include: jsp-embedded
+    - include: immediately-pop
+
+  jsp-embedded:
+    - include: jsp-embedded-comments
+    - include: jsp-embedded-declarations
+    - include: jsp-embedded-directives
+    - include: jsp-embedded-expressions
+    - include: jsp-embedded-scriptlets
+
+  jsp-embedded-comments:
     - match: <%--
       scope: punctuation.definition.comment.begin.jsp
-      push: jsp-interpolations-comments-content
+      push: jsp-embedded-comments-content
 
-  jsp-interpolations-comments-content:
+  jsp-embedded-comments-content:
     - meta_include_prototype: false
     - meta_scope: comment.block.jsp
     - match: --%>
       scope: punctuation.definition.comment.end.jsp
       pop: 1
 
-  jsp-interpolations-declarations:
+  jsp-embedded-declarations:
     - match: <%!
       scope:
-        meta.interpolation.declaration.jsp
-        punctuation.section.interpolation.begin.jsp
+        meta.embedded.declaration.jsp
+        punctuation.section.embedded.begin.jsp
       embed: scope:source.java.embedded.jsp
       embed_scope:
-        meta.interpolation.declaration.jsp
+        meta.embedded.declaration.jsp
         source.java.embedded.jsp
       escape: \%>
       escape_captures:
-        0: meta.interpolation.declaration.jsp
-           punctuation.section.interpolation.end.jsp
+        0: meta.embedded.declaration.jsp
+           punctuation.section.embedded.end.jsp
 
-  jsp-interpolations-directives:
+  jsp-embedded-directives:
     - match: <%@
-      scope: punctuation.section.interpolation.begin.jsp
-      push: jsp-interpolations-directives-common
+      scope: punctuation.section.embedded.begin.jsp
+      push: jsp-embedded-directives-common
 
-  jsp-interpolations-directives-common:
+  jsp-embedded-directives-common:
     - meta_include_prototype: false
-    - meta_scope: meta.interpolation.directive.jsp
+    - meta_scope: meta.embedded.directive.jsp
     - match: \%>
-      scope: punctuation.section.interpolation.end.jsp
+      scope: punctuation.section.embedded.end.jsp
       pop: 1
     - match: \w+
       scope: keyword.control.directive.jsp
-      push: jsp-interpolations-directives-content
+      push: jsp-embedded-directives-content
 
-  jsp-interpolations-directives-content:
+  jsp-embedded-directives-content:
     - meta_include_prototype: false
     - match: \w+
       scope: entity.other.attribute-name.jsp
@@ -356,33 +359,33 @@ contexts:
     - include: jsp-strings-single-quoted
     - include: else-pop
 
-  jsp-interpolations-expressions:
+  jsp-embedded-expressions:
     - match: <%=
       scope:
-        meta.interpolation.expression.jsp
-        punctuation.section.interpolation.begin.jsp
+        meta.embedded.expression.jsp
+        punctuation.section.embedded.begin.jsp
       embed: scope:source.java.embedded.jsp#expressions
       embed_scope:
-        meta.interpolation.expression.jsp
+        meta.embedded.expression.jsp
         source.java.embedded.jsp
       escape: \%>
       escape_captures:
-        0: meta.interpolation.expression.jsp
-           punctuation.section.interpolation.end.jsp
+        0: meta.embedded.expression.jsp
+           punctuation.section.embedded.end.jsp
 
-  jsp-interpolations-scriptlets:
+  jsp-embedded-scriptlets:
     - match: <%
       scope:
-        meta.interpolation.scriptlet.jsp
-        punctuation.section.interpolation.begin.jsp
+        meta.embedded.scriptlet.jsp
+        punctuation.section.embedded.begin.jsp
       embed: scope:source.java.embedded.jsp
       embed_scope:
-        meta.interpolation.scriptlet.jsp
+        meta.embedded.scriptlet.jsp
         source.java.embedded.jsp
       escape: \%>
       escape_captures:
-        0: meta.interpolation.scriptlet.jsp
-           punctuation.section.interpolation.end.jsp
+        0: meta.embedded.scriptlet.jsp
+           punctuation.section.embedded.end.jsp
 
 ###[ JSP CONSTANTS ]##########################################################
 

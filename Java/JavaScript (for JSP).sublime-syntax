@@ -11,7 +11,7 @@
 #     <%  ... %>
 #   </script>
 #
-# The primary task is to add `jsp-interpolations` context to JavaScript's
+# The primary task is to add `jsp-embedded` context to JavaScript's
 # prototype to match all the <% %> tags.
 ###############################################################################
 
@@ -25,4 +25,4 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: HTML (JSP).sublime-syntax#jsp-interpolations
+    - include: HTML (JSP).sublime-syntax#jsp-embedded
