@@ -82,8 +82,8 @@
             comment -->
         ##  ^^^^^^^^^^^ text.html.embedded.html comment.block.html
             <div></div>
-        ##  ^^^^^ text.html.embedded.html meta.tag.block.begin.html
-        ##       ^^^^^^ text.html.embedded.html meta.tag.block.end.html
+        ##  ^^^^^ text.html.embedded.html meta.tag.html.opening.html
+        ##       ^^^^^^ text.html.embedded.html meta.tag.html.closing.html
             <script type=text/javascript>
         ##  ^ text.html.basic text.html.embedded.html - source.js.embedded.html
                 function test() {}
@@ -625,7 +625,7 @@ class="foo"></div>
         ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.other.begin.html - invalid
+        ##^^^^^^^^^^^^^^^^ meta.tag.other.opening.html - invalid
         ##              ^^ punctuation.definition.tag.end.html
         ##                ^ - meta.tag - punctuation.definition.tag
 
@@ -650,7 +650,7 @@ class="foo"></div>
         ## ^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
 
         <A{{template}} {{attr}}={{value}} />
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.begin.html
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.opening.html
         ## ^^^^^^^^^^^ entity.name.tag.other.html
         ##             ^^^^^^^^ entity.other.attribute-name.html
         ##                     ^ punctuation.separator.key-value.html
@@ -751,7 +751,9 @@ class="foo"></div>
         ##                                     ^ punctuation.separator.path.html
 
         <hr/><hr />
-        ## ^^ meta.tag.block punctuation.definition.tag.end
+        ##<- meta.tag.html.selfclosing.html
+        ##^^^^^^^^^ meta.tag.html.selfclosing.html
+        ## ^^ punctuation.definition.tag.end
         ##    ^^ entity.name.tag.block
         ##       ^^ punctuation.definition.tag.end
 

@@ -158,152 +158,87 @@ contexts:
     - include: tag-other
     - include: tag-incomplete
 
-###[ HTML TAGS ]##############################################################
-
   tag-html:
-    - include: tag-html-inline
-    - include: tag-html-block
-    - include: tag-html-table
     - include: tag-html-script
     - include: tag-html-style
-    - include: tag-html-form
-    - include: tag-html-structure
+    - include: tag-html-any-closing
+    - include: tag-html-any-opening
+    - include: tag-html-any-selfclosing
 
-  tag-html-block:
-    - match: (<)({{html_block_tags_selfclosing}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.block.html
-      push:
-        - meta_scope: meta.tag.block.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (<)({{html_block_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.block.html
-      push:
-        - meta_scope: meta.tag.block.begin.html
-        - include: tag-end
-        - include: tag-attributes
-    - match: (</)({{html_block_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.block.html
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.tag.block.end.html
-        - include: tag-end
+###[ HTML TAG ]###############################################################
 
-  tag-html-form:
-    - match: (<)({{html_forms_tags_selfclosing}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.form.html
-      push:
-        - meta_scope: meta.tag.form.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (<)({{html_forms_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.form.html
-      push:
-        - meta_scope: meta.tag.form.begin.html
-        - include: tag-end
-        - include: tag-attributes
-    - match: (</)({{html_forms_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.form.html
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.tag.form.end.html
-        - include: tag-end
-
-  tag-html-inline:
-    - match: (<)({{html_inline_tags_selfclosing}})
+  tag-html-any-closing:
+    - match: |-
+        (?x)
+        (</)
+        (?:
+          ({{html_inline_tags}})
+        | ({{html_block_tags}})
+        | ({{html_table_tags}})
+        | ({{html_forms_tags}})
+        | ({{html_structure_tags}})
+        )
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.html
-      push:
-        - meta_scope: meta.tag.inline.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (<)({{html_inline_tags}})
+        3: entity.name.tag.block.html
+        4: entity.name.tag.table.html
+        5: entity.name.tag.form.html
+        6: entity.name.tag.structure.html
+      push: tag-html-any-closing-attributes
+
+  tag-html-any-closing-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.html.closing.html
+    - include: tag-end
+
+  tag-html-any-opening:
+    - match: |-
+        (?x)
+        (<)
+        (?:
+          ({{html_inline_tags}})
+        | ({{html_block_tags}})
+        | ({{html_table_tags}})
+        | ({{html_forms_tags}})
+        | ({{html_structure_tags}})
+        )
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.html
-      push:
-        - meta_scope: meta.tag.inline.begin.html
-        - include: tag-end
-        - include: tag-attributes
-    - match: (</)({{html_inline_tags}})
+        3: entity.name.tag.block.html
+        4: entity.name.tag.table.html
+        5: entity.name.tag.form.html
+        6: entity.name.tag.structure.html
+      push: tag-html-any-opening-attributes
+
+  tag-html-any-opening-attributes:
+    - meta_scope: meta.tag.html.opening.html
+    - include: tag-end
+    - include: tag-attributes
+
+  tag-html-any-selfclosing:
+    - match: |-
+        (?x)
+        (<)
+        (?:
+          ({{html_inline_tags_selfclosing}})
+        | ({{html_block_tags_selfclosing}})
+        | ({{html_table_tags_selfclosing}})
+        | ({{html_forms_tags_selfclosing}})
+        )
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.html
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.tag.inline.end.html
-        - include: tag-end
+        3: entity.name.tag.block.html
+        4: entity.name.tag.table.html
+        5: entity.name.tag.form.html
+      push: tag-html-any-selfclosing-attributes
 
-  tag-html-script:
-    - match: (<)((?i:script)){{tag_name_break}}
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.script.html
-      push: script-javascript
-
-  tag-html-style:
-    - match: (<)((?i:style)){{tag_name_break}}
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
-      push: style-css
-
-  tag-html-structure:
-    - match: (<)({{html_structure_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.structure.html
-      push:
-        - meta_scope: meta.tag.structure.begin.html
-        - include: tag-end
-        - include: tag-attributes
-    - match: (</)({{html_structure_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.structure.html
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.tag.structure.end.html
-        - include: tag-end
-
-  tag-html-table:
-    - match: (<)({{html_table_tags_selfclosing}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.table.html
-      push:
-        - meta_scope: meta.tag.table.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (<)({{html_table_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.table.html
-      push:
-        - meta_scope: meta.tag.table.begin.html
-        - include: tag-end
-        - include: tag-attributes
-    - match: (</)({{html_table_tags}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.table.html
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.tag.table.end.html
-        - include: tag-end
+  tag-html-any-selfclosing-attributes:
+    - meta_scope: meta.tag.html.selfclosing.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
 
 ###[ OTHER TAG ]##############################################################
 
@@ -325,16 +260,23 @@ contexts:
       pop: 1
 
   tag-other-opening:
-    - meta_scope: meta.tag.other.begin.html
+    - meta_scope: meta.tag.other.opening.html
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
   tag-other-closing:
     - meta_include_prototype: false
-    - meta_scope: meta.tag.other.end.html
+    - meta_scope: meta.tag.other.closing.html
     - include: tag-end
 
-###[ SCRIPT TAG ]#############################################################
+###[ HTML SCRIPT TAG ]########################################################
+
+  tag-html-script:
+    - match: (<)((?i:script)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      push: script-javascript
 
   script-javascript:
     - meta_scope: meta.tag.script.begin.html
@@ -430,7 +372,14 @@ contexts:
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
 
-###[ STYLE TAG ]##############################################################
+###[ HTML STYLE TAG ]#########################################################
+
+  tag-html-style:
+    - match: (<)((?i:style)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      push: style-css
 
   style-css:
     - meta_scope: meta.tag.style.begin.html
