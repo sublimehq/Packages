@@ -28,6 +28,7 @@ variables:
       {{html_text_content_tags}}
     | {{html_section_tags}}
     | {{html_embedded_tags}}
+    | {{html_script_tags}}
     | {{html_web_tags}}
     | {{html_header_tags}}
     | {{html_deprecated_tags}}
@@ -45,7 +46,6 @@ variables:
     | {{html_markup_tags}}
     | {{html_media_tags}}
     | {{html_interactive_tags}}
-    | {{html_script_tags}}
     )
 
   html_inline_tags_selfclosing: |-
@@ -275,11 +275,11 @@ contexts:
     - match: (<)((?i:script)){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.script.html
+        2: entity.name.tag.block.html
       push: script-javascript
 
   script-javascript:
-    - meta_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.html.opening.html
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
@@ -294,7 +294,7 @@ contexts:
       escape: '{{script_close_lookahead}}'
 
   script-html:
-    - meta_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.html.opening.html
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
@@ -305,7 +305,7 @@ contexts:
     - include: script-common
 
   script-other:
-    - meta_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.html.opening.html
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-close-tag
@@ -321,9 +321,9 @@ contexts:
         - match: (</)((?i:script){{tag_name_break}})
           captures:
             1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.script.html
+            2: entity.name.tag.block.html
           set:
-            - meta_scope: meta.tag.script.end.html
+            - meta_scope: meta.tag.html.closing.html
             - include: tag-end
             - include: tag-attributes
 
@@ -336,11 +336,11 @@ contexts:
     - match: (?i:type){{attribute_name_break}}
       scope: entity.other.attribute-name.html
       set:
-        - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+        - meta_scope: meta.tag.html.opening.html meta.attribute-with-value.html
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+            - meta_content_scope: meta.tag.html.opening.html meta.attribute-with-value.html
             - include: script-type-decider
         - match: (?=\S)
           set: script-javascript
