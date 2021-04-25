@@ -134,7 +134,7 @@ puts <<-HTML; # comment
 #           ^ punctuation.terminator.statement.ruby - meta.string
 #             ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   <body>
-# ^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure
+# ^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag
     #{ sym } #@var
 #  ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
 #   ^^^^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby
@@ -147,7 +147,7 @@ puts <<-HTML; # comment
 #            ^^ punctuation.definition.variable.ruby
 #            ^^^^^ variable.other.readwrite.instance.ruby
   </body>
-# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure.any.html
+# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag
   HTML
 # ^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #     ^ - meta.string - string.unquoted
