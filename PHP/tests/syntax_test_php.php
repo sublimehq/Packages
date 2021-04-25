@@ -1982,7 +1982,12 @@ var_dump(new C(42));
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
 //        ^^^ punctuation.section.embedded.begin
 //                 ^^ punctuation.section.embedded.end
-//                         ^^^^^^^^^^^^^^^^ string.unquoted
+//                         ^^ meta.string.html - meta.interpolation
+//                           ^^^^^^^^^^ meta.string.html meta.interpolation.html meta.embedded.line.php
+//                                     ^^^^ meta.string.html  - meta.interpolation
+//                         ^^ string.unquoted.html
+//                           ^^^^^^^^^^ - string
+//                                     ^^^^ string.unquoted.html
 //                           ^^ punctuation.section.embedded.begin.php
 //                                   ^^ punctuation.section.embedded.end.php
 
@@ -2029,12 +2034,15 @@ var_dump(new C(42));
 
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
+//         ^^^^^^ meta.string.html - meta.interpolation
+//               ^^^^^^^^^^^ meta.string.html meta.interpolation.html meta.embedded.line.php
+//                          ^ meta.string.html  - meta.interpolation
 //         ^ punctuation.definition.string.begin.html
-//         ^^^^^^^^^^^^^^^^^^ string.quoted.double.html
-//                          ^ punctuation.definition.string.end.html
-//               ^^^^^^^^^^^ meta.embedded.line
+//         ^^^^^^ string.quoted.double.html
+//               ^^^^^^^^^^^ - string
+//                          ^ string.quoted.double.html punctuation.definition.string.end.html
 //               ^^^ punctuation.section.embedded.begin - source.php
-//                  ^^^^^^ source.php
+//                  ^^^^^^ source.php.embedded.html
 //                   ^^^^ variable.other
 //                        ^^ punctuation.section.embedded.end - source.php
 //                           ^ punctuation.definition.tag.end.html
