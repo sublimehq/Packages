@@ -64,7 +64,7 @@ variables:
   #  <head> is moved to `html_structure_tags`
   #  <script> and <style> are handled by dedicated matches
   html_header_tags: |-
-    (?xi: base (?# | script | style ) | title ){{tag_name_break}}
+    (?xi: base | script | style | title ){{tag_name_break}}
   html_header_tags_selfclosing: |-
     (?xi: link | meta ){{tag_name_break}}
 
