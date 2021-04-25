@@ -232,29 +232,53 @@ contexts:
   tag-html:
     - match: <(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
-      push:
-        - tag-html-opening
-        - tag-html-name
+      branch_point: tag-html-any
+      branch:
+        - tag-html-any-maybe-opening
+        - tag-html-any-otherwise-selfclosing
     - match: </(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-html-closing
-        - tag-html-name
+        - tag-html-any-closing-content
+        - tag-html-any-name
 
-  tag-html-name:
-    - meta_content_scope: entity.name.tag.html
-    - match: '{{tag_name_break}}'
-      pop: 1
+  tag-html-any-closing-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.html.closing.html
+    - include: tag-end
 
-  tag-html-opening:
-    - meta_scope: meta.tag.html.begin.html
-    - include: tag-end-maybe-self-closing
+  tag-html-any-maybe-opening:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.html.opening.html
+    - match: ''
+      set:
+        - tag-html-any-opening-content
+        - tag-html-any-name
+
+  tag-html-any-opening-content:
+    - meta_scope: meta.tag.html.opening.html
+    - match: (?=/>)
+      fail: tag-html-any
+    - include: tag-end
     - include: tag-attributes
 
-  tag-html-closing:
+  tag-html-any-otherwise-selfclosing:
     - meta_include_prototype: false
-    - meta_scope: meta.tag.html.end.html
-    - include: tag-end
+    - meta_scope: meta.tag.html.selfclosing.html
+    - match: ''
+      set:
+        - tag-html-any-selfclosing-content
+        - tag-html-any-name
+
+  tag-html-any-selfclosing-content:
+    - meta_scope: meta.tag.html.selfclosing.html
+    - include: tag-end-self-closing
+    - include: tag-attributes
+
+  tag-html-any-name:
+    - meta_content_scope: entity.name.tag.any.html
+    - match: '{{tag_name_break}}'
+      pop: 1
 
 ###[ ATTRIBUTES ]#############################################################
 
