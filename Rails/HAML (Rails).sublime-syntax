@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: Ruby Haml
+name: HAML (Rails)
 scope: text.haml
 
 file_extensions:
@@ -34,21 +34,29 @@ contexts:
       push:
         - match: '$|(?!\.|#|\{|\[|=|-|~|/)'
           pop: true
-        - match: '\.[\w-]+'
+        - match: '(\.)[\w-]+'
           scope: entity.name.tag.class.haml
-        - match: '#[\w-]+'
+          captures:
+            1: punctuation.definition.tag.haml
+        - match: '(#)[\w-]+'
           scope: entity.name.tag.id.haml
+          captures:
+            1: punctuation.definition.tag.haml
         - match: '\{(?=.*\}|.*\|\s*$)'
+          scope: punctuation.section.braces.begin.haml
           push:
-            - meta_scope: meta.section.attributes.haml
+            - meta_scope: meta.section.attributes.haml meta.braces.haml
             - match: '\}|$|^(?!.*\|\s*$)'
+              scope: punctuation.section.braces.end.haml
               pop: true
             - include: Ruby (Rails).sublime-syntax
             - include: continuation
         - match: '\[(?=.*\]|.*\|\s*$)'
+          scope: punctuation.section.brackets.begin.haml
           push:
-            - meta_scope: meta.section.object.haml
+            - meta_scope: meta.section.object.haml meta.brackets.haml
             - match: '\]|$|^(?!.*\|\s*$)'
+              scope: punctuation.section.brackets.end.haml
               pop: true
             - include: Ruby (Rails).sublime-syntax
             - include: continuation
