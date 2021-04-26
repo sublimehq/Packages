@@ -1193,6 +1193,13 @@ put arg1 arg2
 ::           ^ punctuation.separator.path.dosbatch
 ::               ^ punctuation.definition.string.end.dosbatch
 
+   %~dp0..\cmd
+:: ^^^^^^^^^^^ meta.function-call.identifier.dosbatch
+:: ^^^^^ meta.interpolation.dosbatch variable.parameter.dosbatch
+::      ^^ constant.language.path.parent.dosbatch
+::        ^ punctuation.separator.path.dosbatch
+::         ^^^ variable.function.dosbatch
+
    command arg^
 ::         ^^^^^ meta.function-call.arguments.dosbatch
 ::            ^^ punctuation.separator.continuation.line.dosbatch

@@ -1588,9 +1588,11 @@ contexts:
 
   path-pattern-common:
     - include: escapes-and-interpolations
-    - match: '[.:\\/]'
+    - match: '[:\\/]'
       scope: punctuation.separator.path.dosbatch
       push: path-pattern-relative
+    - match: \.\.?(?=[\\/])
+      scope: constant.language.path.parent.dosbatch
     - match: \.
       scope: punctuation.separator.path.dosbatch
     - match: '[*?]'
