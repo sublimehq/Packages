@@ -1308,7 +1308,7 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|not|has)(?=\()
+    - match: (?i:matches|is|not|has)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
