@@ -1,9 +1,34 @@
 / SYNTAX TEST "Packages/Rails/HAML (Rails).sublime-syntax"
 
+!!! This is a prolog
+/ <- meta.prolog.haml punctuation.definition.prolog.haml
+/^^^^^^^^^^^^^^^^^^^ meta.prolog.haml
+/^^ punctuation.definition.prolog.haml
+
+!!!This is no prolog
+/ <- - meta.prolog
+/^^^^^^^^^^^^^^^^^^^^ - meta.prolog
+
+ /
+ / <- comment.block.haml punctuation.definition.comment.haml
+
+ /
+   Block comment
+   / <- comment.block.haml
+   Second line
+   / <- comment.block.haml
+   -
+   #myview.html.haml
+   / <- comment.block.haml entity.name.tag.id.haml punctuation.definition.tag.haml
+   /^^^^^^ comment.block.haml entity.name.tag.id.haml
+   /      ^^^^^^^^^^ comment.block.haml entity.name.tag.class.haml
+   Third line
+   / <- comment.block.haml
+
 #myview.html.haml
-/ <- entity.name.tag.id.haml punctuation.definition.tag.haml
-/^^^^^^ entity.name.tag.id.haml
-/      ^^^^^^^^^^ entity.name.tag.class.haml
+/ <- meta.tag.haml entity.name.tag.id.haml punctuation.definition.tag.haml
+/^^^^^^ meta.tag.haml entity.name.tag.id.haml
+/      ^^^^^^^^^^ meta.tag.haml entity.name.tag.class.haml
 /      ^ punctuation.definition.tag.haml
 /           ^ punctuation.definition.tag.haml
 
@@ -24,10 +49,23 @@
 / ^^^^^^ support.function.actionpack.rails
 /        ^^^^^^ meta.string.ruby string.quoted.single.ruby
 
+%title
+  = @title
+/ ^ meta.embedded.haml meta.line.ruby.haml punctuation.section.embedded.haml
+/  ^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.embedded.haml
+  \= @title
+/ ^^ meta.escape.haml
+
+%one
+  %two
+    %three Hey there
+/   ^^^^^^ meta.tag.haml
+/   ^ punctuation.definition.tag.haml
+
 %p{:class => "myclass", :id => "myid"} My paragraph
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^ meta.tag.haml entity.name.tag.haml
-/ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.attributes.haml meta.braces.haml
+/ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
 / ^ punctuation.section.braces.begin.haml
 /  ^ constant.other.symbol.ruby punctuation.definition.constant.ruby
 /   ^^^^^ constant.other.symbol.ruby - punctuation
@@ -43,3 +81,70 @@
 /                              ^ punctuation.definition.string.begin.ruby
 /                                   ^ punctuation.definition.string.end.ruby
 /                                    ^ punctuation.section.braces.end.haml
+
+%div{:id => [@item.type, @item.number], :class => [@item.type, @item.urgency]}
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^ meta.tag.haml entity.name.tag.haml
+/   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/   ^ punctuation.section.braces.begin.haml
+/    ^^^ constant.other.symbol.ruby
+/        ^^ punctuation.separator.key-value.ruby
+/           ^ punctuation.section.array.ruby
+/                      ^ punctuation.separator.sequence.ruby
+/                                    ^ punctuation.section.array.ruby
+/                                     ^ punctuation.separator.sequence.ruby
+/                                       ^^^^^^ constant.other.symbol.ruby
+/                                              ^^ punctuation.separator.key-value.ruby
+/                                                 ^ punctuation.section.array.ruby
+/                                                            ^ punctuation.separator.sequence.ruby
+/                                                                           ^ punctuation.section.array.ruby
+/                                                                            ^ punctuation.section.braces.end.haml
+
+%div{:id => "#{@item.type}_#{@item.number}", :class => "#{@item.type} #{@item.urgency}"}
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^ meta.tag.haml entity.name.tag.haml
+/   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/           ^ meta.string.ruby - meta.interpolation
+/            ^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+/                         ^ meta.string.ruby - meta.interpolation
+/                          ^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+/                                         ^ meta.string.ruby - meta.interpolation
+/                                          ^^^^^^^^^^^^ - meta.string
+/                                                      ^ meta.string.ruby - meta.interpolation
+/                                                       ^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby
+/                                                                    ^ meta.string.ruby - meta.interpolation
+/                                                                     ^^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby
+/                                                                                     ^ meta.string.ruby - meta.interpolation
+/   ^ punctuation.section.braces.begin.haml
+/    ^^^ constant.other.symbol.ruby
+/        ^^ punctuation.separator.key-value.ruby
+/           ^ string.quoted.double.ruby punctuation.definition.string.begin.ruby
+/            ^^ punctuation.section.interpolation.begin.ruby
+/                        ^ punctuation.section.interpolation.end.ruby
+/                         ^ string.quoted.double.ruby - meta.interpolation
+/                          ^^ punctuation.section.interpolation.begin.ruby
+/                                        ^ punctuation.section.interpolation.end.ruby
+/                                         ^ string.quoted.double.ruby punctuation.definition.string.end.ruby
+/                                          ^ punctuation.separator.sequence.ruby
+/                                            ^^^^^^ constant.other.symbol.ruby
+/                                                   ^^ punctuation.separator.key-value.ruby
+/                                                      ^ string.quoted.double.ruby punctuation.definition.string.begin.ruby
+/                                                                    ^ string.quoted.double.ruby
+/                                                                     ^^ punctuation.section.interpolation.begin.ruby
+/                                                                                    ^ punctuation.section.interpolation.end.ruby
+/                                                                                     ^ string.quoted.double.ruby punctuation.definition.string.end.ruby
+
+.item{:class => @item.is_empty? && "empty"}
+/ <- meta.tag.haml entity.name.tag.class.haml punctuation.definition.tag.haml
+/^^^^ meta.tag.haml entity.name.tag.class.haml
+/    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/    ^ punctuation.section.braces.begin.haml
+/     ^^^^^^ constant.other.symbol.ruby
+/            ^^ punctuation.separator.key-value.ruby
+/               ^^^^^ variable.other.readwrite.instance.ruby
+/                    ^ punctuation.accessor.dot.ruby
+/                               ^^ keyword.operator.logical.ruby
+/                                  ^^^^^^^ meta.string.ruby string.quoted.double.ruby
+/                                         ^ punctuation.section.braces.end.haml
+
+

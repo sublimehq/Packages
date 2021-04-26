@@ -2,6 +2,7 @@
 ---
 name: HAML (Rails)
 scope: text.haml
+version: 2
 
 file_extensions:
   - haml
@@ -10,85 +11,116 @@ file_extensions:
 contexts:
 
   main:
-    - match: ^(!!!)($|\s.*)
-      scope: meta.prolog.haml
-      captures:
-        1: punctuation.definition.prolog.haml
+    - include: comments
+    - include: prologs
+    - include: tags
+    - include: escapes
+    - include: rubylines
+
+  comments:
     - match: ^ *(/)\s*\S.*$\n?
       scope: comment.line.slash.haml
       captures:
-        1: punctuation.section.comment.haml
+        1: punctuation.definition.comment.haml
     - match: ^( *)(/)\s*$
       captures:
-        2: punctuation.section.comment.haml
-      push:
-        - meta_scope: comment.block.haml
-        - match: ^(?!\1  )
-          pop: true
-        - include: main
-    - match: '^\s*(?:((%)([\w:]+))|(?=\.|#))'
-      captures:
-        1: meta.tag.haml
-        2: punctuation.definition.tag.haml
-        3: entity.name.tag.haml
-      push:
-        - match: '$|(?!\.|#|\{|\[|=|-|~|/)'
-          pop: true
-        - match: '(\.)[\w-]+'
-          scope: entity.name.tag.class.haml
-          captures:
-            1: punctuation.definition.tag.haml
-        - match: '(#)[\w-]+'
-          scope: entity.name.tag.id.haml
-          captures:
-            1: punctuation.definition.tag.haml
-        - match: '\{(?=.*\}|.*\|\s*$)'
-          scope: punctuation.section.braces.begin.haml
-          push:
-            - meta_scope: meta.section.attributes.haml meta.braces.haml
-            - match: '\}|$|^(?!.*\|\s*$)'
-              scope: punctuation.section.braces.end.haml
-              pop: true
-            - include: Ruby (Rails).sublime-syntax
-            - include: continuation
-        - match: '\[(?=.*\]|.*\|\s*$)'
-          scope: punctuation.section.brackets.begin.haml
-          push:
-            - meta_scope: meta.section.object.haml meta.brackets.haml
-            - match: '\]|$|^(?!.*\|\s*$)'
-              scope: punctuation.section.brackets.end.haml
-              pop: true
-            - include: Ruby (Rails).sublime-syntax
-            - include: continuation
-        - include: rubyline
-        - match: /
-          scope: punctuation.terminator.tag.haml
-    - match: ^\s*(\\.)
-      captures:
-        1: meta.escape.haml
-    - match: ^\s*(?==|-|~)
-      push:
-        - match: $
-          pop: true
-        - include: rubyline
+        2: punctuation.definition.comment.haml
+      push: comment-body
 
-  continuation:
+  comment-body:
+    - meta_scope: comment.block.haml
+    - match: ^(?!\1  )
+      pop: 1
+    - include: main
+
+  continuations:
     - match: (\|)\s*\n
       captures:
         1: punctuation.separator.continuation.haml
 
+  escapes:
+    - match: ^\s*(\\.)
+      captures:
+        1: meta.escape.haml
+
+  prologs:
+    - match: ^(!!!)($|\s.*)
+      scope: meta.prolog.haml
+      captures:
+        1: punctuation.definition.prolog.haml
+
+  rubylines:
+    - match: ^\s*(=|-|~)
+      scope: punctuation.section.embedded.haml
+      push: rubyline-body
+
   rubyline:
-    - match: "=|-|~"
-      push:
-        - meta_scope: meta.line.ruby.haml
-        - meta_content_scope: source.ruby.embedded.haml
-        - match: '((do|\{)( \|[^|]+\|)?)$|$|^(?!.*\|\s*$)'
-          captures:
-            1: source.ruby.embedded.html
-            2: keyword.control.start-block.ruby
-          pop: true
-        - match: "#.*$"
-          comment: Hack to let ruby comments work in this context properly
-          scope: comment.line.number-sign.ruby
-        - include: Ruby (Rails).sublime-syntax
-        - include: continuation
+    - match: (=|-|~)
+      scope: punctuation.section.embedded.haml
+      set: rubyline-body
+
+  rubyline-body:
+    - meta_scope: meta.embedded.haml meta.line.ruby.haml
+    - meta_content_scope: source.ruby.embedded.haml
+    - match: ((do|\{)( \|[^|]+\|)?)$
+      captures:
+        1: source.ruby.embedded.html
+        2: keyword.control.start-block.ruby
+      pop: 1
+    - match: \#.*$
+      comment: Hack to let ruby comments work in this context properly
+      scope: comment.line.number-sign.ruby
+    - include: ruby-code
+
+  ruby-code:
+    - match: $
+      pop: 1
+    # A line after a pipe-continuation must be terminated by pipe, too.
+    - match: ^(?!.*(\|\s*$))
+      pop: 1
+    - include: Ruby (Rails).sublime-syntax
+      apply_prototype: true
+
+  tags:
+    - match: ^\s*(?:((%)([\w:]+))|(?=\.|#))
+      captures:
+        1: meta.tag.haml
+        2: punctuation.definition.tag.haml
+        3: entity.name.tag.haml
+      push: tag-content
+
+  tag-content:
+    - match: (\.)[\w-]+
+      scope: meta.tag.haml entity.name.tag.class.haml
+      captures:
+        1: punctuation.definition.tag.haml
+    - match: (#)[\w-]+
+      scope: meta.tag.haml entity.name.tag.id.haml
+      captures:
+        1: punctuation.definition.tag.haml
+    - match: \{(?=.*\}|.*\|\s*$)
+      scope: punctuation.section.braces.begin.haml
+      push: tag-attributes-content
+    - match: \[(?=.*\]|.*\|\s*$)
+      scope: punctuation.section.brackets.begin.haml
+      push: tag-object-content
+    - include: rubyline
+    - match: /
+      scope: punctuation.terminator.tag.haml
+    - match: ''
+      pop: 1
+
+  tag-attributes-content:
+    - meta_scope: meta.tag.attributes.haml meta.braces.haml
+    - match: \}
+      scope: punctuation.section.braces.end.haml
+      pop: 1
+    - include: ruby-code
+
+  tag-object-content:
+    - meta_scope: meta.tag.object.haml meta.brackets.haml
+    - match: \]
+      scope: punctuation.section.brackets.end.haml
+      pop: 1
+    - include: ruby-code
+
