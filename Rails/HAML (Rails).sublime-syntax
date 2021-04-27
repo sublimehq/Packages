@@ -20,6 +20,8 @@ contexts:
     - include: continuations
     - include: text-interpolations
 
+###[ COMMENTS ]###############################################################
+
   comments:
     # https://haml.info/docs/yardoc/file.REFERENCE.html#comments
     # haml comments
@@ -53,6 +55,8 @@ contexts:
       pop: 1
     - include: main
 
+###[ CONTINUATIONS ]##########################################################
+
   continuations:
     # Attribute sections and embedded ruby code may continue on next line
     # if the current line is terminated with comma.
@@ -77,18 +81,7 @@ contexts:
     - match: ^
       pop: 1
 
-  doctypes:
-    # https://haml.info/docs/yardoc/file.REFERENCE.html#doctype-
-    - match: ^(!!!)(\s+(.*)\s*)?$
-      scope: meta.doctype.haml
-      captures:
-        1: punctuation.definition.doctype.haml
-        2: constant.language.doctype.haml
-
-  escapes:
-    - match: ^\s*(\\.)
-      captures:
-        1: meta.escape.haml
+###[ INTERPOLATIONS ]#########################################################
 
   string-interpolations:
     # Interpolation with clearing `string` scope.
@@ -139,6 +132,8 @@ contexts:
     - meta_scope: meta.interpolation.haml
     - include: Ruby (for HAML).sublime-syntax#interpolated-ruby-variables
 
+###[ EMBEDDED RUBY ]##########################################################
+
   rubylines:
     - match: ^\s*(=|-|~)
       scope: punctuation.section.embedded.haml
@@ -167,6 +162,21 @@ contexts:
       pop: 1
     - include: Ruby (for HAML).sublime-syntax
       apply_prototype: true
+
+###[ HAML TAGS ]##############################################################
+
+  doctypes:
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#doctype-
+    - match: ^(!!!)(\s+(.*)\s*)?$
+      scope: meta.doctype.haml
+      captures:
+        1: punctuation.definition.doctype.haml
+        2: constant.language.doctype.haml
+
+  escapes:
+    - match: ^\s*(\\.)
+      captures:
+        1: meta.escape.haml
 
   tags:
     - match: ^\s*(?:((%)([\w:]+))|(?=\.|#))
