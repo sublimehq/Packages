@@ -125,6 +125,8 @@ contexts:
     - include: rubyline
     - match: /
       scope: punctuation.terminator.tag.haml
+    - match: '[<>]'
+      scope: keyword.operator.whitespace.haml
     - match: ''
       pop: 1
 

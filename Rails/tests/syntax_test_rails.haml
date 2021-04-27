@@ -64,6 +64,34 @@
 /   ^^^^^^ meta.tag.haml
 /   ^ punctuation.definition.tag.haml
 
+%blockquote<
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^^^^^^^^ meta.tag.haml entity.name.tag.haml
+/          ^ keyword.operator.whitespace.haml
+  %div>
+/ ^ meta.tag.haml punctuation.definition.tag.haml
+/  ^^^ meta.tag.haml entity.name.tag.haml
+/     ^ keyword.operator.whitespace.haml
+    Foo!
+
+%img
+%pre><
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^ meta.tag.haml entity.name.tag.haml
+/   ^^ keyword.operator.whitespace.haml
+  foo
+  bar
+%img
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^ meta.tag.haml entity.name.tag.haml
+
+%p<= "Foo\nBar"
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^ meta.tag.haml entity.name.tag.haml
+/ ^ keyword.operator.whitespace.haml
+/  ^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml
+/  ^ punctuation.section.embedded.haml
+
 %p{:class => "myclass", :id => "myid"} My paragraph
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^ meta.tag.haml entity.name.tag.haml
