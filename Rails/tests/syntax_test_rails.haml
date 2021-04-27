@@ -65,6 +65,18 @@
 /^^ meta.tag.haml entity.name.tag.haml
 /  ^^^^^^^^^^^^ meta.line.ruby.haml
 
+%p This is #{h quality} cake!
+/          ^^^^^^^^^^^^ meta.interpolation.haml
+/          ^^ punctuation.section.interpolation.begin.haml
+/            ^^^^^^^^^ source.ruby.embedded.haml
+/                     ^ punctuation.section.interpolation.end.haml
+
+%p This is #{h
+   quality} cake!
+/  ^^^^^^^^ meta.interpolation.haml
+/  ^^^^^^^ source.ruby.embedded.haml
+/         ^ punctuation.section.interpolation.end.haml
+
 %p
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^ meta.tag.haml entity.name.tag.haml
