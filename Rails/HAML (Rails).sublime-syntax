@@ -1,4 +1,5 @@
 %YAML 1.2
+# https://haml.info/docs/yardoc/file.REFERENCE.html
 ---
 name: HAML (Rails)
 scope: text.haml
@@ -35,13 +36,26 @@ contexts:
     - include: main
 
   continuations:
+    # Attribute sections and embedded ruby code may continue on next line
+    # if the current line is terminated with comma.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#attributes
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#running-ruby--
+    - match: (,)\n
+      captures:
+        1: punctuation.separator.sequence.haml
+      push: comma-continuations-body
     # https://haml.info/docs/yardoc/file.REFERENCE.html#multiline
     - match: (\|)\s*\n
       captures:
         1: punctuation.separator.continuation.haml
-      push: continuations-body
+      push: pipe-continuations-body
 
-  continuations-body:
+  comma-continuations-body:
+    # Skip "line ends with pipe" check if previous line was continued by comma.
+    - match: (?=\S)
+      pop: 1
+
+  pipe-continuations-body:
     - match: ^
       pop: 1
 
@@ -102,10 +116,10 @@ contexts:
       scope: meta.tag.haml entity.name.tag.id.haml
       captures:
         1: punctuation.definition.tag.haml
-    - match: \{(?=.*\}|.*\|\s*$)
+    - match: \{(?=.*\}|.*(,|\|\s*)$)
       scope: punctuation.section.braces.begin.haml
       push: tag-attributes-content
-    - match: \[(?=.*\]|.*\|\s*$)
+    - match: \[(?=.*\]|.*(,|\|\s*)$)
       scope: punctuation.section.brackets.begin.haml
       push: tag-object-content
     - include: rubyline

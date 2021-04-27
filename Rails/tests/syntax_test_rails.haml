@@ -84,6 +84,11 @@
 /                                   ^ punctuation.definition.string.end.ruby
 /                                    ^ punctuation.section.braces.end.haml
 
+%p{:class => "myclass",
+   :id => "myid"} My paragraph
+/  ^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/               ^ punctuation.section.braces.end.haml
+
 %p{:class => "myclass", |
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^ meta.tag.haml entity.name.tag.haml
@@ -177,4 +182,8 @@
 /                                  ^^^^^^^ meta.string.ruby string.quoted.double.ruby
 /                                         ^ punctuation.section.braces.end.haml
 
-
+- links = {:home => "/",
+    :docs => "/docs",
+    :about => "/about"}
+/   ^^^^^^^^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.embedded.haml
+/                     ^ punctuation.section.scope.ruby
