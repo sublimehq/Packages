@@ -68,13 +68,13 @@
 %p This is #{h quality} cake!
 /          ^^^^^^^^^^^^ meta.interpolation.haml
 /          ^^ punctuation.section.interpolation.begin.haml
-/            ^^^^^^^^^ source.ruby.embedded.haml
+/            ^^^^^^^^^ source.ruby.rails.embedded.haml
 /                     ^ punctuation.section.interpolation.end.haml
 
 %p This is #{h
    quality} cake!
 /  ^^^^^^^^ meta.interpolation.haml
-/  ^^^^^^^ source.ruby.embedded.haml
+/  ^^^^^^^ source.ruby.rails.embedded.haml
 /         ^ punctuation.section.interpolation.end.haml
 
 %p
@@ -85,7 +85,7 @@
 
 = render 'form' # comment
 / <- meta.line.ruby.haml
-/^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml source.ruby.embedded.haml
+/^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml source.ruby.rails.embedded.haml
 / ^^^^^^ support.function.actionpack.rails
 /        ^^^^^^ meta.string.ruby string.quoted.single.ruby
 /               ^^^^^^^^^ comment.line.number-sign.ruby
@@ -94,7 +94,7 @@
 %title
   = @title
 / ^ meta.embedded.haml meta.line.ruby.haml punctuation.section.embedded.haml
-/  ^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.embedded.haml
+/  ^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.rails.embedded.haml
   \= @title
 / ^^ meta.escape.haml
 
@@ -206,7 +206,9 @@
 %div{:id => "#{@item.type}_#{@item.number}", :class => "#{@item.type} #{@item.urgency}"}
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^^^ meta.tag.haml entity.name.tag.haml
-/   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/   ^ meta.tag.attributes.haml meta.braces.haml - source
+/    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml source.ruby.rails.embedded.haml
+/                                                                                      ^ meta.tag.attributes.haml meta.braces.haml - source
 /           ^ meta.string.ruby - meta.interpolation
 /            ^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
 /                         ^ meta.string.ruby - meta.interpolation
@@ -240,7 +242,9 @@
 .item{:class => @item.is_empty? && "empty"}
 / <- meta.tag.haml entity.name.tag.class.haml punctuation.definition.tag.haml
 /^^^^ meta.tag.haml entity.name.tag.class.haml
-/    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/    ^ meta.tag.attributes.haml meta.braces.haml - source
+/     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml source.ruby.rails.embedded.haml
+/                                         ^ meta.tag.attributes.haml meta.braces.haml - source
 /    ^ punctuation.section.braces.begin.haml
 /     ^^^^^^ constant.other.symbol.ruby
 /            ^^ punctuation.separator.key-value.ruby
@@ -253,7 +257,9 @@
 %a{:href=>"/posts", :data => {:author_id => 123, :category => 7}} Posts By Author
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^ meta.tag.haml entity.name.tag.haml
-/ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/ ^ meta.tag.attributes.haml meta.braces.haml - source
+/  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml source.ruby.rails.embedded.haml
+/                                                               ^ meta.tag.attributes.haml meta.braces.haml - source
 / ^ punctuation.section.braces.begin.haml
 /                            ^ punctuation.section.scope.ruby
 /                                                              ^ punctuation.section.scope.ruby
@@ -325,29 +331,29 @@
 /           ^^^ variable.function
 /              ^ punctuation.section.group.begin.js
 /               ^^ punctuation.section.interpolation.begin.haml
-/                 ^^^^^ source.ruby.embedded.haml variable.other
+/                 ^^^^^ source.ruby.rails.embedded.haml variable.other
 /                      ^ punctuation.section.interpolation.end.haml
 /                         ^^^^ string.quoted.single.js
 /                             ^^^^^^^^ - string
 /                             ^^ punctuation.section.interpolation.begin.haml
-/                               ^^^^^ source.ruby.embedded.haml variable.other
+/                               ^^^^^ source.ruby.rails.embedded.haml variable.other
 /                                    ^ punctuation.section.interpolation.end.haml
 /                                     ^^ string.quoted.single.js
 /                                       ^ punctuation.section.group.end.js
 /                                        ^ punctuation.definition.string.end.html
 /                                                       ^^ punctuation.section.interpolation.begin.haml
-/                                                         ^^^^^^^^^^ source.ruby.embedded.haml variable.other
+/                                                         ^^^^^^^^^^ source.ruby.rails.embedded.haml variable.other
 /                                                                   ^ punctuation.section.interpolation.end.haml
 /                                                                      ^ punctuation.definition.string.begin.css
 /                                                                      ^^^^^^ string.quoted.single.css
 /                                                                            ^^^^^^^^ - string
 /                                                                            ^^ punctuation.section.interpolation.begin.haml
-/                                                                              ^^^^^ source.ruby.embedded.haml variable.other
+/                                                                              ^^^^^ source.ruby.rails.embedded.haml variable.other
 /                                                                                   ^ punctuation.section.interpolation.end.haml
 /                                                                                    ^ string.quoted.single.css punctuation.definition.string.end.css
 
 - links = {:home => "/",
     :docs => "/docs",
     :about => "/about"}
-/   ^^^^^^^^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.embedded.haml
+/   ^^^^^^^^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.rails.embedded.haml
 /                     ^ punctuation.section.scope.ruby

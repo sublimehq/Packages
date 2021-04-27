@@ -99,7 +99,7 @@ contexts:
   string-interpolation-expression:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.haml
-    - meta_content_scope: source.ruby.embedded.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
     - include: text-interpolation-expression
 
   string-interpolation-variable:
@@ -121,7 +121,7 @@ contexts:
 
   text-interpolation-expression:
     - meta_scope: meta.interpolation.haml
-    - meta_content_scope: source.ruby.embedded.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
     - match: \}
       scope: punctuation.section.interpolation.end.haml
       pop: 1
@@ -146,10 +146,10 @@ contexts:
 
   rubyline-body:
     - meta_scope: meta.embedded.haml meta.line.ruby.haml
-    - meta_content_scope: source.ruby.embedded.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
     - match: ((do|\{)( \|[^|]+\|)?)$
       captures:
-        1: source.ruby.embedded.html
+        1: source.ruby.rails.embedded.html
         2: keyword.control.start-block.ruby
       pop: 1
     - include: ruby-code
@@ -214,6 +214,7 @@ contexts:
 
   tag-attributes-content:
     - meta_scope: meta.tag.attributes.haml meta.braces.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
     - match: \}(?!.*\})
       scope: punctuation.section.braces.end.haml
       pop: 1
@@ -221,6 +222,7 @@ contexts:
 
   tag-object-content:
     - meta_scope: meta.tag.object.haml meta.brackets.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
     - match: \](?!.*\])
       scope: punctuation.section.brackets.end.haml
       pop: 1
