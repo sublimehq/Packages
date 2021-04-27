@@ -17,7 +17,14 @@
  /
  / <- comment.block.haml punctuation.definition.comment.haml
 
- /
+ /[if IE] conditional comment
+ / <- comment.line.slash.haml punctuation.definition.comment.haml
+ /^^^^^^^ comment.line.slash.haml meta.brackets.haml
+ /       ^^^^^^^^^^^^^^^^^^^^^ comment.line.slash.haml - meta.brackets
+ /^ punctuation.section.brackets.begin.haml
+ /      ^ punctuation.section.brackets.end.haml
+
+ /[if IE]
    Block comment
    / <- comment.block.haml
    Second line
@@ -29,6 +36,22 @@
    /      ^^^^^^^^^^ comment.block.haml entity.name.tag.class.haml
    Third line
    / <- comment.block.haml
+
+ -#
+ -# <- comment.block.haml punctuation.definition.comment.haml
+
+ -#
+   Block comment
+   -# <- comment.block.haml
+   Second line
+   -# <- comment.block.haml
+   -
+   #myview.html.haml
+   -# <- comment.block.haml entity.name.tag.id.haml punctuation.definition.tag.haml
+   -#^^^^^^ comment.block.haml entity.name.tag.id.haml
+   -#      ^^^^^^^^^^ comment.block.haml entity.name.tag.class.haml
+   Third line
+   -# <- comment.block.haml
 
 #myview.html.haml
 / <- meta.tag.haml entity.name.tag.id.haml punctuation.definition.tag.haml

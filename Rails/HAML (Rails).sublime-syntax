@@ -20,14 +20,31 @@ contexts:
     - include: continuations
 
   comments:
-    - match: ^ *(/)\s*\S.*$\n?
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#comments
+    # haml comments
+    - match: ^ *(-#)\s*\S.*$\n?
       scope: comment.line.slash.haml
       captures:
         1: punctuation.definition.comment.haml
-    - match: ^( *)(/)\s*$
+    - match: ^( *)(-#)\s*$
       captures:
         2: punctuation.definition.comment.haml
       push: comment-body
+    # html comments
+    - match: ^( *)(/)((\[)[^\]]*(\]))?\s*$
+      captures:
+        2: punctuation.definition.comment.haml
+        3: meta.brackets.haml
+        4: punctuation.section.brackets.begin.haml
+        5: punctuation.section.brackets.end.haml
+      push: comment-body
+    - match: ^ *(/)((\[)[^\]]*(\]))?\s*\S.*$\n?
+      scope: comment.line.slash.haml
+      captures:
+        1: punctuation.definition.comment.haml
+        2: meta.brackets.haml
+        3: punctuation.section.brackets.begin.haml
+        4: punctuation.section.brackets.end.haml
 
   comment-body:
     - meta_scope: comment.block.haml
