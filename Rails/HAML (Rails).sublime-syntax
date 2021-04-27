@@ -16,6 +16,7 @@ contexts:
     - include: tags
     - include: escapes
     - include: rubylines
+    - include: continuations
 
   comments:
     - match: ^ *(/)\s*\S.*$\n?
@@ -34,9 +35,15 @@ contexts:
     - include: main
 
   continuations:
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#multiline
     - match: (\|)\s*\n
       captures:
         1: punctuation.separator.continuation.haml
+      push: continuations-body
+
+  continuations-body:
+    - match: ^
+      pop: 1
 
   escapes:
     - match: ^\s*(\\.)
@@ -67,9 +74,6 @@ contexts:
         1: source.ruby.embedded.html
         2: keyword.control.start-block.ruby
       pop: 1
-    - match: \#.*$
-      comment: Hack to let ruby comments work in this context properly
-      scope: comment.line.number-sign.ruby
     - include: ruby-code
 
   ruby-code:
@@ -78,7 +82,7 @@ contexts:
     # A line after a pipe-continuation must be terminated by pipe, too.
     - match: ^(?!.*(\|\s*$))
       pop: 1
-    - include: Ruby (Rails).sublime-syntax
+    - include: Ruby (for HAML).sublime-syntax
       apply_prototype: true
 
   tags:
