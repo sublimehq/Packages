@@ -20,11 +20,11 @@ contexts:
     - meta_prepend: true
     - include: rails-embedded
 
-  tag-attribute-value-content:
+  strings-common-content:
     - meta_prepend: true
     - include: rails-interpolations
 
-  strings-common-content:
+  tag-attribute-value-content:
     - meta_prepend: true
     - include: rails-interpolations
 

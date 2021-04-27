@@ -90,9 +90,36 @@ contexts:
       captures:
         1: meta.escape.haml
 
+  string-interpolations:
+    # Interpolation with clearing `string` scope.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
+    # Used in
+    # - `HTML (for HAML).sublime-syntax`
+    # - `CSS (for HAML).sublime-syntax`
+    # - `JavaScript (for HAML).sublime-syntax`
+    - match: \#\{
+      scope: punctuation.section.interpolation.begin.haml
+      push: string-interpolation-expression
+    - match: (?=#[@$])
+      push: string-interpolation-variable
+
+  string-interpolation-expression:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.haml
+    - meta_content_scope: source.ruby.embedded.haml
+    - include: text-interpolation-expression
+
+  string-interpolation-variable:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.haml
+    - include: text-interpolation-variable
+
   text-interpolations:
     # Interpolation without clearing `string` scope for use in plain text.
     # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
+    # Used in:
+    # - `CSS (for HAML).sublime-syntax`
+    # - `JavaScript (for HAML).sublime-syntax`
     - match: \#\{
       scope: punctuation.section.interpolation.begin.haml
       push: text-interpolation-expression
@@ -164,6 +191,9 @@ contexts:
     - match: \[(?=.*\]|.*(,|\|\s*)$)
       scope: punctuation.section.brackets.begin.haml
       push: tag-object-content
+    - match: \(
+      scope: punctuation.section.parens.begin.haml
+      push: tag-attributes-html
     - include: rubyline
     - match: /
       scope: punctuation.terminator.tag.haml
@@ -186,3 +216,9 @@ contexts:
       pop: 1
     - include: ruby-code
 
+  tag-attributes-html:
+    - meta_scope: meta.tag.attributes.haml meta.parens.haml
+    - match: \)
+      scope: punctuation.section.parens.end.haml
+      pop: 1
+    - include: HTML (for HAML).sublime-syntax#tag-attributes

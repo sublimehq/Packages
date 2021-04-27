@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+scope: source.js.embedded.haml
+version: 2
+hidden: true
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HAML (Rails).sublime-syntax#text-interpolations
+
+  string-content:
+    - meta_prepend: true
+    - include: HAML (Rails).sublime-syntax#string-interpolations

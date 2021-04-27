@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-scope: source.ruby.embedded.haml
+scope: source.ruby.rails.embedded.haml
 hidden: true
 
 extends: Ruby (Rails).sublime-syntax

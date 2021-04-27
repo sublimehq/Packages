@@ -259,6 +259,93 @@
 /                                                              ^ punctuation.section.scope.ruby
 /                                                               ^ punctuation.section.braces.end.haml
 
+%html(xmlns="http://www.w3.org/#{@year}/xhtml" xml:lang="en" lang="en")
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^^ meta.tag.haml entity.name.tag.haml
+/    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.parens.haml
+/     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
+/                                              ^^^^^^^^^^^^^ meta.attribute-with-value.html
+/                                                            ^^^^^^^^^ meta.attribute-with-value.html
+/    ^ punctuation.section.parens.begin.haml
+/     ^^^^^ entity.other.attribute-name.html
+/          ^ punctuation.separator.key-value.html
+/           ^^^^^^^^^^^^^^^^^^^ meta.string.html  - meta.interpolation
+/                              ^^^^^^^^ meta.string.html meta.interpolation.haml
+/                                      ^^^^^^^ meta.string.html - meta.interpolation
+/           ^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+/                              ^^^^^^^^ - string
+/                                      ^^^^^^^ string.quoted.double.html
+/           ^ punctuation.definition.string.begin.html
+/                              ^^ punctuation.section.interpolation.begin.haml
+/                                ^ punctuation.definition.variable.ruby
+/                                 ^^^^ variable.other.readwrite.instance.ruby
+/                                     ^ punctuation.section.interpolation.end.haml
+/                                            ^ punctuation.definition.string.end.html
+/                                                                     ^ punctuation.section.parens.end.haml
+
+%script(type="text/javascript"
+        src="javascripts/script_#{2 + 7}")
+/       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.parens.haml meta.attribute-with-value.href.html
+/                                        ^ meta.tag.attributes.haml meta.parens.haml - meta.attribute-with-value
+/       ^^^ entity.other.attribute-name.href.html
+/          ^ punctuation.separator.key-value.html
+/           ^^^^^^^^^^^^^^^^^^^^ meta.string.html - meta.interpolation
+/                               ^^^^^^^^ meta.string.html meta.interpolation.haml
+/                                       ^ meta.string.html - meta.interpolation
+/           ^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+/           ^ punctuation.definition.string.begin.html
+/                               ^^^^^^^^ - string
+/                               ^^ punctuation.section.interpolation.begin.haml
+/                                 ^ constant.numeric.value.ruby
+/                                   ^ keyword.operator.arithmetic.ruby
+/                                     ^ constant.numeric.value.ruby
+/                                      ^ punctuation.section.interpolation.end.haml
+/                                       ^ string.quoted.double.html punctuation.definition.string.end.html
+/                                        ^ punctuation.section.parens.end.haml
+
+%a(onclick="run(#{@ruby}, 'var#{@ruby}e')" style="font: #{@ruby_font}, 'font_#{@name}';")
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^ meta.tag.haml entity.name.tag.haml
+/ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.parens.haml
+/          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html
+/                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html
+/           ^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/               ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
+/                       ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/                             ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
+/                                     ^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/                                        ^^^^^^^^^ - meta.interpolation
+/                                                 ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/                                                       ^^^^^^^^^^^^^ meta.interpolation.html meta.interpolation.haml
+/                                                                    ^^^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/                                                                            ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
+/                                                                                    ^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/                                                                                      ^ - meta.interpolation
+/          ^ string.quoted.double.html punctuation.definition.string.begin.html
+/           ^^^ variable.function
+/              ^ punctuation.section.group.begin.js
+/               ^^ punctuation.section.interpolation.begin.haml
+/                 ^^^^^ source.ruby.embedded.haml variable.other
+/                      ^ punctuation.section.interpolation.end.haml
+/                         ^^^^ string.quoted.single.js
+/                             ^^^^^^^^ - string
+/                             ^^ punctuation.section.interpolation.begin.haml
+/                               ^^^^^ source.ruby.embedded.haml variable.other
+/                                    ^ punctuation.section.interpolation.end.haml
+/                                     ^^ string.quoted.single.js
+/                                       ^ punctuation.section.group.end.js
+/                                        ^ punctuation.definition.string.end.html
+/                                                       ^^ punctuation.section.interpolation.begin.haml
+/                                                         ^^^^^^^^^^ source.ruby.embedded.haml variable.other
+/                                                                   ^ punctuation.section.interpolation.end.haml
+/                                                                      ^ punctuation.definition.string.begin.css
+/                                                                      ^^^^^^ string.quoted.single.css
+/                                                                            ^^^^^^^^ - string
+/                                                                            ^^ punctuation.section.interpolation.begin.haml
+/                                                                              ^^^^^ source.ruby.embedded.haml variable.other
+/                                                                                   ^ punctuation.section.interpolation.end.haml
+/                                                                                    ^ string.quoted.single.css punctuation.definition.string.end.css
+
 - links = {:home => "/",
     :docs => "/docs",
     :about => "/about"}
