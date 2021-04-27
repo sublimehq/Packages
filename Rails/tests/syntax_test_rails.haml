@@ -1,13 +1,18 @@
 / SYNTAX TEST "Packages/Rails/HAML (Rails).sublime-syntax"
 
-!!! This is a prolog
-/ <- meta.prolog.haml punctuation.definition.prolog.haml
-/^^^^^^^^^^^^^^^^^^^ meta.prolog.haml
-/^^ punctuation.definition.prolog.haml
+!!!
+/ <- meta.doctype.haml punctuation.definition.doctype.haml
+/^^ meta.doctype.haml punctuation.definition.doctype.haml
 
-!!!This is no prolog
-/ <- - meta.prolog
-/^^^^^^^^^^^^^^^^^^^^ - meta.prolog
+!!! This is a prolog
+/ <- meta.doctype.haml punctuation.definition.doctype.haml
+/^^^^^^^^^^^^^^^^^^^ meta.doctype.haml
+/^^ punctuation.definition.doctype.haml
+/   ^^^^^^^^^^^^^^^^^ constant.language.doctype.haml
+
+!!!This is no doctype
+/ <- - meta.doctype
+/^^^^^^^^^^^^^^^^^^^^ - meta.doctype
 
  /
  / <- comment.block.haml punctuation.definition.comment.haml

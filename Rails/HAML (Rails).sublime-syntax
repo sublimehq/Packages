@@ -13,7 +13,7 @@ contexts:
 
   main:
     - include: comments
-    - include: prologs
+    - include: doctypes
     - include: tags
     - include: escapes
     - include: rubylines
@@ -59,16 +59,18 @@ contexts:
     - match: ^
       pop: 1
 
+  doctypes:
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#doctype-
+    - match: ^(!!!)(\s+(.*)\s*)?$
+      scope: meta.doctype.haml
+      captures:
+        1: punctuation.definition.doctype.haml
+        2: constant.language.doctype.haml
+
   escapes:
     - match: ^\s*(\\.)
       captures:
         1: meta.escape.haml
-
-  prologs:
-    - match: ^(!!!)($|\s.*)
-      scope: meta.prolog.haml
-      captures:
-        1: punctuation.definition.prolog.haml
 
   rubylines:
     - match: ^\s*(=|-|~)
