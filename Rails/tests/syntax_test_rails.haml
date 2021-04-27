@@ -182,6 +182,15 @@
 /                                  ^^^^^^^ meta.string.ruby string.quoted.double.ruby
 /                                         ^ punctuation.section.braces.end.haml
 
+%a{:href=>"/posts", :data => {:author_id => 123, :category => 7}} Posts By Author
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^ meta.tag.haml entity.name.tag.haml
+/ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml
+/ ^ punctuation.section.braces.begin.haml
+/                            ^ punctuation.section.scope.ruby
+/                                                              ^ punctuation.section.scope.ruby
+/                                                               ^ punctuation.section.braces.end.haml
+
 - links = {:home => "/",
     :docs => "/docs",
     :about => "/about"}

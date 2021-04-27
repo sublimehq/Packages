@@ -130,14 +130,14 @@ contexts:
 
   tag-attributes-content:
     - meta_scope: meta.tag.attributes.haml meta.braces.haml
-    - match: \}
+    - match: \}(?!.*\})
       scope: punctuation.section.braces.end.haml
       pop: 1
     - include: ruby-code
 
   tag-object-content:
     - meta_scope: meta.tag.object.haml meta.brackets.haml
-    - match: \]
+    - match: \](?!.*\])
       scope: punctuation.section.brackets.end.haml
       pop: 1
     - include: ruby-code
