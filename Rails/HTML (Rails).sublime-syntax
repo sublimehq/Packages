@@ -105,7 +105,7 @@ contexts:
   rails-interpolation-content:
     - clear_scopes: 1
     - meta_include_prototype: false
-    - meta_scope: meta.interpolation.html
+    - meta_scope: meta.interpolation.rails
     - include: rails-embedded
     - include: immediately-pop
 

@@ -14,3 +14,7 @@ contexts:
   prototype:
     - meta_prepend: true
     - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  string-content:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations

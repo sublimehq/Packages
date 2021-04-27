@@ -71,3 +71,36 @@
 <p attrib="No #{@ruby} interpolation">No #{@ruby} interpolation</p>
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.html string.quoted.double.html - meta.interpolation - source
 #                                     ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation - source
+
+<a onclick="run(<% @ruby %>, 'var<% @ruby %>e')" style="font: <% @ruby_font %>, 'font_<% @name %>';">text</a>
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html meta.attribute-with-value.event.html meta.string.html
+#           ^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#               ^^^^^^^^^^^ meta.interpolation.html meta.embedded.rails
+#                          ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#                                ^^^^^^^^^^^ meta.interpolation.html meta.string.js meta.interpolation.rails meta.embedded.rails
+#                                           ^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html meta.attribute-with-value.style.html meta.string.html
+#                                                       ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#                                                             ^^^^^^^^^^^^^^^^ meta.interpolation.html meta.embedded.rails
+#                                                                             ^^^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#                                                                                     ^^^^^^^^^^^ meta.interpolation.html meta.string.css meta.interpolation.rails meta.embedded.rails
+#                                                                                                ^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.function-call
+#               ^^ punctuation.section.embedded.begin.rails
+#                 ^^^^^^^ source.ruby.embedded.rails
+#                        ^^ punctuation.section.embedded.end.rails
+#                            ^^^^ string.quoted.single.js
+#                                ^^ punctuation.section.embedded.begin.rails
+#                                ^^^^^^^^^^^ - string
+#                                         ^^ punctuation.section.embedded.end.rails
+#                                           ^^ string.quoted.single.js
+#                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html
+#                                                             ^^ punctuation.section.embedded.begin.rails
+#                                                               ^^^^^^^^^^^^ source.ruby.embedded.rails
+#                                                                           ^^ punctuation.section.embedded.end.rails
+#                                                                               ^^^^^^ string.quoted.single.css
+#                                                                                     ^^ punctuation.section.embedded.begin.rails
+#                                                                                     ^^^^^^^^^^^ - string
+#                                                                                              ^^ punctuation.section.embedded.end.rails
+#                                                                                                ^ string.quoted.single.css
+#                                                                                                 ^ punctuation.terminator.rule.css
