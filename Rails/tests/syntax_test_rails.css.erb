@@ -1,0 +1,24 @@
+/* SYNTAX TEST "Packages/Rails/CSS (Rails).sublime-syntax" */
+
+h1 {
+    color: <% @ruby %>;
+/*         ^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.embedded.rails */
+/*         ^^ punctuation.section.embedded.begin.rails */
+/*           ^^^^^^^ source.ruby.rails.embedded.rails */
+/*                  ^^ punctuation.section.embedded.end.rails */
+/*                    ^ punctuation.terminator.rule.css */
+
+    <% font %>: "Na <% @me %>";
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^ meta.embedded.rails */
+/*            ^ - meta.embedded */
+/*              ^^^^ meta.property-value.css meta.string.css - meta.interpolation */
+/*                  ^^^^^^^^^ meta.property-value.css meta.string.css meta.interpolation.rails meta.embedded.rails */
+/*                           ^ meta.property-value.css meta.string.css - meta.interpolation */
+/*            ^ punctuation.separator.key-value.css */
+/*              ^^^^ string.quoted.double.css */
+/*                  ^^ punctuation.section.embedded.begin.rails */
+/*                    ^^^^^ source.ruby.rails.embedded.rails */
+/*                         ^^ punctuation.section.embedded.end.rails */
+/*                           ^ string.quoted.double.css punctuation.definition.string.end.css */
+}
