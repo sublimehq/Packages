@@ -472,6 +472,13 @@ contexts:
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
+    - include: ts-function-type-arguments-or-less-than
+
+  decorator-expression-end:
+    - meta_prepend: true
+    - include: ts-function-type-arguments-or-less-than
+
+  ts-function-type-arguments-or-less-than:
     - match: (?=<(?![<=]))
       branch_point: ts-function-type-arguments
       branch:
