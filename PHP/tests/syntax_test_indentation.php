@@ -23,6 +23,30 @@ if (a == 2) {
 }
 ?>
 
+Same for JS
+<script>
+    <?php if (true): ?>
+        console.log(true);
+    <?php elseif (false): ?>
+        console.log(false);
+    <?php else: ?>
+        console.log("else");
+    <?php endif;?>
+    "useless string"
+</script>
+
+And CSS
+<style>
+    <?php if (true): ?>
+        @import;
+    <?php elseif (false): ?>
+        @import;
+    <?php else: ?>
+        @import;
+    <?php endif;?>
+    @import;
+</style>
+
 https://github.com/sublimehq/Packages/issues/1175
 <?php
 if ('a:b') return;

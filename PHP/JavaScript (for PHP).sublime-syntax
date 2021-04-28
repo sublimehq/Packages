@@ -31,8 +31,4 @@ contexts:
     - include: php-embedded-content
 
   php-embedded-content:
-    - match: \?>
-      scope: punctuation.section.embedded.end.php
-      pop: 1
-    - include: scope:source.php
-      apply_prototype: true
+    - include: PHP.sublime-syntax#php-embedded-content

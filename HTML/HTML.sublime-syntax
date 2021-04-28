@@ -164,7 +164,7 @@ contexts:
         - include: script-javascript-content
 
   script-javascript-content:
-    - match: (?=\S)
+    - match: (?=\S|^)
       embed: scope:source.js
       embed_scope: source.js.embedded.html
       escape: '{{script_close_lookahead}}'
@@ -260,7 +260,7 @@ contexts:
         - include: style-css-content
 
   style-css-content:
-    - match: ''
+    - match: (?=\S|^)
       embed: scope:source.css
       embed_scope: source.css.embedded.html
       escape: '{{style_close_lookahead}}'
