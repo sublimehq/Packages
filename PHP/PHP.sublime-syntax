@@ -72,8 +72,10 @@ contexts:
     - include: php-embedded-content
 
   php-embedded-content:
-    - match: \?>
-      scope: punctuation.section.embedded.end.php
+    - match: (\?>)(\s*\n)?
+      captures:
+        1: punctuation.section.embedded.end.php
+        2: meta.newline-after-php.php  # used by indentation rules
       pop: 1
     - include: scope:source.php
       apply_prototype: true

@@ -4,7 +4,7 @@
 	<key>scope</key>
 	<string>
 		source.php - comment - meta.embedded.html - string,
-		meta.html-newline-after-php
+		meta.newline-after-php
 	</string>
 	<key>settings</key>
 	<dict>
