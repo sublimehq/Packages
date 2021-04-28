@@ -115,7 +115,7 @@ contexts:
       push: rails-comment-content
     - match: <%+(?!>)[-=]?
       scope: meta.embedded.rails punctuation.section.embedded.begin.rails
-      embed_scope: meta.embedded.rails source.ruby.embedded.rails
+      embed_scope: meta.embedded.rails source.ruby.rails.embedded.rails
       embed: Ruby (Rails).sublime-syntax
       escape: -?%>
       escape_captures:

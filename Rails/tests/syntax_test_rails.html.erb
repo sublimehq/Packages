@@ -15,7 +15,7 @@
   <% if true # comment inside embedded %>
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.rails
 # ^^ punctuation.section.embedded.begin.rails
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby.embedded.rails
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby.rails.embedded.rails
 #            ^ punctuation.definition.comment
 #                                      ^^ punctuation.section.embedded.end.rails
   
@@ -25,7 +25,7 @@
   <% end %>
 # ^^^^^^^^^ meta.embedded.rails
 # ^^ punctuation.section.embedded.begin.rails
-#   ^^^^^ source.ruby.embedded.rails
+#   ^^^^^ source.ruby.rails.embedded.rails
 #        ^^ punctuation.section.embedded.end.rails
 
   <% if false -%><p>inline erb</p><% end -%>
@@ -33,10 +33,10 @@
 #                ^^^^^^^^^^^^^^^^^ - meta.embedded
 #                                 ^^^^^^^^^^ meta.embedded.rails
 # ^^ punctuation.section.embedded.begin.rails
-#   ^^^^^^^^^^ source.ruby.embedded.rails
+#   ^^^^^^^^^^ source.ruby.rails.embedded.rails
 #             ^^^ punctuation.section.embedded
 #                                 ^^ punctuation.section.embedded.begin.rails
-#                                   ^^^^^ source.ruby.embedded.rails
+#                                   ^^^^^ source.ruby.rails.embedded.rails
 #                                        ^^^ punctuation.section.embedded.end.rails
 
 <p style="font-weight: <% if show_bold %>bold<% else %>normal<% end %>">
@@ -51,17 +51,17 @@
 #        ^ string.quoted.double.html punctuation.definition.string.begin.html
 #         ^^^^^^^^^^^ support.type.property-name
 #                      ^^ punctuation.section.embedded.begin.rails
-#                        ^^^^^^^^^^^^^^ source.ruby.embedded.rails
+#                        ^^^^^^^^^^^^^^ source.ruby.rails.embedded.rails
 #                         ^ keyword.control
 #                                      ^^ punctuation.section.embedded.end.rails
 #                                        ^^^^ support.constant
 #                                            ^^ punctuation.section.embedded.begin.rails
-#                                              ^^^^^^ source.ruby.embedded.rails
+#                                              ^^^^^^ source.ruby.rails.embedded.rails
 #                                               ^ keyword.control
 #                                                    ^^ punctuation.section.embedded.end.rails
 #                                                      ^^^^^^ support.constant
 #                                                            ^^ punctuation.section.embedded.begin.rails
-#                                                              ^^^^^ source.ruby.embedded.rails
+#                                                              ^^^^^ source.ruby.rails.embedded.rails
 #                                                               ^ keyword.control
 #                                                                   ^^ punctuation.section.embedded.end.rails
 #                                                                     ^ string.quoted.double.html punctuation.definition.string.end.html
@@ -87,7 +87,7 @@
 #                                                                                                ^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.function-call
 #               ^^ punctuation.section.embedded.begin.rails
-#                 ^^^^^^^ source.ruby.embedded.rails
+#                 ^^^^^^^ source.ruby.rails.embedded.rails
 #                        ^^ punctuation.section.embedded.end.rails
 #                            ^^^^ string.quoted.single.js
 #                                ^^ punctuation.section.embedded.begin.rails
@@ -96,7 +96,7 @@
 #                                           ^^ string.quoted.single.js
 #                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html
 #                                                             ^^ punctuation.section.embedded.begin.rails
-#                                                               ^^^^^^^^^^^^ source.ruby.embedded.rails
+#                                                               ^^^^^^^^^^^^ source.ruby.rails.embedded.rails
 #                                                                           ^^ punctuation.section.embedded.end.rails
 #                                                                               ^^^^^^ string.quoted.single.css
 #                                                                                     ^^ punctuation.section.embedded.begin.rails
