@@ -9,6 +9,10 @@ file_extensions:
   - haml
   - sass
 
+variables:
+
+  filter_escapes: ^(?!(\1\s)|\s*$)
+
 contexts:
 
   main:
@@ -16,6 +20,7 @@ contexts:
     - include: doctypes
     - include: tags
     - include: escapes
+    - include: filters
     - include: rubylines
     - include: continuations
     - include: text-interpolations
@@ -234,3 +239,78 @@ contexts:
       scope: punctuation.section.parens.end.haml
       pop: 1
     - include: HTML (for HAML).sublime-syntax#tag-attributes
+
+###[ FILTERS ]##########################################################
+
+  filters:
+    # Notes:
+    # 1. Markdown is not implemented as it fails to render due to
+    #    indentation and because it embedds many syntaxes itself.
+    # 2. Syntaxes not part of this repo (LESS, SCSS, SASS, CoffeeScript)
+    #    are not implemented as those would cause issues when not present.
+    # source:
+    #   https://github.com/haml/haml/blob/main/lib/haml/filters.rb
+    - include: filters-css
+    - include: filters-erb
+    - include: filters-javascript
+    - include: filters-plain
+    - include: filters-ruby
+
+  filters-css:
+    - match: ^(\s*)((:)(css)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.css.filter.haml
+      embed: scope:source.css.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.css.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-erb:
+    - match: ^(\s*)((:)(erb)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.erb.haml
+      embed: scope:text.html.rails
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        text.html.rails.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-javascript:
+    - match: ^(\s*)((:)(javascript)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.javascript.haml
+      embed: scope:source.js.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.js.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-plain:
+    - match: ^(\s*)((:)(plain)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.plain.haml
+      push:
+        - meta_content_scope: meta.filter.haml text.plain.embedded.haml
+        - match: '{{filter_escapes}}'
+          pop: 1
+
+  filters-ruby:
+    - match: ^(\s*)((:)(ruby)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.ruby.haml
+      embed: scope:source.ruby.rails.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.ruby.rails.embedded.haml
+      escape: '{{filter_escapes}}'

@@ -357,3 +357,76 @@
     :about => "/about"}
 /   ^^^^^^^^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.rails.embedded.haml
 /                     ^ punctuation.section.scope.ruby
+
+///// FILTERS TESTS ///////////////////////////////////////////////////////////
+
+:css
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^ meta.filter.definition.haml constant.other.language-name.css.filter.haml
+/   ^ meta.filter.definition.haml - constant
+
+:css
+    h1 {
+    / <- meta.filter.haml meta.embedded.haml source.css.embedded.haml
+    / <- meta.selector.css entity.name.tag.html.css
+    /  ^ meta.property-list.css meta.block.css punctuation.section.block.begin.css
+        color: red;
+    /   ^^^^^ support.type.property-name.css
+    /        ^ punctuation.separator.key-value.css
+    /          ^^^ support.constant.color.w3c.standard.css
+    /             ^ punctuation.terminator.rule.css
+    }
+
+:erb
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^ meta.filter.definition.haml constant.other.language-name.erb.haml
+/   ^ meta.filter.definition.haml - constant
+
+:erb
+    <p>text</p>
+    / <- meta.filter.haml meta.embedded.haml text.html.rails.embedded.haml
+    / <- meta.tag punctuation.definition.tag
+    /^ meta.tag entity.name.tag
+    / ^ meta.tag.block punctuation.definition.tag
+    <% if true %>
+    / <- meta.filter.haml meta.embedded.haml text.html.rails.embedded.haml meta.embedded.rails
+    / <- punctuation.section.embedded.begin.rails
+    /^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml text.html.rails.embedded.haml meta.embedded.rails
+    /^ punctuation.section.embedded.begin.rails
+    / ^^^^^^^^^ source.ruby.rails.embedded.rails
+    /          ^^ punctuation.section.embedded.end.rails
+
+:javascript
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^^^^^^^^ meta.filter.definition.haml constant.other.language-name.javascript.haml
+/          ^ meta.filter.definition.haml - constant
+
+:javascript
+    function foo() {}
+    / <- meta.filter.haml meta.embedded.haml source.js.embedded.haml
+    / <- meta.function.js keyword.declaration.function.js
+    /^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.js.embedded.haml
+
+:plain
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^^^ meta.filter.definition.haml constant.other.language-name.plain.haml
+/     ^ meta.filter.definition.haml - constant
+
+:plain
+  This is plain text
+  / <- meta.filter.haml text.plain.embedded.haml
+  /^^^^^^^^^^^^^^^^^^ meta.filter.haml text.plain.embedded.haml
+
+:ruby
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^^ meta.filter.definition.haml constant.other.language-name.ruby.haml
+/    ^ meta.filter.definition.haml - constant
+
+:ruby
+  foo = Hash.new
+  / <- meta.filter.haml meta.embedded.haml source.ruby.rails.embedded.haml
+  /^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.ruby.rails.embedded.haml
+  foo[:a] = 42
+  %i(a b c)
+  / <- meta.filter.haml meta.embedded.haml source.ruby.rails.embedded.haml
+  / <- string.quoted.other.literal.lower.ruby punctuation.definition.string.begin.ruby
