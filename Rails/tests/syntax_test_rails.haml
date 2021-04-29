@@ -53,6 +53,25 @@
    Third line
    -# <- comment.block.haml
 
+%foo_bar
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^^^^^ meta.tag.haml entity.name.tag.haml
+
+%foo-bar
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^^^^^ meta.tag.haml entity.name.tag.haml
+
+%foo:bar
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^^^^^ meta.tag.haml entity.name.tag.haml
+
+%p.foo.bar#baz#boom
+/ <- meta.tag.haml punctuation.definition.tag.haml
+/^^^^^^^^^^^^^^^^^^ meta.tag.haml
+/^ entity.name.tag.haml
+/ ^^^^^^^^ entity.name.tag.class.haml
+/         ^^^^^^^^^ entity.name.tag.id.haml
+
 #myview.html.haml
 / <- meta.tag.haml entity.name.tag.id.haml punctuation.definition.tag.haml
 /^^^^^^ meta.tag.haml entity.name.tag.id.haml

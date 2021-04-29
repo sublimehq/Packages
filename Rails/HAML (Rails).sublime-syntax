@@ -102,7 +102,7 @@ contexts:
         1: meta.escape.haml
 
   tags:
-    - match: ^\s*(?:((%)([\w:]+))|(?=\.|#))
+    - match: ^\s*(?:((%)([\w:-]+))|(?=\.|#))
       captures:
         1: meta.tag.haml
         2: punctuation.definition.tag.haml
