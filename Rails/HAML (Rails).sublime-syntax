@@ -137,37 +137,6 @@ contexts:
     - meta_scope: meta.interpolation.haml
     - include: Ruby (for HAML).sublime-syntax#interpolated-ruby-variables
 
-###[ EMBEDDED RUBY ]##########################################################
-
-  rubylines:
-    - match: ^\s*(=|-|~)
-      scope: punctuation.section.embedded.haml
-      push: rubyline-body
-
-  rubyline:
-    - match: (=|-|~)
-      scope: punctuation.section.embedded.haml
-      set: rubyline-body
-
-  rubyline-body:
-    - meta_scope: meta.embedded.haml meta.line.ruby.haml
-    - meta_content_scope: source.ruby.rails.embedded.haml
-    - match: ((do|\{)( \|[^|]+\|)?)$
-      captures:
-        1: source.ruby.rails.embedded.html
-        2: keyword.control.start-block.ruby
-      pop: 1
-    - include: ruby-code
-
-  ruby-code:
-    - match: $
-      pop: 1
-    # A line after a pipe-continuation must be terminated by pipe, too.
-    - match: ^(?!.*(\|\s*$))
-      pop: 1
-    - include: Ruby (for HAML).sublime-syntax
-      apply_prototype: true
-
 ###[ HAML TAGS ]##############################################################
 
   doctypes:
@@ -314,3 +283,34 @@ contexts:
         meta.filter.haml meta.embedded.haml
         source.ruby.rails.embedded.haml
       escape: '{{filter_escapes}}'
+
+###[ EMBEDDED RUBY ]##########################################################
+
+  rubylines:
+    - match: ^\s*(=|-|~)
+      scope: punctuation.section.embedded.haml
+      push: rubyline-body
+
+  rubyline:
+    - match: (=|-|~)
+      scope: punctuation.section.embedded.haml
+      set: rubyline-body
+
+  rubyline-body:
+    - meta_scope: meta.embedded.haml meta.line.ruby.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - match: ((do|\{)( \|[^|]+\|)?)$
+      captures:
+        1: source.ruby.rails.embedded.html
+        2: keyword.control.start-block.ruby
+      pop: 1
+    - include: ruby-code
+
+  ruby-code:
+    - match: $
+      pop: 1
+    # A line after a pipe-continuation must be terminated by pipe, too.
+    - match: ^(?!.*(\|\s*$))
+      pop: 1
+    - include: Ruby (for HAML).sublime-syntax
+      apply_prototype: true
