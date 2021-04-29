@@ -2,7 +2,7 @@
 ---
 scope: source.css.embedded.haml
 version: 2
-hiden: true
+hidden: true
 
 extends: Packages/CSS/CSS.sublime-syntax
 
