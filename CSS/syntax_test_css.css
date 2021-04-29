@@ -1257,7 +1257,7 @@
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
-.test-var-functions { 
+.test-var-functions {
     --test-var: arial;
 /*  ^^^^^^^^^^ entity.other.custom-property.css */
 /*            ^ punctuation.separator.key-value.css*/
@@ -1599,6 +1599,16 @@
 /*                    ^ punctuation.definition.pseudo-class.css - entity */
 /*                     ^^^ entity.other.pseudo-class.css */
 /*                         ^ variable.language.wildcard.asterisk.css */
+
+.test-pseudo-class-tag:is(*) {}
+/*                    ^ punctuation.definition.pseudo-class.css - entity */
+/*                     ^^ entity.other.pseudo-class.css */
+/*                        ^ variable.language.wildcard.asterisk.css */
+
+.test-pseudo-class-tag:where(*) {}
+/*                    ^ punctuation.definition.pseudo-class.css - entity */
+/*                     ^^^^^ entity.other.pseudo-class.css */
+/*                           ^ variable.language.wildcard.asterisk.css */
 
 .test-pseudo-elements::before {}
 /*                   ^^ punctuation.definition.pseudo-element.css - entity */
@@ -2323,7 +2333,7 @@
 /*       ^^^^^ support.function.transform.css */
 /*             ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*              ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-    
+
     top: skew(1deg, 2turn);
 /*       ^^^^ support.function.transform.css */
 /*            ^ meta.number.integer.decimal.css constant.numeric.value.css */

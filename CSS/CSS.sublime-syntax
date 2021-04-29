@@ -30,7 +30,7 @@ variables:
   #    matching (?!{{escape}}) which also effects performance negative.
   break: (?=[[^-_[:alnum:]\\]&&[[:ascii:]]]|\Z)
 
-  # Identifiers  
+  # Identifiers
   # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
   # https://www.w3.org/TR/css3-selectors/#lex
   ident: (?:{{custom_ident}}|{{generic_ident}})
@@ -605,13 +605,13 @@ variables:
   # https://www.w3.org/TR/CSS22/fonts.html#font-shorthand
   font_property_constants: |-
     \b(?xi:
-      caption | icon | menu | message-box | small-caption | status-bar 
+      caption | icon | menu | message-box | small-caption | status-bar
     ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-size-props
   font_size_constants: |-
     \b(?xi:
-      larger | large | medium | small | smaller | x{1,2}-(?: large | small ) 
+      larger | large | medium | small | smaller | x{1,2}-(?: large | small )
     ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-boldness
@@ -619,7 +619,7 @@ variables:
   # https://www.w3.org/TR/CSS22/fonts.html#small-caps
   font_style_constants: |-
     \b(?xi:
-      normal | bold | bolder | lighter | italic | oblique | small-caps 
+      normal | bold | bolder | lighter | italic | oblique | small-caps
     ){{break}}
 
 ###############################################################################
@@ -1308,7 +1308,7 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|not|has)(?=\()
+    - match: (?i:matches|is|where|not|has)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
