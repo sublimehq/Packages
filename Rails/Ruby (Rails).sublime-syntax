@@ -177,7 +177,7 @@ contexts:
         - meta_scope: meta.unit_test.rails
         - include: late-expressions-end
         - include: embedded-expressions
-    - match: (^\s*)ActionController::Routing::Routes
+    - match: (^\s*)(?=ActionController::Routing::Routes)
       push:
         - meta_scope: meta.routes.rails
         - include: late-expressions-end
