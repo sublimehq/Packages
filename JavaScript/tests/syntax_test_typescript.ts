@@ -210,6 +210,28 @@
 //              ^ punctuation.separator.type
 //                ^^^ meta.type support.type.any
 //                    ^^ meta.function meta.block
+
+        @decorator<T>()
+//      ^^^^^^^^^^^^^^^ meta.annotation
+//      ^ punctuation.definition.annotation
+//       ^^^^^^^^^ variable.annotation
+//                ^^^ meta.generic
+//                ^ punctuation.definition.generic.begin
+//                 ^ support.class
+//                  ^ punctuation.definition.generic.end
+//                   ^^ meta.group
+//                   ^ punctuation.section.group.begin
+//                    ^ punctuation.section.group.end
+
+        foo() {}
+//      ^^^^^^^^ meta.function
+//      ^^^ entity.name.function
+//         ^^ meta.function.parameters
+//         ^ punctuation.section.group.begin
+//          ^ punctuation.section.group.end
+//            ^^ meta.block
+//            ^ punctuation.section.block.begin
+//             ^ punctuation.section.block.end
     }
 
     abstract class Foo {
