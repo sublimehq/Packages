@@ -86,57 +86,6 @@ contexts:
     - match: ^
       pop: 1
 
-###[ INTERPOLATIONS ]#########################################################
-
-  string-interpolations:
-    # Interpolation with clearing `string` scope.
-    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
-    # Used in
-    # - `HTML (for HAML).sublime-syntax`
-    # - `CSS (for HAML).sublime-syntax`
-    # - `JavaScript (for HAML).sublime-syntax`
-    - match: \#\{
-      scope: punctuation.section.interpolation.begin.haml
-      push: string-interpolation-expression
-    - match: (?=#[@$])
-      push: string-interpolation-variable
-
-  string-interpolation-expression:
-    - clear_scopes: 1
-    - meta_scope: meta.interpolation.haml
-    - meta_content_scope: source.ruby.rails.embedded.haml
-    - include: text-interpolation-expression
-
-  string-interpolation-variable:
-    - clear_scopes: 1
-    - meta_scope: meta.interpolation.haml
-    - include: text-interpolation-variable
-
-  text-interpolations:
-    # Interpolation without clearing `string` scope for use in plain text.
-    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
-    # Used in:
-    # - `CSS (for HAML).sublime-syntax`
-    # - `JavaScript (for HAML).sublime-syntax`
-    - match: \#\{
-      scope: punctuation.section.interpolation.begin.haml
-      push: text-interpolation-expression
-    - match: (?=#[@$])
-      push: text-interpolation-variable
-
-  text-interpolation-expression:
-    - meta_scope: meta.interpolation.haml
-    - meta_content_scope: source.ruby.rails.embedded.haml
-    - match: \}
-      scope: punctuation.section.interpolation.end.haml
-      pop: 1
-    - include: Ruby (for HAML).sublime-syntax#nest-curly-expressions
-    - include: Ruby (for HAML).sublime-syntax#expressions
-
-  text-interpolation-variable:
-    - meta_scope: meta.interpolation.haml
-    - include: Ruby (for HAML).sublime-syntax#interpolated-ruby-variables
-
 ###[ HAML TAGS ]##############################################################
 
   doctypes:
@@ -314,3 +263,54 @@ contexts:
       pop: 1
     - include: Ruby (for HAML).sublime-syntax
       apply_prototype: true
+
+###[ INTERPOLATIONS ]#########################################################
+
+  string-interpolations:
+    # Interpolation with clearing `string` scope.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
+    # Used in
+    # - `HTML (for HAML).sublime-syntax`
+    # - `CSS (for HAML).sublime-syntax`
+    # - `JavaScript (for HAML).sublime-syntax`
+    - match: \#\{
+      scope: punctuation.section.interpolation.begin.haml
+      push: string-interpolation-expression
+    - match: (?=#[@$])
+      push: string-interpolation-variable
+
+  string-interpolation-expression:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - include: text-interpolation-expression
+
+  string-interpolation-variable:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.haml
+    - include: text-interpolation-variable
+
+  text-interpolations:
+    # Interpolation without clearing `string` scope for use in plain text.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
+    # Used in:
+    # - `CSS (for HAML).sublime-syntax`
+    # - `JavaScript (for HAML).sublime-syntax`
+    - match: \#\{
+      scope: punctuation.section.interpolation.begin.haml
+      push: text-interpolation-expression
+    - match: (?=#[@$])
+      push: text-interpolation-variable
+
+  text-interpolation-expression:
+    - meta_scope: meta.interpolation.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - match: \}
+      scope: punctuation.section.interpolation.end.haml
+      pop: 1
+    - include: Ruby (for HAML).sublime-syntax#nest-curly-expressions
+    - include: Ruby (for HAML).sublime-syntax#expressions
+
+  text-interpolation-variable:
+    - meta_scope: meta.interpolation.haml
+    - include: Ruby (for HAML).sublime-syntax#interpolated-ruby-variables
