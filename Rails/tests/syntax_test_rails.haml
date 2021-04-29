@@ -436,6 +436,16 @@
   / <- meta.filter.haml text.plain.embedded.haml
   /^^^^^^^^^^^^^^^^^^ meta.filter.haml text.plain.embedded.haml
 
+:preserve
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^^^^^^ meta.filter.definition.haml constant.other.language-name.plain.haml
+/        ^ meta.filter.definition.haml - constant
+
+:preserve
+  This is plain text
+  / <- meta.filter.haml text.plain.embedded.haml
+  /^^^^^^^^^^^^^^^^^^ meta.filter.haml text.plain.embedded.haml
+
 :ruby
 / <- meta.filter.definition.haml punctuation.definition.filter.haml
 /^^^^ meta.filter.definition.haml constant.other.language-name.ruby.haml

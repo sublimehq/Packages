@@ -211,7 +211,7 @@ contexts:
       escape: '{{filter_escapes}}'
 
   filters-plain:
-    - match: ^(\s*)((:)(plain)$\n?)
+    - match: ^(\s*)((:)(plain|preserve)$\n?)
       captures:
         2: meta.filter.definition.haml
         3: punctuation.definition.filter.haml
