@@ -82,7 +82,7 @@
 %h1= @the_title
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^^ meta.tag.haml entity.name.tag.haml
-/  ^^^^^^^^^^^^ meta.line.ruby.haml
+/  ^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml
 
 %p This is #{h quality} cake!
 /          ^^^^^^^^^^^^ meta.interpolation.haml
@@ -103,8 +103,8 @@
     This is my form
 
 = render 'form' # comment
-/ <- meta.line.ruby.haml
-/^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml source.ruby.rails.embedded.haml
+/ <- meta.embedded.haml
+/^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml source.ruby.rails.embedded.haml
 / ^^^^^^ support.function.actionpack.rails
 /        ^^^^^^ meta.string.ruby string.quoted.single.ruby
 /               ^^^^^^^^^ comment.line.number-sign.ruby
@@ -112,8 +112,8 @@
 
 %title
   = @title
-/ ^ meta.embedded.haml meta.line.ruby.haml punctuation.section.embedded.haml
-/  ^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.rails.embedded.haml
+/ ^ meta.line.ruby.haml meta.embedded.haml punctuation.section.embedded.haml
+/  ^^^^^^^ meta.line.ruby.haml meta.embedded.haml source.ruby.rails.embedded.haml
   \= @title
 / ^^ meta.escape.haml
 
@@ -148,7 +148,7 @@
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^ meta.tag.haml entity.name.tag.haml
 / ^ keyword.operator.whitespace.haml
-/  ^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml
+/  ^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml
 /  ^ punctuation.section.embedded.haml
 
 %p{:class => "myclass", :id => "myid"} My paragraph
@@ -374,7 +374,7 @@
 - links = {:home => "/",
     :docs => "/docs",
     :about => "/about"}
-/   ^^^^^^^^^^^^^^^^^^^ meta.embedded.haml meta.line.ruby.haml source.ruby.rails.embedded.haml
+/   ^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml source.ruby.rails.embedded.haml
 /                     ^ punctuation.section.scope.ruby
 
 ///// FILTERS TESTS ///////////////////////////////////////////////////////////

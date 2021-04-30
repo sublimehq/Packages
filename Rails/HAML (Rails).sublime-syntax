@@ -246,7 +246,7 @@ contexts:
       set: rubyline-body
 
   rubyline-body:
-    - meta_scope: meta.embedded.haml meta.line.ruby.haml
+    - meta_scope: meta.line.ruby.haml meta.embedded.haml
     - meta_content_scope: source.ruby.rails.embedded.haml
     - match: ((do|\{)( \|[^|]+\|)?)$
       captures:
