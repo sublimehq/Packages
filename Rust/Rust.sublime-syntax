@@ -956,7 +956,7 @@ contexts:
           pop: true
         - include: macro-matchers
 
-    - match: '(\$\s*{{identifier}})\s*(:)\s*(ident|path|expr|ty|pat|stmt|block|item|meta|tt|lifetime|vis|literal)'
+    - match: '(\$\s*{{identifier}})\s*(:)\s*(ident|path|expr|ty|pat_param|pat|stmt|block|item|meta|tt|lifetime|vis|literal)'
       captures:
         1: variable.parameter.rust
         2: punctuation.separator.rust

@@ -334,6 +334,9 @@ macro_rules! designators {
      $p:pat,
 //   ^^ variable.parameter
 //      ^^^ storage.type
+     $pp:pat_param,
+//   ^^^ variable.parameter
+//       ^^^^^^^^^ storage.type
      $e:expr,
 //   ^^ variable.parameter
 //      ^^^^ storage.type
