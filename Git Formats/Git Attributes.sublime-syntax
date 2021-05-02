@@ -104,35 +104,35 @@ contexts:
 
   meta-diff:
     - meta_scope: meta.attribute.builtin.diff.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-encoding:
     - meta_scope: meta.attribute.builtin.encoding.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-eol:
     - meta_scope: meta.attribute.builtin.eol.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-filter:
     - meta_scope: meta.attribute.builtin.filter.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-merge:
     - meta_scope: meta.attribute.builtin.merge.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-text:
     - meta_scope: meta.attribute.builtin.text.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-whitespace:
     - meta_scope: meta.attribute.builtin.whitespace.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-other:
     - meta_scope: meta.attribute.other.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
 ##[ ATTRIBUTE KEY VALUE ]##############################################
 
@@ -140,7 +140,7 @@ contexts:
     - match: \w+[-\w]*\b
       scope: meta.mapping.key.git.attributes variable.language.attribute.git.attributes
       set: attribute-maybe-value-list
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-maybe-value-list:
     - meta_content_scope: meta.mapping.git.attributes
@@ -151,7 +151,7 @@ contexts:
       scope: punctuation.separator.mapping.key-value.git.attributes
       set: attribute-value-expected
     - include: attribute-separator
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-value-list:
     - meta_content_scope: meta.mapping.value.git.attributes
@@ -164,7 +164,7 @@ contexts:
       set: attribute-value-expected
     - match: \S
       scope: invalid.illegal.value.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-value-content:
     # double quoted value
@@ -179,7 +179,7 @@ contexts:
     - match: '[^,\s]*'
       scope: string.unquoted.git.attributes
       pop: true
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-value-expected:
     # Attributes are separated by whitespace
@@ -205,6 +205,6 @@ contexts:
       scope: invalid.illegal.unexpected.eol.git.attributes
       pop: true
 
-  else-pop:
+  immediately-pop:
     - match: ''
       pop: true
