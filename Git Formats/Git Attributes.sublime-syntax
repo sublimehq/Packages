@@ -179,14 +179,10 @@ contexts:
     # double quoted value
     - match: \"
       scope: punctuation.definition.string.begin.git.attributes
-      set:
-        - meta_scope: string.quoted.double.git.attributes
-        - include: string-end
-        - match: \\[\\\"\'fnrst]
-          scope: constant.character.escape.git.attributes
+      set: string-content
     # unquoted value is everything except , and whitespace
     - match: '[^,\s]*'
-      scope: string.unquoted.git.attributes
+      scope: meta.string.git.attributes string.unquoted.git.attributes
       pop: true
     - include: immediately-pop
 
@@ -206,11 +202,18 @@ contexts:
 
 ##[ PROTOTYPES ]#######################################################
 
+  string-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.git.attributes string.quoted.double.git.attributes
+    - include: string-end
+    - match: \\[\\\"\'fnrst]
+      scope: constant.character.escape.git.attributes
+
   string-end:
     - match: \"
       scope: punctuation.definition.string.end.git.attributes
       pop: true
-    - match: $\n?
+    - match: \n
       scope: invalid.illegal.unexpected.eol.git.attributes
       pop: true
 
