@@ -63,6 +63,7 @@ contexts:
     - include: Git Common.sublime-syntax#fnmatch-body
 
   pattern-attributes:
+    - meta_include_prototype: false
     - match: ''
       set: attributes-list
 
@@ -103,34 +104,42 @@ contexts:
       scope: invalid.illegal.attribute-name.git.attributes
 
   meta-diff:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.diff.git.attributes
     - include: immediately-pop
 
   meta-encoding:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.encoding.git.attributes
     - include: immediately-pop
 
   meta-eol:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.eol.git.attributes
     - include: immediately-pop
 
   meta-filter:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.filter.git.attributes
     - include: immediately-pop
 
   meta-merge:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.merge.git.attributes
     - include: immediately-pop
 
   meta-text:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.text.git.attributes
     - include: immediately-pop
 
   meta-whitespace:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.whitespace.git.attributes
     - include: immediately-pop
 
   meta-other:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.other.git.attributes
     - include: immediately-pop
 
