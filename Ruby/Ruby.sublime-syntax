@@ -194,7 +194,7 @@ contexts:
 
   constants:
     # constant definition, handles multiple definitions on a single line 'APPLE, ORANGE= 1, 2'
-    - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*=(?![=\>]))'
+    - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*(\|\|)?=(?![=\>]))'
       scope: meta.constant.ruby entity.name.constant.ruby
     # Ruby 1.9 symbols
     - match: '{{identifier}}[?!]?(:)(?!:)'

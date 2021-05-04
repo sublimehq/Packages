@@ -573,6 +573,8 @@ UpperCamelCase = 3
 # ^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 UPPER_SNAKE_CASE = 4
 # ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
+UPPER_SNAKE_CASE ||= 5
+# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 A, B, C = 0
 # <- entity.name.constant
 #  ^ entity.name.constant
