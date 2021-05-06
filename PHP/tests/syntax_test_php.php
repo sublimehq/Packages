@@ -2077,17 +2077,17 @@ h1 {
 //  ^^ meta.embedded.line.php - source.php
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
 //                              ^^ meta.embedded.line.php - source.php
-        size: 2em;
-//      ^^^^ support.type.property-name
-//            ^ constant.numeric
+        font-size: 2em;
+//      ^^^^^^^^^ support.type.property-name
+//                 ^ constant.numeric
     <? } else { ?>
 //  ^^ meta.embedded.line.php - source.php
 //    ^^^^^^^^^^ source.php
 //       ^^^^ keyword.control
 //              ^^ meta.embedded.line.php - source.php
-        size: 3em;
-//      ^^^^ support.type.property-name
-//            ^ constant.numeric
+        font-size: 3em;
+//      ^^^^^^^^^ support.type.property-name
+//                 ^ constant.numeric
     <? } ?>
 }
 </style>
