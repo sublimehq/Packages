@@ -267,6 +267,11 @@ variables:
   counter_system_constants: |-
     \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
+  # @page Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  page_property_names: |-
+    \b(?xi: bleed | margin | marks | size ){{break}}
+
   # Page Margin Property Names
   # https://www.w3.org/TR/css-page-3/#margin-at-rule
   page_margin_property_names: |-
@@ -319,7 +324,7 @@ variables:
     | margin-block-end | background-origin | animation-play-state | hyphens
     | stroke-linecap | font-stretch | object-position | page-break-inside
     | column-gap | counter-reset | counter-increment | background-position-y
-    | margin-block-start | size | grid-template-rows | column-count | quotes
+    | margin-block-start | grid-template-rows | column-count | quotes
     | padding-inline-end | text-decoration-skip | border-image | all
     | page-break-after | fill-opacity | font-variant-ligatures
     | scroll-boundary-behavior | empty-cells | list-style-image | justify-self
@@ -902,10 +907,15 @@ contexts:
   at-page-block-content:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
+    - include: comments
     - include: at-page-margin
+    - include: at-page-property-names
     - include: at-other
     - include: property-lists
-    - include: rule-list-body
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
 
   # @top-center, ...
   # https://www.w3.org/TR/css-page-3/#margin-at-rule
@@ -920,6 +930,10 @@ contexts:
     - meta_scope: meta.at-rule.margin.css
     - include: at-page-block
     - include: at-rule-end
+
+  at-page-property-names:
+    - match: '{{page_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
 
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports

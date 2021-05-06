@@ -337,6 +337,19 @@
 /*                      ^ punctuation.section.block.end.css */
 
     @page {
+
+        bleed: auto;
+/*     ^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
+/*      ^^^^^ meta.property-name.css support.type.property-name.css */
+/*           ^ punctuation.separator.key-value.css */
+/*             ^^^^ meta.property-value.css support.constant.property-value.css */
+
+        marks: cross;
+/*     ^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
+/*      ^^^^^ meta.property-name.css support.type.property-name.css */
+/*           ^ punctuation.separator.key-value.css */
+/*             ^^^^^ meta.property-value.css support.constant.property-value.css */
+
         margin: 10%;
 /*     ^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*      ^^^^^^ support.type.property-name.css */
