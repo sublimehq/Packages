@@ -1436,16 +1436,6 @@ contexts:
       pop: 1
     - include: rule-list-body
 
-  rule-list:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: rule-list-content
-
-  rule-list-content:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: rule-list-body
-
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
     - include: comments
