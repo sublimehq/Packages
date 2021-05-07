@@ -410,12 +410,12 @@ variables:
     # BEGIN OF legacy properties which existed before the last query
     | box-direction | line-box-contain | mask-image | mask-origin | flex-order
     | font-synthesis | line-clamp | flex-negative | blend-mode
-    | font-variant-position | flex-align | column-break-before | negative
-    | flex-item-align | azimuth | user-drag | range | mask-repeat | box-flex
+    | font-variant-position | flex-align | column-break-before
+    | flex-item-align | azimuth | user-drag | mask-repeat | box-flex
     | flex-preferred-size | font-language-override | box-align
     | text-emphasis-color | box-ordinal-group | mask-composite
     | transform-origin-y | pause | tap-highlight-color | text-fill-color
-    | suffix | text-emphasis-style | transform-origin-x | text-emphasis-position
+    | text-emphasis-style | transform-origin-x | text-emphasis-position
     | box-pack | box-decoration-break | box-orient
     | text-emphasis | mask-clip | nbsp-mode | pause-after | pitch
     | text-height | mask-position | flex-line-pack | perspective-origin-x
