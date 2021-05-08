@@ -13,24 +13,23 @@ contexts:
   main:
     # 1st header line
     # commit d9d9fb804f5d61c13ba2f8746af33a9f3c609075
-    - match: \b(commit)\s+(\h{7,})
-      scope: meta.header.git.commit markup.raw.block.git.log
+    - match: ^(commit)\s+(\h{7,})
       captures:
         1: keyword.other.commit.git.log
         2: constant.other.hash.git.log
       push:
+        - meta_scope: meta.header.git.commit markup.raw.block.git.log
         - match: $\n?
           scope: meta.header.git.commit markup.raw.block.git.log
+          pop: true
           embed: commit-header
           escape: (?=^commit\s)
-          pop: true
-        - match: \s*(\()(HEAD)\s*(->)
+        - match: (\()(HEAD)\s*(->)
           captures:
             1: punctuation.section.parens.begin.git.log
             2: support.type.git.log
             3: punctuation.separator.mapping.git.log
           push:
-            - meta_scope: meta.header.git.commit markup.raw.block.git.log
             - match: \)
               scope: punctuation.section.parens.end.git.log
               pop: true
