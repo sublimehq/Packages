@@ -31,6 +31,15 @@
 //                           ^^^ constant.character.escape.jsp
 //                                 ^^^ constant.character.escape.jsp
 //                                        ^^ punctuation.section.embedded.end.jsp
+            font-family: "Helve<% print("tic")%>a";
+//                       ^^^^^^ meta.string.css - meta.interpolation - meta.embedded
+//                             ^^^^^^^^^^^^^^^^^ meta.string.css meta.interpolation.jsp meta.embedded.scriptlet.jsp
+//                                              ^^ meta.string.css - meta.interpolation - meta.embedded
+//                        ^^^^^ string.quoted.double.css
+//                             ^^^^^^^^^ - string
+//                                      ^^^^^ string.quoted.double.java - string string
+//                                           ^^^ - string
+//                                              ^^ string.quoted.double.css
         }
     </style>
 //  ^^^^^^^^ meta.tag.style.end.html
@@ -57,7 +66,15 @@
 //        ^^^^^^^^^^ source.java.embedded.jsp
 //                  ^^ punctuation.section.embedded.end.jsp - source.java.embedded.jsp
 
-            console.write("yep");
+            console.write("ye<% print("llo") %>w");
+//                        ^^^ meta.string.js - meta.interpolation - meta.embedded
+//                           ^^^^^^^^^^^^^^^^^^ meta.string.js meta.interpolation.jsp meta.embedded.scriptlet.jsp
+//                                             ^^ meta.string.js - meta.interpolation - meta.embedded
+//                        ^^^ string.quoted.double.js
+//                           ^^^^^^^^^ - string
+//                                    ^^^^^ string.quoted.double.java - string string
+//                                         ^^^^ - string
+//                                             ^^ string.quoted.double.js
         <% } %>
 //      ^^^^^^^ meta.embedded.scriptlet.jsp
 //      ^^ punctuation.section.embedded.begin.jsp - source.java.embedded.jsp
@@ -119,7 +136,7 @@
 //                   ^^^^^^ meta.tag.inline.any.html - meta.attribute-with-value.html
 //                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.html
 //                               ^ meta.string.html - meta.interpolation
-//                                ^^^^^^^^^^^^^^^^^ meta.string.html meta.interpolation.html
+//                                ^^^^^^^^^^^^^^^^^ meta.string.html meta.interpolation.jsp
 //                                                 ^ meta.string.html - meta.interpolation
 //                                ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
 //                                   ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.jsp - source.java source.java

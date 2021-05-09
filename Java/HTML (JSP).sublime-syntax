@@ -297,7 +297,7 @@ contexts:
   jsp-interpolation-content:
     - clear_scopes: 1
     - meta_include_prototype: false
-    - meta_scope: meta.interpolation.html
+    - meta_scope: meta.interpolation.jsp
     - include: jsp-embedded
     - include: immediately-pop
 
