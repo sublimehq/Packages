@@ -171,8 +171,8 @@ contexts:
     - include: filters-css
     - include: filters-erb
     - include: filters-javascript
-    - include: filters-plain
     - include: filters-ruby
+    - include: filters-plain
 
   filters-css:
     - match: ^(\s*)((:)(css)$\n?)
@@ -211,7 +211,9 @@ contexts:
       escape: '{{filter_escapes}}'
 
   filters-plain:
-    - match: ^(\s*)((:)(plain|preserve|escaped|cdata)$\n?)
+    # all unrecognized filters are handled as plain text
+    # known filters: cdata|escaped|markdown|plain|preserve
+    - match: ^(\s*)((:)([[:alpha:]_][[:alnum:]_]*)$\n?)
       captures:
         2: meta.filter.definition.haml
         3: punctuation.definition.filter.haml

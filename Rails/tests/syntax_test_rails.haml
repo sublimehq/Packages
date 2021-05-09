@@ -426,6 +426,17 @@
     / <- meta.function.js keyword.declaration.function.js
     /^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.js.embedded.haml
 
+:markdown
+/ <- meta.filter.definition.haml punctuation.definition.filter.haml
+/^^^^^^^^ meta.filter.definition.haml constant.other.language-name.plain.haml
+/        ^ meta.filter.definition.haml - constant
+
+:markdown
+  # Title
+  / <- meta.filter.haml text.plain.embedded.haml
+  Context
+  / <- meta.filter.haml text.plain.embedded.haml
+
 :plain
 / <- meta.filter.definition.haml punctuation.definition.filter.haml
 /^^^^^ meta.filter.definition.haml constant.other.language-name.plain.haml
