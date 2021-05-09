@@ -2075,6 +2075,21 @@ var_dump(new C(42));
 //      ^^ meta.embedded.block.php - source.php
     }
     ?>
+
+    bar = "foo<?php echo "bar"; ?>baz"
+//        ^^^^ source.js.embedded.html meta.string.js - meta.interpolation - meta.embedded
+//            ^^^^^ source.js.embedded.html meta.string.js meta.interpolation.js meta.embedded.line.php - source.php.embedded.js
+//                 ^^^^^^^^^^^^^ source.js.embedded.html meta.string.js meta.interpolation.js meta.embedded.line.php source.php.embedded.js
+//                              ^^ source.js.embedded.html meta.string.js meta.interpolation.js meta.embedded.line.php - source.php.embedded.js
+//        ^^^^ string.quoted.double.js
+//            ^^^^^^^^^^^^^^^^^^^^ - string.quoted.double.js
+//            ^^^^^ punctuation.section.embedded.begin.php
+//                  ^^^^ support.function.construct.php
+//                       ^^^^^ string.quoted.double.php
+//                            ^ punctuation.terminator.expression.php
+//                              ^^ punctuation.section.embedded.end.php
+//                                ^^^^ string.quoted.double.js
+
 </script>
 <style>
 h1 {
@@ -2097,5 +2112,19 @@ h1 {
 //      ^^^^ support.type.property-name
 //            ^ constant.numeric
     <? } ?>
+
+    font-family: "foo<?php echo "bar"; ?>baz";
+//               ^^^^ source.css.embedded.html meta.string.css - meta.interpolation - meta.embedded
+//                   ^^^^^ source.css.embedded.html meta.string.css meta.interpolation.css meta.embedded.line.php - source.php.embedded.css
+//                        ^^^^^^^^^^^^^ source.css.embedded.html meta.string.css meta.interpolation.css meta.embedded.line.php source.php.embedded.css
+//                                     ^^ source.css.embedded.html meta.string.css meta.interpolation.css meta.embedded.line.php - source.php.embedded.css
+//               ^^^^ string.quoted.double.css
+//                   ^^^^^^^^^^^^^^^^^^^^ - string.quoted.double.css
+//                   ^^^^^ punctuation.section.embedded.begin.php
+//                         ^^^^ support.function.construct.php
+//                              ^^^^^ string.quoted.double.php
+//                                   ^ punctuation.terminator.expression.php
+//                                     ^^ punctuation.section.embedded.end.php
+//                                       ^^^^ string.quoted.double.css
 }
 </style>
