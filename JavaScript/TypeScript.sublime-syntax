@@ -360,13 +360,15 @@ contexts:
   variable-binding-pattern:
     - match: ''
       set:
-        - - include: immediately-pop
         - ts-type-annotation
         - ts-type-annotation-definite
-        - - include: variable-binding-name
-          - include: variable-binding-array-destructuring
-          - include: variable-binding-object-destructuring
-          - include: else-pop
+        - ts-variable-binding-pattern-name
+
+  ts-variable-binding-pattern-name:
+    - include: variable-binding-name
+    - include: variable-binding-array-destructuring
+    - include: variable-binding-object-destructuring
+    - include: else-pop
 
   function-declaration:
     - meta_include_prototype: false
