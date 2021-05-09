@@ -12,6 +12,30 @@ contexts:
     - meta_prepend: true
     - include: php-embedded
 
+  string-content:
+    - meta_prepend: true
+    - include: php-interpolations
+
+  php-interpolations:
+    - match: <\?(?i:php|=)?(?![^?]*\?>)
+      scope: punctuation.section.embedded.begin.php
+      push: php-interpolation-block
+    - match: <\?(?i:php|=)?
+      scope: punctuation.section.embedded.begin.php
+      push: php-interpolation-line
+
+  php-interpolation-block:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.js meta.embedded.block.php
+    - meta_content_scope: source.php.embedded.js
+    - include: php-embedded-content
+
+  php-interpolation-line:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.js meta.embedded.line.php
+    - meta_content_scope: source.php.embedded.js
+    - include: php-embedded-content
+
   php-embedded:
     - match: <\?(?i:php|=)?(?![^?]*\?>)
       scope: punctuation.section.embedded.begin.php
