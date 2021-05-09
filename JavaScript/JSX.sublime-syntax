@@ -61,6 +61,7 @@ contexts:
     - include: else-pop
 
   jsx-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.jsx.js
     - include: immediately-pop
 
@@ -139,6 +140,7 @@ contexts:
         2: punctuation.definition.entity.js
 
   jsx-tag-name:
+    - meta_include_prototype: false
     - match: ''
       set:
         - - clear_scopes: 1

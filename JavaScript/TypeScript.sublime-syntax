@@ -48,6 +48,7 @@ contexts:
         - immediately-pop-2
 
   ts-detect-arrow-function-return-type:
+    - meta_include_prototype: false
     - match: ''
       push:
         - ts-detect-arrow-after-return-type
@@ -174,6 +175,7 @@ contexts:
     - include: else-pop
 
   ts-inherited-class-expression-list:
+    - meta_include_prototype: false
     - match: ''
       set:
         - - match: \,
@@ -358,6 +360,7 @@ contexts:
     - include: else-pop
 
   variable-binding-pattern:
+    - meta_include_prototype: false
     - match: ''
       set:
         - ts-type-annotation
@@ -419,6 +422,7 @@ contexts:
     - include: else-pop
 
   function-parameter:
+    - meta_include_prototype: false
     - match: ''
       set:
         - initializer
@@ -454,6 +458,7 @@ contexts:
           fail: function-parameter-modifier
 
   class-field:
+    - meta_include_prototype: false
     - match: ''
       set:
         - initializer
