@@ -300,7 +300,7 @@
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^^^^^^^^ entity.name.tag.localname.html
 //                  ^ punctuation.definition.tag.end.html
-//                   ^^^^^^^^^^ source.java.embedded.html - source.java source.java
+//                   ^^^^^^^^^^ source.java.embedded.jsp - source.java source.java
 //                   ^^^ storage.type.primitive.java
 //                             ^^^^^^^^^^^^^^^^^^ meta.tag.jsp.declaration.end.html
 //                             ^^ punctuation.definition.tag.begin.html
@@ -324,7 +324,7 @@
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^^^^^^^ entity.name.tag.localname.html
 //                 ^ punctuation.definition.tag.end.html
-//                  ^^^^^^^^ source.java.embedded.html variable.other.java - source.java source.java
+//                  ^^^^^^^^ source.java.embedded.jsp variable.other.java - source.java source.java
 //                          ^^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.end.html
 //                          ^^ punctuation.definition.tag.begin.html
 //                            ^^^ entity.name.tag.namespace.html
@@ -342,7 +342,7 @@
 //                                  ^ entity.name.tag.html punctuation.separator.namespace.html
 //                                   ^^^^^^^^^^ entity.name.tag.localname.html
 //                                             ^ punctuation.definition.tag.end.html
-//                                              ^^^^^^^^^^^^^^^^^^ source.java.embedded.html - source.java source.java
+//                                              ^^^^^^^^^^^^^^^^^^ source.java.embedded.jsp - source.java source.java
 //                                                                ^^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.end.html
 //                                                                ^^ punctuation.definition.tag.begin.html
 //                                                                  ^^^ entity.name.tag.namespace.html
@@ -412,7 +412,7 @@
 //      ^ punctuation.separator.namespace.html
 //       ^^^^^^^^^ entity.name.tag.localname.html
 //                ^ punctuation.definition.tag.end.html
-//                 ^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html
+//                 ^^^^^^^^^^^^^^^^^^^^ source.java.embedded.jsp
 //                            ^^^^ constant.character.entity.named.html
 //                                     ^^^^^^^^^^^^^^^^ meta.tag.jsp.scriptlet.end.html
 //                                     ^^ punctuation.definition.tag.begin.html
@@ -436,7 +436,7 @@
 //                 ^^^ punctuation.definition.tag.begin.html
 //                    ^^^^^ keyword.declaration.cdata.html
 //                         ^ punctuation.definition.tag.begin.html
-//                          ^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html
+//                          ^^^^^^^^^^^^^^^^^^^^ source.java.embedded.jsp
 //                                     ^^^^ constant.character.entity.named.html
 //                                              ^^^ punctuation.definition.tag.end.html
 //                                                 ^^ punctuation.definition.tag.begin.html
@@ -460,21 +460,21 @@
     >
 //^^^ meta.tag.jsp.scriptlet.begin.html
 //  ^ punctuation.definition.tag.end.html
-//   ^ source.java.embedded.html - meta.tag
+//   ^ source.java.embedded.jsp - meta.tag
         out.println("Starting");
-//      ^^^^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.jsp
         // Note we need to declare CDATA because we don't escape the less than symbol
         <![CDATA[
-//      ^^^^^^^^^ source.java.embedded.html meta.tag.sgml.cdata.html
+//      ^^^^^^^^^ source.java.embedded.jsp meta.tag.sgml.cdata.html
 //      ^^^ punctuation.definition.tag.begin.html
 //         ^^^^^ keyword.declaration.cdata.html
 //              ^ punctuation.definition.tag.begin.html
           for (int i = 1; i<=10; i++) {}
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html meta.statement.loop.for.java
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.jsp meta.statement.loop.for.java
         ]]>
-//      ^^^ source.java.embedded.html meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+//      ^^^ source.java.embedded.jsp meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
         out.println("Done!");
-//      ^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.html
+//      ^^^^^^^^^^^^^^^^^^^^^ source.java.embedded.jsp
     </jsp:scriptlet
 //  ^^^^^^^^^^^^^^^ meta.tag.jsp.scriptlet.end.html
 //  ^^ punctuation.definition.tag.begin.html

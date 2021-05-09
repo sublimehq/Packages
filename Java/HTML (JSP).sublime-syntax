@@ -131,7 +131,7 @@ contexts:
         punctuation.definition.tag.end.html
       pop: 1
       embed: scope:source.java.embedded.html
-      embed_scope: source.java.embedded.html
+      embed_scope: source.java.embedded.jsp
       escape: (?=</?(?i:jsp:))
     - include: tag-end-self-closing
     - include: tag-attributes
@@ -203,7 +203,7 @@ contexts:
         punctuation.definition.tag.end.html
       pop: 1
       embed: scope:source.java.embedded.html#expressions
-      embed_scope: source.java.embedded.html
+      embed_scope: source.java.embedded.jsp
       escape: (?=</?(?i:jsp:))
     - include: tag-end-self-closing
     - include: tag-attributes
@@ -271,7 +271,7 @@ contexts:
         punctuation.definition.tag.end.html
       pop: 1
       embed: scope:source.java.embedded.html
-      embed_scope: source.java.embedded.html
+      embed_scope: source.java.embedded.jsp
       escape: (?=</?(?i:jsp:))
     - include: tag-end-self-closing
     - include: tag-attributes
