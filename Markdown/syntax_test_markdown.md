@@ -20,6 +20,10 @@ http://spec.commonmark.org/0.28/#example-44
 |^^^^^^^^^^^^^^^^^^^^^^ markup.heading
 |             ^ - punctuation.definition.heading.end.markdown
 
+#NotAHeading
+| <- - markup.heading
+|^^^^^^^^^^^^ - markup.heading
+
 Alternate Heading
 | <- markup.heading.1
 =================
