@@ -1551,7 +1551,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
         2: markup.underline.link.php
-    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|method|source)\b
+    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)\b
       scope: keyword.other.phpdoc.php
     - match: \{(@inheritdoc)\}
       captures:
