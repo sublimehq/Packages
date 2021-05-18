@@ -2137,7 +2137,7 @@ contexts:
           mysqli_affected_rows | mysqli_autocommit | mysqli_bind_param | mysqli_bind_result | mysqli_change_user | mysqli_character_set_name | mysqli_client_encoding | mysqli_close |
           mysqli_commit | mysqli_connect | mysqli_connect_errno | mysqli_connect_error | mysqli_data_seek | mysqli_debug | mysqli_disable_reads_from_master | mysqli_disable_rpl_parse |
           mysqli_dump_debug_info | mysqli_embedded_server_end | mysqli_embedded_server_start | mysqli_enable_reads_from_master | mysqli_enable_rpl_parse | mysqli_errno | mysqli_error | mysqli_escape_string |
-          mysqli_execute | mysqli_fetch | mysqli_fetch_all | mysqli_fetch_array | mysqli_fetch_assoc | mysqli_fetch_field | mysqli_fetch_field_direct | mysqli_fetch_fields |
+          mysqli_execute | mysqli_fetch | mysqli_fetch_all | mysqli_fetch_array | mysqli_fetch_assoc | mysqli_fetch_column | mysqli_fetch_field | mysqli_fetch_field_direct | mysqli_fetch_fields |
           mysqli_fetch_lengths | mysqli_fetch_object | mysqli_fetch_row | mysqli_field_count | mysqli_field_seek | mysqli_field_tell | mysqli_free_result | mysqli_get_cache_stats |
           mysqli_get_charset | mysqli_get_client_info | mysqli_get_client_stats | mysqli_get_client_version | mysqli_get_connection_stats | mysqli_get_host_info | mysqli_get_metadata | mysqli_get_proto_info |
           mysqli_get_server_info | mysqli_get_server_version | mysqli_get_warnings | mysqli_info | mysqli_init | mysqli_insert_id | mysqli_kill | mysqli_master_query |
