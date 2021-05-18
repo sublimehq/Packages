@@ -231,6 +231,11 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 };
 // <- meta.function meta.block punctuation.section.block.end
 
+function bye(): never {
+//              ^^^^^ storage.type
+  exit();
+}
+
 function foo(?stinrg ...$args) {}
 //           ^ storage.type.nullable
 //            ^^^^^^ support.class

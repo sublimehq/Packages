@@ -350,13 +350,14 @@ contexts:
         - match: \|
           scope: punctuation.separator.type.php
         # note that
-        #   - "callable" and "void" are not allowed in property type
+        #   - "callable", "never" and "void" are not allowed in property type
         #   - "false" and "null" are only working in unioned type
         # but we allow them as general types for simplifying syntax definition
         - match: |-
             \b(?xi:
               array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self | static | mixed
+              object | string | false | null | void | parent | self | static |
+              mixed | never
             )\b
           scope: storage.type.php
         - include: class-builtin
