@@ -22,7 +22,7 @@ contexts:
     - include: use-statement
     - match: '(?i)^\s*(interface)\s+({{identifier}})\s*'
       captures:
-        1: storage.type.interface.php
+        1: storage.type.interface.php keyword.declaration.interface.php
         2: entity.name.interface.php
       push:
         - meta_scope: meta.interface.php
@@ -57,7 +57,7 @@ contexts:
           pop: 1
     - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
       captures:
-        1: storage.type.trait.php
+        1: storage.type.trait.php keyword.declaration.trait.php
         2: entity.name.trait.php
     - include: typed-property
     - include: function
@@ -565,7 +565,7 @@ contexts:
   enum:
     - match: '(?i)\b(enum)\s+({{identifier}})\s*'
       captures:
-        1: storage.type.enum.php
+        1: storage.type.enum.php keyword.declaration.enum.php
         2: entity.name.enum.php
       push: enum-definition
 
@@ -616,7 +616,7 @@ contexts:
     - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
       captures:
         1: storage.modifier.abstract.php
-        2: storage.type.class.php
+        2: storage.type.class.php keyword.declaration.class.php
         3: entity.name.class.php
       push: class-definition
 
@@ -748,7 +748,7 @@ contexts:
         - match: '(?i)\b(final|abstract|{{visibility_modifier}}|static)\b'
           scope: storage.modifier.php
         - match: (?i)\bfunction\b
-          scope: storage.type.function.php
+          scope: storage.type.function.php keyword.declaration.function.php
         - match: '&'
           scope: storage.modifier.reference.php
         # https://wiki.php.net/rfc/constructor_promotion
@@ -797,7 +797,7 @@ contexts:
     - match: (?i)\b(fn)\b\s*(&)?\s*(?=\()
       scope: meta.function.arrow-function.php
       captures:
-        1: storage.type.function.php
+        1: storage.type.function.php keyword.declaration.function.php
         2: storage.modifier.reference.php
       push:
         - match: \(
@@ -823,7 +823,7 @@ contexts:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
       scope: meta.function.closure.php
       captures:
-        1: storage.type.function.php
+        1: storage.type.function.php keyword.declaration.function.php
         2: storage.modifier.reference.php
       push:
         - match: \(
@@ -1393,7 +1393,7 @@ contexts:
     - match: '(?i)(new)\s+(class)\b\s*'
       captures:
         1: keyword.other.new.php
-        2: storage.type.class.php
+        2: storage.type.class.php keyword.declaration.class.php
       push:
         - match: (?=\()
           push: function-call-parameters

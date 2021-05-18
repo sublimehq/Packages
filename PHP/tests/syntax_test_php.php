@@ -191,7 +191,7 @@ function array_values_from_keys($arr, $keys) {
 }
 
 $fn = fn($x) => fn($y) => $x * $y + $z;
-//    ^^ meta.function.arrow-function storage.type.function
+//    ^^ meta.function.arrow-function storage.type.function keyword.declaration.function
 //      ^ punctuation.section.group.begin
 //       ^^ variable.parameter
 //         ^ punctuation.section.group.end
@@ -775,7 +775,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                ^ - comment
 
 enum Suit {
-// ^ storage.type.enum
+// ^ storage.type.enum keyword.declaration.enum
 //   ^^^^ entity.name.enum
     case Hearts;
 //  ^^^^ keyword.control
@@ -786,7 +786,7 @@ enum Suit {
 }
 
 enum Suit: string implements Colorful {
-// ^ storage.type.enum
+// ^ storage.type.enum keyword.declaration.enum
 //   ^^^^ entity.name.enum
 //       ^ punctuation.separator
 //         ^^^^^^ storage.type
@@ -815,7 +815,7 @@ enum Suit: string implements Colorful {
 }
 
     class Test1 extends stdClass implements Countable {}
-//  ^ storage.type.class.php
+//  ^ storage.type.class keyword.declaration.class
 //        ^ entity.name.class.php
 //              ^ storage.modifier.extends.php
 //                      ^^^^^^^^ meta.path
@@ -850,11 +850,11 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 }
 
 interface MyInter {}
-// <- storage.type
+// <- storage.type.interface keyword.declaration.interface
 //        ^ entity.name.interface
 
 interface MyInter2 extends \MyNamespace\Foo {
-// <- storage.type
+// <- storage.type.interface keyword.declaration.interface
 //        ^ entity.name.interface
 //                 ^ storage.modifier
 //                         ^^^^^^^^^^^^^^^^ meta.path
@@ -980,7 +980,7 @@ $test = new Test1;
 
 $anon = new class{};
 //      ^ keyword.other.new.php
-//          ^ storage.type.class.php
+//          ^ storage.type.class keyword.declaration.class
 //               ^^ meta.class.php
 //               ^^ meta.block.php
 //               ^ punctuation.section.block.begin.php - meta.class meta.class
@@ -988,7 +988,7 @@ $anon = new class{};
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
-//          ^ storage.type.class.php
+//          ^ storage.type.class keyword.declaration.class
 //               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
@@ -1005,7 +1005,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                                     ^^ meta.block.php
 
     function noReturnType(array $param1, int $param2) {}
-//  ^ storage.type.function.php
+//  ^ storage.type.function keyword.declaration.function
 //           ^ entity.name.function.php
 //                       ^ punctuation.section.group.begin.php
 //                        ^ meta.function.parameters
@@ -1018,14 +1018,14 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                     ^ punctuation.section.block.end.php
 
     function scalarReturnType($param1): bool {}
-//  ^ storage.type.function.php
+//  ^ storage.type.function keyword.declaration.function
 //           ^ entity.name.function.php
 //                           ^ punctuation.section.group.begin.php
 //                                   ^ punctuation.section.group.end.php
 //                                      ^ storage.type.php
 
     function classReturnType($param1): stringSpace\Test1 {}
-//  ^ storage.type.function.php
+//  ^ storage.type.function keyword.declaration.function
 //           ^ entity.name.function.php
 //                          ^ punctuation.section.group.begin.php
 //                                  ^ punctuation.section.group.end.php
@@ -1034,7 +1034,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                 ^ support.class.php
 
     function nullableReturnType(?int $param1): ?bool {}
-//  ^ storage.type.function.php
+//  ^ storage.type.function keyword.declaration.function
 //           ^ entity.name.function.php
 //                             ^ punctuation.section.group.begin.php
 //                              ^ storage.type.nullable.php
@@ -1044,7 +1044,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                              ^ storage.type.php
 
     function nullableObjectReturnType(?int $param1): ?object {}
-//  ^ storage.type.function.php
+//  ^ storage.type.function keyword.declaration.function
 //           ^ entity.name.function.php
 //                                   ^ punctuation.section.group.begin.php
 //                                    ^ storage.type.nullable.php
@@ -1054,7 +1054,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                    ^ storage.type.php
 
     function unionTypeFunction(
-//  ^ storage.type.function.php
+//  ^ storage.type.function keyword.declaration.function
 //           ^ entity.name.function.php
         Foo|\Foo\Bar|?int $param1,
 //      ^^^ support.class
@@ -1193,7 +1193,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                                                                                ^ constant.other
 
 trait A
-// ^ storage.type.trait
+// ^ storage.type.trait keyword.declaration.trait
 //    ^ entity.name.trait
 {
     public static ?Foo $str = '';
@@ -1207,6 +1207,7 @@ trait A
 }
 
 class B
+// ^ storage.type.class keyword.declaration.class
 //    ^ entity.name.class
 {
     use MyNamespace\Xyz,
@@ -1261,7 +1262,7 @@ class B
 //              ^ keyword.operator.assignment
 
     public function abc(
-//         ^ storage.type.function.php
+//         ^ storage.type.function keyword.declaration.function
 //                  ^ entity.name.function.php
         Foo|\Foo\Bar|?int $param1,
 //      ^^^ support.class
