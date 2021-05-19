@@ -180,6 +180,10 @@
         readonly foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
+        override foo() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^^^^ meta.function
+//               ^^^ entity.name.function
 
         readonly;
 //      ^^^^^^^^ variable.other.readwrite
@@ -188,13 +192,14 @@
 //      ^^^^^^^^^^ meta.function
 //      ^^^^^^^^ entity.name.function
 
-        private static readonly abstract declare public;
+        private static readonly abstract declare override public;
 //      ^^^^^^^ storage.modifier
 //              ^^^^^^ storage.modifier
 //                     ^^^^^^^^ storage.modifier
 //                              ^^^^^^^^ storage.modifier
 //                                       ^^^^^^^ storage.modifier
-//                                               ^^^^^^ variable.other.readwrite
+//                                               ^^^^^^^^ storage.modifier
+//                                                        ^^^^^^ variable.other.readwrite
 
         foo(): any {}
 //      ^^^^^^^^^^^^^ meta.function
