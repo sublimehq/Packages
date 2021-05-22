@@ -37,7 +37,7 @@ variables:
   exponent: (?:[eE][-+]?{{digits}})
   path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
-  illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
+  illegal_names: (?:and|as|assert|break|case|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
   format_spec: |-
     (?x:
       (?:.? [<>=^])?     # fill align
@@ -234,6 +234,9 @@ contexts:
           scope: invalid.illegal.missing-in.python
           pop: true
         - include: target-list
+    - match: \bcase\b
+      scope: keyword.control.structural-pattern.case.python
+      push: case-body
     # async with ... as ...:
     - match: \b(async +)?(with)\b
       captures:
@@ -277,6 +280,15 @@ contexts:
           scope: punctuation.section.block.loop.while.python
           pop: true
         - include: expression-in-a-statement
+    - match: \bmatch\b
+      scope: keyword.control.structural-pattern.match.python
+      push:
+        - meta_scope: meta.statement.structural-pattern.match.python
+        - include: line-continuation-or-pop
+        - match: ':(?!=)'
+          scope: punctuation.section.block.structural-pattern.match.python
+          pop: true
+        - include: expression-in-a-statement
     - match: \b(else)\b(?:\s*(:))?
       scope: meta.statement.conditional.else.python
       captures:
@@ -303,6 +315,17 @@ contexts:
           pop: true
         - include: expression-in-a-statement
 
+  case-body:
+    - meta_scope: meta.statement.structural-pattern.case.python
+    - include: line-continuation-or-pop
+    - match: \b(as)\b
+      scope: keyword.control.structural-pattern.case.as.python
+      set: case-as
+    - match: ':(?!=)'
+      scope: punctuation.section.block.structural-pattern.case.python
+      pop: true
+    - include: expression-in-a-statement
+
   with-body:
     - meta_scope: meta.statement.with.python
     - include: line-continuation-or-pop
@@ -315,6 +338,16 @@ contexts:
     - match: ','
       scope: punctuation.separator.with-resources.python
     - include: expression-in-a-statement
+
+  case-as:
+    - meta_scope: meta.statement.structural-pattern.case.python
+    - include: line-continuation-or-pop
+    - match: ':'
+      scope: punctuation.section.block.structural-pattern.case.python
+      pop: true
+    - include: name
+    - include: groups
+    - include: lists
 
   with-as:
     - meta_scope: meta.statement.with.python
