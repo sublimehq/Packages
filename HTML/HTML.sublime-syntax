@@ -173,7 +173,7 @@ contexts:
 
   script-javascript-content:
     - meta_include_prototype: false
-    # Note: This context is to be overridden to replace embedded css syntax.
+    # Note: This context is to be overridden to replace embedded js syntax.
     #       It is stripped from as most implementation details as possible.
     #       Maybe simplified once core issue #3787 is resolved.
     - match: ''
