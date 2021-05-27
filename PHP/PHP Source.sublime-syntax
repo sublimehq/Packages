@@ -1307,14 +1307,14 @@ contexts:
           embed: scope:source.js
           embed_scope: meta.embedded.js source.js
           escape: (?=^\s*JAVASCRIPT\b)
-        - match: (<<<)\s*(JSON)\s*$\n?
+        - match: <<<\s*(JSON)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
           embed: heredoc-json
           embed_scope: meta.embedded.json source.json
           escape: (?=^\s*JSON\b)
-        - match: (<<<)\s*('JSON')\s*$\n?
+        - match: <<<\s*('JSON')\s*$\n?
           scope: meta.embedded.json punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.nowdoc.php
