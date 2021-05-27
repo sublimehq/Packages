@@ -2186,3 +2186,7 @@ link with a single underscore inside the text : [@_test](http://example.com)
 ### h3
 |^^ punctuation.definition.heading.begin
 
+- list
+
+  [001]: https://en.wikipedia.org/wiki/Root-mean-square_deviation "Wikipedia - RMSE"
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def

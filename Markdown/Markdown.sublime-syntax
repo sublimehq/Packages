@@ -1034,6 +1034,8 @@ contexts:
         - include: fenced-code-block
         - match: ''
           pop: true
+    - match: '^(?=\s*\[[^]]*\]:)'
+      pop: true
     - match: \s+(?=\S)
       push:
         - match: ^\s*$
