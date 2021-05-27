@@ -294,7 +294,14 @@ contexts:
     - match: '\\[bBAZzG><]|[\^$]'
       scope: keyword.control.anchors.regexp
       push: unexpected-quantifier-pop
-    - match: '\\[QEK]'
+    - match: '\\Q'
+      scope: keyword.control.regexp
+      push:
+        - meta_content_scope: meta.literal.regexp
+        - match: '\\E'
+          scope: keyword.control.regexp
+          pop: true
+    - match: '\\K'
       scope: keyword.control.regexp
       push: unexpected-quantifier-pop
     - match: \\[kg](?:(<)([^>]+)(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
