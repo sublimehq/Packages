@@ -1760,37 +1760,44 @@ $not_regex = '/foo?/uTx';
 //                ^ string - source.regexp
 
 echo <<<EOT
-//   ^^^^^^ punctuation.definition.string
-//      ^^^ keyword.operator.heredoc
+//   ^^^ keyword.operator.heredoc
+//      ^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^ entity.name.tag.heredoc
 This is a test! $var
 //^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
 //              ^^^^ variable.other
 EOT;
-// <- keyword.operator.heredoc
+// <- entity.name.tag.heredoc
 
 // PHP 7.3: Flexible Heredoc and Nowdoc Syntaxes
 // see https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes
 echo <<<EOT
-//   ^^^^^^ punctuation.definition.string
-//      ^^^ keyword.operator.heredoc
+//   ^^^ keyword.operator.heredoc
+//      ^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^ entity.name.tag.heredoc
     This is a test! $var
 //  ^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
 //                  ^^^^ variable.other
     EOT;
-//  ^^^ keyword.operator.heredoc
+//  ^^^ entity.name.tag.heredoc
+//     ^ punctuation.terminator.expression
+//      ^ meta.heredoc-end
 
 echo <<<'EOT'
-//   ^^^^^^^^ punctuation.definition.string
-//      ^^^^^ keyword.operator.nowdoc
+//   ^^^ keyword.operator.heredoc
+//      ^ punctuation.definition.tag.begin
+//      ^^^^^ meta.string.heredoc meta.tag.heredoc
+//       ^^^ entity.name.tag.heredoc
 This is a test! $var
-//^^^^^^^^^^^^^^^^^^ string.unquoted.nowdoc
+//^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
 //              ^^^^ - variable.other
 EOT;
-// <- keyword.operator.heredoc
+// <- entity.name.tag.heredoc
 
 echo <<<HTML
-//   ^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
-//      ^^^ keyword.operator.heredoc
+//   ^^^ keyword.operator.heredoc
+//      ^^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^^ entity.name.tag.heredoc
 This is a test!
 <div class="foo-bar"></div>
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.html text.html
@@ -1799,13 +1806,14 @@ This is a test!
 //   ^^^^^ entity.other.attribute-name
 //         ^^^^^^^^^ string.quoted.double
 HTML;
-// <- punctuation.section.embedded.end keyword.operator.heredoc
+// <- entity.name.tag.heredoc
 //  ^ punctuation.terminator.expression
 //   ^ meta.heredoc-end
 
 echo <<< JAVASCRIPT
-//   ^^^^^^^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
-//       ^^^^^^^^^^ keyword.operator.heredoc
+//   ^^^ keyword.operator.heredoc
+//       ^^^^^^^^^^ meta.string.heredoc meta.tag.heredoc
+//       ^^^^^^^^^^ entity.name.tag.heredoc
 var foo = 1;
 //^^^^^^^^^^ meta.embedded.js source.js
 // <- keyword.declaration
@@ -1817,11 +1825,14 @@ $var
     ($var)
 //   ^^^^ variable.other.php
 JAVASCRIPT;
-// <- punctuation.section.embedded.end keyword.operator.heredoc
+// <- entity.name.tag.heredoc
+//        ^ punctuation.terminator.expression
+//         ^ meta.heredoc-end
 
 echo <<<CSS
-//   ^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
-//      ^^^ keyword.operator.heredoc
+//   ^^^ keyword.operator.heredoc
+//      ^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^ entity.name.tag.heredoc
 h2 {font-family: 'Arial';}
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.css source.css
 // <- entity.name.tag
@@ -1830,11 +1841,14 @@ h2 {font-family: 'Arial';}
 h3 {font-size: "$h3_size";}
 //              ^^^^^^^^ variable.other.php
 CSS;
-// <- punctuation.section.embedded.end keyword.operator.heredoc
+// <- entity.name.tag.heredoc
+// ^ punctuation.terminator.expression
+//  ^ meta.heredoc-end
 
 echo <<<SQL
-//   ^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
-//      ^^^ keyword.operator.heredoc
+//   ^^^ keyword.operator.heredoc
+//      ^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^ entity.name.tag.heredoc
 SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
@@ -1842,12 +1856,16 @@ SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
 SQL;
-// <- punctuation.section.embedded.end keyword.operator.heredoc
+// <- entity.name.tag.heredoc
+// ^ punctuation.terminator.expression
+//  ^ meta.heredoc-end
 
 
 echo <<<'SQL'
-//   ^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
-//      ^^^^^ keyword.operator.nowdoc
+//   ^^^ keyword.operator.heredoc
+//      ^ punctuation.definition.tag.begin
+//      ^^^^^ meta.string.heredoc meta.tag.heredoc
+//       ^^^ entity.name.tag.heredoc
 SELECT * FROM users WHERE first_name = 'John'\n
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
@@ -1855,7 +1873,9 @@ SELECT * FROM users WHERE first_name = 'John'\n
 //                                     ^^^^^^ string.quoted.single
 //                                           ^^ - constant.character.escape.php
 SQL;
-// <- punctuation.section.embedded.end
+// <- entity.name.tag.heredoc
+// ^ punctuation.terminator.expression
+//  ^ meta.heredoc-end
 
 
 
