@@ -1,0 +1,10 @@
+{
+	"rules":
+	[
+		{
+			"name": "Declaration Keywords",
+			"scope": "source.ruby keyword.declaration",
+			"foreground": "var(red2)"
+		}
+	]
+}
