@@ -278,26 +278,7 @@ contexts:
         - match: ^(?![ ]{4}|$)
           pop: true
         - include: inline-bold-italic
-    - match: |-
-        (?x:
-            \s*                        # Leading whitespace
-            (\[)([^]]*)(\])(:)         # Reference name
-            [ \t]*                     # Optional whitespace
-            (?:
-              (<)([^>]+)(>)            # The url
-            | (\S+)                    # The url
-            )
-        )
-      captures:
-        1: punctuation.definition.constant.begin.markdown
-        2: entity.name.reference.link.markdown
-        3: punctuation.definition.constant.end.markdown
-        4: punctuation.separator.key-value.markdown
-        5: punctuation.definition.link.begin.markdown
-        6: markup.underline.link.markdown
-        7: punctuation.definition.link.end.markdown
-        8: markup.underline.link.markdown
-      push: [link-ref-def-expect-end, link-title]
+    - include: reference-link-definition
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
       branch_point: heading2-branch
       branch:
@@ -946,6 +927,16 @@ contexts:
       captures:
         1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
       push: [link-ref-attr, link-ref-after-text, link-ref-link-text]
+    - match: |-
+        (?x:
+          (\[)(?!\^)
+          (?=   {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+                \]
+          )
+        )
+      captures:
+        1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
+      push: link-ref-link-text
   link-ref-link-text:
     - meta_content_scope: meta.link.reference.description.markdown
     - include: link-text-allow-image
@@ -1018,6 +1009,27 @@ contexts:
         1: punctuation.definition.link.begin.markdown
         2: meta.link.reference.literal.footnote-id.markdown
         3: punctuation.definition.link.end.markdown
+  reference-link-definition:
+    - match: |-
+        (?x:
+            [ ]{0,3}                     # Leading whitespace
+            (\[)(|(?:\\\]|[^]])+)(\])(:) # Reference name
+            [ \t]*                       # Optional whitespace
+            (?:
+              (<)([^>]*)(>)              # The url
+            | (\S+)                      # The url
+            )
+        )
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: entity.name.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+        4: punctuation.separator.key-value.markdown
+        5: punctuation.definition.link.begin.markdown
+        6: markup.underline.link.markdown
+        7: punctuation.definition.link.end.markdown
+        8: markup.underline.link.markdown
+      push: [link-ref-def-expect-end, link-title]
   list-paragraph:
     - match: '^(?=(?:[ ]{4}|\t){2,}(?![>+*\s-]))(?={{indented_code_block}})'
       push:
@@ -1034,8 +1046,7 @@ contexts:
         - include: fenced-code-block
         - match: ''
           pop: true
-    - match: '^(?=\s*\[[^]]*\]:)'
-      pop: true
+    - include: reference-link-definition
     - match: \s+(?=\S)
       push:
         - match: ^\s*$

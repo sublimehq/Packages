@@ -2186,7 +2186,38 @@ link with a single underscore inside the text : [@_test](http://example.com)
 ### h3
 |^^ punctuation.definition.heading.begin
 
-- list
+1. list [001]blah
+|       ^^^^^ meta.link.reference
+|       ^ punctuation.definition.link.begin
+|           ^ punctuation.definition.link.end
+|            ^^^^^ - meta.link
 
   [001]: https://en.wikipedia.org/wiki/Root-mean-square_deviation "Wikipedia - RMSE"
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.link.reference.def
+1. another list item
+
+[foo]: /url "title"
+|^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|    ^ punctuation.separator.key-value
+|      ^^^^ markup.underline.link
+|           ^^^^^^^ string.other.link.description.title
+
+[foo]
+|<- meta.link.reference punctuation.definition.link.begin
+|^^^ meta.paragraph meta.link.reference
+|   ^ meta.link.reference punctuation.definition.link.end
+
+ [Foo*bar\]]:my_(url) 'title (with parens)'
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^ punctuation.definition.constant.begin
+| ^^^^^^^^^ entity.name.reference.link - punctuation
+|          ^ punctuation.definition.constant.end
+|           ^ punctuation.separator.key-value
+|            ^^^^^^^^ markup.underline.link
+|                     ^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+
+ [foo]: <>
+|^^^^^^^^^ meta.link.reference.def
+|     ^ punctuation.separator.key-value
+|       ^ punctuation.definition.link.begin
+|        ^ punctuation.definition.link.end
