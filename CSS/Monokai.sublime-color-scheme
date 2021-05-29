@@ -1,0 +1,10 @@
+{
+	"rules": [
+		{
+			"name": "Numeric Units",
+			"scope": "constant.numeric.suffix.css",
+			"foreground": "var(red2)",
+			"font_style": ""
+		}
+	]
+}
