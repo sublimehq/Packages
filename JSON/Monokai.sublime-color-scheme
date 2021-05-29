@@ -1,0 +1,9 @@
+{
+	"rules": [
+		{
+			"name": "JSON Key Names",
+			"scope": "source.json meta.mapping.key string - punctuation",
+			"foreground": "var(red2)"
+		}
+	]
+}
