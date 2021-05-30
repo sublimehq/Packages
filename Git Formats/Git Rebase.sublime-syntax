@@ -33,7 +33,7 @@ contexts:
   comment-content:
     - meta_scope: comment.line.git.rebase
     - match: ^(?!\s*{{comment_char}})
-      pop: true
+      pop: 1
     - include: heading
     - include: commands-help
     - include: rebase-msg
@@ -145,36 +145,36 @@ contexts:
   commit-command:
     - match: (?:d|drop)\b
       scope: keyword.operator.commit.drop.git.rebase
-      pop: true
+      pop: 1
     - match: (?:e|edit)\b
       scope: keyword.operator.commit.edit.git.rebase
-      pop: true
+      pop: 1
     - match: (?:f|fixup)\b
       scope: keyword.operator.commit.fixup.git.rebase
-      pop: true
+      pop: 1
     - match: (?:p|pick)\b
       scope: keyword.operator.commit.pick.git.rebase
-      pop: true
+      pop: 1
     - match: (?:r|reword)\b
       scope: keyword.operator.commit.reword.git.rebase
-      pop: true
+      pop: 1
     - match: (?:s|squash)\b
       scope: keyword.operator.commit.squash.git.rebase
-      pop: true
+      pop: 1
     - include: comments
     - include: line-end
     - match: \S+
       scope: invalid.illegal.command-expected.git.rebase
-      pop: true
+      pop: 1
 
   commit-hash:
     - match: '{{hash}}' # e.g. d284bb2
       scope: constant.other.hash.git.rebase
-      pop: true
+      pop: 1
     - include: line-end
     - match: \S+
       scope: invalid.illegal.hash-expected.git.rebase
-      pop: true
+      pop: 1
 
   commit-subject:
     - meta_scope: meta.commit.git.rebase
@@ -203,4 +203,4 @@ contexts:
 
   line-end:
     - match: $\n?
-      pop: true
+      pop: 1
