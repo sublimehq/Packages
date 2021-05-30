@@ -16,21 +16,23 @@ contexts:
 
   main:
     - include: comments
-    - include: commit
+    - include: branch-commands
+    - include: commit-commands
 
 ##[ COMMENTS ]#########################################################
 
   comments:
-    - match: ^\s*({{comment_char}})
-      captures:
-        1: punctuation.definition.comment.git.rebase
-      push:
-        - meta_scope: comment.line.git.rebase
-        - match: ^(?!\s*{{comment_char}})
-          pop: true
-        - include: heading
-        - include: commands-help
-        - include: rebase-msg
+    - match: '{{comment_char}}'
+      scope: punctuation.definition.comment.git.rebase
+      push: comment-content
+
+  comment-content:
+    - meta_scope: comment.line.git.rebase
+    - match: ^(?!\s*{{comment_char}})
+      pop: true
+    - include: heading
+    - include: commands-help
+    - include: rebase-msg
 
   heading:
     # all comments ending with colon are scoped as headlines
@@ -108,14 +110,35 @@ contexts:
         3: constant.other.hash.git.rebase
         4: constant.other.hash.git.rebase
 
-##[ COMMITS ]##########################################################
+##[ COMMANDS ]#########################################################
 
-  commit:
-    # e.g. pick d284bb2 Initial commit
-    - match: ^\s*
-      push: [commit-subject, commit-hash, commit-commands]
+  branch-commands:
+    - match: ^\s*(label)\s+(\S+)
+      captures:
+        0: meta.branch.label.git.rebase
+        1: keyword.other.label.git.rebase
+        2: constant.language.branch-name.git.commit
+    - match: ^\s*(merge)\s+((-)C)\s+({{hash}})\s+(\S+)
+      captures:
+        0: meta.branch.merge.git.rebase
+        1: keyword.operator.branch.merge.git.rebase
+        2: variable.parameter.option.git.rebase
+        3: punctuation.definition.variable.git.rebase
+        4: constant.other.hash.git.rebase
+        5: constant.language.branch-name.git.commit
+    - match: ^\s*(reset)\s+(?:({{hash}})|(\S+))
+      captures:
+        0: meta.branch.reset.git.rebase
+        1: keyword.operator.branch.reset.git.rebase
+        2: constant.other.hash.git.rebase
+        3: constant.language.branch-name.git.commit
 
   commit-commands:
+    # e.g. pick d284bb2 Initial commit
+    - match: ^\s*
+      push: [commit-subject, commit-hash, commit-command]
+
+  commit-command:
     - match: (?:d|drop)\b
       scope: keyword.operator.commit.drop.git.rebase
       pop: true
@@ -137,6 +160,7 @@ contexts:
     - match: (?:s|squash)\b
       scope: keyword.operator.commit.squash.git.rebase
       pop: true
+    - include: comments
     - include: line-end
     - match: \S+
       scope: invalid.illegal.command-expected.git.rebase
@@ -155,11 +179,13 @@ contexts:
     - meta_scope: meta.commit.git.rebase
     - include: line-end
     - match: (?=\S)  # subject beginns with first none whitespece
-      set:
-        - meta_scope: meta.commit.git.rebase
-        - meta_content_scope: meta.subject.git.commit
-        - include: Git Common.sublime-syntax#references
-        - include: line-end
+      set: commit-subject-content
+
+  commit-subject-content:
+    - meta_scope: meta.commit.git.rebase
+    - meta_content_scope: meta.subject.git.commit
+    - include: Git Common.sublime-syntax#references
+    - include: line-end
 
 ##[ PROTOTYPES ]#######################################################
 
