@@ -3,10 +3,13 @@
 # Highlight interactive rebase text (git rebase -i).
 
 name: Git Rebase Todo
+scope: text.git.rebase
+version: 2
+
 file_extensions:
   - git-rebase-todo
-first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
-scope: text.git.rebase
+
+first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
 
 variables:
   comment_char: '[#;]'
@@ -16,6 +19,7 @@ contexts:
 
   main:
     - include: comments
+    - include: shell-commands
     - include: branch-commands
     - include: commit-commands
 
@@ -145,9 +149,6 @@ contexts:
     - match: (?:e|edit)\b
       scope: keyword.operator.commit.edit.git.rebase
       pop: true
-    - match: (?:x|exec)\b
-      scope: keyword.operator.commit.exec.git.rebase
-      pop: true
     - match: (?:f|fixup)\b
       scope: keyword.operator.commit.fixup.git.rebase
       pop: true
@@ -186,6 +187,17 @@ contexts:
     - meta_content_scope: meta.subject.git.commit
     - include: Git Common.sublime-syntax#references
     - include: line-end
+
+  shell-commands:
+    - match: ^\s*(x|exec)\b
+      captures:
+        0: meta.shell.git.rebase
+        1: keyword.operator.exec.git.rebase
+      embed: scope:source.shell
+      embed_scope: meta.shell.git.rebase source.shell.embedded.git.rebase
+      escape: $\n?
+      escape_captures:
+        0: meta.shell.git.rebase
 
 ##[ PROTOTYPES ]#######################################################
 
