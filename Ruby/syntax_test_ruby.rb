@@ -1290,8 +1290,12 @@ a = /?foo*baz/m
 #   ^^^^^^^^^^^ string.regexp
 
 a = /=foo/m
-#   ^^ keyword.operator.assignment.augmented.ruby
-#   ^^^^^^^ - string.regexp
+#   ^^^^^^^ string.regexp
+
+# issue #2703
+a = /(bot\ is\ not\ a\ member\ of\ the\ (super)?group\ chat)|
+     (bot\ can't\ send\ messages\ to\ bots)/x
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
 
 begin
 # <- keyword.control.block.begin
