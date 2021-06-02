@@ -217,6 +217,43 @@ BAR
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
+bar<<string
+#  ^^ keyword.operator.assignment.augmented.ruby
+#    ^^^^^^^ - meta.tag - entity.name
+bar <<string
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^ - meta.tag - entity.name
+bar << string
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^ - meta.tag - entity.name
+bar <<'string'
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^^ - meta.tag - entity.name
+bar << 'string'
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+bar <<"string"
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^^ - meta.tag - entity.name
+bar << "string"
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+foo.bar <<"string"
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^^^^^ - meta.tag - entity.name
+Foo.bar <<"string"
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^^^^^ - meta.tag - entity.name
+foo::bar <<"string"
+#        ^^ keyword.operator.assignment.augmented.ruby
+#          ^^^^^^^^ - meta.tag - entity.name
+foo? <<"string"
+#    ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+foo! <<"string"
+#    ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+
 ##################
 # Numbers
 ##################

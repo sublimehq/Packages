@@ -620,6 +620,10 @@ contexts:
     - match: ':(?!:)'
       scope: keyword.operator.conditional.ruby
       pop: true
+    - match: \s*(<<)
+      captures:
+        1: keyword.operator.assignment.augmented.ruby
+      pop: true
     - match: ''
       pop: true
 
