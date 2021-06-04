@@ -1293,6 +1293,12 @@ a = /=foo/m
 #   ^^ keyword.operator.assignment.augmented.ruby
 #   ^^^^^^^ - string.regexp
 
+a = (File.size().to_f / 1024).ceil.to_s.reverse.scan(/\d/)
+#                     ^ keyword.operator.arithmetic.ruby
+#                                                    ^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+#                                                    ^ punctuation.definition.string.begin.ruby
+#                                                       ^ punctuation.definition.string.end.ruby
+
 begin
 # <- keyword.control.block.begin
 end while /foo/ =~ bar
