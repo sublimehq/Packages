@@ -23,6 +23,7 @@ file_extensions:
   - Snakefile
   - vpy
   - wscript
+  - BUILD
   - bazel
   - bzl
 first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
