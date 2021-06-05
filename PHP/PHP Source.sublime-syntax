@@ -348,7 +348,9 @@ contexts:
         - match: \?
           scope: storage.type.nullable.php
         - match: \|
-          scope: punctuation.separator.type.php
+          scope: punctuation.separator.type.union.php
+        - match: '&(?!\s*\$)'
+          scope: punctuation.separator.type.intersection.php
         # note that
         #   - "callable", "never" and "void" are not allowed in property type
         #   - "false" and "null" are only working in unioned type

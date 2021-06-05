@@ -1055,6 +1055,17 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                   ^ storage.type.nullable.php
 //                                                    ^ storage.type.php
 
+    function intersectionTypeFunction(?int $param1): Interface1&Interface2 {}
+//  ^ keyword.declaration.function
+//           ^ entity.name.function
+//                                   ^ punctuation.section.group.begin
+//                                    ^ storage.type.nullable
+//                                     ^ meta.function.parameters
+//                                                ^ punctuation.section.group.end
+//                                                   ^^^^^^^^^^ support.class
+//                                                             ^ punctuation.separator.type.intersection
+//                                                              ^^^^^^^^^^ support.class
+
     function unionTypeFunction(
 //  ^ keyword.declaration.function
 //           ^ entity.name.function.php
