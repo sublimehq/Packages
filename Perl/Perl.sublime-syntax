@@ -12,7 +12,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^\#! .* \bperl\b |                     # shebang
-    ^\# \s* -\*- [^*]* perl [^*]* -\*-     # editorconfig
+    ^\# .* -\*- [^*]* perl [^*]* -\*-      # editorconfig
   )
 scope: source.perl
 

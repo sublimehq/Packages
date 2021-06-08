@@ -38,7 +38,7 @@ hidden_file_extensions:
 first_line_match: |-
   (?x:
     ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b |        # shebang
-    ^\# \s* -\*- [^*]* shell-script [^*]* -\*-  # editorconfig
+    ^\# .* -\*- [^*]* shell-script [^*]* -\*-   # editorconfig
   )
 
 ###############################################################################

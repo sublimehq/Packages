@@ -24,7 +24,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^\#! .* \bmake\b |                     # shebang
-    ^\# \s* -\*- [^*]* makefile [^*]* -\*- # editorconfig
+    ^\# .* -\*- [^*]* makefile [^*]* -\*-  # editorconfig
   )
 scope: source.makefile
 #-------------------------------------------------------------------------------
