@@ -236,9 +236,8 @@ contexts:
     - include: literal-numbers
     - include: type-forall
     - include: operators
-    - include: quasi-quotes
+    - include: brackets
     - include: parens
-    - include: lists
     - include: keywords
     - include: ident-anonymous
     - include: ident-namespaces
@@ -1021,26 +1020,38 @@ contexts:
 
 ###[ BRACKETS ]################################################################
 
-  lists:
+  brackets:
     # 3.7 Lists
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-340003.7
     - include: empty-lists
+    - match: (?=\[)
+      branch_point: list-or-quasiquote
+      branch:
+        - list
+        - quasi-quote
+
+  list:
     - match: \[
       scope: punctuation.section.sequence.begin.haskell
-      push: list-body
+      set: list-body
+
+  list-body:
+    - meta_scope: meta.sequence.list.haskell
+    - include: list-fail
+    - include: list-end
+    - include: list-keywords
+    - include: records
+    - include: expressions
+    - include: else-pop
 
   list-end:
     - match: \]
       scope: punctuation.section.sequence.end.haskell
       pop: 1
 
-  list-body:
-    - meta_scope: meta.sequence.list.haskell
-    - include: list-end
-    - include: records
-    - include: list-keywords
-    - include: expressions
-    - include: else-pop
+  list-fail:
+    - match: \|\]
+      fail: list-or-quasiquote
 
   list-keywords:
     # 6.2.7. Generalised (SQL-like) List Comprehensions
@@ -1055,20 +1066,28 @@ contexts:
         1: punctuation.section.sequence.begin.haskell
         2: punctuation.section.sequence.end.haskell
 
-  quasi-quotes:
+  quasi-quote:
     # https://wiki.haskell.org/Quasiquotation
-    - match: (\[)([\w'']+)(\|)
-      captures:
-        1: punctuation.section.quasi-quotes.begin.haskell
-        2: variable.function.quasi-quoter.haskell
-        3: punctuation.section.quasi-quotes.haskell
-      push: quasi-quotes-body
+    - match: \[
+      scope: meta.quasi-quotes.haskell punctuation.section.quasi-quotes.begin.haskell
+      set: quasi-quote-name
 
-  quasi-quotes-body:
-    - meta_scope: meta.quasi-quotes.haskell
-    - meta_content_scope: meta.string.haskell string.unquoted.haskell
+  quasi-quote-name:
+    - meta_content_scope: meta.quasi-quotes.haskell
+    - match: \|
+      scope: meta.quasi-quotes.haskell punctuation.section.quasi-quotes.haskell
+      set: quasi-quote-body
+    - match: '[\w'']+'
+      scope: variable.function.quasi-quoter.haskell
+    - include: quasi-quote-end
+
+  quasi-quote-body:
+    - meta_content_scope: meta.quasi-quotes.haskell meta.string.haskell string.unquoted.haskell
+    - include: quasi-quote-end
+
+  quasi-quote-end:
     - match: \|\]
-      scope: punctuation.section.quasi-quotes.end.haskell
+      scope: meta.quasi-quotes.haskell punctuation.section.quasi-quotes.end.haskell
       pop: 1
 
 ###[ PARENTHESES ]#############################################################

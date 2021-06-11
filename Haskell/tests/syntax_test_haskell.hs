@@ -2727,6 +2727,30 @@ main = do
 --     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.haskell
 --                                   ^^ punctuation.section.quasi-quotes.end.haskell
 
+    {- Custom QuasiQuoter -}
+    [1|True|]
+--  ^^^^^^^^^ meta.quasi-quotes.haskell - meta.quasi-quotes meta.quasi-quotes
+--  ^ punctuation.section.quasi-quotes.begin.haskell
+--   ^ variable.function.quasi-quoter.haskell
+--    ^ punctuation.section.quasi-quotes.haskell
+--     ^^^^ meta.string.haskell string.unquoted.haskell
+--         ^^ punctuation.section.quasi-quotes.end.haskell
+
+    {- List Comprehension -}
+    [1|True]
+--  ^^^^^^^^ meta.sequence.list.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--    ^ punctuation.separator.sequence.haskell
+--     ^^^^ support.constant.prelude.haskell
+--         ^ punctuation.section.sequence.end.haskell
+
+    [1||]
+--  ^^^^^ meta.sequence.list.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--    ^^ keyword.operator.haskell
+--      ^ punctuation.section.sequence.end.haskell
 
 -- [ IDENTS ] -----------------------------------------------------------------
 
