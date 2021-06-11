@@ -1965,7 +1965,21 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //<- meta.enum.java meta.block.java punctuation.section.block.end.java
 
 @Anno           // comment
-//<- meta.enum.java meta.annotation.identifier.java punctuation.definition.annotation.java
+// <- meta.enum.java meta.annotation.identifier.java meta.path.java punctuation.definition.annotation.java
+.               // comment
+// <- meta.enum.java meta.annotation.identifier.java meta.path.java punctuation.accessor.dot.java
+Anno            // comment
+// <- meta.annotation.identifier.java meta.path.java variable.annotation.java
+(               // comment
+// <- meta.annotation.parameters.java meta.group.java punctuation.section.group.begin.java
+   par          // comment
+// ^^^ meta.enum.java meta.annotation.parameters.java meta.group.java variable.parameter.java
+   =            // comment
+// ^ meta.enum.java meta.annotation.parameters.java meta.group.java keyword.operator.assignment.java
+   1            // comment
+// ^ meta.enum.java meta.annotation.parameters.java meta.group.java meta.number.integer.decimal.java constant.numeric.value.java
+)               // comment
+// <- meta.annotation.parameters.java meta.group.java punctuation.section.group.end.java
 public          // comment
 //<- meta.enum.java storage.modifier.java
 enum            // comment
@@ -9155,9 +9169,11 @@ public class GrafoTest {
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
         (foo = "bar")
 //      ^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java -meta.annotation.identifier.java
-@FancyAnnotation({
+@FancyAnnotation ({
+//^^^^^^^^^^^^^^^^^^ - meta.annotation meta.annotation
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
-//              ^^ meta.class.java meta.annotation.parameters.java
+//^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java
+//               ^^ meta.class.java meta.annotation.parameters.java
   Foo.class,
 //^^^ storage.type.class.java
 //   ^ punctuation.accessor.dot.java
@@ -9192,8 +9208,12 @@ class Bàr {
 //                   ^^^^ variable.parameter.java
 )
 
-@AnnotationAsParameterMultiple({
-//                             ^ punctuation.section.braces.begin.java
+@AnnotationAsParameterMultiple
+   ({
+// <- meta.annotation.identifier.java - meta.annotation meta.annotation
+//^ meta.class.java meta.annotation.identifier.java - meta.annotation meta.annotation
+// ^^^ meta.annotation.parameters.java meta.group.java
+//  ^ punctuation.section.braces.begin.java
     @Parameter(name = "foo"),
 //  ^ punctuation.definition.annotation.java
 //   ^^^^^^^^^ variable.annotation.java

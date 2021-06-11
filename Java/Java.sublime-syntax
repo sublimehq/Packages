@@ -263,8 +263,10 @@ contexts:
     - match: \s*(?=\()
       pop: 2
       set:
-        - annotation-parameters-body
-        - group-begin
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.java
+          set: annotation-parameters-body
     # consume comments
     - match: \s*(?=/[/*])
     # annotation ends without arguments
@@ -1811,11 +1813,6 @@ contexts:
     - include: expressions
     - include: expression-terminator
 
-  group-begin:
-    - match: \(
-      scope: punctuation.section.group.begin.java
-      pop: 1
-
   group-end:
     - match: \)
       scope: punctuation.section.group.end.java
@@ -2084,7 +2081,7 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
-    # Note: 
+    # Note:
     # 1) `variable-other` must be the first branch to scope the very last
     #    identifier before eof or end of embedded section as ordinary variable.
     # 2) `variable-qualifier` scopes identifiers not followed by ClassCaseIds
