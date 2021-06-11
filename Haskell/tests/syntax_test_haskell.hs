@@ -1929,6 +1929,33 @@
       )
 --    ^ meta.group.haskell punctuation.section.group.end.haskell
 
+    type family TypeFamily
+--  ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^^ storage.modifier.family.haskell
+--              ^^^^^^^^^^ entity.name.type.haskell
+
+    type family Elem c :: *
+--  ^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^^ storage.modifier.family.haskell
+--              ^^^^ entity.name.type.haskell
+--                   ^ variable.other.haskell
+--                     ^^ punctuation.separator.type.haskell
+--                        ^ keyword.operator.haskell
+
+    type family F a b :: * -> *
+--  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^^ storage.modifier.family.haskell
+--              ^ entity.name.type.haskell
+--                ^ variable.other.haskell
+--                  ^ variable.other.haskell
+--                    ^^ punctuation.separator.type.haskell
+--                       ^ keyword.operator.haskell
+--                         ^^ keyword.operator.arrow.haskell
+--                            ^ keyword.operator.haskell
+
 
 -- [ FIXITY DECLARATIONS ] ----------------------------------------------------
 
