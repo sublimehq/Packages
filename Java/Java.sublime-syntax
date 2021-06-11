@@ -1581,16 +1581,8 @@ contexts:
       scope: punctuation.section.group.begin.java
       set:
         - catch-parameters-end
-        - parameter-maybe-identifier
-        - catch-parameters-typelist
         - maybe-illegal-array-modifiers
-        - catch-parameter-type
-    - include: else-pop
-
-  catch-parameters-typelist:
-    - match: \|
-      scope: punctuation.separator.pipe.java
-      push:
+        - catch-parameter-identifier
         - maybe-illegal-array-modifiers
         - catch-parameter-type
     - include: else-pop
@@ -1599,6 +1591,20 @@ contexts:
     - include: final-modifiers
     - include: illegal-storage-modifiers
     - include: expect-object-type
+
+  catch-parameter-identifier:
+    - match: \|
+      scope: punctuation.separator.pipe.java
+      push:
+        - maybe-illegal-array-modifiers
+        - catch-parameter-type
+    - match: '{{identifier}}'
+      scope: variable.other.java
+      pop: 1
+    - match: '{{variables}}{{break}}'
+      scope: invalid.illegal.identifier.java
+      pop: 1
+    - include: else-pop
 
   catch-parameters-end:
     - meta_scope: meta.group.java

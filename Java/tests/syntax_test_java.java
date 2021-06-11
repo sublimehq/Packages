@@ -6707,7 +6707,7 @@ class TryStatementTests {
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^ invalid.illegal.unexpected-keyword.java
-//             ^ variable.parameter.java
+//             ^ variable.other.java
 //              ^ punctuation.section.group.end.java
 
     catch (int[] e)
@@ -6716,7 +6716,7 @@ class TryStatementTests {
 //        ^ punctuation.section.group.begin.java
 //         ^^^ invalid.illegal.unexpected-keyword.java
 //            ^^ invalid.illegal.unexpected-modifier.java
-//               ^ variable.parameter.java
+//               ^ variable.other.java
 //                ^ punctuation.section.group.end.java
 
     catch (foo[] e)
@@ -6725,11 +6725,11 @@ class TryStatementTests {
 //        ^ punctuation.section.group.begin.java
 //         ^^^ storage.type.class.java
 //            ^^ invalid.illegal.unexpected-modifier.java
-//               ^ variable.parameter.java
+//               ^ variable.other.java
 //                ^ punctuation.section.group.end.java
 
-    catch (foo[] | bar[] | int e)
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.java
+    catch (foo[] | bar[] | int e[])
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^ storage.type.class.java
@@ -6739,8 +6739,9 @@ class TryStatementTests {
 //                    ^^ invalid.illegal.unexpected-modifier.java
 //                       ^ punctuation.separator.pipe.java
 //                         ^^^ invalid.illegal.unexpected-keyword.java
-//                             ^ variable.parameter.java
-//                              ^ punctuation.section.group.end.java
+//                             ^ variable.other.java
+//                              ^^ invalid.illegal.unexpected-modifier.java
+//                                ^ punctuation.section.group.end.java
 
     catch (5 + 10)
 //  ^^^^^^^^^^^^^^ meta.statement.exception.catch.java
@@ -6798,7 +6799,7 @@ class TryStatementTests {
 //                 ^^^^^ keyword.control.exception.catch.java
 //                       ^ punctuation.section.group.begin.java
 //                        ^^^^^^^^^ storage.type.class.java
-//                                  ^ variable.parameter.java
+//                                  ^ variable.other.java
 //                                   ^ punctuation.section.group.end.java
 //                                     ^ punctuation.section.block.begin.java
 //                                       ^^^ variable.function.java
@@ -6825,7 +6826,7 @@ class TryStatementTests {
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.group.begin.java
 //           ^^^^^^^^^ storage.type.class.java
-//                     ^ variable.parameter.java
+//                     ^ variable.other.java
 //                      ^ punctuation.section.group.end.java
 //                        ^ punctuation.section.block.begin.java
       bar(e);
@@ -6960,7 +6961,7 @@ class TryStatementTests {
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.group.begin.java
 //           ^^^^^^^^^^^ storage.type.class.java
-//                       ^^^^^^ variable.parameter.java
+//                       ^^^^^^ variable.other.java
 //                             ^ punctuation.section.group.end.java
 //                               ^ punctuation.section.block.begin.java
     } catch (final MyException | com.net.org.Foo.Bar |
@@ -6990,7 +6991,7 @@ class TryStatementTests {
 //       ^^^^^^^ meta.statement.exception.catch.java meta.group.java - meta.statement.exception.catch meta.statement.exception.catch
 //               ^ meta.statement.exception.catch.java - meta.statement.exception.catch meta.statement.exception.catch
 //                ^^ meta.statement.exception.catch.java meta.block.java
-//        ^^^^^^ variable.parameter.java
+//        ^^^^^^ variable.other.java
 //              ^ punctuation.section.group.end.java
 //                ^ punctuation.section.block.begin.java
 //                 ^ punctuation.section.block.end.java
