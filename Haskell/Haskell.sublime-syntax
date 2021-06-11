@@ -89,7 +89,7 @@ variables:
     (?x:
       LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
     | MINIMAL | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE | COLUMN | RULES
-    | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE | OVERLAPPING 
+    | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE | OVERLAPPING
     | OVERLAPPABLE | OVERLAPS | INCOHERENT | CTYPE
     ){{break}}
 
@@ -193,7 +193,7 @@ variables:
     (?x:
     # GHC 6.2.2 The magic hash
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/magic_hash.html
-      Addr | Array | Char | Double | Float | Int | Word 
+      Addr | Array | Char | Double | Float | Int | Word
     # GHC 6.17.2.1 Unlifted FFI Types
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html
     | ArrayArray | ByteArray | SmallArray | StablePtr
@@ -811,6 +811,11 @@ contexts:
     - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
       push: variable-name-end
+    - match: _\b
+      scope: variable.language.anonymous.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      push: variable-name-end
     - match: '{{var_id}}'
       scope: variable.other.haskell
       captures:
@@ -1156,8 +1161,10 @@ contexts:
 ###[ IDENTIFIERS ]#############################################################
 
   ident-anonymous:
-    - match: _{{break}}
+    - match: _\b
       scope: variable.language.anonymous.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
 
   ident-builtin-classes:
     # Prelude Class Types

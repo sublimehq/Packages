@@ -2156,7 +2156,7 @@
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
         a -> Bool
---      ^ variable.other.haskell 
+--      ^ variable.other.haskell
 --        ^^ keyword.operator.arrow.haskell
 --           ^^^^ support.type.prelude.haskell
 
@@ -2733,6 +2733,15 @@ main = do
     _
 --  ^ variable.language.anonymous.haskell
 
+    _#
+--  ^ variable.language.anonymous.haskell
+--   ^ keyword.operator.haskell
+
+    _#_
+--  ^ variable.language.anonymous.haskell
+--   ^ keyword.operator.haskell
+--    ^ variable.language.anonymous.haskell
+
     a
 --  ^ variable.other.haskell
 
@@ -2740,7 +2749,8 @@ main = do
 --  ^^ variable.other.haskell
 
     _'
---  ^^ variable.other.haskell
+--  ^ variable.language.anonymous.haskell
+--   ^ keyword.operator.haskell
 
     a'
 --  ^^ variable.other.haskell
