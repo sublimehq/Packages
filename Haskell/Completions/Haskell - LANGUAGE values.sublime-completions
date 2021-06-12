@@ -326,6 +326,12 @@
 			"details": "Enable language extension"
 		},
 		{
+			"trigger": "LinearTypes",
+			"contents": "LinearTypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
 			"trigger": "MagicHash",
 			"contents": "MagicHash",
 			"kind": "variable",
@@ -478,6 +484,12 @@
 		{
 			"trigger": "QuantifiedConstraints",
 			"contents": "QuantifiedConstraints",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "QualifiedDo",
+			"contents": "QualifiedDo",
 			"kind": "variable",
 			"details": "Enable language extension"
 		},
