@@ -120,14 +120,14 @@ variables:
     | GHCForeignImportPrim | Generali(?:s | z)edNewtypeDeriving | ImplicitParams
     | ImplicitPrelude | ImportQualifiedPost | ImpredicativeTypes
     | TypeFamilyDependencies | InstanceSigs | ApplicativeDo | InterruptibleFFI
-    | JavaScriptFFI | KindSignatures | LambdaCase | LiberalTypeSynonyms | MagicHash
-    | MonadComprehensions | MonoLocalBinds | MonomorphismRestriction
+    | JavaScriptFFI | KindSignatures | LambdaCase | LiberalTypeSynonyms | LinearTypes
+    | MagicHash | MonadComprehensions | MonoLocalBinds | MonomorphismRestriction
     | MultiParamTypeClasses | MultiWayIf | NumericUnderscores | NPlusKPatterns
     | NamedFieldPuns | NamedWildCards | NegativeLiterals | HexFloatLiterals
     | NondecreasingIndentation | NumDecimals | OverloadedLabels | OverloadedLists
     | OverloadedStrings | PackageImports | ParallelArrays | ParallelListComp
     | PartialTypeSignatures | PatternGuards | PatternSynonyms | PolyKinds
-    | PolymorphicComponents | QuantifiedConstraints | PostfixOperators
+    | PolymorphicComponents | QuantifiedConstraints | PostfixOperators | QualifiedDo
     | QuasiQuotes | Rank2Types | RankNTypes | RebindableSyntax | RecordWildCards
     | RecursiveDo | RelaxedLayout | RoleAnnotations | Safe | ScopedTypeVariables
     | StandaloneDeriving | StarIsType | StaticPointers | Strict | StrictData

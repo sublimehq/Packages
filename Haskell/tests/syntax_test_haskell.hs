@@ -172,6 +172,13 @@
 --        ^^^^^^^^^^^^^^^^ constant.language.extension.haskell
 --                        ^ punctuation.separator.sequence.haskell
 --                          ^^^^^^^^^^^^^^^^^^^ constant.language.extension.haskell
+        {- New in GHC 9 -}
+        , QualifiedDo, LinearTypes
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.language.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^^^^^^^^ constant.language.extension.haskell
+--                   ^ punctuation.separator.sequence.haskell
+--                     ^^^^^^^^^^^ constant.language.extension.haskell
     #-}
 --  ^^^ meta.preprocessor.pragma.value.haskell punctuation.section.preprocessor.end.haskell
 
