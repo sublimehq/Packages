@@ -3,25 +3,21 @@
 	"completions": [
 		{
 			"trigger": "as",
-			"contents": "as",
 			"kind": "keyword",
 			"details": "Module alias to add to scope."
 		},
 		{
 			"trigger": "hiding",
-			"contents": "hiding",
 			"kind": ["type", "m", "Modifier"],
 			"details": "Exclude symbols."
 		},
 		{
 			"trigger": "qualified",
-			"contents": "qualified",
 			"kind": ["type", "m", "Modifier"],
 			"details": "Module not added to scope."
 		},
 		{
 			"trigger": "safe",
-			"contents": "safe",
 			"kind": ["type", "m", "Modifier"],
 			"details": "Import as safe module."
 		}

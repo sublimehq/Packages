@@ -6,102 +6,82 @@
 
 		{
 			"trigger": "Applicative",
-			"contents": "Applicative",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Bounded",
-			"contents": "Bounded",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Enum",
-			"contents": "Enum",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Eq",
-			"contents": "Eq",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Floating",
-			"contents": "Floating",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Foldableble",
-			"contents": "Foldableble",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Fractional",
-			"contents": "Fractional",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Functor",
-			"contents": "Functor",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Integral",
-			"contents": "Integral",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Monad",
-			"contents": "Monad",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Monadoid",
-			"contents": "Monadoid",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Num",
-			"contents": "Num",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Ord",
-			"contents": "Ord",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Rational",
-			"contents": "Rational",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Read",
-			"contents": "Read",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Real",
-			"contents": "Real",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "RealFloat",
-			"contents": "RealFloat",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "RealFrac",
-			"contents": "RealFrac",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Show",
-			"contents": "Show",
 			"kind": ["type", "c", "Class"]
 		},
 		{
 			"trigger": "Traversable",
-			"contents": "Traversable",
 			"kind": ["type", "c", "Class"]
 		},
 
@@ -109,47 +89,38 @@
 
 		{
 			"trigger": "Just",
-			"contents": "Just",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "Nothing",
-			"contents": "Nothing",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "Left",
-			"contents": "Left",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "Right",
-			"contents": "Right",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "True",
-			"contents": "True",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "False",
-			"contents": "False",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "LT",
-			"contents": "LT",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "EQ",
-			"contents": "EQ",
 			"kind": ["type", "c", "Constants"]
 		},
 		{
 			"trigger": "GT",
-			"contents": "GT",
 			"kind": ["type", "c", "Constants"]
 		},
 
@@ -157,77 +128,62 @@
 
 		{
 			"trigger": "Bool",
-			"contents": "Bool",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Char",
-			"contents": "Char",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Double",
-			"contents": "Double",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Either",
-			"contents": "Either",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "FilePath",
-			"contents": "FilePath",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Float",
-			"contents": "Float",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Int",
-			"contents": "Int",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Integer",
-			"contents": "Integer",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "IO",
-			"contents": "IO",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "IOError",
-			"contents": "IOError",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Maybe",
-			"contents": "Maybe",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "Ordering",
-			"contents": "Ordering",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "ReadS",
-			"contents": "ReadS",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "ShowS",
-			"contents": "ShowS",
 			"kind": ["type", "t", "Type"]
 		},
 		{
 			"trigger": "String",
-			"contents": "String",
 			"kind": ["type", "t", "Type"]
 		}
 	]
