@@ -1260,7 +1260,7 @@ contexts:
   literal-numbers:
     # 2.5 Decimal floating point literals
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-190002.5
-    - match: (\d{{dec_digit}}*(?:(\.){{dec_digit}}+{{dec_exponent}}?|{{dec_exponent}}))(#*){{break}}
+    - match: (\d{{dec_digit}}*(?:(\.){{dec_digit}}+{{dec_exponent}}?|{{dec_exponent}}))(#*)
       scope: meta.number.float.decimal.haskell
       captures:
         1: constant.numeric.value.haskell
@@ -1268,7 +1268,7 @@ contexts:
         3: constant.numeric.suffix.haskell
     # GHC 6.9.3 Hexadecimal floating point literals
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/hex_float_literals.html
-    - match: (0[xX])({{hex_digit}}+(\.){{hex_digit}}+{{hex_exponent}}?)(#*){{break}}
+    - match: (0[xX])({{hex_digit}}+(\.){{hex_digit}}+{{hex_exponent}}?)(#*)
       scope: meta.number.float.hexadecimal.haskell
       captures:
         1: constant.numeric.base.haskell
@@ -1277,7 +1277,7 @@ contexts:
         4: constant.numeric.suffix.haskell
     # GHC 6.9.2 Binary integer literals
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/binary_literals.html
-    - match: (0[bB])({{bin_digit}}+)(#*){{break}}
+    - match: (0[bB])({{bin_digit}}+)(#*)
       scope: meta.number.integer.binary.haskell
       captures:
         1: constant.numeric.base.haskell
@@ -1285,19 +1285,19 @@ contexts:
         3: constant.numeric.suffix.haskell
     # 2.5 Numeric Literals
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-190002.5
-    - match: (0[oO])({{oct_digit}}+)(#*){{break}}
+    - match: (0[oO])({{oct_digit}}+)(#*)
       scope: meta.number.integer.octal.haskell
       captures:
         1: constant.numeric.base.haskell
         2: constant.numeric.value.haskell
         3: constant.numeric.suffix.haskell
-    - match: (0[xX])({{hex_digit}}+)(#*){{break}}
+    - match: (0[xX])({{hex_digit}}+)(#*)
       scope: meta.number.integer.hexadecimal.haskell
       captures:
         1: constant.numeric.base.haskell
         2: constant.numeric.value.haskell
         3: constant.numeric.suffix.haskell
-    - match: (\d{{dec_digit}}*)(#*){{break}}
+    - match: (\d{{dec_digit}}*)(#*)
       scope: meta.number.integer.decimal.haskell
       captures:
         1: constant.numeric.value.haskell

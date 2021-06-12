@@ -3092,6 +3092,9 @@ main = do
 --    ^^^^^^^^^^ constant.numeric.value.haskell
 --              ^ constant.numeric.suffix.haskell
 
+    123identifier
+--  ^^^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--     ^^^^^^^^^^ variable.other.haskell
 
 -- [ LITERAL CHARACTERS ] -----------------------------------------------------
 
