@@ -2,6 +2,16 @@
 	"scope": "meta.preprocessor.pragma.value.language.haskell",
 	"completions": [
 		{
+			"trigger": "Haskell98",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Haskell2010",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
 			"trigger": "AllowAmbiguousTypes",
 			"kind": "variable",
 			"details": "Enable language extension"
@@ -267,6 +277,11 @@
 			"details": "Enable language extension"
 		},
 		{
+			"trigger": "LexicalNegation",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
 			"trigger": "LiberalTypeSynonyms",
 			"kind": "variable",
 			"details": "Enable language extension"
@@ -517,6 +532,11 @@
 			"details": "Enable language extension"
 		},
 		{
+			"trigger": "Trustworthy",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
 			"trigger": "TupleSections",
 			"kind": "variable",
 			"details": "Enable language extension"
@@ -578,6 +598,11 @@
 		},
 		{
 			"trigger": "UnliftedNewtypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Unsafe",
 			"kind": "variable",
 			"details": "Enable language extension"
 		},
@@ -855,7 +880,17 @@
 			"details": "Disable language extension"
 		},
 		{
+			"trigger": "NoLexicalNegation",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
 			"trigger": "NoLiberalTypeSynonyms",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoLinearTypes",
 			"kind": "variable",
 			"details": "Disable language extension"
 		},
@@ -985,6 +1020,11 @@
 			"details": "Disable language extension"
 		},
 		{
+			"trigger": "NoQualifiedDo",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
 			"trigger": "NoQuantifiedConstraints",
 			"kind": "variable",
 			"details": "Disable language extension"
@@ -1090,6 +1130,11 @@
 			"details": "Disable language extension"
 		},
 		{
+			"trigger": "NoTrustworthy",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
 			"trigger": "NoTupleSections",
 			"kind": "variable",
 			"details": "Disable language extension"
@@ -1151,6 +1196,11 @@
 		},
 		{
 			"trigger": "NoUnliftedNewtypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnsafe",
 			"kind": "variable",
 			"details": "Disable language extension"
 		},
