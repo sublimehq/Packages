@@ -1027,8 +1027,8 @@ contexts:
 ###[ BRACKETS ]################################################################
 
   brackets:
-    # 3.7 Lists
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-340003.7
+    - include: typed-quotes
+    - include: overloaded-quotes
     - include: empty-lists
     - match: (?=\[)
       branch_point: list-or-quasiquote
@@ -1036,7 +1036,16 @@ contexts:
         - list
         - quasi-quote
 
+  empty-lists:
+    - match: (\[)(\])
+      captures:
+        0: meta.sequence.list.empty.haskell
+        1: punctuation.section.sequence.begin.haskell
+        2: punctuation.section.sequence.end.haskell
+
   list:
+    # 3.7 Lists
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-340003.7
     - match: \[
       scope: punctuation.section.sequence.begin.haskell
       set: list-body
@@ -1065,36 +1074,55 @@ contexts:
     - match: (?:group|by|using){{break}}
       scope: keyword.control.list.haskell
 
-  empty-lists:
-    - match: (\[)(\])
-      scope: meta.sequence.list.empty.haskell
-      captures:
-        1: punctuation.section.sequence.begin.haskell
-        2: punctuation.section.sequence.end.haskell
-
   quasi-quote:
     # https://wiki.haskell.org/Quasiquotation
     - match: \[
-      scope: meta.quasi-quotes.haskell punctuation.section.quasi-quotes.begin.haskell
+      scope: meta.quoted.quasi.haskell punctuation.section.quoted.begin.haskell
       set: quasi-quote-name
 
   quasi-quote-name:
-    - meta_content_scope: meta.quasi-quotes.haskell
+    - meta_content_scope: meta.quoted.quasi.haskell
     - match: \|
-      scope: meta.quasi-quotes.haskell punctuation.section.quasi-quotes.haskell
+      scope: meta.quoted.quasi.haskell punctuation.section.quoted.haskell
       set: quasi-quote-body
     - match: '[\w'']+'
       scope: variable.function.quasi-quoter.haskell
     - include: quasi-quote-end
 
   quasi-quote-body:
-    - meta_content_scope: meta.quasi-quotes.haskell meta.string.haskell string.unquoted.haskell
+    - meta_content_scope: meta.quoted.quasi.haskell meta.string.haskell string.unquoted.haskell
     - include: quasi-quote-end
 
   quasi-quote-end:
     - match: \|\]
-      scope: meta.quasi-quotes.haskell punctuation.section.quasi-quotes.end.haskell
+      scope: meta.quoted.quasi.haskell punctuation.section.quoted.end.haskell
       pop: 1
+
+  overloaded-quotes:
+    # https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0246-overloaded-bracket.rst
+    - match: \[\|
+      scope: punctuation.section.quoted.begin.haskell
+      push: overloaded-quote-body
+
+  overloaded-quote-body:
+    - meta_scope: meta.quoted.overloaded.haskell
+    - match: \|\]
+      scope: punctuation.section.quoted.end.haskell
+      pop: 1
+    - include: expressions
+
+  typed-quotes:
+    # https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0246-overloaded-bracket.rst
+    - match: \[\|\|(?!\])
+      scope: punctuation.section.quoted.begin.haskell
+      push: typed-quote-body
+
+  typed-quote-body:
+    - meta_scope: meta.quoted.typed.haskell
+    - match: \|\|\]
+      scope: punctuation.section.quoted.end.haskell
+      pop: 1
+    - include: expressions
 
 ###[ PARENTHESES ]#############################################################
 

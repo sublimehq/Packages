@@ -2757,34 +2757,34 @@ main = do
 
     {- Custom Syntax -}
     [expr|$x + $y|]
---  ^^^^^^ meta.quasi-quotes.haskell - meta.string
---        ^^^^^^^ meta.quasi-quotes.haskell meta.string.haskell
---               ^^ meta.quasi-quotes.haskell - meta.string
---  ^ punctuation.section.quasi-quotes.begin.haskell
+--  ^^^^^^ meta.quoted.quasi.haskell - meta.string
+--        ^^^^^^^ meta.quoted.quasi.haskell meta.string.haskell
+--               ^^ meta.quoted.quasi.haskell - meta.string
+--  ^ punctuation.section.quoted.begin.haskell
 --   ^^^^ variable.function.quasi-quoter
---       ^ punctuation.section.quasi-quotes.haskell
+--       ^ punctuation.section.quoted.haskell
 --        ^^^^^^^ string.unquoted.haskell
---               ^^ punctuation.section.quasi-quotes.end.haskell
+--               ^^ punctuation.section.quoted.end.haskell
 
     {- Raw Strings -}
     [r|\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}|]
---  ^^^ meta.quasi-quotes.haskell - meta.string
---     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quasi-quotes.haskell meta.string.haskell
---                                   ^^ meta.quasi-quotes.haskell - meta.string
---  ^ punctuation.section.quasi-quotes.begin.haskell
+--  ^^^ meta.quoted.quasi.haskell - meta.string
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell meta.string.haskell
+--                                   ^^ meta.quoted.quasi.haskell - meta.string
+--  ^ punctuation.section.quoted.begin.haskell
 --   ^ variable.function.quasi-quoter
---    ^ punctuation.section.quasi-quotes.haskell
+--    ^ punctuation.section.quoted.haskell
 --     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.haskell
---                                   ^^ punctuation.section.quasi-quotes.end.haskell
+--                                   ^^ punctuation.section.quoted.end.haskell
 
     {- Custom QuasiQuoter -}
     [1|True|]
---  ^^^^^^^^^ meta.quasi-quotes.haskell - meta.quasi-quotes meta.quasi-quotes
---  ^ punctuation.section.quasi-quotes.begin.haskell
+--  ^^^^^^^^^ meta.quoted.quasi.haskell - meta.quoted.quasi meta.quoted.quasi
+--  ^ punctuation.section.quoted.begin.haskell
 --   ^ variable.function.quasi-quoter.haskell
---    ^ punctuation.section.quasi-quotes.haskell
+--    ^ punctuation.section.quoted.haskell
 --     ^^^^ meta.string.haskell string.unquoted.haskell
---         ^^ punctuation.section.quasi-quotes.end.haskell
+--         ^^ punctuation.section.quoted.end.haskell
 
     {- List Comprehension -}
     [1|True]
@@ -2801,6 +2801,34 @@ main = do
 --   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 --    ^^ keyword.operator.haskell
 --      ^ punctuation.section.sequence.end.haskell
+
+    {- Overloaded Quotation -}
+    [| putStrLn $(f) >> putStrLn $(g) |] :: (Quote m, Quasi m, MonadIO m) => m Exp
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.overloaded.haskell
+--  ^^ punctuation.section.quoted.begin.haskell
+--     ^^^^^^^^ support.function.prelude.haskell
+--                                    ^^ punctuation.section.quoted.end.haskell
+
+    generateLoop :: (MonadReader CodeMap m, Quote m) => String -> m Exp
+    generateLoop name = [|
+--                      ^^^ meta.quoted.overloaded.haskell
+--                      ^^ punctuation.section.quoted.begin.haskell
+      let loopyCode x =
+--    ^^^^^^^^^^^^^^^^^^ meta.quoted.overloaded.haskell
+--    ^^^ keyword.declaration.variable.haskell
+        $(local (Map.insert name [|loopyCode|]) loopBody)
+      in loopyCode ...
+    |]
+-- ^^^ meta.quoted.overloaded.haskell
+--    ^ - meta.brackets
+--  ^^ punctuation.section.quoted.end.haskell
+
+    {- Typed Quotation -}
+    i :: Quote m => Code m (Int -> Int)
+    i = [|| \x -> x + 1 ||]
+--      ^^^^^^^^^^^^^^^^^^^ meta.quoted.typed.haskell
+--      ^^^ punctuation.section.quoted.begin.haskell
+--                      ^^^ punctuation.section.quoted.end.haskell
 
 -- [ IDENTS ] -----------------------------------------------------------------
 
