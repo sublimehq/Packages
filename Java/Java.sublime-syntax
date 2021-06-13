@@ -2567,6 +2567,7 @@ contexts:
         - match: '{{single_dot}}'
           scope: punctuation.accessor.dot.java
           set:
+            - meta_include_prototype: false
             - meta_content_scope: meta.path.java
             - match: ''
               branch_point: entity-class-path
@@ -2619,6 +2620,7 @@ contexts:
         - match: '{{single_dot}}'
           scope: punctuation.accessor.dot.java
           set:
+            - meta_include_prototype: false
             - meta_content_scope: meta.path.java
             - match: ''
               branch_point: entity-module-path
@@ -2667,6 +2669,7 @@ contexts:
         - match: '{{single_dot}}'
           scope: punctuation.accessor.dot.java
           set:
+            - meta_include_prototype: false
             - meta_content_scope: meta.path.java
             - match: ''
               branch_point: entity-package-path
