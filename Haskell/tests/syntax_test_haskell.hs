@@ -255,6 +255,22 @@
 --                               ^^^^^^^^^^^^^^^^^^^^ string.quoted.double.haskell
 --                                                    ^^^ punctuation.section.preprocessor.end.haskell
 
+    (res, ts) <- withRaw $
+         {-# SCC attrParser #-} (AddAttributes <$> attrParser)
+--       ^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--               ^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                          ^^^ meta.preprocessor.pragma.value.haskell
+--       ^^^ punctuation.section.preprocessor.begin.haskell
+--           ^^^ keyword.directive.builtin.haskell
+--                          ^^^ punctuation.section.preprocessor.end.haskell
+--                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell
+--                              ^ punctuation.section.group.begin.haskell
+--                               ^^^^^^^^^^^^^ storage.type.haskell
+--                                             ^^^ keyword.operator.haskell
+--                                                 ^^^^^^^^^^ variable.other.haskell
+--                                                           ^ punctuation.section.group.end.haskell
+
+
     #if 0
 --  ^^^ meta.preprocessor.c
 --  ^ punctuation.definition.preprocessor.c

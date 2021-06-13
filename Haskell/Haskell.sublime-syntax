@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-# https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts.html
+# https://ghc.gitlab.haskell.org/ghc/doc/users_guide
 # https://www.haskell.org/onlinereport/haskell2010
 # https://www.sublimetext.com/docs/syntax.html
 name: Haskell
@@ -84,13 +84,15 @@ variables:
     )
 
   # GHC 6.20 Pragmas
-  # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html
   pragma_directives: |-
     (?x:
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html
       LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
     | MINIMAL | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE | COLUMN | RULES
     | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE | OVERLAPPING
     | OVERLAPPABLE | OVERLAPS | INCOHERENT | CTYPE
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/profiling.html
+    | CORE | GENERATED | SCC
     ){{break}}
 
   # https://wiki.haskell.org/Language_extensions
