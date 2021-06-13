@@ -672,7 +672,7 @@ import static a.b.Class.fooMethod;
 //             ^ punctuation.accessor.dot.java
 //              ^ variable.namespace.java
 //               ^ punctuation.accessor.dot.java
-//                ^^^^^ entity.name.class.java
+//                ^^^^^ storage.type.class.java
 //                     ^ punctuation.accessor.dot.java
 //                      ^^^^^^^^^ meta.import.java entity.name.function.java
 //                               ^ punctuation.terminator.java
@@ -686,7 +686,7 @@ import static a.b.Class.CONSTANT ;
 //             ^ punctuation.accessor.dot.java
 //              ^ variable.namespace.java
 //               ^ punctuation.accessor.dot.java
-//                ^^^^^ entity.name.class.java
+//                ^^^^^ storage.type.class.java
 //                     ^ punctuation.accessor.dot.java
 //                      ^^^^^^^^ entity.name.constant.java
 //                               ^ punctuation.terminator.java
@@ -707,7 +707,7 @@ import static /**/ a /**/ . /**/ b /**/ . /**/ Class /**/ . /**/ CONSTANT;
 //                                 ^^^^ comment.block.empty.java
 //                                      ^ punctuation.accessor.dot.java
 //                                        ^^^^ comment.block.empty.java
-//                                             ^^^^^ entity.name.class.java
+//                                             ^^^^^ storage.type.class.java
 //                                                  ^^^^^^^^^^^^^ - entity - variable
 //                                                   ^^^^ comment.block.empty.java
 //                                                        ^ punctuation.accessor.dot.java
@@ -741,7 +741,7 @@ import
     /**/ Class
 //^^^^^^^^^^^^ meta.import.java meta.path.java
 //  ^^^^ comment.block.empty.java
-//       ^^^^^ entity.name.class.java
+//       ^^^^^ storage.type.class.java
     /**/ .
 //^^^^^^^^^^^^ meta.import.java meta.path.java
 //  ^^^^ comment.block.empty.java
@@ -764,7 +764,7 @@ import static a.b.Class.*;
 //             ^ punctuation.accessor.dot.java
 //              ^ variable.namespace.java
 //               ^ punctuation.accessor.dot.java
-//                ^^^^^ entity.name.class.java
+//                ^^^^^ storage.type.class.java
 //                     ^ punctuation.accessor.dot.java
 //                      ^ variable.language.wildcard.asterisk.java
 
