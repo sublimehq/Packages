@@ -223,14 +223,23 @@ contexts:
     - meta_scope: meta.annotation.identifier.java
     - match: '{{identifier}}'
       scope: variable.annotation.java
-      push: annotation-unqualified-parameters
+      branch_point: annotation-unqualified-parameters
+      branch:
+        - annotation-unqualified-parameters
+        - immediately-pop2
     - include: else-pop
 
   annotation-unqualified-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      pop: 2
+      push: annotation-parameters-body
     # fail: looks like a qualified annotation
-    - match: (?=\s*{{single_dot}})
+    - match: (?={{single_dot}})
       fail: annotation-identifier
-    - include: annotation-parameters
+    # fail: truncate meta scope immediatelly
+    - match: (?=\S)
+      fail: annotation-unqualified-parameters
 
   annotation-qualified-identifier:
     - meta_include_prototype: false
@@ -254,24 +263,23 @@ contexts:
 
   annotation-qualified-identifier-name:
     - match: '{{identifier}}'
-      scope: variable.annotation.java
-      set: annotation-parameters
+      scope:
+        meta.annotation.identifier.java meta.path.java
+        variable.annotation.java
+      pop: 2
+      branch_point: annotation-qualified-parameters
+      branch:
+        - annotation-qualified-parameters
+        - immediately-pop
     - include: else-pop2
 
-  annotation-parameters:
-    # annotation ends with arguments
-    - match: \s*(?=\()
-      pop: 2
-      set:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.java
-          set: annotation-parameters-body
-    # consume comments
-    - match: \s*(?=/[/*])
-    # annotation ends without arguments
-    - match: (?=\s*\S)
-      pop: 2
+  annotation-qualified-parameters:
+    - meta_content_scope: meta.annotation.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: annotation-parameters-body
+    - match: (?=\S)
+      fail: annotation-qualified-parameters
 
   annotation-parameters-body:
     - meta_scope: meta.annotation.parameters.java meta.group.java

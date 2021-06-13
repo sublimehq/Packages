@@ -855,12 +855,17 @@ class ExtendsTest extends @NonNull Foo {}
 //                                      ^ punctuation.section.block.end.java
 
 class ExtendsTest extends @NonNull /**/ a /**/ . /**/ b /**/ . /**/ @a /**/ . b /**/ Foo /**/ {}
-//^^^ meta.class.java - meta.class meta.class
-//   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
-//                ^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class - meta.path
-//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java meta.path.java - meta.class meta.class
-//                                                                                      ^^^^^^ meta.class.extends.java - meta.class meta.class - meta.path
-//                                                                                            ^^ meta.class.java meta.block.java - meta.class meta.class
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class
+//^^^ meta.class.java
+//   ^^^^^^^^^^^^^ meta.class.identifier.java
+//                ^^^^^^^^ meta.class.extends.java - meta.path - meta.annotation
+//                        ^^^^^^^^ meta.annotation.identifier.java
+//                                ^^^^^^ meta.class.extends.java - meta.path - meta.annotation
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java meta.path.java - meta.annotation
+//                                                                  ^^^^^^^^^^^ meta.class.extends.java meta.path.java meta.annotation.identifier meta.path.java
+//                                                                             ^^^^^^^^^ meta.class.extends.java meta.path.java - meta.annotation
+//                                                                                      ^^^^^^ meta.class.extends.java - meta.path
+//                                                                                            ^^ meta.class.java meta.block.java
 //^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
@@ -878,7 +883,6 @@ class ExtendsTest extends @NonNull /**/ a /**/ . /**/ b /**/ . /**/ @a /**/ . b 
 //                                                      ^^^^ comment.block.empty.java punctuation.definition.comment.java
 //                                                           ^ punctuation.accessor.dot.java
 //                                                             ^^^^ comment.block.empty.java punctuation.definition.comment.java
-//                                                                  ^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
 //                                                                  ^ punctuation.definition.annotation.java
 //                                                                   ^ variable.annotation.namespace.java
 //                                                                     ^^^^ comment.block.empty.java punctuation.definition.comment.java
@@ -3045,8 +3049,8 @@ class FieldDeclarationTests {
 
   @anno /**/ fully // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
-//^^^^^^^^^^ meta.field.modifier.java meta.annotation.identifier.java
-//          ^ meta.field.modifier.java - meta.annotation - meta.pth
+//^^^^^ meta.field.modifier.java meta.annotation.identifier.java
+//     ^^^^^^ meta.field.modifier.java - meta.annotation - meta.pth
 //           ^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
 //^ punctuation.definition.annotation.java
 // ^^^^ variable.annotation.java
@@ -4592,7 +4596,8 @@ class LocalVariableDeclarationTests {
 //                                        ^ keyword.operator.assignment.java
 
     @Number
-//  ^^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java
+//  ^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java
+//         ^ meta.declaration.type.java - meta.annotation
     final
 //  ^^^^^ meta.declaration.type.java storage.modifier.java
     int
@@ -4600,7 +4605,8 @@ class LocalVariableDeclarationTests {
     foo
 //  ^^^ meta.declaration.identifier.java variable.other.java
     @Dim1
-//  ^^^^^^ meta.declaration.identifier.java meta.annotation.identifier.java
+//  ^^^^^ meta.declaration.identifier.java meta.annotation.identifier.java
+//       ^ meta.declaration.identifier.java - meta.annotation
     []
 //  ^^ meta.declaration.identifier.java storage.modifier.array.java
     =
@@ -7960,15 +7966,26 @@ class InstanceCreationExpressionsTests {
 //                       ^^^^ - meta.annotation
 //                        ^^ storage.modifier.array.java
 
+    new Generic<int @ /**/ Anno ( @Anno arg ) []>();
+//              ^^^ storage.type.primitive.java
+//                  ^^^^^^^^^^^^^^ - meta.annotation meta.annotation
+//                                ^^^^^ meta.annotation.parameters.java meta.annotation.identifier.java
+//                                     ^^^^^^ - meta.annotation meta.annotation
+//                  ^^^^^^^^^^^^ meta.annotation.identifier.java - meta.path
+//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
+//                                            ^^ storage.modifier.array.java
+
     new Generic<int @com /**/ . /**/ Anno ( @Anno arg ) []>();
 //              ^^^ storage.type.primitive.java
-//                  ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java
+//                  ^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
+//                                       ^ meta.annotation.identifier.java - meta.path
 //                                        ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
 //                                                      ^^ storage.modifier.array.java
 
     new generic<int @com . anno ( @anno arg ) []>();
 //              ^^^ storage.type.primitive.java
-//                  ^^^^^^^^^^^^ meta.annotation.identifier.java
+//                  ^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
+//                             ^ meta.annotation.identifier.java - meta.path
 //                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
 //                                            ^^ storage.modifier.array.java
 
