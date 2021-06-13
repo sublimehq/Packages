@@ -122,23 +122,25 @@ variables:
     | GHCForeignImportPrim | Generali(?:s | z)edNewtypeDeriving | ImplicitParams
     | ImplicitPrelude | ImportQualifiedPost | ImpredicativeTypes
     | TypeFamilyDependencies | InstanceSigs | ApplicativeDo | InterruptibleFFI
-    | JavaScriptFFI | KindSignatures | LambdaCase | LiberalTypeSynonyms | LinearTypes
-    | MagicHash | MonadComprehensions | MonoLocalBinds | MonomorphismRestriction
-    | MultiParamTypeClasses | MultiWayIf | NumericUnderscores | NPlusKPatterns
-    | NamedFieldPuns | NamedWildCards | NegativeLiterals | HexFloatLiterals
+    | JavaScriptFFI | KindSignatures | LambdaCase | LexicalNegation
+    | LiberalTypeSynonyms | LinearTypes | MagicHash | MonadComprehensions
+    | MonoLocalBinds | MonomorphismRestriction | MultiParamTypeClasses
+    | MultiWayIf | NumericUnderscores | NPlusKPatterns | NamedFieldPuns
+    | NamedWildCards | NegativeLiterals | HexFloatLiterals
     | NondecreasingIndentation | NumDecimals | OverloadedLabels | OverloadedLists
     | OverloadedStrings | PackageImports | ParallelArrays | ParallelListComp
     | PartialTypeSignatures | PatternGuards | PatternSynonyms | PolyKinds
-    | PolymorphicComponents | QuantifiedConstraints | PostfixOperators | QualifiedDo
-    | QuasiQuotes | Rank2Types | RankNTypes | RebindableSyntax | RecordWildCards
-    | RecursiveDo | RelaxedLayout | RoleAnnotations | Safe | ScopedTypeVariables
-    | StandaloneDeriving | StarIsType | StaticPointers | Strict | StrictData
-    | TemplateHaskell | TemplateHaskellQuotes | StandaloneKindSignatures
-    | TraditionalRecordSyntax | TransformListComp | TupleSections
-    | TypeApplications | TypeInType | TypeFamilies | TypeOperators
-    | TypeSynonymInstances | UnboxedTuples | UnboxedSums
+    | PolymorphicComponents | QuantifiedConstraints | PostfixOperators
+    | QualifiedDo | QuasiQuotes | Rank2Types | RankNTypes | RebindableSyntax
+    | RecordWildCards | RecursiveDo | RelaxedLayout | RoleAnnotations | Safe
+    | ScopedTypeVariables | StandaloneDeriving | StarIsType | StaticPointers
+    | Strict | StrictData | TemplateHaskell | TemplateHaskellQuotes
+    | StandaloneKindSignatures | TraditionalRecordSyntax | TransformListComp
+    | Trustworthy | TupleSections | TypeApplications | TypeInType | TypeFamilies
+    | TypeOperators | TypeSynonymInstances | UnboxedTuples | UnboxedSums
     | UndecidableInstances | UndecidableSuperClasses | UnicodeSyntax
-    | UnliftedFFITypes | UnliftedNewtypes | ViewPatterns
+    | UnliftedFFITypes | UnliftedNewtypes | Unsafe | ViewPatterns
+    | Haskell98 | Haskell2010
     ){{break}}
 
   prelude_classes: |-
