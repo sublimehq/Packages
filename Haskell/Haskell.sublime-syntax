@@ -12,6 +12,12 @@ file_extensions:
   - hs-boot
   - hsig
 
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \brunhaskell\b                     # shebang
+  | ^ \s* -- .*? -\*- .*? \bhaskell\b .*? -\*-  # editorconfig
+  )
+
 ###############################################################################
 
 variables:
