@@ -2,16 +2,9 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Java Server Page (JSP)
-scope: text.html.jsp
-
 file_extensions:
   - jsp
-
-first_line_match: |-
-  (?x:
-    ^ \s* <%-- \s* -\*- .*? \bjsp\b .*? -\*-  # editorconfig
-  )
-
+scope: text.html.jsp
 contexts:
   main:
     - match: <%--
