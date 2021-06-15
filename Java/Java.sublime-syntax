@@ -13,7 +13,7 @@ file_extensions:
 first_line_match: |-
   (?x:
     ^ \#! .* \b(bsh|java)\b                  # shebang
-  | ^ \s* // \s* -\*- .*? \bjava\b .*? -\*-  # editorconfig
+  | ^ \s* // .*? -\*- .*? \bjava\b .*? -\*-  # editorconfig
   )
 
 ###############################################################################
