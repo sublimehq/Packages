@@ -13,7 +13,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* \%+ \s* -\*- .*? \bbibtex\b .*? -\*-  # editorconfig
+    ^ \s* \%+ .*? -\*- .*? \bbibtex\b .*? -\*-  # editorconfig
   )
 
 contexts:

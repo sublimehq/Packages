@@ -14,7 +14,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
   )
 
 variables:

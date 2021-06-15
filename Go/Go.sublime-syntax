@@ -61,7 +61,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \bgo(lang)?\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bgo(lang)?\b .*? -\*-  # editorconfig
   )
 
 variables:

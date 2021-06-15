@@ -22,7 +22,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* ; \s* -\*- .*? \blisp\b .*? -\*-  # editorconfig
+    ^ \s* ; .*? -\*- .*? \blisp\b .*? -\*-  # editorconfig
   )
 
 contexts:

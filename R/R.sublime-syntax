@@ -12,7 +12,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \br\b                        # shebang
-  | ^ \s* \# \s* -\*- .*? \br\b .*? -\*-  # editorconfig
+  | ^ \s* \# .*? -\*- .*? \br\b .*? -\*-  # editorconfig
   )
 
 variables:

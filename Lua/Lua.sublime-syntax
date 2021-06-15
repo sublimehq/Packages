@@ -8,7 +8,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* -- \s* -\*- .*? \blua\b .*? -\*-  # editorconfig
+    ^ \s* -- .*? -\*- .*? \blua\b .*? -\*-  # editorconfig
   )
 
 variables:

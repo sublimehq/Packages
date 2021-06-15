@@ -18,7 +18,7 @@ hidden_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \b(erlang|escript)\b               # shebang
-  | ^ \s* \%+ \s* -\*- .*? \berlang\b .*? -\*-  # editorconfig
+  | ^ \s* \%+ .*? -\*- .*? \berlang\b .*? -\*-  # editorconfig
   )
 
 ###############################################################################
@@ -671,7 +671,7 @@ contexts:
 
   preproc-spec-return:
     - match: ->
-      scope: 
+      scope:
         meta.preprocessor.spec.erlang
         punctuation.separator.parameters-return-type.erlang
       set:

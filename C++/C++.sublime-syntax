@@ -21,7 +21,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \b(c\+\+|cpp\b) .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \b(c\+\+|cpp\b) .*? -\*-  # editorconfig
   )
 
 variables:
@@ -38,7 +38,7 @@ variables:
   hex_exponent: '(?:[pP][-+]?{{dec_digit}}*)'
 
   # number suffixes
-  # note: nearly everything can be defined as suffix 
+  # note: nearly everything can be defined as suffix
   # a) see user literals
   #    https://en.cppreference.com/w/cpp/language/user_literal
   # b) see complex `operator` keyword
@@ -46,7 +46,7 @@ variables:
   bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
-  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'  
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
   float_suffix: '[fF]'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase

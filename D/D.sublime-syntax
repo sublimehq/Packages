@@ -11,7 +11,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bg?dmd\b                           # shebang
-  | ^ \s* // \s* -\*- .*? \bd(lang)?\b .*? -\*-  # editorconfig
+  | ^ \s* // .*? -\*- .*? \bd(lang)?\b .*? -\*-  # editorconfig
   )
 
 variables:

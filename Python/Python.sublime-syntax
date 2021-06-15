@@ -31,7 +31,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bpython(\d(\.\d)?)?\b                        # shebang
-  | ^ \s* \# \s* -\*- .*? \bpython(\d(\.\d)?)?\b .*? -\*-  # editorconfig
+  | ^ \s* \# .*? -\*- .*? \bpython(\d(\.\d)?)?\b .*? -\*-  # editorconfig
   )
 
 variables:

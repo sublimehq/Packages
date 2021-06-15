@@ -65,7 +65,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bj?ruby\b                      # shebang
-  | ^ \s* \# \s* -\*- .*? \bruby\b .*? -\*-  # editorconfig
+  | ^ \s* \# .*? -\*- .*? \bruby\b .*? -\*-  # editorconfig
   )
 
 variables:

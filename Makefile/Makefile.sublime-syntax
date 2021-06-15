@@ -27,7 +27,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bmake\b |                          # shebang
-    ^ \s* \# \s* -\*- .*? \bmakefile\b .*? -\*-  # editorconfig
+    ^ \s* \# .*? -\*- .*? \bmakefile\b .*? -\*-  # editorconfig
   )
 
 #-------------------------------------------------------------------------------

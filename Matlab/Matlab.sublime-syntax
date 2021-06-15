@@ -9,7 +9,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* \%+ \s* -\*- .*? \bmatlab\b .*? -\*-  # editorconfig
+    ^ \s* \%+ .*? -\*- .*? \bmatlab\b .*? -\*-  # editorconfig
   )
 
 variables:

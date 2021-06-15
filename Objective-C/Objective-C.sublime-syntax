@@ -10,7 +10,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \bobj(ective-)?c\b(?![#+]) .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bobj(ective-)?c\b(?![#+]) .*? -\*-  # editorconfig
   )
 
 variables:

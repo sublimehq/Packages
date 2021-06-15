@@ -11,7 +11,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \bjsx\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bjsx\b .*? -\*-  # editorconfig
   )
 
 variables:

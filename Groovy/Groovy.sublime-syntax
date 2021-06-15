@@ -13,7 +13,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bgroovy\b                        # shebang
-  | ^ \s* // \s* -\*- .*? \bgroovy\b .*? -\*-  # editorconfig
+  | ^ \s* // .*? -\*- .*? \bgroovy\b .*? -\*-  # editorconfig
   )
 
 variables:

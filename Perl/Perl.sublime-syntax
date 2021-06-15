@@ -15,7 +15,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bperl\b                        # shebang
-  | ^ \s* \# \s* -\*- .*? \bperl\b .*? -\*-  # editorconfig
+  | ^ \s* \# .*? -\*- .*? \bperl\b .*? -\*-  # editorconfig
   )
 
 variables:
@@ -676,7 +676,7 @@ contexts:
         6: punctuation.definition.string.end.perl
     - match:  |-
         (?ix:
-          (') ( [-+]? ) ( 
+          (') ( [-+]? ) (
           (\.)[\d_]+ (?: e[-+]?[\d_]+ )?  |  # .1 .1e1 .1e-1 .1e+1
               [\d_]+ (?: (\.) (?:
               [\d_]+ (?: e[-+]?[\d_]+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1

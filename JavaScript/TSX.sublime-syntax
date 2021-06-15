@@ -13,5 +13,5 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \btsx\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \btsx\b .*? -\*-  # editorconfig
   )

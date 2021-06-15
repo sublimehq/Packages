@@ -10,7 +10,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* (\:|rem) \s* -\*- .*? \bbat\b .*? -\*-  # editorconfig
+    ^ \s* (\:|rem) .*? -\*- .*? \bbat\b .*? -\*-  # editorconfig
   | ^ \s* @echo\s+off\b
   )
 

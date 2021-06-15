@@ -10,7 +10,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* -- \s* -\*- .*? \bsql\b .*? -\*-  # editorconfig
+    ^ \s* -- .*? -\*- .*? \bsql\b .*? -\*-  # editorconfig
   )
 
 variables:
@@ -246,6 +246,6 @@ contexts:
     - match: (?:\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
       captures:
         1: punctuation.accessor.dot.sql
-      # Handle situations where the schema and . 
+      # Handle situations where the schema and .
     - match: '{{end_identifier}}'
       pop: true

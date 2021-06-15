@@ -9,7 +9,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* -- \s* -\*- .*? \bhaskell\b .*? -\*-  # editorconfig
+    ^ \s* -- .*? -\*- .*? \bhaskell\b .*? -\*-  # editorconfig
   )
 
 variables:

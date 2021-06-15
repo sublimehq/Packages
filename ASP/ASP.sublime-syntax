@@ -10,7 +10,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* \' \s* -\*- .*? \b(vbs|vbscript)\b .*? -\*-  # editorconfig
+    ^ \s* \' .*? -\*- .*? \b(vbs|vbscript)\b .*? -\*-  # editorconfig
   )
 
 variables:

@@ -9,7 +9,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \brust\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
   )
 
 variables:

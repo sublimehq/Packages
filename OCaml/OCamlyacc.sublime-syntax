@@ -9,7 +9,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* \(\* \s* -\*- .*? \bocamlyacc\b .*? -\*-  # editorconfig
+    ^ \s* \(\* .*? -\*- .*? \bocamlyacc\b .*? -\*-  # editorconfig
   )
 
 contexts:

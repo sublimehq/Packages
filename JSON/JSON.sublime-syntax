@@ -21,7 +21,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // \s* -\*- .*? \bjson\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bjson\b .*? -\*-  # editorconfig
   )
 
 contexts:
