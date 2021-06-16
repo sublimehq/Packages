@@ -253,6 +253,19 @@ foo? <<"string"
 foo! <<"string"
 #    ^^ keyword.operator.assignment.augmented.ruby
 #      ^^^^^^^^ - meta.tag - entity.name
+1<<bit
+# <- meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#^^ keyword.operator.assignment.augmented.ruby
+1 << bit
+# <- meta.number.integer.decimal.ruby constant.numeric.value.ruby
+# ^^ keyword.operator.assignment.augmented.ruby
+@war<<bit
+#   ^^ keyword.operator.assignment.augmented.ruby
+CONST << 10
+#^^^^ variable.other.constant.ruby
+#     ^^ keyword.operator.assignment.augmented.ruby
+#        ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+
 
 ##################
 # Numbers
