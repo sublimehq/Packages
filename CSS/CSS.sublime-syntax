@@ -267,6 +267,15 @@ variables:
   counter_system_constants: |-
     \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
+  # @font-face Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face
+  font_face_property_names: |-
+    \b(?xi:
+      ascent-override | descent-override | font-display | (?# font-family | ) src
+    | font-feature-settings | font-variation-settings | font-stretch | font-style
+    | font-weight | font-variant | line-gap-override | size-adjust | unicode-range
+    ){{break}}
+
   # Page Margin Property Names
   # https://www.w3.org/TR/css-page-3/#margin-at-rule
   page_margin_property_names: |-
@@ -301,7 +310,7 @@ variables:
     | border-top-right-radius | border-bottom-color | border-top-color
     | flex-shrink | align-self | text-rendering | animation-timing-function
     | direction | background-clip | zoom | border-spacing | text-indent
-    | outline-offset | border-left-color | transition-property | src
+    | outline-offset | border-left-color | transition-property
     | border-right-color | animation-name | stroke | touch-action
     | animation-duration | transition-delay | filter | overflow-wrap
     | animation-delay | border-bottom-width | variable | font-variant
@@ -310,7 +319,7 @@ variables:
     | order | outline-style | stroke-width | border-right-width | align-content
     | resize | table-layout | appearance | animation-iteration-count
     | border-left-width | flex-flow | stroke-dashoffset | stroke-dasharray
-    | backface-visibility | unicode-bidi | unicode-range | border-bottom-style
+    | backface-visibility | unicode-bidi | border-bottom-style
     | text-size-adjust | border-top-style | animation-direction | word-spacing
     | contain | speak | grid-template-columns | font-feature-settings
     | perspective | list-style-position | clip-path | image-rendering
@@ -760,8 +769,27 @@ contexts:
 
   at-font-face-content:
     - meta_scope: meta.at-rule.font-face.css
-    - include: rule-list
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-font-face-block-content
     - include: at-rule-end
+
+  at-font-face-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-font-face-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-font-face-property-names:
+    - match: \b(?i:font-family){{break}}
+      scope: meta.property-name.css support.type.property-name.css
+      push: font-property-value
+    - match: '{{font_face_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
 
   # @import
   # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
