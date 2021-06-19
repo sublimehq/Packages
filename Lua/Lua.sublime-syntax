@@ -5,7 +5,7 @@ file_extensions:
 scope: source.lua
 first_line_match: |-
   (?x:
-    ^\#! .* \b(lua)\b # shebang
+    ^\#! .* \blua\b # shebang
   )
 variables:
   reserved_word: |-
@@ -91,12 +91,12 @@ contexts:
     - match: ^\#!
       scope: punctuation.definition.comment.lua
       set: shebang-body
-    - match: ''
-      pop: 1
+    - match: ^|(?=\S)
+      pop: true
 
   shebang-body:
     - meta_scope: comment.line.shebang.lua
-    - match: \b(lua)\b
+    - match: \blua\b
       scope: constant.language.shebang.lua
     - match: \n
       pop: 1
