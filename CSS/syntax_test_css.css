@@ -1072,6 +1072,12 @@
 /*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^^^^ entity.other.counter-style-name.css */
 
+    additive-symbols: ;
+/* ^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                  ^ punctuation.separator.key-value.css */
+/*                    ^ punctuation.terminator.rule.css*/
+
     system: extends disc;
 /* ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /* ^ - meta.property-name - meta.property-value */
