@@ -856,6 +856,18 @@
 {
 /* <- meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.section.block.begin.css */
 
+    ascent-override: normal;
+/*  ^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                   ^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    descent-override: normal;
+/*  ^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                    ^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    font-display: swap;
+/*  ^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                ^^^^ meta.property-value.css support.constant.property-value.css */
+
     font-family: monospace,
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.font-face.css meta.property-list.css meta.block.css */
 /*  ^^^^^^^^^^^ support.type.property-name.css */
@@ -871,6 +883,38 @@
 
     font-family: Gentium Bold;
 /*               ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font-feature-settings: normal;
+/*  ^^^^^^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                         ^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    font-variation-settings: normal;
+/*  ^^^^^^^^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                           ^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    font-stretch: expanded;
+/*  ^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                ^^^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    font-style: oblique;
+/*  ^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*              ^^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    font-weight: bold;
+/*  ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*               ^^^^ meta.property-value.css support.constant.property-value.css */
+
+    font-variant: discretionary-ligatures;
+/*  ^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                ^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    line-gap-override: normal;
+/*  ^^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                     ^^^^^^ meta.property-value.css support.constant.property-value.css */
+
+    size-adjust: 50%;
+/*  ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*               ^^^ meta.property-value.css meta.number.integer.decimal.css */
 
     src: format("embedded-opentype");
 /*       ^^^^^^ support.function.font-face.css */
@@ -923,6 +967,12 @@
 /*                ^ punctuation.section.group.begin.css */
 /*                 ^^^^^^^^^^^^ variable.other.custom-property.css */
 /*                             ^^ punctuation.section.group.end.css */
+
+    unicode-range: U+0-10FFFF;
+/*  ^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*               ^ punctuation.separator.key-value.css */
+/*                 ^^^^^^^^^^ meta.property-value.css meta.number.unicode-range.css */
+/*                           ^ punctuation.terminator.rule.css */
 }
 /* <- meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
@@ -1034,6 +1084,12 @@
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^^^^ entity.other.counter-style-name.css */
+
+    additive-symbols: ;
+/* ^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                  ^ punctuation.separator.key-value.css */
+/*                    ^ punctuation.terminator.rule.css*/
 
     system: extends disc;
 /* ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */

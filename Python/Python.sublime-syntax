@@ -1385,7 +1385,7 @@ contexts:
       scope: invalid.deprecated.character.escape.python
 
   escaped-unicode-char:
-    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
+    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[-a-zA-Z ]+\})'
       captures:
         1: constant.character.escape.unicode.16-bit-hex.python
         2: constant.character.escape.unicode.32-bit-hex.python

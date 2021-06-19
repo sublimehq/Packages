@@ -236,6 +236,12 @@
 			"details": "Specifies <code>Regular Expressions</code> code highlighting"
 		},
 		{
+			"trigger": "rs",
+			"annotation": "Rust",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Rust</code> code highlighting"
+		},
+		{
 			"trigger": "rscript",
 			"annotation": "R Script",
 			"kind": ["markup", "s", "Syntax"],
