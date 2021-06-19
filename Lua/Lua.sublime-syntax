@@ -3,6 +3,7 @@
 file_extensions:
   - lua
 scope: source.lua
+version: 2
 first_line_match: |-
   (?x:
     ^\#! .* \blua\b # shebang
