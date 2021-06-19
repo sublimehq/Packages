@@ -158,6 +158,12 @@
 //          ^ punctuation.separator.type
 //            ^^^ meta.type support.type.any
 
+        foo!: any;
+//      ^^^ variable.other.readwrite
+//         ^ storage.modifier.definite
+//          ^ punctuation.separator.type
+//            ^^^ meta.type support.type.any
+
         declare foo;
 //      ^^^^^^^ storage.modifier
 //              ^^^ variable.other.readwrite

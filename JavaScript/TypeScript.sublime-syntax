@@ -464,6 +464,7 @@ contexts:
         - initializer
         - ts-type-annotation
         - ts-type-annotation-optional
+        - ts-type-annotation-definite
         - class-field-check
         - field-name
 
