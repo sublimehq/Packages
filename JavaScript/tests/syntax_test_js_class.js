@@ -97,6 +97,13 @@ class MyClass extends TheirClass {
 //         ^ entity.name.function variable.other.readwrite
 //             ^^^^^^^^^^^^^ meta.function
 
+    static = 42;
+//  ^^^^^^ variable.other.readwrite
+
+    static() {}
+//  ^^^^^^^^^^^ meta.function
+//  ^^^^^^ entity.name.function
+
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
 //  ^^ meta.class meta.block meta.function
@@ -134,6 +141,8 @@ class MyClass extends TheirClass {
     {
         return this._foo;
     }
+
+    get *foo()
 
     static foo(baz) {
 //  ^^^^^^ storage.modifier
@@ -218,8 +227,28 @@ class MyClass extends TheirClass {
 //  ^^^^^ keyword.declaration.async
 //        ^ keyword.generator.asterisk
 
+    static *foo() {}
+//  ^^^^^^ storage.modifier
+//         ^ keyword.generator.asterisk
+//          ^^^ entity.name.function
+
     static async foo() {}
+//  ^^^^^^ storage.modifier
 //         ^^^^^ keyword.declaration.async
+
+    async() {}
+//  ^^^^^^^^^^ meta.function
+//  ^^^^^ entity.name.function
+//       ^^ meta.function.parameters
+//       ^ punctuation.section.group.begin
+//        ^ punctuation.section.group.end
+//          ^^ meta.block
+//          ^ punctuation.section.block.begin
+//           ^ punctuation.section.block.end
+
+    static async() {}
+//  ^^^^^^ storage.modifier
+//         ^^^^^ entity.name.function
 }
 // <- meta.block punctuation.section.block.end
 

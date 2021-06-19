@@ -117,13 +117,13 @@ contexts:
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
     - match: \*
-      scope: variable.language.star.sql
+      scope: variable.language.wildcard.asterisk.sql
     - match: "<=>|[!<>]?=|<>|<|>"
       scope: keyword.operator.comparison.sql
     - match: '-|\+|/'
-      scope: keyword.operator.math.sql
+      scope: keyword.operator.arithmetic.sql
     - match: \|\|
-      scope: keyword.operator.concatenator.sql
+      scope: keyword.operator.concatenation.sql
     - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
       comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.scalar.sql

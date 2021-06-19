@@ -598,9 +598,16 @@
     return;
 --  ^^^^^^ keyword.control.return
 
-    return foo;
+    return foo or a < b and a <= b;
 --  ^^^^^^ keyword.control.return
 --         ^^^ variable.other
+--             ^^ keyword.operator.logical.lua
+--                  ^ keyword.operator.comparison.lua
+--                      ^^^ keyword.operator.logical.lua
+--                            ^^ keyword.operator.comparison.lua
+
+    return a << b;
+--           ^^ keyword.operator.bitwise.lua
 
     local x = 1, y = 2;
 --  ^^^^^ storage.modifier
@@ -631,10 +638,17 @@
 --                                 ^ keyword.operator.assignment.lua
 --                                      ^ meta.number.integer.decimal.lua constant.numeric.value.lua
 
+    local t = a >= b and b <= a
+--  ^^^^^ storage.modifier.lua
+--          ^ keyword.operator.assignment.lua
+--              ^^ keyword.operator.comparison.lua
+--                   ^^^ keyword.operator.logical.lua
+--                         ^^ keyword.operator.comparison.lua
+
     local text <const = "Hello, World";
 --  ^^^^^ storage.modifier.lua
 --        ^^^^ variable.other.lua
---             ^^^^^^ meta.modifier.lua
+--              ^^^^^ - storage.modifier.lua
 --                    ^ keyword.operator.assignment.lua - meta.modifier
 --                      ^ punctuation.definition.string.begin.lua - meta.modifier
 --                       ^^^^^^^^^^^^ meta.string.lua string.quoted.double.lua

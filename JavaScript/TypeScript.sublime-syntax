@@ -42,6 +42,8 @@ variables:
       (?:=>|:)
     )
 
+  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
+
 contexts:
   detect-parenthesized-arrow:
     - meta_prepend: true
@@ -53,6 +55,7 @@ contexts:
         - immediately-pop-2
 
   ts-detect-arrow-function-return-type:
+    - meta_include_prototype: false
     - match: ''
       push:
         - ts-detect-arrow-after-return-type
@@ -179,6 +182,7 @@ contexts:
     - include: else-pop
 
   ts-inherited-class-expression-list:
+    - meta_include_prototype: false
     - match: ''
       set:
         - - match: \,
@@ -237,8 +241,7 @@ contexts:
     - match: '\+|-'
       scope: storage.modifier.js
 
-    - match: readonly{{identifier_break}}
-      scope: storage.modifier.js
+    - include: class-element-modifiers
 
     - match: (?=[<(])
       push:
@@ -364,15 +367,18 @@ contexts:
     - include: else-pop
 
   variable-binding-pattern:
+    - meta_include_prototype: false
     - match: ''
       set:
-        - - include: immediately-pop
         - ts-type-annotation
         - ts-type-annotation-definite
-        - - include: variable-binding-name
-          - include: variable-binding-array-destructuring
-          - include: variable-binding-object-destructuring
-          - include: else-pop
+        - ts-variable-binding-pattern-name
+
+  ts-variable-binding-pattern-name:
+    - include: variable-binding-name
+    - include: variable-binding-array-destructuring
+    - include: variable-binding-object-destructuring
+    - include: else-pop
 
   function-declaration:
     - meta_include_prototype: false
@@ -422,39 +428,50 @@ contexts:
         - ts-type-expression-begin
     - include: else-pop
 
-  function-parameter-binding-pattern:
+  function-parameter:
+    - meta_include_prototype: false
     - match: ''
       set:
-        - - include: ts-type-annotation
-        - - include: ts-type-annotation-optional
-        - - include: function-parameter-binding-name
-          - include: function-parameter-binding-array-destructuring
-          - include: function-parameter-binding-object-destructuring
-          - include: else-pop
+        - initializer
+        - ts-type-annotation
+        - ts-type-annotation-optional
+        - function-parameter-binding-pattern
 
   function-parameter-binding-list:
     - meta_prepend: true
 
     - include: decorator
 
-    - match: (?:private|public|protected|readonly){{identifier_break}}
-      scope: storage.modifier.js
+    - include: function-parameter-modifiers
 
     - match: this{{identifier_break}}
       scope: variable.language.this.js
       push: ts-type-annotation
 
-  class-body-contents:
-    - meta_prepend: true
-    - match: (?:private|public|protected|readonly|abstract|declare){{identifier_break}}
+  function-parameter-modifiers:
+    - match: (?={{modifier}})
+      branch_point: function-parameter-modifier
+      branch:
+        - function-parameter-modifier
+        - function-parameter
+
+  function-parameter-modifier:
+    - match: '{{modifier}}'
       scope: storage.modifier.js
+      set:
+        - match: (?={{binding_pattern_lookahead}}|\.\.\.)
+          pop: true
+        - match: (?=\S)
+          fail: function-parameter-modifier
 
   class-field:
+    - meta_include_prototype: false
     - match: ''
       set:
         - initializer
         - ts-type-annotation
         - ts-type-annotation-optional
+        - ts-type-annotation-definite
         - class-field-check
         - field-name
 
@@ -473,12 +490,18 @@ contexts:
         - function-declaration-expect-parameters
         - ts-type-parameter-list
         - method-name
-        - method-declaration-expect-prefix
-        - function-declaration-expect-async
+        - method-declaration-expect-asterisk
 
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
+    - include: ts-function-type-arguments-or-less-than
+
+  decorator-expression-end:
+    - meta_prepend: true
+    - include: ts-function-type-arguments-or-less-than
+
+  ts-function-type-arguments-or-less-than:
     - match: (?=<(?![<=]))
       branch_point: ts-function-type-arguments
       branch:
@@ -864,3 +887,21 @@ contexts:
           push:
             - ts-type-annotation
             - ts-type-annotation-optional
+
+  object-literal-contents:
+    - meta_prepend: true
+
+    - match: (?={{modifier}})
+      branch_point: ts-object-literal-element-modifier
+      branch:
+        - ts-object-literal-element-modifier
+        - object-literal-element
+
+  ts-object-literal-element-modifier:
+    - match: '{{modifier}}'
+      scope: storage.modifier.js
+      set:
+        - match: (?={{property_name}})
+          pop: true
+        - match: (?=\S)
+          fail: ts-object-literal-element-modifier

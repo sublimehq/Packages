@@ -20,6 +20,10 @@ http://spec.commonmark.org/0.28/#example-44
 |^^^^^^^^^^^^^^^^^^^^^^ markup.heading
 |             ^ - punctuation.definition.heading.end.markdown
 
+#NotAHeading
+| <- - markup.heading
+|^^^^^^^^^^^^ - markup.heading
+
 Alternate Heading
 | <- markup.heading.1
 =================
@@ -250,6 +254,13 @@ Paragraph break.
   - Unordered list item #2
 | ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
 | ^ markup.list.unnumbered.bullet punctuation.definition.list_item
+
+Paragraph break.
+
+- `<Logo>` | `<logo>` (components/Logo.vue)
+- `<MyComponent>` | `<my-component>` | (components/my-component.vue)
+| <- markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown
 
 Paragraph break.
 
@@ -1731,6 +1742,25 @@ not a table |
  --- | ---
 | ^^^^ meta.block-level meta.table - meta.table.header
 
+ a | b
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+
+ a | b
+ -:| -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+| ^ punctuation.definition.table-cell-alignment.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+
 | test | me |
 |------|----|
 |^^^^^^ punctuation.section.table-header
@@ -2160,3 +2190,38 @@ link with a single underscore inside the text : [@_test](http://example.com)
 ### h3
 |^^ punctuation.definition.heading.begin
 
+1. list [001]blah
+|       ^^^^^ meta.link.reference
+|       ^ punctuation.definition.link.begin
+|           ^ punctuation.definition.link.end
+|            ^^^^^ - meta.link
+
+  [001]: https://en.wikipedia.org/wiki/Root-mean-square_deviation "Wikipedia - RMSE"
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.link.reference.def
+1. another list item
+
+[foo]: /url "title"
+|^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|    ^ punctuation.separator.key-value
+|      ^^^^ markup.underline.link
+|           ^^^^^^^ string.other.link.description.title
+
+[foo]
+|<- meta.link.reference punctuation.definition.link.begin
+|^^^ meta.paragraph meta.link.reference
+|   ^ meta.link.reference punctuation.definition.link.end
+
+ [Foo*bar\]]:my_(url) 'title (with parens)'
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^ punctuation.definition.constant.begin
+| ^^^^^^^^^ entity.name.reference.link - punctuation
+|          ^ punctuation.definition.constant.end
+|           ^ punctuation.separator.key-value
+|            ^^^^^^^^ markup.underline.link
+|                     ^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+
+ [foo]: <>
+|^^^^^^^^^ meta.link.reference.def
+|     ^ punctuation.separator.key-value
+|       ^ punctuation.definition.link.begin
+|        ^ punctuation.definition.link.end
