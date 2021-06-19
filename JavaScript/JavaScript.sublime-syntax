@@ -2339,7 +2339,7 @@ contexts:
     - match: (?:document|window|navigator){{identifier_break}}
       scope: support.type.object.dom.js
       pop: true
-    - match: (?:clearTimeout|setTimeout){{identifier_break}}
+    - match: (?:clearTimeout|clearInterval|setTimeout|setInterval){{identifier_break}}
       scope: support.function.dom.js
       pop: true
 
