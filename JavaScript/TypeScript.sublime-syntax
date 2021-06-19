@@ -35,7 +35,7 @@ variables:
       (?:=>|:)
     )
 
-  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare){{identifier_break}})
+  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
 
 contexts:
   detect-parenthesized-arrow:
