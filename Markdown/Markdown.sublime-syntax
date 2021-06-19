@@ -191,7 +191,7 @@ contexts:
         1: punctuation.section.block.begin.frontmatter.yaml.markdown
       embed: scope:source.yaml
       embed_scope: meta.frontmatter.markdown source.yaml.embedded
-      escape: ^(---)\s*$  # pandoc requires the remainder of the line to be blank
+      escape: ^(---|\.{3})\s*$  # pandoc requires the remainder of the line to be blank
       escape_captures:
         1: meta.frontmatter.markdown punctuation.section.block.end.frontmatter.yaml.markdown
 
