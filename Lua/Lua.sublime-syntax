@@ -3,6 +3,10 @@
 file_extensions:
   - lua
 scope: source.lua
+first_line_match: |-
+  (?x:
+    ^\#! .* \b(lua)\b # shebang
+  )
 variables:
   reserved_word: |-
     (?x:(?:
@@ -45,7 +49,8 @@ variables:
 
 contexts:
   main:
-    - include: statements
+    - match: ''
+      push: [statements, shebang]
 
   else-pop:
     - match: (?=\S)
@@ -81,6 +86,20 @@ contexts:
     - meta_scope: meta.block.lua
     - include: end
     - include: statements
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.lua
+      set: shebang-body
+    - match: ''
+      pop: 1
+
+  shebang-body:
+    - meta_scope: comment.line.shebang.lua
+    - match: \b(lua)\b
+      scope: constant.language.shebang.lua
+    - match: \n
+      pop: 1
 
   statements:
     - match: ;
