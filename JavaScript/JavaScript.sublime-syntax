@@ -769,7 +769,7 @@ contexts:
   for-condition-contents:
     # This could be either type of for loop.
     - match: (?:const|let|var){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - - include: for-of-rest
           - match: (?=\S)
