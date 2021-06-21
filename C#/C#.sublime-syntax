@@ -279,11 +279,16 @@ contexts:
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
-    - match: \b(class|record)\s+({{name}})
+    - match: \b(class)\s+({{name}})
       captures:
         1: storage.type.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
+    - match: \b(record)\s+({{name}})
+      captures:
+        1: storage.type.class.record.cs
+        2: entity.name.class.cs
+      push: [record_signature, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
@@ -396,6 +401,11 @@ contexts:
     - match: ''
       set: [class_body, data_type_body]
 
+  record_signature:
+    - meta_scope: meta.class.record.cs
+    - match: ''
+      set: [class_body, record_type_body]
+
   interface_signature:
     - meta_scope: meta.interface.cs
     - match: ''
@@ -434,6 +444,27 @@ contexts:
       scope: invalid.illegal
       pop: true
 
+  record_type_body:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set:
+        - meta_scope: meta.block.cs
+        - match: \}
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - include: attribute
+        - include: class_declaration
+        - include: interface_declaration
+        - include: delegate_declaration
+        - include: method_declaration
+        - include: stray_close_bracket
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: [data_type_signature, method_params]
+    - match: ';'
+      scope: punctuation.terminator.cs
+      pop: true
+
   data_type_signature:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
@@ -445,7 +476,7 @@ contexts:
       set: type_constraint
     - match: (?=where\b)
       set: type_constraint
-    - match: (?=\{)
+    - match: (?=[{;(])
       pop: true
 
   type_constraint:
