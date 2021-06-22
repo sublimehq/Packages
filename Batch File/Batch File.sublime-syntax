@@ -27,6 +27,7 @@ contexts:
     - include: escaped_characters
     - include: variables
     - include: commands
+    - include: params
     - match: \b(?i)exit\b
       scope: keyword.control.statement.dosbatch
     - match: \b(?i)(goto|call)\b(?:\s*(:)?(?:(eof)|(\w+)))?
@@ -411,6 +412,7 @@ contexts:
           pop: true
         - include: escaped_characters
         - include: variables
+        - include: params
 
   parens:
     - match: \(
@@ -423,7 +425,12 @@ contexts:
         - match: ',|;'
           scope: punctuation.separator.dosbatch
         - include: expressions
-
+  params:
+    - match: ([\-]{1,2}[a-zA-Z]([\w\-_]+)?)
+      scope: variable.parameter.dosbatch
+      push:
+        - match: '\s'
+          pop: true
   escaped_characters:
   - match: '%%|\^\^!|\^.|\^\n'
     scope: constant.character.escape.dosbatch
