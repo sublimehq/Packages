@@ -1347,6 +1347,12 @@ a = /(bot\ is\ not\ a\ member\ of\ the\ (super)?group\ chat)|
      (bot\ can't\ send\ messages\ to\ bots)/x
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
 
+a = (File.size().to_f / 1024).ceil.to_s.reverse.scan(/\d/)
+#                     ^ keyword.operator.arithmetic.ruby
+#                                                    ^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+#                                                    ^ punctuation.definition.string.begin.ruby
+#                                                       ^ punctuation.definition.string.end.ruby
+
 begin
 # <- keyword.control.block.begin
 end while /foo/ =~ bar

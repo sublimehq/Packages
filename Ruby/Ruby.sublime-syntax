@@ -690,19 +690,15 @@ contexts:
     # exceptions
     - match: \bcatch\b(?![?!])
       scope: keyword.control.exception.catch.ruby
-      push: function-call-arguments
     # flow
     - match: \b(?:fail|raise|throw)\b(?![?!])
       scope: keyword.control.flow.throw.ruby
-      push: function-call-arguments
     # loop
     - match: \bloop\b(?![?!])
       scope: keyword.control.loop.loop.ruby
-      push: function-call-arguments
     # other
     - match: \b(initialize|new|include|extend|prepend|attr_reader|attr_writer|attr_accessor|attr|module_function|public|protected|private)\b(?![?!])
       scope: keyword.other.special-method.ruby
-      push: function-call-arguments
     - match: \b(require|require_relative|gem)\b
       scope: keyword.control.import.ruby
       push:
@@ -733,7 +729,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods that may be followed by a regex
     - match: |-
         (?x:
@@ -743,6 +738,7 @@ contexts:
           )(!|\b)
           |
           \b(
+            eql|
             match
           )(\?|\b)
           |
@@ -755,12 +751,11 @@ contexts:
           )\b(?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
+      push: try-regex
     # Methods from the Object class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
           \b(
-            eql\?|
             instance_of\?|
             instance_variable_defined\?|
             is_a\?|
@@ -773,7 +768,6 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Object class not handled elsewhere
     - match: |-
         (?x:
@@ -815,7 +809,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -826,7 +819,6 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere
     - match: |-
         (?x:
@@ -891,7 +883,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -908,11 +899,10 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Lambda operator from the Kernel class not handled elsewhere
     - match: '->'
       scope: meta.function.ruby keyword.declaration.function.anonymous.ruby
-      push: function-call-arguments
+      push: try-regex
     # Methods from the Module class not handled elsewhere
     - match: |-
         (?x:
@@ -961,10 +951,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
-
-  function-call-arguments:
-    - include: try-regex
 
   method:
     - match: \bdef\b
