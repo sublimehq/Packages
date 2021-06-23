@@ -1800,9 +1800,10 @@ contexts:
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
-    - match: (?:-)?(\])
+    - match: -?(\])([*?+]*)
       captures:
         1: punctuation.definition.set.end.regexp.shell
+        2: keyword.operator.quantifier.regexp.shell
       pop: 1
     - match: ((\.)[[:word:]](\.))(\])
       captures:

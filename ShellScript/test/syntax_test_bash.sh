@@ -3720,6 +3720,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                ^^^^^ meta.set.regexp.shell
 #                ^ punctuation.definition.set.begin.regexp.shell
 #                    ^ punctuation.definition.set.end.regexp.shell
+#                     ^ keyword.operator.quantifier.regexp.shell
 #                      ^ punctuation.definition.group.end.regexp.shell
 #                        ^ punctuation.section.group.end.shell
 
