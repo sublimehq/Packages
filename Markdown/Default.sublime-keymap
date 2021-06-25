@@ -56,7 +56,8 @@
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "text.html.markdown - markup.raw - meta.code-fence" },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|,|;|'|\"|\\||<|>|$)", "match_all": true }
         ]
     },
     {
