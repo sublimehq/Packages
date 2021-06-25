@@ -3705,11 +3705,11 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^ punctuation.definition.group.begin.regexp.shell
 #                          ^ punctuation.definition.group.end.regexp.shell
 
-[[ ! ($line =~ ^([0-9]+)$) ]]
+[[ ! ($line =~ ^(\([0-9]+)$) ]]
 #^^^^ meta.conditional.shell - meta.group
-#    ^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
-#                         ^^^ meta.conditional.shell
-#                            ^ - meta.conditional
+#    ^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
+#                           ^^^ meta.conditional.shell
+#                              ^ - meta.conditional
 #  ^ keyword.operator.logical.shell
 #    ^ punctuation.section.group.begin.shell
 #     ^^^^^ variable.other.readwrite.shell
@@ -3717,12 +3717,13 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #              ^^^^^^^^^^ meta.pattern.regexp.shell
 #               ^^^^^^^^ meta.group.regexp.shell
 #               ^ punctuation.definition.group.begin.regexp.shell
-#                ^^^^^ meta.set.regexp.shell
-#                ^ punctuation.definition.set.begin.regexp.shell
-#                    ^ punctuation.definition.set.end.regexp.shell
-#                     ^ keyword.operator.quantifier.regexp.shell
-#                      ^ punctuation.definition.group.end.regexp.shell
-#                        ^ punctuation.section.group.end.shell
+#                ^^ constant.character.escape.shell
+#                  ^^^^^ meta.set.regexp.shell
+#                  ^ punctuation.definition.set.begin.regexp.shell
+#                      ^ punctuation.definition.set.end.regexp.shell
+#                       ^ keyword.operator.quantifier.regexp.shell
+#                        ^ punctuation.definition.group.end.regexp.shell
+#                          ^ punctuation.section.group.end.shell
 
 [[ ' foobar' == [\ ]foo* ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
