@@ -234,9 +234,9 @@
 //       ^^^^^^^^^ entity.name.tag.localname.html
 //                ^ punctuation.accessor.dot.jsp
 //                 ^^^^^^^ keyword.control.directive.jsp
-//                         ^^^^ meta.attribute-with-value.html entity.other.attribute-name.html
-//                             ^ meta.attribute-with-value.html punctuation.separator.key-value.html
-//                              ^^^^^^^^^ meta.attribute-with-value.html string.quoted.double.html
+//                         ^^^^ meta.attribute-with-value.href.html entity.other.attribute-name.href.html
+//                             ^ meta.attribute-with-value.href.html punctuation.separator.key-value.html
+//                              ^^^^^^^^^ meta.attribute-with-value.href.html string.quoted.double.html
 //                                        ^^ punctuation.definition.tag.end.html
 
     <jsp:directive.include file="foo.bar"></jsp:directive>
@@ -249,9 +249,9 @@
 //       ^^^^^^^^^ entity.name.tag.localname.html
 //                ^ punctuation.accessor.dot.jsp
 //                 ^^^^^^^ keyword.control.directive.jsp
-//                         ^^^^ meta.attribute-with-value.html entity.other.attribute-name.html
-//                             ^ meta.attribute-with-value.html punctuation.separator.key-value.html
-//                              ^^^^^^^^^ meta.attribute-with-value.html string.quoted.double.html
+//                         ^^^^ meta.attribute-with-value.href.html entity.other.attribute-name.href.html
+//                             ^ meta.attribute-with-value.href.html punctuation.separator.key-value.html
+//                              ^^^^^^^^^ meta.attribute-with-value.href.html string.quoted.double.html
 //                                       ^ punctuation.definition.tag.end.html
 //                                        ^^ punctuation.definition.tag.begin.html
 //                                          ^^^ entity.name.tag.namespace.html
@@ -499,8 +499,40 @@
 //   ^^^ entity.name.tag.namespace.html
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^ entity.name.tag.localname.html
+
         xmlns:jsp="http://java.sun.com/JSP/Page"
+// ^^^^^ meta.tag.jsp.other.begin.html
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.other.begin.html meta.attribute-with-value.xmlns.html
+//                ^ meta.string.html string.quoted.double.html - meta.path
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.html meta.string.html string.quoted.double.html
+//                                             ^ meta.string.html string.quoted.double.html - meta.path
+//                                              ^ meta.tag.jsp.other.begin.html - meta.attribute-with-value
+//      ^^^^^ entity.other.attribute-name.namespace.html
+//           ^ punctuation.separator.namespace.html
+//            ^^^ entity.other.attribute-name.localname.html
+//               ^ punctuation.separator.key-value.html
+//                ^ punctuation.definition.string.begin.html
+//                     ^^^ punctuation.separator.path.html
+//                                    ^ punctuation.separator.path.html
+//                                        ^ punctuation.separator.path.html
+//                                             ^ punctuation.definition.string.end.html
+
         xmlns:public="http://www.jspcentral.com/tags"
+// ^^^^^ meta.tag.jsp.other.begin.html
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.other.begin.html meta.attribute-with-value.xmlns.html
+//                   ^ meta.string.html string.quoted.double.html - meta.path
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.html meta.string.html string.quoted.double.html
+//                                                  ^ meta.string.html string.quoted.double.html - meta.path
+//                                                   ^ meta.tag.jsp.other.begin.html - meta.attribute-with-value
+//      ^^^^^ entity.other.attribute-name.namespace.html
+//           ^ punctuation.separator.namespace.html
+//            ^^^^^^ entity.other.attribute-name.localname.html
+//                  ^ punctuation.separator.key-value.html
+//                   ^ punctuation.definition.string.begin.html
+//                        ^^^ punctuation.separator.path.html
+//                                             ^ punctuation.separator.path.html
+//                                                  ^ punctuation.definition.string.end.html
+
         version="1.2"
 // ^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.other.begin.html
 //      ^^^^^^^^^^^^^ meta.attribute-with-value.html
@@ -512,10 +544,20 @@
 
     <jsp:forward page="/servlet/login" />
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.other.begin.html - meta.tag.jsp meta.tag.jsp
+//                    ^ meta.attribute-with-value.href.html meta.string.html - meta.path
+//                     ^^^^^^^^^^^^^^ meta.attribute-with-value.href.html meta.path.url.html meta.string.html
+//                                   ^ meta.attribute-with-value.href.html meta.string.html - meta.path
 //  ^ punctuation.definition.tag.begin.html
 //   ^^^ entity.name.tag.namespace.html
 //      ^ punctuation.separator.namespace.html
 //       ^^^^^^^ entity.name.tag.localname.html
+//               ^^^^ meta.attribute-with-value.href.html entity.other.attribute-name.href.html
+//                   ^ meta.attribute-with-value.href.html punctuation.separator.key-value.html
+//                    ^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                    ^ punctuation.definition.string.begin.html
+//                     ^ punctuation.separator.path.html
+//                             ^ punctuation.separator.path.html
+//                                   ^ punctuation.definition.string.end.html
 //                                     ^^ punctuation.definition.tag.end.html
 
     <jsp:forward page="/servlet/login">
