@@ -31,7 +31,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^^ meta.interface
-//         ^^^^^^^^^ storage.type
+//         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.interface
 //                       ^^ meta.block
 
@@ -39,7 +39,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^^ meta.namespace
-//         ^^^^^^^^^ storage.type
+//         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.namespace
 //                       ^^ meta.block
 
@@ -47,7 +47,7 @@
 
     interface Foo {
 //  ^^^^^^^^^^^^^^^^ meta.interface
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.interface
 //                ^ meta.block punctuation.section.block.begin
         foo: any;
@@ -68,7 +68,7 @@
 
     interface Foo < T > extends Bar < T > {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.interface
 //                ^^^^^ meta.generic
 //                ^ punctuation.definition.generic.begin
@@ -80,6 +80,13 @@
 //                                  ^ punctuation.definition.generic.begin
 //                                    ^ support.class
 //                                      ^ punctuation.definition.generic.end
+
+    interface Foo extends Bar, Baz {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
+//                ^^^^^^^ storage.modifier.extends
+//                        ^^^ entity.other.inherited-class
+//                           ^ punctuation.separator.comma
+//                             ^^^ entity.other.inherited-class
 
     enum Foo {
 //  ^^^^^^^^^^^ meta.enum
@@ -103,7 +110,7 @@
 //  ^ meta.enum meta.block punctuation.section.block.end
 
     const enum Foo {}
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^^^^^^^^^^^ meta.enum
 //        ^^^^ storage.type
 //             ^^^ entity.name.enum
@@ -151,6 +158,12 @@
 //          ^ punctuation.separator.type
 //            ^^^ meta.type support.type.any
 
+        foo!: any;
+//      ^^^ variable.other.readwrite
+//         ^ storage.modifier.definite
+//          ^ punctuation.separator.type
+//            ^^^ meta.type support.type.any
+
         declare foo;
 //      ^^^^^^^ storage.modifier
 //              ^^^ variable.other.readwrite
@@ -173,11 +186,26 @@
         readonly foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
+        override foo() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^^^^ meta.function
+//               ^^^ entity.name.function
 
-        private static foo;
+        readonly;
+//      ^^^^^^^^ variable.other.readwrite
+
+        readonly() {}
+//      ^^^^^^^^^^ meta.function
+//      ^^^^^^^^ entity.name.function
+
+        private static readonly abstract declare override public;
 //      ^^^^^^^ storage.modifier
 //              ^^^^^^ storage.modifier
-//                     ^^^ variable.other.readwrite
+//                     ^^^^^^^^ storage.modifier
+//                              ^^^^^^^^ storage.modifier
+//                                       ^^^^^^^ storage.modifier
+//                                               ^^^^^^^^ storage.modifier
+//                                                        ^^^^^^ variable.other.readwrite
 
         foo(): any {}
 //      ^^^^^^^^^^^^^ meta.function
@@ -193,21 +221,70 @@
 //              ^ punctuation.separator.type
 //                ^^^ meta.type support.type.any
 //                    ^^ meta.function meta.block
+
+        @decorator<T>()
+//      ^^^^^^^^^^^^^^^ meta.annotation
+//      ^ punctuation.definition.annotation
+//       ^^^^^^^^^ variable.annotation
+//                ^^^ meta.generic
+//                ^ punctuation.definition.generic.begin
+//                 ^ support.class
+//                  ^ punctuation.definition.generic.end
+//                   ^^ meta.group
+//                   ^ punctuation.section.group.begin
+//                    ^ punctuation.section.group.end
+
+        foo() {}
+//      ^^^^^^^^ meta.function
+//      ^^^ entity.name.function
+//         ^^ meta.function.parameters
+//         ^ punctuation.section.group.begin
+//          ^ punctuation.section.group.end
+//            ^^ meta.block
+//            ^ punctuation.section.block.begin
+//             ^ punctuation.section.block.end
     }
 
     abstract class Foo {
 //  ^^^^^^^^ storage.modifier
-//           ^^^^^ meta.class storage.type.class
+//           ^^^^^ meta.class keyword.declaration.class
 
         abstract foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
 
+        abstract foo();
+//      ^^^^^^^^ storage.modifier
+//               ^^^ entity.name.function
+
+        abstract *foo();
+//      ^^^^^^^^ storage.modifier
+//               ^ keyword.generator.asterisk
+//                ^^^ entity.name.function
+
+        abstract async foo();
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^ keyword.declaration.async
+//                     ^^^ entity.name.function
+
+        abstract async() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^ entity.name.function
+
+        abstract get foo() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^ storage.type.accessor
+//                   ^^^ entity.name.function
+
+        abstract get() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^ entity.name.function
+
     }
 
     class Foo < T > extends Bar implements Baz, Xyzzy { }
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//  ^^^^^ storage.type.class
+//  ^^^^^ keyword.declaration.class
 //        ^^^ entity.name.class
 //            ^^^^^ meta.generic
 //            ^ punctuation.definition.generic.begin
@@ -237,7 +314,7 @@
 
     namespace Foo {
 //  ^^^^^^^^^^^^^^^^ meta.namespace
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.namespace
 //                ^ meta.block punctuation.section.block.begin
     }
@@ -286,6 +363,14 @@ function f(public x) {}
 function f(readonly x) {}
 //         ^^^^^^^^ storage.modifier
 //                  ^ meta.binding.name variable.parameter.function
+
+function f(readonly ...x) {}
+//         ^^^^^^^^ storage.modifier
+//                  ^^^keyword.operator.spread
+//                     ^ meta.binding.name variable.parameter.function
+
+function f(readonly) {}
+//         ^^^^^^^^ meta.binding.name variable.parameter.function
 
 function f(x?: any) {}
 //          ^ storage.modifier.optional
@@ -380,7 +465,7 @@ function f(this : any) {}
 
     async (x): T => y;
 //  ^^^^^^^^^^^^^^^^^ meta.function
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 //         ^ meta.binding.name variable.parameter.function
 //           ^ punctuation.separator.type
 //             ^ meta.type support.class
@@ -413,11 +498,6 @@ x as const;
 //  ^ variable.other.readwrite
 //    ^ keyword.operator.type
 //      ^ punctuation.terminator.statement
-
-// This is a type assertion that is incompatible with JSX
-let strLength: number = (<string>someValue).length; // </string>
-//                       ^^^^^^^^ meta.assertion - meta.tag
-//                                                     ^^^^^^^^^ comment - meta.tag
 
 /* Types */
 
@@ -543,8 +623,32 @@ let x: "a string";
 let x: 'a string';
 //     ^ meta.type meta.string string.quoted.single
 
+let x: `a string${any}`;
+//     ^^^^^^^^^^^^^^^^ meta.type meta.string
+//     ^^^^^^^^^ string.quoted.other
+//     ^ punctuation.definition.string.begin
+//              ^^^^^^ meta.interpolation - string
+//              ^^ punctuation.section.interpolation.begin
+//                ^^^ source.js.embedded support.type.any
+//                   ^ punctuation.section.interpolation.end
+//                    ^ string.quoted.other punctuation.definition.string.end
+
 let x: 42;
-//     ^^ meta.number.integer.decimal.js constant.numeric.value.js
+//     ^^ meta.type meta.number.integer.decimal constant.numeric.value
+
+let x: -42;
+//     ^^^ meta.type
+//     ^ keyword.operator.arithmetic
+//      ^^ meta.number.integer.decimal constant.numeric.value
+
+let x: 1.5;
+//     ^^^ meta.type meta.number.float.decimal constant.numeric.value
+
+let x: 1e10;
+//     ^^^^ meta.type meta.number.float.decimal constant.numeric.value
+
+let x: 0xabc;
+//     ^^^^^ meta.type meta.number.integer.hexadecimal
 
 let x: typeof Foo;
 //     ^^^^^^^^^^ meta.type
@@ -558,7 +662,7 @@ let x: keyof Foo;
 let x: Foo.bar;
 //     ^^^^^^^ meta.type
 //     ^^^ support.class
-//        ^ punctuation.separator.accessor
+//        ^ punctuation.accessor
 //         ^^^ support.class
 
 let x: {
@@ -698,6 +802,17 @@ let x: {
 //                           ^ punctuation.section.brackets.end
 //                             ^ punctuation.separator
 
+    [ P in keyof T as U ] : any ;
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+//  ^ punctuation.section.brackets.begin
+//    ^ variable.other.readwrite
+//      ^^ keyword.operator.type
+//         ^^^^^ keyword.operator.type
+//               ^ meta.brackets support.class
+//                 ^^ keyword.operator.type
+//                    ^ meta.brackets support.class
+//                      ^ punctuation.section.brackets.end
+
     - readonly [ P in keyof T ] - ? : T [ P ] ;
 //  ^ storage.modifier
 //    ^^^^^^^^ storage.modifier
@@ -725,7 +840,7 @@ let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^ meta.group
 //     ^ punctuation.section.group.begin
-//       ^^^ variable.other.readwrite - support.class
+//       ^^^ variable.parameter - support.class
 //           ^ storage.modifier.optional
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any
@@ -733,9 +848,32 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
 
+let x: ( ... foo : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^ meta.group
+//       ^^^ keyword.operator.spread
+//           ^^^ variable.parameter
+//               ^ punctuation.separator.type
+//                 ^^^ support.type.any
+
 let x: () => T
     U
 //  ^ variable.other.constant - meta.type
+
+let x: new () => T;
+//     ^^^^^^^^^^^ meta.type
+//     ^^^ keyword.operator.new
+//         ^^ meta.group
+//            ^^ keyword.declaration.function
+//               ^ support.class
+
+let x: abstract new () => T;
+//     ^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^ storage.modifier.abstract
+//              ^^^ keyword.operator.new
+//                  ^^ meta.group
+//                     ^^ keyword.declaration.function
+//                        ^ support.class
 
 let x: ( foo );
 //     ^^^^^^^ meta.type meta.group
@@ -771,7 +909,7 @@ let x: import ( "foo" ) . Bar ;
 //            ^ punctuation.section.group.begin
 //              ^^^^^ meta.string string.quoted.double
 //                    ^ punctuation.section.group.end
-//                      ^ punctuation.separator.accessor
+//                      ^ punctuation.accessor
 //                        ^^^ support.class
 
     foo < bar > ();
@@ -784,7 +922,7 @@ let x: import ( "foo" ) . Bar ;
 
     foo < bar
 //  ^^^ variable.other.readwrite
-//      ^ keyword.operator.logical
+//      ^ keyword.operator.comparison
 //        ^^^ variable.other.readwrite
     ;
 
@@ -805,7 +943,42 @@ var foo = 1 << 0 /x/g;
 //                 ^ keyword.operator.arithmetic
 //                  ^ variable.other.readwrite
 
-if (a < b || c < d) {}
-//    ^ keyword.operator.logical
+if (a < b || c <= d) {}
+//    ^ keyword.operator.comparison
 //        ^^ keyword.operator.logical
-//             ^ keyword.operator.logical
+//             ^^ keyword.operator.comparison
+
+const f = (): any => {};
+//    ^ meta.binding.name entity.name.function variable.other.readwrite
+//     ^^^^^^^^^^^^^^^^^^ - entity.name.function
+
+    a != b;
+//    ^^ keyword.operator.comparison
+
+const x = {
+    readonly: true,
+//  ^^^^^^^^ meta.mapping.key
+    readonly readonly: true,
+//  ^^^^^^^^ storage.modifier
+//           ^^^^^^^^ meta.mapping.key
+
+    readonly,
+//  ^^^^^^^^ variable.other.readwrite
+
+    readonly get() {},
+//  ^^^^^^^^ storage.modifier
+//           ^^^ entity.name.function
+
+    readonly get foo() {},
+//  ^^^^^^^^ storage.modifier
+//           ^^^ storage.type.accessor
+//               ^^^ entity.name.function
+
+    readonly get: 42,
+//  ^^^^^^^^ storage.modifier
+//           ^^^ meta.mapping.key
+
+    readonly get,
+//  ^^^^^^^^ storage.modifier
+//           ^^^ variable.other.readwrite
+}

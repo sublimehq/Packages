@@ -56,7 +56,7 @@ contexts:
   comments:
     - match: '^\s*(///)'
       captures:
-        1: comment.block.documentation.cs punctuation.definition.comment.documentation.cs
+        1: comment.line.documentation.cs punctuation.definition.comment.documentation.cs
       push: documentation
     - match: '//'
       scope: punctuation.definition.comment.cs
@@ -279,11 +279,16 @@ contexts:
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
-    - match: \b(class|record)\s+({{name}})
+    - match: \b(class)\s+({{name}})
       captures:
         1: storage.type.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
+    - match: \b(record)\s+({{name}})
+      captures:
+        1: storage.type.class.record.cs
+        2: entity.name.class.cs
+      push: [record_signature, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
@@ -396,6 +401,11 @@ contexts:
     - match: ''
       set: [class_body, data_type_body]
 
+  record_signature:
+    - meta_scope: meta.class.record.cs
+    - match: ''
+      set: [class_body, record_type_body]
+
   interface_signature:
     - meta_scope: meta.interface.cs
     - match: ''
@@ -434,6 +444,27 @@ contexts:
       scope: invalid.illegal
       pop: true
 
+  record_type_body:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set:
+        - meta_scope: meta.block.cs
+        - match: \}
+          scope: punctuation.section.block.end.cs
+          pop: true
+        - include: attribute
+        - include: class_declaration
+        - include: interface_declaration
+        - include: delegate_declaration
+        - include: method_declaration
+        - include: stray_close_bracket
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: [data_type_signature, method_params]
+    - match: ';'
+      scope: punctuation.terminator.cs
+      pop: true
+
   data_type_signature:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
@@ -445,7 +476,7 @@ contexts:
       set: type_constraint
     - match: (?=where\b)
       set: type_constraint
-    - match: (?=\{)
+    - match: (?=[{;(])
       pop: true
 
   type_constraint:
@@ -500,10 +531,10 @@ contexts:
               scope: punctuation.section.block.end.cs
               pop: true
             - match: \b(add)\b
-              scope: storage.type.function.accessor.add.cs
+              scope: keyword.declaration.function.accessor.add.cs
               push: method_body
             - match: \b(remove)\b
-              scope: storage.type.function.accessor.remove.cs
+              scope: keyword.declaration.function.accessor.remove.cs
               push: method_body
         - match: (?==)
           set: member_variables_declaration
@@ -579,7 +610,7 @@ contexts:
       captures:
         1: variable.other.member.cs
         2: meta.method.cs
-        3: storage.type.function.accessor.get.cs
+        3: keyword.declaration.function.accessor.get.cs
       set:
         - meta_scope: meta.property.cs
         - meta_content_scope: meta.method.cs
@@ -729,7 +760,7 @@ contexts:
       scope: storage.modifier.other.cs
       push: type_constraint
     - match: (=>)
-      scope: keyword.declaration.function.anonymous.cs
+      scope: keyword.declaration.function.arrow.cs
       set:
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
@@ -771,16 +802,16 @@ contexts:
         - match: (?:\b(readonly)\b\s+)?\b(get)\b
           captures:
             1: storage.modifier.cs
-            2: storage.type.function.accessor.get.cs
+            2: keyword.declaration.function.accessor.get.cs
           push: method_body
         - match: \b(set|init)\b
-          scope: storage.type.function.accessor.set.cs
+          scope: keyword.declaration.function.accessor.set.cs
           push: method_body
         - match: '{{visibility}}'
           scope: storage.modifier.access.cs
         - include: attribute
     - match: '=>'
-      scope: keyword.declaration.function.anonymous.cs
+      scope: keyword.declaration.function.arrow.cs
       set:
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
@@ -979,7 +1010,7 @@ contexts:
     - match: ({{name}})\s+(=>)\s*
       captures:
         1: variable.parameter.cs
-        2: storage.type.function.lambda.cs
+        2: keyword.declaration.function.arrow.cs
       push:
         - meta_scope: meta.function.anonymous.cs
         - match: '(?=;)'
@@ -999,7 +1030,7 @@ contexts:
         - match: (\))\s*(=>)
           captures:
             1: meta.group.cs punctuation.section.group.end.cs
-            2: storage.type.function.lambda.cs
+            2: keyword.declaration.function.arrow.cs
           set:
             - meta_content_scope: meta.function.anonymous.cs
             - match: '(?=;)'
@@ -2182,7 +2213,7 @@ contexts:
 
   documentation:
     - meta_include_prototype: false
-    - meta_content_scope: comment.block.documentation.cs
+    - meta_content_scope: comment.line.documentation.cs
     - match: '(<)({{name}})'
       captures:
         1: punctuation.definition.tag.begin.cs

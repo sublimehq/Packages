@@ -1755,7 +1755,7 @@ echo <<< JAVASCRIPT
 //       ^^^^^^^^^^ keyword.operator.heredoc
 var foo = 1;
 //^^^^^^^^^^ meta.embedded.js source.js
-// <- storage.type
+// <- keyword.declaration
 //  ^^^ variable.other.readwrite
 //        ^ constant.numeric
 $var
@@ -1785,7 +1785,7 @@ echo <<<SQL
 SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
-//     ^ variable.language.star
+//     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
 SQL;
@@ -1798,7 +1798,7 @@ echo <<<'SQL'
 SELECT * FROM users WHERE first_name = 'John'\n
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
-//     ^ variable.language.star
+//     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                           ^^ - constant.character.escape.php
 SQL;
@@ -1993,9 +1993,9 @@ var_dump(new C(42));
 //                                                   ^^ punctuation.section.embedded.end
 
   <tag-<?php $bar ?>na<?php $baz ?>me att<?php $bar ?>rib=false />
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.custom.html
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
 //^ punctuation.definition.tag.begin.html
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
 //     ^^^^^ punctuation.section.embedded.begin.php
 //     ^^^^^^^^^^^^^ meta.embedded.line.php
 //                ^^ punctuation.section.embedded.end
@@ -2041,7 +2041,7 @@ var_dump(new C(42));
 
 <script>
     var foo = 4;
-//  ^ storage.type
+//  ^ keyword.declaration
 //      ^^^ variable.other.readwrite
 //          ^ keyword.operator
 //            ^ constant.numeric

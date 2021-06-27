@@ -1,8 +1,8 @@
 <snippet>
-	<description>html</description>
 	<content><![CDATA[!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>$1</title>
 </head>
 <body>
@@ -10,5 +10,6 @@ $0
 </body>
 </html>]]></content>
 	<tabTrigger>html</tabTrigger>
-	<scope>text.html entity.name.tag</scope>
+	<scope>text.html entity.name.tag, text.html meta.character.less-than</scope>
+	<description>html</description>
 </snippet>

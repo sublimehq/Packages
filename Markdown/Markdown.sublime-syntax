@@ -26,7 +26,7 @@ variables:
         )
     setext_escape: ^(?=\s{0,3}(?:---+|===+)\s*$)
     block_quote: (?:[ ]{,3}>(?:.|$))         # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
-    atx_heading: (?:[#]{1,6}\s*)             # between 1 and 6 hashes, followed by any amount of whitespace
+    atx_heading: (?:[#]{1,6}\s+)             # between 1 and 6 hashes, followed by at least one whitespace
     indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
     escape: '\\[-`*_#+.!(){}\[\]\\>|~<]'
@@ -91,8 +91,12 @@ variables:
       )
     table_first_row: |-
         (?x:
-            (?:{{balanced_table_cell}}?\|){2}           # at least 2 non-escaped pipe chars on the line
-        |   (?!\s+\|){{balanced_table_cell}}\|(?!\s+$)  # something other than whitespace followed by a pipe char, followed by something other than whitespace and the end of the line
+          # at least 2 non-escaped pipe chars on the line
+          (?:{{balanced_table_cell}}?\|){2}
+
+          # something other than whitespace followed by a pipe char or hyphon,
+          # followed by something other than whitespace and the end of the line
+        | (?! \s*\-\s+ | \s+\|){{balanced_table_cell}}\|(?!\s+$)
         )
     fenced_code_block_start: |-
         (?x:
@@ -187,7 +191,7 @@ contexts:
         1: punctuation.section.block.begin.frontmatter.yaml.markdown
       embed: scope:source.yaml
       embed_scope: meta.frontmatter.markdown source.yaml.embedded
-      escape: ^(---)\s*$  # pandoc requires the remainder of the line to be blank
+      escape: ^(---|\.{3})\s*$  # pandoc requires the remainder of the line to be blank
       escape_captures:
         1: meta.frontmatter.markdown punctuation.section.block.end.frontmatter.yaml.markdown
 
@@ -274,26 +278,7 @@ contexts:
         - match: ^(?![ ]{4}|$)
           pop: true
         - include: inline-bold-italic
-    - match: |-
-        (?x:
-            \s*                        # Leading whitespace
-            (\[)([^]]*)(\])(:)         # Reference name
-            [ \t]*                     # Optional whitespace
-            (?:
-              (<)([^>]+)(>)            # The url
-            | (\S+)                    # The url
-            )
-        )
-      captures:
-        1: punctuation.definition.constant.begin.markdown
-        2: entity.name.reference.link.markdown
-        3: punctuation.definition.constant.end.markdown
-        4: punctuation.separator.key-value.markdown
-        5: punctuation.definition.link.begin.markdown
-        6: markup.underline.link.markdown
-        7: punctuation.definition.link.end.markdown
-        8: markup.underline.link.markdown
-      push: [link-ref-def-expect-end, link-title]
+    - include: reference-link-definition
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
       branch_point: heading2-branch
       branch:
@@ -942,6 +927,16 @@ contexts:
       captures:
         1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
       push: [link-ref-attr, link-ref-after-text, link-ref-link-text]
+    - match: |-
+        (?x:
+          (\[)(?!\^)
+          (?=   {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+                \]
+          )
+        )
+      captures:
+        1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
+      push: link-ref-link-text
   link-ref-link-text:
     - meta_content_scope: meta.link.reference.description.markdown
     - include: link-text-allow-image
@@ -1014,6 +1009,27 @@ contexts:
         1: punctuation.definition.link.begin.markdown
         2: meta.link.reference.literal.footnote-id.markdown
         3: punctuation.definition.link.end.markdown
+  reference-link-definition:
+    - match: |-
+        (?x:
+            [ ]{0,3}                     # Leading whitespace
+            (\[)(|(?:\\\]|[^]])+)(\])(:) # Reference name
+            [ \t]*                       # Optional whitespace
+            (?:
+              (<)([^>]*)(>)              # The url
+            | (\S+)                      # The url
+            )
+        )
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: entity.name.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+        4: punctuation.separator.key-value.markdown
+        5: punctuation.definition.link.begin.markdown
+        6: markup.underline.link.markdown
+        7: punctuation.definition.link.end.markdown
+        8: markup.underline.link.markdown
+      push: [link-ref-def-expect-end, link-title]
   list-paragraph:
     - match: '^(?=(?:[ ]{4}|\t){2,}(?![>+*\s-]))(?={{indented_code_block}})'
       push:
@@ -1030,6 +1046,7 @@ contexts:
         - include: fenced-code-block
         - match: ''
           pop: true
+    - include: reference-link-definition
     - match: \s+(?=\S)
       push:
         - match: ^\s*$
@@ -1218,6 +1235,21 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
+          ((?i:jspx?))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.jsp.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:text.html.jsp
+      embed_scope: markup.raw.code-fence.jsp.markdown-gfm
+      escape: '{{code_fence_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.jsp.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
           ((?i:csharp|c\#|cs))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
@@ -1248,7 +1280,7 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:rust))
+          ((?i:rust|rs))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.rust.markdown-gfm

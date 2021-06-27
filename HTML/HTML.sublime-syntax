@@ -43,25 +43,6 @@ variables:
       | text/livescript
     )
 
-  custom_element_char: |-
-    (?x:
-      # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
-        [-._a-z0-9\x{00B7}]
-      | [\x{00C0}-\x{00D6}]
-      | [\x{00D8}-\x{00F6}]
-      | [\x{00F8}-\x{02FF}]
-      | [\x{0300}-\x{037D}]
-      | [\x{037F}-\x{1FFF}]
-      | [\x{200C}-\x{200D}]
-      | [\x{203F}-\x{2040}]
-      | [\x{2070}-\x{218F}]
-      | [\x{2C00}-\x{2FEF}]
-      | [\x{3001}-\x{D7FF}]
-      | [\x{F900}-\x{FDCF}]
-      | [\x{FDF0}-\x{FFFD}]
-      | [\x{10000}-\x{EFFFF}]
-    )
-
   script_close_lookahead: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}})
   style_close_lookahead: (?=</(?i:style){{tag_name_break_char}})
 
@@ -71,7 +52,7 @@ contexts:
 
   tag:
     - include: tag-html
-    - include: tag-custom
+    - include: tag-other
     - include: tag-incomplete
 
 ###[ HTML TAGS ]##############################################################
@@ -152,33 +133,14 @@ contexts:
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
 
-###[ CUSTOM TAG ]#############################################################
+###[ OTHER TAG ]##############################################################
 
-  tag-custom:
-    - match: </?(?=[A-Za-z]{{tag_name_char}}*?-)
-      scope: punctuation.definition.tag.begin.html
-      push:
-        - tag-custom-content
-        - tag-custom-name
+  tag-other:
     - match: </?(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
         - tag-other-content
         - tag-other-name
-
-  tag-custom-name:
-      - meta_content_scope: entity.name.tag.custom.html
-      - match: '{{tag_name_break}}'
-        pop: 1
-      - match: '{{custom_element_char}}+'
-        # no scope
-      - match: '{{tag_name_char}}'
-        scope: invalid.illegal.custom-tag-name.html
-
-  tag-custom-content:
-      - meta_scope: meta.tag.custom.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
 
   tag-other-name:
       - meta_content_scope: entity.name.tag.other.html
@@ -559,11 +521,13 @@ contexts:
     - include: tag-attribute-value-unquoted-invalid-char
 
   tag-href-attribute-value-content:
+    - include: tag-attribute-value-content
     - match: (%)\h{2}
       scope: constant.character.escape.url.html
       captures:
         1: punctuation.definition.escape.html
-    - include: tag-attribute-value-content
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.html
 
 ###[ ID ATTRIBUTE ]###########################################################
 

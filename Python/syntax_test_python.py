@@ -1264,6 +1264,9 @@ mydict = { 'a' : xform, 'b' : form, 'c' : frm }
 #                                 ^ meta.mapping.python punctuation.separator.mapping.python
 #                                       ^ punctuation.separator.mapping.key-value.python
 
+mydict = { a : b async for b in range(1, 2) }
+#                ^^^^^ storage.modifier.async.python
+
 myset = {"key", True, key2, [-1], {}:1}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #       ^ punctuation.section.set.begin.python
@@ -1392,6 +1395,9 @@ result = [i async for i in aiter() if i % 2]
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
+foo, bar = get_vars()
+#  ^ punctuation.separator.sequence.python
+#        ^ keyword.operator.assignment.python
 
 t = (*tuple(), *[1, 2], 3*1)
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python

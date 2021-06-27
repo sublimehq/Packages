@@ -4,6 +4,6 @@
 	$0
 ]]></content>
 	<tabTrigger>section</tabTrigger>
-	<scope>source.git.config</scope>
+	<scope>text.git.config</scope>
 	<description>[section]</description>
 </snippet>

@@ -560,6 +560,8 @@ contexts:
       scope: keyword.operator.logical.python
     - match: '@'
       scope: keyword.operator.matrix.python
+    - match: ','
+      scope: punctuation.separator.sequence.python
 
   allow-unpack-operators:
     # Match unpacking operators, if present
@@ -897,7 +899,7 @@ contexts:
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
-      scope: 
+      scope:
         meta.function.inline.python
         storage.type.function.inline.python
         keyword.declaration.function.inline.python
@@ -1071,7 +1073,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.mapping.python
           set: inside-dictionary
-    - match: (?=for\b)
+    - match: (?=(?:async|for)\b)
       push:
         - match: (?=\})
           pop: true
@@ -1084,7 +1086,7 @@ contexts:
       push:
         - clear_scopes: 1
         - meta_content_scope: meta.mapping.value.python
-        - match: (?=\s*(\}|,|for\b))
+        - match: (?=\s*(\}|,|(?:async|for)\b))
           pop: true
         - include: expression-in-a-group
 
@@ -1113,38 +1115,46 @@ contexts:
   builtin-exceptions:
     - match: |-
         (?x)\b(
-        	(
-        		Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
-        		Connection(Aborted|Refused|Reset)?|EOF|Environment|FileExists|
-        		FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
-        		Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
-        		NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
-        		Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
-        		Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
-        	)Error|
-        	((Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
-        	(Base)?Exception|
-        	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
+          (?:
+            Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
+            Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
+            FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
+            Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
+            NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
+            Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
+            Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
+          )Error|
+          (?:(?:Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+          (?:Base)?Exception|
+          SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
       scope: support.type.exception.python
 
   builtin-functions:
     - match: |-
-        (?x)\b(
-        	__import__|all|abs|any|apply|ascii|bin|breakpoint|callable|chr|classmethod|cmp|coerce|
-        	compile|delattr|dir|divmod|enumerate|eval|exec|execfile|filter|format|getattr|
-        	globals|hasattr|hash|help|hex|id|input|intern|isinstance|issubclass|iter|
-        	len|locals|map|max|min|next|oct|open|ord|pow|print|property|range|
-        	raw_input|reduce|reload|repr|reversed|round|setattr|sorted|staticmethod|
-        	sum|super|type|unichr|vars|zip
+        (?x)\b(?:
+          __import__|all|abs|any|ascii|bin|callable|chr|classmethod|
+          compile|delattr|dir|divmod|enumerate|eval|filter|format|getattr|
+          globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|
+          len|locals|map|max|min|next|oct|open|ord|pow|property|range|
+          repr|reversed|round|setattr|sorted|staticmethod|
+          sum|super|type|vars|zip
+          # Python 2 functions
+          |apply|cmp|coerce|execfile|intern|raw_input|reduce|reload|unichr|xrange
+          # Python 3 functions
+          |breakpoint|exec|print
         )\b
       scope: support.function.builtin.python
 
   builtin-types:
     - match: |-
-        (?x)\b(
-        	basestring|bool|buffer|bytearray|bytes|complex|dict|float|frozenset|int|
-        	list|long|memoryview|object|range|set|slice|str|tuple|unicode|xrange
+        (?x)\b(?:
+          bool|bytearray|bytes|complex|dict|float|frozenset|int|
+          list|memoryview|object|set|slice|str|tuple
+          # Python 2 types
+          |basestring|long|unicode
+          # Python 2 types prone to conflicts
+          # |buffer|file
         )\b
       scope: support.type.python
 
@@ -1375,7 +1385,7 @@ contexts:
       scope: invalid.deprecated.character.escape.python
 
   escaped-unicode-char:
-    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
+    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[-a-zA-Z ]+\})'
       captures:
         1: constant.character.escape.unicode.16-bit-hex.python
         2: constant.character.escape.unicode.32-bit-hex.python
