@@ -66,7 +66,7 @@
             { "key": "selector", "operand": "source.python" },
             { "key": "selection_empty", "match_all": true },
             { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |]|}|,|;|'|\"|$)", "match_all": true }
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
         ]
     },
 
@@ -85,7 +85,7 @@
             { "key": "selector", "operand": "source.python" },
             { "key": "selection_empty", "match_all": true },
             { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|}|,|;|'|\"|$)", "match_all": true }
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
         ]
     },
 
@@ -104,7 +104,7 @@
             { "key": "selector", "operand": "source.python" },
             { "key": "selection_empty", "match_all": true },
             { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|,|;|'|\"|$)", "match_all": true }
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
         ]
     },
 ]
