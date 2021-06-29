@@ -649,32 +649,29 @@ class CSSCompletions(sublime_plugin.EventListener):
         return None
 
     def complete_property_name(self, view, prefix, pt):
+        text = view.substr(sublime.Region(pt, view.line(pt).end()))
+        matches = self.re_value.search(text)
+        if matches:
+            colon, space, value, term = matches.groups()
+        else:
+            colon = ""
+            space = ""
+            value = ""
+            term = ""
+
+        # don't append anything if next character is a colon
         suffix = ""
-
-        # only add colon and semicolon after name if auto-pairing is enabled
-        if view.settings().get("auto_match_enabled"):
-            text = view.substr(sublime.Region(pt, view.line(pt).end()))
-            matches = self.re_value.search(text)
-            if matches:
-                colon, space, value, term = matches.groups()
+        if not colon:
+            # add space after colon if smart typing is enabled
+            smart_typing = view.settings().get("smart_typing")
+            if smart_typing and not space:
+                suffix = ": $0"
             else:
-                colon = ""
-                space = ""
-                value = ""
-                term = ""
+                suffix = ":$0"
 
-            # don't append anything if next character is a colon
-            if not colon:
-                # add space after colon if smart typing is enabled
-                smart_typing = view.settings().get("smart_typing")
-                if smart_typing and not space:
-                    suffix = ": $0"
-                else:
-                    suffix = ":$0"
-
-                # terminate empty value if not within parentheses
-                if not value and not term and not match_selector(view, pt, "meta.group"):
-                    suffix += ";"
+            # terminate empty value if not within parentheses
+            if not value and not term and not match_selector(view, pt, "meta.group"):
+                suffix += ";"
 
         return (
             sublime.CompletionItem(
