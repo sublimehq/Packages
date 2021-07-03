@@ -1214,11 +1214,6 @@ class MyClass
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
 
-  ::Module::Test
-# ^ punctuation.accessor.double-colon.ruby
-#   ^ support.class.ruby
-#           ^ support.class.ruby
-
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
 #  ^ punctuation.separator.sequence.ruby
