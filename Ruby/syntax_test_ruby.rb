@@ -629,8 +629,11 @@ A, B, C = 0
 #     ^ entity.name.constant
 
 Symbol === :foo
-# ^^^^ variable.other.constant.ruby -meta.constant.ruby
-#          ^^^^
+# <- support.class.ruby
+#^^^^^ support.class.ruby
+#      ^^^ keyword.operator.comparison.ruby
+#          ^^^^ constant.other.symbol.ruby
+#          ^ punctuation.definition.constant.ruby
 
   :'foo #{ } #@bar baz'
 # ^^^^^^^^^^^^^^^^^^^^^ meta.constant.ruby - meta.interpolation
@@ -1161,8 +1164,40 @@ def my_function
 #   ^^^^^^^^^^^ entity.name.function
 end
 
-f = MyModule::MyClass.new
+
+f = MyConstant
+#   ^^^^^^^^^^ support.class.ruby
+
+f = MYCONSTANT
+#   ^^^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::
+#   ^^^^^^^^ support.class.ruby
 #           ^^ punctuation.accessor.double-colon
+
+f = MyModule::MyClass
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+
+f = MyModule::CONSTANT
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::MyClass.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
+
+f = MyModule::MYCLASS.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ variable.other.constant.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
 
 def f.my_instance_method
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.function
