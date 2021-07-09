@@ -235,9 +235,8 @@ contexts:
     - match: (?i)\b(parent|self)\b
       scope: variable.language.php
     - match: |-
-        \b(?xi:
-          abstract | const | extends | final | global | implements | private | protected |
-          public | static
+        {{visibility_modifier}}|\b(?xi:
+          abstract | const | extends | final | global | implements | static | readonly
         )\b
       scope: storage.modifier.php
     - include: object
@@ -730,11 +729,11 @@ contexts:
 
   typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
-    - match: (?=\b(?:{{visibility_modifier}}|static)\b)
+    - match: (?=\b(?:{{visibility_modifier}}|static|readonly)\b)
       push:
         - match: (?=\b(?:const|function)\b)
           pop: 1
-        - match: \b(?:{{visibility_modifier}}|static)\b
+        - match: \b(?:{{visibility_modifier}}|static|readonly)\b
           scope: storage.modifier.php
         - include: type-hint
         # Exit on unexpected content

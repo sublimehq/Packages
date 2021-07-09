@@ -2020,7 +2020,8 @@ function embedHtml() {
 }
 
 class D {
-    private $prop;
+    private readonly $prop;
+//          ^^^^^^^^ storage.modifier
 
     public function __construct($val) {
 //                  ^^^^^^^^^^^ entity.name.function.php support.function.magic.php
