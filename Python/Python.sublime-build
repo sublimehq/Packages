@@ -7,6 +7,7 @@
 
 	"windows": {
 		"cmd": ["py", "-u", "$file"],
+		"shell": true,
 	},
 
 	"variants":
@@ -17,9 +18,8 @@
 
 			"windows": {
 				"cmd": ["py", "-m", "py_compile", "$file"],
+				"shell": true,
 			}
 		}
 	]
-
-	"shell": true
 }
