@@ -1042,6 +1042,30 @@ EOT
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 #^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
+print << 'EOT-EOT-EOT';
+#     ^^^ meta.string.heredoc.perl - meta.tag
+#        ^^^^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+#                     ^^ meta.string.heredoc.perl - meta.tag
+#     ^^ keyword.operator.heredoc.perl
+  Heredoc
+# ^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+EOT-EOT-EOT
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#          ^ - meta.string
+
+print << "EOT-EOT-EOT";
+#     ^^^ meta.string.heredoc.perl - meta.tag
+#        ^^^^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+#                     ^^ meta.string.heredoc.perl - meta.tag
+#     ^^ keyword.operator.heredoc.perl
+  Heredoc
+# ^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+EOT-EOT-EOT
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#          ^ - meta.string
+
 # MUST NOT BE HEREDOC
   (1 << 0) ;
 #    ^^^^^^^ - meta.string.heredoc.perl

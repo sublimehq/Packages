@@ -938,21 +938,26 @@ contexts:
         4: punctuation.definition.tag.end.perl
       set: [string-heredoc-xml, string-heredoc-expr]
     # single quoted heredoc string without interpolation
-    - match: \s*((')(\s*{{identifier}})('))
+    - match: \s*((')(\s*[^'\s]+)('))
       captures:
         1: meta.tag.heredoc.perl
         2: punctuation.definition.tag.begin.perl
         3: entity.name.tag.heredoc.plain.perl
         4: punctuation.definition.tag.end.perl
       set: [string-heredoc-plain, string-heredoc-expr]
-    # unquoted or double quoted heredoc string with interpolation
-    - match: \s*(("?)(\s*{{identifier}})(\2))
+    # double quoted heredoc string with interpolation
+    - match: \s*((")(\s*[^"\s]+)("))
       captures:
         1: meta.tag.heredoc.perl
         2: punctuation.definition.tag.begin.perl
         3: entity.name.tag.heredoc.plain.perl
         4: punctuation.definition.tag.end.perl
-      set: [string-heredoc-interpolated, string-heredoc-expr]
+      set: [string-heredoc-interpolated-quoted, string-heredoc-expr]
+    # unquoted heredoc string with interpolation
+    - match: \s*({{identifier}})
+      captures:
+        1: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      set: [string-heredoc-interpolated-unquoted, string-heredoc-expr]
     - include: immediately-pop
 
   string-heredoc-expr:
@@ -1024,9 +1029,16 @@ contexts:
       scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
       pop: true
 
-  string-heredoc-interpolated:
+  string-heredoc-interpolated-quoted:
     - meta_content_scope: string.unquoted.heredoc.perl
     - match: ^\3$
+      scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      pop: true
+    - include: interpolated-common
+
+  string-heredoc-interpolated-unquoted:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^\1$
       scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
       pop: true
     - include: interpolated-common
