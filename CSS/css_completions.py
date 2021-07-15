@@ -575,7 +575,7 @@ def get_properties():
 
     for names, values in properties_dict.items():
         # Values that are allowed for all properties
-        allowed_values = ['all', 'inherit', 'initial', 'unset', ['var()', 'var($1)']]
+        allowed_values = ['!important', 'all', 'inherit', 'initial', 'unset', ['var()', 'var($1)']]
 
         # Determine which values are available for the current property name
         for value in values:
