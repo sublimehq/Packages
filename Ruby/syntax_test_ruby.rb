@@ -1045,6 +1045,13 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                           ^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                   ^^ punctuation.accessor.double-colon
 
+  class << self
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#          ^^^^ variable.language.ruby
+  end
+# ^^^ keyword.control.block.end.ruby
+
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 # ^^^ keyword.declaration.function

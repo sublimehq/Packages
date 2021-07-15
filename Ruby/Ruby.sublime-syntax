@@ -123,8 +123,10 @@ contexts:
 
   class:
     # Defining a class method
-    - match: \bclass\b(?=\s*<)
-      scope: keyword.declaration.class.ruby
+    - match: \b(class)\s*(<<)
+      captures:
+        1: keyword.declaration.class.ruby
+        2: keyword.operator.assignment.augmented.ruby
     - match: \bclass\b
       scope: keyword.declaration.class.ruby
       push: class-declaration
