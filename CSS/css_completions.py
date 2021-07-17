@@ -27,50 +27,45 @@ def timing(func):
     return wrap
 
 
-def get_properties():
-    """
-    Gets the properties.
-
-    Prepare some common property values for when there is more than one way to
-    specify a certain value type. The color value for example can be specified
-    by `rgb()` or `hsl()` and so on. Example where `|` denotes the caret:
-
-        color: rg|   -->   color: rgb(|);
-
-    This is also helpful when multiple properties share the same value types.
-    """
+def get_common_values():
     common_values = {
-        'animation_direction': [
+        'animation-direction': [
             'alternate', 'alternate-reverse', 'normal', 'reverse'
         ],
-        'absolute_size': [
+        'absolute-size': [
             'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
         ],
-        'absolute_weight': [
+        'absolute-weight': [
             '100', '200', '300', '400', '500', '600', '700', '800', '900',
             'normal', 'bold'
         ],
-        'basic_shape': [
+        'basic-shape': [
             ['circle()', 'circle($1)'],
             ['ellipse()', 'ellipse($1)'],
             ['inset()', 'inset($1)'],
             ['polygon()', 'polygon($1)']
         ],
-        'blend_mode': [
+        'blend-mode': [
             'normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten',
             'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference',
             'exclusion', 'hue', 'saturation', 'color', 'luminosity'
         ],
-        'border_style': [
+        'border-style': [
             'none', 'hidden', 'dotted', 'dashed', 'solid', 'double',
             'groove', 'ridge', 'inset', 'outset'
         ],
-        'border_width': ['thin', 'medium', 'thick'],
-        'break_before_after': [
+        'border-width': ['thin', 'medium', 'thick'],
+        'break-before-after': [
             'always', 'left', 'right', 'recto', 'verso', 'page', 'column', 'region'
         ],
-        'break_inside': [
+        'break-inside': [
             'auto', 'avoid', 'avoid-page', 'avoid-column', 'avoid-region'
+        ],
+        'calc': [
+            ['calc()', 'calc($1)'],
+            ['clamp()', 'clamp(${1:0}, ${2:0}, ${3:0})'],
+            ['max()', 'max(${1:0}, ${2:0})'],
+            ['min()', 'min(${1:0}, ${2:0})']
         ],
         'color': [
             'currentColor',
@@ -84,19 +79,19 @@ def get_properties():
             'bisque', 'black', 'blanchedalmond', 'blue', 'blueviolet', 'brown',
             'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral',
             'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue',
-            'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen',
+            'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgreen',
             'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange',
             'darkorchid', 'darkred', 'darksalmon', 'darkseagreen',
-            'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise',
-            'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey',
+            'darkslateblue', 'darkslategray', 'darkturquoise',
+            'darkviolet', 'deeppink', 'deepskyblue', 'dimgray',
             'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia',
-            'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey',
+            'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray',
             'green', 'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo',
             'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen',
             'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan',
-            'lightgoldenrodyellow', 'lightgray', 'lightgrey', 'lightgreen',
+            'lightgoldenrodyellow', 'lightgray', 'lightgreen',
             'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue',
-            'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow',
+            'lightslategray', 'lightsteelblue', 'lightyellow',
             'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine',
             'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen',
             'mediumslateblue', 'mediumspringgreen', 'mediumturquoise',
@@ -107,14 +102,31 @@ def get_properties():
             'pink', 'plum', 'powderblue', 'purple', 'rebeccapurple', 'red',
             'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown',
             'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue',
-            'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan',
+            'slategray', 'snow', 'springgreen', 'steelblue', 'tan',
             'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white',
             'whitesmoke', 'yellow', 'yellowgreen'
         ],
-        'counter_symbols': [
+        'counter-style': [
+            ['symbols()', 'symbols($1)']
+        ],
+        'counter-symbols': [
             'cyclic', 'numeric', 'alphabetic', 'symbolic', 'additive', 'fixed'
         ],
-        'font_variant_alternates': [
+        'ending-shape': ['circle', 'ellipse'],
+        'fill-rule': ['nonzero', 'evenodd'],
+        'filter-function': [
+            ['blur()', 'blur($1)'],
+            ['brightness()', 'brightness($1)'],
+            ['contrast()', 'contrast($1)'],
+            ['drop-shadow()', 'drop-shadow($1)'],
+            ['grayscale()', 'grayscale($1)'],
+            ['hue-rotate()', 'hue-rotate($1)'],
+            ['invert()', 'invert($1)'],
+            ['opacity()', 'opacity($1)'],
+            ['saturate()', 'saturate($1)'],
+            ['sepia()', 'sepia($1)']
+        ],
+        'font-variant-alternates': [
             'normal', 'historical-forms',
             ['stylistic()', 'stylistic($1)'],
             ['styleset()', 'styleset($1)'],
@@ -123,7 +135,7 @@ def get_properties():
             ['ornaments()', 'ornaments($1)'],
             ['annotation()', 'annotation($1)']
         ],
-        'generic_name': [
+        'generic-font-name': [
             'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'
         ],
         'gradient': [
@@ -138,7 +150,28 @@ def get_properties():
             ['repeat()', 'repeat(${1:2}, ${2:1fr})'],
             ['minmax()', 'minmax(${1:100px}, ${2:1fr})'],
         ],
-        'list_style_type': [
+        'image': [
+            '<url>',
+            ['image()', 'image($1)'],
+            ['image-set()', 'image-set($1)'],
+            ['element()', 'element($1)'],
+            ['paint()', 'paint($1)'],
+            ['cross-fade()', 'cross-fade($1)'],
+            ['linear-gradient()', 'linear-gradient($1)'],
+            ['repeating-linear-gradient()', 'repeating-linear-gradient($1)'],
+            ['radial-gradient()', 'radial-gradient($1)'],
+            ['repeating-radial-gradient()', 'repeating-radial-gradient($1)'],
+            ['conic-gradient()', 'conic-gradient($1)'],
+        ],
+        'image-tags': ['ltr', 'rtl'],
+        'line-style': [
+            'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove',
+            'ridge', 'inset', 'outset'
+        ],
+        'leader-type': [
+            'dotted', 'solid', 'space'
+        ],
+        'list-style-type': [
             'none', 'inline', 'disc', 'circle', 'square', 'decimal',
             'decimal-leading-zero', 'arabic-indic', 'binary', 'bengali',
             'cambodian', 'khmer', 'devanagari', 'gujarati', 'gurmukhi',
@@ -161,21 +194,194 @@ def get_properties():
             'lower-armenian', 'upper-armenian', 'georgian', 'cjk-ideographic',
             'hiragana', 'katakana', 'hiragana-iroha', 'katakana-iroha'
         ],
-        'position': ['top', 'right', 'bottom', 'left', 'center'],
-        'relative_size': ['larger', 'smaller'],
-        'relative_weight': ['bolder', 'lighter'],
-        'repeat_style': [
+        'position': ['<side-or-corner>', 'center'],
+        'relative-size': ['larger', 'smaller'],
+        'relative-weight': ['bolder', 'lighter'],
+        'repeat-style': [
             'repeat', 'repeat-x', 'repeat-y', 'space', 'round', 'no-repeat'
         ],
-        'string': ['\"$1\"'],
-        'timing_function': [
+        'self-position': [
+            'center', 'start', 'end', 'self-start', 'self-end', 'flex-start',
+            'flex-end'
+        ],
+        'shape-radius': [
+            'closest-side', 'farthest-side'
+        ],
+        'side-or-corner': [
+            'left', 'right', 'top', 'bottom'
+        ],
+        'timing-function': [
             'linear',
             'ease', 'ease-in', 'ease-out', 'ease-in-out', 'step-start', 'step-end',
             ['cubic-bezier()', 'cubic-bezier(${1:0.0}, ${2:0.0}, ${3:1.0}, ${4:1.0})'],
             ['steps()', 'steps(${1:2}, ${2:start})'],
         ],
-        'uri': [['url()', 'url($1)']],
+        'type-or-unit': [
+            'string', 'color', 'url', 'integer', 'number', 'length', 'angle',
+            'time', 'frequency', 'cap', 'ch', 'em', 'ex', 'ic', 'lh', 'rlh',
+            'rem', 'vb', 'vi', 'vw', 'vh', 'vmin', 'vmax', 'mm', 'Q', 'cm',
+            'in', 'pt', 'pc', 'px', 'deg', 'grad', 'rad', 'turn', 'ms', 's',
+            'Hz', 'kHz', '%'
+        ],
+        'url': [['url()', 'url($1)']],
     }
+
+    resolved_values = {}
+
+    def resolve(vals):
+        vals_resolved = []
+        for val in vals:
+            if val[0] == '<' and val[-1] == '>':
+                key = val[1:-1]
+                resolved = resolved_values.get(key)
+                if resolved:
+                    vals_resolved += resolved
+                    continue
+                resolved = common_values.get(key)
+                if resolved:
+                    vals_resolved += resolve(resolved)
+                    continue
+
+            vals_resolved.append(val)
+        return vals_resolved
+
+    for val_key, val_vals in common_values.items():
+        resolved_values[val_key] = resolve(val_vals)
+
+    return resolved_values
+
+
+def get_func_args():
+
+    common_values = get_common_values()
+
+    func_args = {
+        'attr': ['<color>', '<type-or-unit>'],
+        'blur': ['<calc>'],
+        'brightness': ['<calc>'],
+        'calc': [
+            ['attr()', 'attr($1)'],
+            '<calc>'
+        ],
+        'circle': ['<calc>', '<shape-radius>', 'at', '<position>'],
+        'clamp': [
+            ['attr()', 'attr($1)'],
+            '<calc>'
+        ],
+        'conic-gradient': ['from', 'at', '<position>', '<color>'],
+        'contrast': [],
+        'counter': ['<counter-style>'],
+        'counters': ['<counter-style>'],
+        'cross-fade': ['<image>', '<color>'],
+        'cubic-bezier': ['<calc>'],
+        'drop-shadow': ['<calc>', '<color>'],
+        'element': [],
+        'ellipse': ['<calc>', '<shape-radius>', 'at',  '<position>'],
+        'env': [],
+        'filter': ['<filter-function>', '<image>'],
+        'fit-content': [],
+        'grayscale': ['<calc>'],
+        'hsl': ['<calc>'],
+        'hsla': ['<calc>'],
+        'hue-rotate': ['<calc>'],
+        'image': ['<image-tags>', '<url>', '<color>'],
+        'image-set': [
+            ['type()', 'type($)'],
+            '<url>', '<color>'
+        ],
+        'inset': ['<calc>', 'round'],
+        'invert': ['<calc>'],
+        'leader': ['<leader-type>'],
+        'linear-gradient': ['<side-or-corner>', '<color>', 'to'],
+        'matrix': ['<calc>'],
+        'matrix3d': ['<calc>'],
+        'max': [
+            ['attr()', 'attr($1)'],
+            '<calc>'
+        ],
+        'min': [
+            ['attr()', 'attr($1)'],
+            '<calc>'
+        ],
+        'minmax': ['min-content', 'max-content', 'auto'],
+        'opacity': ['<calc>'],
+        'path': ['<fill-rule>'],
+        'paint': [],
+        'perspective': ['<calc>'],
+        'polygon': ['<calc>', '<fill-rule>'],
+        'radial-gradient': [
+            '<ending-shape>', '<size>', 'at',  '<position>', '<color>'
+        ],
+        'rect': ['<calc>', 'auto'],
+        'repeat': ['<calc>', 'auto-fill', 'auto-fit'],
+        'repeating-conic-gradient': ['from', 'at', '<position>', '<color>'],
+        'repeating-linear-gradient': ['<side-or-corner>', '<color>', 'to'],
+        'repeating-radial-gradient': [
+            '<ending-shape>', '<size>', 'at',  '<position>', '<color>'
+        ],
+        'rgb': ['<calc>'],
+        'rgba': ['<calc>'],
+        'rotate': ['<calc>'],
+        'rotate3d': ['<calc>'],
+        'rotateX': ['<calc>'],
+        'rotateY': ['<calc>'],
+        'rotateZ': ['<calc>'],
+        'saturate': ['<calc>'],
+        'scale': ['<calc>'],
+        'scale3d': ['<calc>'],
+        'scaleX': ['<calc>'],
+        'scaleY': ['<calc>'],
+        'scaleZ': ['<calc>'],
+        'skew': ['<calc>'],
+        'skewX': ['<calc>'],
+        'skewY': ['<calc>'],
+        'sepia': ['<calc>'],
+        'steps': ['<calc>', 'end', 'middle', 'start'],
+        'target-counter': ['<url>', '<counter-style>'],
+        'target-counters': ['<url>', '<counter-style>'],
+        'target-text': ['<url>', 'content', 'before', 'after', 'first-letter'],
+        'toggle': ['<calc>', '<color>'],
+        'translate': ['<calc>'],
+        'translate3d': ['<calc>'],
+        'translateX': ['<calc>'],
+        'translateY': ['<calc>'],
+        'translateZ': ['<calc>'],
+        'var': [],
+    }
+
+    completions = {}
+
+    for func, args in func_args.items():
+        # args that are allowed for all properties
+        expanded_args = [['var()', 'var($1)']]
+
+        # Determine which args are available for the current property name
+        for arg in args:
+            if arg[0] == '<' and arg[-1] == '>':
+                key = arg[1:-1]
+                if key in common_values:
+                    expanded_args += common_values[key]
+            else:
+                expanded_args.append(arg)
+
+        completions[func] = expanded_args
+
+    return completions
+
+
+def get_properties():
+    '''
+    Gets the properties.
+
+    Prepare some common property values for when there is more than one way to
+    specify a certain value type. The color value for example can be specified
+    by `rgb()` or `hsl()` and so on. Example where `|` denotes the caret:
+
+        color: rg|   -->   color: rgb(|);
+
+    This is also helpful when multiple properties share the same value types.
+    '''
+    common_values = get_common_values()
 
     properties_dict = {
         'align-content': [
@@ -194,37 +400,37 @@ def get_properties():
             'hanging', 'mathematical'
         ],
         'animation': [
-            'none', '<timing_function>', 'infinite', '<animation_direction>',
+            'none', '<timing-function>', 'infinite', '<animation-direction>',
             'forwards', 'backwards', 'both', 'running', 'paused'
         ],
         'animation-name': ['none', '<custom-ident>'],
         'animation-duration': ['<time>'],
-        'animation-timing-function': ['<timing_function>'],
+        'animation-timing-function': ['<timing-function>'],
         'animation-delay': ['<time>'],
         'animation-iteration-count': ['infinite', '<number>'],
-        'animation-direction': ['<animation_direction>'],
+        'animation-direction': ['<animation-direction>'],
         'animation-fill-mode': ['none', 'forwards', 'backwards', 'both'],
         'animation-play-state': ['running', 'paused'],
         'backface-visibility': ['visible', 'hidden'],
         'background': [
-            '<color>', '<gradient>', '<position>', '<uri>',
+            '<color>', '<gradient>', '<position>', '<url>',
             'repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'scroll', 'fixed'
         ],
         'background-attachment': ['fixed', 'local', 'scroll'],
-        'background-blend-mode': ['<blend_mode>'],
+        'background-blend-mode': ['<blend-mode>'],
         'background-clip': ['border-box', 'padding-box', 'content-box'],
         'background-color': ['<color>'],
-        'background-image': ['<uri>', 'none'],
+        'background-image': ['<url>', 'none'],
         'background-origin': ['border-box', 'padding-box', 'content-box'],
         'background-position': ['<position>'],
-        'background-repeat': ['<repeat_style>'],
+        'background-repeat': ['<repeat-style>'],
         'background-size': [
             'auto', 'cover', 'contain', '<length>', '<percentage>'
         ],
         'baseline-shift': ['baseline', 'sub', 'super'],
-        'border': ['<border_width>', '<border_style>', '<color>'],
-        'border-width': ['<border_width>'],
-        'border-style': ['<border_style>'],
+        'border': ['<border-width>', '<border-style>', '<color>'],
+        'border-width': ['<border-width>'],
+        'border-style': ['<border-style>'],
         'border-color': ['<color>'],
         'border-collapse': ['collapse', 'separate'],
         'border-radius': ['<length>', '<percentage>'],
@@ -240,46 +446,46 @@ def get_properties():
         'border-image-source': ['none', '<image>'],
         'border-image-width': ['<length>', '<percentage>', '<number>', 'auto'],
         'border-top | border-right | border-bottom | border-left': [
-            '<border_width>', '<border_style>', '<color>'
+            '<border-width>', '<border-style>', '<color>'
         ],
         'border-top-color | border-right-color | border-bottom-color | border-left-color': ['<color>'],
         'border-top-left-radius | border-top-right-radius | border-bottom-right-radius | border-bottom-left-radius': [
             '<length>', '<percentage>'
         ],
-        'border-top-style | border-right-style | border-bottom-style | border-left-style': ['<border_style>'],
-        'border-top-width | border-right-width | border-bottom-width | border-left-width': ['<border_width>'],
+        'border-top-style | border-right-style | border-bottom-style | border-left-style': ['<border-style>'],
+        'border-top-width | border-right-width | border-bottom-width | border-left-width': ['<border-width>'],
         'bottom': ['<length>', '<percentage>', 'auto'],
         'box-decoration-break': ['slice', 'clone'],
         'box-shadow': ['none', 'inset', '<color>'],
         'box-sizing': ['content-box', 'border-box'],
-        'break-after': ['<break_before_after>', '<break_inside>'],
-        'break-before': ['<break_before_after>', '<break_inside>'],
-        'break-inside': ['<break_inside>'],
+        'break-after': ['<break-before-after>', '<break-inside>'],
+        'break-before': ['<break-before-after>', '<break-inside>'],
+        'break-inside': ['<break-inside>'],
         'caption-side': ['top', 'bottom'],
         'clear': ['none', 'left', 'right', 'both'],
         'clip': [
             ['rect()', 'rect(${1:0}, ${2:0}, ${3:0}, ${4:0})'],
             'auto'
         ],
-        'clip-path': ['none', '<uri>', '<basic_shape>'],
+        'clip-path': ['none', '<url>', '<basic-shape>'],
         'clip-rule': ['nonzero', 'evenodd'],
         'color': ['<color>'],
         'color-interpolation': ['auto', 'sRGB', 'linearRGB'],
         'color-interpolation-filters': ['auto', 'sRGB', 'linearRGB'],
-        'color-profile': ['auto', 'sRGB', '<uri>'],
+        'color-profile': ['auto', 'sRGB', '<url>'],
         'color-rendering': ['auto', 'optimizeSpeed', 'optimizeQuality'],
         'columns': ['auto'],
         'column-count': ['auto', '<number>'],
         'column-fill': ['auto', 'balance'],
         'column-gap': ['normal', '<length>'],
-        'column-rule': ['<border_width>', '<border_style>', '<color>'],
+        'column-rule': ['<border-width>', '<border-style>', '<color>'],
         'column-rule-color': ['<color>'],
-        'column-rule-style': ['<border_style>'],
-        'column-rule-width': ['<border_width>'],
+        'column-rule-style': ['<border-style>'],
+        'column-rule-width': ['<border-width>'],
         'column-span': ['none'],
         'column-width': ['auto', '<length>'],
         'content': [
-            'none', 'normal', '<string>', '<uri>',
+            'none', 'normal', '<url>',
             'open-quote', 'close-quote', 'no-open-quote', 'no-close-quote',
             ['attr()', 'attr($1)'],
             ['counter()', 'counter($1)']
@@ -287,7 +493,7 @@ def get_properties():
         'counter-increment': ['none', '<custom_ident>', '<integer>'],
         'counter-reset': ['none', '<custom_ident>', '<integer>'],
         'cursor': [
-            '<uri>', 'auto', 'default', 'none', 'context-menu', 'help',
+            '<url>', 'auto', 'default', 'none', 'context-menu', 'help',
             'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text',
             'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed',
             'e-resize', 'n-resize', 'ne-resize', 'nw-resize', 's-resize',
@@ -295,7 +501,7 @@ def get_properties():
             'nesw-resize', 'nwse-resize', 'col-resize', 'row-resize',
             'all-scroll', 'zoom-in', 'zoom-out'
         ],
-        'direction': ['ltr', 'rtl'],
+        'direction': ['<image-tags>'],
         'display': [
             'none', 'inline', 'block', 'contents', 'list-item', 'inline-block',
             'inline-table', 'table', 'table-cell', 'table-column',
@@ -313,7 +519,7 @@ def get_properties():
         'fill': ['<color>'],
         'fill-rule': ['nonzero', 'evenodd'],
         'filter': [
-            '<uri>',
+            '<url>',
             ['blur()', 'blur(${1:5px})'],
             ['brightness()', 'brightness(${1:1.0})'],
             ['contrast()', 'contrast(${1:100%})'],
@@ -338,17 +544,17 @@ def get_properties():
         'float': ['left', 'right', 'none'],
         'flood-color': ['<color>'],
         'font': [
-            '<absolute_weight>', '<generic_name>', '<relative_weight>',
+            '<absolute-weight>', '<generic-font-name>', '<relative-weight>',
             'caption', 'icon', 'italic', 'menu', 'message-box', 'oblique',
             'small-caps', 'small-caption', 'status-bar'
         ],
         'font-display': ['auto', 'block', 'swap', 'fallback', 'optional'],
-        'font-family': ['<generic_name>'],
+        'font-family': ['<generic-font-name>'],
         'font-feature-settings': ['normal', '<string>'],
         'font-kerning': ['auto', 'normal', 'none'],
         'font-language-override': ['normal', '<string>'],
         'font-size': [
-            '<absolute_size>', '<relative_size>', '<length>', '<percentage>'
+            '<absolute-size>', '<relative-size>', '<length>', '<percentage>'
         ],
         'font-size-adjust': ['none', '<number>'],
         'font-style': ['normal', 'italic', 'oblique'],
@@ -359,7 +565,7 @@ def get_properties():
         ],
         'font-synthesis': ['none', 'weight', 'style'],
         'font-variant': ['normal', 'small-caps'],
-        'font-variant-alternates': ['<font_variant_alternates>'],
+        'font-variant-alternates': ['<font-variant-alternates>'],
         'font-variant-caps': [
             'normal', 'small-caps', 'all-small-caps', 'petite-caps',
             'all-petite-caps', 'unicase', 'titling-case'
@@ -380,7 +586,7 @@ def get_properties():
             'stacked-fractions'
         ],
         'font-variant-position': ['normal', 'sub', 'super'],
-        'font-weight': ['<absolute_weight>', '<relative_weight>'],
+        'font-weight': ['<absolute-weight>', '<relative-weight>'],
         'grid': [],
         'grid-area': [],
         'grid-auto-columns': ['auto', '<percentage>', '<length>'],
@@ -419,35 +625,35 @@ def get_properties():
         'letter-spacing': ['normal', '<length>'],
         'lighting-color': ['<color>'],
         'line-height': ['normal', '<number>', '<length>', '<percentage>'],
-        'list-style': ['<list_style_type>', 'inside', 'outside', '<uri>'],
-        'list-style-image': ['<uri>', 'none'],
+        'list-style': ['<list-style-type>', 'inside', 'outside', '<url>'],
+        'list-style-image': ['<url>', 'none'],
         'list-style-position': ['inside', 'outside'],
-        'list-style-type': ['<list_style_type>'],
+        'list-style-type': ['<list-style-type>'],
         'margin': ['auto', '<margin-width>'],
         'margin-top | margin-right | margin-bottom | margin-left': [
             'auto', '<margin-width>'
         ],
-        'marker-end | marker-start | marker-mid': ['<uri>', 'none'],
+        'marker-end | marker-start | marker-mid': ['<url>', 'none'],
         'marks': ['crop', 'cross', 'none'],
-        'mask': ['<uri>', 'none'],
+        'mask': ['<url>', 'none'],
         'mask-type': ['luminance', 'alpha'],
         'max-height': ['<length>', '<percentage>', 'fit-content', 'none'],
         'max-width': ['<length>', '<percentage>', 'fit-content', 'none'],
         'min-height': ['<length>', '<percentage>', 'fit-content'],
         'min-width': ['<length>', '<percentage>', 'fit-content'],
-        'mix-blend-mode': ['<blend_mode>'],
+        'mix-blend-mode': ['<blend-mode>'],
         'object-fit': ['fill', 'contain', 'cover', 'none', 'scale-down'],
         'object-position': ['<position>'],
         'opacity': ['<number>'],
         'order': ['<integer>'],
         'orphans': ['<integer>'],
         'outline': [
-            '<color>', '<border_style>', '<border_width>', '<length>'
+            '<color>', '<border-style>', '<border-width>', '<length>'
         ],
         'outline-color': ['<color>', 'invert'],
         'outline-offset': ['<length>'],
-        'outline-style': ['<border_style>'],
-        'outline-width': ['<border_width>', '<length>'],
+        'outline-style': ['<border-style>'],
+        'outline-width': ['<border-width>', '<length>'],
         'overflow | overflow-x | overflow-y': [
             'visible', 'hidden', 'scroll', 'auto'
         ],
@@ -475,7 +681,7 @@ def get_properties():
         'shape-margin': ['<length>', '<percentage>'],
         'shape-outside': [
             'none', 'margin-box', 'content-box', 'border-box', 'padding-box',
-            '<basic_shape>', '<uri>'
+            '<basic-shape>', '<url>'
         ],
         'shape-rendering': [
             'auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'
@@ -489,7 +695,7 @@ def get_properties():
         'stroke-dasharray': ['none'],
         'stroke-linecap': ['butt', 'round', 'square'],
         'stroke-linejoin': ['round', 'miter', 'bevel'],
-        'system': ['<counter_symbols>'],
+        'system': ['<counter-symbols>'],
         'table-layout': ['auto', 'fixed'],
         'text-align': ['left', 'right', 'center', 'justify', 'justify-all'],
         'text-align-last': ['start', 'end', 'left', 'right', 'center', 'justify'],
@@ -548,7 +754,7 @@ def get_properties():
         'transition-delay': ['<time>'],
         'transition-duration': ['<time>'],
         'transition-property': ['none', '<custom-ident>'],
-        'transition-timing-function': ['<timing_function>'],
+        'transition-timing-function': ['<timing-function>'],
         'unicode-bidi': ['normal', 'embed', 'bidi-override'],
         'unicode-range': [],
         'user-select': ['auto', 'text', 'none', 'contain'],
@@ -607,6 +813,11 @@ def next_none_whitespace(view, pt):
 
 
 class CSSCompletions(sublime_plugin.EventListener):
+
+    @cached_property
+    def func_args(self):
+        return get_func_args()
+
     @cached_property
     def props(self):
         return get_properties()
@@ -714,14 +925,19 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         return completions
 
-    def complete_function_argument(self, view, prefix, pt):
-        args_region = view.expand_by_class(
-            pt, sublime.CLASS_PUNCTUATION_START | sublime.CLASS_PUNCTUATION_END)
-        func_region = view.expand_by_class(
-            args_region.a - 2, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END)
-        func_name = view.substr(func_region)
-
-        # TODO: provide more function specific argument completions
+    def complete_function_argument(self, view: sublime.View, prefix, pt):
+        func_name = ""
+        nest_level = 1
+        for i in range(pt - 1, pt - 32 * 1024, -1):
+            ch = view.substr(i)
+            if ch == ")" and not view.match_selector(i, "string, comment"):
+                nest_level += 1
+            elif ch == "(" and not view.match_selector(i, "string, comment"):
+                nest_level -= 1
+            if nest_level <= 0:
+                func_name = view.substr(view.expand_by_class(
+                    i - 1, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END))
+                break
 
         if func_name == "var":
             return [
@@ -737,4 +953,28 @@ class CSSCompletions(sublime_plugin.EventListener):
                 )
                 if not prefix or symbol.startswith(prefix)
             ]
-        return None
+
+        args = self.func_args.get(func_name)
+        if not args:
+            return None
+
+        completions = []
+        details = f"{func_name}() argument"
+        for arg in args:
+            if isinstance(arg, list):
+                completions.append(sublime.CompletionItem(
+                    trigger=arg[0],
+                    completion=arg[1],
+                    completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                    kind=KIND_CSS_FUNCTION,
+                    details=details
+                ))
+            else:
+                completions.append(sublime.CompletionItem(
+                    trigger=arg,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=KIND_CSS_CONSTANT,
+                    details=details
+                ))
+
+        return completions
