@@ -284,18 +284,18 @@ variables:
     | font-weight | font-variant | line-gap-override | size-adjust | unicode-range
     ){{break}}
 
-  # @page Property Names
+  # @page Margin Names
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
-  page_property_names: |-
-    \b(?xi: bleed | margin | marks | size ){{break}}
-
-  # Page Margin Property Names
-  # https://www.w3.org/TR/css-page-3/#margin-at-rule
-  page_margin_property_names: |-
+  page_margin_names: |-
     \b(?xi:
         (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
       | (?: left | right ) - (?: top | middle | bottom )
     ){{break}}
+
+  # @page Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  page_property_names: |-
+    \b(?xi: bleed | margin | marks | size ){{break}}
 
   # Property names are sorted by popularity in descending order.
   # Note:
@@ -927,6 +927,7 @@ contexts:
 
   # @page
   # https://www.w3.org/TR/css3-page/#at-ruledef-page
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   at-page:
     - match: (@)(?i:page){{break}}
       captures:
@@ -960,21 +961,12 @@ contexts:
 
   at-page-block-content:
     - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: comments
     - include: at-page-margin
-    - include: at-page-property-names
+    - include: at-page-property-list-content
     - include: at-other
-    - include: property-lists
-    - include: property-values
-    - include: rule-terminators
-    - include: illegal-blocks
-    - include: illegal-groups
 
-  # @top-center, ...
-  # https://www.w3.org/TR/css-page-3/#margin-at-rule
   at-page-margin:
-    - match: (@){{page_margin_property_names}}
+    - match: (@){{page_margin_names}}
       captures:
         0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
@@ -982,12 +974,29 @@ contexts:
 
   at-page-margin-content:
     - meta_scope: meta.at-rule.margin.css
-    - include: at-page-block
+    - include: at-page-property-lists
     - include: at-rule-end
+
+  at-page-property-lists:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-page-property-list-content
+
+  at-page-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-page-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
 
   at-page-property-names:
     - match: '{{page_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
 
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
