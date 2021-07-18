@@ -943,7 +943,7 @@ contexts:
     - include: at-rule-end
 
   at-page-names:
-    - match: (:)(?i:blank|first|left|right){{break}}
+    - match: (:)(?i:blank|first|left|right|recto|verso){{break}}
       captures:
         0: entity.other.pseudo-class.css
         1: punctuation.definition.entity.css
