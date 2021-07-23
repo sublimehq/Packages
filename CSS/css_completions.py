@@ -617,7 +617,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
     @cached_property
     def re_value(self):
-        return re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
+        return re.compile(r"^(?:\s*(:)|[ \t]*)([^:]*)([;}])")
 
     @timing
     def on_query_completions(self, view, prefix, locations):
@@ -649,24 +649,23 @@ class CSSCompletions(sublime_plugin.EventListener):
         return None
 
     def complete_property_name(self, view, prefix, pt):
-        if match_selector(view, pt, "meta.group"):
-            # don't append semicolon in groups e.g.: `@media screen (prop: |)`
-            suffix = ": $0"
-        else:
-            suffix = ": $0;"
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
-            colon, space, value, term = matches.groups()
-            if colon:
-                # don't append anything if the next character is a colon
-                suffix = ""
-            elif value:
-                # only append colon if value already exists
-                suffix = ":" if space else ": "
-            elif term == ";":
-                # ommit semicolon if rule is already terminated
-                suffix = ": $0"
+            colon, value, term = matches.groups()
+        else:
+            colon = ""
+            value = ""
+            term = ""
+
+        if colon:
+            # don't append anything if next character is a colon
+            suffix = ""
+        else:
+            suffix = ":"
+            # terminate empty value if not within parentheses
+            if not value and not term and not match_selector(view, pt, "meta.group"):
+                suffix += "$0;"
 
         return (
             sublime.CompletionItem(
@@ -687,10 +686,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if match_selector(view, pt, "meta.group"):
-                    # don't append semicolon in groups e.g.: `@media screen (prop: val)`
-                    suffix = ""
-                elif next_none_whitespace(view, pt) == ";":
+                if match_selector(view, pt, "meta.group") or next_none_whitespace(view, pt) == ";":
                     suffix = ""
                 else:
                     suffix = "$0;"
