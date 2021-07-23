@@ -11,18 +11,6 @@
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\s*($|[^:;}]+:)", "match_all": false }
 		]
 	},
-	// Add a colon after a property name,
-	// if the next character is a semicolon or the following token looks like a value.
-	{ "keys": [":"], "command": "insert_snippet", "args": {"contents": ":$0"}, "context":
-		[
-			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-			{ "key": "setting.smart_typing", "operator": "equal", "operand": false },
-			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-			{ "key": "selector", "operator": "equal", "operand": "source.css meta.property-list - meta.selector - meta.group - comment - string", "match_all": true },
-			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
-			{ "key": "following_text", "operator": "regex_contains", "operand": "^;|^[^\\s:;][^:]*($|[;}]|//|/\\*)", "match_all": true }
-		]
-	},
 	// Add a colon followed by space and semicolon after a property name,
 	// if the next following token doesn't look like a value.
 	{ "keys": [":"], "command": "insert_snippet", "args": {"contents": ": $0;"}, "context":
