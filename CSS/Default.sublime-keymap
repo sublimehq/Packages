@@ -6,7 +6,7 @@
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "setting.smart_typing", "operator": "equal", "operand": false },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css meta.property-list - meta.selector - meta.group - comment - string", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\s*($|[^:;}]+:)", "match_all": false }
 		]
@@ -18,7 +18,7 @@
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "setting.smart_typing", "operator": "equal", "operand": false },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css meta.property-list - meta.selector - meta.group - comment - string", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^;|^[^\\s:;][^:]*($|[;}]|//|/\\*)", "match_all": true }
 		]
@@ -30,7 +30,7 @@
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "setting.smart_typing", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css meta.property-list - meta.selector - meta.group - comment - string", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\s*($|[^:;}]+:)", "match_all": false }
 		]
@@ -42,7 +42,7 @@
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "setting.smart_typing", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css meta.property-list - meta.selector - meta.group - comment - string", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^;|^[^\\s:;][^:]*($|[;}]|//|/\\*)", "match_all": true }
 		]
