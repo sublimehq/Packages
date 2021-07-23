@@ -839,7 +839,7 @@ contexts:
     - match: (((https|http|ftp)://)|www\.)[\w-]+(\.[\w-]+)+
       scope: markup.underline.link.markdown-gfm
       push: # After a valid domain, zero or more non-space non-< characters may follow
-        - match: (?=[?!.,:*_~]*[\s<]) # Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link
+        - match: (?=[?!.,:*_~]*(?:[\s<]|$)) # Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link
           pop: true
         - match: (?={{html_entity}}[?!.,:*_~]*[\s<]) # If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink
           pop: true
