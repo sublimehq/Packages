@@ -8,6 +8,7 @@ file_extensions:
   - php4
   - php5
   - php7
+  - php8
   - phps
   - phpt
   - phtml
