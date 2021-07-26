@@ -21,6 +21,8 @@ file_extensions:
   - gyp
   - gypi
   - Snakefile
+  - snakefile
+  - smk
   - vpy
   - wscript
   - bazel
