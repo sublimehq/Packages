@@ -11,7 +11,7 @@ file_extensions:
   - phps
   - phpt
   - phtml
-first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
+first_line_match: '^(#!.*[^-]php(?:\d+(?:\.\d+){0,2})?|<\?php)\b'
 scope: embedding.php
 contexts:
   main:
@@ -46,7 +46,7 @@ contexts:
 
   shebang-body:
     - meta_scope: comment.line.shebang.php
-    - match: \bphp\b
+    - match: \bphp(?:\d+(?:\.\d+){0,2})?\b
       scope: constant.language.shebang.php
     - match: \n
       pop: 1
