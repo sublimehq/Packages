@@ -16,8 +16,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .*[^-]php[0-9]?\b                 # shebang
-  | ^ \s* // .*? -\*- .*? \bphp\b .*? -\*-  # editorconfig
+    ^ \#! .*[^-]php(?:\d+(?:\.\d+){0,2})?\b # shebang
+  | ^ \s* // .*? -\*- .*? \bphp(?:\d+(?:\.\d+){0,2})?\b .*? -\*-  # editorconfig
   | ^ \s* <\?php\b                          # php tag
   )
 
