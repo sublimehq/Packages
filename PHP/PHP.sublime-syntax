@@ -11,7 +11,7 @@ file_extensions:
   - phps
   - phpt
   - phtml
-first_line_match: '^(#!.*[^-]php(?:\d+(?:\.\d+){0,2})?|<\?php)\b'
+first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
 scope: embedding.php
 contexts:
   main:
