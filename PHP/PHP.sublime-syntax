@@ -46,7 +46,7 @@ contexts:
 
   shebang-body:
     - meta_scope: comment.line.shebang.php
-    - match: \bphp(?:\d+(?:\.\d+){0,2})?\b
+    - match: \bphp(?:[-_]?\d+(?:\.\d+){0,2})?\b
       scope: constant.language.shebang.php
     - match: \n
       pop: 1
