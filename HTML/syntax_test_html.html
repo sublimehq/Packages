@@ -121,6 +121,23 @@
 ##      ^^^^^^^^^ text.html.basic - text.html.embedded.html meta.tag.script.end
 ##               ^ text.html.basic - text.html.embedded.html
 
+        <script>
+            <!-- i = 0;
+##      ^^^^^^^^ - source
+##          ^^^^ punctuation.definition.comment.begin.html
+##              ^^^^^^^ source.js.embedded.html
+            -->
+##      ^^^^ source.js.embedded.html
+##          ^^^^ - source
+##          ^^^ comment.block.html punctuation.definition.comment.end.html
+        </script>
+
+        <script>
+
+## <- source.js.embedded.html
+## ^^^^^^^^^^^^^ source.js.embedded.html
+        </script>
+
         <script>42</script >
 ##      ^^^^^^^^ meta.tag.script.begin
 ##              ^^ source.js.embedded.html - source.js source.js
@@ -146,6 +163,12 @@
         ##                                 ^^^ comment.block.html punctuation.definition.comment.end.html - source
         ##                                    ^ - meta.tag - comment - source
         ##                                     ^^^^^^^^ meta.tag - comment - source
+
+        <style>
+
+## <- source.css.embedded.html
+## ^^^^^^^^^^^^^ source.css.embedded.html
+        </style>
 
         <style type="text/css">
             <!--

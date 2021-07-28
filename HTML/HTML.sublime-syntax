@@ -43,9 +43,9 @@ variables:
       | text/livescript
     )
 
-  script_content_begin: <!--|(?=\s*(?!<!--)\S)
+  script_content_begin: (?:\s*(<!--)|(?=\s*(?:(?!<!--)\S|^)))
   script_content_end: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}}|^\s*-->\s*$)
-  style_content_begin: <!--|(?=\s*(?!<!--)\S)
+  style_content_begin: (?:\s*(<!--)|(?=\s*(?:(?!<!--)\S|^)))
   style_content_end: (?=(?:-->\s*)?</(?i:style){{tag_name_break_char}}|^\s*-->\s*$)
 
 ###############################################################################
@@ -168,7 +168,8 @@ contexts:
   script-javascript-begin:
     - meta_include_prototype: false
     - match: '{{script_content_begin}}'
-      scope: comment.block.html punctuation.definition.comment.begin.html
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
       set: script-javascript-content
 
   script-javascript-content:
@@ -279,7 +280,8 @@ contexts:
   style-css-begin:
     - meta_include_prototype: false
     - match: '{{style_content_begin}}'
-      scope: comment.block.html punctuation.definition.comment.begin.html
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
       set: style-css-content
 
   style-css-content:
