@@ -1379,6 +1379,18 @@ contexts:
         3: constant.character.escape.octal.haskell
         4: constant.character.escape.hexadecimal.haskell
         5: constant.character.escape.control.haskell
+    - match: (\\)\s*$
+      captures:
+        1: punctuation.separator.continuation.haskell
+      push: linteral-string-continuation
+
+  linteral-string-continuation:
+    - meta_include_prototype: false
+    - match: \\
+      scope: punctuation.separator.continuation.haskell
+      pop: 1
+    - match: (?=")
+      pop: 1
 
 ###[ KEYWORDS AND OPERATORS ]##################################################
 

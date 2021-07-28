@@ -3859,6 +3859,14 @@ main = do
 --         ^ punctuation.definition.string.end.haskell
 --           ^ keyword.operator.haskell
 
+    "This is a\
+--  ^^^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--            ^ punctuation.separator.continuation.haskell
+    \multi-line string literal\
+    \example"
+--  ^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--  ^ punctuation.separator.continuation.haskell
+--          ^ punctuation.definition.string.end.haskell
 
 -- [ INFIX OPERATORS ] --------------------------------------------------------
 
