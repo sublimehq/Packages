@@ -3,17 +3,17 @@
 name: JSON
 file_extensions:
   - json
-  - sublime-settings
-  - sublime-menu
-  - sublime-keymap
-  - sublime-mousemap
-  - sublime-theme
   - sublime-build
-  - sublime-project
-  - sublime-completions
-  - sublime-commands
-  - sublime-macro
   - sublime-color-scheme
+  - sublime-commands
+  - sublime-completions
+  - sublime-keymap
+  - sublime-macro
+  - sublime-menu
+  - sublime-mousemap
+  - sublime-project
+  - sublime-settings
+  - sublime-theme
   - sublime-workspace
   - ipynb
   - Pipfile.lock
