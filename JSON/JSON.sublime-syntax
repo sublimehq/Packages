@@ -14,6 +14,7 @@ file_extensions:
   - sublime-commands
   - sublime-macro
   - sublime-color-scheme
+  - sublime-workspace
   - ipynb
   - Pipfile.lock
 scope: source.json
