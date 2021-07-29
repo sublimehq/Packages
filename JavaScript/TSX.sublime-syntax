@@ -8,3 +8,41 @@ scope: source.tsx
 extends:
   - JSX.sublime-syntax
   - TypeScript.sublime-syntax
+contexts:
+  expression-begin:
+    - meta_prepend: true
+    - match: (?=\<(?!<))
+      branch_point: tsx-element
+      branch:
+        - jsx-tag
+        - arrow-function-declaration
+
+  jsx-tag-attributes-top:
+    - meta_scope: meta.tag.js
+    - match: '/'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - - meta_scope: invalid.illegal.unmatched-tag.js
+          - include: immediately-pop
+        - jsx-expect-tag-end
+        - jsx-tag-name
+
+    - match: (?=\S)
+      set:
+        - jsx-tag-attributes
+        - tsx-tag-check
+        - jsx-tag-name
+
+  tsx-tag-check:
+    - match: 'extends{{jsx_identifier_break}}'
+      scope: entity.other.attribute-name.js
+      set:
+        - match: (?={{identifier_start}})
+          fail: tsx-element
+        - match: (?=\S)
+          pop: true
+
+    - match: (?=/|>|{{identifier_start}})
+      pop: true
+    - match: (?=\S)
+      fail: tsx-element
