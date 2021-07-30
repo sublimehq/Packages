@@ -2102,6 +2102,12 @@ okay
 | <- markup.raw.code-fence.scala.markdown-gfm source.scala
 ```
 
+```tsx
+  <Component>
+| <- markup.raw.code-fence.tsx.markdown-gfm source.tsx
+| ^^^^^^^^^^^ markup.raw.code-fence.tsx.markdown-gfm source.tsx meta.jsx.js
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name

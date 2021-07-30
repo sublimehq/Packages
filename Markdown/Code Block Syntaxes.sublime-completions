@@ -344,6 +344,12 @@
 			"details": "Specifies <code>TypeScript</code> code highlighting"
 		},
 		{
+			"trigger": "tsx",
+			"annotation": "TypeScript React",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TypeScript React</code> code highlighting"
+		},
+		{
 			"trigger": "typescript",
 			"annotation": "TypeScript",
 			"kind": ["markup", "s", "Syntax"],
