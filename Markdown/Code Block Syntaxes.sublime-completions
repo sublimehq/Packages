@@ -150,7 +150,14 @@
 			"annotation": "JavaScript React",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>JavaScript React</code> code highlighting"
-		},		{
+		},
+		{
+			"trigger": "lisp",
+			"annotation": "Lisp",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Lisp</code> code highlighting"
+		},
+		{
 			"trigger": "obj-c",
 			"annotation": "Objective-C",
 			"kind": ["markup", "s", "Syntax"],

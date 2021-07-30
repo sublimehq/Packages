@@ -2077,6 +2077,11 @@ okay
 | ^^^^^^^^^^^ source.jsx meta.jsx.js
 ```
 
+```lisp
+
+| <- markup.raw.code-fence.lisp.markdown-gfm source.lisp
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
