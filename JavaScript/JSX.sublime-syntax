@@ -15,7 +15,7 @@ variables:
 contexts:
   expression-begin:
     - meta_prepend: true
-    - include: jsx-tag
+    - include: jsx-tag-hack
 
   jsx-interpolation:
     - match: (?={/\*)
@@ -71,6 +71,9 @@ contexts:
       set:
         - jsx-meta
         - jsx-tag-attributes-top
+
+  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
+    - include: jsx-tag
 
   jsx-tag-attributes-top:
     - meta_scope: meta.tag.js

@@ -9,13 +9,15 @@ extends:
   - JSX.sublime-syntax
   - TypeScript.sublime-syntax
 contexts:
-  expression-begin:
+  branch-possible-arrow-function:
     - meta_prepend: true
-    - match: (?=\<(?!<))
-      branch_point: tsx-element
-      branch:
+
+    - match: (?=<)
+      push:
+        - immediately-pop-2
         - jsx-tag
-        - arrow-function-declaration
+
+  jsx-tag-hack: []
 
   jsx-tag-attributes-top:
     - meta_scope: meta.tag.js
@@ -38,11 +40,11 @@ contexts:
       scope: entity.other.attribute-name.js
       set:
         - match: (?={{identifier_start}})
-          fail: tsx-element
+          fail: arrow-function
         - match: (?=\S)
           pop: true
 
     - match: (?=/|>|{{identifier_start}})
       pop: true
     - match: (?=\S)
-      fail: tsx-element
+      fail: arrow-function

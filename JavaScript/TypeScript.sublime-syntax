@@ -9,6 +9,7 @@ extends: JavaScript.sublime-syntax
 
 variables:
   dot_accessor: (?:[?!]?\.)
+  possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 
   function_call_lookahead: >-
     (?x:(?=
@@ -40,11 +41,21 @@ variables:
 contexts:
   branch-possible-arrow-function:
     - meta_prepend: true
-    - match: '(?=\()'
+    - match: (?=\()
       set:
         - detect-arrow
         - ts-detect-parenthesized-arrow-return-type
         - parenthesized-expression
+
+    - match: \<
+      scope: punctuation.definition.assertion.begin.js
+      set:
+        # - immediately-pop
+        - ts-old-type-assertion-check
+        - ts-old-type-assertion-end
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
 
   ts-detect-parenthesized-arrow-return-type:
     - match: (?=:)
@@ -87,12 +98,6 @@ contexts:
         - arrow-function-expect-arrow
         - ts-type-annotation
         - arrow-function-expect-parameters
-        - ts-type-parameter-list
-
-  ts-arrow-function-with-type-parameters:
-    - match: ''
-      set:
-        - arrow-function-declaration
         - ts-type-parameter-list
 
   ts-import-type:
@@ -545,25 +550,25 @@ contexts:
       scope: keyword.operator.comparison.js
       set: expression-begin
 
-  expression-begin:
-    - meta_prepend: true
-    - match: (?=\<(?!<))
-      pop: true
-      branch_point: ts-old-type-assertion
-      branch:
-        - ts-old-type-assertion
-        - arrow-function-declaration
+  # expression-begin:
+  #   - meta_prepend: true
+  #   - match: (?=\<(?!<))
+  #     pop: true
+  #     branch_point: ts-old-type-assertion
+  #     branch:
+  #       - ts-old-type-assertion
+  #       - arrow-function-declaration
 
-  ts-old-type-assertion:
-    - match: \<
-      scope: punctuation.definition.assertion.begin.js
-      set:
-        - immediately-pop
-        - ts-old-type-assertion-check
-        - ts-old-type-assertion-end
-        - ts-type-expression-end
-        - ts-type-expression-end-no-line-terminator
-        - ts-type-expression-begin
+  # ts-old-type-assertion:
+  #   - match: \<
+  #     scope: punctuation.definition.assertion.begin.js
+  #     set:
+  #       - immediately-pop
+  #       - ts-old-type-assertion-check
+  #       - ts-old-type-assertion-end
+  #       - ts-type-expression-end
+  #       - ts-type-expression-end-no-line-terminator
+  #       - ts-type-expression-begin
 
   ts-old-type-assertion-end:
     - meta_scope: meta.assertion.js
@@ -574,33 +579,35 @@ contexts:
   ts-old-type-assertion-check:
     - match: (?=\()
       set:
-        - detect-parenthesized-arrow-2
+        # - detect-parenthesized-arrow-2
+        - detect-arrow
+        - ts-detect-arrow-function-return-type
         - parenthesized-expression
     - include: else-pop
 
-  detect-parenthesized-arrow-2:
-    - match: (?=:)
-      pop: true
-      branch_point: ts-arrow-function-return-type-2
-      branch:
-        - ts-detect-arrow-function-return-type-2
-        - immediately-pop
-    - match: (?==>)
-      fail: ts-old-type-assertion
-    - include: else-pop
+  # detect-parenthesized-arrow-2:
+  #   - match: (?=:)
+  #     pop: true
+  #     branch_point: ts-arrow-function-return-type-2
+  #     branch:
+  #       - ts-detect-arrow-function-return-type-2
+  #       - immediately-pop
+  #   - match: (?==>)
+  #     fail: ts-old-type-assertion
+  #   - include: else-pop
 
-  ts-detect-arrow-function-return-type-2:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - ts-detect-arrow-after-return-type-2
-        - ts-type-annotation
+  # ts-detect-arrow-function-return-type-2:
+  #   - meta_include_prototype: false
+  #   - match: ''
+  #     push:
+  #       - ts-detect-arrow-after-return-type-2
+  #       - ts-type-annotation
 
-  ts-detect-arrow-after-return-type-2:
-    - match: (?==>)
-      fail: ts-old-type-assertion
-    - match: (?=\S)
-      fail: ts-arrow-function-return-type-2
+  # ts-detect-arrow-after-return-type-2:
+  #   - match: (?==>)
+  #     fail: ts-old-type-assertion
+  #   - match: (?=\S)
+  #     fail: ts-arrow-function-return-type-2
 
   ts-type-assertion:
     - match: '!(?![.=])'
