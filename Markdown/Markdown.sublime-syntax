@@ -1096,7 +1096,47 @@ contexts:
         - include: scope:text.html.basic
         - match: $
           pop: true
+
   fenced-code-block:
+    - include: fenced-clojure
+    - include: fenced-c
+    - include: fenced-cpp
+    - include: fenced-csharp
+    - include: fenced-diff
+    - include: fenced-erlang
+    - include: fenced-graphviz
+    - include: fenced-golang
+    - include: fenced-haskell
+    - include: fenced-html-php
+    - include: fenced-html
+    - include: fenced-java
+    - include: fenced-javascript
+    - include: fenced-jsonc
+    - include: fenced-jspx
+    - include: fenced-jsx
+    - include: fenced-lisp
+    - include: fenced-lua
+    - include: fenced-matlab
+    - include: fenced-objc
+    - include: fenced-objcpp
+    - include: fenced-ocaml
+    - include: fenced-perl
+    - include: fenced-php
+    - include: fenced-python
+    - include: fenced-regexp
+    - include: fenced-rscript
+    - include: fenced-ruby
+    - include: fenced-rust
+    - include: fenced-scala
+    - include: fenced-shell-script
+    - include: fenced-sql
+    - include: fenced-tsx
+    - include: fenced-typescript
+    - include: fenced-xml
+    - include: fenced-yaml
+    - include: fenced-other
+
+  fenced-clojure:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1112,6 +1152,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.clojure.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-c:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1127,6 +1169,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.c.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-cpp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1142,6 +1186,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.c++.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-csharp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1157,6 +1203,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.csharp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-diff:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1172,6 +1220,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.diff.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-erlang:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1187,6 +1237,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.erlang.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-graphviz:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1202,6 +1254,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.graphviz.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-golang:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1217,6 +1271,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.go.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-haskell:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1232,6 +1288,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.haskell.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-html-php:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1247,6 +1305,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.html-php.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-html:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1262,6 +1322,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.html.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-java:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1277,6 +1339,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.java.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-javascript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1292,6 +1356,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.javascript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-jsonc:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1307,6 +1373,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.json.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-jspx:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1322,6 +1390,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.jsp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-jsx:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1337,6 +1407,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.jsx.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-lisp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1352,6 +1424,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.lisp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-lua:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1367,6 +1441,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.lua.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-matlab:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1382,6 +1458,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.matlab.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-objc:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1397,6 +1475,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.objc.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-objcpp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1412,6 +1492,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.objc++.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-ocaml:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1427,6 +1509,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.ocaml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-perl:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1442,6 +1526,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.perl.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-php:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1457,6 +1543,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.php.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-python:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1472,6 +1560,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.python.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-regexp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1487,6 +1577,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.regexp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-rscript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1502,6 +1594,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.r.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-ruby:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1517,6 +1611,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.ruby.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-rust:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1532,6 +1628,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.rust.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-scala:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1547,6 +1645,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.scala.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-shell-script:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1562,6 +1662,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.shell-script.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-sql:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1577,6 +1679,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.sql.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-tsx:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1592,6 +1696,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.tsx.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-typescript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1607,6 +1713,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.typescript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-xml:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1622,6 +1730,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.xml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-yaml:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1637,6 +1747,8 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.yaml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-other:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -1653,6 +1765,7 @@ contexts:
             0: meta.code-fence.definition.end.text.markdown-gfm
             1: punctuation.definition.raw.code-fence.end.markdown
           pop: true
+
   code-span:
     - match: (`+)(?!`)
       scope: punctuation.definition.raw.begin.markdown
