@@ -1220,6 +1220,21 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
+          ((?i:haskell))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.haskell.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:source.haskell
+      embed_scope: markup.raw.code-fence.haskell.markdown-gfm
+      escape: '{{code_fence_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.haskell.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
           ((?i:html\+php))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:

@@ -2066,6 +2066,11 @@ okay
 | <- source.diff markup.deleted.diff punctuation.definition.deleted.diff
 ```
 
+```haskell
+
+| <- markup.raw.code-fence.haskell.markdown-gfm source.haskell
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
