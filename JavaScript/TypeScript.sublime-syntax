@@ -88,6 +88,7 @@ contexts:
         - arrow-function-expect-arrow-or-fail-async
         - ts-type-annotation
         - arrow-function-expect-parameters
+        - ts-type-parameter-list
 
   arrow-function-declaration:
     - meta_include_prototype: false
