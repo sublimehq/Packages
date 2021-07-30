@@ -218,6 +218,12 @@
 			"details": "Specifies <code>Objective-C++</code> code highlighting"
 		},
 		{
+			"trigger": "ocaml",
+			"annotation": "OCaml",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>OCaml</code> code highlighting"
+		},
+		{
 			"trigger": "patch",
 			"annotation": "Patch",
 			"kind": ["markup", "s", "Syntax"],

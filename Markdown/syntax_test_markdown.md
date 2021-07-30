@@ -2092,6 +2092,11 @@ okay
 | <- markup.raw.code-fence.matlab.markdown-gfm source.matlab
 ```
 
+```ocaml
+
+| <- markup.raw.code-fence.ocaml.markdown-gfm source.ocaml
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
