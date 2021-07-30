@@ -158,6 +158,12 @@
 			"details": "Specifies <code>Lisp</code> code highlighting"
 		},
 		{
+			"trigger": "lua",
+			"annotation": "Lua",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Lua</code> code highlighting"
+		},
+		{
 			"trigger": "obj-c",
 			"annotation": "Objective-C",
 			"kind": ["markup", "s", "Syntax"],

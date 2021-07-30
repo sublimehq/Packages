@@ -2082,6 +2082,11 @@ okay
 | <- markup.raw.code-fence.lisp.markdown-gfm source.lisp
 ```
 
+```lua
+
+| <- markup.raw.code-fence.lua.markdown-gfm source.lua
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
