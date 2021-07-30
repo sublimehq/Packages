@@ -101,7 +101,7 @@
 			"trigger": "html+php",
 			"annotation": "PHP",
 			"kind": ["markup", "s", "Syntax"],
-			"details": "Specifies <code>PHP</code> code highlighting"
+			"details": "Specifies <code>HTML+PHP</code> code highlighting"
 		},
 		{
 			"trigger": "inc",
