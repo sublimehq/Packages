@@ -2087,6 +2087,11 @@ okay
 | <- markup.raw.code-fence.lua.markdown-gfm source.lua
 ```
 
+```matlab
+
+| <- markup.raw.code-fence.matlab.markdown-gfm source.matlab
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name

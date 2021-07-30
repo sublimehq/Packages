@@ -164,6 +164,12 @@
 			"details": "Specifies <code>Lua</code> code highlighting"
 		},
 		{
+			"trigger": "matlab",
+			"annotation": "MatLab",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>MatLab</code> code highlighting"
+		},
+		{
 			"trigger": "obj-c",
 			"annotation": "Objective-C",
 			"kind": ["markup", "s", "Syntax"],
