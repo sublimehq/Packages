@@ -308,6 +308,12 @@
 			"details": "Specifies <code>Rust</code> code highlighting"
 		},
 		{
+			"trigger": "scala",
+			"annotation": "Scala",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Scala</code> code highlighting"
+		},
+		{
 			"trigger": "sh",
 			"annotation": "ShellScript",
 			"kind": ["markup", "s", "Syntax"],

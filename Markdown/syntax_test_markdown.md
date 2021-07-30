@@ -2097,6 +2097,11 @@ okay
 | <- markup.raw.code-fence.ocaml.markdown-gfm source.ocaml
 ```
 
+```scala
+
+| <- markup.raw.code-fence.scala.markdown-gfm source.scala
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
