@@ -92,6 +92,12 @@
 			"details": "Specifies <code>Haskell</code> code highlighting"
 		},
 		{
+			"trigger": "html",
+			"annotation": "HTML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>HTML</code> code highlighting"
+		},
+		{
 			"trigger": "html+php",
 			"annotation": "PHP",
 			"kind": ["markup", "s", "Syntax"],

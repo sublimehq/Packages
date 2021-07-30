@@ -1250,6 +1250,21 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
+          ((?i:html))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.html.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:text.html.basic
+      embed_scope: markup.raw.code-fence.html.markdown-gfm
+      escape: '{{code_fence_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.html.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
           ((?i:java))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
