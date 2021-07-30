@@ -3860,13 +3860,32 @@ main = do
 --           ^ keyword.operator.haskell
 
     "This is a\
---  ^^^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
---            ^ punctuation.separator.continuation.haskell
+--  ^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--            ^^ meta.string.continuation.haskell - string
+--            ^ punctuation.definition.continuation.begin.haskell
+    "This is a\
     \multi-line string literal\
-    \example"
---  ^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
---  ^ punctuation.separator.continuation.haskell
+-- <- meta.string.continuation.haskell - string
+-- ^^ meta.string.continuation.haskell - string
+--  ^ punctuation.definition.continuation.end.haskell
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--                            ^^ meta.string.continuation.haskell - string
+--                            ^ punctuation.definition.continuation.begin.haskell
+    "This is a\
+    \multi-line string literal\
+    /example"
+-- <- meta.string.continuation.haskell - string
+-- ^^ meta.string.continuation.haskell - string
+--  ^ invalid.illegal.expect-continuation-end.haskell
+--   ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
 --          ^ punctuation.definition.string.end.haskell
+
+    "This is a\
+    "
+-- <- meta.string.continuation.haskell - string
+-- ^^ meta.string.continuation.haskell - string
+--  ^ invalid.illegal.expect-continuation-end.haskell
+--   ^ - meta.string - string - invalid
 
 -- [ INFIX OPERATORS ] --------------------------------------------------------
 

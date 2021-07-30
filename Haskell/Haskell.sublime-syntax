@@ -1381,15 +1381,21 @@ contexts:
         5: constant.character.escape.control.haskell
     - match: (\\)\s*$
       captures:
-        1: punctuation.separator.continuation.haskell
+        1: punctuation.definition.continuation.begin.haskell
       push: linteral-string-continuation
 
   linteral-string-continuation:
+    - clear_scopes: 2
+    - meta_scope: meta.string.continuation.haskell
     - meta_include_prototype: false
     - match: \\
-      scope: punctuation.separator.continuation.haskell
+      scope: punctuation.definition.continuation.end.haskell
       pop: 1
-    - match: (?=")
+    - match: \"
+      scope: invalid.illegal.expect-continuation-end.haskell
+      pop: 2
+    - match: \S
+      scope: invalid.illegal.expect-continuation-end.haskell
       pop: 1
 
 ###[ KEYWORDS AND OPERATORS ]##################################################
