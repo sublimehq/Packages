@@ -2071,6 +2071,12 @@ okay
 | <- markup.raw.code-fence.haskell.markdown-gfm source.haskell
 ```
 
+```jsx
+  <Component>
+| <- markup.raw.code-fence.jsx.markdown-gfm source.jsx
+| ^^^^^^^^^^^ source.jsx meta.jsx.js
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name

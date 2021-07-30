@@ -146,6 +146,11 @@
 			"details": "Specifies <code>Java Server Pages</code> code highlighting"
 		},
 		{
+			"trigger": "JSX",
+			"annotation": "JavaScript React",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JavaScript React</code> code highlighting"
+		},		{
 			"trigger": "obj-c",
 			"annotation": "Objective-C",
 			"kind": ["markup", "s", "Syntax"],
