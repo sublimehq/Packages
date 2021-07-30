@@ -56,6 +56,12 @@
 			"details": "Specifies <code>C#</code> code highlighting"
 		},
 		{
+			"trigger": "diff",
+			"annotation": "Diff",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Diff</code> code highlighting"
+		},
+		{
 			"trigger": "erlang",
 			"annotation": "Erlang",
 			"kind": ["markup", "s", "Syntax"],
@@ -180,6 +186,12 @@
 			"annotation": "Objective-C++",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "patch",
+			"annotation": "Patch",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Patch</code> code highlighting"
 		},
 		{
 			"trigger": "perl",

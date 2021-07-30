@@ -2059,6 +2059,13 @@ okay
 ```
 |^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
 
+```diff
++ inserted
+| <- source.diff markup.inserted.diff punctuation.definition.inserted.diff
+- deleted
+| <- source.diff markup.deleted.diff punctuation.definition.deleted.diff
+```
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
