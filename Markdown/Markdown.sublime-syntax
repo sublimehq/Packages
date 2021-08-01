@@ -186,11 +186,11 @@ variables:
 contexts:
 
   main:
-    - include: front-matter
+    - include: frontmatter
     - match: ''
       set: markdown
 
-  front-matter:
+  frontmatter:
     - match: (---)\s*((?i:json)\b)
       captures:
         0: meta.frontmatter.markdown
