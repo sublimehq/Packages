@@ -39,3 +39,9 @@ if (a < b || c <= d) {}
 //    ^ keyword.operator.comparison
 //        ^^ keyword.operator.logical
 //             ^^ keyword.operator.comparison
+
+    x ? (y) : <T foo={``}> => z</T>;
+//       ^ variable.other.readwrite - variable.parameter
+//          ^ keyword.operator.ternary
+//            ^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//                                 ^ punctuation.terminator.statement

@@ -683,6 +683,8 @@ contexts:
             - ts-type-expression-begin
 
   ts-type-expression-begin:
+    - match: (?=<)
+      pop: 3
     - match: keyof{{identifier_break}}
       scope: keyword.operator.type.js
     - match: typeof{{identifier_break}}
