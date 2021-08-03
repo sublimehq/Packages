@@ -420,34 +420,6 @@ paragraph
 >==
 | <- punctuation.definition.blockquote.markdown
 
-> * [ ] task
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
-| ^ markup.list.unnumbered.bullet.markdown
-|  ^^^^^^^^^^ markup.list.unnumbered.markdown
-| ^ punctuation.definition.list_item.markdown
-|   ^^^ constant.language.checkbox.markdown-gfm
-
-> * [x] task
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
-| ^ markup.list.unnumbered.bullet.markdown
-|  ^^^^^^^^^^ markup.list.unnumbered.markdown
-| ^ punctuation.definition.list_item.markdown
-|   ^^^ constant.language.checkbox.markdown-gfm
-
-> * [X] task
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
-| ^ markup.list.unnumbered.bullet.markdown
-|  ^^^^^^^^^^ markup.list.unnumbered.markdown
-| ^ punctuation.definition.list_item.markdown
-|   ^^^ constant.language.checkbox.markdown-gfm
-
-> * [X] task
->   - [ ] task
-| ^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
-|   ^ markup.list.unnumbered.bullet.markdown
-|    ^^^^^^^^^^ markup.list.unnumbered.markdown
-|   ^ punctuation.definition.list_item.markdown
-|     ^^^ constant.language.checkbox.markdown-gfm
 Code block below:
 
     this is code!
@@ -675,6 +647,31 @@ because it doesn't begin with the number one:
 * list continues
 | ^^^^^^^^^^^^^^^ - markup.raw
 
+> * [ ] task
+| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^ markup.list.unnumbered.bullet.markdown
+|  ^^^^^^^^^^ markup.list.unnumbered.markdown
+| ^ punctuation.definition.list_item.markdown
+|   ^^^ constant.language.checkbox.markdown-gfm
+> * [x] task
+| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^ markup.list.unnumbered.bullet.markdown
+|  ^^^^^^^^^^ markup.list.unnumbered.markdown
+| ^ punctuation.definition.list_item.markdown
+|   ^^^ constant.language.checkbox.markdown-gfm
+> * [X] task
+| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^ markup.list.unnumbered.bullet.markdown
+|  ^^^^^^^^^^ markup.list.unnumbered.markdown
+| ^ punctuation.definition.list_item.markdown
+|   ^^^ constant.language.checkbox.markdown-gfm
+> * [X] task
+>   - [ ] task
+| ^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+|   ^ markup.list.unnumbered.bullet.markdown
+|    ^^^^^^^^^^ markup.list.unnumbered.markdown
+|   ^ punctuation.definition.list_item.markdown
+|     ^^^ constant.language.checkbox.markdown-gfm
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
