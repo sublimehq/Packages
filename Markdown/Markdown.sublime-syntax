@@ -27,7 +27,7 @@ variables:
     setext_escape: ^(?=\s{0,3}(?:---+|===+)\s*$)
     block_quote: (?:[ ]{,3}>(?:.|$))             # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
     atx_heading: (?:[ ]{,3}[#]{1,6}(?:[ \t]|$))  # between 0 and 3 spaces, followed 1 to 6 hashes, followed by at least one space or tab or by end of the line
-    indented_code_block: (?:[ ]{4}|\t)           # 4 spaces or a tab
+    indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
     escape: '\\[-`*_#+.!(){}\[\]\\>|~<]'
     backticks: |-
