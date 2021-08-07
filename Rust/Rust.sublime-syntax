@@ -193,6 +193,7 @@ contexts:
             - include: format-raw-string
             - match: '(?=\S)'
               set: group-tail
+        - include: group-tail
 
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*!(?=\s*(\(|\{|\[))'
       scope: support.macro.rust
@@ -249,6 +250,7 @@ contexts:
       scope: keyword.operator.range.rust
     - match: '(?:[-+%/*^&|]|<<|>>)='
       scope: keyword.operator.assignment.rust
+      push: after-operator
     - match: '[!<>=]=|[<>]'
       scope: keyword.operator.comparison.rust
     - match: '='
@@ -345,6 +347,9 @@ contexts:
       scope: punctuation.section.group.end.rust
       pop: true
     - include: statements
+    - match: \}
+      scope: invalid.illegal.unexpected-close-brace.rust
+      pop: true
 
   after-operator:
     - match: '(?=<)'
@@ -907,6 +912,8 @@ contexts:
     - include: type-any-identifier
     - match: ':'
       scope: punctuation.separator.rust
+    - match: (?=;)
+      pop: true
 
   fn-body:
     - meta_scope: meta.function.rust
@@ -1151,11 +1158,6 @@ contexts:
         - match: '::'
           scope: punctuation.accessor.rust
           set: no-type-names
-    - match: '{{identifier}}(::)'
-      scope: meta.path.rust
-      captures:
-        1: punctuation.accessor.rust
-      push: no-type-names
     - match: '(::)(?={{identifier}})'
       scope: meta.path.rust punctuation.accessor.rust
       push: no-type-names
@@ -1166,6 +1168,8 @@ contexts:
       scope: variable.language.rust
     - match: \b(super)\b
       scope: keyword.other.rust
+    - match: '{{identifier}}'
+      scope: variable.other.rust
 
   no-type-names:
       # This push state prevents highlighting basic types like
@@ -1173,6 +1177,7 @@ contexts:
       - include: comments
       - include: basic-identifiers
       - match: '{{identifier}}'
+        scope: variable.other.member.rust
       - match: '(?=<)'
         push: generic-angles
       - match: ''

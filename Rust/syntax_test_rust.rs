@@ -1149,3 +1149,20 @@ let p_imm: *const u32 = &i as *const u32;
 type ExampleRawPointer = HashMap<*const i32, Option<i32>, BuildHasherDefault<FnvHasher>>;
 //                               ^^^^^^ storage.modifier - invalid
 //                                      ^^^ storage.type
+
+writeln!(stdout)?;
+// ^^^^^ support.macro
+//      ^ punctuation.section.group.begin
+//       ^^^^^^ variable.other
+//             ^ punctuation.section.group.end
+//              ^ keyword.operator
+//               ^ punctuation.terminator
+
+pub trait Foo {
+    fn bar()
+    where
+        Self: Sized;
+//      ^^^^ storage.type
+//          ^ punctuation.separator
+//                 ^ punctuation.terminator
+}
