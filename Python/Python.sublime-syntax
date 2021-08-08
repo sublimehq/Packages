@@ -50,19 +50,6 @@ variables:
       [bcdeEfFgGnosxX%]? # type
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
-  # This can be used in look-aheads to parse simple expressions.
-  # Can't be recursive, because sregex doesn't support that,
-  # so we're skipping parentheses.
-  # Can't parse multiple lines as well, for obvious reasons
-  simple_expression: |-
-    (?x:
-      \s+                      # whitespace
-      | [urfb]*"(?:\\.|[^"])*" # strings
-      | [urfb]*'(?:\\.|[^'])*' # ^
-      | [\d.ej]+               # numerics
-      | [+*/%@-] | // | and | or # operators
-      | {{path}}               # a path
-    )*
 
 
 contexts:
@@ -937,15 +924,17 @@ contexts:
   groups:
     - match: \(
       scope: punctuation.section.group.begin.python
-      push:
-        - meta_scope: meta.group.python
-        - match: \)
-          scope: punctuation.section.group.end.python
-          set: after-expression
-        - match: ','
-          scope: punctuation.separator.tuple.python
-        - include: inline-for
-        - include: expression-in-a-group
+      push: inside-group
+
+  inside-group:
+    - meta_scope: meta.group.python
+    - match: \)
+      scope: punctuation.section.group.end.python
+      set: after-expression
+    - match: ','
+      scope: punctuation.separator.tuple.python
+    - include: inline-for
+    - include: expression-in-a-group
 
   tuples:
     # We don't know for certain, whether a parenthesized expression is a tuple,
@@ -956,11 +945,30 @@ contexts:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
       push: after-expression
-    - match: \((?={{simple_expression}},|\s*\*{{path}})
+    - match: \((?=\s*\*{{path}})
       scope: punctuation.section.sequence.begin.python
       push: inside-tuple
-    # TODO generator
-    # - match: \((?:{{simple_expression}}for)
+    - match: (?=\()
+      branch_point: tuple_or_expression
+      branch:
+        - maybe-group
+        - begin-tuple
+
+  maybe-group:
+    - match: \(
+      scope: punctuation.section.group.begin.python
+      set: maybe-inside-group
+
+  maybe-inside-group:
+    - meta_scope: meta.group.python
+    - match: (?=,)
+      fail: tuple_or_expression
+    - include: inside-group
+
+  begin-tuple:
+    - match: \(
+      scope: punctuation.section.sequence.begin.python
+      set: inside-tuple
 
   inside-tuple:
     - meta_scope: meta.sequence.tuple.python
@@ -972,6 +980,8 @@ contexts:
       push: allow-unpack-operators
     - include: inline-for
     - include: expression-in-a-group
+    - match: '='
+      scope: invalid.illegal.unexpected-assignment-in-tuple.python
 
   lists:
     - match: (\[)\s*(\])

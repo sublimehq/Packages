@@ -1207,9 +1207,9 @@ also_a_tuple = ()[-1]
 #                ^^^^ meta.item-access
 
 not_a_tuple = (a = 2, b += 3)
-#             ^^^^^^^^^^^^^^^ - meta.sequence
-#                ^ - keyword
-#                        ^ - keyword
+#             ^^^^^^^^^^^^^^^ meta.sequence
+#                ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
+#                        ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
 
 just_a_group = (1)
 #              ^^^ meta.group.python
