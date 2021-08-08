@@ -2757,3 +2757,11 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.c++ */
+/*      ^^^^^^ keyword.declaration.struct.c++ */
+/*             ^^^^^^^^^^^ entity.name.struct.c++ */
+/*                         ^ punctuation.section.block.begin.c++ */
+/*                          ^ punctuation.section.block.end.c++ */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c++ */
