@@ -1041,3 +1041,11 @@ scanf("%ms %as %*[, ]", &buf);
 
 "foo % baz"
 /*   ^ - invalid */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.objc */
+/*      ^^^^^^ keyword.declaration.struct.objc */
+/*             ^^^^^^^^^^^ entity.name.struct.objc */
+/*                         ^ punctuation.section.block.begin.objc */
+/*                          ^ punctuation.section.block.end.objc */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.objc */

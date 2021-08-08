@@ -842,9 +842,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.c++
           pop: true
-        - match: \b(struct)\s+({{identifier}})\b
-          captures:
-            1: keyword.declaration.struct.c++
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions-minus-generic-type
 
   parens:
