@@ -1004,34 +1004,21 @@ contexts:
         1: punctuation.section.mapping.begin.python
         2: punctuation.section.mapping.end.python
       push: after-expression
-    - match: \{(?={{simple_expression}}:|\s*\*\*)
-      scope: punctuation.section.mapping.begin.python
-      push: inside-dictionary
-    - match: \{(?={{simple_expression}}[,}]|\s*\*)
-      scope: punctuation.section.set.begin.python
-      push: inside-set
-    # If the expression is "more complex" or on the next line,
-    # fall back to default and determine later.
+    - match: (?=\{)
+      branch_point: dictionaries-and-sets
+      branch:
+        - try-set
+        - try-dictionary
+
+  try-set:
     - match: \{
-      scope: punctuation.section.mapping-or-set.begin.python
-      push:
-        - meta_scope: meta.mapping-or-set.python
-        - match: \}
-          scope: punctuation.section.mapping-or-set.end.python
-          set: after-expression
-        - match: (?={{simple_expression}}:|\s*\*\*)
-          set: inside-dictionary
-        - match: (?={{simple_expression}}[,}]|\s*\*)
-          set: inside-set
-        - match: ','
-          scope: punctuation.separator.set.python
-          set: inside-set
-        - include: illegal-assignment-expression
-        - match: ':'
-          scope: punctuation.separator.mapping.key-value.python
-          set: inside-directory-value
-        - include: inline-for
-        - include: expression-in-a-group
+      scope: punctuation.section.set.begin.python
+      set: maybe-inside-set
+
+  try-dictionary:
+    - match: \{
+      scope: punctuation.section.mapping.begin.python
+      set: inside-dictionary
 
   inside-dictionary:
     - meta_scope: meta.mapping.python
@@ -1090,6 +1077,14 @@ contexts:
           pop: true
         - include: expression-in-a-group
 
+  maybe-inside-set:
+    - meta_scope: meta.set.python
+    - match: ':|\*\*'
+      fail: dictionaries-and-sets
+    - match: (?=,)
+      set: inside-set
+    - include: inside-set
+
   inside-set:
     - meta_scope: meta.set.python
     - match: \}
@@ -1105,8 +1100,7 @@ contexts:
       push:
         - match: (?=\})
           pop: true
-        - match: ','
-          scope: punctuation.separator.set.python
+        - match: (?=,)
           pop: true
         - include: expression-in-a-group
     - include: inline-for

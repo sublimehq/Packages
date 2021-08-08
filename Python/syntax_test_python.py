@@ -1283,7 +1283,7 @@ myset = {"key", True, key2, [-1], {}:1}
 #                                     ^ punctuation.section.set.end.python
 
 mapping_or_set = {
-#                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
+#                ^ meta.mapping.python punctuation.section.mapping.begin.python
     1: True
 #   ^ meta.mapping.key.python meta.number.integer.decimal.python constant.numeric.value.python
 #    ^ punctuation.separator.mapping.key-value.python
@@ -1291,8 +1291,7 @@ mapping_or_set = {
 # <- meta.mapping.python punctuation.section.mapping.end.python
 
 complex_mapping = {(): "value"}
-#                 ^^^ meta.mapping-or-set.python
-#                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
+#                 ^^^^^^^^^^^^^ meta.mapping
 
 more_complex_mapping = {**{1: 1}, 2: 2}
 #                      ^ meta.mapping.python
@@ -1300,7 +1299,7 @@ more_complex_mapping = {**{1: 1}, 2: 2}
 #                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
 
 more_complex_set = {
-#                  ^ meta.mapping-or-set.python
+#                  ^ meta.set.python
     *{1}, 2: 2}
 #   ^ meta.set.python
 #       ^ meta.set.python punctuation.separator.set.python
@@ -1317,7 +1316,7 @@ list_ = [i for i in range(100)]
 #          ^^^ keyword.control.loop.for.generator
 #                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
-#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.loop.for.generator
 #               ^^ keyword.control.loop.for.in
