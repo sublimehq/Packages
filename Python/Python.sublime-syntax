@@ -933,7 +933,7 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       push: inside-tuple
     - match: (?=\()
-      branch_point: tuple_or_expression
+      branch_point: groups-or-tuples
       branch:
         - maybe-group
         - maybe-tuple
@@ -949,7 +949,7 @@ contexts:
       scope: punctuation.section.group.end.python
       set: after-expression
     - match: (?=,)
-      fail: tuple_or_expression
+      fail: groups-or-tuples
     - include: inline-for
     - include: expression-in-a-group
 
