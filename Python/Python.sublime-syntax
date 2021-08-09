@@ -1022,11 +1022,6 @@ contexts:
         - maybe-set
         - maybe-dictionary
 
-  maybe-set:
-    - match: \{
-      scope: punctuation.section.set.begin.python
-      set: maybe-inside-set
-
   maybe-dictionary:
     - match: \{
       scope: punctuation.section.mapping.begin.python
@@ -1088,6 +1083,11 @@ contexts:
         - match: (?=\s*(\}|,|(?:async|for)\b))
           pop: true
         - include: expression-in-a-group
+
+  maybe-set:
+    - match: \{
+      scope: punctuation.section.set.begin.python
+      set: maybe-inside-set
 
   maybe-inside-set:
     - meta_scope: meta.set.python
