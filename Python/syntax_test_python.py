@@ -686,23 +686,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.group.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.tuple
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.group.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as (
-#      ^ punctuation.section.group.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.tuple
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ):
-#   ^ punctuation.section.group.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     with captured() as [out, err]:

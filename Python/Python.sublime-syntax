@@ -313,7 +313,7 @@ contexts:
       scope: punctuation.separator.with-resources.python
       set: with-body
     - include: name
-    - include: groups
+    - include: groups-or-tuples
     - include: lists
 
   expressions-common:
@@ -331,8 +331,7 @@ contexts:
     - include: item-access
     - include: lists
     - include: dictionaries-and-sets
-    - include: tuples
-    - include: groups
+    - include: groups-or-tuples
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
     - match: \]
@@ -921,22 +920,7 @@ contexts:
     - match: '\S'
       scope: invalid.illegal.expected-parameter.python
 
-  groups:
-    - match: \(
-      scope: punctuation.section.group.begin.python
-      push: inside-group
-
-  inside-group:
-    - meta_scope: meta.group.python
-    - match: \)
-      scope: punctuation.section.group.end.python
-      set: after-expression
-    - match: ','
-      scope: punctuation.separator.tuple.python
-    - include: inline-for
-    - include: expression-in-a-group
-
-  tuples:
+  groups-or-tuples:
     # We don't know for certain, whether a parenthesized expression is a tuple,
     # so try looking ahead.
     - match: (\()\s*(\))
@@ -952,20 +936,24 @@ contexts:
       branch_point: tuple_or_expression
       branch:
         - maybe-group
-        - begin-tuple
+        - maybe-tuple
 
   maybe-group:
     - match: \(
       scope: punctuation.section.group.begin.python
-      set: maybe-inside-group
+      set: inside-group
 
-  maybe-inside-group:
+  inside-group:
     - meta_scope: meta.group.python
+    - match: \)
+      scope: punctuation.section.group.end.python
+      set: after-expression
     - match: (?=,)
       fail: tuple_or_expression
-    - include: inside-group
+    - include: inline-for
+    - include: expression-in-a-group
 
-  begin-tuple:
+  maybe-tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.python
       set: inside-tuple
