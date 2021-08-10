@@ -217,6 +217,56 @@ BAR
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
+bar<<string
+#  ^^ keyword.operator.assignment.augmented.ruby
+#    ^^^^^^^ - meta.tag - entity.name
+bar <<string
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^ - meta.tag - entity.name
+bar << string
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^ - meta.tag - entity.name
+bar <<'string'
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^^ - meta.tag - entity.name
+bar << 'string'
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+bar <<"string"
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^^ - meta.tag - entity.name
+bar << "string"
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+foo.bar <<"string"
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^^^^^ - meta.tag - entity.name
+Foo.bar <<"string"
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^^^^^ - meta.tag - entity.name
+foo::bar <<"string"
+#        ^^ keyword.operator.assignment.augmented.ruby
+#          ^^^^^^^^ - meta.tag - entity.name
+foo? <<"string"
+#    ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+foo! <<"string"
+#    ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+1<<bit
+# <- meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#^^ keyword.operator.assignment.augmented.ruby
+1 << bit
+# <- meta.number.integer.decimal.ruby constant.numeric.value.ruby
+# ^^ keyword.operator.assignment.augmented.ruby
+@war<<bit
+#   ^^ keyword.operator.assignment.augmented.ruby
+CONST << 10
+#^^^^ variable.other.constant.ruby
+#     ^^ keyword.operator.assignment.augmented.ruby
+#        ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+
+
 ##################
 # Numbers
 ##################
@@ -1290,8 +1340,18 @@ a = /?foo*baz/m
 #   ^^^^^^^^^^^ string.regexp
 
 a = /=foo/m
-#   ^^ keyword.operator.assignment.augmented.ruby
-#   ^^^^^^^ - string.regexp
+#   ^^^^^^^ string.regexp
+
+# issue #2703
+a = /(bot\ is\ not\ a\ member\ of\ the\ (super)?group\ chat)|
+     (bot\ can't\ send\ messages\ to\ bots)/x
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+
+a = (File.size().to_f / 1024).ceil.to_s.reverse.scan(/\d/)
+#                     ^ keyword.operator.arithmetic.ruby
+#                                                    ^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+#                                                    ^ punctuation.definition.string.begin.ruby
+#                                                       ^ punctuation.definition.string.end.ruby
 
 begin
 # <- keyword.control.block.begin
