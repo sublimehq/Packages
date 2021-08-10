@@ -16096,6 +16096,12 @@
 			"details": "Set an alarm clock for delivery of a signal"
 		},
 		{
+			"trigger": "pcntl_async_signals()",
+			"contents": "pcntl_async_signals(${1:on})",
+			"kind": "function",
+			"details": "Enable/disable asynchronous signal handling or return the old setting"
+		},
+		{
 			"trigger": "pcntl_exec()",
 			"contents": "pcntl_exec(${1:path})",
 			"kind": "function",
