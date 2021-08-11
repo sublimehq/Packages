@@ -1516,7 +1516,7 @@ contexts:
           scope: punctuation.definition.raw.end.markdown
           pop: true
         - match: '`+'
-        - match: ^\s*$
+        - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true
         - include: paragraph-end
