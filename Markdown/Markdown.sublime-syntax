@@ -24,7 +24,7 @@ variables:
             )
             [ \t]*$                          # followed by any number of tabs or spaces, followed by the end of the line
         )
-    setext_escape: ^(?=\s{0,3}(?:---+|===+)\s*$)
+    setext_escape: ^(?=[ ]{,3}(?:=+|-+)\s*$) # between 0 and 3 spaces, followed by at least one hyphon or equal sign (setext underline can be of any length)
     block_quote: (?:[ ]{,3}>(?:.|$))         # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
     atx_heading: (?:[#]{1,6}\s+)             # between 1 and 6 hashes, followed by at least one whitespace
     indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
@@ -279,70 +279,73 @@ contexts:
           pop: true
         - include: inline-bold-italic
     - include: reference-link-definition
-    - match: '^(?=\S)(?![=-]{3,}\s*$)'
-      branch_point: heading2-branch
-      branch:
-        - not-heading2
-        - heading2
+    - include: setext-heading-or-paragraph
 
-  not-paragraph:
-    - match: |-
-        (?x)                         # pop out of this context when one of the following conditions are met:
-        ^(?:
-            \s*$                     # the line is blank (or only contains whitespace)
-        |   (?=
-                {{block_quote}}      # a block quote begins the line
-            |   [ ]{,3}[*+-][ ]      # an unordered list item begins the line
-            |   [ ]{,3}1[.][ ]       # an ordered list item with number "1" begins the line
-            |   \#                   # an ATX heading begins the line
-            |   [ ]{,3}<(            # all types of HTML blocks except type 7 may interrupt a paragraph
-                  {{html_tag_block_end_at_close_tag}}   # 1
-                | !--                                   # 2
-                | \?                                    # 3
-                | ![A-Z]                                # 4
-                | !\[CDATA\[                            # 5
-                | {{html_tag_block_end_at_blank_line}}  # 6
-                )
-            )
-        )
-      pop: true
-
-  not-heading2:
-    - include: not-paragraph
-    - match: (?=\S)
-      branch_point: heading1-branch
+  setext-heading-or-paragraph:
+    # A paragraph may start with a line of equal signs which must not be matched
+    # as heading underline. This is achieved by consuming them here, which also
+    # applies `meta.paragraph` scope as expected.
+    # A line of dashes is already matched as thematic break and thus ignored.
+    - match: ^[ ]{,3}(?:=+|(?=\S))
+      branch_point: setext-heading-or-paragraph
       branch:
         - paragraph
-        - heading1
-    - match: ''
+        - setext-heading2
+        - setext-heading1
+
+  setext-heading1:
+    # https://spec.commonmark.org/0.30/#setext-headings
+    - meta_scope: markup.heading.1.markdown
+    - match: ^[ ]{,3}(=+)[ \t]*$(\n?)
+      captures:
+        1: punctuation.definition.heading.setext.markdown
+        2: meta.whitespace.newline.markdown
       pop: true
+    - include: setext-heading-content
+
+  setext-heading2:
+    # https://spec.commonmark.org/0.30/#setext-headings
+    - meta_scope: markup.heading.2.markdown
+    - match: ^[ ]{,3}(-+)[ \t]*$(\n?)
+      captures:
+        1: punctuation.definition.heading.setext.markdown
+        2: meta.whitespace.newline.markdown
+      pop: true
+    - include: setext-heading-content
+
+  setext-heading-content:
+    - match: '{{setext_escape}}'
+      fail: setext-heading-or-paragraph
+    - include: inline-bold-italic
+    - include: scope:text.html.basic
 
   paragraph:
-      - meta_scope: meta.paragraph.markdown
-      - match: ^\s{0,3}===+\s*$
-        fail: heading1-branch
-      - match: ^\s{0,3}---+\s*$
-        fail: heading2-branch
-      - include: not-paragraph
-      - include: inline-bold-italic-linebreak
-      - include: scope:text.html.basic
-
-  heading1:
-    - meta_scope: markup.heading.1.markdown
+    # https://spec.commonmark.org/0.30/#paragraphs
+    - meta_scope: meta.paragraph.markdown
+    - match: '{{setext_escape}}'
+      fail: setext-heading-or-paragraph
+    - include: paragraph-end
     - include: inline-bold-italic-linebreak
-    - match: '^[ \t]{0,3}(={3,})(?=[ \t]*$)(\n?)'
-      captures:
-        1: markup.heading.1.setext.markdown punctuation.definition.heading.setext.markdown
-        2: meta.whitespace.newline.markdown
-      pop: true
+    - include: scope:text.html.basic
 
-  heading2:
-    - meta_scope: markup.heading.2.markdown
-    - include: inline-bold-italic-linebreak
-    - match: '^[ \t]{0,3}(-{3,})(?=[ \t]*$)(\n?)'
-      captures:
-        1: markup.heading.2.setext.markdown punctuation.definition.heading.setext.markdown
-        2: meta.whitespace.newline.markdown
+  paragraph-end:
+    - match: |-
+        (?x)                       # pop out of this context if one of the following conditions are met:
+        ^(?=
+          \s*$                     # the line is blank (or only contains whitespace)
+          | {{atx_heading}}        # an ATX heading begins the line
+          | {{block_quote}}        # line is a blockquote
+          | {{thematic_break}}     # line is a thematic beak
+          | [ ]{,3}1[.)]\s         # an ordered list item with number "1" begins the line
+          | [ ]{,3}[*+-]\s         # an unordered list item begins the line
+          | [ ]{,3} < (?:          # all types of HTML blocks except type 7 may interrupt a paragraph
+              {{html_tag_block_end_at_close_tag}}   # 1
+            | !--                                   # 2
+            | \?                                    # 3
+            | ![A-Z]                                # 4
+            | !\[CDATA\[                            # 5
+            | {{html_tag_block_end_at_blank_line}}  # 6
+          ) )
       pop: true
 
   ampersand:
@@ -1503,6 +1506,7 @@ contexts:
             0: meta.code-fence.definition.end.text.markdown-gfm
             1: punctuation.definition.raw.code-fence.end.markdown
           pop: true
+
   code-span:
     - match: (`+)(?!`)
       scope: punctuation.definition.raw.begin.markdown
@@ -1512,11 +1516,11 @@ contexts:
           scope: punctuation.definition.raw.end.markdown
           pop: true
         - match: '`+'
-        - match: '^(?={{list_item}})'
-          pop: true
-        - match: ^\s*$\n?
+        - match: ^\s*$
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true
+        - include: paragraph-end
+
   raw:
     - match: ^(?={{fenced_code_block_start}})
       push:
@@ -1524,14 +1528,16 @@ contexts:
           pop: true
         - include: fenced-code-block
     - include: code-span
+
   thematic-break:
-    - match: '(?={{thematic_break}})'
+    - match: (?={{thematic_break}})
       push:
         - meta_scope: meta.separator.thematic-break.markdown
         - match: '[-_*]+'
           scope: punctuation.definition.thematic-break.markdown
         - match: '$\n?'
           pop: true
+
   disable-markdown:
     - include: scope:text.html.basic
   disable-markdown-pop-at-tag:
