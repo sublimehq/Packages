@@ -686,23 +686,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.group.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.tuple
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.group.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as (
-#      ^ punctuation.section.group.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.tuple
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ):
-#   ^ punctuation.section.group.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     with captured() as [out, err]:
@@ -1306,7 +1306,7 @@ more_complex_set = {
 #          ^ meta.set.python invalid.illegal.colon-inside-set.python
 
 generator = (i for i in range(100))
-#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.loop.for.generator
 #                    ^^ keyword.control.loop.for.in
@@ -1341,15 +1341,14 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #            ^^^^^^^^^^^ meta.sequence.tuple.python
-#           ^ punctuation.section.group.begin.python
-#            ^ punctuation.section.sequence.begin.python
+#           ^^ punctuation.section.sequence.begin.python
 #                      ^ punctuation.section.sequence.end.python
 #                            ^^ punctuation.section.target-list.begin.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                        ^ punctuation.section.target-list.end.python
-#                                               ^ punctuation.section.group.end.python
+#                                               ^ punctuation.section.sequence.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python

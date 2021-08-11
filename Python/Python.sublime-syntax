@@ -313,7 +313,7 @@ contexts:
       scope: punctuation.separator.with-resources.python
       set: with-body
     - include: name
-    - include: groups
+    - include: generators-groups-and-tuples
     - include: lists
 
   expressions-common:
@@ -331,8 +331,7 @@ contexts:
     - include: item-access
     - include: lists
     - include: dictionaries-and-sets
-    - include: tuples
-    - include: groups
+    - include: generators-groups-and-tuples
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
     - match: \]
@@ -921,22 +920,7 @@ contexts:
     - match: '\S'
       scope: invalid.illegal.expected-parameter.python
 
-  groups:
-    - match: \(
-      scope: punctuation.section.group.begin.python
-      push: inside-group
-
-  inside-group:
-    - meta_scope: meta.group.python
-    - match: \)
-      scope: punctuation.section.group.end.python
-      set: after-expression
-    - match: ','
-      scope: punctuation.separator.tuple.python
-    - include: inline-for
-    - include: expression-in-a-group
-
-  tuples:
+  generators-groups-and-tuples:
     # We don't know for certain, whether a parenthesized expression is a tuple,
     # so try looking ahead.
     - match: (\()\s*(\))
@@ -949,23 +933,40 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       push: inside-tuple
     - match: (?=\()
-      branch_point: tuple_or_expression
+      branch_point: generators-groups-and-tuples
       branch:
         - maybe-group
-        - begin-tuple
+        - maybe-tuple
+        - maybe-generator
 
   maybe-group:
     - match: \(
       scope: punctuation.section.group.begin.python
-      set: maybe-inside-group
+      set: inside-group
 
-  maybe-inside-group:
+  inside-group:
     - meta_scope: meta.group.python
-    - match: (?=,)
-      fail: tuple_or_expression
-    - include: inside-group
+    - match: \)
+      scope: punctuation.section.group.end.python
+      set: after-expression
+    - match: (?=,|\bfor\b)
+      fail: generators-groups-and-tuples
+    - include: expression-in-a-group
 
-  begin-tuple:
+  maybe-generator:
+    - match: \(
+      scope: punctuation.section.sequence.begin.python
+      set: inside-generator
+
+  inside-generator:
+    - meta_scope: meta.sequence.generator.python
+    - match: \)
+      scope: punctuation.section.sequence.end.python
+      set: after-expression
+    - include: inline-for
+    - include: expression-in-a-group
+
+  maybe-tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.python
       set: inside-tuple
@@ -978,7 +979,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.python
       push: allow-unpack-operators
-    - include: inline-for
+    - match: (?=\bfor\b)
+      fail: generators-groups-and-tuples
     - include: expression-in-a-group
     - match: '='
       scope: invalid.illegal.unexpected-assignment-in-tuple.python
@@ -1017,15 +1019,10 @@ contexts:
     - match: (?=\{)
       branch_point: dictionaries-and-sets
       branch:
-        - try-set
-        - try-dictionary
+        - maybe-set
+        - maybe-dictionary
 
-  try-set:
-    - match: \{
-      scope: punctuation.section.set.begin.python
-      set: maybe-inside-set
-
-  try-dictionary:
+  maybe-dictionary:
     - match: \{
       scope: punctuation.section.mapping.begin.python
       set: inside-dictionary
@@ -1086,6 +1083,11 @@ contexts:
         - match: (?=\s*(\}|,|(?:async|for)\b))
           pop: true
         - include: expression-in-a-group
+
+  maybe-set:
+    - match: \{
+      scope: punctuation.section.set.begin.python
+      set: maybe-inside-set
 
   maybe-inside-set:
     - meta_scope: meta.set.python
