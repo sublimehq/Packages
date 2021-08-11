@@ -45,6 +45,14 @@ underlined heading followed by another one that should be treated as a normal pa
 =====
 | <- - markup.heading
 
+```
+Fenced codeblocks are no no setext heading
+```
+---
+| <- meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown
+|^^ meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown
+
+
 Paragraph of text that should be scoped as meta.paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
 A [link](https://example.com){ :_attr = value }, *italic text* and **bold**.
@@ -2174,7 +2182,7 @@ var_dump(expression);
 (?x)
 \s+
 ```
-|^^^ meta.paragraph meta.code-fence.definition.end.regexp - markup
+|^^^ meta.code-fence.definition.end.regexp - markup
 |^^ punctuation.definition.raw.code-fence.end
 
 ```bash
