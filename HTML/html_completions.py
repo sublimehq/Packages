@@ -396,6 +396,14 @@ def get_tag_attributes():
 
     return tag_attr_dict
 
+def get_boolean_attributes():
+    return (
+        'async', 'autofocus', 'autoplay', 'checked', 'contenteditable',
+        'controls', 'default', 'defer', 'disabled', 'formNoValidate',
+        'frameborder', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple',
+        'muted', 'nomodule', 'novalidate', 'open', 'readonly', 'required',
+        'reversed', 'scoped', 'selected', 'typemustmatch'
+    )
 
 class HtmlTagCompletions(sublime_plugin.EventListener):
     """
@@ -537,6 +545,12 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             sublime.INHIBIT_WORD_COMPLETIONS
         )
 
+    def generate_attribute(self, attr, suffix):
+        if attr in get_boolean_attributes():
+            return f'{attr}{suffix}'
+
+        return f'{attr}="$1"{suffix}'
+
     def attribute_completions(self, view, pt, prefix):
         SEARCH_LIMIT = 500
         search_start = max(0, pt - SEARCH_LIMIT - len(prefix))
@@ -588,7 +602,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             [
                 sublime.CompletionItem(
                     trigger=attr,
-                    completion=f'{attr}="$1"{suffix}',
+                    completion=self.generate_attribute(attr, suffix),
                     completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                     kind=KIND_ATTRIBUTE_SNIPPET
                 )
