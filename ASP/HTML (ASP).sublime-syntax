@@ -9,6 +9,7 @@ extends: Packages/HTML/HTML.sublime-syntax
 
 file_extensions:
   - asp
+  - asa
 
 contexts:
 
