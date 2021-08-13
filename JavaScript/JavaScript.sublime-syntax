@@ -1338,7 +1338,14 @@ contexts:
         - function-declaration-expect-body
         - function-declaration-expect-parameters
 
-    - include: class-element-modifiers
+    - match: (?=static{{identifier_break}})
+      branch_point: static-block
+      branch:
+        - static-block
+        - class-element-modifiers
+
+    - match: (?={{modifier}})
+      push: class-element-modifiers
 
     - match: |-
         (?x)(?=
@@ -1363,8 +1370,24 @@ contexts:
     - match: (?={{class_element_name}})
       push: class-element
 
+  static-block:
+    - match: static{{identifier_break}}
+      scope: keyword.declaration.other.js
+      set:
+        - match: \{
+          scope: punctuation.section.block.begin.js
+          set:
+            - meta_scope: meta.block.js
+            - match: \}
+              scope: punctuation.section.block.end.js
+              pop: true
+            - include: statements
+        - match: (?=\S)
+          fail: static-block
+
   class-element-modifiers:
     - match: (?={{modifier}})
+      pop: true
       branch_point: class-element-modifier
       branch:
         - class-element-modifier
