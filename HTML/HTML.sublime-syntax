@@ -242,16 +242,21 @@ contexts:
 
   script-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: entity.other.attribute-name.html
-      set:
-        - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
-        - match: =
-          scope: punctuation.separator.key-value.html
-          set:
-            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
-            - include: script-type-decider
-        - match: (?=\S)
-          set: script-javascript
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: script-type-attribute-assignment
+
+  script-type-attribute-assignment:
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: script-type-attribute-value
+    - match: (?=\S)
+      set: script-javascript
+
+  script-type-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - include: script-type-decider
 
   script-type-decider:
     - match: (?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
@@ -330,16 +335,21 @@ contexts:
 
   style-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: entity.other.attribute-name.html
-      set:
-        - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
-        - match: =
-          scope: punctuation.separator.key-value.html
-          set:
-            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
-            - include: style-type-decider
-        - match: (?=\S)
-          set: style-css
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: style-type-attribute-assignment
+
+  style-type-attribute-assignment:
+    - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: style-type-attribute-value
+    - match: (?=\S)
+      set: style-css
+
+  style-type-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - include: style-type-decider
 
   style-type-decider:
     - match: (?=(?i:text/css{{unquoted_attribute_break}}|'text/css'|"text/css"))
