@@ -66,6 +66,61 @@
     '  ^^^^^^^^^^^^ - source
     </script>
 
+    <script type="vbscript"> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                    ^^^^^^^^^ meta.tag - source
+
+    <script type="vbscript"> Dim var = 0 --> </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                    ^^^^ - meta.tag - source
+    '                                    ^^^ comment.block.html punctuation.definition.comment.end.html
+    '                                        ^^^^^^^^^ meta.tag - source
+
+    <script type="vbscript"> <!-- Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^ - meta.tag - source
+    '                            ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                         ^^^^^^^^^ meta.tag - source
+    '                        ^^^^ punctuation.definition.comment.begin.html
+
+    <script type="vbscript"> <!-- Dim var = 0 --> </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^ - meta.tag - source
+    '                        ^^^^ punctuation.definition.comment.begin.html
+    '                            ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                         ^^^^ - meta.tag - source
+    '                                         ^^^ comment.block.html punctuation.definition.comment.end.html
+    '                                             ^^^^^^^^^ meta.tag - source
+
+    <script type="text/vbscript">
+    ' <- meta.tag punctuation.definition.tag.begin
+    '^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                           ^ punctuation.definition.tag.end
+        Dim var = 0
+    '   ^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    </script
+    ' <- meta.tag punctuation.definition.tag.begin - source
+    '^ meta.tag punctuation.definition.tag.begin - source
+    ' ^^^^^^ meta.tag - punctuation
+    >
+    ' <- meta.tag punctuation.definition.tag.end
+
+    <script type="vbscript">
+        <!--
+    '  ^^^^^ - meta.tag - source
+    '   ^^^^ punctuation.definition.comment.begin.html
+            Dim var = 0
+    '  ^^^^^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+        -->
+    ' <- source.asp.embedded.html
+    '^^^ source.asp.embedded.html
+    '   ^^^^ - meta.tag - source
+    '   ^^^ comment.block.html punctuation.definition.comment.end.html
+    </script>
+    ' ^^^^^^^ meta.tag - source
+
     <style type="text/css"> <!-- h1 {} --> </style>
     '  ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
     '                      ^ - meta.tag - comment - source
