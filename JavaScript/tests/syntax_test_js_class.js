@@ -98,7 +98,7 @@ class MyClass extends TheirClass {
 //             ^^^^^^^^^^^^^ meta.function
 
     static {
-//  ^^^^^^ keyword.declaration.other
+//  ^^^^^^ storage.modifier
 //         ^ meta.block punctuation.section.block.begin
         this.#foo = 42;
 //      ^^^^ variable.language.this

@@ -1372,7 +1372,7 @@ contexts:
 
   static-block:
     - match: static{{identifier_break}}
-      scope: keyword.declaration.other.js
+      scope: storage.modifier.js
       set:
         - match: \{
           scope: punctuation.section.block.begin.js
