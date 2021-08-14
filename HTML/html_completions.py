@@ -404,6 +404,7 @@ def get_tag_attributes():
 
     return tag_attr_dict
 
+
 class HtmlTagCompletions(sublime_plugin.EventListener):
     """
     Provide tag completions for HTML
