@@ -296,7 +296,6 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - include: string-backtick
     - match: '(\[)\s*(\])'
       scope: meta.array.empty.php
       captures:
@@ -1497,7 +1496,6 @@ contexts:
   parameter-default-types:
     - include: strings
     - include: numbers
-    - include: string-backtick
     - include: variables
     - match: "=>"
       scope: keyword.operator.key.php
@@ -1563,154 +1561,196 @@ contexts:
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
-  regex-double-quoted-branch:
+
+###[ STRINGS ]################################################################
+
+  strings:
+    - include: strings-backtick-quoted
+    - include: strings-double-quoted
+    - include: strings-single-quoted
+
+
+  strings-backtick-quoted:
+    - match: \`
+      scope: punctuation.definition.string.begin.php
+      push: string-backtick-quoted-content
+
+  string-backtick-quoted-content:
+    - meta_scope: string.interpolated.php
+    - match: \`
+      scope: punctuation.definition.string.end.php
+      pop: 1
+    - match: \\.
+      scope: constant.character.escape.php
+    - include: interpolation
+
+
+  strings-double-quoted:
+    - match: (?="/)
+      branch_point: branch-point-double-quoted
+      branch:
+        - string-double-quoted-regexp
+        - string-double-quoted-plain
+    - match: \"
+      scope: punctuation.definition.string.begin.php
+      push: string-double-quoted-content
+
+  string-double-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.php
+    - meta_content_scope: meta.string-contents.quoted.double.php
+    - include: string-double-quoted-end
+    - match: (?={{sql_indicator}})
+      set: string-double-quoted-sql-content
+    - match: (?=\S)
+      set: string-double-quoted-plain-content
+
+  string-double-quoted-regexp:
     - match: (")(/)
       captures:
         1: punctuation.definition.string.begin.php
         2: punctuation.definition.string.regex-delimiter.begin.php
-      push:
-        - meta_scope: meta.string.php string.quoted.double.php
-        - match: (/)({{regex_modifier}})(")
+      set: string-double-quoted-regexp-content
+
+  string-double-quoted-regexp-content:
+    - meta_scope: meta.string.php string.quoted.double.php
+    - match: (/)({{regex_modifier}})(")
+      captures:
+        1: punctuation.definition.string.regex-delimiter.end.php
+        2: meta.regex.modifier.php
+        3: punctuation.definition.string.end.php
+      pop: 1
+    - match: \"
+      fail: branch-point-double-quoted
+    - match: ''
+      push: scope:source.regexp.php
+      with_prototype:
+        - match: (?=/{{regex_modifier}}"|")
+          pop: 1
+        # workaround for greedy scope "$" as punctuation.definition.variable
+        # dangling "$" in regex means EOL, but not variable definition...
+        - match: \$+(?!{{identifier}})
+          scope: keyword.control.anchor.regexp
+        - include: interpolation
+        - match: \\"
+          scope: constant.character.escape
+        - match: \s(#)([^"]*)$
           captures:
-            1: punctuation.definition.string.regex-delimiter.end.php
-            2: meta.regex.modifier.php
-            3: punctuation.definition.string.end.php
-          pop: 2 # branch successful matched
+            1: comment.regexp.php punctuation.definition.comment.regexp.php
+            2: comment.regexp.php
+
+  string-double-quoted-plain:
+    - match: \"
+      scope: punctuation.definition.string.begin.php
+      set: string-double-quoted-plain-content
+
+  string-double-quoted-end:
+    - match: \"
+      scope: punctuation.definition.string.end.php
+      pop: 1
+
+  string-double-quoted-plain-content:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.php
+    - meta_content_scope: meta.string-contents.quoted.double.php
+    - include: string-double-quoted-end
+    - include: interpolation
+
+  string-double-quoted-sql-content:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.php
+    - meta_content_scope: meta.string-contents.quoted.double.php
+    - include: string-double-quoted-end
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
         - match: (?=")
           pop: 1
-        - match: ''
-          push: scope:source.regexp.php
-          with_prototype:
-            - match: (?=(/)({{regex_modifier}})(")|")
-              pop: 1
-            # workaround for greedy scope "$" as punctuation.definition.variable
-            # dangling "$" in regex means EOL, but not variable definition...
-            - match: \$+(?!{{identifier}})
-              scope: keyword.control.anchor.regexp
-            - include: interpolation
-            - match: \\"
-              scope: constant.character.escape
-            - match: \s(#)([^"]*)$
-              captures:
-                1: comment.regexp.php punctuation.definition.comment.regexp.php
-                2: comment.regexp.php
-    - match: ''
-      fail: branch-point-double-quoted
-  regex-single-quoted-branch:
+        - include: interpolation
+
+  strings-single-quoted:
+    - match: (?='/)
+      branch_point: branch-point-single-quoted
+      branch:
+        - string-single-quoted-regexp
+        - string-single-quoted-plain
+    - match: \'
+      scope: punctuation.definition.string.begin.php
+      push: string-single-quoted-content
+
+  string-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.php
+    - meta_content_scope: meta.string-contents.quoted.single.php
+    - include: string-single-quoted-end
+    - match: (?={{sql_indicator}})
+      set: string-single-quoted-sql-content
+    - match: (?=\S)
+      scope: punctuation.definition.string.begin.php
+      set: string-single-quoted-plain-content
+
+  string-single-quoted-regexp:
     - match: (')(/)
       captures:
         1: punctuation.definition.string.begin.php
         2: punctuation.definition.string.regex-delimiter.begin.php
-      push:
-        - meta_scope: meta.string.php string.quoted.single.php
-        - match: (/)({{regex_modifier}})(')
+      set: string-single-quoted-regexp-content
+
+  string-single-quoted-regexp-content:
+    - meta_scope: meta.string.php string.quoted.single.php
+    - match: (/)({{regex_modifier}})(')
+      captures:
+        1: punctuation.definition.string.regex-delimiter.end.php
+        2: meta.regex.modifier.php
+        3: punctuation.definition.string.end.php
+      pop: 1
+    - match: \'
+      fail: branch-point-single-quoted
+    - match: ''
+      push: scope:source.regexp.php
+      with_prototype:
+        - match: (?=/{{regex_modifier}}'|')
+          pop: 1
+        - match: \\'
+          scope: constant.character.escape
+        - match: \s((#)[^']*)$
           captures:
-            1: punctuation.definition.string.regex-delimiter.end.php
-            2: meta.regex.modifier.php
-            3: punctuation.definition.string.end.php
-          pop: 2 # branch successful matched
+            1: comment.regexp.php
+            2: punctuation.definition.comment.regexp.php
+
+  string-single-quoted-plain:
+    - match: \'
+      scope: punctuation.definition.string.begin.php
+      set: string-single-quoted-plain-content
+
+  string-single-quoted-end:
+    - match: \'
+      scope: punctuation.definition.string.end.php
+      pop: 1
+
+  string-single-quoted-plain-content:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.php
+    - meta_content_scope: meta.string-contents.quoted.single.php
+    - include: string-single-quoted-end
+    - match: \\[\\'']
+      scope: constant.character.escape.php
+
+  string-single-quoted-sql-content:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.php
+    - meta_content_scope: meta.string-contents.quoted.single.php
+    - include: string-single-quoted-end
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
         - match: (?=')
           pop: 1
-        - match: ''
-          push: scope:source.regexp.php
-          with_prototype:
-            - match: (?=(/)({{regex_modifier}})(')|')
-              pop: 1
-            - match: \\'
-              scope: constant.character.escape
-            - match: \s(#)([^']*)$
-              captures:
-                1: comment.regexp.php punctuation.definition.comment.regexp.php
-                2: comment.regexp.php
-    - match: ''
-      fail: branch-point-single-quoted
-  string-double-quoted-branch:
-    - include: string-double-quoted
-    - match: ''
-      pop: 1
-  string-single-quoted-branch:
-    - include: string-single-quoted
-    - match: ''
-      pop: 1
-  string-backtick:
-    - match: "`"
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.interpolated.php
-        - match: "`"
-          scope: punctuation.definition.string.end.php
-          pop: 1
-        - match: \\.
+        - match: '\\[\\'']'
           scope: constant.character.escape.php
-        - include: interpolation
-  string-double-quoted:
-    - match: '"'
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.double.php
-        - meta_content_scope: meta.string-contents.quoted.double.php
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: string.quoted.double.php
-            - meta_content_scope: meta.string-contents.quoted.double.php
-            - match: '"'
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: ''
-              with_prototype:
-                - match: '(?=")'
-                  pop: 1
-                - include: interpolation
-              push: 'scope:source.sql'
-        - match: '(?=\S)'
-          set:
-            - meta_scope: string.quoted.double.php
-            - meta_content_scope: meta.string-contents.quoted.double.php
-            - match: '"'
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - include: interpolation
-  string-single-quoted:
-    - match: "'"
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.single.php
-        - meta_content_scope: meta.string-contents.quoted.single.php
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: string.quoted.single.php
-            - meta_content_scope: meta.string-contents.quoted.single.php
-            - match: "'"
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: ''
-              with_prototype:
-                - match: "(?=')"
-                  pop: 1
-                - match: '\\[\\'']'
-                  scope: constant.character.escape.php
-              push: 'scope:source.sql'
-        - match: '(?=\S)'
-          set:
-            - meta_scope: string.quoted.single.php
-            - meta_content_scope: meta.string-contents.quoted.single.php
-            - match: "'"
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: '\\[\\'']'
-              scope: constant.character.escape.php
 
-  strings:
-    - match: (?=")
-      branch_point: branch-point-double-quoted
-      branch:
-        - regex-double-quoted-branch
-        - string-double-quoted-branch
-    - match: (?=')
-      branch_point: branch-point-single-quoted
-      branch:
-        - regex-single-quoted-branch
-        - string-single-quoted-branch
+###[ BUILTINS ]###############################################################
+
   support:
     - match: |-
         \b(?xi:
