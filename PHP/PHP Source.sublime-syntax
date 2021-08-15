@@ -1592,15 +1592,25 @@ contexts:
         - string-double-quoted-regexp
         - string-double-quoted-plain
     - match: \"
-      scope: punctuation.definition.string.begin.php
+      scope: string.quoted.double.php punctuation.definition.string.begin.php
       push: string-double-quoted-content
+
+  string-double-quoted-end:
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.end.php
+      pop: 1
 
   string-double-quoted-content:
     - meta_include_prototype: false
-    - meta_scope: meta.string.php string.quoted.double.php
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.double.php
     - include: string-double-quoted-end
     - match: (?={{sql_indicator}})
-      set: string-double-quoted-sql-content
+      push: string-quoted-sql-content
+      with_prototype:
+        - match: (?=")
+          pop: 1
+        - include: interpolation
     - match: (?=\S)
       set: string-double-quoted-plain-content
 
@@ -1643,11 +1653,6 @@ contexts:
       scope: string.quoted.double.php punctuation.definition.string.begin.php
       set: string-double-quoted-plain-content
 
-  string-double-quoted-end:
-    - match: \"
-      scope: string.quoted.double.php punctuation.definition.string.end.php
-      pop: 1
-
   string-double-quoted-plain-content:
     - meta_include_prototype: false
     - meta_scope: meta.string.php
@@ -1655,17 +1660,6 @@ contexts:
     - include: string-double-quoted-end
     - include: interpolation
 
-  string-double-quoted-sql-content:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.php
-    - meta_content_scope: meta.interpolation.php
-    - include: string-double-quoted-end
-    - match: ''
-      push: scope:source.sql
-      with_prototype:
-        - match: (?=")
-          pop: 1
-        - include: interpolation
 
   strings-single-quoted:
     - match: (?='/)
@@ -1674,15 +1668,26 @@ contexts:
         - string-single-quoted-regexp
         - string-single-quoted-plain
     - match: \'
-      scope: punctuation.definition.string.begin.php
+      scope: string.quoted.single.php punctuation.definition.string.begin.php
       push: string-single-quoted-content
+
+  string-single-quoted-end:
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.end.php
+      pop: 1
 
   string-single-quoted-content:
     - meta_include_prototype: false
-    - meta_scope: meta.string.php string.quoted.single.php
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
     - match: (?={{sql_indicator}})
-      set: string-single-quoted-sql-content
+      push: string-quoted-sql-content
+      with_prototype:
+        - match: (?=')
+          pop: 1
+        - match: '\\[\\'']'
+          scope: constant.character.escape.php
     - match: (?=\S)
       scope: punctuation.definition.string.begin.php
       set: string-single-quoted-plain-content
@@ -1721,11 +1726,6 @@ contexts:
       scope: string.quoted.single.php punctuation.definition.string.begin.php
       set: string-single-quoted-plain-content
 
-  string-single-quoted-end:
-    - match: \'
-      scope: string.quoted.single.php punctuation.definition.string.end.php
-      pop: 1
-
   string-single-quoted-plain-content:
     - meta_include_prototype: false
     - meta_scope: meta.string.php
@@ -1734,18 +1734,12 @@ contexts:
     - match: \\[\\'']
       scope: constant.character.escape.php
 
-  string-single-quoted-sql-content:
+  string-quoted-sql-content:
+    - clear_scopes: 1
     - meta_include_prototype: false
-    - meta_scope: meta.string.php
-    - meta_content_scope: meta.interpolation.php
-    - include: string-single-quoted-end
-    - match: ''
-      push: scope:source.sql
-      with_prototype:
-        - match: (?=')
-          pop: 1
-        - match: '\\[\\'']'
-          scope: constant.character.escape.php
+    - meta_content_scope: meta.interpolation.php source.sql.embedded.php
+    - include: scope:source.sql
+      apply_prototype: true
 
 ###[ BUILTINS ]###############################################################
 
