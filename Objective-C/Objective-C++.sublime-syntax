@@ -63,15 +63,15 @@ contexts:
     - include: objc-structures
     # Take care of comments just before a function definition.
     - match: /\*
-      scope: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.objc++
       push:
         - - match: \s*(?=\w)
             set: global-modifier
           - match: ""
             pop: true
-        - - meta_scope: comment.block.c
+        - - meta_scope: comment.block.objc++
           - match: \*/
-            scope: punctuation.definition.comment.c
+            scope: punctuation.definition.comment.objc++
             pop: true
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
