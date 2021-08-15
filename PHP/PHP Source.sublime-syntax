@@ -1576,7 +1576,7 @@ contexts:
       push: string-backtick-quoted-content
 
   string-backtick-quoted-content:
-    - meta_scope: string.interpolated.php
+    - meta_scope: meta.string.php string.quoted.other.php
     - match: \`
       scope: punctuation.definition.string.end.php
       pop: 1
@@ -1597,8 +1597,7 @@ contexts:
 
   string-double-quoted-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.php
-    - meta_content_scope: meta.string-contents.quoted.double.php
+    - meta_scope: meta.string.php string.quoted.double.php
     - include: string-double-quoted-end
     - match: (?={{sql_indicator}})
       set: string-double-quoted-sql-content
@@ -1641,25 +1640,25 @@ contexts:
 
   string-double-quoted-plain:
     - match: \"
-      scope: punctuation.definition.string.begin.php
+      scope: string.quoted.double.php punctuation.definition.string.begin.php
       set: string-double-quoted-plain-content
 
   string-double-quoted-end:
     - match: \"
-      scope: punctuation.definition.string.end.php
+      scope: string.quoted.double.php punctuation.definition.string.end.php
       pop: 1
 
   string-double-quoted-plain-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.php
-    - meta_content_scope: meta.string-contents.quoted.double.php
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.double.php
     - include: string-double-quoted-end
     - include: interpolation
 
   string-double-quoted-sql-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.php
-    - meta_content_scope: meta.string-contents.quoted.double.php
+    - meta_scope: meta.string.php
+    - meta_content_scope: meta.interpolation.php
     - include: string-double-quoted-end
     - match: ''
       push: scope:source.sql
@@ -1680,8 +1679,7 @@ contexts:
 
   string-single-quoted-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.single.php
-    - meta_content_scope: meta.string-contents.quoted.single.php
+    - meta_scope: meta.string.php string.quoted.single.php
     - include: string-single-quoted-end
     - match: (?={{sql_indicator}})
       set: string-single-quoted-sql-content
@@ -1720,26 +1718,26 @@ contexts:
 
   string-single-quoted-plain:
     - match: \'
-      scope: punctuation.definition.string.begin.php
+      scope: string.quoted.single.php punctuation.definition.string.begin.php
       set: string-single-quoted-plain-content
 
   string-single-quoted-end:
     - match: \'
-      scope: punctuation.definition.string.end.php
+      scope: string.quoted.single.php punctuation.definition.string.end.php
       pop: 1
 
   string-single-quoted-plain-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.single.php
-    - meta_content_scope: meta.string-contents.quoted.single.php
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
     - match: \\[\\'']
       scope: constant.character.escape.php
 
   string-single-quoted-sql-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.single.php
-    - meta_content_scope: meta.string-contents.quoted.single.php
+    - meta_scope: meta.string.php
+    - meta_content_scope: meta.interpolation.php
     - include: string-single-quoted-end
     - match: ''
       push: scope:source.sql
