@@ -929,9 +929,6 @@ contexts:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
       push: after-expression
-    - match: \((?=\s*\*{{path}})
-      scope: punctuation.section.sequence.begin.python
-      push: inside-tuple
     - match: (?=\()
       branch_point: generators-groups-and-tuples
       branch:
