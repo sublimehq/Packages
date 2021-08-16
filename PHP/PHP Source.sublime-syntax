@@ -32,7 +32,7 @@ variables:
   keywords_control: |-
     (?x:
       case | catch | default | (?: end )? (?: for | foreach | if | while )
-    | else | elsif | finally | switch | try
+    | else | elseif | finally | switch | try
     )\b
 
   keywords_flow: |-
