@@ -9,7 +9,7 @@ variables:
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
   regex_modifier: '[eimsuxADJSUX]*'
-  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
+  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=$|\s)
   visibility_modifier: '\b(?:var|public|private|protected)\b'
 
 contexts:
