@@ -5,7 +5,6 @@ name: ASP
 scope: source.asp
 
 file_extensions:
-  - asa # asp is handled by HTML (ASP).sublime-syntax
   - vbs # Visual Basic Script
 
 first_line_match: |-

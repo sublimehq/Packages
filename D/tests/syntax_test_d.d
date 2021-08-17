@@ -2236,6 +2236,22 @@ extern(1)
   //       ^^ keyword.operator.arithmetic.d
   //          ^ meta.number.integer.decimal.d
   //           ^ punctuation.separator.case-statement.d
+    case foo:
+  //^^^^ keyword.control.flow.d
+  //     ^^^ meta.path.d variable.other.d
+  //        ^ punctuation.separator.case-statement.d
+      baz();
+  //  ^^^^^ meta.block.d meta.function-call.d
+  //       ^ punctuation.terminator.d
+    case foo, bar:
+  //^^^^ keyword.control.flow.d
+  //     ^^^ meta.path.d variable.other.d
+  //        ^ punctuation.separator.sequence.d
+  //          ^^^ meta.path.d variable.other.d
+  //             ^ punctuation.separator.case-statement.d
+      baz();
+  //  ^^^^^ meta.block.d meta.function-call.d
+  //       ^ punctuation.terminator.d
     case 2, "foo":
   //^^^^ keyword.control.flow.d
   //     ^ meta.number.integer.decimal.d

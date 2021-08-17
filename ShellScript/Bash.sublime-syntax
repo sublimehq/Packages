@@ -938,8 +938,8 @@ contexts:
   cmd-args-functions-chars:
     - meta_scope: meta.variable.shell
     - match: '{{identifier_char}}+'
-      scope: entity.name.function.shell
-    - include: entity-function-expansions
+      scope: variable.function.shell
+    - include: variable-function-expansions
     - include: immediately-pop
 
   cmd-args-end-of-options-then-variables:

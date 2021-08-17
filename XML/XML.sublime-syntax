@@ -59,6 +59,7 @@ file_extensions:
   - rss
   - opml
   - svg
+  - xaml
 
 hidden_file_extensions:
   - sublime-snippet
