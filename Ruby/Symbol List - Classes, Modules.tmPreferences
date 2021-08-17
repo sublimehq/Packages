@@ -4,7 +4,7 @@
 	<key>scope</key>
 	<string>
 		source.ruby entity.name.class,
-		source.ruby entity.name.module
+		source.ruby entity.name.namespace
 	</string>
 	<key>settings</key>
 	<dict>
