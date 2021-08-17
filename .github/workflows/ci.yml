@@ -5,9 +5,17 @@ on:
       - '*'
     tags-ignore:
       - '*'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.sublime-syntax'
+      - '**/*.tmPreferences'
   pull_request:
     branches:
       - '*'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.sublime-syntax'
+      - '**/*.tmPreferences'
 
 jobs:
   build:
