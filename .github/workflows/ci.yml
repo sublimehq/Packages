@@ -5,9 +5,23 @@ on:
       - '*'
     tags-ignore:
       - '*'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.hidden-tmLanguage'
+      - '**/*.sublime-syntax'
+      - '**/*.tmLanguage'
+      - '**/*.tmPreferences'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches:
       - '*'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.hidden-tmLanguage'
+      - '**/*.sublime-syntax'
+      - '**/*.tmLanguage'
+      - '**/*.tmPreferences'
+      - '.github/workflows/ci.yml'
 
 jobs:
   build:
