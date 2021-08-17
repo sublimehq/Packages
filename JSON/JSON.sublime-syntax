@@ -73,8 +73,10 @@ contexts:
         1: punctuation.definition.comment.json
 
   constant:
-    - match: \b(?:true|false|null)\b
-      scope: constant.language.json
+    - match: \b(?:false|true)\b
+      scope: constant.language.boolean.json
+    - match: \bnull\b
+      scope: constant.language.null.json
 
   number:
     # handles integer and decimal numbers
