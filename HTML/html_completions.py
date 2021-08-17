@@ -18,6 +18,15 @@ KIND_TAG_MARKUP = (sublime.KIND_ID_MARKUP, 't', 'Tag')
 ENABLE_TIMING = False
 
 
+boolean_attributes = {
+    'async', 'autofocus', 'autoplay', 'checked', 'contenteditable', 'controls',
+    'default', 'defer', 'disabled', 'formNoValidate', 'frameborder', 'hidden',
+    'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate',
+    'open', 'readonly', 'required', 'reversed', 'scoped', 'selected',
+    'typemustmatch'
+}
+
+
 def timing(func):
     @wraps(func)
     def wrap(*args, **kw):
@@ -588,7 +597,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             [
                 sublime.CompletionItem(
                     trigger=attr,
-                    completion=f'{attr}="$1"{suffix}',
+                    completion=f'{attr}{suffix}' if attr in boolean_attributes else f'{attr}="$1"{suffix}',
                     completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                     kind=KIND_ATTRIBUTE_SNIPPET
                 )
