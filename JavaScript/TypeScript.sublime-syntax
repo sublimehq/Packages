@@ -50,7 +50,6 @@ contexts:
     - match: \<
       scope: punctuation.definition.assertion.begin.js
       set:
-        # - immediately-pop
         - ts-old-type-assertion-check
         - ts-old-type-assertion-end
         - ts-type-expression-end
