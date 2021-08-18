@@ -13,9 +13,7 @@ contexts:
     - meta_prepend: true
 
     - match: (?=<)
-      push:
-        - immediately-pop-2
-        - jsx-tag
+      set: jsx-tag
 
   jsx-tag-hack: []
 
