@@ -156,7 +156,8 @@ contexts:
     - match: \)
       scope: punctuation.section.parens.end.haml
       pop: 1
-    - include: HTML (for HAML).sublime-syntax#tag-attributes
+    - include: scope:text.html.embedded.haml#tag-attributes
+      apply_prototype: true
 
 ###[ FILTERS ]##########################################################
 
@@ -263,7 +264,7 @@ contexts:
     # A line after a pipe-continuation must be terminated by pipe, too.
     - match: ^(?!.*(\|\s*$))
       pop: 1
-    - include: Ruby (for HAML).sublime-syntax
+    - include: scope:source.ruby.rails.embedded.haml
       apply_prototype: true
 
 ###[ INTERPOLATIONS ]#########################################################
@@ -310,9 +311,12 @@ contexts:
     - match: \}
       scope: punctuation.section.interpolation.end.haml
       pop: 1
-    - include: Ruby (for HAML).sublime-syntax#nest-curly-expressions
-    - include: Ruby (for HAML).sublime-syntax#expressions
+    - include: scope:source.ruby.rails.embedded.haml#nest-curly-expressions
+      apply_prototype: true
+    - include: scope:source.ruby.rails.embedded.haml#expressions
+      apply_prototype: true
 
   text-interpolation-variable:
     - meta_scope: meta.interpolation.haml
-    - include: Ruby (for HAML).sublime-syntax#interpolated-ruby-variables
+    - include: scope:source.ruby.rails.embedded.haml#interpolated-ruby-variables
+      apply_prototype: true

@@ -116,7 +116,7 @@ contexts:
     - match: <%+(?!>)[-=]?
       scope: meta.embedded.rails punctuation.section.embedded.begin.rails
       embed_scope: meta.embedded.rails source.ruby.rails.embedded.rails
-      embed: Ruby (Rails).sublime-syntax
+      embed: scope:source.ruby.rails
       escape: -?%>
       escape_captures:
         0: meta.embedded.rails punctuation.section.embedded.end.rails
