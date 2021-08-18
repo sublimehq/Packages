@@ -12,14 +12,14 @@ If you want to make changes to these packages and test them locally, fork this r
 
 ```bash
 $ git clone https://github.com/sublimehq/Packages.git
-$ ln -s `pwd`/Packages/Python ~/Library/Application\ Support/Sublime\ Text/Packages/
+$ ln -s `pwd`/Packages/Python ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/
 ```
 
 ### Linux
 
 ```bash
 $ git clone https://github.com/sublimehq/Packages.git
-$ ln -s `pwd`/Packages/Python ~/.config/sublime-text/Packages/
+$ ln -s `pwd`/Packages/Python ~/.config/sublime-text-3/Packages/
 ```
 
 ### Windows
@@ -29,7 +29,7 @@ On Windows, you can use directory junctions instead of symlinks (symlinks requir
 ```powershell
 # Using PowerShell
 PS> git clone https://github.com/sublimehq/Packages.git
-PS> cmd /c mklink /J "$env:APPDATA/Sublime Text/Packages/Python" (convert-path ./Packages/Python)
+PS> cmd /c mklink /J "$env:APPDATA/Sublime Text 3/Packages/Python" (convert-path ./Packages/Python)
 ```
 
 Alternatively, download the portable version, and clone this repository directly as a subdirectory of the *Data* folder.
