@@ -3,10 +3,13 @@
 # Highlight interactive rebase text (git rebase -i).
 
 name: Git Rebase Todo
+scope: text.git.rebase
+version: 2
+
 file_extensions:
   - git-rebase-todo
-first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
-scope: text.git.rebase
+
+first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
 
 variables:
   comment_char: '[#;]'
@@ -16,21 +19,24 @@ contexts:
 
   main:
     - include: comments
-    - include: commit
+    - include: shell-commands
+    - include: branch-commands
+    - include: commit-commands
 
 ##[ COMMENTS ]#########################################################
 
   comments:
-    - match: ^\s*({{comment_char}})
-      captures:
-        1: punctuation.definition.comment.git.rebase
-      push:
-        - meta_scope: comment.line.git.rebase
-        - match: ^(?!\s*{{comment_char}})
-          pop: true
-        - include: heading
-        - include: commands-help
-        - include: rebase-msg
+    - match: '{{comment_char}}'
+      scope: punctuation.definition.comment.git.rebase
+      push: comment-content
+
+  comment-content:
+    - meta_scope: comment.line.git.rebase
+    - match: ^(?!\s*{{comment_char}})
+      pop: 1
+    - include: heading
+    - include: commands-help
+    - include: rebase-msg
 
   heading:
     # all comments ending with colon are scoped as headlines
@@ -108,61 +114,93 @@ contexts:
         3: constant.other.hash.git.rebase
         4: constant.other.hash.git.rebase
 
-##[ COMMITS ]##########################################################
+##[ COMMANDS ]#########################################################
 
-  commit:
-    # e.g. pick d284bb2 Initial commit
-    - match: ^\s*
-      push: [commit-subject, commit-hash, commit-commands]
+  branch-commands:
+    - match: ^\s*(label)\s+(\S+)
+      captures:
+        0: meta.branch.label.git.rebase
+        1: keyword.other.label.git.rebase
+        2: constant.language.branch-name.git.commit
+    - match: ^\s*(merge)\s+((-)C)\s+({{hash}})\s+(\S+)
+      captures:
+        0: meta.branch.merge.git.rebase
+        1: keyword.operator.branch.merge.git.rebase
+        2: variable.parameter.option.git.rebase
+        3: punctuation.definition.variable.git.rebase
+        4: constant.other.hash.git.rebase
+        5: constant.language.branch-name.git.commit
+    - match: ^\s*(reset)\s+(?:({{hash}})|(\S+))
+      captures:
+        0: meta.branch.reset.git.rebase
+        1: keyword.operator.branch.reset.git.rebase
+        2: constant.other.hash.git.rebase
+        3: constant.language.branch-name.git.commit
 
   commit-commands:
+    # e.g. pick d284bb2 Initial commit
+    - match: ^\s*
+      push: [commit-subject, commit-hash, commit-command]
+
+  commit-command:
     - match: (?:d|drop)\b
       scope: keyword.operator.commit.drop.git.rebase
-      pop: true
+      pop: 1
     - match: (?:e|edit)\b
       scope: keyword.operator.commit.edit.git.rebase
-      pop: true
-    - match: (?:x|exec)\b
-      scope: keyword.operator.commit.exec.git.rebase
-      pop: true
+      pop: 1
     - match: (?:f|fixup)\b
       scope: keyword.operator.commit.fixup.git.rebase
-      pop: true
+      pop: 1
     - match: (?:p|pick)\b
       scope: keyword.operator.commit.pick.git.rebase
-      pop: true
+      pop: 1
     - match: (?:r|reword)\b
       scope: keyword.operator.commit.reword.git.rebase
-      pop: true
+      pop: 1
     - match: (?:s|squash)\b
       scope: keyword.operator.commit.squash.git.rebase
-      pop: true
+      pop: 1
+    - include: comments
     - include: line-end
     - match: \S+
       scope: invalid.illegal.command-expected.git.rebase
-      pop: true
+      pop: 1
 
   commit-hash:
     - match: '{{hash}}' # e.g. d284bb2
       scope: constant.other.hash.git.rebase
-      pop: true
+      pop: 1
     - include: line-end
     - match: \S+
       scope: invalid.illegal.hash-expected.git.rebase
-      pop: true
+      pop: 1
 
   commit-subject:
     - meta_scope: meta.commit.git.rebase
     - include: line-end
     - match: (?=\S)  # subject beginns with first none whitespece
-      set:
-        - meta_scope: meta.commit.git.rebase
-        - meta_content_scope: meta.subject.git.commit
-        - include: Git Common.sublime-syntax#references
-        - include: line-end
+      set: commit-subject-content
+
+  commit-subject-content:
+    - meta_scope: meta.commit.git.rebase
+    - meta_content_scope: meta.subject.git.commit
+    - include: Git Common.sublime-syntax#references
+    - include: line-end
+
+  shell-commands:
+    - match: ^\s*(x|exec)\b
+      captures:
+        0: meta.shell.git.rebase
+        1: keyword.operator.exec.git.rebase
+      embed: scope:source.shell
+      embed_scope: meta.shell.git.rebase source.shell.embedded.git.rebase
+      escape: $\n?
+      escape_captures:
+        0: meta.shell.git.rebase
 
 ##[ PROTOTYPES ]#######################################################
 
   line-end:
     - match: $\n?
-      pop: true
+      pop: 1
