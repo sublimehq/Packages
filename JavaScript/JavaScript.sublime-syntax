@@ -1376,14 +1376,16 @@ contexts:
       set:
         - match: \{
           scope: punctuation.section.block.begin.js
-          set:
-            - meta_scope: meta.block.js
-            - match: \}
-              scope: punctuation.section.block.end.js
-              pop: true
-            - include: statements
+          set: static-block-body
         - match: (?=\S)
           fail: static-block
+
+  static-block-body:
+    - meta_scope: meta.block.js
+    - match: \}
+      scope: punctuation.section.block.end.js
+      pop: true
+    - include: statements
 
   class-element-modifiers:
     - match: (?={{modifier}})
