@@ -26,7 +26,7 @@ variables:
         )
     setext_escape: ^(?=\s{0,3}(?:---+|===+)\s*$)
     block_quote: (?:[ ]{,3}>(?:.|$))         # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
-    atx_heading: (?:[#]{1,6}\s*)             # between 1 and 6 hashes, followed by any amount of whitespace
+    atx_heading: (?:[#]{1,6}\s+)             # between 1 and 6 hashes, followed by at least one whitespace
     indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
     escape: '\\[-`*_#+.!(){}\[\]\\>|~<]'
@@ -119,9 +119,9 @@ variables:
           )
           $\n?         # ... until EOL
         )
-    code_fence_escape: |-
+    code_fence_escape: ^{{code_fence_end}}
+    code_fence_end: |-
       (?x:
-        ^             # the beginning of the line
         [ \t]*
         (
           \2          # the backtick/tilde combination that opened the code fence
@@ -176,13 +176,7 @@ variables:
     tag_attribute_name_break: (?=[{{ascii_space}}=/>}])
     tag_unquoted_attribute_start: (?=[^{{ascii_space}}=/>}])
     tag_unquoted_attribute_break: (?=[{{ascii_space}}}]|/?>)
-    # code_fence_escape: |-
-    #   (?x:
-    #     ^         # the beginning of the line
-    #     [ ]{0,3}  # up to 3 spaces
-    #     (\1)      # the backtick/tilde combination that opened the code fence
-    #     \s*$      # any amount of whitespace until EOL
-    #   )
+
 contexts:
   file-start:
     - match: (---)\s*
@@ -191,7 +185,7 @@ contexts:
         1: punctuation.section.block.begin.frontmatter.yaml.markdown
       embed: scope:source.yaml
       embed_scope: meta.frontmatter.markdown source.yaml.embedded
-      escape: ^(---)\s*$  # pandoc requires the remainder of the line to be blank
+      escape: ^(---|\.{3})\s*$  # pandoc requires the remainder of the line to be blank
       escape_captures:
         1: meta.frontmatter.markdown punctuation.section.block.end.frontmatter.yaml.markdown
 
@@ -278,26 +272,7 @@ contexts:
         - match: ^(?![ ]{4}|$)
           pop: true
         - include: inline-bold-italic
-    - match: |-
-        (?x:
-            \s*                        # Leading whitespace
-            (\[)([^]]*)(\])(:)         # Reference name
-            [ \t]*                     # Optional whitespace
-            (?:
-              (<)([^>]+)(>)            # The url
-            | (\S+)                    # The url
-            )
-        )
-      captures:
-        1: punctuation.definition.constant.begin.markdown
-        2: entity.name.reference.link.markdown
-        3: punctuation.definition.constant.end.markdown
-        4: punctuation.separator.key-value.markdown
-        5: punctuation.definition.link.begin.markdown
-        6: markup.underline.link.markdown
-        7: punctuation.definition.link.end.markdown
-        8: markup.underline.link.markdown
-      push: [link-ref-def-expect-end, link-title]
+    - include: reference-link-definition
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
       branch_point: heading2-branch
       branch:
@@ -440,11 +415,40 @@ contexts:
             - match: ^
               pop: true
             - include: list-paragraph
+        - include: block-quote-code-blocks
         - match: ''
           push:
-            - match: $|^
+            - match: ^
               pop: true
             - include: inline-bold-italic-linebreak
+
+  block-quote-code-blocks:
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ([\w-]*)     # any number of word characters or dashes
+          .*$\n?       # all characters until EOL
+      captures:
+        0: meta.code-fence.definition.begin.text.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      push: block-quote-code-block-content
+
+  block-quote-code-block-content:
+    - match: '{{code_fence_end}}'
+      captures:
+        0: meta.code-fence.definition.end.text.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+      pop: true
+    - match: '[ ]{,3}(>)[ ]?'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+    - match: ''
+      push:
+        - meta_content_scope: markup.raw.code-fence.markdown-gfm
+        - match: ^
+          pop: true
+
   indented-code-block:
     - match: '{{indented_code_block}}.*$\n?'
       scope: markup.raw.block.markdown
@@ -858,7 +862,7 @@ contexts:
     - match: (((https|http|ftp)://)|www\.)[\w-]+(\.[\w-]+)+
       scope: markup.underline.link.markdown-gfm
       push: # After a valid domain, zero or more non-space non-< characters may follow
-        - match: (?=[?!.,:*_~]*[\s<]) # Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link
+        - match: (?=[?!.,:*_~]*(?:[\s<]|$)) # Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link
           pop: true
         - match: (?={{html_entity}}[?!.,:*_~]*[\s<]) # If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink
           pop: true
@@ -946,6 +950,16 @@ contexts:
       captures:
         1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
       push: [link-ref-attr, link-ref-after-text, link-ref-link-text]
+    - match: |-
+        (?x:
+          (\[)(?!\^)
+          (?=   {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+                \]
+          )
+        )
+      captures:
+        1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
+      push: link-ref-link-text
   link-ref-link-text:
     - meta_content_scope: meta.link.reference.description.markdown
     - include: link-text-allow-image
@@ -1018,6 +1032,27 @@ contexts:
         1: punctuation.definition.link.begin.markdown
         2: meta.link.reference.literal.footnote-id.markdown
         3: punctuation.definition.link.end.markdown
+  reference-link-definition:
+    - match: |-
+        (?x:
+            [ ]{0,3}                     # Leading whitespace
+            (\[)(|(?:\\\]|[^]])+)(\])(:) # Reference name
+            [ \t]*                       # Optional whitespace
+            (?:
+              (<)([^>]*)(>)              # The url
+            | (\S+)                      # The url
+            )
+        )
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: entity.name.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+        4: punctuation.separator.key-value.markdown
+        5: punctuation.definition.link.begin.markdown
+        6: markup.underline.link.markdown
+        7: punctuation.definition.link.end.markdown
+        8: markup.underline.link.markdown
+      push: [link-ref-def-expect-end, link-title]
   list-paragraph:
     - match: '^(?=(?:[ ]{4}|\t){2,}(?![>+*\s-]))(?={{indented_code_block}})'
       push:
@@ -1034,6 +1069,7 @@ contexts:
         - include: fenced-code-block
         - match: ''
           pop: true
+    - include: reference-link-definition
     - match: \s+(?=\S)
       push:
         - match: ^\s*$
@@ -1267,7 +1303,7 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:rust))
+          ((?i:rust|rs))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.rust.markdown-gfm

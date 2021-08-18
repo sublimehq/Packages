@@ -18,9 +18,34 @@ contexts:
     - include: jsx-tag
 
   jsx-interpolation:
+    - match: (?={/\*)
+      branch_point: jsx-interpolation-comment
+      branch:
+        - jsx-interpolation-comment
+        - jsx-interpolation-plain
+    - match: (?={)
+      push: jsx-interpolation-plain
+
+  jsx-interpolation-comment:
+    - match: '({)(/\*)'
+      captures:
+        1: punctuation.definition.interpolation.begin.js
+        2: punctuation.definition.comment.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.interpolation.js comment.block.js
+        - match: '(\*/)(})'
+          captures:
+            1: punctuation.definition.comment.end.js
+            2: punctuation.definition.interpolation.end.js
+          pop: true
+        - match: (?=\*/)
+          fail: jsx-interpolation-comment
+
+  jsx-interpolation-plain:
     - match: '{'
       scope: punctuation.definition.interpolation.begin.js
-      push:
+      set:
         - - meta_scope: meta.interpolation.js
           - meta_content_scope: source.js.embedded.jsx
           - match: '}'
@@ -36,6 +61,7 @@ contexts:
     - include: else-pop
 
   jsx-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.jsx.js
     - include: immediately-pop
 
@@ -62,7 +88,7 @@ contexts:
         - jsx-tag-name
 
   jsx-tag-attributes:
-    - meta_scope: meta.tag.js
+    - meta_scope: meta.tag.attributes.js
 
     - match: '>'
       scope: punctuation.definition.tag.end.js
@@ -114,6 +140,7 @@ contexts:
         2: punctuation.definition.entity.js
 
   jsx-tag-name:
+    - meta_include_prototype: false
     - match: ''
       set:
         - - clear_scopes: 1

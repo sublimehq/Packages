@@ -20,6 +20,10 @@ http://spec.commonmark.org/0.28/#example-44
 |^^^^^^^^^^^^^^^^^^^^^^ markup.heading
 |             ^ - punctuation.definition.heading.end.markdown
 
+#NotAHeading
+| <- - markup.heading
+|^^^^^^^^^^^^ - markup.heading
+
 Alternate Heading
 | <- markup.heading.1
 =================
@@ -405,6 +409,31 @@ paragraph
 >     > this is code in a quote block, not a nested quote
 | <- punctuation.definition.blockquote
 |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block - markup.quote markup.quote
+
+> Here are fenced code blocks
+> ```
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+| ^^^ punctuation.definition.raw.code-fence.begin.markdown
+> code block
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown markup.raw.code-fence.markdown-gfm
+> ```
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
+| ^^^ punctuation.definition.raw.code-fence.end.markdown
+> > 2nd level
+> > 
+> > ```
+> > code block ```
+|              ^^^ - punctuation
+> > ```
+| <- meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown - meta.code-fence
+|   ^^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
 
 >=
 | <- punctuation.definition.blockquote.markdown 
@@ -2186,3 +2215,38 @@ link with a single underscore inside the text : [@_test](http://example.com)
 ### h3
 |^^ punctuation.definition.heading.begin
 
+1. list [001]blah
+|       ^^^^^ meta.link.reference
+|       ^ punctuation.definition.link.begin
+|           ^ punctuation.definition.link.end
+|            ^^^^^ - meta.link
+
+  [001]: https://en.wikipedia.org/wiki/Root-mean-square_deviation "Wikipedia - RMSE"
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.link.reference.def
+1. another list item
+
+[foo]: /url "title"
+|^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|    ^ punctuation.separator.key-value
+|      ^^^^ markup.underline.link
+|           ^^^^^^^ string.other.link.description.title
+
+[foo]
+|<- meta.link.reference punctuation.definition.link.begin
+|^^^ meta.paragraph meta.link.reference
+|   ^ meta.link.reference punctuation.definition.link.end
+
+ [Foo*bar\]]:my_(url) 'title (with parens)'
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^ punctuation.definition.constant.begin
+| ^^^^^^^^^ entity.name.reference.link - punctuation
+|          ^ punctuation.definition.constant.end
+|           ^ punctuation.separator.key-value
+|            ^^^^^^^^ markup.underline.link
+|                     ^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+
+ [foo]: <>
+|^^^^^^^^^ meta.link.reference.def
+|     ^ punctuation.separator.key-value
+|       ^ punctuation.definition.link.begin
+|        ^ punctuation.definition.link.end
