@@ -994,11 +994,11 @@ contexts:
 
   branch-possible-arrow-function:
     - meta_include_prototype: false
-    - match: '(?=\()'
+    - match: (?=\()
       set:
         - detect-arrow
         - parenthesized-expression
-    - match: '(?={{identifier_start}})'
+    - match: (?={{identifier_start}})
       set:
         - detect-arrow
         - literal-variable
