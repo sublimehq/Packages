@@ -163,14 +163,17 @@ contexts:
     - match: '\bs[A-Z]\w*\b'
       scope: variable.other.readwrite.static.mac-classic.c
 
+  named-constants:
+    # common C constant naming idiom -- kConstantVariable
+    - match: '\bk[A-Z]\w*\b'
+      scope: constant.other.variable.mac-classic.c
+
   constants:
     - match: \b(__func__|NULL|true|false|TRUE|FALSE)\b
       scope: constant.language.c
     - match: \b(__FILE__|__FUNCTION__|__LINE__)\b
       scope: support.constant.c
-    # common C constant naming idiom -- kConstantVariable
-    - match: '\bk[A-Z]\w*\b'
-      scope: constant.other.variable.mac-classic.c
+    - include: named-constants
     - match: \b(noErr|kNilOptions|kInvalidID|kVariableLengthArray)\b
       scope: support.constant.mac-classic.c
 

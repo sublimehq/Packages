@@ -2810,3 +2810,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
+
+inline constexpr uint16_t kMyConstant = 0x20;
+/* <- storage.modifier.c++ */
+/*     ^^^^^^^^^ storage.modifier.c++ */
+/*               ^^^^^^^^ support.type.stdint.c */
+/*                        ^^^^^^^^^^^ constant.other.variable.mac-classic.c */
+/*                                    ^ keyword.operator.assignment.objc++ */
+/*                                      ^^ constant.numeric.base.c++ */
+/*                                        ^^ constant.numeric.value.c++ */

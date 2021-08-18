@@ -284,19 +284,19 @@ contexts:
       push: global-modifier
     # Take care of comments just before a function definition.
     - match: /\*
-      scope: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.c++
       push:
         - - match: \s*(?=\w)
             set: global-modifier
           - match: ""
             pop: true
-        - - meta_scope: comment.block.c
+        - - meta_scope: comment.block.c++
           - match: \*/
-            scope: punctuation.definition.comment.c
+            scope: punctuation.definition.comment.c++
             pop: true
           - match: ^\s*(\*)(?!/)
             captures:
-              1: punctuation.definition.comment.c
+              1: punctuation.definition.comment.c++
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.c++
@@ -1079,7 +1079,7 @@ contexts:
     - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}}|operator)\b)'
       pop: true
     - match: '(?=\s)'
-      set: global-maybe-function
+      set: global-maybe-constant-or-function
     # If a class/struct/enum followed by a name that is not a macro or declspec
     # then this is likely a return type of a function. This is uncommon.
     - match: |-
@@ -1097,7 +1097,7 @@ contexts:
       set:
         - include: identifiers
         - match: ''
-          set: global-maybe-function
+          set: global-maybe-constant-or-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/class
     - match: '(?=\b({{before_tag}})\b)'
@@ -1130,6 +1130,23 @@ contexts:
     - include: identifiers
     - match: (?=\W)
       pop: true
+
+  global-maybe-constant-or-function:
+    - include: comments
+    - include: types
+    - include: modifiers
+    - include: constants
+    - include: variables
+    - include: scope:source.c#named-constants
+    - match: '\s*(;)'
+      captures:
+        1: punctuation.terminator.c++
+      pop: true
+    - match: '\s*(=)\s*'
+      captures:
+        1: keyword.operator.assignment.c++
+    - match: '(?=\S)'
+      set: global-maybe-function
 
   global-maybe-function:
     - include: comments

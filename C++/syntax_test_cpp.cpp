@@ -2813,7 +2813,16 @@ void sayHi()
 
 /**
       *
-/*    ^ comment.block.c punctuation.definition.comment.c */
+/*    ^ comment.block.c++ punctuation.definition.comment.c++ */
+
+inline constexpr uint16_t kMyConstant = 0x20;
+/* <- storage.modifier.c++ */
+/*     ^^^^^^^^^ storage.modifier.c++ */
+/*               ^^^^^^^^ support.type.stdint.c */
+/*                        ^^^^^^^^^^^ constant.other.variable.mac-classic.c */
+/*                                    ^ keyword.operator.assignment.c++ */
+/*                                      ^^ constant.numeric.base.c++ */
+/*                                        ^^ constant.numeric.value.c++ */
 
 /////////////////////////////////////////////
 // Modules
