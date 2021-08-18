@@ -77,11 +77,6 @@ variables:
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|static_assert'
 
-  bin_integer: '\b(0[bB])({{bin_digit}}*)({{bin_suffix}})?'
-  hex_integer: '\b(0[xX])({{hex_digit}}*)({{hex_suffix}})?'
-  oct_integer: '\b(0)({{oct_digit}}+)({{oct_suffix}})?'
-  dec_integer: '\b({{dec_digits}})({{dec_suffix}})?'
-
 contexts:
   main:
     - include: preprocessor-global
@@ -210,7 +205,7 @@ contexts:
     # https://en.cppreference.com/w/cpp/language/integer_literal
 
     # hexadecimal integer
-    - match: '{{hex_integer}}'
+    - match: \b(0[xX])({{hex_digit}}*)({{hex_suffix}})?
       scope: meta.number.integer.hexadecimal.c++
       captures:
         1: constant.numeric.base.c++
@@ -218,7 +213,7 @@ contexts:
         3: constant.numeric.suffix.c++
 
     # binary integer (C++14)
-    - match: '{{bin_integer}}'
+    - match: \b(0[bB])({{bin_digit}}*)({{bin_suffix}})?
       scope: meta.number.integer.binary.c++
       captures:
         1: constant.numeric.base.c++
@@ -226,7 +221,7 @@ contexts:
         3: constant.numeric.suffix.c++
 
     # octal integer
-    - match: '{{oct_integer}}'
+    - match: \b(0)({{oct_digit}}+)({{oct_suffix}})?
       scope: meta.number.integer.octal.c++
       captures:
         1: constant.numeric.base.c++
@@ -234,7 +229,7 @@ contexts:
         3: constant.numeric.suffix.c++
 
     # decimal integer
-    - match: '{{dec_integer}}'
+    - match: \b({{dec_digits}})({{dec_suffix}})?
       scope: meta.number.integer.decimal.c++
       captures:
         1: constant.numeric.value.c++

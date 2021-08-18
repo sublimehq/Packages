@@ -45,11 +45,6 @@ variables:
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
 
-  bin_integer: '\b(0[bB])({{bin_digit}}*)(?:({{integer_suffix}})|({{bin_suffix}}))?'
-  hex_integer: '\b(0[xX])({{hex_digit}}*)(?:({{integer_suffix}})|({{hex_suffix}}))?'
-  oct_integer: '\b(0)({{oct_digit}}+)(?:({{integer_suffix}})|({{oct_suffix}}))?'
-  dec_integer: '\b({{dec_digits}})(?:({{integer_suffix}})|({{dec_suffix}}))?'
-
 contexts:
   main:
     - include: preprocessor-global
@@ -248,7 +243,7 @@ contexts:
     # https://en.cppreference.com/w/c/language/integer_constant
 
     # binary integer (C23)
-    - match: '{{bin_integer}}'
+    - match: \b(0[bB])({{bin_digit}}*)(?:({{integer_suffix}})|({{bin_suffix}}))?
       scope: meta.number.integer.binary.c
       captures:
         1: constant.numeric.base.c
@@ -257,7 +252,7 @@ contexts:
         4: invalid.illegal.numeric.suffix.c
 
     # hexadecimal integer
-    - match: '{{hex_integer}}'
+    - match: \b(0[xX])({{hex_digit}}*)(?:({{integer_suffix}})|({{hex_suffix}}))?
       scope: meta.number.integer.hexadecimal.c
       captures:
         1: constant.numeric.base.c
@@ -266,7 +261,7 @@ contexts:
         4: invalid.illegal.numeric.suffix.c
 
     # octal integer
-    - match: '{{oct_integer}}'
+    - match: \b(0)({{oct_digit}}+)(?:({{integer_suffix}})|({{oct_suffix}}))?
       scope: meta.number.integer.octal.c
       captures:
         1: constant.numeric.base.c
@@ -275,7 +270,7 @@ contexts:
         4: invalid.illegal.numeric.suffix.c
 
     # decimal integer
-    - match: '{{dec_integer}}'
+    - match: \b({{dec_digits}})(?:({{integer_suffix}})|({{dec_suffix}}))?
       scope: meta.number.integer.decimal.c
       captures:
         1: constant.numeric.value.c
