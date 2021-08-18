@@ -1,10 +1,8 @@
 {
-	"scope": "source.php - variable.other.php - source.php meta.embedded.html",
-
+	"scope": "source.php - string - comment - variable.other.php - meta.embedded.html",
 	"completions":
 	[
 		"php",
-
 		{
 			"trigger": "abs()",
 			"contents": "abs(${1:number})",
