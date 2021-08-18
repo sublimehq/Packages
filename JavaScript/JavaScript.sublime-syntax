@@ -1388,7 +1388,7 @@ contexts:
     - include: statements
 
   class-element-modifiers:
-    - match: (?={{modifier}})
+    - match: ''
       pop: true
       branch_point: class-element-modifier
       branch:
