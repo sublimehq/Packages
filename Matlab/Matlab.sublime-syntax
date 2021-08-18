@@ -630,6 +630,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.matlab
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.matlab string.quoted.single.matlab
         - match: \'\'
           scope: constant.character.escape.matlab
@@ -648,6 +649,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.matlab
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.matlab string.quoted.double.matlab
         - match: \"\"
           scope: constant.character.escape.matlab
