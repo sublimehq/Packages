@@ -127,18 +127,18 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 {
     return (bank.Status, isVip) switch
 /// ^^^^^^ keyword.control.flow.return
-///        ^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///        ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
 ///                             ^^^^^^ keyword.control.flow
     {
         (BankBranchStatus.Open, _) => true,
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
-///     ^ punctuation.section.group.begin
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
+///     ^ punctuation.section.sequence.begin
 ///      ^^^^^^^^^^^^^^^^ variable.other
 ///                      ^ punctuation.accessor.dot
 ///                       ^^^^ variable.other
-///                           ^ punctuation.separator.tuple
+///                           ^ punctuation.separator.sequence
 ///                             ^ variable.language.deconstruction.discard
-///                              ^ punctuation.section.group.end
+///                              ^ punctuation.section.sequence.end
 ///                                ^^ punctuation.separator.case-expression
 ///                                   ^^^^ constant.language
 ///                                       ^ punctuation.terminator.case-expression
