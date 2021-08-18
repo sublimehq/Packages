@@ -1,6 +1,6 @@
 # Sublime Packages
 
-> **These packages are developed against the latest [Sublime Text Dev Build](http://sublimetext.com/dev). Bugs may exist on older builds, and the format used is not compatible with builds older than 4075.**
+> **These packages are developed against the latest [Sublime Text Dev Build](http://sublimetext.com/dev). Bugs may exist on older builds, and the format used is not compatible with builds older than 4095.**
 
 ## Installation
 
