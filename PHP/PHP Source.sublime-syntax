@@ -1551,7 +1551,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
         2: markup.underline.link.php
-    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|method|source)\b
+    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)\b
       scope: keyword.other.phpdoc.php
     - match: \{(@inheritdoc)\}
       captures:
@@ -2165,7 +2165,7 @@ contexts:
       scope: support.function.overload.php
     - match: |-
         \b(?xi:
-          pcntl_alarm | pcntl_exec | pcntl_fork | pcntl_getpriority | pcntl_setpriority | pcntl_signal | pcntl_signal_dispatch | pcntl_sigprocmask |
+          pcntl_alarm | pcntl_async_signals | pcntl_exec | pcntl_fork | pcntl_getpriority | pcntl_setpriority | pcntl_signal | pcntl_signal_dispatch | pcntl_sigprocmask |
           pcntl_sigtimedwait | pcntl_sigwaitinfo | pcntl_wait | pcntl_waitpid | pcntl_wexitstatus | pcntl_wifexited | pcntl_wifsignaled | pcntl_wifstopped |
           pcntl_wstopsig | pcntl_wtermsig
         )\b

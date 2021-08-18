@@ -351,6 +351,22 @@ class Foo {
 ///                                                         ^ punctuation.section.group.end
 ///                                                          ^ punctuation.terminator.statement
 
+        (
+///     ^ meta.group.tuple punctuation.section.group.begin
+            string Alpha,
+///         ^^^^^^ storage.type
+///                ^^^^^ variable.other
+///                     ^ punctuation.separator.tuple
+            string Beta
+        ) namedLetters = ("a", "b");
+///     ^ punctuation.section.group.end
+///       ^^^^^^^^^^^^ variable.other
+///                    ^ keyword.operator.assignment
+///                      ^ punctuation.section.group.begin
+///                          ^ punctuation.separator.tuple
+///                               ^ punctuation.section.group.end
+///                                ^ punctuation.terminator.statement
+
         (SomeType[] Alpha, SomeType<int> Beta) example = (a, b);
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
 ///     ^ punctuation.section.group.begin
