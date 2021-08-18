@@ -22,8 +22,7 @@ contexts:
     - match: '/'
       scope: punctuation.definition.tag.begin.js
       set:
-        - - meta_scope: invalid.illegal.unmatched-tag.js
-          - include: immediately-pop
+        - jsx-meta-unmatched-tag
         - jsx-expect-tag-end
         - jsx-tag-name
 

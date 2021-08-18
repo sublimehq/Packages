@@ -80,8 +80,7 @@ contexts:
     - match: '/'
       scope: punctuation.definition.tag.begin.js
       set:
-        - - meta_scope: invalid.illegal.unmatched-tag.js
-          - include: immediately-pop
+        - jsx-meta-unmatched-tag
         - jsx-expect-tag-end
         - jsx-tag-name
 
@@ -89,6 +88,11 @@ contexts:
       set:
         - jsx-tag-attributes
         - jsx-tag-name
+
+  jsx-meta-unmatched-tag:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.unmatched-tag.js
+    - include: immediately-pop
 
   jsx-tag-attributes:
     - meta_scope: meta.tag.attributes.js
