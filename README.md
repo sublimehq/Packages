@@ -1,6 +1,6 @@
 # Sublime Packages
 
-> **These packages are developed against the latest [Sublime Text 3 Dev Build](http://sublimetext.com/3dev). Bugs may exist on older builds, and the format used is not compatible with builds older than 3092.**
+> **These packages are developed against the latest [Sublime Text Dev Build](http://sublimetext.com/dev). Bugs may exist on older builds, and the format used is not compatible with builds older than 4095.**
 
 ## Installation
 
@@ -44,7 +44,7 @@ Pull requests should:
 
  1. Start with the name of the package in square brackets, e.g. `[XML]`.
  2. Be as small and self-contained as is reasonable. *Smaller changes are quicker to review.*
- 3. Include a new, or enhanced, [syntax test](http://www.sublimetext.com/docs/3/syntax.html) when changing a `.sublime-syntax` file.
+ 3. Include a new, or enhanced, [syntax test](http://www.sublimetext.com/docs/syntax.html) when changing a `.sublime-syntax` file.
  4. Have multiple syntax tests and a set of performance measurements (old vs. new) when making significant changes.
 
 ### New Packages
