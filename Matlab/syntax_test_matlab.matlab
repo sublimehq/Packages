@@ -777,6 +777,10 @@ l = {l.n}';
    "string".'
 %  ^^^^^^^^ meta.string.matlab string.quoted.double.matlab
 %          ^^ keyword.operator.transpose.matlab
+   'character array with missing closing quote mark
+%                                                  ^ invalid.illegal.unclosed-string.matlab
+   "string with missing closing quote mark
+%                                         ^ invalid.illegal.unclosed-string.matlab
    true'
 %  ^^^^ constant.language.matlab
 %      ^ keyword.operator.transpose.matlab

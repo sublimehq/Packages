@@ -640,6 +640,9 @@ contexts:
               captures:
                 1: keyword.operator.transpose.matlab
               pop: 1
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.matlab
+          pop: 1
         - include: escaped-characters
         - include: format-specs
     - match: \"
@@ -651,6 +654,9 @@ contexts:
         - match: \"
           scope: punctuation.definition.string.end.matlab
           set: transpose
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.matlab
+          pop: 1
         - include: escaped-characters
         - include: format-specs
 
