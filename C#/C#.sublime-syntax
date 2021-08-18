@@ -1525,9 +1525,8 @@ contexts:
       scope: punctuation.section.sequence.begin.cs
       set:
         - meta_scope: meta.sequence.tuple.cs
-        - match: (\))
-          captures:
-            1: punctuation.section.sequence.end.cs
+        - match: \)
+          scope: punctuation.section.sequence.end.cs
           pop: true
         - match: ','
           scope: punctuation.separator.sequence.cs
