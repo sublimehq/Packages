@@ -1638,6 +1638,18 @@ $sql = "
 //  ^^^^^^ keyword.other.create.sql
 ";
 
+// Do not highlight plain SQL indicator as SQL
+$sql = "SELECT";
+//      ^^^^^^ - keyword.other.DML
+
+$sql = "
+    SELECT
+//  ^^^^^^ keyword.other.DML
+    *
+    FROM users
+    WHERE first_name = 'Eric'
+";
+
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 //     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
