@@ -27,17 +27,13 @@ contexts:
         - meta_scope: meta.interface.php
         - match: \b(extends)\b\s*
           scope: storage.modifier.extends.php
-          set:
+          push:
+            - include: attributes
+            - include: comments
             - match: '(?={{path}})'
-              set:
-                - meta_scope: meta.path.php
-                - meta_content_scope: entity.other.inherited-class.php
-                - include: identifier-parts
-                - match: '(\\)?({{identifier}})(?!\\)'
-                  captures:
-                    1: punctuation.separator.namespace.php
-                - match: ''
-                  pop: 1
+              push: inherited
+            - match: ','
+              scope: punctuation.separator.php
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -586,16 +582,7 @@ contexts:
         - include: attributes
         - include: comments
         - match: '(?={{path}})'
-          set:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
+          set: inherited
         - match: '(?=\S)'
           pop: 1
     - match: (?i)(implements)\b\s*
@@ -605,20 +592,22 @@ contexts:
         - include: attributes
         - include: comments
         - match: '(?={{path}})'
-          push:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
+          push: inherited
         - match: ','
           scope: punctuation.separator.php
         - match: '(?=\S)'
           pop: 1
+
+  inherited:
+    - meta_scope: meta.path.php
+    - meta_content_scope: entity.other.inherited-class.php
+    - include: class-builtin
+    - include: identifier-parts
+    - match: '(\\)?{{identifier}}(?!\\)'
+      captures:
+        1: punctuation.separator.namespace.php
+    - match: ''
+      pop: 1
 
   class-body:
     - meta_scope: meta.class.php meta.block.php

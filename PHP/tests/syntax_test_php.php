@@ -808,7 +808,7 @@ interface MyInter {}
 // <- storage.type
 //        ^ entity.name.interface
 
-interface MyInter2 extends \MyNamespace\Foo {
+interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 // <- storage.type
 //        ^ entity.name.interface
 //                 ^ storage.modifier
@@ -816,6 +816,11 @@ interface MyInter2 extends \MyNamespace\Foo {
 //                         ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                         ^ punctuation.separator.namespace
 //                                     ^ punctuation.separator.namespace
+//                                         ^ punctuation.separator
+//                                           ^ comment.block
+//                                                ^ punctuation.separator.namespace
+//                                                ^^^^^^^^^^^^ meta.path
+//                                                ^^^^^^^^^^^^ entity.other.inherited-class
 }
 
 if ($foo instanceof \Mynamespace\ClassName) {
