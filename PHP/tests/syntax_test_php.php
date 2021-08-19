@@ -856,7 +856,7 @@ interface MyInter {}
 //        ^ entity.name.interface
 
 interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
-// <- keyword.declaration.inte
+// <- keyword.declaration.interface
 //        ^ entity.name.interface
 //                 ^ storage.modifier
 //                         ^^^^^^^^^^^^^^^^ meta.path
