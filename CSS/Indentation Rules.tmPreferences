@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.css</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*[)\]}]</string>
+		<key>increaseIndentPattern</key>
+		<string>^.*[(\[{](?:\s*/\*.*\*/)*\s*(?://.*)?$</string>
+		<key>unIndentedLinePattern</key>
+		<string>^\s*((/\*|\*/).*)?$</string>
+	</dict>
+</dict>
+</plist>
