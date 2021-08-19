@@ -1,0 +1,77 @@
+/* SYNTAX TEST reindent-unchanged "Packages/CSS/CSS.sublime-syntax" */
+
+.class { font-size: 10; }
+
+.class { font-size: 10;
+}
+
+.class
+{
+    font-size: 10;
+}
+
+.class {
+    font-size: 10;
+}
+
+abbr[title],
+abbr[
+    data-title
+] {
+    color: red;
+}
+
+.class a:not(
+    .css_button
+) {
+    color: red;
+}
+
+.class {            /*
+    font-size: 10;  /*
+}                   /*
+
+abbr[title],        /*
+abbr[               /*
+    data-title      /*
+] {                 /*
+    color: red;     /*
+}                   /*
+                    /*
+.class a:not(       /*
+    .css_button     /*
+) {                 /*
+    color: red;     /*
+}                   /*
+
+.class {            /* comment */
+    font-size: 10;  /* comment */
+}                   /* comment */
+abbr[title],        /* comment */
+abbr[               /* comment */
+    data-title      /* comment */
+] {                 /* comment */
+    color: red;     /* comment */
+}                   /* comment */
+                    /* comment */
+.class a:not(       /* comment */
+    .css_button     /* comment */
+) {                 /* comment */
+    color: red;     /* comment */
+}                   /* comment */
+
+.class {            /* comment */ /**/ /*
+    font-size: 10;  /* comment */ /**/ /*
+}                   /* comment */ /**/ /*
+abbr[title],        /* comment */ /**/ /*
+abbr[               /* comment */ /**/ /*
+    data-title      /* comment */ /**/ /*
+] {                 /* comment */ /**/ /*
+    color: red;     /* comment */ /**/ /*
+}                   /* comment */ /**/ /*
+                    /* comment */ /**/ /*
+.class a:not(       /* comment */ /**/ /*
+    .css_button     /* comment */ /**/ /*
+) {                 /* comment */ /**/ /*
+    color: red;     /* comment */ /**/ /*
+}                   /* comment */ /**/ /*

@@ -8,7 +8,7 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*[)\]}]</string>
 		<key>increaseIndentPattern</key>
-		<string>^.*[(\[{](?:\s*/\*.*\*/)*\s*(?://.*)?$</string>
+		<string>^.*[(\[{](?:\s*/\*.*\*/)*\s*(?:/\*.*)?$</string>
 		<key>unIndentedLinePattern</key>
 		<string>^\s*((/\*|\*/).*)?$</string>
 	</dict>
