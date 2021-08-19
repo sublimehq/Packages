@@ -40,7 +40,7 @@ variables:
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
   definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
-  definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\b({{type_qualifier}})\b)'
+  definitely_declaration_lookahead: '(?=({{name}})(\s+\*|(\*|\[.*\])?\s+)({{name}})|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
@@ -194,7 +194,7 @@ contexts:
     - include: integer-opt
     - include: not-whitespace-illegal-pop
   integer-opt:
-    - match: '(0[bB])(_?)({{bin_digits}})({{integer_suffix}})?'
+    - match: (0[bB])(_?)({{bin_digits}})({{integer_suffix}})?
       scope: meta.number.integer.binary.d
       captures:
         1: constant.numeric.base.d
@@ -202,7 +202,7 @@ contexts:
         3: constant.numeric.value.d
         4: constant.numeric.suffix.d
       pop: true
-    - match: '(0[xX])(_?)({{hex_digits}})({{integer_suffix}})?'
+    - match: (0[xX])(_?)({{hex_digits}})({{integer_suffix}})?
       scope: meta.number.integer.hexadecimal.d
       captures:
         1: constant.numeric.base.d
@@ -210,7 +210,7 @@ contexts:
         3: constant.numeric.value.d
         4: constant.numeric.suffix.d
       pop: true
-    - match: '({{dec_integer}})({{integer_suffix}})?'
+    - match: ({{dec_integer}})({{integer_suffix}})?
       scope: meta.number.integer.decimal.d
       captures:
         1: constant.numeric.value.d
@@ -222,77 +222,67 @@ contexts:
     - include: not-whitespace-illegal-pop
   floating-point-opt:
     # decimal imaginary numbers
-    - match: '({{dec_integer}})?(?:(\.)({{dec_digits}})?)?({{dec_exponent}})?({{imaginary_suffix}})'
+    - match: ({{dec_integer}}?(?:(\.){{dec_digits}}?)?{{dec_exponent}}?)({{imaginary_suffix}})
       scope: meta.number.imaginary.decimal.d
       captures:
         1: constant.numeric.value.d
         2: punctuation.separator.decimal.d
-        3: constant.numeric.value.d
-        4: constant.numeric.value.exponent.d
-        5: constant.numeric.suffix.d
+        3: constant.numeric.suffix.d
       pop: true
     # decimal floats
     - match: |-
         (?x:
           ({{dec_integer}})
           (?:
-            (?:
+            (
               (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                ({{dec_digits}}) ({{dec_exponent}})?
+                {{dec_digits}} {{dec_exponent}}?
                 # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | ({{dec_exponent}})
+                | {{dec_exponent}}
                 # 1., 1.f, 1.L # but not `..` or method/attribute access
                 | (?!\.|\s*[[:alpha:]_]) )
               # 1e1 1e1f 1e1L
-              | ({{dec_exponent}})
+              | {{dec_exponent}}
             ) ({{integer_float_suffix}})?
             # 1f
             | ({{float_suffix}})
           )
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | (\.) ({{dec_digits}}) ({{dec_exponent}})? ({{integer_float_suffix}})?
+          | ( (\.) {{dec_digits}} {{dec_exponent}}? ) ({{integer_float_suffix}})?
         )
       scope: meta.number.float.decimal.d
       captures:
         1: constant.numeric.value.d
-        2: punctuation.separator.decimal.d
-        3: constant.numeric.value.d
-        4: constant.numeric.value.exponent.d
-        5: constant.numeric.value.exponent.d
-        6: constant.numeric.value.exponent.d
-        7: constant.numeric.suffix.d
+        2: constant.numeric.value.d
+        3: punctuation.separator.decimal.d
+        4: constant.numeric.suffix.d
+        5: constant.numeric.suffix.d
+        6: constant.numeric.value.d
+        7: punctuation.separator.decimal.d
         8: constant.numeric.suffix.d
-        9: punctuation.separator.decimal.d
-        10: constant.numeric.value.d
-        11: constant.numeric.value.exponent.d
-        12: constant.numeric.suffix.d
       pop: true
 
     # hexadecimal imaginary numbers
-    - match: (0[xX])(_?)({{hex_digits}})?(?:(\.)({{hex_digits}})?)?({{hex_exponent}})?({{imaginary_suffix}})
+    - match: (0[xX])(_?)({{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?)({{imaginary_suffix}})
       scope: meta.number.imaginary.hexadecimal.d
       captures:
         1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
         3: constant.numeric.value.d
         4: punctuation.separator.decimal.d
-        5: constant.numeric.value.d
-        6: constant.numeric.value.exponent.d
-        7: constant.numeric.suffix.d
+        5: constant.numeric.suffix.d
       pop: true
     # hexadecimal floats
-    - match: (0[xX])(_?)({{hex_digits}})?(?:(\.)({{hex_digits}})?)?({{hex_exponent}})({{integer_float_suffix}})?
+    - match: (0[xX])(_?)({{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}})({{integer_float_suffix}})?
       scope: meta.number.float.hexadecimal.d
       captures:
         1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
         3: constant.numeric.value.d
         4: punctuation.separator.decimal.d
-        5: constant.numeric.value.d
-        6: constant.numeric.value.exponent.d
-        7: constant.numeric.suffix.d
+        5: constant.numeric.suffix.d
       pop: true
 
     # binary imaginary numbers
@@ -1109,6 +1099,13 @@ contexts:
     - include: first-value-parens-after
 
   value:
+    - match: '\b({{name}})\s*(:)'
+      captures:
+        1: variable.other.d
+        2: punctuation.separator.mapping.key-value.d
+      set: value
+    - include: value-no-mapping-key
+  value-no-mapping-key:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
@@ -1236,11 +1233,6 @@ contexts:
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d
       set: [value-after, value-identifier]
-    - match: '\b({{name}})\s*(:)'
-      captures:
-        1: variable.other.d
-        2: punctuation.separator.mapping.key-value.d
-      set: value
     - match: '{{name_lookahead}}'
       set: [value-after, value-identifier]
     - include: not-whitespace-illegal-pop
@@ -1432,7 +1424,7 @@ contexts:
       set: value-maybe-pointer-after
     - match: '\?'
       scope: keyword.operator.ternary.d
-      set: [value-condition-after, value]
+      set: [value-condition-after, value-condition]
     - match: '(?=\b(function|delegate)\b)'
       set: [value-after, basic-type2]
     - match: '(?=\S)'
@@ -1464,6 +1456,10 @@ contexts:
       set: basic-type2
     - match: '(?=\S)'
       set: value
+  value-condition:
+    - match: (?=:)
+      pop: 1
+    - include: value-no-mapping-key
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d
@@ -1494,6 +1490,19 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: value-list
+    - include: not-whitespace-illegal-pop
+
+  value-list-no-mapping-key:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: '(?=\S)'
+      set: [value-list-after-no-mapping-key, value-no-mapping-key]
+  value-list-after-no-mapping-key:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: value-list-no-mapping-key
     - include: not-whitespace-illegal-pop
 
   value-array-list:
@@ -2080,9 +2089,10 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [switch-after, value]
+        - include: not-whitespace-illegal-pop
     - match: '\bcase\b'
       scope: keyword.control.flow.d
-      push: [case-after, value-list]
+      push: [case-after, value-list-no-mapping-key]
     - match: '\bdefault\b'
       scope: keyword.control.flow.d
       push:
@@ -2104,7 +2114,7 @@ contexts:
           set:
             - match: '\bcase\b'
               scope: keyword.control.flow.d
-              set: [case-after, value]
+              set: [case-after, value-no-mapping-key]
             - include: not-whitespace-illegal-pop
         - match: '(?=\S)'
           pop: true
@@ -2117,6 +2127,9 @@ contexts:
         - match: '\)'
           scope: punctuation.section.parens.end.d
           pop: true
+        - match: ';'
+          scope: punctuation.terminator.d
+          push: first-value
         - include: statement-list-in
     - include: not-whitespace-illegal-pop
 

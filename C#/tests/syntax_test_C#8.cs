@@ -22,7 +22,7 @@ interface ILogger
 {
     void Log(LogLevel level, string message);
     void Log(Exception ex) => Log(LogLevel.Error, ex.ToString()); // New overload
-///                        ^^ keyword.declaration.function.anonymous
+///                        ^^ keyword.declaration.function.arrow
 }
 
 public static decimal CalculateToll(object vehicle) =>
@@ -87,7 +87,7 @@ public struct Point3D
 ///                   ^^^^^^^^ storage.modifier
 ///                            ^^^^^^^ support.type
 ///                                    ^^^^^^^ variable.other.member
-///                                           ^^ storage.type.function.accessor.get
+///                                           ^^ keyword.declaration.function.accessor.get
 ///                                              ^^^ keyword.other
 ///                                                  ^^^^^^ variable.other
 ///                                                        ^ punctuation.terminator.statement

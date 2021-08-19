@@ -126,6 +126,14 @@ def get_properties():
         'generic_name': [
             'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'
         ],
+        'gradient': [
+            ['conic-gradient()', 'conic-gradient($1)'],
+            ['linear-gradient()', 'linear-gradient($1)'],
+            ['radial-gradient()', 'radial-gradient($1)'],
+            ['repeating-conic-gradient()', 'repeating-conic-gradient($1)'],
+            ['repeating-linear-gradient()', 'repeating-linear-gradient($1)'],
+            ['repeating-radial-gradient()', 'repeating-radial-gradient($1)']
+        ],
         'grid': [
             ['repeat()', 'repeat(${1:2}, ${2:1fr})'],
             ['minmax()', 'minmax(${1:100px}, ${2:1fr})'],
@@ -199,8 +207,8 @@ def get_properties():
         'animation-play-state': ['running', 'paused'],
         'backface-visibility': ['visible', 'hidden'],
         'background': [
-            '<color>', '<uri>', 'repeat', 'repeat-x', 'repeat-y', 'no-repeat',
-            'scroll', 'fixed', '<position>'
+            '<color>', '<gradient>', '<position>', '<uri>',
+            'repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'scroll', 'fixed'
         ],
         'background-attachment': ['fixed', 'local', 'scroll'],
         'background-blend-mode': ['<blend_mode>'],
@@ -334,6 +342,7 @@ def get_properties():
             'caption', 'icon', 'italic', 'menu', 'message-box', 'oblique',
             'small-caps', 'small-caption', 'status-bar'
         ],
+        'font-display': ['auto', 'block', 'swap', 'fallback', 'optional'],
         'font-family': ['<generic_name>'],
         'font-feature-settings': ['normal', '<string>'],
         'font-kerning': ['auto', 'normal', 'none'],
@@ -625,7 +634,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         if not match_selector(view, pt, selector):
             return None
 
-        if match_selector(view, pt, "meta.property-value.css meta.function-call"):
+        if match_selector(view, pt, "meta.property-value.css meta.function-call.arguments"):
             items = self.complete_function_argument(view, prefix, pt)
         elif match_selector(view, pt, "meta.property-value.css"):
             items = self.complete_property_value(view, prefix, pt)
@@ -706,4 +715,26 @@ class CSSCompletions(sublime_plugin.EventListener):
         return completions
 
     def complete_function_argument(self, view, prefix, pt):
+        args_region = view.expand_by_class(
+            pt, sublime.CLASS_PUNCTUATION_START | sublime.CLASS_PUNCTUATION_END)
+        func_region = view.expand_by_class(
+            args_region.a - 2, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END)
+        func_name = view.substr(func_region)
+
+        # TODO: provide more function specific argument completions
+
+        if func_name == "var":
+            return [
+                sublime.CompletionItem(
+                    trigger=symbol,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=sublime.KIND_VARIABLE,
+                    details="var() argument"
+                )
+                for symbol in set(
+                    view.substr(symbol_region)
+                    for symbol_region in view.find_by_selector("entity.other.custom-property")
+                )
+                if not prefix or symbol.startswith(prefix)
+            ]
         return None

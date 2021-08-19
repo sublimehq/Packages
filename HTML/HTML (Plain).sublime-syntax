@@ -208,6 +208,10 @@ contexts:
       captures:
         1: punctuation.definition.tag.begin.html
         2: punctuation.definition.tag.end.html
+    - match: '<'
+      scope: meta.character.less-than.html
+    - match: '>'
+      scope: meta.character.greater-than.html
 
   tag-end:
     - match: '>'
@@ -287,6 +291,7 @@ contexts:
     - include: else-pop
 
   tag-generic-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html

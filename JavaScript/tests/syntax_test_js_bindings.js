@@ -57,7 +57,7 @@ const x;
 //    ^ meta.binding.name variable.other.readwrite
 
 let
-// <- storage.type
+// <- keyword.declaration
 w
 //  <- meta.binding.name variable.other.readwrite
 ,
@@ -82,7 +82,7 @@ let;
 
 const
 const x = 0;
-// <- storage.type
+// <- keyword.declaration
 
 // Function parameters
 

@@ -160,7 +160,7 @@ select
 
 SELECT  *,
 -- ^^^ keyword.other.DML.sql
---      ^ variable.language.star.sql
+--      ^ variable.language.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
 FROM    foo

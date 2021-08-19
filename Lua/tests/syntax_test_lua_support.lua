@@ -125,6 +125,11 @@
 --           ^ punctuation.accessor
 --            ^^^^^ meta.property support.function.builtin
 
+    coroutine.close();
+--  ^^^^^^^^^ support.constant.builtin
+--           ^ punctuation.accessor
+--            ^^^^^ meta.property support.function.builtin
+
     package;
 --  ^^^^^^^ support.constant.builtin
 

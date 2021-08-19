@@ -30,7 +30,7 @@ variables:
   #    matching (?!{{escape}}) which also effects performance negative.
   break: (?=[[^-_[:alnum:]\\]&&[[:ascii:]]]|\Z)
 
-  # Identifiers  
+  # Identifiers
   # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
   # https://www.w3.org/TR/css3-selectors/#lex
   ident: (?:{{custom_ident}}|{{generic_ident}})
@@ -52,13 +52,24 @@ variables:
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
-  font_relative_lengths: (?i:em|ex|ch|rem)
-  viewport_percentage_lengths: (?i:vw|vh|vmin|vmax)
-  absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)
-  angle_units: (?i:deg|grad|rad|turn)
-  duration_units: (?i:s|ms)
-  frequency_units: (?i:Hz|kHz)
-  resolution_units: (?i:dpi|dpcm|dppx)
+  units: |-
+    (?x:
+      %
+    | {{absolute_lengths}}
+    | {{angle_units}}
+    | {{duration_units}}
+    | {{font_relative_lengths}}
+    | {{frequency_units}}
+    | {{resolution_units}}
+    | {{viewport_percentage_lengths}}
+    )
+  font_relative_lengths: (?i:em|ex|ch|rem)\b
+  viewport_percentage_lengths: (?i:vw|vh|vmin|vmax)\b
+  absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)\b
+  angle_units: (?i:deg|grad|rad|turn)\b
+  duration_units: (?i:s|ms)\b
+  frequency_units: (?i:Hz|kHz)\b
+  resolution_units: (?i:dpi|dpcm|dppx)\b
 
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
@@ -246,6 +257,14 @@ variables:
       | upper-alpha | upper-armenian | upper-latin | upper-roman
     ){{break}}
 
+  # @counter-style Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style
+  counter_style_property_names: |-
+    \b(?xi:
+      additive-symbols | negative | pad | prefix | range
+    | suffix | symbols (?# | fallback | speak-as | system )
+    ){{break}}
+
   # Predefined Counter Speak As Property Constants
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
   counter_speak_as_constants: |-
@@ -256,6 +275,15 @@ variables:
   counter_system_constants: |-
     \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
+  # @font-face Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face
+  font_face_property_names: |-
+    \b(?xi:
+      ascent-override | descent-override | font-display | (?# font-family | ) src
+    | font-feature-settings | font-variation-settings | font-stretch | font-style
+    | font-weight | font-variant | line-gap-override | size-adjust | unicode-range
+    ){{break}}
+
   # Page Margin Property Names
   # https://www.w3.org/TR/css-page-3/#margin-at-rule
   page_margin_property_names: |-
@@ -265,90 +293,149 @@ variables:
     ){{break}}
 
   # Property names are sorted by popularity in descending order.
-  # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
+  # Note:
+  # 1) Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
+  # 2) Properties starting with `alias-` or `webkit-` are removed
   property_names: |-
     \b(?xi:
-        display | width | background-color | height | position | font-family
-      | font-weight | font | top | opacity | cursor | background-image | right
-      | visibility | box-sizing | user-select | left | float | margin-left
-      | margin-top | line-height | padding-left | z-index | margin-bottom
-      | margin-right | margin | vertical-align | padding-top | white-space
-      | border-radius | padding-bottom | padding-right | padding | bottom | clear
-      | max-width | box-shadow | content | border-color | min-height | min-width
-      | font-style | border-width | border-collapse | background-size
-      | text-overflow | max-height | text-transform | text-shadow | text-indent
-      | border-style | overflow-y | list-style-type | word-wrap | border-spacing
-      | appearance | zoom | overflow-x | border-top-left-radius
-      | border-bottom-left-radius | border-top-color | pointer-events
-      | border-bottom-color | align-items | justify-content | letter-spacing
-      | border-top-right-radius | border-bottom-right-radius | border-right-width
-      | font-smoothing | border-bottom-width | border-right-color | direction
-      | border-top-width | src | border-left-color | border-left-width
-      | tap-highlight-color | table-layout | background-clip | word-break
-      | transform-origin | resize | filter | backface-visibility | text-rendering
-      | box-orient | transition-property | transition-duration | word-spacing
-      | quotes | outline-offset | animation-timing-function | animation-duration
-      | animation-name | transition-timing-function | border-bottom-style
-      | border-bottom | transition-delay | transition | unicode-bidi
-      | border-top-style | border-top | unicode-range | list-style-position
-      | orphans | outline-width | line-clamp | order | flex-direction | box-pack
-      | animation-fill-mode | outline-color | list-style-image | list-style
-      | touch-action | flex-grow | border-left-style | border-left
-      | animation-iteration-count | page-break-inside | box-flex | box-align
-      | page-break-after | animation-delay | widows | border-right-style
-      | border-right | flex-align | outline-style | outline | background-origin
-      | animation-direction | fill-opacity | background-attachment | flex-wrap
-      | transform-style | overflow-wrap | animation-play-state | animation
-      | will-change | box-ordinal-group | image-rendering | marks | mask-image
-      | flex-flow | background-position-y | stroke-width | background-position-x
-      | background-position | background-blend-mode | flex-shrink | flex-basis
-      | flex-order | flex-item-align | flex-line-pack | flex-negative | flex-pack
-      | flex-positive | flex-preferred-size | flex | user-drag | font-stretch
-      | column-count | empty-cells | align-self | caption-side | mask-size
-      | column-gap | mask-repeat | box-direction | font-feature-settings
-      | mask-position | align-content | object-fit | columns | text-fill-color
-      | clip-path | stop-color | font-kerning | page-break-before
-      | stroke-dasharray | size | fill-rule | border-image-slice | column-width
-      | break-inside | column-break-before | border-image-width| stroke-dashoffset
-      | border-image-repeat | border-image-outset | line-break | stroke-linejoin
-      | stroke-linecap | stroke-miterlimit | stroke-opacity | stroke
-      | shape-rendering | border-image-source | border-image | border | tab-size
-      | writing-mode | perspective-origin-y | perspective-origin-x
-      | perspective-origin | perspective | text-align-last | text-align
-      | clip-rule | clip | text-anchor | column-rule-color | box-decoration-break
-      | column-fill | fill | column-rule-style | mix-blend-mode
-      | text-emphasis-color | baseline-shift | dominant-baseline | page
-      | alignment-baseline | column-rule-width | column-rule | break-after
-      | font-variant-ligatures | transform-origin-y | transform-origin-x
-      | transform | object-position | break-before | column-span | isolation
-      | shape-outside | all | color-interpolation-filters | marker | marker-end
-      | marker-start | marker-mid | color-rendering | color-interpolation
-      | background-repeat-x | background-repeat-y | background-repeat
-      | background | mask-type | flood-color | flood-opacity | text-orientation
-      | mask-composite | text-emphasis-style | paint-order | lighting-color
-      | shape-margin | text-emphasis-position | text-emphasis
-      | shape-image-threshold | mask-clip | mask-origin | mask | font-variant-caps
-      | font-variant-alternates | font-variant-east-asian | font-variant-numeric
-      | font-variant-position | font-variant | font-size-adjust | font-size
-      | font-language-override | font-display | font-synthesis | font
-      | line-box-contain | text-justify | text-decoration-color
-      | text-decoration-style | text-decoration-line | text-decoration
-      | text-underline-position | grid-template-rows | grid-template-columns
-      | grid-template-areas | grid-template | rotate | scale | translate
-      | scroll-behavior | grid-column-start | grid-column-end | grid-column-gap
-      | grid-row-start | grid-row-end | grid-auto-rows | grid-area
-      | grid-auto-flow | grid-auto-columns | image-orientation | hyphens
-      | overflow-scrolling | overflow | color-profile | kerning | nbsp-mode
-      | color | image-resolution | grid-row-gap | grid-row | grid-column
-      | blend-mode | azimuth | pause-after | pause-before | pause | pitch-range
-      | pitch | text-height | system | negative | prefix | suffix | range | pad
-      | fallback | additive-symbols | symbols | speak-as | speak | grid-gap | grid
-      | justify-items | justify-self
+      width | height | display | position | padding | border | margin | top
+    | left | margin-top | color | font-size | background-color | text-align
+    | opacity | font-weight | font-family | background | overflow | line-height
+    | float | box-sizing | text-decoration | z-index | cursor | margin-left
+    | border-radius | vertical-align | margin-bottom | margin-right | right
+    | padding-top | padding-left | max-width | box-shadow | bottom | content
+    | padding-right | transform | white-space | min-height | padding-bottom
+    | background-image | border-bottom | visibility | outline
+    | background-position | min-width | transition | border-top | border-color
+    | background-repeat | text-transform | background-size | max-height
+    | list-style | clear | font-style | justify-content | border-left
+    | align-items | border-right | border-width | font | text-overflow
+    | overflow-y | pointer-events | border-style | flex-direction | animation
+    | overflow-x | letter-spacing | flex | word-wrap | flex-wrap | fill
+    | transform-origin | list-style-type | border-collapse
+    | border-top-left-radius | border-bottom-left-radius | user-select | clip
+    | text-shadow | border-bottom-right-radius | word-break | flex-grow
+    | border-top-right-radius | border-bottom-color | border-top-color
+    | flex-shrink | align-self | text-rendering | animation-timing-function
+    | direction | background-clip | zoom | border-spacing | text-indent
+    | outline-offset | border-left-color | transition-property
+    | border-right-color | animation-name | stroke | touch-action
+    | animation-duration | transition-delay | filter | overflow-wrap
+    | animation-delay | border-bottom-width | variable | font-variant
+    | flex-basis | transition-duration | border-top-width | animation-fill-mode
+    | object-fit | transition-timing-function | will-change | outline-width
+    | order | outline-style | stroke-width | border-right-width | align-content
+    | resize | table-layout | appearance | animation-iteration-count
+    | border-left-width | flex-flow | stroke-dashoffset | stroke-dasharray
+    | backface-visibility | unicode-bidi | border-bottom-style
+    | text-size-adjust | border-top-style | animation-direction | word-spacing
+    | contain | speak | grid-template-columns | font-feature-settings
+    | perspective | list-style-position | clip-path | image-rendering
+    | font-display | transform-style | border-left-style | outline-color
+    | background-position-x | background-attachment | border-right-style
+    | margin-block-end | background-origin | animation-play-state | hyphens
+    | stroke-linecap | font-stretch | object-position | page-break-inside
+    | column-gap | counter-reset | counter-increment | background-position-y
+    | margin-block-start | size | grid-template-rows | column-count | quotes
+    | padding-inline-end | text-decoration-skip | border-image | all
+    | page-break-after | fill-opacity | font-variant-ligatures
+    | scroll-boundary-behavior | empty-cells | list-style-image | justify-self
+    | overflow-anchor | padding-inline-start | grid-gap | text-decoration-color
+    | margin-inline-start | caret-color | grid-column-gap | aspect-ratio
+    | stroke-opacity | margin-inline-end | grid-column | perspective-origin
+    | caption-side | columns | scroll-behavior | justify-items | line-break
+    | grid-row-gap | column-width | orphans | widows | backdrop-filter
+    | mix-blend-mode | tab-size | stop-color | column-rule | grid-area
+    | stroke-miterlimit | text-align-last | page-break-before
+    | grid-column-start | border-image-slice | border-image-repeat
+    | text-decoration-style | border-image-width | grid-column-end | grid-row
+    | scroll-snap-align | scroll-snap-type | border-image-outset
+    | text-decoration-line | column-fill | border-inline-end-width
+    | border-inline-start-width | grid-row-start | stroke-linejoin
+    | inset-inline-end | inset-inline-start | grid-auto-flow | grid-auto-rows
+    | grid-template-areas | border-image-source | fill-rule | font-kerning
+    | grid-row-end | font-variant-numeric | break-inside | shape-outside
+    | color-scheme | shape-image-threshold | scroll-boundary-behavior-y
+    | text-decoration-skip-ink | page | isolation | background-blend-mode
+    | page-orientation | inset | gap | scroll-snap-margin | column-rule-color
+    | place-items | column-rule-style | shape-rendering | content-visibility
+    | grid-auto-columns | scroll-boundary-behavior-x | writing-mode | clip-rule
+    | font-variant-caps | scroll-padding | text-anchor | mask | row-gap
+    | background-repeat-x | intrinsic-size | text-underline-position
+    | font-variant-east-asian | column-span | vector-effect | dominant-baseline
+    | stop-opacity | break-after | grid-template | break-before | mask-type
+    | scroll-snap-stop | border-inline-start-color | border-inline-end-color | r
+    | alignment-baseline | text-decoration-thickness | column-rule-width | d
+    | image-orientation | rx | text-orientation | cx | baseline-shift
+    | scroll-padding-top | padding-block-start | padding-block-end | cy
+    | min-inline-size | inline-size | background-repeat-y | shape-margin
+    | block-size | marker | min-block-size | paint-order | ry
+    | scroll-snap-margin-top | border-block-end-color | border-block-end-width
+    | border-inline-start-style | border-inline-end-style
+    | border-block-end-style | font-variation-settings
+    | border-block-start-width | border-block-start-color
+    | border-block-start-style | place-content | y | x | ruby-position
+    | text-combine-upright | color-interpolation-filters | color-interpolation
+    | color-rendering | transform-box | marker-end | flood-color | marker-start
+    | marker-mid | flood-opacity | lighting-color | forced-color-adjust
+    | buffered-rendering | place-self | offset-path | scroll-padding-left
+    | offset-distance | offset-rotate | text-underline-offset | max-inline-size
+    | max-block-size | border-inline-end | scroll-snap-margin-inline-start
+    | scroll-padding-inline-start | scroll-snap-margin-block-end
+    | scroll-snap-margin-block-start | scroll-padding-block-end
+    | scroll-snap-margin-inline-end | scroll-padding-block-start
+    | scroll-padding-inline-end | font-optical-sizing | grid
+    | scroll-padding-bottom | scroll-snap-margin-left | inset-block-end
+    | overscroll-behavior-block | overscroll-behavior-inline | inset-block-start
+    | scroll-snap-margin-right | scroll-padding-right
+    | scroll-snap-margin-bottom | border-inline-start | margin-inline
+    | border-end-start-radius | border-end-end-radius | margin-block
+    | border-start-start-radius | border-start-end-radius | padding-inline
+    | counter-set | padding-block | border-block-end | offset
+    | border-block-start | inset-inline | inset-block | scroll-snap-margin-block
+    | scroll-padding-inline | scroll-padding-block | scroll-snap-margin-inline
+    | border-block | offset-rotation | border-inline | border-block-color
+    | border-inline-width | border-inline-color | border-block-style
+    | border-block-width | border-inline-style | motion | motion-offset
+    | motion-path | font-size-adjust | text-justify | scale | scrollbar-gutter
+    | animation-timeline | rotate | translate | snap-height | math-style
+    | math-shift | math-depth | offset-anchor | offset-position
+    | glyph-orientation-vertical | internal-callback | text-line-through
+    | text-line-through-color | text-line-through-mode | text-line-through-style
+    | text-line-through-width | text-overline | text-overline-color
+    | text-overline-mode | text-overline-style | text-overline-width
+    | text-underline | text-underline-color | text-underline-mode
+    | text-underline-style | text-underline-width | shape-inside | shape-padding
+    | enable-background | color-profile | glyph-orientation-horizontal | kerning
+    | image-resolution | max-zoom | min-zoom | orientation | user-zoom
+    | mask-source-type | touch-action-delay | scroll-blocks-on | motion-rotation
+    | scroll-snap-points-x | scroll-snap-points-y | scroll-snap-coordinate
+    | scroll-snap-destination | apply-at-rule | viewport-fit | overflow-block
+    | syntax | content-size | intrinsic-block-size | intrinsic-height
+    | intrinsic-inline-size | intrinsic-width | render-subtree
+    | origin-trial-test-property | subtree-visibility
+    | math-superscript-shift-style | start
+    # END OF QUERY RESULTS
+    # BEGIN OF legacy properties which existed before the last query
+    | box-direction | line-box-contain | mask-image | mask-origin | flex-order
+    | font-synthesis | line-clamp | flex-negative | blend-mode
+    | font-variant-position | flex-align | column-break-before
+    | flex-item-align | azimuth | user-drag | mask-repeat | box-flex
+    | flex-preferred-size | font-language-override | box-align
+    | text-emphasis-color | box-ordinal-group | mask-composite
+    | transform-origin-y | pause | tap-highlight-color | text-fill-color
+    | text-emphasis-style | transform-origin-x | text-emphasis-position
+    | box-pack | box-decoration-break | box-orient
+    | text-emphasis | mask-clip | nbsp-mode | pause-after | pitch
+    | text-height | mask-position | flex-line-pack | perspective-origin-x
+    | mask-size | font-variant-alternates | perspective-origin-y
+    | font-smoothing | overflow-scrolling | flex-positive | pitch-range
     ){{break}}
 
   property_value_constants: |-
     (?x:
-      {{font_property_constants}}
+      {{font_display_constants}}
+    | {{font_property_constants}}
     | {{font_size_constants}}
     | {{font_style_constants}}
     | {{unsorted_property_constants}}
@@ -365,7 +452,7 @@ variables:
     | avoid(-column|-page|-region)?
     | background(-color|-image|-position|-size)?
     | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
-    | block(-line-height)?
+    | block-line-height
     | blur
     | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
     | border-(bottom|top)-(left|right)-radius
@@ -512,6 +599,12 @@ variables:
     | zoom(-in|-out)?
     ){{break}}
 
+  # https://www.w3.org/TR/css-fonts-4/#font-display-desc
+  font_display_constants: |-
+    \b(?xi:
+    block | swap | fallback | optional
+    ){{break}}
+
   # Generic Font Families
   font_family_constants: |-
     \b(?xi:
@@ -528,13 +621,13 @@ variables:
   # https://www.w3.org/TR/CSS22/fonts.html#font-shorthand
   font_property_constants: |-
     \b(?xi:
-      caption | icon | menu | message-box | small-caption | status-bar 
+      caption | icon | menu | message-box | small-caption | status-bar
     ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-size-props
   font_size_constants: |-
     \b(?xi:
-      larger | large | medium | small | smaller | x{1,2}-(?: large | small ) 
+      larger | large | medium | small | smaller | x{1,2}-(?: large | small )
     ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-boldness
@@ -542,7 +635,7 @@ variables:
   # https://www.w3.org/TR/CSS22/fonts.html#small-caps
   font_style_constants: |-
     \b(?xi:
-      normal | bold | bolder | lighter | italic | oblique | small-caps 
+      normal | bold | bolder | lighter | italic | oblique | small-caps
     ){{break}}
 
 ###############################################################################
@@ -622,15 +715,34 @@ contexts:
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
-    - include: rule-list
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-counter-style-block-content
     - include: at-counter-style-names
     - include: at-rule-end
+
+  at-counter-style-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-counter-style-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
 
   at-counter-style-names:
     - match: '{{counter_style_illegal_names}}'
       scope: invalid.illegal.identifier.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
+
+  at-counter-style-property-names:
+    - include: counter-style-fallback-properties
+    - include: counter-style-system-properties
+    - include: counter-style-speak-as-properties
+    - match: '{{counter_style_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
 
   # @custom-media
   # https://??
@@ -683,8 +795,27 @@ contexts:
 
   at-font-face-content:
     - meta_scope: meta.at-rule.font-face.css
-    - include: rule-list
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-font-face-block-content
     - include: at-rule-end
+
+  at-font-face-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-font-face-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-font-face-property-names:
+    - match: \b(?i:font-family){{break}}
+      scope: meta.property-name.css support.type.property-name.css
+      push: font-property-value
+    - match: '{{font_face_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
 
   # @import
   # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
@@ -954,6 +1085,7 @@ contexts:
             | (?: device- )? (?: height | width | aspect-ratio | pixel-ratio )
             )
           | (?:any-)?(?: pointer | hover )
+          | prefers-(?: reduced-motion | color-scheme )
           | display-mode | grid | orientation | scan | scripting
           | overflow-(?: block | inline )
           )
@@ -984,6 +1116,8 @@ contexts:
         | optional-paged | paged | scroll
         # pointer:
         | coarse | fine
+        # prefers-color-scheme:
+        | dark | light
         # scan:
         | interlace | progressive
         # scripting:
@@ -1013,7 +1147,7 @@ contexts:
 ###[ SELECTORS ]###############################################################
 
   selectors:
-    - match: (?=[:.*#[:alpha:]\[])
+    - match: (?=[:.*#[:alpha:]\[]|{{combinators}})
       push: selector-content
 
   selector-content:
@@ -1231,7 +1365,7 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|not|has)(?=\()
+    - match: (?i:matches|is|where|not|has)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
@@ -1321,9 +1455,6 @@ contexts:
     - include: vendor-prefixes
     # specific properties with special treatment
     - include: counter-property
-    - include: counter-style-fallback-property
-    - include: counter-style-system-property
-    - include: counter-style-speak-as-property
     - include: font-property
     # common properties
     - include: builtin-property
@@ -1439,10 +1570,10 @@ contexts:
 
   # Counter Style Fallback
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-fallback
-  counter-style-fallback-property:
+  counter-style-fallback-properties:
     - match: \b(?i:fallback){{break}}
-      scope: support.type.property-name.css
-      set: counter-style-fallback-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-style-fallback-property-value
 
   counter-style-fallback-property-value:
     - match: ':'
@@ -1467,10 +1598,10 @@ contexts:
 
   # Counter Style System
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
-  counter-style-system-property:
+  counter-style-system-properties:
     - match: \b(?i:system){{break}}
-      scope: support.type.property-name.css
-      set: counter-style-system-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-style-system-property-value
 
   counter-style-system-property-value:
     - match: ':'
@@ -1502,10 +1633,10 @@ contexts:
 
   # Counter Style Speak As
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
-  counter-style-speak-as-property:
+  counter-style-speak-as-properties:
     - match: \b(?i:speak-as){{break}}
-      scope: support.type.property-name.css
-      set: counter-style-speak-as-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-style-speak-as-property-value
 
   counter-style-speak-as-property-value:
     - match: ':'
@@ -1701,6 +1832,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1718,6 +1850,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: angle-constants
             - include: percentage-constants
             - include: scalar-constants
@@ -1734,6 +1867,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1749,6 +1883,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
             - include: percentage-constants
@@ -1766,6 +1901,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
             - include: angle-constants
@@ -1784,6 +1920,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-adjuster-operators
             - include: percentage-constants
             - include: scalar-constants
@@ -1798,6 +1935,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-adjuster-operators
             - include: angle-constants
 
@@ -1811,6 +1949,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-adjuster-operators
             - include: percentage-constants
 
@@ -1826,6 +1965,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: percentage-constants
 
     # blend(), blenda() - Not yet implemented by browsers
@@ -1838,10 +1978,11 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
-            - match: \b(?i:rgb|hsl|hwb){{break}}
-              scope: keyword.other.color-space.css
+            - include: calc-functions
             - include: color-values
             - include: percentage-constants
+            - match: \b(?i:rgb|hsl|hwb){{break}}
+              scope: keyword.other.color-space.css
 
 ###[ BUILTIN FILTER FUNCTIONS ]################################################
 
@@ -1876,6 +2017,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: length-constants
 
     # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
@@ -1889,6 +2031,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1903,6 +2046,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-values
             - include: length-constants
 
@@ -1917,6 +2061,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: angle-constants
 
 ###[ BUILTIN GRID FUNCTIONS ]##################################################
@@ -1934,6 +2079,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: grid-constants
             - include: length-constants
             - include: percentage-constants
@@ -1953,6 +2099,7 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:auto-fill|auto-fit){{break}}
               scope: keyword.other.grid.css
+            - include: calc-functions
             - include: minmax-functions
             - include: grid-constants
             - include: length-constants
@@ -2024,10 +2171,33 @@ contexts:
   # Gradient Functions
   # https://drafts.csswg.org/css-images-3/#gradients
   gradient-functions:
+    # conic-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/conic-gradient()
+    # repeating-conic-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-conic-gradient()
+    - match: \b((?:repeating-)?conic-gradient)(?=\()
+      scope: meta.function-call.identifier.css support.function.gradient.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:at|from){{break}}
+              scope: keyword.other.gradient.css
+            - match: \b(?i:bottom|center|left|right|top){{break}}
+              scope: support.constant.property-value.css
+            - include: color-values
+            - include: angle-constants
+            - include: length-constants
+            - include: percentage-constants
+
     # linear-gradient()
-    # https://drafts.csswg.org/css-images-3/#linear-gradients
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()
     # repeating-linear-gradient()
-    # https://drafts.csswg.org/css-images-3/#funcdef-repeating-linear-gradient
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-linear-gradient()
     - match: \b((?:repeating-)?linear-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
@@ -2040,7 +2210,7 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:to){{break}}
               scope: keyword.other.gradient.css
-            - match: \b(?i:top|right|bottom|left){{break}}
+            - match: \b(?i:bottom|left|right|top){{break}}
               scope: support.constant.property-value.css
             - include: color-values
             - include: angle-constants
@@ -2048,9 +2218,9 @@ contexts:
             - include: percentage-constants
 
     # radial-gradient()
-    # https://drafts.csswg.org/css-images-3/#radial-gradients
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient()
     # repeating-radial-gradient()
-    # https://drafts.csswg.org/css-images-3/#funcdef-repeating-radial-gradient
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-radial-gradient()
     - match: \b((?:repeating-)?radial-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
@@ -2063,7 +2233,7 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:at|circle|ellipse){{break}}
               scope: keyword.other.gradient.css
-            - match: \b(?i:left|center|right|top|bottom|(closest|farthest)-(corner|side)){{break}}
+            - match: \b(?i:bottom|center|left|right|top|(closest|farthest)-(corner|side)){{break}}
               scope: support.constant.property-value.css
             - include: color-values
             - include: length-constants
@@ -2087,6 +2257,7 @@ contexts:
             - include: function-arguments-common
             - match: \b(?i:auto){{break}}
               scope: support.constant.property-value.css
+            - include: calc-functions
             - include: length-constants
 
     # inset()
@@ -2102,6 +2273,7 @@ contexts:
             - include: function-arguments-common
             - match: \b(?i:round){{break}}
               scope: keyword.other.shape.css
+            - include: calc-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -2122,6 +2294,7 @@ contexts:
               scope: keyword.other.shape.css
             - match: \b(?i:top|right|bottom|left|center|closest-side|farthest-side){{break}}
               scope: support.constant.property-value.css
+            - include: calc-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -2160,6 +2333,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: scalar-constants
 
     # steps()
@@ -2174,6 +2348,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - match: \b(?i:end|middle|start){{break}}
               scope: keyword.other.timing.css
             - include: scalar-integer-constants
@@ -2195,6 +2370,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: scalar-constants
 
     # transform functions with comma separated <number> or <length> types
@@ -2209,6 +2385,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: percentage-constants
             - include: length-constants
             - include: scalar-constants
@@ -2224,6 +2401,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: percentage-constants
             - include: length-constants
             - include: scalar-constants
@@ -2239,6 +2417,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: angle-constants
 
     # transform functions with comma separated <angle> types
@@ -2253,6 +2432,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: angle-constants
 
     # transform functions with a single <length> type
@@ -2266,6 +2446,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: length-constants
 
     # transform functions with a comma separated <number> or <angle> types
@@ -2280,6 +2461,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: angle-constants
             - include: scalar-constants
 
@@ -2295,6 +2477,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: scalar-constants
 
 ###[ BUILTIN VALUE FUNCTIONS ]#################################################
@@ -2326,25 +2509,16 @@ contexts:
     - meta_scope: meta.function-call.arguments.css meta.group.css
     - include: function-arguments-common
     - include: comma-delimiters
-    - match: |-
-        \b(?x:
-            {{font_relative_lengths}}
-          | {{viewport_percentage_lengths}}
-          | {{absolute_lengths}}
-          | {{angle_units}}
-          | {{duration_units}}
-          | {{frequency_units}}
-          | {{resolution_units}}
-        ){{break}}
+    - match: '{{units}}'
       scope: keyword.other.unit.css
     - include: color-values
     - include: common-constants
     - include: generic-font-names
     - include: numeric-constants
 
-  # calc()
-  # https://www.w3.org/TR/css3-values/#funcdef-calc
   calc-functions:
+    # calc()
+    # https://www.w3.org/TR/css3-values/#funcdef-calc
     - match: \b(?i:calc)(?=\()
       scope: meta.function-call.identifier.css support.function.calc.css
       push:
@@ -2354,6 +2528,23 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: calc-function-arguments-content
+
+    # clamp()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()
+    # max()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/max()
+    # min()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/min()
+    - match: \b(?i:clamp|max|min)(?=\()
+      scope: meta.function-call.identifier.css support.function.calc.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: calc-function-arguments-content
+            - include: comma-delimiters
 
   calc-function-arguments-content:
     - meta_scope: meta.group.css
@@ -2368,7 +2559,21 @@ contexts:
     - include: attr-functions
     - include: calc-functions
     - include: var-functions
-    - include: numeric-constants
+    - match: '{{float}}({{units}})?'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{units}})?'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
 
@@ -2385,6 +2590,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: vendor-prefixes
             - include: color-values
             - include: common-constants
@@ -2454,6 +2660,8 @@ contexts:
       set:
         - meta_scope: meta.function-call.arguments.css meta.group.css
         - include: function-arguments-common
+        - include: comma-delimiters
+        - include: calc-functions
         - include: quoted-strings
         - include: numeric-constants
         - include: other-constants
@@ -2518,13 +2726,19 @@ contexts:
 
   # https://www.w3.org/TR/css3-values/#numeric-constantss
   numeric-constants:
-    - include: angle-constants
-    - include: frequency-constants
-    - include: length-constants
-    - include: resolution-constants
-    - include: percentage-constants
-    - include: time-constants
-    - include: scalar-constants
+    - match: '{{float}}({{units}})?'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{units}})?'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
 
   # Make sure `scalar-constants` is included after any other numeric values
   # as `scalar-constants` will consume all numeric values.
@@ -2539,7 +2753,6 @@ contexts:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
-      push: maybe-illegal-operator
 
   scalar-integer-constants:
     - match: '{{integer}}'
@@ -2547,7 +2760,6 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
-      push: maybe-illegal-operator
 
   scalar-rational-constants:
     - match: \d+(/)\d+
@@ -2556,78 +2768,68 @@ contexts:
         1: keyword.operator.arithmetic.css
 
   angle-constants:
-    - match: '{{float}}({{angle_units}})\b'
+    - match: '{{float}}({{angle_units}})'
       scope: meta.number.float.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{angle_units}})\b'
+    - match: '{{integer}}({{angle_units}})'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
     - match: \b0\b(?!%)
       scope: meta.number.integer.decimal.css constant.numeric.value.css
-      push: maybe-illegal-operator
 
   frequency-constants:
-    - match: '{{float}}({{frequency_units}})\b'
+    - match: '{{float}}({{frequency_units}})'
       scope: meta.number.float.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{frequency_units}})\b'
+    - match: '{{integer}}({{frequency_units}})'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
 
   length-constants:
-    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})'
       scope: meta.number.float.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
     - match: \b0\b(?!%)
       scope: meta.number.integer.decimal.css constant.numeric.value.css
-      push: maybe-illegal-operator
 
   resolution-constants:
-    - match: '{{float}}({{resolution_units}})\b'
+    - match: '{{float}}({{resolution_units}})'
       scope: meta.number.float.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{resolution_units}})\b'
+    - match: '{{integer}}({{resolution_units}})'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
 
   percentage-constants:
     - match: '{{float}}(%)'
@@ -2637,31 +2839,27 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
     - match: '{{integer}}(%)'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
 
   time-constants:
-    - match: '{{float}}({{duration_units}})\b'
+    - match: '{{float}}({{duration_units}})'
       scope: meta.number.float.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{duration_units}})\b'
+    - match: '{{integer}}({{duration_units}})'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
 
   # Unicode Ranges
   # https://www.w3.org/TR/css-syntax-3/#urange
@@ -2820,7 +3018,7 @@ contexts:
       scope: constant.character.escape.url.css
       captures:
         1: punctuation.definition.escape.css
-    - match: '[/&?]|://'
+    - match: '[/&?#]|://'
       scope: punctuation.separator.path.css
 
 ###[ OPERATORS ]###############################################################

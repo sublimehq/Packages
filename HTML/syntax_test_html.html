@@ -616,30 +616,55 @@ class="foo"></div>
         ##                      ^ punctuation.definition.tag.end.html
 
         <form-custom-tag><div-custom-tag><span-custom-tag></span-custom-tag></div-custom-tag></form-custom-tag>
-        ##^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                ^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.custom.html
+        ##^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                ^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                ^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.custom.html - invalid
+        ##^^^^^^^^^^^^^^^^ meta.tag.other.html - invalid
         ##              ^^ punctuation.definition.tag.end.html
-        ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
+        ##                ^ - meta.tag.other.html - punctuation.definition.tag.end.html
 
         <body-custom·tag₡name/>
-        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html - invalid
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
 
         <body.tag-custom.name/>
-        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html - invalid
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
+
+        <svg:p d=M232.233,220/>
+        ## ^^^ entity.name.tag.other.html - invalid
+        ##     ^ entity.other.attribute-name.html
+        ##      ^ punctuation.separator.key-value.html
+        ##       ^^^^^^^^^^^^ meta.string.html string.unquoted.html
+        ##                   ^^ punctuation.definition.tag.end.html
 
         <INVALID-custom-TAG></INVALID-CUSTOM-TAG>
-        ## ^^^^^ invalid.illegal.custom-tag-name.html
-        ##       ^^^^^^ - invalid.illegal.custom-tag-name.html
-        ##              ^^^ invalid.illegal.custom-tag-name.html
-        ##                    ^^^^^^^ invalid.illegal.custom-tag-name.html
-        ##                            ^^^^^^ invalid.illegal.custom-tag-name.html
-        ##                                   ^^^ invalid.illegal.custom-tag-name.html
+        ## ^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                    ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+
+        <body:tag-other.name/>
+        ## ^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
+
+        <A{{template}} {{attr}}={{value}} />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+        ## ^^^^^^^^^^^ entity.name.tag.other.html
+        ##             ^^^^^^^^ entity.other.attribute-name.html
+        ##                     ^ punctuation.separator.key-value.html
+        ##                      ^^^^^^^^^ meta.string.html string.unquoted.html
+        ##                                ^^ punctuation.definition.tag.end.html
+
+        <!-- Note: Templating syntaxes must handle the following cases on their own! -->
+
+        <{{template}} {{attr}}={{value}} />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+
+        <[[template]] [[attr]]=[[value]] />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+
+        <<?php echo $tagname ?> attr="<? echo value ?>" />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
 
         <form name="formName" type="post">
         ## ^ entity.name.tag.block.form.html
@@ -711,12 +736,17 @@ class="foo"></div>
 ##      ^^^^ - constant.character.entity
 
 
-        <a href="http://google%20api.com/?one=1&amp;two=2"></a>
+        <a href="http://google%20api.com/?one=1&amp;two=2#anchor"></a>
+        ##           ^^^ punctuation.separator.path.html
         ##                    ^^^ constant.character.escape.url
-        ##                                     ^^^^^ constant.character.entity
-        <a href="http://google.com/?one=1&two=2"></a>
-        ##                               ^ - constant.character.entity
-        ##                               ^ - invalid.illegal
+        ##                              ^^ punctuation.separator.path.html
+        ##                                     ^^^^^ constant.character.entity - punctuation.separator
+        ##                                               ^ punctuation.separator.path.html
+        <a href="http://google.com/?one=1&two=2#anchor"></a>
+        ##           ^^^ punctuation.separator.path.html
+        ##                        ^^ punctuation.separator.path.html
+        ##                               ^ punctuation.separator.path.html - constant.character.entity
+        ##                                     ^ punctuation.separator.path.html
 
         <hr/><hr />
         ## ^^ meta.tag.block.any punctuation.definition.tag.end
@@ -731,9 +761,14 @@ class="foo"></div>
 
         <_notag>
         ##^^^^^ - entity.name.tag
+        ## <- meta.character.less-than.html
 
         <2notag>
         ##^^^^^ - entity.name.tag
+        ## <- meta.character.less-than.html
+
+        <
+        ## <- meta.character.less-than.html
 
         <> < >
         ## <- meta.tag.incomplete.html invalid.illegal.incomplete.html punctuation.definition.tag.begin.html
