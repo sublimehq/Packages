@@ -1366,8 +1366,8 @@ contexts:
     - match: (?=\()
       branch_point: tuple_or_group
       branch:
-        - group-begin
-        - tuple-begin
+        - group_begin
+        - tuple_begin
     - match: \{
       scope: punctuation.section.block.begin.cs
       set:
@@ -1378,13 +1378,13 @@ contexts:
     - match: (?=[]}>,]|{{reserved}})
       pop: true
 
-  group-begin:
+  group_begin:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.cs
       set: group
 
-  tuple-begin:
+  tuple_begin:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.sequence.begin.cs
@@ -1457,7 +1457,7 @@ contexts:
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
-    - match: '\)'
+    - match: \)
       scope: meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
       pop: true
     - match: ''
