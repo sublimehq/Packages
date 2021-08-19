@@ -855,14 +855,19 @@ interface MyInter {}
 // <- keyword.declaration.interface
 //        ^ entity.name.interface
 
-interface MyInter2 extends \MyNamespace\Foo {
-// <- keyword.declaration.interface
+interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
+// <- keyword.declaration.inte
 //        ^ entity.name.interface
 //                 ^ storage.modifier
 //                         ^^^^^^^^^^^^^^^^ meta.path
 //                         ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                         ^ punctuation.separator.namespace
 //                                     ^ punctuation.separator.namespace
+//                                         ^ punctuation.separator
+//                                           ^ comment.block
+//                                                ^ punctuation.separator.namespace
+//                                                ^^^^^^^^^^^^ meta.path
+//                                                ^^^^^^^^^^^^ entity.other.inherited-class
 }
 
 if ($foo instanceof \Mynamespace\ClassName) {

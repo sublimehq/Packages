@@ -368,6 +368,7 @@ contexts:
     - include: else-pop
 
   tag-class-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -481,6 +482,7 @@ contexts:
     - include: else-pop
 
   tag-href-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -550,6 +552,7 @@ contexts:
     - include: else-pop
 
   tag-id-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
