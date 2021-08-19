@@ -239,6 +239,7 @@ contexts:
     - include: name
 
   expect-import-end:
+    - include: comments
     - match: $
       pop: true
     - match: '[^\s]+'

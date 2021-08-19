@@ -228,8 +228,9 @@ from sys import (version, # comment
 #                                  ^ comment
 import path from os
 #           ^^^^ invalid.illegal.name
-from .sub import *
+from .sub import *  # noqa: F401, F403
 #                ^ constant.language.import-all.python
+#                   ^^^^^^^^^^^^^^^^^^ comment
 import a as b
 #        ^^ keyword.control.import.as.python
 import a as .b, .b
