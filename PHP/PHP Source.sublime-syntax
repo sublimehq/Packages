@@ -12,8 +12,9 @@ variables:
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
   visibility_modifier: '\b(?:var|public|private|protected)\b'
 
-  # a pattern which terminates an incomplete expression at any point
-  expression_end: (?=;|\s*\?>|{{keywords}})
+  # A pattern which terminates an incomplete expression at any point.
+  # `\s*\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
+  expression_end: (?=;|}|\s*\?>|{{keywords}})
 
   keywords: |-
     (?x:
@@ -151,7 +152,6 @@ contexts:
         1: keyword.control.import.include.php
       push:
         - meta_scope: meta.include.php
-        # "\s*\?>" is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
         - match: (?=\)|\])
           pop: 1
         - include: nested-expressions
