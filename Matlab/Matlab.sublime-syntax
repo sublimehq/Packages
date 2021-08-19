@@ -605,14 +605,14 @@ contexts:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
-      push: transpose
+      push: maybe-transpose
     - match: \b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b
       scope: meta.number.integer.binary.matlab
       captures:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
-      push: transpose
+      push: maybe-transpose
     - match: ((?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?)(i|j)\b
       scope: meta.number.imaginary.decimal.matlab
       captures:
@@ -620,13 +620,13 @@ contexts:
         2: punctuation.separator.decimal.matlab
         3: punctuation.separator.decimal.matlab
         4: constant.numeric.suffix.matlab
-      push: transpose
+      push: maybe-transpose
     - match: (?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?(?!\w)
       scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
       captures:
         1: punctuation.separator.decimal.matlab
         2: punctuation.separator.decimal.matlab
-      push: transpose
+      push: maybe-transpose
 
   strings:
     - match: \'
@@ -643,7 +643,7 @@ contexts:
       scope: constant.character.escape.matlab
     - match: \'
       scope: punctuation.definition.string.end.matlab
-      set: dot-transpose-only
+      set: maybe-dot-transpose
     - match: $\n?
       scope: invalid.illegal.unclosed-string.matlab
       pop: 1
@@ -657,7 +657,7 @@ contexts:
       scope: constant.character.escape.matlab
     - match: \"
       scope: punctuation.definition.string.end.matlab
-      set: transpose
+      set: maybe-transpose
     - match: $\n?
       scope: invalid.illegal.unclosed-string.matlab
       pop: 1
@@ -703,7 +703,7 @@ contexts:
         2: punctuation.accessor.dot.matlab
     - match: '{{identifier}}'
       scope: variable.other.member.matlab
-      set: transpose
+      set: maybe-transpose
 
 ###[ PARENS/BRACKETS/BRACES BLOCKS ]############################################
 
@@ -728,7 +728,7 @@ contexts:
     - match: \.(?!['*/\\^])
       scope: punctuation.accessor.dot.matlab
       pop: 1
-    - include: transpose
+    - include: maybe-transpose
 
   brackets:
     - match: \[
@@ -739,7 +739,7 @@ contexts:
     - meta_scope: meta.brackets.matlab
     - match: \]
       scope: punctuation.section.brackets.end.matlab
-      set: transpose
+      set: maybe-transpose
     - include: separator-semicolons
     - include: argument-placeholders
     - include: expressions
@@ -1202,14 +1202,14 @@ contexts:
       scope: punctuation.section.parens.end.matlab
       pop: 1
 
-  transpose:
+  maybe-transpose:
     - match: (?:\s*(\.\')|(\'))?
       captures:
         1: keyword.operator.transpose.matlab
         2: keyword.operator.transpose.matlab
       pop: 1
 
-  dot-transpose-only:
+  maybe-dot-transpose:
     - match: (?:\s*(\.\'))?
       captures:
         1: keyword.operator.transpose.matlab
@@ -1237,12 +1237,12 @@ contexts:
   builtin-constants:
     - match: \b(true|false|eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
       scope: constant.language.matlab
-      push: transpose
+      push: maybe-transpose
 
   builtin-variables:
     - match: \b(ans|nargin|nargout|varargin|varargout)\b
       scope: variable.language.matlab
-      push: transpose
+      push: maybe-transpose
 
   builtin-types:
     - match: \b(?:categorical|cell|char|complex|double|int8|int16|int32|int64|logical|single|string|struct|table|timeseries|timetable|uint8|uint16|uint32|uint64)\b(?!\()
@@ -1251,7 +1251,7 @@ contexts:
   last-indices:
     - match: \bend\b
       scope: variable.language.matlab
-      push: transpose
+      push: maybe-transpose
 
   argument-placeholders:
     - match: \~(?![A-Za-z])
