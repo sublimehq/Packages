@@ -570,13 +570,15 @@ contexts:
     - match: ^\s*(%\{)\s*\n
       captures:
         1: punctuation.definition.comment.matlab
-      push:
-        - meta_scope: comment.block.percentage.matlab
-        - match: ^\s*(%\})\s*$\n?
-          captures:
-            1: punctuation.definition.comment.matlab
-          pop: 1
-        - include: block-comments
+      push: block-comment-content
+
+  block-comment-content:
+    - meta_scope: comment.block.percentage.matlab
+    - match: ^\s*(%\})\s*$\n?
+      captures:
+        1: punctuation.definition.comment.matlab
+      pop: 1
+    - include: block-comments
 
   line-comments:
     - match: (%%(?!%)).*\n?
@@ -629,38 +631,38 @@ contexts:
   strings:
     - match: \'
       scope: punctuation.definition.string.begin.matlab
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.matlab string.quoted.single.matlab
-        - match: \'\'
-          scope: constant.character.escape.matlab
-        - match: \'
-          scope: punctuation.definition.string.end.matlab
-          set:
-            - match: (?:\s*(\.\'))?
-              captures:
-                1: keyword.operator.transpose.matlab
-              pop: 1
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.matlab
-          pop: 1
-        - include: escaped-characters
-        - include: format-specs
+      push: single-quoted-string
     - match: \"
       scope: punctuation.definition.string.begin.matlab
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.matlab string.quoted.double.matlab
-        - match: \"\"
-          scope: constant.character.escape.matlab
-        - match: \"
-          scope: punctuation.definition.string.end.matlab
-          set: transpose
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.matlab
-          pop: 1
-        - include: escaped-characters
-        - include: format-specs
+      push: double-quoted-string
+
+  single-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.matlab string.quoted.single.matlab
+    - match: \'\'
+      scope: constant.character.escape.matlab
+    - match: \'
+      scope: punctuation.definition.string.end.matlab
+      set: dot-transpose-only
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.matlab
+      pop: 1
+    - include: escaped-characters
+    - include: format-specs
+
+  double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.matlab string.quoted.double.matlab
+    - match: \"\"
+      scope: constant.character.escape.matlab
+    - match: \"
+      scope: punctuation.definition.string.end.matlab
+      set: transpose
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.matlab
+      pop: 1
+    - include: escaped-characters
+    - include: format-specs
 
   escaped-characters:
     - match: \%\%|\\\\|\\[abfnrtv]
@@ -692,144 +694,158 @@ contexts:
       captures:
         1: variable.other.matlab
         2: punctuation.accessor.dot.matlab
-      push:
-        - match: ({{identifier}})(\.)(?={{identifier}})
-          captures:
-            1: variable.other.member.matlab
-            2: punctuation.accessor.dot.matlab
-        - match: '{{identifier}}'
-          scope: variable.other.member.matlab
-          set: transpose
+      push: structure-fields
+
+  structure-fields:
+    - match: ({{identifier}})(\.)(?={{identifier}})
+      captures:
+        1: variable.other.member.matlab
+        2: punctuation.accessor.dot.matlab
+    - match: '{{identifier}}'
+      scope: variable.other.member.matlab
+      set: transpose
 
 ###[ PARENS/BRACKETS/BRACES BLOCKS ]############################################
 
   parens:
     - match: \(
       scope: punctuation.section.parens.begin.matlab
-      push:
-        - meta_scope: meta.parens.matlab
-        - match: \)
-          scope: punctuation.section.parens.end.matlab
-          set:
-            - match: (\.)({{identifier}})
-              captures:
-                1: punctuation.accessor.dot.matlab
-                2: variable.other.member.matlab
-            - match: \.(?!['*/\\^])
-              scope: punctuation.accessor.dot.matlab
-              pop: 1
-            - include: transpose
-        - include: last-indices
-        - include: expressions
+      push: parens-content
+
+  parens-content:
+    - meta_scope: meta.parens.matlab
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      set: maybe-fields-or-transpose
+    - include: last-indices
+    - include: expressions
+
+  maybe-fields-or-transpose:
+    - match: (\.)({{identifier}})
+      captures:
+        1: punctuation.accessor.dot.matlab
+        2: variable.other.member.matlab
+    - match: \.(?!['*/\\^])
+      scope: punctuation.accessor.dot.matlab
+      pop: 1
+    - include: transpose
 
   brackets:
     - match: \[
       scope: punctuation.section.brackets.begin.matlab
-      push:
-        - meta_scope: meta.brackets.matlab
-        - match: \]
-          scope: punctuation.section.brackets.end.matlab
-          set: transpose
-        - include: separator-semicolons
-        - include: argument-placeholders
-        - include: expressions
+      push: brackets-content
+
+  brackets-content:
+    - meta_scope: meta.brackets.matlab
+    - match: \]
+      scope: punctuation.section.brackets.end.matlab
+      set: transpose
+    - include: separator-semicolons
+    - include: argument-placeholders
+    - include: expressions
 
   braces:
     - match: \{
       scope: punctuation.section.braces.begin.matlab
-      push:
-        - meta_scope: meta.braces.matlab
-        - match: \}
-          scope: punctuation.section.braces.end.matlab
-          set:
-            - match: (\.)({{identifier}})
-              captures:
-                1: punctuation.accessor.dot.matlab
-                2: variable.other.member.matlab
-            - match: \.(?!['*/\\^])
-              scope: punctuation.accessor.dot.matlab
-              pop: 1
-            - include: transpose
-        - include: separator-semicolons
-        - include: last-indices
-        - include: expressions
+      push: braces-content
+
+  braces-content:
+    - meta_scope: meta.braces.matlab
+    - match: \}
+      scope: punctuation.section.braces.end.matlab
+      set: maybe-fields-or-transpose
+    - include: separator-semicolons
+    - include: last-indices
+    - include: expressions
 
 ###[ DECLARATION BLOCKS ]#######################################################
 
   function-declarations:
     - match: \bfunction\b
       scope: keyword.declaration.function.matlab
-      push:
-        - meta_scope: meta.function.matlab
-        - include: line-continuations
-        - match: '{{eol}}'
-          set: maybe-function-arguments-block
-        - match: ({{identifier}})\s*(=)
-          captures:
-            1: variable.parameter.output.matlab
-            2: keyword.operator.assignment.matlab
-        - match: \[
-          scope: punctuation.section.brackets.begin.matlab
-          push:
-            - include: line-continuations
-            - include: eol-pop
-            - include: separator-commas
-            - match: \]
-              scope: punctuation.section.brackets.end.matlab
-              pop: 1
-            - match: '{{identifier}}'
-              scope: variable.parameter.output.matlab
-        - match: =
-          scope: keyword.operator.assignment.matlab
-        - match: (?:(?:set|get)(\.))?{{identifier}}
-          scope: entity.name.function.matlab
-          captures:
-            1: punctuation.accessor.dot.matlab
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - clear_scopes: 1
-            - meta_scope: meta.function.parameters.matlab
-            - include: line-continuations
-            - include: eol-pop
-            - include: separator-commas
-            - include: argument-placeholders
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-            - match: '{{identifier}}'
-              scope: variable.parameter.input.matlab
+      push: function-declaration-header
+
+  function-declaration-header:
+    - meta_scope: meta.function.matlab
+    - include: line-continuations
+    - match: '{{eol}}'
+      set: maybe-function-arguments-block
+    - match: ({{identifier}})\s*(=)
+      captures:
+        1: variable.parameter.output.matlab
+        2: keyword.operator.assignment.matlab
+    - match: \[
+      scope: punctuation.section.brackets.begin.matlab
+      push: function-output-parameters-list
+    - match: =
+      scope: keyword.operator.assignment.matlab
+    - match: (?:(?:set|get)(\.))?{{identifier}}
+      scope: entity.name.function.matlab
+      captures:
+        1: punctuation.accessor.dot.matlab
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push: function-input-parameters-list
+
+  function-output-parameters-list:
+    - include: line-continuations
+    - include: eol-pop
+    - include: separator-commas
+    - match: \]
+      scope: punctuation.section.brackets.end.matlab
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.parameter.output.matlab
+
+  function-input-parameters-list:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.matlab
+    - include: line-continuations
+    - include: eol-pop
+    - include: separator-commas
+    - include: argument-placeholders
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.parameter.input.matlab
 
   maybe-function-arguments-block:
     - meta_content_scope: meta.function.matlab
     - include: comments
     - match: \barguments\b
       scope: keyword.context.arguments.matlab
-      push:
-        - meta_scope: meta.arguments.matlab
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - include: eol-pop
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-            - match: \bRepeating\b
-              scope: variable.parameter.attribute.matlab
-        - match: '{{eol}}'
-          set:
-            - meta_scope: meta.arguments.matlab
-            - match: \bend\b
-              scope: keyword.context.arguments.end.matlab
-              pop: 1
-            - match: \b\.\?
-              scope: keyword.operator.properties.matlab
-            - include: argument-placeholders
-            - include: builtin-types
-            - include: expressions
+      push: function-arguments-block-header
     - match: (?=\S)
       set: function-body
+
+  function-arguments-block-header:
+    - meta_scope: meta.arguments.matlab
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push: function-arguments-block-attributes-list
+    - match: '{{eol}}'
+      set: function-arguments-block-content
+
+  function-arguments-block-attributes-list:
+    - meta_scope: meta.attributes.matlab
+    - include: eol-pop
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
+    - match: \bRepeating\b
+      scope: variable.parameter.attribute.matlab
+
+  function-arguments-block-content:
+    - meta_scope: meta.arguments.matlab
+    - match: \bend\b
+      scope: keyword.context.arguments.end.matlab
+      pop: 1
+    - match: \b\.\?
+      scope: keyword.operator.properties.matlab
+    - include: argument-placeholders
+    - include: builtin-types
+    - include: expressions
 
   function-body:
     - meta_scope: meta.function.matlab
@@ -843,40 +859,48 @@ contexts:
   class-declarations:
     - match: \bclassdef\b
       scope: keyword.declaration.class.matlab
-      push:
-        - meta_scope: meta.class.matlab
-        - include: eol-pop
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - include: line-continuations
-            - include: eol-pop
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-            # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
-            - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
-              scope: variable.parameter.attribute.matlab
-            - include: expressions
-        - match: '{{identifier}}'
-          scope: entity.name.class.matlab
-          set:
-            - meta_content_scope: meta.class.matlab
-            - include: line-continuations
-            - match: '{{eol}}'
-              set: class-body
-            - match: <
-              scope: punctuation.separator.inheritance.matlab
-              set:
-                - meta_scope: meta.class.matlab
-                - include: line-continuations
-                - match: '{{eol}}'
-                  set: class-body
-                - match: '{{identifier}}'
-                  scope: entity.other.inherited-class.matlab
-                - match: \&
-                  scope: punctuation.separator.sequence.matlab
+      push: class-declaration-header
+
+  class-declaration-header:
+    - meta_scope: meta.class.matlab
+    - include: eol-pop
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push: class-attributes-list
+    - match: '{{identifier}}'
+      scope: entity.name.class.matlab
+      set: maybe-superclasses-list
+
+  maybe-superclasses-list:
+    - meta_content_scope: meta.class.matlab
+    - include: line-continuations
+    - match: '{{eol}}'
+      set: class-body
+    - match: <
+      scope: punctuation.separator.inheritance.matlab
+      set: superclasses-list
+
+  superclasses-list:
+    - meta_scope: meta.class.matlab
+    - include: line-continuations
+    - match: '{{eol}}'
+      set: class-body
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.matlab
+    - match: \&
+      scope: punctuation.separator.sequence.matlab
+
+  class-attributes-list:
+    - meta_scope: meta.attributes.matlab
+    - include: line-continuations
+    - include: eol-pop
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
+    # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
+    - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
+      scope: variable.parameter.attribute.matlab
+    - include: expressions
 
   class-body:
     - meta_scope: meta.class.matlab
@@ -892,25 +916,29 @@ contexts:
   class-properties-blocks:
     - match: \bproperties\b
       scope: keyword.declaration.properties.matlab
-      push:
-        - meta_scope: meta.properties.matlab
-        - match: '{{eol}}'
-          set: class-properties-block-body
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - include: line-continuations
-            - include: eol-pop
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-            # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
-            - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
-              scope: variable.parameter.attribute.matlab
-            - match: \b(?:public|protected|private)\b
-              scope: storage.modifier.matlab
-            - include: expressions
+      push: class-properties-block-header
+
+  class-properties-block-header:
+    - meta_scope: meta.properties.matlab
+    - match: '{{eol}}'
+      set: class-properties-block-body
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push: class-properties-block-attributes-list
+
+  class-properties-block-attributes-list:
+    - meta_scope: meta.attributes.matlab
+    - include: line-continuations
+    - include: eol-pop
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
+    # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
+    - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
+      scope: variable.parameter.attribute.matlab
+    - match: \b(?:public|protected|private)\b
+      scope: storage.modifier.matlab
+    - include: expressions
 
   class-properties-block-body:
     - meta_scope: meta.properties.matlab
@@ -923,25 +951,29 @@ contexts:
   class-methods-blocks:
     - match: \bmethods\b
       scope: keyword.context.methods.matlab
-      push:
-        - meta_scope: meta.methods.matlab
-        - match: '{{eol}}'
-          set: class-methods-block-body
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - include: line-continuations
-            - include: eol-pop
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-            # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
-            - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
-              scope: variable.parameter.attribute.matlab
-            - match: \b(?:public|protected|private)\b
-              scope: storage.modifier.matlab
-            - include: expressions
+      push: class-methods-block-header
+
+  class-methods-block-header:
+    - meta_scope: meta.methods.matlab
+    - match: '{{eol}}'
+      set: class-methods-block-body
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push: class-methods-block-attributes-list
+
+  class-methods-block-attributes-list:
+    - meta_scope: meta.attributes.matlab
+    - include: line-continuations
+    - include: eol-pop
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
+    # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
+    - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
+      scope: variable.parameter.attribute.matlab
+    - match: \b(?:public|protected|private)\b
+      scope: storage.modifier.matlab
+    - include: expressions
 
   class-methods-block-body:
     - meta_scope: meta.methods.matlab
@@ -954,25 +986,29 @@ contexts:
   class-events-blocks:
     - match: \bevents\b
       scope: keyword.declaration.events.matlab
-      push:
-        - meta_scope: meta.events.matlab
-        - match: '{{eol}}'
-          set: class-events-block-body
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - include: line-continuations
-            - include: eol-pop
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-            # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
-            - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
-              scope: variable.parameter.attribute.matlab
-            - match: \b(?:public|protected|private)\b
-              scope: storage.modifier.matlab
-            - include: expressions
+      push: class-events-block-header
+
+  class-events-block-header:
+    - meta_scope: meta.events.matlab
+    - match: '{{eol}}'
+      set: class-events-block-body
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push: class-events-block-attributes-list
+
+  class-events-block-attributes-list:
+    - meta_scope: meta.attributes.matlab
+    - include: line-continuations
+    - include: eol-pop
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
+    # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
+    - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
+      scope: variable.parameter.attribute.matlab
+    - match: \b(?:public|protected|private)\b
+      scope: storage.modifier.matlab
+    - include: expressions
 
   class-events-block-body:
     - meta_scope: meta.events.matlab
@@ -1020,89 +1056,103 @@ contexts:
   if-blocks:
     - match: \bif\b
       scope: keyword.control.conditional.if.matlab
-      push:
-        - meta_scope: meta.block.if.matlab
-        - match: \belseif\b
-          scope: keyword.control.conditional.elseif.matlab
-        - match: \belse\b
-          scope: keyword.control.conditional.else.matlab
-        - match: \bend\b
-          scope: keyword.control.conditional.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: if-block-content
+
+  if-block-content:
+    - meta_scope: meta.block.if.matlab
+    - match: \belseif\b
+      scope: keyword.control.conditional.elseif.matlab
+    - match: \belse\b
+      scope: keyword.control.conditional.else.matlab
+    - match: \bend\b
+      scope: keyword.control.conditional.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
   switch-blocks:
     - match: \bswitch\b
       scope: keyword.control.conditional.switch.matlab
-      push:
-        - meta_scope: meta.block.switch.matlab
-        - match: \bcase\b
-          scope: keyword.control.conditional.case.matlab
-        - match: \botherwise\b
-          scope: keyword.control.conditional.otherwise.matlab
-        - match: \bend\b
-          scope: keyword.control.conditional.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: switch-block-content
+
+  switch-block-content:
+    - meta_scope: meta.block.switch.matlab
+    - match: \bcase\b
+      scope: keyword.control.conditional.case.matlab
+    - match: \botherwise\b
+      scope: keyword.control.conditional.otherwise.matlab
+    - match: \bend\b
+      scope: keyword.control.conditional.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
   for-blocks:
     - match: \bfor\b
       scope: keyword.control.loop.for.matlab
-      push:
-        - meta_scope: meta.block.for.matlab
-        - match: \bend\b
-          scope: keyword.control.loop.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: for-block-content
+
+  for-block-content:
+    - meta_scope: meta.block.for.matlab
+    - match: \bend\b
+      scope: keyword.control.loop.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
   parfor-blocks:
     - match: \bparfor\b
       scope: keyword.control.loop.parfor.matlab
-      push:
-        - meta_scope: meta.block.parfor.matlab
-        - match: \bend\b
-          scope: keyword.control.loop.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: parfor-block-content
+
+  parfor-block-content:
+    - meta_scope: meta.block.parfor.matlab
+    - match: \bend\b
+      scope: keyword.control.loop.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
   while-blocks:
     - match: \bwhile\b
       scope: keyword.control.loop.while.matlab
-      push:
-        - meta_scope: meta.block.while.matlab
-        - match: \bend\b
-          scope: keyword.control.loop.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: while-block-content
+
+  while-block-content:
+    - meta_scope: meta.block.while.matlab
+    - match: \bend\b
+      scope: keyword.control.loop.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
   try-blocks:
     - match: \btry\b
       scope: keyword.control.exception.try.matlab
-      push:
-        - meta_scope: meta.block.try.matlab
-        - match: \bcatch\b
-          scope: keyword.control.exception.catch.matlab
-        - match: \bend\b
-          scope: keyword.control.exception.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: try-block-content
+
+  try-block-content:
+    - meta_scope: meta.block.try.matlab
+    - match: \bcatch\b
+      scope: keyword.control.exception.catch.matlab
+    - match: \bend\b
+      scope: keyword.control.exception.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
   spmd-blocks:
     - match: \bspmd\b
       scope: keyword.context.spmd.matlab
-      push:
-        - meta_scope: meta.block.spmd.matlab
-        - match: \bend\b
-          scope: keyword.context.spmd.end.matlab
-          pop: 1
-        - include: keywords
-        - include: expressions
+      push: spmd-block-content
+
+  spmd-block-content:
+    - meta_scope: meta.block.spmd.matlab
+    - match: \bend\b
+      scope: keyword.context.spmd.end.matlab
+      pop: 1
+    - include: keywords
+    - include: expressions
 
 ###[ OPERATORS AND PUNCTUATION ]################################################
 
@@ -1122,35 +1172,47 @@ contexts:
       scope: keyword.operator.metaclass.matlab
     - match: \!
       scope: keyword.operator.shell-escape.matlab
-      push:
-        - meta_content_scope: meta.string.matlab string.unquoted.matlab
-        - match: \n
-          pop: 1
+      push: shell-escape-content
     - match: \b\@
       scope: punctuation.accessor.at.matlab
     - match: \@
       scope: keyword.operator.at.matlab
-      push:
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          set:
-            - meta_scope: meta.function.parameters.matlab
-            - include: line-continuations
-            - include: eol-pop
-            - match: '{{identifier}}'
-              scope: variable.parameter.input.matlab
-            - include: separator-commas
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: 1
-        - match: ''
-          pop: 1
+      push: function-handle
+
+  shell-escape-content:
+    - meta_content_scope: meta.string.matlab string.unquoted.matlab
+    - match: \n
+      pop: 1
+
+  function-handle:
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      set: anonymous-function-parameters-list
+    - match: ''
+      pop: 1
+
+  anonymous-function-parameters-list:
+    - meta_scope: meta.function.parameters.matlab
+    - include: line-continuations
+    - include: eol-pop
+    - match: '{{identifier}}'
+      scope: variable.parameter.input.matlab
+    - include: separator-commas
+    - match: \)
+      scope: punctuation.section.parens.end.matlab
+      pop: 1
 
   transpose:
     - match: (?:\s*(\.\')|(\'))?
       captures:
         1: keyword.operator.transpose.matlab
         2: keyword.operator.transpose.matlab
+      pop: 1
+
+  dot-transpose-only:
+    - match: (?:\s*(\.\'))?
+      captures:
+        1: keyword.operator.transpose.matlab
       pop: 1
 
   accessor-dots:
@@ -1233,12 +1295,7 @@ contexts:
       captures:
         1: meta.function-call.matlab support.function.builtin.matlab
         2: meta.string.matlab support.constant.matlab
-      push:
-        - include: eol-pop
-        - match: (?=[;,])
-          pop: 1
-        - match: '[^;,\s]+'
-          scope: meta.string.matlab string.regexp.matlab
+      push: regexp-pattern-list
     # https://www.mathworks.com/help/matlab/ref/close.html
     - match: \b(close)(?:\s+(all)(?:\s+(hidden|force))?)?\b
       captures:
@@ -1340,6 +1397,13 @@ contexts:
       captures:
         1: meta.function-call.matlab support.function.builtin.matlab
         2: meta.string.matlab support.constant.matlab
+
+  regexp-pattern-list:
+    - include: eol-pop
+    - match: (?=[;,])
+      pop: 1
+    - match: '[^;,\s]+'
+      scope: meta.string.matlab string.regexp.matlab
 
   # Parentheses are usually omitted when functions are used without parameters.
   # This command syntax is also possible for functions if all parameters are character arrays.
