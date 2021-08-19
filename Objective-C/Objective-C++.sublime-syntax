@@ -361,6 +361,7 @@ contexts:
             - include: scope:source.objc#protocol_type_qualifier
             - include: expressions
         - include: comments
+        - include: attribute
         - match: '(,)\s+(\.\.\.)\s*'
           captures:
             1: punctuation.separator.objc++
@@ -454,18 +455,7 @@ contexts:
           scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.objc++
-        2: meta.group.objc++ punctuation.section.group.begin.objc++
-      push :
-        - meta_scope: meta.attribute.objc++
-        - meta_content_scope: meta.group.objc++
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: meta.group.objc++ punctuation.section.group.end.objc++
-          pop: true
+    - include: attribute
     - match: \b(__declspec)(\()
       captures:
         1: storage.modifier.objc++
@@ -494,6 +484,20 @@ contexts:
               scope: keyword.operator.assignment.objc++
         - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
           scope: constant.other.objc++
+
+  attribute:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
+      push :
+        - meta_scope: meta.attribute.objc++
+        - meta_content_scope: meta.group.objc++
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
+          pop: true
 
   types-parens:
     - match: '\b(decltype)\b\s*(\()'

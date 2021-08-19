@@ -634,7 +634,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         if not match_selector(view, pt, selector):
             return None
 
-        if match_selector(view, pt, "meta.property-value.css meta.function-call"):
+        if match_selector(view, pt, "meta.property-value.css meta.function-call.arguments"):
             items = self.complete_function_argument(view, prefix, pt)
         elif match_selector(view, pt, "meta.property-value.css"):
             items = self.complete_property_value(view, prefix, pt)
@@ -715,4 +715,26 @@ class CSSCompletions(sublime_plugin.EventListener):
         return completions
 
     def complete_function_argument(self, view, prefix, pt):
+        args_region = view.expand_by_class(
+            pt, sublime.CLASS_PUNCTUATION_START | sublime.CLASS_PUNCTUATION_END)
+        func_region = view.expand_by_class(
+            args_region.a - 2, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END)
+        func_name = view.substr(func_region)
+
+        # TODO: provide more function specific argument completions
+
+        if func_name == "var":
+            return [
+                sublime.CompletionItem(
+                    trigger=symbol,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=sublime.KIND_VARIABLE,
+                    details="var() argument"
+                )
+                for symbol in set(
+                    view.substr(symbol_region)
+                    for symbol_region in view.find_by_selector("entity.other.custom-property")
+                )
+                if not prefix or symbol.startswith(prefix)
+            ]
         return None
