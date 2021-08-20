@@ -1420,138 +1420,302 @@ contexts:
 ###[ BUILTIN PACKAGES AND OBJECT FUNCTIONS ]####################################
 
   builtin-packages:
-    - match: \b(cdflib)\b(?:(\.)(?:({{cdflib_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(clibgen)\b(?:(\.)(?:({{clibgen_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5)\b(?:(\.)(?:({{H5_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5A)\b(?:(\.)(?:({{H5A_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5DS)\b(?:(\.)(?:({{H5DS_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5E)\b(?:(\.)(?:({{H5E_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5F)\b(?:(\.)(?:({{H5F_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5G)\b(?:(\.)(?:({{H5G_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5I)\b(?:(\.)(?:({{H5I_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5L)\b(?:(\.)(?:({{H5L_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5ML)\b(?:(\.)(?:({{H5ML_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5O)\b(?:(\.)(?:({{H5O_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5P)\b(?:(\.)(?:({{H5P_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5R)\b(?:(\.)(?:({{H5R_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5S)\b(?:(\.)(?:({{H5S_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5T)\b(?:(\.)(?:({{H5T_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(H5Z)\b(?:(\.)(?:({{H5Z_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(MException)\b(?:(\.)(?:(last)\b|({{identifier}})\b)?)?
-      captures:
-        1: support.class.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(NET)\b(?:(\.)(?:({{NET_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(netcdf)\b(?:(\.)(?:({{netcdf_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(RandStream)\b(?:(\.)(?:({{RandStream_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.class.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
-    - match: \b(Tiff)\b(?:(\.)(?:({{Tiff_object_functions}})\b|({{identifier}})\b)?)?
-      captures:
-        1: support.module.builtin.matlab
-        2: punctuation.accessor.dot.matlab
-        3: meta.function-call.matlab support.function.matlab
-        4: variable.other.matlab
+    - match: \bcdflib\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-cdflib-object-function
+        - maybe-accessor-dot
+    - match: \bclibgen\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-clibgen-object-function
+        - maybe-accessor-dot
+    - match: \bH5\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5-object-function
+        - maybe-accessor-dot
+    - match: \bH5A\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5a-object-function
+        - maybe-accessor-dot
+    - match: \bH5DS\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5ds-object-function
+        - maybe-accessor-dot
+    - match: \bH5E\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5e-object-function
+        - maybe-accessor-dot
+    - match: \bH5F\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5f-object-function
+        - maybe-accessor-dot
+    - match: \bH5G\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5g-object-function
+        - maybe-accessor-dot
+    - match: \bH5I\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5i-object-function
+        - maybe-accessor-dot
+    - match: \bH5L\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5l-object-function
+        - maybe-accessor-dot
+    - match: \bH5ML\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5ml-object-function
+        - maybe-accessor-dot
+    - match: \bH5O\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5o-object-function
+        - maybe-accessor-dot
+    - match: \bH5P\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5p-object-function
+        - maybe-accessor-dot
+    - match: \bH5R\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5r-object-function
+        - maybe-accessor-dot
+    - match: \bH5S\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5s-object-function
+        - maybe-accessor-dot
+    - match: \bH5T\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5t-object-function
+        - maybe-accessor-dot
+    - match: \bH5Z\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-h5z-object-function
+        - maybe-accessor-dot
+    - match: \bMException\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-mexception-object-function
+        - maybe-accessor-dot
+    - match: \bNET\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-net-object-function
+        - maybe-accessor-dot
+    - match: \bnetcdf\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-netcdf-object-function
+        - maybe-accessor-dot
+    - match: \bRandStream\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-randstream-object-function
+        - maybe-accessor-dot
+    - match: \bTiff\b
+      scope: support.module.builtin.matlab
+      push:
+        - maybe-tiff-object-function
+        - maybe-accessor-dot
+
+  maybe-accessor-dot:
+    - match: \.\'
+      scope: keyword.operator.transpose.matlab
+      pop: 2
+    - match: \.(?!\*|/|\\|\^)
+      scope: punctuation.accessor.dot.matlab
+      pop: 1
+    - match: ''
+      pop: 2
+
+  maybe-cdflib-object-function:
+    - match: '{{cdflib_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-clibgen-object-function:
+    - match: '{{clibgen_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5-object-function:
+    - match: '{{H5_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5a-object-function:
+    - match: '{{H5A_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5ds-object-function:
+    - match: '{{H5DS_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5e-object-function:
+    - match: '{{H5E_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5f-object-function:
+    - match: '{{H5F_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5g-object-function:
+    - match: '{{H5G_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5i-object-function:
+    - match: '{{H5I_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5l-object-function:
+    - match: '{{H5L_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5ml-object-function:
+    - match: '{{H5ML_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5o-object-function:
+    - match: '{{H5O_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5p-object-function:
+    - match: '{{H5P_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5r-object-function:
+    - match: '{{H5R_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5s-object-function:
+    - match: '{{H5S_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5t-object-function:
+    - match: '{{H5T_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-h5z-object-function:
+    - match: '{{H5Z_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-mexception-object-function:
+    - match: last\b
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-net-object-function:
+    - match: '{{NET_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-netcdf-object-function:
+    - match: '{{netcdf_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-randstream-object-function:
+    - match: '{{RandStream_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
+
+  maybe-tiff-object-function:
+    - match: '{{Tiff_object_functions}}\b'
+      scope: meta.function-call.matlab support.function.matlab
+      pop: 1
+    - match: '{{identifier}}?'
+      scope: variable.other.matlab
+      pop: 1
 
 ###[ INVALID ]##################################################################
 
