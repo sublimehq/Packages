@@ -2701,6 +2701,10 @@ void sayHi()
 /*                           ^ punctuation.separator.objc           */
 /*                             ^ keyword.other.property.attribute.  */
 /*                                  ^ punctuation.section.scope.end */
+- (NSString*)formatWithPattern:(NSString*)pattern __attribute__((swift_name("format(pattern:)")));
+/*                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.objc++*/
+/*                                                ^^^^^^^^^^^^^ storage.modifier.objc++*/
+/*                                                                          ^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */

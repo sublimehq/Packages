@@ -623,6 +623,8 @@ UpperCamelCase = 3
 # ^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 UPPER_SNAKE_CASE = 4
 # ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
+UPPER_SNAKE_CASE ||= 5
+# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 A, B, C = 0
 # <- entity.name.constant
 #  ^ entity.name.constant
@@ -1124,15 +1126,17 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                  ^^^^^ variable.parameter
   end
 
-  def keyword_args a: nil, b: true
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                  ^^^^^^^^^^^^^^^ meta.function.parameters
+  def keyword_args a: nil, b: true, c: false
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                   ^^^^^ meta.function.parameters.default-value
 #                   ^ punctuation.separator
-#                     ^^^ constant.language
+#                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language
+#                             ^^^^ constant.language.boolean
+#                                 ^ punctuation.separator.ruby
+#                                      ^^^^^ constant.language.boolean.ruby
   end
 
   def multiline_args(a, # a comment

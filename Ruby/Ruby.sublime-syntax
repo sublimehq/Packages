@@ -194,7 +194,7 @@ contexts:
 
   constants:
     # constant definition, handles multiple definitions on a single line 'APPLE, ORANGE= 1, 2'
-    - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*=(?![=\>]))'
+    - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*(\|\|)?=(?![=\>]))'
       scope: meta.constant.ruby entity.name.constant.ruby
       push: after-constant
     # Ruby 1.9 symbols
@@ -203,8 +203,11 @@ contexts:
       captures:
         1: punctuation.definition.constant.ruby
       push: try-regex
-    - match: '\b(nil|true|false)\b(?![?!])'
-      scope: constant.language.ruby
+    - match: '\b(nil)\b(?![?!])'
+      scope: constant.language.null.ruby
+      push: after-constant
+    - match: '\b(true|false)\b(?![?!])'
+      scope: constant.language.boolean.ruby
       push: after-constant
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby

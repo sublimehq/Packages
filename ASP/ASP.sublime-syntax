@@ -3,7 +3,6 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: ASP
 file_extensions:
-  - asa # asp is handled by HTML-ASP.sublime-syntax
   - vbs # Visual Basic Script
 scope: source.asp
 variables:

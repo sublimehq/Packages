@@ -287,6 +287,9 @@ contexts:
     - match: (?=;)
       pop: 1
 
+    - match: (?=::)
+      pop: 1
+
     - match: (?={{function_args_begin}})
       push:
         - function-arguments-meta

@@ -588,6 +588,10 @@
 --     ^^^ entity.name.label
 --         ^^ punctuation.definition.label.end
 
+    local x = 1
+    ::foo::
+--  ^^ punctuation.definition.label.begin
+
     goto foo;
 --  ^^^^ keyword.control.goto
 --       ^^^ variable.label
