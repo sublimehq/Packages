@@ -33,10 +33,10 @@
 			# ... until end of line
 			$
 		]]></string>
-		<key>unIndentedLinePattern</key>
-		<string>^\s*(?:(?:/\*|\*/).*)?$</string>
 		<key>preserveIndent</key>
-		<true/>
+		<false/>
+		<key>unIndentedLinePattern</key>
+		<string>^\s*(?:(?:/\*|\*+/).*)?$\n?</string>
 	</dict>
 </dict>
 </plist>
