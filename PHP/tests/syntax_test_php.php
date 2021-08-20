@@ -995,7 +995,7 @@ $anon = new class{};
 
 $anon = new class};
 //      ^ keyword.other.new.php
-//          ^ storage.type.class.php
+//          ^ keyword.declaration.class
 //               ^ punctuation.section.block.end.php - meta.class - meta.block
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
