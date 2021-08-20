@@ -1,17 +1,35 @@
 /* SYNTAX TEST reindent-unchanged "Packages/CSS/CSS.sublime-syntax" */
 
-.class { font-size: 10; }
+.class { color: red; }
 
-.class { font-size: 10;
+.class { color: red;
+}
+
+.class { color: red;
+    background: beige;
+}
+
+.class { color: rgb(
+    background: beige;
+}
+
+.class { color: rgb(0, 0, 0);
+    background: beige;
 }
 
 .class
 {
-    font-size: 10;
+    color: red;
 }
 
 .class {
-    font-size: 10;
+    color: red;
+}
+
+.class {
+    color: red;
+} .foo {
+    color: red;
 }
 
 abbr[title],
@@ -27,51 +45,396 @@ abbr[
     color: red;
 }
 
-.class {            /*
-    font-size: 10;  /*
-}                   /*
+/**
+ * Test: Incomplete trailing comments
+ **/
 
-abbr[title],        /*
-abbr[               /*
-    data-title      /*
-] {                 /*
-    color: red;     /*
-}                   /*
-                    /*
-.class a:not(       /*
-    .css_button     /*
-) {                 /*
-    color: red;     /*
-}                   /*
+.class { color: red; }          /*
+                                /*
+.class { color: red;            /*
+}                               /*
 
-.class {            /* comment */
-    font-size: 10;  /* comment */
-}                   /* comment */
-abbr[title],        /* comment */
-abbr[               /* comment */
-    data-title      /* comment */
-] {                 /* comment */
-    color: red;     /* comment */
-}                   /* comment */
-                    /* comment */
-.class a:not(       /* comment */
-    .css_button     /* comment */
-) {                 /* comment */
-    color: red;     /* comment */
-}                   /* comment */
+.class { color: red;            /*
+    background: beige;          /*
+}                               /*
 
-.class {            /* comment */ /**/ /*
-    font-size: 10;  /* comment */ /**/ /*
-}                   /* comment */ /**/ /*
-abbr[title],        /* comment */ /**/ /*
-abbr[               /* comment */ /**/ /*
-    data-title      /* comment */ /**/ /*
-] {                 /* comment */ /**/ /*
-    color: red;     /* comment */ /**/ /*
-}                   /* comment */ /**/ /*
-                    /* comment */ /**/ /*
-.class a:not(       /* comment */ /**/ /*
-    .css_button     /* comment */ /**/ /*
-) {                 /* comment */ /**/ /*
-    color: red;     /* comment */ /**/ /*
-}                   /* comment */ /**/ /*
+.class { color: rgb(            /*
+    background: beige;          /*
+}                               /*
+
+.class { color: rgb(0, 0, 0);   /*
+    background: beige;          /*
+}                               /*
+
+.class {                        /*
+    color: red;                 /*
+}                               /*
+                                /*
+.class /**/ {                   /*
+    color: red;                 /*
+} /**/ .foo /**/ {              /*
+    color: red;                 /*
+}                               /*
+fix highlighting */ }
+
+.class                          /*
+{                               /*
+    color: red;                 /*
+}                               /*
+
+abbr[title],                    /*
+abbr[                           /*
+    data-title                  /*
+] {                             /*
+    color: red;                 /*
+}                               /*
+                                /*
+.class a:not(                   /*
+    .css_button                 /*
+) {                             /*
+    color: red;                 /*
+}                               /*
+
+
+
+/**
+ * Test: Incomplete trailing comments with closing brackets
+ **/
+
+.class { color: red; }          /* }
+                                /* }
+.class { color: red;            /* }
+}                               /* }
+
+.class { color: red;            /* }
+    background: beige;          /* }
+}                               /* }
+
+.class { color: rgb(            /* ) }
+    background: beige;          /* }
+}                               /* }
+
+.class { color: rgb(0, 0, 0);   /* }
+    background: beige;          /* }
+}                               /* }
+
+.class {                        /* }
+    color: red;                 /* }
+}                               /* }
+                                /* }
+.class /**/ {                   /* }
+    color: red;                 /* }
+} /**/ .foo /**/ {              /* }
+    color: red;                 /* }
+}                               /* }
+fix highlighting */ }
+
+.class                          /* }
+{                               /* }
+    color: red;                 /* }
+}                               /* }
+
+abbr[title],                    /* }
+abbr[                           /* ] }
+    data-title                  /* }
+] {                             /* }
+    color: red;                 /* }
+}                               /* }
+                                /* }
+.class a:not(                   /* ) }
+    .css_button                 /* }
+) {                             /* }
+    color: red;                 /* }
+}                               /* }
+
+
+/**
+ * Test: Trailing comments spanning to next line
+ **/
+
+.class { color: red; }          /*
+*/
+                                /*
+*/
+.class { color: red;            /*
+*/
+}                               /*
+*/
+
+.class { color: red;            /*
+*/
+    background: beige;          /*
+*/
+}                               /*
+*/
+
+.class { color: rgb(            /*
+*/
+    background: beige;          /*
+*/
+}                               /*
+*/
+
+.class { color: rgb(0, 0, 0);   /*
+*/
+    background: beige;          /*
+*/
+}                               /*
+*/
+
+.class {                        /*
+*/
+    color: red;                 /*
+*/
+}                               /*
+*/
+                                /*
+*/
+.class /**/ {                   /*
+*/
+    color: red;                 /*
+*/
+} /**/ .foo /**/ {              /*
+*/
+    color: red;                 /*
+*/
+}                               /*
+*/
+
+.class                          /*
+*/
+{                               /*
+*/
+    color: red;                 /*
+*/
+}                               /*
+*/
+
+abbr[title],                    /*
+*/
+abbr[                           /*
+*/
+    data-title                  /*
+*/
+] {                             /*
+*/
+    color: red;                 /*
+*/
+}                               /*
+*/
+                                /*
+*/
+.class a:not(                   /*
+*/
+    .css_button                 /*
+*/
+) {                             /*
+*/
+    color: red;                 /*
+*/
+}                               /*
+*/
+
+
+/**
+ * Test: Trailing comments spanning to next line
+ * and containing closing brackets
+ **/
+
+.class { color: red; }          /* }
+*/
+                                /* }
+*/
+.class { color: red;            /* }
+*/
+}                               /* }
+*/
+
+.class { color: red;            /* }
+*/
+    background: beige;          /* }
+*/
+}                               /* }
+*/
+
+.class { color: rgb(            /* ) }
+*/
+    background: beige;          /* }
+*/
+}                               /* }
+*/
+
+.class { color: rgb(0, 0, 0);   /* }
+*/
+    background: beige;          /* }
+*/
+}                               /* }
+*/
+
+.class {                        /* }
+*/
+    color: red;                 /* }
+*/
+}                               /* }
+*/
+                                /* }
+*/
+.class /**/ {                   /* }
+*/
+    color: red;                 /* }
+*/
+} /**/ .foo /**/ {              /* }
+*/
+    color: red;                 /* }
+*/
+}                               /* }
+*/
+
+.class                          /* }
+*/
+{                               /* }
+*/
+    color: red;                 /* }
+*/
+}                               /* }
+*/
+
+abbr[title],                    /* }
+*/
+abbr[                           /* ] }
+*/
+    data-title                  /* }
+*/
+] {                             /* }
+*/
+    color: red;                 /* }
+*/
+}                               /* }
+*/
+                                /* }
+*/
+.class a:not(                   /* ) }
+*/
+    .css_button                 /* }
+*/
+) {                             /* }
+*/
+    color: red;                 /* }
+*/
+}                               /* }
+*/
+
+
+/**
+ * Test: Complete trailing comment with braces
+ **/
+
+.class { color: red; }          /* ; } */
+
+.class { color: red;            /* ; } */
+}                               /* ; } */
+
+.class {                        /* ; } */
+    color: red;                 /* ; } */
+}                               /* ; } */
+
+.class { color: red;            /* ; } */
+    background: beige;          /* ; } */
+}                               /* ; } */
+
+/* ignore closing brace in strings and comments */
+.class { font: "\"}";           /* ; } */
+    background: beige;          /* ; } */
+}                               /* ; } */
+
+.class { color: rgb(            /* ) ; } */
+    background: beige;          /* ; } */
+}                               /* ; } */
+
+.class { color: rgb(0, 0, 0);   /* ; } */
+    background: beige;          /* ; } */
+}                               /* ; } */
+
+abbr[title],                    /* ; } */
+abbr[                           /* ; } */
+    data-title                  /* ; } */
+] {                             /* ; } */
+    color: red;                 /* ; } */
+}                               /* ; } */
+
+.class a:not(                   /* ; } */
+    .css_button                 /* ; } */
+) {                             /* ; } */
+    color: red;                 /* ; } */
+}                               /* ; } */
+
+/**
+ * Test: Complete and incomplete trailing comment with braces
+ **/
+
+.class { color: red; }          /* ; */ /* } /* comment
+*/
+                                /* ; */ /* } /* comment
+*/
+.class { color: red;            /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/
+
+*/
+.class {                        /* ; */ /* } /* comment
+*/
+    color: red;                 /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/
+
+*/
+.class { color: red;            /* ; */ /* } /* comment
+*/
+    background: beige;          /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/
+
+*/
+.class { color: rgb(            /* ) ; */ /* } /* comment
+*/
+    background: beige;          /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/
+
+*/
+.class { color: rgb(0, 0, 0);   /* ; */ /* } /* comment
+*/
+    background: beige;          /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/
+
+*/
+abbr[title],                    /* ; */ /* } /* comment
+*/
+abbr[                           /* ; */ /* ] /* comment
+*/
+    data-title                  /* ; */ /* } /* comment
+*/
+] {                             /* ; */ /* ] /* comment
+*/
+    color: red;                 /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/
+
+*/
+.class a:not(                   /* ; */ /* ) /* comment
+*/
+    .css_button                 /* ; */ /* } /* comment
+*/
+) {                             /* ; */ /* ) /* comment
+*/
+    color: red;                 /* ; */ /* } /* comment
+*/
+}                               /* ; */ /* } /* comment
+*/

@@ -8,9 +8,35 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*[)\]}]</string>
 		<key>increaseIndentPattern</key>
-		<string>^.*[(\[{](?:\s*/\*.*\*/)*\s*(?:/\*.*)?$</string>
+		<string><![CDATA[(?x)
+			# any text
+			^.*
+			# follwed by opening bracket
+			[(\[{]
+			# optionally followed by...
+			(?<balanced>
+			# balanced parenthesis
+			  \( (?: \g<balanced> | [^)] )* \)
+			# balanced brackets
+		  	| \[ (?: \g<balanced> | [^]] )* \]
+			# balanced braces
+			| \{ (?: \g<balanced> | [^}] )* \}
+			# double quoted string with ignored escaped quotation marks
+			| \".*(?<![^\\]\\)(?<![\\]{3})\"
+			# single quoted string with ignored escaped quotation marks
+			| \'.*(?<![^\\]\\)\'
+			# block comment
+			| /\*.*?\*/
+			# anything but closing brackets
+			| [^])}]
+			)*
+			# ... until end of line
+			$
+		]]></string>
 		<key>unIndentedLinePattern</key>
-		<string>^\s*((/\*|\*/).*)?$</string>
+		<string>^\s*((?:/\*|\*/).*)?$</string>
+		<key>preserveIndent</key>
+		<true/>
 	</dict>
 </dict>
 </plist>
