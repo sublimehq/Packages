@@ -414,6 +414,14 @@ typedef struct Books {
 } Book;
 /*^ entity.name.type */
 
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.objc++ */
+/*      ^^^^^^ keyword.declaration.struct.objc++ */
+/*             ^^^^^^^^^^^ entity.name.struct.objc++ */
+/*                         ^ punctuation.section.block.begin.objc++ */
+/*                          ^ punctuation.section.block.end.objc++ */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.objc++ */
+
 typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
@@ -2757,11 +2765,3 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
-
-typedef struct MyStructure {} MyStructure_t;
-/* <- keyword.declaration.type.c++ */
-/*      ^^^^^^ keyword.declaration.struct.c++ */
-/*             ^^^^^^^^^^^ entity.name.struct.c++ */
-/*                         ^ punctuation.section.block.begin.c++ */
-/*                          ^ punctuation.section.block.end.c++ */
-/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c++ */
