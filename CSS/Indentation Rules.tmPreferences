@@ -34,7 +34,7 @@
 			$
 		]]></string>
 		<key>unIndentedLinePattern</key>
-		<string>^\s*((?:/\*|\*/).*)?$</string>
+		<string>^\s*(?:(?:/\*|\*/).*)?$</string>
 		<key>preserveIndent</key>
 		<true/>
 	</dict>
