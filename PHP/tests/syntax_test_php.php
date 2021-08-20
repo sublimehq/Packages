@@ -993,6 +993,11 @@ $anon = new class{};
 //               ^ punctuation.section.block.begin.php - meta.class meta.class
 //                ^ punctuation.section.block.end.php
 
+$anon = new class};
+//      ^ keyword.other.new.php
+//          ^ storage.type.class.php
+//               ^ punctuation.section.block.end.php - meta.class - meta.block
+
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
@@ -2079,6 +2084,71 @@ var_dump(new C(42));
 
 <div><?php include 'image.svg' ?></div>
 //                             ^^ punctuation.section.embedded.end.php
+
+// don't break php termination highlighting after incomplete item-access expression
+<?php  { ?> <div> <? $var[9 + ?> </div>
+//^^^^^^^^^ meta.embedded.line.php
+//         ^^^^^^^ - meta.embedded
+//                ^^^^^^^^^^^^^^ meta.embedded.line.php
+//                              ^^^^^^^^ - meta.embedded
+//     ^ punctuation.section.block.begin.php
+//       ^^ punctuation.section.embedded.end.php
+//          ^^^^^ meta.tag
+//                ^^ punctuation.section.embedded.begin.php
+//                   ^^^^ variable.other.php
+//                       ^^^^ meta.item-access
+//                           ^ - meta.item-access
+//                            ^^ punctuation.section.embedded.end.php
+//                               ^^^^^^ meta.tag
+
+// don't break block termination highlighting after incomplete item-access expression
+<?php  { ?> <div> <? $var[9 + } ?> </div>
+//^^^^^^^^^ meta.embedded.line.php
+//         ^^^^^^^ - meta.embedded
+//                ^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                ^^^^^^^^ - meta.embedded
+//     ^ punctuation.section.block.begin.php
+//       ^^ punctuation.section.embedded.end.php
+//          ^^^^^ meta.tag
+//                ^^ punctuation.section.embedded.begin.php
+//                   ^^^^ variable.other.php
+//                       ^^^^^ meta.item-access
+//                            ^ punctuation.section.block.end.php
+//                              ^^ punctuation.section.embedded.end.php
+//                                 ^^^^^^ meta.tag
+
+// don't break block termination highlighting after incomplete item-access expression
+<?php  { ?> <div> <? $var[9 + ; ?> </div>
+//^^^^^^^^^ meta.embedded.line.php
+//         ^^^^^^^ - meta.embedded
+//                ^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                ^^^^^^^^ - meta.embedded
+//     ^ punctuation.section.block.begin.php
+//       ^^ punctuation.section.embedded.end.php
+//          ^^^^^ meta.tag
+//                ^^ punctuation.section.embedded.begin.php
+//                   ^^^^ variable.other.php
+//                       ^^^^^ meta.item-access
+//                            ^ punctuation.terminator.expression.php
+//                              ^^ punctuation.section.embedded.end.php
+//                                 ^^^^^^ meta.tag
+
+// don't break highlighting after incomplete catch parameter list
+<?php try { ?> <div> <? } catch(  ?> </div>
+//^^^^^^^^^^^^ meta.embedded.line.php
+//            ^^^^^^^ - meta.embedded
+//                   ^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                  ^^^^^^^^ - meta.embedded
+//    ^^^ keyword.control.exception.php
+//        ^ punctuation.section.block.begin.php
+//          ^^ punctuation.section.embedded.end.php
+//             ^^^^^ meta.tag
+//                   ^^ punctuation.section.embedded.begin.php
+//                      ^ punctuation.section.block.end.php
+//                        ^^^^^ keyword.control.exception.catch.php
+//                             ^ punctuation.section.group.begin.php
+//                                ^^ punctuation.section.embedded.end.php
+//                                   ^^^^^^ meta.tag
 
 <div attr-<?= $bar ?>-true=va<? $baz ?>l?ue></div>
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
