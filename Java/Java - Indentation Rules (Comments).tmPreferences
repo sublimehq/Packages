@@ -2,11 +2,26 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.java</string>
+	<string>source.java comment.block</string>
 	<key>settings</key>
 	<dict>
+		<!--
+		This file makes sure to align source content after documentation
+		comments with opening /* rather than closing */.
+
+		Example:
+
+		/**
+		 * Doc
+		 **/
+
+		p {
+		}
+		-->
+		<key>preserveIndent</key>
+		<true/>
 		<key>unIndentedLinePattern</key>
-		<string>^\s*((\*/|//| \*).*)?$</string>
+		<string>.</string>
 	</dict>
 </dict>
 </plist>

@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.java - comment</string>
+	<string>source.java</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
@@ -44,7 +44,7 @@
 			# - `if (...)`
 			# - `for (...)`
 			# - `while (...)`
-			| (?: (?: else \g<comment_or_whitespace> )? if | for | while ) 
+			| (?: (?: else \g<comment_or_whitespace> )? if | for | while )
 			  # followed by whitespace or block comments [optional]
 			  \g<comment_or_whitespace>
 			  # top-level balanced parentheses
@@ -69,6 +69,10 @@
 			# followed by line comment [optional]
 			(?: //.* )? $
 		]]></string>
+		<key>preserveIndent</key>
+		<false/>
+		<key>unIndentedLinePattern</key>
+		<string>^\s*(?:(?://|/\*|\*+/).*)?$</string>
 	</dict>
 </dict>
 </plist>
