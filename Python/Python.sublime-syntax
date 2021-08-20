@@ -241,7 +241,9 @@ contexts:
   expect-import-end:
     - match: $
       pop: true
-    - match: '[^\s]+'
+    - match: (?=#)
+      pop: true
+    - match: '[^\s#]+'
       scope: invalid.illegal.unexpected-import.python
 
   expect-absolute-import:
