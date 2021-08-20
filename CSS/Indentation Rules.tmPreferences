@@ -22,11 +22,11 @@
 			# balanced braces
 			| \{ (?: \g<balanced> | [^}] )* \}
 			# double quoted string with ignored escaped quotation marks
-			| \".*(?<![^\\]\\)(?<![\\]{3})\"
+			| \" .*? (?<![^\\]\\)(?<![\\]{3})\"
 			# single quoted string with ignored escaped quotation marks
-			| \'.*(?<![^\\]\\)\'
+			| \' .*? (?<![^\\]\\)\'
 			# block comment
-			| /\*.*?\*/
+			| /\* .*? \*/
 			# anything but closing brackets
 			| [^])}]
 			)*
