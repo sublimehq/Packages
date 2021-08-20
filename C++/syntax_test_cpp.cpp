@@ -415,6 +415,14 @@ typedef struct Books {
 } Book;
 /*^ entity.name.type */
 
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.c++ */
+/*      ^^^^^^ keyword.declaration.struct.type.c++ */
+/*             ^^^^^^^^^^^ entity.name.struct.c++ */
+/*                         ^ punctuation.section.block.begin.c++ */
+/*                          ^ punctuation.section.block.end.c++ */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c++ */
+
 using Alias = Foo;
 /* <- keyword.control */
 /*    ^^^^^ entity.name.type.using */
@@ -2753,11 +2761,3 @@ void sayHi()
 /**
       *
 /*    ^ comment.block.c punctuation.definition.comment.c */
-
-typedef struct MyStructure {} MyStructure_t;
-/* <- keyword.declaration.type.c++ */
-/*      ^^^^^^ keyword.declaration.struct.type.c++ */
-/*             ^^^^^^^^^^^ entity.name.struct.c++ */
-/*                         ^ punctuation.section.block.begin.c++ */
-/*                          ^ punctuation.section.block.end.c++ */
-/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c++ */
