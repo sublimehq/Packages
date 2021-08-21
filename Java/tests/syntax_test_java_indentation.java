@@ -59,6 +59,80 @@ public class HelloWorld {
         }
     }
 
+    public boolean testIfElseIndentationNoBracesWithLineComments(String[] v)
+    {
+        /**
+         * comment
+         */
+
+        // line comment
+        if (v.isNull() == TRUE) return
+
+        // line comment
+        if (v.isNull() == TRUE) return fun(v)
+
+        // line comment
+        if (v.isNull() == TRUE) return fun(v);
+
+        // line comment
+        if (v.isNull() == TRUE)
+            // line comment
+            return FALSE;
+
+        // line comment
+        if (v.isNull() == TRUE)
+            // line comment
+            return FALSE;
+        // line comment
+        else
+        // line comment
+        {
+            // line comment
+            if (v.endsWith("("))
+                // line comment
+                return FALSE;
+            // line comment
+            else if (v.endsWith(")"))
+                // line comment
+                return TRUE;
+            // line comment
+            else if (v.endsWith("\""))
+                // line comment
+                return TRUE;
+            // line comment
+            else if (v.endsWith("\\"))
+                // line comment
+                return TRUE;
+            // line comment
+            else if (v.endsWith('('))
+                // line comment
+                return FALSE;
+            // line comment
+            else if (v.endsWith(')'))
+                // line comment
+                return TRUE;
+            // line comment
+            else if (v.endsWith('\''))
+                // line comment
+                return TRUE;
+            // line comment
+            else if (v.endsWith('\\'))
+                // line comment
+                return TRUE;
+            // line comment
+            else
+                // line comment
+                return FALSE;
+
+            // line comment
+            if (v.endsWith("baz"))
+                // line comment
+                return FALSE;
+            // line comment
+            return TRUE;
+        }
+    }
+
     public boolean testIfElseIndentationNoBracesButComments(String[] v)
     {
         if (v.isNull() == TRUE) return         /**/ // ; "comment" ()
@@ -256,6 +330,152 @@ public class HelloWorld {
             }
             else
             {
+                return FALSE;
+            }
+        }
+    }
+
+    public boolean testIfElseIndentationWithBracesAndLineComments(String[] v) {
+
+        // comment
+        if (v.isNull() == TRUE) { return }
+
+        // comment
+        if (v.isNull() == TRUE) { return fun(v) }
+
+        // comment
+        if (v.isNull() == TRUE) { return fun(v); }
+
+        // comment
+        if (v.isNull() == TRUE) {
+            // comment
+            return FALSE;
+        }
+
+        // comment
+        if (v.isNull() == TRUE) {
+            // comment
+            return FALSE;
+        } else {
+            // comment
+            if (v.endsWith("(")) {
+                // comment
+                return FALSE;
+            // comment
+            } else if (v.endsWith(")")) {
+                // comment
+                return TRUE;
+            // comment
+            } else if (v.endsWith("\"")) {
+                // comment
+                return TRUE;
+            // comment
+            } else if (v.endsWith("\\")) {
+                // comment
+                return TRUE;
+            // comment
+            } else if (v.endsWith('(')) {
+                // comment
+                return FALSE;
+            // comment
+            } else if (v.endsWith(')')) {
+                // comment
+                return TRUE;
+            // comment
+            } else if (v.endsWith('\'')) {
+                // comment
+                return TRUE;
+            // comment
+            } else if (v.endsWith('\\')) {
+                // comment
+                return TRUE;
+            // comment
+            } else {
+                // comment
+                return FALSE;
+            }
+        }
+
+        // comment
+        if (v.isNull() == TRUE)
+        {
+            // comment
+            return
+        }
+        // comment
+        if (v.isNull() == TRUE)
+        {
+            // comment
+            return FALSE
+        }
+        // comment
+        if (v.isNull() == TRUE)
+        {
+            // comment
+            return FALSE;
+        }
+
+        // comment
+        if (v.isNull() == TRUE)
+        {
+            // comment
+            return FALSE;
+        }
+        // comment
+        else
+        {
+            // comment
+            if (v.endsWith("("))
+            {
+                // comment
+                return FALSE;
+            }
+            // comment
+            else if (v.endsWith(")"))
+            {
+                // comment
+                return TRUE;
+            }
+            // comment
+            else if (v.endsWith("\""))
+            {
+                // comment
+                return TRUE;
+            }
+            // comment
+            else if (v.endsWith("\\"))
+            {
+                // comment
+                return TRUE;
+            }
+            // comment
+            else if (v.endsWith('('))
+            {
+                // comment
+                return FALSE;
+            }
+            // comment
+            else if (v.endsWith(')'))
+            {
+                // comment
+                return TRUE;
+            }
+            // comment
+            else if (v.endsWith('\''))
+            {
+                // comment
+                return TRUE;
+            }
+            // comment
+            else if (v.endsWith('\\'))
+            {
+                // comment
+                return TRUE;
+            }
+            // comment
+            else
+            {
+                // comment
                 return FALSE;
             }
         }
