@@ -56,12 +56,13 @@ contexts:
           captures:
             0: punctuation.section.entry.end.bibtex
           pop: true
-        - match: '([a-zA-Z]+)\s*(\=)'
+        - match: '([a-zA-Z]+)(\s*(\=)\s*)'
           captures:
-            1: string.unquoted.key.bibtex
-            2: punctuation.separator.key-value.bibtex
+            1: meta.mapping.key.bibtex string.unquoted.key.bibtex
+            2: meta.mapping.bibtex
+            3: punctuation.separator.key-value.bibtex
           push:
-            - meta_scope: meta.key-assignment.bibtex
+            - meta_content_scope: meta.mapping.value.bibtex
             - match: "(?=[,}])"
               pop: true
             - include: string_content
@@ -78,12 +79,13 @@ contexts:
           captures:
             0: punctuation.section.entry.end.bibtex
           pop: true
-        - match: '([a-zA-Z]+)\s*(\=)'
+        - match: '([a-zA-Z]+)(\s*(\=)\s*)'
           captures:
-            1: string.unquoted.key.bibtex
-            2: punctuation.separator.key-value.bibtex
+            1: meta.mapping.key.bibtex string.unquoted.key.bibtex
+            2: meta.mapping.bibtex
+            3: punctuation.separator.key-value.bibtex
           push:
-            - meta_scope: meta.key-assignment.bibtex
+            - meta_content_scope: meta.mapping.value.bibtex
             - match: "(?=[,)])"
               pop: true
             - include: string_content
