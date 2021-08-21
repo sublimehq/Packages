@@ -241,7 +241,7 @@ contexts:
   ctl-if-condition:
     - include: unquoted-eoc-pop
     - match: (?i:(/)i){{arg_break}}
-      scope: variable.parameter.dosbatch
+      scope: variable.parameter.option.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       set:
@@ -343,23 +343,23 @@ contexts:
   ctl-for-switches:
     # https://ss64.com/nt/for_d.html
     - match: (?i:(/)d){{arg_break}}
-      scope: variable.parameter.dir.dosbatch
+      scope: variable.parameter.option.dir.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
     # https://ss64.com/nt/for_l.html
     - match: (?i:(/)l){{arg_break}}
-      scope: variable.parameter.range.dosbatch
+      scope: variable.parameter.option.range.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
     # https://ss64.com/nt/for_f.html
     - match: (?i:(/)f){{arg_break}}
-      scope: variable.parameter.files.dosbatch
+      scope: variable.parameter.option.files.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       push: ctl-for-maybe-f-args
     # https://ss64.com/nt/for_r.html
     - match: (?i:(/)r){{arg_break}}
-      scope: variable.parameter.recursive.dosbatch
+      scope: variable.parameter.option.recursive.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       push: path-pattern
@@ -463,7 +463,7 @@ contexts:
   ctl-exit-args:
     - meta_scope: meta.command.exit.dosbatch
     - match: (?i:(/)b){{arg_break}}
-      scope: variable.parameter.dosbatch
+      scope: variable.parameter.option.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
     - include: numbers
@@ -599,7 +599,7 @@ contexts:
   cmd-args-options:
     - match: (?:^|\s*)((/)\?){{arg_break}}
       captures:
-        1: variable.parameter.help.dosbatch
+        1: variable.parameter.option.help.dosbatch
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
     - match: '{{opt_punctuation}}'
@@ -693,7 +693,7 @@ contexts:
     - include: unquoted-eoc-pop
     - match: \s*((/)\?){{arg_break}}
       captures:
-        1: variable.parameter.help.dosbatch
+        1: variable.parameter.option.help.dosbatch
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
     - match: \s*((?i:on|off)){{command_terminators}}
@@ -966,7 +966,7 @@ contexts:
     # SET /A "variable=expression"
     # SET /A variable=expression
     - match: (?i:(/)a){{arg_break}}
-      scope: variable.parameter.expression.dosbatch
+      scope: variable.parameter.option.expression.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       set: cmd-set-arithmetic-start
@@ -1087,7 +1087,7 @@ contexts:
 
   cmd-set-prompt:
     - match: (?i:(/)p){{arg_break}}
-      scope: variable.parameter.prompt.dosbatch
+      scope: variable.parameter.option.prompt.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       set: cmd-set-prompt-start
@@ -1427,7 +1427,7 @@ contexts:
     - include: unquoted-eoc-pop
     - match: \s*((/)\?){{arg_break}}
       captures:
-        1: variable.parameter.help.dosbatch
+        1: variable.parameter.option.help.dosbatch
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
     - match: \s*(?!\^\n)
@@ -1685,7 +1685,7 @@ contexts:
     - match: '{{parameter}}'
       scope:
         meta.interpolation.dosbatch
-        variable.parameter.dosbatch
+        variable.parameter.option.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
 

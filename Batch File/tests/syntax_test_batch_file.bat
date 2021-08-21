@@ -319,7 +319,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^^^^^^^^^^^^ meta.command.exit.dosbatch
 :: ^^^^ keyword.control.flow.exit.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.dosbatch
+::      ^^ variable.parameter.option.dosbatch
 ::         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::            ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
@@ -327,7 +327,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^^^^^^^^^^^^^^^ meta.command.exit.dosbatch
 :: ^^^^ keyword.control.flow.exit.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.dosbatch
+::      ^^ variable.parameter.option.dosbatch
 ::         ^^^^^ meta.interpolation.dosbatch
 ::               ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
@@ -672,7 +672,7 @@ ECHO : Not a comment ^
    IF ^
    /i
 :: ^ punctuation.definition.variable.dosbatch
-:: ^^ variable.parameter.dosbatch
+:: ^^ variable.parameter.option.dosbatch
 
    IF DEFINED ^& ECHO EXISTS
 ::            ^^ variable.other.readwrite.dosbatch   
@@ -760,9 +760,9 @@ ECHO : Not a comment ^
    FOR /D /r %%f IN (folder1, ..\folder2, C:\folder) DO command %%~nf
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.dir.dosbatch
+::     ^^ variable.parameter.option.dir.dosbatch
 ::        ^ punctuation.definition.variable.dosbatch
-::        ^^ variable.parameter.recursive.dosbatch
+::        ^^ variable.parameter.option.recursive.dosbatch
 ::           ^^ punctuation.definition.variable.dosbatch
 ::           ^^^ variable.other.readwrite.dosbatch
 ::               ^^ keyword.operator.logical.dosbatch
@@ -780,9 +780,9 @@ ECHO : Not a comment ^
    FOR ^
    /D /r %%f IN (folder1, ..\folder2, C:\folder) DO command
 :: ^ punctuation.definition.variable.dosbatch
-:: ^^ variable.parameter.dir.dosbatch
+:: ^^ variable.parameter.option.dir.dosbatch
 ::    ^ punctuation.definition.variable.dosbatch
-::    ^^ variable.parameter.recursive.dosbatch
+::    ^^ variable.parameter.option.recursive.dosbatch
 ::       ^^ punctuation.definition.variable.dosbatch
 ::       ^^^ variable.other.readwrite.dosbatch
 ::           ^^ keyword.operator.logical.dosbatch
@@ -853,7 +853,7 @@ ECHO : Not a comment ^
    for /F "tokens=*" %%f in ('dir /S /b C:\*\temp.dat') do (echo "%%f".)
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.files.dosbatch
+::     ^^ variable.parameter.option.files.dosbatch
 ::        ^ punctuation.definition.string.begin.dosbatch
 ::        ^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch
 ::         ^^^^^^ constant.language.dosbatch
@@ -886,7 +886,7 @@ ECHO : Not a comment ^
    for /L %i in (1,1,100) do echo %i
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.range.dosbatch
+::     ^^ variable.parameter.option.range.dosbatch
 ::        ^^ invalid.illegal.variable.dosbatch
 ::           ^^ keyword.operator.logical.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
@@ -903,7 +903,7 @@ ECHO : Not a comment ^
    FOR /R C:\dir\file-name.ext %%foo IN (file1.*, another?.log) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.recursive.dosbatch
+::     ^^ variable.parameter.option.recursive.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::                             ^^^^^ invalid.illegal.variable.dosbatch
 ::                                   ^^ keyword.operator.logical.dosbatch
@@ -911,7 +911,7 @@ ECHO : Not a comment ^
    FOR /R C:\dir name\file name.ext %%f IN (.) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.recursive.dosbatch
+::     ^^ variable.parameter.option.recursive.dosbatch
 ::        ^^^^^^ string.unquoted.dosbatch
 ::               ^^^^^^^^^ invalid.illegal.variable.dosbatch
 ::                         ^^^^^^^^ invalid.illegal.variable.dosbatch
@@ -922,7 +922,7 @@ ECHO : Not a comment ^
    FOR /R 'C:\dir name\file name.ext' %%f IN (*.ext) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.recursive.dosbatch
+::     ^^ variable.parameter.option.recursive.dosbatch
 ::        ^^^^^^^ string.unquoted.dosbatch
 ::                ^^^^^^^^^ invalid.illegal.variable.dosbatch
 ::                          ^^^^^^^^^ invalid.illegal.variable.dosbatch
@@ -933,7 +933,7 @@ ECHO : Not a comment ^
    FOR /R "C:\dir name\file-name.ext" %%f IN (set) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.recursive.dosbatch
+::     ^^ variable.parameter.option.recursive.dosbatch
 ::        ^ punctuation.definition.string.begin.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
 ::                                  ^ punctuation.definition.string.end.dosbatch
@@ -1212,8 +1212,8 @@ put arg1 arg2
    command /? ignored tail & other
 :: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::        ^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
-::         ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
-::          ^ variable.parameter.help.dosbatch - punctuation
+::         ^ variable.parameter.option.help.dosbatch punctuation.definition.variable.dosbatch
+::          ^ variable.parameter.option.help.dosbatch - punctuation
 ::            ^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                         ^ keyword.operator.logical.dosbatch
 ::                           ^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
@@ -1527,7 +1527,7 @@ put arg1 arg2
 ::     ^^^ meta.function-call.arguments.dosbatch
 :: ^^^^ support.function.builtin.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.help.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
 
    ECHO /? ignored
 ::^ - meta.command
@@ -1536,7 +1536,7 @@ put arg1 arg2
 ::     ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 :: ^^^^ support.function.builtin.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.help.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
 ::        ^ - variable - comment
 ::         ^^^^^^^ comment.line.ignored.dosbatch
 ::                ^ - comment
@@ -1548,7 +1548,7 @@ put arg1 arg2
 ::     ^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 :: ^^^^ support.function.builtin.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.help.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
 ::        ^ - variable - comment
 ::         ^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                   ^ - comment
@@ -1560,7 +1560,7 @@ put arg1 arg2
 ::     ^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 :: ^^^^ support.function.builtin.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.help.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
 ::        ^ - keyword - variable - comment
 ::                    ^ - comment
 
@@ -1574,7 +1574,7 @@ put arg1 arg2
    /? ignored
 ::^^^^^^^^^^^ meta.command.echo.dosbatch meta.function-call.arguments.dosbatch
 :: ^ punctuation.definition.variable.dosbatch
-:: ^^ variable.parameter.help.dosbatch
+:: ^^ variable.parameter.option.help.dosbatch
 ::   ^ - variable - comment
 ::    ^^^^^^^ comment.line.ignored.dosbatch
 ::           ^ - comment
@@ -2169,8 +2169,8 @@ put arg1 arg2
 :: ^^^^ meta.command.mode.dosbatch meta.function-call.identifier.dosbatch
 ::     ^^^^^^^^^^^ meta.command.mode.dosbatch meta.function-call.arguments.dosbatch
 :: ^^^^ support.function.external.dosbatch
-::      ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
-::       ^ variable.parameter.help.dosbatch - punctuation
+::      ^ variable.parameter.option.help.dosbatch punctuation.definition.variable.dosbatch
+::       ^ variable.parameter.option.help.dosbatch - punctuation
 ::         ^^^^^^^ comment.line.ignored.dosbatch
 
    mode con
@@ -3086,7 +3086,7 @@ put arg1 arg2
 ::               ^^^^^^ - meta.command.set
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.expression.dosbatch
+::     ^^ variable.parameter.option.expression.dosbatch
 ::          ^ variable.other.readwrite
 ::            ^ keyword.operator.arithmetic
 ::             ^ variable.other.readwrite
@@ -3116,7 +3116,7 @@ put arg1 arg2
 ::                   ^^ - meta.block - meta.group - meta.command
 :: ^ punctuation.section.block.begin.dosbatch
 ::   ^^^ support.function.builtin.dosbatch
-::       ^^ variable.parameter.expression.dosbatch
+::       ^^ variable.parameter.option.expression.dosbatch
 ::          ^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::              ^ punctuation.section.group.begin.dosbatch
@@ -3146,7 +3146,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch - variable
@@ -3158,7 +3158,7 @@ put arg1 arg2
 ::          ^ - meta.command
 ::^ - keyword - variable
 :: ^ punctuation.definition.variable.dosbatch
-:: ^^ variable.parameter.prompt.dosbatch
+:: ^^ variable.parameter.option.prompt.dosbatch
 ::   ^ - variable
 ::    ^^^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch - variable
@@ -3190,7 +3190,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
@@ -3330,7 +3330,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::        ^^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
@@ -3472,7 +3472,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
@@ -3530,7 +3530,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
@@ -3569,7 +3569,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
@@ -3614,7 +3614,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^ punctuation.definition.prompt.begin.dosbatch - variable
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch - variable
@@ -3747,7 +3747,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::       ^ - variable
 ::         ^^^^^^ variable.other.readwrite.dosbatch
 ::               ^ keyword.operator.assignment.dosbatch
@@ -3877,7 +3877,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::              ^ keyword.operator.assignment.redirection.dosbatch
@@ -3891,7 +3891,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::                    ^ keyword.operator.assignment.redirection.dosbatch
@@ -3906,7 +3906,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::                    ^ keyword.operator.assignment.redirection.dosbatch
@@ -3920,7 +3920,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^ punctuation.definition.prompt.begin.dosbatch
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
@@ -3935,7 +3935,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^ punctuation.definition.prompt.begin.dosbatch
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
@@ -3950,7 +3950,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^ punctuation.definition.prompt.begin.dosbatch
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
@@ -3967,7 +3967,7 @@ put arg1 arg2
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
-::     ^^ variable.parameter.prompt.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
 ::        ^ punctuation.definition.prompt.begin.dosbatch
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
@@ -4010,6 +4010,6 @@ put arg1 arg2
 :: ^^^^^ meta.function-call.identifier.dosbatch
 ::      ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 :: ^^^^^ support.function.builtin.dosbatch
-::       ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
-::        ^ variable.parameter.help.dosbatch - punctuation
+::       ^ variable.parameter.option.help.dosbatch punctuation.definition.variable.dosbatch
+::        ^ variable.parameter.option.help.dosbatch - punctuation
 ::          ^^^^^^^ comment.line.ignored.dosbatch
