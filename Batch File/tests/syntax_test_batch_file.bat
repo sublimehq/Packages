@@ -687,68 +687,68 @@ ECHO : Not a comment ^
 :::: [ Loops ] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    FOR %%# IN (0,1) DO md %%#
-::     ^^^ variable.parameter.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
 ::                        ^^^ string.unquoted.dosbatch
 ::                        ^^ constant.character.escape.dosbatch
 
    FOR %%% IN (0,1) DO md %%%
-::     ^^^ variable.parameter.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
 ::                        ^^^ string.unquoted.dosbatch
 ::                        ^^ constant.character.escape.dosbatch
 
    FOR %%! IN (0,1) DO md %%!
-::     ^^^ variable.parameter.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
 ::                        ^^^ string.unquoted.dosbatch
 ::                        ^^ constant.character.escape.dosbatch
 
    FOR %%^& IN (0,1) DO md %%^&
-::     ^^^^ variable.parameter.dosbatch
+::     ^^^^ variable.other.readwrite.dosbatch
 ::                         ^^^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 
    FOR %%& IN (0,1) DO md %%&
-::     ^^^ invalid.illegal.parameter.dosbatch
+::     ^^^ invalid.illegal.variable.dosbatch
 ::                        ^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 ::                          ^ keyword.operator.logical.dosbatch
 
    FOR %%^| IN (0,1) DO md %%^|
-::     ^^^^ variable.parameter.dosbatch
+::     ^^^^ variable.other.readwrite.dosbatch
 ::                         ^^^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 
    FOR %%| IN (0,1) DO md %%|
-::     ^^^ invalid.illegal.parameter.dosbatch
+::     ^^^ invalid.illegal.variable.dosbatch
 ::                        ^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 ::                          ^ keyword.operator.assignment.pipe.dosbatch
 
    FOR %%^> IN (0,1) DO md %%^>
-::     ^^^^ variable.parameter.dosbatch
+::     ^^^^ variable.other.readwrite.dosbatch
 ::                         ^^^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 
    FOR %%> IN (0,1) DO md %%>
-::     ^^^ invalid.illegal.parameter.dosbatch
+::     ^^^ invalid.illegal.variable.dosbatch
 ::                        ^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 ::                          ^ keyword.operator.assignment.redirection.dosbatch
 
    FOR %%^< IN (0,1) DO md %%^<
-::     ^^^^ variable.parameter.dosbatch
+::     ^^^^ variable.other.readwrite.dosbatch
 ::                         ^^^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 
    FOR %%< IN (0,1) DO md %%<
-::     ^^^ invalid.illegal.parameter.dosbatch
+::     ^^^ invalid.illegal.variable.dosbatch
 ::                        ^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 ::                          ^ keyword.operator.assignment.redirection.dosbatch
 
    FOR %%= IN (0,1) DO md %%=
-::     ^^^ invalid.illegal.parameter.dosbatch
+::     ^^^ invalid.illegal.variable.dosbatch
 ::                        ^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 
    FOR %%^= IN (0,1) DO md %%^=
-::     ^^^^ invalid.illegal.parameter.dosbatch
+::     ^^^^ invalid.illegal.variable.dosbatch
 ::                         ^^^^ string.unquoted.dosbatch constant.character.escape.dosbatch
 
    FOR %%G IN (0,9) DO (md %%G)
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^^ punctuation.definition.variable.dosbatch
-::     ^^^ variable.parameter.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
 ::         ^^ keyword.operator.logical.dosbatch
 ::            ^ punctuation.section.set.begin.dosbatch
 ::             ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -764,7 +764,7 @@ ECHO : Not a comment ^
 ::        ^ punctuation.definition.variable.dosbatch
 ::        ^^ variable.parameter.recursive.dosbatch
 ::           ^^ punctuation.definition.variable.dosbatch
-::           ^^^ variable.parameter.dosbatch
+::           ^^^ variable.other.readwrite.dosbatch
 ::               ^^ keyword.operator.logical.dosbatch
 ::                  ^ punctuation.section.set.begin.dosbatch
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
@@ -784,7 +784,7 @@ ECHO : Not a comment ^
 ::    ^ punctuation.definition.variable.dosbatch
 ::    ^^ variable.parameter.recursive.dosbatch
 ::       ^^ punctuation.definition.variable.dosbatch
-::       ^^^ variable.parameter.dosbatch
+::       ^^^ variable.other.readwrite.dosbatch
 ::           ^^ keyword.operator.logical.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
@@ -798,7 +798,7 @@ ECHO : Not a comment ^
    /D /r ^
    %%f IN (folder1, ..\folder2, C:\folder) DO command
 :: ^^ punctuation.definition.variable.dosbatch
-:: ^^^ variable.parameter.dosbatch
+:: ^^^ variable.other.readwrite.dosbatch
 ::     ^^ keyword.operator.logical.dosbatch
 ::        ^ punctuation.section.set.begin.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
@@ -860,7 +860,7 @@ ECHO : Not a comment ^
 ::               ^ keyword.operator.assignment.dosbatch
 ::                 ^ punctuation.definition.string.end.dosbatch
 ::                   ^^ punctuation.definition.variable.dosbatch
-::                   ^^^ variable.parameter.dosbatch
+::                   ^^^ variable.other.readwrite.dosbatch
 ::                       ^^ keyword.operator.logical.dosbatch
 ::                          ^ punctuation.section.set.begin.dosbatch
 ::                          ^ meta.set.dosbatch punctuation.section.set.begin.dosbatch - meta.embedded
@@ -887,7 +887,7 @@ ECHO : Not a comment ^
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.range.dosbatch
-::        ^^ invalid.illegal.parameter.dosbatch
+::        ^^ invalid.illegal.variable.dosbatch
 ::           ^^ keyword.operator.logical.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^ meta.set.dosbatch
@@ -905,7 +905,7 @@ ECHO : Not a comment ^
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.recursive.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                             ^^^^^ invalid.illegal.parameter.dosbatch
+::                             ^^^^^ invalid.illegal.variable.dosbatch
 ::                                   ^^ keyword.operator.logical.dosbatch
 
    FOR /R C:\dir name\file name.ext %%f IN (.) DO command
@@ -913,10 +913,10 @@ ECHO : Not a comment ^
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.recursive.dosbatch
 ::        ^^^^^^ string.unquoted.dosbatch
-::               ^^^^^^^^^ invalid.illegal.parameter.dosbatch
-::                         ^^^^^^^^ invalid.illegal.parameter.dosbatch
+::               ^^^^^^^^^ invalid.illegal.variable.dosbatch
+::                         ^^^^^^^^ invalid.illegal.variable.dosbatch
 ::                                  ^^ punctuation.definition.variable.dosbatch
-::                                  ^^^ variable.parameter.dosbatch
+::                                  ^^^ variable.other.readwrite.dosbatch
 ::                                      ^^ keyword.operator.logical.dosbatch
 
    FOR /R 'C:\dir name\file name.ext' %%f IN (*.ext) DO command
@@ -924,10 +924,10 @@ ECHO : Not a comment ^
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.recursive.dosbatch
 ::        ^^^^^^^ string.unquoted.dosbatch
-::                ^^^^^^^^^ invalid.illegal.parameter.dosbatch
-::                          ^^^^^^^^^ invalid.illegal.parameter.dosbatch
+::                ^^^^^^^^^ invalid.illegal.variable.dosbatch
+::                          ^^^^^^^^^ invalid.illegal.variable.dosbatch
 ::                                    ^^ punctuation.definition.variable.dosbatch
-::                                    ^^^ variable.parameter.dosbatch
+::                                    ^^^ variable.other.readwrite.dosbatch
 ::                                        ^^ keyword.operator.logical.dosbatch
 
    FOR /R "C:\dir name\file-name.ext" %%f IN (set) DO command
@@ -938,12 +938,12 @@ ECHO : Not a comment ^
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
 ::                                  ^ punctuation.definition.string.end.dosbatch
 ::                                    ^^ punctuation.definition.variable.dosbatch
-::                                    ^^^ variable.parameter.dosbatch
+::                                    ^^^ variable.other.readwrite.dosbatch
 ::                                        ^^ keyword.operator.logical.dosbatch
 
    FOR /Z %%f IN (foo & bar | < baz > && no || false) DO command
 ::     ^^ invalid.illegal.parameter.dosbatch
-::        ^^^ variable.parameter.dosbatch
+::        ^^^ variable.other.readwrite.dosbatch
 ::            ^^ keyword.operator.logical.dosbatch
 ::                    ^ invalid.illegal.operator.dosbatch
 ::                          ^ invalid.illegal.operator.dosbatch
@@ -954,7 +954,7 @@ ECHO : Not a comment ^
 
    for %%i in (1, 2,  3) do (
       for %%j in (%%i) do (
-::        ^^^ variable.parameter.dosbatch
+::        ^^^ variable.other.readwrite.dosbatch
 ::            ^^ keyword.operator.logical.dosbatch
 ::               ^ punctuation.section.set.begin.dosbatch
 ::                ^^^  string.unquoted.dosbatch

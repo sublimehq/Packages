@@ -389,13 +389,13 @@ contexts:
     - match: (?=(?i:in|do){{keyword_break}}|\()
       pop: 1
     - match: '{{var_parameter}}'
-      scope: variable.parameter.dosbatch
+      scope: variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       pop: 1
     - include: unquoted-eol-pop
     - match: \S
-      scope: invalid.illegal.parameter.dosbatch
+      scope: invalid.illegal.variable.dosbatch
 
   ctl-for-in:
     - match: (?i:in){{keyword_break}}
