@@ -43,10 +43,38 @@ variables:
       | text/livescript
     )
 
-  script_content_begin: (?:\s*(<!--)|(?=\s*(?:(?!<!--)\S|^)))
-  script_content_end: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}}|^\s*-->\s*$)
-  style_content_begin: (?:\s*(<!--)|(?=\s*(?:(?!<!--)\S|^)))
-  style_content_end: (?=(?:-->\s*)?</(?i:style){{tag_name_break_char}}|^\s*-->\s*$)
+  # Embedded script and style syntaxes may be wrapped into html comments for
+  # historical reasons. The following patterns match them, while maintaining
+  # correct boundaries of embedded source scopes. That's required to enable
+  # embedded syntax's comment toggling in the first and last line.
+  #
+  # see:
+  # - https://github.com/sublimehq/Packages/issues/2322
+  # - https://github.com/sublimehq/sublime_text/issues/4701
+  script_content_begin: |-
+    (?x:
+    # whitespace followed by opening html comment begin punctuation
+      \s*(<!--)
+    # or any other non-whitespace character ahead
+    | (?=\s*(?!<!--)\S)
+    # or beginning of a line
+    | ^
+    )
+  script_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </script> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:script){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
+  style_content_begin: '{{script_content_begin}}'
+  style_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </style> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:style){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
 
 ###############################################################################
 
@@ -162,7 +190,7 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
-        - script-javascript-end
+        - script-close-tag
         - script-javascript-content
 
   script-javascript-content:
@@ -174,17 +202,11 @@ contexts:
       embed: scope:source.js
       embed_scope: source.js.embedded.html
       escape: '{{script_content_end}}'
-
-  script-javascript-end:
-    - meta_include_prototype: false
-    # Note: Scopes any remaining whitespace in front of closing comment sign
-    #       source.js.embedded so toggle comment remains working if the last
-    #       caret is in front of it.
-    - match: (\s*)(-->)
-      captures:
+      escape_captures:
         1: source.js.embedded.html
         2: comment.block.html punctuation.definition.comment.end.html
-    - include: script-close-tag
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   script-html:
     - meta_scope: meta.tag.script.begin.html
@@ -266,7 +288,7 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
-        - style-css-end
+        - style-close-tag
         - style-css-content
 
   style-css-content:
@@ -278,17 +300,11 @@ contexts:
       embed: scope:source.css
       embed_scope: source.css.embedded.html
       escape: '{{style_content_end}}'
-
-  style-css-end:
-    - meta_include_prototype: false
-    # Note: Scopes any remaining whitespace in front of closing comment sign
-    #       source.js.embedded so toggle comment remains working if the last
-    #       caret is in front of it.
-    - match: (\s*)(-->)
-      captures:
+      escape_captures:
         1: source.css.embedded.html
         2: comment.block.html punctuation.definition.comment.end.html
-    - include: style-close-tag
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   style-other:
     - meta_scope: meta.tag.style.begin.html

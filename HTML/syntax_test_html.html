@@ -32,30 +32,47 @@
 
         <script> var i = 0; </script>
         ## ^^^^^ meta.tag - source
-        ##      ^^^^^^^^^^^^ source.js.embedded.html
+        ##      ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
         ##                  ^^^^^^^^^ meta.tag - source
-        ##
+
+        <script> var i = 0; --> </script>
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                  ^^^^ - meta.tag - source
+        ##                  ^^^ comment.block.html punctuation.definition.comment.end.html
+        ##                      ^^^^^^^^^ meta.tag - source
+
+        <script> <!-- var i = 0; </script>
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^ - meta.tag - source
+        ##           ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                       ^^^^^^^^^ meta.tag - source
+        ##       ^^^^ punctuation.definition.comment.begin.html
 
         <script> <!-- var i = 0; --> </script>
-        ##      ^^^^^ - source - meta.tag
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^ - meta.tag - source
         ##       ^^^^ punctuation.definition.comment.begin.html
-        ##           ^^^^^^^^^^^^ source.js.embedded.html
-        ##                       ^^^^ - source - meta.tag
+        ##           ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                       ^^^^ - meta.tag - source
         ##                       ^^^ comment.block.html punctuation.definition.comment.end.html
-        ##
+        ##                           ^^^^^^^^^ meta.tag - source
 
         <script>
             <!--
-        ## ^^^^^ - source - meta.tag
-        ##  ^^^^ punctuation.definition.comment.begin.html
+        ## ^^^^^ - meta.tag - source
+        ##  ^^^^ comment.block.html punctuation.definition.comment.begin.html
+        ##      ^ source.js.embedded.html - meta.tag - comment
             var i = 0;
-        ## ^^^^^^^^^^^^ source.js.embedded.html
+        ## ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
             -->
+        ##^^ source.js.embedded.html - meta.tag - comment
         ##  ^^^^ - source - meta.tag
         ##  ^^^ comment.block.html punctuation.definition.comment.end.html
             var i = 0;
         ## ^^^^^^^^^^^^ - source
         </script>
+        ## ^^^^^^ meta.tag - source
 
         <script> <!--
         ## ^^^^^ meta.tag.script.begin.html
@@ -155,11 +172,30 @@
         >
         ## <- meta.tag.script.end.html punctuation.definition.tag.end.html
 
+        <style type="text/css"> h1 {} </style>
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##                     ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                            ^^^^^^^^ meta.tag - comment - source
+
+        <style type="text/css"> <!-- h1 {} </style>
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##                     ^ - meta.tag - comment - source
+        ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+        ##                          ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                                 ^^^^^^^^ meta.tag - comment - source
+
+        <style type="text/css"> h1 {} --> </style>
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##                     ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                            ^^^ comment.block.html punctuation.definition.comment.end.html - source
+        ##                               ^ - meta.tag - comment - source
+        ##                                ^^^^^^^^ meta.tag - comment - source
+
         <style type="text/css"> <!-- h1 {} --> </style>
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
         ##                     ^ - meta.tag - comment - source
         ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
-        ##                          ^^^^^^^ source.css.embedded.html
+        ##                          ^^^^^^^ source.css.embedded.html - meta.tag - comment
         ##                                 ^^^ comment.block.html punctuation.definition.comment.end.html - source
         ##                                    ^ - meta.tag - comment - source
         ##                                     ^^^^^^^^ meta.tag - comment - source
