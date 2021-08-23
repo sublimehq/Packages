@@ -43,8 +43,38 @@ variables:
       | text/livescript
     )
 
-  script_close_lookahead: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}})
-  style_close_lookahead: (?=</(?i:style){{tag_name_break_char}})
+  # Embedded script and style syntaxes may be wrapped into html comments for
+  # historical reasons. The following patterns match them, while maintaining
+  # correct boundaries of embedded source scopes. That's required to enable
+  # embedded syntax's comment toggling in the first and last line.
+  #
+  # see:
+  # - https://github.com/sublimehq/Packages/issues/2322
+  # - https://github.com/sublimehq/sublime_text/issues/4701
+  script_content_begin: |-
+    (?x:
+    # whitespace followed by opening html comment begin punctuation
+      \s*(<!--)
+    # or any other non-whitespace character ahead
+    | (?=\s*(?!<!--)\S)
+    # or beginning of a line
+    | ^
+    )
+  script_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </script> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:script){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
+  style_content_begin: '{{script_content_begin}}'
+  style_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </style> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:style){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
 
 ###############################################################################
 
@@ -160,14 +190,23 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
-        - include: script-close-tag
-        - include: script-javascript-content
+        - script-close-tag
+        - script-javascript-content
 
   script-javascript-content:
-    - match: (?=\S)
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.js
       embed_scope: source.js.embedded.html
-      escape: '{{script_close_lookahead}}'
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   script-html:
     - meta_scope: meta.tag.script.begin.html
@@ -176,7 +215,6 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: comment
         - include: script-close-tag
         - include: main
 
@@ -188,20 +226,14 @@ contexts:
       set: script-close-tag
 
   script-close-tag:
-    - match: <!--
-      scope: comment.block.html punctuation.definition.comment.begin.html
-    - match: '{{script_close_lookahead}}'
+    - match: (</)((?i:script){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
       set:
-        - match: -->
-          scope: comment.block.html punctuation.definition.comment.end.html
-        - match: (</)((?i:script){{tag_name_break}})
-          captures:
-            1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.script.html
-          set:
-            - meta_scope: meta.tag.script.end.html
-            - include: tag-end
-            - include: tag-attributes
+        - meta_scope: meta.tag.script.end.html
+        - include: tag-end
+        - include: tag-attributes
 
   script-common:
     - include: script-type-attribute
@@ -256,14 +288,23 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
-        - include: style-close-tag
-        - include: style-css-content
+        - style-close-tag
+        - style-css-content
 
   style-css-content:
-    - match: ''
+    - meta_include_prototype: false
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.css
       embed_scope: source.css.embedded.html
-      escape: '{{style_close_lookahead}}'
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   style-other:
     - meta_scope: meta.tag.style.begin.html
@@ -368,6 +409,7 @@ contexts:
     - include: else-pop
 
   tag-class-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -481,6 +523,7 @@ contexts:
     - include: else-pop
 
   tag-href-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -550,6 +593,7 @@ contexts:
     - include: else-pop
 
   tag-id-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html

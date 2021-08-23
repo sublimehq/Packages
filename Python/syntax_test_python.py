@@ -47,7 +47,43 @@ import ..
 #      ^^ invalid.illegal.unexpected-relative-import.python
 import .. sys
 #      ^^ invalid.illegal.unexpected-relative-import.python
+import *
+#      ^ invalid.illegal.name.import.python
 
+from os import *  # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+# <- keyword.control.import.from.python
+#^^^ keyword.control.import.from.python
+#    ^^ meta.import-name.python
+#       ^^^^^^ keyword.control.import.python
+#              ^ constant.language.import-all.python
+#               ^^ - comment - constant - meta.statement
+#                 ^^^^^^^^^^ comment.line.number-sign.python
+from os import *, path # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#               ^^^^^^^^^^^^^^^^^ - meta.statement
+#              ^ constant.language.import-all.python
+#               ^ invalid.illegal.unexpected-import.python
+#                 ^^^^ invalid.illegal.unexpected-import.python
+#                      ^^^^^^^^^^ comment.line.number-sign.python
+from os import path, * # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                  ^ punctuation.separator.import-list.python
+#                    ^ invalid.illegal.name.import.python
+#                     ^ - meta.statement
+#                      ^^^^^^^^^^ comment.line.number-sign.python
 from os import path, chdir # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -58,7 +94,7 @@ from os import path, chdir # comment
 #^^^ keyword.control.import.from
 #       ^^^^^^ keyword.control.import
 #                  ^ punctuation.separator.import-list
-#                          ^ comment
+#                          ^^^^^^^^^^ comment.line.number-sign.python
 from . import module
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -76,6 +112,8 @@ from .import module  # yes, this is actually legit
 #                  ^ - meta.statement
 #    ^ keyword.control.import.relative.python
 #     ^^^^^^ keyword.control.import.python
+#            ^^^^^^ meta.generic-name.python
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 from collections.abc import Iterable
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -102,7 +140,7 @@ from a.b.c. import module
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
 #           ^^^^^^ keyword.control.import
-from a.b.c. as module
+from a.b.c. as module # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
@@ -112,7 +150,8 @@ from a.b.c. as module
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
 #           ^^ keyword.control.import.as.python
-from a.b.c..
+#                     ^^^^^^^^^^ comment.line.number-sign.python
+from a.b.c.. # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
@@ -120,6 +159,7 @@ from a.b.c..
 #     ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #         ^^ invalid.illegal.name.python
+#            ^^^^^^^^^^ comment.line.number-sign.python
 from a.b.c.. import module
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -198,8 +238,10 @@ from sys import (version, # comment
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
 #               ^ punctuation.section.import-list.begin
 #                         ^ comment
+                 anything \
+#                         ^ invalid.illegal.name.import.python
                  version_info, . ) # comment
-#                ^^^^^^^^^^^^^ meta.statement.import
+#                ^^^^^^^^^^^^^^^^^ meta.statement.import
 #                              ^ invalid.illegal.name.import.python
 #                                ^ punctuation.section.import-list.end
 #                                  ^ comment
@@ -209,13 +251,26 @@ from .sub import *
 #                ^ constant.language.import-all.python
 import a as b
 #        ^^ keyword.control.import.as.python
+import a as b#comment
+#        ^^ keyword.control.import.as.python
+#            ^^^^^^^^^ comment.line.number-sign.python
 import a as .b, .b
 #        ^^ keyword.control.import.as.python
 #           ^^ invalid.illegal.name.import.python
-#               ^^ invalid.illegal.name.import.python
-from a import b as c, d as e
+#               ^ invalid.illegal.unexpected-relative-import.python
+#                ^ meta.generic-name.python
+import a.b as c, a.e as f
+#      ^^^ meta.qualified-name.python
+#          ^^ keyword.control.import.as.python
+#             ^ meta.generic-name.python
+#              ^ punctuation.separator.import-list.python
+#                ^^^ meta.qualified-name.python
+#                    ^^ keyword.control.import.as.python
+#                       ^ meta.generic-name.python
+from a import b as c, d as  # comment
 #               ^^ keyword.control.import.as.python
 #                       ^^ keyword.control.import.as.python
+#                           ^^^^^^^^^^ comment.line.number-sign.python
 from a import (b as c)
 #                ^^ keyword.control.import.as.python
 
