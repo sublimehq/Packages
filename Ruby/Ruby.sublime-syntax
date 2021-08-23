@@ -677,7 +677,6 @@ contexts:
         - match: '\]'
           pop: true
         - include: expressions
-        - include: expressions
     # maybe nested (trailing) constants with uppercase only notation
     - match: '(::)?(\b[[:upper:]_][[:upper:][:digit:]_]*\b)'
       captures:
