@@ -45,3 +45,57 @@ if (a < b || c <= d) {}
 //          ^ keyword.operator.ternary
 //            ^^^^^^^^^^^^^^^^^^^^^ meta.jsx
 //                                 ^ punctuation.terminator.statement
+
+    <T,>(): U => {}; // </T>;
+//  ^^^^^^^^^^^^^^^ meta.function
+//  ^^^^ meta.generic
+//  ^ punctuation.definition.generic.begin
+//   ^ variable.parameter.generic
+//    ^ punctuation.separator.comma
+//     ^ punctuation.definition.generic.end
+//      ^^ meta.function.parameters
+//        ^ punctuation.separator.type
+//          ^ support.class
+//            ^^ keyword.declaration.function.arrow
+
+    async <T,>(): U => {}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^ keyword.declaration.async
+//        ^^^^ meta.generic
+//        ^ punctuation.definition.generic.begin
+//         ^ variable.parameter.generic
+//          ^ punctuation.separator.comma
+//           ^ punctuation.definition.generic.end
+//            ^^ meta.function.parameters
+//              ^ punctuation.separator.type
+//                ^ support.class
+//                  ^^ keyword.declaration.function.arrow
+
+
+    <T extends U>() => {}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^ meta.generic
+//   ^ variable.parameter.generic
+//     ^^^^^^^ storage.modifier.extends
+//             ^ support.class
+//               ^^ meta.function.parameters
+//                  ^^ keyword.declaration.function.arrow
+
+
+    async <T extends U>() => {}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^ keyword.declaration.async
+//        ^^^^^^^^^^^^^ meta.generic
+//         ^ variable.parameter.generic
+//           ^^^^^^^ storage.modifier.extends
+//                   ^ support.class
+//                     ^^ meta.function.parameters
+//                        ^^ keyword.declaration.function.arrow
+
+    <T extends>() => {}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//  ^^^^^^^^^^^ meta.tag
+//  ^ punctuation.definition.tag.begin
+//   ^ meta.tag.name entity.name.tag
+//     ^^^^^^^ meta.tag.attributes entity.other.attribute-name
+//            ^ punctuation.definition.tag.end
