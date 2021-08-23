@@ -40,6 +40,12 @@ if (a < b || c <= d) {}
 //        ^^ keyword.operator.logical
 //             ^^ keyword.operator.comparison
 
+    x ? (y) : <T foo={``}> => z</T>;
+//       ^ variable.other.readwrite - variable.parameter
+//          ^ keyword.operator.ternary
+//            ^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//                                 ^ punctuation.terminator.statement
+
     <T,>(): U => {}; // </T>;
 //  ^^^^^^^^^^^^^^^ meta.function
 //  ^^^^ meta.generic
