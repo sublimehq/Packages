@@ -1,6 +1,57 @@
 # SYNTAX TEST "Packages/Rails/HTML (Rails).sublime-syntax"
 # <- text.html.rails
 
+  <script> var i = 0; </script>
+# ^^^^^^^^ meta.tag - source
+#         ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+#                     ^^^^^^^^^ meta.tag - source
+
+  <script> var i = 0; --> </script>
+# ^^^^^^^^ meta.tag - source
+#         ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+#                     ^^^^ - meta.tag - source
+#                     ^^^ comment.block.html punctuation.definition.comment.end.html
+#                         ^^^^^^^^^ meta.tag - source
+
+  <script> <!-- var i = 0; </script>
+# ^^^^^^^^ meta.tag - source
+#         ^^^^^ - meta.tag - source
+#              ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+#                          ^^^^^^^^^ meta.tag - source
+#          ^^^^ punctuation.definition.comment.begin.html
+
+  <script> <!-- var i = 0; --> </script>
+# ^^^^^^^^ meta.tag - source
+#         ^^^^^ - meta.tag - source
+#          ^^^^ punctuation.definition.comment.begin.html
+#              ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+#                          ^^^^ - meta.tag - source
+#                          ^^^ comment.block.html punctuation.definition.comment.end.html
+#                              ^^^^^^^^^ meta.tag - source
+
+  <script>
+
+# <- source.js.embedded.html
+# ^^^^^^^^^^^^^ source.js.embedded.html
+  </script>
+
+  <script>
+    <!--
+#  ^^^^^ - meta.tag - source
+#   ^^^^ comment.block.html punctuation.definition.comment.begin.html
+#       ^ source.js.embedded.html - meta.tag - comment
+    var i = 0;
+#  ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+    -->
+# ^^ source.js.embedded.html - meta.tag - comment
+#   ^^^^ - source - meta.tag
+#   ^^^ comment.block.html punctuation.definition.comment.end.html
+    var i = 0;
+#  ^^^^^^^^^^^^ - source
+  </script>
+# ^^^^^^^^^ meta.tag - source
+
+
   <p>Normal HTML</p>
 # ^^^ meta.tag
 # ^ punctuation.definition.tag.begin
@@ -18,7 +69,7 @@
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby.rails.embedded.rails
 #            ^ punctuation.definition.comment
 #                                      ^^ punctuation.section.embedded.end.rails
-  
+
     <p>Normal HTML</p>
 #      ^ text.html.rails
 

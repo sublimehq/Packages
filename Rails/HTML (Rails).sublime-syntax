@@ -30,17 +30,33 @@ contexts:
 
   script-javascript-content:
     - meta_include_prototype: false
-    - match: (?=\S)
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.js.rails
       embed_scope: source.js.embedded.html
-      escape: '{{script_close_lookahead}}'
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   style-css-content:
     - meta_include_prototype: false
-    - match: ''
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.css.rails
       embed_scope: source.css.embedded.html
-      escape: '{{style_close_lookahead}}'
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   tag-event-attribute-value:
     - match: \"
