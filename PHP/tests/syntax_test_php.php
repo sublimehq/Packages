@@ -1069,11 +1069,11 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
 //          ^^^ constant.character.escape.octal.php
 //              ^^^^ constant.character.escape.octal.php
-//                  ^ meta.string-contents.quoted.double.php
+//                  ^ - constant.character.escape
 //                    ^^^^ constant.character.escape.hex.php
 //                         ^^^^^ constant.character.escape.unicodepoint.php
 //                               ^^^^^^^^ constant.character.escape.unicodepoint.php
-//                                        ^^^^^^^ meta.string-contents.quoted.double.php
+//
 
 "$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}"
  // <- variable.other punctuation.definition.variable
@@ -1566,16 +1566,20 @@ $statement = match ($this->lexer->lookahead['type']) {
 };
 
 $non_sql = "NO SELECT HIGHLIGHTING!";
-//         ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
-//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation - string string
+//         ^ punctuation.definition.string.begin
 //             ^ - source.sql
-//                                 ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+//                                 ^ punctuation.definition.string.end
 
 $sql = "CREATE TABLE version";
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+//                          ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 //      ^^^^^^ keyword.other.create.sql
 
 $sql = "
     CREATE TABLE `version`...
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //  ^^^^^^ keyword.other.create.sql
 ";
 
@@ -1592,48 +1596,49 @@ $sql = "
 ";
 
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
-//     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //      ^ keyword.other.DML
 //                                             ^^^^^^ string.quoted.single.sql
-//                                                   ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+//                                                   ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 // Ensure we properly exist from SQL when hitting PHP end-of-string
 $sql = "SELECT * FROM users WHERE first_name = 'Eric";
-//     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //      ^ keyword.other.DML
 //                                             ^^^^^ string.quoted.single.sql
-//                                                  ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+//                                                  ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $sql = "
     SELECT * FROM users WHERE first_name = 'Eric'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //  ^ keyword.other.DML
 //                                         ^^^^^^ string.quoted.single.sql
 ";
-// <- string.quoted.double punctuation.definition.string.end - meta.string-contents
+// <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
-//         ^ string.quoted.single punctuation.definition.string.begin - meta.string-contents
-//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string
+//         ^ punctuation.definition.string.begin
 //             ^ - source.sql
-//                                 ^ string.quoted.single punctuation.definition.string.end - meta.string-contents
+//                                 ^ punctuation.definition.string.end
 
 $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
-//     ^ string.quoted.single punctuation.definition.string.begin - meta.string-contents
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
 //      ^ keyword.other.DML
 //                                             ^^ constant.character.escape.php
-//                                                     ^ string.quoted.single punctuation.definition.string.end - meta.string-contents
+//                                                   ^^ constant.character.escape.php
+//                                                     ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $sql = '
     SELECT * FROM users WHERE first_name = \'Eric\'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
 //  ^ keyword.other.DML
 //                                         ^^ constant.character.escape.php
 ';
-// <- string.quoted.single punctuation.definition.string.end - meta.string-contents
+// <- meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
