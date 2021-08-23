@@ -93,10 +93,14 @@
         ##           ^ - meta.tag
 
         <script type="text/javascript"> <!--
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
-        ## ^ entity.name.tag.script - source.js.embedded.html
-        ##            ^ string.quoted.double.html - source.js.embedded.html
+        ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
+        ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value - source
+        ##                            ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
+        ##                             ^^^^^ - meta.tag  - source
+        ## ^ entity.name.tag.script
+        ##            ^ string.quoted.double.html
         ##                              ^^^^ comment.block.html punctuation.definition.comment.begin.html
+        ##                                  ^ source.js.embedded.html
             var foo = 100;
             var baz = function() {
                 ## <- entity.name.function.js
@@ -106,20 +110,25 @@
             ## ^^^ source.js.embedded.html meta.group.js keyword.operator
         --> </script>
         ## <- comment.block.html punctuation.definition.comment.end.html
+        ##  ^^^^^^^^^ meta.tag.script.end.html - source
         ##    ^^^^^^ entity.name.tag.script.html
-        ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
         ##           ^ - meta.tag
 
         <script
         type
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
         =
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
         application/jAvAsCrIpT>
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
             var foo = 100;
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
 
         <script type = "text/html"> <!--
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
+        ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##      ^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##                        ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ## ^ entity.name.tag.script - text.html.embedded.html
         ##             ^ string.quoted.double.html - text.html.embedded.html
         ##                          ^^^^ comment.block.html punctuation
@@ -192,13 +201,26 @@
         ##                                ^^^^^^^^ meta.tag - comment - source
 
         <style type="text/css"> <!-- h1 {} --> </style>
-        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##^^^^^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##     ^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##                    ^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ##                     ^ - meta.tag - comment - source
         ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
         ##                          ^^^^^^^ source.css.embedded.html - meta.tag - comment
         ##                                 ^^^ comment.block.html punctuation.definition.comment.end.html - source
         ##                                    ^ - meta.tag - comment - source
-        ##                                     ^^^^^^^^ meta.tag - comment - source
+        ##                                     ^^^^^^^^ meta.tag - meta.tag meta.tag - comment - source
+
+        <style type  =  "text/css"> <!-- h1 {} --> </style>
+        ##^^^^^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##     ^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##                        ^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##                         ^ - meta.tag - comment - source
+        ##                          ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+        ##                              ^^^^^^^ source.css.embedded.html
+        ##                                     ^^^ comment.block.html punctuation.definition.comment.end.html - source
+        ##                                        ^ - meta.tag - comment - source
+        ##                                         ^^^^^^^^ meta.tag - meta.tag meta.tag - comment - source
 
         <style>
 
