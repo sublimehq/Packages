@@ -808,7 +808,7 @@ interface MyInter {}
 // <- storage.type
 //        ^ entity.name.interface
 
-interface MyInter2 extends \MyNamespace\Foo {
+interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 // <- storage.type
 //        ^ entity.name.interface
 //                 ^ storage.modifier
@@ -816,6 +816,11 @@ interface MyInter2 extends \MyNamespace\Foo {
 //                         ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                         ^ punctuation.separator.namespace
 //                                     ^ punctuation.separator.namespace
+//                                         ^ punctuation.separator
+//                                           ^ comment.block
+//                                                ^ punctuation.separator.namespace
+//                                                ^^^^^^^^^^^^ meta.path
+//                                                ^^^^^^^^^^^^ entity.other.inherited-class
 }
 
 if ($foo instanceof \Mynamespace\ClassName) {
@@ -941,6 +946,11 @@ $anon = new class{};
 //               ^ punctuation.section.block.begin.php - meta.class meta.class
 //                ^ punctuation.section.block.end.php
 
+$anon = new class};
+//      ^ keyword.other.new.php
+//          ^ storage.type.class.php
+//               ^ punctuation.section.block.end.php - meta.class - meta.block
+
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
@@ -1059,11 +1069,11 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
 //          ^^^ constant.character.escape.octal.php
 //              ^^^^ constant.character.escape.octal.php
-//                  ^ meta.string-contents.quoted.double.php
+//                  ^ - constant.character.escape
 //                    ^^^^ constant.character.escape.hex.php
 //                         ^^^^^ constant.character.escape.unicodepoint.php
 //                               ^^^^^^^^ constant.character.escape.unicodepoint.php
-//                                        ^^^^^^^ meta.string-contents.quoted.double.php
+//
 
 "$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}"
  // <- variable.other punctuation.definition.variable
@@ -1556,62 +1566,79 @@ $statement = match ($this->lexer->lookahead['type']) {
 };
 
 $non_sql = "NO SELECT HIGHLIGHTING!";
-//         ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
-//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation - string string
+//         ^ punctuation.definition.string.begin
 //             ^ - source.sql
-//                                 ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+//                                 ^ punctuation.definition.string.end
 
 $sql = "CREATE TABLE version";
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+//                          ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 //      ^^^^^^ keyword.other.create.sql
 
 $sql = "
     CREATE TABLE `version`...
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //  ^^^^^^ keyword.other.create.sql
 ";
 
+// Do not highlight plain SQL indicator as SQL
+$sql = "SELECT";
+//      ^^^^^^ - keyword.other.DML
+
+$sql = "
+    SELECT
+//  ^^^^^^ keyword.other.DML
+    *
+    FROM users
+    WHERE first_name = 'Eric'
+";
+
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
-//     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //      ^ keyword.other.DML
 //                                             ^^^^^^ string.quoted.single.sql
-//                                                   ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+//                                                   ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 // Ensure we properly exist from SQL when hitting PHP end-of-string
 $sql = "SELECT * FROM users WHERE first_name = 'Eric";
-//     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //      ^ keyword.other.DML
 //                                             ^^^^^ string.quoted.single.sql
-//                                                  ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+//                                                  ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $sql = "
     SELECT * FROM users WHERE first_name = 'Eric'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //  ^ keyword.other.DML
 //                                         ^^^^^^ string.quoted.single.sql
 ";
-// <- string.quoted.double punctuation.definition.string.end - meta.string-contents
+// <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
-//         ^ string.quoted.single punctuation.definition.string.begin - meta.string-contents
-//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string
+//         ^ punctuation.definition.string.begin
 //             ^ - source.sql
-//                                 ^ string.quoted.single punctuation.definition.string.end - meta.string-contents
+//                                 ^ punctuation.definition.string.end
 
 $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
-//     ^ string.quoted.single punctuation.definition.string.begin - meta.string-contents
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php - meta.interpolation - string string
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
 //      ^ keyword.other.DML
 //                                             ^^ constant.character.escape.php
-//                                                     ^ string.quoted.single punctuation.definition.string.end - meta.string-contents
+//                                                   ^^ constant.character.escape.php
+//                                                     ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $sql = '
     SELECT * FROM users WHERE first_name = \'Eric\'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
 //  ^ keyword.other.DML
 //                                         ^^ constant.character.escape.php
 ';
-// <- string.quoted.single punctuation.definition.string.end - meta.string-contents
+// <- meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
@@ -1977,6 +2004,71 @@ var_dump(new C(42));
 
 <div><?php include 'image.svg' ?></div>
 //                             ^^ punctuation.section.embedded.end.php
+
+// don't break php termination highlighting after incomplete item-access expression
+<?php  { ?> <div> <? $var[9 + ?> </div>
+//^^^^^^^^^ meta.embedded.line.php
+//         ^^^^^^^ - meta.embedded
+//                ^^^^^^^^^^^^^^ meta.embedded.line.php
+//                              ^^^^^^^^ - meta.embedded
+//     ^ punctuation.section.block.begin.php
+//       ^^ punctuation.section.embedded.end.php
+//          ^^^^^ meta.tag
+//                ^^ punctuation.section.embedded.begin.php
+//                   ^^^^ variable.other.php
+//                       ^^^^ meta.item-access
+//                           ^ - meta.item-access
+//                            ^^ punctuation.section.embedded.end.php
+//                               ^^^^^^ meta.tag
+
+// don't break block termination highlighting after incomplete item-access expression
+<?php  { ?> <div> <? $var[9 + } ?> </div>
+//^^^^^^^^^ meta.embedded.line.php
+//         ^^^^^^^ - meta.embedded
+//                ^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                ^^^^^^^^ - meta.embedded
+//     ^ punctuation.section.block.begin.php
+//       ^^ punctuation.section.embedded.end.php
+//          ^^^^^ meta.tag
+//                ^^ punctuation.section.embedded.begin.php
+//                   ^^^^ variable.other.php
+//                       ^^^^^ meta.item-access
+//                            ^ punctuation.section.block.end.php
+//                              ^^ punctuation.section.embedded.end.php
+//                                 ^^^^^^ meta.tag
+
+// don't break block termination highlighting after incomplete item-access expression
+<?php  { ?> <div> <? $var[9 + ; ?> </div>
+//^^^^^^^^^ meta.embedded.line.php
+//         ^^^^^^^ - meta.embedded
+//                ^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                ^^^^^^^^ - meta.embedded
+//     ^ punctuation.section.block.begin.php
+//       ^^ punctuation.section.embedded.end.php
+//          ^^^^^ meta.tag
+//                ^^ punctuation.section.embedded.begin.php
+//                   ^^^^ variable.other.php
+//                       ^^^^^ meta.item-access
+//                            ^ punctuation.terminator.expression.php
+//                              ^^ punctuation.section.embedded.end.php
+//                                 ^^^^^^ meta.tag
+
+// don't break highlighting after incomplete catch parameter list
+<?php try { ?> <div> <? } catch(  ?> </div>
+//^^^^^^^^^^^^ meta.embedded.line.php
+//            ^^^^^^^ - meta.embedded
+//                   ^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                  ^^^^^^^^ - meta.embedded
+//    ^^^ keyword.control.exception.php
+//        ^ punctuation.section.block.begin.php
+//          ^^ punctuation.section.embedded.end.php
+//             ^^^^^ meta.tag
+//                   ^^ punctuation.section.embedded.begin.php
+//                      ^ punctuation.section.block.end.php
+//                        ^^^^^ keyword.control.exception.catch.php
+//                             ^ punctuation.section.group.begin.php
+//                                ^^ punctuation.section.embedded.end.php
+//                                   ^^^^^^ meta.tag
 
 <div attr-<?= $bar ?>-true=va<? $baz ?>l?ue></div>
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name

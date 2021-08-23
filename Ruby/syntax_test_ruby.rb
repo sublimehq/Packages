@@ -623,14 +623,19 @@ UpperCamelCase = 3
 # ^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 UPPER_SNAKE_CASE = 4
 # ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
+UPPER_SNAKE_CASE ||= 5
+# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 A, B, C = 0
 # <- entity.name.constant
 #  ^ entity.name.constant
 #     ^ entity.name.constant
 
 Symbol === :foo
-# ^^^^ variable.other.constant.ruby -meta.constant.ruby
-#          ^^^^
+# <- support.class.ruby
+#^^^^^ support.class.ruby
+#      ^^^ keyword.operator.comparison.ruby
+#          ^^^^ constant.other.symbol.ruby
+#          ^ punctuation.definition.constant.ruby
 
   :'foo #{ } #@bar baz'
 # ^^^^^^^^^^^^^^^^^^^^^ meta.constant.ruby - meta.interpolation
@@ -1124,15 +1129,17 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                  ^^^^^ variable.parameter
   end
 
-  def keyword_args a: nil, b: true
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                  ^^^^^^^^^^^^^^^ meta.function.parameters
+  def keyword_args a: nil, b: true, c: false
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                   ^^^^^ meta.function.parameters.default-value
 #                   ^ punctuation.separator
-#                     ^^^ constant.language
+#                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language
+#                             ^^^^ constant.language.boolean
+#                                 ^ punctuation.separator.ruby
+#                                      ^^^^^ constant.language.boolean.ruby
   end
 
   def multiline_args(a, # a comment
@@ -1161,8 +1168,40 @@ def my_function
 #   ^^^^^^^^^^^ entity.name.function
 end
 
-f = MyModule::MyClass.new
+
+f = MyConstant
+#   ^^^^^^^^^^ support.class.ruby
+
+f = MYCONSTANT
+#   ^^^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::
+#   ^^^^^^^^ support.class.ruby
 #           ^^ punctuation.accessor.double-colon
+
+f = MyModule::MyClass
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+
+f = MyModule::CONSTANT
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::MyClass.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
+
+f = MyModule::MYCLASS.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ variable.other.constant.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
 
 def f.my_instance_method
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -1178,7 +1217,6 @@ class MyClass
 # ^ keyword.other.special-method.ruby
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
-
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby

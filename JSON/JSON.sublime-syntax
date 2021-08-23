@@ -3,17 +3,18 @@
 name: JSON
 file_extensions:
   - json
-  - sublime-settings
-  - sublime-menu
-  - sublime-keymap
-  - sublime-mousemap
-  - sublime-theme
   - sublime-build
-  - sublime-project
-  - sublime-completions
-  - sublime-commands
-  - sublime-macro
   - sublime-color-scheme
+  - sublime-commands
+  - sublime-completions
+  - sublime-keymap
+  - sublime-macro
+  - sublime-menu
+  - sublime-mousemap
+  - sublime-project
+  - sublime-settings
+  - sublime-theme
+  - sublime-workspace
   - ipynb
   - Pipfile.lock
 scope: source.json
@@ -64,8 +65,11 @@ contexts:
       captures:
         1: punctuation.definition.comment.json
   constant:
-    - match: \b(?:true|false|null)\b
-      scope: constant.language.json
+    - match: \b(?:false|true)\b
+      scope: constant.language.boolean.json
+    - match: \bnull\b
+      scope: constant.language.null.json
+
   number:
     # handles integer and decimal numbers
     - match: (-?)((?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+)))
