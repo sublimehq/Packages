@@ -2,23 +2,107 @@
 
 # Heading
 | <- markup.heading.1 punctuation.definition.heading
-|^^^^^^^^ markup.heading
-|        ^ meta.whitespace.newline.markdown
+|^^^^^^^^^ markup.heading.1.markdown
+|^ - entity.name.section
+|  ^^^^^^ entity.name.section
+|        ^ meta.whitespace.newline.markdown - entity.name.section
 
 ## Second Heading #
 | <- markup.heading.2 punctuation.definition.heading
-|^^^^^^^^^^^^^^^^ markup.heading
+|^^^^^^^^^^^^^^^^^^^ markup.heading.2.markdown
+|^^ - entity.name.section
 |  ^^^^^^^^^^^^^^ entity.name.section
-|                ^ - entity.name.section
+|                ^^ - entity.name.section
 |                 ^ punctuation.definition.heading.end.markdown
-http://spec.commonmark.org/0.28/#example-43
-## Example 43 (trailing spaces!) #####    
+
+https://spec.commonmark.org/0.30/#example-71
+
+  ## Heading ##
+|^^^^^^^^^^^^^^^ meta.block-level.markdown markup.heading.2.markdown
+|^ - punctuation
+| ^^ punctuation.definition.heading.begin.markdown
+|   ^^^^^^^^^ - punctuation
+|            ^^ punctuation.definition.heading.end.markdown
+|              ^ - punctuation
+|^^^^ - entity.name.section
+|    ^^^^^^^ entity.name.section.markdown
+|           ^^^^ - entity.name.section
+
+https://spec.commonmark.org/0.30/#example-73
+## Example 73 (trailing spaces!) #####    
 |                                    ^ punctuation.definition.heading.end.markdown
 |                                         ^ meta.whitespace.newline.markdown
-http://spec.commonmark.org/0.28/#example-44
-## Example 44 ####    >
-|^^^^^^^^^^^^^^^^^^^^^^ markup.heading
-|             ^ - punctuation.definition.heading.end.markdown
+
+https://spec.commonmark.org/0.30/#example-74
+## Example 74 ####    >
+|^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.2.markdown
+|^^ - entity.name.section
+|  ^^^^^^^^^^^^^^^^^^^^ entity.name.section.markdown
+|                      ^ - entity.name.section
+
+https://spec.commonmark.org/0.30/#example-75
+# #heading# #
+| <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+|^^^^^^^^^^^^^ meta.block-level.markdown markup.heading.1.markdown
+|^ - entity.name.section
+| ^^^^^^^^^ entity.name.section.markdown
+|          ^^ - entity.name.section
+|           ^ punctuation.definition.heading.end.markdown
+
+https://spec.commonmark.org/0.30/#example-76
+## heading \##
+| <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown
+|^^^^^^^^^^^^^^ meta.block-level.markdown markup.heading.2.markdown
+|^^ - entity
+|  ^^^^^^^^^^^ entity.name.section.markdown
+|          ^^ constant.character.escape.markdown
+|          ^^^ - punctuation
+|             ^ - entity.name.section
+
+https://spec.commonmark.org/0.30/#example-79
+#
+| <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+
+# #
+| <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+|^^^ meta.block-level.markdown markup.heading.1.markdown - entity.name.section
+| ^ punctuation.definition.heading.end.markdown
+
+## 
+| <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown - entity.name.section
+|^ markup.heading.2.markdown punctuation.definition.heading.begin.markdown - entity.name.section
+
+## ##
+| <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown - entity.name.section
+|^^^^^ meta.block-level.markdown markup.heading.2.markdown - entity.name.section
+|^ punctuation.definition.heading.begin.markdown
+|  ^^ punctuation.definition.heading.end.markdown
+
+### ###
+| <- meta.block-level.markdown markup.heading.3.markdown  - entity.name.sectionpunctuation.definition.heading.begin.markdown
+|^^^^^^^ meta.block-level.markdown markup.heading.3.markdown - entity.name.section
+|^^ punctuation.definition.heading.begin.markdown
+|   ^^^ punctuation.definition.heading.end.markdown
+
+# #### #
+| <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+|^^^^^^^^ meta.block-level.markdown markup.heading.1.markdown
+|^ - entity.name.section
+| ^^^^ entity.name.section.markdown
+|     ^^ - entity.name.section
+|      ^ punctuation.definition.heading.end.markdown
+
+## #### ##
+| <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown
+|^^^^^^^^^^ meta.block-level.markdown markup.heading.2.markdown
+|^ - entity.name.section
+|  ^^^^ entity.name.section.markdown
+|      ^^^ - entity.name.section
+|       ^^ punctuation.definition.heading.end.markdown
+
+#NotAHeading
+| <- - markup.heading
+|^^^^^^^^^^^^ - markup.heading
 
 Alternate Heading
 | <- markup.heading.1
@@ -253,6 +337,13 @@ Paragraph break.
 
 Paragraph break.
 
+- `<Logo>` | `<logo>` (components/Logo.vue)
+- `<MyComponent>` | `<my-component>` | (components/my-component.vue)
+| <- markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown
+
+Paragraph break.
+
   * Unordered list item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
 | ^ markup.list.unnumbered.bullet punctuation.definition.list_item
@@ -398,6 +489,31 @@ paragraph
 >     > this is code in a quote block, not a nested quote
 | <- punctuation.definition.blockquote
 |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block - markup.quote markup.quote
+
+> Here are fenced code blocks
+> ```
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+| ^^^ punctuation.definition.raw.code-fence.begin.markdown
+> code block
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown markup.raw.code-fence.markdown-gfm
+> ```
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
+| ^^^ punctuation.definition.raw.code-fence.end.markdown
+> > 2nd level
+> > 
+> > ```
+> > code block ```
+|              ^^^ - punctuation
+> > ```
+| <- meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown - meta.code-fence
+|   ^^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
 
 >=
 | <- punctuation.definition.blockquote.markdown 
@@ -1731,6 +1847,25 @@ not a table |
  --- | ---
 | ^^^^ meta.block-level meta.table - meta.table.header
 
+ a | b
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+
+ a | b
+ -:| -
+|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^ punctuation.section.table-header.markdown
+| ^ punctuation.definition.table-cell-alignment.markdown
+|  ^ punctuation.separator.table-cell.markdown
+|    ^ punctuation.section.table-header.markdown
+ - | -
+|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+
 | test | me |
 |------|----|
 |^^^^^^ punctuation.section.table-header
@@ -2160,3 +2295,38 @@ link with a single underscore inside the text : [@_test](http://example.com)
 ### h3
 |^^ punctuation.definition.heading.begin
 
+1. list [001]blah
+|       ^^^^^ meta.link.reference
+|       ^ punctuation.definition.link.begin
+|           ^ punctuation.definition.link.end
+|            ^^^^^ - meta.link
+
+  [001]: https://en.wikipedia.org/wiki/Root-mean-square_deviation "Wikipedia - RMSE"
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.link.reference.def
+1. another list item
+
+[foo]: /url "title"
+|^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|    ^ punctuation.separator.key-value
+|      ^^^^ markup.underline.link
+|           ^^^^^^^ string.other.link.description.title
+
+[foo]
+|<- meta.link.reference punctuation.definition.link.begin
+|^^^ meta.paragraph meta.link.reference
+|   ^ meta.link.reference punctuation.definition.link.end
+
+ [Foo*bar\]]:my_(url) 'title (with parens)'
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^ punctuation.definition.constant.begin
+| ^^^^^^^^^ entity.name.reference.link - punctuation
+|          ^ punctuation.definition.constant.end
+|           ^ punctuation.separator.key-value
+|            ^^^^^^^^ markup.underline.link
+|                     ^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+
+ [foo]: <>
+|^^^^^^^^^ meta.link.reference.def
+|     ^ punctuation.separator.key-value
+|       ^ punctuation.definition.link.begin
+|        ^ punctuation.definition.link.end

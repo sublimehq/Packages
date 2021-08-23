@@ -9,8 +9,36 @@ variables:
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
   regex_modifier: '[eimsuxADJSUX]*'
-  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
+  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
   visibility_modifier: '\b(?:var|public|private|protected)\b'
+
+  # A pattern which terminates an incomplete expression at any point.
+  # `\s*\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
+  expression_end: (?=;|}|\s*\?>|{{keywords}})
+
+  keywords: |-
+    (?x:
+      {{keywords_control}}
+    | {{keywords_flow}}
+    | {{keywords_declaration}}
+    | {{visibility_modifier}}
+    )
+
+  keywords_declaration: |-
+    (?x:
+      class | declare | enddeclare | function | global | import | include
+    | include_once | interface | namespace | require | use
+    )\b
+
+  keywords_control: |-
+    (?x:
+      case | catch | default | (?: end )? (?: for | foreach | if | while )
+    | else | elseif | finally | switch | try
+    )\b
+
+  keywords_flow: |-
+    (?x: break | continue | exit | finally | return | throw | yield )\b
+
 
 contexts:
   main:
@@ -27,17 +55,13 @@ contexts:
         - meta_scope: meta.interface.php
         - match: \b(extends)\b\s*
           scope: storage.modifier.extends.php
-          set:
+          push:
+            - include: attributes
+            - include: comments
             - match: '(?={{path}})'
-              set:
-                - meta_scope: meta.path.php
-                - meta_content_scope: entity.other.inherited-class.php
-                - include: identifier-parts
-                - match: '(\\)?({{identifier}})(?!\\)'
-                  captures:
-                    1: punctuation.separator.namespace.php
-                - match: ''
-                  pop: 1
+              push: inherited
+            - match: ','
+              scope: punctuation.separator.php
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -112,6 +136,10 @@ contexts:
           pop: 1
         - include: statements
 
+  nested-expressions:
+    - include: expression-end-pop
+    - include: expressions
+
   expressions:
     - include: attributes
     - include: comments
@@ -120,10 +148,9 @@ contexts:
         1: keyword.control.import.include.php
       push:
         - meta_scope: meta.include.php
-        # "\s*\?>" is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
-        - match: (?=;|\)|\]|\s*\?>)
+        - match: (?=\)|\])
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
     - match: \byield\b
       scope: keyword.control.php
@@ -146,6 +173,7 @@ contexts:
         2: punctuation.section.group.begin.php
       push:
         - meta_scope: meta.catch.php
+        - include: expression-end-pop
         - include: attributes
         - include: comments
         - include: identifier-parts-as-path
@@ -221,7 +249,7 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
@@ -277,7 +305,7 @@ contexts:
     - match: \?
       scope: keyword.operator.ternary.php
       push:
-        - include: expressions
+        - include: nested-expressions
         - match: ':'
           scope: keyword.operator.ternary.php
           pop: 1
@@ -309,7 +337,7 @@ contexts:
         - match: '\]'
           scope: punctuation.section.array.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     - include: constants
     - match: \(
       scope: punctuation.section.group.begin.php
@@ -318,7 +346,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
 
   after-identifier:
     - include: item-access
@@ -338,7 +366,7 @@ contexts:
         - match: '\]'
           scope: meta.item-access.php punctuation.section.brackets.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
 
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
@@ -388,12 +416,13 @@ contexts:
             - match: ','
               scope: punctuation.separator.php
             - include: function-call-named-parameters
-            - include: expressions
+            - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
         - match: ','
           scope: punctuation.separator.php
+        - include: expression-end-pop
 
   class-builtin:
     - match: |-
@@ -447,10 +476,11 @@ contexts:
         - match: '(?=\S)'
           set: use-statement-ns-class
         # Escape during typing
-        - match: '(?=$\n)'
+        - match: '(?=\n)'
           pop: 1
 
   use-statement-common:
+    - include: expression-end-pop
     - include: attributes
     - include: comments
     - match: (?i)\bas\b
@@ -570,8 +600,7 @@ contexts:
       push: class-definition
 
   class-definition:
-    - match: "(?=;)"
-      pop: 1
+    - include: expression-end-pop
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: class-body
@@ -586,16 +615,7 @@ contexts:
         - include: attributes
         - include: comments
         - match: '(?={{path}})'
-          set:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
+          set: inherited
         - match: '(?=\S)'
           pop: 1
     - match: (?i)(implements)\b\s*
@@ -605,20 +625,22 @@ contexts:
         - include: attributes
         - include: comments
         - match: '(?={{path}})'
-          push:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
+          push: inherited
         - match: ','
           scope: punctuation.separator.php
         - match: '(?=\S)'
           pop: 1
+
+  inherited:
+    - meta_scope: meta.path.php
+    - meta_content_scope: entity.other.inherited-class.php
+    - include: class-builtin
+    - include: identifier-parts
+    - match: '(\\)?{{identifier}}(?!\\)'
+      captures:
+        1: punctuation.separator.namespace.php
+    - match: ''
+      pop: 1
 
   class-body:
     - meta_scope: meta.class.php meta.block.php
@@ -781,6 +803,7 @@ contexts:
 
   function-parameters:
     - meta_scope: meta.function.parameters.php meta.group.php
+    - include: expression-end-pop
     - match: \)
       scope: punctuation.section.group.end.php
       set:
@@ -820,7 +843,7 @@ contexts:
       push:
         - match: (?=,|\))
           pop: 1
-        - include: expressions
+        - include: nested-expressions
 
   function-use:
     - meta_scope: meta.function.closure.use.php
@@ -849,8 +872,7 @@ contexts:
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
-    - match: '(?=;)'
-      pop: 1
+    - include: expression-end-pop
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: function-body
@@ -1180,7 +1202,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.php
         - include: function-call-named-parameters
-        - include: expressions
+        - include: nested-expressions
   function-call-named-parameters:
     # https://wiki.php.net/rfc/named_params
     - match: ({{identifier}})\s*(:)(?!:)
@@ -1188,7 +1210,7 @@ contexts:
         1: variable.parameter.named.php
         2: punctuation.definition.variable.php
       push:
-        - include: expressions
+        - include: nested-expressions
         - match: ''
           pop: 1
   heredoc:
@@ -1375,7 +1397,7 @@ contexts:
           captures:
             1: punctuation.definition.expression.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     # Handles: "foo${bar}baz"
     - match: '(\$\{){{identifier}}(\})'
       scope: variable.other.php
@@ -1390,7 +1412,7 @@ contexts:
           captures:
             1: punctuation.definition.variable.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
     - match: |-
         (?x:
@@ -1417,6 +1439,7 @@ contexts:
             - match: '\]'
               scope: punctuation.section.brackets.end.php
               pop: 1
+            - include: expression-end-pop
             - include: numbers
             - include: variables
             - match: '{{identifier}}'
@@ -1514,6 +1537,7 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
+        - include: expression-end-pop
         - include: parameter-default-types
     - include: instantiation
     - match: \s*(?={{path}}(::)({{identifier}})?)
@@ -1551,7 +1575,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
         2: markup.underline.link.php
-    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|method|source)\b
+    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)\b
       scope: keyword.other.phpdoc.php
     - match: \{(@inheritdoc)\}
       captures:
@@ -2165,7 +2189,7 @@ contexts:
       scope: support.function.overload.php
     - match: |-
         \b(?xi:
-          pcntl_alarm | pcntl_exec | pcntl_fork | pcntl_getpriority | pcntl_setpriority | pcntl_signal | pcntl_signal_dispatch | pcntl_sigprocmask |
+          pcntl_alarm | pcntl_async_signals | pcntl_exec | pcntl_fork | pcntl_getpriority | pcntl_setpriority | pcntl_signal | pcntl_signal_dispatch | pcntl_sigprocmask |
           pcntl_sigtimedwait | pcntl_sigwaitinfo | pcntl_wait | pcntl_waitpid | pcntl_wexitstatus | pcntl_wifexited | pcntl_wifsignaled | pcntl_wifstopped |
           pcntl_wstopsig | pcntl_wtermsig
         )\b
@@ -2545,3 +2569,9 @@ contexts:
           set: after-identifier
         - match: ''
           pop: 1
+
+###[ PROTOTYPES ]#############################################################
+
+  expression-end-pop:
+    - match: '{{expression_end}}'
+      pop: 1

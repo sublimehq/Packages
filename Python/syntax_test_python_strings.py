@@ -4,7 +4,7 @@
 # Strings and embedded syntaxes
 ###############################
 
-var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE} \N{dashed-name}"
 #     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
@@ -23,6 +23,7 @@ var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SP
 #                                                        ^^^^^^ constant.character.escape.unicode
 #                                                               ^^^^^^^^^^ constant.character.escape.unicode
 #                                                                          ^^^^^^^^^ constant.character.escape.unicode
+#                                                                                    ^^^^^^^^^^^^^^^ constant.character.escape.unicode
 
 invalid_escapes = "\.  \-"
 #                  ^^ invalid.deprecated.character.escape.python

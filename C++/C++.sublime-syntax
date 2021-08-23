@@ -1149,7 +1149,7 @@ contexts:
       scope: keyword.declaration.struct.type.c++
       set: data-structures-struct-definition
     - match: '\benum(\s+(class|struct))?\b'
-      scope: keyword.declaration.union.type.c++
+      scope: keyword.declaration.enum.type.c++
       set: data-structures-enum-definition
     - match: '\bunion\b'
       scope: keyword.declaration.union.type.c++
