@@ -54,6 +54,12 @@
     '
 
     <script>
+
+' <- source.js.embedded.html
+' ^^^^^^^^^^^^^ source.js.embedded.html
+    </script>
+
+    <script>
         <!--
     '  ^^^^^ - source - meta.tag
     '   ^^^^ punctuation.definition.comment.begin.html
@@ -94,6 +100,12 @@
     '                                         ^^^ comment.block.html punctuation.definition.comment.end.html
     '                                             ^^^^^^^^^ meta.tag - source
 
+    <script type="vbscript">
+
+' <- source.asp.embedded.html
+' ^^^^^^^^^^^^^ source.asp.embedded.html
+    </script>
+
     <script type="text/vbscript">
     ' <- meta.tag punctuation.definition.tag.begin
     '^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
@@ -129,6 +141,12 @@
     '                                  ^^^ comment.block.html punctuation.definition.comment.end.html - source
     '                                     ^ - meta.tag - comment - source
     '                                      ^^^^^^^^ meta.tag - comment - source
+
+    <style>
+
+' <- source.css.embedded.html
+' ^^^^^^^^^^^^^ source.css.embedded.html
+    </style>
 
     <style type="text/css">
         <!--
