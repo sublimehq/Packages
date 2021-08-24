@@ -23,7 +23,7 @@ contexts:
           scope: meta.header.git.commit markup.raw.block.git.log
           pop: true
           embed: commit-header
-          escape: (?=^commit\s)
+          escape: (?=^(?:commit|diff)\s)
         - match: (\()(HEAD)\s*(->)
           captures:
             1: punctuation.section.parens.begin.git.log
@@ -39,6 +39,12 @@ contexts:
               scope: entity.other.branch-name.git.log
             - match: ','
               scope: punctuation.separator.sequence.git.log
+    - match: (?=^diff\s--git)
+      embed: scope:source.shell.bash
+      escape: $
+    - match: (?=^index\s)
+      embed: scope:source.diff
+      escape: (?=^diff\s--git)
 
   commit-header:
     # All header attributes are mappings of `key: value` format.

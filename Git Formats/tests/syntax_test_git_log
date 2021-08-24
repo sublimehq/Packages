@@ -74,3 +74,45 @@ Date:   Thu Sep 21 22:53:04 2017 +0200
 #^^^ keyword.other.header.git.log
 #   ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+
+commit 344d003a330e244cc507d17c2f224bb295013511 (HEAD -> git_show, sublimehq/master, master)
+Author: Thomas Smith <thom@thomthesmith.com>
+Date:   Tue Aug 24 13:44:17 2021 -0400
+
+    [TypeScript] [TSX] Fix arrow function type parameter tests for TSX. (#2987)
+
+diff --git a/JavaScript/TypeScript.sublime-syntax b/JavaScript/TypeScript.sublime-syntax
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                                                                       ^ - source.shell
+#^^^ source.shell meta.function-call.identifier variable.function
+#    ^^ punctuation.definition.parameter
+#      ^^^ variable.parameter.option
+index ae1b1061..c1a585d0 100644
+--- a/JavaScript/TypeScript.sublime-syntax
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff meta.diff.header meta.header.from-file
++++ b/JavaScript/TypeScript.sublime-syntax
+@@ -551,26 +551,6 @@ contexts:
+       scope: keyword.operator.comparison.js
+       set: expression-begin
+ 
+-  # expression-begin:
+-  #   - meta_prepend: true
+-  #   - match: (?=\<(?!<))
+-  #     pop: true
+-  #     branch_point: ts-old-type-assertion
+-  #     branch:
+-  #       - ts-old-type-assertion
+diff --git a/JavaScript/tests/syntax_test_typescript_not_tsx.ts b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^^ source.shell meta.function-call.identifier variable.function
+index c90bfab4..e9338c70 100644
+--- a/JavaScript/tests/syntax_test_typescript_not_tsx.ts
++++ b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^ source.diff meta.diff.header meta.header.to-file punctuation.definition.to-file
+@@ -25,3 +25,12 @@
+ let strLength: number = (<string>someValue).length; // </string>
+ //                       ^^^^^^^^ meta.assertion - meta.tag
+ //                                                     ^^^^^^^^^ comment - meta.tag
++
++    <T>() => {};
++//  ^^^^^^^^^^^ meta.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff markup.inserted
