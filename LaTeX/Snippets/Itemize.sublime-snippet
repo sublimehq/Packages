@@ -1,7 +1,7 @@
 <snippet>
-	<content><![CDATA[\\begin{itemize}
+	<content><![CDATA[\begin{itemize}
 	\item $0
-\\end{itemize}]]></content>
+\end{itemize}]]></content>
 	<tabTrigger>item</tabTrigger>
 	<scope>text.tex.latex</scope>
 	<description>Itemize</description>

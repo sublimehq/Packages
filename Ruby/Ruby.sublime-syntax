@@ -677,13 +677,18 @@ contexts:
         - match: '\]'
           pop: true
         - include: expressions
-    - match: '(::)?(\b[[:upper:]]\w*)(?=((\.|::)[[:alpha:]_]|\[))'
+        - include: expressions
+    # maybe nested (trailing) constants with uppercase only notation
+    - match: '(::)?(\b[[:upper:]_][[:upper:][:digit:]_]*\b)'
+      captures:
+        1: punctuation.accessor.double-colon.ruby
+        2: variable.other.constant.ruby
+      push: after-variable
+    # maybe nested class
+    - match: '(::)?(\b[[:upper:]]\w*\b)'
       captures:
         1: punctuation.accessor.double-colon.ruby
         2: support.class.ruby
-      push: after-variable
-    - match: '\b[[:upper:]]\w*\b'
-      scope: variable.other.constant.ruby
       push: after-variable
 
   after-variable:
