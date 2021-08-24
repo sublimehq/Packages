@@ -104,7 +104,41 @@ index ae1b1061..c1a585d0 100644
 -  #       - ts-old-type-assertion
 diff --git a/JavaScript/tests/syntax_test_typescript_not_tsx.ts b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
 #^^^ source.shell meta.function-call.identifier variable.function
-index c90bfab4..e9338c70 100644
+index c90bfab4,c90bfab4..e9338c70 100644
+#^^^^ keyword.context.git.log
+#     ^^^^^^^^ constant.other.hash
+#             ^ punctuation.separator.sequence.git.log
+#              ^^^^^^^^ constant.other.hash
+#                      ^^ punctuation.separator.sequence.git.log
+#                        ^^^^^^^^ constant.other.hash
+#                                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+mode 012345,676543..701532
+#^^^ keyword.context.git.log
+#    ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#          ^ punctuation.separator.sequence.git.log
+#           ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#                 ^^ punctuation.separator.sequence.git.log
+#                   ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+new file mode 012345
+#^^^^^^^^^^^^ keyword.context.git.log
+#             ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+deleted file mode 012345,676543
+#^^^^^^^^^^^^^^^^ keyword.context.git.log
+#                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#                       ^ punctuation.separator.sequence.git.log
+#                        ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+similarity index 983489374
+#^^^^^^^^^^^^^^^ keyword.context.git.log
+#                ^^^^^^^^^ meta.number.integer.decimal.git constant.numeric.value.git.log
+dissimilarity index 72637263
+#^^^^^^^^^^^^^^^^^^ keyword.context.git.log
+#                   ^^^^^^^^ meta.number.integer.decimal.git constant.numeric.value.git.log
+copy from JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^^^^^^^ keyword.context.git.log
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git meta.path.git string.unquoted.git
+move to JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^^^^^ keyword.context.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git meta.path.git string.unquoted.git
 --- a/JavaScript/tests/syntax_test_typescript_not_tsx.ts
 +++ b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
 #^^ source.diff meta.diff.header meta.header.to-file punctuation.definition.to-file
@@ -117,5 +151,6 @@ index c90bfab4..e9338c70 100644
 +//  ^^^^^^^^^^^ meta.function
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff markup.inserted
 
-commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/branch_name)
-#^^^^^ meta.header.git markup.raw.block.git keyword.other.commit.git - source.diff
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> main, origin/main)
+#^^^^^ meta.header.git.commit markup.raw.block.git keyword.other.commit.git - source.diff
+#                                                        ^^^^ entity.other.branch-name.master.git.log
