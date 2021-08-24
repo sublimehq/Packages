@@ -37,7 +37,7 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?x:
-    ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b |        # shebang
+    ^\#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b |   # shebang
     ^\# \s* -\*- [^*]* shell-script [^*]* -\*-  # editorconfig
   )
 
@@ -672,46 +672,77 @@ contexts:
 
   cmd-test-args:
     - meta_content_scope: meta.function-call.arguments.shell
+    - include: redirections
+    - include: cmd-test-args-common
+    - include: eoc-pop
+
+  cmd-test-args-common:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: cmd-test-args-group-body
     - match: (=~)\s*
       captures:
         1: keyword.operator.binary.shell
-      push: cmd-test-pattern
+      push: cmd-test-args-pattern
     - match: ([=!]=)\s*
       captures:
         1: keyword.operator.comparison.shell
-      push: cmd-test-pattern
-    - include: test-expressions
-    - include: redirections
+      push: cmd-test-args-pattern
+    - include: test-expression-common
+
+  cmd-test-args-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: cmd-test-args-common
     - include: eoc-pop
 
-  cmd-test-pattern:
+  cmd-test-args-pattern:
     - meta_content_scope: meta.pattern.regexp.shell
-    - include: test-pattern
+    - include: test-pattern-common
     - include: eoc-pop
 
   test-expression-body:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: test-expression-group-body
     - match: (=~)\s*
       captures:
         1: keyword.operator.binary.shell
-      push: test-pattern
+      push: test-expression-pattern
     - match: ([=!]=)\s*
       captures:
         1: keyword.operator.comparison.shell
-      push: test-pattern
-    - include: test-expressions
+      push: test-expression-pattern
+    - include: test-expression-common
 
-  test-pattern:
+  test-expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: test-expression-body
+
+  test-expression-pattern:
     - meta_content_scope: meta.pattern.regexp.shell
+    - include: test-pattern-common
+    - match: (?=\))
+      pop: 1
+
+  test-pattern-common:
     - match: (?=\s)
       pop: 1
+    - match: \(
+      scope:
+        meta.group.regexp.shell
+        punctuation.definition.group.begin.regexp.shell
+      push: expansions-pattern-group-body
     - include: boolean
     - include: number
     - include: expansions-and-strings
 
-  test-expressions:
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push: test-group-body
+  test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))
       scope:
         meta.parameter.option.shell
@@ -736,13 +767,6 @@ contexts:
     - include: expansions-variables
     - include: variables
     - include: line-continuations
-
-  test-group-body:
-    - meta_scope: meta.group.shell
-    - match: \)
-      scope: punctuation.section.group.end.shell
-      pop: 1
-    - include: test-expression-body
 
 ###[ UNALIAS BUILTINS ]########################################################
 
@@ -1776,9 +1800,10 @@ contexts:
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
-    - match: (?:-)?(\])
+    - match: -?(\])([*?+]*)
       captures:
         1: punctuation.definition.set.end.regexp.shell
+        2: keyword.operator.quantifier.regexp.shell
       pop: 1
     - match: ((\.)[[:word:]](\.))(\])
       captures:

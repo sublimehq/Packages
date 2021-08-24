@@ -1885,6 +1885,35 @@ test expr -a expr -o expr -- | cmd |& cmd
 #                              ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                  ^^ keyword.operator.assignment.pipe.shell
 
+test ! ($line =~ ^[0-9]+$)
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell - meta.function-call.arguments
+#   ^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
+#      ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#                         ^ - meta.function-call - meta.group
+#^^^ support.function.test.shell
+#    ^ keyword.operator.logical.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^^^^^ variable.other.readwrite.shell
+#             ^^ keyword.operator.binary.shell
+#                ^^^^^^^^ meta.pattern.regexp.shell
+
+test ! ($line =~ ^[0-9]+$) >> /file
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell - meta.function-call.arguments
+#   ^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
+#      ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#                         ^^^^^^^^^ meta.function-call.arguments.shell - meta.group
+#                                  ^ - meta.function-call - meta.group
+#^^^ support.function.test.shell
+#    ^ keyword.operator.logical.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^^^^^ variable.other.readwrite.shell
+#             ^^ keyword.operator.binary.shell
+#                ^^^^^^^^ meta.pattern.regexp.shell
+#                        ^ punctuation.section.group.end.shell
+#                          ^^ keyword.operator.assignment.redirection.shell
+
 if test expr -a expr ; then echo "success"; fi
 # ^ - meta.function-call
 #  ^^^^ meta.function-call.identifier.shell support.function.test.shell
@@ -3644,6 +3673,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 [[ $str != ^$'\t' ]]
 #^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                   ^ - meta.conditional
 #^^^^^^^^^^ - meta.pattern.regexp
 #          ^^^^^^ meta.pattern.regexp.shell - meta.interpolation
 #                ^^^ - meta.pattern.regexp
@@ -3652,6 +3682,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 [[ $str =~ ^abc$var$ ]]
 #^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                      ^ - meta.conditional
 #^^^^^^^^^^ - meta.pattern.regexp
 #  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #       ^^ keyword.operator.binary.shell
@@ -3662,6 +3693,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 [[ $line =~ [[:space:]]*?(a)b ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                               ^ - meta.conditional
 #^^^^^^^^^^^ - meta.pattern.regexp.shell
 #           ^^^^^^^^^^^^^^^^^ meta.pattern.regexp.shell
 #           ^^^^^^^^^^^ meta.set.regexp.shell
@@ -3676,8 +3708,34 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^ punctuation.definition.group.begin.regexp.shell
 #                          ^ punctuation.definition.group.end.regexp.shell
 
+[[ ! ($line =~ ^(\([0-9]+)$) ]]
+# <- meta.conditional.shell - meta.group
+#^^^^ meta.conditional.shell - meta.group
+#    ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.pattern
+#              ^^^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.pattern.regexp.shell
+#                          ^ meta.conditional.shell meta.group.shell - meta.pattern
+#                           ^^^ meta.conditional.shell - meta.group
+#                              ^ - meta.conditional - meta.group
+# <- support.function.double-brace.begin.shell
+#^ support.function.double-brace.begin.shell
+#  ^ keyword.operator.logical.shell
+#    ^ punctuation.section.group.begin.shell
+#     ^^^^^ variable.other.readwrite.shell
+#           ^^ keyword.operator.binary.shell
+#               ^^^^^^^^ meta.group.regexp.shell
+#               ^ punctuation.definition.group.begin.regexp.shell
+#                ^^ constant.character.escape.shell
+#                  ^^^^^ meta.set.regexp.shell
+#                  ^ punctuation.definition.set.begin.regexp.shell
+#                      ^ punctuation.definition.set.end.regexp.shell
+#                       ^ keyword.operator.quantifier.regexp.shell
+#                        ^ punctuation.definition.group.end.regexp.shell
+#                          ^ punctuation.section.group.end.shell
+#                            ^^ support.function.double-brace.end.shell
+
 [[ ' foobar' == [\ ]foo* ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                          ^ - meta.conditional
 #^^^^^^^^^^^^^^^ - meta.pattern.regexp.shell
 #               ^^^^ meta.set.regexp.shell
 #               ^^^^^^^^ meta.pattern.regexp.shell

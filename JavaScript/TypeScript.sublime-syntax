@@ -9,6 +9,7 @@ extends: JavaScript.sublime-syntax
 
 variables:
   dot_accessor: (?:[?!]?\.)
+  possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 
   function_call_lookahead: >-
     (?x:(?=
@@ -38,25 +39,42 @@ variables:
   modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
 
 contexts:
-  detect-parenthesized-arrow:
+  branch-possible-arrow-function:
     - meta_prepend: true
+    - match: (?=\()
+      set:
+        - detect-arrow
+        - ts-detect-parenthesized-arrow-return-type
+        - parenthesized-expression
+
+    - match: \<
+      scope: punctuation.definition.assertion.begin.js
+      set:
+        - ts-old-type-assertion-check
+        - ts-old-type-assertion-end
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
+  ts-detect-parenthesized-arrow-return-type:
     - match: (?=:)
       pop: true
       branch_point: ts-arrow-function-return-type
       branch:
         - ts-detect-arrow-function-return-type
-        - immediately-pop-2
+        - immediately-pop
+    - include: else-pop
 
   ts-detect-arrow-function-return-type:
     - meta_include_prototype: false
     - match: ''
-      push:
+      set:
         - ts-detect-arrow-after-return-type
         - ts-type-annotation
 
   ts-detect-arrow-after-return-type:
     - match: (?==>)
-      fail: parenthesized-arrow-function
+      fail: arrow-function
     - match: (?=\S)
       fail: ts-arrow-function-return-type
 
@@ -69,6 +87,7 @@ contexts:
         - arrow-function-expect-arrow-or-fail-async
         - ts-type-annotation
         - arrow-function-expect-parameters
+        - ts-type-parameter-list
 
   arrow-function-declaration:
     - meta_include_prototype: false
@@ -79,6 +98,7 @@ contexts:
         - arrow-function-expect-arrow
         - ts-type-annotation
         - arrow-function-expect-parameters
+        - ts-type-parameter-list
 
   ts-import-type:
     - match: type{{identifier_break}}
@@ -234,7 +254,8 @@ contexts:
     - match: '\+|-'
       scope: storage.modifier.js
 
-    - include: class-element-modifiers
+    - match: (?={{modifier}})
+      push: class-element-modifiers
 
     - match: (?=[<(])
       push:
@@ -530,19 +551,64 @@ contexts:
       scope: keyword.operator.comparison.js
       set: expression-begin
 
-  expression-begin:
-    - meta_prepend: true
-    - match: \<(?!<)
-      scope: punctuation.definition.assertion.begin.js
+  # expression-begin:
+  #   - meta_prepend: true
+  #   - match: (?=\<(?!<))
+  #     pop: true
+  #     branch_point: ts-old-type-assertion
+  #     branch:
+  #       - ts-old-type-assertion
+  #       - arrow-function-declaration
+
+  # ts-old-type-assertion:
+  #   - match: \<
+  #     scope: punctuation.definition.assertion.begin.js
+  #     set:
+  #       - immediately-pop
+  #       - ts-old-type-assertion-check
+  #       - ts-old-type-assertion-end
+  #       - ts-type-expression-end
+  #       - ts-type-expression-end-no-line-terminator
+  #       - ts-type-expression-begin
+
+  ts-old-type-assertion-end:
+    - meta_scope: meta.assertion.js
+    - match: \>
+      scope: punctuation.definition.assertion.end.js
+      pop: true
+
+  ts-old-type-assertion-check:
+    - match: (?=\()
       set:
-        - - meta_scope: meta.assertion.js
-          - match: \>
-            scope: punctuation.definition.assertion.end.js
-            pop: true
-          - include: else-pop
-        - ts-type-expression-end
-        - ts-type-expression-end-no-line-terminator
-        - ts-type-expression-begin
+        # - detect-parenthesized-arrow-2
+        - detect-arrow
+        - ts-detect-arrow-function-return-type
+        - parenthesized-expression
+    - include: else-pop
+
+  # detect-parenthesized-arrow-2:
+  #   - match: (?=:)
+  #     pop: true
+  #     branch_point: ts-arrow-function-return-type-2
+  #     branch:
+  #       - ts-detect-arrow-function-return-type-2
+  #       - immediately-pop
+  #   - match: (?==>)
+  #     fail: ts-old-type-assertion
+  #   - include: else-pop
+
+  # ts-detect-arrow-function-return-type-2:
+  #   - meta_include_prototype: false
+  #   - match: ''
+  #     push:
+  #       - ts-detect-arrow-after-return-type-2
+  #       - ts-type-annotation
+
+  # ts-detect-arrow-after-return-type-2:
+  #   - match: (?==>)
+  #     fail: ts-old-type-assertion
+  #   - match: (?=\S)
+  #     fail: ts-arrow-function-return-type-2
 
   ts-type-assertion:
     - match: '!(?![.=])'
@@ -683,6 +749,8 @@ contexts:
             - ts-type-expression-begin
 
   ts-type-expression-begin:
+    - match: (?=<)
+      pop: 3
     - match: keyof{{identifier_break}}
       scope: keyword.operator.type.js
     - match: typeof{{identifier_break}}

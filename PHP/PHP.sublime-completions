@@ -1,10 +1,8 @@
 {
-	"scope": "source.php - variable.other.php - source.php meta.embedded.html",
-
+	"scope": "source.php - string - comment - variable.other.php - meta.embedded.html",
 	"completions":
 	[
 		"php",
-
 		{
 			"trigger": "abs()",
 			"contents": "abs(${1:number})",
@@ -16094,6 +16092,12 @@
 			"contents": "pcntl_alarm(${1:seconds})",
 			"kind": "function",
 			"details": "Set an alarm clock for delivery of a signal"
+		},
+		{
+			"trigger": "pcntl_async_signals()",
+			"contents": "pcntl_async_signals(${1:on})",
+			"kind": "function",
+			"details": "Enable/disable asynchronous signal handling or return the old setting"
 		},
 		{
 			"trigger": "pcntl_exec()",
