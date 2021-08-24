@@ -254,7 +254,8 @@ contexts:
     - match: '\+|-'
       scope: storage.modifier.js
 
-    - include: class-element-modifiers
+    - match: (?={{modifier}})
+      push: class-element-modifiers
 
     - match: (?=[<(])
       push:
