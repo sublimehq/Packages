@@ -30,7 +30,7 @@ variables:
     atx_heading_space: (?:(?=[ \t]+#+[ \t]*$)|[ \t]+|$) # consume spaces only if heading is not empty to ensure `atx_heading_end` can fully match closing hashes
     atx_heading_end: (?:[ \t]+(#+))?[ \t]*($\n?) # \n is optional so ## is matched as end punctuation in new document (at eof)
     indented_code_block: (?:[ ]{4}|\t)           # 4 spaces or a tab
-    list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
+    list_item: (?:[ ]{,3}(?:\d+[.)]|[*+-])\s)    # between 0 and 3 spaces, followed by either: at least one integer and a full stop or a parenthesis, or (a star, plus or dash), followed by whitespace
     escape: '\\[-`*_#+.!(){}\[\]\\>|~<]'
     backticks: |-
         (?x:
@@ -230,7 +230,7 @@ contexts:
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^([ ]{0,3})(\d+(\.))(?=\s)'
+    - match: ^([ ]{0,3})(\d+([.)]))(?=\s)
       captures:
         1: markup.list.numbered.markdown
         2: markup.list.numbered.bullet.markdown
@@ -401,11 +401,11 @@ contexts:
             - include: indented-code-block
             - include: atx-heading
             - include: thematic-break
-            - match: ([ ]{,3})(\d+)(\.)(\s)
+            - match: ([ ]{,3})(\d+([.)]))(\s)
               captures:
                 1: markup.list.numbered.markdown
                 2: markup.list.numbered.bullet.markdown
-                3: markup.list.numbered.bullet.markdown punctuation.definition.list_item.markdown
+                3: punctuation.definition.list_item.markdown
                 4: markup.list.numbered.markdown
               push:
                 - meta_content_scope: markup.list.numbered.markdown meta.paragraph.list.markdown
@@ -1116,7 +1116,7 @@ contexts:
             - clear_scopes: 1
             - meta_content_scope: markup.list.unnumbered.markdown meta.paragraph.list.markdown
             - include: list-content
-        - match: '([ ]*)(\d+(\.))(?=\s)'
+        - match: ([ ]*)(\d+([.)]))(?=\s)
           captures:
             1: markup.list.numbered.markdown
             2: markup.list.numbered.bullet.markdown
