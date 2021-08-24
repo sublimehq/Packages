@@ -25,3 +25,12 @@
 let strLength: number = (<string>someValue).length; // </string>
 //                       ^^^^^^^^ meta.assertion - meta.tag
 //                                                     ^^^^^^^^^ comment - meta.tag
+
+    <T>() => {};
+//  ^^^^^^^^^^^ meta.function
+//  ^^^ meta.generic
+//  ^ punctuation.definition.generic.begin
+//   ^ variable.parameter.generic
+//    ^ punctuation.definition.generic.end
+//     ^^ meta.function.parameters
+//        ^^ keyword.declaration.function.arrow

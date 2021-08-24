@@ -46,6 +46,11 @@ if (a < b || c <= d) {}
 //            ^^^^^^^^^^^^^^^^^^^^^ meta.jsx
 //                                 ^ punctuation.terminator.statement
 
+    <T>() => {};</T>;
+//  ^^^^^^^^^^^^^^^^ meta.jsx
+//  ^^^ meta.tag
+//              ^^ meta.tag
+
     <T,>(): U => {}; // </T>;
 //  ^^^^^^^^^^^^^^^ meta.function
 //  ^^^^ meta.generic
