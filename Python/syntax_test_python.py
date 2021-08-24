@@ -741,23 +741,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.group.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.tuple
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.group.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as (
-#      ^ punctuation.section.group.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.tuple
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ):
-#   ^ punctuation.section.group.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     with captured() as [out, err]:
@@ -1262,9 +1262,9 @@ also_a_tuple = ()[-1]
 #                ^^^^ meta.item-access
 
 not_a_tuple = (a = 2, b += 3)
-#             ^^^^^^^^^^^^^^^ - meta.sequence
-#                ^ - keyword
-#                        ^ - keyword
+#             ^^^^^^^^^^^^^^^ meta.sequence
+#                ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
+#                        ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
 
 just_a_group = (1)
 #              ^^^ meta.group.python
@@ -1338,7 +1338,7 @@ myset = {"key", True, key2, [-1], {}:1}
 #                                     ^ punctuation.section.set.end.python
 
 mapping_or_set = {
-#                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
+#                ^ meta.mapping.python punctuation.section.mapping.begin.python
     1: True
 #   ^ meta.mapping.key.python meta.number.integer.decimal.python constant.numeric.value.python
 #    ^ punctuation.separator.mapping.key-value.python
@@ -1346,8 +1346,7 @@ mapping_or_set = {
 # <- meta.mapping.python punctuation.section.mapping.end.python
 
 complex_mapping = {(): "value"}
-#                 ^^^ meta.mapping-or-set.python
-#                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
+#                 ^^^^^^^^^^^^^ meta.mapping
 
 more_complex_mapping = {**{1: 1}, 2: 2}
 #                      ^ meta.mapping.python
@@ -1355,14 +1354,14 @@ more_complex_mapping = {**{1: 1}, 2: 2}
 #                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
 
 more_complex_set = {
-#                  ^ meta.mapping-or-set.python
+#                  ^ meta.set.python
     *{1}, 2: 2}
 #   ^ meta.set.python
 #       ^ meta.set.python punctuation.separator.set.python
 #          ^ meta.set.python invalid.illegal.colon-inside-set.python
 
 generator = (i for i in range(100))
-#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.loop.for.generator
 #                    ^^ keyword.control.loop.for.in
@@ -1372,7 +1371,7 @@ list_ = [i for i in range(100)]
 #          ^^^ keyword.control.loop.for.generator
 #                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
-#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.loop.for.generator
 #               ^^ keyword.control.loop.for.in
@@ -1397,15 +1396,14 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #            ^^^^^^^^^^^ meta.sequence.tuple.python
-#           ^ punctuation.section.group.begin.python
-#            ^ punctuation.section.sequence.begin.python
+#           ^^ punctuation.section.sequence.begin.python
 #                      ^ punctuation.section.sequence.end.python
 #                            ^^ punctuation.section.target-list.begin.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                        ^ punctuation.section.target-list.end.python
-#                                               ^ punctuation.section.group.end.python
+#                                               ^ punctuation.section.sequence.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python
