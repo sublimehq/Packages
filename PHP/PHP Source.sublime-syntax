@@ -602,19 +602,17 @@ contexts:
   enum-definition:
     - match: "(?=;)"
       pop: 1
-    - match: "(?=:)"
+    - match: ':'
+      scope: punctuation.separator.php
       push:
-        - match: ':'
-          scope: punctuation.separator.php
+        - match: (?={{path}})
           set:
-            - match: '(?={{path}})'
-              set:
-                - meta_scope: meta.path.php
-                - include: type-hint
-                - match: ''
-                  pop: 1
-        - match: '(?=\S)'
-          pop: 1
+            - meta_scope: meta.path.php
+            - include: type-hint
+            - match: ''
+              pop: 1
+        - match: (?=\S)
+          pop: 1              
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: class-body
