@@ -45,3 +45,32 @@ Date:   Thu Sep 21 22:53:04 2017 +0200
 #                                 ^ punctuation.separator.reference.issue.git
 #                                       ^ punctuation.definition.reference.issue.git
 
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/branch_name)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git markup.raw.block.git
+#                                               ^ punctuation.section.parens.begin.git
+#                                                ^^^^ support.type.git
+#                                                     ^^ punctuation.separator.mapping.git
+#                                                        ^^^^^^^^^^^ entity.other.branch-name.git
+#                                                                   ^ punctuation.separator.sequence.git
+#                                                                     ^^^^^^^^^^^^^^^^^^ entity.other.branch-name.git
+#                                                                                       ^ punctuation.section.parens.end.git
+Author: username <user-name.last@host.com>
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^^^ - string.unquoted.log
+#^^^^^ keyword.other.header.git.log
+#     ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+#                ^ punctuation.definition.reference.email.begin.git
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+#                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                               ^ punctuation.separator.email.git
+#                                    ^ punctuation.separator.domain.git
+#                                        ^ punctuation.definition.reference.email.end.git
+Date:   Thu Sep 21 22:53:04 2017 +0200
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^^^ - string.unquoted.log
+#^^^ keyword.other.header.git.log
+#   ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log

@@ -1085,6 +1085,7 @@ contexts:
             | (?: device- )? (?: height | width | aspect-ratio | pixel-ratio )
             )
           | (?:any-)?(?: pointer | hover )
+          | prefers-(?: reduced-motion | color-scheme )
           | display-mode | grid | orientation | scan | scripting
           | overflow-(?: block | inline )
           )
@@ -1115,6 +1116,8 @@ contexts:
         | optional-paged | paged | scroll
         # pointer:
         | coarse | fine
+        # prefers-color-scheme:
+        | dark | light
         # scan:
         | interlace | progressive
         # scripting:
