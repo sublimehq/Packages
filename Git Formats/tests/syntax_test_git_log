@@ -116,3 +116,6 @@ index c90bfab4..e9338c70 100644
 +    <T>() => {};
 +//  ^^^^^^^^^^^ meta.function
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff markup.inserted
+
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/branch_name)
+#^^^^^ meta.header.git markup.raw.block.git keyword.other.commit.git - source.diff

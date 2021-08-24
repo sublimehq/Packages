@@ -44,7 +44,7 @@ contexts:
       escape: $
     - match: (?=^index\s)
       embed: scope:source.diff
-      escape: (?=^diff\s--git)
+      escape: (?=^(?:commit\s+\h{7,}|diff\s+--git\s))
 
   commit-header:
     # All header attributes are mappings of `key: value` format.
