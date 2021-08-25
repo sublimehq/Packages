@@ -334,13 +334,20 @@ contexts:
 ###[ JSP INTERPOLATIONS ]#####################################################
 
   jsp-interpolations:
-    - match: (?=<%)
+    - match: (?=(?:<%|\$\{))
       push: jsp-interpolation-content
 
   jsp-interpolation-content:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.jsp
+    - match: \$\{
+      scope: punctuation.section.interpolation.begin.jsp
+      embed: scope:source.java.embedded.html#expressions
+      embed_scope: source.java.embedded.jsp
+      escape: \}
+      escape_captures:
+        0: punctuation.section.interpolation.end.jsp
     - include: jsp-embedded
     - include: immediately-pop
 

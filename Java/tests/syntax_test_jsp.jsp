@@ -653,5 +653,17 @@
 //                                        ^^^^^ entity.name.tag.localname.html
 //                                             ^ punctuation.definition.tag.end.html
 //                                              ^^^ meta.tag.inline.any.html
+
+    <c:forEach var="customer" items="${customers}">
+//                                  ^ meta.tag.other.html meta.attribute-with-value.html meta.string.html - meta.interpolation
+//                                   ^^^^^^^^^^^^ meta.tag.other.html meta.attribute-with-value.html meta.string.html meta.interpolation.jsp
+//                                               ^ meta.tag.other.html meta.attribute-with-value.html meta.string.html - meta.interpolation
+//                                                ^ meta.tag.other.html - meta.string - meta.interpolation
+//                                  ^ string.quoted.double.html punctuation.definition.string.begin.html
+//                                   ^^ punctuation.section.interpolation.begin.jsp
+//                                     ^^^^^^^^^ source.java.embedded.jsp meta.variable.identifier.java variable.other.java
+//                                              ^ punctuation.section.interpolation.end.jsp
+//                                               ^ string.quoted.double.html punctuation.definition.string.end.html
+
 </body>
 </html>
