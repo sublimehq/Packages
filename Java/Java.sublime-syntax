@@ -123,6 +123,10 @@ variables:
 
 contexts:
   main:
+    - match: ''
+      push: [java, shebang]
+
+  java:
     - include: import
     - include: module
     - include: package
@@ -206,6 +210,22 @@ contexts:
     - match: (//+)?\n
       captures:
         1: punctuation.definition.comment.java
+      pop: 1
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.java
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.java
+    # Note: Keep sync with first_line_match!
+    - match: \b(bsh|java)\b
+      scope: constant.language.shebang.java
+    - match: \n
       pop: 1
 
 ###[ ANNOTATIONS ]#############################################################
