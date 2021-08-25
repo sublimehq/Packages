@@ -104,3 +104,9 @@ if (a < b || c <= d) {}
 //   ^ meta.tag.name entity.name.tag
 //     ^^^^^^^ meta.tag.attributes entity.other.attribute-name
 //            ^ punctuation.definition.tag.end
+
+    <T {...}>() => {};</T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//  ^^^^^^^^^ meta.tag
+//   ^ meta.tag.name entity.name.tag
+//     ^^^^^ meta.tag.attributes meta.interpolation

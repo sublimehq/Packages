@@ -41,7 +41,7 @@ contexts:
         - match: (?=\S)
           pop: true
 
-    - match: (?=/|>|{{identifier_start}})
+    - match: (?=/|>|{{identifier_start}}|\{)
       pop: true
     - match: (?=\S)
       fail: arrow-function
