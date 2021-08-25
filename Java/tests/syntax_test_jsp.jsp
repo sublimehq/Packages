@@ -655,15 +655,23 @@
 //                                              ^^^ meta.tag.inline.any.html
 
     <c:forEach var="customer" items="${customers}">
-//                                  ^ meta.tag.other.html meta.attribute-with-value.html meta.string.html - meta.interpolation
-//                                   ^^^^^^^^^^^^ meta.tag.other.html meta.attribute-with-value.html meta.string.html meta.interpolation.jsp
-//                                               ^ meta.tag.other.html meta.attribute-with-value.html meta.string.html - meta.interpolation
-//                                                ^ meta.tag.other.html - meta.string - meta.interpolation
+//                                  ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation
+//                                   ^^^^^^^^^^^^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html meta.interpolation.jsp
+//                                               ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation
+//                                                ^ meta.tag.other.begin.html - meta.string - meta.interpolation
 //                                  ^ string.quoted.double.html punctuation.definition.string.begin.html
 //                                   ^^ punctuation.section.interpolation.begin.jsp
 //                                     ^^^^^^^^^ source.java.embedded.jsp meta.variable.identifier.java variable.other.java
 //                                              ^ punctuation.section.interpolation.end.jsp
 //                                               ^ string.quoted.double.html punctuation.definition.string.end.html
+
+    </c:forEach>
+//  ^^^^^^^^^^^^ meta.tag.other.end.html
+//  ^^ punctuation.definition.tag.begin.html
+//    ^ entity.name.tag.namespace.html
+//     ^ entity.name.tag.html punctuation.separator.namespace.html
+//      ^^^^^^^ entity.name.tag.localname.html
+//             ^ punctuation.definition.tag.end.html
 
 </body>
 </html>

@@ -28,6 +28,7 @@ contexts:
     - include: tag-jsp-expression
     - include: tag-jsp-scriptlet
     - include: tag-jsp-other
+    - include: tag-jstl
 
   script-javascript-content:
     - meta_include_prototype: false
@@ -315,6 +316,37 @@ contexts:
   tag-jsp-scriptlet-end:
     - meta_include_prototype: false
     - meta_scope: meta.tag.jsp.scriptlet.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSTL TAG ]################################################################
+
+  tag-jstl:
+    # highlight namespace part of tags like XML (not supported by HTML)
+    - match: (?i)(<)({{tag_name}})(:)({{tag_name}}){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-other-attributes
+    - match: (?i)(</)({{tag_name}})(:)({{tag_name}}){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-other-end
+
+  tag-other-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
+
+  tag-other-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.end.html
     - include: tag-end
     - include: illegal-attributes
 
