@@ -112,6 +112,7 @@ index c90bfab4,c90bfab4..e9338c70 100644
 #                      ^^ punctuation.separator.sequence.git.log
 #                        ^^^^^^^^ constant.other.hash
 #                                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.extended.git.log
 mode 012345,676543..701532
 #^^^ keyword.context.git.log
 #    ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
@@ -139,7 +140,9 @@ copy from JavaScript/tests/syntax_test_typescript_not_tsx.ts
 move to JavaScript/tests/syntax_test_typescript_not_tsx.ts
 #^^^^^^ keyword.context.git.log
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git meta.path.git string.unquoted.git
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.extended.git.log
 --- a/JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#<- - meta.diff.header.extended
 +++ b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
 #^^ source.diff meta.diff.header meta.header.to-file punctuation.definition.to-file
 @@ -25,3 +25,12 @@

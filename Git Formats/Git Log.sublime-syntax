@@ -71,6 +71,7 @@ contexts:
 
   extended-patch-headers:
     # https://git-scm.com/docs/git-show#_generating_patch_text_with_p
+    - meta_scope: meta.diff.header.extended.git.log
     - match: ^(index)\s+
       captures:
         1: keyword.context.git.log
