@@ -5711,9 +5711,8 @@ class SwitchStatementTests {
 //                                  ^ punctuation.separator.expressions.java
 
       default : {}
-//  ^^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case.default
-//    ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.default.java
-//            ^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
+//  ^^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.default
+//    ^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.default.java
 //             ^^^^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
 //    ^^^^^^^ keyword.control.conditional.default.java
 //            ^ punctuation.separator.expressions.java
@@ -5751,32 +5750,34 @@ class SwitchExpressionsTests {
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^ meta.statement.conditional.case.java
 //             ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
-//                                    ^^^^ meta.function.anonymous.java - meta.statement.conditional.case
+//                                    ^^ meta.statement.conditional.case.java
+//                                      ^^^^ - meta.statement.conditional.case
 //        ^^^^ keyword.control.conditional.case.java
 //             ^^^^^^ constant.other.java
 //                   ^ punctuation.separator.comma.java
 //                     ^^^^^^ constant.other.java
 //                           ^ punctuation.separator.comma.java
 //                             ^^^^^^ constant.other.java
-//                                    ^^ keyword.declaration.function.arrow.java
+//                                    ^^ punctuation.separator.expressions.java
 //                                       ^ constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
           case TUESDAY                -> 7;
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^ meta.statement.conditional.case.java
 //             ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
-//                                    ^^^^ meta.function.anonymous.java - meta.statement.conditional.case
+//                                    ^^ meta.statement.conditional.case.java
+//                                      ^^^^ - meta.statement.conditional.case
 //        ^^^^ keyword.control.conditional.case.java
 //             ^^^^^^^ constant.other.java
-//                                    ^^ keyword.declaration.function.arrow.java
+//                                    ^^ punctuation.separator.expressions.java
 //                                       ^ constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
           default -> {
 //       ^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java
-//        ^^^^^^^^ meta.statement.conditional.case.default.java
-//                ^^^^^ meta.function.anonymous.java - meta.statement.conditional.case
+//        ^^^^^^^^^^ meta.statement.conditional.default.java
+//                  ^^^^ - meta.statement.conditional.case
 //        ^^^^^^^ keyword.control.conditional.default.java
-//                ^^ keyword.declaration.function.arrow.java
+//                ^^ punctuation.separator.expressions.java
 //                   ^ punctuation.section.block.begin.java
             String s = day.toString();
             int result = s.length();

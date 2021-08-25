@@ -1359,8 +1359,10 @@ contexts:
     - include: immediately-pop
 
   case-default-end:
-    - meta_scope: meta.statement.conditional.case.default.java
-    - include: case-label-end
+    - meta_scope: meta.statement.conditional.default.java
+    - match: ':|->'
+      scope: punctuation.separator.expressions.java
+      pop: 1
     - include: else-pop
 
   case-label-constant:
@@ -1393,10 +1395,8 @@ contexts:
     - include: expression
 
   case-label-end:
-    - match: ':'
+    - match: ':|->'
       scope: meta.statement.conditional.case.java punctuation.separator.expressions.java
-      pop: 1
-    - match: (?=->)
       pop: 1
 
 ###[ DO WHILE STATEMENTS ]#####################################################
