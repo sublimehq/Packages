@@ -4,24 +4,24 @@ gitdir: c:/data/sublime/packages/.git.
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
-#      ^ - string.unquoted.git.link
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.link
-#        ^ punctuation.separator.drive.git.link
-#         ^ punctuation.separator.path.git.link
-#              ^ punctuation.separator.path.git.link
-#                               ^ punctuation.separator.path.git.link
-#                                    ^ - string.unquoted.git.link
+#      ^ - string.unquoted.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
+#        ^ punctuation.separator.drive.git
+#         ^ punctuation.separator.path.git
+#              ^ punctuation.separator.path.git
+#                               ^ punctuation.separator.path.git
+#                                    ^ - string.unquoted.git
 #                                    ^ punctuation.terminator.path.git.link
 gitdir: c:\data\sublime\packages\.git.
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
-#      ^ - string.unquoted.git.link
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.link
-#        ^ punctuation.separator.drive.git.link
-#         ^ punctuation.separator.path.git.link
-#              ^ punctuation.separator.path.git.link
-#                                    ^ - string.unquoted.git.link
+#      ^ - string.unquoted.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
+#        ^ punctuation.separator.drive.git
+#         ^ punctuation.separator.path.git
+#              ^ punctuation.separator.path.git
+#                                    ^ - string.unquoted.git
 #                                    ^ punctuation.terminator.path.git.link
 gitdir: ~/../sub..li~me/./packages/.git
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
@@ -30,19 +30,19 @@ gitdir: ~/../sub..li~me/./packages/.git
 # <- keyword.other.gitdir.git.link
 #^^^^^ keyword.other.gitdir.git.link
 #     ^ punctuation.separator.mapping.key-value.git.link
-#      ^ - string.unquoted.git.link
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.link
-#                                      ^ - string.unquoted.git.link
-#       ^ variable.language.environment.home.git.link
-#        ^ punctuation.separator.path.git.link
-#         ^^ constant.language.path.parent.git.link
-#           ^ punctuation.separator.path.git.link
-#               ^^ - constant.language.path.parent.git.link
-#                   ^ - variable.language.environment.home.git.link
-#                      ^ punctuation.separator.path.git.link
-#                       ^ constant.language.path.self.git.link
-#                        ^ punctuation.separator.path.git.link
-#                                  ^ - constant.language.path.self.git.link
+#      ^ - string.unquoted.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
+#                                      ^ - string.unquoted.git
+#       ^ variable.language.environment.home.git
+#        ^ punctuation.separator.path.git
+#         ^^ constant.language.path.parent.git
+#           ^ punctuation.separator.path.git
+#               ^^ - constant.language.path.parent.git
+#                   ^ - variable.language.environment.home.git
+#                      ^ punctuation.separator.path.git
+#                       ^ constant.language.path.self.git
+#                        ^ punctuation.separator.path.git
+#                                  ^ - constant.language.path.self.git
 gitdir invalid : ../data/s?bl*me/packages/.git.
 #^^^^^^^^^^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #              ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
@@ -51,11 +51,11 @@ gitdir invalid : ../data/s?bl*me/packages/.git.
 #^^^^^ keyword.other.gitdir.git.link
 #      ^^^^^^^ invalid.illegal.separator-expected.git.link
 #              ^ punctuation.separator.mapping.key-value.git.link
-#                ^^ constant.language.path.parent.git.link
-#                  ^ punctuation.separator.path.git.link
-#                       ^ punctuation.separator.path.git.link
-#                         ^ invalid.illegal.path.git.link
-#                            ^ invalid.illegal.path.git.link
-#                               ^ punctuation.separator.path.git.link
-#                                        ^ punctuation.separator.path.git.link
+#                ^^ constant.language.path.parent.git
+#                  ^ punctuation.separator.path.git
+#                       ^ punctuation.separator.path.git
+#                         ^ invalid.illegal.path.git
+#                            ^ invalid.illegal.path.git
+#                               ^ punctuation.separator.path.git
+#                                        ^ punctuation.separator.path.git
 #                                             ^ punctuation.terminator.path.git.link
