@@ -10,6 +10,7 @@ extends: Packages/HTML/HTML.sublime-syntax
 
 file_extensions:
   - jsp
+  - jspf
   - jspx
 
 contexts:
