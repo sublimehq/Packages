@@ -104,3 +104,16 @@ if (a < b || c <= d) {}
 //   ^ meta.tag.name entity.name.tag
 //     ^^^^^^^ meta.tag.attributes entity.other.attribute-name
 //            ^ punctuation.definition.tag.end
+
+    <T extends {}>() => {}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^ meta.function meta.generic
+//   ^ variable.parameter.generic
+//     ^^^^^^^ storage.modifier.extends
+//             ^^ meta.function meta.generic meta.block
+
+    <T {...}>() => {};</T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//  ^^^^^^^^^ meta.tag
+//   ^ meta.tag.name entity.name.tag
+//     ^^^^^ meta.tag.attributes meta.interpolation

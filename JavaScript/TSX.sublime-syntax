@@ -36,12 +36,12 @@ contexts:
     - match: 'extends{{jsx_identifier_break}}'
       scope: entity.other.attribute-name.js
       set:
-        - match: (?={{identifier_start}})
-          fail: arrow-function
-        - match: (?=\S)
+        - match: (?=>)
           pop: true
+        - match: (?=\S)
+          fail: arrow-function
 
-    - match: (?=/|>|{{identifier_start}})
+    - match: (?=[/>{]|{{identifier_start}})
       pop: true
     - match: (?=\S)
       fail: arrow-function
