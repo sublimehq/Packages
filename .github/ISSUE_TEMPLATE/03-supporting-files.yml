@@ -1,0 +1,73 @@
+name: Snippet, Completion, Indentation, or Build problem
+description: Suggest improvements for one of the default language support files.
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues to avoid creating duplicates.
+        Also, if you are able, follow the [directions](https://github.com/sublimehq/Packages#installation) to check the latest version of this language highlighting.
+
+        If the problem persists, please begin the issue title with the language in square brackets, e.g. `[PHP] Snippet for echo includes the wrong tab stops`.
+
+  - type: textarea
+    id: console-output
+    attributes:
+      label: Console output
+      description: Please select `View > Show console` from the menu and scroll to the very top to copy all relevant console output with information about your setup, then paste it here.
+      placeholder: |
+        startup, version: 4112 osx x64 channel: dev
+        executable: /Applications/Sublime Text.app/Contents/MacOS/sublime_text
+        application: /Applications/Sublime Text.app
+        working dir: /
+        packages path: /Users/xxx/Library/Application Support/Sublime Text/Packages
+        state path: /Users/xxx/Library/Application Support/Sublime Text/Local
+        zip path: /Applications/Sublime Text.app/Contents/MacOS/Packages
+        zip path: /Users/xxx/Library/Application Support/Sublime Text/Installed Packages
+        ignored_packages: ["Vintage"]
+        pre session restore time: 0.250000
+        OpenGL Context Information:
+          GL API Version: 4.1 INTEL-16.5.2
+          GLSL Version: 4.10
+          Vendor: Intel Inc.
+          Renderer: Intel(R) UHD Graphics 630
+        loading dictionary Packages/Language - English/en_US.dic
+        startup time: 0.350000
+        first paint time: 0.450000
+        environment variables loaded using: /bin/zsh -l
+      render: yaml
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      placeholder: |
+        This is what should happen:
+
+        ... (you can drop images here)
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      placeholder: |
+        This is what happened instead:
+
+        ... (you can drop images here)
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      placeholder:  |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
