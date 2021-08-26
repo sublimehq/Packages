@@ -16,6 +16,10 @@ scope: embedding.php
 contexts:
   main:
     - match: ''
+      push: [real-main, shebang]
+
+  real-main:
+    - match: ''
       push: scope:text.html.basic
       with_prototype:
         - match: <\?(?i:php|=)?(?![^?]*\?>)
@@ -32,6 +36,20 @@ contexts:
             - meta_content_scope: source.php
             - include: php-end-tag-pop
             - include: scope:source.php
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.php
+      set: shebang-body
+    - match: ^|(?=\S)
+      pop: 1
+
+  shebang-body:
+    - meta_scope: comment.line.shebang.php
+    - match: \bphp(?:[-_]?\d+(?:\.\d+){0,2})?\b
+      scope: constant.language.shebang.php
+    - match: \n
+      pop: 1
 
   php-end-tag-pop:
     - match: (\?>)(\s*\n)?
