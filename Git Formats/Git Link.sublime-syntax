@@ -49,8 +49,7 @@ contexts:
 
   path:
     - meta_content_scope: meta.path.git string.unquoted.git
-    - match: $\n
-      scope: punctuation.terminator.path.git
+    - match: $
       pop: true
     - match: '[\\/]'
       scope: punctuation.separator.path.git
