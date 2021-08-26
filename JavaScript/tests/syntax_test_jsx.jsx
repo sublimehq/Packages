@@ -3,31 +3,31 @@
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
 //  ^ punctuation.definition.tag.begin
-//   ^^^ meta.tag.name entity.name.tag
+//   ^^^ meta.tag.name entity.name.tag.native
 //       ^^ punctuation.definition.tag.end
 
     <foo>Hello!</foo>;
 //  ^^^^^^^^^^^^^^^^^ meta.jsx
 //  ^^^^^ meta.tag
 //  ^ punctuation.definition.tag.begin
-//   ^^^ meta.tag.name entity.name.tag
+//   ^^^ meta.tag.name entity.name.tag.native
 //      ^ punctuation.definition.tag.end
 //       ^^^^^^ - meta.tag
 //             ^^^^^^ meta.tag
 //             ^^ punctuation.definition.tag.begin
-//               ^^^ meta.tag.name entity.name.tag
+//               ^^^ meta.tag.name entity.name.tag.native
 //                  ^ punctuation.definition.tag.end
 
     <foo.bar.baz>Hello!</foo.bar.baz>;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
 //  ^^^^^^^^^^^^^ meta.tag
-//   ^^^^^^^^^^^ meta.tag.name
+//   ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
 //      ^ punctuation.accessor
 //          ^ punctuation.accessor
 //           ^^^ entity.name.tag
 //               ^^^^^^ - meta.tag
 //                     ^^^^^^^^^^^^^^ meta.tag
-//                       ^^^^^^^^^^^ meta.tag.name
+//                       ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
 //                          ^ punctuation.accessor
 //                              ^ punctuation.accessor
 //                               ^^^ entity.name.tag
@@ -201,5 +201,5 @@
 
 </foo>;
 
-    <class />;
-//   ^^^^^ entity.name.tag
+    <Class />;
+//   ^^^^^ entity.name.tag - entity.name.tag.native
