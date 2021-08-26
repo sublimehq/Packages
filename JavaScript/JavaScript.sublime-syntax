@@ -931,7 +931,6 @@ contexts:
 
     - include: regexp-complete
     - include: literal-string
-    - include: tagged-template
     - include: literal-string-template
     - include: constructor
     - include: literal-number
@@ -1033,11 +1032,6 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-
-  tagged-template:
-    - match: '{{identifier_name}}(?=\s*`)'
-      scope: variable.function.tagged-template.js
-      pop: true
 
   literal-string-template:
     - match: '`'
@@ -1988,6 +1982,10 @@ contexts:
         - function-name-meta
         - literal-variable-base
 
+    - match: '{{identifier_name}}(?=\s*`)'
+      scope: variable.function.tagged-template.js
+      pop: true
+
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
       pop: true
@@ -2408,6 +2406,10 @@ contexts:
 
     - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
+
+    - match: '{{identifier_name}}(?=\s*`)'
+      scope: variable.function.tagged-template.js
+      pop: true
 
     - include: object-property-base
     - include: else-pop
