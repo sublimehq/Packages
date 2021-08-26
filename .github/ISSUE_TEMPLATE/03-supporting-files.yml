@@ -11,35 +11,6 @@ body:
         If the problem persists, please begin the issue title with the language in square brackets, e.g. `[PHP] Snippet for echo includes the wrong tab stops`.
 
   - type: textarea
-    id: console-output
-    attributes:
-      label: Console output
-      description: Please select `View > Show console` from the menu and scroll to the very top to copy all relevant console output with information about your setup, then paste it here.
-      placeholder: |
-        startup, version: 4112 osx x64 channel: dev
-        executable: /Applications/Sublime Text.app/Contents/MacOS/sublime_text
-        application: /Applications/Sublime Text.app
-        working dir: /
-        packages path: /Users/xxx/Library/Application Support/Sublime Text/Packages
-        state path: /Users/xxx/Library/Application Support/Sublime Text/Local
-        zip path: /Applications/Sublime Text.app/Contents/MacOS/Packages
-        zip path: /Users/xxx/Library/Application Support/Sublime Text/Installed Packages
-        ignored_packages: ["Vintage"]
-        pre session restore time: 0.250000
-        OpenGL Context Information:
-          GL API Version: 4.1 INTEL-16.5.2
-          GLSL Version: 4.10
-          Vendor: Intel Inc.
-          Renderer: Intel(R) UHD Graphics 630
-        loading dictionary Packages/Language - English/en_US.dic
-        startup time: 0.350000
-        first paint time: 0.450000
-        environment variables loaded using: /bin/zsh -l
-      render: yaml
-    validations:
-      required: true
-
-  - type: textarea
     id: expected-behavior
     attributes:
       label: Expected behavior
@@ -71,3 +42,18 @@ body:
         3. ...
     validations:
       required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      description: Please make sure to check all boxes below.
+      options:
+        - label: I have tested the issue described here against the [latest Build of Sublime Text (dev channel)](https://www.sublimetext.com/dev).
+          required: true
+        - label: I have checked the [existing issues](https://github.com/sublimehq/Packages/issues).
+          required: true
+        - label: I have checked the [existing pull requests](https://github.com/sublimehq/Packages/pulls).
+          required: true
+        - label: I have checked the [`master` branch for merged pull requests](https://github.com/sublimehq/Packages/commits/master).
+          required: true
