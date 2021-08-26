@@ -1,6 +1,6 @@
 # SYNTAX TEST "Git Link.sublime-syntax"
 # <- text.git.link comment.line punctuation.definition.comment
-gitdir: c:/data/sublime/packages/.git.
+gitdir: c:/data/sublime/packages/.git
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
@@ -11,8 +11,8 @@ gitdir: c:/data/sublime/packages/.git.
 #              ^ punctuation.separator.path.git
 #                               ^ punctuation.separator.path.git
 #                                    ^ - string.unquoted.git
-#                                    ^ punctuation.terminator.path.git.link
-gitdir: c:\data\sublime\packages\.git.
+#                                    ^ punctuation.terminator.path.git
+gitdir: c:\data\sublime\packages\.git
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
@@ -22,7 +22,7 @@ gitdir: c:\data\sublime\packages\.git.
 #         ^ punctuation.separator.path.git
 #              ^ punctuation.separator.path.git
 #                                    ^ - string.unquoted.git
-#                                    ^ punctuation.terminator.path.git.link
+#                                    ^ punctuation.terminator.path.git
 gitdir: ~/../sub..li~me/./packages/.git
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
@@ -43,7 +43,7 @@ gitdir: ~/../sub..li~me/./packages/.git
 #                       ^ constant.language.path.self.git
 #                        ^ punctuation.separator.path.git
 #                                  ^ - constant.language.path.self.git
-gitdir invalid : ../data/s?bl*me/packages/.git.
+gitdir invalid : ../data/s?bl*me/packages/.git
 #^^^^^^^^^^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #              ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
 #               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
@@ -58,4 +58,4 @@ gitdir invalid : ../data/s?bl*me/packages/.git.
 #                            ^ invalid.illegal.path.git
 #                               ^ punctuation.separator.path.git
 #                                        ^ punctuation.separator.path.git
-#                                             ^ punctuation.terminator.path.git.link
+#                                             ^ punctuation.terminator.path.git
