@@ -1,21 +1,9 @@
 blank_issues_enabled: false
 contact_links:
 
-  - name: Download Sublime Text
+  - name: Latest Sublime Text Build
     url: https://www.sublimetext.com/dev
-    about: Download the latest Sublime Text Build (dev channel).
-
-  - name: Sublime Text Documentation
-    url: https://www.sublimetext.com/docs/index.html
-    about: The official documentation for Sublime Text.
-
-  - name: Download Sublime Merge
-    url: https://www.sublimemerge.com/dev
-    about: Download the latest Sublime Merge Build (dev channel).
-
-  - name: Sublime Merge Documentation
-    url: https://www.sublimemerge.com/docs/index.html
-    about: The official documentation for Sublime Merge.
+    about: Please make sure you have tested agsinst the latest Sublime Text Build (dev channel).
 
   - name: SublimeHQ Discord
     url: https://discord.gg/D43Pecu
