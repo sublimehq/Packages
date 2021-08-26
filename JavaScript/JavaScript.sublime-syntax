@@ -1982,7 +1982,7 @@ contexts:
         - function-name-meta
         - literal-variable-base
 
-    - match: '{{identifier_name}}(?=\s*`)'
+    - match: '{{identifier_name}}(?={{nothing}}`)'
       scope: variable.function.tagged-template.js
       pop: true
 
@@ -2407,7 +2407,7 @@ contexts:
     - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
 
-    - match: '{{identifier_name}}(?=\s*`)'
+    - match: '{{identifier_name}}(?={{nothing}}`)'
       scope: variable.function.tagged-template.js
       pop: true
 
