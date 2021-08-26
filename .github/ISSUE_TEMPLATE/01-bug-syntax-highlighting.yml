@@ -22,7 +22,7 @@ body:
         Tell us what you see! Please also copy & paste code snippets for reference.
 
         ```text
-        ... you code here ...
+        ... your code here ...
         ```
     validations:
       required: true
