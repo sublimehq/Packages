@@ -204,6 +204,24 @@ SQL
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
+foo <<-BAR
+#   ^^^^^^ meta.string.heredoc.ruby
+#   ^^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
+  ba'z
+#^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+BAR
+# <- meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+foo <<~BAR
+#   ^^^^^^ meta.string.heredoc.ruby
+#   ^^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
+  ba'z
+#^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+BAR
+# <- meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
 foo, bar = <<BAR, 2
 #^^^^^^^^^^^^^^^^^^ source.ruby
 #          ^^ meta.string.heredoc.ruby - meta.tag
