@@ -155,8 +155,8 @@ contexts:
         - jsx-tag-name-component-possibly-native
 
   jsx-tag-name-meta:
-    - meta_include_prototype: false
     - clear_scopes: 1
+    - meta_include_prototype: false
     - meta_scope: meta.tag.name.js
     - include: immediately-pop
 
