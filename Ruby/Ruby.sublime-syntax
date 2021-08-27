@@ -643,11 +643,11 @@ contexts:
     # beginning of a symbol, so it must be part of a ternary operator
     - match: ':(?!:)'
       scope: keyword.operator.conditional.ruby
-      pop: true
-    - match: \s*(<<)
+      set: after-operator
+    - match: \s*(<<)(?![-~])
       captures:
         1: keyword.operator.assignment.augmented.ruby
-      pop: true
+      set: after-operator
     - match: ''
       pop: true
 
