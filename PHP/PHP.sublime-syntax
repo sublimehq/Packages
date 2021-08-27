@@ -20,7 +20,7 @@ contexts:
 
   real-main:
     - match: ''
-      push: scope:text.html.basic
+      set: scope:text.html.basic
       with_prototype:
         - match: <\?(?i:php|=)?(?![^?]*\?>)
           scope: punctuation.section.embedded.begin.php
