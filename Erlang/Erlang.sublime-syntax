@@ -13,7 +13,6 @@ file_extensions:
 
 hidden_extensions:
   - Emakefile
-  - emakefile
 
 first_line_match: |-
   (?x:

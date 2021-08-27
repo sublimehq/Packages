@@ -3,7 +3,6 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: R
 file_extensions:
-  - R
   - r
   - Rprofile
 scope: source.r

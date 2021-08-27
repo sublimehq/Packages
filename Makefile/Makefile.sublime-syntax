@@ -12,11 +12,8 @@ name: Makefile
 file_extensions:
   - make
   - GNUmakefile
-  - makefile
   - Makefile
-  - makefile.am
   - Makefile.am
-  - makefile.in
   - Makefile.in
   - OCamlMakefile
   - mak
