@@ -1185,7 +1185,7 @@ contexts:
       push: expressions-begin
     # string concat
     - match: \.=?
-      scope: keyword.operator.concat.perl
+      scope: keyword.operator.concatenation.perl
       push: expressions-begin
     # string concation
     #  "string" x 10

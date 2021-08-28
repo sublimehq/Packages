@@ -158,6 +158,12 @@
 //          ^ punctuation.separator.type
 //            ^^^ meta.type support.type.any
 
+        foo!: any;
+//      ^^^ variable.other.readwrite
+//         ^ storage.modifier.definite
+//          ^ punctuation.separator.type
+//            ^^^ meta.type support.type.any
+
         declare foo;
 //      ^^^^^^^ storage.modifier
 //              ^^^ variable.other.readwrite
@@ -180,11 +186,26 @@
         readonly foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
+        override foo() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^^^^ meta.function
+//               ^^^ entity.name.function
 
-        private static foo;
+        readonly;
+//      ^^^^^^^^ variable.other.readwrite
+
+        readonly() {}
+//      ^^^^^^^^^^ meta.function
+//      ^^^^^^^^ entity.name.function
+
+        private static readonly abstract declare override public;
 //      ^^^^^^^ storage.modifier
 //              ^^^^^^ storage.modifier
-//                     ^^^ variable.other.readwrite
+//                     ^^^^^^^^ storage.modifier
+//                              ^^^^^^^^ storage.modifier
+//                                       ^^^^^^^ storage.modifier
+//                                               ^^^^^^^^ storage.modifier
+//                                                        ^^^^^^ variable.other.readwrite
 
         foo(): any {}
 //      ^^^^^^^^^^^^^ meta.function
@@ -200,6 +221,28 @@
 //              ^ punctuation.separator.type
 //                ^^^ meta.type support.type.any
 //                    ^^ meta.function meta.block
+
+        @decorator<T>()
+//      ^^^^^^^^^^^^^^^ meta.annotation
+//      ^ punctuation.definition.annotation
+//       ^^^^^^^^^ variable.annotation
+//                ^^^ meta.generic
+//                ^ punctuation.definition.generic.begin
+//                 ^ support.class
+//                  ^ punctuation.definition.generic.end
+//                   ^^ meta.group
+//                   ^ punctuation.section.group.begin
+//                    ^ punctuation.section.group.end
+
+        foo() {}
+//      ^^^^^^^^ meta.function
+//      ^^^ entity.name.function
+//         ^^ meta.function.parameters
+//         ^ punctuation.section.group.begin
+//          ^ punctuation.section.group.end
+//            ^^ meta.block
+//            ^ punctuation.section.block.begin
+//             ^ punctuation.section.block.end
     }
 
     abstract class Foo {
@@ -209,6 +252,33 @@
         abstract foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^ variable.other.readwrite
+
+        abstract foo();
+//      ^^^^^^^^ storage.modifier
+//               ^^^ entity.name.function
+
+        abstract *foo();
+//      ^^^^^^^^ storage.modifier
+//               ^ keyword.generator.asterisk
+//                ^^^ entity.name.function
+
+        abstract async foo();
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^ keyword.declaration.async
+//                     ^^^ entity.name.function
+
+        abstract async() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^^^ entity.name.function
+
+        abstract get foo() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^ storage.type.accessor
+//                   ^^^ entity.name.function
+
+        abstract get() {}
+//      ^^^^^^^^ storage.modifier
+//               ^^^ entity.name.function
 
     }
 
@@ -293,6 +363,14 @@ function f(public x) {}
 function f(readonly x) {}
 //         ^^^^^^^^ storage.modifier
 //                  ^ meta.binding.name variable.parameter.function
+
+function f(readonly ...x) {}
+//         ^^^^^^^^ storage.modifier
+//                  ^^^keyword.operator.spread
+//                     ^ meta.binding.name variable.parameter.function
+
+function f(readonly) {}
+//         ^^^^^^^^ meta.binding.name variable.parameter.function
 
 function f(x?: any) {}
 //          ^ storage.modifier.optional
@@ -874,5 +952,45 @@ const f = (): any => {};
 //    ^ meta.binding.name entity.name.function variable.other.readwrite
 //     ^^^^^^^^^^^^^^^^^^ - entity.name.function
 
+const f = <T,>(): U => {};
+//        ^^^^^^^^^^^^^^^ meta.function
+//        ^^^ meta.generic
+//        ^ punctuation.definition.generic.begin
+//         ^ variable.parameter.generic
+//          ^ punctuation.separator.comma
+//           ^ punctuation.definition.generic.end
+//            ^^ meta.function.parameters
+//              ^ punctuation.separator.type
+//                ^ support.class
+//                  ^^ keyword.declaration.function.arrow
+
     a != b;
 //    ^^ keyword.operator.comparison
+
+const x = {
+    readonly: true,
+//  ^^^^^^^^ meta.mapping.key
+    readonly readonly: true,
+//  ^^^^^^^^ storage.modifier
+//           ^^^^^^^^ meta.mapping.key
+
+    readonly,
+//  ^^^^^^^^ variable.other.readwrite
+
+    readonly get() {},
+//  ^^^^^^^^ storage.modifier
+//           ^^^ entity.name.function
+
+    readonly get foo() {},
+//  ^^^^^^^^ storage.modifier
+//           ^^^ storage.type.accessor
+//               ^^^ entity.name.function
+
+    readonly get: 42,
+//  ^^^^^^^^ storage.modifier
+//           ^^^ meta.mapping.key
+
+    readonly get,
+//  ^^^^^^^^ storage.modifier
+//           ^^^ variable.other.readwrite
+}

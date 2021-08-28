@@ -331,7 +331,7 @@ contexts:
   comment:
     # As of build 4079 the [:punct:] class is missing some ASCII chars that
     # Unicode considers part of the Symbol category.
-    - match: '--(?![[:punct:]!-/:-@\[-`{-~])'
+    - match: '--+(?![[:punct:]!-/:-@\[-`{-~])'
       scope: punctuation.definition.comment.haskell
       push:
         - meta_scope: comment.line.double-dash.haskell

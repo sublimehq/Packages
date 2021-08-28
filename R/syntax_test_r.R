@@ -259,13 +259,13 @@ NaN
 #             ^^^ keyword.operator.assignment.r
 
   == != <= >= <> < > && & || | !
-# ^^ keyword.operator.logical.r
-#    ^^ keyword.operator.logical.r
-#       ^^ keyword.operator.logical.r
-#          ^^ keyword.operator.logical.r
-#             ^^ keyword.operator.logical.r
-#                ^ keyword.operator.logical.r
-#                  ^ keyword.operator.logical.r
+# ^^ keyword.operator.comparison.r
+#    ^^ keyword.operator.comparison.r
+#       ^^ keyword.operator.comparison.r
+#          ^^ keyword.operator.comparison.r
+#             ^^ keyword.operator.comparison.r
+#                ^ keyword.operator.comparison.r
+#                  ^ keyword.operator.comparison.r
 #                    ^^ keyword.operator.logical.r
 #                       ^ keyword.operator.logical.r
 #                         ^^ keyword.operator.logical.r
@@ -506,7 +506,7 @@ foo[[bar[1]]] #
 # issue #1120
 sum(x == 1)
 #   ^^^^^^ - variable.parameter.r
-#     ^^ keyword.operator.logical.r
+#     ^^ keyword.operator.comparison.r
 
 function(
   x = 1, # this should be comment
