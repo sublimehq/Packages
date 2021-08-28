@@ -15,8 +15,6 @@ file_extensions:
   - rpy
   - cpy
   - SConstruct
-  - Sconstruct
-  - sconstruct
   - SConscript
   - gyp
   - gypi

@@ -4,7 +4,6 @@
 name: Graphviz (DOT)
 file_extensions:
   - dot
-  - DOT
   - gv
 scope: source.dot
 contexts:

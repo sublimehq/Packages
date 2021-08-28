@@ -4,7 +4,6 @@
 name: R
 file_extensions:
   - R
-  - r
   - Rprofile
 scope: source.r
 
