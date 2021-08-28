@@ -739,7 +739,6 @@ contexts:
         punctuation.definition.group.begin.regexp.shell
       push: expansions-pattern-group-body
     - include: boolean
-    - include: number
     - include: expansions-and-strings
 
   test-expression-common:
