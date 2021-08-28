@@ -72,7 +72,13 @@
 		<key>preserveIndent</key>
 		<false/>
 		<key>unIndentedLinePattern</key>
-		<string>^\s*(?:(?://|/\*|\*+/).*)?$</string>
+		<string><![CDATA[(?x)
+			# standalone begin or end of block comments
+			#   ST doesn't apply `Indentation Rules - Comments`, because
+			#   comment scope doesn't cover the whole line. So they need
+			#   to be excluded from indentation engine here.
+			^\s* (?: // | /\*(?!.*\*/) | \*+/ )
+		]]></string>
 	</dict>
 </dict>
 </plist>
