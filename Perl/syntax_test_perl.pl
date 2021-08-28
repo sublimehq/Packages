@@ -1010,7 +1010,7 @@ chomp (my $common_end = <<"EOF") =~ s/(.*)/$1/g if $opt_o;
 #^^^^ support.function.perl
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #                       ^^ keyword.operator.heredoc.perl
-#                                ^^ keyword.operator.binary.perl
+#                                ^^ keyword.operator.comparison.perl
   foo bar baz
 # <- meta.string.heredoc.perl string.unquoted.heredoc.perl
 # ^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
@@ -1082,11 +1082,11 @@ EOT
   %
 # ^ keyword.operator.arithmetic.perl
   !~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   =~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   ~~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   <=>
 # ^^^ keyword.operator.comparison.perl
   //
@@ -3724,7 +3724,7 @@ our $VERSION = do {
 #            ^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl
 #                      ^^^^ - constant.numeric
 #                           ^ punctuation.section.generic.end.perl
-#                             ^^ keyword.operator.binary.perl
+#                             ^^ keyword.operator.comparison.perl
 #                                ^ punctuation.section.generic.begin.perl
 #                                 ^^^ meta.string.perl string.regexp.perl source.regexp
 #                                    ^ punctuation.section.generic.end.perl

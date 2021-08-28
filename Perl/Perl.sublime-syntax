@@ -1152,13 +1152,10 @@ contexts:
     - match: -[rwx0RWXOezsfdlpSbctugkTBMAC]\b
       scope: keyword.operator.filetest.perl
       push: expressions-begin
-    - match: '[!~=]~'
-      scope: keyword.operator.binary.perl
-      push: expressions-begin
     - match: <<|>>
       scope: keyword.operator.bitwise.perl
       push: expressions-begin
-    - match: <=>|==|!=|>=|<=|[<>]
+    - match: <=>|==|!=|>=|<=|[<>]|[!~=]~
       scope: keyword.operator.comparison.perl
       push: expressions-begin
     - match: \&\&|\|\||//|[:!?]
