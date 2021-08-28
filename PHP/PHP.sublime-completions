@@ -1707,6 +1707,12 @@
 			"details": "Return the parent classes of the given class"
 		},
 		{
+			"trigger": "class_uses()",
+			"contents": "class_uses(${1:object_or_class})",
+			"kind": "function",
+			"details": "Return the traits used by the given class"
+		},
+		{
 			"trigger": "classkit_import()",
 			"contents": "classkit_import(${1:filename})",
 			"kind": "function",
