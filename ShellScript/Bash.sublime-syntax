@@ -680,11 +680,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: cmd-test-args-group-body
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.binary.shell
-      push: cmd-test-args-pattern
-    - match: ([=!]=)\s*
+    - match: ([=!]=|=~)\s*
       captures:
         1: keyword.operator.comparison.shell
       push: cmd-test-args-pattern
@@ -707,11 +703,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: test-expression-group-body
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.binary.shell
-      push: test-expression-pattern
-    - match: ([=!]=)\s*
+    - match: ([=!]=|=~)\s*
       captures:
         1: keyword.operator.comparison.shell
       push: test-expression-pattern

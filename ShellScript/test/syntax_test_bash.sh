@@ -1897,7 +1897,7 @@ test ! ($line =~ ^[0-9]+$)
 #    ^ keyword.operator.logical.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^ variable.other.readwrite.shell
-#             ^^ keyword.operator.binary.shell
+#             ^^ keyword.operator.comparison.shell
 #                ^^^^^^^^ meta.pattern.regexp.shell
 
 test ! ($line =~ ^[0-9]+$) >> /file
@@ -1911,7 +1911,7 @@ test ! ($line =~ ^[0-9]+$) >> /file
 #    ^ keyword.operator.logical.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^ variable.other.readwrite.shell
-#             ^^ keyword.operator.binary.shell
+#             ^^ keyword.operator.comparison.shell
 #                ^^^^^^^^ meta.pattern.regexp.shell
 #                        ^ punctuation.section.group.end.shell
 #                          ^^ keyword.operator.assignment.redirection.shell
@@ -3687,7 +3687,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                      ^ - meta.conditional
 #^^^^^^^^^^ - meta.pattern.regexp
 #  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.binary.shell
+#       ^^ keyword.operator.comparison.shell
 #          ^^^^ meta.pattern.regexp.shell - meta.interpolation
 #              ^^^^ meta.pattern.regexp.shell meta.interpolation.parameter.shell
 #                  ^ meta.pattern.regexp.shell - meta.interpolation
@@ -3702,7 +3702,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^^^ meta.group.regexp.shell
 #                            ^^^ - meta.pattern.regexp.shell
 #  ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.binary.shell
+#        ^^ keyword.operator.comparison.shell
 #           ^^ punctuation.definition.set.begin.regexp.shell
 #             ^^^^^^^ constant.other.posix-class.regexp.shell
 #                    ^^ punctuation.definition.set.end.regexp.shell
@@ -3739,7 +3739,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #  ^ keyword.operator.logical.shell
 #    ^ punctuation.section.group.begin.shell
 #     ^^^^^ variable.other.readwrite.shell
-#           ^^ keyword.operator.binary.shell
+#           ^^ keyword.operator.comparison.shell
 #               ^^^^^^^^ meta.group.regexp.shell
 #               ^ punctuation.definition.group.begin.regexp.shell
 #                ^^ constant.character.escape.shell
