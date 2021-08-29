@@ -1847,9 +1847,11 @@ test+=
 test var != 0
 #<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#   ^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#           ^ meta.function-call.arguments.shell meta.pattern.regexp.shell
+#            ^ - meta.function-call
 #        ^^ keyword.operator.comparison.shell
-#           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#           ^ - constant.numeric
 
 test var == true
 #<- meta.function-call.identifier.shell support.function.test.shell
@@ -1895,7 +1897,7 @@ test ! ($line =~ ^[0-9]+$)
 #    ^ keyword.operator.logical.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^ variable.other.readwrite.shell
-#             ^^ keyword.operator.binary.shell
+#             ^^ keyword.operator.comparison.shell
 #                ^^^^^^^^ meta.pattern.regexp.shell
 
 test ! ($line =~ ^[0-9]+$) >> /file
@@ -1909,7 +1911,7 @@ test ! ($line =~ ^[0-9]+$) >> /file
 #    ^ keyword.operator.logical.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^ variable.other.readwrite.shell
-#             ^^ keyword.operator.binary.shell
+#             ^^ keyword.operator.comparison.shell
 #                ^^^^^^^^ meta.pattern.regexp.shell
 #                        ^ punctuation.section.group.end.shell
 #                          ^^ keyword.operator.assignment.redirection.shell
@@ -3685,7 +3687,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                      ^ - meta.conditional
 #^^^^^^^^^^ - meta.pattern.regexp
 #  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.binary.shell
+#       ^^ keyword.operator.comparison.shell
 #          ^^^^ meta.pattern.regexp.shell - meta.interpolation
 #              ^^^^ meta.pattern.regexp.shell meta.interpolation.parameter.shell
 #                  ^ meta.pattern.regexp.shell - meta.interpolation
@@ -3700,13 +3702,29 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^^^ meta.group.regexp.shell
 #                            ^^^ - meta.pattern.regexp.shell
 #  ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.binary.shell
+#        ^^ keyword.operator.comparison.shell
 #           ^^ punctuation.definition.set.begin.regexp.shell
 #             ^^^^^^^ constant.other.posix-class.regexp.shell
 #                    ^^ punctuation.definition.set.end.regexp.shell
 #                      ^^ keyword.operator.quantifier.regexp.shell
 #                        ^ punctuation.definition.group.begin.regexp.shell
 #                          ^ punctuation.definition.group.end.regexp.shell
+
+[[ $line =~ ^0[1-9]$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                      ^ - meta.conditional
+#^^^^^^^^^^^ - meta.pattern.regexp.shell
+#           ^^^^^^^^ meta.pattern.regexp.shell
+#                   ^^^ - meta.pattern.regexp.shell
+
+[[ ! ($line =~ ^0[1-9]$) ]]
+# <- meta.conditional.shell - meta.group
+#^^^^ meta.conditional.shell - meta.group
+#    ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.pattern
+#              ^^^^^^^^ meta.conditional.shell meta.group.shell meta.pattern.regexp.shell
+#                      ^ meta.conditional.shell meta.group.shell - meta.pattern
+#                       ^^^ meta.conditional.shell - meta.group
+#                          ^ - meta.conditional - meta.group
 
 [[ ! ($line =~ ^(\([0-9]+)$) ]]
 # <- meta.conditional.shell - meta.group
@@ -3721,7 +3739,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #  ^ keyword.operator.logical.shell
 #    ^ punctuation.section.group.begin.shell
 #     ^^^^^ variable.other.readwrite.shell
-#           ^^ keyword.operator.binary.shell
+#           ^^ keyword.operator.comparison.shell
 #               ^^^^^^^^ meta.group.regexp.shell
 #               ^ punctuation.definition.group.begin.regexp.shell
 #                ^^ constant.character.escape.shell
