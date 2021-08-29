@@ -41,7 +41,7 @@
 			#   ST doesn't apply `Indentation Rules - Comments`, because
 			#   comment scope doesn't cover the whole line. So they need
 			#   to be excluded from indentation engine here.
-			^\s* (?: /\* | \*+/ )
+			^\s* (?: /\*(?!.*\*/) | \*+/ )
 		]]></string>
 	</dict>
 </dict>

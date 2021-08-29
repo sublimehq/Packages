@@ -432,3 +432,11 @@ abbr[                           /* ; */ /* ] /* comment
 */
 }                               /* ; */ /* } /* comment
 */
+
+/**
+ * Handle lines with leading block comments as normal code.
+ **/
+.class {
+/**/ color: red;
+/**/ color /**/ : /**/ red /**/ ; /**/
+}
