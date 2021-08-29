@@ -7,7 +7,6 @@ version: 2
 
 file_extensions:
   - haml
-  - sass
 
 variables:
 
