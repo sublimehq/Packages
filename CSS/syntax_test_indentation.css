@@ -381,7 +381,6 @@ abbr[                           /* ; } */
 }                               /* ; */ /* } /* comment
 */
 
-*/
 .class {                        /* ; */ /* } /* comment
 */
     color: red;                 /* ; */ /* } /* comment
@@ -389,7 +388,6 @@ abbr[                           /* ; } */
 }                               /* ; */ /* } /* comment
 */
 
-*/
 .class { color: red;            /* ; */ /* } /* comment
 */
     background: beige;          /* ; */ /* } /* comment
@@ -397,7 +395,6 @@ abbr[                           /* ; } */
 }                               /* ; */ /* } /* comment
 */
 
-*/
 .class { color: rgb(            /* ) ; */ /* } /* comment
 */
     background: beige;          /* ; */ /* } /* comment
@@ -405,7 +402,6 @@ abbr[                           /* ; } */
 }                               /* ; */ /* } /* comment
 */
 
-*/
 .class { color: rgb(0, 0, 0);   /* ; */ /* } /* comment
 */
     background: beige;          /* ; */ /* } /* comment
@@ -413,7 +409,6 @@ abbr[                           /* ; } */
 }                               /* ; */ /* } /* comment
 */
 
-*/
 abbr[title],                    /* ; */ /* } /* comment
 */
 abbr[                           /* ; */ /* ] /* comment
@@ -427,7 +422,6 @@ abbr[                           /* ; */ /* ] /* comment
 }                               /* ; */ /* } /* comment
 */
 
-*/
 .class a:not(                   /* ; */ /* ) /* comment
 */
     .css_button                 /* ; */ /* } /* comment
