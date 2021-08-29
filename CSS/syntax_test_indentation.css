@@ -196,7 +196,7 @@ abbr[                           /* ] }
 */
 } /**/ .foo /**/ {              /*
 */
-    color: red;                 /*
+    color: /**/ red;            /*
 */
 }                               /*
 */
@@ -239,7 +239,7 @@ abbr[                           /*
 /**
  * Test: Trailing comments spanning to next line
  * and containing closing brackets
- **/
+ **/ .class { color: red; }
 
 .class { color: red; }          /* }
 */
