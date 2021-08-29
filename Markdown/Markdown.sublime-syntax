@@ -810,9 +810,9 @@ contexts:
     - include: autolink-inet
     - include: autolink-email
     - include: image-ref
+    - include: link-ref-footnote
     - include: link-ref-literal
     - include: link-ref
-    - include: link-ref-footnote
   inline-bold-italic:
     - include: inline
     - include: bold

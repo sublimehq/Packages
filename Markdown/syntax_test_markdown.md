@@ -422,6 +422,12 @@ Here is a [blank reference link][]{}.
 |                                 ^ punctuation.definition.attributes.begin.markdown
 |                                  ^ punctuation.definition.attributes.end.markdown
 
+Here is a footnote[^1][link][] or long[^longnote][link][].
+|                 ^^^^ meta.link.reference.footnote.markdown-extra
+|                     ^^^^^^^^ meta.link.reference.literal
+|                                     ^^^^^^^^^^^ meta.link.reference.footnote.markdown-extra
+|                                                ^^^^^^^^ meta.link.reference.literal
+
 Here is a ![](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
 |          ^ punctuation.definition.image.begin
