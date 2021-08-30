@@ -348,6 +348,14 @@
 ##          ^^ invalid.illegal.bad-comments-or-CDATA
 ##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
 
+        <!-- 1st comment -- >
+##                       ^^^^ - punctuation.definition.comment.end.html
+        <p>Is a comment</p>
+##      ^^^^^^^^^^^^^^^^^^^ comment.block
+        <!-- 2nd comment -->
+##      ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                       ^^^ punctuation.definition.comment.end.html
+
         <script type=html/text/>
         ##     ^ - meta.attribute-with-value
         ##      ^^^^ entity.other.attribute-name
