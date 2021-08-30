@@ -1619,6 +1619,8 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
           pop: true
+        - include: general-constants
+        - include: general-commands
         - include: array-preamble
 
     - match: 'l|r|c'

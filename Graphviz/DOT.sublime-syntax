@@ -6,7 +6,6 @@ scope: source.dot
 
 file_extensions:
   - dot
-  - DOT
   - gv
 
 first_line_match: |-

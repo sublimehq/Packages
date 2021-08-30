@@ -9,8 +9,36 @@ variables:
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
   regex_modifier: '[eimsuxADJSUX]*'
-  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
+  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
   visibility_modifier: '\b(?:var|public|private|protected)\b'
+
+  # A pattern which terminates an incomplete expression at any point.
+  # `\s*\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
+  expression_end: (?=;|}|\s*\?>|{{keywords}})
+
+  keywords: |-
+    (?x:
+      {{keywords_control}}
+    | {{keywords_flow}}
+    | {{keywords_declaration}}
+    | {{visibility_modifier}}
+    )
+
+  keywords_declaration: |-
+    (?x:
+      class | declare | enddeclare | function | global | import | include
+    | include_once | interface | namespace | require | use
+    )\b
+
+  keywords_control: |-
+    (?x:
+      case | catch | default | (?: end )? (?: for | foreach | if | while )
+    | else | elseif | finally | switch | try
+    )\b
+
+  keywords_flow: |-
+    (?x: break | continue | exit | finally | return | throw | yield )\b
+
 
 contexts:
   main:
@@ -27,17 +55,13 @@ contexts:
         - meta_scope: meta.interface.php
         - match: \b(extends)\b\s*
           scope: storage.modifier.extends.php
-          set:
+          push:
+            - include: attributes
+            - include: comments
             - match: '(?={{path}})'
-              set:
-                - meta_scope: meta.path.php
-                - meta_content_scope: entity.other.inherited-class.php
-                - include: identifier-parts
-                - match: '(\\)?({{identifier}})(?!\\)'
-                  captures:
-                    1: punctuation.separator.namespace.php
-                - match: ''
-                  pop: 1
+              push: inherited
+            - match: ','
+              scope: punctuation.separator.php
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -112,6 +136,10 @@ contexts:
           pop: 1
         - include: statements
 
+  nested-expressions:
+    - include: expression-end-pop
+    - include: expressions
+
   expressions:
     - include: attributes
     - include: comments
@@ -120,10 +148,9 @@ contexts:
         1: keyword.control.import.include.php
       push:
         - meta_scope: meta.include.php
-        # "\s*\?>" is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
-        - match: (?=;|\)|\]|\s*\?>)
+        - match: (?=\)|\])
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
     - match: \byield\b
       scope: keyword.control.php
@@ -146,6 +173,7 @@ contexts:
         2: punctuation.section.group.begin.php
       push:
         - meta_scope: meta.catch.php
+        - include: expression-end-pop
         - include: attributes
         - include: comments
         - include: identifier-parts-as-path
@@ -221,7 +249,7 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
@@ -277,7 +305,7 @@ contexts:
     - match: \?
       scope: keyword.operator.ternary.php
       push:
-        - include: expressions
+        - include: nested-expressions
         - match: ':'
           scope: keyword.operator.ternary.php
           pop: 1
@@ -296,7 +324,6 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - include: string-backtick
     - match: '(\[)\s*(\])'
       scope: meta.array.empty.php
       captures:
@@ -309,7 +336,7 @@ contexts:
         - match: '\]'
           scope: punctuation.section.array.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     - include: constants
     - match: \(
       scope: punctuation.section.group.begin.php
@@ -318,7 +345,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
 
   after-identifier:
     - include: item-access
@@ -338,7 +365,7 @@ contexts:
         - match: '\]'
           scope: meta.item-access.php punctuation.section.brackets.end.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
 
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
@@ -388,12 +415,13 @@ contexts:
             - match: ','
               scope: punctuation.separator.php
             - include: function-call-named-parameters
-            - include: expressions
+            - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
         - match: ','
           scope: punctuation.separator.php
+        - include: expression-end-pop
 
   class-builtin:
     - match: |-
@@ -447,10 +475,11 @@ contexts:
         - match: '(?=\S)'
           set: use-statement-ns-class
         # Escape during typing
-        - match: '(?=$\n)'
+        - match: '(?=\n)'
           pop: 1
 
   use-statement-common:
+    - include: expression-end-pop
     - include: attributes
     - include: comments
     - match: (?i)\bas\b
@@ -570,8 +599,7 @@ contexts:
       push: class-definition
 
   class-definition:
-    - match: "(?=;)"
-      pop: 1
+    - include: expression-end-pop
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: class-body
@@ -586,16 +614,7 @@ contexts:
         - include: attributes
         - include: comments
         - match: '(?={{path}})'
-          set:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
+          set: inherited
         - match: '(?=\S)'
           pop: 1
     - match: (?i)(implements)\b\s*
@@ -605,20 +624,22 @@ contexts:
         - include: attributes
         - include: comments
         - match: '(?={{path}})'
-          push:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
+          push: inherited
         - match: ','
           scope: punctuation.separator.php
         - match: '(?=\S)'
           pop: 1
+
+  inherited:
+    - meta_scope: meta.path.php
+    - meta_content_scope: entity.other.inherited-class.php
+    - include: class-builtin
+    - include: identifier-parts
+    - match: '(\\)?{{identifier}}(?!\\)'
+      captures:
+        1: punctuation.separator.namespace.php
+    - match: ''
+      pop: 1
 
   class-body:
     - meta_scope: meta.class.php meta.block.php
@@ -781,6 +802,7 @@ contexts:
 
   function-parameters:
     - meta_scope: meta.function.parameters.php meta.group.php
+    - include: expression-end-pop
     - match: \)
       scope: punctuation.section.group.end.php
       set:
@@ -820,7 +842,7 @@ contexts:
       push:
         - match: (?=,|\))
           pop: 1
-        - include: expressions
+        - include: nested-expressions
 
   function-use:
     - meta_scope: meta.function.closure.use.php
@@ -849,8 +871,7 @@ contexts:
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
-    - match: '(?=;)'
-      pop: 1
+    - include: expression-end-pop
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: function-body
@@ -1180,7 +1201,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.php
         - include: function-call-named-parameters
-        - include: expressions
+        - include: nested-expressions
   function-call-named-parameters:
     # https://wiki.php.net/rfc/named_params
     - match: ({{identifier}})\s*(:)(?!:)
@@ -1188,7 +1209,7 @@ contexts:
         1: variable.parameter.named.php
         2: punctuation.definition.variable.php
       push:
-        - include: expressions
+        - include: nested-expressions
         - match: ''
           pop: 1
   heredoc:
@@ -1375,7 +1396,7 @@ contexts:
           captures:
             1: punctuation.definition.expression.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     # Handles: "foo${bar}baz"
     - match: '(\$\{){{identifier}}(\})'
       scope: variable.other.php
@@ -1390,7 +1411,7 @@ contexts:
           captures:
             1: punctuation.definition.variable.php
           pop: 1
-        - include: expressions
+        - include: nested-expressions
     # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
     - match: |-
         (?x:
@@ -1417,6 +1438,7 @@ contexts:
             - match: '\]'
               scope: punctuation.section.brackets.end.php
               pop: 1
+            - include: expression-end-pop
             - include: numbers
             - include: variables
             - match: '{{identifier}}'
@@ -1497,7 +1519,6 @@ contexts:
   parameter-default-types:
     - include: strings
     - include: numbers
-    - include: string-backtick
     - include: variables
     - match: "=>"
       scope: keyword.operator.key.php
@@ -1514,6 +1535,7 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
+        - include: expression-end-pop
         - include: parameter-default-types
     - include: instantiation
     - match: \s*(?={{path}}(::)({{identifier}})?)
@@ -1563,154 +1585,188 @@ contexts:
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
-  regex-double-quoted-branch:
+
+###[ STRINGS ]################################################################
+
+  strings:
+    - include: strings-backtick-quoted
+    - include: strings-double-quoted
+    - include: strings-single-quoted
+
+
+  strings-backtick-quoted:
+    - match: \`
+      scope: punctuation.definition.string.begin.php
+      push: string-backtick-quoted-content
+
+  string-backtick-quoted-content:
+    - meta_scope: meta.string.php string.quoted.other.php
+    - match: \`
+      scope: punctuation.definition.string.end.php
+      pop: 1
+    - match: \\.
+      scope: constant.character.escape.php
+    - include: interpolation
+
+
+  strings-double-quoted:
+    - match: (?="/)
+      branch_point: branch-point-double-quoted
+      branch:
+        - string-double-quoted-regexp
+        - string-double-quoted-plain
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.begin.php
+      push: string-double-quoted-content
+
+  string-double-quoted-end:
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.end.php
+      pop: 1
+
+  string-double-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.double.php
+    - include: string-double-quoted-end
+    - match: (?={{sql_indicator}})
+      push: string-quoted-sql-content
+      with_prototype:
+        - match: (?=")
+          pop: 1
+        - include: interpolation
+    - match: (?=\S)
+      set: string-double-quoted-plain-content
+
+  string-double-quoted-regexp:
     - match: (")(/)
       captures:
         1: punctuation.definition.string.begin.php
         2: punctuation.definition.string.regex-delimiter.begin.php
-      push:
-        - meta_scope: meta.string.php string.quoted.double.php
-        - match: (/)({{regex_modifier}})(")
-          captures:
-            1: punctuation.definition.string.regex-delimiter.end.php
-            2: meta.regex.modifier.php
-            3: punctuation.definition.string.end.php
-          pop: 2 # branch successful matched
-        - match: (?=")
-          pop: 1
-        - match: ''
-          push: scope:source.regexp.php
-          with_prototype:
-            - match: (?=(/)({{regex_modifier}})(")|")
-              pop: 1
-            # workaround for greedy scope "$" as punctuation.definition.variable
-            # dangling "$" in regex means EOL, but not variable definition...
-            - match: \$+(?!{{identifier}})
-              scope: keyword.control.anchor.regexp
-            - include: interpolation
-            - match: \\"
-              scope: constant.character.escape
-            - match: \s(#)([^"]*)$
-              captures:
-                1: comment.regexp.php punctuation.definition.comment.regexp.php
-                2: comment.regexp.php
-    - match: ''
+      set: string-double-quoted-regexp-content
+
+  string-double-quoted-regexp-content:
+    - meta_scope: meta.string.php string.quoted.double.php
+    - match: (/)({{regex_modifier}})(")
+      captures:
+        1: punctuation.definition.string.regex-delimiter.end.php
+        2: meta.regex.modifier.php
+        3: punctuation.definition.string.end.php
+      pop: 1
+    - match: \"
       fail: branch-point-double-quoted
-  regex-single-quoted-branch:
+    - match: ''
+      push: scope:source.regexp.php
+      with_prototype:
+        - match: (?=/{{regex_modifier}}"|")
+          pop: 1
+        # workaround for greedy scope "$" as punctuation.definition.variable
+        # dangling "$" in regex means EOL, but not variable definition...
+        - match: \$+(?!{{identifier}})
+          scope: keyword.control.anchor.regexp
+        - include: interpolation
+        - match: \\"
+          scope: constant.character.escape
+        - match: \s(#)([^"]*)$
+          captures:
+            1: comment.regexp.php punctuation.definition.comment.regexp.php
+            2: comment.regexp.php
+
+  string-double-quoted-plain:
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.begin.php
+      set: string-double-quoted-plain-content
+
+  string-double-quoted-plain-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.double.php
+    - include: string-double-quoted-end
+    - include: interpolation
+
+
+  strings-single-quoted:
+    - match: (?='/)
+      branch_point: branch-point-single-quoted
+      branch:
+        - string-single-quoted-regexp
+        - string-single-quoted-plain
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.begin.php
+      push: string-single-quoted-content
+
+  string-single-quoted-end:
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.end.php
+      pop: 1
+
+  string-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.single.php
+    - include: string-single-quoted-end
+    - match: (?={{sql_indicator}})
+      push: string-quoted-sql-content
+      with_prototype:
+        - match: (?=')
+          pop: 1
+        - match: '\\[\\'']'
+          scope: constant.character.escape.php
+    - match: (?=\S)
+      scope: punctuation.definition.string.begin.php
+      set: string-single-quoted-plain-content
+
+  string-single-quoted-regexp:
     - match: (')(/)
       captures:
         1: punctuation.definition.string.begin.php
         2: punctuation.definition.string.regex-delimiter.begin.php
-      push:
-        - meta_scope: meta.string.php string.quoted.single.php
-        - match: (/)({{regex_modifier}})(')
-          captures:
-            1: punctuation.definition.string.regex-delimiter.end.php
-            2: meta.regex.modifier.php
-            3: punctuation.definition.string.end.php
-          pop: 2 # branch successful matched
-        - match: (?=')
-          pop: 1
-        - match: ''
-          push: scope:source.regexp.php
-          with_prototype:
-            - match: (?=(/)({{regex_modifier}})(')|')
-              pop: 1
-            - match: \\'
-              scope: constant.character.escape
-            - match: \s(#)([^']*)$
-              captures:
-                1: comment.regexp.php punctuation.definition.comment.regexp.php
-                2: comment.regexp.php
-    - match: ''
-      fail: branch-point-single-quoted
-  string-double-quoted-branch:
-    - include: string-double-quoted
-    - match: ''
-      pop: 1
-  string-single-quoted-branch:
-    - include: string-single-quoted
-    - match: ''
-      pop: 1
-  string-backtick:
-    - match: "`"
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.interpolated.php
-        - match: "`"
-          scope: punctuation.definition.string.end.php
-          pop: 1
-        - match: \\.
-          scope: constant.character.escape.php
-        - include: interpolation
-  string-double-quoted:
-    - match: '"'
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.double.php
-        - meta_content_scope: meta.string-contents.quoted.double.php
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: string.quoted.double.php
-            - meta_content_scope: meta.string-contents.quoted.double.php
-            - match: '"'
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: ''
-              with_prototype:
-                - match: '(?=")'
-                  pop: 1
-                - include: interpolation
-              push: 'scope:source.sql'
-        - match: '(?=\S)'
-          set:
-            - meta_scope: string.quoted.double.php
-            - meta_content_scope: meta.string-contents.quoted.double.php
-            - match: '"'
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - include: interpolation
-  string-single-quoted:
-    - match: "'"
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.single.php
-        - meta_content_scope: meta.string-contents.quoted.single.php
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: string.quoted.single.php
-            - meta_content_scope: meta.string-contents.quoted.single.php
-            - match: "'"
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: ''
-              with_prototype:
-                - match: "(?=')"
-                  pop: 1
-                - match: '\\[\\'']'
-                  scope: constant.character.escape.php
-              push: 'scope:source.sql'
-        - match: '(?=\S)'
-          set:
-            - meta_scope: string.quoted.single.php
-            - meta_content_scope: meta.string-contents.quoted.single.php
-            - match: "'"
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: '\\[\\'']'
-              scope: constant.character.escape.php
+      set: string-single-quoted-regexp-content
 
-  strings:
-    - match: (?=")
-      branch_point: branch-point-double-quoted
-      branch:
-        - regex-double-quoted-branch
-        - string-double-quoted-branch
-    - match: (?=')
-      branch_point: branch-point-single-quoted
-      branch:
-        - regex-single-quoted-branch
-        - string-single-quoted-branch
+  string-single-quoted-regexp-content:
+    - meta_scope: meta.string.php string.quoted.single.php
+    - match: (/)({{regex_modifier}})(')
+      captures:
+        1: punctuation.definition.string.regex-delimiter.end.php
+        2: meta.regex.modifier.php
+        3: punctuation.definition.string.end.php
+      pop: 1
+    - match: \'
+      fail: branch-point-single-quoted
+    - match: ''
+      push: scope:source.regexp.php
+      with_prototype:
+        - match: (?=/{{regex_modifier}}'|')
+          pop: 1
+        - match: \\'
+          scope: constant.character.escape
+        - match: \s((#)[^']*)$
+          captures:
+            1: comment.regexp.php
+            2: punctuation.definition.comment.regexp.php
+
+  string-single-quoted-plain:
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.begin.php
+      set: string-single-quoted-plain-content
+
+  string-single-quoted-plain-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.single.php
+    - include: string-single-quoted-end
+    - match: \\[\\'']
+      scope: constant.character.escape.php
+
+  string-quoted-sql-content:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.php source.sql.embedded.php
+    - include: scope:source.sql
+      apply_prototype: true
+
+###[ BUILTINS ]###############################################################
+
   support:
     - match: |-
         \b(?xi:
@@ -2245,7 +2301,7 @@ contexts:
       scope: support.function.php_pcre.php
     - match: |-
         \b(?xi:
-          class_implements | class_parents | iterator_apply | iterator_count | iterator_to_array | spl_autoload | spl_autoload_call | spl_autoload_extensions |
+          class_implements | class_parents | class_uses | iterator_apply | iterator_count | iterator_to_array | spl_autoload | spl_autoload_call | spl_autoload_extensions |
           spl_autoload_functions | spl_autoload_register | spl_autoload_unregister | spl_classes | spl_object_hash | spl_object_id
         )\b
       scope: support.function.php_spl.php
@@ -2545,3 +2601,9 @@ contexts:
           set: after-identifier
         - match: ''
           pop: 1
+
+###[ PROTOTYPES ]#############################################################
+
+  expression-end-pop:
+    - match: '{{expression_end}}'
+      pop: 1

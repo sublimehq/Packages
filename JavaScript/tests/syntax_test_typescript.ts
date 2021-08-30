@@ -952,6 +952,18 @@ const f = (): any => {};
 //    ^ meta.binding.name entity.name.function variable.other.readwrite
 //     ^^^^^^^^^^^^^^^^^^ - entity.name.function
 
+const f = <T,>(): U => {};
+//        ^^^^^^^^^^^^^^^ meta.function
+//        ^^^ meta.generic
+//        ^ punctuation.definition.generic.begin
+//         ^ variable.parameter.generic
+//          ^ punctuation.separator.comma
+//           ^ punctuation.definition.generic.end
+//            ^^ meta.function.parameters
+//              ^ punctuation.separator.type
+//                ^ support.class
+//                  ^^ keyword.declaration.function.arrow
+
     a != b;
 //    ^^ keyword.operator.comparison
 

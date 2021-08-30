@@ -22,7 +22,7 @@ variables:
 contexts:
   expression-begin:
     - meta_prepend: true
-    - include: jsx-tag
+    - include: jsx-tag-hack
 
   jsx-interpolation:
     - match: (?={/\*)
@@ -79,13 +79,15 @@ contexts:
         - jsx-meta
         - jsx-tag-attributes-top
 
+  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
+    - include: jsx-tag
+
   jsx-tag-attributes-top:
     - meta_scope: meta.tag.js
     - match: '/'
       scope: punctuation.definition.tag.begin.js
       set:
-        - - meta_scope: invalid.illegal.unmatched-tag.js
-          - include: immediately-pop
+        - jsx-meta-unmatched-tag
         - jsx-expect-tag-end
         - jsx-tag-name
 
@@ -93,6 +95,11 @@ contexts:
       set:
         - jsx-tag-attributes
         - jsx-tag-name
+
+  jsx-meta-unmatched-tag:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.unmatched-tag.js
+    - include: immediately-pop
 
   jsx-tag-attributes:
     - meta_scope: meta.tag.attributes.js
@@ -150,20 +157,33 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       set:
-        - - clear_scopes: 1
-          - meta_scope: meta.tag.name.js
-          - include: immediately-pop
-        - jsx-tag-name-component
+        - jsx-tag-name-meta
+        - jsx-tag-name-end
+        - jsx-tag-name-component-possibly-native
+
+  jsx-tag-name-meta:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.name.js
+    - include: immediately-pop
+
+  jsx-tag-name-end:
+    - match: '[:.]'
+      scope: punctuation.accessor.js
+      push: jsx-tag-name-component
+    - include: else-pop
 
   jsx-tag-name-component:
     - match: '{{jsx_identifier}}'
       scope: entity.name.tag.js
-      set:
-        - match: '[:.]'
-          scope: punctuation.accessor.js
-          set: jsx-tag-name
-        - include: else-pop
+      pop: true
     - include: else-pop
+
+  jsx-tag-name-component-possibly-native:
+    - match: '[[:lower:]]{{jsx_identifier_part}}*{{jsx_identifier_break}}(?!{{nothing}}[.:])'
+      scope: entity.name.tag.native.js
+      pop: true
+    - include: jsx-tag-name-component
 
   jsx-body:
     - meta_include_prototype: false

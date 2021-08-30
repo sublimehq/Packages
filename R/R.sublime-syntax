@@ -6,7 +6,6 @@ scope: source.r
 
 file_extensions:
   - R
-  - r
   - Rprofile
 
 first_line_match: |-

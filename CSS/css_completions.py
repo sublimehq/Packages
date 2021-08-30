@@ -575,7 +575,7 @@ def get_properties():
 
     for names, values in properties_dict.items():
         # Values that are allowed for all properties
-        allowed_values = ['all', 'inherit', 'initial', 'unset', ['var()', 'var($1)']]
+        allowed_values = ['inherit', 'initial', 'unset', ['var()', 'var($1)']]
 
         # Determine which values are available for the current property name
         for value in values:
@@ -678,7 +678,14 @@ class CSSCompletions(sublime_plugin.EventListener):
         )
 
     def complete_property_value(self, view, prefix, pt):
-        completions = []
+        completions = [
+            sublime.CompletionItem(
+                trigger="!important",
+                completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                kind=sublime.KIND_KEYWORD,
+                details="override any other declaration"
+            )
+        ]
         text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
         matches = self.re_name.search(text)
         if matches:
