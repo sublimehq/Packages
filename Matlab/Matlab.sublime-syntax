@@ -437,6 +437,10 @@ contexts:
     - match: '{{eol}}'
       pop: 1
 
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
 ###[ COMMENTS AND LINE CONTINUATION ]###########################################
 
   comments:
@@ -1139,141 +1143,134 @@ contexts:
   # Functions with predefined parameters, mostly used in command syntax form
   builtin-commands:
     # https://www.mathworks.com/help/matlab/ref/axis.html
-    - match: \b(axis)(?:\s+(manual|auto|tight|padded|equal|image|square|fill|vis3d|normal|xy|ij|on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \baxis\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-axis-parameter
     # https://www.mathworks.com/help/matlab/ref/beep.html
-    - match: \b(beep)(?:\s+(on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bbeep\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-on-off-parameter
     # https://www.mathworks.com/help/matlab/ref/box.html
-    - match: \b(box)(?:\s+(on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bbox\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-on-off-parameter
     # https://www.mathworks.com/help/matlab/ref/matlab.graphics.interaction.internal.brush.html
-    - match: \b(brush)(?:\s+(on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bbrush\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-on-off-parameter
     # https://www.mathworks.com/help/matlab/ref/cla.html
-    - match: \b(cla)(?:\s+(reset))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bcla\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-cla-parameter
     # https://www.mathworks.com/help/matlab/ref/clear.html
-    - match: \b(clear)\s+(-regexp)\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
-      push: regexp-pattern-list
-    - match: \b(clear)(?:\s+(all|classes|functions|global|import|java|mex|variables))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bclear\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-clear-parameter
     # https://www.mathworks.com/help/matlab/ref/close.html
-    - match: \b(close)(?:\s+(all)(?:\s+(hidden|force))?)?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
-        3: meta.string.matlab support.constant.matlab
+    - match: \bclose\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-close-parameter
     # https://www.mathworks.com/help/matlab/ref/diary.html
-    - match: \b(diary)(?:\s+(on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bdiary\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-on-off-parameter
     # https://www.mathworks.com/help/matlab/ref/drawnow.html
-    - match: \b(drawnow)(?:\s+(limitrate|nocallbacks|update|expose))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bdrawnow\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-drawnow-parameter
     # https://www.mathworks.com/help/matlab/ref/echo.html
-    - match: \b(echo)(?:\s+(?:(on|off)(?:\s+(all))?|({{filename}})(?:\s+(on|off))?))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
-        3: meta.string.matlab support.constant.matlab
-        4: meta.string.matlab string.unquoted.matlab
-        5: meta.string.matlab support.constant.matlab
+    - match: \becho\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-echo-parameter
     # https://www.mathworks.com/help/matlab/ref/exist.html
-    - match: \b(exist)(?:\s+({{filename}})(?:\s+(builtin|class|dir|file|var))?)?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab string.unquoted.matlab
-        3: meta.string.matlab support.constant.matlab
+    - match: \bexist\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-exist-parameter
     # https://www.mathworks.com/help/matlab/ref/exit.html
     # https://www.mathworks.com/help/matlab/ref/quit.html
-    - match: \b(exit|quit)(?:\s+(cancel|force))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \b(?:exit|quit)\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-exit-parameter
     # https://www.mathworks.com/help/matlab/ref/format.html
-    - match: \b(format)(?:\s+(short|long|shortE|longE|shortG|longG|shortEng|longEng|bank|hex|rational|compact|loose))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bformat\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-format-parameter
     # https://www.mathworks.com/help/matlab/ref/grid.html
-    - match: \b(grid)(?:\s+(on|off|minor))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bgrid\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-grid-parameter
     # https://www.mathworks.com/help/matlab/ref/hidden.html
-    - match: \b(hidden)(?:\s+(on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bhidden\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-on-off-parameter
     # https://www.mathworks.com/help/matlab/ref/hold.html
-    - match: \b(hold)(?:\s+(on|off|all))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bhold\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-hold-parameter
     # https://www.mathworks.com/help/matlab/ref/import.html
-    - match: \b(import)\b(?:\s+((?:\w+\.)*(?:\w+|\*)?))?
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab string.unquoted.matlab
+    - match: \bimport\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-import-parameter
     # https://www.mathworks.com/help/matlab/ref/material.html
-    - match: \b(material)(?:\s+(shiny|dull|metal|default))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bmaterial\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-material-parameter
     # https://www.mathworks.com/help/matlab/ref/mkdir.html
-    - match: \b(mkdir)(?:\s+({{filename}})(?:\s+({{filename}}))?)?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab string.unquoted.matlab
-        3: meta.string.matlab string.unquoted.matlab
+    - match: \bmkdir\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-mkdir-parameter
     # https://www.mathworks.com/help/matlab/ref/more.html
-    - match: \b(more)(?:\s+(on|off))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bmore\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-on-off-parameter
     # https://www.mathworks.com/help/matlab/ref/movefile.html
-    - match: \b(movefile)(?:\s+({{filename}})(?:\s+({{filename}})(?:\s+(f))?)?)?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab string.unquoted.matlab
-        3: meta.string.matlab string.unquoted.matlab
-        4: meta.string.matlab support.constant.matlab
+    - match: \bmovefile\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-movefile-parameter
     # https://www.mathworks.com/help/matlab/ref/opengl.html
-    - match: \b(opengl)(?:\s+(info|software|hardware|hardwarebasic))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \bopengl\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-opengl-parameter
     # https://www.mathworks.com/help/matlab/ref/rmdir.html
-    - match: \b(rmdir)(?:\s+({{filename}})(?:\s+(s))?)?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab string.unquoted.matlab
-        3: meta.string.matlab support.constant.matlab
+    - match: \brmdir\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-rmdir-parameter
     # https://www.mathworks.com/help/matlab/ref/who.html
     # https://www.mathworks.com/help/matlab/ref/whos.html
-    - match: \b(who|whos)(?:\s+(global))?\b
-      captures:
-        1: meta.function-call.matlab support.function.builtin.matlab
-        2: meta.string.matlab support.constant.matlab
+    - match: \b(?:who|whos)\b
+      scope: meta.function-call.matlab support.function.builtin.matlab
+      push: maybe-who-parameter
+
+  maybe-on-off-parameter:
+    - match: (?:on|off)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-axis-parameter:
+    - match: (?:manual|auto|tight|padded|equal|image|square|fill|vis3d|normal|xy|ij|on|off)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-cla-parameter:
+    - match: reset\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-clear-parameter:
+    - match: -regexp\b
+      scope: meta.string.matlab support.constant.matlab
+      set: regexp-pattern-list
+    - match: (?:all|classes|functions|global|import|java|mex|variables)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
 
   regexp-pattern-list:
     - include: eol-pop
@@ -1281,6 +1278,163 @@ contexts:
       pop: 1
     - match: '[^;,\s]+'
       scope: meta.string.matlab string.regexp.matlab
+
+  maybe-close-parameter:
+    - match: all\b
+      scope: meta.string.matlab support.constant.matlab
+      set: maybe-close-parameter-2
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-close-parameter-2:
+    - match: (?:hidden|force)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-drawnow-parameter:
+    - match: (?:limitrate|nocallbacks|update|expose)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-echo-parameter:
+    - match: (?:on|off)\b
+      scope: meta.string.matlab support.constant.matlab
+      set: maybe-echo-parameter-2
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      set: maybe-on-off-parameter
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-echo-parameter-2:
+    - match: all\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-exist-parameter:
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      set: maybe-exist-parameter-2
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-exist-parameter-2:
+    - match: (?:builtin|class|dir|file|var)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-exit-parameter:
+    - match: (?:cancel|force)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-format-parameter:
+    - match: (?:short|long|shortE|longE|shortG|longG|shortEng|longEng|bank|hex|rational|compact|loose)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-grid-parameter:
+    - match: (?:on|off|minor)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-hold-parameter:
+    - match: (?:on|off|all)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-import-parameter:
+    - match: (?:\w+\.)*(?:\w+|\*)
+      scope: meta.string.matlab string.unquoted.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-material-parameter:
+    - match: (?:shiny|dull|metal|default)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-mkdir-parameter:
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      set: maybe-mkdir-parameter-2
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-mkdir-parameter-2:
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-movefile-parameter:
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      set: maybe-movefile-parameter-2
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-movefile-parameter-2:
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      set: maybe-movefile-parameter-3
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-movefile-parameter-3:
+    - match: f\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-opengl-parameter:
+    - match: (?:info|software|hardware|hardwarebasic)\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-rmdir-parameter:
+    - match: '{{filename}}'
+      scope: meta.string.matlab string.unquoted.matlab
+      set: maybe-rmdir-parameter-2
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-rmdir-parameter-2:
+    - match: s\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
+
+  maybe-who-parameter:
+    - match: global\b
+      scope: meta.string.matlab support.constant.matlab
+      pop: 1
+    - include: else-pop
+    - include: eol-pop
 
   # Parentheses are usually omitted when functions are used without parameters.
   # This command syntax is also possible for functions if all parameters are character arrays.
