@@ -26,18 +26,3 @@ body:
         ```
     validations:
       required: true
-
-  - type: checkboxes
-    id: checks
-    attributes:
-      label: Checks
-      description: Please make sure to check all boxes below.
-      options:
-        - label: I have tested the issue described here against the [latest Build of Sublime Text (dev channel)](https://www.sublimetext.com/dev).
-          required: true
-        - label: I have checked the [existing issues](https://github.com/sublimehq/Packages/issues).
-          required: true
-        - label: I have checked the [existing pull requests](https://github.com/sublimehq/Packages/pulls).
-          required: true
-        - label: I have checked the [`master` branch for merged pull requests](https://github.com/sublimehq/Packages/commits/master).
-          required: true
