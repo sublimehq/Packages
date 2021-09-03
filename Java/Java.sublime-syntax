@@ -1393,16 +1393,16 @@ contexts:
         - case-label-constant-identifier
 
   case-label-constant-identifier:
+    - include: literal-constant
     - include: constant
-    - include: else-pop
+    - include: case-label-fail
 
   case-label-constant-end:
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
     - match: (?=[;{}]|{{reserved_words}})
       pop: 1
-    - match: (?=\S)
-      fail: case-label
+    - include: case-label-fail
 
   case-label-expression:
     - meta_scope: meta.statement.conditional.case.java
@@ -1418,6 +1418,10 @@ contexts:
     - match: ':|->'
       scope: meta.statement.conditional.case.java punctuation.separator.expressions.java
       pop: 1
+
+  case-label-fail:
+    - match: (?=\S)
+      fail: case-label
 
 ###[ DO WHILE STATEMENTS ]#####################################################
 
@@ -2269,8 +2273,9 @@ contexts:
     - include: literal-strings
     - include: literal-numbers
     - include: literal-constants
+    - include: literal-variables
 
-  literal-constants:
+  literal-variables:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
     - match: _{{break}}
       scope: variable.language.anonymous.java
@@ -2278,12 +2283,24 @@ contexts:
       scope: variable.language.super.java
     - match: this{{break}}
       scope: variable.language.this.java
+
+  literal-constants:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
     - match: (?:false|true){{break}}
       scope: constant.language.boolean.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
       scope: constant.language.null.java
+
+  literal-constant:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.java
+      pop: 1
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
+    - match: null{{break}}
+      scope: constant.language.null.java
+      pop: 1
 
   literal-numbers:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10
@@ -2500,7 +2517,7 @@ contexts:
 ###[ CONSTANT ]################################################################
 
   constant:
-    - match: (?={{id_first_char}})
+    - match: (?={{identifier}})
       branch_point: constant
       branch:
         - unqualified-constant
@@ -2508,7 +2525,7 @@ contexts:
 
   unqualified-constant:
     - meta_include_prototype: false
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: constant.other.java
       set: unqualified-constant-end
     - include: immediately-pop2

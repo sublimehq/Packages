@@ -5565,6 +5565,24 @@ class SwitchStatementTests {
 //                         ^ punctuation.section.group.end.java
 //                           ^ punctuation.separator.expressions.java
 
+          case null:
+//       ^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//        ^^^^^ meta.statement.conditional.case.java
+//             ^^^^ meta.statement.conditional.case.label.java
+//                 ^ meta.statement.conditional.case.java
+//        ^^^^ keyword.control.conditional.case.java
+//             ^^^^ constant.language.null.java
+//                 ^ punctuation.separator.expressions.java
+
+          case super:
+//       ^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//        ^^^^^ meta.statement.conditional.case.java
+//             ^^^^^ meta.statement.conditional.case.label.java
+//                  ^ meta.statement.conditional.case.java
+//        ^^^^ keyword.control.conditional.case.java
+//             ^^^^^ variable.language.super.java
+//                  ^ punctuation.separator.expressions.java
+
       case CONSTANT
 //   ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
 //    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
@@ -5746,6 +5764,24 @@ class SwitchExpressionsTests {
 //                   ^ keyword.operator.assignment.java
 //                     ^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java
 //                     ^^^^^^ keyword.control.conditional.switch.java
+          case null ->
+//       ^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//        ^^^^^ meta.statement.conditional.case.java
+//             ^^^^^ meta.statement.conditional.case.label.java
+//                  ^^ meta.statement.conditional.case.java
+//        ^^^^ keyword.control.conditional.case.java
+//             ^^^^ constant.language.null.java
+//                  ^^ punctuation.separator.expressions.java
+
+          case super ->
+//       ^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//        ^^^^^ meta.statement.conditional.case.java
+//             ^^^^^^ meta.statement.conditional.case.label.java
+//                   ^^ meta.statement.conditional.case.java
+//        ^^^^ keyword.control.conditional.case.java
+//             ^^^^^ variable.language.super.java
+//                   ^^ punctuation.separator.expressions.java
+
           case MONDAY, FRIDAY, SUNDAY -> 6;
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^ meta.statement.conditional.case.java
