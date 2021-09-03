@@ -1400,7 +1400,7 @@ contexts:
   case-label-constant-end:
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
-    - match: (?=[;{}]|{{reserved_words}})
+    - match: (?=[;{}]|(?:{{keywords}}|{{storage_types}}|{{storage_modifiers}}){{break}})
       pop: 1
     - include: case-label-fail
 
