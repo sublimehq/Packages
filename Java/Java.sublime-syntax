@@ -1395,6 +1395,7 @@ contexts:
   case-label-constant-identifier:
     - include: literal-constant
     - include: constant
+    - include: annotations
     - include: case-label-fail
 
   case-label-constant-end:

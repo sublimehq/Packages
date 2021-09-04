@@ -5684,6 +5684,7 @@ class SwitchStatementTests {
 //             ^^^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^ storage.type.class.java
+//                        ^ punctuation.accessor.dot.java
 //                         ^^^^^^^^^ constant.other.java
 
       case mod.sub.MyClass.EnumConst:
@@ -5696,8 +5697,32 @@ class SwitchStatementTests {
 //             ^^^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^ storage.type.class.java
+//                        ^ punctuation.accessor.dot.java
 //                         ^^^^^^^^^ constant.other.java
 //                                  ^ punctuation.separator.expressions.java
+
+      case @anno mod . @anno sub . @anno MyClass . @anno EnumConst:
+//    ^^^^^ meta.statement.conditional.case.java - meta.path
+//         ^^^^^^  meta.statement.conditional.case.label.java - meta.path
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.statement.conditional.case.label.java meta.path.java
+//                                                                ^ meta.statement.conditional.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ punctuation.definition.annotation.java
+//          ^^^^ variable.annotation.java
+//               ^^^ variable.namespace.java
+//                   ^ punctuation.accessor.dot.java
+//                     ^ punctuation.definition.annotation.java
+//                      ^^^^ variable.annotation.java
+//                           ^^^ variable.namespace.java
+//                               ^ punctuation.accessor.dot.java
+//                                 ^ punctuation.definition.annotation.java
+//                                  ^^^^ variable.annotation.java
+//                                       ^^^^^^^ storage.type.class.java
+//                                               ^ punctuation.accessor.dot.java
+//                                                 ^ punctuation.definition.annotation.java
+//                                                  ^^^^ variable.annotation.java
+//                                                       ^^^^^^^^^ constant.other.java
+//                                                                ^ punctuation.separator.expressions.java
 
       case mod.sub.myclass.enumconst
 //   ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
@@ -5709,6 +5734,7 @@ class SwitchStatementTests {
 //             ^^^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^ variable.namespace.java
+//                        ^ punctuation.accessor.dot.java
 //                         ^^^^^^^^^ constant.other.java
         break
 //      ^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.break.java
@@ -5725,8 +5751,32 @@ class SwitchStatementTests {
 //             ^^^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^ variable.namespace.java
+//                        ^ punctuation.accessor.dot.java
 //                         ^^^^^^^^^ constant.other.java
 //                                  ^ punctuation.separator.expressions.java
+
+      case @anno mod . @anno sub . @anno myclass . @anno enumconst:
+//    ^^^^^ meta.statement.conditional.case.java - meta.path
+//         ^^^^^^  meta.statement.conditional.case.label.java - meta.path
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.statement.conditional.case.label.java meta.path.java
+//                                                                ^ meta.statement.conditional.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ punctuation.definition.annotation.java
+//          ^^^^ variable.annotation.java
+//               ^^^ variable.namespace.java
+//                   ^ punctuation.accessor.dot.java
+//                     ^ punctuation.definition.annotation.java
+//                      ^^^^ variable.annotation.java
+//                           ^^^ variable.namespace.java
+//                               ^ punctuation.accessor.dot.java
+//                                 ^ punctuation.definition.annotation.java
+//                                  ^^^^ variable.annotation.java
+//                                       ^^^^^^^ variable.namespace.java
+//                                               ^ punctuation.accessor.dot.java
+//                                                 ^ punctuation.definition.annotation.java
+//                                                  ^^^^ variable.annotation.java
+//                                                       ^^^^^^^^^ constant.other.java
+//                                                                ^ punctuation.separator.expressions.java
 
       default : {}
 //  ^^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.default
