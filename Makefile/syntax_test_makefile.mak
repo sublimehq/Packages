@@ -1,6 +1,24 @@
 # SYNTAX TEST "Packages/Makefile/Makefile.sublime-syntax"
 
 #################################
+# comments                      #
+#################################
+
+# this is a comment
+# <- comment.line.number-sign.makefile punctuation.definition.comment.makefile
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+
+# this is a \
+multiline comment
+# <- comment.line.number-sign.makefile
+#^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+
+# this is not a \\
+multiline comment
+# <- - comment
+#^^^^^^^^^^^^^^^^^ - comment
+
+#################################
 # 6.3.1 substitution references #
 #################################
 

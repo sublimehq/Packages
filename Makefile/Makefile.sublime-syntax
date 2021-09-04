@@ -367,6 +367,7 @@ contexts:
 
   comments-pop-on-line-end:
     - include: line-continuation
+    - match: \\\\
     - match: $\n?
       pop: true
 
