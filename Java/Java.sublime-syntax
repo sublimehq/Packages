@@ -3147,10 +3147,6 @@ contexts:
     - match: (?=\S)
       pop: 3
 
-  else-pop4:
-    - match: (?=\S)
-      pop: 4
-
   immediately-pop:
     - match: ''
       pop: 1
@@ -3162,10 +3158,6 @@ contexts:
   immediately-pop3:
     - match: ''
       pop: 3
-
-  immediately-pop4:
-    - match: ''
-      pop: 4
 
 ###[ ILLEGALS ]################################################################
 
