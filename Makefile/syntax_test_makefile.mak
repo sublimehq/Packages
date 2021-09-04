@@ -18,6 +18,11 @@ multiline comment
 # <- - comment
 #^^^^^^^^^^^^^^^^^ - comment
 
+# this is a \\\
+multiline comment
+# <- comment.line.number-sign.makefile
+#^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
+
 #################################
 # 6.3.1 substitution references #
 #################################
