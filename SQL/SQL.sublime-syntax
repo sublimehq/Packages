@@ -96,8 +96,14 @@ contexts:
         1: keyword.operator.logical.sql
         2: keyword.operator.logical.sql
         3: constant.language.sql
-    - match: (?i:\b(and|or|like|having|exists|between|in)\b)
+    - match: (?i:\b(and|or|having|exists|between|in)\b)
       scope: keyword.operator.logical.sql
+    - match: (?i:\blike\b)
+      scope: keyword.operator.logical.sql
+      push: like_string
+    - match: (?i:\bescape\b)
+      scope: keyword.operator.sql
+      push: like_escape
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
     - match: (?i:\b(begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b)
@@ -243,3 +249,31 @@ contexts:
       # Handle situations where the schema and . 
     - match: '{{end_identifier}}'
       pop: true
+  like_escape:
+    - match: (\')([^'])(\')
+      captures:
+        0: meta.string.escape.sql string.quoted.single.sql
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: true
+    - match: (?=\S)
+      pop: true
+  like_string:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set: inside_like_single_quoted_string
+    - match: (?=\S)
+      pop: true
+  inside_like_single_quoted_string:
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: true
+    - match: (\[)(?:.|[^]']+?)(\])
+      scope: meta.set.like.sql
+      captures:
+        1: keyword.control.set.begin.sql
+        2: keyword.control.set.end.sql
+    - match: '[%_]'
+      scope: keyword.other.any.sql

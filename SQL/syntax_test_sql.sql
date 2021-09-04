@@ -173,3 +173,49 @@ WHERE   f.a IS NULL
 --              ^^ keyword.operator.logical.sql
 --                 ^^^ keyword.operator.logical.sql
 --                     ^^^^ constant.language.sql
+
+
+SELECT columns FROM table WHERE
+    column LIKE '%[[]SQL Server Driver]%'
+--         ^^^^ keyword.operator.logical
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
+--              ^ punctuation.definition.string.begin
+--               ^ keyword.other.any
+--                ^^^ meta.set.like
+--                ^ keyword.control.set.begin
+--                  ^ keyword.control.set.end
+--                   ^^^^^^^^^^^^^^^^^^ - constant - keyword
+--                                     ^ keyword.other.any
+--                                      ^ punctuation.definition.string.end
+--                                       ^^ - meta.string - string
+
+SELECT columns FROM table WHERE
+    column LIKE '%[SQL Server Driver]%'
+--         ^^^^ keyword.operator.logical
+--              ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
+--              ^ punctuation.definition.string.begin
+--               ^ keyword.other.any
+--                ^^^^^^^^^^^^^^^^^^^ meta.set.like
+--                ^ keyword.control.set.begin
+--                                  ^ keyword.control.set.end
+--                   ^^^^^^^^^^^^^^^ - constant - keyword
+--                                   ^ keyword.other.any
+--                                    ^ punctuation.definition.string.end
+--                                     ^^ - meta.string - string
+
+SELECT columns FROM table WHERE
+    column LIKE 'hello_world'
+--         ^^^^ keyword.operator.logical
+--              ^^^^^^^^^^^^ meta.string.like string.quoted.single
+--              ^ punctuation.definition.string.begin
+--                    ^ keyword.other.any
+--                          ^ punctuation.definition.string.end
+--                           ^^ - meta.string - string
+
+SELECT columns FROM table WHERE
+    column LIKE '%\[SQL Server Driver]%' ESCAPE '\'
+--                                       ^^^^^^ keyword.operator
+--                                              ^^^ string.quoted.single
+--                                              ^ punctuation.definition.string.begin
+--                                               ^ constant.character.escape
+--                                                ^ punctuation.definition.string.end
