@@ -2560,6 +2560,7 @@ contexts:
 
   qualified-constant-class-or-name:
     - match: (?={{id_first_char}})
+      pop: 1
       branch_point: qualified-constant-class-or-name
       branch:
         - qualified-constant-class
@@ -2574,7 +2575,7 @@ contexts:
       set:
         - qualified-constant-class-accessor
         - maybe-type-argument
-    - include: immediately-pop4
+    - include: immediately-pop3
 
   qualified-constant-class-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2585,8 +2586,8 @@ contexts:
     - meta_include_prototype: false
     - match: '{{identifier}}'
       scope: constant.other.java
-      pop: 4
-    - include: immediately-pop4
+      pop: 3
+    - include: immediately-pop3
 
 ###[ ENTITY CLASS ]############################################################
 
