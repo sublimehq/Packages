@@ -131,7 +131,7 @@ contexts:
       push: [statements, shebang]
 
   prototype:
-    - include: comment
+    - include: comments
 
   statements:
     - include: preproc-control
@@ -234,13 +234,16 @@ contexts:
 
 ###[ COMMENTS ]###############################################################
 
-  comment:
+  comments:
     - match: \%+
       scope: punctuation.definition.comment.percentage.erlang
-      push:
-        - meta_scope: comment.line.percentage.erlang
-        - match: \n
-          pop: 1
+      push: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.percentage.erlang
+    - match: \n
+      pop: 1
 
   shebang:
     - meta_include_prototype: false
@@ -674,7 +677,7 @@ contexts:
 
   preproc-spec-return:
     - match: ->
-      scope: 
+      scope:
         meta.preprocessor.spec.erlang
         punctuation.separator.parameters-return-type.erlang
       set:
