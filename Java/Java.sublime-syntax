@@ -172,7 +172,7 @@ contexts:
 
   block-comments:
     # empty block comments
-    - match: /\*\*/
+    - match: /\*\*+/
       scope: comment.block.empty.java punctuation.definition.comment.java
     # documentation block comments
     - match: /\*\*+
@@ -193,7 +193,7 @@ contexts:
   block-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.block.java
-    - match: \*/
+    - match: \*+/
       scope: punctuation.definition.comment.end.java
       pop: 1
     - match: ^\s*(\*)(?![*/])
