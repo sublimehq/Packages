@@ -126,6 +126,7 @@ variables:
 contexts:
 
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
@@ -242,10 +243,11 @@ contexts:
           pop: 1
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.shell
       set: shebang-body
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
       pop: 1
 
   shebang-body:
