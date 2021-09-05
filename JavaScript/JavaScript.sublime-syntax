@@ -111,9 +111,9 @@ contexts:
   main:
     - meta_include_prototype: false # don't match comments before shebang
     - match: ''
-      push: [javascript, shebang]
+      push: [script, shebang]
 
-  javascript:
+  script:
     - match: '\)|\}|\]'
       scope: invalid.illegal.stray-bracket-end.js
       # Don't pop or embedding could break.

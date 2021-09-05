@@ -42,7 +42,7 @@ contexts:
   main:
     - meta_include_prototype: false # don't match before shebang
     - match: ''
-      push: [javascript, preprocessor, shebang]
+      push: [script, preprocessor, shebang]
 
   preprocessor:
     # https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
