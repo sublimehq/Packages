@@ -326,6 +326,12 @@
 			"details": "Specifies <code>ShellScript</code> code highlighting"
 		},
 		{
+			"trigger": "shell",
+			"annotation": "ShellScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>ShellScript</code> code highlighting"
+		},
+		{
 			"trigger": "shell-script",
 			"annotation": "ShellScript",
 			"kind": ["markup", "s", "Syntax"],

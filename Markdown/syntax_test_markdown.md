@@ -2450,6 +2450,21 @@ okay
 | <- markup.raw.code-fence.scala.markdown-gfm source.scala
 ```
 
+```sh
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+```
+
+```shell
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+```
+
+```shell-script
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+```
+
 ```tsx
   <Component>
 | <- markup.raw.code-fence.tsx.markdown-gfm source.tsx
