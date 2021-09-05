@@ -109,7 +109,7 @@ variables:
 
 contexts:
   main:
-    - meta_include_prototype: false # don't match before shebang
+    - meta_include_prototype: false # don't match comments before shebang
     - match: ''
       push: [javascript, shebang]
 

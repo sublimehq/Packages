@@ -46,7 +46,7 @@ contexts:
 
   preprocessor:
     # https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
-    - meta_include_prototype: false # don't match before preprocessor directive
+    - meta_include_prototype: false # don't match comments before preprocessor directive
     - match: (///)(?!/)\s*
       captures:
         0: comment.line.triple-slash.js
