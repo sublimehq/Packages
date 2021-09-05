@@ -109,8 +109,11 @@ variables:
 
 contexts:
   main:
-    - include: comments-top-level
+    - meta_include_prototype: false # don't match before shebang
+    - match: ''
+      push: [javascript, shebang]
 
+  javascript:
     - match: '\)|\}|\]'
       scope: invalid.illegal.stray-bracket-end.js
       # Don't pop or embedding could break.
@@ -162,11 +165,21 @@ contexts:
     - match: (?=\S)|$
       pop: 1
 
-  comments-top-level:
-    - match: ^(#!).*$\n?
-      scope: comment.line.shebang.js
-      captures:
-        1: punctuation.definition.comment.js
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.js
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.js
+    # Note: Keep sync with first_line_match!
+    - match: \b(node|js)\b
+      scope: constant.language.shebang.js
+    - match: \n
+      pop: 1
 
   else-pop:
     - match: (?=\S)

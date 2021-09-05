@@ -73,10 +73,7 @@ x --> y;
 //  ^ keyword.operator.comparison.js
 
 #! /usr/bin/env node
-// <- comment.line.shebang punctuation.definition.comment
-
- #! /usr/bin/env node
-//^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
+//^^^^^^^^^^^^^^^^^^ - comment.line.shebang
 
 /*@if /*/
 //     ^^ punctuation.definition.comment.end
@@ -1560,4 +1557,4 @@ debugger
     a.b?.();
 //  ^^^^^^^ meta.function-call.method
 //    ^ variable.function
-//     
+//
