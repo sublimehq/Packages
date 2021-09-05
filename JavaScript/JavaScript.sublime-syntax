@@ -204,7 +204,7 @@ contexts:
     - match: ^\#!
       scope: punctuation.definition.comment.js
       set: shebang-body
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
       pop: 1
 
   shebang-body:
