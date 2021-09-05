@@ -110,7 +110,7 @@ if (a < b || c <= d) {}
 //  ^^^^^^^^^^^^^^ meta.function meta.generic
 //   ^ variable.parameter.generic
 //     ^^^^^^^ storage.modifier.extends
-//             ^^ meta.function meta.generic meta.block
+//             ^^ meta.function meta.generic meta.mapping
 
     <T {...}>() => {};</T>;
 //  ^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
