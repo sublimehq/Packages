@@ -50,6 +50,7 @@ variables:
 
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
@@ -89,6 +90,7 @@ contexts:
     - include: statements
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.lua
       set: shebang-body
@@ -96,6 +98,7 @@ contexts:
       pop: 1
 
   shebang-body:
+    - meta_include_prototype: false
     - meta_scope: comment.line.shebang.lua
     - match: \blua\b
       scope: constant.language.shebang.lua
