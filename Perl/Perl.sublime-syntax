@@ -173,15 +173,17 @@ contexts:
     - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.perl
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.shebang.perl
-        # Note: Keep sync with first_line_match!
-        - match: \bperl\b
-          scope: constant.language.shebang.perl
-        - match: \n
-          pop: true
+      set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
+      pop: true
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.perl
+    # Note: Keep sync with first_line_match!
+    - match: \bperl\b
+      scope: constant.language.shebang.perl
+    - match: \n
       pop: true
 
   comment-line:
