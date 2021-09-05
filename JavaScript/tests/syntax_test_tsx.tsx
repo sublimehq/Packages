@@ -30,8 +30,9 @@
 import foo;
 
 /// <normal comment="after first statement"/>
-// <- comment.line.double-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.js - meta.preprocessor
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^ comment.line.triple-slash.js punctuation.definition.comment.js
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - punctuation - meta.preprocessor
 
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
