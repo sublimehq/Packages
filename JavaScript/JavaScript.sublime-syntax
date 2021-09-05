@@ -181,23 +181,26 @@ contexts:
       scope: punctuation.definition.comment.js
       push: line-comment-double-slash-body
 
+  line-comment-end:
+    - match: (//+)?\n
+      captures:
+        1: punctuation.definition.comment.js
+      pop: 1
+
   line-comment-double-slash-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-slash.js
-    - match: \n
-      pop: 1
+    - include: line-comment-end
 
   line-comment-triple-slash-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.triple-slash.js
-    - match: \n
-      pop: 1
+    - include: line-comment-end
 
   line-comment-other-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.other.js
-    - match: \n
-      pop: 1
+    - include: line-comment-end
 
   shebang:
     - meta_include_prototype: false

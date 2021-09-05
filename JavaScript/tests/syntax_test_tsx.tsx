@@ -4,9 +4,19 @@
 // <- comment.line.double-slash.js punctuation.definition.comment.js
 //^^^^^^^^^ comment.line.double-slash.js
 
+// comment //
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^ comment.line.double-slash.js
+//         ^^ punctuation.definition.comment.js
+
 /// comment
 // <- comment.line.triple-slash.js punctuation.definition.comment.js
 //^^^^^^^^^^ comment.line.triple-slash.js
+
+/// comment ///
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^ comment.line.triple-slash.js
+//          ^^^ punctuation.definition.comment.js
 
 /////////////////////////////////////////////////////////////////
 // <- comment.line.other.js punctuation.definition.comment.js

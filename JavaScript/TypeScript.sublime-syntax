@@ -53,9 +53,10 @@ contexts:
         1: punctuation.definition.comment.js
       embed: scope:text.xml#tag
       embed_scope: comment.line.triple-slash.js meta.preprocessor.directive.js
-      escape: \n
+      escape: (//+)?\n
       escape_captures:
         0: comment.line.triple-slash.js
+        1: punctuation.definition.comment.js
     - include: comments
     - include: else-pop
 
