@@ -15,6 +15,7 @@ first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
 scope: embedding.php
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [real-main, shebang]
 
@@ -38,6 +39,7 @@ contexts:
             - include: scope:source.php
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.php
       set: shebang-body
@@ -45,6 +47,7 @@ contexts:
       pop: 1
 
   shebang-body:
+    - meta_include_prototype: false
     - meta_scope: comment.line.shebang.php
     - match: \bphp(?:[-_]?\d+(?:\.\d+){0,2})?\b
       scope: constant.language.shebang.php
