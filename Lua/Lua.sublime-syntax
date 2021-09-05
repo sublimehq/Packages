@@ -79,16 +79,6 @@ contexts:
         - match: \n
           pop: 1
 
-  end:
-    - match: end{{identifier_break}}
-      scope: keyword.control.end.lua
-      pop: 1
-
-  block-contents:
-    - meta_scope: meta.block.lua
-    - include: end
-    - include: statements
-
   shebang:
     - meta_include_prototype: false
     - match: ^\#!
@@ -135,6 +125,16 @@ contexts:
 
     - match: (?=\S)
       push: expression
+
+  block-contents:
+    - meta_scope: meta.block.lua
+    - include: end
+    - include: statements
+
+  end:
+    - match: end{{identifier_break}}
+      scope: keyword.control.end.lua
+      pop: 1
 
   function-parameter-list:
     - match: \(
