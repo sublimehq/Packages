@@ -123,6 +123,7 @@ variables:
 
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [java, shebang]
 
@@ -213,6 +214,7 @@ contexts:
       pop: 1
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.java
       set: shebang-body
