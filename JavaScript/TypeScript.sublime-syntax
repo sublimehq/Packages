@@ -222,7 +222,7 @@ contexts:
       scope: keyword.declaration.js
       set:
         - ts-interface-meta
-        - ts-type-body
+        - ts-interface-body
         - ts-interface-extends
         - ts-type-parameter-list
         - ts-interface-name
@@ -238,7 +238,7 @@ contexts:
       pop: true
     - include: else-pop
 
-  ts-type-body:
+  ts-interface-body:
     - match: \{
       scope: punctuation.section.block.begin.js
       set:
@@ -246,11 +246,12 @@ contexts:
         - match: \}
           scope: punctuation.section.block.end.js
           pop: true
-        - match: '[,;]'
-          scope: punctuation.separator.js
-        - include: ts-type-member
+        - include: ts-type-members
 
-  ts-type-member:
+  ts-type-members:
+    - match: '[,;]'
+      scope: punctuation.separator.js
+
     - match: '\+|-'
       scope: storage.modifier.js
 
@@ -295,8 +296,7 @@ contexts:
         - function-declaration-expect-parameters
         - ts-type-parameter-list
 
-    - match: '{{identifier_name}}'
-      scope: variable.other.readwrite.js
+    - match: (?={{identifier_start}}|['"])
       push:
         - - match: (?=[<(])
             set:
@@ -306,6 +306,13 @@ contexts:
           - match: (?=\S)
             set: ts-type-annotation
         - ts-type-annotation-optional
+        - ts-type-member-name
+
+  ts-type-member-name:
+    - match: '{{identifier_name}}'
+      scope: variable.other.readwrite.js
+      pop: true
+    - include: literal-string
 
   ts-enum:
     - match: enum{{identifier_break}}
@@ -739,7 +746,7 @@ contexts:
         - include: else-pop
 
     - include: ts-type-tuple
-    - include: ts-type-body
+    - include: ts-type-object
     - include: ts-type-special
     - include: ts-type-primitive
     - include: ts-type-basic
@@ -780,20 +787,13 @@ contexts:
 
   ts-type-object:
     - match: \{
-      scope: punctuation.section.braces.begin.js
+      scope: punctuation.section.mapping.begin.js
       set:
         - meta_scope: meta.mapping.js
         - match: \}
-          scope: punctuation.section.braces.end.js
+          scope: punctuation.section.mapping.end.js
           pop: true
-        - include: comma-separator
-        - match: ;
-          scope: punctuation.separator.semicolon.js
-        - match: '{{identifier_name}}'
-          scope: variable.other.readwrite.js
-          push:
-            - ts-type-annotation
-            - ts-type-annotation-optional
+        - include: ts-type-members
 
   ts-type-special:
     - match: 'any{{identifier_break}}'

@@ -63,6 +63,18 @@
 //          ^ punctuation.separator.type
 //            ^^^ meta.type support.type.any
 //               ^ punctuation.separator
+
+        "baz": any,
+//      ^^^^^ meta.string string.quoted.double
+//           ^ punctuation.separator.type
+//             ^^^ meta.type support.type.any
+//                ^ punctuation.separator
+
+        'baz': any,
+//      ^^^^^ meta.string string.quoted.single
+//           ^ punctuation.separator.type
+//             ^^^ meta.type support.type.any
+//                ^ punctuation.separator
     }
 //  ^ meta.block punctuation.section.block.end
 
@@ -666,7 +678,7 @@ let x: Foo.bar;
 //         ^^^ support.class
 
 let x: {
-//     ^ meta.type punctuation.section.block.begin
+//     ^ meta.type punctuation.section.mapping.begin
 
     a : any ,
 //  ^ variable.other.readwrite
@@ -834,7 +846,7 @@ let x: {
 //                                            ^ punctuation.separator
     
     }
-//  ^ meta.type punctuation.section.block.end
+//  ^ meta.type punctuation.section.mapping.end
 
 let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
