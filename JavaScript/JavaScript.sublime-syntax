@@ -200,6 +200,7 @@ contexts:
       pop: 1
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.js
       set: shebang-body
