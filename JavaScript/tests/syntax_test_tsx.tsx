@@ -1,5 +1,38 @@
 // SYNTAX TEST "Packages/JavaScript/TSX.sublime-syntax"
 
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^ comment.line.double-slash.js
+
+/* */
+// <- comment.block.js punctuation.definition.comment.begin.js
+//^^^ comment.block.js
+//   ^ - comment
+
+/// <reference no-default-lib="true"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^ comment.line.triple-slash.js punctuation.definition.comment.js
+// ^ comment.line.triple-slash.js - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
+//                                    ^ comment.line.triple-slash.js - meta.preprocessor
+
+/// <foo bar="baz"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^ comment.line.triple-slash.js punctuation.definition.comment.js
+// ^ comment.line.triple-slash.js - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
+//                  ^ comment.line.triple-slash.js - meta.preprocessor
+
+//// <foo bar="baz"/>
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.js - meta.preprocessor
+
+import foo;
+
+/// <normal comment="after first statement"/>
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.js - meta.preprocessor
+
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
 //  ^ punctuation.definition.tag.begin
