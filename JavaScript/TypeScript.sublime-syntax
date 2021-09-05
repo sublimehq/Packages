@@ -44,18 +44,6 @@ contexts:
     - match: ''
       push: [javascript, preprocessor, shebang]
 
-  comments:
-    - meta_prepend: true
-    - match: ///(?!/)
-      scope: punctuation.definition.comment.js
-      push: comments-triple-slash-body
-
-  comments-triple-slash-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.triple-slash.js
-    - match: \n
-      pop: 1
-
   preprocessor:
     # https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
     - meta_include_prototype: false # don't match before preprocessor directive

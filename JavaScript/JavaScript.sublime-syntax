@@ -124,33 +124,38 @@ contexts:
     - include: comments
 
   comments:
-    - match: /\*\*(?!/)
+    - include: line-comments
+    - include: block-comments
+
+  block-comments:
+    # empty block comments
+    - match: (/\*\*+/)
+      scope: comment.block.empty.java punctuation.definition.comment.java
+    # documentation block comments
+    - match: /\*\*+
       scope: punctuation.definition.comment.begin.js
       push:
-        - jsdoc-comment
+        - jsdoc-comment-body
         - jsdoc-block-tag
+    # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.js
-        - match: \*/
-          scope: punctuation.definition.comment.end.js
-          pop: true
-    - match: //
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.double-slash.js
-        - match: \n
-          pop: true
+      push: block-comment-body
 
-  jsdoc-comment:
+  block-comment-end:
+    - match: \*+/
+      scope: punctuation.definition.comment.end.js
+      pop: true
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.js
+    - include: block-comment-end
+
+  jsdoc-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.block.documentation.js
-    - match: \*/
-      scope: punctuation.definition.comment.end.js
-      pop: 1
+    - include: block-comment-end
     # JSDoc "block" tags (i.e. @param) are only accepted at the beginning of the documentation
     # line so directly after the '/**' or after the '*' marker on the next lines.
     - match: ^\s*(\*)(?!/)
@@ -163,6 +168,35 @@ contexts:
       scope: entity.other.attribute-name.documentation.js
       pop: 1
     - match: (?=\S)|$
+      pop: 1
+
+  line-comments:
+    - match: /{4,}
+      scope: punctuation.definition.comment.js
+      push: line-comment-other-body
+    - match: /{3}
+      scope: punctuation.definition.comment.js
+      push: line-comment-triple-slash-body
+    - match: /{2}
+      scope: punctuation.definition.comment.js
+      push: line-comment-double-slash-body
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.js
+    - match: \n
+      pop: 1
+
+  line-comment-triple-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.triple-slash.js
+    - match: \n
+      pop: 1
+
+  line-comment-other-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.other.js
+    - match: \n
       pop: 1
 
   shebang:

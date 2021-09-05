@@ -1,5 +1,76 @@
 // SYNTAX TEST "Packages/JavaScript/JSX.sublime-syntax"
 
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^ comment.line.double-slash.js
+
+/// comment
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^ comment.line.triple-slash.js
+
+/////////////////////////////////////////////////////////////////
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
+//                                                               ^ comment.line.other.js - punctuation
+
+/* */
+// <- comment.block.js punctuation.definition.comment.begin.js
+//^^^ comment.block.js
+//   ^ - comment
+
+    /**/ /***/
+// ^ - comment
+//  ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//      ^ - comment
+//       ^^^^^ comment.block.empty.java punctuation.definition.comment.java
+//            ^ - comment
+
+    /** @todo **/
+//  ^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^ punctuation.definition.comment.begin.js
+//      ^^^^^ entity.other.attribute-name.documentation.js
+//            ^^^ punctuation.definition.comment.end.js
+
+    /**
+// ^ - comment
+//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//     ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     **/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^ comment.block.documentation.js
+//      ^ - comment
+
+    /*** @todo ***/
+//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^^ punctuation.definition.comment.begin.js
+//       ^^^^^ entity.other.attribute-name.documentation.js
+//             ^^^^ punctuation.definition.comment.end.js
+
+    /***
+// ^ - comment
+//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//      ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     ***/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^^ comment.block.documentation.js
+//       ^ - comment
+
+/// <foo bar="baz"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - meta.preprocessor
+
+//// <foo bar="baz"/>
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
+
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
 //  ^ punctuation.definition.tag.begin
