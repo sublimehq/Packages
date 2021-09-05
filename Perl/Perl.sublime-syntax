@@ -189,10 +189,12 @@ contexts:
   comment-line:
     - match: \#+
       scope: punctuation.definition.comment.perl
-      push:
-        - meta_scope: meta.comment.perl comment.line.number-sign.perl
-        - match: \n
-          pop: true
+      push: comment-line-body
+
+  comment-line-body:
+    - meta_scope: meta.comment.perl comment.line.number-sign.perl
+    - match: \n
+      pop: true
 
   comment-pod:
     # SEE: https://perldoc.perl.org/perlpod.html
