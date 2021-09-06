@@ -180,12 +180,12 @@ SELECT columns FROM table WHERE
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---               ^ keyword.other.any
+--               ^ keyword.operator.wildcard
 --                ^^^ meta.set.like
 --                ^ keyword.control.set.begin
 --                  ^ keyword.control.set.end
 --                   ^^^^^^^^^^^^^^^^^^ - constant - keyword
---                                     ^ keyword.other.any
+--                                     ^ keyword.operator.wildcard
 --                                      ^ punctuation.definition.string.end
 --                                       ^^ - meta.string - string
 
@@ -194,27 +194,42 @@ SELECT columns FROM table WHERE
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---               ^ keyword.other.any
+--               ^ keyword.operator.wildcard
 --                ^^^^^^^^^^^^^^^^^^^ meta.set.like
 --                ^ keyword.control.set.begin
 --                                  ^ keyword.control.set.end
 --                   ^^^^^^^^^^^^^^^ - constant - keyword
---                                   ^ keyword.other.any
+--                                   ^ keyword.operator.wildcard
 --                                    ^ punctuation.definition.string.end
 --                                     ^^ - meta.string - string
+
+SELECT columns FROM table WHERE
+    column LIKE '%[^a-f]%'
+--         ^^^^ keyword.operator.logical
+--              ^^^^^^^^^^ meta.string.like string.quoted.single
+--              ^ punctuation.definition.string.begin
+--               ^ keyword.operator.wildcard
+--                ^^^^^^ meta.set.like
+--                ^ keyword.control.set.begin
+--                 ^ keyword.control.set.negation
+--                   ^ constant.other.range
+--                     ^ keyword.control.set.end
+--                      ^ keyword.operator.wildcard
+--                       ^ punctuation.definition.string.end
+--                        ^^ - meta.string - string
 
 SELECT columns FROM table WHERE
     column LIKE 'hello_world'
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---                    ^ keyword.other.any
+--                    ^ keyword.operator.wildcard
 --                          ^ punctuation.definition.string.end
 --                           ^^ - meta.string - string
 
 SELECT columns FROM table WHERE
     column LIKE '%\[SQL Server Driver]%' ESCAPE '\'
---                                       ^^^^^^ keyword.operator
+--                                       ^^^^^^ keyword.operator.word
 --                                              ^^^ string.quoted.single
 --                                              ^ punctuation.definition.string.begin
 --                                               ^ constant.character.escape

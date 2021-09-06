@@ -102,7 +102,7 @@ contexts:
       scope: keyword.operator.logical.sql
       push: like_string
     - match: (?i:\bescape\b)
-      scope: keyword.operator.sql
+      scope: keyword.operator.word.sql
       push: like_escape
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
@@ -270,10 +270,17 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.sql
       pop: true
-    - match: (\[)(?:.|[^]']+?)(\])
+    - match: |-
+        (?x)
+        (\[)(\^)?
+        (?:.|[^]'-]+?)
+        (?:(-)[^]'-]*)?
+        (\])
       scope: meta.set.like.sql
       captures:
         1: keyword.control.set.begin.sql
-        2: keyword.control.set.end.sql
+        2: keyword.control.set.negation.sql
+        3: constant.other.range.sql
+        4: keyword.control.set.end.sql
     - match: '[%_]'
-      scope: keyword.other.any.sql
+      scope: keyword.operator.wildcard.sql
