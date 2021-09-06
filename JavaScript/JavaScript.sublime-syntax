@@ -129,8 +129,8 @@ contexts:
 
   block-comments:
     # empty block comments
-    - match: (/\*\*+/)
-      scope: comment.block.empty.java punctuation.definition.comment.java
+    - match: /\*\*+/
+      scope: comment.block.empty.js punctuation.definition.comment.js
     # documentation block comments
     - match: /\*\*+
       scope: punctuation.definition.comment.begin.js
