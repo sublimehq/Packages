@@ -228,9 +228,64 @@ SELECT columns FROM table WHERE
 --                           ^^ - meta.string - string
 
 SELECT columns FROM table WHERE
-    column LIKE '%\[SQL Server Driver]%' ESCAPE '\'
---                                       ^^^^^^ keyword.operator.word
---                                              ^^^ string.quoted.single
---                                              ^ punctuation.definition.string.begin
---                                               ^ constant.character.escape
---                                                ^ punctuation.definition.string.end
+    column LIKE '%\[SQL Server Driver]^%\__' ESCAPE '\'
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--                ^^ constant.character.escape
+--                                    ^ - constant
+--                                     ^ keyword.operator.wildcard
+--                                      ^^ constant.character.escape
+--                                        ^ keyword.operator.wildcard
+--                                           ^^^^^^ keyword.operator.word
+--                                                  ^^^ string.quoted.single
+--                                                  ^ punctuation.definition.string.begin
+--                                                   ^ constant.character.escape
+--                                                    ^ punctuation.definition.string.end
+
+SELECT columns FROM table WHERE
+    column LIKE '%\[SQL Server Driver]^%\__'
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--                ^^ constant.character.escape
+--                                    ^ - constant
+--                                     ^ keyword.operator.wildcard
+--                                      ^^ constant.character.escape
+--                                        ^ keyword.operator.wildcard
+    ESCAPE '\'
+--  ^^^^^^ keyword.operator.word
+--         ^^^ string.quoted.single
+--         ^ punctuation.definition.string.begin
+--          ^ constant.character.escape
+--           ^ punctuation.definition.string.end
+
+SELECT columns FROM table WHERE
+    column LIKE '%\^[SQL Server Driver]^%_^_' ESCAPE '^'
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--                ^ - constant
+--                 ^^ constant.character.escape
+--                                     ^^ constant.character.escape
+--                                       ^ keyword.operator.wildcard
+--                                        ^^ constant.character.escape
+--                                            ^^^^^^ keyword.operator.word
+--                                                   ^^^ string.quoted.single
+--                                                   ^ punctuation.definition.string.begin
+--                                                    ^ constant.character.escape
+--                                                     ^ punctuation.definition.string.end
+
+SELECT columns FROM table WHERE
+    column LIKE '%\^[SQL Server Driver]^%_^_\_{{' ESCAPE '{' -- uncatered for escape char, scope operators as though unescaped
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+--                  ^^^^^^^^^^^^^^^^^^^ meta.set.like
+--                                     ^^^^^^^^^ - meta.set
+--                                      ^^ keyword.operator.wildcard
+--                                         ^ keyword.operator.wildcard
+--                                           ^ keyword.operator.wildcard
+--                                                ^^^^^^ keyword.operator.word
+--                                                       ^^^ string.quoted.single
+--                                                       ^ punctuation.definition.string.begin
+--                                                        ^ constant.character.escape
+--                                                         ^ punctuation.definition.string.end
+--                                                           ^^ comment.line.double-dash punctuation.definition.comment
