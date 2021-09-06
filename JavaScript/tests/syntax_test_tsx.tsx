@@ -30,9 +30,9 @@
 
     /**/ /***/
 // ^ - comment
-//  ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
 //      ^ - comment
-//       ^^^^^ comment.block.empty.java punctuation.definition.comment.java
+//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
 //            ^ - comment
 
     /** @todo **/
