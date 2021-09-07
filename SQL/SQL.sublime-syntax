@@ -11,8 +11,9 @@ variables:
   end_identifier: (?=[ \t]*(?:[^\w'"`. \t]|$))
 
 contexts:
-  main:
+  prototype:
     - include: comments
+  main:
     - match: |-
         (?xi)
         \b(create(?:\s+or\s+replace)?)\s+
@@ -22,12 +23,13 @@ contexts:
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
-      push: identifier_create
+      push: create-condition
     - match: (?i:\s*\b(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
+      push: drop-condition
     - match: (?i:\s*(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
       scope: meta.drop.sql
       captures:
@@ -88,16 +90,12 @@ contexts:
     - match: \b\d+\b
       scope: constant.numeric.sql
     - match: (?i:\b(true|false)\b)
-      scope: constant.boolean.sql
+      scope: constant.language.boolean.sql
+    - match: (?i:\b(null)\b)
+      scope: constant.language.null.sql
     - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\s+by|with|case|when|then|else|end|union(\s+all)?|using|order\s+by|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
       scope: keyword.other.DML.sql
-    - match: (?i:\b(?:(is)\s+)?(?:(not)\s+)?(null)\b)
-      captures:
-        1: keyword.operator.logical.sql
-        2: keyword.operator.logical.sql
-        3: constant.language.sql
-    - match: (?i:\b(and|or|having|exists|between|in)\b)
-      scope: keyword.operator.logical.sql
+    - include: logical-operators
     - match: (?i:\blike\b)
       scope: keyword.operator.logical.sql
       branch_point: like_string_branch
@@ -146,32 +144,47 @@ contexts:
       captures:
         1: punctuation.section.scope.begin.sql
         2: punctuation.section.scope.end.sql
+    - match: (?i)\bon\b
+      scope: keyword.operator.word.sql
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+    - match: ';'
+      scope: punctuation.terminator.statement.sql
   comments:
-    - match: "--"
+    - meta_include_prototype: false
+    - match: '--'
       scope: punctuation.definition.comment.sql
-      push:
-        - meta_scope: comment.line.double-dash.sql
-        - match: \n
-          pop: true
-    - match: "#"
+      push: inside_double_dash_comment
+    - match: '#'
       scope: punctuation.definition.comment.sql
-      push:
-        - meta_scope: comment.line.number-sign.sql
-        - match: \n
-          pop: true
+      push: inside_number_sign_comment
     - match: /\*
-      scope: punctuation.definition.comment.sql
-      push:
-        - meta_scope: comment.block.c
-        - match: \*/
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.begin.sql
+      push: inside_comment_block
+  inside_double_dash_comment:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-dash.sql
+    - match: \n
+      pop: true
+  inside_number_sign_comment:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.sql
+    - match: \n
+      pop: true
+  inside_comment_block:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.sql
+    - match: \*/
+      scope: punctuation.definition.comment.end.sql
+      pop: true
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.sql
   regexps:
     - match: /(?=\S.*/)
       scope: punctuation.definition.string.begin.sql
       push:
+        - meta_include_prototype: false
         - meta_scope: string.regexp.sql
         - match: /
           scope: punctuation.definition.string.end.sql
@@ -183,15 +196,18 @@ contexts:
       comment: We should probably handle nested bracket pairs!?! -- Allan
       scope: punctuation.definition.string.begin.sql
       push:
+        - meta_include_prototype: false
         - meta_scope: string.regexp.modr.sql
         - match: '\}'
           scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
   string_escape:
+    - meta_include_prototype: false
     - match: \\.
       scope: constant.character.escape.sql
   string_interpolation:
+    - meta_include_prototype: false
     - match: '(#\{)([^\}]*)(\})'
       scope: string.interpolated.sql
       captures:
@@ -201,6 +217,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.sql
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.sql
         - match: "''"
           scope: constant.character.escape.sql
@@ -211,6 +228,7 @@ contexts:
     - match: "`"
       scope: punctuation.definition.string.begin.sql
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.other.backtick.sql
         - match: "`"
           scope: punctuation.definition.string.end.sql
@@ -219,6 +237,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.sql
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.sql
         - match: '""'
           scope: constant.character.escape.sql
@@ -229,6 +248,7 @@ contexts:
     - match: '%\{'
       scope: punctuation.definition.string.begin.sql
       push:
+        - meta_include_prototype: false
         - meta_scope: string.other.quoted.brackets.sql
         - match: '\}'
           scope: punctuation.definition.string.end.sql
@@ -251,45 +271,59 @@ contexts:
       # Handle situations where the schema and . 
     - match: '{{end_identifier}}'
       pop: true
+  create-condition:
+    - include: dml-condition
+    - match: (?=\S)
+      set: identifier_create
+  drop-condition:
+    - include: dml-condition
+    - match: (?=\S)
+      pop: true
+  dml-condition:
+    - match: (?i:\b(if)\b)
+      scope: keyword.control.flow.sql
+    - include: logical-operators
+  logical-operators:
+    - match: (?i:\b(and|or|having|exists|between|in|not|is)\b)
+      scope: keyword.operator.logical.sql
   like_string_not_followed_by_escape:
-    - include: comments
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like_escape_fail, inside_like_single_quoted_string]
     - match: (?=\S)
       pop: true
   like_string_followed_by_escape_slash:
-    - include: comments
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like_escape_character_slash, like_escape_pop, inside_like_single_quoted_string_slash_escape]
     - match: (?=\S)
       pop: true
   like_string_followed_by_escape_caret:
-    - include: comments
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like_escape_character_caret, like_escape_pop, inside_like_single_quoted_string_caret_escape]
     - match: (?=\S)
       pop: true
   like_string_followed_by_unknown_escape:
-    - include: comments
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like_escape_character_any, like_escape_pop, inside_like_single_quoted_string]
     - match: (?=\S)
       pop: true
   inside_like_single_quoted_string_slash_escape:
+    - meta_include_prototype: false
     - meta_scope: meta.string.like.sql string.quoted.single.sql
     - match: \\.
       scope: constant.character.escape.sql
     - include: inside_like_single_quoted_string
   inside_like_single_quoted_string_caret_escape:
+    - meta_include_prototype: false
     - meta_scope: meta.string.like.sql string.quoted.single.sql
     - match: \^.
       scope: constant.character.escape.sql
     - include: inside_like_single_quoted_string
   inside_like_single_quoted_string:
+    - meta_include_prototype: false
     - meta_scope: meta.string.like.sql string.quoted.single.sql
     - match: \'
       scope: punctuation.definition.string.end.sql
@@ -309,20 +343,17 @@ contexts:
     - match: '[%_]'
       scope: keyword.operator.wildcard.sql
   like_escape_fail:
-    - include: comments
     - match: (?i:\bescape\b)
       fail: like_string_branch
     - match: (?=\S)
       pop: true
   like_escape_pop:
-    - include: comments
     - match: (?i:\bescape\b)
       scope: keyword.operator.word.sql
       pop: true
     - match: (?=\S)
       pop: true
   like_escape_character_any:
-    - include: comments
     - match: (\')([^'])(\')
       captures:
         0: meta.string.escape.sql string.quoted.single.sql
@@ -333,7 +364,6 @@ contexts:
     - match: (?=\S)
       pop: true
   like_escape_character_caret:
-    - include: comments
     - match: (\')(\^)(\')
       captures:
         0: meta.string.escape.sql string.quoted.single.sql
@@ -344,7 +374,6 @@ contexts:
     - match: (?=\S)
       fail: like_string_branch
   like_escape_character_slash:
-    - include: comments
     - match: (\')(\\)(\')
       captures:
         0: meta.string.escape.sql string.quoted.single.sql
