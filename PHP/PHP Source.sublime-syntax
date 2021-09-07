@@ -593,14 +593,14 @@ contexts:
     - include: use-statement-common
     - include: identifier-constant-pop
   enum:
-    - match: '(?i)\b(enum)\s+({{identifier}})\s*'
+    - match: (?i)\b(enum)\s+({{identifier}})\s*
       captures:
         1: keyword.declaration.enum.php
         2: entity.name.enum.php
       push: enum-definition
 
   enum-definition:
-    - match: "(?=;)"
+    - match: (?=;)
       pop: 1
     - match: ':'
       scope: punctuation.separator.php
@@ -624,20 +624,20 @@ contexts:
       push:
         - include: attributes
         - include: comments
-        - match: '(?={{path}})'
+        - match: (?={{path}})
           push:
             - meta_scope: meta.path.php
             - meta_content_scope: entity.other.inherited-class.php
             - include: class-builtin
             - include: identifier-parts
-            - match: '(\\)?{{identifier}}(?!\\)'
+            - match: (\\)?{{identifier}}(?!\\)
               captures:
                 1: punctuation.separator.namespace.php
             - match: ''
               pop: 1
         - match: ','
           scope: punctuation.separator.php
-        - match: '(?=\S)'
+        - match: (?=\S)
           pop: 1
 
   class:
@@ -1547,17 +1547,17 @@ contexts:
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
-    - match: '\b(0[bB])((?!_)(?:[01]|_(?!_))*)\b'
+    - match: \b(0[bB])((?!_)(?:[01]|_(?!_))*)\b
       scope: meta.number.integer.binary.php
       captures:
         1: constant.numeric.base.php
         2: constant.numeric.value.php
-    - match: '\b(0[oO])((?!_)(?:\h|_(?!_))*)\b'
+    - match: \b(0[oO])((?!_)(?:\h|_(?!_))*)\b
       scope: meta.number.integer.octal.php
       captures:
         1: constant.numeric.base.php
         2: constant.numeric.value.php
-    - match: '\b(0[xX])((?!_)(?:\h|_(?!_))*)\b'
+    - match: \b(0[xX])((?!_)(?:\h|_(?!_))*)\b
       scope: meta.number.integer.hexadecimal.php
       captures:
         1: constant.numeric.base.php
@@ -1579,7 +1579,7 @@ contexts:
       captures:
         1: punctuation.separator.decimal.php
         2: punctuation.separator.decimal.php
-    - match: '\b(?!_)(?:\d|_(?!_))+\b'
+    - match: \b(?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
   object:
     - match: (\??)(->)(\$?\{)
