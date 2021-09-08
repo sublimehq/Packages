@@ -529,6 +529,12 @@
 			"details": "Computes the intersection of arrays using a callback function on the keys for comparison"
 		},
 		{
+			"trigger": "array_is_list()",
+			"contents": "array_is_list(${1:array})",
+			"kind": "function",
+			"details": "Checks if the given array is a list"
+		},
+		{
 			"trigger": "array_key_exists()",
 			"contents": "array_key_exists(${1:key}, ${2:array})",
 			"kind": "function",
@@ -4073,6 +4079,12 @@
 			"details": "Set the internal pointer of an array to its last element"
 		},
 		{
+			"trigger": "enum_exists()",
+			"contents": "enum_exists(${1:enum_name})",
+			"kind": "function",
+			"details": "Checks if the enum has been defined"
+		},
+		{
 			"trigger": "ereg()",
 			"contents": "ereg(${1:pattern}, ${2:string})",
 			"kind": "function",
@@ -4786,6 +4798,12 @@
 			"details": "Closes an open file pointer"
 		},
 		{
+			"trigger": "fdatasync()",
+			"contents": "fdatasync(${1:handle})",
+			"kind": "function",
+			"details": "Flushes the output to a file"
+		},
+		{
 			"trigger": "fdf_add_doc_javascript()",
 			"contents": "fdf_add_doc_javascript(${1:fdf_document}, ${2:script_name}, ${3:script_code})",
 			"kind": "function",
@@ -5341,6 +5359,12 @@
 			"contents": "fstat(${1:handle})",
 			"kind": "function",
 			"details": "Gets information about a file using an open file pointer"
+		},
+		{
+			"trigger": "fsync()",
+			"contents": "fsync(${1:handle})",
+			"kind": "function",
+			"details": "Flushes the output to a file"
 		},
 		{
 			"trigger": "ftell()",
