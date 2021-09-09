@@ -19,6 +19,7 @@ file_extensions:
   - gyp
   - gypi
   - Snakefile
+  - smk
   - vpy
   - wscript
   - bazel
