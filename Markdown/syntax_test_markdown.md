@@ -348,6 +348,14 @@ https://spec.commonmark.org/0.30/#example-102
 | <- markup.heading.2.markdown punctuation.definition.heading.setext.markdown
 |^^^^^ markup.heading.2.markdown punctuation.definition.heading.setext.markdown
 
+```
+Fenced codeblocks are no no setext heading
+```
+---
+| <- meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown
+|^^ meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown
+
+
 Paragraph of text that should be scoped as meta.paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
 A [link](https://example.com){ :_attr = value }, *italic text* and **bold**.
@@ -2484,6 +2492,76 @@ okay
 |      ^^^ meta.number
 ```
 |^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
+
+```diff
++ inserted
+| <- source.diff markup.inserted.diff punctuation.definition.inserted.diff
+- deleted
+| <- source.diff markup.deleted.diff punctuation.definition.deleted.diff
+```
+
+```haskell
+
+| <- markup.raw.code-fence.haskell.markdown-gfm source.haskell
+```
+
+```html
+  <html>
+| <- markup.raw.code-fence.html.markdown-gfm text.html
+| ^^^^^^ text.html meta.tag
+```
+
+```jsx
+  <Component>
+| <- markup.raw.code-fence.jsx.markdown-gfm source.jsx
+| ^^^^^^^^^^^ source.jsx meta.jsx.js
+```
+
+```lisp
+
+| <- markup.raw.code-fence.lisp.markdown-gfm source.lisp
+```
+
+```lua
+
+| <- markup.raw.code-fence.lua.markdown-gfm source.lua
+```
+
+```matlab
+
+| <- markup.raw.code-fence.matlab.markdown-gfm source.matlab
+```
+
+```ocaml
+
+| <- markup.raw.code-fence.ocaml.markdown-gfm source.ocaml
+```
+
+```scala
+
+| <- markup.raw.code-fence.scala.markdown-gfm source.scala
+```
+
+```sh
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+```
+
+```shell
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+```
+
+```shell-script
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+```
+
+```tsx
+  <Component>
+| <- markup.raw.code-fence.tsx.markdown-gfm source.tsx
+| ^^^^^^^^^^^ markup.raw.code-fence.tsx.markdown-gfm source.tsx meta.jsx.js
+```
 
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
