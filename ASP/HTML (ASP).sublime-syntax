@@ -47,9 +47,7 @@ contexts:
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - script-close-tag
-        - script-vbscript-content
+      set: script-vbscript-content
 
   script-vbscript-content:
     - meta_include_prototype: false
