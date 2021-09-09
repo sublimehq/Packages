@@ -1,10 +1,23 @@
 -- SYNTAX TEST "Packages/SQL/SQL.sublime-syntax"
 
+SELECT 'Foo Bar';
+--     ^^^^^^^^^ string.quoted.single
+--     ^ punctuation.definition.string.begin
+--             ^ punctuation.definition.string.end
+--              ^ punctuation.terminator.statement - string
+
 SELECT 'Foo '' Bar';
---           ^ constant.character.escape.sql
+--          ^^ constant.character.escape.sql
 
 SELECT "My "" Crazy Column Name" FROM my_table;
---         ^ constant.character.escape.sql
+--         ^^ constant.character.escape.sql
+
+SELECT "My -- Crazy Column Name" FROM my_table;
+--         ^^ - comment - punctuation
+
+SELECT "My /* Crazy Column Name" FROM my_table;
+--         ^^ - comment - punctuation
+
 
 ;CREATE TABLE foo (id INTEGER PRIMARY KEY);
  -- <- keyword.other.create
@@ -45,6 +58,10 @@ create table `dbo`."testing123" (id integer);
 --                            ^^^^^^^^^^^^^^^^ - entity.name.function
 
 create table IF NOT EXISTS `testing123` (
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.toc-list
+--           ^^ keyword.control.flow
+--              ^^^ keyword.operator.logical
+--                  ^^^^^^ keyword.operator.logical
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `lastchanged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 --                ^^^^^^^^^ storage.type.sql
@@ -53,7 +70,8 @@ create table IF NOT EXISTS `testing123` (
     `col` bool DEFAULT FALSE,
 --        ^^^^ storage.type.sql
 --             ^^^^^^^ storage.modifier.sql
---                     ^^^^^ constant.boolean.sql
+--                     ^^^^^ constant.language.boolean.sql
+--                          ^ punctuation.separator.sequence
     `fkey` INT UNSIGNED NULL REFERENCES test2(id),
 --                           ^^^^^^^^^^ storage.modifier.sql
     `version` tinytext DEFAULT NULL COMMENT 'important clarification',
@@ -104,7 +122,7 @@ CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
 --                     ^^^^^^^^^^^ entity.name.function.sql
 --                                                       ^^^^^ keyword.other.DML.sql
 --                                                                    ^^ keyword.operator.logical.sql
---                                                                       ^^^^ constant.language.sql
+--                                                                       ^^^^ constant.language.null.sql
 
 create fulltext index if not exists `myindex` ON mytable;
 --     ^^^^^^^^^^^^^^ keyword.other.sql
@@ -142,10 +160,12 @@ USING a
 
 
 /*
+-- <- comment.block punctuation.definition.comment.begin
 This is a
 multiline comment
--- ^ source.sql comment.block.c
+-- ^^^^^^^^^^^^^^^ source.sql comment.block.sql
 */
+-- <- comment.block punctuation.definition.comment.end
 
 /**
     *
@@ -167,12 +187,12 @@ FROM    foo
 WHERE   f.a IS NULL
 -- ^^ keyword.other.DML.sql
 --          ^^ keyword.operator.logical.sql
---             ^^^^ constant.language.sql
+--             ^^^^ constant.language.null.sql
         AND f.b IS NOT NULL
 --      ^^^ keyword.operator.logical.sql
 --              ^^ keyword.operator.logical.sql
 --                 ^^^ keyword.operator.logical.sql
---                     ^^^^ constant.language.sql
+--                     ^^^^ constant.language.null.sql
 
 
 SELECT columns FROM table WHERE
@@ -228,9 +248,65 @@ SELECT columns FROM table WHERE
 --                           ^^ - meta.string - string
 
 SELECT columns FROM table WHERE
-    column LIKE '%\[SQL Server Driver]%' ESCAPE '\'
---                                       ^^^^^^ keyword.operator.word
---                                              ^^^ string.quoted.single
---                                              ^ punctuation.definition.string.begin
---                                               ^ constant.character.escape
---                                                ^ punctuation.definition.string.end
+    column LIKE '%\[SQL Server Driver]^%\__' ESCAPE '\'
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--                ^^ constant.character.escape
+--                                    ^ - constant
+--                                     ^ keyword.operator.wildcard
+--                                      ^^ constant.character.escape
+--                                        ^ keyword.operator.wildcard
+--                                           ^^^^^^ keyword.operator.word
+--                                                  ^^^ string.quoted.single
+--                                                  ^ punctuation.definition.string.begin
+--                                                   ^ constant.character.escape
+--                                                    ^ punctuation.definition.string.end
+
+SELECT columns FROM table WHERE
+    column LIKE '%\[SQL Server Driver]^%\__'
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--                ^^ constant.character.escape
+--                                    ^ - constant
+--                                     ^ keyword.operator.wildcard
+--                                      ^^ constant.character.escape
+--                                        ^ keyword.operator.wildcard
+    ESCAPE '\'
+--  ^^^^^^ keyword.operator.word
+--         ^^^ string.quoted.single
+--         ^ punctuation.definition.string.begin
+--          ^ constant.character.escape
+--           ^ punctuation.definition.string.end
+
+SELECT columns FROM table WHERE
+    column LIKE '%\^[SQL Server Driver]^%_^_' ESCAPE '^'
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--                ^ - constant
+--                 ^^ constant.character.escape
+--                                     ^^ constant.character.escape
+--                                       ^ keyword.operator.wildcard
+--                                        ^^ constant.character.escape
+--                                            ^^^^^^ keyword.operator.word
+--                                                   ^^^ string.quoted.single
+--                                                   ^ punctuation.definition.string.begin
+--                                                    ^ constant.character.escape
+--                                                     ^ punctuation.definition.string.end
+
+SELECT columns FROM table WHERE
+    column LIKE '%\^[SQL Server Driver]^%_^_\_{{--' ESCAPE '{' -- uncatered for escape char, scope operators as though unescaped
+--         ^^^^ keyword.operator.logical
+--               ^ keyword.operator.wildcard
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+--                  ^^^^^^^^^^^^^^^^^^^ meta.set.like
+--                                     ^^^^^^^^^^^ - meta.set
+--                                      ^^ keyword.operator.wildcard
+--                                         ^ keyword.operator.wildcard
+--                                           ^ keyword.operator.wildcard
+--                                              ^^^^^^^^^^^^^^^ - comment
+--                                                  ^^^^^^ keyword.operator.word
+--                                                         ^^^ string.quoted.single
+--                                                         ^ punctuation.definition.string.begin
+--                                                          ^ constant.character.escape
+--                                                           ^ punctuation.definition.string.end
+--                                                             ^^ comment.line.double-dash punctuation.definition.comment
