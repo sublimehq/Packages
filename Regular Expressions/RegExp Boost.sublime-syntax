@@ -1,0 +1,128 @@
+%YAML 1.2
+---
+name: Regular Expression
+comment: Matches PCRE's regexp syntax, used in various languages and in
+  Sublime Text for the Find panels
+file_extensions:
+  - re
+scope: source.regexp
+extends: Packages/Regular Expressions/RegExp Common.sublime-syntax
+
+contexts:
+  backtracking-control-verb:
+    - match: '\(\*(PRUNE|SKIP|THEN|COMMIT|FAIL|F|ACCEPT)\)'
+      scope: keyword.control.verb.regexp
+
+  group:
+    - meta_prepend: true
+    - include: backtracking-control-verb
+
+  group-extended:
+    - meta_prepend: true
+    - include: backtracking-control-verb
+
+  group-start-common:
+    - meta_prepend: true
+    - match: (\?([+-]?\d+))(\))
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: keyword.control.group.regexp
+      pop: true
+    - match: (\?&([\w-]+))(\))
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: keyword.control.group.regexp
+      pop: true
+
+  group-start:
+    - meta_prepend: true
+    - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
+      scope: keyword.other.named-capture-group.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: entity.name.capture-group.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+        5: entity.name.capture-group.regexp
+        6: punctuation.definition.capture-group-name.end.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: \?\((?:(<)([^>]+)(>)|(')([^']+)(')|(\d+)|R(\d*)|R&(\w+))\)
+      scope: keyword.other.backref-and-recursion.conditional.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+        5: variable.other.backref-and-recursion.regexp
+        6: punctuation.definition.capture-group-name.end.regexp
+        7: variable.other.backref-and-recursion.regexp
+        8: variable.other.backref-and-recursion.regexp
+        9: variable.other.backref-and-recursion.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: '\?\(DEFINE\)'
+      scope: keyword.other.conditional.definition.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: '\?(?=\(\?)'
+      scope: keyword.other.conditional.regexp
+      set: [group-body, base-group]
+
+  group-start-extended:
+    - meta_prepend: true
+    - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
+      scope: keyword.other.named-capture-group.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: entity.name.capture-group.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+        5: entity.name.capture-group.regexp
+        6: punctuation.definition.capture-group-name.end.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - match: \?\((?:(<)([^>]+)(>)|(')([^']+)(')|(\d+)|R(\d*)|R&(\w+))\)
+      scope: keyword.other.backref-and-recursion.conditional.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+        5: variable.other.backref-and-recursion.regexp
+        6: punctuation.definition.capture-group-name.end.regexp
+        7: variable.other.backref-and-recursion.regexp
+        8: variable.other.backref-and-recursion.regexp
+        9: variable.other.backref-and-recursion.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - match: '\?\(DEFINE\)'
+      scope: keyword.other.conditional.definition.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - match: '\?(?=\(\?)'
+      scope: keyword.other.conditional.regexp
+      set: [group-body-extended, base-group-extended]
+
+  inside-charset:
+    - meta_prepend: true
+    - match: ':(ascii|alnum|alpha|blank|cntrl|digit|graph|lower|print|punct|space|upper|word|xdigit):'
+      scope: constant.other.posix-class.regexp
+    - match: '&&'
+      scope: keyword.operator.intersection.regexp
+    - include: charset
+
+  backslashes:
+    - meta_prepend: true
+    - match: \\[><]
+      scope: keyword.control.anchors.regexp
+      push: unexpected-quantifier-pop
+    - match: \\[kg](?:(<)([^>]+)(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
+      scope: keyword.other.backref-and-recursion.regexp
+      captures:
+        1: punctuation.definition.capture-group-name.begin.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+        5: variable.other.backref-and-recursion.regexp
+        6: punctuation.definition.capture-group-name.end.regexp
+        7: punctuation.definition.capture-group-name.begin.regexp
+        8: variable.other.backref-and-recursion.regexp
+        9: punctuation.definition.capture-group-name.end.regexp
+        10: variable.other.backref-and-recursion.regexp

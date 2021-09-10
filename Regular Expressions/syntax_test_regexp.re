@@ -140,11 +140,13 @@ hello++
 #^ keyword.control.set
 #    ^ keyword.control.set
 # ^^^ constant.other.range
+#  ^ punctuation.separator.sequence
 
 [\x00-\x{A}]
 # <- keyword.control.set
 #          ^ keyword.control.set
 #^^^^^^^^^^ constant.other.range
+#    ^ punctuation.separator.sequence
 #^^^^ constant.character.escape
 #     ^^^^^ constant.character.escape
 
@@ -158,6 +160,7 @@ hello++
 # <- keyword.control.set
 #^ keyword.control.set
 #    ^^ keyword.control.character-class
+#       ^ punctuation.separator.sequence
 
 [a-c-x]
 #^^^ constant.other.range
