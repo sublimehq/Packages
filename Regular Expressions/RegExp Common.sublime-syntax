@@ -63,21 +63,25 @@ contexts:
   extended-patterns:
     - match: '#'
       scope: punctuation.definition.comment.regexp
-      push:
-        - meta_scope: comment.line.number-sign.regexp
-        - match: \n # does not close on `)`!
-          pop: true
+      push: inside-extended-mode-line-comment
     - match: \s+
       scope: meta.ignored-whitespace.regexp
+
+  inside-extended-mode-line-comment:
+    - meta_scope: comment.line.number-sign.regexp
+    - match: \n # does not close on `)`!
+      pop: true
 
   group-comment:
     - match: \(\?#
       scope: punctuation.definition.comment.begin.regexp
-      push:
-        - meta_scope: meta.group.regexp comment.block.group.regexp
-        - match: \)
-          scope: punctuation.definition.comment.end.regexp
-          pop: true
+      push: inside-group-comment
+
+  inside-group-comment:
+    - meta_scope: meta.group.regexp comment.block.group.regexp
+    - match: \)
+      scope: punctuation.definition.comment.end.regexp
+      pop: true
 
   group:
     - include: group-comment
@@ -213,20 +217,22 @@ contexts:
     - match: '{{char_escape}}'
       scope: constant.character.escape.regexp
 
-  backslash-q-until-e-literal:
+  backslash-q-literal:
     - match: \\Q
       scope: keyword.control.regexp
-      push:
-        - meta_content_scope: meta.literal.regexp
-        - match: \\E
-          scope: keyword.control.regexp
-          pop: true
+      push: literal-until-backslash-e
+
+  literal-until-backslash-e:
+    - meta_content_scope: meta.literal.regexp
+    - match: \\E
+      scope: keyword.control.regexp
+      pop: true
 
   backslashes:
     - match: \\[bBAZzG]|[\^$]
       scope: keyword.control.anchors.regexp
       push: unexpected-quantifier-pop
-    - include: backslash-q-until-e-literal
+    - include: backslash-q-literal
     - match: \\K
       scope: keyword.control.regexp
       push: unexpected-quantifier-pop
