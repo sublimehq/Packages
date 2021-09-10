@@ -482,8 +482,6 @@ contexts:
       push:
         - meta_scope: markup.bold.markdown
         - meta_content_scope: markup.italic.markdown
-        - match: '{{setext_escape}}'
-          pop: true
         - match: |-
             (?x)
                 [ \t]*\*{4,}    # if there are more than 3 its not applicable to be bold or italic
@@ -498,8 +496,6 @@ contexts:
           scope: punctuation.definition.bold.end.markdown
           set:
             - meta_content_scope: markup.italic.markdown
-            - match: '{{setext_escape}}'
-              pop: true
             - match: |-
                 (?x)
                     [ \t]*\*{3,}    # if there are more than 3 its not applicable to be bold or italic
@@ -516,8 +512,6 @@ contexts:
           scope: punctuation.definition.italic.end.markdown
           set:
             - meta_content_scope: markup.bold.markdown
-            - match: '{{setext_escape}}'
-              pop: true
             - match: |-
                 (?x)
                     [ \t]*\*{3,}    # if there are more than 3 its not applicable to be bold or italic
@@ -827,8 +821,6 @@ contexts:
       scope: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
-        - match: '{{setext_escape}}'
-          pop: true
         - match: |-
               (?x)
                   [ \t]*\*{4,}   # if there are more than 3 its not applicable to be bold or italic
@@ -846,8 +838,6 @@ contexts:
       scope: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
-        - match: '{{setext_escape}}'
-          pop: true
         - match: |-
               (?x)
                   [ \t]*_{4,}   # if there are more than 3 its not applicable to be bold or italic
