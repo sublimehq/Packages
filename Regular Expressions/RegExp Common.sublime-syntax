@@ -1,0 +1,271 @@
+%YAML 1.2
+---
+name: Regular Expression
+hidden: true
+scope: source.regexp-common
+variables:
+  known_char_escape: '\\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
+  invalid_char_escape: '\\[xcCM]'
+  char_escape: '\\.'
+  ranged_quantifier: '\{\d+(,\d*)?\}'
+  lazy_or_possessive: '[?+]?'
+  character_quantifier: '[?*+]'
+  char_class: '\\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(L&|[A-Z][a-z]?)))'
+
+contexts:
+  main:
+    - include: unexpected-quantifier
+    - match: ''
+      push: base-literal
+
+  # This is the default context
+  base-literal:
+    - include: base
+    - include: literal
+
+  # This is the extended context
+  #
+  # The "-extended" prefixed contexts are necessary
+  # to keep the extended mode enabled in subgroups
+  # and disable it properly when it is unset (and in sets).
+  # Switching happens in the "group-start*" contexts.
+  base-literal-extended:
+    - include: base-extended
+    - include: literal
+
+  base:
+    - include: group
+    - include: base-common
+
+  base-extended:
+    - include: group-extended
+    - include: extended-patterns # <- this is where the contexts differ
+    - include: base-common
+
+  base-common:
+    - include: character-class
+    - include: special-escaped-char
+    - include: backslashes
+    - include: escaped-char
+    - include: charset
+    - include: operators
+
+  base-group:
+    - match: (?=\))
+      pop: true
+    - include: base-literal
+
+  base-group-extended:
+    - match: (?=\))
+      pop: true
+    - include: base-literal-extended
+
+  extended-patterns:
+    - match: '#'
+      scope: punctuation.definition.comment.regexp
+      push:
+        - meta_scope: comment.line.number-sign.regexp
+        - match: \n # does not close on `)`!
+          pop: true
+    - match: \s+
+      scope: meta.ignored-whitespace.regexp
+
+  group-comment:
+    - match: \(\?#
+      scope: punctuation.definition.comment.begin.regexp
+      push:
+        - meta_scope: meta.group.regexp comment.block.group.regexp
+        - match: \)
+          scope: punctuation.definition.comment.end.regexp
+          pop: true
+
+  group:
+    - include: group-comment
+    - match: \(
+      scope: keyword.control.group.regexp
+      push: group-start
+
+  group-extended:
+    - include: group-comment
+    - match: \(
+      scope: keyword.control.group.regexp
+      push: group-start-extended
+
+  group-start-common:
+    # Other modifiers (must come after other modifier matches)
+    - match: (\?(?:[ixms]*-)?[ixms]+)(\))
+      captures:
+        1: storage.modifier.mode.regexp
+        2: keyword.control.group.regexp
+      pop: true
+
+  group-start:
+    - meta_scope: meta.group.regexp
+    - match: \?(<[=!]|[>=:!])
+      scope: constant.other.assertion.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    # Activates 'x' mode
+    - match: (\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
+      captures:
+        1: storage.modifier.mode.regexp
+        2: keyword.control.group.regexp
+      set: [base-group-extended, unexpected-quantifier-pop]
+    # Groups with 'x' mode
+    - match: '\?[ims]*x[ixms]*(?:-[ims]+)?:'
+      scope: storage.modifier.mode.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    # Other modifiers
+    - match: '\?(?:[ixms]*-)?[ixms]+:'
+      scope: storage.modifier.mode.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - include: group-start-common
+    - match: ''
+      set: [group-body, unexpected-quantifier-pop]
+
+  group-start-extended:
+    - meta_scope: meta.group.extended.regexp
+    - match: \?(<[=!]|[>=:!])
+      scope: constant.other.assertion.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    # Deactivates 'x' mode
+    - match: (\?[ims]*-[ims]*x[imxs]*)(\))
+      captures:
+        1: storage.modifier.mode.regexp
+        2: keyword.control.group.regexp
+      set: [base-group, unexpected-quantifier-pop]
+    # Groups without 'x' mode
+    - match: '\?[ims]*-[ims]*x[imxs]*:'
+      scope: storage.modifier.mode.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    # Other modifiers
+    - match: \?(?:[ixms]*-)?[ims]+:'
+      scope: storage.modifier.mode.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - include: group-start-common
+    - match: ''
+      set: [group-body-extended, unexpected-quantifier-pop]
+
+  group-body:
+    - meta_content_scope: meta.group.regexp
+    - match: \)
+      scope: meta.group.regexp keyword.control.group.regexp
+      pop: true
+    - include: base-group
+
+  group-body-extended:
+    - meta_content_scope: meta.group.extended.regexp
+    - match: \)
+      scope: meta.group.extended.regexp keyword.control.group.regexp
+      pop: true
+    - include: base-group-extended
+
+  charset:
+    - match: (\[\^?)\]?
+      captures:
+        1: keyword.control.set.regexp
+      push: inside-charset
+
+  inside-charset:
+    - meta_scope: meta.set.regexp
+    - match: \]
+      scope: keyword.control.set.regexp
+      pop: true
+    - match: (?=({{known_char_escape}}|{{char_escape}}|(?!\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))
+      push: inside-charset-range-begin
+    - include: character-class
+    - include: special-escaped-char
+    - include: escaped-char
+
+  inside-charset-range-begin:
+    - meta_content_scope: constant.other.range.regexp
+    - include: special-escaped-char
+    - include: escaped-char
+    - match: (?=-)
+      set: inside-charset-range-end
+
+  inside-charset-range-end:
+    - meta_scope: constant.other.range.regexp
+    - match: '-'
+      scope: punctuation.separator.sequence.regexp-common
+    - match: '{{known_char_escape}}'
+      scope: constant.character.escape.regexp
+      pop: true
+    - match: '{{invalid_char_escape}}'
+      scope: invalid.illegal.character.escape.regexp
+      pop: true
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.regexp
+      pop: true
+    - match: .
+      pop: true
+
+  character-class:
+    - match: '{{char_class}}'
+      scope: keyword.control.character-class.regexp
+
+  special-escaped-char:
+    - match: '{{known_char_escape}}'
+      scope: constant.character.escape.regexp
+    - match: '{{invalid_char_escape}}'
+      scope: invalid.illegal.character.escape.regexp
+
+  escaped-char:
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.regexp
+
+  backslash-q-until-e-literal:
+    - match: \\Q
+      scope: keyword.control.regexp
+      push:
+        - meta_content_scope: meta.literal.regexp
+        - match: \\E
+          scope: keyword.control.regexp
+          pop: true
+
+  backslashes:
+    - match: \\[bBAZzG]|[\^$]
+      scope: keyword.control.anchors.regexp
+      push: unexpected-quantifier-pop
+    - include: backslash-q-until-e-literal
+    - match: \\K
+      scope: keyword.control.regexp
+      push: unexpected-quantifier-pop
+    - match: \\([1-9]\d*)
+      scope: keyword.other.backref-and-recursion.regexp
+      captures:
+        1: variable.other.backref-and-recursion.regexp
+
+  quantifiers:
+    - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
+      scope: keyword.operator.quantifier.regexp
+      push: unexpected-quantifier-pop
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: keyword.operator.quantifier.regexp
+      push: unexpected-quantifier-pop
+
+  unexpected-quantifier:
+    - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
+      scope: invalid.illegal.unexpected-quantifier.regexp
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: invalid.illegal.unexpected-quantifier.regexp
+
+  unexpected-quantifier-pop:
+    - include: unexpected-quantifier
+    - match: ''
+      pop: true
+
+  operators:
+    - match: \|
+      scope: keyword.operator.alternation.regexp
+      push: unexpected-quantifier-pop
+
+  literal:
+    - include: quantifiers
+    - match: \.
+      scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
+    - match: \)
+      scope: invalid.illegal.unmatched-brace.regexp
+    - match: '[^\\().\[\]^$#?*+{}|]+'
+      scope: meta.literal.regexp
+    - match: .
+      scope: meta.literal.regexp
