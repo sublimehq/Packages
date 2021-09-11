@@ -1927,8 +1927,8 @@ declare type foo = 'bar'
 ```
 
 ```{key: value}
-|^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm
-|   ^^^^^^^^^^^^ - constant
+|^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm
+|  ^^^^^^^^^^^^ - constant
 ```
 
 ``` {key: value}
