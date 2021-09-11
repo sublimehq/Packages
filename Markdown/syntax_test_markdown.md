@@ -789,6 +789,24 @@ paragraph
 |^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
 | ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
 | ^^^ punctuation.definition.raw.code-fence.end.markdown
+
+> Quoted fenced code block language identifier
+> ```C++
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+|    ^^^ constant.other.language-name.markdown
+> ```
+
+> Quoted fenced code block language identifier
+> ```C++ info string
+| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
+| ^^^^^^^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+|    ^^^ constant.other.language-name.markdown
+|       ^^^^^^^^^^^^^ - constant
+> ```
+
 > > 2nd level
 > > 
 > > ```
@@ -1900,6 +1918,22 @@ for (var i = 0; i < 10; i++) {
 |  ^^ constant.other.language-name
 declare type foo = 'bar'
 |       ^^^^ source.ts meta.type-alias storage.type
+```
+
+```R%&?! weired language name
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm
+|  ^^^^^ constant.other.language-name.markdown
+|        ^^^^^^^^^^^^^^^^^^^^^ - constant
+```
+
+```{key: value}
+|^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm
+|   ^^^^^^^^^^^^ - constant
+```
+
+``` {key: value}
+|^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm
+|   ^^^^^^^^^^^^ - constant
 ```
 
 ```testing``123```
