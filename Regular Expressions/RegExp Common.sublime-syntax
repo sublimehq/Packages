@@ -2,7 +2,7 @@
 ---
 name: Regular Expression
 hidden: true
-scope: source.regexp-common
+scope: source.regexp.basic
 variables:
   known_char_escape: '\\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
   invalid_char_escape: '\\[xcCM]'
@@ -142,7 +142,7 @@ contexts:
       scope: storage.modifier.mode.regexp
       set: [group-body, unexpected-quantifier-pop]
     # Other modifiers
-    - match: \?(?:[ixms]*-)?[ims]+:'
+    - match: '\?(?:[ixms]*-)?[ims]+:'
       scope: storage.modifier.mode.regexp
       set: [group-body-extended, unexpected-quantifier-pop]
     - include: group-start-common
