@@ -24,11 +24,11 @@ variables:
             )
             [ \t]*$                          # followed by any number of tabs or spaces, followed by the end of the line
         )
-    setext_escape: ^(?=[ ]{,3}(?:=+|-+)\s*$)     # between 0 and 3 spaces, followed by at least one hyphon or equal sign (setext underline can be of any length)
     block_quote: (?:[ ]{,3}>(?:.|$))             # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
     atx_heading: (?:[ ]{,3}[#]{1,6}(?:[ \t]|$))  # between 0 and 3 spaces, followed 1 to 6 hashes, followed by at least one space or tab or by end of the line
     atx_heading_space: (?:(?=[ \t]+#+[ \t]*$)|[ \t]+|$) # consume spaces only if heading is not empty to ensure `atx_heading_end` can fully match closing hashes
     atx_heading_end: (?:[ \t]+(#+))?[ \t]*($\n?) # \n is optional so ## is matched as end punctuation in new document (at eof)
+    setext_escape: ^(?=[ ]{,3}(?:=+|-+)\s*$)     # between 0 and 3 spaces, followed by at least one hyphon or equal sign (setext underline can be of any length)
     indented_code_block: (?:[ ]{4}|\t)           # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?:\d+[.)]|[*+-])\s)    # between 0 and 3 spaces, followed by either: at least one integer and a full stop or a parenthesis, or (a star, plus or dash), followed by whitespace
     escape: '\\[-`*_#+.!(){}\[\]\\>|~<]'
@@ -482,8 +482,6 @@ contexts:
       push:
         - meta_scope: markup.bold.markdown
         - meta_content_scope: markup.italic.markdown
-        - match: '{{setext_escape}}'
-          pop: true
         - match: |-
             (?x)
                 [ \t]*\*{4,}    # if there are more than 3 its not applicable to be bold or italic
@@ -498,8 +496,6 @@ contexts:
           scope: punctuation.definition.bold.end.markdown
           set:
             - meta_content_scope: markup.italic.markdown
-            - match: '{{setext_escape}}'
-              pop: true
             - match: |-
                 (?x)
                     [ \t]*\*{3,}    # if there are more than 3 its not applicable to be bold or italic
@@ -516,8 +512,6 @@ contexts:
           scope: punctuation.definition.italic.end.markdown
           set:
             - meta_content_scope: markup.bold.markdown
-            - match: '{{setext_escape}}'
-              pop: true
             - match: |-
                 (?x)
                     [ \t]*\*{3,}    # if there are more than 3 its not applicable to be bold or italic
@@ -827,8 +821,6 @@ contexts:
       scope: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
-        - match: '{{setext_escape}}'
-          pop: true
         - match: |-
               (?x)
                   [ \t]*\*{4,}   # if there are more than 3 its not applicable to be bold or italic
@@ -846,8 +838,6 @@ contexts:
       scope: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
-        - match: '{{setext_escape}}'
-          pop: true
         - match: |-
               (?x)
                   [ \t]*_{4,}   # if there are more than 3 its not applicable to be bold or italic
