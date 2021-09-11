@@ -1,6 +1,6 @@
 name: Syntax Highlighting problem
 description: Create a bug report for mis-highlighted code in one of the default languages.
-title: '[PackageName]: Title'
+title: '[PackageName] Title'
 labels: ['bug']
 body:
 
