@@ -1,6 +1,6 @@
 name: Go to Symbol problem
 description: Create a bug report for file indexing in one of the default languages.
-title: '[PackageName]: Title'
+title: '[PackageName] Title'
 body:
 
   - type: markdown
