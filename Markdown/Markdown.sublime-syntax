@@ -136,7 +136,7 @@ variables:
           \2          # the backtick/tilde combination that opened the code fence
           (?:\3|\4)*  # plus optional additional closing characters
         )
-        \s*$          # any amount of whitespace until EOL
+        \s*$\n?       # any amount of whitespace until EOL
       )
     html_tag_open_commonmark: |-
       (?xi:
