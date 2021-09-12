@@ -63,7 +63,7 @@ contexts:
     - include: base-literal-extended
 
   extended-patterns:
-    - match: '#'
+    - match: \#+
       scope: punctuation.definition.comment.regexp
       push: inside-extended-mode-line-comment
     - match: \s+

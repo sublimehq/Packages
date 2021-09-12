@@ -237,6 +237,17 @@ where escape characters are ignored.\).
 # this is a comment
 #^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
 # <- comment punctuation.definition.comment
+
+####################
+# <- comment.line.number-sign.regexp punctuation.definition.comment.regexp
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.regexp punctuation.definition.comment.regexp
+#                   ^ comment.line.number-sign.regexp - punctuation
+
+## this is a comment
+# <- comment.line.number-sign.regexp punctuation.definition.comment.regexp
+#^ comment.line.number-sign.regexp punctuation.definition.comment.regexp
+# ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.regexp - punctuation
+
  (?-ix)
 # <- meta.ignored-whitespace
 # ^^^^ storage.modifier.mode.regexp
