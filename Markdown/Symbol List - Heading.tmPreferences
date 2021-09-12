@@ -9,9 +9,14 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string><![CDATA[
-		s/\s*#*\s*\z//g;         # strip trailing space and #'s
-		s/(?<=#)#/ /g;           # change all but first # to m-space
-		s/^#( *)\s+(.*)/$1$2/;   # strip first # and space before title
+			s/\[([^]]+)\]\([^)]+\)/$1/g; 		# beautify links
+			s/\[([^]]+)\](?:\[[^]]+\])?/$1/g; 	# beautify references
+			s/^\s*//g;							# strip leading whitespace
+			s/\s*#+\s*\z//g;					# strip trailing hashes
+			s/(?<=#)#/ /g;						# change all but first # to m-space
+			s/^#( *)\s+(.*)/$1$2/;				# strip first # and space before title
+			s/^(.+?)=+\s*\z/$1/g;				# indent SETEXT heading 1
+			s/^(.+?)-+\s*\z/  $1/g;				# indent SETEXT heading 2
 		]]></string>
 	</dict>
 </dict>
