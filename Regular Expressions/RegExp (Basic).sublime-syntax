@@ -46,7 +46,9 @@ contexts:
 
   base-common:
     - include: character-classes
-    - include: backslashes
+    - include: anchors
+    - include: backrefs
+    - include: switches
     - include: escaped-chars
     - include: charsets
     - include: operators
@@ -221,20 +223,21 @@ contexts:
       scope: constant.character.escape.regexp
       pop: 1
 
-  backslashes:
+  anchors:
     - match: \\[bBAZzG]|[\^$]
       scope: keyword.control.anchors.regexp
       push: maybe-unexpected-quantifiers
-    - include: backslash-q-literals
-    - match: \\K
-      scope: keyword.control.regexp
-      push: maybe-unexpected-quantifiers
+
+  backrefs:
     - match: \\([1-9]\d*)
       scope: keyword.other.backref-and-recursion.regexp
       captures:
         1: variable.other.backref-and-recursion.regexp
 
-  backslash-q-literals:
+  switches:
+    - match: \\K
+      scope: keyword.control.regexp
+      push: maybe-unexpected-quantifiers
     - match: \\Q
       scope: keyword.control.regexp
       push: literal-until-backslash-e
