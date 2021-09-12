@@ -615,11 +615,11 @@ where escape characters are ignored.\).
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?-x)
 
- \Qtext.here.is\dliteral)\E{1,2}{1,2}
+ \Qtext.here.is\dliteral)\E{1,2}{1,2}{1,2}
 #^^ keyword.control
 #  ^^^^^^^^^^^^^^^^^^^^^^ meta.literal - keyword
 #                        ^^ keyword.control
 #                          ^^^^^ keyword.operator.quantifier
-#                               ^^^^^ invalid.illegal.unexpected-quantifier
+#                               ^^^^^^^^^^ invalid.illegal.unexpected-quantifier
  \K
 #^^ keyword.control
