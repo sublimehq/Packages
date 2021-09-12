@@ -156,14 +156,14 @@ contexts:
     - match: \)
       scope: meta.group.regexp keyword.control.group.regexp
       pop: 1
-    - include: base-group
+    - include: base-literal
 
   group-body-extended:
     - meta_content_scope: meta.group.extended.regexp
     - match: \)
       scope: meta.group.extended.regexp keyword.control.group.regexp
       pop: 1
-    - include: base-group-extended
+    - include: base-literal-extended
 
   charset:
     - match: (\[\^?)\]?
