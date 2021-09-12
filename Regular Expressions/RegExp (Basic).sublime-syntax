@@ -194,15 +194,7 @@ contexts:
 
   charset-range-end:
     - meta_scope: constant.other.range.regexp
-    - match: '{{known_char_escape}}'
-      scope: constant.character.escape.regexp
-      pop: 1
-    - match: '{{invalid_char_escape}}'
-      scope: invalid.illegal.character.escape.regexp
-      pop: 1
-    - match: '{{char_escape}}'
-      scope: constant.character.escape.regexp
-      pop: 1
+    - include: escaped-char
     - match: .
       pop: 1
 
@@ -217,6 +209,17 @@ contexts:
       scope: invalid.illegal.character.escape.regexp
     - match: '{{char_escape}}'
       scope: constant.character.escape.regexp
+
+  escaped-char:
+    - match: '{{known_char_escape}}'
+      scope: constant.character.escape.regexp
+      pop: 1
+    - match: '{{invalid_char_escape}}'
+      scope: invalid.illegal.character.escape.regexp
+      pop: 1
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.regexp
+      pop: 1
 
   backslash-q-literals:
     - match: \\Q
