@@ -179,23 +179,24 @@ contexts:
     - match: \]
       scope: keyword.control.set.regexp
       pop: 1
-    - match: (?=({{known_char_escape}}|{{char_escape}}|(?!\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))
-      push: inside-charset-range-begin
+    - include: charset-ranges
     - include: character-classes
     - include: special-escaped-chars
     - include: escaped-chars
 
-  inside-charset-range-begin:
-    - meta_content_scope: constant.other.range.regexp
-    - include: special-escaped-chars
-    - include: escaped-chars
-    - match: (?=-)
-      set: inside-charset-range-end
+  charset-ranges:
+    - match: (?=({{known_char_escape}}|{{char_escape}}|(?!\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))
+      push: [charset-range-end, charset-range-begin]
 
-  inside-charset-range-end:
-    - meta_scope: constant.other.range.regexp
+  charset-range-begin:
     - match: '-'
       scope: punctuation.separator.sequence.regexp-common
+      pop: 1
+    - include: special-escaped-chars
+    - include: escaped-chars
+
+  charset-range-end:
+    - meta_scope: constant.other.range.regexp
     - match: '{{known_char_escape}}'
       scope: constant.character.escape.regexp
       pop: 1
