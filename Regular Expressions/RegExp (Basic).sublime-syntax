@@ -221,17 +221,6 @@ contexts:
       scope: constant.character.escape.regexp
       pop: 1
 
-  backslash-q-literals:
-    - match: \\Q
-      scope: keyword.control.regexp
-      push: literal-until-backslash-e
-
-  literal-until-backslash-e:
-    - meta_content_scope: meta.literal.regexp
-    - match: \\E
-      scope: keyword.control.regexp
-      pop: 1
-
   backslashes:
     - match: \\[bBAZzG]|[\^$]
       scope: keyword.control.anchors.regexp
@@ -244,6 +233,17 @@ contexts:
       scope: keyword.other.backref-and-recursion.regexp
       captures:
         1: variable.other.backref-and-recursion.regexp
+
+  backslash-q-literals:
+    - match: \\Q
+      scope: keyword.control.regexp
+      push: literal-until-backslash-e
+
+  literal-until-backslash-e:
+    - meta_content_scope: meta.literal.regexp
+    - match: \\E
+      scope: keyword.control.regexp
+      pop: 1
 
   quantifiers:
     - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
