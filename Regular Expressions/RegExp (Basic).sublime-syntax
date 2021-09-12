@@ -46,7 +46,6 @@ contexts:
 
   base-common:
     - include: character-classes
-    - include: special-escaped-chars
     - include: backslashes
     - include: escaped-chars
     - include: charsets
@@ -181,7 +180,6 @@ contexts:
       pop: 1
     - include: charset-ranges
     - include: character-classes
-    - include: special-escaped-chars
     - include: escaped-chars
 
   charset-ranges:
@@ -192,7 +190,6 @@ contexts:
     - match: '-'
       scope: punctuation.separator.sequence.regexp-common
       pop: 1
-    - include: special-escaped-chars
     - include: escaped-chars
 
   charset-range-end:
@@ -213,13 +210,11 @@ contexts:
     - match: '{{char_class}}'
       scope: keyword.control.character-class.regexp
 
-  special-escaped-chars:
+  escaped-chars:
     - match: '{{known_char_escape}}'
       scope: constant.character.escape.regexp
     - match: '{{invalid_char_escape}}'
       scope: invalid.illegal.character.escape.regexp
-
-  escaped-chars:
     - match: '{{char_escape}}'
       scope: constant.character.escape.regexp
 
