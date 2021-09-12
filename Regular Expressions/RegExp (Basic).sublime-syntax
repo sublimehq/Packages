@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: Regular Expression
+name: Regular Expression (Basic)
 scope: source.regexp.basic
 version: 2
 hidden: true

@@ -5,7 +5,7 @@ name: Regular Expression
 scope: source.regexp
 version: 2
 
-extends: Packages/Regular Expressions/RegExp Common.sublime-syntax
+extends: RegExp (Basic).sublime-syntax
 
 file_extensions:
   - re
