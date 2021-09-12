@@ -12,7 +12,7 @@ file_extensions:
 
 contexts:
   backtracking-control-verb:
-    - match: '\(\*(PRUNE|SKIP|THEN|COMMIT|FAIL|F|ACCEPT)\)'
+    - match: \(\*(PRUNE|SKIP|THEN|COMMIT|FAIL|F|ACCEPT)\)
       scope: keyword.control.verb.regexp
 
   groups:
