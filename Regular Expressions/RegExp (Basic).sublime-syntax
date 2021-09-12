@@ -190,7 +190,7 @@ contexts:
 
   charset-range-begin:
     - match: '-'
-      scope: punctuation.separator.sequence.regexp-common
+      scope: punctuation.separator.sequence.regexp
       pop: 1
     - include: escaped-chars
 
