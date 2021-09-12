@@ -15,11 +15,11 @@ contexts:
     - match: '\(\*(PRUNE|SKIP|THEN|COMMIT|FAIL|F|ACCEPT)\)'
       scope: keyword.control.verb.regexp
 
-  group:
+  groups:
     - meta_prepend: true
     - include: backtracking-control-verb
 
-  group-extended:
+  groups-extended:
     - meta_prepend: true
     - include: backtracking-control-verb
 
@@ -102,13 +102,13 @@ contexts:
       scope: keyword.other.conditional.regexp
       set: group-body-extended
 
-  inside-charset:
+  charset-body:
     - meta_prepend: true
     - match: ':(ascii|alnum|alpha|blank|cntrl|digit|graph|lower|print|punct|space|upper|word|xdigit):'
       scope: constant.other.posix-class.regexp
     - match: '&&'
       scope: keyword.operator.intersection.regexp
-    - include: charset
+    - include: charsets
 
   backslashes:
     - meta_prepend: true

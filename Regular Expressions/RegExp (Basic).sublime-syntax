@@ -23,7 +23,7 @@ contexts:
   # This is the default context
   base-literal:
     - include: base
-    - include: literal
+    - include: literals
 
   # This is the extended context
   #
@@ -33,23 +33,23 @@ contexts:
   # Switching happens in the "group-start*" contexts.
   base-literal-extended:
     - include: base-extended
-    - include: literal
+    - include: literals
 
   base:
-    - include: group
+    - include: groups
     - include: base-common
 
   base-extended:
-    - include: group-extended
+    - include: groups-extended
     - include: extended-patterns # <- this is where the contexts differ
     - include: base-common
 
   base-common:
-    - include: character-class
-    - include: special-escaped-char
+    - include: character-classes
+    - include: special-escaped-chars
     - include: backslashes
-    - include: escaped-char
-    - include: charset
+    - include: escaped-chars
+    - include: charsets
     - include: operators
 
   base-group:
@@ -63,36 +63,39 @@ contexts:
     - include: base-literal-extended
 
   extended-patterns:
-    - match: \#+
-      scope: punctuation.definition.comment.regexp
-      push: inside-extended-mode-line-comment
+    - include: line-comments
     - match: \s+
       scope: meta.ignored-whitespace.regexp
 
-  inside-extended-mode-line-comment:
+  line-comments:
+    - match: \#+
+      scope: punctuation.definition.comment.regexp
+      push: line-comment-body
+
+  line-comment-body:
     - meta_scope: comment.line.number-sign.regexp
     - match: \n # does not close on `)`!
       pop: 1
 
-  group-comment:
+  group-comments:
     - match: \(\?#
       scope: punctuation.definition.comment.begin.regexp
-      push: inside-group-comment
+      push: group-comment-body
 
-  inside-group-comment:
+  group-comment-body:
     - meta_scope: meta.group.regexp comment.block.group.regexp
     - match: \)
       scope: punctuation.definition.comment.end.regexp
       pop: 1
 
-  group:
-    - include: group-comment
+  groups:
+    - include: group-comments
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start
 
-  group-extended:
-    - include: group-comment
+  groups-extended:
+    - include: group-comments
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start-extended
@@ -165,27 +168,27 @@ contexts:
       pop: 1
     - include: base-literal-extended
 
-  charset:
+  charsets:
     - match: (\[\^?)\]?
       captures:
         1: keyword.control.set.regexp
-      push: inside-charset
+      push: charset-body
 
-  inside-charset:
+  charset-body:
     - meta_scope: meta.set.regexp
     - match: \]
       scope: keyword.control.set.regexp
       pop: 1
     - match: (?=({{known_char_escape}}|{{char_escape}}|(?!\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))
       push: inside-charset-range-begin
-    - include: character-class
-    - include: special-escaped-char
-    - include: escaped-char
+    - include: character-classes
+    - include: special-escaped-chars
+    - include: escaped-chars
 
   inside-charset-range-begin:
     - meta_content_scope: constant.other.range.regexp
-    - include: special-escaped-char
-    - include: escaped-char
+    - include: special-escaped-chars
+    - include: escaped-chars
     - match: (?=-)
       set: inside-charset-range-end
 
@@ -205,21 +208,21 @@ contexts:
     - match: .
       pop: 1
 
-  character-class:
+  character-classes:
     - match: '{{char_class}}'
       scope: keyword.control.character-class.regexp
 
-  special-escaped-char:
+  special-escaped-chars:
     - match: '{{known_char_escape}}'
       scope: constant.character.escape.regexp
     - match: '{{invalid_char_escape}}'
       scope: invalid.illegal.character.escape.regexp
 
-  escaped-char:
+  escaped-chars:
     - match: '{{char_escape}}'
       scope: constant.character.escape.regexp
 
-  backslash-q-literal:
+  backslash-q-literals:
     - match: \\Q
       scope: keyword.control.regexp
       push: literal-until-backslash-e
@@ -234,7 +237,7 @@ contexts:
     - match: \\[bBAZzG]|[\^$]
       scope: keyword.control.anchors.regexp
       push: unexpected-quantifier-pop
-    - include: backslash-q-literal
+    - include: backslash-q-literals
     - match: \\K
       scope: keyword.control.regexp
       push: unexpected-quantifier-pop
@@ -267,7 +270,7 @@ contexts:
       scope: keyword.operator.alternation.regexp
       push: unexpected-quantifier-pop
 
-  literal:
+  literals:
     - include: quantifiers
     - match: \.
       scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
