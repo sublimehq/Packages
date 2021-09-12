@@ -1,12 +1,14 @@
 %YAML 1.2
 ---
+# Matches PCRE's regexp syntax, used in various languages and in Sublime Text for the Find panels
 name: Regular Expression
-comment: Matches PCRE's regexp syntax, used in various languages and in
-  Sublime Text for the Find panels
+scope: source.regexp
+version: 2
+
+extends: RegExp (Basic).sublime-syntax
+
 file_extensions:
   - re
-scope: source.regexp
-extends: Packages/Regular Expressions/RegExp Common.sublime-syntax
 
 contexts:
   backtracking-control-verb:
@@ -28,13 +30,13 @@ contexts:
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
         3: keyword.control.group.regexp
-      pop: true
+      pop: 1
     - match: (\?&([\w-]+))(\))
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
         3: keyword.control.group.regexp
-      pop: true
+      pop: 1
 
   group-start:
     - meta_prepend: true
