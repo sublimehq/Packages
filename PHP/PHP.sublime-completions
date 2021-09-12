@@ -1,10 +1,8 @@
 {
-	"scope": "source.php - variable.other.php - source.php meta.embedded.html",
-
+	"scope": "source.php - string - comment - variable.other.php - meta.embedded.html",
 	"completions":
 	[
 		"php",
-
 		{
 			"trigger": "abs()",
 			"contents": "abs(${1:number})",
@@ -529,6 +527,12 @@
 			"contents": "array_intersect_ukey(${1:array1}, ${2:array2})",
 			"kind": "function",
 			"details": "Computes the intersection of arrays using a callback function on the keys for comparison"
+		},
+		{
+			"trigger": "array_is_list()",
+			"contents": "array_is_list(${1:array})",
+			"kind": "function",
+			"details": "Checks if the given array is a list"
 		},
 		{
 			"trigger": "array_key_exists()",
@@ -1707,6 +1711,12 @@
 			"contents": "class_parents(${1:class})",
 			"kind": "function",
 			"details": "Return the parent classes of the given class"
+		},
+		{
+			"trigger": "class_uses()",
+			"contents": "class_uses(${1:object_or_class})",
+			"kind": "function",
+			"details": "Return the traits used by the given class"
 		},
 		{
 			"trigger": "classkit_import()",
@@ -4069,6 +4079,12 @@
 			"details": "Set the internal pointer of an array to its last element"
 		},
 		{
+			"trigger": "enum_exists()",
+			"contents": "enum_exists(${1:enum_name})",
+			"kind": "function",
+			"details": "Checks if the enum has been defined"
+		},
+		{
 			"trigger": "ereg()",
 			"contents": "ereg(${1:pattern}, ${2:string})",
 			"kind": "function",
@@ -4782,6 +4798,12 @@
 			"details": "Closes an open file pointer"
 		},
 		{
+			"trigger": "fdatasync()",
+			"contents": "fdatasync(${1:handle})",
+			"kind": "function",
+			"details": "Flushes the output to a file"
+		},
+		{
 			"trigger": "fdf_add_doc_javascript()",
 			"contents": "fdf_add_doc_javascript(${1:fdf_document}, ${2:script_name}, ${3:script_code})",
 			"kind": "function",
@@ -5337,6 +5359,12 @@
 			"contents": "fstat(${1:handle})",
 			"kind": "function",
 			"details": "Gets information about a file using an open file pointer"
+		},
+		{
+			"trigger": "fsync()",
+			"contents": "fsync(${1:handle})",
+			"kind": "function",
+			"details": "Flushes the output to a file"
 		},
 		{
 			"trigger": "ftell()",
@@ -16094,6 +16122,12 @@
 			"contents": "pcntl_alarm(${1:seconds})",
 			"kind": "function",
 			"details": "Set an alarm clock for delivery of a signal"
+		},
+		{
+			"trigger": "pcntl_async_signals()",
+			"contents": "pcntl_async_signals(${1:on})",
+			"kind": "function",
+			"details": "Enable/disable asynchronous signal handling or return the old setting"
 		},
 		{
 			"trigger": "pcntl_exec()",

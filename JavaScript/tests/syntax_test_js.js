@@ -193,6 +193,9 @@ tag `template`;
 // <- variable.function.tagged-template
 //  ^^^^^^^^^^ meta.string string.quoted.other
 
+tag/**/`template`;
+// <- variable.function.tagged-template
+
 x ? y // y is a template tag!
 `template` : z;
 //         ^ keyword.operator.ternary
@@ -884,6 +887,15 @@ sources.DOM
 //      ^^^^ variable.function.js
 //      ^ punctuation.definition.js
 //          ^^ meta.group.js
+
+foo
+    .tag``;
+//  ^ punctuation.accessor
+//   ^^^ variable.function.tagged-template
+//      ^^ meta.string string.quoted.other punctuation.definition.string
+
+foo.tag/**/``;
+//  ^^^ variable.function.tagged-template
 
 return new Promise(resolve => preferenceObject.set({value}, resolve));
 //                                                                  ^ meta.function-call.constructor punctuation.section.group.end

@@ -12,11 +12,8 @@ name: Makefile
 file_extensions:
   - make
   - GNUmakefile
-  - makefile
   - Makefile
-  - makefile.am
   - Makefile.am
-  - makefile.in
   - Makefile.in
   - OCamlMakefile
   - mak
@@ -368,11 +365,6 @@ contexts:
     - match: \\.
       scope: constant.character.escape.makefile
 
-  comments-pop-on-line-end:
-    - include: line-continuation
-    - match: $\n?
-      pop: true
-
   comments:
     # This hack is here in order to circumvent false-positives for the big
     # rule lookahead. For example, if this match is not present, then things
@@ -382,19 +374,24 @@ contexts:
     #
     # will match the rule-lookahead.
     - match: (?=^\s*#)
-      push:
-        - match: \#
-          scope: punctuation.definition.comment.makefile
-          set:
-            - meta_scope: comment.line.number-sign.makefile
-            - include: comments-pop-on-line-end
+      push: comment
     # This is the "normal" comment parsing logic, but not sufficient in every
     # case (see above).
     - match: \#
       scope: punctuation.definition.comment.makefile
-      push:
-        - meta_scope: comment.line.number-sign.makefile
-        - include: comments-pop-on-line-end
+      push: comment-body
+
+  comment:
+    - match: \#
+      scope: punctuation.definition.comment.makefile
+      set: comment-body
+
+  comment-body:
+    - meta_scope: comment.line.number-sign.makefile
+    - include: line-continuation
+    - match: \\\\
+    - match: \n
+      pop: true
 
   inside-function-call:
     - meta_content_scope: meta.function-call.arguments.makefile
@@ -582,12 +579,7 @@ contexts:
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - include: escape-literals
     - match: (?=#)
-      set:
-        - match: \#
-          scope: punctuation.definition.comment.makefile
-          set:
-            - meta_scope: comment.line.number-sign.makefile
-            - include: comments-pop-on-line-end
+      set: comment
     - include: variable-substitutions
     - include: continuation-or-pop-on-line-end
 

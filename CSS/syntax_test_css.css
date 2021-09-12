@@ -337,6 +337,19 @@
 /*                      ^ punctuation.section.block.end.css */
 
     @page {
+
+        bleed: auto;
+/*     ^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
+/*      ^^^^^ meta.property-name.css support.type.property-name.css */
+/*           ^ punctuation.separator.key-value.css */
+/*             ^^^^ meta.property-value.css support.constant.property-value.css */
+
+        marks: cross;
+/*     ^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
+/*      ^^^^^ meta.property-name.css support.type.property-name.css */
+/*           ^ punctuation.separator.key-value.css */
+/*             ^^^^^ meta.property-value.css support.constant.property-value.css */
+
         margin: 10%;
 /*     ^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*      ^^^^^^ support.type.property-name.css */
@@ -372,8 +385,15 @@
 
         size: portrait;
 /*     ^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
+/*      ^^^^ support.type.property-name.css */
 /*            ^^^^^^^^ support.constant.property-value.css */
 /*                    ^ punctuation.terminator.rule.css */
+
+        font-family: ;
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
+/*      ^^^^^^^^^^^ - support.type */
+/*                 ^ punctuation.separator.key-value.css */
+/*                   ^ punctuation.terminator.rule.css */
 
         @top-left-corner { margin: 5pt; }
 /*      ^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.at-rule.margin.css */
@@ -447,6 +467,16 @@
 /*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*       ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
+        @right-bottom { font-family: ; }
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
+/*                    ^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.at-rule.margin.css meta.property-list.css meta.block.css */
+/*                    ^ punctuation.section.block.begin.css */
+/*                      ^^^^^^^^^^^ - support.type */
+/*                                 ^ punctuation.separator.key-value.css */
+/*                                   ^ punctuation.terminator.rule.css */
+/*                                     ^ punctuation.section.block.end.css */
+
         @left-margin-left: ;
 /*      ^^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.at-rule.other.css */
 /*                         ^ meta.at-rule.page.css meta.property-list.css meta.block.css - meta.at-rule.other */
@@ -460,9 +490,9 @@
 /*                ^ punctuation.section.block.end.css */
 
         { margin: 5pt; }
-/*     ^ meta.at-rule.page.css meta.property-list.css meta.block.css - meta.block meta.block */
-/*      ^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.property-list.css meta.block.css */
-/*                      ^ meta.at-rule.page.css meta.property-list.css meta.block.css - meta.block meta.block */
+/*     ^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css - meta.block meta.block */
+/*      ^ invalid.illegal.unexpected-token.css */
+/*                     ^ invalid.illegal.unexpected-token.css */
     }
 /*  ^ meta.at-rule.page.css meta.property-list.css meta.block.css punctuation.section.block.end.css*/
 
@@ -504,6 +534,32 @@
 /*               ^ punctuation.separator.key-value.css */
 /*                 ^^^^^ support.constant.property-value.css */
 /*                      ^ punctuation.section.group.end.css */
+
+    @media (prefers-color-scheme: dark) {}
+/*  ^^^^^^^ meta.at-rule.media.css - meta.group */
+/*         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                                     ^ meta.at-rule.media.css - meta.block - meta.group */
+/*                                      ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
+/*                                        ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
+/*                              ^ punctuation.separator.key-value.css */
+/*                                ^^^^ support.constant.property-value.css */
+/*                                    ^ punctuation.section.group.end.css */
+
+    @media (prefers-reduced-motion) {}
+/*  ^^^^^^^ meta.at-rule.media.css - meta.group */
+/*         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                                 ^ meta.at-rule.media.css - meta.block - meta.group */
+/*                                  ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
+/*                                    ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
+/*                                ^ punctuation.section.group.end.css */
 
     @media (min-width: 700px, (max-width < 100 {}
 /*  ^^^^^^^ meta.at-rule.media.css - meta.group */

@@ -1,0 +1,20 @@
+% SYNTAX TEST "Packages/LaTeX/Bibtex.sublime-syntax"
+
+@book{knuth97,
+%<- keyword.other.entry-type.bibtex punctuation.definition.keyword.bibtex
+%^^^^ keyword.other.entry-type.bibtex
+%     ^^^^^^^ entity.name.type.entry-key.bibtex
+    author    = {Donald E. Knuth},
+%   ^^^^^^ meta.mapping.key.bibtex string.unquoted.key.bibtex
+%         ^^^^^^ meta.mapping.bibtex
+%             ^ punctuation.separator.key-value.bibtex
+%               ^^^^^^^^^^^^^^^^^ meta.mapping.value.bibtex string.quoted.other.braces.bibtex
+%               ^ punctuation.definition.string.begin.bibtex
+%                               ^ punctuation.definition.string.end.bibtex
+%                                ^ punctuation.separator.mapping.pair.bibtex
+    title     = {The Art of Computer Programming, Vol. 1: Fundamental Algorithms},
+    edition   = {3},
+    publisher = {Addison-Wesley},
+    date      = {1997},
+    isbn      = {978-0-201-89683-1}
+}

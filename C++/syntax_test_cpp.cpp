@@ -167,6 +167,18 @@ some_namespace::some_function(int a_parameter, double another_parameter) {
 /* <- - keyword.control */
 #endif
 
+#if 0000000
+/*
+    ^^^^^^^ meta.number constant.numeric.value
+*/
+#endif
+
+#if 0090
+/*
+    ^^^^ meta.number constant.numeric.value
+*/
+#endif
+
 FOO()
 /* <- meta.assumed-macro variable.function.assumed-macro */
 FOO

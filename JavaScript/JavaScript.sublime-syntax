@@ -44,6 +44,7 @@ variables:
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier_name}})
 
+  possible_arrow_function_begin: (?:\(|{{identifier_start}})
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier_name}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
@@ -930,7 +931,6 @@ contexts:
 
     - include: regexp-complete
     - include: literal-string
-    - include: tagged-template
     - include: literal-string-template
     - include: constructor
     - include: literal-number
@@ -953,7 +953,7 @@ contexts:
     - include: object-literal
 
     # Newline not allowed between `async` and parameters.
-    - match: (?=async{{identifier_break}}{{nothing}}(?:\(|{{identifier_start}}))
+    - match: (?=async{{identifier_break}}{{nothing}}{{possible_arrow_function_begin}})
       pop: true
       branch_point: async-arrow-function
       branch:
@@ -962,19 +962,12 @@ contexts:
 
     - include: literal-call
 
-    - match: (?={{identifier_start}})
+    - match: (?={{possible_arrow_function_begin}})
       pop: true
-      branch_point: bare-arrow-function
+      branch_point: arrow-function
       branch:
-        - branch-possible-bare-arrow-function
-        - bare-arrow-function-fallback
-
-    - match: (?=\()
-      pop: true
-      branch_point: parenthesized-arrow-function
-      branch:
-        - branch-possible-parenthesized-arrow-function
-        - parenthesized-arrow-function-fallback
+        - branch-possible-arrow-function
+        - arrow-function-declaration
 
     - include: array-literal
 
@@ -998,45 +991,21 @@ contexts:
     - match: (?=\S)
       fail: async-arrow-function
 
-  branch-possible-bare-arrow-function:
+  branch-possible-arrow-function:
     - meta_include_prototype: false
-    - match: ''
-      push:
-        - detect-bare-arrow
+    - match: (?=\()
+      set:
+        - detect-arrow
+        - parenthesized-expression
+    - match: (?={{identifier_start}})
+      set:
+        - detect-arrow
         - literal-variable
 
-  detect-bare-arrow:
+  detect-arrow:
     - match: (?==>)
-      fail: bare-arrow-function
-    - match: (?=\S)
-      pop: 2
-
-  bare-arrow-function-fallback:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - immediately-pop-2
-        - arrow-function-declaration
-
-  branch-possible-parenthesized-arrow-function:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - detect-parenthesized-arrow
-        - parenthesized-expression
-
-  detect-parenthesized-arrow:
-    - match: (?==>)
-      fail: parenthesized-arrow-function
-    - match: (?=\S)
-      pop: 2
-
-  parenthesized-arrow-function-fallback:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - immediately-pop-2
-        - arrow-function-declaration
+      fail: arrow-function
+    - include: else-pop
 
   literal-string:
     - match: "'"
@@ -1063,11 +1032,6 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-
-  tagged-template:
-    - match: '{{identifier_name}}(?=\s*`)'
-      scope: variable.function.tagged-template.js
-      pop: true
 
   literal-string-template:
     - match: '`'
@@ -1338,7 +1302,14 @@ contexts:
         - function-declaration-expect-body
         - function-declaration-expect-parameters
 
-    - include: class-element-modifiers
+    - match: (?=static{{identifier_break}})
+      branch_point: static-block
+      branch:
+        - static-block
+        - class-element-modifiers
+
+    - match: (?={{modifier}})
+      push: class-element-modifiers
 
     - match: |-
         (?x)(?=
@@ -1363,8 +1334,26 @@ contexts:
     - match: (?={{class_element_name}})
       push: class-element
 
+  static-block:
+    - match: static{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - match: \{
+          scope: punctuation.section.block.begin.js
+          set: static-block-body
+        - match: (?=\S)
+          fail: static-block
+
+  static-block-body:
+    - meta_scope: meta.block.js
+    - match: \}
+      scope: punctuation.section.block.end.js
+      pop: true
+    - include: statements
+
   class-element-modifiers:
-    - match: (?={{modifier}})
+    - match: ''
+      pop: true
       branch_point: class-element-modifier
       branch:
         - class-element-modifier
@@ -1993,6 +1982,10 @@ contexts:
         - function-name-meta
         - literal-variable-base
 
+    - match: '{{identifier_name}}(?={{nothing}}`)'
+      scope: variable.function.tagged-template.js
+      pop: true
+
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
       pop: true
@@ -2413,6 +2406,10 @@ contexts:
 
     - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
+
+    - match: '{{identifier_name}}(?={{nothing}}`)'
+      scope: variable.function.tagged-template.js
+      pop: true
 
     - include: object-property-base
     - include: else-pop

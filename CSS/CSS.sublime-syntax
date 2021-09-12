@@ -284,13 +284,18 @@ variables:
     | font-weight | font-variant | line-gap-override | size-adjust | unicode-range
     ){{break}}
 
-  # Page Margin Property Names
-  # https://www.w3.org/TR/css-page-3/#margin-at-rule
-  page_margin_property_names: |-
+  # @page Margin Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  page_margin_names: |-
     \b(?xi:
         (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
       | (?: left | right ) - (?: top | middle | bottom )
     ){{break}}
+
+  # @page Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  page_property_names: |-
+    \b(?xi: bleed | margin | marks | size ){{break}}
 
   # Property names are sorted by popularity in descending order.
   # Note:
@@ -336,7 +341,7 @@ variables:
     | margin-block-end | background-origin | animation-play-state | hyphens
     | stroke-linecap | font-stretch | object-position | page-break-inside
     | column-gap | counter-reset | counter-increment | background-position-y
-    | margin-block-start | size | grid-template-rows | column-count | quotes
+    | margin-block-start | grid-template-rows | column-count | quotes
     | padding-inline-end | text-decoration-skip | border-image | all
     | page-break-after | fill-opacity | font-variant-ligatures
     | scroll-boundary-behavior | empty-cells | list-style-image | justify-self
@@ -922,6 +927,7 @@ contexts:
 
   # @page
   # https://www.w3.org/TR/css3-page/#at-ruledef-page
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   at-page:
     - match: (@)(?i:page){{break}}
       captures:
@@ -937,7 +943,7 @@ contexts:
     - include: at-rule-end
 
   at-page-names:
-    - match: (:)(?i:blank|first|left|right){{break}}
+    - match: (:)(?i:blank|first|left|right|recto|verso){{break}}
       captures:
         0: entity.other.pseudo-class.css
         1: punctuation.definition.entity.css
@@ -955,16 +961,12 @@ contexts:
 
   at-page-block-content:
     - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
     - include: at-page-margin
+    - include: at-page-property-list-content
     - include: at-other
-    - include: property-lists
-    - include: rule-list-body
 
-  # @top-center, ...
-  # https://www.w3.org/TR/css-page-3/#margin-at-rule
   at-page-margin:
-    - match: (@){{page_margin_property_names}}
+    - match: (@){{page_margin_names}}
       captures:
         0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
@@ -972,8 +974,29 @@ contexts:
 
   at-page-margin-content:
     - meta_scope: meta.at-rule.margin.css
-    - include: at-page-block
+    - include: at-page-property-lists
     - include: at-rule-end
+
+  at-page-property-lists:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-page-property-list-content
+
+  at-page-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-page-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-page-property-names:
+    - match: '{{page_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
 
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
@@ -1085,6 +1108,7 @@ contexts:
             | (?: device- )? (?: height | width | aspect-ratio | pixel-ratio )
             )
           | (?:any-)?(?: pointer | hover )
+          | prefers-(?: reduced-motion | color-scheme )
           | display-mode | grid | orientation | scan | scripting
           | overflow-(?: block | inline )
           )
@@ -1115,6 +1139,8 @@ contexts:
         | optional-paged | paged | scroll
         # pointer:
         | coarse | fine
+        # prefers-color-scheme:
+        | dark | light
         # scan:
         | interlace | progressive
         # scripting:
@@ -1420,16 +1446,6 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.css
       pop: 1
-    - include: rule-list-body
-
-  rule-list:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: rule-list-content
-
-  rule-list-content:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
     - include: rule-list-body
 
   rule-list-body:

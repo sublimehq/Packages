@@ -50,6 +50,7 @@ variables:
 
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
@@ -62,33 +63,37 @@ contexts:
       pop: 1
 
   prototype:
+    - include: comments
+
+  comments:
+    - include: block-comments
+    - include: line-comments
+
+  block-comments:
     - match: --\[(=*)\[
       scope: punctuation.definition.comment.begin.lua
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.lua
-        - match: \]\1\]
-          scope: punctuation.definition.comment.end.lua
-          pop: 1
-    - match: --
-      scope: punctuation.definition.comment.lua
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.lua
-        - match: \n
-          pop: 1
+      push: block-comment-body
 
-  end:
-    - match: end{{identifier_break}}
-      scope: keyword.control.end.lua
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.lua
+    - match: \]\1\]
+      scope: punctuation.definition.comment.end.lua
       pop: 1
 
-  block-contents:
-    - meta_scope: meta.block.lua
-    - include: end
-    - include: statements
+  line-comments:
+    - match: --
+      scope: punctuation.definition.comment.lua
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.lua
+    - match: \n
+      pop: 1
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.lua
       set: shebang-body
@@ -96,6 +101,7 @@ contexts:
       pop: 1
 
   shebang-body:
+    - meta_include_prototype: false
     - meta_scope: comment.line.shebang.lua
     - match: \blua\b
       scope: constant.language.shebang.lua
@@ -132,6 +138,16 @@ contexts:
 
     - match: (?=\S)
       push: expression
+
+  block-contents:
+    - meta_scope: meta.block.lua
+    - include: end
+    - include: statements
+
+  end:
+    - match: end{{identifier_break}}
+      scope: keyword.control.end.lua
+      pop: 1
 
   function-parameter-list:
     - match: \(
@@ -285,6 +301,9 @@ contexts:
 
   expression-end:
     - match: (?=;)
+      pop: 1
+
+    - match: (?=::)
       pop: 1
 
     - match: (?={{function_args_begin}})

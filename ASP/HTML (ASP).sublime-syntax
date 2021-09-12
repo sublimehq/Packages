@@ -9,6 +9,12 @@ extends: Packages/HTML/HTML.sublime-syntax
 
 file_extensions:
   - asp
+  - asa
+
+variables:
+
+  vbscript_mime_type: |-
+      (?xi: (?: (?:application|text) / )? vbscript )
 
 contexts:
 
@@ -25,6 +31,38 @@ contexts:
   strings-common-content:
     - meta_prepend: true
     - include: asp-interpolations
+
+###[ SCRIPT TAGS ]############################################################
+
+  script-type-decider:
+    - meta_prepend: true
+    - match: (?={{vbscript_mime_type}}{{unquoted_attribute_break}}|'{{vbscript_mime_type}}'|"{{vbscript_mime_type}}")
+      set:
+        - script-vbscript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+
+  script-vbscript:
+    - meta_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set: script-vbscript-content
+
+  script-vbscript-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.asp
+      embed_scope: source.asp.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.asp.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.asp.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
 ###[ ASP TAGS ]###############################################################
 

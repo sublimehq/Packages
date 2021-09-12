@@ -204,6 +204,24 @@ SQL
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
+foo <<-BAR
+#   ^^^^^^ meta.string.heredoc.ruby
+#   ^^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
+  ba'z
+#^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+BAR
+# <- meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+foo <<~BAR
+#   ^^^^^^ meta.string.heredoc.ruby
+#   ^^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
+  ba'z
+#^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+BAR
+# <- meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
 foo, bar = <<BAR, 2
 #^^^^^^^^^^^^^^^^^^ source.ruby
 #          ^^ meta.string.heredoc.ruby - meta.tag
@@ -623,14 +641,19 @@ UpperCamelCase = 3
 # ^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 UPPER_SNAKE_CASE = 4
 # ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
+UPPER_SNAKE_CASE ||= 5
+# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 A, B, C = 0
 # <- entity.name.constant
 #  ^ entity.name.constant
 #     ^ entity.name.constant
 
 Symbol === :foo
-# ^^^^ variable.other.constant.ruby -meta.constant.ruby
-#          ^^^^
+# <- support.class.ruby
+#^^^^^ support.class.ruby
+#      ^^^ keyword.operator.comparison.ruby
+#          ^^^^ constant.other.symbol.ruby
+#          ^ punctuation.definition.constant.ruby
 
   :'foo #{ } #@bar baz'
 # ^^^^^^^^^^^^^^^^^^^^^ meta.constant.ruby - meta.interpolation
@@ -797,7 +820,7 @@ Symbol === :foo
 #       ^ punctuation.definition.constant.ruby
 #       ^^ constant.character.ruby
 #         ^ - constant
-#          ^ keyword.operator.conditional.ruby
+#          ^ keyword.operator.ternary.ruby
 #           ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
@@ -938,9 +961,9 @@ module: 'module'
   !
 # ^ keyword.operator.logical.ruby
   ?
-# ^ keyword.operator.conditional.ruby
+# ^ keyword.operator.ternary.ruby
   :
-# ^ keyword.operator.conditional.ruby
+# ^ keyword.operator.ternary.ruby
   ~
 # ^ keyword.operator.bitwise.ruby
   &
@@ -1044,6 +1067,26 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                         ^ punctuation.separator.inheritance
 #                           ^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                   ^^ punctuation.accessor.double-colon
+  class <<obj
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^ - string
+  end
+# ^^^ keyword.control.block.end.ruby
+
+  class <<self
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^ variable.language.ruby
+  end
+# ^^^ keyword.control.block.end.ruby
+
+  class << self
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#          ^^^^ variable.language.ruby
+  end
+# ^^^ keyword.control.block.end.ruby
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -1124,15 +1167,17 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                  ^^^^^ variable.parameter
   end
 
-  def keyword_args a: nil, b: true
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                  ^^^^^^^^^^^^^^^ meta.function.parameters
+  def keyword_args a: nil, b: true, c: false
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                   ^^^^^ meta.function.parameters.default-value
 #                   ^ punctuation.separator
-#                     ^^^ constant.language
+#                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language
+#                             ^^^^ constant.language.boolean
+#                                 ^ punctuation.separator.ruby
+#                                      ^^^^^ constant.language.boolean.ruby
   end
 
   def multiline_args(a, # a comment
@@ -1161,8 +1206,40 @@ def my_function
 #   ^^^^^^^^^^^ entity.name.function
 end
 
-f = MyModule::MyClass.new
+
+f = MyConstant
+#   ^^^^^^^^^^ support.class.ruby
+
+f = MYCONSTANT
+#   ^^^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::
+#   ^^^^^^^^ support.class.ruby
 #           ^^ punctuation.accessor.double-colon
+
+f = MyModule::MyClass
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+
+f = MyModule::CONSTANT
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::MyClass.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
+
+f = MyModule::MYCLASS.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ variable.other.constant.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
 
 def f.my_instance_method
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -1178,7 +1255,6 @@ class MyClass
 # ^ keyword.other.special-method.ruby
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
-
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
@@ -1257,36 +1333,36 @@ method? 1
 #     ^ - keyword.operator
 
 (methodname)?foobar : baz
-#           ^ keyword.operator.conditional
-#                   ^ keyword.operator.conditional
+#           ^ keyword.operator.ternary
+#                   ^ keyword.operator.ternary
 
 methodname ?foo : baz
-#          ^ keyword.operator.conditional
-#               ^ keyword.operator.conditional
+#          ^ keyword.operator.ternary
+#               ^ keyword.operator.ternary
 
 puts 1 ?1 : 2
-#      ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
 #       ^ constant.numeric
-#         ^ keyword.operator.conditional
+#         ^ keyword.operator.ternary
 
 puts 1 ?12 : 2
-#      ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
 #       ^^ constant.numeric
-#          ^ keyword.operator.conditional
+#          ^ keyword.operator.ternary
 
 puts ?1
 #    ^^ constant.character.ruby
 
 puts 1 ? foo:bar
-#      ^ keyword.operator.conditional
-#           ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
+#           ^ keyword.operator.ternary
 #        ^^^ - constant.other.symbol
 
 puts 1 ? foo::baz:bar
-#      ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
 #           ^^ punctuation.accessor.double-colon
 #             ^^^ - constant.other.symbol
-#                ^ keyword.operator.conditional
+#                ^ keyword.operator.ternary
 
 puts foo: bar
 #    ^^^^ constant.other.symbol

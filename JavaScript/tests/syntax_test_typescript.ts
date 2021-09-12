@@ -63,6 +63,18 @@
 //          ^ punctuation.separator.type
 //            ^^^ meta.type support.type.any
 //               ^ punctuation.separator
+
+        "baz": any,
+//      ^^^^^ meta.string string.quoted.double
+//           ^ punctuation.separator.type
+//             ^^^ meta.type support.type.any
+//                ^ punctuation.separator
+
+        'baz': any,
+//      ^^^^^ meta.string string.quoted.single
+//           ^ punctuation.separator.type
+//             ^^^ meta.type support.type.any
+//                ^ punctuation.separator
     }
 //  ^ meta.block punctuation.section.block.end
 
@@ -666,7 +678,7 @@ let x: Foo.bar;
 //         ^^^ support.class
 
 let x: {
-//     ^ meta.type punctuation.section.block.begin
+//     ^ meta.type punctuation.section.mapping.begin
 
     a : any ,
 //  ^ variable.other.readwrite
@@ -834,7 +846,7 @@ let x: {
 //                                            ^ punctuation.separator
     
     }
-//  ^ meta.type punctuation.section.block.end
+//  ^ meta.type punctuation.section.mapping.end
 
 let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
@@ -951,6 +963,18 @@ if (a < b || c <= d) {}
 const f = (): any => {};
 //    ^ meta.binding.name entity.name.function variable.other.readwrite
 //     ^^^^^^^^^^^^^^^^^^ - entity.name.function
+
+const f = <T,>(): U => {};
+//        ^^^^^^^^^^^^^^^ meta.function
+//        ^^^ meta.generic
+//        ^ punctuation.definition.generic.begin
+//         ^ variable.parameter.generic
+//          ^ punctuation.separator.comma
+//           ^ punctuation.definition.generic.end
+//            ^^ meta.function.parameters
+//              ^ punctuation.separator.type
+//                ^ support.class
+//                  ^^ keyword.declaration.function.arrow
 
     a != b;
 //    ^^ keyword.operator.comparison
