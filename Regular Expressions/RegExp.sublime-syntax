@@ -68,7 +68,7 @@ contexts:
       set: [group-body, unexpected-quantifier-pop]
     - match: '\?(?=\(\?)'
       scope: keyword.other.conditional.regexp
-      set: [group-body, base-group]
+      set: group-body
 
   group-start-extended:
     - meta_prepend: true
@@ -100,7 +100,7 @@ contexts:
       set: [group-body-extended, unexpected-quantifier-pop]
     - match: '\?(?=\(\?)'
       scope: keyword.other.conditional.regexp
-      set: [group-body-extended, base-group-extended]
+      set: group-body-extended
 
   inside-charset:
     - meta_prepend: true
