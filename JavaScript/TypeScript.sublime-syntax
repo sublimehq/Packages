@@ -39,6 +39,27 @@ variables:
   modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
 
 contexts:
+  main:
+    - meta_include_prototype: false # don't match before shebang
+    - match: ''
+      push: [script, preprocessor, shebang]
+
+  preprocessor:
+    # https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
+    - meta_include_prototype: false # don't match comments before preprocessor directive
+    - match: (///)(?!/)\s*
+      captures:
+        0: comment.line.triple-slash.js
+        1: punctuation.definition.comment.js
+      embed: scope:text.xml#tag
+      embed_scope: comment.line.triple-slash.js meta.preprocessor.directive.js
+      escape: (//+)?\n
+      escape_captures:
+        0: comment.line.triple-slash.js
+        1: punctuation.definition.comment.js
+    - include: comments
+    - include: else-pop
+
   branch-possible-arrow-function:
     - meta_prepend: true
     - match: (?=\()
