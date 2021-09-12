@@ -110,11 +110,14 @@ contexts:
       scope: keyword.operator.intersection.regexp
     - include: charsets
 
-  backslashes:
+  anchors:
     - meta_prepend: true
     - match: \\[><]
       scope: keyword.control.anchors.regexp
       push: maybe-unexpected-quantifiers
+
+  backrefs:
+    - meta_prepend: true
     - match: \\[kg](?:(<)([^>]+)(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
       scope: keyword.other.backref-and-recursion.regexp
       captures:
