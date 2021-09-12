@@ -23,21 +23,6 @@ contexts:
     - meta_prepend: true
     - include: backtracking-control-verb
 
-  group-start-common:
-    - meta_prepend: true
-    - match: (\?([+-]?\d+))(\))
-      captures:
-        1: keyword.other.backref-and-recursion.regexp
-        2: variable.other.backref-and-recursion.regexp
-        3: keyword.control.group.regexp
-      pop: 1
-    - match: (\?&([\w-]+))(\))
-      captures:
-        1: keyword.other.backref-and-recursion.regexp
-        2: variable.other.backref-and-recursion.regexp
-        3: keyword.control.group.regexp
-      pop: 1
-
   group-start:
     - meta_prepend: true
     - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
@@ -63,10 +48,10 @@ contexts:
         8: variable.other.backref-and-recursion.regexp
         9: variable.other.backref-and-recursion.regexp
       set: [group-body, maybe-unexpected-quantifiers]
-    - match: '\?\(DEFINE\)'
+    - match: \?\(DEFINE\)
       scope: keyword.other.conditional.definition.regexp
       set: [group-body, maybe-unexpected-quantifiers]
-    - match: '\?(?=\(\?)'
+    - match: \?(?=\(\?)
       scope: keyword.other.conditional.regexp
       set: group-body
 
@@ -95,12 +80,27 @@ contexts:
         8: variable.other.backref-and-recursion.regexp
         9: variable.other.backref-and-recursion.regexp
       set: [group-body-extended, maybe-unexpected-quantifiers]
-    - match: '\?\(DEFINE\)'
+    - match: \?\(DEFINE\)
       scope: keyword.other.conditional.definition.regexp
       set: [group-body-extended, maybe-unexpected-quantifiers]
-    - match: '\?(?=\(\?)'
+    - match: \?(?=\(\?)
       scope: keyword.other.conditional.regexp
       set: group-body-extended
+
+  group-start-common:
+    - meta_prepend: true
+    - match: (\?([+-]?\d+))(\))
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: keyword.control.group.regexp
+      pop: 1
+    - match: (\?&([\w-]+))(\))
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: keyword.control.group.regexp
+      pop: 1
 
   charset-body:
     - meta_prepend: true
