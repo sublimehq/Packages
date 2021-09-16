@@ -928,16 +928,23 @@ class CSSCompletions(sublime_plugin.EventListener):
     def complete_function_argument(self, view: sublime.View, prefix, pt):
         func_name = ""
         nest_level = 1
+        # Look for the beginning of the current function call's arguments list,
+        # while ignoring any nested function call or group.
         for i in range(pt - 1, pt - 32 * 1024, -1):
             ch = view.substr(i)
+            # end of nested arguments list or group before caret
             if ch == ")" and not view.match_selector(i, "string, comment"):
                 nest_level += 1
-            elif ch == "(" and not view.match_selector(i, "string, comment"):
+                continue
+            # begin of maybe nested arguments list or group before caret
+            if ch == "(" and not view.match_selector(i, "string, comment"):
                 nest_level -= 1
-            if nest_level <= 0:
-                func_name = view.substr(view.expand_by_class(
-                    i - 1, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END))
-                break
+                # Stop, if nesting level drops below start value as this indicates the
+                # beginning of the arguments list the function name is of interest for.
+                if nest_level <= 0:
+                    func_name = view.substr(view.expand_by_class(
+                        i - 1, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END))
+                    break
 
         if func_name == "var":
             return [
