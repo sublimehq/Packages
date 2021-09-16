@@ -429,11 +429,13 @@ contexts:
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
-          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject |
-          AssertionError | Attribute | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | CURLFile | CURLStringFile | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
-          DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
-          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
-          DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
+          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError |
+          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BadFunctionCallException |
+          BadMethodCallException | CachingIterator | Collator | CompileError | Countable | CURLFile | CURLStringFile |
+          DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
+          DivisionByZeroError | DOMAttr | DOMAttribute | DOMCharacterData | DOMComment | DOMDocument |
+          DOMDocumentFragment | DOMDocumentType | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap |
+          DOMNode | DOMNodelist | DOMProcessingInstruction | DOMText | DOMXPath | DOMXsltStylesheet | DomainException |
           EmptyIterator | Error | ErrorException | Exception | Fiber | FiberError | FiberExit | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
           GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
           HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
