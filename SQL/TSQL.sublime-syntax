@@ -1,0 +1,147 @@
+%YAML 1.2
+---
+name: T-SQL
+scope: source.sql.tsql
+version: 2
+extends: Packages/SQL/SQL (basic).sublime-syntax
+
+variables:
+  string_escape: (?:'') #(?:\\[tnr])
+contexts:
+  main:
+    - meta_prepend: true
+    - include: declarations
+    - include: variables
+
+  declarations:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.variable.tsql
+
+  operators:
+    - meta_append: true
+    - match: (?i:\blike\b)
+      scope: keyword.operator.logical.sql
+      branch_point: like-strings-branch
+      branch:
+        - like-string-not-followed-by-escape
+        - like-string-followed-by-escape-slash
+        - like-string-followed-by-escape-caret
+        - like-string-followed-by-unknown-escape
+
+  variables:
+    - match: (?:@\w+)
+      scope: variable.other.readwrite.tsql
+
+  like-string-not-followed-by-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set: [like-escape-fail, inside-like-single-quoted-string]
+    - match: (?=\S)
+      pop: true
+
+  like-string-followed-by-escape-slash:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set: [like-escape-character-slash, like-escape-pop, inside-like-single-quoted-string-slash-escape]
+    - match: (?=\S)
+      pop: true
+
+  like-string-followed-by-escape-caret:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set: [like-escape-character-caret, like-escape-pop, inside-like-single-quoted-string-caret-escape]
+    - match: (?=\S)
+      pop: true
+
+  like-string-followed-by-unknown-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set: [like-escape-character-any, like-escape-pop, inside-like-single-quoted-string]
+    - match: (?=\S)
+      pop: true
+
+  inside-like-single-quoted-string-slash-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \\.
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string-caret-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \^.
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: true
+    - match: |-
+        (?x)
+        (\[)(\^)?
+        (?:.|[^]'-]+?)
+        (?:(-)[^]'-]*)?
+        (\])
+      scope: meta.set.like.sql
+      captures:
+        1: keyword.control.set.begin.sql
+        2: keyword.control.set.negation.sql
+        3: constant.other.range.sql
+        4: keyword.control.set.end.sql
+    - match: '[%_]'
+      scope: keyword.operator.wildcard.sql
+
+  like-escape-fail:
+    - match: (?i:\bescape\b)
+      fail: like-strings-branch
+    - match: (?=\S)
+      pop: true
+
+  like-escape-pop:
+    - match: (?i:\bescape\b)
+      scope: keyword.operator.word.sql
+      pop: true
+    - match: (?=\S)
+      pop: true
+
+  like-escape-character-any:
+    - match: (\')([^'])(\')
+      captures:
+        0: meta.string.escape.sql string.quoted.single.sql
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: true
+    - match: (?=\S)
+      pop: true
+
+  like-escape-character-caret:
+    - match: (\')(\^)(\')
+      captures:
+        0: meta.string.escape.sql string.quoted.single.sql
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: true
+    - match: (?=\S)
+      fail: like-strings-branch
+
+  like-escape-character-slash:
+    - match: (\')(\\)(\')
+      captures:
+        0: meta.string.escape.sql string.quoted.single.sql
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: true
+    - match: (?=\S)
+      fail: like-strings-branch
+
+  types:
+    - meta_append: true
+    - match: (?i:\b(?:smallint|sysname)\b)
+      scope: storage.type.sql

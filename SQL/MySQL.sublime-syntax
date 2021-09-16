@@ -1,0 +1,112 @@
+%YAML 1.2
+---
+name: MySQL
+scope: source.sql.mysql
+version: 2
+extends: Packages/SQL/SQL (basic).sublime-syntax
+
+contexts:
+  main:
+    - meta_append: true
+    - include: regexps
+
+  strings:
+    - meta_append: true
+    - match: "`"
+      scope: punctuation.definition.string.begin.sql
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.other.backtick.sql
+        - match: "`"
+          scope: punctuation.definition.string.end.sql
+          pop: true
+        - include: string-escape
+    - match: '"'
+      scope: punctuation.definition.string.begin.sql
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.sql
+        - match: '""'
+          scope: constant.character.escape.sql
+        - match: '"'
+          scope: punctuation.definition.string.end.sql
+          pop: true
+        - include: string-interpolation
+    - include: begin-interpolation
+
+  begin-interpolation:
+    - match: '%\{'
+      scope: punctuation.definition.string.begin.sql
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.other.quoted.brackets.sql
+        - match: '\}'
+          scope: punctuation.definition.string.end.sql
+          pop: true
+        - include: string-interpolation
+
+  string-interpolation:
+    - meta_include_prototype: false
+    - match: '(#\{)([^\}]*)(\})'
+      scope: string.interpolated.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        3: punctuation.definition.string.end.sql
+
+  regexps:
+    - match: /(?=\S.*/)
+      scope: punctuation.definition.string.begin.sql
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.regexp.sql
+        - match: /
+          scope: punctuation.definition.string.end.sql
+          pop: true
+        - include: string-interpolation
+        - match: \\/
+          scope: constant.character.escape.slash.sql
+
+  operators:
+    - meta_append: true
+    - match: \|\|
+      scope: keyword.operator.concatenation.sql
+
+  types:
+    - match: |-
+        (?xi)
+
+                # normal stuff, capture 1
+                \b(bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
+
+                # numeric suffix, capture 2 + 3i
+                |\b(bit\svarying|character\s+(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
+
+                # optional numeric suffix, capture 4 + 5i
+                |\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
+
+                # special case, capture 6 + 7i + 8i
+                |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
+
+                # special case, captures 9, 10i, 11
+                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\s+time\s+zone\b)?
+
+                # special case, captures 12, 13, 14i, 15
+                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\s+time\s+zone\b)?
+
+
+      captures:
+        1: storage.type.sql
+        2: storage.type.sql
+        3: constant.numeric.sql
+        4: storage.type.sql
+        5: constant.numeric.sql
+        6: storage.type.sql
+        7: constant.numeric.sql
+        8: constant.numeric.sql
+        9: storage.type.sql
+        10: constant.numeric.sql
+        11: storage.type.sql
+        12: storage.type.sql
+        13: storage.type.sql
+        14: constant.numeric.sql
+        15: storage.type.sql
