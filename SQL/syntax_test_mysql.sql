@@ -94,6 +94,11 @@ create table fancy_table (
 --               ^^^^^^^^^^^^^^^^^^ storage.type.sql
     mytime timestamp(3) without time zone DEFAULT now(),
 --                      ^^^^^^^^^^^^^^^^^ storage.type.sql
+--                                        ^^^^^^^ storage.modifier
+--                                                ^^^ meta.function-call support.function
+--                                                   ^ punctuation.section.parens.begin
+--                                                    ^ punctuation.section.parens.end
+--                                                     ^ punctuation.separator.sequence
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone,
 --                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
     primary key (id),
@@ -125,6 +130,8 @@ create fulltext index if not exists `myindex` ON mytable;
 --     ^^^^^^^^^^^^^^ keyword.other.sql
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
+-- ^^ keyword.other
+--    ^^^^^ keyword.other.table
 --                         ^^^ keyword.other.add.sql
 --                             ^^^^^^ keyword.other.sql
 --                                             ^^^^^^^^ storage.type.sql

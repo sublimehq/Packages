@@ -145,3 +145,38 @@ SET @Blah = 'He said, ''hello world''.'
 --                                     ^ - string
 --                    ^^ constant.character.escape
 --                                 ^^ constant.character.escape
+
+SET @Blah = CASE WHEN @x = 2 THEN 'Y' CASE WHEN @z = @x THEN 'N' ELSE NULL END
+--          ^^^^ keyword.control.conditional.case
+--               ^^^^ keyword.control.conditional.when
+--                    ^^ variable.other.readwrite
+--                       ^ keyword.operator.comparison
+--                         ^ meta.number.integer.decimal constant.numeric.value
+--                           ^^^^ keyword.control.conditional.then
+--                                ^^^ string.quoted.single
+--                                    ^^^^ keyword.control.conditional.case
+--                                         ^^^^ keyword.control.conditional.when
+--                                              ^^ variable.other.readwrite
+--                                                 ^ keyword.operator.comparison
+--                                                   ^^ variable.other.readwrite
+--                                                      ^^^^ keyword.control.conditional.then
+--                                                           ^^^ string.quoted.single
+--                                                               ^^^^ keyword.control.conditional.else
+--                                                                    ^^^^ constant.language.null
+--                                                                         ^^^ keyword.control.conditional.end
+--                                                                             ^ - meta
+SET @Blah = CASE @x WHEN 2 THEN 'Y' WHEN @z THEN 'N' ELSE NULL END
+--          ^^^^ keyword.control.conditional.case
+--               ^^ variable.other.readwrite
+--                  ^^^^ keyword.control.conditional.when
+--                       ^ meta.number.integer.decimal constant.numeric.value
+--                         ^^^^ keyword.control.conditional.then
+--                              ^^^ string.quoted.single
+--                                  ^^^^ keyword.control.conditional.when
+--                                       ^^ variable.other.readwrite
+--                                          ^^^^ keyword.control.conditional.then
+--                                               ^^^ string.quoted.single
+--                                                   ^^^^ keyword.control.conditional.else
+--                                                        ^^^^ constant.language.null
+--                                                             ^^^ keyword.control.conditional.end
+--                                                                ^ - meta

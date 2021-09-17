@@ -8,14 +8,11 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'') #(?:\\[tnr])
 contexts:
-  main:
-    - meta_prepend: true
-    - include: declarations
-    - include: variables
-
-  declarations:
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.tsql
+  strings:
+    - meta_append: true
+    - match: N'
+      scope: punctuation.definition.string.begin.sql
+      push: single-quoted-string
 
   operators:
     - meta_append: true
@@ -145,3 +142,46 @@ contexts:
     - meta_append: true
     - match: (?i:\b(?:smallint|sysname)\b)
       scope: storage.type.sql
+
+  statements:
+    - meta_append: true
+    - include: declarations
+    - match: \b(?i:go)\b
+      scope: keyword.control.flow.tsql
+    - match: \b(?i:begin)\b
+      scope: keyword.control.flow.begin.tsql
+    - match: \b(?i:end)\b
+      scope: keyword.control.flow.end.tsql
+    - include: transaction-statements
+
+  transaction-statements:
+    - match: (?i)\b(?:begin|commit|rollback)\s+tran(saction)?\b
+      scope: keyword.context.tsql
+
+  declarations:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.variable.tsql
+
+  expressions:
+    - meta_append: true
+    - match: \b(?i:case)\b
+      scope: keyword.control.conditional.case.sql
+      push: inside-case-expression
+    - include: variables
+
+  inside-case-expression:
+    - meta_scope: meta.statement.conditional.case.sql
+    - match: \b(?i:end)\b
+      scope: keyword.control.conditional.end.sql
+      pop: true
+    - match: \b(?i)(case)\s+(when)\b
+      captures:
+        1: keyword.control.conditional.case.sql
+        2: keyword.control.conditional.when.sql
+    - match: \b(?i:when)\b
+      scope: keyword.control.conditional.when.sql
+    - match: \b(?i:then)\b
+      scope: keyword.control.conditional.then.sql
+    - match: \b(?i:else)\b
+      scope: keyword.control.conditional.else.sql
+    - include: main
