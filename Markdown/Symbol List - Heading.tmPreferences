@@ -13,7 +13,7 @@
 			s/\[([^]]+)\]\[[^]]*\]/$1/g; 		# strip reference urls
 			s/\[\^[^]]+\]//g; 					# strip footnotes
 			s/^\s*//g;							# strip leading whitespace
-			s/\s*#+\s*\z//g;					# strip trailing hashes
+			s/\s+#+\s*\z//g;					# strip trailing hashes
 			s/^#{6}/          /g;				# indent atx heading 6
 			s/^#{5}/        /g;					# indent atx heading 5
 			s/^#{4}/      /g;					# indent atx heading 4
