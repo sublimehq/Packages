@@ -8,6 +8,16 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'') #(?:\\[tnr])
 contexts:
+  identifier:
+    - meta_prepend: true
+    - include: square-bracketed-identifier
+
+  square-bracketed-identifier:
+    - match: (\[)([^]]+)(\])
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        3: punctuation.definition.identifier.end.sql
+
   strings:
     - meta_append: true
     - match: N'
@@ -26,8 +36,14 @@ contexts:
         - like-string-followed-by-unknown-escape
 
   variables:
-    - match: (?:@\w+)
-      scope: variable.other.readwrite.tsql
+    - match: (@)\w+
+      captures:
+        0: variable.other.readwrite.sql
+        1: punctuation.definition.variable.sql
+    - match: (@@)(?i:rowcount|trancount|error)
+      captures:
+        0: support.variable.sql
+        1: punctuation.definition.variable.sql
 
   like-string-not-followed-by-escape:
     - match: \'
@@ -146,16 +162,31 @@ contexts:
   statements:
     - meta_append: true
     - include: declarations
+    - include: transaction-statements
     - match: \b(?i:go)\b
+      scope: keyword.control.flow.tsql
+    - match: \b(?i:if|else|return|while)\b
+      scope: keyword.control.flow.tsql
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.tsql
+    - match: \b(?i:exec)\b
       scope: keyword.control.flow.tsql
     - match: \b(?i:begin)\b
       scope: keyword.control.flow.begin.tsql
     - match: \b(?i:end)\b
       scope: keyword.control.flow.end.tsql
-    - include: transaction-statements
+    - match: \b(?i:print)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:use)\b
+      scope: keyword.context.tsql
+      push: single-identifier-after-whitespace
+    - match: \b(\w+)(:)
+      captures:
+        1: entity.name.label.tsql
+        2: punctuation.definition.label.tsql
 
   transaction-statements:
-    - match: (?i)\b(?:begin|commit|rollback)\s+tran(saction)?\b
+    - match: (?i)\b(?:begin|commit|rollback|save)\s+tran(saction)?\b
       scope: keyword.context.tsql
 
   declarations:
@@ -168,6 +199,8 @@ contexts:
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
     - include: variables
+    - match: \b(?i:output|nowait)\b
+      scope: keyword.other.sql
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
@@ -185,3 +218,14 @@ contexts:
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.sql
     - include: main
+
+  dml-statements:
+    - meta_append: true
+    - match: \b(?i:bulk)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:into)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:off)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:for\s+xml\s+path)\b
+      scope: keyword.other.tsql

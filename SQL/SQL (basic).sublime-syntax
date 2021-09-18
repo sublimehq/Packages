@@ -18,8 +18,8 @@ contexts:
     - include: types
     - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
       scope: keyword.other.object-comments.sql
-    - match: (?i)\bas\b
-      scope: keyword.operator.assignment.alias.sql
+    - match: (?i)\bon\b
+      scope: keyword.operator.join.sql
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
     - match: \*
@@ -87,6 +87,17 @@ contexts:
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.function.sql
     - include: identifier
 
+  single-identifier-after-whitespace:
+    - match: \s+
+      set: single-identifier
+    - match: ''
+      set: single-identifier
+
+  single-identifier:
+    - include: identifier
+    - match: ''
+      pop: true
+
   identifier:
     - include: simple-identifier
     - include: single-quoted-identifier
@@ -151,10 +162,12 @@ contexts:
       scope: storage.type.sql
     - match: \b(?i:char|number|nvarchar|varbinary|varchar)\b(?:\s*\((\d+)\))?
       captures:
-        1: storage.type.sql
-        2: constant.numeric.sql
+        0: storage.type.sql
+        1: constant.numeric.sql
 
   expressions:
+    - match: (?i)\bas\b
+      scope: keyword.operator.assignment.alias.sql
     - match: \b\d+\b
       scope: meta.number.integer.decimal.sql constant.numeric.value.sql
     - match: (?i)\b(?:true|false)\b
@@ -175,12 +188,11 @@ contexts:
         1: support.function.sql
         2: meta.group.sql punctuation.section.parens.begin.sql
       push: inside-method-call
-    - match: (\()(\))
-      comment: Allow for special ↩ behavior
-      scope: meta.block.sql
-      captures:
-        1: punctuation.section.scope.begin.sql
-        2: punctuation.section.scope.end.sql
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: inside-group
+    - match: \)
+      scope: invalid.illegal.trailing-paren.sql
 
   inside-method-call:
     - meta_content_scope: meta.group.sql
@@ -190,6 +202,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.argument.sql
     - include: expressions
+
+  inside-group:
+    - meta_scope: meta.block.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: true
+    - include: main
 
   statements:
     - include: ddl-statements
