@@ -312,7 +312,10 @@ EndSave:
 -------------
 
 INSERT INTO my_table (foo, bar)
+-- ^^^^^^^^ keyword.other.DML
+--          ^^^^^^^^^^^^^^^^^^^^ - meta.function-call - support
 VALUES (2, 'two'),
+-- ^^^ keyword.other.DML.II
        (3, 'three')
 
 

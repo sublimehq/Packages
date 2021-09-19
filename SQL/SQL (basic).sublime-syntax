@@ -281,7 +281,7 @@ contexts:
       scope: keyword.other.DML.sql
     - match: (?i:\b(?:insert(\s+(?:ignore\s+)?into)?|update|delete|truncate)\b)
       scope: keyword.other.DML.sql
-      push: single-identifier
+      push: single-identifier-after-whitespace
     - match: (?i:\b(?:set|with)\b)
       scope: keyword.other.DML.sql
     - match: (?i:\bvalues\b)
