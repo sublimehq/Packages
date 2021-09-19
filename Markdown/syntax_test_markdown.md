@@ -2578,9 +2578,9 @@ okay
 ```sql
 |^^^^^ meta.code-fence.definition.begin.sql
 |  ^^^ constant.other.language-name
-SELECT TOP 10 *
-|^^^^^^^^^^^^^^^ markup.raw.code-fence.sql
-|^^^^^^^^^ keyword.other.DML.sql
+SELECT 10 *
+|^^^^^^^^^^^ markup.raw.code-fence.sql
+|^^^^^ keyword.other.DML.sql
 FROM TableName
 ```
 |^^ meta.code-fence.definition.end.sql punctuation.definition.raw.code-fence.end - markup

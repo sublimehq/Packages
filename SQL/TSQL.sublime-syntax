@@ -235,6 +235,8 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:for\s+xml\s+path)\b
       scope: keyword.other.tsql
+    - match: \b(?i:top)\b
+      scope: keyword.other.DML.tsql
 
   built-in-scalar-function-calls:
     - meta_append: true

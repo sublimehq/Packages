@@ -124,7 +124,8 @@ DECLARE @Example INT = 5
 --                     ^ constant.numeric
 
 SELECT TOP 1 @Example = 4 FROM [dbo].[TableName]
--- ^^^^^^^ keyword.other.DML
+-- ^^^ keyword.other.DML
+--     ^^^ keyword.other.DML
 --         ^ constant.numeric
 --           ^^^^^^^^ variable.other.readwrite
 --                    ^ keyword.operator

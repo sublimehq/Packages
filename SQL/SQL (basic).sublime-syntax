@@ -272,7 +272,25 @@ contexts:
       scope: keyword.other.authorization.sql
 
   dml-statements:
-    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\s+by|with|union(\s+all)?|using|order\s+by|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+    - match: (?i:\bselect\b)
+      scope: keyword.other.DML.sql
+    - match: (?i:\bunion(?:\s+all)?\b)
+      scope: keyword.other.DML.sql
+    - match: (?i:\b(?:insert(\s+(?:ignore\s+)?into)?|update|delete|truncate)\b)
+      scope: keyword.other.DML.sql
+      push: single-identifier
+    - match: (?i:\b(?:set|with)\b)
       scope: keyword.other.DML.sql
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
+    - include: joins
+    - match: \b(?i:distinct)\b
+      scope: keyword.other.DML.sql
+    - match: \b(?i:group\s+by|order\s+by|having|where)\b
+      scope: keyword.other.DML.sql
+    - match: \b(?i:from)\b
+      scope: keyword.other.DML.sql
+
+  joins:
+    - match: (?i)\b(?:inner|(?:full\s+)?outer|cross|left|right)\s+join\b
+      scope: keyword.other.DML.sql
