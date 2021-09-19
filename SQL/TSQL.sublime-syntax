@@ -37,12 +37,16 @@ contexts:
 
   variables:
     - match: (@)\w+
+      scope: variable.other.readwrite.sql
       captures:
-        0: variable.other.readwrite.sql
         1: punctuation.definition.variable.sql
-    - match: (@@)(?i:rowcount|trancount|error)
+    - match: |-
+        (?xi)(@@)
+        (?:cursor_rows|connections|cpu_busy|datefirst|dbts|error|fetch_status|identity|idle|io_busy|langid|language|lock_timeout|
+          max_connections|max_precision|nestlevel|options|packet_errors|pack_received|pack_sent|procid|remserver|rowcount|
+          servername|servicename|spid|textsize|timeticks|total_errors|total_read|total_write|trancount|version)\b
+      scope: support.variable.global.sql
       captures:
-        0: support.variable.sql
         1: punctuation.definition.variable.sql
 
   like-string-not-followed-by-escape:
@@ -123,8 +127,8 @@ contexts:
 
   like-escape-character-any:
     - match: (\')([^'])(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
       captures:
-        0: meta.string.escape.sql string.quoted.single.sql
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
@@ -134,8 +138,8 @@ contexts:
 
   like-escape-character-caret:
     - match: (\')(\^)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
       captures:
-        0: meta.string.escape.sql string.quoted.single.sql
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
@@ -145,8 +149,8 @@ contexts:
 
   like-escape-character-slash:
     - match: (\')(\\)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
       captures:
-        0: meta.string.escape.sql string.quoted.single.sql
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
@@ -194,13 +198,15 @@ contexts:
       scope: keyword.declaration.variable.tsql
 
   expressions:
-    - meta_append: true
+    - meta_prepend: true
+    - include: types
     - match: \b(?i:case)\b
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
     - include: variables
-    - match: \b(?i:output|nowait)\b
+    - match: \b(?i:output|nowait|cursor\s+for|open|fetch\s+next|close|deallocate)\b
       scope: keyword.other.sql
+
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
@@ -229,3 +235,9 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:for\s+xml\s+path)\b
       scope: keyword.other.tsql
+
+  built-in-scalar-function-calls:
+    - meta_append: true
+    - match: (?i)\b(?:CONVERT|GETDATE)(?=\s*\()
+      scope: support.function.scalar.sql
+      push: begin-method-call-paren

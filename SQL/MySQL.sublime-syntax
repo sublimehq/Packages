@@ -86,26 +86,23 @@ contexts:
   types:
     - match: |-
         (?xi)
+          # normal stuff, capture 1
+          \b(bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
 
-                # normal stuff, capture 1
-                \b(bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
+          # numeric suffix, capture 2 + 3i
+          |\b(bit\svarying|character\s+(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
 
-                # numeric suffix, capture 2 + 3i
-                |\b(bit\svarying|character\s+(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
+          # optional numeric suffix, capture 4 + 5i
+          |\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
 
-                # optional numeric suffix, capture 4 + 5i
-                |\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
+          # special case, capture 6 + 7i + 8i
+          |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
 
-                # special case, capture 6 + 7i + 8i
-                |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
+          # special case, captures 9, 10i, 11
+          |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\s+time\s+zone\b)?
 
-                # special case, captures 9, 10i, 11
-                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\s+time\s+zone\b)?
-
-                # special case, captures 12, 13, 14i, 15
-                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\s+time\s+zone\b)?
-
-
+          # special case, captures 12, 13, 14i, 15
+          |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\s+time\s+zone\b)?
       captures:
         1: storage.type.sql
         2: storage.type.sql

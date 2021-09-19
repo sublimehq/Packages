@@ -161,8 +161,8 @@ contexts:
     - match: \b(?i:bit|bool|boolean|datetime|int)\b
       scope: storage.type.sql
     - match: \b(?i:char|number|nvarchar|varbinary|varchar)\b(?:\s*\((\d+)\))?
+      scope: storage.type.sql
       captures:
-        0: storage.type.sql
         1: constant.numeric.sql
 
   expressions:
@@ -174,37 +174,53 @@ contexts:
       scope: constant.language.boolean.sql
     - match: (?i:\bnull\b)
       scope: constant.language.null.sql
-    - match: (?i)\b(?:AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
-      comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-      scope: support.function.aggregate.sql
-    - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
-      comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-      scope: support.function.scalar.sql
     - include: strings
     - include: operators
-    - match: \b(\w+)\s*(\()
-      captures:
-        0: meta.function-call.sql
-        1: support.function.sql
-        2: meta.group.sql punctuation.section.parens.begin.sql
-      push: inside-method-call
+    - include: built-in-aggregate-function-calls
+    - include: built-in-scalar-function-calls
+    - include: user-defined-function-calls
     - match: \(
       scope: punctuation.section.group.begin.sql
       push: inside-group
     - match: \)
       scope: invalid.illegal.trailing-paren.sql
 
+  built-in-aggregate-function-calls:
+    # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
+    - match: (?i)\b(?:AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
+      scope: support.function.aggregate.sql
+      push: inside-method-call
+
+  built-in-scalar-function-calls:
+    # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
+    - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
+      scope: support.function.scalar.sql
+
+  user-defined-function-calls:
+    - match: \b\w+(?=\s*\()
+      scope: support.function.sql
+      push: begin-method-call-paren
+
+  begin-method-call-paren:
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.sql
+    - match: \(
+      scope: meta.group.sql punctuation.section.parens.begin.sql
+      set: inside-method-call
+    - match: (?=\S)
+      pop: true
+
   inside-method-call:
-    - meta_content_scope: meta.group.sql
+    - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
-      scope: meta.group.sql punctuation.section.parens.end.sql
+      scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
       pop: true
     - match: ','
       scope: punctuation.separator.argument.sql
     - include: expressions
 
   inside-group:
-    - meta_scope: meta.block.sql
+    - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: true
