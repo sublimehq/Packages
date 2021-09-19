@@ -7,7 +7,7 @@ version: 2
 
 variables:
   string_escape: (?:\\.)
-  dml_targets: (?:aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
+  dml_targets: (?i:aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
 
 contexts:
   prototype:
@@ -231,18 +231,9 @@ contexts:
     - include: dml-statements
 
   ddl-statements:
-    - match: |-
-        (?xi)
-        \b(create(?:\s+or\s+replace)?)\s+
-        ({{dml_targets}})
-        \b\s*
-        (on)?\b
-      scope: meta.create.sql
-      captures:
-        1: keyword.other.create.sql
-        2: keyword.other.sql
-        3: keyword.other.sql
-      push: create-condition
+    - match: \b(?i:create(?:\s+or\s+replace)?)\b
+      scope: keyword.other.create.sql
+      push: ddl-create-target
     - match: (?i:\s*\b(drop)\s+({{dml_targets}}))
       scope: meta.drop.sql
       captures:
@@ -270,6 +261,18 @@ contexts:
       scope: storage.modifier.sql
     - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
       scope: keyword.other.authorization.sql
+
+  ddl-create-target:
+    - meta_scope: meta.create.sql
+    - match: |-
+        (?xi)
+        ({{dml_targets}})\b\s*
+        (on)?\b
+      captures:
+        1: keyword.other.sql
+      set: create-condition
+    - match: (?=\S)
+      pop: true
 
   dml-statements:
     - match: (?i:\bselect\b)
