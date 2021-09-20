@@ -187,6 +187,7 @@ SELECT  *,
 --      ^ variable.language.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
+--              ^^^^^^^^^^^ meta.column-name constant.other.placeholder
 FROM    foo
 WHERE   f.a IS NULL
 -- ^^ keyword.other.DML.sql

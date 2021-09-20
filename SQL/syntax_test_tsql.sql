@@ -1,5 +1,9 @@
 -- SYNTAX TEST "Packages/SQL/TSQL.sublime-syntax"
 
+USE master
+-- <- keyword.context - constant
+--  ^^^^^^ meta.database-name constant.other.placeholder
+
 SELECT columns FROM table WHERE
     column LIKE '%[[]SQL Server Driver]%'
 --         ^^^^ keyword.operator.logical
@@ -314,9 +318,35 @@ EndSave:
 INSERT INTO my_table (foo, bar)
 -- ^^^^^^^^ keyword.other.DML
 --          ^^^^^^^^^^^^^^^^^^^^ - meta.function-call - support
+--          ^^^^^^^^ meta.table-name constant.other.placeholder
 VALUES (2, 'two'),
 -- ^^^ keyword.other.DML.II
        (3, 'three')
 
+INSERT INTO #my_table
+-- ^^^^^^^^ keyword.other.DML
+--          ^^^^^^^^^ meta.table-name constant.other.placeholder - meta.function-call - support
+VALUES (2, 'two'),
+-- ^^^ keyword.other.DML.II
+       (3, 'three')
+
+
+
+SELECT  foo, COUNT(*) AS tally
+-- ^^^ keyword.other.DML
+--         ^ punctuation.separator.sequence
+--           ^^^^^^^^ meta.function-call
+--           ^^^^^ support.function.aggregate
+--                ^^^ meta.group
+--                ^ punctuation.section.parens.begin
+--                  ^ punctuation.section.parens.end
+--                    ^^ keyword.operator.assignment.alias
+--                       ^^^^^ meta.column-name constant.other.placeholder
+FROM    bar
+-- ^ keyword.other.DML
+WHERE   1 = 1
+-- ^^ keyword.other.DML
+GROUP BY foo
+-- ^^^^^ keyword.other.DML
 
 -- merge, CTEs

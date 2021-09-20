@@ -7,6 +7,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   string_escape: (?:'') #(?:\\[tnr])
+  simple_identifier: (?:#?\w+)
 contexts:
   identifier:
     - meta_prepend: true
@@ -183,7 +184,7 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:use)\b
       scope: keyword.context.tsql
-      push: single-identifier-after-whitespace
+      push: [database-name, single-identifier-after-whitespace]
     - match: \b(\w+)(:)
       captures:
         1: entity.name.label.tsql

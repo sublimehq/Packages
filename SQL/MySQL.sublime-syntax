@@ -136,8 +136,16 @@ contexts:
     - match: (?i:\b(begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b)
       scope: keyword.other.LUW.sql
 
+  ddl-statements:
+    - meta_append: true
+    - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
+      scope: keyword.other.object-comments.sql
+
   dml-statements:
     - meta_append: true
+    - match: (?i:\binsert(\s+(?:ignore\s+)?into)?\b)
+      scope: keyword.other.DML.sql
+      push: [table-name, single-identifier-after-whitespace]
     - match: (?i)\b(?:using|limit)\b
       scope: keyword.other.DML.sql
 
