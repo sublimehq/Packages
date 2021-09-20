@@ -7,7 +7,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   string_escape: (?:'') #(?:\\[tnr])
-  simple_identifier: (?:#?\w+)
+  simple_identifier: (?:[#@]?\w+)
 contexts:
   identifier:
     - meta_prepend: true
@@ -174,6 +174,7 @@ contexts:
       scope: keyword.control.flow.tsql
     - match: \b(?i:goto)\b
       scope: keyword.control.flow.tsql
+      push: [label-name, single-identifier-after-whitespace]
     - match: \b(?i:exec)\b
       scope: keyword.control.flow.tsql
     - match: \b(?i:begin)\b
@@ -197,6 +198,7 @@ contexts:
   declarations:
     - match: \b(?i:declare)\b
       scope: keyword.declaration.variable.tsql
+      push: after-declare
 
   expressions:
     - meta_prepend: true
@@ -205,9 +207,11 @@ contexts:
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
     - include: variables
-    - match: \b(?i:output|nowait|cursor\s+for|open|fetch\s+next|close|deallocate)\b
+    - match: \b(?i:output|nowait)\b
       scope: keyword.other.sql
-
+    - match: \b(?i:cursor\s+for|open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
+      scope: keyword.other.sql
+      push: [cursor-name, single-identifier-after-whitespace]
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
@@ -244,3 +248,19 @@ contexts:
     - match: (?i)\b(?:CONVERT|GETDATE)(?=\s*\()
       scope: support.function.scalar.sql
       push: begin-method-call-paren
+
+  label-name:
+    - meta_content_scope: meta.label-name.sql constant.other.placeholder.sql
+    - match: ''
+      pop: true
+
+  cursor-name:
+    - meta_content_scope: meta.cursor-name.sql constant.other.placeholder.sql
+    - match: ''
+      pop: true
+
+  after-declare:
+    - match: (?=\w+\s+(?i:cursor)\b)
+      set: [cursor-name, single-identifier]
+    - match: (?=\S)
+      pop: true

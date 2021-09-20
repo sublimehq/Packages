@@ -221,17 +221,23 @@ SELECT @fileDate = CONVERT(VARCHAR(20),GETDATE(),112)
 
 DECLARE db_cursor CURSOR FOR
 -- ^^^^ keyword.declaration.variable
+--      ^^^^^^^^^ meta.cursor-name constant.other.placeholder
 --                ^^^^^^^^^^ keyword.other
 
 SELECT name
 FROM MASTER.dbo.sysdatabases
+-- ^ keyword.other.DML
+--   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
 WHERE name NOT IN ('master','model','msdb','tempdb')
+-- ^^ keyword.other.DML
 
 OPEN db_cursor
 -- ^ keyword.other
+--   ^^^^^^^^^ meta.cursor-name constant.other.placeholder
 FETCH NEXT FROM db_cursor INTO @name
 -- ^^^^^^^ keyword.other
 --         ^^^^ keyword.other
+--              ^^^^^^^^^ meta.cursor-name constant.other.placeholder
 --                        ^^^^ keyword.other
 --                             ^^^^^ variable.other.readwrite
 
@@ -252,8 +258,10 @@ END
 
 CLOSE db_cursor
 -- ^^ keyword.other
+--    ^^^^^^^^^ meta.cursor-name constant.other.placeholder
 DEALLOCATE db_cursor
 -- ^^^^^^^ keyword.other
+--         ^^^^^^^^^ meta.cursor-name constant.other.placeholder
 
 -------------
 
@@ -300,6 +308,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'every 10 
         @schedule_uid=N'564354f8-4985-7408-80b7-afdc2bb92d3c'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 --                                    ^^^^ keyword.control.flow
+--                                         ^^^^^^^^^^^^^^^^ meta.label-name constant.other.placeholder
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 COMMIT TRANSACTION
@@ -339,14 +348,75 @@ SELECT  foo, COUNT(*) AS tally
 --           ^^^^^ support.function.aggregate
 --                ^^^ meta.group
 --                ^ punctuation.section.parens.begin
+--                 ^ variable.language.wildcard.asterisk
 --                  ^ punctuation.section.parens.end
 --                    ^^ keyword.operator.assignment.alias
 --                       ^^^^^ meta.column-name constant.other.placeholder
 FROM    bar
 -- ^ keyword.other.DML
+--      ^^^ meta.table-name constant.other.placeholder
 WHERE   1 = 1
 -- ^^ keyword.other.DML
 GROUP BY foo
 -- ^^^^^ keyword.other.DML
+
+select *
+from (select * from some_table) alias_table WITH (NOLOCK)
+-- ^ keyword.other.DML
+--   ^ punctuation.section.group.begin
+--    ^^^^^^ keyword.other.DML
+--           ^ variable.language.wildcard.asterisk
+--                  ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                            ^ punctuation.section.group.end
+--                              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                                          ^^^^ keyword.other.DML
+--                                               ^ meta.group punctuation.section.group.begin
+--                                                      ^ punctuation.section.group.end
+where exists(select * from other_table where id = some_table.id)
+--    ^^^^^^ keyword.operator.logical
+
+UPDATE TableAlias
+-- ^^^ keyword.other.DML
+--     ^^^^^^^^^^ meta.table-name constant.other.placeholder
+SET column1 = v.column1,
+-- <- keyword.other.DML
+--^ keyword.other.DML
+    column2 = 'testing123 TODO: assert the = operator is scoped as assignment instead of comparison'
+--          ^ keyword.operator
+FROM RealTableName TableAlias WITH (UPDLOCK)
+-- ^ keyword.other.DML
+--   ^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                 ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                            ^^^^ keyword.other.DML
+INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
+-- ^^^^^^^ keyword.other.DML
+--         ^^^^^^^^^ meta.table-name constant.other.placeholder
+--                   ^^ keyword.operator.assignment.alias
+--                      ^ meta.table-name constant.other.placeholder
+--                            ^^^^ keyword.other.DML
+--                                          ^^ keyword.operator.join
+--                                                       ^ keyword.operator.comparison
+WHERE TableAlias.some_id IN (
+-- ^^ keyword.other.DML
+--                       ^^ keyword.operator.logical
+--                          ^ meta.group punctuation.section.group.begin
+    SELECT a.another_id_column
+--  ^^^^^^ keyword.other.DML
+    FROM dbname..table_name_in_default_schema a
+--  ^^^^ keyword.other.DML
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                                            ^ meta.group meta.table-name constant.other.placeholder
+    WHERE a.another_id_column IS NOT NULL
+--  ^^^^^ meta.group keyword.other.DML
+--                            ^^ keyword.operator.logical
+--                               ^^^ keyword.operator.logical
+--                                   ^^^^ constant.language.null
+    AND   a.another_field     IS NOT NULL
+)
+AND (v.column2 IS NULL OR ISNULL(TableAlias.column1, 0) != v.column1)
+-- <- keyword.operator.logical
+--                     ^^ meta.group keyword.operator.logical
+--                        ^^^^^^ meta.function-call support.function
+--                                                      ^^ keyword.operator.comparison
 
 -- merge, CTEs

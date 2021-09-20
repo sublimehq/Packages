@@ -168,6 +168,8 @@ contexts:
       scope: constant.language.boolean.sql
     - match: (?i:\bnull\b)
       scope: constant.language.null.sql
+    - match: \*
+      scope: variable.language.wildcard.asterisk.sql
     - include: strings
     - include: operators
     - include: built-in-aggregate-function-calls
@@ -287,16 +289,16 @@ contexts:
       scope: keyword.other.DML.sql
     - match: \b(?i:from)\b
       scope: keyword.other.DML.sql
+      push: maybe-subquery
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
     - match: (?i)\bon\b
       scope: keyword.operator.join.sql
-    - match: \*
-      scope: variable.language.wildcard.asterisk.sql
 
   joins:
     - match: (?i)\b(?:inner|(?:full\s+)?outer|cross|left|right)\s+join\b
       scope: keyword.other.DML.sql
+      push: maybe-subquery
 
   column-alias:
     - meta_content_scope: meta.column-name.sql constant.other.placeholder.sql
@@ -312,3 +314,18 @@ contexts:
     - meta_content_scope: meta.table-name.sql constant.other.placeholder.sql
     - match: ''
       pop: true
+
+  maybe-subquery:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: [table-alias, inside-group]
+    - match: (?=\S)
+      set: [table-alias, table-name, single-identifier]
+
+  table-alias:
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+    - match: (?i)(?=\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|;|with)\b)
+      pop: true
+    - match: (?=\S)
+      set: [table-name, single-identifier]

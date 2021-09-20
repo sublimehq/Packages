@@ -153,3 +153,10 @@ contexts:
     - meta_append: true
     - match: (?i)\b(?:straight_join|natural)\b
       scope: keyword.other.DML.sql
+
+  maybe-subquery:
+    - meta_include_prototype: false
+    - meta_prepend: true
+    - match: (?=#)
+      pop: true
+    - include: comments
