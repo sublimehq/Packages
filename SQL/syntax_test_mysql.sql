@@ -20,35 +20,35 @@ SELECT "My /* Crazy Column Name" FROM my_table;
 
 
 ;CREATE TABLE foo (id INTEGER PRIMARY KEY);
- -- <- keyword.other.create
---^^^^^ keyword.other.create
+ -- <- meta.create keyword.other.ddl
+--^^^^^ keyword.other.ddl
 --      ^^^^^ keyword.other
 --            ^^^ entity.name.function
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - entity.name.function
 
 create table some_schema.test2( id serial );
---^^^^ meta.create keyword.other.create
+--^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
 --           ^^^^^^^^^^^^^^^^^ entity.name.function
 --                      ^ punctuation.accessor.dot
 --                            ^^^^^^^^^^^^^^ - entity.name.function
 
 create table some_schema . test2 ( id serial );
---^^^^ meta.create keyword.other.create
+--^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
 --           ^^^^^^^^^^^^^^^^^^^ entity.name
 --                       ^ punctuation.accessor.dot
 --                              ^^^^^^^^^^^^^^^ - entity.name.function
 
 create table "testing123" (id integer);
---^^^^ meta.create keyword.other.create
+--^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
 --           ^ punctuation.definition.identifier.begin
 --            ^^^^^^^^^^ entity.name.function
 --                      ^ punctuation.definition.identifier.end
 
 create table `dbo`."testing123" (id integer);
---^^^^ meta.create keyword.other.create
+--^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
 --           ^^^^^^^^^^^^^^^^^^ entity.name.function
 --                ^ punctuation.accessor.dot
@@ -130,18 +130,22 @@ create fulltext index if not exists `myindex` ON mytable;
 --     ^^^^^^^^^^^^^^ keyword.other.sql
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
--- ^^ keyword.other
---    ^^^^^ keyword.other.table
---                         ^^^ keyword.other.add.sql
---                             ^^^^^^ keyword.other.sql
+-- ^^^^^^^^ meta.alter keyword.other.ddl
+--                         ^^^ keyword.other.ddl.sql
+--                             ^^^^^^ keyword.other.ddl.sql
+--                                    ^^^^^^^^ meta.alter meta.column-name constant.other.placeholder
 --                                             ^^^^^^^^ storage.type.sql
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
 --                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
--- <- meta.drop.sql keyword.other.create.sql
+-- <- meta.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^ meta.drop keyword.other.ddl
+--         ^^ meta.drop keyword.control.flow
 --            ^^^^^^ keyword.operator.logical.sql
+--                   ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                             ^ punctuation.terminator.statement
 
 select *
 from some_table

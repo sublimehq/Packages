@@ -267,12 +267,16 @@ DEALLOCATE db_cursor
 
 DECLARE @FileExists INT
 SET NOCOUNT ON
---          ^^ keyword
+--^ keyword.other.DML
+--  ^^^^^^^ constant.language.switch
+--          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 -- ^ keyword.control.flow
 --                                                  ^^^^^^ keyword.other
 SET NOCOUNT OFF
---          ^^^ keyword.other
+--^ keyword.other.DML
+--  ^^^^^^^ constant.language.switch
+--          ^^^ constant.language.boolean
 IF @FileExists = 0
 BEGIN
     RAISERROR ('File "%s" does not exist', 16, -1, @FromFile)
@@ -370,7 +374,8 @@ from (select * from some_table) alias_table WITH (NOLOCK)
 --                            ^ punctuation.section.group.end
 --                              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
 --                                          ^^^^ keyword.other.DML
---                                               ^ meta.group punctuation.section.group.begin
+--                                               ^ punctuation.section.group.begin
+--                                                ^^^^^^ meta.group constant.language.with
 --                                                      ^ punctuation.section.group.end
 where exists(select * from other_table where id = some_table.id)
 --    ^^^^^^ keyword.operator.logical
@@ -383,19 +388,34 @@ SET column1 = v.column1,
 --^ keyword.other.DML
     column2 = 'testing123 TODO: assert the = operator is scoped as assignment instead of comparison'
 --          ^ keyword.operator
-FROM RealTableName TableAlias WITH (UPDLOCK)
+FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.DML
 --   ^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
 --                 ^^^^^^^^^^ meta.table-name constant.other.placeholder
---                            ^^^^ keyword.other.DML
+--                            ^^^^ keyword.other
+--                                 ^^^^^^^^^^^^^^^^^^^^ meta.group
+--                                                     ^ - meta.group
+--                                 ^ punctuation.section.group.begin
+--                                  ^^^^^^^ constant.language.with
+--                                         ^ punctuation.separator.sequence
+--                                           ^^^^^^^^^ meta.group constant.language.with
+--                                                    ^ punctuation.section.group.end
 INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 -- ^^^^^^^ keyword.other.DML
 --         ^^^^^^^^^ meta.table-name constant.other.placeholder
 --                   ^^ keyword.operator.assignment.alias
 --                      ^ meta.table-name constant.other.placeholder
 --                            ^^^^ keyword.other.DML
+--                                 ^^^^^^^^ meta.group
+--                                 ^ punctuation.section.group.begin
+--                                  ^^^^^^ constant.language.with
+--                                        ^ punctuation.section.group.end
 --                                          ^^ keyword.operator.join
+--                                             ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                              ^ punctuation.accessor.dot
 --                                                       ^ keyword.operator.comparison
+--                                                         ^^^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                                                   ^ punctuation.accessor.dot
 WHERE TableAlias.some_id IN (
 -- ^^ keyword.other.DML
 --                       ^^ keyword.operator.logical
@@ -418,5 +438,38 @@ AND (v.column2 IS NULL OR ISNULL(TableAlias.column1, 0) != v.column1)
 --                     ^^ meta.group keyword.operator.logical
 --                        ^^^^^^ meta.function-call support.function
 --                                                      ^^ keyword.operator.comparison
+
+drop table foobar
+-- ^^^^^^^ meta.drop keyword.other.ddl
+--         ^^^^^^ meta.table-name constant.other.placeholder
+
+alter table foo
+-- ^^^^^^^^ meta.alter keyword.other.ddl
+--          ^^^ meta.alter meta.table-name constant.other.placeholder
+add bar uniqueidentifier
+--^ meta.alter keyword.other.ddl
+--  ^^^ meta.alter meta.column-name constant.other.placeholder
+--      ^^^^^^^^^^^^^^^^ meta.alter storage.type
+
+alter table foo
+--^^^^^^^^^ meta.alter keyword.other.ddl - meta.alter meta.alter
+--          ^^^ meta.alter meta.table-name constant.other.placeholder
+alter column bar uniqueidentifier not null
+--^^^^^^^^^^ meta.alter keyword.other.ddl
+--           ^^^ meta.alter meta.column-name constant.other.placeholder
+--               ^^^^^^^^^^^^^^^^ meta.alter storage.type
+--                                ^^^ meta.alter keyword.operator.logical
+--                                    ^^^^ meta.alter constant.language.null
+
+USE AdventureWorks2012;
+GO
+SELECT i.ProductID, p.Name, i.LocationID, i.Quantity
+    ,RANK() OVER
+    (PARTITION BY i.LocationID ORDER BY i.Quantity DESC) AS Rank
+FROM Production.ProductInventory AS i
+INNER JOIN Production.Product AS p
+    ON i.ProductID = p.ProductID
+WHERE i.LocationID BETWEEN 3 AND 4
+ORDER BY i.LocationID;
 
 -- merge, CTEs

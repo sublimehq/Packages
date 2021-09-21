@@ -161,7 +161,7 @@ contexts:
 
   types:
     - meta_append: true
-    - match: (?i:\b(?:smallint|sysname)\b)
+    - match: (?i:\b(?:smallint|sysname|uniqueidentifier|decimal)\b)
       scope: storage.type.sql
 
   statements:
@@ -207,7 +207,8 @@ contexts:
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
     - include: variables
-    - match: \b(?i:output|nowait)\b
+    - include: with
+    - match: \b(?i:output|over|partition\s+by)\b
       scope: keyword.other.sql
     - match: \b(?i:cursor\s+for|open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
@@ -264,3 +265,40 @@ contexts:
       set: [cursor-name, single-identifier]
     - match: (?=\S)
       pop: true
+
+  set:
+    - meta_prepend: true
+    - match: \b(?i:nocount)\b
+      scope: constant.language.switch.tsql
+    - match: \b(?i:on|off)\b
+      scope: constant.language.boolean.tsql
+    - match: (?=\S)
+      pop: true
+
+  after-table-alias:
+    - meta_prepend: true
+    - include: with
+
+  with:
+    - match: (?i)\bwith\b
+      scope: keyword.other.DML.sql
+      push: with-paren
+
+  with-paren:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-with-group
+    - match: \b(?i:nowait)\b
+      scope: keyword.other.tsql
+    - match: (?=\S)
+      pop: true
+
+  inside-with-group:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: true
+    - match: \w+
+      scope: constant.language.with.tsql
+    - match: ','
+      scope: punctuation.separator.sequence.tsql

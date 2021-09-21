@@ -9,6 +9,7 @@ variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
   dml_targets: (?i:aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
+  reserved: (?i:\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|;|with)\b)
 
 contexts:
   prototype:
@@ -132,7 +133,7 @@ contexts:
   drop-condition:
     - include: dml-condition
     - match: (?=\S)
-      pop: true
+      set: single-identifier-after-whitespace
 
   dml-condition:
     - match: (?i:\b(if)\b)
@@ -228,31 +229,20 @@ contexts:
 
   ddl-statements:
     - match: \b(?i:create(?:\s+or\s+replace)?)\b
-      scope: keyword.other.create.sql
+      scope: keyword.other.ddl.sql
       push: ddl-create-target
-    - match: (?i:\s*\b(drop)\s+({{dml_targets}}))
-      scope: meta.drop.sql
-      captures:
-        1: keyword.other.create.sql
-        2: keyword.other.sql
-      push: drop-condition
-    - match: (?i:\s*(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
-      scope: meta.drop.sql
-      captures:
-        1: keyword.other.create.sql
-        2: keyword.other.table.sql
-        3: entity.name.function.sql
-        4: keyword.other.cascade.sql
-    - match: (?i:\s*\b(alter)\s+({{dml_targets}})\s+)
-      scope: meta.alter.sql
-      captures:
-        1: keyword.other.create.sql
-        2: keyword.other.table.sql
-    - match: (?i:\s*\b(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))
-      scope: meta.add.sql
-      captures:
-        1: keyword.other.add.sql
-        2: keyword.other.sql
+    - match: (?i:\bdrop\s+table\b)
+      scope: keyword.other.ddl.sql
+      push: ddl-drop-table
+    - match: \b(?i:drop)\b
+      scope: keyword.other.ddl.sql
+      push: ddl-drop-target
+    - match: \b(?i:alter\s+table)\b
+      scope: keyword.other.ddl.sql
+      push: [ddl-alter-table, table-name, single-identifier-after-whitespace]
+    - match: \b(?i:alter)\b
+      scope: keyword.other.ddl.sql
+      push: ddl-alter-target
     - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
       scope: storage.modifier.sql
     - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
@@ -270,6 +260,46 @@ contexts:
     - match: (?=\S)
       pop: true
 
+  ddl-drop-target:
+    - meta_scope: meta.drop.sql
+    - match: |-
+        (?xi)
+        \b{{dml_targets}}\b
+      captures:
+        1: keyword.other.sql
+      set: drop-condition
+    - match: (?=\S)
+      set: drop-condition
+
+  ddl-drop-table:
+    - meta_scope: meta.drop.sql
+    - include: dml-condition
+    - match: (?=\S)
+      set: [table-name, single-identifier-after-whitespace]
+
+  ddl-alter-table:
+    - meta_scope: meta.alter.sql
+    - match: \b(?i:add(?:\s+column)?|alter\s+column)\b
+      scope: keyword.other.ddl.sql
+      push: [column-alias, single-identifier-after-whitespace]
+    - include: expressions
+    - include: ddl-alter-common
+    - match: (?=\S)
+      pop: true
+
+  ddl-alter-target:
+    - meta_scope: meta.alter.sql
+    - include: ddl-alter-common
+    - match: (?=\S)
+      pop: true
+
+  ddl-alter-common:
+    - match: (?i:\s*\b(add)\s+(constraint|(?:fulltext|spatial)\s+(index|key)|index))
+      scope: meta.add.sql
+      captures:
+        1: keyword.other.add.sql
+        2: keyword.other.sql
+
   dml-statements:
     - match: (?i:\bselect\b)
       scope: keyword.other.DML.sql
@@ -278,8 +308,9 @@ contexts:
     - match: (?i:\b(?:insert\s+into|update|delete(?:\s+from)?|truncate)\b)
       scope: keyword.other.DML.sql
       push: [table-name, single-identifier-after-whitespace]
-    - match: (?i:\b(?:set|with)\b)
+    - match: (?i:\bset\b)
       scope: keyword.other.DML.sql
+      push: set
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
     - include: joins
@@ -292,13 +323,11 @@ contexts:
       push: maybe-subquery
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
-    - match: (?i)\bon\b
-      scope: keyword.operator.join.sql
 
   joins:
     - match: (?i)\b(?:inner|(?:full\s+)?outer|cross|left|right)\s+join\b
       scope: keyword.other.DML.sql
-      push: maybe-subquery
+      push: [join-on, maybe-subquery]
 
   column-alias:
     - meta_content_scope: meta.column-name.sql constant.other.placeholder.sql
@@ -325,7 +354,27 @@ contexts:
   table-alias:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-    - match: (?i)(?=\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|;|with)\b)
+    - match: (?={{reserved}})
       pop: true
     - match: (?=\S)
-      set: [table-name, single-identifier]
+      set: [after-table-alias, table-name, single-identifier]
+
+  after-table-alias:
+    - match: (?=\S)
+      pop: true
+
+  join-on:
+    - match: (?i)\bon\b
+      scope: keyword.operator.join.sql
+      push: [join-operators, column-alias, single-identifier-after-whitespace]
+    - match: (?=\S)
+      pop: true
+
+  join-operators:
+    - include: operators
+    - match: (?=\S)
+      set: [column-alias, single-identifier-after-whitespace]
+
+  set:
+    - match: (?=\S)
+      pop: true

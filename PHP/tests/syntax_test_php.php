@@ -1639,12 +1639,12 @@ $sql = "CREATE TABLE version";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
 //      ^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
 //                          ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
-//      ^^^^^^ keyword.other.create.sql
+//      ^^^^^^ keyword.other.ddl.sql
 
 $sql = "
     CREATE TABLE `version`...
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
-//  ^^^^^^ keyword.other.create.sql
+//  ^^^^^^ keyword.other.ddl.sql
 ";
 
 // Do not highlight plain SQL indicator as SQL

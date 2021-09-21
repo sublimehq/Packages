@@ -2578,8 +2578,8 @@ okay
 ```sql
 |^^^^^ meta.code-fence.definition.begin.sql
 |  ^^^ constant.other.language-name
-SELECT 10 *
-|^^^^^^^^^^^ markup.raw.code-fence.sql
+SELECT *
+|^^^^^^^^ markup.raw.code-fence.sql
 |^^^^^ keyword.other.DML.sql
 FROM TableName
 ```
