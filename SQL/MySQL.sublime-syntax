@@ -137,7 +137,10 @@ contexts:
       scope: keyword.other.LUW.sql
 
   ddl-statements:
-    - meta_append: true
+    - meta_prepend: true
+    - match: \b(?i:create\s+or\s+replace)\b
+      scope: keyword.other.ddl.sql
+      push: [ddl-create-target, create-condition, ddl-target]
     - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
       scope: keyword.other.object-comments.sql
 
@@ -148,6 +151,11 @@ contexts:
       push: [table-name, single-identifier-after-whitespace]
     - match: (?i)\b(?:using|limit)\b
       scope: keyword.other.DML.sql
+
+  ddl-target:
+    - meta_prepend: true
+    - match: \b(?i:on)\b
+      scope: keyword.other.mysql
 
   joins:
     - meta_append: true

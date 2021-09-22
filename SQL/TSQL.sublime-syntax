@@ -7,7 +7,8 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   string_escape: (?:'') #(?:\\[tnr])
-  simple_identifier: (?:[#@]?\w+)
+  simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
+  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge)\b)
 contexts:
   identifier:
     - meta_prepend: true
@@ -203,6 +204,9 @@ contexts:
   expressions:
     - meta_prepend: true
     - include: types
+    - match: \b(?i:cast)\b
+      scope: support.function.tsql
+      push: cast
     - match: \b(?i:case)\b
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
@@ -213,6 +217,9 @@ contexts:
     - match: \b(?i:cursor\s+for|open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
       push: [cursor-name, single-identifier-after-whitespace]
+    - match: \b(?i:collate)\b
+      scope: keyword.other.tsql
+      push: collation
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
@@ -235,6 +242,9 @@ contexts:
     - meta_append: true
     - match: \b(?i:bulk)\b
       scope: keyword.other.tsql
+    - match: \b(?i:into)\b(?!\s*@)
+      scope: keyword.other.DML.tsql
+      push: [table-name, single-identifier-after-whitespace]
     - match: \b(?i:into)\b
       scope: keyword.other.tsql
     - match: \b(?i:off)\b
@@ -243,6 +253,17 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:top)\b
       scope: keyword.other.DML.tsql
+
+  ddl-statements:
+    - meta_prepend: true
+    - match: \b(?i:create\s+or\s+alter)\b
+      scope: keyword.other.ddl.sql
+      push: [ddl-create-target, create-condition, ddl-target]
+
+  ddl-target:
+    - meta_prepend: true
+    - match: \b(?i:proc)\b
+      scope: keyword.other.sql
 
   built-in-scalar-function-calls:
     - meta_append: true
@@ -275,14 +296,22 @@ contexts:
     - match: (?=\S)
       pop: true
 
+  table-alias:
+    - meta_prepend: true
+    - include: with
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: inside-with-group
+
   after-table-alias:
     - meta_prepend: true
     - include: with
+    - include: with-paren
 
   with:
     - match: (?i)\bwith\b
       scope: keyword.other.DML.sql
-      push: with-paren
+      push: with-paren-or-pop
 
   with-paren:
     - match: \(
@@ -290,8 +319,11 @@ contexts:
       set: inside-with-group
     - match: \b(?i:nowait)\b
       scope: keyword.other.tsql
+
+  with-paren-or-pop:
+    - include: with-paren
     - match: (?=\S)
-      pop: true
+      set: table-alias
 
   inside-with-group:
     - meta_scope: meta.group.sql
@@ -302,3 +334,27 @@ contexts:
       scope: constant.language.with.tsql
     - match: ','
       scope: punctuation.separator.sequence.tsql
+
+  cast:
+    - meta_scope: meta.function-call.sql
+    - match: \(
+      scope: meta.group.sql punctuation.section.parens.begin.sql
+      set: inside-cast-method-call
+    - match: (?=\S)
+      pop: true
+
+  inside-cast-method-call:
+    - meta_content_scope: meta.function-call.sql meta.group.sql
+    - match: \)
+      scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
+      pop: true
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.tsql
+    - include: expressions
+
+  collation:
+    - match: \w+
+      scope: support.constant.tsql
+      pop: true
+    - match: (?=\S)
+      pop: true

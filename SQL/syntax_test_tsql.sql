@@ -464,12 +464,189 @@ alter column bar uniqueidentifier not null
 USE AdventureWorks2012;
 GO
 SELECT i.ProductID, p.Name, i.LocationID, i.Quantity
-    ,RANK() OVER
-    (PARTITION BY i.LocationID ORDER BY i.Quantity DESC) AS Rank
+    ,RANK() OVER (PARTITION BY i.LocationID ORDER BY i.Quantity DESC) AS Rank
+--  ^ punctuation.separator.sequence
+--   ^^^^ meta.function-call support.function
+--          ^^^^ keyword.other
+--                ^^^^^^^^^^^^ meta.group keyword.other
+--                                          ^^^^^^^^ meta.group keyword.other.DML
+--                                                              ^^^^ meta.group keyword.other.order
+--                                                                    ^^ keyword.operator.assignment.alias
+--                                                                       ^^^^ meta.column-name constant.other.placeholder
 FROM Production.ProductInventory AS i
 INNER JOIN Production.Product AS p
     ON i.ProductID = p.ProductID
 WHERE i.LocationID BETWEEN 3 AND 4
+-- ^^ keyword.other.DML
+--                 ^^^^^^^ keyword.operator.logical
+--                         ^ meta.number.integer.decimal constant.numeric.value
+--                           ^^^ keyword.operator.logical
+--                               ^ meta.number.integer.decimal constant.numeric.value
 ORDER BY i.LocationID;
 
--- merge, CTEs
+PRINT 'Record with ID ' + CAST(@RecordID AS VARCHAR(10)) + ' has been updated.'
+-- ^^ keyword.other
+--    ^^^^^^^^^^^^^^^^^ string.quoted.single
+--                      ^ keyword.operator.arithmetic
+--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+--                        ^^^^ support.function
+--                            ^ punctuation.section.parens.begin
+--                             ^^^^^^^^^ variable.other.readwrite
+--                                       ^^ keyword.operator.assignment
+--                                          ^^^^^^^^^^^ storage.type
+--                                                     ^ punctuation.section.parens.end
+
+UPDATE foo
+SET Value = Bar.Value
+FROM foo
+INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND ISNULL(bar.some_id, 0) = ISNULL(foo.some_id, 0)
+-- ^^^^^^^ keyword.other.DML
+--         ^^^ meta.table-name constant.other.placeholder
+--              ^^^^^^ meta.group constant.language.with
+--                      ^^ keyword.operator.join
+--                         ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                   ^ keyword.operator.comparison
+--                                     ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                               ^^^^^^^ keyword.other
+--                                                       ^^^^^^^^^^^^^^^^ support.constant
+--                                                                        ^^^ keyword.operator.logical
+--                                                                            ^^^^^^ meta.function-call support.function
+--                                                                                                   ^ keyword.operator.comparison
+--                                                                                                     ^^^^^^ meta.function-call support.function
+    AND foo.a = ''
+--  ^^^ keyword.operator.logical
+--      ^^^^^ meta.column-name constant.other.placeholder
+--            ^ keyword.operator.comparison
+--              ^^ string.quoted.single
+
+SELECT DISTINCT *
+INTO ##global_temp_table
+-- ^ keyword.other.DML
+--   ^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+FROM some_long_table_name s
+LEFT OUTER JOIN another_long_table_name (NOLOCK) a ON s.blah = a.blah AND ISNULL(p.ok, '') = ISNULL(a.ok, '') COLLATE DATABASE_DEFAULT
+-- ^^^^^^^^^^^^ keyword.other.DML
+--              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                                       ^^^^^^ meta.group constant.language.with
+--                                               ^ meta.table-name constant.other.placeholder
+--                                                 ^^ keyword.operator.join
+--                                                    ^^^^^^ meta.column-name constant.other.placeholder
+--                                                           ^ keyword.operator.comparison
+--                                                             ^^^^^^ meta.column-name constant.other.placeholder
+--                                                                    ^^^ keyword.operator.logical
+--                                                                        ^^^^^^ meta.function-call support.function
+--                                                                                                            ^^^^^^^ keyword.other
+--                                                                                                                    ^^^^^^^^^^^^^^^^ support.constant
+
+-----------
+
+USE MSSQLTipsDemo
+GO
+
+CREATE OR ALTER PROC CreateOrAlterDemo
+-- ^^^^^^^^^^^^ meta.create keyword.other.ddl
+--              ^^^^ meta.create keyword.other
+--                   ^^^^^^^^^^^^^^^^^ meta.create meta.toc-list.full-identifier entity.name.function
+    @Count SMALLINT
+AS
+-- <- keyword.operator.assignment
+BEGIN
+-- <- keyword.control.flow.begin
+   SELECT TOP (@Count) * FROM [dbo].[CountryInfoNew]
+-- ^^^^^^ keyword.other.DML
+--        ^^^ keyword.other.DML
+--            ^ meta.group punctuation.section.group.begin
+--             ^ meta.group variable.other.readwrite punctuation.definition.variable
+--              ^^^^^ meta.group variable.other.readwrite
+--                   ^ meta.group punctuation.section.group.end
+--                     ^ variable.language.wildcard.asterisk
+END
+-- <- keyword.control.flow.end
+GO
+-- <- keyword.control.flow
+
+---------------
+
+select A.A
+    , CASE WHEN B.B IS NOT NULL THEN B.B ELSE DATEADD(d, 1 - DATEPART(d, GETDATE()), DATEADD(m, B.MonthsInFuture, DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0))) END AS FirstDayOfFutureMonth
+--  ^ punctuation.separator.sequence
+--    ^^^^ keyword.control.conditional.case
+into #temp
+-- ^ keyword.other.DML
+--   ^^^^^ meta.table-name constant.other.placeholder
+from @A A
+-- ^ keyword.other.DML
+--   ^^ meta.table-name constant.other.placeholder
+--      ^ meta.table-name constant.other.placeholder
+inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
+--^^^^^^^^ keyword.other.DML
+--         ^ meta.table-name constant.other.placeholder
+--           ^^ keyword.operator.join
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+--              ^ punctuation.section.group.begin
+--               ^^^^^^ keyword.other.DML
+--                                                                                         ^ keyword.operator.comparison
+--                                                                                           ^^^^ meta.column-name constant.other.placeholder
+
+MERGE sales.category t
+    USING sales.category_staging s
+ON (s.category_id = t.category_id)
+WHEN MATCHED
+    THEN UPDATE SET
+        t.category_name = s.category_name,
+        t.amount = s.amount
+WHEN NOT MATCHED BY TARGET
+    THEN INSERT (category_id, category_name, amount)
+         VALUES (s.category_id, s.category_name, s.amount)
+WHEN NOT MATCHED BY SOURCE
+    THEN DELETE;
+
+
+WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
+AS
+-- Define the first CTE query.
+(
+    SELECT SalesPersonID, SUM(TotalDue) AS TotalSales, YEAR(OrderDate) AS SalesYear
+    FROM Sales.SalesOrderHeader
+    WHERE SalesPersonID IS NOT NULL
+       GROUP BY SalesPersonID, YEAR(OrderDate)
+
+)
+,   -- Use a comma to separate multiple CTE definitions.
+
+-- Define the second CTE query, which returns sales quota data by year for each sales person.
+Sales_Quota_CTE (BusinessEntityID, SalesQuota, SalesQuotaYear)
+AS
+(
+       SELECT BusinessEntityID, SUM(SalesQuota)AS SalesQuota, YEAR(QuotaDate) AS SalesQuotaYear
+       FROM Sales.SalesPersonQuotaHistory
+       GROUP BY BusinessEntityID, YEAR(QuotaDate)
+)
+
+-- Define the outer query by referencing columns from both CTEs.
+SELECT SalesPersonID
+  , SalesYear
+  , FORMAT(TotalSales,'C','en-us') AS TotalSales
+  , SalesQuotaYear
+  , FORMAT (SalesQuota,'C','en-us') AS SalesQuota
+  , FORMAT (TotalSales -SalesQuota, 'C','en-us') AS Amt_Above_or_Below_Quota
+FROM Sales_CTE
+JOIN Sales_Quota_CTE ON Sales_Quota_CTE.BusinessEntityID = Sales_CTE.SalesPersonID
+                    AND Sales_CTE.SalesYear = Sales_Quota_CTE.SalesQuotaYear
+ORDER BY SalesPersonID, SalesYear;
+
+WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
+(
+    SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
+    FROM dbo.MyEmployees
+    WHERE ManagerID IS NULL
+    UNION ALL
+    SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
+    FROM dbo.MyEmployees AS e
+        INNER JOIN DirectReports AS d
+        ON e.ManagerID = d.EmployeeID
+)
+SELECT ManagerID, EmployeeID, Title, EmployeeLevel
+FROM DirectReports
+ORDER BY ManagerID
+OPTION (MAXRECURSION 3)

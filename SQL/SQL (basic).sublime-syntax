@@ -8,8 +8,8 @@ version: 2
 variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
-  dml_targets: (?i:aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
-  reserved: (?i:\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|;|with)\b)
+  reserved: (?i:\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|;|union|insert|delete|truncate|create|alter|drop)\b)
+  additional_reserved: ''
 
 contexts:
   prototype:
@@ -82,9 +82,7 @@ contexts:
     - include: identifier
 
   single-identifier-after-whitespace:
-    - match: \s+
-      set: single-identifier
-    - match: ''
+    - match: \s*
       set: single-identifier
 
   single-identifier:
@@ -215,6 +213,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.argument.sql
     - include: expressions
+    - include: distinct
 
   inside-group:
     - meta_scope: meta.group.sql
@@ -228,15 +227,15 @@ contexts:
     - include: dml-statements
 
   ddl-statements:
-    - match: \b(?i:create(?:\s+or\s+replace)?)\b
+    - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
-      push: ddl-create-target
+      push: [ddl-create-target, create-condition, ddl-target]
     - match: (?i:\bdrop\s+table\b)
       scope: keyword.other.ddl.sql
       push: ddl-drop-table
     - match: \b(?i:drop)\b
       scope: keyword.other.ddl.sql
-      push: ddl-drop-target
+      push: [ddl-drop-target, drop-condition, ddl-target]
     - match: \b(?i:alter\s+table)\b
       scope: keyword.other.ddl.sql
       push: [ddl-alter-table, table-name, single-identifier-after-whitespace]
@@ -250,26 +249,24 @@ contexts:
 
   ddl-create-target:
     - meta_scope: meta.create.sql
-    - match: |-
-        (?xi)
-        ({{dml_targets}})\b\s*
-        (on)?\b
-      captures:
-        1: keyword.other.sql
-      set: create-condition
-    - match: (?=\S)
+    - match: ''
       pop: true
 
   ddl-drop-target:
     - meta_scope: meta.drop.sql
+    - match: ''
+      pop: true
+
+  ddl-target:
     - match: |-
         (?xi)
-        \b{{dml_targets}}\b
-      captures:
-        1: keyword.other.sql
-      set: drop-condition
+        aggregate|conversion|database|domain|function|group|
+        (?:(?:fulltext|spatial|unique)\s+)?index|
+        language|operator class|operator|procedure|rule|
+        schema|sequence|table(?:space)?|trigger|type|user|view
+      scope: keyword.other.sql
     - match: (?=\S)
-      set: drop-condition
+      pop: true
 
   ddl-drop-table:
     - meta_scope: meta.drop.sql
@@ -313,9 +310,8 @@ contexts:
       push: set
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
+    - include: distinct
     - include: joins
-    - match: \b(?i:distinct)\b
-      scope: keyword.other.DML.sql
     - match: \b(?i:group\s+by|order\s+by|having|where)\b
       scope: keyword.other.DML.sql
     - match: \b(?i:from)\b
@@ -324,8 +320,12 @@ contexts:
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
 
+  distinct:
+    - match: \b(?i:distinct)\b
+      scope: keyword.other.DML.sql
+
   joins:
-    - match: (?i)\b(?:inner|(?:full\s+)?outer|cross|left|right)\s+join\b
+    - match: (?i)\b(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+join\b
       scope: keyword.other.DML.sql
       push: [join-on, maybe-subquery]
 
@@ -354,7 +354,7 @@ contexts:
   table-alias:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-    - match: (?={{reserved}})
+    - match: (?={{reserved}}|{{additional_reserved}})
       pop: true
     - match: (?=\S)
       set: [after-table-alias, table-name, single-identifier]
@@ -366,14 +366,19 @@ contexts:
   join-on:
     - match: (?i)\bon\b
       scope: keyword.operator.join.sql
-      push: [join-operators, column-alias, single-identifier-after-whitespace]
+      push: join-operators
     - match: (?=\S)
       pop: true
 
   join-operators:
-    - include: operators
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: [table-alias, inside-group]
+    - include: expressions
+    - match: (?=\S)(?!{{reserved}}|{{additional_reserved}})
+      push: [column-alias, single-identifier-after-whitespace]
     - match: (?=\S)
-      set: [column-alias, single-identifier-after-whitespace]
+      pop: true
 
   set:
     - match: (?=\S)
