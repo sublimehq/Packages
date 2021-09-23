@@ -547,9 +547,14 @@ CREATE OR ALTER PROC CreateOrAlterDemo
 -- ^^^^^^^^^^^^ meta.create keyword.other.ddl
 --              ^^^^ meta.create keyword.other
 --                   ^^^^^^^^^^^^^^^^^ meta.create meta.toc-list.full-identifier entity.name.function
-    @Count SMALLINT
+ @Count SMALLINT
+,@Other INT OUTPUT
+-- <- punctuation.separator.sequence
+--^^^^^ variable.other.readwrite
+--      ^^^ storage.type
+--          ^^^^^^ keyword.other
 AS
--- <- keyword.operator.assignment
+-- <- keyword.context.block
 BEGIN
 -- <- keyword.control.flow.begin
    SELECT TOP (@Count) * FROM [dbo].[CountryInfoNew]
@@ -560,6 +565,14 @@ BEGIN
 --              ^^^^^ meta.group variable.other.readwrite
 --                   ^ meta.group punctuation.section.group.end
 --                     ^ variable.language.wildcard.asterisk
+--                       ^^^^ keyword.other.DML
+--                            ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                            ^ punctuation.definition.identifier.begin
+--                                ^ punctuation.definition.identifier.end
+--                                 ^ punctuation.accessor.dot
+--                                  ^ punctuation.definition.identifier.begin
+--                                                 ^ punctuation.definition.identifier.end
+
 END
 -- <- keyword.control.flow.end
 GO

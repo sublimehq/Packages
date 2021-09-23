@@ -10,15 +10,16 @@ variables:
   simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
   additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge)\b)
 contexts:
-  identifier:
+  identifier-part:
     - meta_prepend: true
-    - include: square-bracketed-identifier
+    - include: square-bracketed-identifier-part
 
-  square-bracketed-identifier:
+  square-bracketed-identifier-part:
     - match: (\[)([^]]+)(\])
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
+      pop: true
 
   strings:
     - meta_append: true
@@ -207,9 +208,6 @@ contexts:
     - match: \b(?i:cast)\b
       scope: support.function.tsql
       push: cast
-    - match: \b(?i:case)\b
-      scope: keyword.control.conditional.case.sql
-      push: inside-case-expression
     - include: variables
     - include: with
     - match: \b(?i:output|over|partition\s+by)\b
@@ -220,23 +218,6 @@ contexts:
     - match: \b(?i:collate)\b
       scope: keyword.other.tsql
       push: collation
-
-  inside-case-expression:
-    - meta_scope: meta.statement.conditional.case.sql
-    - match: \b(?i:end)\b
-      scope: keyword.control.conditional.end.sql
-      pop: true
-    - match: \b(?i)(case)\s+(when)\b
-      captures:
-        1: keyword.control.conditional.case.sql
-        2: keyword.control.conditional.when.sql
-    - match: \b(?i:when)\b
-      scope: keyword.control.conditional.when.sql
-    - match: \b(?i:then)\b
-      scope: keyword.control.conditional.then.sql
-    - match: \b(?i:else)\b
-      scope: keyword.control.conditional.else.sql
-    - include: main
 
   dml-statements:
     - meta_append: true
@@ -258,12 +239,18 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:create\s+or\s+alter)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-create-target, create-condition, ddl-target]
+      push: [ddl-create-target-expect-as, ddl-create-target, create-condition, ddl-target]
 
   ddl-target:
     - meta_prepend: true
     - match: \b(?i:proc)\b
       scope: keyword.other.sql
+
+  ddl-create-target-expect-as:
+    - match: (?i:\bas\b)
+      scope: keyword.context.block.sql
+      pop: true
+    - include: expressions
 
   built-in-scalar-function-calls:
     - meta_append: true

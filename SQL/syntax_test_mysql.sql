@@ -111,32 +111,42 @@ create table fancy_table (
 
 CREATE INDEX ON fancy_table(mytime);
 --     ^^^^^ keyword.other.sql
---           ^^ - entity.name.function.sql
---              ^^^^^^^^^^^ entity.name.function.sql
+--           ^^ keyword.other
+--              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
 
 CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
 --     ^^^^^ keyword.other.sql
---           ^^ - entity.name.function.sql
+--           ^^ keyword.other
+--              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                          ^^^^^ keyword.other
 
 CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
 --     ^^^^^^^^^^^^ keyword.other.sql
---                  ^^ - entity.name.function.sql
---                     ^^^^^^^^^^^ entity.name.function.sql
+--                  ^^ meta.create keyword.other
+--                     ^^^^^^^^^^^ meta.table-name constant.other.placeholder
 --                                                       ^^^^^ keyword.other.DML.sql
 --                                                                    ^^ keyword.operator.logical.sql
 --                                                                       ^^^^ constant.language.null.sql
 
 create fulltext index if not exists `myindex` ON mytable;
 --     ^^^^^^^^^^^^^^ keyword.other.sql
+--                    ^^ keyword.control.flow
+--                       ^^^ keyword.operator.logical
+--                           ^^^^^^ keyword.operator.logical
+--                                  ^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                                            ^^ keyword.other
+--                                               ^^^^^^^ meta.table-name constant.other.placeholder
+--                                                      ^ punctuation.terminator.statement
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
 -- ^^^^^^^^ meta.alter keyword.other.ddl
 --                         ^^^ keyword.other.ddl.sql
 --                             ^^^^^^ keyword.other.ddl.sql
---                                    ^^^^^^^^ meta.alter meta.column-name constant.other.placeholder
+--                                    ^^^^^^^^ meta.column-name constant.other.placeholder
 --                                             ^^^^^^^^ storage.type.sql
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
+--                     ^^^^^^^^^^^^^ meta.alter keyword.other.ddl
 --                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
@@ -156,7 +166,7 @@ SELECT
 (
 SELECT CASE field
 USING a
--- <- keyword.other.DML
+-- <- keyword.other
     WHEN 1
     THEN -- comment's say that
 --                    ^ comment.line.double-dash

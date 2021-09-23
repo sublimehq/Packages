@@ -127,9 +127,11 @@ contexts:
       pop: true
 
   expressions:
-    - meta_append: true
-    - match: (?i)\b(CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+    - meta_prepend: true
+    - match: (?i)\b(?:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
+    - match: (?i)\b(?:using)\b
+      scope: keyword.other.mysql
 
   statements:
     - meta_append: true
@@ -149,22 +151,43 @@ contexts:
     - match: (?i:\binsert(\s+(?:ignore\s+)?into)?\b)
       scope: keyword.other.DML.sql
       push: [table-name, single-identifier-after-whitespace]
-    - match: (?i)\b(?:using|limit)\b
+    - match: (?i)\b(?:limit)\b
       scope: keyword.other.DML.sql
+
+  ddl-target-common:
+    - match: \b(?i:on)\b
+      scope: keyword.other.mysql
+      push: [table-name, single-identifier-after-whitespace]
+    - match: (?i)\b(?:using)\b
+      scope: keyword.other.mysql
+    - match: (?=\()
+      pop: true
+
+  create-condition:
+    - meta_prepend: true
+    - include: ddl-target-common
 
   ddl-target:
     - meta_prepend: true
-    - match: \b(?i:on)\b
-      scope: keyword.other.mysql
+    - include: ddl-target-common
+
+  ddl-create-target:
+    - meta_prepend: true
+    - include: ddl-target-common
 
   joins:
     - meta_append: true
     - match: (?i)\b(?:straight_join|natural)\b
       scope: keyword.other.DML.sql
 
-  maybe-subquery:
+  table-name-or-subquery:
     - meta_include_prototype: false
     - meta_prepend: true
     - match: (?=#)
       pop: true
     - include: comments
+
+  ddl-alter-table:
+    - meta_prepend: true
+    - match: \b(?i:change\s+column)\b
+      scope: keyword.other.ddl.sql

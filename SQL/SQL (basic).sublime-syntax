@@ -17,12 +17,10 @@ contexts:
 
   main:
     - include: statements
-    - include: types
-    - include: expressions
-    - match: ','
-      scope: punctuation.separator.sequence.sql
     - match: ';'
       scope: punctuation.terminator.statement.sql
+    - include: types
+    - include: expressions
 
   comments:
     - meta_include_prototype: false
@@ -79,54 +77,60 @@ contexts:
 
   identifier-create:
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.function.sql
-    - include: identifier
+    - match: ''
+      pop: true
 
   single-identifier-after-whitespace:
     - match: \s*
       set: single-identifier
 
   single-identifier:
-    - include: identifier
+    - match: ''
+      set: [maybe-identifier-accessor, identifier-part]
+
+  maybe-identifier-accessor:
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.sql
+      set: single-identifier-after-whitespace
     - match: ''
       pop: true
 
-  identifier:
-    - include: simple-identifier
-    - include: single-quoted-identifier
-    - include: double-quoted-identifier
-    - include: backtick-quoted-identifier
-    - match: \.
-      scope: punctuation.accessor.dot.sql
-    - match: (?=\S|\s*\()
-      pop: true
+  identifier-part:
+    - include: simple-identifier-part
+    - include: single-quoted-identifier-part
+    - include: double-quoted-identifier-part
+    - include: backtick-quoted-identifier-part
 
-  simple-identifier:
-    - match: '{{simple_identifier}}(?=\s*\.)'
+  simple-identifier-part:
     - match: '{{simple_identifier}}'
       pop: true
 
-  single-quoted-identifier:
+  single-quoted-identifier-part:
     - match: (')([^']+)(')
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
+      pop: true
 
-  double-quoted-identifier:
+  double-quoted-identifier-part:
     - match: (")([^"]+)(")
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
+      pop: true
 
-  backtick-quoted-identifier:
+  backtick-quoted-identifier-part:
     - match: (`)([^`]+)(`)
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
+      pop: true
 
   create-condition:
     - include: dml-condition
     - match: (?=\S)
-      set: identifier-create
+      set: [identifier-create, single-identifier]
 
   drop-condition:
     - include: dml-condition
@@ -169,6 +173,9 @@ contexts:
       scope: constant.language.null.sql
     - match: \*
       scope: variable.language.wildcard.asterisk.sql
+    - match: \b(?i:case)\b
+      scope: keyword.control.conditional.case.sql
+      push: inside-case-expression
     - include: strings
     - include: operators
     - include: built-in-aggregate-function-calls
@@ -179,6 +186,29 @@ contexts:
       push: inside-group
     - match: \)
       scope: invalid.illegal.trailing-paren.sql
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+    - match: (?=;)
+      pop: true
+    - match: (?=\S)
+      push: [column-alias, single-identifier]
+
+  inside-case-expression:
+    - meta_scope: meta.statement.conditional.case.sql
+    - match: \b(?i:end)\b
+      scope: keyword.control.conditional.end.sql
+      pop: true
+    - match: \b(?i)(case)\s+(when)\b
+      captures:
+        1: keyword.control.conditional.case.sql
+        2: keyword.control.conditional.when.sql
+    - match: \b(?i:when)\b
+      scope: keyword.control.conditional.when.sql
+    - match: \b(?i:then)\b
+      scope: keyword.control.conditional.then.sql
+    - match: \b(?i:else)\b
+      scope: keyword.control.conditional.else.sql
+    - include: expressions
 
   built-in-aggregate-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
@@ -188,7 +218,7 @@ contexts:
 
   built-in-scalar-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-    - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
+    - match: (?i)\b(?:CURRENT_(?:DATE|TIME(?:STAMP)?|USER)|(?:SESSION|SYSTEM)_USER)\b
       scope: support.function.scalar.sql
 
   user-defined-function-calls:
@@ -222,6 +252,13 @@ contexts:
       pop: true
     - include: main
 
+  inside-subquery-allow-table-alias:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      set: table-alias
+    - include: main
+
   statements:
     - include: ddl-statements
     - include: dml-statements
@@ -239,9 +276,9 @@ contexts:
     - match: \b(?i:alter\s+table)\b
       scope: keyword.other.ddl.sql
       push: [ddl-alter-table, table-name, single-identifier-after-whitespace]
-    - match: \b(?i:alter)\b
-      scope: keyword.other.ddl.sql
-      push: ddl-alter-target
+    # - match: \b(?i:alter)\b
+    #   scope: keyword.other.ddl.sql
+    #   push: ddl-alter-target
     - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
       scope: storage.modifier.sql
     - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
@@ -249,7 +286,7 @@ contexts:
 
   ddl-create-target:
     - meta_scope: meta.create.sql
-    - match: ''
+    - match: (?=\S)
       pop: true
 
   ddl-drop-target:
@@ -276,13 +313,14 @@ contexts:
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
+    - match: \s+
     - match: \b(?i:add(?:\s+column)?|alter\s+column)\b
       scope: keyword.other.ddl.sql
-      push: [column-alias, single-identifier-after-whitespace]
-    - include: expressions
     - include: ddl-alter-common
-    - match: (?=\S)
-      pop: true
+    # - include: pop-on-top-level-reserved-word
+    - include: expressions
+    # - match: (?=\S)
+    #   pop: true
 
   ddl-alter-target:
     - meta_scope: meta.alter.sql
@@ -296,6 +334,8 @@ contexts:
       captures:
         1: keyword.other.add.sql
         2: keyword.other.sql
+    - include: types
+    - include: pop-on-top-level-reserved-word
 
   dml-statements:
     - match: (?i:\bselect\b)
@@ -316,7 +356,7 @@ contexts:
       scope: keyword.other.DML.sql
     - match: \b(?i:from)\b
       scope: keyword.other.DML.sql
-      push: maybe-subquery
+      push: table-name-or-subquery
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
 
@@ -327,7 +367,7 @@ contexts:
   joins:
     - match: (?i)\b(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+join\b
       scope: keyword.other.DML.sql
-      push: [join-on, maybe-subquery]
+      push: [join-on, table-name-or-subquery]
 
   column-alias:
     - meta_content_scope: meta.column-name.sql constant.other.placeholder.sql
@@ -344,18 +384,20 @@ contexts:
     - match: ''
       pop: true
 
-  maybe-subquery:
+  subquery:
     - match: \(
       scope: punctuation.section.group.begin.sql
-      set: [table-alias, inside-group]
+      set: inside-subquery-allow-table-alias
+
+  table-name-or-subquery:
+    - include: subquery
     - match: (?=\S)
       set: [table-alias, table-name, single-identifier]
 
   table-alias:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-    - match: (?={{reserved}}|{{additional_reserved}})
-      pop: true
+    - include: pop-on-top-level-reserved-word
     - match: (?=\S)
       set: [after-table-alias, table-name, single-identifier]
 
@@ -366,20 +408,16 @@ contexts:
   join-on:
     - match: (?i)\bon\b
       scope: keyword.operator.join.sql
-      push: join-operators
-    - match: (?=\S)
       pop: true
-
-  join-operators:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      push: [table-alias, inside-group]
-    - include: expressions
-    - match: (?=\S)(?!{{reserved}}|{{additional_reserved}})
-      push: [column-alias, single-identifier-after-whitespace]
     - match: (?=\S)
       pop: true
 
   set:
     - match: (?=\S)
+      pop: true
+
+  pop-on-top-level-reserved-word:
+    - match: (?={{reserved}}|{{additional_reserved}})
+      pop: true
+    - match: (?=\))
       pop: true
