@@ -627,43 +627,48 @@ inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(
 --                                                                                         ^ keyword.operator.comparison
 --                                                                                           ^^^^ meta.column-name constant.other.placeholder
 
-MERGE sales.category t
-    USING sales.category_staging s
-ON (s.category_id = t.category_id)
-WHEN MATCHED
-    THEN UPDATE SET
-        t.category_name = s.category_name,
-        t.amount = s.amount
-WHEN NOT MATCHED BY TARGET
-    THEN INSERT (category_id, category_name, amount)
-         VALUES (s.category_id, s.category_name, s.amount)
-WHEN NOT MATCHED BY SOURCE
-    THEN DELETE;
-
-
 WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
+-- ^ keyword.other.DML
+--   ^^^^^^^^^ meta.cte-table-name constant.other.placeholder
+--             ^ punctuation.section.group.begin
+--              ^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                           ^ punctuation.separator.sequence
+--                             ^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                       ^ punctuation.separator.sequence
+--                                         ^^^^^^^^^ meta.column-name constant.other.placeholder
 AS
+-- <- keyword.operator.assignment.cte
 -- Define the first CTE query.
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash
 (
+-- <- meta.group punctuation.section.group.begin
     SELECT SalesPersonID, SUM(TotalDue) AS TotalSales, YEAR(OrderDate) AS SalesYear
+--  ^^^^^^ meta.group keyword.other.DML
     FROM Sales.SalesOrderHeader
     WHERE SalesPersonID IS NOT NULL
        GROUP BY SalesPersonID, YEAR(OrderDate)
 
 )
 ,   -- Use a comma to separate multiple CTE definitions.
-
+-- <- punctuation.separator.sequence.cte
 -- Define the second CTE query, which returns sales quota data by year for each sales person.
 Sales_Quota_CTE (BusinessEntityID, SalesQuota, SalesQuotaYear)
+-- ^^^^^^^^^^^^ meta.cte-table-name constant.other.placeholder
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group - meta.group meta.group
+--               ^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
 AS
+-- <- keyword.operator.assignment.cte
 (
+-- <- meta.group punctuation.section.group.begin
        SELECT BusinessEntityID, SUM(SalesQuota)AS SalesQuota, YEAR(QuotaDate) AS SalesQuotaYear
+--     ^^^^^^ meta.group keyword.other.DML
        FROM Sales.SalesPersonQuotaHistory
        GROUP BY BusinessEntityID, YEAR(QuotaDate)
 )
 
 -- Define the outer query by referencing columns from both CTEs.
 SELECT SalesPersonID
+-- ^^^ keyword.other.DML
   , SalesYear
   , FORMAT(TotalSales,'C','en-us') AS TotalSales
   , SalesQuotaYear
@@ -689,6 +694,26 @@ SELECT ManagerID, EmployeeID, Title, EmployeeLevel
 FROM DirectReports
 ORDER BY ManagerID
 OPTION (MAXRECURSION 3)
+-- ^^^ keyword.other.DML
+--     ^ meta.group punctuation.section.group.begin
+--      ^^^^^^^^^^^^ meta.group constant.language.with
+--                   ^ meta.group constant.language.with
+--                    ^ meta.group punctuation.section.group.end
+
+WITH cte_table AS ( SELECT blah )
+-- ^ keyword.other.DML
+--   ^^^^^^^^^ meta.cte-table-name constant.other.placeholder
+--             ^^ keyword.operator.assignment.cte
+--                ^ meta.group punctuation.section.group.begin
+--                  ^^^^^^ meta.group keyword.other.DML
+--                         ^^^^ meta.group meta.column-name constant.other.placeholder
+--                              ^ meta.group punctuation.section.group.end
+SELECT cte_table.* FROM cte_table
+-- ^^^ keyword.other.DML
+--     ^^^^^^^^^^ meta.column-name constant.other.placeholder
+--               ^ variable.language.wildcard.asterisk
+--                 ^^^^ keyword.other.DML
+--                      ^^^^^^^^^ meta.table-name constant.other.placeholder
 
 CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
 -- ^^^ keyword.other.ddl
@@ -708,3 +733,16 @@ CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
 CREATE TABLE foo ([int] [int] PRIMARY KEY, [test'hello¬world'@"me"] [varchar] (5));
 --                      ^^^^^ storage.type
 --                                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+
+MERGE sales.category t
+    USING sales.category_staging s
+ON (s.category_id = t.category_id)
+WHEN MATCHED
+    THEN UPDATE SET
+        t.category_name = s.category_name,
+        t.amount = s.amount
+WHEN NOT MATCHED BY TARGET
+    THEN INSERT (category_id, category_name, amount)
+         VALUES (s.category_id, s.category_name, s.amount)
+WHEN NOT MATCHED BY SOURCE
+    THEN DELETE;

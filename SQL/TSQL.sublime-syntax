@@ -265,6 +265,11 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:top)\b
       scope: keyword.other.DML.tsql
+    - match: \b(?i:(option))\b\s*(\()
+      captures:
+        1: keyword.other.DML.tsql
+        2: punctuation.section.group.begin.sql
+      push: inside-with-group
 
   ddl-statements:
     - meta_prepend: true
@@ -327,6 +332,12 @@ contexts:
     - include: with-paren
 
   with:
+    - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\()
+      scope: keyword.other.DML.sql
+      push: [cte-column-list-begin, cte-table-name, single-identifier]
+    - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
+      scope: keyword.other.DML.sql
+      push: [cte-as, cte-table-name, single-identifier]
     - match: (?i)\bwith\b
       scope: keyword.other.DML.sql
       push: with-paren-or-pop
@@ -393,3 +404,24 @@ contexts:
   expect-procedure-name:
     - match: ''
       set: [procedure-name, single-identifier-after-whitespace]
+
+  cte-column-list-begin:
+    - match: \(
+      scope: punctuation.section.group.begin.tsql
+      set: [cte-as, inside-group]
+    - match: (?=\S)
+      pop: true
+
+  cte-as:
+    - match: (?i:\bas\b)
+      scope: keyword.operator.assignment.cte.tsql
+    - include: pop-on-top-level-reserved-word
+    - match: ','
+      scope: punctuation.separator.sequence.cte.tsql
+      set: [cte-column-list-begin, cte-table-name, single-identifier-after-whitespace]
+    - include: expressions
+
+  cte-table-name:
+    - meta_content_scope: meta.cte-table-name.sql constant.other.placeholder.sql
+    - match: ''
+      pop: true
