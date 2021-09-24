@@ -8,7 +8,12 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'') #(?:\\[tnr])
   simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
-  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge)\b)
+  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec)\b)
+  enclosed_type_begin: (?:\[)
+  enclosed_type_end: (?:\])
+  simple_types: (?i:\b(?:bit|bool|boolean|datetime|int|smallint|sysname|uniqueidentifier|text)\b)
+  types_with_optional_number: (?i:\b(?:n?char|numeric|n?varchar|varbinary|decimal|money)\b)
+
 contexts:
   identifier-part:
     - meta_prepend: true
@@ -163,8 +168,23 @@ contexts:
 
   types:
     - meta_append: true
-    - match: (?i:\b(?:smallint|sysname|uniqueidentifier|decimal)\b)
+    - match: |-
+        (?xi)
+        {{enclosed_type_begin}}?
+        {{simple_types}}
+        {{enclosed_type_end}}?
       scope: storage.type.sql
+    - match: |-
+        (?xi)
+        {{enclosed_type_begin}}?
+        {{types_with_optional_number}}
+        {{enclosed_type_end}}?
+        (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
+      scope: storage.type.sql
+      captures:
+        1: constant.numeric.sql
+        2: punctuation.separator.sequence.sql
+        3: constant.numeric.sql
 
   statements:
     - meta_append: true
@@ -179,6 +199,7 @@ contexts:
       push: [label-name, single-identifier-after-whitespace]
     - match: \b(?i:exec)\b
       scope: keyword.control.flow.tsql
+      push: [expect-procedure-name, exec]
     - match: \b(?i:begin)\b
       scope: keyword.control.flow.begin.tsql
     - match: \b(?i:end)\b
@@ -188,6 +209,12 @@ contexts:
     - match: \b(?i:use)\b
       scope: keyword.context.tsql
       push: [database-name, single-identifier-after-whitespace]
+    - match: \b(?i:backup(?:\s+database)?)\b # https://docs.microsoft.com/en-us/sql/t-sql/statements/backup-transact-sql?view=sql-server-ver15
+      scope: keyword.other.tsql
+    - match: \b(?i:to)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:disk|tape|url)\b
+      scope: keyword.other.tsql
     - match: \b(\w+)(:)
       captures:
         1: entity.name.label.tsql
@@ -210,9 +237,13 @@ contexts:
       push: cast
     - include: variables
     - include: with
-    - match: \b(?i:output|over|partition\s+by)\b
+    - match: \b(?i:output)\b
+      scope: storage.modifier.output.tsql
+    - match: \b(?i:over|partition\s+by)\b
       scope: keyword.other.sql
-    - match: \b(?i:cursor\s+for|open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
+    - match: \b(?i:cursor\s+for)\b
+      scope: keyword.other.sql
+    - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
       push: [cursor-name, single-identifier-after-whitespace]
     - match: \b(?i:collate)\b
@@ -250,7 +281,7 @@ contexts:
     - match: (?i:\bas\b)
       scope: keyword.context.block.sql
       pop: true
-    - include: expressions
+    - include: expressions-or-column-name
 
   built-in-scalar-function-calls:
     - meta_append: true
@@ -337,7 +368,7 @@ contexts:
       pop: true
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
-    - include: expressions
+    - include: expressions-or-column-name
 
   collation:
     - match: \w+
@@ -345,3 +376,20 @@ contexts:
       pop: true
     - match: (?=\S)
       pop: true
+
+  joins:
+    - meta_append: true
+    - match: (?i)\b(?:cross\s+)?apply\b
+      scope: keyword.other.DML.sql
+      push: table-name-or-subquery
+
+  exec:
+    - include: assignment-operator
+    - include: pop-on-top-level-reserved-word
+    - include: expressions
+    - match: (?=\S)
+      pop: true
+
+  expect-procedure-name:
+    - match: ''
+      set: [procedure-name, single-identifier-after-whitespace]

@@ -8,8 +8,10 @@ version: 2
 variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
-  reserved: (?i:\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|;|union|insert|delete|truncate|create|alter|drop)\b)
-  additional_reserved: ''
+  reserved: (?i:;|\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|truncate|create|alter|drop)\b)
+  additional_reserved: (?!)
+  simple_types: (?i:\b(?:bit|bool|boolean|datetime|int)\b)
+  types_with_optional_number: (?i:\b(?:char|number|nvarchar|varbinary|varchar)\b)
 
 contexts:
   prototype:
@@ -20,7 +22,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.sql
     - include: types
-    - include: expressions
+    - include: expressions-or-column-name
 
   comments:
     - meta_include_prototype: false
@@ -85,10 +87,15 @@ contexts:
       set: single-identifier
 
   single-identifier:
+    - include: pop-on-top-level-reserved-word
     - match: ''
       set: [maybe-identifier-accessor, identifier-part]
 
   maybe-identifier-accessor:
+    - match: \s*(\.)(?=\s*\*)
+      captures:
+        1: punctuation.accessor.dot.sql
+      pop: true
     - match: \s*(\.)
       captures:
         1: punctuation.accessor.dot.sql
@@ -154,12 +161,22 @@ contexts:
     - include: logical-operators
 
   types:
-    - match: \b(?i:bit|bool|boolean|datetime|int)\b
+    - match: '{{simple_types}}'
       scope: storage.type.sql
-    - match: \b(?i:char|number|nvarchar|varbinary|varchar)\b(?:\s*\((\d+)\))?
+    - match: |-
+        (?xi)
+        {{types_with_optional_number}}
+        (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
       scope: storage.type.sql
       captures:
         1: constant.numeric.sql
+        2: punctuation.separator.sequence.sql
+        3: constant.numeric.sql
+
+  expressions-or-column-name:
+    - include: expressions
+    - match: (?=\S)
+      push: [column-name, single-identifier]
 
   expressions:
     - match: (?i)\bas\b
@@ -190,8 +207,6 @@ contexts:
       scope: punctuation.separator.sequence.sql
     - match: (?=;)
       pop: true
-    - match: (?=\S)
-      push: [column-alias, single-identifier]
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
@@ -208,7 +223,7 @@ contexts:
       scope: keyword.control.conditional.then.sql
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.sql
-    - include: expressions
+    - include: expressions-or-column-name
 
   built-in-aggregate-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
@@ -242,8 +257,8 @@ contexts:
       pop: true
     - match: ','
       scope: punctuation.separator.argument.sql
-    - include: expressions
     - include: distinct
+    - include: expressions-or-column-name
 
   inside-group:
     - meta_scope: meta.group.sql
@@ -317,10 +332,7 @@ contexts:
     - match: \b(?i:add(?:\s+column)?|alter\s+column)\b
       scope: keyword.other.ddl.sql
     - include: ddl-alter-common
-    # - include: pop-on-top-level-reserved-word
-    - include: expressions
-    # - match: (?=\S)
-    #   pop: true
+    - include: expressions-or-column-name
 
   ddl-alter-target:
     - meta_scope: meta.alter.sql
@@ -365,12 +377,17 @@ contexts:
       scope: keyword.other.DML.sql
 
   joins:
-    - match: (?i)\b(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+join\b
+    - match: (?i)\b(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join\b
       scope: keyword.other.DML.sql
       push: [join-on, table-name-or-subquery]
 
-  column-alias:
+  column-name:
     - meta_content_scope: meta.column-name.sql constant.other.placeholder.sql
+    - match: ''
+      pop: true
+
+  column-alias:
+    - meta_content_scope: meta.column-alias.sql constant.other.placeholder.sql
     - match: ''
       pop: true
 
@@ -381,6 +398,11 @@ contexts:
 
   table-name:
     - meta_content_scope: meta.table-name.sql constant.other.placeholder.sql
+    - match: ''
+      pop: true
+
+  procedure-name:
+    - meta_content_scope: meta.procedure-name.sql constant.other.placeholder.sql
     - match: ''
       pop: true
 
@@ -421,3 +443,7 @@ contexts:
       pop: true
     - match: (?=\))
       pop: true
+
+  assignment-operator:
+    - match: '='
+      scope: keyword.operator.assignment.sql

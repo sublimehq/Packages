@@ -91,8 +91,10 @@ create table fancy_table (
     mycount double  precision DEFAULT 1,
 --          ^^^^^^^^^^^^^^^^^ storage.type.sql
     fancy_column character  varying(42) DEFAULT 'nice'::character varying,
---               ^^^^^^^^^^^^^^^^^^ storage.type.sql
+--               ^^^^^^^^^^^^^^^^^^^^^^ storage.type.sql
     mytime timestamp(3) without time zone DEFAULT now(),
+--         ^^^^^^^^^^^^ storage.type.sql
+--                   ^ constant.numeric
 --                      ^^^^^^^^^^^^^^^^^ storage.type.sql
 --                                        ^^^^^^^ storage.modifier
 --                                                ^^^ meta.function-call support.function
@@ -101,12 +103,24 @@ create table fancy_table (
 --                                                     ^ punctuation.separator.sequence
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone,
 --                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
+    some_number numeric(5, 2) DEFAULT 0,
+--  ^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--              ^^^^^^^^^^^^^ storage.type
+--                      ^ constant.numeric
+--                       ^ punctuation.separator.sequence
+--                         ^ constant.numeric
+--                            ^^^^^^^ storage.modifier
+--                                    ^ meta.number.integer.decimal constant.numeric.value
     primary key (id),
 --  ^^^^^^^^^^^ storage.modifier.sql
     UNIQUE (foreign_id),
     CONSTRAINT fancy_table_valid1 CHECK (id <> foreign_id)
 --  ^^^^^^^^^^ storage.modifier.sql
 --                                ^^^^^ storage.modifier.sql
+--                                      ^^^^^^^^^^^^^^^^^^ meta.group meta.group
+--                                       ^^ meta.column-name constant.other.placeholder
+--                                          ^^ keyword.operator.comparison
+--                                             ^^^^^^^^^^ meta.column-name constant.other.placeholder
 );
 
 CREATE INDEX ON fancy_table(mytime);
@@ -201,7 +215,7 @@ SELECT  *,
 --      ^ variable.language.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
---              ^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--              ^^^^^^^^^^^ meta.column-alias constant.other.placeholder
 FROM    foo
 WHERE   f.a IS NULL
 -- ^^ keyword.other.DML.sql

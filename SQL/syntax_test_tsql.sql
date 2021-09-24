@@ -223,13 +223,18 @@ DECLARE db_cursor CURSOR FOR
 -- ^^^^ keyword.declaration.variable
 --      ^^^^^^^^^ meta.cursor-name constant.other.placeholder
 --                ^^^^^^^^^^ keyword.other
-
-SELECT name
-FROM MASTER.dbo.sysdatabases
--- ^ keyword.other.DML
---   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
-WHERE name NOT IN ('master','model','msdb','tempdb')
--- ^^ keyword.other.DML
+    SELECT name
+--  ^^^^^^ keyword.other.DML
+--         ^^^^ meta.column-name constant.other.placeholder
+    FROM MASTER.dbo.sysdatabases
+    -- ^ keyword.other.DML
+    --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+    WHERE name NOT IN ('master','model','msdb','tempdb')
+    -- ^^ keyword.other.DML
+    --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+    --                 ^^^^^^^^ string.quoted.single
+    --                         ^ punctuation.separator.sequence
+    --                          ^^^^^^^ string.quoted.single
 
 OPEN db_cursor
 -- ^ keyword.other
@@ -251,6 +256,11 @@ BEGIN
 -- ^^ keyword.control.flow.begin
       SET @fileName = @path + @name + '_' + @fileDate + '.BAK'
       BACKUP DATABASE @name TO DISK = @fileName
+--    ^^^^^^^^^^^^^^^ keyword.other
+--                    ^^^^^ variable.other.readwrite
+--                          ^^ keyword.other
+--                             ^^^^ keyword.other
+--                                  ^ keyword.operator
 
       FETCH NEXT FROM db_cursor INTO @name
 END
@@ -272,7 +282,11 @@ SET NOCOUNT ON
 --          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 -- ^ keyword.control.flow
---                                                  ^^^^^^ keyword.other
+--   ^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name constant.other.placeholder
+--                           ^^^^^^^^^ variable.other.readwrite
+--                                    ^ punctuation.separator.sequence
+--                                      ^^^^^^^^^^^ variable.other.readwrite
+--                                                  ^^^^^^ storage.modifier.output
 SET NOCOUNT OFF
 --^ keyword.other.DML
 --  ^^^^^^^ constant.language.switch
@@ -314,6 +328,10 @@ IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 --                                    ^^^^ keyword.control.flow
 --                                         ^^^^^^^^^^^^^^^^ meta.label-name constant.other.placeholder
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
+-- ^ keyword.control.flow
+--   ^^^^^^^^^^^ variable.other.readwrite
+--               ^ keyword.operator.assignment
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name constant.other.placeholder
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 COMMIT TRANSACTION
 -- ^^^^^^^^^^^^^^^ keyword.context
@@ -345,17 +363,20 @@ VALUES (2, 'two'),
 
 
 
-SELECT  foo, COUNT(*) AS tally
+SELECT  foo AS foobar, COUNT(*) AS tally
 -- ^^^ keyword.other.DML
---         ^ punctuation.separator.sequence
---           ^^^^^^^^ meta.function-call
---           ^^^^^ support.function.aggregate
---                ^^^ meta.group
---                ^ punctuation.section.parens.begin
---                 ^ variable.language.wildcard.asterisk
---                  ^ punctuation.section.parens.end
---                    ^^ keyword.operator.assignment.alias
---                       ^^^^^ meta.column-name constant.other.placeholder
+--      ^^^ meta.column-name constant.other.placeholder
+--          ^^ keyword.operator.assignment.alias
+--             ^^^^^^ meta.column-alias constant.other.placeholder
+--                   ^ punctuation.separator.sequence
+--                     ^^^^^^^^ meta.function-call
+--                     ^^^^^ support.function.aggregate
+--                          ^^^ meta.group
+--                          ^ punctuation.section.parens.begin
+--                           ^ variable.language.wildcard.asterisk
+--                            ^ punctuation.section.parens.end
+--                              ^^ keyword.operator.assignment.alias
+--                                 ^^^^^ meta.column-alias constant.other.placeholder
 FROM    bar
 -- ^ keyword.other.DML
 --      ^^^ meta.table-name constant.other.placeholder
@@ -472,7 +493,7 @@ SELECT i.ProductID, p.Name, i.LocationID, i.Quantity
 --                                          ^^^^^^^^ meta.group keyword.other.DML
 --                                                              ^^^^ meta.group keyword.other.order
 --                                                                    ^^ keyword.operator.assignment.alias
---                                                                       ^^^^ meta.column-name constant.other.placeholder
+--                                                                       ^^^^ meta.column-alias constant.other.placeholder
 FROM Production.ProductInventory AS i
 INNER JOIN Production.Product AS p
     ON i.ProductID = p.ProductID
@@ -552,7 +573,7 @@ CREATE OR ALTER PROC CreateOrAlterDemo
 -- <- punctuation.separator.sequence
 --^^^^^ variable.other.readwrite
 --      ^^^ storage.type
---          ^^^^^^ keyword.other
+--          ^^^^^^ storage.modifier.output
 AS
 -- <- keyword.context.block
 BEGIN
@@ -584,6 +605,11 @@ select A.A
     , CASE WHEN B.B IS NOT NULL THEN B.B ELSE DATEADD(d, 1 - DATEPART(d, GETDATE()), DATEADD(m, B.MonthsInFuture, DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0))) END AS FirstDayOfFutureMonth
 --  ^ punctuation.separator.sequence
 --    ^^^^ keyword.control.conditional.case
+    , B.*
+--  ^ punctuation.separator.sequence
+--    ^^ meta.column-name constant.other.placeholder
+--     ^ punctuation.accessor.dot
+--      ^ variable.language.wildcard.asterisk
 into #temp
 -- ^ keyword.other.DML
 --   ^^^^^ meta.table-name constant.other.placeholder
@@ -663,3 +689,22 @@ SELECT ManagerID, EmployeeID, Title, EmployeeLevel
 FROM DirectReports
 ORDER BY ManagerID
 OPTION (MAXRECURSION 3)
+
+CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other
+--           ^^^ meta.toc-list.full-identifier entity.name.function
+--               ^ punctuation.section.group.begin
+--                ^^ meta.column-name constant.other.placeholder
+--                   ^^^^^ storage.type
+--                         ^^^^^^^^^^^ storage.modifier
+--                                    ^ punctuation.separator.sequence
+--                                      ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                                ^^^^^^^^^^^^^ storage.type
+--                                                           ^ constant.numeric
+--                                                             ^ punctuation.section.group.end
+--                                                              ^ punctuation.terminator.statement
+
+CREATE TABLE foo ([int] [int] PRIMARY KEY, [test'hello¬world'@"me"] [varchar] (5));
+--                      ^^^^^ storage.type
+--                                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
