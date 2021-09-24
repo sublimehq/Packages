@@ -295,12 +295,12 @@ contexts:
       push: begin-method-call-paren
 
   label-name:
-    - meta_content_scope: meta.label-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.label-name.sql
     - match: ''
       pop: true
 
   cursor-name:
-    - meta_content_scope: meta.cursor-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.cursor-name.sql
     - match: ''
       pop: true
 
@@ -422,6 +422,6 @@ contexts:
     - include: expressions
 
   cte-table-name:
-    - meta_content_scope: meta.cte-table-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.cte-table-name.sql
     - match: ''
       pop: true

@@ -382,27 +382,27 @@ contexts:
       push: [join-on, table-name-or-subquery]
 
   column-name:
-    - meta_content_scope: meta.column-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.column-name.sql
     - match: ''
       pop: true
 
   column-alias:
-    - meta_content_scope: meta.column-alias.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.column-alias.sql
     - match: ''
       pop: true
 
   database-name:
-    - meta_content_scope: meta.database-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.database-name.sql
     - match: ''
       pop: true
 
   table-name:
-    - meta_content_scope: meta.table-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.table-name.sql
     - match: ''
       pop: true
 
   procedure-name:
-    - meta_content_scope: meta.procedure-name.sql constant.other.placeholder.sql
+    - meta_content_scope: meta.procedure-name.sql
     - match: ''
       pop: true
 

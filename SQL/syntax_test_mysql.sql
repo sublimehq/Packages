@@ -104,7 +104,7 @@ create table fancy_table (
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone,
 --                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
     some_number numeric(5, 2) DEFAULT 0,
---  ^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--  ^^^^^^^^^^^ meta.column-name
 --              ^^^^^^^^^^^^^ storage.type
 --                      ^ constant.numeric
 --                       ^ punctuation.separator.sequence
@@ -118,26 +118,31 @@ create table fancy_table (
 --  ^^^^^^^^^^ storage.modifier.sql
 --                                ^^^^^ storage.modifier.sql
 --                                      ^^^^^^^^^^^^^^^^^^ meta.group meta.group
---                                       ^^ meta.column-name constant.other.placeholder
+--                                       ^^ meta.column-name
 --                                          ^^ keyword.operator.comparison
---                                             ^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                             ^^^^^^^^^^ meta.column-name
 );
 
 CREATE INDEX ON fancy_table(mytime);
 --     ^^^^^ keyword.other.sql
 --           ^^ keyword.other
---              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--              ^^^^^^^^^^^ meta.table-name
 
 CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
 --     ^^^^^ keyword.other.sql
 --           ^^ keyword.other
---              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--              ^^^^^^^^^^^ meta.table-name
 --                          ^^^^^ keyword.other
 
 CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
 --     ^^^^^^^^^^^^ keyword.other.sql
 --                  ^^ meta.create keyword.other
---                     ^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                     ^^^^^^^^^^^ meta.table-name
+--                                ^ meta.group punctuation.section.group.begin
+--                                 ^^^^^^^^^^^^ meta.group meta.column-name
+--                                             ^ meta.group punctuation.separator.sequence
+--                                              ^^^^^^^ meta.group meta.column-name
+--                                                     ^ meta.group punctuation.section.group.end
 --                                                       ^^^^^ keyword.other.DML.sql
 --                                                                    ^^ keyword.operator.logical.sql
 --                                                                       ^^^^ constant.language.null.sql
@@ -149,14 +154,14 @@ create fulltext index if not exists `myindex` ON mytable;
 --                           ^^^^^^ keyword.operator.logical
 --                                  ^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
 --                                            ^^ keyword.other
---                                               ^^^^^^^ meta.table-name constant.other.placeholder
+--                                               ^^^^^^^ meta.table-name
 --                                                      ^ punctuation.terminator.statement
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
 -- ^^^^^^^^ meta.alter keyword.other.ddl
 --                         ^^^ keyword.other.ddl.sql
 --                             ^^^^^^ keyword.other.ddl.sql
---                                    ^^^^^^^^ meta.column-name constant.other.placeholder
+--                                    ^^^^^^^^ meta.column-name
 --                                             ^^^^^^^^ storage.type.sql
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
@@ -168,7 +173,7 @@ DROP TABLE IF EXISTS testing123;
 -- ^^^^^^^ meta.drop keyword.other.ddl
 --         ^^ meta.drop keyword.control.flow
 --            ^^^^^^ keyword.operator.logical.sql
---                   ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                   ^^^^^^^^^^ meta.table-name
 --                             ^ punctuation.terminator.statement
 
 select *
@@ -215,7 +220,7 @@ SELECT  *,
 --      ^ variable.language.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
---              ^^^^^^^^^^^ meta.column-alias constant.other.placeholder
+--              ^^^^^^^^^^^ meta.column-alias
 FROM    foo
 WHERE   f.a IS NULL
 -- ^^ keyword.other.DML.sql

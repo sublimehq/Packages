@@ -2,7 +2,7 @@
 
 USE master
 -- <- keyword.context - constant
---  ^^^^^^ meta.database-name constant.other.placeholder
+--  ^^^^^^ meta.database-name
 
 SELECT columns FROM table WHERE
     column LIKE '%[[]SQL Server Driver]%'
@@ -221,14 +221,14 @@ SELECT @fileDate = CONVERT(VARCHAR(20),GETDATE(),112)
 
 DECLARE db_cursor CURSOR FOR
 -- ^^^^ keyword.declaration.variable
---      ^^^^^^^^^ meta.cursor-name constant.other.placeholder
+--      ^^^^^^^^^ meta.cursor-name
 --                ^^^^^^^^^^ keyword.other
     SELECT name
 --  ^^^^^^ keyword.other.DML
---         ^^^^ meta.column-name constant.other.placeholder
+--         ^^^^ meta.column-name
     FROM MASTER.dbo.sysdatabases
     -- ^ keyword.other.DML
-    --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+    --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
     WHERE name NOT IN ('master','model','msdb','tempdb')
     -- ^^ keyword.other.DML
     --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -238,11 +238,11 @@ DECLARE db_cursor CURSOR FOR
 
 OPEN db_cursor
 -- ^ keyword.other
---   ^^^^^^^^^ meta.cursor-name constant.other.placeholder
+--   ^^^^^^^^^ meta.cursor-name
 FETCH NEXT FROM db_cursor INTO @name
 -- ^^^^^^^ keyword.other
 --         ^^^^ keyword.other
---              ^^^^^^^^^ meta.cursor-name constant.other.placeholder
+--              ^^^^^^^^^ meta.cursor-name
 --                        ^^^^ keyword.other
 --                             ^^^^^ variable.other.readwrite
 
@@ -268,10 +268,10 @@ END
 
 CLOSE db_cursor
 -- ^^ keyword.other
---    ^^^^^^^^^ meta.cursor-name constant.other.placeholder
+--    ^^^^^^^^^ meta.cursor-name
 DEALLOCATE db_cursor
 -- ^^^^^^^ keyword.other
---         ^^^^^^^^^ meta.cursor-name constant.other.placeholder
+--         ^^^^^^^^^ meta.cursor-name
 
 -------------
 
@@ -282,7 +282,7 @@ SET NOCOUNT ON
 --          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 -- ^ keyword.control.flow
---   ^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name constant.other.placeholder
+--   ^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
 --                           ^^^^^^^^^ variable.other.readwrite
 --                                    ^ punctuation.separator.sequence
 --                                      ^^^^^^^^^^^ variable.other.readwrite
@@ -326,12 +326,12 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'every 10 
         @schedule_uid=N'564354f8-4985-7408-80b7-afdc2bb92d3c'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 --                                    ^^^^ keyword.control.flow
---                                         ^^^^^^^^^^^^^^^^ meta.label-name constant.other.placeholder
+--                                         ^^^^^^^^^^^^^^^^ meta.label-name
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
 -- ^ keyword.control.flow
 --   ^^^^^^^^^^^ variable.other.readwrite
 --               ^ keyword.operator.assignment
---                 ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name constant.other.placeholder
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 COMMIT TRANSACTION
 -- ^^^^^^^^^^^^^^^ keyword.context
@@ -349,14 +349,14 @@ EndSave:
 INSERT INTO my_table (foo, bar)
 -- ^^^^^^^^ keyword.other.DML
 --          ^^^^^^^^^^^^^^^^^^^^ - meta.function-call - support
---          ^^^^^^^^ meta.table-name constant.other.placeholder
+--          ^^^^^^^^ meta.table-name
 VALUES (2, 'two'),
 -- ^^^ keyword.other.DML.II
        (3, 'three')
 
 INSERT INTO #my_table
 -- ^^^^^^^^ keyword.other.DML
---          ^^^^^^^^^ meta.table-name constant.other.placeholder - meta.function-call - support
+--          ^^^^^^^^^ meta.table-name - meta.function-call - support
 VALUES (2, 'two'),
 -- ^^^ keyword.other.DML.II
        (3, 'three')
@@ -365,9 +365,9 @@ VALUES (2, 'two'),
 
 SELECT  foo AS foobar, COUNT(*) AS tally
 -- ^^^ keyword.other.DML
---      ^^^ meta.column-name constant.other.placeholder
+--      ^^^ meta.column-name
 --          ^^ keyword.operator.assignment.alias
---             ^^^^^^ meta.column-alias constant.other.placeholder
+--             ^^^^^^ meta.column-alias
 --                   ^ punctuation.separator.sequence
 --                     ^^^^^^^^ meta.function-call
 --                     ^^^^^ support.function.aggregate
@@ -376,10 +376,10 @@ SELECT  foo AS foobar, COUNT(*) AS tally
 --                           ^ variable.language.wildcard.asterisk
 --                            ^ punctuation.section.parens.end
 --                              ^^ keyword.operator.assignment.alias
---                                 ^^^^^ meta.column-alias constant.other.placeholder
+--                                 ^^^^^ meta.column-alias
 FROM    bar
 -- ^ keyword.other.DML
---      ^^^ meta.table-name constant.other.placeholder
+--      ^^^ meta.table-name
 WHERE   1 = 1
 -- ^^ keyword.other.DML
 GROUP BY foo
@@ -391,9 +391,9 @@ from (select * from some_table) alias_table WITH (NOLOCK)
 --   ^ punctuation.section.group.begin
 --    ^^^^^^ keyword.other.DML
 --           ^ variable.language.wildcard.asterisk
---                  ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                  ^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.section.group.end
---                              ^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                              ^^^^^^^^^^^ meta.table-name
 --                                          ^^^^ keyword.other.DML
 --                                               ^ punctuation.section.group.begin
 --                                                ^^^^^^ meta.group constant.language.with
@@ -403,7 +403,7 @@ where exists(select * from other_table where id = some_table.id)
 
 UPDATE TableAlias
 -- ^^^ keyword.other.DML
---     ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--     ^^^^^^^^^^ meta.table-name
 SET column1 = v.column1,
 -- <- keyword.other.DML
 --^ keyword.other.DML
@@ -411,8 +411,8 @@ SET column1 = v.column1,
 --          ^ keyword.operator
 FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.DML
---   ^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
---                 ^^^^^^^^^^ meta.table-name constant.other.placeholder
+--   ^^^^^^^^^^^^^ meta.table-name
+--                 ^^^^^^^^^^ meta.table-name
 --                            ^^^^ keyword.other
 --                                 ^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                                     ^ - meta.group
@@ -423,19 +423,19 @@ FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 --                                                    ^ punctuation.section.group.end
 INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 -- ^^^^^^^ keyword.other.DML
---         ^^^^^^^^^ meta.table-name constant.other.placeholder
+--         ^^^^^^^^^ meta.table-name
 --                   ^^ keyword.operator.assignment.alias
---                      ^ meta.table-name constant.other.placeholder
+--                      ^ meta.table-name
 --                            ^^^^ keyword.other.DML
 --                                 ^^^^^^^^ meta.group
 --                                 ^ punctuation.section.group.begin
 --                                  ^^^^^^ constant.language.with
 --                                        ^ punctuation.section.group.end
 --                                          ^^ keyword.operator.join
---                                             ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                             ^^^^^^^^^ meta.column-name
 --                                              ^ punctuation.accessor.dot
 --                                                       ^ keyword.operator.comparison
---                                                         ^^^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                                         ^^^^^^^^^^^^^^^^^^ meta.column-name
 --                                                                   ^ punctuation.accessor.dot
 WHERE TableAlias.some_id IN (
 -- ^^ keyword.other.DML
@@ -445,8 +445,8 @@ WHERE TableAlias.some_id IN (
 --  ^^^^^^ keyword.other.DML
     FROM dbname..table_name_in_default_schema a
 --  ^^^^ keyword.other.DML
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
---                                            ^ meta.group meta.table-name constant.other.placeholder
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                                            ^ meta.group meta.table-name
     WHERE a.another_id_column IS NOT NULL
 --  ^^^^^ meta.group keyword.other.DML
 --                            ^^ keyword.operator.logical
@@ -462,22 +462,22 @@ AND (v.column2 IS NULL OR ISNULL(TableAlias.column1, 0) != v.column1)
 
 drop table foobar
 -- ^^^^^^^ meta.drop keyword.other.ddl
---         ^^^^^^ meta.table-name constant.other.placeholder
+--         ^^^^^^ meta.table-name
 
 alter table foo
 -- ^^^^^^^^ meta.alter keyword.other.ddl
---          ^^^ meta.alter meta.table-name constant.other.placeholder
+--          ^^^ meta.alter meta.table-name
 add bar uniqueidentifier
 --^ meta.alter keyword.other.ddl
---  ^^^ meta.alter meta.column-name constant.other.placeholder
+--  ^^^ meta.alter meta.column-name
 --      ^^^^^^^^^^^^^^^^ meta.alter storage.type
 
 alter table foo
 --^^^^^^^^^ meta.alter keyword.other.ddl - meta.alter meta.alter
---          ^^^ meta.alter meta.table-name constant.other.placeholder
+--          ^^^ meta.alter meta.table-name
 alter column bar uniqueidentifier not null
 --^^^^^^^^^^ meta.alter keyword.other.ddl
---           ^^^ meta.alter meta.column-name constant.other.placeholder
+--           ^^^ meta.alter meta.column-name
 --               ^^^^^^^^^^^^^^^^ meta.alter storage.type
 --                                ^^^ meta.alter keyword.operator.logical
 --                                    ^^^^ meta.alter constant.language.null
@@ -493,7 +493,7 @@ SELECT i.ProductID, p.Name, i.LocationID, i.Quantity
 --                                          ^^^^^^^^ meta.group keyword.other.DML
 --                                                              ^^^^ meta.group keyword.other.order
 --                                                                    ^^ keyword.operator.assignment.alias
---                                                                       ^^^^ meta.column-alias constant.other.placeholder
+--                                                                       ^^^^ meta.column-alias
 FROM Production.ProductInventory AS i
 INNER JOIN Production.Product AS p
     ON i.ProductID = p.ProductID
@@ -522,12 +522,12 @@ SET Value = Bar.Value
 FROM foo
 INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND ISNULL(bar.some_id, 0) = ISNULL(foo.some_id, 0)
 -- ^^^^^^^ keyword.other.DML
---         ^^^ meta.table-name constant.other.placeholder
+--         ^^^ meta.table-name
 --              ^^^^^^ meta.group constant.language.with
 --                      ^^ keyword.operator.join
---                         ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                         ^^^^^^^^^ meta.column-name
 --                                   ^ keyword.operator.comparison
---                                     ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                     ^^^^^^^^^ meta.column-name
 --                                               ^^^^^^^ keyword.other
 --                                                       ^^^^^^^^^^^^^^^^ support.constant
 --                                                                        ^^^ keyword.operator.logical
@@ -536,24 +536,24 @@ INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND IS
 --                                                                                                     ^^^^^^ meta.function-call support.function
     AND foo.a = ''
 --  ^^^ keyword.operator.logical
---      ^^^^^ meta.column-name constant.other.placeholder
+--      ^^^^^ meta.column-name
 --            ^ keyword.operator.comparison
 --              ^^ string.quoted.single
 
 SELECT DISTINCT *
 INTO ##global_temp_table
 -- ^ keyword.other.DML
---   ^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--   ^^^^^^^^^^^^^^^^^^^ meta.table-name
 FROM some_long_table_name s
 LEFT OUTER JOIN another_long_table_name (NOLOCK) a ON s.blah = a.blah AND ISNULL(p.ok, '') = ISNULL(a.ok, '') COLLATE DATABASE_DEFAULT
 -- ^^^^^^^^^^^^ keyword.other.DML
---              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                       ^^^^^^ meta.group constant.language.with
---                                               ^ meta.table-name constant.other.placeholder
+--                                               ^ meta.table-name
 --                                                 ^^ keyword.operator.join
---                                                    ^^^^^^ meta.column-name constant.other.placeholder
+--                                                    ^^^^^^ meta.column-name
 --                                                           ^ keyword.operator.comparison
---                                                             ^^^^^^ meta.column-name constant.other.placeholder
+--                                                             ^^^^^^ meta.column-name
 --                                                                    ^^^ keyword.operator.logical
 --                                                                        ^^^^^^ meta.function-call support.function
 --                                                                                                            ^^^^^^^ keyword.other
@@ -587,7 +587,7 @@ BEGIN
 --                   ^ meta.group punctuation.section.group.end
 --                     ^ variable.language.wildcard.asterisk
 --                       ^^^^ keyword.other.DML
---                            ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name constant.other.placeholder
+--                            ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.definition.identifier.begin
 --                                ^ punctuation.definition.identifier.end
 --                                 ^ punctuation.accessor.dot
@@ -607,35 +607,35 @@ select A.A
 --    ^^^^ keyword.control.conditional.case
     , B.*
 --  ^ punctuation.separator.sequence
---    ^^ meta.column-name constant.other.placeholder
+--    ^^ meta.column-name
 --     ^ punctuation.accessor.dot
 --      ^ variable.language.wildcard.asterisk
 into #temp
 -- ^ keyword.other.DML
---   ^^^^^ meta.table-name constant.other.placeholder
+--   ^^^^^ meta.table-name
 from @A A
 -- ^ keyword.other.DML
---   ^^ meta.table-name constant.other.placeholder
---      ^ meta.table-name constant.other.placeholder
+--   ^^ meta.table-name
+--      ^ meta.table-name
 inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
 --^^^^^^^^ keyword.other.DML
---         ^ meta.table-name constant.other.placeholder
+--         ^ meta.table-name
 --           ^^ keyword.operator.join
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --              ^ punctuation.section.group.begin
 --               ^^^^^^ keyword.other.DML
 --                                                                                         ^ keyword.operator.comparison
---                                                                                           ^^^^ meta.column-name constant.other.placeholder
+--                                                                                           ^^^^ meta.column-name
 
 WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
 -- ^ keyword.other.DML
---   ^^^^^^^^^ meta.cte-table-name constant.other.placeholder
+--   ^^^^^^^^^ meta.cte-table-name
 --             ^ punctuation.section.group.begin
---              ^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--              ^^^^^^^^^^^^^ meta.column-name
 --                           ^ punctuation.separator.sequence
---                             ^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                             ^^^^^^^^^^ meta.column-name
 --                                       ^ punctuation.separator.sequence
---                                         ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                         ^^^^^^^^^ meta.column-name
 AS
 -- <- keyword.operator.assignment.cte
 -- Define the first CTE query.
@@ -653,9 +653,9 @@ AS
 -- <- punctuation.separator.sequence.cte
 -- Define the second CTE query, which returns sales quota data by year for each sales person.
 Sales_Quota_CTE (BusinessEntityID, SalesQuota, SalesQuotaYear)
--- ^^^^^^^^^^^^ meta.cte-table-name constant.other.placeholder
+-- ^^^^^^^^^^^^ meta.cte-table-name
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group - meta.group meta.group
---               ^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--               ^^^^^^^^^^^^^^^^ meta.column-name
 AS
 -- <- keyword.operator.assignment.cte
 (
@@ -702,29 +702,29 @@ OPTION (MAXRECURSION 3)
 
 WITH cte_table AS ( SELECT blah )
 -- ^ keyword.other.DML
---   ^^^^^^^^^ meta.cte-table-name constant.other.placeholder
+--   ^^^^^^^^^ meta.cte-table-name
 --             ^^ keyword.operator.assignment.cte
 --                ^ meta.group punctuation.section.group.begin
 --                  ^^^^^^ meta.group keyword.other.DML
---                         ^^^^ meta.group meta.column-name constant.other.placeholder
+--                         ^^^^ meta.group meta.column-name
 --                              ^ meta.group punctuation.section.group.end
 SELECT cte_table.* FROM cte_table
 -- ^^^ keyword.other.DML
---     ^^^^^^^^^^ meta.column-name constant.other.placeholder
+--     ^^^^^^^^^^ meta.column-name
 --               ^ variable.language.wildcard.asterisk
 --                 ^^^^ keyword.other.DML
---                      ^^^^^^^^^ meta.table-name constant.other.placeholder
+--                      ^^^^^^^^^ meta.table-name
 
 CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
 --           ^^^ meta.toc-list.full-identifier entity.name.function
 --               ^ punctuation.section.group.begin
---                ^^ meta.column-name constant.other.placeholder
+--                ^^ meta.column-name
 --                   ^^^^^ storage.type
 --                         ^^^^^^^^^^^ storage.modifier
 --                                    ^ punctuation.separator.sequence
---                                      ^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                      ^^^^^^^^^ meta.column-name
 --                                                ^^^^^^^^^^^^^ storage.type
 --                                                           ^ constant.numeric
 --                                                             ^ punctuation.section.group.end
@@ -732,7 +732,7 @@ CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
 
 CREATE TABLE foo ([int] [int] PRIMARY KEY, [test'hello¬world'@"me"] [varchar] (5));
 --                      ^^^^^ storage.type
---                                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name constant.other.placeholder
+--                                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name
 
 MERGE sales.category t
     USING sales.category_staging s
