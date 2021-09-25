@@ -643,7 +643,6 @@ contexts:
     - include: numbers
     - include: yields
     - include: operators
-    - include: lambda
     - match: \b(await)\b
       scope: keyword.other.await.python
     - include: inline-if
@@ -658,6 +657,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
+    - include: lambda
     - include: expressions-common
     - include: qualified-name
 
@@ -665,6 +665,7 @@ contexts:
     # Differs from expression-as-a-statement in that:
     # - invalid-name matches will pop the current context
     # - assignment expressions
+    - include: lambda
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
@@ -674,7 +675,10 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - accessor matching continues into the next line
     - include: lambda-in-groups
-    - include: expression-in-a-statement
+    - include: expressions-common
+    - include: illegal-name
+    - include: qualified-name
+    - include: assignment-expression
     - match: '(\.) *(?={{identifier}})'
       captures:
         1: punctuation.accessor.dot.python
