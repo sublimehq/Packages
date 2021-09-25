@@ -673,6 +673,7 @@ contexts:
   expression-in-a-group:  # Always include this last!
     # Differs from expression-in-a-statement in that:
     # - accessor matching continues into the next line
+    - include: lambda-in-groups
     - include: expression-in-a-statement
     - match: '(\.) *(?={{identifier}})'
       captures:
@@ -1215,8 +1216,39 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.parameter.python
 
+  lambda-in-groups:
+    # A lambda keyword within a group may be part of a generator expression
+    # Hence pop contexts off stack if `for` keyword is matched in order to
+    # not scope it invalid.
+    - match: \blambda(?=\s|:|$)
+      scope:
+        meta.function.inline.python
+        storage.type.function.inline.python
+        keyword.declaration.function.inline.python
+      push: [lambda-in-group-parameters, allow-unpack-operators]
+
+  lambda-in-group-parameters:
+    - meta_content_scope: meta.function.inline.parameters.python
+    - match: ':'
+      scope: punctuation.section.function.begin.python
+      set:
+        - meta_include_prototype: false
+        - match: ''
+          set: lambda-in-group-body
+    - include: lambda-in-group-end
+    - include: lambda-parameters-common
+
+  lambda-in-group-body:
+    - meta_scope: meta.function.inline.body.python
+    - include: lambda-in-group-end
+    - include: lambda-body
+
+  lambda-in-group-end:
+    - match: (?=for\b)
+      pop: true
+
   lambda:
-    - match: \b(lambda)(?=\s|:|$)
+    - match: \blambda(?=\s|:|$)
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
@@ -1225,32 +1257,37 @@ contexts:
 
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
-    - include: line-continuation-or-pop
-    - match: '\:'
+    - match: ':'
       scope: punctuation.section.function.begin.python
       set:
-        # clear meta_scope
+        - meta_include_prototype: false
         - match: ''
-          set:
-            - meta_scope: meta.function.inline.body.python
-            - include: illegal-assignment-expression
-            # We don't know whether we are within a grouped
-            # or line-statement context at this point.
-            # If we're in a group, the underlying context will take over
-            # at the end of the line.
-            - match: (?=[,:)}\]])|$
-              pop: true
-            - include: expression-in-a-statement
+          set: lambda-body
+    - include: lambda-parameters-common
+
+  lambda-parameters-common:
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
+    - include: line-continuation-or-pop
     - include: keyword-arguments
     - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
-    - match: '\S'
+    - match: \S
       scope: invalid.illegal.expected-parameter.python
+
+  lambda-body:
+    - meta_scope: meta.function.inline.body.python
+    - include: illegal-assignment-expression
+    # We don't know whether we are within a grouped
+    # or line-statement context at this point.
+    # If we're in a group, the underlying context will take over
+    # at the end of the line.
+    - match: (?=[,:)}\]])|$
+      pop: true
+    - include: expression-in-a-statement
 
   generators-groups-and-tuples:
     - include: empty-tuples
