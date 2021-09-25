@@ -3669,7 +3669,7 @@ my (
 #           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
-#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                          ^ punctuation.section.generic.end.perl
 #                           ^ punctuation.terminator.statement.perl
 #                             ^ punctuation.section.block.end.perl
@@ -4756,7 +4756,7 @@ state
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
-#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
   print(grep /^Client-/, $res->header_field_names)
