@@ -837,6 +837,16 @@ SELECT [EmpID]
 --                                                  ^^^^^^^^^ keyword.other
 ------------------------
 
+USE [AdventureWorks]
+GO
+SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
+FROM [Production].[ProductReview] PR
+WITH (INDEX = IX_ProductReview_ProductID_Name) -- TODO: scope index name correctly
+INNER JOIN [Production].[Product] PP
+WITH (INDEX = [AK_Product_Name]) ON PR.ProductID = PP.ProductID -- TODO: scope index name correctly
+-----------------
+
+
 -- Pivot table with one row and five columns
 SELECT 'AverageCost' AS Cost_Sorted_By_Production_Days,
   [0], [1], [2], [3], [4]
@@ -921,3 +931,53 @@ WHEN NOT MATCHED BY TARGET
          VALUES (s.category_id, s.category_name, s.amount)
 WHEN NOT MATCHED BY SOURCE
     THEN DELETE;
+
+--------------
+
+CREATE TABLE [Employee](
+   [EmployeeID] [int] NOT NULL PRIMARY KEY,
+   [FirstName] VARCHAR(250) NOT NULL,
+   [LastName] VARCHAR(250) NOT NULL,
+   [DepartmentID] [int] NOT NULL REFERENCES [Department](DepartmentID), -- TODO: scope reference table name correctly
+) ON [PRIMARY] -- TODO: scope ON [Primary] correctly
+GO
+SELECT * FROM Department D
+CROSS APPLY
+--^^^^^^^^^ keyword.other.DML
+   (
+   SELECT * FROM Employee E
+   WHERE E.DepartmentID = D.DepartmentID
+   ) A
+GO
+SELECT * FROM Department D
+OUTER APPLY
+-- ^^^^^^^^ keyword.other.DML
+   (
+   SELECT * FROM Employee E
+   WHERE E.DepartmentID = D.DepartmentID
+   ) A
+GO
+--------------------
+IF EXISTS (SELECT * FROM sys.objects WHERE OBJECT_ID = OBJECT_ID(N'[fn_GetAllEmployeeOfADepartment]') AND type IN (N'IF'))
+BEGIN
+   DROP FUNCTION dbo.fn_GetAllEmployeeOfADepartment -- TODO: scope this correctly
+END
+GO
+
+CREATE FUNCTION dbo.fn_GetAllEmployeeOfADepartment(@DeptID AS INT)
+RETURNS TABLE -- TODO: scope this correctly
+AS
+RETURN
+   (
+   SELECT * FROM Employee E
+   WHERE E.DepartmentID = @DeptID
+   )
+GO
+
+SELECT * FROM Department D
+CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) -- TODO: scope function call correctly in place of a table name/subquery
+GO
+
+SELECT * FROM Department D
+OUTER APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID)
+GO

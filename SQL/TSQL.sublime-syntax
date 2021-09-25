@@ -413,7 +413,7 @@ contexts:
 
   joins:
     - meta_append: true
-    - match: (?i)\b(?:cross\s+)?apply\b
+    - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
       scope: keyword.other.DML.sql
       push: table-name-or-subquery
 
