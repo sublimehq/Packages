@@ -715,7 +715,7 @@ SELECT cte_table.* FROM cte_table
 --                 ^^^^ keyword.other.DML
 --                      ^^^^^^^^^ meta.table-name
 
-CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
+CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
 --           ^^^ meta.toc-list.full-identifier entity.name.function
@@ -728,13 +728,188 @@ CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5));
 --                                                ^^^^^^^^^^^^^ storage.type
 --                                                           ^ constant.numeric
 --                                                             ^ punctuation.section.group.end
---                                                              ^ punctuation.terminator.statement
-
+GO
+-- <- keyword.control.flow
 CREATE TABLE foo ([int] [int] PRIMARY KEY, [test'hello¬world'@"me"] [varchar] (5));
 --                      ^^^^^ storage.type
 --                                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name
 
-MERGE sales.category t
+CREATE PROCEDURE [blah].[test]
+    @input1 INT,
+    @input2 [VARCHAR]( MAX )
+--          ^^^^^^^^^^^^^^^^ storage.type
+--                     ^^^ constant.language.max
+AS
+-- <- keyword.context.block
+;WITH CTE AS (SELECT @input1 AS Input1) UPDATE Blah SET X = CTE.Input1 FROM CTE JOIN X ON X.Nonsense = 12.6
+-- <- punctuation.terminator.statement
+--^^^ keyword.other.DML
+--    ^^^ meta.cte-table-name
+--        ^^ keyword.operator.assignment.cte
+--                                      ^^^^^^ keyword.other.DML
+--                                             ^^^^ meta.table-name
+--                                                  ^^^ keyword.other.DML
+--                                                                                                     ^^^^ meta.number.float.decimal constant.numeric.value
+
+IF OBJECT_ID('tempdb..import') IS NOT NULL
+    DROP TABLE tempdb..import
+    --         ^^^^^^^^^^^^^^ meta.table-name
+    --               ^^ punctuation.accessor.dot
+GO
+CREATE TABLE tempdb..[import] (a varchar(10), b varchar(20) null)
+GO
+RAISERROR ('importing file...', 0, 1) WITH NOWAIT
+-- import file
+BULK INSERT
+--^^^^^^^^^ keyword.other
+    tempdb..import
+FROM
+    'C:\temp_folder\filename.txt'
+WITH (
+    FIRSTROW        = 1,
+--  ^^^^^^^^ constant.language.with
+--                  ^ keyword.operator.assignment
+--                    ^ meta.number.integer.decimal constant.numeric.value
+--                     ^ punctuation.separator.sequence
+    FIELDTERMINATOR = ';',
+    ROWTERMINATOR   = '\n',
+--  ^^^^^^^^^^^^^ constant.language.with
+--                  ^ keyword.operator.assignment
+--                    ^^^^ string.quoted.single
+--                        ^ punctuation.separator.sequence
+    CODEPAGE        = '1257',
+    TABLOCK
+--  ^^^^^^^ constant.language.with
+)
+-- <- punctuation.section.group.end
+IF @@ERROR != 0
+-- <- keyword.control.flow
+-- ^^^^^^^ support.variable.global
+--         ^^ keyword.operator.comparison
+    UPDATE tempdb..continue_script SET proceed = 0
+GO
+IF EXISTS (SELECT proceed FROM tempdb..continue_script WHERE proceed = 0)
+    RETURN
+RAISERROR ('file imported', 0, 1) WITH NOWAIT
+
+---------
+
+SELECT [EmpID]
+      ,[FirstName]
+      ,[LastName]
+      ,[Education]
+      ,[Occupation]
+      ,[YearlyIncome]
+      ,[Sales]
+      ,[HireDate]
+  FROM [NewEmployee]
+  FOR XML RAW, ELEMENTS;
+-- ^^^^^^ keyword.other
+--        ^^^ keyword.other
+--           ^ punctuation.separator.sequence
+--             ^^^^^^^^ keyword.other
+
+SELECT [EmpID]
+      ,[FirstName]
+      ,[LastName]
+      ,[Education]
+      ,[Occupation]
+      ,[YearlyIncome]
+      ,[Sales]
+      ,[HireDate]
+  FROM [NewEmployee]
+  FOR XML RAW('Employee'),
+--^^^^^^^ keyword.other
+--        ^^^ keyword.other
+--           ^ punctuation.section.group.begin
+--            ^^^^^^^^^^ string.quoted.single
+--                      ^ punctuation.section.group.end
+--                       ^ punctuation.separator.sequence
+          ROOT('EmployeeDetails'), ELEMENTS XSINIL, XMLSCHEMA('urn:tutorialgateway.org');
+--        ^^^^ keyword.other
+--            ^ punctuation.section.group.begin
+--             ^^^^^^^^^^^^^^^^^ string.quoted.single
+--                              ^ punctuation.section.group.end
+--                               ^ punctuation.separator.sequence
+--                                 ^^^^^^^^ keyword.other
+--                                          ^^^^^^ keyword.other
+--                                                ^ punctuation.separator.sequence
+--                                                  ^^^^^^^^^ keyword.other
+------------------------
+
+-- Pivot table with one row and five columns
+SELECT 'AverageCost' AS Cost_Sorted_By_Production_Days,
+  [0], [1], [2], [3], [4]
+FROM
+(
+  SELECT DaysToManufacture, StandardCost
+  FROM Production.Product
+) AS SourceTable
+PIVOT
+(
+  AVG(StandardCost)
+  FOR DaysToManufacture IN ([0], [1], [2], [3], [4]) -- TODO: scope FOR correctly
+) AS PivotTable;
+------------
+-- Create the table and insert values as portrayed in the previous example.
+CREATE TABLE pvt (VendorID INT, Emp1 INT, Emp2 INT,
+    Emp3 INT, Emp4 INT, Emp5 INT);
+GO
+INSERT INTO pvt VALUES (1,4,3,5,4,4);
+INSERT INTO pvt VALUES (2,4,1,5,5,5);
+INSERT INTO pvt VALUES (3,4,3,5,4,4);
+INSERT INTO pvt VALUES (4,4,2,5,5,4);
+INSERT INTO pvt VALUES (5,5,1,5,5,5);
+GO
+-- Unpivot the table.
+SELECT VendorID, Employee, Orders
+FROM
+   (SELECT VendorID, Emp1, Emp2, Emp3, Emp4, Emp5
+   FROM pvt) p
+UNPIVOT
+   (Orders FOR Employee IN -- TODO: scope FOR correctly
+      (Emp1, Emp2, Emp3, Emp4, Emp5)
+)AS unpvt;
+GO
+-------------
+
+CREATE TABLE dbo.T1 ( column_1 int IDENTITY, column_2 VARCHAR(30));
+GO
+INSERT T1 VALUES ('Row #1');
+--^^^^ keyword.other.DML
+--     ^^ meta.table-name
+--        ^^^^^^ keyword.other.DML.II
+INSERT T1 (column_2) VALUES ('Row #2');
+GO
+SET IDENTITY_INSERT T1 ON; -- TODO: scope me correctly
+GO
+INSERT INTO T1 (column_1,column_2)
+    VALUES (-99, 'Explicit identity value');
+GO
+SELECT column_1, column_2
+FROM T1;
+GO
+
+CREATE TABLE dbo.T1
+(
+    column_1 AS 'Computed column ' + column_2, -- TODO: scope the computed column expression correctly
+    column_2 varchar(30)
+        CONSTRAINT default_name DEFAULT ('my column default'), -- TODO: scope the constraint name correctly
+--      ^^^^^^^^^^ storage.modifier
+    column_3 rowversion,
+--  ^^^^^^^^ meta.column-name
+--           ^^^^^^^^^^ storage.type
+    column_4 varchar(40) NULL
+);
+INSERT INTO T1 DEFAULT VALUES;
+-- ^^^^^^^^ keyword.other.DML
+--          ^^ meta.table-name
+--             ^^^^^^^ storage.modifier
+--                     ^^^^^^ keyword.other.DML.II
+--                           ^ punctuation.terminator.statement
+
+
+MERGE sales.category t -- TODO: scope this correctly
     USING sales.category_staging s
 ON (s.category_id = t.category_id)
 WHEN MATCHED

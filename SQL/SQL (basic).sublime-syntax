@@ -8,10 +8,10 @@ version: 2
 variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
-  reserved: (?i:;|\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|truncate|create|alter|drop)\b)
+  reserved: (?i:;|\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|update|truncate|create|alter|drop)\b)
   additional_reserved: (?!)
   simple_types: (?i:\b(?:bit|bool|boolean|datetime|int)\b)
-  types_with_optional_number: (?i:\b(?:char|number|nvarchar|varbinary|varchar)\b)
+  types_with_optional_number: (?i:\b(?:n?char|number|n?varchar|varbinary)\b)
 
 contexts:
   prototype:
@@ -178,12 +178,17 @@ contexts:
     - match: (?=\S)
       push: [column-name, single-identifier]
 
+  numbers:
+    - match: \b\d+\.\d+\b
+      scope: meta.number.float.decimal.sql constant.numeric.value.sql
+    - match: \b\d+\b
+      scope: meta.number.integer.decimal.sql constant.numeric.value.sql
+
   expressions:
     - match: (?i)\bas\b
       scope: keyword.operator.assignment.alias.sql
       push: [column-alias, single-identifier-after-whitespace]
-    - match: \b\d+\b
-      scope: meta.number.integer.decimal.sql constant.numeric.value.sql
+    - include: numbers
     - match: (?i)\b(?:true|false)\b
       scope: constant.language.boolean.sql
     - match: (?i:\bnull\b)

@@ -8,11 +8,11 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'') #(?:\\[tnr])
   simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
-  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec)\b)
+  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert)\b)
   enclosed_type_begin: (?:\[)
   enclosed_type_end: (?:\])
-  simple_types: (?i:\b(?:bit|bool|boolean|datetime|int|smallint|sysname|uniqueidentifier|text)\b)
-  types_with_optional_number: (?i:\b(?:n?char|numeric|n?varchar|varbinary|decimal|money)\b)
+  simple_types: (?i:\b(?:bit|bool|boolean|datetime|int|smallint|sysname|uniqueidentifier|n?text|image|rowversion)\b)
+  types_with_optional_number: (?i:\b(?:n?char|numeric|n?varchar|binary|varbinary|decimal|money)\b)
 
 contexts:
   identifier-part:
@@ -167,7 +167,7 @@ contexts:
       fail: like-strings-branch
 
   types:
-    - meta_append: true
+    - meta_prepend: true
     - match: |-
         (?xi)
         {{enclosed_type_begin}}?
@@ -179,12 +179,13 @@ contexts:
         {{enclosed_type_begin}}?
         {{types_with_optional_number}}
         {{enclosed_type_end}}?
-        (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
+        (?:\s*\(\s*(?:(\d+)|(MAX))\s*(?:(,)\s*(\d+))?\))?
       scope: storage.type.sql
       captures:
         1: constant.numeric.sql
-        2: punctuation.separator.sequence.sql
-        3: constant.numeric.sql
+        2: constant.language.max.sql
+        3: punctuation.separator.sequence.sql
+        4: constant.numeric.sql
 
   statements:
     - meta_append: true
@@ -215,6 +216,8 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:disk|tape|url)\b
       scope: keyword.other.tsql
+    - match: \b(?i:pivot|unpivot)\b
+      scope: keyword.other.tsql
     - match: \b(\w+)(:)
       captures:
         1: entity.name.label.tsql
@@ -243,17 +246,17 @@ contexts:
       scope: keyword.other.sql
     - match: \b(?i:cursor\s+for)\b
       scope: keyword.other.sql
-    - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
-      scope: keyword.other.sql
-      push: [cursor-name, single-identifier-after-whitespace]
     - match: \b(?i:collate)\b
       scope: keyword.other.tsql
       push: collation
 
   dml-statements:
     - meta_append: true
-    - match: \b(?i:bulk)\b
+    - match: \b(?i:bulk\s+insert)\b
       scope: keyword.other.tsql
+    - match: (?i:\binsert\b)
+      scope: keyword.other.DML.sql
+      push: [table-name, single-identifier-after-whitespace]
     - match: \b(?i:into)\b(?!\s*@)
       scope: keyword.other.DML.tsql
       push: [table-name, single-identifier-after-whitespace]
@@ -261,8 +264,9 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:off)\b
       scope: keyword.other.tsql
-    - match: \b(?i:for\s+xml\s+path)\b
+    - match: \b(?i:for\s+xml)\b
       scope: keyword.other.tsql
+      push: for-xml
     - match: \b(?i:top)\b
       scope: keyword.other.DML.tsql
     - match: \b(?i:(option))\b\s*(\()
@@ -270,10 +274,13 @@ contexts:
         1: keyword.other.DML.tsql
         2: punctuation.section.group.begin.sql
       push: inside-with-group
+    - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
+      scope: keyword.other.sql
+      push: [cursor-name, single-identifier-after-whitespace]
 
   ddl-statements:
     - meta_prepend: true
-    - match: \b(?i:create\s+or\s+alter)\b
+    - match: \b(?i:create(?:\s+or\s+alter)?)\b
       scope: keyword.other.ddl.sql
       push: [ddl-create-target-expect-as, ddl-create-target, create-condition, ddl-target]
 
@@ -286,7 +293,8 @@ contexts:
     - match: (?i:\bas\b)
       scope: keyword.context.block.sql
       pop: true
-    - include: expressions-or-column-name
+    - include: pop-on-top-level-reserved-word
+    - include: expressions
 
   built-in-scalar-function-calls:
     - meta_append: true
@@ -363,6 +371,21 @@ contexts:
       scope: constant.language.with.tsql
     - match: ','
       scope: punctuation.separator.sequence.tsql
+    - match: '='
+      scope: keyword.operator.assignment.tsql
+      push: expressions-pop-at-comma
+
+  expressions-pop-at-comma:
+    - match: (?=[,)])
+      pop: true
+    - include: expressions
+
+  maybe-identifier-accessor:
+    - meta_prepend: true
+    - match: \s*(\.{2,})
+      captures:
+        1: punctuation.accessor.dot.sql
+      set: single-identifier-after-whitespace
 
   cast:
     - meta_scope: meta.function-call.sql
@@ -424,4 +447,13 @@ contexts:
   cte-table-name:
     - meta_content_scope: meta.cte-table-name.sql
     - match: ''
+      pop: true
+
+  for-xml:
+    - match: \b(?i:raw|auto|elements|root)\b
+      scope: keyword.other.tsql
+    - match: \b(?:XSINIL|XMLSCHEMA)\b # case sensitive?! TODO: need to check
+      scope: keyword.other.tsql
+    - include: expressions
+    - match: (?=\S)
       pop: true
