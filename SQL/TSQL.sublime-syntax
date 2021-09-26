@@ -11,8 +11,18 @@ variables:
   additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert)\b)
   enclosed_type_begin: (?:\[)
   enclosed_type_end: (?:\])
-  simple_types: (?i:\b(?:bit|bool|boolean|datetime|int|smallint|sysname|uniqueidentifier|n?text|image|rowversion)\b)
-  types_with_optional_number: (?i:\b(?:n?char|numeric|n?varchar|binary|varbinary|decimal|money)\b)
+
+  simple_types: |-
+    (?ix:\b(?:
+      (?:bigint|bit|float|int|real|smallint|tinyint)
+    | (?:date|datetime|datetime2|datetimeoffset|smalldatetime|time)
+    | (?:geometry|hierarchyid|image|n?text|rowversion|sql_variant|sysname|uniqueidentifier|xml)
+    )\b)
+  types_with_optional_number: |-
+    (?ix:\b(?:
+      (?:n?char|n?varchar|binary|varbinary)
+    | (?:decimal|money|numeric)
+    )\b)
 
 contexts:
   identifier-part:
@@ -170,15 +180,15 @@ contexts:
     - meta_prepend: true
     - match: |-
         (?xi)
-        {{enclosed_type_begin}}?
+        {{enclosed_type_begin}}
         {{simple_types}}
-        {{enclosed_type_end}}?
+        {{enclosed_type_end}}
       scope: storage.type.sql
     - match: |-
         (?xi)
-        {{enclosed_type_begin}}?
+        {{enclosed_type_begin}}
         {{types_with_optional_number}}
-        {{enclosed_type_end}}?
+        {{enclosed_type_end}}
         (?:\s*\(\s*(?:(\d+)|(MAX))\s*(?:(,)\s*(\d+))?\))?
       scope: storage.type.sql
       captures:
@@ -186,6 +196,12 @@ contexts:
         2: constant.language.max.sql
         3: punctuation.separator.sequence.sql
         4: constant.numeric.sql
+    - match: |-
+        (?xi)
+        (?:{{enclosed_type_begin}}|\b)
+        table
+        (?:{{enclosed_type_end}}|\b)
+      scope: storage.type.sql
 
   statements:
     - meta_append: true
@@ -244,8 +260,10 @@ contexts:
       scope: storage.modifier.output.tsql
     - match: \b(?i:over|partition\s+by)\b
       scope: keyword.other.sql
-    - match: \b(?i:cursor\s+for)\b
-      scope: keyword.other.sql
+    - match: \b(?i:(cursor)\s+(for))\b
+      captures:
+        1: support.type.tsql
+        2: keyword.other.sql
     - match: \b(?i:collate)\b
       scope: keyword.other.tsql
       push: collation
@@ -267,8 +285,7 @@ contexts:
     - match: \b(?i:for\s+xml)\b
       scope: keyword.other.tsql
       push: for-xml
-    - match: \b(?i:top)\b
-      scope: keyword.other.DML.tsql
+    - include: top
     - match: \b(?i:(option))\b\s*(\()
       captures:
         1: keyword.other.DML.tsql
@@ -295,6 +312,23 @@ contexts:
       pop: true
     - include: pop-on-top-level-reserved-word
     - include: expressions
+
+  top:
+    - match: (?i)\b(top)\b(?:\s+(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
+      captures:
+        1: keyword.other.DML.tsql
+        2: meta.group.tsql punctuation.section.parens.begin.tsql
+        3: meta.group.tsql meta.number.integer.decimal.tsql constant.numeric.value.tsql
+        4: meta.group.tsql punctuation.section.parens.end.tsql
+        5: keyword.other.DML.tsql
+
+  dml-delete:
+    - meta_prepend: true
+    - include: top
+
+  dml-update:
+    - meta_prepend: true
+    - include: top
 
   built-in-scalar-function-calls:
     - meta_append: true
@@ -417,6 +451,18 @@ contexts:
       scope: keyword.other.DML.sql
       push: table-name-or-subquery
 
+  table-name-or-subquery:
+    - meta_prepend: true
+    - match: \b(?i:OPENXML)\b
+      scope: support.function.tsql
+      push: begin-method-call-paren
+    - match: \b(?i:(OPENROWSET))\b\s*(\()
+      scope: meta.function-call.tsql
+      captures:
+        1: support.function.tsql
+        2: punctuation.section.group.begin.tsql
+      set: inside-openrowset-call
+
   exec:
     - include: assignment-operator
     - include: pop-on-top-level-reserved-word
@@ -457,3 +503,12 @@ contexts:
     - include: expressions
     - match: (?=\S)
       pop: true
+
+  inside-openrowset-call:
+    - meta_content_scope: meta.group.sql
+    - match: ';'
+      scope: punctuation.separator.sequence.tsql
+    - match: \)
+      scope: meta.function-call.tsql meta.group.tsql punctuation.section.parens.end.sql
+      set: table-alias
+    - include: inside-method-call

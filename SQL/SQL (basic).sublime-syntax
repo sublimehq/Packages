@@ -359,7 +359,13 @@ contexts:
       scope: keyword.other.DML.sql
     - match: (?i:\bunion(?:\s+all)?\b)
       scope: keyword.other.DML.sql
-    - match: (?i:\b(?:insert\s+into|update|delete(?:\s+from)?|truncate)\b)
+    - match: (?i:\b(?:delete(?:\s+from)?)\b)
+      scope: keyword.other.DML.sql
+      set: dml-delete
+    - match: (?i:\b(?:update)\b)
+      scope: keyword.other.DML.sql
+      set: dml-update
+    - match: (?i:\b(?:insert\s+into|truncate)\b)
       scope: keyword.other.DML.sql
       push: [table-name, single-identifier-after-whitespace]
     - match: (?i:\bset\b)
@@ -376,6 +382,14 @@ contexts:
       push: table-name-or-subquery
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
+
+  dml-delete:
+    - match: (?=\S)
+      set: [table-name, single-identifier]
+
+  dml-update:
+    - match: (?=\S)
+      set: [table-name, single-identifier]
 
   distinct:
     - match: \b(?i:distinct)\b
