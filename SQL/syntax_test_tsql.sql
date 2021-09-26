@@ -524,7 +524,7 @@ FROM foo
 INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND ISNULL(bar.some_id, 0) = ISNULL(foo.some_id, 0)
 -- ^^^^^^^ keyword.other.DML
 --         ^^^ meta.table-name
---              ^^^^^^ meta.group constant.language.with
+--              ^^^^^^ meta.group invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
 --                      ^^ keyword.operator.join
 --                         ^^^^^^^^^ meta.column-name
 --                                   ^ keyword.operator.comparison
@@ -549,7 +549,7 @@ FROM some_long_table_name s
 LEFT OUTER JOIN another_long_table_name (NOLOCK) a ON s.blah = a.blah AND ISNULL(p.ok, '') = ISNULL(a.ok, '') COLLATE DATABASE_DEFAULT
 -- ^^^^^^^^^^^^ keyword.other.DML
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
---                                       ^^^^^^ meta.group constant.language.with
+--                                       ^^^^^^ invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
 --                                               ^ meta.table-name
 --                                                 ^^ keyword.operator.join
 --                                                    ^^^^^^ meta.column-name
@@ -1019,7 +1019,16 @@ UPDATE TOP (10) HumanResources.Employee
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 SET VacationHours = VacationHours * 1.25 -- TODO: the * here should be scoped as an operator
 OUTPUT INSERTED.BusinessEntityID,
+--^^^^ storage.modifier.output
+--     ^^^^^^^^^ meta.column-name constant.language.table
+--             ^ meta.column-name constant.language.table punctuation.accessor.dot
+--              ^^^^^^^^^^^^^^^^ meta.column-name
+--                              ^ punctuation.separator.sequence
        DELETED.VacationHours,
+--     ^^^^^^^^ meta.column-name constant.language.table
+--            ^ meta.column-name constant.language.table punctuation.accessor.dot
+--             ^^^^^^^^^^^^^ meta.column-name
+--                          ^ punctuation.separator.sequence
        INSERTED.VacationHours,
        INSERTED.ModifiedDate
 INTO @MyTableVar;
@@ -1088,7 +1097,13 @@ FROM   OPENXML (@idoc, '/ROOT/Customer/Order/OrderDetail',2)
 SELECT  *
 FROM    table_name AS t1
         INNER JOIN  (SELECT foo FROM bar) AS t2(id) ON t2.ID = t1.ID
-
+--                                        ^^ keyword.operator.assignment.alias
+--                                           ^^ meta.table-name
+--                                             ^^^^ meta.group
+--                                             ^ punctuation.section.group.begin
+--                                              ^^ meta.column-name
+--                                                ^ punctuation.section.group.end
+--                                                  ^^ keyword.operator.join
 ----
 
 SELECT a.*
