@@ -367,11 +367,11 @@ contexts:
 
   table-alias:
     - meta_prepend: true
-    - include: table-hint-without-with
     - include: with
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      push: inside-with-group
+
+  fail-if-function-call:
+    - meta_prepend: true
+    - include: table-hint-without-with
 
   after-table-alias:
     - meta_prepend: true
@@ -474,12 +474,12 @@ contexts:
   table-name-or-subquery:
     - meta_prepend: true
     - match: \b(?i:OPENXML)\b
-      scope: support.function.tsql
+      scope: meta.table-valued-function-name.sql support.function.tsql
       push: begin-method-call-paren
     - match: \b(?i:(OPENROWSET))\b\s*(\()
       scope: meta.function-call.tsql
       captures:
-        1: support.function.tsql
+        1: meta.table-valued-function-name.sql support.function.tsql
         2: punctuation.section.group.begin.tsql
       set: inside-openrowset-call
 

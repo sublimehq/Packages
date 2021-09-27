@@ -433,7 +433,21 @@ contexts:
   table-name-or-subquery:
     - include: subquery
     - match: (?=\S)
-      set: [table-alias, table-name, single-identifier]
+      branch_point: table-or-table-function
+      branch:
+        - table-name-not-function-call
+        - table-valued-function-call
+
+  table-name-not-function-call:
+    - match: ''
+      push: [fail-if-function-call, table-name, single-identifier]
+
+  fail-if-function-call:
+    - match: \(
+      fail: table-or-table-function # basically we are using branch points to avoid a complicated lookahead (which can be overridden by syntaxes extending this one) for an identifier followed by an open paren
+    - match: (?=\S)
+      set: table-alias
+      pop: 3 # one to pop 'fail-if-function-call', one to pop 'table-name-not-function-call' where we were forced to push to avoid the branch instantly succeeding, one because we are doing a set and ST gets confused without it?! it should set away from 'table-name-or-subquery'
 
   table-alias:
     - match: \b(?i:as)\b
@@ -466,3 +480,12 @@ contexts:
   assignment-operator:
     - match: '='
       scope: keyword.operator.assignment.sql
+
+  table-valued-function-call:
+    - match: ''
+      set: [table-alias, begin-method-call-paren, table-valued-function-name, single-identifier]
+
+  table-valued-function-name:
+    - meta_content_scope: meta.table-valued-function-name.sql
+    - match: ''
+      pop: true

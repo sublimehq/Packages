@@ -977,7 +977,15 @@ RETURN
 GO
 
 SELECT * FROM Department D
-CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) -- TODO: scope function call correctly in place of a table name/subquery
+CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_results_table
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-valued-function-name
+--                                            ^^^^^^^^^^^^^^^^ meta.group
+--                                            ^ punctuation.section.parens.begin
+--                                             ^^^^^^^^^^^^^^ meta.column-name
+--                                                           ^ punctuation.section.parens.end
+--                                                             ^^ keyword.operator.assignment.alias - meta.function-call
+--                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 GO
 
 SELECT * FROM Department D
@@ -987,6 +995,11 @@ GO
 SELECT DB_NAME(r.database_id) AS [Database], st.[text] AS [Query]
 FROM sys.dm_exec_requests r
 CROSS APPLY sys.dm_exec_sql_text(r.plan_handle) st
+--          ^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.table-valued-function-name
+--                              ^ meta.function-call meta.group punctuation.section.parens.begin
+--                               ^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
+--                                            ^ meta.function-call meta.group punctuation.section.parens.end
+--                                              ^^ meta.table-name
 WHERE r.session_Id > 50           -- Consider spids for users only, no system spids.
 AND r.session_Id NOT IN (@@SPID)  -- Don't include request from current spid.
 
@@ -1074,7 +1087,7 @@ FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath 
 --^^ keyword.other.DML
 --        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 --                                                        ^ - meta.function-call
---        ^^^^^^^ support.function
+--        ^^^^^^^ meta.table-valued-function-name support.function
 --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --                ^ punctuation.section.parens.begin
 --                 ^^^^^^^^^^^^^^^^^^  variable.other.readwrite
@@ -1108,6 +1121,8 @@ FROM    table_name AS t1
 
 SELECT a.*
    FROM OPENROWSET('Microsoft.Jet.OLEDB.4.0',
+-- ^^^^ keyword.other.DML
+--      ^^^^^^^^^^ meta.function-call meta.table-valued-function-name support.function
                    'C:\SAMPLES\Northwind.mdb';
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --                                           ^ punctuation.separator.sequence
