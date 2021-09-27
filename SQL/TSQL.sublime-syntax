@@ -255,6 +255,8 @@ contexts:
   expressions:
     - meta_prepend: true
     - include: types
+    - match: 0x\h+
+      scope: meta.number.integer.hexadecimal.tsql constant.numeric.value.tsql
     - match: \b(?i:cast)\b
       scope: support.function.tsql
       push: cast
@@ -365,7 +367,7 @@ contexts:
     - match: (?=\S)
       pop: true
 
-  table-alias:
+  maybe-table-alias:
     - meta_prepend: true
     - include: with
 
@@ -414,7 +416,7 @@ contexts:
   with-paren-or-pop:
     - include: with-paren
     - match: (?=\S)
-      set: table-alias
+      set: maybe-table-alias
 
   inside-with-group:
     - meta_scope: meta.group.sql
@@ -530,5 +532,5 @@ contexts:
       scope: punctuation.separator.sequence.tsql
     - match: \)
       scope: meta.function-call.tsql meta.group.tsql punctuation.section.parens.end.sql
-      set: table-alias
+      set: maybe-table-alias
     - include: inside-method-call

@@ -394,7 +394,7 @@ from (select * from some_table) alias_table WITH (NOLOCK)
 --           ^ variable.language.wildcard.asterisk
 --                  ^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.section.group.end
---                              ^^^^^^^^^^^ meta.table-name
+--                              ^^^^^^^^^^^ meta.table-alias-name
 --                                          ^^^^ keyword.other.DML
 --                                               ^ punctuation.section.group.begin
 --                                                ^^^^^^ meta.group constant.language.with
@@ -410,10 +410,12 @@ SET column1 = v.column1,
 --^ keyword.other.DML
     column2 = 'testing123 TODO: assert the = operator is scoped as assignment instead of comparison'
 --          ^ keyword.operator
+ , col3 = 0xDEADC0DE
+--        ^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric.value
 FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.DML
 --   ^^^^^^^^^^^^^ meta.table-name
---                 ^^^^^^^^^^ meta.table-name
+--                 ^^^^^^^^^^ meta.table-alias-name
 --                            ^^^^ keyword.other
 --                                 ^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                                     ^ - meta.group
@@ -426,7 +428,7 @@ INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 -- ^^^^^^^ keyword.other.DML
 --         ^^^^^^^^^ meta.table-name
 --                   ^^ keyword.operator.assignment.alias
---                      ^ meta.table-name
+--                      ^ meta.table-alias-name
 --                            ^^^^ keyword.other.DML
 --                                 ^^^^^^^^ meta.group
 --                                 ^ punctuation.section.group.begin
@@ -447,7 +449,7 @@ WHERE TableAlias.some_id IN (
     FROM dbname..table_name_in_default_schema a
 --  ^^^^ keyword.other.DML
 --       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
---                                            ^ meta.group meta.table-name
+--                                            ^ meta.group meta.table-alias-name
     WHERE a.another_id_column IS NOT NULL
 --  ^^^^^ meta.group keyword.other.DML
 --                            ^^ keyword.operator.logical
@@ -550,7 +552,7 @@ LEFT OUTER JOIN another_long_table_name (NOLOCK) a ON s.blah = a.blah AND ISNULL
 -- ^^^^^^^^^^^^ keyword.other.DML
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                       ^^^^^^ invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
---                                               ^ meta.table-name
+--                                               ^ meta.table-alias-name
 --                                                 ^^ keyword.operator.join
 --                                                    ^^^^^^ meta.column-name
 --                                                           ^ keyword.operator.comparison
@@ -617,7 +619,7 @@ into #temp
 from @A A
 -- ^ keyword.other.DML
 --   ^^ meta.table-name
---      ^ meta.table-name
+--      ^ meta.table-alias-name
 inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
 --^^^^^^^^ keyword.other.DML
 --         ^ meta.table-name
@@ -985,11 +987,19 @@ CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_resu
 --                                             ^^^^^^^^^^^^^^ meta.column-name
 --                                                           ^ punctuation.section.parens.end
 --                                                             ^^ keyword.operator.assignment.alias - meta.function-call
---                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-alias-name
 GO
 
 SELECT * FROM Department D
-OUTER APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID)
+OUTER APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID, 123, 'testing123')
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.table-valued-function-name
+--                                            ^ meta.function-call meta.group punctuation.section.parens.begin
+--                                             ^^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
+--                                                           ^ meta.function-call meta.group punctuation.separator.argument
+--                                                             ^^^ meta.function-call meta.group meta.number.integer.decimal constant.numeric.value
+--                                                                ^ meta.function-call meta.group punctuation.separator.argument
+--                                                                  ^^^^^^^^^^^^ meta.function-call meta.group string.quoted.single
+--                                                                              ^ meta.function-call meta.group punctuation.section.parens.end
 GO
 
 SELECT DB_NAME(r.database_id) AS [Database], st.[text] AS [Query]
@@ -999,7 +1009,7 @@ CROSS APPLY sys.dm_exec_sql_text(r.plan_handle) st
 --                              ^ meta.function-call meta.group punctuation.section.parens.begin
 --                               ^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
 --                                            ^ meta.function-call meta.group punctuation.section.parens.end
---                                              ^^ meta.table-name
+--                                              ^^ meta.table-alias-name
 WHERE r.session_Id > 50           -- Consider spids for users only, no system spids.
 AND r.session_Id NOT IN (@@SPID)  -- Don't include request from current spid.
 
@@ -1111,7 +1121,7 @@ SELECT  *
 FROM    table_name AS t1
         INNER JOIN  (SELECT foo FROM bar) AS t2(id) ON t2.ID = t1.ID
 --                                        ^^ keyword.operator.assignment.alias
---                                           ^^ meta.table-name
+--                                           ^^ meta.table-alias-name
 --                                             ^^^^ meta.group
 --                                             ^ punctuation.section.group.begin
 --                                              ^^ meta.column-name
@@ -1131,4 +1141,4 @@ SELECT a.*
                    Customers) AS a;
 --                          ^ meta.function-call meta.group punctuation.section.parens.end
 --                            ^^ keyword.operator.assignment.alias - meta.group - meta.function-call
---                               ^ meta.table-name
+--                               ^ meta.table-alias-name

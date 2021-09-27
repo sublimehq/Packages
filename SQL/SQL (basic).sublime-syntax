@@ -276,7 +276,7 @@ contexts:
     - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      set: table-alias
+      set: maybe-table-alias
     - include: main
 
   statements:
@@ -420,6 +420,11 @@ contexts:
     - match: ''
       pop: true
 
+  table-alias-name:
+    - meta_content_scope: meta.table-alias-name.sql
+    - match: ''
+      pop: true
+
   procedure-name:
     - meta_content_scope: meta.procedure-name.sql
     - match: ''
@@ -446,15 +451,15 @@ contexts:
     - match: \(
       fail: table-or-table-function # basically we are using branch points to avoid a complicated lookahead (which can be overridden by syntaxes extending this one) for an identifier followed by an open paren
     - match: (?=\S)
-      set: table-alias
+      set: maybe-table-alias
       pop: 3 # one to pop 'fail-if-function-call', one to pop 'table-name-not-function-call' where we were forced to push to avoid the branch instantly succeeding, one because we are doing a set and ST gets confused without it?! it should set away from 'table-name-or-subquery'
 
-  table-alias:
+  maybe-table-alias:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
     - include: pop-on-top-level-reserved-word
     - match: (?=\S)
-      set: [after-table-alias, table-name, single-identifier]
+      set: [after-table-alias, table-alias-name, single-identifier]
 
   after-table-alias:
     - match: (?=\S)
@@ -483,7 +488,7 @@ contexts:
 
   table-valued-function-call:
     - match: ''
-      set: [table-alias, begin-method-call-paren, table-valued-function-name, single-identifier]
+      set: [maybe-table-alias, begin-method-call-paren, table-valued-function-name, single-identifier]
 
   table-valued-function-name:
     - meta_content_scope: meta.table-valued-function-name.sql
