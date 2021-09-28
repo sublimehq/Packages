@@ -22,6 +22,7 @@ contexts:
 
   # This is the default context
   base-literal:
+    - include: xmode-on
     - include: base
     - include: literals
 
@@ -32,14 +33,17 @@ contexts:
   # and disable it properly when it is unset (and in sets).
   # Switching happens in the "group-start*" contexts.
   base-literal-extended:
+    - include: xmode-off
     - include: base-extended
     - include: literals
 
   base:
+    - include: group-comments
     - include: groups
     - include: base-common
 
   base-extended:
+    - include: group-comments
     - include: groups-extended
     - include: extended-patterns # <- this is where the contexts differ
     - include: base-common
@@ -52,16 +56,6 @@ contexts:
     - include: escaped-chars
     - include: charsets
     - include: operators
-
-  base-group:
-    - match: (?=\))
-      pop: 1
-    - include: base-literal
-
-  base-group-extended:
-    - match: (?=\))
-      pop: 1
-    - include: base-literal-extended
 
   extended-patterns:
     - include: line-comments
@@ -90,13 +84,11 @@ contexts:
       pop: 1
 
   groups:
-    - include: group-comments
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start
 
   groups-extended:
-    - include: group-comments
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start-extended
@@ -106,12 +98,6 @@ contexts:
     - match: \?(<[=!]|[>=:!])
       scope: constant.other.assertion.regexp
       set: [group-body, maybe-unexpected-quantifiers]
-    # Activates 'x' mode
-    - match: (\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
-      captures:
-        1: storage.modifier.mode.regexp
-        2: keyword.control.group.regexp
-      set: [base-group-extended, maybe-unexpected-quantifiers]
     # Groups with 'x' mode
     - match: '\?[ims]*x[ixms]*(?:-[ims]+)?:'
       scope: storage.modifier.mode.regexp
@@ -129,12 +115,6 @@ contexts:
     - match: \?(<[=!]|[>=:!])
       scope: constant.other.assertion.regexp
       set: [group-body-extended, maybe-unexpected-quantifiers]
-    # Deactivates 'x' mode
-    - match: (\?[ims]*-[ims]*x[imxs]*)(\))
-      captures:
-        1: storage.modifier.mode.regexp
-        2: keyword.control.group.regexp
-      set: [base-group, maybe-unexpected-quantifiers]
     # Groups without 'x' mode
     - match: '\?[ims]*-[ims]*x[imxs]*:'
       scope: storage.modifier.mode.regexp
@@ -160,14 +140,54 @@ contexts:
     - match: \)
       scope: meta.group.regexp keyword.control.group.regexp
       pop: 1
-    - include: base-literal
+    - include: ingroup-xmode-on
+    - include: base
+    - include: literals
 
   group-body-extended:
     - meta_content_scope: meta.group.extended.regexp
     - match: \)
       scope: meta.group.extended.regexp keyword.control.group.regexp
       pop: 1
-    - include: base-literal-extended
+    - include: ingroup-xmode-off
+    - include: base-extended
+    - include: literals
+
+  ingroup-xmode-on:
+    # Activates 'x' mode globally
+    - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
+      captures:
+        1: keyword.control.group.regexp
+        2: storage.modifier.mode.regexp
+        3: keyword.control.group.regexp
+      set: [group-body-extended, maybe-unexpected-quantifiers]
+
+  ingroup-xmode-off:
+    # Deactivates 'x' mode
+    - match: (\()(\?[ims]*-[ims]*x[imxs]*)(\))
+      captures:
+        1: keyword.control.group.regexp
+        2: storage.modifier.mode.regexp
+        3: keyword.control.group.regexp
+      set: [group-body, maybe-unexpected-quantifiers]
+
+  xmode-on:
+    # Activates 'x' mode globally
+    - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
+      captures:
+        1: keyword.control.group.regexp
+        2: storage.modifier.mode.regexp
+        3: keyword.control.group.regexp
+      set: [base-literal-extended, maybe-unexpected-quantifiers]
+
+  xmode-off:
+    # Deactivates 'x' mode
+    - match: (\()(\?[ims]*-[ims]*x[imxs]*)(\))
+      captures:
+        1: keyword.control.group.regexp
+        2: storage.modifier.mode.regexp
+        3: keyword.control.group.regexp
+      set: [base-literal, maybe-unexpected-quantifiers]
 
   charsets:
     - match: (\[\^?)\]?
