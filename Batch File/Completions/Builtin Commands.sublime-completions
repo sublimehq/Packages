@@ -169,7 +169,7 @@
 		{
 			"trigger": "type",
 			"kind": "function",
-			"details": "Disply file content."
+			"details": "Display file content."
 		},
 		{
 			"trigger": "ver",

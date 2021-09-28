@@ -7,12 +7,12 @@
     <dict>
         <key>decreaseIndentPattern</key>
         <string><![CDATA[(?x)
-            # dedent closing paretheses
+            # dedent closing parenthesis
             ^ \s* \)
         ]]></string>
         <key>increaseIndentPattern</key>
         <string><![CDATA[(?x)
-            # indent lines after those finalized by opening paretheses
+            # indent lines after those finalized by opening parenthesis
             ^ .* \( \s* $
         ]]></string>
     </dict>

@@ -236,7 +236,7 @@ contexts:
   ctl-if-meta:
     - meta_include_prototype: false
     - meta_scope: meta.statement.conditional.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   ctl-if-condition:
     - include: unquoted-eoc-pop
@@ -285,7 +285,7 @@ contexts:
   operand-body:
     - include: groups
     - include: cmd-args-values
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   maybe-variable:
     - match: '{{var_name}}'
@@ -338,7 +338,7 @@ contexts:
   ctl-for-meta:
     - meta_include_prototype: false
     - meta_scope: meta.statement.loop.for.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   ctl-for-switches:
     # https://ss64.com/nt/for_d.html
@@ -483,7 +483,7 @@ contexts:
   ctl-goto-meta:
     - meta_include_prototype: false
     - meta_scope: meta.command.goto.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   ctl-goto-args:
     - include: unquoted-eoc-pop
@@ -588,7 +588,7 @@ contexts:
   cmd-args-meta:
     - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   cmd-args-common:
     - include: redirections
@@ -635,7 +635,7 @@ contexts:
   cmd-args-option-value:
     - meta_content_scope: meta.parameter.value.dosbatch
     - include: cmd-args-values
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   cmd-args-values:
     - include: constants
@@ -773,7 +773,7 @@ contexts:
   cmd-set-meta:
     - meta_include_prototype: false
     - meta_scope: meta.command.set.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   cmd-set-type:
     - include: unquoted-eoc-pop
@@ -974,7 +974,7 @@ contexts:
   cmd-set-arithmetic-meta:
     - meta_include_prototype: false
     - meta_scope: meta.expression.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   cmd-set-arithmetic-start:
     - match: \"
@@ -1095,7 +1095,7 @@ contexts:
   cmd-set-prompt-meta:
     - meta_include_prototype: false
     - meta_scope: meta.prompt.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   cmd-set-prompt-start:
     - include: cmd-set-quoted-prompt
@@ -1527,7 +1527,7 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   redirections:
     - match: (?=\d*(<&?|>[&>]?))
@@ -1547,7 +1547,7 @@ contexts:
   redirection-meta:
     - meta_include_prototype: false
     - meta_scope: meta.redirection.dosbatch
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   redirection-path:
     - match: (?i:nul){{keyword_break}}
@@ -1605,7 +1605,7 @@ contexts:
     - match: \.(?=[\\/])
       scope: constant.language.path.self.dosbatch
       pop: 1
-    - include: immediatelly-pop
+    - include: immediately-pop
 
 ###[ STRINGS ]################################################################
 
@@ -1672,7 +1672,7 @@ contexts:
   clear-string-scope:
     - clear_scopes: 1
     - meta_include_prototype: false
-    - include: immediatelly-pop
+    - include: immediately-pop
 
 ###[ VARIABLES ]##############################################################
 
@@ -1856,7 +1856,7 @@ contexts:
     - include: unquoted-eol-pop
     - include: any-pop
 
-  immediatelly-pop:
+  immediately-pop:
     - match: ''
       pop: 1
 

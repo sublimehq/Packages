@@ -55,7 +55,7 @@ REM This follows a REM command
 :: ^^^^^^^ comment.line.colon.dosbatch
 
    : ^
-   A contineued comment.^
+   A continued comment.^
    Me too!
 :: ^^^^^^^ comment.line.colon.dosbatch
 
