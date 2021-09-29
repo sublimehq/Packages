@@ -143,6 +143,7 @@ contexts:
   ingroup-xmode-on:
     # Activates 'x' mode
     - match: (\()({{activate_x_mode}})(\))
+      scope: meta.group.regexp
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -152,6 +153,7 @@ contexts:
   ingroup-xmode-off:
     # Deactivates 'x' mode
     - match: (\()({{deactivate_x_mode}})(\))
+      scope: meta.group.extended.regexp
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -161,6 +163,7 @@ contexts:
   xmode-on:
     # Activates 'x' mode
     - match: (\()({{activate_x_mode}})(\))
+      scope: meta.group.regexp
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -168,6 +171,7 @@ contexts:
       set: [base-literal-extended, maybe-unexpected-quantifiers]
     # Deactivates 'x' mode, but already not active
     - match: (\()({{deactivate_x_mode}})(\))
+      scope: meta.group.regexp
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -176,6 +180,7 @@ contexts:
   xmode-off:
     # Deactivates 'x' mode
     - match: (\()({{deactivate_x_mode}})(\))
+      scope: meta.group.extended.regexp
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -183,6 +188,7 @@ contexts:
       set: [base-literal, maybe-unexpected-quantifiers]
     # Activates 'x' mode, but already active
     - match: (\()({{activate_x_mode}})(\))
+      scope: meta.group.extended.regexp
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp

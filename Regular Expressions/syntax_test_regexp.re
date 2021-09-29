@@ -564,6 +564,7 @@ where escape characters are ignored.\).
 (*FA)
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?x)
+#^^^ meta.group
  (*PRUNE) (*SKIP) (*THEN) (*COMMIT) (*FAIL) (*F) (*ACCEPT)
 #^^^^^^^^ keyword.control.verb.regexp
 #        ^ - keyword.control.verb.regexp
@@ -581,6 +582,7 @@ where escape characters are ignored.\).
 (*FA)
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?-x)
+#^^^^ meta.group.extended
 
  \Qtext.here.is\dliteral)\E{1,2}{1,2}{1,2}
 #^^ keyword.control
@@ -592,9 +594,12 @@ where escape characters are ignored.\).
 #^^ keyword.control
 
 (?x)(?i:{2})(?x:*)(?-x:?)(?-i:{2})(?i:(?-i:{1}))
+#^^^ meta.group
 #       ^^^ meta.group.extended invalid.illegal.unexpected-quantifier
 #               ^ meta.group.extended invalid.illegal.unexpected-quantifier
 #                      ^ meta.group invalid.illegal.unexpected-quantifier
 #                             ^^^ meta.group.extended invalid.illegal.unexpected-quantifier
 #                                          ^^^ meta.group.extended meta.group.extended invalid.illegal.unexpected-quantifier
 #                                               ^ meta.ignored-whitespace - meta.group
+(?:(?x-i))
+#  ^^^^^^ meta.group.extended meta.group.extended
