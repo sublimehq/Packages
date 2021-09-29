@@ -590,3 +590,11 @@ where escape characters are ignored.\).
 #                               ^^^^^^^^^^ invalid.illegal.unexpected-quantifier
  \K
 #^^ keyword.control
+
+(?x)(?i:{2})(?x:*)(?-x:?)(?-i:{2})(?i:(?-i:{1}))
+#       ^^^ meta.group.extended invalid.illegal.unexpected-quantifier
+#               ^ meta.group.extended invalid.illegal.unexpected-quantifier
+#                      ^ meta.group invalid.illegal.unexpected-quantifier
+#                             ^^^ meta.group.extended invalid.illegal.unexpected-quantifier
+#                                          ^^^ meta.group.extended meta.group.extended invalid.illegal.unexpected-quantifier
+#                                               ^ meta.ignored-whitespace - meta.group
