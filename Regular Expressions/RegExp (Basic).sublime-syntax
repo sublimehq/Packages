@@ -13,6 +13,8 @@ variables:
   lazy_or_possessive: '[?+]?'
   character_quantifier: '[?*+]'
   char_class: '\\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(L&|[A-Z][a-z]?)))'
+  activate_x_mode: (?:\?[ims]*x[ixms]*(?:-[ims]+)?)
+  deactivate_x_mode: (?:\?[ims]*-[ims]*x[imxs]*)
 
 contexts:
   main:
@@ -86,53 +88,54 @@ contexts:
   groups:
     - match: \(
       scope: keyword.control.group.regexp
-      push: group-start
+      push: [group-body-placeholder, maybe-unexpected-quantifiers, group-start]
 
   groups-extended:
     - match: \(
       scope: keyword.control.group.regexp
-      push: group-start-extended
+      push: [group-body-extended-placeholder, maybe-unexpected-quantifiers, group-start-extended]
+
+  group-body-placeholder:
+    - match: ''
+      set: group-body
+
+  group-body-extended-placeholder:
+    - match: ''
+      set: group-body-extended
 
   group-start:
     - meta_scope: meta.group.regexp
-    - match: \?(<[=!]|[>=:!])
-      scope: constant.other.assertion.regexp
-      set: [group-body, maybe-unexpected-quantifiers]
-    # Groups with 'x' mode
-    - match: '\?[ims]*x[ixms]*(?:-[ims]+)?:'
-      scope: storage.modifier.mode.regexp
-      set: [group-body-extended, maybe-unexpected-quantifiers]
-    # Other modifiers
-    - match: '\?(?:[ixms]*-)?[ixms]+:'
-      scope: storage.modifier.mode.regexp
-      set: [group-body, maybe-unexpected-quantifiers]
     - include: group-start-common
-    - match: ''
-      set: [group-body, maybe-unexpected-quantifiers]
 
   group-start-extended:
     - meta_scope: meta.group.extended.regexp
-    - match: \?(<[=!]|[>=:!])
-      scope: constant.other.assertion.regexp
-      set: [group-body-extended, maybe-unexpected-quantifiers]
-    # Groups without 'x' mode
-    - match: '\?[ims]*-[ims]*x[imxs]*:'
-      scope: storage.modifier.mode.regexp
-      set: [group-body, maybe-unexpected-quantifiers]
-    # Other modifiers
-    - match: '\?(?:[ixms]*-)?[ims]+:'
-      scope: storage.modifier.mode.regexp
-      set: [group-body-extended, maybe-unexpected-quantifiers]
     - include: group-start-common
-    - match: ''
-      set: [group-body-extended, maybe-unexpected-quantifiers]
 
   group-start-common:
+    - match: \?(<[=!]|[>=:!])
+      scope: constant.other.assertion.regexp
+      pop: 1
+    # Groups which activate 'x' mode
+    - match: '{{activate_x_mode}}:'
+      scope: storage.modifier.mode.regexp
+      pop: 3
+      set: [group-body-extended, maybe-unexpected-quantifiers]
+    # Groups which deactivate 'x' mode
+    - match: '{{deactivate_x_mode}}:'
+      scope: storage.modifier.mode.regexp
+      pop: 3
+      set: [group-body, maybe-unexpected-quantifiers]
+    # Other modifiers
+    - match: '\?(?:[ixms]*-)?[ixms]+:'
+      scope: storage.modifier.mode.regexp
+      pop: 2
     # Other modifiers (must come after other modifier matches)
     - match: (\?(?:[ixms]*-)?[ixms]+)(\))
       captures:
         1: storage.modifier.mode.regexp
         2: keyword.control.group.regexp
+      pop: 2
+    - match: ''
       pop: 1
 
   group-body:
@@ -155,7 +158,7 @@ contexts:
 
   ingroup-xmode-on:
     # Activates 'x' mode
-    - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
+    - match: (\()({{activate_x_mode}})(\))
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -164,7 +167,7 @@ contexts:
 
   ingroup-xmode-off:
     # Deactivates 'x' mode
-    - match: (\()(\?[ims]*-[ims]*x[imxs]*)(\))
+    - match: (\()({{deactivate_x_mode}})(\))
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
@@ -173,21 +176,33 @@ contexts:
 
   xmode-on:
     # Activates 'x' mode
-    - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
+    - match: (\()({{activate_x_mode}})(\))
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
       set: [base-literal-extended, maybe-unexpected-quantifiers]
+    # Deactivates 'x' mode, but already not active
+    - match: (\()({{deactivate_x_mode}})(\))
+      captures:
+        1: keyword.control.group.regexp
+        2: storage.modifier.mode.regexp
+        3: keyword.control.group.regexp
 
   xmode-off:
     # Deactivates 'x' mode
-    - match: (\()(\?[ims]*-[ims]*x[imxs]*)(\))
+    - match: (\()({{deactivate_x_mode}})(\))
       captures:
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
       set: [base-literal, maybe-unexpected-quantifiers]
+    # Activates 'x' mode, but already active
+    - match: (\()({{activate_x_mode}})(\))
+      captures:
+        1: keyword.control.group.regexp
+        2: storage.modifier.mode.regexp
+        3: keyword.control.group.regexp
 
   charsets:
     - match: (\[\^?)\]?
