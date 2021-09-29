@@ -87,31 +87,15 @@ contexts:
 
   groups:
     - match: \(
-      scope: keyword.control.group.regexp
-      push: [group-body-placeholder, maybe-unexpected-quantifiers, group-start]
+      scope: meta.group.regexp keyword.control.group.regexp
+      push: [group-body, maybe-unexpected-quantifiers, group-start]
 
   groups-extended:
     - match: \(
-      scope: keyword.control.group.regexp
-      push: [group-body-extended-placeholder, maybe-unexpected-quantifiers, group-start-extended]
-
-  group-body-placeholder:
-    - match: ''
-      set: group-body
-
-  group-body-extended-placeholder:
-    - match: ''
-      set: group-body-extended
+      scope: meta.group.extended.regexp keyword.control.group.regexp
+      push: [group-body-extended, maybe-unexpected-quantifiers, group-start]
 
   group-start:
-    - meta_scope: meta.group.regexp
-    - include: group-start-common
-
-  group-start-extended:
-    - meta_scope: meta.group.extended.regexp
-    - include: group-start-common
-
-  group-start-common:
     - match: \?(<[=!]|[>=:!])
       scope: constant.other.assertion.regexp
       pop: 1
@@ -128,13 +112,13 @@ contexts:
     # Other modifiers
     - match: '\?(?:[ixms]*-)?[ixms]+:'
       scope: storage.modifier.mode.regexp
-      pop: 2
+      pop: 1
     # Other modifiers (must come after other modifier matches)
     - match: (\?(?:[ixms]*-)?[ixms]+)(\))
       captures:
         1: storage.modifier.mode.regexp
         2: keyword.control.group.regexp
-      pop: 2
+      pop: 3
     - match: ''
       pop: 1
 
