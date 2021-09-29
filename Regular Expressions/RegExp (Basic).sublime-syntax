@@ -154,7 +154,7 @@ contexts:
     - include: literals
 
   ingroup-xmode-on:
-    # Activates 'x' mode globally
+    # Activates 'x' mode
     - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
       captures:
         1: keyword.control.group.regexp
@@ -172,7 +172,7 @@ contexts:
       set: [group-body, maybe-unexpected-quantifiers]
 
   xmode-on:
-    # Activates 'x' mode globally
+    # Activates 'x' mode
     - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
       captures:
         1: keyword.control.group.regexp
