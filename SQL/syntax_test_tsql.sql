@@ -922,18 +922,65 @@ INSERT INTO T1 DEFAULT VALUES;
 --                           ^ punctuation.terminator.statement
 
 
-MERGE sales.category t -- TODO: scope this correctly
+MERGE sales.category t
+-- ^^ keyword.other
+--    ^^^^^^^^^^^^^^ meta.table-name
+--                   ^ meta.table-alias-name
     USING sales.category_staging s
+--  ^^^^^ keyword.other
+--        ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                               ^ meta.table-alias-name
 ON (s.category_id = t.category_id)
+-- <- keyword.operator.join
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+--  ^^^^^^^^^^^^^ meta.column-name
+--                ^ keyword.operator.comparison
+--                  ^^^^^^^^^^^^^ meta.column-name
 WHEN MATCHED
+-- ^^^^^^^^^ keyword.control.conditional.case
     THEN UPDATE SET
+--  ^^^^ keyword.other
+--       ^^^^^^ keyword.other.DML
+--              ^^^ keyword.other.DML
         t.category_name = s.category_name,
+--      ^^^^^^^^^^^^^^^ meta.column-name
+--                      ^ keyword.operator
+--                        ^^^^^^^^^^^^^^^ meta.column-name
+--                                       ^ punctuation.separator.sequence
         t.amount = s.amount
+--      ^^^^^^^^ meta.column-name
+--               ^ keyword.operator
+--                 ^^^^^^^^ meta.column-name
 WHEN NOT MATCHED BY TARGET
+--^^^^^^^^^^^^^^ keyword.control.conditional.case
+--               ^^^^^^^^^ keyword.other
     THEN INSERT (category_id, category_name, amount)
+--  ^^^^ keyword.other
+--       ^^^^^^ keyword.other.DML
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+--              ^ punctuation.section.group.begin
+--               ^^^^^^^^^^^ meta.column-name
+--                          ^ punctuation.separator.sequence
+--                            ^^^^^^^^^^^^^ meta.column-name
+--                                         ^ punctuation.separator.sequence
+--                                           ^^^^^^ meta.column-name
+--                                                 ^ punctuation.section.group.end
          VALUES (s.category_id, s.category_name, s.amount)
+--       ^^^^^^ keyword.other.DML.II
+--              ^ punctuation.section.group.begin
+--               ^^^^^^^^^^^^^ meta.column-name
+--                            ^ punctuation.separator.sequence
+--                              ^^^^^^^^^^^^^^^ meta.column-name
+--                                             ^ punctuation.separator.sequence
+--                                               ^^^^^^^^ meta.column-name
+--                                                       ^ punctuation.section.group.end
 WHEN NOT MATCHED BY SOURCE
+--^^^^^^^^^^^^^^ keyword.control.conditional.case
+--               ^^^^^^^^^ keyword.other
     THEN DELETE;
+--  ^^^^ keyword.other
+--       ^^^^^^ keyword.other.DML
+--             ^ punctuation.terminator.statement
 
 --------------
 
@@ -1017,7 +1064,8 @@ SELECT p.BusinessEntityID ,
        p.FirstName ,
        p.MiddleName ,
        p.LastName ,
-       pp.PhoneNumber
+       pp.PhoneNumber ,
+       dbo.some_func(p.BusinessEntityID) -- TODO: scope correctly
 FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123) -- TODO: scope correctly
        LEFT OUTER JOIN Person.PersonPhone AS pp TABLESAMPLE (10 ROWS)
            ON pp.BusinessEntityID = p.BusinessEntityID
@@ -1142,3 +1190,24 @@ SELECT a.*
 --                          ^ meta.function-call meta.group punctuation.section.parens.end
 --                            ^^ keyword.operator.assignment.alias - meta.group - meta.function-call
 --                               ^ meta.table-alias-name
+
+DECLARE @Data NVARCHAR(MAX)
+SELECT @Data = (
+    SELECT [CustomerID] as "@CustomerID",
+       [CustomerName],
+       [CustomerCategoryName],
+       [PrimaryContact],
+       [AlternateContact],
+       [PhoneNumber],
+       [FaxNumber],
+       [BuyingGroupName] AS '*',
+       [WebsiteURL] WebsiteLink, -- TODO: scope alias correctly when no explicit 'AS'
+       [DeliveryMethod] 'MethodOfDelivery' -- TODO: scope alias correctly when no explicit 'AS'
+    FROM [WideWorldImporters].[Website].[Customers]
+    WHERE CustomerID < 3 FOR XML PATH('Customer'), ROOT('Customers')
+--                       ^^^^^^^ keyword.other
+--                               ^^^^ keyword.other
+--                                               ^ punctuation.separator.sequence
+--                                                 ^^^^ keyword.other
+)
+-- <- meta.group punctuation.section.group.end

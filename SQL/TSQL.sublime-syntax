@@ -8,7 +8,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'') #(?:\\[tnr])
   simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
-  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert)\b)
+  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b)
   enclosed_type_begin: (?:\[)
   enclosed_type_end: (?:\])
 
@@ -273,6 +273,9 @@ contexts:
     - match: \b(?i:collate)\b
       scope: keyword.other.tsql
       push: collation
+    - match: \b(?i:when\s+(?:not\s+)?matched)\b
+      scope: keyword.control.conditional.case.sql
+      push: merge-condition
 
   dml-statements:
     - meta_append: true
@@ -300,6 +303,12 @@ contexts:
     - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
       push: [cursor-name, single-identifier-after-whitespace]
+    - match: \b(?i:merge)\b
+      scope: keyword.other.tsql
+      push: [maybe-table-alias, table-name, single-identifier-after-whitespace]
+    - match: \b(?i:using)\b
+      scope: keyword.other.tsql
+      push: [table-name-or-subquery, join-on, maybe-table-alias, table-name, single-identifier-after-whitespace]
 
   ddl-statements:
     - meta_prepend: true
@@ -518,10 +527,12 @@ contexts:
       pop: true
 
   for-xml:
-    - match: \b(?i:raw|auto|elements|root)\b
+    - match: \b(?i:raw|auto|elements|root|path)\b
       scope: keyword.other.tsql
     - match: \b(?:XSINIL|XMLSCHEMA)\b # case sensitive?! TODO: need to check
       scope: keyword.other.tsql
+    - match: (?=\))
+      pop: true
     - include: expressions
     - match: (?=\S)
       pop: true
@@ -534,3 +545,18 @@ contexts:
       scope: meta.function-call.tsql meta.group.tsql punctuation.section.parens.end.sql
       set: maybe-table-alias
     - include: inside-method-call
+
+  merge-condition:
+    - match: \b(?i:\s+by\s+(?:source|target))\b
+      scope: keyword.other.tsql
+    - match: \b(?i:then)\b
+      scope: keyword.other.tsql
+    - match: (?i:\binsert\b)(?=\s*\()
+      scope: keyword.other.DML.sql
+      push: values-or-expressions
+    - include: dml-statements
+    - include: pop-on-top-level-reserved-word
+
+  values-or-expressions:
+    - include: dml-statements
+    - include: expressions

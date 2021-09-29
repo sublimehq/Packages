@@ -436,6 +436,7 @@ contexts:
       set: inside-subquery-allow-table-alias
 
   table-name-or-subquery:
+    - include: pop-on-top-level-reserved-word
     - include: subquery
     - match: (?=\S)
       branch_point: table-or-table-function
