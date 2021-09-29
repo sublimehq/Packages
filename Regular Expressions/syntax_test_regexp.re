@@ -229,6 +229,9 @@ where escape characters are ignored.\).
 ###################
 
 (?x)
+# <- meta.group.regexp keyword.control.group.regexp
+#^^ meta.group.regexp - keyword
+#  ^ meta.group.regexp keyword.control.group.regexp
 #^^ storage.modifier.mode.regexp
 #   ^ meta.ignored-whitespace
 
@@ -248,22 +251,30 @@ where escape characters are ignored.\).
 
  (?-ix)
 # <- meta.ignored-whitespace
-# ^^^^ storage.modifier.mode.regexp
+#^ meta.group.regexp keyword.control.group.regexp
+# ^^^^ meta.group.regexp storage.modifier.mode.regexp
+#     ^ meta.group.regexp keyword.control.group.regexp
+#      ^ - meta.group
 
 # not a comment
 # <- - comment
 
 (
     (?x)
+#   ^^^^ meta.group.regexp
     # comment
 #   ^^^^^^^^^ comment
    (?-x)
+#  ^^^^^ meta.group.regexp
 ) # no comment
 # <- keyword.control.group
 # ^ - comment
 
 (?sm-ixxs)
-#^^^^^^^^ storage.modifier.mode.regexp
+# <- meta.group.regexp keyword.control.group.regexp
+#^^^^^^^^ meta.group.regexp storage.modifier.mode.regexp
+#        ^ meta.group.regexp keyword.control.group.regexp
+#         ^ - meta.group
 
  (?i:hello)
 #^^^^^^^^^^ meta.group.regexp

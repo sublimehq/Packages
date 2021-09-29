@@ -157,6 +157,7 @@ contexts:
     # Activates 'x' mode
     - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
       captures:
+        0: meta.group.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
@@ -166,6 +167,7 @@ contexts:
     # Deactivates 'x' mode
     - match: (\()(\?[ims]*-[ims]*x[imxs]*)(\))
       captures:
+        0: meta.group.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
@@ -175,6 +177,7 @@ contexts:
     # Activates 'x' mode
     - match: (\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
       captures:
+        0: meta.group.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
@@ -184,6 +187,7 @@ contexts:
     # Deactivates 'x' mode
     - match: (\()(\?[ims]*-[ims]*x[imxs]*)(\))
       captures:
+        0: meta.group.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
