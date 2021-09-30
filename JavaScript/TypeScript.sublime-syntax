@@ -141,6 +141,8 @@ contexts:
     - include: ts-type-declaration
     - include: ts-interface-declaration
     - include: ts-namespace-declaration
+    - include: ts-declare-enum
+    - include: ts-abstract-class
 
   property-access:
     - meta_prepend: true
