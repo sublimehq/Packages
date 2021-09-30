@@ -656,6 +656,11 @@ let x: readonly any [];
 //              ^^^ support.type.any
 //                  ^^ storage.modifier.array
 
+let x: foo<T>[];
+//     ^^^^^^^^ meta.type
+//        ^^^ meta.type meta.generic
+//           ^^ meta.type storage.modifier.array
+
 let x: any [ "foo" | 'bar' ];
 //     ^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^ support.type.any
