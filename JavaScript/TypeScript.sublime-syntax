@@ -164,6 +164,20 @@ contexts:
         - ts-type-parameter-list
         - ts-type-alias-name
 
+  ts-declare-enum:
+    - match: declare{{identifier_break}}
+      scope: storage.type.js
+      set:
+        - include: ts-enum
+        - include: else-pop
+
+  ts-abstract-class:
+    - match: abstract{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - include: class
+        - include: else-pop
+
   statement:
     - meta_prepend: true
     - include: ts-enum
@@ -181,17 +195,8 @@ contexts:
             - variable-binding-list-top
             - variable-binding-top
 
-    - match: declare{{identifier_break}}
-      scope: storage.type.js
-      set:
-        - include: ts-enum
-        - include: else-pop
-
-    - match: abstract{{identifier_break}}
-      scope: storage.modifier.js
-      set:
-        - include: class
-        - include: else-pop
+    - include: ts-declare-enum
+    - include: ts-abstract-class
 
   class:
     - match: class{{identifier_break}}

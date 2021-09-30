@@ -340,6 +340,8 @@ contexts:
     - include: variable-declaration
     - include: class
     - include: regular-function
+    - include: ts-declare-enum
+    - include: ts-abstract-class
 
     - match: 'default{{identifier_break}}'
       scope: keyword.control.import-export.js
