@@ -633,6 +633,7 @@ inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(
 WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
 -- ^ keyword.other.DML
 --   ^^^^^^^^^ meta.cte-table-name
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns
 --             ^ punctuation.section.group.begin
 --              ^^^^^^^^^^^^^ meta.column-name
 --                           ^ punctuation.separator.sequence
@@ -657,7 +658,7 @@ AS
 -- Define the second CTE query, which returns sales quota data by year for each sales person.
 Sales_Quota_CTE (BusinessEntityID, SalesQuota, SalesQuotaYear)
 -- ^^^^^^^^^^^^ meta.cte-table-name
---              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group - meta.group meta.group
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns - meta.group meta.group
 --               ^^^^^^^^^^^^^^^^ meta.column-name
 AS
 -- <- keyword.operator.assignment.cte
@@ -722,6 +723,7 @@ CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
 --           ^^^ meta.toc-list.full-identifier entity.name.function
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --               ^ punctuation.section.group.begin
 --                ^^ meta.column-name
 --                   ^^^^^ storage.type
@@ -905,8 +907,17 @@ GO
 
 CREATE TABLE dbo.T1
 (
-    column_1 AS 'Computed column ' + column_2, -- TODO: scope the computed column expression correctly
+    column_1 AS 'Computed column ' + column_2,
+--  ^^^^^^^^ meta.column-name
+--           ^^ keyword.other
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.computed-column-definition
+--              ^^^^^^^^^^^^^^^^^^ string.quoted.single
+--                                 ^ keyword.operator.arithmetic
+--                                   ^^^^^^^^ meta.column-name
+--                                           ^ punctuation.separator.sequence - meta.computed-column-definition
     column_2 varchar(30)
+--  ^^^^^^^^ meta.column-name
+--           ^^^^^^^^^^^ storage.type
         CONSTRAINT default_name DEFAULT ('my column default'), -- TODO: scope the constraint name correctly
 --      ^^^^^^^^^^ storage.modifier
     column_3 rowversion,
@@ -917,8 +928,7 @@ CREATE TABLE dbo.T1
 INSERT INTO T1 DEFAULT VALUES;
 -- ^^^^^^^^ keyword.other.DML
 --          ^^ meta.table-name
---             ^^^^^^^ storage.modifier
---                     ^^^^^^ keyword.other.DML.II
+--             ^^^^^^^^^^^^^^ keyword.other.DML.II
 --                           ^ punctuation.terminator.statement
 
 
@@ -983,13 +993,41 @@ WHEN NOT MATCHED BY SOURCE
 --             ^ punctuation.terminator.statement
 
 --------------
-
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[be_Categories](
+    [CategoryID] [uniqueidentifier] ROWGUIDCOL NOT NULL CONSTRAINT [DF_be_Categories_CategoryID] DEFAULT (newid()),
+--                                  ^^^^^^^^^^ storage.modifier
+    [CategoryName] [nvarchar](50) NULL,
+    [Description] [nvarchar](200) NULL,
+    [ParentID] [uniqueidentifier] NULL,
+    CONSTRAINT [PK_be_Categories] PRIMARY KEY CLUSTERED
+--                                ^^^^^^^^^^^ storage.modifier
+--                                            ^^^^^^^^^ storage.modifier
+    (
+        [CategoryID] ASC
+--      ^^^^^^^^^^^^ meta.column-name
+--                   ^^^ keyword.other.order
+    ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+--    ^^^^ keyword.other.DML
+--          ^^^^^^^^^ constant.language.with
+--                    ^ keyword.operator.assignment
+--                      ^^^ constant.language.bool
+--                         ^ punctuation.separator.sequence
+--                                                                               ^^^^^^^^^^^^^^^ constant.language.with
+--                                                                                               ^ keyword.operator.assignment
+--                                                                                                 ^^ constant.language.bool
+) ON [PRIMARY]
+GO
+--------------
 CREATE TABLE [Employee](
    [EmployeeID] [int] NOT NULL PRIMARY KEY,
    [FirstName] VARCHAR(250) NOT NULL,
    [LastName] VARCHAR(250) NOT NULL,
    [DepartmentID] [int] NOT NULL REFERENCES [Department](DepartmentID), -- TODO: scope reference table name correctly
-) ON [PRIMARY] -- TODO: scope ON [Primary] correctly
+) ON [PRIMARY] -- TODO: scope on primary correctly
 GO
 SELECT * FROM Department D
 CROSS APPLY
@@ -1015,10 +1053,13 @@ END
 GO
 
 CREATE FUNCTION dbo.fn_GetAllEmployeeOfADepartment(@DeptID AS INT)
-RETURNS TABLE -- TODO: scope this correctly
+RETURNS TABLE
+--^^^^^ keyword.other
 --      ^^^^^ storage.type
 AS
+-- <- keyword.context.block
 RETURN
+-- ^^^ keyword.control.flow
    (
    SELECT * FROM Employee E
    WHERE E.DepartmentID = @DeptID
@@ -1088,7 +1129,9 @@ UPDATE TOP (10) HumanResources.Employee
 --          ^^ meta.number.integer.decimal constant.numeric.value
 --            ^ punctuation.section.parens.end
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
-SET VacationHours = VacationHours * 1.25 -- TODO: the * here should be scoped as an operator
+SET VacationHours = VacationHours * 1.25
+--                                ^ keyword.operator.arithmetic
+--                                  ^^^^ meta.number.float.decimal constant.numeric.value
 OUTPUT INSERTED.BusinessEntityID,
 --^^^^ storage.modifier.output
 --     ^^^^^^^^^ meta.column-name constant.language.table

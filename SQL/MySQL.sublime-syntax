@@ -9,14 +9,15 @@ variables:
   simple_types: |-
     (?xi:
       \b
-      (?:bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|
-        line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)
+      (?:bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|integer|
+        line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext|
+        unsigned)
       \b
     )
   types_with_optional_number: |-
     (?xi:
       \b
-      (?:bit\s+varying|character\s+(?:varying)?|tinyint|var\schar|float|interval|numeric|decimal|times?|timestamp(?:s|tz)?)
+      (?:bit\s+varying|character\s+(?:varying)?|tinyint|var\schar|float|int|interval|numeric|decimal|times?|timestamp(?:s|tz)?)
       \b
     )
 
@@ -39,15 +40,6 @@ contexts:
 
   strings:
     - meta_append: true
-    - match: "`"
-      scope: punctuation.definition.string.begin.sql
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.other.backtick.sql
-        - match: "`"
-          scope: punctuation.definition.string.end.sql
-          pop: true
-        - include: string-escape
     - match: '"'
       scope: punctuation.definition.string.begin.sql
       push:
@@ -126,8 +118,6 @@ contexts:
     - match: \b(?i:create\s+or\s+replace)\b
       scope: keyword.other.ddl.sql
       push: [ddl-create-target, create-condition, ddl-target]
-    - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
-      scope: keyword.other.object-comments.sql
 
   dml-statements:
     - meta_append: true
@@ -174,3 +164,10 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:change\s+column)\b
       scope: keyword.other.ddl.sql
+
+  inside-ddl-table-creation-columns:
+    - meta_prepend: true
+    - match: \b(?i:auto_increment)\b
+      scope: keyword.other.mysql
+    - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
+      scope: keyword.other.object-comments.sql

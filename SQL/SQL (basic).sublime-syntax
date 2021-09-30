@@ -21,7 +21,6 @@ contexts:
     - include: statements
     - match: ';'
       scope: punctuation.terminator.statement.sql
-    - include: types
     - include: expressions-or-column-name
 
   comments:
@@ -95,7 +94,7 @@ contexts:
     - match: \s*(\.)(?=\s*\*)
       captures:
         1: punctuation.accessor.dot.sql
-      pop: true
+      set: possible-wildcard
     - match: \s*(\.)
       captures:
         1: punctuation.accessor.dot.sql
@@ -156,7 +155,7 @@ contexts:
   operators:
     - match: '<=>|[!<>]?=|<>|<|>'
       scope: keyword.operator.comparison.sql
-    - match: '-|\+|/'
+    - match: '[-+/*]'
       scope: keyword.operator.arithmetic.sql
     - include: logical-operators
 
@@ -174,9 +173,10 @@ contexts:
         3: constant.numeric.sql
 
   expressions-or-column-name:
+    - include: wildcard-identifier
     - include: expressions
     - match: (?=\S)
-      push: [column-name, single-identifier]
+      push: [possible-operator, column-name, single-identifier]
 
   numbers:
     - match: \b\d+\.\d+\b
@@ -185,6 +185,7 @@ contexts:
       scope: meta.number.integer.decimal.sql constant.numeric.value.sql
 
   expressions:
+    - include: types
     - match: (?i)\bas\b
       scope: keyword.operator.assignment.alias.sql
       push: [column-alias, single-identifier-after-whitespace]
@@ -193,8 +194,6 @@ contexts:
       scope: constant.language.boolean.sql
     - match: (?i:\bnull\b)
       scope: constant.language.null.sql
-    - match: \*
-      scope: variable.language.wildcard.asterisk.sql
     - match: \b(?i:case)\b
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
@@ -284,6 +283,9 @@ contexts:
     - include: dml-statements
 
   ddl-statements:
+    - match: \b(?i:create\s+table)\b
+      scope: keyword.other.ddl.sql
+      push: [ddl-create-target, ddl-table-creation-columns, create-condition]
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
       push: [ddl-create-target, create-condition, ddl-target]
@@ -299,8 +301,6 @@ contexts:
     # - match: \b(?i:alter)\b
     #   scope: keyword.other.ddl.sql
     #   push: ddl-alter-target
-    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
-      scope: storage.modifier.sql
     - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
       scope: keyword.other.authorization.sql
 
@@ -308,6 +308,11 @@ contexts:
     - meta_scope: meta.create.sql
     - match: (?=\S)
       pop: true
+
+  ddl-table-creation-columns:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-ddl-table-creation-columns
 
   ddl-drop-target:
     - meta_scope: meta.drop.sql
@@ -371,7 +376,7 @@ contexts:
     - match: (?i:\bset\b)
       scope: keyword.other.DML.sql
       push: set
-    - match: (?i:\bvalues\b)
+    - match: (?i:\b(?:default\s+)?values\b)
       scope: keyword.other.DML.II.sql
     - include: distinct
     - include: joins
@@ -382,6 +387,15 @@ contexts:
       push: table-name-or-subquery
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
+
+  inside-ddl-table-creation-columns:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: true
+    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
+      scope: storage.modifier.sql
+    - include: expressions-or-column-name
 
   dml-delete:
     - match: (?=\S)
@@ -494,4 +508,18 @@ contexts:
   table-valued-function-name:
     - meta_content_scope: meta.table-valued-function-name.sql
     - match: ''
+      pop: true
+
+  possible-operator:
+    - include: operators
+    - match: (?=\S)
+      pop: true
+
+  wildcard-identifier:
+    - match: \*
+      scope: variable.language.wildcard.asterisk.sql
+
+  possible-wildcard:
+    - include: wildcard-identifier
+    - match: (?=\S)
       pop: true

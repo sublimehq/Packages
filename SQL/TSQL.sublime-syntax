@@ -254,7 +254,6 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - include: types
     - match: 0x\h+
       scope: meta.number.integer.hexadecimal.tsql constant.numeric.value.tsql
     - match: \b(?i:cast)\b
@@ -312,7 +311,7 @@ contexts:
 
   ddl-statements:
     - meta_prepend: true
-    - match: \b(?i:create(?:\s+or\s+alter)?)\b
+    - match: (?i)\b(?:create(?:\s+or\s+alter)?)\b(?!\s*table\b)
       scope: keyword.other.ddl.sql
       push: [ddl-create-target-expect-as, ddl-create-target, create-condition, ddl-target]
 
@@ -325,6 +324,8 @@ contexts:
     - match: (?i:\bas\b)
       scope: keyword.context.block.sql
       pop: true
+    - match: \b(?i:returns)\b
+      scope: keyword.other.tsql
     - include: pop-on-top-level-reserved-word
     - include: expressions
 
@@ -438,7 +439,12 @@ contexts:
       scope: punctuation.separator.sequence.tsql
     - match: '='
       scope: keyword.operator.assignment.tsql
-      push: expressions-pop-at-comma
+      push: with-assignment
+
+  with-assignment:
+    - match: \b(?i:ON|OFF)\b
+      scope: constant.language.bool.tsql
+    - include: expressions-pop-at-comma
 
   expressions-pop-at-comma:
     - match: (?=[,)])
@@ -506,9 +512,9 @@ contexts:
       set: [procedure-name, single-identifier-after-whitespace]
 
   cte-column-list-begin:
-    - match: \(
+    - match: (?=\()
       scope: punctuation.section.group.begin.tsql
-      set: [cte-as, inside-group]
+      set: [cte-as, ddl-table-creation-columns]
     - match: (?=\S)
       pop: true
 
@@ -560,3 +566,17 @@ contexts:
   values-or-expressions:
     - include: dml-statements
     - include: expressions
+
+  inside-ddl-table-creation-columns:
+    - meta_prepend: true
+    - match: \b(?i:ROWGUIDCOL|CLUSTERED)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:AS)\b
+      scope: keyword.other.tsql
+      push: computed-column-definition
+
+  computed-column-definition:
+    - meta_content_scope: meta.computed-column-definition.tsql
+    - match: (?=,)
+      pop: true
+    - include: expressions-or-column-name

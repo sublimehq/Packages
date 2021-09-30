@@ -59,7 +59,14 @@ create table IF NOT EXISTS `testing123` (
 --           ^^ keyword.control.flow
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT, -- TODO: is unsigned a modifier or part of the type?
+--  ^^^^ meta.column-name
+--       ^^^^^^^ storage.type
+--               ^^^^^^^^ storage.type
+--                        ^^^ keyword.operator.logical
+--                            ^^^^ constant.language.null
+--                                 ^^^^^^^^^^^^^^ keyword.other
+--                                               ^ punctuation.separator.sequence
     `lastchanged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 --                ^^^^^^^^^ storage.type.sql
 --                                           ^^^^^^^^^^^^^^^^^ support.function.scalar.sql
@@ -101,7 +108,7 @@ create table fancy_table (
 --                                                   ^ punctuation.section.parens.begin
 --                                                    ^ punctuation.section.parens.end
 --                                                     ^ punctuation.separator.sequence
-    mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone,
+    mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone, -- TODO: seems like :: is a postgresql cast operator
 --                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
     some_number numeric(5, 2) DEFAULT 0,
 --  ^^^^^^^^^^^ meta.column-name
