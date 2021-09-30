@@ -593,6 +593,42 @@ extern(1)
 //       ^ punctuation.section.brackets.end.d
 //         ^^^ variable.other.d
 //            ^ punctuation.terminator.d
+  foo bar;
+//^^^ storage.type.d
+//    ^^^ variable.other.d
+//       ^ punctuation.terminator.d
+  foo* bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo** bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo **bar;
+//^^^ storage.type.d
+//    ^^ keyword.operator.pointer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo[] bar;
+//^^^ storage.type.d
+//   ^^ punctuation.section.brackets
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo*[] bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^ punctuation.section.brackets
+//       ^^^ variable.other.d
+//          ^ punctuation.terminator.d
+  foo**[] bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^ punctuation.section.brackets
+//        ^^^ variable.other.d
+//           ^ punctuation.terminator.d
   auto foo = 3;
 //^^^^ storage.modifier.d
 //     ^^^ variable.other.d
