@@ -629,6 +629,24 @@ extern(1)
 //     ^^ punctuation.section.brackets
 //        ^^^ variable.other.d
 //           ^ punctuation.terminator.d
+  foo.bar baz;
+//^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ meta.path.d storage.type.d
+//        ^^^ variable.other.d
+//           ^ punctuation.terminator.d
+  foo.bar.baz**[] var;
+//^^^^^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ storage.type.d
+//       ^ punctuation.accessor.dot.d
+//        ^^^ storage.type.d
+//           ^^ keyword.operator.pointer.d
+//             ^^ punctuation.section.brackets
+//                ^^^ variable.other.d
+//                   ^ punctuation.terminator.d
   auto foo = 3;
 //^^^^ storage.modifier.d
 //     ^^^ variable.other.d
