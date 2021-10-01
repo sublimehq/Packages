@@ -106,7 +106,7 @@ import foo;
 
     type x < T = Foo > = any;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-alias
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.type
 //       ^ entity.name.type
 //         ^^^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
