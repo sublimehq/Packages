@@ -1004,6 +1004,24 @@ let x: abstract new () => T;
 //                     ^^ keyword.declaration.function
 //                        ^ support.class
 
+let x: (n: number | { valueOf(): number }) => string;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//      ^ variable.parameter
+//       ^ punctuation.separator.type
+//         ^^^^^^ support.type.primitive.number
+//                ^ keyword.operator.type.union
+//                  ^^^^^^^^^^^^^^^^^^^^^ meta.type meta.group meta.type
+//                  ^ punctuation.section.mapping.begin
+//                    ^^^^^^^ variable.other.readwrite
+//                           ^^ meta.function.parameters punctuation.section.group
+//                             ^ punctuation.separator.type
+//                               ^^^^^^ support.type.primitive.number
+//                                      ^ punctuation.section.mapping.end
+//                                         ^^ keyword.declaration.function
+//                                            ^^^^^^ support.type.primitive.string
+
 let x: ( foo );
 //     ^^^^^^^ meta.type meta.group
 //     ^ punctuation.section.group.begin

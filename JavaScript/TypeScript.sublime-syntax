@@ -904,6 +904,8 @@ contexts:
           - match: \)
             scope: punctuation.section.group.end.js
             pop: true
+          - match: (?=\S)
+            fail: ts-function-type
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
