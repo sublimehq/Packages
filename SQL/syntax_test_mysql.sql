@@ -238,3 +238,16 @@ WHERE   f.a IS NULL
 --              ^^ keyword.operator.logical.sql
 --                 ^^^ keyword.operator.logical.sql
 --                     ^^^^ constant.language.null.sql
+
+CREATE INDEX IX_some_index ON dbo.some_table(
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other
+--           ^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                         ^^ keyword.other
+--                            ^^^^^^^^^^^^^^ meta.table-name
+--                                          ^ meta.group punctuation.section.group.begin
+    some_column ASC
+--  ^^^^^^^^^^^ meta.group meta.column-name
+--              ^^^ meta.group keyword.other.order
+)
