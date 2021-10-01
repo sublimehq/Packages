@@ -612,6 +612,16 @@ extern(1)
 //    ^^ keyword.operator.pointer.d
 //      ^^^ variable.other.d
 //         ^ punctuation.terminator.d
+  foo*bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^^ variable.other.d
+//       ^ punctuation.terminator.d
+  foo**bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
   foo[] bar;
 //^^^ storage.type.d
 //   ^^ punctuation.section.brackets
@@ -629,6 +639,23 @@ extern(1)
 //     ^^ punctuation.section.brackets
 //        ^^^ variable.other.d
 //           ^ punctuation.terminator.d
+  foo[]bar;
+//^^^ storage.type.d
+//   ^^ punctuation.section.brackets
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo*[]bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^ punctuation.section.brackets
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo**[]bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^ punctuation.section.brackets
+//       ^^^ variable.other.d
+//          ^ punctuation.terminator.d
   foo.bar baz;
 //^^^^^^^ meta.path.d
 //^^^ storage.type.d
@@ -636,6 +663,16 @@ extern(1)
 //    ^^^ meta.path.d storage.type.d
 //        ^^^ variable.other.d
 //           ^ punctuation.terminator.d
+  foo.bar.baz**var;
+//^^^^^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ storage.type.d
+//       ^ punctuation.accessor.dot.d
+//        ^^^ storage.type.d
+//           ^^ keyword.operator.pointer.d
+//             ^^^ variable.other.d
+//                ^ punctuation.terminator.d
   foo.bar.baz**[] var;
 //^^^^^^^^^^^ meta.path.d
 //^^^ storage.type.d
