@@ -142,6 +142,24 @@ import foo;
 //                   ^^^ entity.name.namespace
 //                       ^^ meta.block
 
+    export abstract class C {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^^ storage.modifier
+//                  ^^^^^^^^^^ meta.class
+//                  ^^^^^ keyword.declaration.class
+//                        ^ entity.name.class
+//                          ^^ punctuation.section.block
+
+    export declare enum E {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^ storage.type
+//                 ^^^^^^^^^ meta.enum
+//                 ^^^^ storage.type
+//                      ^ entity.name.enum
+//                        ^^ meta.block punctuation.section.block
+
 /* Declarations */
 
     interface Foo {
