@@ -1506,7 +1506,7 @@ contexts:
             Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
             Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
             FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
-            Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
+            Import|Indentation|Index|Key|Lookup|Memory|ModuleNotFound|Name|NotADirectory|
             NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
             Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
             Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
