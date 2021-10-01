@@ -726,7 +726,7 @@ contexts:
   ts-generic-type-arguments:
     - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
-      set:
+      push:
         - meta_scope: meta.generic.js
         - match: \>
           scope: punctuation.definition.generic.end.js
