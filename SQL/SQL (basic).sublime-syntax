@@ -306,6 +306,9 @@ contexts:
 
   ddl-create-target:
     - meta_scope: meta.create.sql
+    - match: \b(?i:on)\b
+      scope: keyword.other.sql
+      push: [table-name, single-identifier-after-whitespace]
     - match: (?=\S)
       pop: true
 

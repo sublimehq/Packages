@@ -319,6 +319,8 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:proc)\b
       scope: keyword.other.sql
+    - match: \b(?i:proc|unique|clustered|nonclustered)\b
+      scope: keyword.other.sql
 
   ddl-create-target-expect-as:
     - match: (?i:\bas\b)
@@ -569,7 +571,7 @@ contexts:
 
   inside-ddl-table-creation-columns:
     - meta_prepend: true
-    - match: \b(?i:ROWGUIDCOL|CLUSTERED)\b
+    - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
       scope: storage.modifier.tsql
     - match: \b(?i:AS)\b
       scope: keyword.other.tsql

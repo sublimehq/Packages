@@ -1254,3 +1254,21 @@ SELECT @Data = (
 --                                                 ^^^^ keyword.other
 )
 -- <- meta.group punctuation.section.group.end
+
+-------------------
+CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^ keyword.other.ddl
+--     ^^^^^^ keyword.other
+--            ^^^^^^^^^^^^ keyword.other
+--                         ^^^^^ keyword.other
+--                               ^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                                             ^^ keyword.other
+--                                                ^^^^^^^^^^^^^^ meta.table-name
+--                                                              ^ meta.group punctuation.section.group.begin
+    some_column ASC
+--  ^^^^^^^^^^^ meta.group meta.column-name
+--              ^^^ meta.group keyword.other.order
+)
+-- <- meta.group punctuation.section.group.end
+--^ - meta.group
