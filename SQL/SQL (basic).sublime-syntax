@@ -8,7 +8,7 @@ version: 2
 variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
-  reserved: (?i:;|\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|update|truncate|create|alter|drop)\b)
+  reserved: (?i:;|\b(?:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|update|truncate|create|alter|drop|return)\b)
   additional_reserved: (?!)
   simple_types: (?i:\b(?:bit|bool|boolean|datetime|int)\b)
   types_with_optional_number: (?i:\b(?:n?char|number|n?varchar|varbinary)\b)
@@ -298,9 +298,9 @@ contexts:
     - match: \b(?i:alter\s+table)\b
       scope: keyword.other.ddl.sql
       push: [ddl-alter-table, table-name, single-identifier-after-whitespace]
-    # - match: \b(?i:alter)\b
-    #   scope: keyword.other.ddl.sql
-    #   push: ddl-alter-target
+    - match: \b(?i:alter)\b
+      scope: keyword.other.ddl.sql
+      push: [ddl-alter-target, ddl-target]
     - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
       scope: keyword.other.authorization.sql
 

@@ -211,6 +211,9 @@ contexts:
     - meta_append: true
     - include: declarations
     - include: transaction-statements
+    - include: cte-with
+    - match: (?=\b(?i:raiserror)\b)
+      push: raiserror-args
     - match: \b(?i:go)\b
       scope: keyword.control.flow.tsql
     - match: \b(?i:if|else|return|while)\b
@@ -265,10 +268,9 @@ contexts:
       scope: storage.modifier.output.tsql
     - match: \b(?i:over|partition\s+by)\b
       scope: keyword.other.sql
-    - match: \b(?i:(cursor)\s+(for))\b
-      captures:
-        1: support.type.tsql
-        2: keyword.other.sql
+    - match: \b(?i:cursor)\b
+      scope: support.type.tsql
+      set: cursor-declaration
     - match: \b(?i:collate)\b
       scope: keyword.other.tsql
       push: collation
@@ -317,10 +319,15 @@ contexts:
 
   ddl-target:
     - meta_prepend: true
-    - match: \b(?i:proc)\b
-      scope: keyword.other.sql
     - match: \b(?i:proc|unique|clustered|nonclustered)\b
-      scope: keyword.other.sql
+      scope: keyword.other.ddl.sql
+
+  ddl-alter-target:
+    - meta_prepend: true
+    #- match: \b(?i:proc|procedure|function)\b
+    #  scope: keyword.other.sql
+    - match: (?=\S)
+      set: [ddl-create-target-expect-as, expect-procedure-name]
 
   ddl-create-target-expect-as:
     - match: (?i:\bas\b)
@@ -372,10 +379,14 @@ contexts:
 
   set:
     - meta_prepend: true
-    - match: \b(?i:nocount)\b
+    - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
       scope: constant.language.switch.tsql
     - match: \b(?i:on|off)\b
       scope: constant.language.boolean.tsql
+    - include: variables
+    - match: '[-+/*%^|]='
+      scope: keyword.operator.assignment.tsql
+    - include: operators
     - match: (?=\S)
       pop: true
 
@@ -407,26 +418,23 @@ contexts:
         2: constant.language.table-hint.tsql
         3: punctuation.section.group.end.tsql
 
-  with:
+  cte-with:
     - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\()
       scope: keyword.other.DML.sql
       push: [cte-column-list-begin, cte-table-name, single-identifier]
-    - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
+    - match: (?i)\bwith\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
       scope: keyword.other.DML.sql
       push: [cte-as, cte-table-name, single-identifier]
+
+  with:
     - match: (?i)\bwith\b
       scope: keyword.other.DML.sql
       push: with-paren-or-pop
 
-  with-paren:
+  with-paren-or-pop:
     - match: \(
       scope: punctuation.section.group.begin.sql
       set: inside-with-group
-    - match: \b(?i:nowait)\b
-      scope: keyword.other.tsql
-
-  with-paren-or-pop:
-    - include: with-paren
     - match: (?=\S)
       set: maybe-table-alias
 
@@ -582,3 +590,53 @@ contexts:
     - match: (?=,)
       pop: true
     - include: expressions-or-column-name
+
+  raiserror-args:
+    - match: \b(?i:with)\b
+      scope: keyword.other.tsql
+      set: raiserror-options
+    - include: pop-on-top-level-reserved-word
+    - include: expressions
+
+  raiserror-options:
+    - match: \b(?i:nowait|log|seterror)\b
+      scope: keyword.other.tsql
+    - match: (?=\S)
+      pop: true
+
+  cursor-declaration:
+    - meta_content_scope: meta.cursor-declaration.tsql
+    - match: (?i)\b(?:FORWARD_ONLY|SCROLL|STATIC|KEYSET|DYNAMIC|FAST_FORWARD|READ_ONLY|SCROLL_LOCKS|OPTIMISTIC|TYPE_WARNING)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:for)\b
+      scope: keyword.other.tsql
+      set: expect-cursor-select-statement
+    - match: (?=\S)
+      pop: true
+
+  expect-cursor-select-statement:
+    - meta_content_scope: meta.cursor-declaration.tsql
+    - match: \b(?i:select)\b
+      scope: keyword.other.DML.sql
+      set: after-cursor-select-statement
+    - match: (?=\S)
+      pop: true
+
+  after-cursor-select-statement:
+    - meta_content_scope: meta.cursor-declaration.tsql
+    - match: \b(?i:for)\b
+      scope: keyword.other.tsql
+      set: after-cursor-select-statement-for
+    - match: (?=\b(?i:open)\b)
+      pop: true
+    - include: main
+    #- include: pop-on-top-level-reserved-word
+    #- include: expressions-or-column-name
+
+  after-cursor-select-statement-for:
+    - meta_scope: meta.cursor-declaration.tsql
+    - match: (?i)\b(?:READ\s+ONLY|UPDATE(?:\s+OF)?)\b
+      scope: storage.modifier.tsql
+      pop: true
+    - match: (?=\S)
+      pop: true

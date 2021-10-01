@@ -219,11 +219,13 @@ SELECT @fileDate = CONVERT(VARCHAR(20),GETDATE(),112)
 --                                                  ^ punctuation.section.parens.end
 --                                                   ^ - meta.function-call - meta.group
 
-DECLARE db_cursor CURSOR FOR
+DECLARE db_cursor CURSOR SCROLL DYNAMIC FOR
 -- ^^^^ keyword.declaration.variable
 --      ^^^^^^^^^ meta.cursor-name
 --                ^^^^^^ support.type
---                       ^^^ keyword.other
+--                       ^^^^^^ storage.modifier
+--                              ^^^^^^^ storage.modifier
+--                                      ^^^ keyword.other
     SELECT name
 --  ^^^^^^ keyword.other.DML
 --         ^^^^ meta.column-name
@@ -236,6 +238,12 @@ DECLARE db_cursor CURSOR FOR
     --                 ^^^^^^^^ string.quoted.single
     --                         ^ punctuation.separator.sequence
     --                          ^^^^^^^ string.quoted.single
+    FOR UPDATE OF name
+--  ^^^ meta.cursor-declaration keyword.other
+--      ^^^^^^^^^ storage.modifier
+--                ^^^^ meta.column-name
+DECLARE @blah int
+-- <- keyword.declaration.variable - meta.cursor-declaration
 
 OPEN db_cursor
 -- ^ keyword.other
@@ -273,6 +281,32 @@ CLOSE db_cursor
 DEALLOCATE db_cursor
 -- ^^^^^^^ keyword.other
 --         ^^^^^^^^^ meta.cursor-name
+GO
+-------
+
+DECLARE db_cursor CURSOR FAST_FORWARD READ_ONLY FOR
+-- ^^^^ keyword.declaration.variable
+--      ^^^^^^^^^ meta.cursor-name
+--                ^^^^^^ support.type
+--                       ^^^^^^^^^^^^ storage.modifier
+--                                    ^^^^^^^^^ storage.modifier
+--                                              ^^^ keyword.other
+    SELECT name
+--  ^^^^^^ keyword.other.DML
+--         ^^^^ meta.column-name
+    FROM MASTER.dbo.sysdatabases
+    -- ^ keyword.other.DML
+    --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+    WHERE name NOT IN ('master','model','msdb','tempdb')
+    -- ^^ keyword.other.DML
+    --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+    --                 ^^^^^^^^ string.quoted.single
+    --                         ^ punctuation.separator.sequence
+    --                          ^^^^^^^ string.quoted.single
+
+OPEN db_cursor
+-- ^ keyword.other - meta.cursor-declaration
+--   ^^^^^^^^^ meta.cursor-name
 
 -------------
 
@@ -603,6 +637,23 @@ GO
 -- <- keyword.control.flow
 
 ---------------
+ALTER PROC CreateOrAlterDemo
+-- ^^ meta.alter keyword.other.ddl
+--    ^^^^ meta.alter keyword.other.ddl
+--         ^^^^^^^^^^^^^^^^^ meta.procedure-name
+ @Count SMALLINT
+,@Other INT OUTPUT
+-- <- punctuation.separator.sequence
+--^^^^^ variable.other.readwrite
+--      ^^^ storage.type
+--          ^^^^^^ storage.modifier.output
+AS
+-- <- keyword.context.block
+BEGIN
+-- <- keyword.control.flow.begin
+END
+-- <- keyword.control.flow.end
+---
 
 select A.A
     , CASE WHEN B.B IS NOT NULL THEN B.B ELSE DATEADD(d, 1 - DATEPART(d, GETDATE()), DATEADD(m, B.MonthsInFuture, DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0))) END AS FirstDayOfFutureMonth
@@ -994,8 +1045,12 @@ WHEN NOT MATCHED BY SOURCE
 
 --------------
 SET ANSI_NULLS ON
+--  ^^^^^^^^^^ constant.language.switch
+--             ^^ constant.language.boolean
 GO
 SET QUOTED_IDENTIFIER ON
+--  ^^^^^^^^^^^^^^^^^ constant.language.switch
+--                    ^^ constant.language.boolean
 GO
 CREATE TABLE [dbo].[be_Categories](
     [CategoryID] [uniqueidentifier] ROWGUIDCOL NOT NULL CONSTRAINT [DF_be_Categories_CategoryID] DEFAULT (newid()),
@@ -1272,3 +1327,54 @@ CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
 )
 -- <- meta.group punctuation.section.group.end
 --^ - meta.group
+
+WITH cols
+--^^ keyword.other.DML
+--   ^^^^ meta.cte-table-name
+AS
+-- <- keyword.operator.assignment.cte
+(
+    SELECT table_name, column_name,
+    ROW_NUMBER() OVER(ORDER BY table_name, column_name) AS sequence,
+    COUNT(*) OVER() AS total_columns
+    FROM [INFORMATION_SCHEMA].columns
+)
+SELECT table_name, column_name, total_columns
+FROM cols
+ORDER BY sequence
+
+set @test += 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
+set @test -= 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
+set @test *= 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
+set @test /= 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
+set @test %= 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
+set @test ^= 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
+set @test |= 2
+--^ keyword.other.DML
+--  ^^^^^ variable.other.readwrite
+--        ^^ keyword.operator.assignment
+--           ^ meta.number.integer.decimal constant.numeric.value
