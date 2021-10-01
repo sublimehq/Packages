@@ -154,11 +154,19 @@ import foo;
     export declare enum E {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
-//         ^^^^^^^ storage.type
+//         ^^^^^^^ storage.modifier
 //                 ^^^^^^^^^ meta.enum
-//                 ^^^^ storage.type
+//                 ^^^^ keyword.declaration.enum
 //                      ^ entity.name.enum
 //                        ^^ meta.block punctuation.section.block
+
+    export default interface Foo {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^ keyword.control.import-export
+//                 ^^^^^^^^^^^^^^^^ meta.interface
+//                 ^^^^^^^^^ keyword.declaration
+//                           ^^^  entity.name.interface
 
 /* Declarations */
 
@@ -219,7 +227,7 @@ import foo;
 
     enum Foo {
 //  ^^^^^^^^^^^ meta.enum
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.enum
 //       ^^^ entity.name.enum
 //           ^ punctuation.section.block.begin
         x,
@@ -239,20 +247,37 @@ import foo;
 //  ^ meta.enum meta.block punctuation.section.block.end
 
     const enum Foo {}
-//  ^^^^^ keyword.declaration
+//  ^^^^^ storage.modifier
 //        ^^^^^^^^^^^ meta.enum
-//        ^^^^ storage.type
+//        ^^^^ keyword.declaration.enum
 //             ^^^ entity.name.enum
 
     declare enum Foo {}
-//  ^^^^^^^ storage.type
+//  ^^^^^^^ storage.modifier
 //          ^^^^^^^^^^^ meta.enum
-//          ^^^^ storage.type
+//          ^^^^ keyword.declaration.enum
 //               ^^^ entity.name.enum
+
+    declare const enum Foo {}
+//  ^^^^^^^ storage.modifier
+//          ^^^^^ storage.modifier
+//                ^^^^^^^^^^^ meta.enum
+//                ^^^^ keyword.declaration.enum
+//                     ^^^ entity.name.enum
+
+    const; // While typing
+//  ^^^^^ keyword.declaration
+
+    declare();
+//  ^^^^^^^ meta.function-call variable.function
+
+    const declare;
+//  ^^^^^ keyword.declaration
+//        ^^^^^^^ meta.binding.name variable.other.readwrite
 
     type x < T > = any;
 //  ^^^^^^^^^^^^^^^^^^ meta.type-alias
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.type
 //       ^ entity.name.type
 //         ^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
@@ -263,7 +288,7 @@ import foo;
 
     type x < T = Foo > = any;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-alias
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.type
 //       ^ entity.name.type
 //         ^^^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
@@ -410,6 +435,9 @@ import foo;
 //               ^^^ entity.name.function
 
     }
+
+    abstract();
+//  ^^^^^^^^ meta.function-call variable.function
 
     class Foo < T > extends Bar implements Baz, Xyzzy { }
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class

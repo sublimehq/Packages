@@ -337,15 +337,12 @@ contexts:
     - include: immediately-pop
 
   export-extended:
-    - include: variable-declaration
-    - include: class
-    - include: regular-function
+    - include: declaration
 
     - match: 'default{{identifier_break}}'
       scope: keyword.control.import-export.js
       set:
-        - include: class
-        - include: regular-function
+        - include: declaration
         - match: (?=\S)
           set: expression-statement
 
@@ -404,12 +401,12 @@ contexts:
       scope: punctuation.terminator.statement.empty.js
       pop: true
 
+    - include: declaration
     - include: import-statement-or-import-meta
     - include: export-statement
     - include: conditional
     - include: block
     - include: label
-    - include: variable-declaration
 
     - match: break{{identifier_break}}
       scope: keyword.control.flow.break.js
@@ -435,12 +432,14 @@ contexts:
       scope: keyword.control.flow.throw.js
       set: restricted-production
 
-    - include: class
-    - include: regular-function
-
     - include: decorator
 
     - include: expression-statement
+
+  declaration:
+    - include: variable-declaration
+    - include: class
+    - include: regular-function
 
   expect-semicolon:
     - match: \;
