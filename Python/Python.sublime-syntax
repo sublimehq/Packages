@@ -52,7 +52,7 @@ variables:
 
   builtin_exceptions: |-
     \b(?x:
-    | ArithmeticError
+      ArithmeticError
     | AssertionError
     | AttributeError
     | BaseException
