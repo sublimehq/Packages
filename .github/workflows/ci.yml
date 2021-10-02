@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Download syntax_tests
-        run: wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_4114_x64.tar.xz
+        run: wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_4116_x64.tar.xz
 
       - name: Extract syntax_tests
         run: tar xf st_syntax_tests.tar.xz
