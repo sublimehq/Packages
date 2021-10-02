@@ -603,3 +603,34 @@ where escape characters are ignored.\).
 #                                               ^ meta.ignored-whitespace - meta.group
 (?:(?x-i))
 #  ^^^^^^ meta.group.extended meta.group.extended
+(?-x)
+
+(
+# <- meta.group.regexp keyword.control.group.regexp
+#^ meta.group.regexp - keyword
+    (?x)
+#  ^ meta.group.regexp
+#   ^^^^ meta.group.regexp meta.group.extended.regexp
+#   ^ keyword.control.group.regexp
+#    ^^ storage.modifier.mode.regexp
+#      ^ keyword.control.group.regexp
+    # comment
+#   ^^^^^^^^^ comment
+    (?x)
+#   ^^^^ meta.group.extended.regexp meta.group.extended.regexp
+#   ^ keyword.control.group.regexp
+#    ^^ storage.modifier.mode.regexp
+#      ^ keyword.control.group.regexp
+    # comment
+#   ^^^^^^^^^ comment
+    (?-x)
+#   ^^^^^ meta.group.extended.regexp meta.group.regexp
+    # comment
+#   ^^^^^^^^^ - comment
+    (?-x)
+#   ^^^^^ meta.group.regexp meta.group.regexp
+    # comment
+#   ^^^^^^^^^ - comment
+) # no comment
+# <- keyword.control.group
+# ^ - comment

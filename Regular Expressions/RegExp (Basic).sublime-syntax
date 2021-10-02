@@ -88,12 +88,12 @@ contexts:
 
   groups:
     - match: \(
-      scope: meta.group.regexp keyword.control.group.regexp
+      scope: keyword.control.group.regexp
       push: [group-body, maybe-unexpected-quantifiers, group-start]
 
   groups-extended:
     - match: \(
-      scope: meta.group.extended.regexp keyword.control.group.regexp
+      scope: keyword.control.group.regexp
       push: [group-body-extended, maybe-unexpected-quantifiers, group-start]
 
   group-start:
@@ -124,18 +124,18 @@ contexts:
       pop: 1
 
   group-body:
-    - meta_content_scope: meta.group.regexp
+    - meta_scope: meta.group.regexp
     - match: \)
-      scope: meta.group.regexp keyword.control.group.regexp
+      scope: keyword.control.group.regexp
       pop: 1
     - include: ingroup-xmode-on
     - include: base
     - include: literals
 
   group-body-extended:
-    - meta_content_scope: meta.group.extended.regexp
+    - meta_scope: meta.group.extended.regexp
     - match: \)
-      scope: meta.group.extended.regexp keyword.control.group.regexp
+      scope: keyword.control.group.regexp
       pop: 1
     - include: ingroup-xmode-off
     - include: base-extended
