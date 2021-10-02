@@ -100,6 +100,7 @@ variables:
     | RuntimeError
     | RuntimeWarning
     | StandardError
+    | StopAsyncIteration
     | StopIteration
     | SyntaxError
     | SyntaxWarning
