@@ -38,7 +38,7 @@ contexts:
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
-      pop: true
+      pop: 1
 
   strings:
     - meta_append: true
@@ -76,28 +76,28 @@ contexts:
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-fail, inside-like-single-quoted-string]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   like-string-followed-by-escape-slash:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-slash, like-escape-pop, inside-like-single-quoted-string-slash-escape]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   like-string-followed-by-escape-caret:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-caret, like-escape-pop, inside-like-single-quoted-string-caret-escape]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   like-string-followed-by-unknown-escape:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-any, like-escape-pop, inside-like-single-quoted-string]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   inside-like-single-quoted-string-slash-escape:
     - meta_include_prototype: false
@@ -118,7 +118,7 @@ contexts:
     - meta_scope: meta.string.like.sql string.quoted.single.sql
     - match: \'
       scope: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: |-
         (?x)
         (\[)(\^)?
@@ -138,14 +138,14 @@ contexts:
     - match: (?i:\bescape\b)
       fail: like-strings-branch
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   like-escape-pop:
     - match: (?i:\bescape\b)
       scope: keyword.operator.word.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   like-escape-character-any:
     - match: (\')([^'])(\')
@@ -154,9 +154,9 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   like-escape-character-caret:
     - match: (\')(\^)(\')
@@ -165,7 +165,7 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: like-strings-branch
 
@@ -176,7 +176,7 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: like-strings-branch
 
@@ -332,7 +332,7 @@ contexts:
   ddl-create-target-expect-as:
     - match: (?i:\bas\b)
       scope: keyword.context.block.sql
-      pop: true
+      pop: 1
     - match: \b(?i:returns)\b
       scope: keyword.other.tsql
     - include: pop-on-top-level-reserved-word
@@ -364,18 +364,18 @@ contexts:
   label-name:
     - meta_content_scope: meta.label-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   cursor-name:
     - meta_content_scope: meta.cursor-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   after-declare:
     - match: (?=\w+\s+(?i:cursor)\b)
       set: [cursor-name, single-identifier]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   set:
     - meta_prepend: true
@@ -388,7 +388,7 @@ contexts:
       scope: keyword.operator.assignment.tsql
     - include: operators
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   maybe-table-alias:
     - meta_prepend: true
@@ -442,7 +442,7 @@ contexts:
     - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: true
+      pop: 1
     - match: \w+
       scope: constant.language.with.tsql
     - match: ','
@@ -458,7 +458,7 @@ contexts:
 
   expressions-pop-at-comma:
     - match: (?=[,)])
-      pop: true
+      pop: 1
     - include: expressions
 
   maybe-identifier-accessor:
@@ -474,13 +474,13 @@ contexts:
       scope: meta.group.sql punctuation.section.parens.begin.sql
       set: inside-cast-method-call
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   inside-cast-method-call:
     - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
       scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
-      pop: true
+      pop: 1
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
     - include: expressions-or-column-name
@@ -488,9 +488,9 @@ contexts:
   collation:
     - match: \w+
       scope: support.constant.tsql
-      pop: true
+      pop: 1
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   joins:
     - meta_append: true
@@ -515,7 +515,7 @@ contexts:
     - include: pop-on-top-level-reserved-word
     - include: expressions
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   expect-procedure-name:
     - match: ''
@@ -526,7 +526,7 @@ contexts:
       scope: punctuation.section.group.begin.tsql
       set: [cte-as, ddl-table-creation-columns]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   cte-as:
     - match: (?i:\bas\b)
@@ -540,7 +540,7 @@ contexts:
   cte-table-name:
     - meta_content_scope: meta.cte-table-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   for-xml:
     - match: \b(?i:raw|auto|elements|root|path)\b
@@ -548,10 +548,10 @@ contexts:
     - match: \b(?:XSINIL|XMLSCHEMA)\b # case sensitive?! TODO: need to check
       scope: keyword.other.tsql
     - match: (?=\))
-      pop: true
+      pop: 1
     - include: expressions
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   inside-openrowset-call:
     - meta_content_scope: meta.group.sql
@@ -588,7 +588,7 @@ contexts:
   computed-column-definition:
     - meta_content_scope: meta.computed-column-definition.tsql
     - match: (?=,)
-      pop: true
+      pop: 1
     - include: expressions-or-column-name
 
   raiserror-args:
@@ -602,7 +602,7 @@ contexts:
     - match: \b(?i:nowait|log|seterror)\b
       scope: keyword.other.tsql
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   cursor-declaration:
     - meta_content_scope: meta.cursor-declaration.tsql
@@ -612,7 +612,7 @@ contexts:
       scope: keyword.other.tsql
       set: expect-cursor-select-statement
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   expect-cursor-select-statement:
     - meta_content_scope: meta.cursor-declaration.tsql
@@ -620,7 +620,7 @@ contexts:
       scope: keyword.other.DML.sql
       set: after-cursor-select-statement
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   after-cursor-select-statement:
     - meta_content_scope: meta.cursor-declaration.tsql
@@ -628,7 +628,7 @@ contexts:
       scope: keyword.other.tsql
       set: after-cursor-select-statement-for
     - match: (?=\b(?i:open)\b)
-      pop: true
+      pop: 1
     - include: main
     #- include: pop-on-top-level-reserved-word
     #- include: expressions-or-column-name
@@ -637,6 +637,6 @@ contexts:
     - meta_scope: meta.cursor-declaration.tsql
     - match: (?i)\b(?:READ\s+ONLY|UPDATE(?:\s+OF)?)\b
       scope: storage.modifier.tsql
-      pop: true
+      pop: 1
     - match: (?=\S)
-      pop: true
+      pop: 1

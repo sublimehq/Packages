@@ -44,14 +44,14 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-dash.sql
     - match: \n
-      pop: true
+      pop: 1
 
   inside-comment-block:
     - meta_include_prototype: false
     - meta_scope: comment.block.sql
     - match: \*/
       scope: punctuation.definition.comment.end.sql
-      pop: true
+      pop: 1
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.sql
@@ -73,13 +73,13 @@ contexts:
       scope: constant.character.escape.sql
     - match: \'
       scope: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - include: string-escape
 
   identifier-create:
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.function.sql
     - match: ''
-      pop: true
+      pop: 1
 
   single-identifier-after-whitespace:
     - match: \s*
@@ -100,7 +100,7 @@ contexts:
         1: punctuation.accessor.dot.sql
       set: single-identifier-after-whitespace
     - match: ''
-      pop: true
+      pop: 1
 
   identifier-part:
     - include: simple-identifier-part
@@ -110,28 +110,28 @@ contexts:
 
   simple-identifier-part:
     - match: '{{simple_identifier}}'
-      pop: true
+      pop: 1
 
   single-quoted-identifier-part:
     - match: (')([^']+)(')
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
-      pop: true
+      pop: 1
 
   double-quoted-identifier-part:
     - match: (")([^"]+)(")
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
-      pop: true
+      pop: 1
 
   backtick-quoted-identifier-part:
     - match: (`)([^`]+)(`)
       captures:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
-      pop: true
+      pop: 1
 
   create-condition:
     - include: dml-condition
@@ -210,13 +210,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.sql
     - match: (?=;)
-      pop: true
+      pop: 1
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
     - match: \b(?i:end)\b
       scope: keyword.control.conditional.end.sql
-      pop: true
+      pop: 1
     - match: \b(?i)(case)\s+(when)\b
       captures:
         1: keyword.control.conditional.case.sql
@@ -252,13 +252,13 @@ contexts:
       scope: meta.group.sql punctuation.section.parens.begin.sql
       set: inside-method-call
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   inside-method-call:
     - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
       scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
-      pop: true
+      pop: 1
     - match: ','
       scope: punctuation.separator.argument.sql
     - include: distinct
@@ -268,7 +268,7 @@ contexts:
     - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: true
+      pop: 1
     - include: main
 
   inside-subquery-allow-table-alias:
@@ -310,7 +310,7 @@ contexts:
       scope: keyword.other.sql
       push: [table-name, single-identifier-after-whitespace]
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   ddl-table-creation-columns:
     - match: \(
@@ -320,7 +320,7 @@ contexts:
   ddl-drop-target:
     - meta_scope: meta.drop.sql
     - match: ''
-      pop: true
+      pop: 1
 
   ddl-target:
     - match: |-
@@ -331,7 +331,7 @@ contexts:
         schema|sequence|table(?:space)?|trigger|type|user|view
       scope: keyword.other.sql
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   ddl-drop-table:
     - meta_scope: meta.drop.sql
@@ -351,7 +351,7 @@ contexts:
     - meta_scope: meta.alter.sql
     - include: ddl-alter-common
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   ddl-alter-common:
     - match: (?i:\s*\b(add)\s+(constraint|(?:fulltext|spatial)\s+(index|key)|index))
@@ -395,7 +395,7 @@ contexts:
     - meta_scope: meta.group.table-columns.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: true
+      pop: 1
     - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
       scope: storage.modifier.sql
     - include: expressions-or-column-name
@@ -420,32 +420,32 @@ contexts:
   column-name:
     - meta_content_scope: meta.column-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   column-alias:
     - meta_content_scope: meta.column-alias.sql
     - match: ''
-      pop: true
+      pop: 1
 
   database-name:
     - meta_content_scope: meta.database-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   table-name:
     - meta_content_scope: meta.table-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   table-alias-name:
     - meta_content_scope: meta.table-alias-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   procedure-name:
     - meta_content_scope: meta.procedure-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   subquery:
     - match: \(
@@ -481,24 +481,24 @@ contexts:
 
   after-table-alias:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   join-on:
     - match: (?i)\bon\b
       scope: keyword.operator.join.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   set:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   pop-on-top-level-reserved-word:
     - match: (?={{reserved}}|{{additional_reserved}})
-      pop: true
+      pop: 1
     - match: (?=\))
-      pop: true
+      pop: 1
 
   assignment-operator:
     - match: '='
@@ -511,12 +511,12 @@ contexts:
   table-valued-function-name:
     - meta_content_scope: meta.table-valued-function-name.sql
     - match: ''
-      pop: true
+      pop: 1
 
   possible-operator:
     - include: operators
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   wildcard-identifier:
     - match: \*
@@ -525,4 +525,4 @@ contexts:
   possible-wildcard:
     - include: wildcard-identifier
     - match: (?=\S)
-      pop: true
+      pop: 1

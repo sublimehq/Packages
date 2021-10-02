@@ -42,27 +42,31 @@ contexts:
     - meta_append: true
     - match: '"'
       scope: punctuation.definition.string.begin.sql
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.sql
-        - match: '""'
-          scope: constant.character.escape.sql
-        - match: '"'
-          scope: punctuation.definition.string.end.sql
-          pop: true
-        - include: string-interpolation
+      push: inside-double-quoted-string
     - include: begin-interpolation
+
+  inside-double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.sql
+    - match: '""'
+      scope: constant.character.escape.sql
+    - match: '"'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolation
 
   begin-interpolation:
     - match: '%\{'
       scope: punctuation.definition.string.begin.sql
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.other.quoted.brackets.sql
-        - match: '\}'
-          scope: punctuation.definition.string.end.sql
-          pop: true
-        - include: string-interpolation
+      push: inside-interpolation
+
+  inside-interpolation:
+    - meta_include_prototype: false
+    - meta_scope: string.other.quoted.brackets.sql
+    - match: '\}'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolation
 
   string-interpolation:
     - meta_include_prototype: false
@@ -75,15 +79,17 @@ contexts:
   regexps:
     - match: /(?=\S.*/)
       scope: punctuation.definition.string.begin.sql
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.regexp.sql
-        - match: /
-          scope: punctuation.definition.string.end.sql
-          pop: true
-        - include: string-interpolation
-        - match: \\/
-          scope: constant.character.escape.slash.sql
+      push: inside-regexp
+
+  inside-regexp:
+    - meta_include_prototype: false
+    - meta_scope: string.regexp.sql
+    - match: /
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolation
+    - match: \\/
+      scope: constant.character.escape.slash.sql
 
   operators:
     - meta_append: true
@@ -99,7 +105,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
     - match: \n
-      pop: true
+      pop: 1
 
   expressions:
     - meta_prepend: true
@@ -134,7 +140,7 @@ contexts:
     - match: (?i)\b(?:using)\b
       scope: keyword.other.mysql
     - match: (?=\()
-      pop: true
+      pop: 1
 
   create-condition:
     - meta_prepend: true
@@ -157,7 +163,7 @@ contexts:
     - meta_include_prototype: false
     - meta_prepend: true
     - match: (?=#)
-      pop: true
+      pop: 1
     - include: comments
 
   ddl-alter-table:
