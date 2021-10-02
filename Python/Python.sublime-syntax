@@ -1507,7 +1507,7 @@ contexts:
             Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
             FileNotFound|FloatingPoint|Interrupted|IO|IsADirectory|
             Import|Indentation|Index|Key|Lookup|Memory|ModuleNotFound|Name|NotADirectory|
-            NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
+            NotImplemented|OS|Overflow|Permission|ProcessLookup|Recursion|Reference|
             Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
             Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
           )Error|
