@@ -101,6 +101,7 @@ contexts:
       push: [group-body-extended, maybe-unexpected-quantifiers, group-start]
 
   group-start:
+    - meta_include_prototype: false
     - match: \?(<[=!]|[>=:!])
       scope: constant.other.assertion.regexp
       pop: 1
@@ -201,12 +202,14 @@ contexts:
       push: [charset-range-end, charset-range-begin]
 
   charset-range-begin:
+    - meta_include_prototype: false
     - match: '-'
       scope: punctuation.separator.sequence.regexp
       pop: 1
     - include: escaped-chars
 
   charset-range-end:
+    - meta_include_prototype: false
     - meta_scope: constant.other.range.regexp
     - include: escaped-char
     - match: .
@@ -269,6 +272,7 @@ contexts:
       push: maybe-unexpected-quantifiers
 
   maybe-unexpected-quantifiers:
+    - meta_include_prototype: false
     - include: unexpected-quantifiers
     - match: ''
       pop: 1
