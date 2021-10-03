@@ -29,7 +29,7 @@ variables:
 
   block_comment_contents: (?:(?:[^*]|\*(?!/))*)
   block_comment: (?:/\*{{block_comment_contents}}\*/)
-  nothing: (?x:(?:\s+|{{block_comment}})*)
+  nothing: (?x:(?:\s|{{block_comment}})*)
   line_ending_ahead: (?={{nothing}}(?:/\*{{block_comment_contents}})?$)
 
   # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
