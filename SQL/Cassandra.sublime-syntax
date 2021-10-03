@@ -1,0 +1,69 @@
+%YAML 1.2
+---
+name: CQL
+file_extensions:
+  - cql
+scope: source.sql.cql
+version: 2
+extends: Packages/SQL/SQL (basic).sublime-syntax
+
+variables:
+  simple_types: |-
+    (?ix:\b(?:
+      (ASCII|BIGINT|BLOB|BOOLEAN|COUNTER|DATE|
+      DECIMAL|DOUBLE|DURATION|FLOAT|INET|INT|
+      SMALLINT|TEXT|TIME|TIMESTAMP|TIMEUUID|TINYINT|
+      UUID|VARCHAR|VARINT)
+    )\b)
+  types_with_optional_number: (?!)
+
+contexts:
+  expressions:
+    - meta_append: true
+    - match: \h{8}(?:-\h{4}){3}-\h{12}
+      scope: constant.numeric.uuid.cql
+    - match: (:)\w+
+      scope: variable.other.constant.cql
+      captures:
+        1: punctuation.definition.variable.cql
+    - match: \b(?i:limit)\b
+      scope: keyword.other.dml.cql
+    - match: \{
+      scope: punctuation.section.braces.begin.cql
+      push: inside-dict
+    - match: \b(?i:with)\b
+      scope: keyword.other.cql
+
+  dml-statements:
+    - meta_append: true
+    - match: \b(?i:allow filtering)\b
+      scope: keyword.other.dml.cql
+
+  types:
+    - meta_prepend: true
+    - match: \b(?i:set|frozen|map|tuple)(<)
+      scope: storage.type.cql
+      captures:
+        1: punctuation.definition.generic.begin.cql
+      push: generic-type
+
+  generic-type:
+    - include: types
+    - match: \>
+      scope: storage.type.cql punctuation.definition.generic.end.cql
+      pop: 1
+
+  ddl-target:
+    - meta_prepend: true
+    - match: \b(?i:keyspace)\b
+      scope: keyword.other.cql
+    - match: \b(?i:materialized)\b
+      scope: keyword.other.cql
+
+  inside-dict:
+    - match: \}
+      scope: punctuation.section.braces.end.cql
+      pop: 1
+    - match: ':'
+      scope: punctuation.separator.mapping.key-value.cql
+    - include: expressions

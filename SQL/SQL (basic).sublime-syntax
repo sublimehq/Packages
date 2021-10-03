@@ -325,10 +325,11 @@ contexts:
   ddl-target:
     - match: |-
         (?xi)
-        aggregate|conversion|database|domain|function|group|
+        \b
+        (?:aggregate|conversion|database|domain|function|group|
         (?:(?:fulltext|spatial|unique)\s+)?index|
         language|operator class|operator|procedure|rule|
-        schema|sequence|table(?:space)?|trigger|type|user|view
+        schema|sequence|table(?:space)?|trigger|type|user|view)\b
       scope: keyword.other.sql
     - match: (?=\S)
       pop: 1
