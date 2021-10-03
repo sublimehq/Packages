@@ -526,7 +526,7 @@ contexts:
       scope: punctuation.section.group.begin.tsql
       set: [cte-as, ddl-table-creation-columns]
     - match: (?=\S)
-      pop: 1
+      set: cte-as
 
   cte-as:
     - match: (?i:\bas\b)

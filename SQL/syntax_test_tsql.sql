@@ -770,6 +770,47 @@ SELECT cte_table.* FROM cte_table
 --                 ^^^^ keyword.other.DML
 --                      ^^^^^^^^^ meta.table-name
 
+;WITH A AS
+    (
+        SELECT
+            Foo.ID AS [FooID],
+            Character,
+            Universe,
+            COUNT(Bar.*) AS BarCount
+        FROM
+            Foo
+            LEFT JOIN Bar B WITH (NOLOCK) ON B.Something = 1 AND B.Example = Foo.Example AND B.[When] >= @intervalDate_Start AND B.[When] < @intervalDate_End
+        WHERE
+            @intervalDate_Start <= Foo.CreationTime AND Foo.CreationTime < @intervalDate_End
+        GROUP BY
+            ISNULL(Foo.Example, Foo.ID)
+    ),
+    B AS
+--  ^ meta.cte-table-name
+--    ^^ keyword.operator.assignment.cte
+    (
+        SELECT
+--      ^^^^^^ meta.group keyword.other.DML
+            FooID,
+            CASE WHEN Character = 'Zoidberg'
+                THEN
+                    CASE WHEN SUBSTRING(Universe, 1, 3) IN ('140', '170','290','235')
+                        THEN 'Futurama'
+                        ELSE 'Pasturama'
+                    END
+                ELSE Universe
+            END AS Universe,
+            BarCount
+        FROM
+            A a
+    )
+    SELECT
+        *
+    FROM
+        B
+    ORDER BY Universe DESC
+
+
 CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
