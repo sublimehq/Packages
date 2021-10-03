@@ -251,3 +251,32 @@ CREATE INDEX IX_some_index ON dbo.some_table(
 --  ^^^^^^^^^^^ meta.group meta.column-name
 --              ^^^ meta.group keyword.other.order
 )
+
+CREATE ALGORITHM=MERGE VIEW contactPersons(
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^ keyword.other.ddl
+--     ^^^^^^^^^ keyword.other
+--              ^ keyword.operator.assignment
+--               ^^^^^ keyword.other
+--                     ^^^^ keyword.other
+--                          ^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                                        ^ meta.group punctuation.section.group.begin
+    customerName,
+--  ^^^^^^^^^^^^ meta.group meta.column-name
+--              ^ meta.group punctuation.separator.sequence
+    firstName,
+    lastName,
+    phone
+) AS
+-- <- meta.group punctuation.section.group.end
+-- ^ keyword.operator.assignment.alias - meta.group
+SELECT
+-- ^^^ keyword.other.DML
+    customerName,
+    contactFirstName,
+    contactLastName,
+    phone
+FROM customers;
+-- ^ keyword.other.DML
+--   ^^^^^^^^^ meta.table-name
+--            ^ punctuation.terminator.statement

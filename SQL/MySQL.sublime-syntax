@@ -139,6 +139,11 @@ contexts:
       push: [table-name, single-identifier-after-whitespace]
     - match: (?i)\b(?:using)\b
       scope: keyword.other.mysql
+    - match: \b((?i:algorithm))\s*(=)
+      captures:
+        1: keyword.other.mysql
+        2: keyword.operator.assignment.mysql
+      push: ddl-target-algorithm
     - match: (?=\()
       pop: 1
 
@@ -177,3 +182,10 @@ contexts:
       scope: keyword.other.mysql
     - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
       scope: keyword.other.object-comments.sql
+
+  ddl-target-algorithm:
+    - match: \b(?i:MERGE|TEMPTABLE|UNDEFINED)\b
+      scope: keyword.other.mysql
+      pop: true
+    - match: (?=\S)
+      pop: true
