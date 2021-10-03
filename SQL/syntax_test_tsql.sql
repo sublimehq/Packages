@@ -1288,9 +1288,23 @@ FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath 
 --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --                ^ punctuation.section.parens.begin
 --                 ^^^^^^^^^^^^^^^^^^  variable.other.readwrite
-           WITH (CustomerID  varchar(10), -- TODO: scope correctly https://docs.microsoft.com/en-us/sql/t-sql/functions/openxml-transact-sql?view=sql-server-ver15
+           WITH (CustomerID  varchar(10),
+--         ^^^^ keyword.other
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns
+--              ^ punctuation.section.group.begin
+--               ^^^^^^^^^^ meta.column-name
+--                           ^^^^^^^^^^^ storage.type
+--                                      ^ punctuation.separator.sequence
                  ContactName varchar(20))
+--               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns
+--                                       ^ - meta.group
+--               ^^^^^^^^^^^ meta.column-name
+--                           ^^^^^^^^^^^ storage.type
+--                                      ^ punctuation.section.group.end
 EXEC sp_xml_removedocument @XmlDocumentHandle
+-- <- keyword.control.flow
+--   ^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                         ^ variable.other.readwrite punctuation.definition.variable
 
 --Create an internal representation of the XML document.
 EXEC sp_xml_preparedocument @idoc OUTPUT, @doc;
@@ -1301,8 +1315,17 @@ FROM   OPENXML (@idoc, '/ROOT/Customer/Order/OrderDetail',2)
          WITH (OrderID       int         '../@OrderID',
                CustomerID  varchar(10) '../@CustomerID',
                OrderDate   datetime    '../@OrderDate',
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns
+--             ^^^^^^^^^ meta.column-name
+--                         ^^^^^^^^ storage.type
+--                                     ^^^^^^^^^^^^^^^ string.quoted.single
+--                                     ^ punctuation.definition.string.begin
+--                                                   ^ punctuation.definition.string.end
+--                                                    ^ punctuation.separator.sequence
                ProdID      int         '@ProductID',
                Qty         int         '@Quantity');
+--                                                ^ meta.group.table-columns punctuation.section.group.end
+--                                                 ^ punctuation.terminator.statement - meta.group
 -----
 SELECT  *
 FROM    table_name AS t1

@@ -502,7 +502,7 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:OPENXML)\b
       scope: meta.table-valued-function-name.sql support.function.tsql
-      push: begin-method-call-paren
+      push: [with-column-definition, begin-method-call-paren]
     - match: \b(?i:(OPENROWSET))\b\s*(\()
       scope: meta.function-call.tsql
       captures:
@@ -640,3 +640,8 @@ contexts:
       pop: 1
     - match: (?=\S)
       pop: 1
+
+  with-column-definition:
+    - match: \b(?i:with)\b
+      scope: keyword.other.tsql
+      set: ddl-table-creation-columns
