@@ -206,13 +206,13 @@ hello++
 ###################
 
 (?#foobar)
-#^^^^^^^^^ meta.group comment.block.group
+#^^^^^^^^^ comment.block.group
 # <- comment.block.group punctuation.definition.comment.begin
 #^^ punctuation.definition.comment.begin
 #        ^ punctuation.definition.comment.end
 
 ( abc (?#foobar) )
-#     ^^^^^^^^^^ meta.group meta.group comment.block.group
+#     ^^^^^^^^^^ meta.group comment.block.group
 
 (?#
 

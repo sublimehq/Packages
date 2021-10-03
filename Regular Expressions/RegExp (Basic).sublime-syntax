@@ -85,7 +85,7 @@ contexts:
       push: group-comment-body
 
   group-comment-body:
-    - meta_scope: meta.group.regexp comment.block.group.regexp
+    - meta_scope: comment.block.group.regexp
     - match: \)
       scope: punctuation.definition.comment.end.regexp
       pop: 1
