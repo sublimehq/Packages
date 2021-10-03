@@ -1,0 +1,49 @@
+%YAML 1.2
+---
+name: PostgresSQL
+scope: source.sql.postgresql
+version: 2
+extends: Packages/SQL/MySQL.sublime-syntax
+
+variables:
+  simple_types: |-
+    (?xi:
+      \b
+      (?:smallint|integer|bigint|real|double\s+precision|smallserial|serial|bigserial|
+        money|
+        bytea|
+        times?|timestamp(?:s|tz)?|date|interval|
+        int4range|int8range|numrange|tsrange|tstzrange|daterange|
+        boolean|
+        point|line|lseg|box|path|polygon|circle|
+        cidr|inet|macaddr|macaddr8|
+        tsvector|tsquery|
+        uuid|
+        xml|jsonb?|text)
+      \b
+    )
+  types_with_optional_number: |-
+    (?xi:
+      \b
+      (?:decimal|numeric|
+        character\s+varying|varchar|character|char|
+        bit|bit\s+varying)
+      \b
+    )
+
+contexts:
+  types:
+    - meta_append: true
+    - match: '::'
+      scope: keyword.operator.cast.postgresql
+
+  expressions:
+    - meta_prepend: true
+    - match: \b(?i:ARRAY)\b
+      scope: keyword.declaration.postgresql
+    - match: \[
+      scope: punctuation.section.brackets.begin.postgresql
+    - match: \]
+      scope: punctuation.section.brackets.end.postgresql
+    - match: ':(?!:)'
+      scope: keyword.operator.range.postgresql
