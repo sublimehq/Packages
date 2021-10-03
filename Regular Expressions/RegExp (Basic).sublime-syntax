@@ -125,61 +125,66 @@ contexts:
 
   group-body:
     - meta_scope: meta.group.regexp
-    - match: \)
-      scope: keyword.control.group.regexp
-      pop: 1
+    - include: group-end
     - include: ingroup-xmode-on
     - include: base
     - include: literals
 
   group-body-extended:
     - meta_scope: meta.group.extended.regexp
-    - match: \)
-      scope: keyword.control.group.regexp
-      pop: 1
+    - include: group-end
     - include: ingroup-xmode-off
     - include: base-extended
     - include: literals
 
+  group-end:
+    - match: \)
+      scope: keyword.control.group.regexp
+      pop: 1
+
   ingroup-xmode-on:
     # Activates 'x' mode
     - match: (\()({{activate_x_mode}})(\))
-      scope: meta.group.regexp
       captures:
+        0: meta.group.extended.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
-      set: [group-body-extended, maybe-unexpected-quantifiers]
+      pop: 1  # pop `group-body` to avoid overlapping `meta.group`
+      push: [group-body-extended, maybe-unexpected-quantifiers]
 
   ingroup-xmode-off:
     # Deactivates 'x' mode
     - match: (\()({{deactivate_x_mode}})(\))
-      scope: meta.group.extended.regexp
       captures:
+        0: meta.group.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
-      set: [group-body, maybe-unexpected-quantifiers]
+      pop: 1  # pop `group-body-extended` to avoid overlapping `meta.group`
+      push: [group-body, maybe-unexpected-quantifiers]
 
   xmode-on:
     # Activates 'x' mode
     - match: (\()({{activate_x_mode}})(\))
-      scope: meta.group.regexp
       captures:
+        0: meta.group.extended.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
-      set: [base-literal-extended, maybe-unexpected-quantifiers]
+      pop: 1 # pop `base-literal` to avoid overlapping `meta.` (if any)
+      push: [base-literal-extended, maybe-unexpected-quantifiers]
 
   xmode-off:
     # Deactivates 'x' mode
     - match: (\()({{deactivate_x_mode}})(\))
-      scope: meta.group.extended.regexp
       captures:
+        0: meta.group.regexp
         1: keyword.control.group.regexp
         2: storage.modifier.mode.regexp
         3: keyword.control.group.regexp
-      set: [base-literal, maybe-unexpected-quantifiers]
+      pop: 1 # pop `base-literal-extended` to avoid overlapping `meta.` (if any)
+      push: [base-literal, maybe-unexpected-quantifiers]
 
   charsets:
     - match: (\[\^?)\]?
