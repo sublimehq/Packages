@@ -25,6 +25,7 @@ contexts:
 
   # This is the default context
   base-literal:
+    - meta_scope: meta.mode.basic.regexp
     - include: xmode-on
     - include: base
     - include: literals
@@ -36,16 +37,19 @@ contexts:
   # and disable it properly when it is unset (and in sets).
   # Switching happens in the "group-start*" contexts.
   base-literal-extended:
+    - meta_scope: meta.mode.extended.regexp
     - include: xmode-off
     - include: base-extended
     - include: literals
 
   base:
+    - include: modifiers
     - include: group-comments
     - include: groups
     - include: base-common
 
   base-extended:
+    - include: modifiers
     - include: group-comments
     - include: groups-extended
     - include: extended-patterns # <- this is where the contexts differ
@@ -88,12 +92,12 @@ contexts:
 
   groups:
     - match: \(
-      scope: keyword.control.group.regexp
+      scope: punctuation.section.group.begin.regexp
       push: [group-body, maybe-unexpected-quantifiers, group-start]
 
   groups-extended:
     - match: \(
-      scope: keyword.control.group.regexp
+      scope: punctuation.section.group.begin.regexp
       push: [group-body-extended, maybe-unexpected-quantifiers, group-start]
 
   group-start:
@@ -114,77 +118,68 @@ contexts:
     - match: '{{other_modifiers}}:'
       scope: storage.modifier.mode.regexp
       pop: 1
-    # Other modifiers (must come after other modifier matches)
-    - match: ({{other_modifiers}})(\))
-      captures:
-        1: storage.modifier.mode.regexp
-        2: keyword.control.group.regexp
-      pop: 3
     - match: ''
       pop: 1
 
   group-body:
-    - meta_scope: meta.group.regexp
+    - clear_scopes: 1
+    - meta_scope: meta.group.regexp meta.mode.basic.regexp
     - include: group-end
-    - include: ingroup-xmode-on
+    - include: group-xmode-on
     - include: base
     - include: literals
 
   group-body-extended:
-    - meta_scope: meta.group.extended.regexp
+    - clear_scopes: 1
+    - meta_scope: meta.group.regexp meta.mode.extended.regexp
     - include: group-end
-    - include: ingroup-xmode-off
+    - include: group-xmode-off
     - include: base-extended
     - include: literals
 
   group-end:
     - match: \)
-      scope: keyword.control.group.regexp
+      scope: punctuation.section.group.end.regexp
       pop: 1
 
-  ingroup-xmode-on:
+  group-xmode-on:
     # Activates 'x' mode
-    - match: (\()({{activate_x_mode}})(\))
-      captures:
-        0: meta.group.extended.regexp
-        1: keyword.control.group.regexp
-        2: storage.modifier.mode.regexp
-        3: keyword.control.group.regexp
-      pop: 1  # pop `group-body` to avoid overlapping `meta.group`
-      push: [group-body-extended, maybe-unexpected-quantifiers]
+    - match: (?=\({{activate_x_mode}}\))
+      set: [group-body-extended, xmode-modifier]
 
-  ingroup-xmode-off:
+  group-xmode-off:
     # Deactivates 'x' mode
-    - match: (\()({{deactivate_x_mode}})(\))
-      captures:
-        0: meta.group.regexp
-        1: keyword.control.group.regexp
-        2: storage.modifier.mode.regexp
-        3: keyword.control.group.regexp
-      pop: 1  # pop `group-body-extended` to avoid overlapping `meta.group`
-      push: [group-body, maybe-unexpected-quantifiers]
+    - match: (?=\({{deactivate_x_mode}}\))
+      set: [group-body, xmode-modifier]
 
   xmode-on:
     # Activates 'x' mode
-    - match: (\()({{activate_x_mode}})(\))
-      captures:
-        0: meta.group.extended.regexp
-        1: keyword.control.group.regexp
-        2: storage.modifier.mode.regexp
-        3: keyword.control.group.regexp
-      pop: 1 # pop `base-literal` to avoid overlapping `meta.` (if any)
-      push: [base-literal-extended, maybe-unexpected-quantifiers]
+    - match: (?=\({{activate_x_mode}}\))
+      set: [base-literal-extended, xmode-modifier]
 
   xmode-off:
     # Deactivates 'x' mode
-    - match: (\()({{deactivate_x_mode}})(\))
+    - match: (?=\({{deactivate_x_mode}}\))
+      set: [base-literal, xmode-modifier]
+
+  xmode-modifier:
+    - meta_include_prototype: false
+    - match: (\()([^)]+)(\))
       captures:
-        0: meta.group.regexp
-        1: keyword.control.group.regexp
+        0: meta.modifier.regexp
+        1: punctuation.definition.modifier.begin.regexp
         2: storage.modifier.mode.regexp
-        3: keyword.control.group.regexp
-      pop: 1 # pop `base-literal-extended` to avoid overlapping `meta.` (if any)
-      push: [base-literal, maybe-unexpected-quantifiers]
+        3: punctuation.definition.modifier.end.regexp
+      set: maybe-unexpected-quantifiers
+
+  modifiers:
+    - match: (\()({{other_modifiers}})(\))
+      captures:
+        0: meta.modifier.regexp
+        1: punctuation.definition.modifier.begin.regexp
+        2: storage.modifier.mode.regexp
+        3: punctuation.definition.modifier.end.regexp
+      push: maybe-unexpected-quantifiers
 
   charsets:
     - match: (\[\^?)\]?

@@ -25,18 +25,6 @@ contexts:
 
   group-start:
     - meta_prepend: true
-    - match: (\?([+-]?\d+))(\))
-      captures:
-        1: keyword.other.backref-and-recursion.regexp
-        2: variable.other.backref-and-recursion.regexp
-        3: keyword.control.group.regexp
-      pop: 3
-    - match: (\?&([\w-]+))(\))
-      captures:
-        1: keyword.other.backref-and-recursion.regexp
-        2: variable.other.backref-and-recursion.regexp
-        3: keyword.control.group.regexp
-      pop: 3
     - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
       scope: keyword.other.named-capture-group.regexp
       captures:
@@ -66,6 +54,25 @@ contexts:
     - match: \?(?=\(\?)
       scope: keyword.other.conditional.regexp
       pop: 1
+
+  modifiers:
+    - meta_prepend: true
+    - match: (\()(\?([+-]?\d+))(\))
+      captures:
+        0: meta.modifier.regexp
+        1: punctuation.definition.modifier.begin.regexp
+        2: keyword.other.backref-and-recursion.regexp
+        3: variable.other.backref-and-recursion.regexp
+        4: punctuation.definition.modifier.end.regexp
+      push: maybe-unexpected-quantifiers
+    - match: (\()(\?&([\w-]+))(\))
+      captures:
+        0: meta.modifier.regexp
+        1: punctuation.definition.modifier.begin.regexp
+        2: keyword.other.backref-and-recursion.regexp
+        3: variable.other.backref-and-recursion.regexp
+        4: punctuation.definition.modifier.end.regexp
+      push: maybe-unexpected-quantifiers
 
   charset-body:
     - meta_prepend: true
