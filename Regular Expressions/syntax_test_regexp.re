@@ -135,14 +135,14 @@ hello++
 
  [b-c]
 #^^^^^ meta.set
-#^ keyword.control.set
-#    ^ keyword.control.set
+#^ punctuation.definition.set
+#    ^ punctuation.definition.set
 # ^^^ constant.other.range
 #  ^ punctuation.separator.sequence
 
 [\x00-\x{A}]
-# <- keyword.control.set
-#          ^ keyword.control.set
+# <- punctuation.definition.set
+#          ^ punctuation.definition.set
 #^^^^^^^^^^ constant.other.range
 #    ^ punctuation.separator.sequence
 #^^^^ constant.character.escape
@@ -155,8 +155,8 @@ hello++
 #        ^^^^^^^ constant.other.posix-class
 
 [^abc\w0-9]
-# <- keyword.control.set
-#^ keyword.control.set
+# <- punctuation.definition.set
+#^ punctuation.definition.set
 #    ^^ keyword.control.character-class
 #       ^ punctuation.separator.sequence
 
@@ -165,33 +165,33 @@ hello++
 #   ^^ - constant.other.range
 
 []-]
-#  ^ keyword.control.set
+#  ^ punctuation.definition.set
 # ^ - constant.other.range
 
 [-a-n]
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set
 #^ - constant.other.range
 # ^^^ constant.other.range
 
 [\-a]
 #^^^ - constant.other.range
-#   ^ keyword.control.set
+#   ^ punctuation.definition.set
 
 [a-z\-9]
 #   ^^^ - constant.other.range
-#      ^ keyword.control.set
+#      ^ punctuation.definition.set
 
 [\--z]
 #^^^^ constant.other.range
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set
 
 [a-\z]
 #^^^^ constant.other.range
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set
 
 [a-\-]
 #^^^^ constant.other.range
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set
 
 (?:a|b|c)
 #^^^^^^^^ meta.group
@@ -483,15 +483,15 @@ where escape characters are ignored.\).
 (?![a-z]+?)
 #^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
 #  ^^^^^ meta.set.regexp
-#  ^ keyword.control.set.regexp
-#      ^ keyword.control.set.regexp
+#  ^ punctuation.definition.set.regexp
+#      ^ punctuation.definition.set.regexp
 #   ^^^ constant.other.range.regexp
 #       ^^ keyword.operator.quantifier.regexp
 
 (?![abc].\g1(?m)$)[\g1]
 #^^ constant.other.assertion.regexp
-#  ^ keyword.control.set.regexp
-#      ^ keyword.control.set.regexp
+#  ^ punctuation.definition.set.regexp
+#      ^ punctuation.definition.set.regexp
 #       ^ keyword.other.any.regexp
 #        ^^^ keyword.other.backref-and-recursion.regexp
 #           ^^^^ meta.group.regexp meta.modifier.regexp
@@ -506,10 +506,10 @@ where escape characters are ignored.\).
 #^^^ constant.other.assertion.regexp
 (?>\[\d+\])
 #^^ constant.other.assertion.regexp
-#  ^^ constant.character.escape.regexp - keyword.control.set.regexp
+#  ^^ constant.character.escape.regexp - punctuation.definition.set.regexp
 #    ^^ keyword.control.character-class.regexp
 #      ^ keyword.operator.quantifier.regexp
-#       ^^ constant.character.escape.regexp - keyword.control.set.regexp
+#       ^^ constant.character.escape.regexp - punctuation.definition.set.regexp
 
 
 ###################

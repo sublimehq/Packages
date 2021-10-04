@@ -185,13 +185,13 @@ contexts:
   charsets:
     - match: (\[\^?)\]?
       captures:
-        1: keyword.control.set.regexp
+        1: punctuation.definition.set.regexp
       push: charset-body
 
   charset-body:
     - meta_scope: meta.set.regexp
     - match: \]
-      scope: keyword.control.set.regexp
+      scope: punctuation.definition.set.regexp
       pop: 1
     - include: charset-ranges
     - include: character-classes
