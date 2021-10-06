@@ -636,6 +636,47 @@ line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
 #                           ^^ constant.character.escape.python
 #                              ^ punctuation.section.interpolation.begin.python
 
+match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
+#                  ^^^^^^^^^^ meta.group.regexp
+#                  ^ punctuation.definition.group.begin
+#                   ^^^ punctuation.definition.group.capture
+#                      ^^^^ entity.name.other.group
+#                          ^ punctuation.definition.group.capture
+#                            ^ punctuation.definition.group.end
+#                             ^ keyword.operator.quantifier
+#                               ^^^^^^^^^^^^ meta.group.assertion.conditional
+#                               ^ punctuation.definition.group.begin
+#                                ^^^^^^^ punctuation.definition.group.assertion.conditional
+#                                        ^ keyword.operator.or
+#                                          ^ punctuation.definition.group.end
+match = re.match(r'(a)?b(?(1)c|d)', line)
+#                  ^^^ meta.group.regexp
+#                  ^ punctuation.definition.group.begin
+#                    ^ punctuation.definition.group.end
+#                     ^ keyword.operator.quantifier
+#                       ^^^^^^^^^ meta.group.assertion.conditional
+#                       ^ punctuation.definition.group.begin
+#                        ^^^^ punctuation.definition.group.assertion.conditional
+#                             ^ keyword.operator.or
+#                               ^ punctuation.definition.group.end
+match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
+#                     ^^^^^^^^^^^^^^^ meta.group.regexp
+#                     ^ punctuation.definition.group.begin
+#                      ^^^ punctuation.definition.group.capture
+#                         ^^^^^ entity.name.other.group
+#                              ^ punctuation.definition.group.capture
+#                               ^^^^ constant.other.character-class.set
+#                               ^ punctuation.definition.character-class.begin
+#                                  ^ punctuation.definition.character-class.end
+#                                   ^ punctuation.definition.group.end
+#                                    ^ constant.character.character-class - meta.group
+#                                     ^^ keyword.operator.quantifier
+#                                       ^^^^^^^^^^ keyword.other.back-reference.named
+match = re.search(r'''(?ix)some text(?-i)''', line)
+#                     ^^^^^ keyword.other.option-toggle
+match = re.search(r'''(?ix:some text(?-i:hello))(?iLmsux)(?a)foo''', line)
+#                                               ^^^^^^^^^ keyword.other.option-toggle
+
 f"\{{{x}\}} test"
 # ^ invalid.deprecated.character.escape.python
 #  ^^ constant.character.escape.python
