@@ -3375,9 +3375,9 @@ class MethodDelcarationTests {
 //                                              ^^ meta.function.parameters.java meta.group.java
 //                                                ^ meta.function.java
 //                                                 ^^^^^^^^^ meta.function.java meta.block.java
-//^^^^^^ invalid.illegal.unexpected-keyword.java
+//^^^^^^ storage.modifier.java
 //      ^ - invalid
-//       ^^^^^^^^ invalid.illegal.unexpected-keyword.java
+//       ^^^^^^^^ storage.modifier.java
 //               ^ - invalid
 //                ^^^^^^^^^ invalid.illegal.unexpected-keyword.java
 //                         ^ - invalid

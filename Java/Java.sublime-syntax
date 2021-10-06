@@ -75,9 +75,9 @@ variables:
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.4
   method_modifier: |-
-    (?x: public | protected | private | abstract | default | final | static | synchronized )
+    (?x: public | protected | private | abstract | default | final | native | static | strictfp | synchronized )
   method_no_modifier: |-
-    (?x: native | sealed | strictfp | transient | volatile )
+    (?x: sealed | transient | volatile )
 
   # Storage Types
   storage_types: |-
