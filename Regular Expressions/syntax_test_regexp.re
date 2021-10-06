@@ -229,6 +229,14 @@ where escape characters are ignored.\).
 ###################
 
 (?x)
+# <- meta.group.extended.regexp - meta.group meta.group
+#^^^ meta.group.extended.regexp - meta.group meta.group
+#^^ storage.modifier.mode.regexp
+#   ^ meta.ignored-whitespace
+
+(?x)
+# <- meta.group.extended.regexp - meta.group meta.group
+#^^^ meta.group.extended.regexp - meta.group meta.group
 #^^ storage.modifier.mode.regexp
 #   ^ meta.ignored-whitespace
 
@@ -248,16 +256,84 @@ where escape characters are ignored.\).
 
  (?-ix)
 # <- meta.ignored-whitespace
+#^^^^^^ meta.group.regexp - meta.group meta.group
+#^ keyword.control.group.regexp
 # ^^^^ storage.modifier.mode.regexp
+#     ^ keyword.control.group.regexp
+
+# not a comment
+# <- - comment
+
+ (?-ix)
+# <- - meta.ignored-whitespace
+#^^^^^^ meta.group.regexp - meta.group meta.group
+#^ keyword.control.group.regexp
+# ^^^^ storage.modifier.mode.regexp
+#     ^ keyword.control.group.regexp
 
 # not a comment
 # <- - comment
 
 (
+# <- meta.group.regexp keyword.control.group.regexp
+#^ meta.group.regexp - keyword
     (?x)
+#  ^ meta.group.regexp
+#   ^^^^ meta.group.extended.regexp meta.group.extended.regexp - meta.group meta.group meta.group
+#   ^ keyword.control.group.regexp
+#    ^^ storage.modifier.mode.regexp
+#      ^ keyword.control.group.regexp
     # comment
 #   ^^^^^^^^^ comment
-   (?-x)
+    (?x)
+#   ^^^^ meta.group.extended.regexp meta.group.extended.regexp - meta.group meta.group meta.group
+#   ^ keyword.control.group.regexp
+#    ^^ storage.modifier.mode.regexp
+#      ^ keyword.control.group.regexp
+    # comment
+#   ^^^^^^^^^ comment
+    (?-x)
+#   ^^^^^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+    # comment
+#   ^^^^^^^^^ - comment
+    (?-x)
+#   ^^^^^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+    # comment
+#   ^^^^^^^^^ - comment
+    (?:
+#  ^ meta.group.regexp - meta.group meta.group
+#   ^^^^ meta.group.regexp meta.group.regexp
+        (?x)
+#      ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#       ^^^^ meta.group.regexp meta.group.extended.regexp meta.group.extended.regexp - meta.group meta.group meta.group meta.group
+#           ^ meta.group.regexp meta.group.extended.regexp - meta.group meta.group meta.group
+#       ^ keyword.control.group.regexp
+#        ^^ storage.modifier.mode.regexp
+#          ^ keyword.control.group.regexp
+        # comment
+#       ^^^^^^^^^ comment
+        (?x)
+#      ^ meta.group.regexp meta.group.extended.regexp - meta.group meta.group meta.group
+#       ^^^^ meta.group.regexp meta.group.extended.regexp meta.group.extended.regexp - meta.group meta.group meta.group meta.group
+#           ^ meta.group.regexp meta.group.extended.regexp - meta.group meta.group meta.group
+#       ^ keyword.control.group.regexp
+#        ^^ storage.modifier.mode.regexp
+#          ^ keyword.control.group.regexp
+        # comment
+#       ^^^^^^^^^ comment
+        (?-x)
+#       ^^^^^ meta.group.regexp meta.group.regexp meta.group.regexp - meta.group meta.group meta.group meta.group
+        # comment
+#       ^^^^^^^^^ - comment
+        (?-x)
+#       ^^^^^ meta.group.regexp meta.group.regexp meta.group.regexp - meta.group meta.group meta.group meta.group
+        # comment
+#       ^^^^^^^^^ - comment
+    ) # no comment
+#^^^^ meta.group.regexp meta.group.regexp
+#    ^^^^^^^^^^^^^^ meta.group.regexp - meta.group meta.group
+#   ^ keyword.control.group.regexp
+#     ^^^^^^^^^^^^ - comment
 ) # no comment
 # <- keyword.control.group
 # ^ - comment
@@ -358,7 +434,7 @@ where escape characters are ignored.\).
 #                 ^^ variable.other.backref-and-recursion.regexp
 
 (?x)(?<named_group>test)(?&named_group)(?-x)
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended.regexp
 #    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #      ^^^^^^^^^^^ entity.name.capture-group.regexp
 #     ^ punctuation.definition.capture-group-name.begin.regexp
@@ -412,8 +488,9 @@ where escape characters are ignored.\).
 #      ^ keyword.control.set.regexp
 #       ^ keyword.other.any.regexp
 #        ^^^ keyword.other.backref-and-recursion.regexp
+#           ^^^^ meta.group.regexp meta.group.regexp
+#            ^^ storage.modifier.mode.regexp
 #               ^ keyword.control.anchors.regexp
-#            ^^ meta.group.regexp meta.group.regexp storage.modifier.mode.regexp
 #                  ^^ constant.character.escape.regexp
 #                  ^^^ - keyword.other.backref-and-recursion.regexp
 
@@ -564,6 +641,7 @@ where escape characters are ignored.\).
 (*FA)
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?x)
+#^^^ meta.group
  (*PRUNE) (*SKIP) (*THEN) (*COMMIT) (*FAIL) (*F) (*ACCEPT)
 #^^^^^^^^ keyword.control.verb.regexp
 #        ^ - keyword.control.verb.regexp
@@ -581,6 +659,9 @@ where escape characters are ignored.\).
 (*FA)
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?-x)
+# <- meta.group.regexp keyword.control.group.regexp
+#^^^ meta.group.regexp storage.modifier.mode.regexp
+#   ^ meta.group.regexp keyword.control.group.regexp
 
  \Qtext.here.is\dliteral)\E{1,2}{1,2}{1,2}
 #^^ keyword.control
@@ -590,3 +671,17 @@ where escape characters are ignored.\).
 #                               ^^^^^^^^^^ invalid.illegal.unexpected-quantifier
  \K
 #^^ keyword.control
+
+(?x)(?i:{2})(?x:*)(?-x:?)(?-i:{2})(?i:(?-i:{1}))
+#^^^ meta.group
+#       ^^^ meta.group.extended invalid.illegal.unexpected-quantifier
+#               ^ meta.group.extended invalid.illegal.unexpected-quantifier
+#                      ^ meta.group invalid.illegal.unexpected-quantifier
+#                             ^^^ meta.group.extended invalid.illegal.unexpected-quantifier
+#                                          ^^^ meta.group.extended meta.group.extended invalid.illegal.unexpected-quantifier
+#                                               ^ meta.ignored-whitespace - meta.group
+(?:(?x-i))
+# <- meta.group.extended.regexp - meta.group meta.group
+#^^ meta.group.extended.regexp - meta.group meta.group
+#  ^^^^^^ meta.group.extended.regexp meta.group.extended.regexp
+#        ^ meta.group.extended.regexp - meta.group meta.group
