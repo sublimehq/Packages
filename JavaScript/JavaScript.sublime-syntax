@@ -29,7 +29,7 @@ variables:
 
   block_comment_contents: (?:(?:[^*]|\*(?!/))*)
   block_comment: (?:/\*{{block_comment_contents}}\*/)
-  nothing: (?x:(?:\s+|{{block_comment}})*)
+  nothing: (?x:(?:\s|{{block_comment}})*)
   line_ending_ahead: (?={{nothing}}(?:/\*{{block_comment_contents}})?$)
 
   # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
@@ -44,6 +44,7 @@ variables:
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier_name}})
 
+  possible_arrow_function_begin: (?:\(|{{identifier_start}})
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier_name}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
@@ -64,6 +65,8 @@ variables:
       {{property_name}}
       | \#{{identifier_name}}
     )
+
+  modifier: (?:static{{identifier_break}})
 
   # Newline not permitted between `async` and `function`.
   func_lookahead: |-
@@ -106,8 +109,11 @@ variables:
 
 contexts:
   main:
-    - include: comments-top-level
+    - meta_include_prototype: false # don't match comments before shebang
+    - match: ''
+      push: [script, shebang]
 
+  script:
     - match: '\)|\}|\]'
       scope: invalid.illegal.stray-bracket-end.js
       # Don't pop or embedding could break.
@@ -118,33 +124,38 @@ contexts:
     - include: comments
 
   comments:
-    - match: /\*\*(?!/)
+    - include: line-comments
+    - include: block-comments
+
+  block-comments:
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.js punctuation.definition.comment.js
+    # documentation block comments
+    - match: /\*\*+
       scope: punctuation.definition.comment.begin.js
       push:
-        - jsdoc-comment
+        - jsdoc-comment-body
         - jsdoc-block-tag
+    # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.js
-        - match: \*/
-          scope: punctuation.definition.comment.end.js
-          pop: true
-    - match: //
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.double-slash.js
-        - match: \n
-          pop: true
+      push: block-comment-body
 
-  jsdoc-comment:
+  block-comment-end:
+    - match: \*+/
+      scope: punctuation.definition.comment.end.js
+      pop: true
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.js
+    - include: block-comment-end
+
+  jsdoc-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.block.documentation.js
-    - match: \*/
-      scope: punctuation.definition.comment.end.js
-      pop: 1
+    - include: block-comment-end
     # JSDoc "block" tags (i.e. @param) are only accepted at the beginning of the documentation
     # line so directly after the '/**' or after the '*' marker on the next lines.
     - match: ^\s*(\*)(?!/)
@@ -159,11 +170,54 @@ contexts:
     - match: (?=\S)|$
       pop: 1
 
-  comments-top-level:
-    - match: ^(#!).*$\n?
-      scope: comment.line.shebang.js
+  line-comments:
+    - match: /{4,}
+      scope: punctuation.definition.comment.js
+      push: line-comment-other-body
+    - match: /{3}
+      scope: punctuation.definition.comment.js
+      push: line-comment-triple-slash-body
+    - match: /{2}
+      scope: punctuation.definition.comment.js
+      push: line-comment-double-slash-body
+
+  line-comment-end:
+    - match: (//+)?\n
       captures:
         1: punctuation.definition.comment.js
+      pop: 1
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.js
+    - include: line-comment-end
+
+  line-comment-triple-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.triple-slash.js
+    - include: line-comment-end
+
+  line-comment-other-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.other.js
+    - include: line-comment-end
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.js
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.js
+    # Note: Keep sync with first_line_match!
+    - match: \b(node|js)\b
+      scope: constant.language.shebang.js
+    - match: \n
+      pop: 1
 
   else-pop:
     - match: (?=\S)
@@ -568,17 +622,21 @@ contexts:
   function-parameter-binding-spread:
     - match: '\.\.\.'
       scope: keyword.operator.spread.js
-      push: function-parameter-binding-pattern
+      push: function-parameter
 
   function-parameter-binding-list:
     - match: ','
       scope: punctuation.separator.parameter.function.js
     - include: function-parameter-binding-spread
     - match: (?={{binding_pattern_lookahead}})
-      push:
+      push: function-parameter
+    - include: else-pop
+
+  function-parameter:
+    - match: ''
+      set:
         - initializer
         - function-parameter-binding-pattern
-    - include: else-pop
 
   initializer:
     - match: '='
@@ -763,7 +821,7 @@ contexts:
   for-condition-contents:
     # This could be either type of for loop.
     - match: (?:const|let|var){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - - include: for-of-rest
           - match: (?=\S)
@@ -924,7 +982,6 @@ contexts:
 
     - include: regexp-complete
     - include: literal-string
-    - include: tagged-template
     - include: literal-string-template
     - include: constructor
     - include: literal-number
@@ -947,7 +1004,7 @@ contexts:
     - include: object-literal
 
     # Newline not allowed between `async` and parameters.
-    - match: (?=async{{identifier_break}}{{nothing}}(?:\(|{{identifier_start}}))
+    - match: (?=async{{identifier_break}}{{nothing}}{{possible_arrow_function_begin}})
       pop: true
       branch_point: async-arrow-function
       branch:
@@ -956,19 +1013,12 @@ contexts:
 
     - include: literal-call
 
-    - match: (?={{identifier_start}})
+    - match: (?={{possible_arrow_function_begin}})
       pop: true
-      branch_point: bare-arrow-function
+      branch_point: arrow-function
       branch:
-        - branch-possible-bare-arrow-function
-        - bare-arrow-function-fallback
-
-    - match: (?=\()
-      pop: true
-      branch_point: parenthesized-arrow-function
-      branch:
-        - branch-possible-parenthesized-arrow-function
-        - parenthesized-arrow-function-fallback
+        - branch-possible-arrow-function
+        - arrow-function-declaration
 
     - include: array-literal
 
@@ -992,45 +1042,21 @@ contexts:
     - match: (?=\S)
       fail: async-arrow-function
 
-  branch-possible-bare-arrow-function:
+  branch-possible-arrow-function:
     - meta_include_prototype: false
-    - match: ''
-      push:
-        - detect-bare-arrow
+    - match: (?=\()
+      set:
+        - detect-arrow
+        - parenthesized-expression
+    - match: (?={{identifier_start}})
+      set:
+        - detect-arrow
         - literal-variable
 
-  detect-bare-arrow:
+  detect-arrow:
     - match: (?==>)
-      fail: bare-arrow-function
-    - match: (?=\S)
-      pop: 2
-
-  bare-arrow-function-fallback:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - immediately-pop-2
-        - arrow-function-declaration
-
-  branch-possible-parenthesized-arrow-function:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - detect-parenthesized-arrow
-        - parenthesized-expression
-
-  detect-parenthesized-arrow:
-    - match: (?==>)
-      fail: parenthesized-arrow-function
-    - match: (?=\S)
-      pop: 2
-
-  parenthesized-arrow-function-fallback:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - immediately-pop-2
-        - arrow-function-declaration
+      fail: arrow-function
+    - include: else-pop
 
   literal-string:
     - match: "'"
@@ -1057,11 +1083,6 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-
-  tagged-template:
-    - match: '{{identifier_name}}(?=\s*`)'
-      scope: variable.function.tagged-template.js
-      pop: true
 
   literal-string-template:
     - match: '`'
@@ -1332,8 +1353,14 @@ contexts:
         - function-declaration-expect-body
         - function-declaration-expect-parameters
 
-    - match: static{{identifier_break}}
-      scope: storage.modifier.js
+    - match: (?=static{{identifier_break}})
+      branch_point: static-block
+      branch:
+        - static-block
+        - class-element-modifiers
+
+    - match: (?={{modifier}})
+      push: class-element-modifiers
 
     - match: |-
         (?x)(?=
@@ -1357,6 +1384,40 @@ contexts:
 
     - match: (?={{class_element_name}})
       push: class-element
+
+  static-block:
+    - match: static{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - match: \{
+          scope: punctuation.section.block.begin.js
+          set: static-block-body
+        - match: (?=\S)
+          fail: static-block
+
+  static-block-body:
+    - meta_scope: meta.block.js
+    - match: \}
+      scope: punctuation.section.block.end.js
+      pop: true
+    - include: statements
+
+  class-element-modifiers:
+    - match: ''
+      pop: true
+      branch_point: class-element-modifier
+      branch:
+        - class-element-modifier
+        - class-element
+
+  class-element-modifier:
+    - match: '{{modifier}}'
+      scope: storage.modifier.js
+      set:
+        - match: (?={{class_element_name}}|\*)
+          pop: true
+        - match: (?=\S)
+          fail: class-element-modifier
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1609,9 +1670,6 @@ contexts:
     - match: (?=\*)
       push: method-declaration
 
-    - match: '{{identifier_name}}(?=\s*(?:[},]|$|//|/\*))'
-      scope: variable.other.readwrite.js
-
     - match: (?=(?:get|set|async){{identifier_break}})
       branch_point: prefixed-object-literal-method
       branch:
@@ -1633,7 +1691,10 @@ contexts:
       push: expression-no-comma
 
   object-literal-element:
-    - match: ''
+    - match: '{{identifier_name}}(?=\s*(?:[},]|$|//|/\*))'
+      scope: variable.other.readwrite.js
+      pop: true
+    - match: (?=\S)
       pop: true
       branch_point: object-literal-property
       branch:
@@ -1777,13 +1838,11 @@ contexts:
         - function-declaration-expect-body
         - function-declaration-expect-parameters
         - method-name
-        - method-declaration-expect-prefix
+        - method-declaration-expect-asterisk
 
-  method-declaration-expect-prefix:
+  method-declaration-expect-asterisk:
     - match: \*
       scope: keyword.generator.asterisk.js
-    - match: (?:get|set){{identifier_break}}(?!\s*\()
-      scope: storage.type.accessor.js
     - include: else-pop
 
   parenthesized-expression:
@@ -1973,6 +2032,10 @@ contexts:
       set:
         - function-name-meta
         - literal-variable-base
+
+    - match: '{{identifier_name}}(?={{nothing}}`)'
+      scope: variable.function.tagged-template.js
+      pop: true
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
@@ -2320,7 +2383,7 @@ contexts:
     - match: (?:document|window|navigator){{identifier_break}}
       scope: support.type.object.dom.js
       pop: true
-    - match: (?:clearTimeout|setTimeout){{identifier_break}}
+    - match: (?:clearTimeout|clearInterval|setTimeout|setInterval){{identifier_break}}
       scope: support.function.dom.js
       pop: true
 
@@ -2394,6 +2457,10 @@ contexts:
 
     - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
+
+    - match: '{{identifier_name}}(?={{nothing}}`)'
+      scope: variable.function.tagged-template.js
+      pop: true
 
     - include: object-property-base
     - include: else-pop

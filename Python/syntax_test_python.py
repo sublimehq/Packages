@@ -47,7 +47,43 @@ import ..
 #      ^^ invalid.illegal.unexpected-relative-import.python
 import .. sys
 #      ^^ invalid.illegal.unexpected-relative-import.python
+import *
+#      ^ invalid.illegal.name.import.python
 
+from os import *  # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+# <- keyword.control.import.from.python
+#^^^ keyword.control.import.from.python
+#    ^^ meta.import-name.python
+#       ^^^^^^ keyword.control.import.python
+#              ^ constant.language.import-all.python
+#               ^^ - comment - constant - meta.statement
+#                 ^^^^^^^^^^ comment.line.number-sign.python
+from os import *, path # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#               ^^^^^^^^^^^^^^^^^ - meta.statement
+#              ^ constant.language.import-all.python
+#               ^ invalid.illegal.unexpected-import.python
+#                 ^^^^ invalid.illegal.unexpected-import.python
+#                      ^^^^^^^^^^ comment.line.number-sign.python
+from os import path, * # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                  ^ punctuation.separator.import-list.python
+#                    ^ invalid.illegal.name.import.python
+#                     ^ - meta.statement
+#                      ^^^^^^^^^^ comment.line.number-sign.python
 from os import path, chdir # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -58,7 +94,7 @@ from os import path, chdir # comment
 #^^^ keyword.control.import.from
 #       ^^^^^^ keyword.control.import
 #                  ^ punctuation.separator.import-list
-#                          ^ comment
+#                          ^^^^^^^^^^ comment.line.number-sign.python
 from . import module
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -76,6 +112,8 @@ from .import module  # yes, this is actually legit
 #                  ^ - meta.statement
 #    ^ keyword.control.import.relative.python
 #     ^^^^^^ keyword.control.import.python
+#            ^^^^^^ meta.generic-name.python
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 from collections.abc import Iterable
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -102,7 +140,7 @@ from a.b.c. import module
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
 #           ^^^^^^ keyword.control.import
-from a.b.c. as module
+from a.b.c. as module # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
@@ -112,7 +150,8 @@ from a.b.c. as module
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
 #           ^^ keyword.control.import.as.python
-from a.b.c..
+#                     ^^^^^^^^^^ comment.line.number-sign.python
+from a.b.c.. # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
@@ -120,6 +159,7 @@ from a.b.c..
 #     ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #         ^^ invalid.illegal.name.python
+#            ^^^^^^^^^^ comment.line.number-sign.python
 from a.b.c.. import module
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -198,8 +238,10 @@ from sys import (version, # comment
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
 #               ^ punctuation.section.import-list.begin
 #                         ^ comment
+                 anything \
+#                         ^ invalid.illegal.name.import.python
                  version_info, . ) # comment
-#                ^^^^^^^^^^^^^ meta.statement.import
+#                ^^^^^^^^^^^^^^^^^ meta.statement.import
 #                              ^ invalid.illegal.name.import.python
 #                                ^ punctuation.section.import-list.end
 #                                  ^ comment
@@ -209,13 +251,26 @@ from .sub import *
 #                ^ constant.language.import-all.python
 import a as b
 #        ^^ keyword.control.import.as.python
+import a as b#comment
+#        ^^ keyword.control.import.as.python
+#            ^^^^^^^^^ comment.line.number-sign.python
 import a as .b, .b
 #        ^^ keyword.control.import.as.python
 #           ^^ invalid.illegal.name.import.python
-#               ^^ invalid.illegal.name.import.python
-from a import b as c, d as e
+#               ^ invalid.illegal.unexpected-relative-import.python
+#                ^ meta.generic-name.python
+import a.b as c, a.e as f
+#      ^^^ meta.qualified-name.python
+#          ^^ keyword.control.import.as.python
+#             ^ meta.generic-name.python
+#              ^ punctuation.separator.import-list.python
+#                ^^^ meta.qualified-name.python
+#                    ^^ keyword.control.import.as.python
+#                       ^ meta.generic-name.python
+from a import b as c, d as  # comment
 #               ^^ keyword.control.import.as.python
 #                       ^^ keyword.control.import.as.python
+#                           ^^^^^^^^^^ comment.line.number-sign.python
 from a import (b as c)
 #                ^^ keyword.control.import.as.python
 
@@ -445,7 +500,7 @@ def _():
 #        ^ keyword.operator.assignment
 #          ^ punctuation.section.function.begin
 #           ^^^^^ meta.function.inline.body
-#            ^^^^ constant.language.python
+#            ^^^^ constant.language.boolean.python
 
     lambda as, in=2: 0
 #          ^^ invalid.illegal.name
@@ -686,23 +741,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.group.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.tuple
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.group.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as (
-#      ^ punctuation.section.group.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.tuple
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ):
-#   ^ punctuation.section.group.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     with captured() as [out, err]:
@@ -792,7 +847,7 @@ def _():
         pass
     elif False :
 #   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
-#        ^^^^^ constant.language
+#        ^^^^^ constant.language.boolean.python
 #              ^ punctuation.section.block.conditional.elseif.python
         pass
     else  :
@@ -803,7 +858,7 @@ def _():
     if \
         True:
 #       ^^^^^ meta.statement.conditional.if.python
-#       ^^^^ constant.language.python
+#       ^^^^ constant.language.boolean.python
 #           ^ punctuation.section.block.conditional.if.python
 #
 
@@ -824,6 +879,427 @@ def _():
 #   ^^^^^^ keyword.control.flow.return.python
     raise
 #   ^^^^^ keyword.control.flow.raise.python
+
+
+##################
+# Structural Pattern Matching
+##################
+
+    match
+#   ^^^^^ meta.generic-name.python
+
+    match expr
+#   ^^^^^^^^^^ - meta.statement.conditional
+#   ^^^^^ meta.generic-name.python
+#         ^^^^ meta.qualified-name.python meta.generic-name.python
+
+    match expr:
+#   ^^^^^^^^^^^ meta.statement.conditional.match.python
+#   ^^^^^ keyword.control.conditional.match.python
+#         ^^^^ meta.qualified-name.python meta.generic-name.python
+#             ^ punctuation.section.block.conditional.match.python
+
+    match(expr,)
+#   ^^^^^^^^^^^^ meta.function-call
+#   ^^^^^ variable.function.python - keyword
+#
+
+    match(expr,):
+#   ^^^^^ meta.statement.conditional.match.python - meta.sequence
+#        ^^^^^^^ meta.statement.conditional.match.python meta.sequence.tuple.python
+#               ^ meta.statement.conditional.match.python - meta.sequence
+#   ^^^^^ keyword.control.conditional.match.python
+#         ^^^^ meta.qualified-name.python meta.generic-name.python
+#             ^ punctuation.separator.sequence.python
+#              ^ punctuation.section.sequence.end.python
+#               ^ punctuation.section.block.conditional.match.python
+
+    match *named_expr, other:
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.match.python
+#   ^^^^^ keyword.control.conditional.match.python
+#         ^ keyword.operator.unpacking.sequence.python
+#          ^^^^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                    ^ punctuation.separator.sequence.python
+#                      ^^^^^ meta.qualified-name.python meta.generic-name.python
+#                           ^ punctuation.section.block.conditional.match.python
+
+    match http_code:
+#   ^^^^^^^^^^^^^^^^ meta.statement.conditional.match.python
+#   ^^^^^ keyword.control.conditional.match.python
+#         ^^^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                  ^ punctuation.section.block.conditional.match.python
+    case "200":
+#   ^^^^ meta.statement.conditional.case.python
+#       ^^^^^^ meta.statement.conditional.case.patterns.python
+#             ^ meta.statement.conditional.case.python
+#              ^ - meta.statement
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^^^ string.quoted.double.python
+#             ^ punctuation.section.block.conditional.case.python
+        print("OK")
+
+    case ["403",
+#   ^^^^ meta.statement.conditional.case.python
+#       ^^^^^^^^^ meta.statement.conditional.case.patterns.python
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^^^^^^^ meta.sequence.list.python
+#        ^ punctuation.section.sequence.begin.python
+#         ^^^^^ string.quoted.double.python
+#              ^ punctuation.separator.sequence.python
+        "404"]:
+#      ^^^^^^^ meta.statement.conditional.case.patterns.python meta.sequence.list.python
+#             ^ meta.statement.conditional.case.python - meta.sequence
+#       ^^^^^ string.quoted.double.python
+#            ^ punctuation.section.sequence.end.python
+#             ^ punctuation.section.block.conditional.case.python
+        print("Not Found")
+
+    case \
+        418: ; print("I'm a teapot")
+#      ^^^^ meta.statement.conditional.case.patterns.python
+#          ^ meta.statement.conditional.case.python - meta.sequence
+#           ^^^ - meta.statement
+#       ^^^ meta.number.integer.decimal.python constant.numeric.value.python
+#          ^ punctuation.section.block.conditional.case.python
+#            ^ punctuation.terminator.statement.python
+#              ^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+
+    case -408+203:
+#   ^^^^ meta.statement.conditional.case.python
+#       ^^^^^^^^^ meta.statement.conditional.case.patterns.python
+#                ^ meta.statement.conditional.case.python - meta.sequence
+#                 ^ - meta.statement
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ keyword.operator.arithmetic.python
+#         ^^^ constant.numeric.value.python
+#            ^ keyword.operator.arithmetic.python
+#             ^^^ constant.numeric.value.python
+#                ^ punctuation.section.block.conditional.case.python
+
+    case _: # comment
+#   ^^^^ meta.statement.conditional.case.python
+#       ^^ meta.statement.conditional.case.patterns.python
+#         ^ meta.statement.conditional.case.python
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ variable.language.python
+#         ^ punctuation.section.block.conditional.case.python
+#           ^^^^^^^^^^ comment.line.number-sign.python
+        print("Code not found")
+
+    case *expr:
+#   ^^^^ meta.statement.conditional.case.python
+#       ^^^^^^ meta.statement.conditional.case.patterns.python
+#             ^ meta.statement.conditional.case.python
+#        ^ keyword.operator.unpacking.sequence.python
+#         ^^^^ meta.generic-name.python
+#             ^ punctuation.section.block.conditional.case.python
+
+    case () if foo is True:
+#   ^^^^ meta.statement.conditional.case.python - meta.sequence
+#       ^ meta.statement.conditional.case.patterns.python - meta.sequence
+#        ^^ meta.statement.conditional.case.patterns.python meta.sequence.tuple.empty.python
+#          ^ meta.statement.conditional.case.patterns.python
+#           ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python
+#                         ^ meta.statement.conditional.case.python
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ punctuation.section.sequence.begin.python
+#         ^ punctuation.section.sequence.end.python
+#           ^^ keyword.control.conditional.if.python
+#              ^^^ meta.generic-name.python
+#                  ^^ keyword.operator.logical.python
+#                     ^^^^ constant.language.boolean.python
+#                         ^ punctuation.section.block.conditional.case.python
+
+    case (,) if foo in ('bar', 'baz'):
+#   ^^^^ meta.statement.conditional.case.python - meta.sequence
+#       ^ meta.statement.conditional.case.patterns.python - meta.sequence
+#        ^^^ meta.statement.conditional.case.patterns.python meta.sequence.tuple.python
+#           ^ meta.statement.conditional.case.patterns.python - meta.sequence
+#            ^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.sequence.tuple
+#                      ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python meta.sequence.tuple.python
+#                                    ^ meta.statement.conditional.case.python - meta.sequence.tuple
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ punctuation.section.sequence.begin.python
+#         ^ punctuation.separator.sequence.python
+#          ^ punctuation.section.sequence.end.python
+#            ^^ keyword.control.conditional.if.python
+#               ^^^ meta.generic-name.python
+#                   ^^ keyword.operator.logical.python
+#                      ^ punctuation.section.sequence.begin.python
+#                       ^^^^^ string.quoted.single.python
+#                            ^ punctuation.separator.sequence.python
+#                              ^^^^^ string.quoted.single.python
+#                                   ^ punctuation.section.sequence.end.python
+#                                    ^ punctuation.section.block.conditional.case.python
+
+    case [] if foo in ['bar', 'baz']:
+#   ^^^^ meta.statement.conditional.case.python - meta.sequence
+#       ^ meta.statement.conditional.case.patterns.python - meta.sequence
+#        ^^ meta.statement.conditional.case.patterns.python meta.sequence.list.empty.python
+#          ^ meta.statement.conditional.case.patterns.python - meta.sequence
+#           ^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.sequence
+#                     ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python meta.sequence.list.python
+#                                   ^ meta.statement.conditional.case.python - meta.sequence.list
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ punctuation.section.sequence.begin.python
+#         ^ punctuation.section.sequence.end.python
+#           ^^ keyword.control.conditional.if.python
+#              ^^^ meta.generic-name.python
+#                  ^^ keyword.operator.logical.python
+#                     ^ punctuation.section.sequence.begin.python
+#                      ^^^^^ string.quoted.single.python
+#                           ^ punctuation.separator.sequence.python
+#                             ^^^^^ string.quoted.single.python
+#                                  ^ punctuation.section.sequence.end.python
+#                                   ^ punctuation.section.block.conditional.case.python
+
+    case [*expr, (*foo, *bar), *baz]:
+#   ^^^^ meta.statement.conditional.case.python - meta.sequence
+#       ^ meta.statement.conditional.case.patterns.python - meta.sequence
+#        ^^^^^^^^ meta.statement.conditional.case.patterns.python meta.sequence.list.python - meta.sequence meta.sequence
+#                ^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.sequence.list.python meta.sequence.tuple.python
+#                            ^^^^^^^ meta.statement.conditional.case.patterns.python meta.sequence.list.python - meta.sequence meta.sequence
+#                                   ^ meta.statement.conditional.case.python - meta.sequence
+
+    case {} if foo is True:
+#   ^^^^ meta.statement.conditional.case.python - meta.mapping
+#       ^ meta.statement.conditional.case.patterns.python - meta.mapping
+#        ^^ meta.statement.conditional.case.patterns.python meta.mapping.empty.python
+#          ^ meta.statement.conditional.case.patterns.python - meta.mapping
+#           ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python
+#                         ^ meta.statement.conditional.case.python
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ punctuation.section.mapping.begin.python
+#         ^ punctuation.section.mapping.end.python
+#           ^^ keyword.control.conditional.if.python
+#              ^^^ meta.generic-name.python
+#                  ^^ keyword.operator.logical.python
+#                     ^^^^ constant.language.boolean.python
+#                         ^ punctuation.section.block.conditional.case.python
+
+    case {s_key: 'value', num.key: 100, **pattern} if foo in {'foo', 'bar'}:
+#   ^^^^ meta.statement.conditional.case.python - meta.mapping
+#       ^ meta.statement.conditional.case.patterns.python - meta.mapping
+#        ^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#         ^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.key.python
+#              ^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#               ^^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.value.python
+#                       ^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                         ^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.key.python
+#                                ^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                                 ^^^^ meta.statement.conditional.case.patterns.python meta.mapping.value.python
+#                                     ^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                                                 ^ meta.statement.conditional.case.patterns.python - meta.mapping
+#                                                  ^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.set
+#                                                            ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python meta.set.python
+#                                                                          ^ meta.statement.conditional.case.python - meta.set
+#   ^^^^ keyword.control.conditional.case.python
+#        ^ punctuation.section.mapping.begin.python
+#         ^^^^^ meta.qualified-name.python meta.generic-name.python
+#              ^ punctuation.separator.mapping.key-value.python
+#                ^^^^^^^ string.quoted.single.python
+#                       ^ punctuation.separator.mapping.pair.python
+#                         ^^^^^^^ meta.qualified-name.python
+#                                ^ punctuation.separator.mapping.key-value.python
+#                                  ^^^ constant.numeric.value.python
+#                                     ^ punctuation.separator.mapping.pair.python
+#                                       ^^ keyword.operator.unpacking.mapping.python
+#                                         ^^^^^^^ meta.generic-name.python
+#                                                ^ punctuation.section.mapping.end.python
+#                                                  ^^ keyword.control.conditional.if.python
+#                                                     ^^^ meta.generic-name.python
+#                                                         ^^ keyword.operator.logical.python
+#                                                            ^ punctuation.section.set.begin.python
+#                                                             ^^^^^ string.quoted.single.python
+#                                                                  ^ punctuation.separator.set.python
+#                                                                    ^^^^^ string.quoted.single.python
+#                                                                         ^ punctuation.section.set.end.python
+#                                                                          ^ punctuation.section.block.conditional.case.python
+
+    case int():
+#   ^^^^ meta.statement.conditional.case.python - meta.function-call
+#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#        ^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#           ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
+#             ^ meta.statement.conditional.case.python - meta.function-call
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^ support.type.python
+#           ^ punctuation.section.arguments.begin.python
+#            ^ punctuation.section.arguments.end.python
+#             ^ punctuation.section.block.conditional.case.python
+
+    case else():
+#   ^^^^ meta.statement.conditional.case.python - meta.function-call
+#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#            ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
+#              ^ meta.statement.conditional.case.python - meta.function-call
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^^ invalid.illegal.name.python
+#            ^ punctuation.section.arguments.begin.python
+#             ^ punctuation.section.arguments.end.python
+#              ^ punctuation.section.block.conditional.case.python
+
+    case name(*pattern, *expr):
+#   ^^^^ meta.statement.conditional.case.python - meta.function-call
+#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#            ^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
+#                             ^ meta.statement.conditional.case.python - meta.function-call
+#                              ^ - meta.statement
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^^ storage.type.class.python
+#            ^ punctuation.section.arguments.begin.python
+#             ^ keyword.operator.unpacking.sequence.python
+#              ^^^^^^^ meta.generic-name.python
+#                     ^ punctuation.separator.arguments.python
+#                       ^ keyword.operator.unpacking.sequence.python
+#                        ^^^^ meta.generic-name.python
+#                            ^ punctuation.section.arguments.end.python
+#                             ^ punctuation.section.block.conditional.case.python
+
+    case name(key = pattern):
+#   ^^^^ meta.statement.conditional.case.python - meta.function-call
+#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#            ^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
+#                           ^ meta.statement.conditional.case.python - meta.function-call
+#                            ^ - meta.statement
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^^ storage.type.class.python
+#            ^ punctuation.section.arguments.begin.python
+#             ^^^ variable.parameter.python
+#                 ^ keyword.operator.assignment.python
+#                   ^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                          ^ punctuation.section.arguments.end.python
+#                           ^ punctuation.section.block.conditional.case.python
+
+    case path.name(key = pattern):
+#   ^^^^ meta.statement.conditional.case.python - meta.function-call
+#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#        ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#                 ^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
+#                                ^ meta.statement.conditional.case.python - meta.function-call
+#                                 ^ - meta.statement
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^^^^^^^ meta.qualified-name.python
+#        ^^^^ meta.generic-name.python
+#            ^ punctuation.accessor.dot.python
+#             ^^^^ storage.type.class.python
+#                 ^ punctuation.section.arguments.begin.python
+#                  ^^^ variable.parameter.python
+#                      ^ keyword.operator.assignment.python
+#                        ^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                               ^ punctuation.section.arguments.end.python
+#                                ^ punctuation.section.block.conditional.case.python
+
+    case path \
+        . \
+        name(key = pattern):
+#   ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python
+#       ^^^^ meta.function-call.python meta.qualified-name.python
+#           ^^^^^^^^^^^^^^^ meta.function-call.arguments.python
+#                          ^ meta.statement.conditional.case.python
+#       ^^^^ storage.type.class.python
+#           ^ punctuation.section.arguments.begin.python
+#            ^^^ variable.parameter.python
+#                ^ keyword.operator.assignment.python
+#                  ^^^^^^^ meta.generic-name.python
+#                         ^ punctuation.section.arguments.end.python
+#                          ^ punctuation.section.block.conditional.case.python
+
+    case int(), MyClass(keyword=('('|')') as foo, if=*args), else() if foo is None:
+#  ^ - meta.statement
+#   ^^^^ meta.statement.conditional.case.python - meta.function-call
+#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#        ^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#           ^^ meta.statement.conditional.case.patterns.python  meta.function-call.arguments.python
+#             ^^ meta.statement.conditional.case.patterns.python - meta.function-call
+#               ^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#                      ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python - meta.group
+#                               ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python meta.group.python
+#                                        ^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python - meta.group
+#                                                          ^^ meta.statement.conditional.case.patterns.python - meta.function-call
+#                                                            ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#                                                                ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
+#                                                                  ^ meta.statement.conditional.case.patterns.python - meta.function-call
+#                                                                   ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.function-call
+#                                                                                 ^ meta.statement.conditional.case.python
+#                                                                                  ^ - meta.statement
+#   ^^^^ keyword.control.conditional.case.python
+#        ^^^ support.type.python
+#           ^ punctuation.section.arguments.begin.python
+#            ^ punctuation.section.arguments.end.python
+#             ^ punctuation.separator.sequence.python
+#               ^^^^^^^ storage.type.class.python
+#                      ^ punctuation.section.arguments.begin.python
+#                       ^^^^^^^ variable.parameter.python
+#                              ^ keyword.operator.assignment.python
+#                               ^ punctuation.section.group.begin.python
+#                                ^^^ string.quoted.single.python
+#                                   ^ keyword.operator.logical.python
+#                                    ^^^ string.quoted.single.python
+#                                       ^ punctuation.section.group.end.python
+#                                         ^^ keyword.control.conditional.case.as.python
+#                                            ^^^ meta.generic-name.python
+#                                               ^ punctuation.separator.arguments.python
+#                                                 ^^ invalid.illegal.name.python
+#                                                   ^ keyword.operator.assignment.python
+#                                                    ^ keyword.operator.unpacking.sequence.python
+#                                                     ^^^^ meta.generic-name.python
+#                                                         ^ punctuation.section.arguments.end.python
+#                                                          ^ punctuation.separator.sequence.python
+#                                                            ^^^^ invalid.illegal.name.python
+#                                                                ^ punctuation.section.arguments.begin.python
+#                                                                 ^ punctuation.section.arguments.end.python
+#                                                                   ^^ keyword.control.conditional.if.python
+#                                                                      ^^^ meta.generic-name.python
+#                                                                          ^^ keyword.operator.logical.python
+#                                                                             ^^^^ constant.language.null.python
+#                                                                                 ^ punctuation.section.block.conditional.case.python
+
+    case *expr as _:
+#              ^^ keyword.control.conditional.case.as.python
+#                 ^ variable.language.python
+
+    case *expr as isinstance:
+#              ^^ keyword.control.conditional.case.as.python
+#                 ^^^^^^^^^^ meta.generic-name.python
+
+    case *expr as elif:
+#              ^^ keyword.control.conditional.case.as.python
+#                 ^^^^ invalid.illegal.name.python
+
+    if not case:
+#          ^^^^ meta.generic-name.python - keyword
+        case = 10
+#       ^^^^ meta.generic-name.python - keyword
+        g = case.foo(1)
+#           ^^^^ meta.generic-name.python - keyword
+        e = case + foo
+#           ^^^^ meta.generic-name.python - keyword
+        case.case
+#       ^^^^ meta.generic-name.python - keyword
+#           ^ punctuation.accessor.dot.python
+#            ^^^^ meta.generic-name.python - keyword
+        case()
+#       ^^^^ variable.function.python - keyword
+
+    match = re.match(r"^.*$")
+#   ^^^^^ meta.generic-name.python - keyword
+#              ^^^^^ meta.function-call.python variable.function.python
+    if match:
+#      ^^^^^ meta.generic-name.python - keyword
+        g = match.group(1)
+#           ^^^^^ meta.generic-name.python - keyword
+        e = match + foo
+#           ^^^^^ meta.generic-name.python - keyword
+        match()
+#       ^^^^^ variable.function.python - keyword
+        match.match
+#       ^^^^^ meta.generic-name.python - keyword
+#            ^ punctuation.accessor.dot.python
+#             ^^^^^ meta.generic-name.python - keyword
 
 
 ##################
@@ -1207,9 +1683,9 @@ also_a_tuple = ()[-1]
 #                ^^^^ meta.item-access
 
 not_a_tuple = (a = 2, b += 3)
-#             ^^^^^^^^^^^^^^^ - meta.sequence
-#                ^ - keyword
-#                        ^ - keyword
+#             ^^^^^^^^^^^^^^^ meta.sequence
+#                ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
+#                        ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
 
 just_a_group = (1)
 #              ^^^ meta.group.python
@@ -1283,7 +1759,7 @@ myset = {"key", True, key2, [-1], {}:1}
 #                                     ^ punctuation.section.set.end.python
 
 mapping_or_set = {
-#                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
+#                ^ meta.mapping.python punctuation.section.mapping.begin.python
     1: True
 #   ^ meta.mapping.key.python meta.number.integer.decimal.python constant.numeric.value.python
 #    ^ punctuation.separator.mapping.key-value.python
@@ -1291,8 +1767,7 @@ mapping_or_set = {
 # <- meta.mapping.python punctuation.section.mapping.end.python
 
 complex_mapping = {(): "value"}
-#                 ^^^ meta.mapping-or-set.python
-#                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
+#                 ^^^^^^^^^^^^^ meta.mapping
 
 more_complex_mapping = {**{1: 1}, 2: 2}
 #                      ^ meta.mapping.python
@@ -1300,14 +1775,14 @@ more_complex_mapping = {**{1: 1}, 2: 2}
 #                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
 
 more_complex_set = {
-#                  ^ meta.mapping-or-set.python
+#                  ^ meta.set.python
     *{1}, 2: 2}
 #   ^ meta.set.python
 #       ^ meta.set.python punctuation.separator.set.python
 #          ^ meta.set.python invalid.illegal.colon-inside-set.python
 
 generator = (i for i in range(100))
-#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.loop.for.generator
 #                    ^^ keyword.control.loop.for.in
@@ -1317,7 +1792,7 @@ list_ = [i for i in range(100)]
 #          ^^^ keyword.control.loop.for.generator
 #                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
-#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.loop.for.generator
 #               ^^ keyword.control.loop.for.in
@@ -1342,15 +1817,14 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #            ^^^^^^^^^^^ meta.sequence.tuple.python
-#           ^ punctuation.section.group.begin.python
-#            ^ punctuation.section.sequence.begin.python
+#           ^^ punctuation.section.sequence.begin.python
 #                      ^ punctuation.section.sequence.end.python
 #                            ^^ punctuation.section.target-list.begin.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                        ^ punctuation.section.target-list.end.python
-#                                               ^ punctuation.section.group.end.python
+#                                               ^ punctuation.section.sequence.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python
@@ -1374,6 +1848,69 @@ dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                           ^ punctuation.section.mapping.end.python
+
+list_ = [lambda: 1 for i in range(10)]
+#       ^ meta.sequence.list.python - meta.function
+#        ^^^^^^ meta.sequence.list.python meta.function.inline.python
+#              ^ meta.sequence.list.python meta.function.inline.parameters.python
+#               ^^^ meta.sequence.list.python meta.function.inline.body.python
+#                  ^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python - meta.function
+#                                     ^ - meta.sequence
+#       ^ punctuation.section.sequence.begin.python
+#        ^^^^^^ keyword.declaration.function.inline.python
+#              ^ punctuation.section.function.begin.python
+#                ^ constant.numeric.value.python
+#                  ^^^ keyword.control.loop.for.generator.python
+#                      ^ meta.generic-name.python
+#                        ^^ keyword.control.loop.for.in.python
+#                           ^^^^^ support.function.builtin.python
+#                                ^ punctuation.section.arguments.begin.python
+#                                 ^^ constant.numeric.value.python
+#                                   ^ punctuation.section.arguments.end.python
+#                                    ^ punctuation.section.sequence.end.python
+
+generator_ = (lambda: 1 for i in range(10))
+#            ^ meta.sequence.generator.python - meta.function
+#             ^^^^^^ meta.sequence.generator.python meta.function.inline.python
+#                   ^ meta.sequence.generator.python meta.function.inline.parameters.python
+#                    ^^^ meta.sequence.generator.python meta.function.inline.body.python
+#                       ^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python - meta.function
+#                                          ^ - meta.sequence
+#            ^ punctuation.section.sequence.begin.python
+#             ^^^^^^ keyword.declaration.function.inline.python
+#                   ^ punctuation.section.function.begin.python
+#                     ^ constant.numeric.value.python
+#                       ^^^ keyword.control.loop.for.generator.python
+#                           ^ meta.generic-name.python
+#                             ^^ keyword.control.loop.for.in.python
+#                                ^^^^^ support.function.builtin.python
+#                                     ^ punctuation.section.arguments.begin.python
+#                                      ^^ constant.numeric.value.python
+#                                        ^ punctuation.section.arguments.end.python
+#                                         ^ punctuation.section.sequence.end.python
+
+set_ = {lambda: 1 for i in range(10)}
+#      ^ meta.set.python - meta.function
+#       ^^^^^^ meta.set.python meta.function.inline.python
+#             ^ meta.set.python meta.function.inline.parameters.python
+#              ^^^ meta.set.python meta.function.inline.body.python
+#                 ^^^^^^^^^^^^^^^^^^^ meta.set.python - meta.function
+#                                    ^ - meta.set
+#      ^ punctuation.section.set.begin.python
+#       ^^^^^^ keyword.declaration.function.inline.python
+#             ^ punctuation.section.function.begin.python
+#               ^ constant.numeric.value.python
+#                 ^^^ keyword.control.loop.for.generator.python
+#                     ^ meta.generic-name.python
+#                       ^^ keyword.control.loop.for.in.python
+#                          ^^^^^ support.function.builtin.python
+#                               ^ punctuation.section.arguments.begin.python
+#                                ^^ constant.numeric.value.python
+#                                  ^ punctuation.section.arguments.end.python
+#                                   ^ punctuation.section.set.end.python
+
+invalid_ = lambda: 1 for i in range(10)
+#                    ^^^ invalid.illegal.name.python
 
 list(i for i in generator)
 #      ^^^^^^^^ meta.expression.generator

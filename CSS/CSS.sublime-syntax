@@ -30,7 +30,7 @@ variables:
   #    matching (?!{{escape}}) which also effects performance negative.
   break: (?=[[^-_[:alnum:]\\]&&[[:ascii:]]]|\Z)
 
-  # Identifiers  
+  # Identifiers
   # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
   # https://www.w3.org/TR/css3-selectors/#lex
   ident: (?:{{custom_ident}}|{{generic_ident}})
@@ -257,6 +257,14 @@ variables:
       | upper-alpha | upper-armenian | upper-latin | upper-roman
     ){{break}}
 
+  # @counter-style Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style
+  counter_style_property_names: |-
+    \b(?xi:
+      additive-symbols | negative | pad | prefix | range
+    | suffix | symbols (?# | fallback | speak-as | system )
+    ){{break}}
+
   # Predefined Counter Speak As Property Constants
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
   counter_speak_as_constants: |-
@@ -267,13 +275,27 @@ variables:
   counter_system_constants: |-
     \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
-  # Page Margin Property Names
-  # https://www.w3.org/TR/css-page-3/#margin-at-rule
-  page_margin_property_names: |-
+  # @font-face Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face
+  font_face_property_names: |-
+    \b(?xi:
+      ascent-override | descent-override | font-display | (?# font-family | ) src
+    | font-feature-settings | font-variation-settings | font-stretch | font-style
+    | font-weight | font-variant | line-gap-override | size-adjust | unicode-range
+    ){{break}}
+
+  # @page Margin Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  page_margin_names: |-
     \b(?xi:
         (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
       | (?: left | right ) - (?: top | middle | bottom )
     ){{break}}
+
+  # @page Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  page_property_names: |-
+    \b(?xi: bleed | margin | marks | size ){{break}}
 
   # Property names are sorted by popularity in descending order.
   # Note:
@@ -301,7 +323,7 @@ variables:
     | border-top-right-radius | border-bottom-color | border-top-color
     | flex-shrink | align-self | text-rendering | animation-timing-function
     | direction | background-clip | zoom | border-spacing | text-indent
-    | outline-offset | border-left-color | transition-property | src
+    | outline-offset | border-left-color | transition-property
     | border-right-color | animation-name | stroke | touch-action
     | animation-duration | transition-delay | filter | overflow-wrap
     | animation-delay | border-bottom-width | variable | font-variant
@@ -310,7 +332,7 @@ variables:
     | order | outline-style | stroke-width | border-right-width | align-content
     | resize | table-layout | appearance | animation-iteration-count
     | border-left-width | flex-flow | stroke-dashoffset | stroke-dasharray
-    | backface-visibility | unicode-bidi | unicode-range | border-bottom-style
+    | backface-visibility | unicode-bidi | border-bottom-style
     | text-size-adjust | border-top-style | animation-direction | word-spacing
     | contain | speak | grid-template-columns | font-feature-settings
     | perspective | list-style-position | clip-path | image-rendering
@@ -319,7 +341,7 @@ variables:
     | margin-block-end | background-origin | animation-play-state | hyphens
     | stroke-linecap | font-stretch | object-position | page-break-inside
     | column-gap | counter-reset | counter-increment | background-position-y
-    | margin-block-start | size | grid-template-rows | column-count | quotes
+    | margin-block-start | grid-template-rows | column-count | quotes
     | padding-inline-end | text-decoration-skip | border-image | all
     | page-break-after | fill-opacity | font-variant-ligatures
     | scroll-boundary-behavior | empty-cells | list-style-image | justify-self
@@ -400,17 +422,16 @@ variables:
     | math-superscript-shift-style | start
     # END OF QUERY RESULTS
     # BEGIN OF legacy properties which existed before the last query
-    | box-direction | line-box-contain
-    | prefix | mask-image | mask-origin | flex-order | system | speak-as
+    | box-direction | line-box-contain | mask-image | mask-origin | flex-order
     | font-synthesis | line-clamp | flex-negative | blend-mode
-    | font-variant-position | flex-align | column-break-before | negative
-    | flex-item-align | azimuth | user-drag | range | mask-repeat | box-flex
-    | flex-preferred-size | font-language-override | box-align | pad
+    | font-variant-position | flex-align | column-break-before
+    | flex-item-align | azimuth | user-drag | mask-repeat | box-flex
+    | flex-preferred-size | font-language-override | box-align
     | text-emphasis-color | box-ordinal-group | mask-composite
     | transform-origin-y | pause | tap-highlight-color | text-fill-color
-    | suffix | text-emphasis-style | transform-origin-x | text-emphasis-position
-    | box-pack | box-decoration-break | box-orient | additive-symbols
-    | text-emphasis | symbols | mask-clip | nbsp-mode | pause-after | pitch
+    | text-emphasis-style | transform-origin-x | text-emphasis-position
+    | box-pack | box-decoration-break | box-orient
+    | text-emphasis | mask-clip | nbsp-mode | pause-after | pitch
     | text-height | mask-position | flex-line-pack | perspective-origin-x
     | mask-size | font-variant-alternates | perspective-origin-y
     | font-smoothing | overflow-scrolling | flex-positive | pitch-range
@@ -605,13 +626,13 @@ variables:
   # https://www.w3.org/TR/CSS22/fonts.html#font-shorthand
   font_property_constants: |-
     \b(?xi:
-      caption | icon | menu | message-box | small-caption | status-bar 
+      caption | icon | menu | message-box | small-caption | status-bar
     ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-size-props
   font_size_constants: |-
     \b(?xi:
-      larger | large | medium | small | smaller | x{1,2}-(?: large | small ) 
+      larger | large | medium | small | smaller | x{1,2}-(?: large | small )
     ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-boldness
@@ -619,7 +640,7 @@ variables:
   # https://www.w3.org/TR/CSS22/fonts.html#small-caps
   font_style_constants: |-
     \b(?xi:
-      normal | bold | bolder | lighter | italic | oblique | small-caps 
+      normal | bold | bolder | lighter | italic | oblique | small-caps
     ){{break}}
 
 ###############################################################################
@@ -699,15 +720,34 @@ contexts:
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
-    - include: rule-list
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-counter-style-block-content
     - include: at-counter-style-names
     - include: at-rule-end
+
+  at-counter-style-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-counter-style-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
 
   at-counter-style-names:
     - match: '{{counter_style_illegal_names}}'
       scope: invalid.illegal.identifier.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
+
+  at-counter-style-property-names:
+    - include: counter-style-fallback-properties
+    - include: counter-style-system-properties
+    - include: counter-style-speak-as-properties
+    - match: '{{counter_style_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
 
   # @custom-media
   # https://??
@@ -760,8 +800,27 @@ contexts:
 
   at-font-face-content:
     - meta_scope: meta.at-rule.font-face.css
-    - include: rule-list
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-font-face-block-content
     - include: at-rule-end
+
+  at-font-face-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-font-face-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-font-face-property-names:
+    - match: \b(?i:font-family){{break}}
+      scope: meta.property-name.css support.type.property-name.css
+      push: font-property-value
+    - match: '{{font_face_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
 
   # @import
   # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
@@ -868,6 +927,7 @@ contexts:
 
   # @page
   # https://www.w3.org/TR/css3-page/#at-ruledef-page
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   at-page:
     - match: (@)(?i:page){{break}}
       captures:
@@ -883,7 +943,7 @@ contexts:
     - include: at-rule-end
 
   at-page-names:
-    - match: (:)(?i:blank|first|left|right){{break}}
+    - match: (:)(?i:blank|first|left|right|recto|verso){{break}}
       captures:
         0: entity.other.pseudo-class.css
         1: punctuation.definition.entity.css
@@ -901,16 +961,12 @@ contexts:
 
   at-page-block-content:
     - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
     - include: at-page-margin
+    - include: at-page-property-list-content
     - include: at-other
-    - include: property-lists
-    - include: rule-list-body
 
-  # @top-center, ...
-  # https://www.w3.org/TR/css-page-3/#margin-at-rule
   at-page-margin:
-    - match: (@){{page_margin_property_names}}
+    - match: (@){{page_margin_names}}
       captures:
         0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
@@ -918,8 +974,29 @@ contexts:
 
   at-page-margin-content:
     - meta_scope: meta.at-rule.margin.css
-    - include: at-page-block
+    - include: at-page-property-lists
     - include: at-rule-end
+
+  at-page-property-lists:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-page-property-list-content
+
+  at-page-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-page-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-page-property-names:
+    - match: '{{page_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
 
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
@@ -1031,6 +1108,7 @@ contexts:
             | (?: device- )? (?: height | width | aspect-ratio | pixel-ratio )
             )
           | (?:any-)?(?: pointer | hover )
+          | prefers-(?: reduced-motion | color-scheme )
           | display-mode | grid | orientation | scan | scripting
           | overflow-(?: block | inline )
           )
@@ -1061,6 +1139,8 @@ contexts:
         | optional-paged | paged | scroll
         # pointer:
         | coarse | fine
+        # prefers-color-scheme:
+        | dark | light
         # scan:
         | interlace | progressive
         # scripting:
@@ -1308,7 +1388,7 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|not|has)(?=\()
+    - match: (?i:matches|is|where|not|has)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
@@ -1368,16 +1448,6 @@ contexts:
       pop: 1
     - include: rule-list-body
 
-  rule-list:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: rule-list-content
-
-  rule-list-content:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: rule-list-body
-
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
     - include: comments
@@ -1398,9 +1468,6 @@ contexts:
     - include: vendor-prefixes
     # specific properties with special treatment
     - include: counter-property
-    - include: counter-style-fallback-property
-    - include: counter-style-system-property
-    - include: counter-style-speak-as-property
     - include: font-property
     # common properties
     - include: builtin-property
@@ -1516,10 +1583,10 @@ contexts:
 
   # Counter Style Fallback
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-fallback
-  counter-style-fallback-property:
+  counter-style-fallback-properties:
     - match: \b(?i:fallback){{break}}
-      scope: support.type.property-name.css
-      set: counter-style-fallback-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-style-fallback-property-value
 
   counter-style-fallback-property-value:
     - match: ':'
@@ -1544,10 +1611,10 @@ contexts:
 
   # Counter Style System
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
-  counter-style-system-property:
+  counter-style-system-properties:
     - match: \b(?i:system){{break}}
-      scope: support.type.property-name.css
-      set: counter-style-system-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-style-system-property-value
 
   counter-style-system-property-value:
     - match: ':'
@@ -1579,10 +1646,10 @@ contexts:
 
   # Counter Style Speak As
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
-  counter-style-speak-as-property:
+  counter-style-speak-as-properties:
     - match: \b(?i:speak-as){{break}}
-      scope: support.type.property-name.css
-      set: counter-style-speak-as-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-style-speak-as-property-value
 
   counter-style-speak-as-property-value:
     - match: ':'

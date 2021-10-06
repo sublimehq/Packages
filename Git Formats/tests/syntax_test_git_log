@@ -1,0 +1,159 @@
+# SYNTAX TEST "Git Log.sublime-syntax"
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.commit.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^ keyword.other.commit.git.log
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.log
+Author: username <user-name.last@host.com>
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^^^ - string.unquoted.log
+#^^^^^ keyword.other.header.git.log
+#     ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+#                ^ punctuation.definition.reference.email.begin.git
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+#                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                               ^ punctuation.separator.email.git
+#                                    ^ punctuation.separator.domain.git
+#                                        ^ punctuation.definition.reference.email.end.git
+Date:   Thu Sep 21 22:53:04 2017 +0200
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^^^ - string.unquoted.log
+#^^^ keyword.other.header.git.log
+#   ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+
+# <- text.git.log - meta.header.git.commit - markup.raw.block.git.log - keyword.other.header.git.log
+
+    Subject of the commit (#433)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.subject.git.commit
+#                          ^ punctuation.definition.reference.issue.git
+#                          ^^^^ meta.reference.issue.git constant.other.reference.issue.git
+    -
+#   ^ invalid.illegal.empty-line-expected.git.commit
+    The issue #433 was introduced with commit 3ba34d4.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#             ^ punctuation.definition.reference.issue.git
+#             ^^^^ meta.reference.issue.git constant.other.reference.issue.git
+    The @username fixed it in user/pulls#230.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#       ^ punctuation.definition.reference.username.git
+#       ^^^^^^^^^ meta.reference.username.git entity.name.reference.username.git
+#                             ^^^^^^^^^^^^^^ meta.reference.issue.git constant.other.reference.issue.git
+#                                 ^ punctuation.separator.reference.issue.git
+#                                       ^ punctuation.definition.reference.issue.git
+
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/branch_name)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git markup.raw.block.git
+#                                               ^ punctuation.section.parens.begin.git
+#                                                ^^^^ support.type.git
+#                                                     ^^ punctuation.separator.mapping.git
+#                                                        ^^^^^^^^^^^ entity.other.branch-name.git
+#                                                                   ^ punctuation.separator.sequence.git
+#                                                                     ^^^^^^^^^^^^^^^^^^ entity.other.branch-name.git
+#                                                                                       ^ punctuation.section.parens.end.git
+Author: username <user-name.last@host.com>
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^^^ - string.unquoted.log
+#^^^^^ keyword.other.header.git.log
+#     ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+#                ^ punctuation.definition.reference.email.begin.git
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+#                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                               ^ punctuation.separator.email.git
+#                                    ^ punctuation.separator.domain.git
+#                                        ^ punctuation.definition.reference.email.end.git
+Date:   Thu Sep 21 22:53:04 2017 +0200
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
+#^^^^^^^ - string.unquoted.log
+#^^^ keyword.other.header.git.log
+#   ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+
+commit 344d003a330e244cc507d17c2f224bb295013511 (HEAD -> git_show, sublimehq/master, master)
+Author: Thomas Smith <thom@thomthesmith.com>
+Date:   Tue Aug 24 13:44:17 2021 -0400
+
+    [TypeScript] [TSX] Fix arrow function type parameter tests for TSX. (#2987)
+
+diff --git a/JavaScript/TypeScript.sublime-syntax b/JavaScript/TypeScript.sublime-syntax
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                                                                       ^ - source.shell
+#^^^ source.shell meta.function-call.identifier variable.function
+#    ^^ punctuation.definition.parameter
+#      ^^^ variable.parameter.option
+index ae1b1061..c1a585d0 100644
+--- a/JavaScript/TypeScript.sublime-syntax
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff meta.diff.header meta.header.from-file
++++ b/JavaScript/TypeScript.sublime-syntax
+@@ -551,26 +551,6 @@ contexts:
+       scope: keyword.operator.comparison.js
+       set: expression-begin
+ 
+-  # expression-begin:
+-  #   - meta_prepend: true
+-  #   - match: (?=\<(?!<))
+-  #     pop: true
+-  #     branch_point: ts-old-type-assertion
+-  #     branch:
+-  #       - ts-old-type-assertion
+diff --git a/JavaScript/tests/syntax_test_typescript_not_tsx.ts b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^^ source.shell meta.function-call.identifier variable.function
+index c90bfab4,c90bfab4..e9338c70 100644
+#^^^^ keyword.context.git.log
+#     ^^^^^^^^ constant.other.hash
+#             ^ punctuation.separator.sequence.git.log
+#              ^^^^^^^^ constant.other.hash
+#                      ^^ punctuation.separator.sequence.git.log
+#                        ^^^^^^^^ constant.other.hash
+#                                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.extended.git.log
+mode 012345,676543..701532
+#^^^ keyword.context.git.log
+#    ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#          ^ punctuation.separator.sequence.git.log
+#           ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#                 ^^ punctuation.separator.sequence.git.log
+#                   ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+new file mode 012345
+#^^^^^^^^^^^^ keyword.context.git.log
+#             ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+deleted file mode 012345,676543
+#^^^^^^^^^^^^^^^^ keyword.context.git.log
+#                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+#                       ^ punctuation.separator.sequence.git.log
+#                        ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
+similarity index 983489374
+#^^^^^^^^^^^^^^^ keyword.context.git.log
+#                ^^^^^^^^^ meta.number.integer.decimal.git constant.numeric.value.git.log
+dissimilarity index 72637263
+#^^^^^^^^^^^^^^^^^^ keyword.context.git.log
+#                   ^^^^^^^^ meta.number.integer.decimal.git constant.numeric.value.git.log
+copy from JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^^^^^^^ keyword.context.git.log
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.git string.unquoted.git
+move to JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^^^^^ keyword.context.git.log
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.git string.unquoted.git
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.extended.git.log
+--- a/JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#<- - meta.diff.header.extended
++++ b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
+#^^ source.diff meta.diff.header meta.header.to-file punctuation.definition.to-file
+@@ -25,3 +25,12 @@
+ let strLength: number = (<string>someValue).length; // </string>
+ //                       ^^^^^^^^ meta.assertion - meta.tag
+ //                                                     ^^^^^^^^^ comment - meta.tag
++
++    <T>() => {};
++//  ^^^^^^^^^^^ meta.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff markup.inserted
+
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> main, origin/main)
+#^^^^^ meta.header.git.commit markup.raw.block.git keyword.other.commit.git - source.diff
+#                                                        ^^^^ entity.other.branch-name.master.git.log

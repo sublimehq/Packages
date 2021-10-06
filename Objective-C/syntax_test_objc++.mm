@@ -414,6 +414,14 @@ typedef struct Books {
 } Book;
 /*^ entity.name.type */
 
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.objc++ */
+/*      ^^^^^^ keyword.declaration.struct.objc++ */
+/*             ^^^^^^^^^^^ entity.name.struct.objc++ */
+/*                         ^ punctuation.section.block.begin.objc++ */
+/*                          ^ punctuation.section.block.end.objc++ */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.objc++ */
+
 typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
@@ -2701,6 +2709,10 @@ void sayHi()
 /*                           ^ punctuation.separator.objc           */
 /*                             ^ keyword.other.property.attribute.  */
 /*                                  ^ punctuation.section.scope.end */
+- (NSString*)formatWithPattern:(NSString*)pattern __attribute__((swift_name("format(pattern:)")));
+/*                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.objc++*/
+/*                                                ^^^^^^^^^^^^^ storage.modifier.objc++*/
+/*                                                                          ^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */

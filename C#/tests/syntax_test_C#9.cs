@@ -127,18 +127,18 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 {
     return (bank.Status, isVip) switch
 /// ^^^^^^ keyword.control.flow.return
-///        ^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///        ^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
 ///                             ^^^^^^ keyword.control.flow
     {
         (BankBranchStatus.Open, _) => true,
-///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
-///     ^ punctuation.section.group.begin
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
+///     ^ punctuation.section.sequence.begin
 ///      ^^^^^^^^^^^^^^^^ variable.other
 ///                      ^ punctuation.accessor.dot
 ///                       ^^^^ variable.other
-///                           ^ punctuation.separator.tuple
+///                           ^ punctuation.separator.sequence
 ///                             ^ variable.language.deconstruction.discard
-///                              ^ punctuation.section.group.end
+///                              ^ punctuation.section.sequence.end
 ///                                ^^ punctuation.separator.case-expression
 ///                                   ^^^^ constant.language
 ///                                       ^ punctuation.terminator.case-expression
@@ -298,3 +298,82 @@ Point p = new (3, 5);
 if (e is not Customer) { }
 ///   ^^^^^^ keyword.operator.reflection
 ///          ^^^^^^^^ support.type
+
+public record A(int Num);
+///    ^^^^^^^^^^^^^^^^^ meta.class
+///                     ^ punctuation.terminator.statement
+///           ^ meta.class.record entity.name.class
+///            ^ punctuation.section.group.begin
+///             ^^^^^^^^ meta.method.parameters
+///             ^^^ storage.type
+///                 ^^^ variable.parameter
+///                    ^ punctuation.section.parameters.end
+public record B<T>(T Num);
+///    ^^^^^^^^^^^ meta.class.record
+///    ^^^^^^ storage.type.class.record
+///           ^ entity.name.class
+///            ^^^ meta.generic
+///            ^ punctuation.definition.generic.begin
+///             ^ support.type
+///              ^ punctuation.definition.generic.end
+///               ^ punctuation.section.group.begin
+///                ^^^^^ meta.method.parameters
+///                     ^ punctuation.section.parameters.end
+///                      ^ punctuation.terminator.statement
+public record C<TNum> (TNum Num) where TNum : class;
+///    ^^^^^^ storage.type.class.record
+///           ^ entity.name.class
+///            ^ punctuation.definition.generic.begin
+///             ^^^^ support.type
+///                 ^ punctuation.definition.generic.end
+///                   ^ punctuation.section.group.begin
+///                    ^^^^ support.type
+///                         ^^^ variable.parameter
+///                            ^ punctuation.section.parameters.end
+///                              ^^^^^ storage.modifier
+///                                    ^^^^ support.type
+///                                         ^ punctuation.separator.type
+///                                           ^^^^^ storage.type
+///                                                ^ punctuation.terminator.statement
+public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4; }
+///    ^^^^^^ storage.type.class.record
+///           ^ entity.name.class
+///            ^ punctuation.definition.generic.begin
+///             ^^^^ support.type
+///                 ^ punctuation.definition.generic.end
+///                   ^ punctuation.section.group.begin
+///                    ^^^^ support.type
+///                         ^^^ variable.parameter
+///                            ^ punctuation.section.parameters.end
+///                              ^^^^^ storage.modifier
+///                                    ^^^^ support.type
+///                                         ^ punctuation.separator.type
+///                                           ^^^^^ storage.type
+///                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+///                                                 ^ punctuation.section.block.begin
+///                                                   ^^^^^^ storage.modifier.access
+///                                                          ^^^^^ storage.modifier
+///                                                                ^^^ storage.type
+///                                                                    ^^^^ variable.other
+///                                                                         ^ keyword.operator.assignment.variable
+///                                                                           ^ constant.numeric.value
+///                                                                            ^ punctuation.terminator.statement
+///                                                                              ^ punctuation.section.block.end
+public record Person(
+///^^^ storage.modifier.access
+///    ^^^^^^ meta.class.record storage.type.class.record
+///           ^^^^^^ meta.class.record entity.name.class
+///                 ^ punctuation.section.group.begin
+    [property: JsonPropertyName("firstName")]string FirstName,
+/// ^ punctuation.definition.annotation.begin
+///                                         ^ punctuation.definition.annotation.end
+///                                          ^^^^^^ storage.type
+///                                                 ^^^^^^^^^ variable.parameter
+///                                                          ^ punctuation.separator.parameter.function
+    [property: JsonPropertyName("lastName")]string LastName);
+/// ^ punctuation.definition.annotation.begin
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.method.parameters meta.annotation
+///                                         ^^^^^^ storage.type
+///                                                ^^^^^^^^ variable.parameter
+///                                                        ^ punctuation.section.parameters.end
+///                                                         ^ punctuation.terminator.statement

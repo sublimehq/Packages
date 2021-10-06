@@ -56,6 +56,12 @@
 			"details": "Specifies <code>C#</code> code highlighting"
 		},
 		{
+			"trigger": "diff",
+			"annotation": "Diff",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Diff</code> code highlighting"
+		},
+		{
 			"trigger": "erlang",
 			"annotation": "Erlang",
 			"kind": ["markup", "s", "Syntax"],
@@ -80,10 +86,22 @@
 			"details": "Specifies <code>GraphViz</code> code highlighting"
 		},
 		{
+			"trigger": "haskell",
+			"annotation": "Haskell",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Haskell</code> code highlighting"
+		},
+		{
+			"trigger": "html",
+			"annotation": "HTML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>HTML</code> code highlighting"
+		},
+		{
 			"trigger": "html+php",
 			"annotation": "PHP",
 			"kind": ["markup", "s", "Syntax"],
-			"details": "Specifies <code>PHP</code> code highlighting"
+			"details": "Specifies <code>HTML+PHP</code> code highlighting"
 		},
 		{
 			"trigger": "inc",
@@ -134,6 +152,30 @@
 			"details": "Specifies <code>Java Server Pages</code> code highlighting"
 		},
 		{
+			"trigger": "JSX",
+			"annotation": "JavaScript React",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JavaScript React</code> code highlighting"
+		},
+		{
+			"trigger": "lisp",
+			"annotation": "Lisp",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Lisp</code> code highlighting"
+		},
+		{
+			"trigger": "lua",
+			"annotation": "Lua",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Lua</code> code highlighting"
+		},
+		{
+			"trigger": "matlab",
+			"annotation": "MatLab",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>MatLab</code> code highlighting"
+		},
+		{
 			"trigger": "obj-c",
 			"annotation": "Objective-C",
 			"kind": ["markup", "s", "Syntax"],
@@ -180,6 +222,18 @@
 			"annotation": "Objective-C++",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "ocaml",
+			"annotation": "OCaml",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>OCaml</code> code highlighting"
+		},
+		{
+			"trigger": "patch",
+			"annotation": "Patch",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Patch</code> code highlighting"
 		},
 		{
 			"trigger": "perl",
@@ -236,6 +290,12 @@
 			"details": "Specifies <code>Regular Expressions</code> code highlighting"
 		},
 		{
+			"trigger": "rs",
+			"annotation": "Rust",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Rust</code> code highlighting"
+		},
+		{
 			"trigger": "rscript",
 			"annotation": "R Script",
 			"kind": ["markup", "s", "Syntax"],
@@ -254,7 +314,19 @@
 			"details": "Specifies <code>Rust</code> code highlighting"
 		},
 		{
+			"trigger": "scala",
+			"annotation": "Scala",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Scala</code> code highlighting"
+		},
+		{
 			"trigger": "sh",
+			"annotation": "ShellScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>ShellScript</code> code highlighting"
+		},
+		{
+			"trigger": "shell",
 			"annotation": "ShellScript",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>ShellScript</code> code highlighting"
@@ -282,6 +354,12 @@
 			"annotation": "TypeScript",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>TypeScript</code> code highlighting"
+		},
+		{
+			"trigger": "tsx",
+			"annotation": "TypeScript React",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TypeScript React</code> code highlighting"
 		},
 		{
 			"trigger": "typescript",

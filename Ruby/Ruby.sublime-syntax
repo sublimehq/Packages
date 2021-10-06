@@ -123,8 +123,10 @@ contexts:
 
   class:
     # Defining a class method
-    - match: \bclass\b(?=\s*<)
-      scope: keyword.declaration.class.ruby
+    - match: \b(class)\s*(<<)
+      captures:
+        1: keyword.declaration.class.ruby
+        2: keyword.operator.assignment.augmented.ruby
     - match: \bclass\b
       scope: keyword.declaration.class.ruby
       push: class-declaration
@@ -194,18 +196,24 @@ contexts:
 
   constants:
     # constant definition, handles multiple definitions on a single line 'APPLE, ORANGE= 1, 2'
-    - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*=(?![=\>]))'
+    - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*(\|\|)?=(?![=\>]))'
       scope: meta.constant.ruby entity.name.constant.ruby
+      push: after-constant
     # Ruby 1.9 symbols
     - match: '{{identifier}}[?!]?(:)(?!:)'
       scope: constant.other.symbol.ruby
       captures:
         1: punctuation.definition.constant.ruby
       push: try-regex
-    - match: '\b(nil|true|false)\b(?![?!])'
-      scope: constant.language.ruby
+    - match: '\b(nil)\b(?![?!])'
+      scope: constant.language.null.ruby
+      push: after-constant
+    - match: '\b(true|false)\b(?![?!])'
+      scope: constant.language.boolean.ruby
+      push: after-constant
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
+      push: after-constant
     # hexadecimal imaginary numbers: 0xAi, 0xAri
     - match: '\b(0[xX])({{hex_digits}})(r?i(r)?)\b'
       scope: meta.number.imaginary.hexadecimal.ruby
@@ -214,6 +222,7 @@ contexts:
         2: constant.numeric.value.ruby
         3: constant.numeric.suffix.ruby
         4: invalid.illegal.numeric.ruby
+      push: after-constant
     # octal imaginary numbers: 0o1i, 0o1ri, 01i, 01ri
     - match: '\b(0[oO]?)({{oct_digits}})(r?i(r)?)\b'
       scope: meta.number.imaginary.octal.ruby
@@ -222,6 +231,7 @@ contexts:
         2: constant.numeric.value.ruby
         3: constant.numeric.suffix.ruby
         4: invalid.illegal.numeric.ruby
+      push: after-constant
     # binary imaginary numbers: 0b1i, 0b1ri
     - match: '\b(0[bB])({{bin_digits}})(r?i(r)?)\b'
       scope: meta.number.imaginary.binary.ruby
@@ -230,6 +240,7 @@ contexts:
         2: constant.numeric.value.ruby
         3: constant.numeric.suffix.ruby
         4: invalid.illegal.numeric.ruby
+      push: after-constant
     # decimal imaginary numbers: 0d1i, 0d1ri, 1i, 1ri, 1.1i, 1.1ri, 1e1i, 1.1e1i
     - match: |-
         \b(?x:
@@ -252,6 +263,7 @@ contexts:
         8: constant.numeric.suffix.ruby invalid.illegal.numeric.ruby
         9: constant.numeric.suffix.ruby
         10: constant.numeric.suffix.ruby invalid.illegal.numeric.ruby
+      push: after-constant
     # hexadecimal rational numbers: 0xAr
     - match: '\b(0[xX])({{hex_digits}})(r)\b'
       scope: meta.number.rational.hexadecimal.ruby
@@ -259,6 +271,7 @@ contexts:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
         3: constant.numeric.suffix.ruby
+      push: after-constant
     # octal rational numbers: 0o1r, 01r
     - match: '\b(0[oO]?)({{oct_digits}})(r)\b'
       scope: meta.number.rational.octal.ruby
@@ -266,6 +279,7 @@ contexts:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
         3: constant.numeric.suffix.ruby
+      push: after-constant
     # binary rational numbers: 0b1r
     - match: '\b(0[bB])({{bin_digits}})(r)\b'
       scope: meta.number.rational.binary.ruby
@@ -273,6 +287,7 @@ contexts:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
         3: constant.numeric.suffix.ruby
+      push: after-constant
     # decimal rational numbers: 0d1r, 1r, 1.1r
     - match: '\b(0[dD])?({{dec_digits}}|{{dec_digits}}(\.){{dec_digits}})(r)\b'
       scope: meta.number.rational.decimal.ruby
@@ -281,6 +296,7 @@ contexts:
         2: constant.numeric.value.ruby
         3: punctuation.separator.decimal.ruby
         4: constant.numeric.suffix.ruby
+      push: after-constant
     # decimal floating point numbers: 1.1, 1e1, 1.1e1
     - match: '\b({{dec_digits}})(?:((\.){{dec_digits}})|((?:(\.){{dec_digits}})?{{dec_exponent}})(r)?)\b'
       scope: meta.number.float.decimal.ruby
@@ -291,30 +307,35 @@ contexts:
         4: constant.numeric.value.ruby
         5: punctuation.separator.decimal.ruby
         6: constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
+      push: after-constant
     # hexadecimal integer numbers: 0xA
     - match: '\b(0[xX])({{hex_digits}})\b'
       scope: meta.number.integer.hexadecimal.ruby
       captures:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
+      push: after-constant
     # octal integer numbers: 0o1, 01
     - match: '\b(0[oO]?)({{oct_digits}})\b'
       scope: meta.number.integer.octal.ruby
       captures:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
+      push: after-constant
     # binary integer numbers: 0b1
     - match: '\b(0[bB])({{bin_digits}})\b'
       scope: meta.number.integer.binary.ruby
       captures:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
+      push: after-constant
     # decimal integer numbers: 0d1, 1
     - match: '\b(0[dD])?({{dec_digits}})\b'
       scope: meta.number.integer.decimal.ruby
       captures:
         1: constant.numeric.base.ruby
         2: constant.numeric.value.ruby
+      push: after-constant
     # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby
@@ -401,6 +422,9 @@ contexts:
       captures:
         1: punctuation.definition.constant.ruby
         2: invalid.illegal.character.ruby
+
+  after-constant:
+    - include: after-identifier
 
   blocks:
     - match: \bdo\b
@@ -548,16 +572,16 @@ contexts:
       scope: keyword.operator.bitwise.ruby
       push: after-operator
     - match: \?
-      scope: keyword.operator.conditional.ruby
+      scope: keyword.operator.ternary.ruby
       push:
         # Handle hash-key-lookalike of identifier: in ternary
         - match: \s*{{identifier}}(:)(?!:)
           captures:
-            1: keyword.operator.conditional.ruby
+            1: keyword.operator.ternary.ruby
           set: after-operator
         - include: after-operator
     - match: :(?!:)
-      scope: keyword.operator.conditional.ruby
+      scope: keyword.operator.ternary.ruby
       push: after-operator
     - match: \.\.\.?
       scope: keyword.operator.range.ruby
@@ -618,8 +642,12 @@ contexts:
     # Handles a : right after an identifier. In this case it can't be the
     # beginning of a symbol, so it must be part of a ternary operator
     - match: ':(?!:)'
-      scope: keyword.operator.conditional.ruby
-      pop: true
+      scope: keyword.operator.ternary.ruby
+      set: after-operator
+    - match: \s*(<<)(?![-~])
+      captures:
+        1: keyword.operator.assignment.augmented.ruby
+      set: after-operator
     - match: ''
       pop: true
 
@@ -628,14 +656,17 @@ contexts:
       scope: variable.other.readwrite.instance.ruby
       captures:
         1: punctuation.definition.variable.ruby
+      push: after-variable
     - match: '(@@)[a-zA-Z_]\w*'
       scope: variable.other.readwrite.class.ruby
       captures:
         1: punctuation.definition.variable.ruby
+      push: after-variable
     - match: '(\$)[a-zA-Z_]\w*'
       scope: variable.other.readwrite.global.ruby
       captures:
         1: punctuation.definition.variable.ruby
+      push: after-variable
     - match: '(\$)(!|@|&|`|''|\+|\d+|~|=|/|\\|,|;|\.|<|>|_|\*|\$|\?|:|"|-[0adFiIlpv])'
       scope: variable.other.readwrite.global.pre-defined.ruby
       captures:
@@ -648,30 +679,35 @@ contexts:
         - match: '\]'
           pop: true
         - include: expressions
-    - match: '(::)?(\b[[:upper:]]\w*)(?=((\.|::)[[:alpha:]_]|\[))'
+    # maybe nested (trailing) constants with uppercase only notation
+    - match: '(::)?(\b[[:upper:]_][[:upper:][:digit:]_]*\b)'
+      captures:
+        1: punctuation.accessor.double-colon.ruby
+        2: variable.other.constant.ruby
+      push: after-variable
+    # maybe nested class
+    - match: '(::)?(\b[[:upper:]]\w*\b)'
       captures:
         1: punctuation.accessor.double-colon.ruby
         2: support.class.ruby
-    - match: '\b[[:upper:]]\w*\b'
-      scope: variable.other.constant.ruby
+      push: after-variable
+
+  after-variable:
+    - include: after-identifier
 
   well-known-methods:
     # exceptions
     - match: \bcatch\b(?![?!])
       scope: keyword.control.exception.catch.ruby
-      push: function-call-arguments
     # flow
     - match: \b(?:fail|raise|throw)\b(?![?!])
       scope: keyword.control.flow.throw.ruby
-      push: function-call-arguments
     # loop
     - match: \bloop\b(?![?!])
       scope: keyword.control.loop.loop.ruby
-      push: function-call-arguments
     # other
     - match: \b(initialize|new|include|extend|prepend|attr_reader|attr_writer|attr_accessor|attr|module_function|public|protected|private)\b(?![?!])
       scope: keyword.other.special-method.ruby
-      push: function-call-arguments
     - match: \b(require|require_relative|gem)\b
       scope: keyword.control.import.ruby
       push:
@@ -702,7 +738,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods that may be followed by a regex
     - match: |-
         (?x:
@@ -712,6 +747,7 @@ contexts:
           )(!|\b)
           |
           \b(
+            eql|
             match
           )(\?|\b)
           |
@@ -724,12 +760,11 @@ contexts:
           )\b(?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
+      push: try-regex
     # Methods from the Object class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
           \b(
-            eql\?|
             instance_of\?|
             instance_variable_defined\?|
             is_a\?|
@@ -742,7 +777,6 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Object class not handled elsewhere
     - match: |-
         (?x:
@@ -784,7 +818,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -795,7 +828,6 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere
     - match: |-
         (?x:
@@ -860,7 +892,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -877,11 +908,10 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
     # Lambda operator from the Kernel class not handled elsewhere
     - match: '->'
       scope: meta.function.ruby keyword.declaration.function.anonymous.ruby
-      push: function-call-arguments
+      push: try-regex
     # Methods from the Module class not handled elsewhere
     - match: |-
         (?x:
@@ -930,10 +960,6 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: function-call-arguments
-
-  function-call-arguments:
-    - include: try-regex
 
   method:
     - match: \bdef\b
@@ -1411,7 +1437,14 @@ contexts:
     - include: try-regex
 
   after-operator:
-    - include: try-regex
+    # A slash following an operator is most likely the beginning of a regex pattern
+    # if not an incomplete expression.
+    - match: \s*(/)
+      captures:
+        1: punctuation.definition.string.begin.ruby
+      push: regex-body
+    - match: ''
+      pop: true
 
   try-regex:
     # Generally for multiline regexes, one of the %r forms below will be used,
@@ -1419,16 +1452,18 @@ contexts:
     - match: \s*(/)(?=(?!=).*/)
       captures:
         1: punctuation.definition.string.begin.ruby
-      push:
-        - meta_scope: meta.string.regexp.ruby string.regexp.classic.ruby
-        - match: (/)([eimnosux]*)
-          captures:
-            1: punctuation.definition.string.end.ruby
-            2: keyword.other.ruby
-          pop: true
-        - include: regex-sub
+      push: regex-body
     - match: ''
       pop: true
+
+  regex-body:
+    - meta_scope: meta.string.regexp.ruby string.regexp.classic.ruby
+    - match: (/)([eimnosux]*)
+      captures:
+        1: punctuation.definition.string.end.ruby
+        2: keyword.other.ruby
+      pop: true
+    - include: regex-sub
 
   regexes:
     # Needs higher precedence than regular expressions.

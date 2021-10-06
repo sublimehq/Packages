@@ -1,10 +1,18 @@
 %YAML 1.2
 ---
 name: Git Log
-file_extensions:
-  - gitlog   # no real extention but why not?
-first_line_match: ^commit\s+\h{7,}
 scope: text.git.log
+version: 2
+
+file_extensions:
+  - gitlog   # no real extension but why not?
+
+first_line_match: ^commit\s+\h{7,}
+
+variables:
+  diff_begin: ^diff\s+--git\s
+  commit_begin: ^(commit)\s+(\h{7,})
+  commit_or_diff_begin: (?={{diff_begin}}|{{commit_begin}})
 
 contexts:
   prototype:
@@ -13,13 +21,37 @@ contexts:
   main:
     # 1st header line
     # commit d9d9fb804f5d61c13ba2f8746af33a9f3c609075
-    - match: (?:(commit)\s+(\h{7,}))?\s*\n
-      scope: meta.header.git.commit markup.raw.block.git.log
+    - match: '{{commit_begin}}'
       captures:
         1: keyword.other.commit.git.log
         2: constant.other.hash.git.log
-      embed: commit-header
-      escape: (?=^commit\s)
+      push:
+        - meta_scope: meta.header.git.commit markup.raw.block.git.log
+        - match: $\n?
+          scope: meta.header.git.commit markup.raw.block.git.log
+          pop: 1
+          embed: commit-header
+          escape: '{{commit_or_diff_begin}}'
+        - match: (\()(HEAD)\s*(->)
+          captures:
+            1: punctuation.section.parens.begin.git.log
+            2: support.type.git.log
+            3: punctuation.separator.mapping.git.log
+          push:
+            - match: \)
+              scope: punctuation.section.parens.end.git.log
+              pop: 1
+            - match: \b(?:master|main)\b
+              scope: entity.other.branch-name.master.git.log
+            - match: (\w+)(?:(/)(\w+))?
+              scope: entity.other.branch-name.git.log
+            - match: ','
+              scope: punctuation.separator.sequence.git.log
+    - match: (?={{diff_begin}})
+      embed: scope:source.shell.bash
+      escape: $
+    - match: (?=^index\s)
+      push: extended-patch-headers
 
   commit-header:
     # All header attributes are mappings of `key: value` format.
@@ -34,9 +66,54 @@ contexts:
         - meta_scope: meta.header.git.commit markup.raw.block.git.log
         - meta_content_scope: string.unquoted.log
         - match: \n
-          pop: true
+          pop: 1
         - include: Git Common.sublime-syntax#email
     # using push instead of include as workaround for
     # https://github.com/SublimeTextIssues/Core/issues/2395
     - match: ^
       push: Git Commit.sublime-syntax
+
+  extended-patch-headers:
+    # https://git-scm.com/docs/git-show#_generating_patch_text_with_p
+    - meta_scope: meta.diff.header.extended.git.log
+    - match: ^(index)\s+
+      captures:
+        1: keyword.context.git.log
+      push: index
+    - match: ^((?:new|deleted)\s+file\s+)?(mode)\s+
+      captures:
+        1: keyword.context.git.log
+        2: keyword.context.git.log
+      push: mode
+    - match: ^((?:dis)?similarity\s+index)\s+
+      captures:
+        1: keyword.context.git.log
+      push: similarity-index
+    - match: ^((?:copy|move)\s+(?:from|to))\s+
+      captures:
+        1: keyword.context.git.log
+      push: copy-or-move
+    - match: ^
+      pop: 1
+      embed: scope:source.diff
+      escape: '{{commit_or_diff_begin}}'
+
+  index:
+    - include: Git Common.sublime-syntax#commit
+    - include: mode
+
+  mode:
+    - include: Git Common.sublime-syntax#eol-pop
+    - match: ',|\.\.'
+      scope: punctuation.separator.sequence.git.log
+    - match: '[0-7]{6}'
+      scope: meta.number.integer.octal.git.log constant.numeric.value.git.log
+
+  similarity-index:
+    - include: Git Common.sublime-syntax#eol-pop
+    - match: \d+
+      scope: meta.number.integer.decimal.git.log constant.numeric.value.git.log
+
+  copy-or-move:
+    - include: Git Common.sublime-syntax#eol-pop
+    - include: Git Link.sublime-syntax#expect-path

@@ -288,8 +288,8 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
 
 ' echo '
-# <- meta.function-call.identifier.shell meta.string.shell 
-#^^^^^^^ meta.function-call.identifier.shell meta.string.shell 
+# <- meta.function-call.identifier.shell meta.string.shell
+#^^^^^^^ meta.function-call.identifier.shell meta.string.shell
 # <- variable.function.shell punctuation.definition.string.begin.shell
 #^^^^^^^ variable.function.shell
 #      ^ punctuation.definition.string.end.shell
@@ -297,7 +297,7 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 
 e'cho'o
 # <- meta.function-call.identifier.shell - meta.string
-#^^^^^ meta.function-call.identifier.shell meta.string.shell 
+#^^^^^ meta.function-call.identifier.shell meta.string.shell
 #     ^ meta.function-call.identifier.shell - meta.string
 # <- variable.function.shell
 #^^^^^^ variable.function.shell
@@ -305,7 +305,7 @@ e'cho'o
 
 e' cho'o
 # <- meta.function-call.identifier.shell - meta.string
-#^^^^^^ meta.function-call.identifier.shell meta.string.shell 
+#^^^^^^ meta.function-call.identifier.shell meta.string.shell
 #      ^ meta.function-call.identifier.shell - meta.string
 # <- variable.function.shell
 #^^^^^^^ variable.function.shell
@@ -612,7 +612,7 @@ sleep 2 & jobs
 subdir/./myscript.sh --option arg1 arg2 -x
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
-#                   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell 
+#                   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                    ^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                            ^^^^^^^^^^^ - string
 #                                       ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -706,7 +706,7 @@ cd foo/bar2345
 # ^^ meta.compound.shell meta.compound.shell
 # ^ punctuation.section.compound.begin.shell
     foo args
-#^^^^^^^^^^^^ meta.compound.shell meta.compound.shell    
+#^^^^^^^^^^^^ meta.compound.shell meta.compound.shell
 #   ^^^ meta.function-call.identifier.shell variable.function.shell
 #      ^^^^^ meta.function-call.arguments.shell
   } 2>> "$stderr_log"
@@ -1046,7 +1046,7 @@ f () (
 
 function f (
 # <- meta.function.shell keyword.declaration.function.shell
-#^^^^^^^ meta.function.shell 
+#^^^^^^^ meta.function.shell
 #       ^^^ meta.function.identifier.shell
 #          ^^ meta.function.shell meta.compound.shell
 #^^^^^^^ keyword.declaration.function.shell
@@ -1245,7 +1245,7 @@ function +foo () {
 }
 +foo
 # <- meta.function-call.identifier.shell variable.function.shell
-#^^^ meta.function-call.identifier.shell variable.function.shell 
+#^^^ meta.function-call.identifier.shell variable.function.shell
 
 function =foo () {
 #<- meta.function.shell keyword.declaration.function.shell
@@ -1499,7 +1499,7 @@ declare -a owners=(
 
 declare -f _init_completion > /dev/null && complete -F _upto upto
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell 
+#^^^^^^ meta.declaration.variable.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #                                      ^^^^ - meta.declaration - meta.function-call
 #                                          ^^^^^^^^ meta.function-call.identifier.shell
@@ -1507,7 +1507,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                                                ^ - meta.function-call
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^ variable.parameter.option.shell
-#          ^^^^^^^^^^^^^^^^ meta.variable.shell entity.name.function.shell
+#          ^^^^^^^^^^^^^^^^ meta.variable.shell variable.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
@@ -1597,7 +1597,7 @@ export -f foo
 #^^^^^ meta.function-call.identifier.shell support.function.export.shell
 #     ^^^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
-#         ^^^ meta.variable.shell entity.name.function.shell
+#         ^^^ meta.variable.shell variable.function.shell
 
 ####################################################################
 # local builtin                                                    #
@@ -1689,7 +1689,7 @@ local -fn foo
 #^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
 #    ^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.parameter.option.shell variable.parameter.option.shell
-#         ^^^ meta.variable.shell entity.name.function.shell
+#         ^^^ meta.variable.shell variable.function.shell
 
 f() {
     local -a "$@"
@@ -1758,7 +1758,7 @@ readonly -f foo     # 'foo' is a variable name
 #       ^ - storage - variable
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #          ^ - variable
-#           ^^^ meta.variable.shell entity.name.function.shell
+#           ^^^ meta.variable.shell variable.function.shell
 #              ^ - variable
 
 foo=`readonly x=5`
@@ -1788,7 +1788,7 @@ typeset foo         # 'foo' is a variable name
 
 typeset -f _init_completion > /dev/null && complete -F _upto upto
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell 
+#^^^^^^ meta.declaration.variable.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #                                      ^^^^ - meta.declaration - meta.function-call
 #                                          ^^^^^^^^ meta.function-call.identifier.shell
@@ -1796,7 +1796,7 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #                                                                ^ - meta.function-call
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^ variable.parameter.option.shell
-#          ^^^^^^^^^^^^^^^^ meta.variable.shell entity.name.function.shell
+#          ^^^^^^^^^^^^^^^^ meta.variable.shell variable.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
@@ -1847,9 +1847,11 @@ test+=
 test var != 0
 #<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#   ^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#           ^ meta.function-call.arguments.shell meta.pattern.regexp.shell
+#            ^ - meta.function-call
 #        ^^ keyword.operator.comparison.shell
-#           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#           ^ - constant.numeric
 
 test var == true
 #<- meta.function-call.identifier.shell support.function.test.shell
@@ -1884,6 +1886,35 @@ test expr -a expr -o expr -- | cmd |& cmd
 #                            ^ keyword.operator.assignment.pipe.shell
 #                              ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                  ^^ keyword.operator.assignment.pipe.shell
+
+test ! ($line =~ ^[0-9]+$)
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell - meta.function-call.arguments
+#   ^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
+#      ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#                         ^ - meta.function-call - meta.group
+#^^^ support.function.test.shell
+#    ^ keyword.operator.logical.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^^^^^ variable.other.readwrite.shell
+#             ^^ keyword.operator.comparison.shell
+#                ^^^^^^^^ meta.pattern.regexp.shell
+
+test ! ($line =~ ^[0-9]+$) >> /file
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell - meta.function-call.arguments
+#   ^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
+#      ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#                         ^^^^^^^^^ meta.function-call.arguments.shell - meta.group
+#                                  ^ - meta.function-call - meta.group
+#^^^ support.function.test.shell
+#    ^ keyword.operator.logical.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^^^^^ variable.other.readwrite.shell
+#             ^^ keyword.operator.comparison.shell
+#                ^^^^^^^^ meta.pattern.regexp.shell
+#                        ^ punctuation.section.group.end.shell
+#                          ^^ keyword.operator.assignment.redirection.shell
 
 if test expr -a expr ; then echo "success"; fi
 # ^ - meta.function-call
@@ -2074,7 +2105,7 @@ unset -nfv foo
 #^^^^ support.function.unset.shell
 #     ^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ - variable
-#          ^^^ entity.name.function.shell
+#          ^^^ variable.function.shell
 #             ^ - variable
 
 unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
@@ -2092,9 +2123,9 @@ unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^ - variable
-#              ^^^ entity.name.function.shell
+#              ^^^ variable.function.shell
 #                 ^ - variable
-#                  ^^^^^ entity.name.function.shell
+#                  ^^^^^ variable.function.shell
 #                       ^ punctuation.terminator.statement.shell
 #                         ^^^^^ support.function.unset.shell
 #                              ^ - support - variable
@@ -2118,9 +2149,9 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^^^^ - variable
 #              ^^ keyword.operator.end-of-options.shell
-#                 ^^^ entity.name.function.shell
+#                 ^^^ variable.function.shell
 #                    ^ - variable
-#                     ^^^ entity.name.function.shell
+#                     ^^^ variable.function.shell
 #                        ^ punctuation.terminator.statement.shell
 #                          ^^^^^ support.function.unset.shell
 #                               ^ - support - variable
@@ -2646,7 +2677,7 @@ commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
 #          ^^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell - meta.function meta.function
 #             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell  - meta.function meta.function
 #                                 ^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
-#                                   ^^^^^^^ meta.parameter.option.shell meta.interpolation.parameter.shell 
+#                                   ^^^^^^^ meta.parameter.option.shell meta.interpolation.parameter.shell
 #                                          ^^^^^^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
 #                                                  ^^^^^^^^^ meta.string.shell
 #                                                                 ^^^^^^^^^ meta.string.shell
@@ -2906,47 +2937,47 @@ ${foo:=bar}
 #    ^ variable.language.shell
 #     ^ punctuation.section.interpolation.end.shell
 : ${#@}
-# ^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ keyword.operator.arithmetic.shell
 #    ^ variable.language.shell
 #     ^ punctuation.section.interpolation.end.shell
 : ${@/bar/baz}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell  
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${*/bar/baz}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell  
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${@#pattern}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${*#pattern}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${@##pattern}
-# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${*##pattern}
-# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${@%pattern}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${*%%pattern}
-# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${@,pattern}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${*,,pattern}
-# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${@^pattern}
-# ^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${*^^pattern}
-# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell 
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ variable.language.shell
 : ${foo@Q}
 #      ^ keyword.operator.expansion.shell
@@ -3644,6 +3675,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 [[ $str != ^$'\t' ]]
 #^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                   ^ - meta.conditional
 #^^^^^^^^^^ - meta.pattern.regexp
 #          ^^^^^^ meta.pattern.regexp.shell - meta.interpolation
 #                ^^^ - meta.pattern.regexp
@@ -3652,9 +3684,10 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 [[ $str =~ ^abc$var$ ]]
 #^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                      ^ - meta.conditional
 #^^^^^^^^^^ - meta.pattern.regexp
 #  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.binary.shell
+#       ^^ keyword.operator.comparison.shell
 #          ^^^^ meta.pattern.regexp.shell - meta.interpolation
 #              ^^^^ meta.pattern.regexp.shell meta.interpolation.parameter.shell
 #                  ^ meta.pattern.regexp.shell - meta.interpolation
@@ -3662,13 +3695,14 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 [[ $line =~ [[:space:]]*?(a)b ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                               ^ - meta.conditional
 #^^^^^^^^^^^ - meta.pattern.regexp.shell
 #           ^^^^^^^^^^^^^^^^^ meta.pattern.regexp.shell
 #           ^^^^^^^^^^^ meta.set.regexp.shell
 #                        ^^^ meta.group.regexp.shell
 #                            ^^^ - meta.pattern.regexp.shell
 #  ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.binary.shell
+#        ^^ keyword.operator.comparison.shell
 #           ^^ punctuation.definition.set.begin.regexp.shell
 #             ^^^^^^^ constant.other.posix-class.regexp.shell
 #                    ^^ punctuation.definition.set.end.regexp.shell
@@ -3676,8 +3710,50 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^ punctuation.definition.group.begin.regexp.shell
 #                          ^ punctuation.definition.group.end.regexp.shell
 
+[[ $line =~ ^0[1-9]$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                      ^ - meta.conditional
+#^^^^^^^^^^^ - meta.pattern.regexp.shell
+#           ^^^^^^^^ meta.pattern.regexp.shell
+#                   ^^^ - meta.pattern.regexp.shell
+
+[[ ! ($line =~ ^0[1-9]$) ]]
+# <- meta.conditional.shell - meta.group
+#^^^^ meta.conditional.shell - meta.group
+#    ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.pattern
+#              ^^^^^^^^ meta.conditional.shell meta.group.shell meta.pattern.regexp.shell
+#                      ^ meta.conditional.shell meta.group.shell - meta.pattern
+#                       ^^^ meta.conditional.shell - meta.group
+#                          ^ - meta.conditional - meta.group
+
+[[ ! ($line =~ ^(\([0-9]+)$) ]]
+# <- meta.conditional.shell - meta.group
+#^^^^ meta.conditional.shell - meta.group
+#    ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.pattern
+#              ^^^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.pattern.regexp.shell
+#                          ^ meta.conditional.shell meta.group.shell - meta.pattern
+#                           ^^^ meta.conditional.shell - meta.group
+#                              ^ - meta.conditional - meta.group
+# <- support.function.double-brace.begin.shell
+#^ support.function.double-brace.begin.shell
+#  ^ keyword.operator.logical.shell
+#    ^ punctuation.section.group.begin.shell
+#     ^^^^^ variable.other.readwrite.shell
+#           ^^ keyword.operator.comparison.shell
+#               ^^^^^^^^ meta.group.regexp.shell
+#               ^ punctuation.definition.group.begin.regexp.shell
+#                ^^ constant.character.escape.shell
+#                  ^^^^^ meta.set.regexp.shell
+#                  ^ punctuation.definition.set.begin.regexp.shell
+#                      ^ punctuation.definition.set.end.regexp.shell
+#                       ^ keyword.operator.quantifier.regexp.shell
+#                        ^ punctuation.definition.group.end.regexp.shell
+#                          ^ punctuation.section.group.end.shell
+#                            ^^ support.function.double-brace.end.shell
+
 [[ ' foobar' == [\ ]foo* ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                          ^ - meta.conditional
 #^^^^^^^^^^^^^^^ - meta.pattern.regexp.shell
 #               ^^^^ meta.set.regexp.shell
 #               ^^^^^^^^ meta.pattern.regexp.shell
@@ -4512,7 +4588,7 @@ case var in
 #^ meta.conditional.case.shell
 # ^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
 #        ^^ meta.conditional.case.clause.patterns.shell meta.group.regexp.shell
-#          ^^^^ meta.conditional.case.shell 
+#          ^^^^ meta.conditional.case.shell
 # ^ keyword.control.conditional.patterns.begin.shell
 #        ^ punctuation.definition.group.begin.regexp.shell
 #          ^^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
@@ -4527,7 +4603,7 @@ case   # comment
 #^^^^^^^^^^^^^^^^ meta.conditional.case.shell
 #      ^^^^^^^^^^ comment.line.number-sign.shell
   in   # comment
-#^^^^^^^^^^^^^^^^^ meta.conditional.case.shell  
+#^^^^^^^^^^^^^^^^^ meta.conditional.case.shell
 # ^^ keyword.control.in.shell
 #      ^^^^^^^^^^ comment.line.number-sign.shell
   pattern) # comment

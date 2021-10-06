@@ -457,6 +457,7 @@ contexts:
             - include: protocol_type_qualifier
             - include: expressions
         - include: comments
+        - include: attribute
         - match: '(,)\s+(\.\.\.)\s*'
           captures:
             1: punctuation.separator.objc
@@ -818,18 +819,7 @@ contexts:
         - include: expressions
 
   modifiers-parens:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.objc
-        2: meta.group.objc punctuation.section.group.begin.objc
-      push :
-        - meta_scope: meta.attribute.objc
-        - meta_content_scope: meta.group.objc
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: meta.group.objc punctuation.section.group.end.objc
-          pop: true
+    - include: attribute
     - match: \b(__declspec)(\()
       captures:
         1: storage.modifier.objc
@@ -859,6 +849,20 @@ contexts:
         - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
           scope: constant.other.objc
 
+  attribute:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push :
+        - meta_scope: meta.attribute.objc
+        - meta_content_scope: meta.group.objc
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: meta.group.objc punctuation.section.group.end.objc
+          pop: true
+
   keywords-parens:
     - match: '\b(sizeof)\b\s*(\()'
       captures:
@@ -879,9 +883,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.objc
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: keyword.declaration.struct.objc
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:

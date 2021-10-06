@@ -43,8 +43,38 @@ variables:
       | text/livescript
     )
 
-  script_close_lookahead: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}})
-  style_close_lookahead: (?=</(?i:style){{tag_name_break_char}})
+  # Embedded script and style syntaxes may be wrapped into html comments for
+  # historical reasons. The following patterns match them, while maintaining
+  # correct boundaries of embedded source scopes. That's required to enable
+  # embedded syntax's comment toggling in the first and last line.
+  #
+  # see:
+  # - https://github.com/sublimehq/Packages/issues/2322
+  # - https://github.com/sublimehq/sublime_text/issues/4701
+  script_content_begin: |-
+    (?x:
+    # whitespace followed by opening html comment begin punctuation
+      \s*(<!--)
+    # or any other non-whitespace character ahead
+    | (?=\s*(?!<!--)\S)
+    # or beginning of a line
+    | ^
+    )
+  script_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </script> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:script){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
+  style_content_begin: '{{script_content_begin}}'
+  style_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </style> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:style){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
 
 ###############################################################################
 
@@ -58,16 +88,8 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   tag-html:
-    - match: (<)((?i:style)){{tag_name_break}}
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
-      push: style-css
-    - match: (<)((?i:script)){{tag_name_break}}
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.script.html
-      push: script-javascript
+    - include: script-tag
+    - include: style-tag
     - match: (</?)((?i:body|head|html){{tag_name_break}})
       captures:
         1: punctuation.definition.tag.begin.html
@@ -154,31 +176,55 @@ contexts:
 
 ###[ SCRIPT TAG ]#############################################################
 
+  script-tag:
+    - match: (<)((?i:script)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      push: script-javascript
+    - match: (</)((?i:script){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      push: script-close-tag-content
+
+  script-close-tag:
+    - match: (</)((?i:script){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      set: script-close-tag-content
+
+  script-close-tag-content:
+    - meta_scope: meta.tag.script.end.html
+    - include: tag-end
+
   script-javascript:
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - include: script-close-tag
-        - include: script-javascript-content
+      set: script-javascript-content
 
   script-javascript-content:
-    - match: (?=\S)
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.js
       embed_scope: source.js.embedded.html
-      escape: '{{script_close_lookahead}}'
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   script-html:
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
-    - match: '>'
-      scope: punctuation.definition.tag.end.html
-      set:
-        - meta_content_scope: text.html.embedded.html
-        - include: comment
-        - include: script-close-tag
-        - include: main
+    - include: tag-end
 
   script-other:
     - meta_scope: meta.tag.script.begin.html
@@ -187,22 +233,6 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set: script-close-tag
 
-  script-close-tag:
-    - match: <!--
-      scope: comment.block.html punctuation.definition.comment.begin.html
-    - match: '{{script_close_lookahead}}'
-      set:
-        - match: -->
-          scope: comment.block.html punctuation.definition.comment.end.html
-        - match: (</)((?i:script){{tag_name_break}})
-          captures:
-            1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.script.html
-          set:
-            - meta_scope: meta.tag.script.end.html
-            - include: tag-end
-            - include: tag-attributes
-
   script-common:
     - include: script-type-attribute
     - include: tag-attributes
@@ -210,16 +240,21 @@ contexts:
 
   script-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: entity.other.attribute-name.html
-      set:
-        - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
-        - match: =
-          scope: punctuation.separator.key-value.html
-          set:
-            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
-            - include: script-type-decider
-        - match: (?=\S)
-          set: script-javascript
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: script-type-attribute-assignment
+
+  script-type-attribute-assignment:
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: script-type-attribute-value
+    - match: (?=\S)
+      set: script-javascript
+
+  script-type-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - include: script-type-decider
 
   script-type-decider:
     - match: (?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
@@ -250,20 +285,50 @@ contexts:
 
 ###[ STYLE TAG ]##############################################################
 
+  style-tag:
+    - match: (<)((?i:style)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      push: style-css
+    - match: (</)((?i:style){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      push: style-close-tag-content
+
+  style-close-tag:
+    - match: (</)((?i:style){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      set: style-close-tag-content
+
+  style-close-tag-content:
+    - meta_scope: meta.tag.style.end.html
+    - include: tag-end
+
   style-css:
     - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - include: style-close-tag
-        - include: style-css-content
+      set: style-css-content
 
   style-css-content:
-    - match: ''
+    - meta_include_prototype: false
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.css
       embed_scope: source.css.embedded.html
-      escape: '{{style_close_lookahead}}'
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   style-other:
     - meta_scope: meta.tag.style.begin.html
@@ -272,16 +337,6 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set: style-close-tag
 
-  style-close-tag:
-    - match: (</)((?i:style){{tag_name_break}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
-      set:
-        - meta_scope: meta.tag.style.end.html
-        - include: tag-end
-        - include: tag-attributes
-
   style-common:
     - include: style-type-attribute
     - include: tag-attributes
@@ -289,16 +344,21 @@ contexts:
 
   style-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: entity.other.attribute-name.html
-      set:
-        - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
-        - match: =
-          scope: punctuation.separator.key-value.html
-          set:
-            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
-            - include: style-type-decider
-        - match: (?=\S)
-          set: style-css
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: style-type-attribute-assignment
+
+  style-type-attribute-assignment:
+    - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: style-type-attribute-value
+    - match: (?=\S)
+      set: style-css
+
+  style-type-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - include: style-type-decider
 
   style-type-decider:
     - match: (?=(?i:text/css{{unquoted_attribute_break}}|'text/css'|"text/css"))
@@ -368,6 +428,7 @@ contexts:
     - include: else-pop
 
   tag-class-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -481,6 +542,7 @@ contexts:
     - include: else-pop
 
   tag-href-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -550,6 +612,7 @@ contexts:
     - include: else-pop
 
   tag-id-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html

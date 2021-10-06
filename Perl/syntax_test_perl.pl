@@ -1,4 +1,4 @@
-# SYNTAX TEST "Perl.sublime-syntax"
+# SYNTAX TEST "Packages/Perl/Perl.sublime-syntax"
 
 # comment ; still in here
 # ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.perl
@@ -1010,7 +1010,7 @@ chomp (my $common_end = <<"EOF") =~ s/(.*)/$1/g if $opt_o;
 #^^^^ support.function.perl
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #                       ^^ keyword.operator.heredoc.perl
-#                                ^^ keyword.operator.binary.perl
+#                                ^^ keyword.operator.comparison.perl
   foo bar baz
 # <- meta.string.heredoc.perl string.unquoted.heredoc.perl
 # ^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
@@ -1041,6 +1041,30 @@ EOT
 EOT
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 #^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+
+print << 'EOT-EOT-EOT';
+#     ^^^ meta.string.heredoc.perl - meta.tag
+#        ^^^^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+#                     ^^ meta.string.heredoc.perl - meta.tag
+#     ^^ keyword.operator.heredoc.perl
+  Heredoc
+# ^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+EOT-EOT-EOT
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#          ^ - meta.string
+
+print << "EOT-EOT-EOT";
+#     ^^^ meta.string.heredoc.perl - meta.tag
+#        ^^^^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+#                     ^^ meta.string.heredoc.perl - meta.tag
+#     ^^ keyword.operator.heredoc.perl
+  Heredoc
+# ^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+EOT-EOT-EOT
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#          ^ - meta.string
 
 # MUST NOT BE HEREDOC
   (1 << 0) ;
@@ -1082,11 +1106,11 @@ EOT
   %
 # ^ keyword.operator.arithmetic.perl
   !~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   =~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   ~~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   <=>
 # ^^^ keyword.operator.comparison.perl
   //
@@ -3645,7 +3669,7 @@ my (
 #           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
-#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                          ^ punctuation.section.generic.end.perl
 #                           ^ punctuation.terminator.statement.perl
 #                             ^ punctuation.section.block.end.perl
@@ -3724,7 +3748,7 @@ our $VERSION = do {
 #            ^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl
 #                      ^^^^ - constant.numeric
 #                           ^ punctuation.section.generic.end.perl
-#                             ^^ keyword.operator.binary.perl
+#                             ^^ keyword.operator.comparison.perl
 #                                ^ punctuation.section.generic.begin.perl
 #                                 ^^^ meta.string.perl string.regexp.perl source.regexp
 #                                    ^ punctuation.section.generic.end.perl
@@ -4732,7 +4756,7 @@ state
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
-#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
   print(grep /^Client-/, $res->header_field_names)

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.css</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*[)\]}]</string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			# any text
+			^.*
+			# follwed by opening bracket
+			[(\[{]
+			# optionally followed by...
+			(?<balanced>
+			# balanced parentheses
+			  \( (?: \g<balanced> | [^)] )* \)
+			# balanced brackets
+		  	| \[ (?: \g<balanced> | [^]] )* \]
+			# balanced braces
+			| \{ (?: \g<balanced> | [^}] )* \}
+			# double quoted string with ignored escaped quotation marks
+			| \" .*? (?<![^\\]\\)(?<![\\]{3})\"
+			# single quoted string with ignored escaped quotation marks
+			| \' .*? (?<![^\\]\\)\'
+			# block comment
+			| /\* .*? \*/
+			# anything but closing brackets
+			| [^])}]
+			)*
+			# ... until end of line
+			$
+		]]></string>
+		<key>preserveIndent</key>
+		<false/>
+		<key>unIndentedLinePattern</key>
+		<string><![CDATA[(?x)
+			# standalone begin or end of block comments
+			#   ST doesn't apply `Indentation Rules - Comments`, because
+			#   comment scope doesn't cover the whole line. So they need
+			#   to be excluded from indentation engine here.
+			^\s* (?: /\*(?!.*\*/) | \*+/ )
+		]]></string>
+	</dict>
+</dict>
+</plist>
