@@ -439,15 +439,17 @@ where escape characters are ignored.\).
 #                 ^^ variable.other.backref-and-recursion.regexp
 
 (?x)(?<named_group>test)(?&named_group)(?-x)
-#   ^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
-#                       ^^^^^^^^^^^^^^^ meta.modifier.regexp
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
 #    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
-#      ^^^^^^^^^^^ entity.name.capture-group.regexp
 #     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^^^^^^^^ entity.name.capture-group.regexp
 #                 ^ punctuation.definition.capture-group-name.end.regexp
 #                  ^^^^ - keyword.other.named-capture-group.regexp
+#                      ^ punctuation.section.group.end.regexp
+#                       ^ punctuation.section.group.begin.regexp
 #                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#                                     ^ punctuation.section.group.end.regexp
 
 (?x)(?<named-group>test)(?&named-group)(?-x)
 #     ^ punctuation.definition.capture-group-name.begin.regexp

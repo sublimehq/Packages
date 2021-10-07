@@ -59,19 +59,19 @@ contexts:
     - meta_prepend: true
     - match: (\()(\?([+-]?\d+))(\))
       captures:
-        0: meta.modifier.regexp
-        1: punctuation.definition.modifier.begin.regexp
+        0: meta.group.regexp
+        1: punctuation.section.group.begin.regexp
         2: keyword.other.backref-and-recursion.regexp
         3: variable.other.backref-and-recursion.regexp
-        4: punctuation.definition.modifier.end.regexp
+        4: punctuation.section.group.end.regexp
       push: maybe-unexpected-quantifiers
     - match: (\()(\?&([\w-]+))(\))
       captures:
-        0: meta.modifier.regexp
-        1: punctuation.definition.modifier.begin.regexp
+        0: meta.group.regexp
+        1: punctuation.section.group.begin.regexp
         2: keyword.other.backref-and-recursion.regexp
         3: variable.other.backref-and-recursion.regexp
-        4: punctuation.definition.modifier.end.regexp
+        4: punctuation.section.group.end.regexp
       push: maybe-unexpected-quantifiers
 
   charset-body:
