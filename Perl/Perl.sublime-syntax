@@ -1312,7 +1312,7 @@ contexts:
       scope: punctuation.section.braces.begin.perl
       set:
         - meta_scope: meta.braces.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
         - match: \}
           scope: punctuation.section.braces.end.perl
           pop: true
@@ -1321,7 +1321,7 @@ contexts:
       scope: punctuation.section.brackets.begin.perl
       set:
         - meta_scope: meta.brackets.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
         - match: \]
           scope: punctuation.section.brackets.end.perl
           pop: true
@@ -1330,7 +1330,7 @@ contexts:
       scope: punctuation.section.generic.begin.perl
       set:
         - meta_scope: meta.generic.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
@@ -1339,7 +1339,7 @@ contexts:
       scope: punctuation.section.parens.begin.perl
       set:
         - meta_scope: meta.parens.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
         - match: \)
           scope: punctuation.section.parens.end.perl
           pop: true
