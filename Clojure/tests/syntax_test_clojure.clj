@@ -927,6 +927,9 @@
 
 ; ## Invalid
 
+  #"{1}"
+;   ^^^ string.regexp.clojure source.regexp invalid.illegal.unexpected-quantifier.regexp
+
   # ""
 ; ^ keyword.operator.macro.clojure
 ;  ^^^- string.regexp.clojure
