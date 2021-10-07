@@ -342,7 +342,6 @@ contexts:
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
-    - match: \s+
     - match: \b(?i:add(?:\s+column)?|alter\s+column)\b
       scope: keyword.other.ddl.sql
     - include: ddl-alter-common

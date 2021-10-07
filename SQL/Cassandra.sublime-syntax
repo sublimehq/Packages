@@ -16,6 +16,7 @@ variables:
       UUID|VARCHAR|VARINT)
     )\b)
   types_with_optional_number: (?!)
+  #reserved: (?:;)
 
 contexts:
   expressions:
@@ -30,8 +31,12 @@ contexts:
       scope: keyword.other.dml.cql
     - match: \{
       scope: punctuation.section.braces.begin.cql
-      push: inside-dict
-    - match: \b(?i:with)\b
+      push: inside-dict-or-set
+    - match: \b((?i:with))\s+(\w+)?
+      captures:
+        1: keyword.other.cql
+        2: string.unquoted.cql
+    - match: \b(?i:primary\s+key)\b
       scope: keyword.other.cql
 
   dml-statements:
@@ -60,10 +65,22 @@ contexts:
     - match: \b(?i:materialized)\b
       scope: keyword.other.cql
 
-  inside-dict:
+  inside-dict-or-set:
     - match: \}
       scope: punctuation.section.braces.end.cql
       pop: 1
     - match: ':'
       scope: punctuation.separator.mapping.key-value.cql
     - include: expressions
+    - match: \w+
+      scope: meta.mapping.key.cql string.unquoted.cql
+
+  ddl-create-target:
+    - meta_prepend: true
+    - match: \b(?i:with)\b
+      scope: keyword.other.cql
+    - match: \b(?i:clustering)\b
+      scope: keyword.other.cql
+
+  ddl-alter-common:
+    - meta_prepend: false

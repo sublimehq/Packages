@@ -120,6 +120,19 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     test text,
     PRIMARY KEY(userid, other_id)
 );
+CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
+    userid uuid,
+    other_id uuid,
+    test text,
+    PRIMARY KEY ((userid), other_id)
+);
+CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
+    userid uuid,
+    other_id uuid,
+    test int,
+    PRIMARY KEY ((userid, other_id), test)
+);
+
 CREATE TABLE IF NOT EXISTS date_by_userid (
     userid uuid PRIMARY KEY,
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
@@ -155,9 +168,20 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --         ^ variable.language.wildcard.asterisk
     FROM foo
     WHERE bar IS NOT NULL
-    PRIMARY KEY (foo_id, bar_id) -- TODO: scope correctly
+    PRIMARY KEY (foo_id, bar_id)
+--  ^^^^^^^^^^^ keyword.other
+--              ^^^^^^^^^^^^^^^^ meta.group
+--              ^ punctuation.section.group.begin
+--               ^^^^^^ meta.column-name
+--                     ^ punctuation.separator.sequence
+--                       ^^^^^^ meta.column-name
+--                             ^ punctuation.section.group.end
     WITH comment = 'allow querying by relationship more easily';
 --  ^^^^ keyword.other
+--       ^^^^^^^ string.unquoted
+--               ^ keyword.operator
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--                                                             ^ punctuation.terminator.statement
 
 CREATE TYPE user_defined_type (
 --^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
@@ -169,3 +193,76 @@ CREATE TYPE user_defined_type (
     type2 text,
     type3 text,
     type4 text);
+
+
+INSERT INTO something_by_someid (someid, somebool, somemap)
+VALUES (
+    583395ca-0845-4517-b0f7-97bb0ea86b53,
+    false,
+    {77a969b4-378a-4fb0-b531-83404ee3c395:{id:22f7244c-c6d7-4bd7-aeac-a886c4242cd8,sometext:'text here',empty:{}}}
+    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.uuid
+    --                                   ^ punctuation.separator.mapping.key-value
+    --                                    ^ punctuation.section.braces.begin
+    --                                     ^^ meta.mapping.key string.unquoted
+    --                                       ^ punctuation.separator.mapping.key-value
+    --                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.uuid
+    --                                                                            ^ punctuation.separator.sequence
+    --                                                                             ^^^^^^^^ meta.mapping.key string.unquoted
+    --                                                                                     ^ punctuation.separator.mapping.key-value
+    --                                                                                      ^^^^^^^^^^^ string.quoted.single
+    --                                                                                                 ^ punctuation.separator.sequence
+    --                                                                                                  ^^^^^ meta.mapping.key string.unquoted
+    --                                                                                                       ^ punctuation.separator.mapping.key-value
+    --                                                                                                        ^ punctuation.section.braces.begin
+    --                                                                                                         ^^^ punctuation.section.braces.end
+);
+
+INSERT INTO something_by_someid (someid, someset)
+VALUES (22f7244c-c6d7-4bd7-aeac-a886c4242cd8,{'item1','item2','item3'});
+--                                           ^ punctuation.section.braces.begin
+--                                            ^^^^^^^ string.quoted.single
+--                                                   ^ punctuation.separator.sequence
+--                                                    ^^^^^^^ string.quoted.single
+--                                                           ^ punctuation.separator.sequence
+--                                                            ^^^^^^^ string.quoted.single
+--                                                                   ^ punctuation.section.braces.end
+--                                                                    ^ meta.group punctuation.section.group.end
+--                                                                     ^ punctuation.terminator.statement
+
+CREATE TABLE IF NOT EXISTS someentity_by_somefield (
+    entityid uuid,
+    datecreated timestamp,
+    somefield int,
+    anotherfield text
+PRIMARY KEY (entityid, datecreated, somefield)
+) WITH CLUSTERING ORDER BY (datecreated DESC, somefield ASC);
+--^^^^^^^^^^^^^^^^ meta.create
+-- ^^^ keyword.other
+--     ^^^^^^^^^^ keyword.other
+--                ^^^^^^^^ keyword.other.DML
+--                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+--                         ^ punctuation.section.group.begin
+--                          ^^^^^^^^^^^ meta.column-name
+--                                      ^^^^ keyword.other.order
+--                                          ^ punctuation.separator.sequence
+--                                            ^^^^^^^^^ meta.column-name
+--                                                      ^^^ keyword.other.order
+--                                                         ^ punctuation.section.group.end
+--                                                          ^ punctuation.terminator.statement
+
+ALTER TABLE someentity_by_somefield add usefulfield text;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter
+-- ^^^^^^^^ keyword.other.ddl
+--          ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                                  ^^^ keyword.other.ddl
+--                                      ^^^^^^^^^^^ meta.column-name
+--                                                  ^^^^ storage.type
+--                                                      ^ punctuation.terminator.statement
+
+ALTER TABLE someentity_by_somefield
+    add usefulfield text;
+--  ^^^^^^^^^^^^^^^^^^^^ meta.alter
+--  ^^^ keyword.other.ddl
+--      ^^^^^^^^^^^ meta.column-name
+--                  ^^^^ storage.type
+--                      ^ punctuation.terminator.statement
