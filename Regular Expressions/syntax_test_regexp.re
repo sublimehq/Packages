@@ -134,70 +134,88 @@ hello++
 ###################
 
  [b-c]
-#^^^^^ meta.set
-#^ punctuation.definition.set
-#    ^ punctuation.definition.set
-# ^^^ constant.other.range
-#  ^ punctuation.separator.sequence
+#^^^^^ meta.set.regexp
+#^ punctuation.definition.set.begin.regexp
+#    ^ punctuation.definition.set.end.regexp
+# ^^^ constant.other.range.regexp
+#  ^ punctuation.separator.sequence.regexp
 
 [\x00-\x{A}]
-# <- punctuation.definition.set
-#          ^ punctuation.definition.set
+# <- meta.set.regexp punctuation.definition.set.begin.regexp
+#^^^^^^^^^^^ meta.set.regexp
 #^^^^^^^^^^ constant.other.range
-#    ^ punctuation.separator.sequence
 #^^^^ constant.character.escape
+#    ^ punctuation.separator.sequence - constant.character
 #     ^^^^^ constant.character.escape
+#          ^ punctuation.definition.set.end.regexp
 
 [[a-z]&&[:ascii:]]
+# <- meta.set.regexp punctuation.definition.set.begin.regexp
 #^^^^^ meta.set meta.set
-#     ^^ keyword.operator.intersection
+#^ punctuation.definition.set.begin.regexp
 # ^^^ constant.other.range
+#    ^ punctuation.definition.set.end.regexp
+#     ^^ keyword.operator.intersection
+#       ^ punctuation.definition.set.begin.regexp
 #        ^^^^^^^ constant.other.posix-class
+#               ^^ punctuation.definition.set.end.regexp
 
 [^abc\w0-9]
-# <- punctuation.definition.set
-#^ punctuation.definition.set
-#    ^^ keyword.control.character-class
-#       ^ punctuation.separator.sequence
+#^^^^^^^^^^ meta.set.regexp
+# <- punctuation.definition.set.begin.regexp
+#^ keyword.operator.logical.regexp
+#    ^^ keyword.control.character-class.regexp
+#      ^^^ constant.other.range.regexp
+#       ^ punctuation.separator.sequence.regexp
+#         ^ punctuation.definition.set.end.regexp
 
 [a-c-x]
 #^^^ constant.other.range
 #   ^^ - constant.other.range
 
 []-]
-#  ^ punctuation.definition.set
+# <- punctuation.definition.set.begin.regexp
+#^ - punctuation
 # ^ - constant.other.range
+#  ^ punctuation.definition.set.end.regexp
 
 [-a-n]
-#    ^ punctuation.definition.set
+# <- punctuation.definition.set.begin.regexp
 #^ - constant.other.range
 # ^^^ constant.other.range
+#    ^ punctuation.definition.set.end.regexp
 
 [\-a]
+# <- punctuation.definition.set.begin.regexp
 #^^^ - constant.other.range
-#   ^ punctuation.definition.set
+#   ^ punctuation.definition.set.end.regexp
 
 [a-z\-9]
+# <- punctuation.definition.set.begin.regexp
 #   ^^^ - constant.other.range
-#      ^ punctuation.definition.set
+#      ^ punctuation.definition.set.end.regexp
 
 [\--z]
+# <- punctuation.definition.set.begin.regexp
 #^^^^ constant.other.range
-#    ^ punctuation.definition.set
+#    ^ punctuation.definition.set.end.regexp
 
 [a-\z]
+# <- punctuation.definition.set.begin.regexp
 #^^^^ constant.other.range
-#    ^ punctuation.definition.set
+#    ^ punctuation.definition.set.end.regexp
 
 [a-\-]
+# <- punctuation.definition.set.begin.regexp
 #^^^^ constant.other.range
-#    ^ punctuation.definition.set
+#    ^ punctuation.definition.set.end.regexp
 
 (?:a|b|c)
-#^^^^^^^^ meta.group
-# <- punctuation.section.group.begin.regexp
-#^^ constant.other.assertion
-#   ^ keyword.operator
+#^^^^^^^^ meta.group.regexp
+# <- meta.group.regexp punctuation.section.group.begin.regexp
+#^^ constant.other.assertion.regexp
+#   ^ keyword.operator.alternation.regexp
+#     ^ keyword.operator.alternation.regexp
 #       ^ punctuation.section.group.end.regexp
 
 
@@ -483,24 +501,33 @@ where escape characters are ignored.\).
 ###################
 
 (?![a-z]+?)
-#^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
+# <- meta.group.regexp punctuation.section.group.begin.regexp
+#^^^^^^^^^^ meta.group.regexp - meta.group meta.group
+#^^ constant.other.assertion.regexp
 #  ^^^^^ meta.set.regexp
-#  ^ punctuation.definition.set.regexp
-#      ^ punctuation.definition.set.regexp
+#  ^ punctuation.definition.set.begin.regexp
 #   ^^^ constant.other.range.regexp
+#      ^ punctuation.definition.set.end.regexp
 #       ^^ keyword.operator.quantifier.regexp
+#         ^ punctuation.section.group.end.regexp
 
 (?![abc].\g1(?m)$)[\g1]
+# <- punctuation.section.group.begin.regexp
 #^^ constant.other.assertion.regexp
-#  ^ punctuation.definition.set.regexp
-#      ^ punctuation.definition.set.regexp
+#  ^ punctuation.definition.set.begin.regexp
+#      ^ punctuation.definition.set.end.regexp
 #       ^ keyword.other.any.regexp
 #        ^^^ keyword.other.backref-and-recursion.regexp
 #           ^^^^ meta.group.regexp meta.modifier.regexp
+#           ^ punctuation.definition.modifier.begin.regexp
 #            ^^ storage.modifier.mode.regexp
+#              ^ punctuation.definition.modifier.end.regexp
 #               ^ keyword.control.anchors.regexp
+#                ^ punctuation.section.group.end.regexp
+#                 ^ punctuation.definition.set.begin.regexp
 #                  ^^ constant.character.escape.regexp
 #                  ^^^ - keyword.other.backref-and-recursion.regexp
+#                     ^ punctuation.definition.set.end.regexp
 
 (?<=blah)
 #^^^ constant.other.assertion.regexp

@@ -183,15 +183,16 @@ contexts:
       push: maybe-unexpected-quantifiers
 
   charsets:
-    - match: (\[\^?)\]?
+    - match: (\[)(\^?)\]?
       captures:
-        1: punctuation.definition.set.regexp
+        1: punctuation.definition.set.begin.regexp
+        2: keyword.operator.logical.regexp
       push: charset-body
 
   charset-body:
     - meta_scope: meta.set.regexp
     - match: \]
-      scope: punctuation.definition.set.regexp
+      scope: punctuation.definition.set.end.regexp
       pop: 1
     - include: charset-ranges
     - include: character-classes
