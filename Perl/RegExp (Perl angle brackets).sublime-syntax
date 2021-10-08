@@ -1,0 +1,19 @@
+%YAML 1.2
+---
+name: Regular Expression (Perl inside angle brackets)
+scope: source.regexp.perl.angle-brackets
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp.sublime-syntax
+
+contexts:
+  base-literal:
+    - meta_prepend: true
+    - match: (?=\>)
+      pop: true
+
+  base-literal-extended:
+    - meta_prepend: true
+    - match: (?=\>)
+      pop: true
