@@ -431,7 +431,7 @@ where escape characters are ignored.\).
 (?1){1}
 #^^ keyword.other.backref-and-recursion.regexp
 # ^ variable.other.backref-and-recursion.regexp
-#   ^^^ invalid.illegal.unexpected-quantifier.regexp
+#   ^^^ keyword.operator.quantifier.regexp
 
 (1)
 #^ - keyword - variable
@@ -439,7 +439,7 @@ where escape characters are ignored.\).
 (?&named_group){1}
 #^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #  ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
-#              ^^^ invalid.illegal.unexpected-quantifier.regexp
+#              ^^^ keyword.operator.quantifier.regexp
 
 (hello)(?-1)(?+1)(wow) relative capture groups are supported
 #       ^^^ keyword.other.backref-and-recursion.regexp

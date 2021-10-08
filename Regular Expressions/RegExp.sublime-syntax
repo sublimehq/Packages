@@ -32,7 +32,6 @@ contexts:
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.section.group.end.regexp
       pop: 3
-      push: maybe-unexpected-quantifiers
     - match: (\?&([\w-]+))(\))
       captures:
         0: meta.group.regexp
@@ -40,7 +39,6 @@ contexts:
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.section.group.end.regexp
       pop: 3
-      push: maybe-unexpected-quantifiers
     - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
       scope: keyword.other.named-capture-group.regexp
       captures:
