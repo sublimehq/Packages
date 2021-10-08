@@ -27,14 +27,12 @@ contexts:
     - meta_prepend: true
     - match: (\?([+-]?\d+))(\))
       captures:
-        0: meta.group.regexp
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.section.group.end.regexp
       pop: 3
     - match: (\?&([\w-]+))(\))
       captures:
-        0: meta.group.regexp
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.section.group.end.regexp
