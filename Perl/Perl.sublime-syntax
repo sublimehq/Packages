@@ -1312,38 +1312,38 @@ contexts:
       scope: punctuation.section.braces.begin.perl
       set:
         - meta_scope: meta.braces.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \}
           scope: punctuation.section.braces.end.perl
           pop: true
-        - include: scope:source.regexp.perl.braces#base-literal-extended
+        - include: scope:source.regexp.perl.braces
     - match: \[
       scope: punctuation.section.brackets.begin.perl
       set:
         - meta_scope: meta.brackets.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \]
           scope: punctuation.section.brackets.end.perl
           pop: true
-        - include: scope:source.regexp.perl.brackets#base-literal-extended
+        - include: scope:source.regexp.perl.brackets
     - match: \<
       scope: punctuation.section.generic.begin.perl
       set:
         - meta_scope: meta.generic.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
-        - include: scope:source.regexp.perl.angle-brackets#base-literal-extended
+        - include: scope:source.regexp.perl.angles
     - match: \(
       scope: punctuation.section.parens.begin.perl
       set:
         - meta_scope: meta.parens.perl
-        - meta_content_scope: meta.string.perl string.regexp.perl meta.mode.extended.regexp
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \)
           scope: punctuation.section.parens.end.perl
           pop: true
-        - include: scope:source.regexp.perl.parens#base-literal-extended
+        - include: scope:source.regexp.perl.parens
     - include: else-pop
 
   quoted-like-args-interpolated:

@@ -23,6 +23,11 @@ contexts:
     - match: ''
       push: base-literal
 
+  main-extended:
+    - include: unexpected-quantifiers
+    - match: ''
+      push: base-literal-extended
+
   # This is the default context
   base-literal:
     - meta_scope: meta.mode.basic.regexp

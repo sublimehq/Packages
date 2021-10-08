@@ -5,15 +5,7 @@ scope: source.regexp.perl.braces
 version: 2
 hidden: true
 
-extends: Packages/Regular Expressions/RegExp.sublime-syntax
+extends: RegExp (Perl brackets).sublime-syntax
 
-contexts:
-  base-literal:
-    - meta_prepend: true
-    - match: (?=\})
-      pop: true
-
-  base-literal-extended:
-    - meta_prepend: true
-    - match: (?=\})
-      pop: true
+variables:
+  terminator: \}
