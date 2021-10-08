@@ -8,6 +8,7 @@ hidden: true
 extends: RegExp (Perl).sublime-syntax
 
 variables:
+  interpolation_begin: (?=[@$%][^{{terminator}}])
   terminator: \]
 
 contexts:

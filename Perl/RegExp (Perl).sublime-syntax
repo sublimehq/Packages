@@ -8,7 +8,7 @@ hidden: true
 extends: Packages/Regular Expressions/RegExp.sublime-syntax
 
 variables:
-  terminator: ''
+  interpolation_begin: (?=[@$%])
 
 contexts:
 
@@ -17,7 +17,7 @@ contexts:
     - include: perl-interpolations
 
   perl-interpolations:
-    - match: (?=[@$%][^{{terminator}}])
+    - match: '{{interpolation_begin}}'
       push:
         - perl-interpolations-meta
         - perl-interpolations-body
