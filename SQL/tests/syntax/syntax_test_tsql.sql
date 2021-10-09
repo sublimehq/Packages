@@ -1521,5 +1521,28 @@ CREATE PROCEDURE dbo.RetrievePersonAddress
 AS
 SELECT * FROM Person.Address
 WHERE City = @city_name AND PostalCode = @postal_code
-OPTION ( OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN) ); -- TODO:
+OPTION ( OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN) );
+-- ^^^ keyword.other.DML
+--     ^ punctuation.section.group.begin
+--       ^^^^^^^^^^^^ keyword.other
+--                    ^ punctuation.section.group.begin
+--                     ^^^^^^^^^^ variable.other.readwrite
+--                                ^ keyword.operator.comparison
+--                                  ^^^^^^^^^ string.quoted.single
+--                                           ^ punctuation.separator.sequence
+--                                             ^^^^^^^^^^^^ variable.other.readwrite
+--                                                          ^^^^^^^ keyword.other
+--                                                                 ^ punctuation.section.group.end
+--                                                                   ^ punctuation.section.group.end
+--                                                                    ^ punctuation.terminator.statement
 GO
+
+SELECT * FROM Person.Address
+WHERE City = @city_name AND PostalCode = @postal_code
+OPTION (OPTIMIZE FOR UNKNOWN);
+--^^^^ keyword.other.DML - meta.group
+--     ^^^^^^^^^^^^^^^^^^^^^^ meta.group
+--     ^ punctuation.section.group.begin
+--      ^^^^^^^^^^^^^^^^^^^^ keyword.other
+--                          ^ punctuation.section.group.end
+--                           ^ punctuation.terminator.statement

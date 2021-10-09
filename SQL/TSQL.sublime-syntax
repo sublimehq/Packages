@@ -299,7 +299,7 @@ contexts:
     - match: \b(?i:(option))\b\s*(\()
       captures:
         1: keyword.other.DML.tsql
-        2: punctuation.section.group.begin.sql
+        2: meta.group.sql punctuation.section.group.begin.sql
       push: inside-with-group
     - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
@@ -436,16 +436,23 @@ contexts:
 
   with-paren-or-pop:
     - match: \(
-      scope: punctuation.section.group.begin.sql
+      scope: meta.group.sql punctuation.section.group.begin.sql
       set: inside-with-group
     - match: (?=\S)
       set: maybe-table-alias
 
   inside-with-group:
-    - meta_scope: meta.group.sql
+    - meta_content_scope: meta.group.sql
     - match: \)
-      scope: punctuation.section.group.end.sql
+      scope: meta.group.sql punctuation.section.group.end.sql
       pop: 1
+    - match: \b(?i:OPTIMIZE\s+FOR\s+UNKNOWN)\b
+      scope: keyword.other.tsql
+    - match: \b((?i:OPTIMIZE\s+FOR))\s*(\()
+      captures:
+        1: keyword.other.tsql
+        2: meta.group.tsql punctuation.section.group.begin.tsql
+      push: expressions-or-unknown
     - match: \w+
       scope: constant.language.with.tsql
     - match: ','
@@ -664,3 +671,12 @@ contexts:
     - meta_content_scope: variable.function.tsql
     - match: ''
       pop: 1
+
+  expressions-or-unknown:
+    - meta_content_scope: meta.group.tsql
+    - match: \b(?i:unknown)\b
+      scope: keyword.other.tsql
+    - match: \)
+      scope: meta.group.tsql punctuation.section.group.end.tsql
+      pop: 1
+    - include: expressions
