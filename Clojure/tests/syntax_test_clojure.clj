@@ -925,6 +925,24 @@
   "
 ; ^ string.regexp.clojure punctuation.definition.string.end.clojure
 
+ #"\\"
+; ^^^^ string.regexp.clojure
+; ^ punctuation.definition.string.begin.clojure
+;  ^^ constant.character.escape.regexp
+;    ^ punctuation.definition.string.end.clojure
+
+ #"\\\""
+; ^^^^^^ string.regexp.clojure
+; ^ punctuation.definition.string.begin.clojure
+;  ^^^^ constant.character.escape.regexp
+;      ^ punctuation.definition.string.end.clojure
+
+ #"\\\\"
+; ^^^^^^ string.regexp.clojure
+; ^ punctuation.definition.string.begin.clojure
+;  ^^^^ constant.character.escape.regexp
+;      ^ punctuation.definition.string.end.clojure
+
 ; ## Invalid
 
   #"{1}"
