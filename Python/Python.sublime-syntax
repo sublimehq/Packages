@@ -50,6 +50,78 @@ variables:
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
 
+  builtin_exceptions: |-
+    \b(?x:
+      ArithmeticError
+    | AssertionError
+    | AttributeError
+    | BaseException
+    | BlockingIOError
+    | BrokenPipeError
+    | BufferError
+    | BytesWarning
+    | ChildProcessError
+    | ConnectionAbortedError
+    | ConnectionRefusedError
+    | ConnectionResetError
+    | DeprecationWarning
+    | EnvironmentError
+    | EOFError
+    | Exception
+    | FileExistsError
+    | FileNotFoundError
+    | FloatingPointError
+    | FutureWarning
+    | GeneratorExit
+    | ImportError
+    | ImportWarning
+    | IndentationError
+    | IndexError
+    | InterruptedError
+    | IOError
+    | IsADirectoryError
+    | KeyboardInterrupt
+    | KeyError
+    | LookupError
+    | MemoryError
+    | ModuleNotFoundError
+    | NameError
+    | NotADirectoryError
+    | NotImplemented
+    | NotImplementedError
+    | OSError
+    | OverflowError
+    | PendingDeprecationWarning
+    | PermissionError
+    | ProcessLookupError
+    | RecursionError
+    | ReferenceError
+    | ResourceWarning
+    | RuntimeError
+    | RuntimeWarning
+    | StandardError
+    | StopAsyncIteration
+    | StopIteration
+    | SyntaxError
+    | SyntaxWarning
+    | SystemError
+    | SystemExit
+    | TabError
+    | TimeoutError
+    | TypeError
+    | UnboundLocalError
+    | UnicodeDecodeError
+    | UnicodeEncodeError
+    | UnicodeTranslateError
+    | UnicodeWarning
+    | UserWarning
+    | ValueError
+    | VMSError
+    | Warning
+    | WindowsError
+    | ZeroDivisionError
+    )\b
+
   builtin_types: |-
     \b(?x:
       bool | bytearray | bytes | complex | dict | float | frozenset | int
@@ -1500,21 +1572,7 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
 
   builtin-exceptions:
-    - match: |-
-        (?x)\b(
-          (?:
-            Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
-            Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
-            FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
-            Import|Indentation|Index|Key|Lookup|Memory|ModuleNotFound|Name|NotADirectory|
-            NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
-            Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
-            Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
-          )Error|
-          (?:(?:Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
-          (?:Base)?Exception|
-          SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
-        )\b
+    - match: '{{builtin_exceptions}}'
       scope: support.type.exception.python
 
   builtin-functions:
