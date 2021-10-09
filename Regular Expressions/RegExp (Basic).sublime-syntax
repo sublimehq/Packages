@@ -6,16 +6,21 @@ version: 2
 hidden: true
 
 variables:
-  known_char_escape: '\\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
-  invalid_char_escape: '\\[xcCM]'
-  char_escape: '\\.'
-  ranged_quantifier: '\{\d+(,\d*)?\}'
-  lazy_or_possessive: '[?+]?'
-  character_quantifier: '[?*+]'
-  char_class: '\\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(L&|[A-Z][a-z]?)))'
+  # escapes
+  char_class: \\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(?:L&|[A-Z][a-z]?)))
+  char_escape: \\.
+  known_char_escape: \\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)
+  invalid_char_escape: \\[xcCM]
+
+  # modifiers
   activate_x_mode: (?:\?[ims]*x[ixms]*(?:-[ims]+)?)
   deactivate_x_mode: (?:\?[ims]*-[ims]*x[imxs]*)
   other_modifiers: \?(?:[ixms]*-)?[ixms]+
+
+  # quantifiers
+  character_quantifier: '[?*+]'
+  lazy_or_possessive: '[?+]?'
+  ranged_quantifier: \{\d+(?:,\d*)?\}
 
 contexts:
   main:
