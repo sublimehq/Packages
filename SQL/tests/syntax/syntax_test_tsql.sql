@@ -938,21 +938,52 @@ USE [AdventureWorks]
 GO
 SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
 FROM [Production].[ProductReview] PR
-WITH (INDEX = IX_ProductReview_ProductID_Name) -- TODO: scope index name correctly
+WITH (INDEX = IX_ProductReview_ProductID_Name)
+--    ^^^^^ keyword.other
+--          ^ keyword.operator.assignment
+--            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.index-name
 INNER JOIN [Production].[Product] PP
-WITH (INDEX = [AK_Product_Name]) ON PR.ProductID = PP.ProductID -- TODO: scope index name correctly
+WITH (INDEX = [AK_Product_Name]) ON PR.ProductID = PP.ProductID
+--    ^^^^^ keyword.other
+--          ^ keyword.operator.assignment
+--            ^^^^^^^^^^^^^^^^^ meta.index-name
+--            ^ punctuation.definition.identifier.begin
+--                            ^ punctuation.definition.identifier.end
 
 SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
 FROM [Production].[ProductReview] PR
-WITH (TABLOCK, INDEX(myindex, [anotherindex])) -- TODO:
+WITH (TABLOCK, INDEX(myindex, [anotherindex]))
+--    ^^^^^^^ constant.language.with
+--           ^ punctuation.separator.sequence
+--             ^^^^^ keyword.other
+--                  ^ punctuation.section.group.begin
+--                   ^^^^^^^ meta.index-name
+--                          ^ punctuation.separator.sequence
+--                            ^^^^^^^^^^^^^^ meta.index-name
+--                                          ^^ punctuation.section.group.end
 
 SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
 FROM [Production].[ProductReview] PR
-WITH (TABLOCK, INDEX(1)) -- TODO:
+WITH (TABLOCK, INDEX(1))
+--             ^^^^^ keyword.other
+--                  ^^^ meta.group meta.group
+--                   ^ meta.number.integer.decimal constant.numeric.value
 
 SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
 FROM [Production].[ProductReview] PR
-WITH (FORCESEEK (MyIndex (col1, col2, col3)) -- TODO:
+WITH (FORCESEEK (MyIndex (col1, col2, col3))
+--    ^^^^^^^^^ keyword.other
+--              ^ punctuation.section.group.begin
+--               ^^^^^^^ meta.index-name
+--                       ^^^^^^^^^^^^^^^^^^ meta.group.table-columns
+--                       ^ punctuation.section.group.begin
+--                        ^^^^ meta.column-name
+--                            ^ punctuation.separator.sequence
+--                              ^^^^ meta.column-name
+--                                  ^ punctuation.separator.sequence
+--                                    ^^^^ meta.column-name
+--                                        ^ punctuation.section.group.end
+--                                         ^ punctuation.section.group.end
 -----------------
 
 

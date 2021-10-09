@@ -257,12 +257,9 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - match: 0x\h+
-      scope: meta.number.integer.hexadecimal.tsql constant.numeric.value.tsql
     - match: \b(?i:cast)\b
       scope: support.function.tsql
       push: cast
-    - include: variables
     - include: with
     - match: \b(?i:output)\b
       scope: storage.modifier.output.tsql
@@ -277,6 +274,12 @@ contexts:
     - match: \b(?i:when\s+(?:not\s+)?matched)\b
       scope: keyword.control.conditional.case.sql
       push: merge-condition
+
+  numbers-variables-and-strings:
+    - meta_prepend: true
+    - include: variables
+    - match: 0x\h+
+      scope: meta.number.integer.hexadecimal.tsql constant.numeric.value.tsql
 
   dml-statements:
     - meta_append: true
@@ -453,6 +456,21 @@ contexts:
         1: keyword.other.tsql
         2: meta.group.tsql punctuation.section.group.begin.tsql
       push: expressions-or-unknown
+    - match: \b((?i:OPTIMIZE\s+FOR))\s*(\()
+      captures:
+        1: keyword.other.tsql
+        2: meta.group.tsql punctuation.section.group.begin.tsql
+      push: expressions-or-unknown
+    - match: \b((?i:INDEX|FORCESEEK))\s*(\()
+      captures:
+        1: keyword.other.tsql
+        2: meta.group.tsql punctuation.section.group.begin.tsql
+      push: index-names
+    - match: \b((?i:INDEX))\s*(=)
+      captures:
+        1: keyword.other.tsql
+        2: keyword.operator.assignment.tsql
+      push: [index-name, single-identifier-after-whitespace]
     - match: \w+
       scope: constant.language.with.tsql
     - match: ','
@@ -680,3 +698,20 @@ contexts:
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
     - include: expressions
+
+  index-names:
+    - meta_content_scope: meta.group.tsql
+    - match: ','
+      scope: punctuation.separator.sequence.tsql
+    - match: \)
+      scope: meta.group.tsql punctuation.section.group.end.tsql
+      pop: 1
+    - include: numbers-variables-and-strings
+    - include: ddl-table-creation-columns
+    - match: (?=\S)
+      push: [index-name, single-identifier]
+
+  index-name:
+    - meta_content_scope: meta.index-name.tsql
+    - match: ''
+      pop: 1

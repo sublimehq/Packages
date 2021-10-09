@@ -189,15 +189,10 @@ contexts:
     - match: (?i)\bas\b
       scope: keyword.operator.assignment.alias.sql
       push: [column-alias, single-identifier-after-whitespace]
-    - include: numbers
-    - match: (?i)\b(?:true|false)\b
-      scope: constant.language.boolean.sql
-    - match: (?i:\bnull\b)
-      scope: constant.language.null.sql
     - match: \b(?i:case)\b
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
-    - include: strings
+    - include: numbers-variables-and-strings
     - include: operators
     - include: built-in-aggregate-function-calls
     - include: built-in-scalar-function-calls
@@ -211,6 +206,14 @@ contexts:
       scope: punctuation.separator.sequence.sql
     - match: (?=;)
       pop: 1
+
+  numbers-variables-and-strings:
+    - include: numbers
+    - match: (?i)\b(?:true|false)\b
+      scope: constant.language.boolean.sql
+    - match: (?i:\bnull\b)
+      scope: constant.language.null.sql
+    - include: strings
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
