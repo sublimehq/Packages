@@ -648,3 +648,19 @@ contexts:
     - match: \b(?i:with)\b
       scope: keyword.other.tsql
       set: ddl-table-creation-columns
+
+  user-defined-function-calls:
+    - meta_append: true
+    - match: |-
+        (?x)
+        (?=
+          (?:(?:\b\w+|\[[^]]+\])\.)*
+          (?:   \b\w+|\[[^]]+\])
+          \s*\(
+        )
+      push: [begin-method-call-paren, function-name, single-identifier]
+
+  function-name:
+    - meta_content_scope: variable.function.tsql
+    - match: ''
+      pop: 1

@@ -941,6 +941,18 @@ FROM [Production].[ProductReview] PR
 WITH (INDEX = IX_ProductReview_ProductID_Name) -- TODO: scope index name correctly
 INNER JOIN [Production].[Product] PP
 WITH (INDEX = [AK_Product_Name]) ON PR.ProductID = PP.ProductID -- TODO: scope index name correctly
+
+SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
+FROM [Production].[ProductReview] PR
+WITH (TABLOCK, INDEX(myindex, [anotherindex])) -- TODO:
+
+SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
+FROM [Production].[ProductReview] PR
+WITH (TABLOCK, INDEX(1)) -- TODO:
+
+SELECT PR.ProductID, PR.ReviewerName, PR.Comments, PP.Name
+FROM [Production].[ProductReview] PR
+WITH (FORCESEEK (MyIndex (col1, col2, col3)) -- TODO:
 -----------------
 
 
@@ -1232,7 +1244,14 @@ SELECT p.BusinessEntityID ,
        p.MiddleName ,
        p.LastName ,
        pp.PhoneNumber ,
-       dbo.some_func(p.BusinessEntityID) -- TODO: scope correctly
+       dbo.some_func(p.BusinessEntityID),
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+--     ^^^^^^^^^^^^^ variable.function
+--        ^ punctuation.accessor.dot
+       [dbo].[some_func](p.BusinessEntityID)
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+--     ^^^^^^^^^^^^^^^^^ variable.function
+--          ^ punctuation.accessor.dot
 FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
 --                      ^ meta.table-alias-name
 --                        ^^^^^^^^^^^ keyword.other
@@ -1494,3 +1513,13 @@ set @test |= 2
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
+
+---------------
+CREATE PROCEDURE dbo.RetrievePersonAddress
+    @city_name NVARCHAR(30),
+    @postal_code NVARCHAR(15)
+AS
+SELECT * FROM Person.Address
+WHERE City = @city_name AND PostalCode = @postal_code
+OPTION ( OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN) ); -- TODO:
+GO
