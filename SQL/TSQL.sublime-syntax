@@ -6,7 +6,7 @@ version: 2
 extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
-  string_escape: (?:'') #(?:\\[tnr])
+  string_escape: (?:'')
   simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
   additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b)
   enclosed_type_begin: (?:\[)
@@ -239,7 +239,7 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:disk|tape|url)\b
       scope: keyword.other.tsql
-    - match: \b(?i:pivot|unpivot)\b
+    - match: \b(?i:pivot|unpivot|for)\b
       scope: keyword.other.tsql
     - match: \b(\w+)(:)
       captures:
@@ -381,6 +381,9 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
       scope: constant.language.switch.tsql
+    - match: \b(?i:identity_insert)\b
+      scope: constant.language.switch.tsql
+      push: [table-name, single-identifier]
     - match: \b(?i:on|off)\b
       scope: constant.language.boolean.tsql
     - include: variables

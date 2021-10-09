@@ -480,6 +480,11 @@ contexts:
       set: [after-table-alias, table-alias-name, single-identifier]
 
   after-table-alias:
+    - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
+      captures:
+        1: keyword.other.tsql
+        2: meta.group.tablesample.tsql punctuation.section.group.begin.tsql
+      push: tablesample
     - match: (?=\S)
       pop: 1
 
@@ -526,3 +531,14 @@ contexts:
     - include: wildcard-identifier
     - match: (?=\S)
       pop: 1
+
+  tablesample:
+    - meta_content_scope: meta.group.tablesample.sql
+    - match: \b(?i:rows|percent)\b
+      scope: constant.language.sql
+    - match: (\))(?:\s*((?i:repeatable))\b)?
+      captures:
+        1: meta.group.tablesample.tsql punctuation.section.group.end.sql
+        2: constant.language.sql
+      pop: true
+    - include: expressions

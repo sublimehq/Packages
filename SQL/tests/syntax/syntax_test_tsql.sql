@@ -947,16 +947,32 @@ WITH (INDEX = [AK_Product_Name]) ON PR.ProductID = PP.ProductID -- TODO: scope i
 -- Pivot table with one row and five columns
 SELECT 'AverageCost' AS Cost_Sorted_By_Production_Days,
   [0], [1], [2], [3], [4]
+--^^^ meta.column-name
+--   ^ punctuation.separator.sequence
+--     ^^^ meta.column-name
 FROM
 (
   SELECT DaysToManufacture, StandardCost
   FROM Production.Product
 ) AS SourceTable
 PIVOT
+--^^^ keyword.other
 (
   AVG(StandardCost)
-  FOR DaysToManufacture IN ([0], [1], [2], [3], [4]) -- TODO: scope FOR correctly
-) AS PivotTable;
+--^^^^^^^^^^^^^^^^^ meta.function-call
+--^^^ support.function.aggregate
+--   ^ punctuation.section.parens.begin
+--    ^^^^^^^^^^^^ meta.column-name
+--                ^ punctuation.section.parens.end
+  FOR DaysToManufacture IN ([0], [1], [2], [3], [4])
+--^^^ keyword.other
+--    ^^^^^^^^^^^^^^^^^ meta.column-name
+--                      ^^ keyword.operator.logical
+--                         ^ punctuation.section.group.begin
+--                          ^^^ meta.column-name
+--                             ^ punctuation.separator.sequence
+) AS PivotTable; -- TODO: scope this correctly
+--^^ keyword.operator.assignment.alias
 ------------
 -- Create the table and insert values as portrayed in the previous example.
 CREATE TABLE pvt (VendorID INT, Emp1 INT, Emp2 INT,
@@ -974,10 +990,19 @@ FROM
    (SELECT VendorID, Emp1, Emp2, Emp3, Emp4, Emp5
    FROM pvt) p
 UNPIVOT
-   (Orders FOR Employee IN -- TODO: scope FOR correctly
+-- <- keyword.other
+--^^^^^ keyword.other
+   (Orders FOR Employee IN
+--  ^^^^^^ meta.column-name
+--         ^^^ keyword.other
+--             ^^^^^^^^ meta.column-name
+--                      ^^ keyword.operator.logical
       (Emp1, Emp2, Emp3, Emp4, Emp5)
-)AS unpvt;
+) AS unpvt; -- TODO: scope this correctly
+-- <- meta.group punctuation.section.group.end
+--^^ keyword.operator.assignment.alias
 GO
+
 -------------
 
 CREATE TABLE dbo.T1 ( column_1 int IDENTITY, column_2 VARCHAR(30));
@@ -988,7 +1013,12 @@ INSERT T1 VALUES ('Row #1');
 --        ^^^^^^ keyword.other.DML.II
 INSERT T1 (column_2) VALUES ('Row #2');
 GO
-SET IDENTITY_INSERT T1 ON; -- TODO: scope me correctly
+SET IDENTITY_INSERT T1 ON;
+-- <- keyword.other.DML
+--  ^^^^^^^^^^^^^^^ constant.language.switch
+--                  ^^ meta.table-name
+--                     ^^ constant.language.boolean
+--                       ^ punctuation.terminator.statement
 GO
 INSERT INTO T1 (column_1,column_2)
     VALUES (-99, 'Explicit identity value');
@@ -1203,9 +1233,31 @@ SELECT p.BusinessEntityID ,
        p.LastName ,
        pp.PhoneNumber ,
        dbo.some_func(p.BusinessEntityID) -- TODO: scope correctly
-FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123) -- TODO: scope correctly
-       LEFT OUTER JOIN Person.PersonPhone AS pp TABLESAMPLE (10 ROWS)
+FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
+--                      ^ meta.table-alias-name
+--                        ^^^^^^^^^^^ keyword.other
+--                                    ^^^^^^^^^^^^ meta.group.tablesample
+--                                    ^ punctuation.section.group.begin
+--                                     ^^ meta.number.integer.decimal constant.numeric.value
+--                                        ^^^^^^^ constant.language
+--                                               ^ punctuation.section.group.end
+--                                                 ^^^^^^^^^^ constant.language
+--                                                            ^ meta.group punctuation.section.group.begin
+--                                                             ^^^ meta.group meta.number.integer.decimal constant.numeric.value
+--                                                                ^ meta.group punctuation.section.group.end
+       LEFT OUTER JOIN Person.PersonPhone AS pp TABLESAMPLE SYSTEM (10 ROWS)
+--                                           ^^ meta.table-alias-name
+--                                              ^^^^^^^^^^^^^^^^^^ keyword.other
+--                                                                 ^^^^^^^^^ meta.group.tablesample
+--                                                                 ^ punctuation.section.group.begin
+--                                                                  ^^ meta.number.integer.decimal constant.numeric.value
+--                                                                     ^^^^ constant.language
+--                                                                         ^ punctuation.section.group.end
            ON pp.BusinessEntityID = p.BusinessEntityID
+--         ^^ keyword.operator.join
+--            ^^^^^^^^^^^^^^^^^^^ meta.column-name
+--                                ^ keyword.operator.comparison
+--                                  ^^^^^^^^^^^^^^^^^^ meta.column-name
 ORDER BY p.BusinessEntityID DESC;
 
 --------
