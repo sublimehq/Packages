@@ -1014,8 +1014,22 @@ PIVOT
 --                         ^ punctuation.section.group.begin
 --                          ^^^ meta.column-name
 --                             ^ punctuation.separator.sequence
-) AS PivotTable; -- TODO: scope this correctly
+) AS PivotTable;
 --^^ keyword.operator.assignment.alias
+--   ^^^^^^^^^^ meta.table-alias-name
+--             ^ punctuation.terminator.statement
+
+SELECT  item.ID AS DatePivotID,
+        MAX(dDate) AS LastUpdateDate
+FROM    Documents
+UNPIVOT (dDate FOR nDate IN (date1, date2, date3, date4)) AS item
+-- <- keyword.other
+-- ^^^^ keyword.other
+--                                                        ^^ keyword.operator.assignment.alias
+--                                                           ^^^^ meta.table-alias-name
+GROUP BY item.ID
+-- ^^^^^ keyword.other.DML
+
 ------------
 -- Create the table and insert values as portrayed in the previous example.
 CREATE TABLE pvt (VendorID INT, Emp1 INT, Emp2 INT,
@@ -1041,9 +1055,11 @@ UNPIVOT
 --             ^^^^^^^^ meta.column-name
 --                      ^^ keyword.operator.logical
       (Emp1, Emp2, Emp3, Emp4, Emp5)
-) AS unpvt; -- TODO: scope this correctly
+) AS unpvt;
 -- <- meta.group punctuation.section.group.end
 --^^ keyword.operator.assignment.alias
+--   ^^^^^ meta.table-alias-name
+--        ^ punctuation.terminator.statement
 GO
 
 -------------

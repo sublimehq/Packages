@@ -239,7 +239,10 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:disk|tape|url)\b
       scope: keyword.other.tsql
-    - match: \b(?i:pivot|unpivot|for)\b
+    - match: \b(?i:pivot|unpivot)\b
+      scope: keyword.other.tsql
+      push: [maybe-table-alias, expressions-pop-at-as]
+    - match: \b(?i:for)\b
       scope: keyword.other.tsql
     - match: \b(\w+)(:)
       captures:
@@ -399,6 +402,8 @@ contexts:
   maybe-table-alias:
     - meta_prepend: true
     - include: with
+    - match: (?=\b(?i:unpivot|pivot)\b)
+      pop: 1
 
   fail-if-function-call:
     - meta_prepend: true
@@ -715,3 +720,8 @@ contexts:
     - meta_content_scope: meta.index-name.tsql
     - match: ''
       pop: 1
+
+  expressions-pop-at-as:
+    - match: (?=(?i:\bas\b))
+      pop: 1
+    - include: expressions
