@@ -804,12 +804,12 @@ contexts:
     - include: ligatures
     - include: bracket
     - include: code-span
+    - include: link-ref-footnote
     - include: image-inline
     - include: link-inline
     - include: autolink-inet
     - include: autolink-email
     - include: image-ref
-    - include: link-ref-footnote
     - include: link-ref-literal
     - include: link-ref
   inline-bold-italic:
