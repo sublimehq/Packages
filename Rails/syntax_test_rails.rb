@@ -24,7 +24,16 @@ class ApplicationController < ApplicationController
   end
 end
 
+class Product < ActiveRecord::Base
+
+# <- meta.model.rails
+
+end
+
 class PictureFile < ApplicationRecord
+
+# <- meta.model.rails
+
   after_commit :delete_picture_file_from_disk, on: :destroy
 # ^ support.function.activerecord.rails
 
