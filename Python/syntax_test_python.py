@@ -392,6 +392,17 @@ open.__new__(12, \
 #                ^ punctuation.separator.continuation.line.python
              True)
 
+iter()
+#^^^ support.function.builtin
+aiter()
+#^^^^ support.function.builtin
+
+next()
+#^^^ support.function.builtin
+anext()
+#^^^^ support.function.builtin
+
+
 TypeError()
 #^^^^^^^^ support.type.exception
 #

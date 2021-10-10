@@ -1587,7 +1587,7 @@ contexts:
           # Python 2 functions
           |apply|cmp|coerce|execfile|intern|raw_input|reduce|reload|unichr|xrange
           # Python 3 functions
-          |breakpoint|exec|print
+          |aiter|anext|breakpoint|exec|print
         )\b
       scope: support.function.builtin.python
 
