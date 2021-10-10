@@ -136,14 +136,6 @@ contexts:
         - ts-import-type
         - import-check-branch
 
-  export-extended:
-    - meta_prepend: true
-    - include: ts-type-declaration
-    - include: ts-interface-declaration
-    - include: ts-namespace-declaration
-    - include: ts-declare-enum
-    - include: ts-abstract-class
-
   property-access:
     - meta_prepend: true
     - match: \!\.
@@ -159,46 +151,73 @@ contexts:
 
   ts-type-declaration:
     - match: type{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.type.js
       set:
         - ts-type-alias-meta
         - ts-type-alias-body
         - ts-type-parameter-list
         - ts-type-alias-name
 
+  ts-const-declaration:
+    - match: const{{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - expect-semicolon
+        - variable-binding-list-top
+        - variable-binding-top
+        - ts-check-not-enum
+
+  ts-check-not-enum:
+    - match: (?=enum{{identifier_break}})
+      fail: ts-const-enum
+    - include: else-pop
+
+  ts-const-enum:
+    - match: const{{identifier_break}}
+      scope: storage.modifier.js
+      set: ts-enum
+
   ts-declare-enum:
     - match: declare{{identifier_break}}
-      scope: storage.type.js
+      scope: storage.modifier.js
       set:
+        - include: ts-const-enum
         - include: ts-enum
-        - include: else-pop
+        - match: (?=\S)
+          fail: ts-declare-enum
 
   ts-abstract-class:
     - match: abstract{{identifier_break}}
       scope: storage.modifier.js
       set:
         - include: class
-        - include: else-pop
+        - match: (?=\S)
+          fail: ts-abstract-class
 
-  statement:
+  declaration:
     - meta_prepend: true
     - include: ts-enum
     - include: ts-type-declaration
     - include: ts-interface-declaration
     - include: ts-namespace-declaration
 
-    - match: const{{identifier_break}}
-      scope: keyword.declaration.js
-      set:
-        - include: ts-enum
-        - match: (?=\S)
-          set:
-            - expect-semicolon
-            - variable-binding-list-top
-            - variable-binding-top
+    - match: (?=const{{identifier_break}})
+      branch:
+        - ts-const-declaration
+        - ts-const-enum
+      branch_point: ts-const-enum
 
-    - include: ts-declare-enum
-    - include: ts-abstract-class
+    - match: (?=declare{{identifier_break}})
+      branch:
+        - ts-declare-enum
+        - expression-statement
+      branch_point: ts-declare-enum
+
+    - match: (?=abstract{{identifier_break}})
+      branch:
+        - ts-abstract-class
+        - expression-statement
+      branch_point: ts-abstract-class
 
   class:
     - match: class{{identifier_break}}
@@ -344,7 +363,7 @@ contexts:
 
   ts-enum:
     - match: enum{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.enum.js
       set:
         - ts-enum-meta
         - ts-enum-body

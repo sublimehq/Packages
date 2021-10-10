@@ -1971,7 +1971,7 @@ for (var i = 0; i < 10; i++) {
 ```ts
 |  ^^ constant.other.language-name
 declare type foo = 'bar'
-|       ^^^^ source.ts meta.type-alias storage.type
+|       ^^^^ source.ts meta.type-alias keyword.declaration.type
 ```
 
 ```R%&?! weired language name
