@@ -181,7 +181,7 @@ contexts:
     - match: declare{{identifier_break}}
       scope: storage.modifier.js
       set:
-        - include: ts-const-enum
+        - include: ts-const
         - include: ts-enum
         - match: (?=\S)
           fail: ts-declare-enum
@@ -194,6 +194,14 @@ contexts:
         - match: (?=\S)
           fail: ts-abstract-class
 
+  ts-const:
+    - match: (?=const{{identifier_break}})
+      pop: true
+      branch:
+        - ts-const-declaration
+        - ts-const-enum
+      branch_point: ts-const-enum
+
   declaration:
     - meta_prepend: true
     - include: ts-enum
@@ -201,11 +209,7 @@ contexts:
     - include: ts-interface-declaration
     - include: ts-namespace-declaration
 
-    - match: (?=const{{identifier_break}})
-      branch:
-        - ts-const-declaration
-        - ts-const-enum
-      branch_point: ts-const-enum
+    - include: ts-const
 
     - match: (?=declare{{identifier_break}})
       branch:
@@ -421,12 +425,19 @@ contexts:
       set:
         - ts-namespace-meta
         - block
+        - ts-namespace-name-end
         - ts-namespace-name
 
   ts-namespace-meta:
     - meta_include_prototype: false
     - meta_scope: meta.namespace.js
     - include: immediately-pop
+
+  ts-namespace-name-end:
+    - match: \.
+      scope: punctuation.accessor.dot.ts
+      push: ts-namespace-name
+    - include: else-pop
 
   ts-namespace-name:
     - match: '{{identifier_name}}'
