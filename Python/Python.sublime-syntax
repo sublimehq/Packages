@@ -122,6 +122,21 @@ variables:
     | ZeroDivisionError
     )\b
 
+  builtin_functions: |-
+    \b(?x:
+      __import__ | all | abs | any | ascii | bin | callable | chr | classmethod
+    | compile | delattr | dir | divmod | enumerate | eval | filter | format
+    | getattr | globals | hasattr | hash | help | hex | id | input | isinstance
+    | issubclass | iter | len | locals | map | max | min | next | oct | open
+    | ord | pow | property | range | repr | reversed | round | setattr | sorted
+    | staticmethod | sum | super | type | vars | zip
+      # Python 2 functions
+    | apply | cmp | coerce | execfile | intern | raw_input | reduce | reload
+    | unichr | xrange
+    # Python 3 functions
+    | aiter| anext| breakpoint | exec | print
+    )\b
+
   builtin_types: |-
     \b(?x:
       bool | bytearray | bytes | complex | dict | float | frozenset | int
@@ -1576,19 +1591,7 @@ contexts:
       scope: support.type.exception.python
 
   builtin-functions:
-    - match: |-
-        (?x)\b(?:
-          __import__|all|abs|any|ascii|bin|callable|chr|classmethod|
-          compile|delattr|dir|divmod|enumerate|eval|filter|format|getattr|
-          globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|
-          len|locals|map|max|min|next|oct|open|ord|pow|property|range|
-          repr|reversed|round|setattr|sorted|staticmethod|
-          sum|super|type|vars|zip
-          # Python 2 functions
-          |apply|cmp|coerce|execfile|intern|raw_input|reduce|reload|unichr|xrange
-          # Python 3 functions
-          |aiter|anext|breakpoint|exec|print
-        )\b
+    - match: '{{builtin_functions}}'
       scope: support.function.builtin.python
 
   builtin-types:
