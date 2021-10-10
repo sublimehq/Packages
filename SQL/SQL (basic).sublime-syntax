@@ -197,9 +197,7 @@ contexts:
     - include: built-in-aggregate-function-calls
     - include: built-in-scalar-function-calls
     - include: user-defined-function-calls
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      push: inside-group
+    - include: begin-group
     - match: \)
       scope: invalid.illegal.trailing-paren.sql
     - match: ','
@@ -214,6 +212,11 @@ contexts:
     - match: (?i:\bnull\b)
       scope: constant.language.null.sql
     - include: strings
+
+  begin-group:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: inside-group
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql

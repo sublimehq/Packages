@@ -241,7 +241,7 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:pivot|unpivot)\b
       scope: keyword.other.tsql
-      push: [maybe-table-alias, expressions-pop-at-as]
+      push: [maybe-table-alias, begin-group-or-pop]
     - match: \b(?i:for)\b
       scope: keyword.other.tsql
     - match: \b(\w+)(:)
@@ -721,7 +721,7 @@ contexts:
     - match: ''
       pop: 1
 
-  expressions-pop-at-as:
-    - match: (?=(?i:\bas\b))
-      pop: 1
-    - include: expressions
+  begin-group-or-pop:
+    - include: begin-group
+    - match: (?=\S)
+      pop: true
