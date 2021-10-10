@@ -1,7 +1,7 @@
 <snippet>
-	<content><![CDATA[\\begin{description}
+	<content><![CDATA[\begin{description}
 	\item[$1] $0
-\\end{description}]]></content>
+\end{description}]]></content>
 	<tabTrigger>desc</tabTrigger>
 	<scope>text.tex.latex</scope>
 	<description>Description</description>

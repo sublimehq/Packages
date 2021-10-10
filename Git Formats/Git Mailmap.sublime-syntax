@@ -4,10 +4,12 @@
 # https://www.git-scm.com/docs/git-check-mailmap#_mapping_authors
 
 name: Git Mailmap
+scope: text.git.mailmap
+version: 2
+
 file_extensions:
   - .mailmap
   - mailmap
-scope: text.git.mailmap
 
 contexts:
   main:

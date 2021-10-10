@@ -46,10 +46,11 @@ contexts:
 
   statements:
     - include: class
+    - include: enum
     - include: use-statement
     - match: '(?i)^\s*(interface)\s+({{identifier}})\s*'
       captures:
-        1: storage.type.interface.php
+        1: keyword.declaration.interface.php
         2: entity.name.interface.php
       push:
         - meta_scope: meta.interface.php
@@ -80,7 +81,7 @@ contexts:
           pop: 1
     - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
       captures:
-        1: storage.type.trait.php
+        1: keyword.declaration.trait.php
         2: entity.name.trait.php
     - include: typed-property
     - include: function
@@ -262,9 +263,8 @@ contexts:
     - match: (?i)\b(parent|self)\b
       scope: variable.language.php
     - match: |-
-        \b(?xi:
-          abstract | const | extends | final | global | implements | private | protected |
-          public | static
+        {{visibility_modifier}}|\b(?xi:
+          abstract | const | extends | final | global | implements | static | readonly
         )\b
       scope: storage.modifier.php
     - include: object
@@ -324,7 +324,6 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - include: string-backtick
     - match: '(\[)\s*(\])'
       scope: meta.array.empty.php
       captures:
@@ -375,15 +374,18 @@ contexts:
         - match: \?
           scope: storage.type.nullable.php
         - match: \|
-          scope: punctuation.separator.type.php
+          scope: punctuation.separator.type.union.php
+        - match: '&(?!\s*\$)'
+          scope: punctuation.separator.type.intersection.php
         # note that
-        #   - "callable" and "void" are not allowed in property type
+        #   - "callable", "never" and "void" are not allowed in property type
         #   - "false" and "null" are only working in unioned type
         # but we allow them as general types for simplifying syntax definition
         - match: |-
             \b(?xi:
               array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self | static | mixed
+              object | string | false | null | void | parent | self | static |
+              mixed | never
             )\b
           scope: storage.type.php
         - include: class-builtin
@@ -427,12 +429,14 @@ contexts:
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
-          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject |
-          AssertionError | Attribute | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
-          DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
-          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
-          DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
-          EmptyIterator | Error | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
+          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError |
+          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BadFunctionCallException |
+          BadMethodCallException | CachingIterator | Collator | CompileError | Countable | CURLFile | CURLStringFile |
+          DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
+          DivisionByZeroError | DOMAttr | DOMAttribute | DOMCharacterData | DOMComment | DOMDocument |
+          DOMDocumentFragment | DOMDocumentType | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap |
+          DOMNode | DOMNodelist | DOMProcessingInstruction | DOMText | DOMXPath | DOMXsltStylesheet | DomainException |
+          EmptyIterator | Error | ErrorException | Exception | Fiber | FiberError | FiberExit | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
           GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
           HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
           Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | InternalIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
@@ -444,8 +448,8 @@ contexts:
           OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar |
           PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
           RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
-          ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector |
-          RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
+          ReflectionEnum | ReflectionEnumBackedCase | ReflectionEnumUnitCase | ReflectionExtension | ReflectionFiber | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject |
+          ReflectionParameter | ReflectionProperty | Reflector | RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
           SDO_DAS_ChangeSummary | SDO_DAS_DataFactory | SDO_DAS_DataObject | SDO_DAS_Relational | SDO_DAS_Setting | SDO_DAS_XML | SDO_DAS_XML_Document | SDO_DataFactory |
           SDO_DataObject | SDO_Exception | SDO_List | SDO_Model_Property | SDO_Model_ReflectionDataObject | SDO_Model_Type | SDO_Sequence | SNMP |
           SQLite3 | SQLite3Result | SQLite3Stmt | SQLiteDatabase | SQLiteResult | SQLiteUnbuffered | SVM | SVMModel |
@@ -590,12 +594,59 @@ contexts:
         - include: identifier-constant-pop
     - include: use-statement-common
     - include: identifier-constant-pop
+  enum:
+    - match: (?i)\b(enum)\s+({{identifier}})\s*
+      captures:
+        1: keyword.declaration.enum.php
+        2: entity.name.enum.php
+      push: enum-definition
+
+  enum-definition:
+    - match: (?=;)
+      pop: 1
+    - match: ':'
+      scope: punctuation.separator.php
+      push:
+        - match: (?={{path}})
+          set:
+            - meta_scope: meta.path.php
+            - include: type-hint
+            - match: ''
+              pop: 1
+        - match: (?=\S)
+          pop: 1              
+    - match: \{
+      scope: meta.block.php punctuation.section.block.begin.php
+      set: class-body
+    - include: attributes
+    - include: comments
+    - match: (?i)(implements)\b\s*
+      captures:
+        1: storage.modifier.implements.php
+      push:
+        - include: attributes
+        - include: comments
+        - match: (?={{path}})
+          push:
+            - meta_scope: meta.path.php
+            - meta_content_scope: entity.other.inherited-class.php
+            - include: class-builtin
+            - include: identifier-parts
+            - match: (\\)?{{identifier}}(?!\\)
+              captures:
+                1: punctuation.separator.namespace.php
+            - match: ''
+              pop: 1
+        - match: ','
+          scope: punctuation.separator.php
+        - match: (?=\S)
+          pop: 1
 
   class:
     - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
       captures:
         1: storage.modifier.abstract.php
-        2: storage.type.class.php
+        2: keyword.declaration.class.php
         3: entity.name.class.php
       push: class-definition
 
@@ -699,11 +750,11 @@ contexts:
 
   typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
-    - match: (?=\b(?:{{visibility_modifier}}|static)\b)
+    - match: (?=\b(?:{{visibility_modifier}}|static|readonly)\b)
       push:
         - match: (?=\b(?:const|function)\b)
           pop: 1
-        - match: \b(?:{{visibility_modifier}}|static)\b
+        - match: \b(?:{{visibility_modifier}}|static|readonly)\b
           scope: storage.modifier.php
         - include: type-hint
         # Exit on unexpected content
@@ -719,7 +770,7 @@ contexts:
         - match: '(?i)\b(final|abstract|{{visibility_modifier}}|static)\b'
           scope: storage.modifier.php
         - match: (?i)\bfunction\b
-          scope: storage.type.function.php
+          scope: keyword.declaration.function.php
         - match: '&'
           scope: storage.modifier.reference.php
         # https://wiki.php.net/rfc/constructor_promotion
@@ -768,7 +819,7 @@ contexts:
     - match: (?i)\b(fn)\b\s*(&)?\s*(?=\()
       scope: meta.function.arrow-function.php
       captures:
-        1: storage.type.function.php
+        1: keyword.declaration.function.php
         2: storage.modifier.reference.php
       push:
         - match: \(
@@ -794,7 +845,7 @@ contexts:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
       scope: meta.function.closure.php
       captures:
-        1: storage.type.function.php
+        1: keyword.declaration.function.php
         2: storage.modifier.reference.php
       push:
         - match: \(
@@ -971,16 +1022,21 @@ contexts:
           pop: 1
         - match: |-
             (\\)?\b(?x:
-              DEFAULT_INCLUDE_PATH | E_ALL | E_COMPILE_ERROR | E_COMPILE_WARNING | E_CORE_ERROR | E_CORE_WARNING | E_DEPRECATED | E_ERROR |
-              E_NOTICE | E_PARSE | E_RECOVERABLE_ERROR | E_STRICT | E_USER_DEPRECATED | E_USER_ERROR | E_USER_NOTICE | E_USER_WARNING |
-              E_WARNING | MT_RAND_PHP | PEAR_EXTENSION_DIR | PEAR_INSTALL_DIR | PHP_BINDIR | PHP_CONFIG_FILE_PATH | PHP_CONFIG_FILE_SCAN_DIR | PHP_DATADIR |
-              PHP_DEBUG | PHP_EOL | PHP_EXTENSION_DIR | PHP_EXTRA_VERSION | PHP_FD_SETSIZE | PHP_FLOAT_DIG | PHP_FLOAT_EPSILON | PHP_FLOAT_MAX |
-              PHP_FLOAT_MIN | PHP_INT_MAX | PHP_INT_MIN | PHP_INT_SIZE | PHP_LIBDIR | PHP_LOCALSTATEDIR | PHP_MAJOR_VERSION | PHP_MAXPATHLEN |
-              PHP_MINOR_VERSION | PHP_OS | PHP_OS_FAMILY | PHP_OUTPUT_HANDLER_CONT | PHP_OUTPUT_HANDLER_END | PHP_OUTPUT_HANDLER_START | PHP_PREFIX | PHP_RELEASE_VERSION |
-              PHP_ROUND_HALF_DOWN | PHP_ROUND_HALF_EVEN | PHP_ROUND_HALF_ODD | PHP_ROUND_HALF_UP | PHP_SAPI | PHP_SHLIB_SUFFIX | PHP_SYSCONFDIR | PHP_URL_FRAGMENT |
-              PHP_URL_HOST | PHP_URL_PASS | PHP_URL_PATH | PHP_URL_PORT | PHP_URL_QUERY | PHP_URL_SCHEME | PHP_URL_USER | PHP_VERSION |
-              PHP_VERSION_ID | PHP_WINDOWS_NT_DOMAIN_CONTROLLER | PHP_WINDOWS_NT_SERVER | PHP_WINDOWS_NT_WORKSTATION | PHP_WINDOWS_VERSION_BUILD | PHP_WINDOWS_VERSION_MAJOR | PHP_WINDOWS_VERSION_MINOR | PHP_WINDOWS_VERSION_PLATFORM |
-              PHP_WINDOWS_VERSION_PRODUCTTYPE | PHP_WINDOWS_VERSION_SP_MAJOR | PHP_WINDOWS_VERSION_SP_MINOR | PHP_WINDOWS_VERSION_SUITEMASK | PHP_ZTS | STDERR | STDIN | STDOUT |
+              DEFAULT_INCLUDE_PATH | E_ALL | E_COMPILE_ERROR | E_COMPILE_WARNING | E_CORE_ERROR | E_CORE_WARNING |
+              E_DEPRECATED | E_ERROR | E_NOTICE | E_PARSE | E_RECOVERABLE_ERROR | E_STRICT | E_USER_DEPRECATED |
+              E_USER_ERROR | E_USER_NOTICE | E_USER_WARNING | E_WARNING | MT_RAND_PHP | PEAR_EXTENSION_DIR |
+              PEAR_INSTALL_DIR | PHP_BINDIR | PHP_CONFIG_FILE_PATH | PHP_CONFIG_FILE_SCAN_DIR | PHP_DATADIR | PHP_DEBUG |
+              PHP_EOL | PHP_EXTENSION_DIR | PHP_EXTRA_VERSION | PHP_FD_SETSIZE | PHP_FLOAT_DIG | PHP_FLOAT_EPSILON |
+              PHP_FLOAT_MAX | PHP_FLOAT_MIN | PHP_INT_MAX | PHP_INT_MIN | PHP_INT_SIZE | PHP_LIBDIR | PHP_LOCALSTATEDIR |
+              PHP_MAJOR_VERSION | PHP_MAXPATHLEN | PHP_MINOR_VERSION | PHP_OS | PHP_OS_FAMILY | PHP_OUTPUT_HANDLER_CONT |
+              PHP_OUTPUT_HANDLER_END | PHP_OUTPUT_HANDLER_START | PHP_PREFIX | PHP_QUERY_RFC1738 | PHP_QUERY_RFC3986 |
+              PHP_RELEASE_VERSION | PHP_ROUND_HALF_DOWN | PHP_ROUND_HALF_EVEN | PHP_ROUND_HALF_ODD | PHP_ROUND_HALF_UP |
+              PHP_SAPI | PHP_SHLIB_SUFFIX | PHP_SYSCONFDIR | PHP_URL_FRAGMENT | PHP_URL_HOST | PHP_URL_PASS |
+              PHP_URL_PATH | PHP_URL_PORT | PHP_URL_QUERY | PHP_URL_SCHEME | PHP_URL_USER | PHP_VERSION |
+              PHP_VERSION_ID | PHP_WINDOWS_NT_DOMAIN_CONTROLLER | PHP_WINDOWS_NT_SERVER | PHP_WINDOWS_NT_WORKSTATION |
+              PHP_WINDOWS_VERSION_BUILD | PHP_WINDOWS_VERSION_MAJOR | PHP_WINDOWS_VERSION_MINOR |
+              PHP_WINDOWS_VERSION_PLATFORM | PHP_WINDOWS_VERSION_PRODUCTTYPE | PHP_WINDOWS_VERSION_SP_MAJOR |
+              PHP_WINDOWS_VERSION_SP_MINOR | PHP_WINDOWS_VERSION_SUITEMASK | PHP_ZTS | STDERR | STDIN | STDOUT |
               ZEND_DEBUG_BUILD | ZEND_THREAD_SAFE
             )\b
           scope: support.constant.core.php
@@ -1090,7 +1146,7 @@ contexts:
               MYSQLI_DATA_TRUNCATED | MYSQLI_DEBUG_TRACE_ENABLED | MYSQLI_ENUM_FLAG | MYSQLI_GROUP_FLAG | MYSQLI_INIT_COMMAND | MYSQLI_MULTIPLE_KEY_FLAG | MYSQLI_NOT_NULL_FLAG | MYSQLI_NO_DATA |
               MYSQLI_NO_DEFAULT_VALUE_FLAG | MYSQLI_NUM | MYSQLI_NUM_FLAG | MYSQLI_ON_UPDATE_NOW_FLAG | MYSQLI_OPT_CONNECT_TIMEOUT | MYSQLI_OPT_INT_AND_FLOAT_NATIVE | MYSQLI_OPT_LOCAL_INFILE | MYSQLI_OPT_NET_CMD_BUFFER_SIZE |
               MYSQLI_OPT_NET_READ_BUFFER_SIZE | MYSQLI_PART_KEY_FLAG | MYSQLI_PRI_KEY_FLAG | MYSQLI_READ_DEFAULT_FILE | MYSQLI_READ_DEFAULT_GROUP | MYSQLI_REFRESH_BACKUP_LOG | MYSQLI_REFRESH_GRANT | MYSQLI_REFRESH_HOSTS |
-              MYSQLI_REFRESH_LOG | MYSQLI_REFRESH_MASTER | MYSQLI_REFRESH_SLAVE | MYSQLI_REFRESH_STATUS | MYSQLI_REFRESH_TABLES | MYSQLI_REFRESH_THREADS | MYSQLI_REPORT_ALL | MYSQLI_REPORT_ERROR |
+              MYSQLI_REFRESH_LOG | MYSQLI_REFRESH_MASTER | MYSQLI_REFRESH_REPLICA | MYSQLI_REFRESH_SLAVE | MYSQLI_REFRESH_STATUS | MYSQLI_REFRESH_TABLES | MYSQLI_REFRESH_THREADS | MYSQLI_REPORT_ALL | MYSQLI_REPORT_ERROR |
               MYSQLI_REPORT_INDEX | MYSQLI_REPORT_OFF | MYSQLI_REPORT_STRICT | MYSQLI_SERVER_QUERY_NO_GOOD_INDEX_USED | MYSQLI_SERVER_QUERY_NO_INDEX_USED | MYSQLI_SERVER_QUERY_WAS_SLOW | MYSQLI_SET_CHARSET_NAME | MYSQLI_SET_FLAG |
               MYSQLI_STMT_ATTR_CURSOR_TYPE | MYSQLI_STMT_ATTR_PREFETCH_ROWS | MYSQLI_STMT_ATTR_UPDATE_MAX_LENGTH | MYSQLI_STORE_RESULT | MYSQLI_TIMESTAMP_FLAG | MYSQLI_TYPE_BIT | MYSQLI_TYPE_BLOB | MYSQLI_TYPE_CHAR |
               MYSQLI_TYPE_DATE | MYSQLI_TYPE_DATETIME | MYSQLI_TYPE_DECIMAL | MYSQLI_TYPE_DOUBLE | MYSQLI_TYPE_ENUM | MYSQLI_TYPE_FLOAT | MYSQLI_TYPE_GEOMETRY | MYSQLI_TYPE_INT24 |
@@ -1218,110 +1274,152 @@ contexts:
       push:
         - match: ^\s*(\1)\b(?:(;)(\s*$\n?))?
           captures:
-            1: punctuation.section.embedded.end.php keyword.operator.heredoc.php
+            1: meta.tag.heredoc.php entity.name.tag.heredoc.php
             2: punctuation.terminator.expression.php
             3: meta.heredoc-end.php
           pop: 1
-        - match: <<<\s*(HTML)\s*$\n?
-          scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*(()(HTML)())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: heredoc-html
-          embed_scope: meta.embedded.html text.html
+          embed_scope: meta.embedded.html
           escape: (?=^\s*HTML\b)
-        - match: <<<\s*('HTML')\s*$\n?
-          scope: meta.embedded.html punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*((')(HTML)('))\s*$\n?
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: scope:text.html.basic
           embed_scope: meta.embedded.html text.html
           escape: (?=^\s*HTML\b)
-        - match: <<<\s*(XML)\s*$\n?
-          scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*(()(XML)())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: heredoc-xml
-          embed_scope: meta.embedded.xml text.xml
+          embed_scope: meta.embedded.xml
           escape: (?=^\s*XML\b)
-        - match: <<<\s*('XML')\s*$\n?
-          scope: meta.embedded.xml punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*((')(XML)('))\s*$\n?
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: scope:text.xml
           embed_scope: meta.embedded.xml text.xml
           escape: (?=^\s*XML\b)
-        - match: <<<\s*(SQL)\s*$\n?
-          scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*(()(SQL)())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: heredoc-sql
-          embed_scope: meta.embedded.sql source.sql
+          embed_scope: meta.embedded.sql
           escape: (?=^\s*SQL\b)
-        - match: <<<\s*('SQL')\s*$\n?
-          scope: meta.embedded.sql punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*((')(SQL)('))\s*$\n?
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: scope:source.sql
           embed_scope: meta.embedded.sql source.sql
           escape: (?=^\s*SQL\b)
-        - match: <<<\s*(JAVASCRIPT)\s*$\n?
-          scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*(()(JAVASCRIPT)())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: heredoc-javascript
-          embed_scope: meta.embedded.js source.js
+          embed_scope: meta.embedded.js
           escape: (?=^\s*JAVASCRIPT\b)
-        - match: <<<\s*('JAVASCRIPT')\s*$\n?
-          scope: meta.embedded.js punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*((')(JAVASCRIPT)('))\s*$\n?
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: scope:source.js
           embed_scope: meta.embedded.js source.js
           escape: (?=^\s*JAVASCRIPT\b)
-        - match: (<<<)\s*(JSON)\s*$\n?
-          scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*(()(JSON)())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: heredoc-json
-          embed_scope: meta.embedded.json source.json
+          embed_scope: meta.embedded.json
           escape: (?=^\s*JSON\b)
-        - match: (<<<)\s*('JSON')\s*$\n?
-          scope: meta.embedded.json punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*((')(JSON)('))\s*$\n?
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: scope:source.json
           embed_scope: meta.embedded.json source.json
           escape: (?=^\s*JSON\b)
-        - match: <<<\s*(CSS)\s*$\n?
-          scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*(()(CSS)())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: heredoc-css
-          embed_scope: meta.embedded.css source.css
+          embed_scope: meta.embedded.css
           escape: (?=^\s*CSS\b)
-        - match: <<<\s*('CSS')\s*$\n?
-          scope: meta.embedded.css punctuation.section.embedded.begin.php punctuation.definition.string.php
+        - match: (<<<)\s*((')(CSS)('))\s*$\n?
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           embed: scope:source.css
           embed_scope: meta.embedded.css source.css
           escape: (?=^\s*CSS\b)
-        - match: '<<<\s*({{identifier}})'
-          scope: punctuation.definition.string.php
+        - match: (<<<)\s*(()({{identifier}})())\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           push:
             - meta_scope: string.unquoted.heredoc.php
-            - match: (?=^\s*\1\b)
+            - match: (?=^\s*\4\b)
               pop: 1
             - include: interpolation
-        - match: <<<\s*('({{identifier}})')
-          scope: punctuation.definition.string.php
+        - match: (<<<)\s*((')({{identifier}})('))
           captures:
-            1: keyword.operator.nowdoc.php
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
           push:
-            - meta_scope: string.unquoted.nowdoc.php
-            - match: (?=^\s*\2\b)
+            - meta_scope: string.unquoted.heredoc.php
+            - match: (?=^\s*\4\b)
               pop: 1
   heredoc-html:
     - meta_include_prototype: false
@@ -1364,7 +1462,7 @@ contexts:
     - match: '(?i)(new)\s+(class)\b\s*'
       captures:
         1: keyword.other.new.php
-        2: storage.type.class.php
+        2: keyword.declaration.class.php
       push:
         - match: (?=\()
           push: function-call-parameters
@@ -1456,12 +1554,17 @@ contexts:
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
-    - match: '\b(0[bB])((?!_)(?:[01]|_(?!_))*)\b'
+    - match: \b(0[bB])((?!_)(?:[01]|_(?!_))*)\b
       scope: meta.number.integer.binary.php
       captures:
         1: constant.numeric.base.php
         2: constant.numeric.value.php
-    - match: '\b(0[xX])((?!_)(?:\h|_(?!_))*)\b'
+    - match: \b(0[oO])((?!_)(?:\h|_(?!_))*)\b
+      scope: meta.number.integer.octal.php
+      captures:
+        1: constant.numeric.base.php
+        2: constant.numeric.value.php
+    - match: \b(0[xX])((?!_)(?:\h|_(?!_))*)\b
       scope: meta.number.integer.hexadecimal.php
       captures:
         1: constant.numeric.base.php
@@ -1483,7 +1586,7 @@ contexts:
       captures:
         1: punctuation.separator.decimal.php
         2: punctuation.separator.decimal.php
-    - match: '\b(?!_)(?:\d|_(?!_))+\b'
+    - match: \b(?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
   object:
     - match: (\??)(->)(\$?\{)
@@ -1520,7 +1623,6 @@ contexts:
   parameter-default-types:
     - include: strings
     - include: numbers
-    - include: string-backtick
     - include: variables
     - match: "=>"
       scope: keyword.operator.key.php
@@ -1587,154 +1689,188 @@ contexts:
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
-  regex-double-quoted-branch:
+
+###[ STRINGS ]################################################################
+
+  strings:
+    - include: strings-backtick-quoted
+    - include: strings-double-quoted
+    - include: strings-single-quoted
+
+
+  strings-backtick-quoted:
+    - match: \`
+      scope: punctuation.definition.string.begin.php
+      push: string-backtick-quoted-content
+
+  string-backtick-quoted-content:
+    - meta_scope: meta.string.php string.quoted.other.php
+    - match: \`
+      scope: punctuation.definition.string.end.php
+      pop: 1
+    - match: \\.
+      scope: constant.character.escape.php
+    - include: interpolation
+
+
+  strings-double-quoted:
+    - match: (?="/)
+      branch_point: branch-point-double-quoted
+      branch:
+        - string-double-quoted-regexp
+        - string-double-quoted-plain
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.begin.php
+      push: string-double-quoted-content
+
+  string-double-quoted-end:
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.end.php
+      pop: 1
+
+  string-double-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.double.php
+    - include: string-double-quoted-end
+    - match: (?={{sql_indicator}})
+      push: string-quoted-sql-content
+      with_prototype:
+        - match: (?=")
+          pop: 1
+        - include: interpolation
+    - match: (?=\S)
+      set: string-double-quoted-plain-content
+
+  string-double-quoted-regexp:
     - match: (")(/)
       captures:
         1: punctuation.definition.string.begin.php
         2: punctuation.definition.string.regex-delimiter.begin.php
-      push:
-        - meta_scope: meta.string.php string.quoted.double.php
-        - match: (/)({{regex_modifier}})(")
-          captures:
-            1: punctuation.definition.string.regex-delimiter.end.php
-            2: meta.regex.modifier.php
-            3: punctuation.definition.string.end.php
-          pop: 2 # branch successful matched
-        - match: (?=")
-          pop: 1
-        - match: ''
-          push: scope:source.regexp.php
-          with_prototype:
-            - match: (?=(/)({{regex_modifier}})(")|")
-              pop: 1
-            # workaround for greedy scope "$" as punctuation.definition.variable
-            # dangling "$" in regex means EOL, but not variable definition...
-            - match: \$+(?!{{identifier}})
-              scope: keyword.control.anchor.regexp
-            - include: interpolation
-            - match: \\"
-              scope: constant.character.escape
-            - match: \s(#)([^"]*)$
-              captures:
-                1: comment.regexp.php punctuation.definition.comment.regexp.php
-                2: comment.regexp.php
-    - match: ''
+      set: string-double-quoted-regexp-content
+
+  string-double-quoted-regexp-content:
+    - meta_scope: meta.string.php string.quoted.double.php
+    - match: (/)({{regex_modifier}})(")
+      captures:
+        1: punctuation.definition.string.regex-delimiter.end.php
+        2: meta.regex.modifier.php
+        3: punctuation.definition.string.end.php
+      pop: 1
+    - match: \"
       fail: branch-point-double-quoted
-  regex-single-quoted-branch:
+    - match: ''
+      push: scope:source.regexp.php
+      with_prototype:
+        - match: (?=/{{regex_modifier}}"|")
+          pop: 1
+        # workaround for greedy scope "$" as punctuation.definition.variable
+        # dangling "$" in regex means EOL, but not variable definition...
+        - match: \$+(?!{{identifier}})
+          scope: keyword.control.anchor.regexp
+        - include: interpolation
+        - match: \\"
+          scope: constant.character.escape
+        - match: \s(#)([^"]*)$
+          captures:
+            1: comment.regexp.php punctuation.definition.comment.regexp.php
+            2: comment.regexp.php
+
+  string-double-quoted-plain:
+    - match: \"
+      scope: string.quoted.double.php punctuation.definition.string.begin.php
+      set: string-double-quoted-plain-content
+
+  string-double-quoted-plain-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.double.php
+    - include: string-double-quoted-end
+    - include: interpolation
+
+
+  strings-single-quoted:
+    - match: (?='/)
+      branch_point: branch-point-single-quoted
+      branch:
+        - string-single-quoted-regexp
+        - string-single-quoted-plain
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.begin.php
+      push: string-single-quoted-content
+
+  string-single-quoted-end:
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.end.php
+      pop: 1
+
+  string-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.single.php
+    - include: string-single-quoted-end
+    - match: (?={{sql_indicator}})
+      push: string-quoted-sql-content
+      with_prototype:
+        - match: (?=')
+          pop: 1
+        - match: '\\[\\'']'
+          scope: constant.character.escape.php
+    - match: (?=\S)
+      scope: punctuation.definition.string.begin.php
+      set: string-single-quoted-plain-content
+
+  string-single-quoted-regexp:
     - match: (')(/)
       captures:
         1: punctuation.definition.string.begin.php
         2: punctuation.definition.string.regex-delimiter.begin.php
-      push:
-        - meta_scope: meta.string.php string.quoted.single.php
-        - match: (/)({{regex_modifier}})(')
-          captures:
-            1: punctuation.definition.string.regex-delimiter.end.php
-            2: meta.regex.modifier.php
-            3: punctuation.definition.string.end.php
-          pop: 2 # branch successful matched
-        - match: (?=')
-          pop: 1
-        - match: ''
-          push: scope:source.regexp.php
-          with_prototype:
-            - match: (?=(/)({{regex_modifier}})(')|')
-              pop: 1
-            - match: \\'
-              scope: constant.character.escape
-            - match: \s(#)([^']*)$
-              captures:
-                1: comment.regexp.php punctuation.definition.comment.regexp.php
-                2: comment.regexp.php
-    - match: ''
-      fail: branch-point-single-quoted
-  string-double-quoted-branch:
-    - include: string-double-quoted
-    - match: ''
-      pop: 1
-  string-single-quoted-branch:
-    - include: string-single-quoted
-    - match: ''
-      pop: 1
-  string-backtick:
-    - match: "`"
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.interpolated.php
-        - match: "`"
-          scope: punctuation.definition.string.end.php
-          pop: 1
-        - match: \\.
-          scope: constant.character.escape.php
-        - include: interpolation
-  string-double-quoted:
-    - match: '"'
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.double.php
-        - meta_content_scope: meta.string-contents.quoted.double.php
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: string.quoted.double.php
-            - meta_content_scope: meta.string-contents.quoted.double.php
-            - match: '"'
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: ''
-              with_prototype:
-                - match: '(?=")'
-                  pop: 1
-                - include: interpolation
-              push: 'scope:source.sql'
-        - match: '(?=\S)'
-          set:
-            - meta_scope: string.quoted.double.php
-            - meta_content_scope: meta.string-contents.quoted.double.php
-            - match: '"'
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - include: interpolation
-  string-single-quoted:
-    - match: "'"
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.single.php
-        - meta_content_scope: meta.string-contents.quoted.single.php
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: string.quoted.single.php
-            - meta_content_scope: meta.string-contents.quoted.single.php
-            - match: "'"
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: ''
-              with_prototype:
-                - match: "(?=')"
-                  pop: 1
-                - match: '\\[\\'']'
-                  scope: constant.character.escape.php
-              push: 'scope:source.sql'
-        - match: '(?=\S)'
-          set:
-            - meta_scope: string.quoted.single.php
-            - meta_content_scope: meta.string-contents.quoted.single.php
-            - match: "'"
-              scope: punctuation.definition.string.end.php
-              pop: 1
-            - match: '\\[\\'']'
-              scope: constant.character.escape.php
+      set: string-single-quoted-regexp-content
 
-  strings:
-    - match: (?=")
-      branch_point: branch-point-double-quoted
-      branch:
-        - regex-double-quoted-branch
-        - string-double-quoted-branch
-    - match: (?=')
-      branch_point: branch-point-single-quoted
-      branch:
-        - regex-single-quoted-branch
-        - string-single-quoted-branch
+  string-single-quoted-regexp-content:
+    - meta_scope: meta.string.php string.quoted.single.php
+    - match: (/)({{regex_modifier}})(')
+      captures:
+        1: punctuation.definition.string.regex-delimiter.end.php
+        2: meta.regex.modifier.php
+        3: punctuation.definition.string.end.php
+      pop: 1
+    - match: \'
+      fail: branch-point-single-quoted
+    - match: ''
+      push: scope:source.regexp.php
+      with_prototype:
+        - match: (?=/{{regex_modifier}}'|')
+          pop: 1
+        - match: \\'
+          scope: constant.character.escape
+        - match: \s((#)[^']*)$
+          captures:
+            1: comment.regexp.php
+            2: punctuation.definition.comment.regexp.php
+
+  string-single-quoted-plain:
+    - match: \'
+      scope: string.quoted.single.php punctuation.definition.string.begin.php
+      set: string-single-quoted-plain-content
+
+  string-single-quoted-plain-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.php
+    - meta_content_scope: string.quoted.single.php
+    - include: string-single-quoted-end
+    - match: \\[\\'']
+      scope: constant.character.escape.php
+
+  string-quoted-sql-content:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.php source.sql.embedded.php
+    - include: scope:source.sql
+      apply_prototype: true
+
+###[ BUILTINS ]###############################################################
+
   support:
     - match: |-
         \b(?xi:
@@ -1890,11 +2026,11 @@ contexts:
     - match: |-
         \b(?xi:
           basename | chgrp | chmod | chown | clearstatcache | copy | delete | dirname |
-          disk_free_space | disk_total_space | diskfreespace | fclose | feof | fflush | fgetc | fgetcsv |
+          disk_free_space | disk_total_space | diskfreespace | fclose | fdatasync | feof | fflush | fgetc | fgetcsv |
           fgets | fgetss | file | file_exists | file_get_contents | file_put_contents | fileatime | filectime |
           filegroup | fileinode | filemtime | fileowner | fileperms | filesize | filetype | flock |
           fnmatch | fopen | fpassthru | fputcsv | fputs | fread | fscanf | fseek |
-          fstat | ftell | ftruncate | fwrite | glob | is_dir | is_executable | is_file |
+          fstat | fsync | ftell | ftruncate | fwrite | glob | is_dir | is_executable | is_file |
           is_link | is_readable | is_uploaded_file | is_writable | is_writeable | lchgrp | lchown | link |
           linkinfo | lstat | mkdir | move_uploaded_file | parse_ini_file | parse_ini_string | pathinfo | pclose |
           popen | readfile | readlink | realpath | realpath_cache_get | realpath_cache_size | rename | rewind |
@@ -2105,7 +2241,7 @@ contexts:
           mysqli_affected_rows | mysqli_autocommit | mysqli_bind_param | mysqli_bind_result | mysqli_change_user | mysqli_character_set_name | mysqli_client_encoding | mysqli_close |
           mysqli_commit | mysqli_connect | mysqli_connect_errno | mysqli_connect_error | mysqli_data_seek | mysqli_debug | mysqli_disable_reads_from_master | mysqli_disable_rpl_parse |
           mysqli_dump_debug_info | mysqli_embedded_server_end | mysqli_embedded_server_start | mysqli_enable_reads_from_master | mysqli_enable_rpl_parse | mysqli_errno | mysqli_error | mysqli_escape_string |
-          mysqli_execute | mysqli_fetch | mysqli_fetch_all | mysqli_fetch_array | mysqli_fetch_assoc | mysqli_fetch_field | mysqli_fetch_field_direct | mysqli_fetch_fields |
+          mysqli_execute | mysqli_fetch | mysqli_fetch_all | mysqli_fetch_array | mysqli_fetch_assoc | mysqli_fetch_column | mysqli_fetch_field | mysqli_fetch_field_direct | mysqli_fetch_fields |
           mysqli_fetch_lengths | mysqli_fetch_object | mysqli_fetch_row | mysqli_field_count | mysqli_field_seek | mysqli_field_tell | mysqli_free_result | mysqli_get_cache_stats |
           mysqli_get_charset | mysqli_get_client_info | mysqli_get_client_stats | mysqli_get_client_version | mysqli_get_connection_stats | mysqli_get_host_info | mysqli_get_metadata | mysqli_get_proto_info |
           mysqli_get_server_info | mysqli_get_server_version | mysqli_get_warnings | mysqli_info | mysqli_init | mysqli_insert_id | mysqli_kill | mysqli_master_query |
@@ -2269,7 +2405,7 @@ contexts:
       scope: support.function.php_pcre.php
     - match: |-
         \b(?xi:
-          class_implements | class_parents | iterator_apply | iterator_count | iterator_to_array | spl_autoload | spl_autoload_call | spl_autoload_extensions |
+          class_implements | class_parents | class_uses | iterator_apply | iterator_count | iterator_to_array | spl_autoload | spl_autoload_call | spl_autoload_extensions |
           spl_autoload_functions | spl_autoload_register | spl_autoload_unregister | spl_classes | spl_object_hash | spl_object_id
         )\b
       scope: support.function.php_spl.php

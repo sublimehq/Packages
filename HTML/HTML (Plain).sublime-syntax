@@ -126,7 +126,7 @@ contexts:
 
   comment-content:
     - meta_scope: comment.block.html
-    - match: (<!-)?(--\s*>)
+    - match: (<!-)?(-->)
       captures:
         1: invalid.illegal.bad-comments-or-CDATA.html
         2: punctuation.definition.comment.end.html

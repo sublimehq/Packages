@@ -1226,6 +1226,8 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
+    - match: (?=\))
+      pop: true
 
   line_of_code_in_no_semicolon:
     - match: \b(value)\b
@@ -1361,12 +1363,11 @@ contexts:
             2: punctuation.separator.cs
             3: punctuation.section.brackets.end.cs
             4: keyword.operator.pointer.cs
-    - match: \(
-      scope: punctuation.section.group.begin.cs
+    - match: (?=\()
       branch_point: tuple_or_group
       branch:
-        - group
-        - tuple
+        - group_begin
+        - tuple_begin
     - match: \{
       scope: punctuation.section.block.begin.cs
       set:
@@ -1374,16 +1375,28 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: true
         - include: code_block_in
-    - match: (?=\}|\)|>|\]|,|{{reserved}})
+    - match: (?=[]}>,]|{{reserved}})
       pop: true
 
+  group_begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: group
+
+  tuple_begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.cs
+      set: tuple
+
   tuple:
-    - meta_scope: meta.group.tuple.cs
+    - meta_scope: meta.sequence.tuple.cs
     - match: \)
-      scope: punctuation.section.group.end.cs
+      scope: punctuation.section.sequence.end.cs
       pop: true
     - match: ','
-      scope: punctuation.separator.tuple.cs
+      scope: punctuation.separator.sequence.cs
     - match: ':'
       scope: keyword.operator.assignment.cs
     - match: _\b
@@ -1422,19 +1435,31 @@ contexts:
 
   attribute_arguments:
     - meta_content_scope: meta.annotation.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
     - match: ''
       set: attribute_in
 
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
-    - match: '(?=[^\s{])'
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      set: maybe_constructor_initializer
+    - include: maybe_constructor_initializer
+
+  maybe_constructor_initializer:
+    - meta_content_scope: meta.instance.cs meta.group.cs
+    - match: (?=[^\s{])
       pop: true
-    - match: '\{'
+    - match: \{
       scope: punctuation.section.braces.begin.cs
       set: initializer_constructor
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
+    - match: \)
+      scope: meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
+      pop: true
     - match: ''
       pop: true
 
@@ -1464,8 +1489,7 @@ contexts:
       push: line_of_code_in
     - match: ','
       scope: punctuation.separator.argument.cs
-    - match: \)
-      scope: punctuation.section.group.end.cs
+    - match: (?=\))
       pop: true
     - match: ;
       scope: invalid.illegal.expected-close-paren.cs
@@ -1475,7 +1499,7 @@ contexts:
       push:
         - include: lambdas
         - include: line_of_code_in_no_semicolon
-        - match: (?=;)
+        - match: (?=[;)])
           pop: true
 
   accessor_arguments:
@@ -1498,15 +1522,14 @@ contexts:
 
   type_tuple:
     - match: \(
-      scope: punctuation.section.group.begin.cs
+      scope: punctuation.section.sequence.begin.cs
       set:
-        - meta_scope: meta.group.tuple.cs
-        - match: (\))
-          captures:
-            1: punctuation.section.group.end.cs
+        - meta_scope: meta.sequence.tuple.cs
+        - match: \)
+          scope: punctuation.section.sequence.end.cs
           pop: true
         - match: ','
-          scope: punctuation.separator.tuple.cs
+          scope: punctuation.separator.sequence.cs
         - match: (?=\S)
           push: var_declaration_explicit
 
@@ -2033,14 +2056,14 @@ contexts:
         - match: '\bwhen\b'
           scope: keyword.control.switch.case.when.cs
         - match: \(
-          scope: punctuation.section.group.begin.cs
+          scope: punctuation.section.sequence.begin.cs
           push:
-            - meta_scope: meta.group.tuple.cs
+            - meta_scope: meta.sequence.tuple.cs
             - match: \)
-              scope: punctuation.section.group.end.cs
+              scope: punctuation.section.sequence.end.cs
               pop: true
             - match: ','
-              scope: punctuation.separator.tuple.cs
+              scope: punctuation.separator.sequence.cs
             - match: _\b
               scope: variable.language.deconstruction.discard.cs
             - include: line_of_code_in_no_semicolon # needed for "when" syntax?
@@ -2090,18 +2113,18 @@ contexts:
     - match: (var)\s*(\()
       captures:
         1: storage.type.variable.cs
-        2: meta.group.tuple.cs punctuation.definition.group.begin.cs
+        2: meta.sequence.tuple.cs punctuation.section.sequence.begin.cs
       set:
-        - meta_content_scope: meta.group.tuple.cs
+        - meta_content_scope: meta.sequence.tuple.cs
         - match: \)
-          scope: meta.group.tuple.cs punctuation.definition.group.end.cs
+          scope: meta.sequence.tuple.cs punctuation.section.sequence.end.cs
           pop: true
         - match: _\b
           scope: variable.language.deconstruction.discard.cs
         - match: '{{name}}'
           scope: variable.other.cs
         - match: ','
-          scope: punctuation.separator.tuple.cs
+          scope: punctuation.separator.sequence.cs
     - match: '(var)\s+({{name}})\s*'
       captures:
         1: storage.type.variable.cs

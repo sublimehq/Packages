@@ -191,7 +191,9 @@ int main() {
 
 #if 0
 #ifdef moo
-/* <- - keyword.control */
+/* <- - keyword.control
+    ^ meta.number constant.numeric.value
+*/
 #endif
 /* <- - keyword.control */
 #endif
@@ -203,6 +205,12 @@ int disabled_func() {
 }
 #endif
 
+#if 0000000
+/*
+    ^^^^^^^ meta.number constant.numeric.value
+*/
+#endif
+
 #if 1
 /*  ^ meta.number constant.numeric.value */
 int enabled_func() {}
@@ -211,6 +219,12 @@ int enabled_func() {}
 int disabled_func() {
 /*  ^ comment.block */
 }
+#endif
+
+#if 0090
+/*
+    ^^^^ meta.number constant.numeric.value
+*/
 #endif
 
 #if 1
@@ -289,9 +303,18 @@ typedef int myint;
 
 typedef struct mystruct {
 /* <- keyword.declaration */
-/*             ^ - entity */
+/*      ^ keyword.declaration.struct.c */
+/*             ^ entity.name.struct.c */
 } mystruct;
-/* ^ entity.name.type */
+/* ^ entity.name.type.typedef.c */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
+/*             ^^^^^^^^^^^ entity.name.struct.c */
+/*                         ^ punctuation.section.block.begin.c */
+/*                          ^ punctuation.section.block.end.c */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c */
 
 /////////////////////////////////////////////
 // Data structures and return values
