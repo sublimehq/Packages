@@ -2268,6 +2268,13 @@ That's some text with a footnote.[^1]
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra - markup.raw
 |              ^^^^^^^^ markup.italic
 
+ [^footnote](not_link_dest)
+|^^^^^^^^^^^ meta.paragraph.markdown meta.link.reference.footnote.markdown-extra
+|^^ punctuation.definition.link.begin.markdown
+|  ^^^^^^^^ meta.link.reference.literal.footnote-id.markdown
+|          ^ punctuation.definition.link.end.markdown
+|           ^^^^^^^^^^^^^^^ meta.paragraph.markdown - meta.link.inline.markdown
+
 - a
   - b
     - c
