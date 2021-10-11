@@ -36,7 +36,7 @@ variables:
 
   block_comment_contents: (?:(?:[^*]|\*(?!/))*)
   block_comment: (?:/\*{{block_comment_contents}}\*/)
-  nothing: (?x:(?:\s+|{{block_comment}})*)
+  nothing: (?x:(?:\s|{{block_comment}})*)
   line_ending_ahead: (?={{nothing}}(?:/\*{{block_comment_contents}})?$)
 
   # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
@@ -116,8 +116,11 @@ variables:
 
 contexts:
   main:
-    - include: comments-top-level
+    - meta_include_prototype: false # don't match comments before shebang
+    - match: ''
+      push: [script, shebang]
 
+  script:
     - match: '\)|\}|\]'
       scope: invalid.illegal.stray-bracket-end.js
       # Don't pop or embedding could break.
@@ -128,33 +131,38 @@ contexts:
     - include: comments
 
   comments:
-    - match: /\*\*(?!/)
+    - include: line-comments
+    - include: block-comments
+
+  block-comments:
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.js punctuation.definition.comment.js
+    # documentation block comments
+    - match: /\*\*+
       scope: punctuation.definition.comment.begin.js
       push:
-        - jsdoc-comment
+        - jsdoc-comment-body
         - jsdoc-block-tag
+    # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.js
-        - match: \*/
-          scope: punctuation.definition.comment.end.js
-          pop: true
-    - match: //
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.double-slash.js
-        - match: \n
-          pop: true
+      push: block-comment-body
 
-  jsdoc-comment:
+  block-comment-end:
+    - match: \*+/
+      scope: punctuation.definition.comment.end.js
+      pop: true
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.js
+    - include: block-comment-end
+
+  jsdoc-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.block.documentation.js
-    - match: \*/
-      scope: punctuation.definition.comment.end.js
-      pop: 1
+    - include: block-comment-end
     # JSDoc "block" tags (i.e. @param) are only accepted at the beginning of the documentation
     # line so directly after the '/**' or after the '*' marker on the next lines.
     - match: ^\s*(\*)(?!/)
@@ -169,11 +177,54 @@ contexts:
     - match: (?=\S)|$
       pop: 1
 
-  comments-top-level:
-    - match: ^(#!).*$\n?
-      scope: comment.line.shebang.js
+  line-comments:
+    - match: /{4,}
+      scope: punctuation.definition.comment.js
+      push: line-comment-other-body
+    - match: /{3}
+      scope: punctuation.definition.comment.js
+      push: line-comment-triple-slash-body
+    - match: /{2}
+      scope: punctuation.definition.comment.js
+      push: line-comment-double-slash-body
+
+  line-comment-end:
+    - match: (//+)?\n
       captures:
         1: punctuation.definition.comment.js
+      pop: 1
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.js
+    - include: line-comment-end
+
+  line-comment-triple-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.triple-slash.js
+    - include: line-comment-end
+
+  line-comment-other-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.other.js
+    - include: line-comment-end
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.js
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.js
+    # Note: Keep sync with first_line_match!
+    - match: \b(node|js)\b
+      scope: constant.language.shebang.js
+    - match: \n
+      pop: 1
 
   else-pop:
     - match: (?=\S)
@@ -293,15 +344,12 @@ contexts:
     - include: immediately-pop
 
   export-extended:
-    - include: variable-declaration
-    - include: class
-    - include: regular-function
+    - include: declaration
 
     - match: 'default{{identifier_break}}'
       scope: keyword.control.import-export.js
       set:
-        - include: class
-        - include: regular-function
+        - include: declaration
         - match: (?=\S)
           set: expression-statement
 
@@ -360,12 +408,12 @@ contexts:
       scope: punctuation.terminator.statement.empty.js
       pop: true
 
+    - include: declaration
     - include: import-statement-or-import-meta
     - include: export-statement
     - include: conditional
     - include: block
     - include: label
-    - include: variable-declaration
 
     - match: break{{identifier_break}}
       scope: keyword.control.flow.break.js
@@ -391,12 +439,14 @@ contexts:
       scope: keyword.control.flow.throw.js
       set: restricted-production
 
-    - include: class
-    - include: regular-function
-
     - include: decorator
 
     - include: expression-statement
+
+  declaration:
+    - include: variable-declaration
+    - include: class
+    - include: regular-function
 
   expect-semicolon:
     - match: \;

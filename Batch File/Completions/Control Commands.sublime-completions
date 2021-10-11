@@ -1,0 +1,55 @@
+{
+	"scope": "source.dosbatch - meta.function-call.arguments - meta.command - comment - string",
+	"completions": [
+		{
+			"trigger": "call",
+			"kind": "keyword",
+			"details": "Call another batch file"
+		},
+		{
+			"trigger": "do",
+			"kind": "keyword",
+			"details": "Loop command execution"
+		},
+		{
+			"trigger": "else",
+			"kind": "keyword",
+			"details": "Conditional command execution"
+		},
+		{
+			"trigger": "exit",
+			"kind": "keyword",
+			"details": "Exit command interpreter"
+		},
+		{
+			"trigger": "for",
+			"kind": "keyword",
+			"details": "Loop command execution"
+		},
+		{
+			"trigger": "goto",
+			"kind": "keyword",
+			"details": "Jump to label"
+		},
+		{
+			"trigger": "if",
+			"kind": "keyword",
+			"details": "Conditional command execution"
+		},
+		{
+			"trigger": "pause",
+			"kind": "keyword",
+			"details": "Pause batch execution"
+		},
+		{
+			"trigger": "setlocal",
+			"kind": "keyword",
+			"details": "Start a new environment context"
+		},
+		{
+			"trigger": "endlocal",
+			"kind": "keyword",
+			"details": "Finish environment context"
+		},
+	]
+}

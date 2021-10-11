@@ -847,9 +847,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.c++
           pop: true
-        - match: \b(struct)\s+({{identifier}})\b
-          captures:
-            1: keyword.declaration.struct.c++
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions-minus-generic-type
 
   parens:
@@ -1644,7 +1643,7 @@ contexts:
     - include: preprocessor-practical-workarounds
 
   preprocessor-rule-disabled-data-structures:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1670,7 +1669,7 @@ contexts:
             - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-data-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1714,7 +1713,7 @@ contexts:
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1741,7 +1740,7 @@ contexts:
             - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1846,7 +1845,7 @@ contexts:
   ## Preprocessor for statements
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1872,7 +1871,7 @@ contexts:
             - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++

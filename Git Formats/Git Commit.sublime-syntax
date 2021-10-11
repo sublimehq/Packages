@@ -3,11 +3,13 @@
 # Highlight regular git commits, merge commits, and tags.
 
 name: Git Commit
+scope: text.git.commit
+version: 2
+
 file_extensions:
   - COMMIT_EDITMSG
   - MERGE_MSG
   - TAG_EDITMSG
-scope: text.git.commit
 
 variables:
   comment_char: '[#;]'
@@ -72,7 +74,7 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: meta.message.git.commit
         - match: ^(?=#)
-          pop: true
+          pop: 1
         - include: Git Common.sublime-syntax#references
         - include: signed-off
 
@@ -91,7 +93,7 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: comment.line.git.commit
         - match: $\n?
-          pop: true
+          pop: 1
         - include: branch-line
         - include: change-list
         - include: commands-line

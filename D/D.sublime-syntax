@@ -46,7 +46,7 @@ variables:
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
   definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
-  definitely_declaration_lookahead: '(?=({{name}})(\s+\*|(\*|\[.*\])?\s+)({{name}})|\b({{type_qualifier}})\b)'
+  definitely_declaration_lookahead: '(?=(?:{{name}}\.)*{{name}}(\s+|\s*\*+\s*|\**\[.*\]\s*){{name}}|\b{{type_qualifier}}\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'

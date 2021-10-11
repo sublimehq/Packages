@@ -42,8 +42,8 @@ contexts:
           pop: true
         - include: comments
         - include: rules
-    - include: scope:source.ocaml
     - include: comments
+    - include: scope:source.ocaml
     - match: (’|‘|“|”)
       scope: invalid.illegal.unrecognized-character.ocaml
   comments:

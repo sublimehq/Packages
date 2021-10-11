@@ -133,19 +133,24 @@
         ##             ^ string.quoted.double.html - text.html.embedded.html
         ##                          ^^^^ comment.block.html punctuation
             comment -->
-        ##  ^^^^^^^^^^^ text.html.embedded.html comment.block.html
+        ##  ^^^^^^^^^^^ comment.block.html
             <div></div>
-        ##  ^^^^^^^^^^^ text.html.basic text.html.embedded meta.tag.block.any
+        ##  ^^^^^^^^^^^ text.html.basic meta.tag.block.any
             <script type=text/javascript>
-        ##  ^ text.html.basic text.html.embedded.html - source.js.embedded.html
+        ##  ^ text.html.basic - source.js.embedded.html
                 function test() {}
-        ##  ^ text.html.basic text.html.embedded.html source.js.embedded.html - source.js source.js
+        ##  ^ text.html.basic source.js.embedded.html - source.js source.js
             </script>
-        ##  ^^^^^^^^^ text.html.basic text.html.embedded.html meta.tag.script.end
+        ##  ^^^^^^^^^ text.html.basic meta.tag.script.end
         </script>
-##     ^ text.html.basic text.html.embedded.html
-##      ^^^^^^^^^ text.html.basic - text.html.embedded.html meta.tag.script.end
-##               ^ text.html.basic - text.html.embedded.html
+##     ^ text.html.basic - meta.tag
+##      ^^^^^^^^^ text.html.basic meta.tag.script.end
+##               ^ text.html.basic - meta.tag
+
+        </script>
+##     ^ text.html.basic - meta.tag
+##      ^^^^^^^^^ text.html.basic meta.tag.script.end
+##               ^ text.html.basic - meta.tag
 
         <script>
             <!-- i = 0;
@@ -286,6 +291,12 @@
         ##^^^^^ meta.tag.style.end.html entity.name.tag.style.html
         >
         ## <- meta.tag.style.end.html punctuation.definition.tag.end.html
+
+        </style>
+        ##^^^^^^ meta.tag.style.end.html
+        ##^^^^^ entity.name.tag.style.html
+        ##     ^ punctuation.definition.tag.end.html
+
         <style />
         ##       ^ - source.css.embedded.html
         ## ^ meta.tag.style entity.name.tag.style
@@ -347,6 +358,14 @@
 ##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
 ##          ^^ invalid.illegal.bad-comments-or-CDATA
 ##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
+
+        <!-- 1st comment -- >
+##                       ^^^^ - punctuation
+        <p>Is a comment</p>
+##      ^^^^^^^^^^^^^^^^^^^ comment.block
+        <!-- 2nd comment -->
+##      ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                       ^^^ punctuation.definition.comment.end.html
 
         <script type=html/text/>
         ##     ^ - meta.attribute-with-value
