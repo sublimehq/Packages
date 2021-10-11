@@ -21,7 +21,9 @@ contexts:
     # - escaped hash tags are not supported
     - match: '[-!]|\\#|(?=\S)'
       scope: invalid.illegal.operator.git.codeowners
-      push: [pattern-content, Git Common.sublime-syntax#fnmatch-start]
+      push:
+        - pattern-content
+        - Git Common.sublime-syntax#fnmatch-start
 
   pattern-content:
     - meta_content_scope: meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
