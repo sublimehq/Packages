@@ -669,23 +669,23 @@ contexts:
         - match-statement-begin
 
   match-statement-begin:
-    - include: match-statement-fail
+    # fail if match is directly followed by `:` or end of statement
+    - match: (?=$|#|;|:)
+      fail: match-statements
+    - include: line-continuation
     - include: allow-unpack-operators
 
   match-statement-body:
     - meta_scope: meta.statement.conditional.match.python
+    - match: (?=$|#|;)
+      fail: match-statements
     - include: match-statement-end
-    - include: match-statement-fail
     - include: expression-in-a-statement
 
   match-statement-end:
     - match: ':(?!=)'
       scope: punctuation.section.block.conditional.match.python
       pop: true
-
-  match-statement-fail:
-    - match: (?=$|#|;)
-      fail: match-statements
 
   structural-pattern-fallback:
     # Fallback context, which is used if `match` or `case` don't seem to

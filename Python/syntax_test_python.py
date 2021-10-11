@@ -1312,6 +1312,21 @@ def _():
 #            ^ punctuation.accessor.dot.python
 #             ^^^^^ meta.generic-name.python - keyword
 
+    match: int = 0
+#   ^^^^^ meta.generic-name.python - keyword
+#        ^ punctuation.separator.annotation.variable.python
+#          ^^^ meta.qualified-name.python support.type.python
+#              ^ keyword.operator.assignment.python
+#                ^ meta.number.integer.decimal.python constant.numeric.value.python
+
+    match \
+#   ^^^^^ meta.generic-name.python - keyword
+#         ^ punctuation.separator.continuation.line.python
+    : int = 0
+#   ^ punctuation.separator.annotation.variable.python
+#     ^^^ meta.qualified-name.python support.type.python
+#         ^ keyword.operator.assignment.python
+#           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
 ##################
 # Function definitions
