@@ -457,7 +457,9 @@ contexts:
         - case-statement-begin
 
   case-statement-begin:
-    - include: case-statement-fail
+    # fail if match is directly followed by `:` or end of statement
+    - match: (?=$|#|;|:)
+      fail: case-statements
     - include: allow-unpack-operators
 
   case-statement-end:
