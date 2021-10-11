@@ -60,6 +60,22 @@ contexts:
     - include: comments
     - include: else-pop
 
+  export-extended:
+    - meta_prepend: true
+    - match: as{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - expect-semicolon
+        - ts-export-as-namespace
+
+  ts-export-as-namespace:
+    - match: namespace{{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - ts-namespace-name-end
+        - ts-namespace-name
+    - include: else-pop
+
   branch-possible-arrow-function:
     - meta_prepend: true
     - match: (?=\()
@@ -177,14 +193,13 @@ contexts:
       scope: storage.modifier.js
       set: ts-enum
 
-  ts-declare-enum:
+  ts-declare:
     - match: declare{{identifier_break}}
       scope: storage.modifier.js
       set:
-        - include: ts-const
-        - include: ts-enum
+        - include: declaration
         - match: (?=\S)
-          fail: ts-declare-enum
+          fail: ts-declare
 
   ts-abstract-class:
     - match: abstract{{identifier_break}}
@@ -194,14 +209,6 @@ contexts:
         - match: (?=\S)
           fail: ts-abstract-class
 
-  ts-const:
-    - match: (?=const{{identifier_break}})
-      pop: true
-      branch:
-        - ts-const-declaration
-        - ts-const-enum
-      branch_point: ts-const-enum
-
   declaration:
     - meta_prepend: true
     - include: ts-enum
@@ -209,13 +216,18 @@ contexts:
     - include: ts-interface-declaration
     - include: ts-namespace-declaration
 
-    - include: ts-const
+    - match: (?=const{{identifier_break}})
+      pop: true
+      branch:
+        - ts-const-declaration
+        - ts-const-enum
+      branch_point: ts-const-enum
 
     - match: (?=declare{{identifier_break}})
       branch:
-        - ts-declare-enum
+        - ts-declare
         - expression-statement
-      branch_point: ts-declare-enum
+      branch_point: ts-declare
 
     - match: (?=abstract{{identifier_break}})
       branch:
@@ -472,6 +484,12 @@ contexts:
         - function-declaration-expect-generator-star
         - function-declaration-expect-function-keyword
         - function-declaration-expect-async
+
+  function-declaration-expect-body:
+    - meta_prepend: true
+    - match: ;
+      scope: punctuation.terminator.statement.js
+      pop: 2
 
   ts-type-parameter-list:
     - match: \<(?!<)
