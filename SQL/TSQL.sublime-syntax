@@ -79,28 +79,39 @@ contexts:
   like-string-not-followed-by-escape:
     - match: \'
       scope: punctuation.definition.string.begin.sql
-      set: [like-escape-fail, inside-like-single-quoted-string]
+      set:
+        - like-escape-fail
+        - inside-like-single-quoted-string
     - match: (?=\S)
       pop: 1
 
   like-string-followed-by-escape-slash:
     - match: \'
       scope: punctuation.definition.string.begin.sql
-      set: [like-escape-character-slash, like-escape-pop, inside-like-single-quoted-string-slash-escape]
+      set:
+        - like-escape-character-slash
+        - like-escape-pop
+        - inside-like-single-quoted-string-slash-escape
     - match: (?=\S)
       pop: 1
 
   like-string-followed-by-escape-caret:
     - match: \'
       scope: punctuation.definition.string.begin.sql
-      set: [like-escape-character-caret, like-escape-pop, inside-like-single-quoted-string-caret-escape]
+      set:
+        - like-escape-character-caret
+        - like-escape-pop
+        - inside-like-single-quoted-string-caret-escape
     - match: (?=\S)
       pop: 1
 
   like-string-followed-by-unknown-escape:
     - match: \'
       scope: punctuation.definition.string.begin.sql
-      set: [like-escape-character-any, like-escape-pop, inside-like-single-quoted-string]
+      set:
+        - like-escape-character-any
+        - like-escape-pop
+        - inside-like-single-quoted-string
     - match: (?=\S)
       pop: 1
 
@@ -314,19 +325,33 @@ contexts:
       push: inside-with-group
     - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
-      push: [cursor-name, single-identifier-after-whitespace]
+      push:
+        - cursor-name
+        - single-identifier-after-whitespace
     - match: \b(?i:merge)\b
       scope: keyword.other.tsql
-      push: [maybe-table-alias, table-name, single-identifier-after-whitespace]
+      push:
+        - maybe-table-alias
+        - table-name
+        - single-identifier-after-whitespace
     - match: \b(?i:using)\b
       scope: keyword.other.tsql
-      push: [table-name-or-subquery, join-on, maybe-table-alias, table-name, single-identifier-after-whitespace]
+      push:
+        - table-name-or-subquery
+        - join-on
+        - maybe-table-alias
+        - table-name
+        - single-identifier-after-whitespace
 
   ddl-statements:
     - meta_prepend: true
     - match: (?i)\b(?:create(?:\s+or\s+alter)?)\b(?!\s*table\b)
       scope: keyword.other.ddl.sql
-      push: [ddl-create-target-expect-as, ddl-create-target, create-condition, ddl-target]
+      push:
+        - ddl-create-target-expect-as
+        - ddl-create-target
+        - create-condition
+        - ddl-target
 
   ddl-target:
     - meta_prepend: true
@@ -338,7 +363,9 @@ contexts:
     #- match: \b(?i:proc|procedure|function)\b
     #  scope: keyword.other.sql
     - match: (?=\S)
-      set: [ddl-create-target-expect-as, expect-procedure-name]
+      set:
+        - ddl-create-target-expect-as
+        - expect-procedure-name
 
   ddl-create-target-expect-as:
     - match: (?i:\bas\b)
@@ -384,7 +411,9 @@ contexts:
 
   after-declare:
     - match: (?=\w+\s+(?i:cursor)\b)
-      set: [cursor-name, single-identifier]
+      set:
+        - cursor-name
+        - single-identifier
     - match: (?=\S)
       pop: 1
 
@@ -394,7 +423,9 @@ contexts:
       scope: constant.language.switch.tsql
     - match: \b(?i:identity_insert)\b
       scope: constant.language.switch.tsql
-      push: [table-name, single-identifier]
+      push:
+        - table-name
+        - single-identifier
     - match: \b(?i:on|off)\b
       scope: constant.language.boolean.tsql
     - include: variables
@@ -437,10 +468,16 @@ contexts:
   cte-with:
     - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\()
       scope: keyword.other.DML.sql
-      push: [cte-column-list-begin, cte-table-name, single-identifier]
+      push:
+        - cte-column-list-begin
+        - cte-table-name
+        - single-identifier
     - match: (?i)\bwith\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
       scope: keyword.other.DML.sql
-      push: [cte-as, cte-table-name, single-identifier]
+      push:
+        - cte-as
+        - cte-table-name
+        - single-identifier
 
   with:
     - match: (?i)\bwith\b
@@ -480,7 +517,9 @@ contexts:
       captures:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
-      push: [index-name, single-identifier-after-whitespace]
+      push:
+        - index-name
+        - single-identifier-after-whitespace
     - match: \w+
       scope: constant.language.with.tsql
     - match: ','
@@ -540,7 +579,9 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:OPENXML)\b
       scope: meta.table-valued-function-name.sql support.function.tsql
-      push: [with-column-definition, begin-method-call-paren]
+      push:
+        - with-column-definition
+        - begin-method-call-paren
     - match: \b(?i:(OPENROWSET))\b\s*(\()
       scope: meta.function-call.tsql
       captures:
@@ -557,12 +598,16 @@ contexts:
 
   expect-procedure-name:
     - match: ''
-      set: [procedure-name, single-identifier-after-whitespace]
+      set:
+        - procedure-name
+        - single-identifier-after-whitespace
 
   cte-column-list-begin:
     - match: (?=\()
       scope: punctuation.section.group.begin.tsql
-      set: [cte-as, ddl-table-creation-columns]
+      set:
+        - cte-as
+        - ddl-table-creation-columns
     - match: (?=\S)
       set: cte-as
 
@@ -618,12 +663,16 @@ contexts:
   ddl-table-creation-columns:
     - match: \(
       scope: punctuation.section.group.begin.sql
-      set: [maybe-filegroup, inside-ddl-table-creation-columns]
+      set:
+        - maybe-filegroup
+        - inside-ddl-table-creation-columns
 
   maybe-filegroup:
     - match: \b(?i:ON)\b(?!\s*{{identifier_for_lookahead}}\s*=)
       scope: keyword.other.tsql
-      set: [filegroup-name, single-identifier-after-whitespace]
+      set:
+        - filegroup-name
+        - single-identifier-after-whitespace
     - match: (?=\S)
       pop: 1
 
@@ -699,7 +748,10 @@ contexts:
   user-defined-function-calls:
     - meta_append: true
     - match: (?={{identifier_for_lookahead}}\s*\()
-      push: [begin-method-call-paren, function-name, single-identifier]
+      push:
+        - begin-method-call-paren
+        - function-name
+        - single-identifier
 
   function-name:
     - meta_content_scope: variable.function.tsql
@@ -725,7 +777,9 @@ contexts:
     - include: numbers-variables-and-strings
     - include: ddl-table-creation-columns
     - match: (?=\S)
-      push: [index-name, single-identifier]
+      push:
+        - index-name
+        - single-identifier
 
   index-name:
     - meta_content_scope: meta.index-name.tsql

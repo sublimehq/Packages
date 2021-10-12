@@ -88,7 +88,9 @@ contexts:
   single-identifier:
     - include: pop-on-top-level-reserved-word
     - match: ''
-      set: [maybe-identifier-accessor, identifier-part]
+      set:
+        - maybe-identifier-accessor
+        - identifier-part
 
   maybe-identifier-accessor:
     - match: \s*(\.)(?=\s*\*)
@@ -136,7 +138,9 @@ contexts:
   create-condition:
     - include: dml-condition
     - match: (?=\S)
-      set: [identifier-create, single-identifier]
+      set:
+        - identifier-create
+        - single-identifier
 
   drop-condition:
     - include: dml-condition
@@ -176,7 +180,10 @@ contexts:
     - include: wildcard-identifier
     - include: expressions
     - match: (?=\S)
-      push: [possible-operator, column-name, single-identifier]
+      push:
+        - possible-operator
+        - column-name
+        - single-identifier
 
   numbers:
     - match: \b\d+\.\d+\b
@@ -188,7 +195,9 @@ contexts:
     - include: types
     - match: (?i)\bas\b
       scope: keyword.operator.assignment.alias.sql
-      push: [column-alias, single-identifier-after-whitespace]
+      push:
+        - column-alias
+        - single-identifier-after-whitespace
     - match: \b(?i:case)\b
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
@@ -291,22 +300,36 @@ contexts:
   ddl-statements:
     - match: \b(?i:create\s+table)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-create-target, ddl-table-creation-columns, create-condition]
+      push:
+        - ddl-create-target
+        - ddl-table-creation-columns
+        - create-condition
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-create-target, create-condition, ddl-target]
+      push:
+        - ddl-create-target
+        - create-condition
+        - ddl-target
     - match: (?i:\bdrop\s+table\b)
       scope: keyword.other.ddl.sql
       push: ddl-drop-table
     - match: \b(?i:drop)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-drop-target, drop-condition, ddl-target]
+      push:
+        - ddl-drop-target
+        - drop-condition
+        - ddl-target
     - match: \b(?i:alter\s+table)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-alter-table, table-name, single-identifier-after-whitespace]
+      push:
+        - ddl-alter-table
+        - table-name
+        - single-identifier-after-whitespace
     - match: \b(?i:alter)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-alter-target, ddl-target]
+      push:
+        - ddl-alter-target
+        - ddl-target
     - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
       scope: keyword.other.authorization.sql
 
@@ -314,7 +337,9 @@ contexts:
     - meta_scope: meta.create.sql
     - match: \b(?i:on)\b
       scope: keyword.other.sql
-      push: [table-name, single-identifier-after-whitespace]
+      push:
+        - table-name
+        - single-identifier-after-whitespace
     - match: (?=\S)
       pop: 1
 
@@ -344,7 +369,9 @@ contexts:
     - meta_scope: meta.drop.sql
     - include: dml-condition
     - match: (?=\S)
-      set: [table-name, single-identifier-after-whitespace]
+      set:
+        - table-name
+        - single-identifier-after-whitespace
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
@@ -381,7 +408,9 @@ contexts:
       set: dml-update
     - match: (?i:\b(?:insert\s+into|truncate)\b)
       scope: keyword.other.DML.sql
-      push: [table-name, single-identifier-after-whitespace]
+      push:
+        - table-name
+        - single-identifier-after-whitespace
     - match: (?i:\bset\b)
       scope: keyword.other.DML.sql
       push: set
@@ -404,21 +433,29 @@ contexts:
       pop: 1
     - match: (?i:\bconstraint\b)
       scope: storage.modifier.sql
-      push: [constraint-name, single-identifier-after-whitespace]
+      push:
+        - constraint-name
+        - single-identifier-after-whitespace
     - match: (?i:\breferences\b)
       scope: storage.modifier.sql
-      push: [table-name, single-identifier-after-whitespace]
+      push:
+        - table-name
+        - single-identifier-after-whitespace
     - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default)\b)
       scope: storage.modifier.sql
     - include: expressions-or-column-name
 
   dml-delete:
     - match: (?=\S)
-      set: [table-name, single-identifier]
+      set:
+        - table-name
+        - single-identifier
 
   dml-update:
     - match: (?=\S)
-      set: [table-name, single-identifier]
+      set:
+        - table-name
+        - single-identifier
 
   distinct:
     - match: \b(?i:distinct)\b
@@ -427,7 +464,9 @@ contexts:
   joins:
     - match: (?i)\b(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join\b
       scope: keyword.other.DML.sql
-      push: [join-on, table-name-or-subquery]
+      push:
+        - join-on
+        - table-name-or-subquery
 
   column-name:
     - meta_content_scope: meta.column-name.sql
@@ -480,7 +519,10 @@ contexts:
 
   table-name-not-function-call:
     - match: ''
-      push: [fail-if-function-call, table-name, single-identifier]
+      push:
+        - fail-if-function-call
+        - table-name
+        - single-identifier
 
   fail-if-function-call:
     - match: \(
@@ -494,7 +536,10 @@ contexts:
       scope: keyword.operator.assignment.alias.sql
     - include: pop-on-top-level-reserved-word
     - match: (?=\S)
-      set: [after-table-alias, table-alias-name, single-identifier]
+      set:
+        - after-table-alias
+        - table-alias-name
+        - single-identifier
 
   after-table-alias:
     - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
@@ -528,7 +573,11 @@ contexts:
 
   table-valued-function-call:
     - match: ''
-      set: [maybe-table-alias, begin-method-call-paren, table-valued-function-name, single-identifier]
+      set:
+        - maybe-table-alias
+        - begin-method-call-paren
+        - table-valued-function-name
+        - single-identifier
 
   table-valued-function-name:
     - meta_content_scope: meta.table-valued-function-name.sql

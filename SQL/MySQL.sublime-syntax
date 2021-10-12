@@ -123,20 +123,27 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:create\s+or\s+replace)\b
       scope: keyword.other.ddl.sql
-      push: [ddl-create-target, create-condition, ddl-target]
+      push:
+        - ddl-create-target
+        - create-condition
+        - ddl-target
 
   dml-statements:
     - meta_append: true
     - match: (?i:\binsert(\s+(?:ignore\s+)?into)?\b)
       scope: keyword.other.DML.sql
-      push: [table-name, single-identifier-after-whitespace]
+      push:
+        - table-name
+        - single-identifier-after-whitespace
     - match: (?i)\b(?:limit)\b
       scope: keyword.other.DML.sql
 
   ddl-target-common:
     - match: \b(?i:on)\b
       scope: keyword.other.mysql
-      push: [table-name, single-identifier-after-whitespace]
+      push:
+        - table-name
+        - single-identifier-after-whitespace
     - match: (?i)\b(?:using)\b
       scope: keyword.other.mysql
     - match: \b((?i:algorithm))\s*(=)
