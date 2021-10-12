@@ -107,10 +107,10 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 --                               ^ punctuation.separator.sequence
     PRIMARY KEY(userid)
 --  ^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
---  ^^^^^^^^^^^ storage.modifier
+--  ^^^^^^^^^^^ keyword.other
 --             ^ meta.group punctuation.section.group.begin
---              ^^^^^^ meta.group meta.column-name
---                    ^ meta.group punctuation.section.group.end
+--              ^^^^^^ meta.group.partition-key meta.column-name
+--                    ^ meta.group.partition-key punctuation.section.group.end
 );
 -- <- meta.create meta.group.table-columns punctuation.section.group.end
 
@@ -119,19 +119,51 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     other_id uuid,
     test text,
     PRIMARY KEY(userid, other_id)
+--  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
+--             ^ punctuation.section.group.begin
+--              ^^^^^^ meta.group.partition-key meta.column-name
+--                    ^^^^^^^^^^^ - meta.group.partition-key
+--                    ^ meta.group punctuation.separator.sequence
+--                      ^^^^^^^^ meta.group.table-columns meta.group meta.column-name
+--                              ^ punctuation.section.group.end
 );
+-- <- meta.create meta.group.table-columns punctuation.section.group.end
 CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     userid uuid,
     other_id uuid,
     test text,
     PRIMARY KEY ((userid), other_id)
+--  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
+--              ^ punctuation.section.group.begin
+--               ^^^^^^^^ meta.group.partition-key
+--               ^ punctuation.section.group.begin
+--                ^^^^^^ meta.column-name
+--                      ^ punctuation.section.group.end
+--                       ^^^^^^^^^^^ - meta.group.partition-key
+--                       ^ punctuation.separator.sequence
+--                         ^^^^^^^^ meta.group.table-columns meta.group meta.column-name
+--                                 ^ punctuation.section.group.end
 );
+-- <- meta.create meta.group.table-columns punctuation.section.group.end
 CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     userid uuid,
     other_id uuid,
     test int,
     PRIMARY KEY ((userid, other_id), test)
+--  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
+--              ^ punctuation.section.group.begin
+--               ^^^^^^^^^^^^^^^^^^ meta.group.partition-key
+--               ^ punctuation.section.group.begin
+--                ^^^^^^ meta.column-name
+--                      ^ punctuation.separator.sequence
+--                        ^^^^^^^^ meta.column-name
+--                                ^ punctuation.section.group.end
+--                                 ^^^^^^^^ - meta.group.partition-key
+--                                 ^ punctuation.separator.sequence
+--                                   ^^^^ meta.group.table-columns meta.group meta.column-name
+--                                       ^ punctuation.section.group.end
 );
+-- <- meta.create meta.group.table-columns punctuation.section.group.end
 
 CREATE TABLE IF NOT EXISTS date_by_userid (
     userid uuid PRIMARY KEY,
@@ -266,3 +298,9 @@ ALTER TABLE someentity_by_somefield
 --      ^^^^^^^^^^^ meta.column-name
 --                  ^^^^ storage.type
 --                      ^ punctuation.terminator.statement
+
+select *
+from test_by_example
+join fred -- there are no joins in CQL
+-- <- - keyword
+--^^ - keyword

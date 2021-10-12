@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: CQL
+name: Cassandra Query Language
 file_extensions:
   - cql
 scope: source.sql.cql
@@ -84,3 +84,40 @@ contexts:
 
   ddl-alter-common:
     - meta_prepend: false
+
+  inside-ddl-table-creation-columns:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: ((?i:\bprimary\s+key))\s*(\()
+      captures:
+        1: keyword.other.cql
+        2: meta.group.cql punctuation.section.group.begin.cql
+      push: partition-key
+    - match: \b(?i:primary\s+key)\b
+      scope: storage.modifier.cql
+      push: partition-key
+    - include: expressions-or-column-name
+
+  partition-key:
+    - meta_content_scope: meta.group.partition-key.cql
+    - match: \)
+      scope: meta.group.partition-key.cql punctuation.section.group.end.cql
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.cql
+      push: inside-partition-key-group
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+      set: inside-group
+    - include: inside-ddl-table-creation-columns
+
+  inside-partition-key-group:
+    - match: \)
+      scope: punctuation.section.group.end.cql
+      pop: 1
+    - include: inside-ddl-table-creation-columns
+
+  joins:
+    - match: \bjoin\b
