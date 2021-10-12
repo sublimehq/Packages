@@ -1099,8 +1099,14 @@ CREATE TABLE dbo.T1
     column_2 varchar(30)
 --  ^^^^^^^^ meta.column-name
 --           ^^^^^^^^^^^ storage.type
-        CONSTRAINT default_name DEFAULT ('my column default'), -- TODO: scope the constraint name correctly
+        CONSTRAINT default_name DEFAULT ('my column default'),
 --      ^^^^^^^^^^ storage.modifier
+--                 ^^^^^^^^^^^^ meta.constraint-name
+--                              ^^^^^^^ storage.modifier
+--                                      ^ punctuation.section.group.begin
+--                                       ^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--                                                          ^ punctuation.section.group.end
+--                                                           ^ punctuation.separator.sequence
     column_3 rowversion,
 --  ^^^^^^^^ meta.column-name
 --           ^^^^^^^^^^ storage.type
@@ -1185,6 +1191,17 @@ GO
 CREATE TABLE [dbo].[be_Categories](
     [CategoryID] [uniqueidentifier] ROWGUIDCOL NOT NULL CONSTRAINT [DF_be_Categories_CategoryID] DEFAULT (newid()),
 --                                  ^^^^^^^^^^ storage.modifier
+--                                             ^^^ keyword.operator.logical
+--                                                 ^^^^ constant.language.null
+--                                                      ^^^^^^^^^^ storage.modifier
+--                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constraint-name
+--                                                                                               ^^^^^^^ storage.modifier
+--                                                                                                       ^ punctuation.section.group.begin
+--                                                                                                        ^^^^^ meta.function-call support.function
+--                                                                                                             ^ punctuation.section.parens.begin
+--                                                                                                              ^ punctuation.section.parens.end
+--                                                                                                               ^ punctuation.section.group.end
+--                                                                                                                ^ punctuation.separator.sequence
     [CategoryName] [nvarchar](50) NULL,
     [Description] [nvarchar](200) NULL,
     [ParentID] [uniqueidentifier] NULL,
@@ -1209,6 +1226,12 @@ GO
 --------------
 CREATE TABLE [Employee](
    [EmployeeID] [int] NOT NULL PRIMARY KEY,
+-- ^^^^^^^^^^^^ meta.column-name
+--              ^^^^^ storage.type
+--                    ^^^ keyword.operator.logical
+--                        ^^^^ constant.language.null
+--                             ^^^^^^^^^^^ storage.modifier
+--                                        ^ punctuation.separator.sequence
    [FirstName] VARCHAR(250) NOT NULL,
    [LastName] VARCHAR(250) NOT NULL,
    [DepartmentID] [int] NOT NULL REFERENCES [Department](DepartmentID), -- TODO: scope reference table name correctly

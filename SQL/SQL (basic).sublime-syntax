@@ -402,7 +402,10 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: 1
-    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
+    - match: (?i:\bconstraint\b)
+      scope: storage.modifier.sql
+      push: [constraint-name, single-identifier-after-whitespace]
+    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default)\b)
       scope: storage.modifier.sql
     - include: expressions-or-column-name
 
@@ -450,6 +453,11 @@ contexts:
 
   procedure-name:
     - meta_content_scope: meta.procedure-name.sql
+    - match: ''
+      pop: 1
+
+  constraint-name:
+    - meta_content_scope: meta.constraint-name.sql
     - match: ''
       pop: 1
 
