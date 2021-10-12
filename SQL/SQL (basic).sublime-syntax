@@ -405,7 +405,10 @@ contexts:
     - match: (?i:\bconstraint\b)
       scope: storage.modifier.sql
       push: [constraint-name, single-identifier-after-whitespace]
-    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default)\b)
+    - match: (?i:\breferences\b)
+      scope: storage.modifier.sql
+      push: [table-name, single-identifier-after-whitespace]
+    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default)\b)
       scope: storage.modifier.sql
     - include: expressions-or-column-name
 

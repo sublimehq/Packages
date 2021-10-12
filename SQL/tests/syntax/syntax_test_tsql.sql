@@ -1206,6 +1206,8 @@ CREATE TABLE [dbo].[be_Categories](
     [Description] [nvarchar](200) NULL,
     [ParentID] [uniqueidentifier] NULL,
     CONSTRAINT [PK_be_Categories] PRIMARY KEY CLUSTERED
+--  ^^^^^^^^^^ storage.modifier
+--             ^^^^^^^^^^^^^^^^^^ meta.constraint-name
 --                                ^^^^^^^^^^^ storage.modifier
 --                                            ^^^^^^^^^ storage.modifier
     (
@@ -1221,7 +1223,19 @@ CREATE TABLE [dbo].[be_Categories](
 --                                                                               ^^^^^^^^^^^^^^^ constant.language.with
 --                                                                                               ^ keyword.operator.assignment
 --                                                                                                 ^^ constant.language.bool
+--                                                                                                   ^ punctuation.separator.sequence
+--                                                                                                     ^^^^^^^^^^^^^^^^ constant.language.with
+--                                                                                                                      ^ keyword.operator.assignment
+--                                                                                                                        ^^ constant.language.bool
+--                                                                                                                          ^ punctuation.section.group.end
+--                                                                                                                            ^^ keyword.other
+--                                                                                                                               ^^^^^^^^^ meta.filegroup-name
 ) ON [PRIMARY]
+-- <- punctuation.section.group.end
+--^^ meta.create keyword.other
+--   ^^^^^^^^^ meta.filegroup-name
+--   ^ punctuation.definition.identifier.begin
+--           ^ punctuation.definition.identifier.end
 GO
 --------------
 CREATE TABLE [Employee](
@@ -1234,8 +1248,19 @@ CREATE TABLE [Employee](
 --                                        ^ punctuation.separator.sequence
    [FirstName] VARCHAR(250) NOT NULL,
    [LastName] VARCHAR(250) NOT NULL,
-   [DepartmentID] [int] NOT NULL REFERENCES [Department](DepartmentID), -- TODO: scope reference table name correctly
-) ON [PRIMARY] -- TODO: scope on primary correctly
+   [DepartmentID] [int] NOT NULL REFERENCES [Department](DepartmentID),
+--                      ^^^ keyword.operator.logical
+--                          ^^^^ constant.language.null
+--                               ^^^^^^^^^^ storage.modifier
+--                                          ^^^^^^^^^^^^ meta.table-name
+--                                                      ^ punctuation.section.group.begin
+--                                                       ^^^^^^^^^^^^ meta.column-name
+--                                                                   ^ punctuation.section.group.end
+--                                                                    ^ punctuation.separator.sequence
+) ON [PRIMARY]
+-- <- punctuation.section.group.end
+--^^ meta.create keyword.other
+--   ^^^^^^^^^ meta.create meta.filegroup-name
 GO
 SELECT * FROM Department D
 CROSS APPLY

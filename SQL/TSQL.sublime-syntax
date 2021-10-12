@@ -11,6 +11,11 @@ variables:
   additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b)
   enclosed_type_begin: (?:\[)
   enclosed_type_end: (?:\])
+  identifier_for_lookahead: |-
+    (?x:
+      (?:(?:\b\w+|\[[^]]+\])\.)*
+      (?:\b\w+|\[[^]]+\])
+    )
 
   simple_types: |-
     (?ix:\b(?:
@@ -453,7 +458,7 @@ contexts:
     - meta_content_scope: meta.group.sql
     - match: \)
       scope: meta.group.sql punctuation.section.group.end.sql
-      pop: 1
+      set: maybe-filegroup
     - match: \b(?i:OPTIMIZE\s+FOR\s+UNKNOWN)\b
       scope: keyword.other.tsql
     - match: \b((?i:OPTIMIZE\s+FOR))\s*(\()
@@ -610,6 +615,18 @@ contexts:
     - include: dml-statements
     - include: expressions
 
+  ddl-table-creation-columns:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: [maybe-filegroup, inside-ddl-table-creation-columns]
+
+  maybe-filegroup:
+    - match: \b(?i:ON)\b(?!\s*{{identifier_for_lookahead}}\s*=)
+      scope: keyword.other.tsql
+      set: [filegroup-name, single-identifier-after-whitespace]
+    - match: (?=\S)
+      pop: 1
+
   inside-ddl-table-creation-columns:
     - meta_prepend: true
     - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
@@ -681,13 +698,7 @@ contexts:
 
   user-defined-function-calls:
     - meta_append: true
-    - match: |-
-        (?x)
-        (?=
-          (?:(?:\b\w+|\[[^]]+\])\.)*
-          (?:   \b\w+|\[[^]]+\])
-          \s*\(
-        )
+    - match: (?={{identifier_for_lookahead}}\s*\()
       push: [begin-method-call-paren, function-name, single-identifier]
 
   function-name:
@@ -724,4 +735,9 @@ contexts:
   begin-group-or-pop:
     - include: begin-group
     - match: (?=\S)
-      pop: true
+      pop: 1
+
+  filegroup-name:
+    - meta_content_scope: meta.filegroup-name.tsql
+    - match: ''
+      pop: 1
