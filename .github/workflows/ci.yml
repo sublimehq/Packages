@@ -1,4 +1,5 @@
-name: CI
+name: ci
+
 on:
   push:
     branches:
@@ -24,28 +25,28 @@ on:
       - '.github/workflows/ci.yml'
 
 jobs:
-  build:
+  run_syntax_tests:
     name: Run syntax_tests
-    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 2
+      matrix:
+        latest-sublime-build: [4113, 4116] # stable & dev channel
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - name: Git checkout
+        uses: actions/checkout@master
 
-      - name: Download syntax_tests
-        run: wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_4116_x64.tar.xz
-
-      - name: Extract syntax_tests
-        run: tar xf st_syntax_tests.tar.xz
-
-      - name: Move syntax_tests
-        run: mv st_syntax_tests/* ./
-
-      - name: Cleanup syntax_tests archive
-        run: rm -R st_syntax_tests st_syntax_tests.tar.xz
+      - name: Get syntax_tests binary for Sublime Text Build ${{ matrix.latest-sublime-build }}
+        run: |
+          wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.latest-sublime-build }}_x64.tar.xz
+          tar xf st_syntax_tests.tar.xz
+          mv st_syntax_tests/* ./
+          rm -R st_syntax_tests st_syntax_tests.tar.xz
 
       - name: Setup Data/Packages/
         run: mkdir -p Data/Packages/
 
-      - name: Move packages into Data dir
+      - name: Move packages into Data/Packages/ subdir
         run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
 
       - name: Run syntax tests
