@@ -67,7 +67,7 @@ variables:
   type_qualifier: 'const|mutable|typename|volatile'
   constant_expression_specifiers: 'consteval|constexpr|constinit'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
-  visibility_modifiers: 'private|protected|public'
+  visibility_modifiers: '(?:(?:public|private|protected|Q_SIGNALS|Q_SLOTS)\s*){1,2}'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'

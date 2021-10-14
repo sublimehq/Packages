@@ -17,7 +17,7 @@
 			# detent `default:`
 			| default\b
 			# class member access attributes
-			| ( public | private | protected ):
+			| (?:(?:public|private|protected|Q_SIGNALS|Q_SLOTS)\s*){1,2}:
 			# objc/objc++ attributes
 			| @( public | private | protected )\b
 			)
@@ -36,7 +36,7 @@
 			# indent after `default:`
 			| default\b
 			# class member access attributes
-			| ( public | private | protected ):
+			| (?:(?:public|private|protected|Q_SIGNALS|Q_SLOTS)\s*){1,2}:
 			# objc/objc++ attributes
 			| @( public | private | protected )\b
 			)
