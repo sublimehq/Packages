@@ -30,7 +30,7 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        latest-sublime-build: [4113, 4116] # stable & dev channel
+        latest-sublime-build: [4113, 4118] # stable & dev channel
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
