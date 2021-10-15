@@ -377,7 +377,7 @@ contexts:
     - include: expressions
 
   top:
-    - match: (?i)\b(top)\b(?:\s+(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
+    - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
       captures:
         1: keyword.other.DML.tsql
         2: meta.group.tsql punctuation.section.parens.begin.tsql

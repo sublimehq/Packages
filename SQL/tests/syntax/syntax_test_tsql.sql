@@ -136,6 +136,18 @@ SELECT TOP 1 @Example = 4 FROM [dbo].[TableName]
 --                      ^ constant.numeric
 --                        ^^^^ keyword.other.DML
 
+SELECT TOP(1) @Example = y FROM [dbo].[TableName]
+-- ^^^ keyword.other.DML
+--     ^^^ keyword.other.DML
+--        ^ meta.group punctuation.section.parens.begin
+--         ^ meta.group meta.number.integer.decimal constant.numeric.value
+--          ^ meta.group punctuation.section.parens.end
+--            ^^^^^^^^ variable.other.readwrite
+--                     ^ keyword.operator
+--                       ^ meta.column-name
+--                         ^^^^ keyword.other.DML
+--                              ^^^^^^^^^^^^^^^^^ meta.table-name
+
 SET @Path = 'X:\nowayout\'
 --^ keyword.other.DML
 --  ^^^^^ variable.other.readwrite
