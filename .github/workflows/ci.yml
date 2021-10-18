@@ -27,12 +27,15 @@ on:
 jobs:
   run_syntax_tests:
     name: Run syntax_tests with Build ${{ matrix.latest-sublime-build }}
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       matrix:
-        latest-sublime-build: [4113, 4118] # stable & dev channel
-    runs-on: ubuntu-latest
+        latest-sublime-build:
+          - 4113 # stable channel
+          - 4118 # dev channel
     steps:
+
       - name: Git checkout
         uses: actions/checkout@master
 
