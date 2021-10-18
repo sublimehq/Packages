@@ -15,7 +15,7 @@ variables:
   # modifiers
   activate_x_mode: (?:\?[ims]*x[ixms]*(?:-[ims]+)?)
   deactivate_x_mode: (?:\?[ims]*-[ims]*x[imxs]*)
-  other_modifiers: \?(?:[ixms]*-)?[ixms]+
+  other_modifiers: (?:\?(?:[ixms]*-)?[ixms]+)
 
   # quantifiers
   character_quantifier: '[?*+]'
