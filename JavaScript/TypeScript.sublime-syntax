@@ -196,10 +196,23 @@ contexts:
   ts-declare:
     - match: declare{{identifier_break}}
       scope: storage.modifier.js
+      set: ts-declare-contents
+
+  ts-declare-contents:
+    - match: module{{identifier_break}}
+      scope: keyword.declaration.module.js
       set:
-        - include: declaration
-        - match: (?=\S)
-          fail: ts-declare
+        - ts-meta-module
+        - block
+        - literal-string
+    - include: declaration
+    - match: (?=\S)
+      fail: ts-declare
+
+  ts-meta-module:
+    - meta_include_prototype: false
+    - meta_scope: meta.module.js
+    - include: immediately-pop
 
   ts-abstract-class:
     - match: abstract{{identifier_break}}

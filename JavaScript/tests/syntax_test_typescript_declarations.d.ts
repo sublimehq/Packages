@@ -176,3 +176,10 @@
 //                      ^^ meta.block
 //                      ^ punctuation.section.block.begin
 //                       ^ punctuation.section.block.end
+
+    declare module 'module' {}
+//  ^^^^^^^ storage.modifier
+//          ^^^^^^^^^^^^^^^^^^ meta.module
+//          ^^^^^^ keyword.declaration.module
+//                 ^^^^^^^^ meta.string string.quoted.single
+//                          ^^ meta.block
