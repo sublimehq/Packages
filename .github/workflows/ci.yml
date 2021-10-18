@@ -27,22 +27,24 @@ on:
 
 jobs:
   run_syntax_tests:
-    name: Run syntax_tests with Build ${{ matrix.latest-sublime-build }}
+    name: Test syntaxes on Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       matrix:
-        latest-sublime-build:
-          - 4113 # stable channel
-          - 4118 # dev channel
+        include:
+          - sublime-channel: stable
+            sublime-build: 4113
+          - sublime-channel: dev
+            sublime-build: 4118
     steps:
 
       - name: Git checkout
         uses: actions/checkout@master
 
-      - name: Get syntax_tests binary for Sublime Text Build ${{ matrix.latest-sublime-build }}
+      - name: Get binary for Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
         run: |
-          wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.latest-sublime-build }}_x64.tar.xz
+          wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.sublime-build }}_x64.tar.xz
           tar xf st_syntax_tests.tar.xz
           mv st_syntax_tests/* ./
           rm -R st_syntax_tests st_syntax_tests.tar.xz
