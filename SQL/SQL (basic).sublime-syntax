@@ -192,7 +192,6 @@ contexts:
       scope: meta.number.integer.decimal.sql constant.numeric.value.sql
 
   expressions:
-    - include: types
     - match: (?i)\bas\b
       scope: keyword.operator.assignment.alias.sql
       push:
@@ -205,6 +204,7 @@ contexts:
     - include: operators
     - include: built-in-aggregate-function-calls
     - include: built-in-scalar-function-calls
+    - include: types
     - include: user-defined-function-calls
     - include: begin-group
     - match: \)
@@ -226,6 +226,11 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.sql
       push: inside-group
+
+  begin-group-or-pop:
+    - include: begin-group
+    - match: (?=\S)
+      pop: 1
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
@@ -375,7 +380,7 @@ contexts:
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
-    - match: \b(?i:add(?:\s+column)?|alter\s+column)\b
+    - match: \b(?i:(?:add|drop)(?:\s+column)?|alter\s+column)\b
       scope: keyword.other.ddl.sql
     - include: ddl-alter-common
     - include: expressions-or-column-name
@@ -444,6 +449,13 @@ contexts:
     - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default)\b)
       scope: storage.modifier.sql
     - include: expressions-or-column-name
+
+  use-db:
+    - match: \b(?i:use)\b
+      scope: keyword.context.tsql
+      push:
+        - database-name
+        - single-identifier-after-whitespace
 
   dml-delete:
     - match: (?=\S)

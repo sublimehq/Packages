@@ -786,11 +786,6 @@ contexts:
     - match: ''
       pop: 1
 
-  begin-group-or-pop:
-    - include: begin-group
-    - match: (?=\S)
-      pop: 1
-
   filegroup-name:
     - meta_content_scope: meta.filegroup-name.tsql
     - match: ''

@@ -32,17 +32,37 @@ contexts:
     - match: \{
       scope: punctuation.section.braces.begin.cql
       push: inside-dict-or-set
+    - match: \[
+      scope: punctuation.section.brackets.begin.cql
+      push: inside-array
     - match: \b((?i:with))\s+(\w+)?
       captures:
         1: keyword.other.cql
         2: string.unquoted.cql
     - match: \b(?i:primary\s+key)\b
       scope: keyword.other.cql
+    - match: \b(?i:using\s+ttl)\b
+      scope: keyword.other.cql
 
   dml-statements:
-    - meta_append: true
+    - meta_prepend: true
+    - match: (?i:\bselect\s+json\b)
+      scope: keyword.other.DML.sql
     - match: \b(?i:allow filtering)\b
       scope: keyword.other.dml.cql
+    - match: \b(?i:copy)\b
+      scope: keyword.other.dml.cql
+      push:
+        - copy-from
+        - begin-group-or-pop
+        - table-name
+        - single-identifier-after-whitespace
+
+  statements:
+    - meta_prepend: true
+    - include: use-db
+    - match: \b(?i:source)\b
+      scope: keyword.other.cql
 
   types:
     - meta_prepend: true
@@ -74,6 +94,12 @@ contexts:
     - include: expressions
     - match: \w+
       scope: meta.mapping.key.cql string.unquoted.cql
+
+  inside-array:
+    - match: \]
+      scope: punctuation.section.brackets.end.cql
+      pop: 1
+    - include: expressions
 
   ddl-create-target:
     - meta_prepend: true
@@ -121,3 +147,21 @@ contexts:
 
   joins:
     - match: \bjoin\b
+
+  copy-from:
+    - match: \b(?i:from)\b
+      scope: keyword.other.cql
+      pop: 1
+    - match: ''
+      pop: 1
+
+  built-in-scalar-function-calls:
+    - meta_append: true
+    - match: \b(?:token|uuid|now|toJson|TTL|WRITETIME|KEYS|ENTRIES|FULL)(?=\s*\()
+      scope: support.function.scalar.cql
+      push: begin-method-call-paren
+
+  logical-operators:
+    - meta_append: true
+    - match: \b(?i:contains(?:\s+key)?)\b
+      scope: keyword.operator.logical.cql

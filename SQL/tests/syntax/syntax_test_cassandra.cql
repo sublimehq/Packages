@@ -147,7 +147,10 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
 -- <- meta.create meta.group.table-columns punctuation.section.group.end
 CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     userid uuid,
-    other_id uuid,
+    other_id timeuuid,
+--  ^^^^^^^^ meta.column-name
+--           ^^^^^^^^ storage.type
+--                   ^ punctuation.separator.sequence
     test int,
     PRIMARY KEY ((userid, other_id), test)
 --  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
@@ -223,9 +226,18 @@ CREATE TYPE user_defined_type (
 --                            ^ meta.group punctuation.section.group.begin
     type1 timestamp,
     type2 text,
-    type3 text,
-    type4 text);
-
+    type3 counter,
+--  ^^^^^ meta.column-name
+--        ^^^^^^^ storage.type
+    type4 boolean,
+--  ^^^^^ meta.column-name
+--        ^^^^^^^ storage.type
+    type5 blob,
+--  ^^^^^ meta.column-name
+--        ^^^^ storage.type
+    type6 inet);
+--  ^^^^^ meta.column-name
+--        ^^^^ storage.type
 
 INSERT INTO something_by_someid (someid, somebool, somemap)
 VALUES (
@@ -299,8 +311,207 @@ ALTER TABLE someentity_by_somefield
 --                  ^^^^ storage.type
 --                      ^ punctuation.terminator.statement
 
+ALTER TABLE someentity_by_somefield
+    DROP unnecessryfield;
+--  ^^^^^^^^^^^^^^^^^^^^ meta.alter
+--  ^^^^ keyword.other.ddl
+--       ^^^^^^^^^^^^^^^ meta.column-name
+--                      ^ punctuation.terminator.statement
+
+
 select *
 from test_by_example
 join fred -- there are no joins in CQL
 -- <- - keyword
 --^^ - keyword
+
+USE killrvideo;
+-- <- keyword.context
+--^ keyword.context
+--  ^^^^^^^^^^ meta.database-name
+--            ^ punctuation.terminator.statement
+
+select uuid(), now(), *
+--     ^^^^ meta.function-call support.function.scalar
+--           ^ punctuation.separator.sequence
+--             ^^^ meta.function-call support.function
+--                  ^ punctuation.separator.sequence
+--                    ^ variable.language.wildcard.asterisk
+from test_by_example;
+
+COPY table1 (column1, column2, column3) FROM 'table1data.csv'
+-- ^ keyword.other.dml
+--   ^^^^^^ meta.table-name
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+--          ^ punctuation.section.group.begin
+--           ^^^^^^^ meta.column-name
+--                  ^ punctuation.separator.sequence
+--                    ^^^^^^^ meta.column-name
+--                           ^ punctuation.separator.sequence
+--                             ^^^^^^^ meta.column-name
+--                                    ^ punctuation.section.group.end
+--                                      ^^^^ keyword.other
+--                                           ^^^^^^^^^^^^^^^^ string.quoted.single
+--                                           ^ punctuation.definition.string.begin
+--                                                          ^ punctuation.definition.string.end
+WITH HEADER=true;
+-- ^ keyword.other
+--   ^^^^^^ string.unquoted
+--         ^ keyword.operator
+--          ^^^^ constant.language.boolean
+--              ^ punctuation.terminator.statement
+
+TRUNCATE table1;
+-- ^^^^^ keyword.other.DML
+--       ^^^^^^ meta.table-name
+--             ^ punctuation.terminator.statement
+
+SOURCE './myscript.cql';
+-- ^^^ keyword.other
+--     ^^^^^^^^^^^^^^^^ string.quoted.single
+--                     ^ punctuation.terminator.statement
+
+-- https://docs.datastax.com/en/cql-oss/3.x/cql/cql_reference/cqlCreateIndex.html
+CREATE TABLE myschema.users (
+   userID uuid,
+   fname text,
+   lname text,
+   email text,
+   address text,
+   zip int,
+   state text,
+   PRIMARY KEY (userID)
+ );
+
+CREATE INDEX user_state
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other
+--           ^^^^^^^^^^ meta.toc-list.full-identifier
+   ON myschema.users (state);
+-- ^^ keyword.other
+--    ^^^^^^^^^^^^^^ meta.table-name
+--                   ^ punctuation.section.group.begin
+--                    ^^^^^ meta.column-name
+--                         ^ punctuation.section.group.end
+--                          ^ punctuation.terminator.statement
+
+CREATE INDEX ON myschema.users (zip);
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other
+--           ^^ keyword.other
+--              ^^^^^^^^^^^^^^ meta.table-name
+--                             ^ punctuation.section.group.begin
+--                              ^^^ meta.column-name
+--                                 ^ punctuation.section.group.end
+
+CREATE INDEX todo_dates ON users (KEYS(todo));
+--                         ^^^^^ meta.create meta.table-name
+--                               ^ punctuation.section.group.begin
+--                                ^^^^ meta.function-call support.function.scalar
+--                                    ^ punctuation.section.parens.begin
+--                                     ^^^^ meta.column-name
+--                                         ^ punctuation.section.parens.end
+--                                          ^ punctuation.section.group.end
+
+CREATE INDEX entries_idx ON race (ENTRIES(race_wins));
+--                          ^^^^ meta.create meta.table-name
+--                               ^ punctuation.section.group.begin
+--                                ^^^^^^^ meta.function-call support.function.scalar
+--                                       ^ punctuation.section.parens.begin
+--                                        ^^^^^^^^^ meta.column-name
+--                                                 ^ punctuation.section.parens.end
+--                                                  ^ punctuation.section.group.end
+
+CREATE INDEX rnumbers_idx ON cycling.race_starts (FULL(rnumbers));
+--                           ^^^^^^^^^^^^^^^^^^^ meta.create meta.table-name
+--                                               ^ punctuation.section.group.begin
+--                                                ^^^^ meta.function-call support.function.scalar
+--                                                    ^ punctuation.section.parens.begin
+--                                                     ^^^^^^^^ meta.column-name
+--                                                             ^ punctuation.section.parens.end
+--                                                              ^ punctuation.section.group.end
+
+SELECT album, tags
+FROM playlists
+WHERE tags CONTAINS 'blues';
+--         ^^^^^^^^ keyword.operator.logical
+
+SELECT *
+FROM playlists
+WHERE venue CONTAINS KEY '2014-09-22 22:00:00-0700';
+--          ^^^^^^^^^^^^ keyword.operator.logical
+
+SELECT *
+FROM cycling.birthday_list
+WHERE blist['age'] = '23';
+--    ^^^^^ meta.column-name
+--         ^ punctuation.section.brackets.begin
+--          ^^^^^ string.quoted.single
+--               ^ punctuation.section.brackets.end
+--                 ^ keyword.operator.comparison
+--                   ^^^^ string.quoted.single
+--                       ^ punctuation.terminator.statement
+
+SELECT *
+FROM cycling.race_starts
+WHERE rnumbers = [39,7,14];
+--    ^^^^^^^^ meta.column-name
+--             ^ keyword.operator.comparison
+--               ^ punctuation.section.brackets.begin
+--                ^^ meta.number.integer.decimal constant.numeric.value
+--                  ^ punctuation.separator.sequence
+--                   ^ meta.number.integer.decimal constant.numeric.value
+--                    ^ punctuation.separator.sequence
+--                     ^^ meta.number.integer.decimal constant.numeric.value
+--                       ^ punctuation.section.brackets.end
+--                        ^ punctuation.terminator.statement
+
+SELECT *
+FROM ruling_stewards
+WHERE (steward_name, king) = ('Boromir', 'Brego');
+--    ^ meta.group punctuation.section.group.begin
+--     ^^^^^^^^^^^^ meta.group meta.column-name
+--                 ^ meta.group punctuation.separator.sequence
+--                   ^^^^ meta.group meta.column-name
+--                       ^ meta.group punctuation.section.group.end
+--                         ^ keyword.operator.comparison
+--                           ^ meta.group punctuation.section.group.begin
+--                            ^^^^^^^^^ meta.group string.quoted.single
+--                                     ^ meta.group punctuation.separator.sequence
+--                                       ^^^^^^^ meta.group string.quoted.single
+--                                              ^ meta.group punctuation.section.group.end
+--                                               ^ punctuation.terminator.statement
+
+SELECT WRITETIME (first_name)
+--^^^^ keyword.other.DML
+--     ^^^^^^^^^ meta.function-call support.function
+FROM users
+WHERE last_name = 'Jones';
+
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date)
+VALUES (200, 'placeholder', '2015-05-27', '2015-05-27')
+USING TTL;
+-- ^^^^^^ keyword.other
+--       ^ punctuation.terminator.statement
+
+UPDATE cycling.calendar
+USING TTL 300
+-- ^^^^^^ keyword.other
+--        ^^^ meta.number.integer.decimal constant.numeric.value
+SET race_name = 'dummy'
+-- <- keyword.other.DML
+WHERE race_id = 200
+  AND race_start_date = '2015-05-27'
+  AND race_end_date = '2015-05-27';
+
+SELECT TTL(race_name)
+--     ^^^ meta.function-call support.function
+FROM cycling.calendar
+WHERE race_id=200;
+
+-- https://docs.datastax.com/en/cql-oss/3.x/cql/cql_using/useQueryJSON.html
+select json name, checkin_id, timestamp from checkin;
+-- ^^^^^^^^ keyword.other.DML
+
+select name, checkin_id, toJson(timestamp) from checkin;
+--                       ^^^^^^ meta.function-call support.function
