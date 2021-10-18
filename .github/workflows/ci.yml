@@ -29,14 +29,18 @@ jobs:
   run_syntax_tests:
     name: Test syntaxes on Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.optional }}
     strategy:
       max-parallel: 2
+      fail-fast: false
       matrix:
         include:
           - sublime-channel: stable
             sublime-build: 4113
+            optional: true
           - sublime-channel: dev
             sublime-build: 4118
+            optional: false
     steps:
 
       - name: Git checkout
