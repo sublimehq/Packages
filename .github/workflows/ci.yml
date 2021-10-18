@@ -26,7 +26,7 @@ on:
 
 jobs:
   run_syntax_tests:
-    name: Run syntax_tests
+    name: Run syntax_tests with Build ${{ matrix.latest-sublime-build }}
     strategy:
       max-parallel: 2
       matrix:
