@@ -23,6 +23,7 @@ on:
       - '**/*.tmLanguage'
       - '**/*.tmPreferences'
       - '.github/workflows/ci.yml'
+  workflow_dispatch:
 
 jobs:
   run_syntax_tests:
