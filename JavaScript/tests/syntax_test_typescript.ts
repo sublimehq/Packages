@@ -279,6 +279,9 @@ import foo;
     declare();
 //  ^^^^^^^ meta.function-call variable.function
 
+    declare con;
+//  ^^^^^^^ storage.modifier
+
     const declare;
 //  ^^^^^ keyword.declaration
 //        ^^^^^^^ meta.binding.name variable.other.readwrite

@@ -206,6 +206,8 @@ contexts:
         - block
         - literal-string
     - include: declaration
+    - match: (?={{identifier_start}})
+      pop: true
     - match: (?=\S)
       fail: ts-declare
 
