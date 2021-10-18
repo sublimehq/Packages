@@ -49,11 +49,10 @@ jobs:
           mv st_syntax_tests/* ./
           rm -R st_syntax_tests st_syntax_tests.tar.xz
 
-      - name: Setup Data/Packages/
-        run: mkdir -p Data/Packages/
-
-      - name: Move packages into Data/Packages/ subdir
-        run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
+      - name: 'Move root dirs into "Data/Packages/" subdir'
+        run: |
+          mkdir -p Data/Packages/
+          find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
 
       - name: Run syntax tests
         run: ./syntax_tests
