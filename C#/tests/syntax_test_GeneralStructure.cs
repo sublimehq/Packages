@@ -1372,3 +1372,32 @@ struct Example
         set => counter = value;
     }
 }
+
+public class MyClass
+{
+    Dictionary<MyEnum, List<uint>> myDict
+/// ^^^^^^^^^^ support.type
+///           ^ punctuation.definition.generic.begin
+///            ^^^^^^ support.type
+///                  ^ punctuation.separator.type
+///                    ^^^^ support.type
+///                        ^ punctuation.definition.generic.begin
+///                         ^^^^ storage.type
+///                             ^^ punctuation.definition.generic.end
+///                                ^^^^^^ variable.other.member
+        = new Dictionary<MyEnum, List<uint>>
+///     ^ keyword.operator.assignment.variable
+///       ^^^ keyword.operator.new
+        {
+            [One] = new List<uint>
+            {
+                1, 2, 3
+            },
+            [Two] = new List<uint>
+            {
+                4, 5, 6
+            }
+        };
+///     ^ punctuation.section.braces.end - invalid
+///      ^ punctuation.terminator.statement - invalid
+}

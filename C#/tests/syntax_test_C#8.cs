@@ -86,7 +86,7 @@ public struct Point3D
 ///               ^^^ storage.modifier
 ///                   ^^^^^^^^ storage.modifier
 ///                            ^^^^^^^ support.type
-///                                    ^^^^^^^ variable.other.member
+///                                    ^^^^^^ variable.other.member
 ///                                           ^^ keyword.declaration.function.accessor.get
 ///                                              ^^^ keyword.other
 ///                                                  ^^^^^^ variable.other
