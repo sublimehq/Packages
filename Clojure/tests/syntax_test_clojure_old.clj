@@ -96,9 +96,9 @@
   (def hello (fn [] #"(?=unclosed_paren"))
 ;                    ^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
 ;                    ^ punctuation.definition.string.begin.clojure
-;                     ^ meta.group.regexp keyword.control.group.regexp
-;                      ^^ meta.group.regexp constant.other.assertion.regexp
-;                        ^^^^^^^^^^^^^^ meta.group.regexp
+;                     ^^^^^^^^^^^^^^^^^ source.regexp meta.group.regexp
+;                     ^ punctuation.section.group.begin.regexp
+;                      ^^ constant.other.assertion.regexp
 ;                                      ^ punctuation.definition.string.end.clojure
 ;                                       ^ - string.regexp.clojure
 ;                                       ^^ punctuation.section.parens.end.clojure

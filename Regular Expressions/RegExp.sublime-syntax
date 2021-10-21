@@ -29,13 +29,13 @@ contexts:
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
-        3: keyword.control.group.regexp
+        3: punctuation.section.group.end.regexp
       pop: 3
     - match: (\?&([\w-]+))(\))
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
-        3: keyword.control.group.regexp
+        3: punctuation.section.group.end.regexp
       pop: 3
     - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
       scope: keyword.other.named-capture-group.regexp
