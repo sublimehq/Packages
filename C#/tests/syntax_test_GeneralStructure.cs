@@ -1401,3 +1401,20 @@ public class MyClass
 ///     ^ punctuation.section.braces.end - invalid
 ///      ^ punctuation.terminator.statement - invalid
 }
+
+public class MyClass
+{
+    bool var
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+
+    bool var => return 0;
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+///          ^^ keyword.declaration.function.accessor.get
+///             ^^^^^^ keyword.other
+///                    ^ meta.number.integer.decimal constant.numeric.value
+///                     ^ punctuation.terminator.statement
+}
+/// <- meta.class.body meta.block punctuation.section.block.end
+/// ^ - meta

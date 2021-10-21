@@ -623,6 +623,8 @@ contexts:
         - meta_scope: meta.property.cs
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
+    - match: (?={{namespaced_name}}\s+{{name}}\s+=>)
+      pop: true
     - match: '{{name}}'
       scope: variable.other.member.cs
     - match: (?==[^>])
