@@ -650,7 +650,7 @@ contexts:
       set: [meta-function-call, uda-after, value-list]
     - match: '({{name}})\b'
       scope: meta.path.d storage.type.d
-      pop: true
+      set: value-after
   uda-after:
     - match: '\)'
       scope: punctuation.section.parens.end.d
