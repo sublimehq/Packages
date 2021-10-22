@@ -1404,7 +1404,7 @@ public class MyClass
 
 public class MyClass
 {
-    bool var
+    bool var // missing semi-colon
 /// ^^^^ storage.type
 ///      ^^^ variable.other.member
 
@@ -1415,6 +1415,10 @@ public class MyClass
 ///             ^^^^^^ keyword.other
 ///                    ^ meta.number.integer.decimal constant.numeric.value
 ///                     ^ punctuation.terminator.statement
+
+    bool var // missing semi-colon
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
 }
 /// <- meta.class.body meta.block punctuation.section.block.end
 /// ^ - meta

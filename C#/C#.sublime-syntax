@@ -632,6 +632,8 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
+    - match: (?=\})
+      pop: true
     - match: (?=\S)
       fail: method_or_member_variable_name
 
