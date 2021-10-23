@@ -473,6 +473,17 @@ $f3 = #[ExampleAttribute] fn () => 1;
 
 /** @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
+//       ^ - keyword.other.phpdoc
+
+/** @var @var Properties: class properties. */
+//  ^ keyword.other.phpdoc
+//       ^ - keyword.other.phpdoc
+
+/**@var Properties: class properties. */
+// ^^^^ - keyword.other.phpdoc
+
+/** @var@var Properties: class properties. */
+//  ^^^^^^^^ - keyword.other.phpdoc
 
 /* No phpdoc highlight since there are not two * after the opening /
  * @return
@@ -650,7 +661,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
  */
 
 /**
- * @codeCoverageIgnore*
+ * @codeCoverageIgnore
 //  ^ keyword.other.phpunit
  */
 
@@ -762,6 +773,22 @@ $f3 = #[ExampleAttribute] fn () => 1;
 /**
  * @ticket
 //  ^ keyword.other.phpunit
+ */
+
+/**
+ * @param @param
+// ^^ keyword.other.phpdoc
+//        ^^ - keyword.other.phpdoc
+ */
+
+/**
+ * @param@param
+// ^^^^^^^^^^^^ - keyword.other.phpdoc
+ */
+
+/**
+ *@param
+// ^ - keyword.other.phpdoc
  */
 
 /**

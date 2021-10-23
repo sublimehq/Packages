@@ -962,19 +962,20 @@ contexts:
     # This only highlights a docblock if the first line contains only /** or
     # /**#@+ (which is used for docblock templates). Otherwise block-level
     # comment would be highlighted as invalid for constructs such as /**** ****/
-    - match: |-
-        (?x)/\*\*(?:
-          (?:\#@\+)?\s*$ (?# multi-line doc )
-          |
-          (?=\s+@.*\s\*/\s*$) (?# inline doc )
-        )
+    # multi-line doc
+    - match: /\*\*(?:\#@\+)?\s*$
       scope: punctuation.definition.comment.begin.php
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
-        - match: \*/
-          scope: punctuation.definition.comment.end.php
-          pop: 1
+        - include: comments-documentation-end
         - include: php-doc
+    # inline doc
+    - match: (/\*\*)\s+(?=@.*\s\*/\s*$)
+      captures:
+        1: punctuation.definition.comment.begin.php
+      push:
+        - comments-documentation-end
+        - php-doc-tags
     - match: /\*
       scope: punctuation.definition.comment.begin.php
       push:
@@ -1000,6 +1001,11 @@ contexts:
         # Consume the newline so that completions aren't shown at the end of the line
         - match: \n
           pop: 1
+  comments-documentation-end:
+    - meta_scope: comment.block.documentation.phpdoc.php
+    - match: \*/
+      scope: punctuation.definition.comment.end.php
+      pop: 1
   constants:
     - match: |-
         \b(?xi:
@@ -1662,33 +1668,42 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: 1
-    - match: ^\s*(\*)\s*(@access)\s+(({{visibility_modifier}})|(.+))\s*$
+    - match: ^\s*(\*)(?!\**/)\s+
       captures:
         1: punctuation.definition.comment.php
-        2: keyword.other.phpdoc.php
-        4: storage.modifier.php
-        5: invalid.illegal.wrong-access-type.phpdoc.php
-    - match: ^\s*(\*)(?!/)
-      captures:
-        1: punctuation.definition.comment.php
-    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
+      push: php-doc-tags
+    - match: ((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]
       scope: markup.underline.link.php
+  php-doc-tags:
+    - match: (@access)\s+(({{visibility_modifier}})|(.+))\s*$
+      captures:
+        1: keyword.other.phpdoc.php
+        2: storage.modifier.php
+        3: invalid.illegal.wrong-access-type.phpdoc.php
+      pop: 1
     - match: (@xlink)\s+(.+)\s*$
       captures:
         1: keyword.other.phpdoc.php
         2: markup.underline.link.php
-    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)\b
+      pop: 1
+    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)(?=\s|$)
       scope: keyword.other.phpdoc.php
+      pop: 1
     - match: \{(@inheritdoc)\}
       captures:
         1: keyword.other.phpdoc.php
+      pop: 1
     # Annotations from PHPUnit
-    - match: \@(author|after(?:Class)?|backup(?:Globals|StaticAttributes)|before(?:Class)?|codeCoverageIgnore*|covers(?:DefaultClass|Nothing)?|dataProvider|depends|doesNotPerformAssertions|expectedException(?:Code|Message(?:RegExp)?)?|group|large|medium|preserveGlobalState|requires|run(TestsInSeparateProcesses|InSeparateProcess)|small|test(dox|With)?|ticket|uses)\b
+    - match: \@(author|after(?:Class)?|backup(?:Globals|StaticAttributes)|before(?:Class)?|codeCoverageIgnore(?:Start|End)?|covers(?:DefaultClass|Nothing)?|dataProvider|depends|doesNotPerformAssertions|expectedException(?:Code|Message(?:RegExp)?)?|group|large|medium|preserveGlobalState|requires|run(TestsInSeparateProcesses|InSeparateProcess)|small|test(dox|With)?|ticket|uses)(?=\s|$)
       scope: keyword.other.phpunit.php
-    - match: '\{(@(link)).+?\}'
+      pop: 1
+    - match: \{(@(link)).+?\}
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
+      pop: 1
+    - match: ''
+      pop: 1
 
 ###[ STRINGS ]################################################################
 
