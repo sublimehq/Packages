@@ -967,19 +967,14 @@ contexts:
       scope: punctuation.definition.comment.begin.php
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
-        - match: \*/
-          scope: punctuation.definition.comment.end.php
-          pop: 1
+        - include: comments-documentation-end
         - include: php-doc
     # inline doc
     - match: (/\*\*)\s+(?=@.*\s\*/\s*$)
       captures:
         1: punctuation.definition.comment.begin.php
       push:
-        - - meta_scope: comment.block.documentation.phpdoc.php
-          - match: \*/
-            scope: punctuation.definition.comment.end.php
-            pop: 1
+        - comments-documentation-end
         - php-doc-tags
     - match: /\*
       scope: punctuation.definition.comment.begin.php
@@ -1006,6 +1001,12 @@ contexts:
         # Consume the newline so that completions aren't shown at the end of the line
         - match: \n
           pop: 1
+  comments-documentation-end:
+    - meta_scope: comment.block.documentation.phpdoc.php
+    - match: \*/
+      scope: punctuation.definition.comment.end.php
+      pop: 1
+        - php-doc-tags
   constants:
     - match: |-
         \b(?xi:
