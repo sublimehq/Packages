@@ -978,10 +978,7 @@ contexts:
         - match: (/\*\*)\s+
           captures:
             1: punctuation.definition.comment.begin.php
-          push:
-            - include: php-doc-tags
-            - match: ''
-              pop: 1
+          push: php-doc-tags
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: 1
