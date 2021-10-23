@@ -1669,7 +1669,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: 1
-    - match: ^\s*(\*)(?!\**/)\s*
+    - match: ^\s*(\*)(?!\**/)\s+
       captures:
         1: punctuation.definition.comment.php
       push: php-doc-tags
