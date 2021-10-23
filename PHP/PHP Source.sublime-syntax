@@ -1662,17 +1662,21 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: 1
-    - match: ^\s*(\*)\s*(@access)\s+(({{visibility_modifier}})|(.+))\s*$
+    - match: ^\s*(\*)(?!/)\s*
       captures:
         1: punctuation.definition.comment.php
-        2: keyword.other.phpdoc.php
-        4: storage.modifier.php
-        5: invalid.illegal.wrong-access-type.phpdoc.php
+      push: php-doc-tags
+    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
+      scope: markup.underline.link.php
+  php-doc-tags:
+    - match: (@access)\s+(({{visibility_modifier}})|(.+))\s*$
+      captures:
+        1: keyword.other.phpdoc.php
+        2: storage.modifier.php
+        3: invalid.illegal.wrong-access-type.phpdoc.php
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.php
-    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
-      scope: markup.underline.link.php
     - match: (@xlink)\s+(.+)\s*$
       captures:
         1: keyword.other.phpdoc.php
@@ -1685,10 +1689,12 @@ contexts:
     # Annotations from PHPUnit
     - match: \@(author|after(?:Class)?|backup(?:Globals|StaticAttributes)|before(?:Class)?|codeCoverageIgnore*|covers(?:DefaultClass|Nothing)?|dataProvider|depends|doesNotPerformAssertions|expectedException(?:Code|Message(?:RegExp)?)?|group|large|medium|preserveGlobalState|requires|run(TestsInSeparateProcesses|InSeparateProcess)|small|test(dox|With)?|ticket|uses)\b
       scope: keyword.other.phpunit.php
-    - match: '\{(@(link)).+?\}'
+    - match: \{(@(link)).+?\}
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
+    - match: ''
+      pop: 1
 
 ###[ STRINGS ]################################################################
 
