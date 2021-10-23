@@ -405,25 +405,25 @@ contexts:
     - include: pop-on-top-level-reserved-word
 
   dml-statements:
-    - match: (?i:\bselect\b)
+    - match: \b(?i:select)\b
       scope: keyword.other.DML.sql
-    - match: (?i:\bunion(?:\s+all)?\b)
+    - match: \b(?i:union(?:\s+all)?)\b
       scope: keyword.other.DML.sql
-    - match: (?i:\b(?:delete(?:\s+from)?)\b)
+    - match: \b(?i:(?:delete(?:\s+from)?))\b
       scope: keyword.other.DML.sql
       set: dml-delete
-    - match: (?i:\b(?:update)\b)
+    - match: \b(?i:update)\b
       scope: keyword.other.DML.sql
       set: dml-update
-    - match: (?i:\b(?:insert\s+into|truncate)\b)
+    - match: \b(?i:(?:insert\s+into|truncate))\b
       scope: keyword.other.DML.sql
       push:
         - table-name
         - single-identifier-after-whitespace
-    - match: (?i:\bset\b)
+    - match: \b(?i:set)\b
       scope: keyword.other.DML.sql
       push: set
-    - match: (?i:\b(?:default\s+)?values\b)
+    - match: \b(?i:(?:default\s+)?values)\b
       scope: keyword.other.DML.II.sql
     - include: distinct
     - include: joins
@@ -440,17 +440,17 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: 1
-    - match: (?i:\bconstraint\b)
+    - match: \b(?i:constraint)\b
       scope: storage.modifier.sql
       push:
         - constraint-name
         - single-identifier-after-whitespace
-    - match: (?i:\breferences\b)
+    - match: \b(?i:references)\b
       scope: storage.modifier.sql
       push:
         - table-name
         - single-identifier-after-whitespace
-    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default)\b)
+    - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default))\b
       scope: storage.modifier.sql
     - include: expressions-or-column-name
 

@@ -115,7 +115,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: 1
-    - match: ((?i:\bprimary\s+key))\s*(\()
+    - match: \b(?i:(primary\s+key))\s*(\()
       captures:
         1: storage.modifier.cql
         2: meta.group.cql punctuation.section.group.begin.cql

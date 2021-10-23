@@ -53,7 +53,7 @@ contexts:
 
   operators:
     - meta_append: true
-    - match: (?i:\blike\b)
+    - match: \b(?i:like)\b
       scope: keyword.operator.logical.sql
       branch_point: like-strings-branch
       branch:
@@ -151,13 +151,13 @@ contexts:
       scope: keyword.operator.wildcard.sql
 
   like-escape-fail:
-    - match: (?i:\bescape\b)
+    - match: \b(?i:escape)\b
       fail: like-strings-branch
     - match: (?=\S)
       pop: 1
 
   like-escape-pop:
-    - match: (?i:\bescape\b)
+    - match: \b(?i:escape)\b
       scope: keyword.operator.word.sql
       pop: 1
     - match: (?=\S)
@@ -304,7 +304,7 @@ contexts:
     - meta_append: true
     - match: \b(?i:bulk\s+insert)\b
       scope: keyword.other.tsql
-    - match: (?i:\binsert\b)
+    - match: \b(?i:insert)\b
       scope: keyword.other.DML.sql
       push: [table-name, single-identifier-after-whitespace]
     - match: \b(?i:into)\b(?!\s*@)
@@ -368,7 +368,7 @@ contexts:
         - expect-procedure-name
 
   ddl-create-target-expect-as:
-    - match: (?i:\bas\b)
+    - match: \b(?i:as)\b
       scope: keyword.context.block.sql
       pop: 1
     - match: \b(?i:returns)\b
@@ -612,7 +612,7 @@ contexts:
       set: cte-as
 
   cte-as:
-    - match: (?i:\bas\b)
+    - match: \b(?i:as)\b
       scope: keyword.operator.assignment.cte.tsql
     - include: pop-on-top-level-reserved-word
     - match: ','
@@ -650,7 +650,7 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:then)\b
       scope: keyword.other.tsql
-    - match: (?i:\binsert\b)(?=\s*\()
+    - match: \b(?i:insert)\b(?=\s*\()
       scope: keyword.other.DML.sql
       push: values-or-expressions
     - include: dml-statements

@@ -98,7 +98,7 @@ contexts:
 
   types:
     - meta_append: true
-    - match: (?i:\bwith(?:out)?\s+time\s+zone\b)
+    - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.type.sql
 
   inside-number-sign-comment:
@@ -109,14 +109,14 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - match: (?i)\b(?:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+    - match: \b(?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
-    - match: (?i)\b(?:using)\b
+    - match: \b(?i:using)\b
       scope: keyword.other.mysql
 
   statements:
     - meta_append: true
-    - match: (?i:\b(begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b)
+    - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
       scope: keyword.other.LUW.sql
 
   ddl-statements:
@@ -130,12 +130,12 @@ contexts:
 
   dml-statements:
     - meta_append: true
-    - match: (?i:\binsert(\s+(?:ignore\s+)?into)?\b)
+    - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
       scope: keyword.other.DML.sql
       push:
         - table-name
         - single-identifier-after-whitespace
-    - match: (?i)\b(?:limit)\b
+    - match: \b(?i:limit)\b
       scope: keyword.other.DML.sql
 
   ddl-target-common:
@@ -144,9 +144,9 @@ contexts:
       push:
         - table-name
         - single-identifier-after-whitespace
-    - match: (?i)\b(?:using)\b
+    - match: \b(?i:using)\b
       scope: keyword.other.mysql
-    - match: \b((?i:algorithm))\s*(=)
+    - match: \b(?i:(algorithm))\s*(=)
       captures:
         1: keyword.other.mysql
         2: keyword.operator.assignment.mysql
