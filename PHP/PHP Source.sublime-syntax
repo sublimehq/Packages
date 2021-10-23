@@ -1672,7 +1672,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: 1
-    - match: ^\s*(\*)(?!/)\s*
+    - match: ^\s*(\*)(?!\**/)\s*
       captures:
         1: punctuation.definition.comment.php
       push: php-doc-tags
@@ -1684,25 +1684,28 @@ contexts:
         1: keyword.other.phpdoc.php
         2: storage.modifier.php
         3: invalid.illegal.wrong-access-type.phpdoc.php
-    - match: ^\s*(\*)(?!/)
-      captures:
-        1: punctuation.definition.comment.php
+      pop: 1
     - match: (@xlink)\s+(.+)\s*$
       captures:
         1: keyword.other.phpdoc.php
         2: markup.underline.link.php
-    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)\b
+      pop: 1
+    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|m(ethod|ixin)|source)(?=\s|$)
       scope: keyword.other.phpdoc.php
+      pop: 1
     - match: \{(@inheritdoc)\}
       captures:
         1: keyword.other.phpdoc.php
+      pop: 1
     # Annotations from PHPUnit
-    - match: \@(author|after(?:Class)?|backup(?:Globals|StaticAttributes)|before(?:Class)?|codeCoverageIgnore*|covers(?:DefaultClass|Nothing)?|dataProvider|depends|doesNotPerformAssertions|expectedException(?:Code|Message(?:RegExp)?)?|group|large|medium|preserveGlobalState|requires|run(TestsInSeparateProcesses|InSeparateProcess)|small|test(dox|With)?|ticket|uses)\b
+    - match: \@(author|after(?:Class)?|backup(?:Globals|StaticAttributes)|before(?:Class)?|codeCoverageIgnore(?:Start|End)?|covers(?:DefaultClass|Nothing)?|dataProvider|depends|doesNotPerformAssertions|expectedException(?:Code|Message(?:RegExp)?)?|group|large|medium|preserveGlobalState|requires|run(TestsInSeparateProcesses|InSeparateProcess)|small|test(dox|With)?|ticket|uses)(?=\s|$)
       scope: keyword.other.phpunit.php
+      pop: 1
     - match: \{(@(link)).+?\}
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
+      pop: 1
     - match: ''
       pop: 1
 
