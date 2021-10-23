@@ -9,14 +9,18 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   simple_types: |-
-  simple_types: |-
     \b(?ix:
       ASCII | BIGINT | BLOB | BOOLEAN | COUNTER | DATE | DECIMAL | DOUBLE
     | DURATION | FLOAT | INET | INT | SMALLINT | TEXT | TIME | TIMESTAMP
     | TIMEUUID | TINYINT | UUID | VARCHAR | VARINT
     )\b
   types_with_optional_number: (?!)
-  #reserved: (?:;)
+  ddl_target: |-
+    (?xi)
+    \b(?:
+      function|index|keyspace|table|type|user
+      |(?:materialized\s+)?view
+    )\b
 
 contexts:
   expressions:
@@ -40,7 +44,7 @@ contexts:
         1: keyword.other.cql
         2: string.unquoted.cql
     - match: \b(?i:primary\s+key)\b
-      scope: keyword.other.cql
+      scope: storage.modifier.cql
     - match: \b(?i:using\s+ttl)\b
       scope: keyword.other.cql
 
@@ -78,13 +82,6 @@ contexts:
       scope: storage.type.cql punctuation.definition.generic.end.cql
       pop: 1
 
-  ddl-target:
-    - meta_prepend: true
-    - match: \b(?i:keyspace)\b
-      scope: keyword.other.cql
-    - match: \b(?i:materialized)\b
-      scope: keyword.other.cql
-
   inside-dict-or-set:
     - match: \}
       scope: punctuation.section.braces.end.cql
@@ -118,7 +115,7 @@ contexts:
       pop: 1
     - match: ((?i:\bprimary\s+key))\s*(\()
       captures:
-        1: keyword.other.cql
+        1: storage.modifier.cql
         2: meta.group.cql punctuation.section.group.begin.cql
       push: partition-key
     - match: \b(?i:primary\s+key)\b

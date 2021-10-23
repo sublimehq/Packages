@@ -12,6 +12,13 @@ variables:
   additional_reserved: (?!)
   simple_types: (?i:\b(?:bit|bool|boolean|datetime|int)\b)
   types_with_optional_number: (?i:\b(?:n?char|number|n?varchar|varbinary)\b)
+  ddl_target: |-
+    (?xi)
+    \b
+    (?:aggregate|conversion|database|domain|function|group|
+    (?:(?:fulltext|spatial|unique)\s+)?index|
+    language|operator class|operator|procedure|rule|
+    schema|sequence|table(?:space)?|trigger|type|user|view)\b
 
 contexts:
   prototype:
@@ -362,13 +369,7 @@ contexts:
       pop: 1
 
   ddl-target:
-    - match: |-
-        (?xi)
-        \b
-        (?:aggregate|conversion|database|domain|function|group|
-        (?:(?:fulltext|spatial|unique)\s+)?index|
-        language|operator class|operator|procedure|rule|
-        schema|sequence|table(?:space)?|trigger|type|user|view)\b
+    - match: '{{ddl_target}}'
       scope: keyword.other.sql
     - match: (?=\S)
       pop: 1
@@ -484,36 +485,43 @@ contexts:
         - table-name-or-subquery
 
   column-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.column-name.sql
     - match: ''
       pop: 1
 
   column-alias:
+    - meta_include_prototype: false
     - meta_content_scope: meta.column-alias.sql
     - match: ''
       pop: 1
 
   database-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.database-name.sql
     - match: ''
       pop: 1
 
   table-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.table-name.sql
     - match: ''
       pop: 1
 
   table-alias-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.table-alias-name.sql
     - match: ''
       pop: 1
 
   procedure-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.procedure-name.sql
     - match: ''
       pop: 1
 
   constraint-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.constraint-name.sql
     - match: ''
       pop: 1

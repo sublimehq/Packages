@@ -47,7 +47,7 @@ contexts:
 
   inside-double-quoted-string:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.sql
+    - meta_scope: meta.string.mysql string.quoted.double.sql
     - match: '""'
       scope: constant.character.escape.sql
     - match: '"'
@@ -172,8 +172,8 @@ contexts:
       scope: keyword.other.DML.sql
 
   table-name-or-subquery:
-    - meta_include_prototype: false
     - meta_prepend: true
+    - meta_include_prototype: false
     - match: (?=#)
       pop: 1
     - include: comments

@@ -10,7 +10,10 @@ SELECT 'Foo '' Bar';
 --          ^^ constant.character.escape.sql
 
 SELECT "My "" Crazy Column Name" FROM my_table;
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double
+--     ^ punctuation.definition.string.begin
 --         ^^ constant.character.escape.sql
+--                             ^ punctuation.definition.string.end
 
 SELECT "My -- Crazy Column Name" FROM my_table;
 --         ^^ - comment - punctuation

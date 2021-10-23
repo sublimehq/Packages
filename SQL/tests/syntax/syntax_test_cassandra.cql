@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 --                               ^ punctuation.separator.sequence
     PRIMARY KEY(userid)
 --  ^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
---  ^^^^^^^^^^^ keyword.other
+--  ^^^^^^^^^^^ storage.modifier
 --             ^ meta.group punctuation.section.group.begin
 --              ^^^^^^ meta.group.partition-key meta.column-name
 --                    ^ meta.group.partition-key punctuation.section.group.end
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     other_id uuid,
     test text,
     PRIMARY KEY(userid, other_id)
---  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
+--  ^^^^^^^^^^^ meta.create meta.group.table-columns storage.modifier
 --             ^ punctuation.section.group.begin
 --              ^^^^^^ meta.group.partition-key meta.column-name
 --                    ^^^^^^^^^^^ - meta.group.partition-key
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     other_id uuid,
     test text,
     PRIMARY KEY ((userid), other_id)
---  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
+--  ^^^^^^^^^^^ meta.create meta.group.table-columns storage.modifier
 --              ^ punctuation.section.group.begin
 --               ^^^^^^^^ meta.group.partition-key
 --               ^ punctuation.section.group.begin
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
 --                   ^ punctuation.separator.sequence
     test int,
     PRIMARY KEY ((userid, other_id), test)
---  ^^^^^^^^^^^ meta.create meta.group.table-columns keyword.other
+--  ^^^^^^^^^^^ meta.create meta.group.table-columns storage.modifier
 --              ^ punctuation.section.group.begin
 --               ^^^^^^^^^^^^^^^^^^ meta.group.partition-key
 --               ^ punctuation.section.group.begin
@@ -204,7 +204,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
     FROM foo
     WHERE bar IS NOT NULL
     PRIMARY KEY (foo_id, bar_id)
---  ^^^^^^^^^^^ keyword.other
+--  ^^^^^^^^^^^ storage.modifier
 --              ^^^^^^^^^^^^^^^^ meta.group
 --              ^ punctuation.section.group.begin
 --               ^^^^^^ meta.column-name
