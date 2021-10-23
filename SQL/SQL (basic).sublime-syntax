@@ -605,6 +605,7 @@ contexts:
         - single-identifier
 
   table-valued-function-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.table-valued-function-name.sql
     - match: ''
       pop: 1
