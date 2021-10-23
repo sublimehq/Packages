@@ -479,6 +479,9 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //  ^ keyword.other.phpdoc
 //       ^ - keyword.other.phpdoc
 
+/**@var Properties: class properties. */
+// ^^^^ - keyword.other.phpdoc
+
 /** @var@var Properties: class properties. */
 //  ^^^^^^^^ - keyword.other.phpdoc
 
@@ -781,6 +784,11 @@ $f3 = #[ExampleAttribute] fn () => 1;
 /**
  * @param@param
 // ^^^^^^^^^^^^ - keyword.other.phpdoc
+ */
+
+/**
+ *@param
+// ^ - keyword.other.phpdoc
  */
 
 /**
