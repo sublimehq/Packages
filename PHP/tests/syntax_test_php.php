@@ -779,6 +779,11 @@ $f3 = #[ExampleAttribute] fn () => 1;
  */
 
 /**
+ * @param@param
+// ^^^^^^^^^^^^ - keyword.other.phpdoc
+ */
+
+/**
  * PHP comment from issue #1378
  *
  * @see
