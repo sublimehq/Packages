@@ -153,7 +153,7 @@ CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
 --                                             ^ meta.group punctuation.separator.sequence
 --                                              ^^^^^^^ meta.group meta.column-name
 --                                                     ^ meta.group punctuation.section.group.end
---                                                       ^^^^^ keyword.other.DML.sql
+--                                                       ^^^^^ keyword.other.dml.sql
 --                                                                    ^^ keyword.operator.logical.sql
 --                                                                       ^^^^ constant.language.null.sql
 
@@ -226,14 +226,14 @@ select
 -- ^^^ keyword.operator.comparison.sql
 
 SELECT  *,
--- ^^^ keyword.other.DML.sql
+-- ^^^ keyword.other.dml.sql
 --      ^ variable.language.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
 --              ^^^^^^^^^^^ meta.column-alias
 FROM    foo
 WHERE   f.a IS NULL
--- ^^ keyword.other.DML.sql
+-- ^^ keyword.other.dml.sql
 --          ^^ keyword.operator.logical.sql
 --             ^^^^ constant.language.null.sql
         AND f.b IS NOT NULL
@@ -274,12 +274,12 @@ CREATE ALGORITHM=MERGE VIEW contactPersons(
 -- <- meta.group punctuation.section.group.end
 -- ^ keyword.operator.assignment.alias - meta.group
 SELECT
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
     customerName,
     contactFirstName,
     contactLastName,
     phone
 FROM customers;
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^^^^^^^^ meta.table-name
 --            ^ punctuation.terminator.statement

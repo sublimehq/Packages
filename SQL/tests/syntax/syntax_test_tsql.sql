@@ -128,28 +128,28 @@ DECLARE @Example INT = 5
 --                     ^ constant.numeric
 
 SELECT TOP 1 @Example = 4 FROM [dbo].[TableName]
--- ^^^ keyword.other.DML
---     ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
+--     ^^^ keyword.other.dml
 --         ^ constant.numeric
 --           ^^^^^^^^ variable.other.readwrite
 --                    ^ keyword.operator
 --                      ^ constant.numeric
---                        ^^^^ keyword.other.DML
+--                        ^^^^ keyword.other.dml
 
 SELECT TOP(1) @Example = y FROM [dbo].[TableName]
--- ^^^ keyword.other.DML
---     ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
+--     ^^^ keyword.other.dml
 --        ^ meta.group punctuation.section.parens.begin
 --         ^ meta.group meta.number.integer.decimal constant.numeric.value
 --          ^ meta.group punctuation.section.parens.end
 --            ^^^^^^^^ variable.other.readwrite
 --                     ^ keyword.operator
 --                       ^ meta.column-name
---                         ^^^^ keyword.other.DML
+--                         ^^^^ keyword.other.dml
 --                              ^^^^^^^^^^^^^^^^^ meta.table-name
 
 SET @Path = 'X:\nowayout\'
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^ keyword.operator
 --          ^^^^^^^^^^^^^^ string.quoted.single - constant
@@ -239,13 +239,13 @@ DECLARE db_cursor CURSOR SCROLL DYNAMIC FOR
 --                              ^^^^^^^ storage.modifier
 --                                      ^^^ keyword.other
     SELECT name
---  ^^^^^^ keyword.other.DML
+--  ^^^^^^ keyword.other.dml
 --         ^^^^ meta.column-name
     FROM MASTER.dbo.sysdatabases
-    -- ^ keyword.other.DML
+    -- ^ keyword.other.dml
     --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
     WHERE name NOT IN ('master','model','msdb','tempdb')
-    -- ^^ keyword.other.DML
+    -- ^^ keyword.other.dml
     --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
     --                 ^^^^^^^^ string.quoted.single
     --                         ^ punctuation.separator.sequence
@@ -304,13 +304,13 @@ DECLARE db_cursor CURSOR FAST_FORWARD READ_ONLY FOR
 --                                    ^^^^^^^^^ storage.modifier
 --                                              ^^^ keyword.other
     SELECT name
---  ^^^^^^ keyword.other.DML
+--  ^^^^^^ keyword.other.dml
 --         ^^^^ meta.column-name
     FROM MASTER.dbo.sysdatabases
-    -- ^ keyword.other.DML
+    -- ^ keyword.other.dml
     --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
     WHERE name NOT IN ('master','model','msdb','tempdb')
-    -- ^^ keyword.other.DML
+    -- ^^ keyword.other.dml
     --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
     --                 ^^^^^^^^ string.quoted.single
     --                         ^ punctuation.separator.sequence
@@ -324,7 +324,7 @@ OPEN db_cursor
 
 DECLARE @FileExists INT
 SET NOCOUNT ON
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^^^ constant.language.switch
 --          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
@@ -335,7 +335,7 @@ EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 --                                      ^^^^^^^^^^^ variable.other.readwrite
 --                                                  ^^^^^^ storage.modifier.output
 SET NOCOUNT OFF
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^^^ constant.language.switch
 --          ^^^ constant.language.boolean
 IF @FileExists = 0
@@ -394,24 +394,24 @@ EndSave:
 -------------
 
 INSERT INTO my_table (foo, bar)
--- ^^^^^^^^ keyword.other.DML
+-- ^^^^^^^^ keyword.other.dml
 --          ^^^^^^^^^^^^^^^^^^^^ - meta.function-call - support
 --          ^^^^^^^^ meta.table-name
 VALUES (2, 'two'),
--- ^^^ keyword.other.DML.II
+-- ^^^ keyword.other.dml.II
        (3, 'three')
 
 INSERT INTO #my_table
--- ^^^^^^^^ keyword.other.DML
+-- ^^^^^^^^ keyword.other.dml
 --          ^^^^^^^^^ meta.table-name - meta.function-call - support
 VALUES (2, 'two'),
--- ^^^ keyword.other.DML.II
+-- ^^^ keyword.other.dml.II
        (3, 'three')
 
 
 
 SELECT  foo AS foobar, COUNT(*) AS tally
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --      ^^^ meta.column-name
 --          ^^ keyword.operator.assignment.alias
 --             ^^^^^^ meta.column-alias
@@ -425,23 +425,23 @@ SELECT  foo AS foobar, COUNT(*) AS tally
 --                              ^^ keyword.operator.assignment.alias
 --                                 ^^^^^ meta.column-alias
 FROM    bar
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --      ^^^ meta.table-name
 WHERE   1 = 1
--- ^^ keyword.other.DML
+-- ^^ keyword.other.dml
 GROUP BY foo
--- ^^^^^ keyword.other.DML
+-- ^^^^^ keyword.other.dml
 
 select *
 from (select * from some_table) alias_table WITH (NOLOCK)
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^ punctuation.section.group.begin
---    ^^^^^^ keyword.other.DML
+--    ^^^^^^ keyword.other.dml
 --           ^ variable.language.wildcard.asterisk
 --                  ^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.section.group.end
 --                              ^^^^^^^^^^^ meta.table-alias-name
---                                          ^^^^ keyword.other.DML
+--                                          ^^^^ keyword.other.dml
 --                                               ^ punctuation.section.group.begin
 --                                                ^^^^^^ meta.group constant.language.with
 --                                                      ^ punctuation.section.group.end
@@ -449,17 +449,17 @@ where exists(select * from other_table where id = some_table.id)
 --    ^^^^^^ keyword.operator.logical
 
 UPDATE TableAlias
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^^^^^^^^^^ meta.table-name
 SET column1 = v.column1,
--- <- keyword.other.DML
---^ keyword.other.DML
+-- <- keyword.other.dml
+--^ keyword.other.dml
     column2 = 'testing123 TODO: assert the = operator is scoped as assignment instead of comparison'
 --          ^ keyword.operator
  , col3 = 0xDEADC0DE
 --        ^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric.value
 FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^^^^^^^^^^^^ meta.table-name
 --                 ^^^^^^^^^^ meta.table-alias-name
 --                            ^^^^ keyword.other
@@ -471,11 +471,11 @@ FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 --                                           ^^^^^^^^^ meta.group constant.language.with
 --                                                    ^ punctuation.section.group.end
 INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
--- ^^^^^^^ keyword.other.DML
+-- ^^^^^^^ keyword.other.dml
 --         ^^^^^^^^^ meta.table-name
 --                   ^^ keyword.operator.assignment.alias
 --                      ^ meta.table-alias-name
---                            ^^^^ keyword.other.DML
+--                            ^^^^ keyword.other.dml
 --                                 ^^^^^^^^ meta.group
 --                                 ^ punctuation.section.group.begin
 --                                  ^^^^^^ constant.language.with
@@ -487,17 +487,17 @@ INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 --                                                         ^^^^^^^^^^^^^^^^^^ meta.column-name
 --                                                                   ^ punctuation.accessor.dot
 WHERE TableAlias.some_id IN (
--- ^^ keyword.other.DML
+-- ^^ keyword.other.dml
 --                       ^^ keyword.operator.logical
 --                          ^ meta.group punctuation.section.group.begin
     SELECT a.another_id_column
---  ^^^^^^ keyword.other.DML
+--  ^^^^^^ keyword.other.dml
     FROM dbname..table_name_in_default_schema a
---  ^^^^ keyword.other.DML
+--  ^^^^ keyword.other.dml
 --       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                            ^ meta.group meta.table-alias-name
     WHERE a.another_id_column IS NOT NULL
---  ^^^^^ meta.group keyword.other.DML
+--  ^^^^^ meta.group keyword.other.dml
 --                            ^^ keyword.operator.logical
 --                               ^^^ keyword.operator.logical
 --                                   ^^^^ constant.language.null
@@ -539,7 +539,7 @@ SELECT i.ProductID, p.Name, i.LocationID, i.Quantity
 --   ^^^^ meta.function-call support.function
 --          ^^^^ keyword.other
 --                ^^^^^^^^^^^^ meta.group keyword.other
---                                          ^^^^^^^^ meta.group keyword.other.DML
+--                                          ^^^^^^^^ meta.group keyword.other.dml
 --                                                              ^^^^ meta.group keyword.other.order
 --                                                                    ^^ keyword.operator.assignment.alias
 --                                                                       ^^^^ meta.column-alias
@@ -547,7 +547,7 @@ FROM Production.ProductInventory AS i
 INNER JOIN Production.Product AS p
     ON i.ProductID = p.ProductID
 WHERE i.LocationID BETWEEN 3 AND 4
--- ^^ keyword.other.DML
+-- ^^ keyword.other.dml
 --                 ^^^^^^^ keyword.operator.logical
 --                         ^ meta.number.integer.decimal constant.numeric.value
 --                           ^^^ keyword.operator.logical
@@ -570,7 +570,7 @@ UPDATE foo
 SET Value = Bar.Value
 FROM foo
 INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND ISNULL(bar.some_id, 0) = ISNULL(foo.some_id, 0)
--- ^^^^^^^ keyword.other.DML
+-- ^^^^^^^ keyword.other.dml
 --         ^^^ meta.table-name
 --              ^^^^^^ meta.group invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
 --                      ^^ keyword.operator.join
@@ -591,11 +591,11 @@ INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND IS
 
 SELECT DISTINCT *
 INTO ##global_temp_table
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^^^^^^^^^^^^^^^^^^ meta.table-name
 FROM some_long_table_name s
 LEFT OUTER JOIN another_long_table_name (NOLOCK) a ON s.blah = a.blah AND ISNULL(p.ok, '') = ISNULL(a.ok, '') COLLATE DATABASE_DEFAULT
--- ^^^^^^^^^^^^ keyword.other.DML
+-- ^^^^^^^^^^^^ keyword.other.dml
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                       ^^^^^^ invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
 --                                               ^ meta.table-alias-name
@@ -628,14 +628,14 @@ AS
 BEGIN
 -- <- keyword.control.flow.begin
    SELECT TOP (@Count) * FROM [dbo].[CountryInfoNew]
--- ^^^^^^ keyword.other.DML
---        ^^^ keyword.other.DML
+-- ^^^^^^ keyword.other.dml
+--        ^^^ keyword.other.dml
 --            ^ meta.group punctuation.section.group.begin
 --             ^ meta.group variable.other.readwrite punctuation.definition.variable
 --              ^^^^^ meta.group variable.other.readwrite
 --                   ^ meta.group punctuation.section.group.end
 --                     ^ variable.language.wildcard.asterisk
---                       ^^^^ keyword.other.DML
+--                       ^^^^ keyword.other.dml
 --                            ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.definition.identifier.begin
 --                                ^ punctuation.definition.identifier.end
@@ -677,24 +677,24 @@ select A.A
 --     ^ punctuation.accessor.dot
 --      ^ variable.language.wildcard.asterisk
 into #temp
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^^^^ meta.table-name
 from @A A
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^ meta.table-name
 --      ^ meta.table-alias-name
 inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
---^^^^^^^^ keyword.other.DML
+--^^^^^^^^ keyword.other.dml
 --         ^ meta.table-name
 --           ^^ keyword.operator.join
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --              ^ punctuation.section.group.begin
---               ^^^^^^ keyword.other.DML
+--               ^^^^^^ keyword.other.dml
 --                                                                                         ^ keyword.operator.comparison
 --                                                                                           ^^^^ meta.column-name
 
 WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^^^^^^^^ meta.cte-table-name
 --             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns
 --             ^ punctuation.section.group.begin
@@ -710,7 +710,7 @@ AS
 (
 -- <- meta.group punctuation.section.group.begin
     SELECT SalesPersonID, SUM(TotalDue) AS TotalSales, YEAR(OrderDate) AS SalesYear
---  ^^^^^^ meta.group keyword.other.DML
+--  ^^^^^^ meta.group keyword.other.dml
     FROM Sales.SalesOrderHeader
     WHERE SalesPersonID IS NOT NULL
        GROUP BY SalesPersonID, YEAR(OrderDate)
@@ -728,14 +728,14 @@ AS
 (
 -- <- meta.group punctuation.section.group.begin
        SELECT BusinessEntityID, SUM(SalesQuota)AS SalesQuota, YEAR(QuotaDate) AS SalesQuotaYear
---     ^^^^^^ meta.group keyword.other.DML
+--     ^^^^^^ meta.group keyword.other.dml
        FROM Sales.SalesPersonQuotaHistory
        GROUP BY BusinessEntityID, YEAR(QuotaDate)
 )
 
 -- Define the outer query by referencing columns from both CTEs.
 SELECT SalesPersonID
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
   , SalesYear
   , FORMAT(TotalSales,'C','en-us') AS TotalSales
   , SalesQuotaYear
@@ -761,25 +761,25 @@ SELECT ManagerID, EmployeeID, Title, EmployeeLevel
 FROM DirectReports
 ORDER BY ManagerID
 OPTION (MAXRECURSION 3)
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^ meta.group punctuation.section.group.begin
 --      ^^^^^^^^^^^^ meta.group constant.language.with
 --                   ^ meta.group constant.language.with
 --                    ^ meta.group punctuation.section.group.end
 
 WITH cte_table AS ( SELECT blah )
--- ^ keyword.other.DML
+-- ^ keyword.other.dml
 --   ^^^^^^^^^ meta.cte-table-name
 --             ^^ keyword.operator.assignment.cte
 --                ^ meta.group punctuation.section.group.begin
---                  ^^^^^^ meta.group keyword.other.DML
+--                  ^^^^^^ meta.group keyword.other.dml
 --                         ^^^^ meta.group meta.column-name
 --                              ^ meta.group punctuation.section.group.end
 SELECT cte_table.* FROM cte_table
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^^^^^^^^^^ meta.column-name
 --               ^ variable.language.wildcard.asterisk
---                 ^^^^ keyword.other.DML
+--                 ^^^^ keyword.other.dml
 --                      ^^^^^^^^^ meta.table-name
 
 ;WITH A AS
@@ -802,7 +802,7 @@ SELECT cte_table.* FROM cte_table
 --    ^^ keyword.operator.assignment.cte
     (
         SELECT
---      ^^^^^^ meta.group keyword.other.DML
+--      ^^^^^^ meta.group keyword.other.dml
             FooID,
             CASE WHEN Character = 'Zoidberg'
                 THEN
@@ -852,12 +852,12 @@ AS
 -- <- keyword.context.block
 ;WITH CTE AS (SELECT @input1 AS Input1) UPDATE Blah SET X = CTE.Input1 FROM CTE JOIN X ON X.Nonsense = 12.6
 -- <- punctuation.terminator.statement
---^^^ keyword.other.DML
+--^^^ keyword.other.dml
 --    ^^^ meta.cte-table-name
 --        ^^ keyword.operator.assignment.cte
---                                      ^^^^^^ keyword.other.DML
+--                                      ^^^^^^ keyword.other.dml
 --                                             ^^^^ meta.table-name
---                                                  ^^^ keyword.other.DML
+--                                                  ^^^ keyword.other.dml
 --                                                                                                     ^^^^ meta.number.float.decimal constant.numeric.value
 
 IF OBJECT_ID('tempdb..import') IS NOT NULL
@@ -1040,7 +1040,7 @@ UNPIVOT (dDate FOR nDate IN (date1, date2, date3, date4)) AS item
 --                                                        ^^ keyword.operator.assignment.alias
 --                                                           ^^^^ meta.table-alias-name
 GROUP BY item.ID
--- ^^^^^ keyword.other.DML
+-- ^^^^^ keyword.other.dml
 
 ------------
 -- Create the table and insert values as portrayed in the previous example.
@@ -1079,13 +1079,13 @@ GO
 CREATE TABLE dbo.T1 ( column_1 int IDENTITY, column_2 VARCHAR(30));
 GO
 INSERT T1 VALUES ('Row #1');
---^^^^ keyword.other.DML
+--^^^^ keyword.other.dml
 --     ^^ meta.table-name
---        ^^^^^^ keyword.other.DML.II
+--        ^^^^^^ keyword.other.dml.II
 INSERT T1 (column_2) VALUES ('Row #2');
 GO
 SET IDENTITY_INSERT T1 ON;
--- <- keyword.other.DML
+-- <- keyword.other.dml
 --  ^^^^^^^^^^^^^^^ constant.language.switch
 --                  ^^ meta.table-name
 --                     ^^ constant.language.boolean
@@ -1125,9 +1125,9 @@ CREATE TABLE dbo.T1
     column_4 varchar(40) NULL
 );
 INSERT INTO T1 DEFAULT VALUES;
--- ^^^^^^^^ keyword.other.DML
+-- ^^^^^^^^ keyword.other.dml
 --          ^^ meta.table-name
---             ^^^^^^^^^^^^^^ keyword.other.DML.II
+--             ^^^^^^^^^^^^^^ keyword.other.dml.II
 --                           ^ punctuation.terminator.statement
 
 
@@ -1149,8 +1149,8 @@ WHEN MATCHED
 -- ^^^^^^^^^ keyword.control.conditional.case
     THEN UPDATE SET
 --  ^^^^ keyword.other
---       ^^^^^^ keyword.other.DML
---              ^^^ keyword.other.DML
+--       ^^^^^^ keyword.other.dml
+--              ^^^ keyword.other.dml
         t.category_name = s.category_name,
 --      ^^^^^^^^^^^^^^^ meta.column-name
 --                      ^ keyword.operator
@@ -1165,7 +1165,7 @@ WHEN NOT MATCHED BY TARGET
 --               ^^^^^^^^^ keyword.other
     THEN INSERT (category_id, category_name, amount)
 --  ^^^^ keyword.other
---       ^^^^^^ keyword.other.DML
+--       ^^^^^^ keyword.other.dml
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --              ^ punctuation.section.group.begin
 --               ^^^^^^^^^^^ meta.column-name
@@ -1175,7 +1175,7 @@ WHEN NOT MATCHED BY TARGET
 --                                           ^^^^^^ meta.column-name
 --                                                 ^ punctuation.section.group.end
          VALUES (s.category_id, s.category_name, s.amount)
---       ^^^^^^ keyword.other.DML.II
+--       ^^^^^^ keyword.other.dml.II
 --              ^ punctuation.section.group.begin
 --               ^^^^^^^^^^^^^ meta.column-name
 --                            ^ punctuation.separator.sequence
@@ -1188,7 +1188,7 @@ WHEN NOT MATCHED BY SOURCE
 --               ^^^^^^^^^ keyword.other
     THEN DELETE;
 --  ^^^^ keyword.other
---       ^^^^^^ keyword.other.DML
+--       ^^^^^^ keyword.other.dml
 --             ^ punctuation.terminator.statement
 
 --------------
@@ -1227,7 +1227,7 @@ CREATE TABLE [dbo].[be_Categories](
 --      ^^^^^^^^^^^^ meta.column-name
 --                   ^^^ keyword.other.order
     ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
---    ^^^^ keyword.other.DML
+--    ^^^^ keyword.other.dml
 --          ^^^^^^^^^ constant.language.with
 --                    ^ keyword.operator.assignment
 --                      ^^^ constant.language.bool
@@ -1276,7 +1276,7 @@ CREATE TABLE [Employee](
 GO
 SELECT * FROM Department D
 CROSS APPLY
---^^^^^^^^^ keyword.other.DML
+--^^^^^^^^^ keyword.other.dml
    (
    SELECT * FROM Employee E
    WHERE E.DepartmentID = D.DepartmentID
@@ -1284,7 +1284,7 @@ CROSS APPLY
 GO
 SELECT * FROM Department D
 OUTER APPLY
--- ^^^^^^^^ keyword.other.DML
+-- ^^^^^^^^ keyword.other.dml
    (
    SELECT * FROM Employee E
    WHERE E.DepartmentID = D.DepartmentID
@@ -1396,8 +1396,8 @@ DECLARE @MyTableVar table(
     NewVacationHours INT,
     ModifiedDate datetime);
 UPDATE TOP (10) HumanResources.Employee
--- ^^^ keyword.other.DML
---     ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
+--     ^^^ keyword.other.dml
 --         ^^^^ meta.group
 --         ^ punctuation.section.parens.begin
 --          ^^ meta.number.integer.decimal constant.numeric.value
@@ -1428,9 +1428,9 @@ GO
 --Note that ModifiedDate reflects the value generated by an
 --AFTER UPDATE trigger.
 SELECT TOP 10 percent BusinessEntityID, VacationHours, ModifiedDate
---     ^^^ keyword.other.DML
+--     ^^^ keyword.other.dml
 --         ^^ meta.number.integer.decimal constant.numeric.value
---            ^^^^^^^ keyword.other.DML
+--            ^^^^^^^ keyword.other.dml
 --                    ^^^^^^^^^^^^^^^^ meta.column-name
 FROM HumanResources.Employee;
 GO
@@ -1459,7 +1459,7 @@ EXEC sp_xml_preparedocument @XmlDocumentHandle OUTPUT, @XmlDocument
 -- Execute a SELECT statement using OPENXML rowset provider.
 SELECT    *
 FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath highlighting to the string
---^^ keyword.other.DML
+--^^ keyword.other.dml
 --        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 --                                                        ^ - meta.function-call
 --        ^^^^^^^ meta.table-valued-function-name support.function
@@ -1519,7 +1519,7 @@ FROM    table_name AS t1
 
 SELECT a.*
    FROM OPENROWSET('Microsoft.Jet.OLEDB.4.0',
--- ^^^^ keyword.other.DML
+-- ^^^^ keyword.other.dml
 --      ^^^^^^^^^^ meta.function-call meta.table-valued-function-name support.function
                    'C:\SAMPLES\Northwind.mdb';
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
@@ -1571,7 +1571,7 @@ CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
 --^ - meta.group
 
 WITH cols
---^^ keyword.other.DML
+--^^ keyword.other.dml
 --   ^^^^ meta.cte-table-name
 AS
 -- <- keyword.operator.assignment.cte
@@ -1586,37 +1586,37 @@ FROM cols
 ORDER BY sequence
 
 set @test += 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
 set @test -= 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
 set @test *= 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
 set @test /= 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
 set @test %= 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
 set @test ^= 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
 set @test |= 2
---^ keyword.other.DML
+--^ keyword.other.dml
 --  ^^^^^ variable.other.readwrite
 --        ^^ keyword.operator.assignment
 --           ^ meta.number.integer.decimal constant.numeric.value
@@ -1629,7 +1629,7 @@ AS
 SELECT * FROM Person.Address
 WHERE City = @city_name AND PostalCode = @postal_code
 OPTION ( OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN) );
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^ punctuation.section.group.begin
 --       ^^^^^^^^^^^^ keyword.other
 --                    ^ punctuation.section.group.begin
@@ -1647,7 +1647,7 @@ GO
 SELECT * FROM Person.Address
 WHERE City = @city_name AND PostalCode = @postal_code
 OPTION (OPTIMIZE FOR UNKNOWN);
---^^^^ keyword.other.DML - meta.group
+--^^^^ keyword.other.dml - meta.group
 --     ^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --     ^ punctuation.section.group.begin
 --      ^^^^^^^^^^^^^^^^^^^^ keyword.other

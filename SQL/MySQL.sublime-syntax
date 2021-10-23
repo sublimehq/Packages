@@ -131,12 +131,12 @@ contexts:
   dml-statements:
     - meta_append: true
     - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push:
         - table-name
         - single-identifier-after-whitespace
     - match: \b(?i:limit)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
 
   ddl-target-common:
     - match: \b(?i:on)\b
@@ -169,7 +169,7 @@ contexts:
   joins:
     - meta_append: true
     - match: (?i)\b(?:straight_join|natural)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
 
   table-name-or-subquery:
     - meta_prepend: true

@@ -14,7 +14,7 @@ CREATE TABLE test1 (a character(4));
 
 INSERT INTO test1 VALUES ('ok');
 SELECT a, char_length(a) FROM test1;
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^ meta.column-name
 --      ^ punctuation.separator.sequence
 --        ^^^^^^^^^^^^^^ meta.function-call
@@ -22,7 +22,7 @@ SELECT a, char_length(a) FROM test1;
 --                   ^ meta.group punctuation.section.parens.begin
 --                    ^ meta.group meta.column-name
 --                     ^ meta.group punctuation.section.parens.end
---                       ^^^^ keyword.other.DML - meta.group
+--                       ^^^^ keyword.other.dml - meta.group
 --                            ^^^^^ meta.table-name
 --                                 ^ punctuation.terminator.statement
 
@@ -160,11 +160,11 @@ INSERT INTO sal_emp
     ARRAY[['breakfast', 'consulting'], ['meeting', 'lunch']]);
 
 SELECT name FROM sal_emp WHERE pay_by_quarter[1] <> pay_by_quarter[2];
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^^^^ meta.column-name
---          ^^^^ keyword.other.DML
+--          ^^^^ keyword.other.dml
 --               ^^^^^^^ meta.table-name
---                       ^^^^^ keyword.other.DML
+--                       ^^^^^ keyword.other.dml
 --                             ^^^^^^^^^^^^^^ meta.column-name
 --                                           ^ punctuation.section.brackets.begin
 --                                            ^ meta.number.integer.decimal constant.numeric.value
@@ -177,7 +177,7 @@ SELECT name FROM sal_emp WHERE pay_by_quarter[1] <> pay_by_quarter[2];
 --                                                                   ^ punctuation.terminator.statement
 
 SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^^^^^^^^ meta.column-name
 --             ^ punctuation.section.brackets.begin
 --              ^ meta.number.integer.decimal constant.numeric.value
@@ -187,5 +187,5 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 --                  ^ punctuation.section.brackets.begin
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.section.brackets.end
---                      ^^^^ keyword.other.DML
+--                      ^^^^ keyword.other.dml
 --                           ^^^^^^^ meta.table-name

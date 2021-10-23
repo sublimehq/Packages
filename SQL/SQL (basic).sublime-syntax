@@ -406,31 +406,31 @@ contexts:
 
   dml-statements:
     - match: \b(?i:select)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
     - match: \b(?i:union(?:\s+all)?)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
     - match: \b(?i:(?:delete(?:\s+from)?))\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       set: dml-delete
     - match: \b(?i:update)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       set: dml-update
     - match: \b(?i:(?:insert\s+into|truncate))\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push:
         - table-name
         - single-identifier-after-whitespace
     - match: \b(?i:set)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push: set
     - match: \b(?i:(?:default\s+)?values)\b
-      scope: keyword.other.DML.II.sql
+      scope: keyword.other.dml.II.sql
     - include: distinct
     - include: joins
     - match: \b(?i:group\s+by|order\s+by|having|where)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
     - match: \b(?i:from)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push: table-name-or-subquery
     - match: (?i)\b(asc|desc)\b
       scope: keyword.other.order.sql
@@ -475,11 +475,11 @@ contexts:
 
   distinct:
     - match: \b(?i:distinct)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
 
   joins:
     - match: (?i)\b(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push:
         - join-on
         - table-name-or-subquery

@@ -1649,11 +1649,11 @@ $sql = "
 
 // Do not highlight plain SQL indicator as SQL
 $sql = "SELECT";
-//      ^^^^^^ - keyword.other.DML
+//      ^^^^^^ - keyword.other.dml
 
 $sql = "
     SELECT
-//  ^^^^^^ keyword.other.DML
+//  ^^^^^^ keyword.other.dml
     *
     FROM users
     WHERE first_name = 'Eric'
@@ -1662,7 +1662,7 @@ $sql = "
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
-//      ^ keyword.other.DML
+//      ^ keyword.other.dml
 //                                             ^^^^^^ string.quoted.single.sql
 //                                                   ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
@@ -1670,14 +1670,14 @@ $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 $sql = "SELECT * FROM users WHERE first_name = 'Eric";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
-//      ^ keyword.other.DML
+//      ^ keyword.other.dml
 //                                             ^^^^^ string.quoted.single.sql
 //                                                  ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $sql = "
     SELECT * FROM users WHERE first_name = 'Eric'
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
-//  ^ keyword.other.DML
+//  ^ keyword.other.dml
 //                                         ^^^^^^ string.quoted.single.sql
 ";
 // <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
@@ -1691,7 +1691,7 @@ $non_sql = 'NO SELECT HIGHLIGHTING!';
 $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
 //     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php - meta.interpolation - string string
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
-//      ^ keyword.other.DML
+//      ^ keyword.other.dml
 //                                             ^^ constant.character.escape.php
 //                                                   ^^ constant.character.escape.php
 //                                                     ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
@@ -1699,7 +1699,7 @@ $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
 $sql = '
     SELECT * FROM users WHERE first_name = \'Eric\'
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
-//  ^ keyword.other.DML
+//  ^ keyword.other.dml
 //                                         ^^ constant.character.escape.php
 ';
 // <- meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
@@ -1889,7 +1889,7 @@ echo <<<SQL
 //      ^^^ entity.name.tag.heredoc
 SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
-// <- keyword.other.DML
+// <- keyword.other.dml
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
@@ -1906,7 +1906,7 @@ echo <<<'SQL'
 //       ^^^ entity.name.tag.heredoc
 SELECT * FROM users WHERE first_name = 'John'\n
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
-// <- keyword.other.DML
+// <- keyword.other.dml
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                           ^^ - constant.character.escape.php

@@ -30,61 +30,61 @@ invalid_escapes = "\.  \-"
 #                      ^^ invalid.deprecated.character.escape.python
 
 conn.execute("SELECT * FROM foobar")
-#              ^ meta.string.python keyword.other.DML.sql
+#              ^ meta.string.python keyword.other.dml.sql
 
 conn.execute('SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 
 conn.execute(U"SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 
 conn.execute(U'SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 
 # In this example, the Python string is not raw, so \t is a python escape
 conn.execute(u"SELECT * FROM foobar WHERE foo = '\t'")
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 #                                                 ^ constant.character.escape.python
 
 conn.execute(u'SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 
 # In this example, the Python string is raw, so the \b should be a SQL escape
 conn.execute(r"SELECT * FROM foobar WHERE baz = '\b")
-#              ^ meta.string.python keyword.other.DML.sql
+#              ^ meta.string.python keyword.other.dml.sql
 #                                                 ^ constant.character.escape.sql
 
 # This tests to ensure the Python placeholder will be highlighted even in a raw SQL string
 conn.execute(r'SELECT * FROM foobar WHERE %s')
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 #                                         ^ constant.other.placeholder.python
 
 conn.execute(r"SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 
 conn.execute(r'SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
+#              ^ keyword.other.dml.sql
 
 conn.execute(r"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
-#                 ^ keyword.other.DML.sql
+#                 ^ keyword.other.dml.sql
 #                                            ^ constant.other.placeholder.python
 #                                                          ^ constant.character.escape.sql
 
 # Capital R prevents all syntax embedding
 conn.execute(R'SELECT * FROM foobar')
-#              ^ meta.string.python - keyword.other.DML.sql
+#              ^ meta.string.python - keyword.other.dml.sql
 
 conn.execute(R"SELECT * FROM foobar")
-#              ^ - keyword.other.DML.sql
+#              ^ - keyword.other.dml.sql
 
 conn.execute(R"""SELECT * FROM foobar""")
-#                ^ - keyword.other.DML.sql
+#                ^ - keyword.other.dml.sql
 
 conn.execute(r'''SELECT * FROM foobar''')
-#                 ^ keyword.other.DML.sql
+#                 ^ keyword.other.dml.sql
 
 conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
-#                 ^ keyword.other.DML.sql
+#                 ^ keyword.other.dml.sql
 #                                            ^ constant.other.placeholder.python
 #                                                          ^ constant.character.escape.python
 

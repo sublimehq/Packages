@@ -305,10 +305,10 @@ contexts:
     - match: \b(?i:bulk\s+insert)\b
       scope: keyword.other.tsql
     - match: \b(?i:insert)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push: [table-name, single-identifier-after-whitespace]
     - match: \b(?i:into)\b(?!\s*@)
-      scope: keyword.other.DML.tsql
+      scope: keyword.other.dml.tsql
       push: [table-name, single-identifier-after-whitespace]
     - match: \b(?i:into)\b
       scope: keyword.other.tsql
@@ -320,7 +320,7 @@ contexts:
     - include: top
     - match: \b(?i:(option))\b\s*(\()
       captures:
-        1: keyword.other.DML.tsql
+        1: keyword.other.dml.tsql
         2: meta.group.sql punctuation.section.group.begin.sql
       push: inside-with-group
     - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
@@ -379,11 +379,11 @@ contexts:
   top:
     - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
       captures:
-        1: keyword.other.DML.tsql
+        1: keyword.other.dml.tsql
         2: meta.group.tsql punctuation.section.parens.begin.tsql
         3: meta.group.tsql meta.number.integer.decimal.tsql constant.numeric.value.tsql
         4: meta.group.tsql punctuation.section.parens.end.tsql
-        5: keyword.other.DML.tsql
+        5: keyword.other.dml.tsql
 
   dml-delete:
     - meta_prepend: true
@@ -467,13 +467,13 @@ contexts:
 
   cte-with:
     - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\()
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push:
         - cte-column-list-begin
         - cte-table-name
         - single-identifier
     - match: (?i)\bwith\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push:
         - cte-as
         - cte-table-name
@@ -481,7 +481,7 @@ contexts:
 
   with:
     - match: (?i)\bwith\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push: with-paren-or-pop
 
   with-paren-or-pop:
@@ -572,7 +572,7 @@ contexts:
   joins:
     - meta_append: true
     - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push: table-name-or-subquery
 
   table-name-or-subquery:
@@ -651,7 +651,7 @@ contexts:
     - match: \b(?i:then)\b
       scope: keyword.other.tsql
     - match: \b(?i:insert)\b(?=\s*\()
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       push: values-or-expressions
     - include: dml-statements
     - include: pop-on-top-level-reserved-word
@@ -716,7 +716,7 @@ contexts:
   expect-cursor-select-statement:
     - meta_content_scope: meta.cursor-declaration.tsql
     - match: \b(?i:select)\b
-      scope: keyword.other.DML.sql
+      scope: keyword.other.dml.sql
       set: after-cursor-select-statement
     - match: (?=\S)
       pop: 1

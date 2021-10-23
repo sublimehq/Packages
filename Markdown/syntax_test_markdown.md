@@ -2580,7 +2580,7 @@ okay
 |  ^^^ constant.other.language-name
 SELECT *
 |^^^^^^^^ markup.raw.code-fence.sql
-|^^^^^ keyword.other.DML.sql
+|^^^^^ keyword.other.dml.sql
 FROM TableName
 ```
 |^^ meta.code-fence.definition.end.sql punctuation.definition.raw.code-fence.end - markup

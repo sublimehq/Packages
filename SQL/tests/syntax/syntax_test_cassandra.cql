@@ -19,7 +19,7 @@ CREATE KEYSPACE killrvideo WITH replication = {'class':'SimpleStrategy', 'replic
 --                                                                                                ^ punctuation.terminator.statement
 
 select someid, token(someid), something
---^^^^ keyword.other.DML
+--^^^^ keyword.other.dml
 --     ^^^^^^ meta.column-name
 --           ^ punctuation.separator.sequence
 --             ^^^^^ meta.function-call support.function
@@ -29,10 +29,10 @@ select someid, token(someid), something
 --                          ^ punctuation.separator.sequence
 --                            ^^^^^^^^^ meta.column-name
 from something_by_someid
---^^ keyword.other.DML
+--^^ keyword.other.dml
 --   ^^^^^^^^^^^^^^^^^^^ meta.table-name
 where token(someid) >= token(d821d7d8-8265-402e-9a72-c61ab8473ab6)
---^^^ keyword.other.DML
+--^^^ keyword.other.dml
 --    ^^^^^^^^^^^^^ meta.function-call
 --    ^^^^^ support.function
 --         ^^^^^^^^ meta.group
@@ -57,7 +57,7 @@ limit 2000;
 select count(someid)
 from something_by_someid
 where something = 'abc'
--- ^^ keyword.other.DML
+-- ^^ keyword.other.dml
 --    ^^^^^^^^^ meta.column-name
 --              ^ keyword.operator.comparison
 --                ^^^^^ string.quoted.single
@@ -67,7 +67,7 @@ allow filtering;
 --             ^ punctuation.terminator.statement
 
 insert into something_by_countrycode (someid, countrycode) values (:someid, :countrycode);
--- ^^^^^^^^ keyword.other.DML
+-- ^^^^^^^^ keyword.other.dml
 --          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                   ^^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                   ^ punctuation.section.group.begin
@@ -75,7 +75,7 @@ insert into something_by_countrycode (someid, countrycode) values (:someid, :cou
 --                                          ^ punctuation.separator.sequence
 --                                            ^^^^^^^^^^^ meta.column-name
 --                                                       ^ punctuation.section.group.end
---                                                         ^^^^^^ keyword.other.DML.II
+--                                                         ^^^^^^ keyword.other.dml.II
 --                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                                                ^ punctuation.section.group.begin
 --                                                                 ^^^^^^^ variable.other.constant
@@ -199,7 +199,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
 --                                                ^^ keyword.operator.assignment.alias
     SELECT *
---  ^^^^^^ keyword.other.DML
+--  ^^^^^^ keyword.other.dml
 --         ^ variable.language.wildcard.asterisk
     FROM foo
     WHERE bar IS NOT NULL
@@ -283,7 +283,7 @@ PRIMARY KEY (entityid, datecreated, somefield)
 --^^^^^^^^^^^^^^^^ meta.create
 -- ^^^ keyword.other
 --     ^^^^^^^^^^ keyword.other
---                ^^^^^^^^ keyword.other.DML
+--                ^^^^^^^^ keyword.other.dml
 --                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --                         ^ punctuation.section.group.begin
 --                          ^^^^^^^^^^^ meta.column-name
@@ -362,7 +362,7 @@ WITH HEADER=true;
 --              ^ punctuation.terminator.statement
 
 TRUNCATE table1;
--- ^^^^^ keyword.other.DML
+-- ^^^^^ keyword.other.dml
 --       ^^^^^^ meta.table-name
 --             ^ punctuation.terminator.statement
 
@@ -483,7 +483,7 @@ WHERE (steward_name, king) = ('Boromir', 'Brego');
 --                                               ^ punctuation.terminator.statement
 
 SELECT WRITETIME (first_name)
---^^^^ keyword.other.DML
+--^^^^ keyword.other.dml
 --     ^^^^^^^^^ meta.function-call support.function
 FROM users
 WHERE last_name = 'Jones';
@@ -499,7 +499,7 @@ USING TTL 300
 -- ^^^^^^ keyword.other
 --        ^^^ meta.number.integer.decimal constant.numeric.value
 SET race_name = 'dummy'
--- <- keyword.other.DML
+-- <- keyword.other.dml
 WHERE race_id = 200
   AND race_start_date = '2015-05-27'
   AND race_end_date = '2015-05-27';
@@ -511,7 +511,7 @@ WHERE race_id=200;
 
 -- https://docs.datastax.com/en/cql-oss/3.x/cql/cql_using/useQueryJSON.html
 select json name, checkin_id, timestamp from checkin;
--- ^^^ keyword.other.DML
+-- ^^^ keyword.other.dml
 --     ^^^^ storage.modifier
 
 select name, checkin_id, toJson(timestamp) from checkin;

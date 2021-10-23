@@ -52,7 +52,7 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:(select)\s+(json))\b
       captures:
-        1: keyword.other.DML.sql
+        1: keyword.other.dml.sql
         2: storage.modifier.cql
     - match: \b(?i:allow filtering)\b
       scope: keyword.other.dml.cql
