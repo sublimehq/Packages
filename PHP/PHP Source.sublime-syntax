@@ -962,12 +962,8 @@ contexts:
     # This only highlights a docblock if the first line contains only /** or
     # /**#@+ (which is used for docblock templates). Otherwise block-level
     # comment would be highlighted as invalid for constructs such as /**** ****/
-    - match: |-
-        (?x)/\*\*(?:
-          (?:\#@\+)?\s*$ (?# multi-line doc )
-          |
-          (?=\s+@.*\s\*/\s*$) (?# inline doc )
-        )
+    # multi-line doc
+    - match: /\*\*(?:\#@\+)?\s*$
       scope: punctuation.definition.comment.begin.php
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
@@ -975,6 +971,20 @@ contexts:
           scope: punctuation.definition.comment.end.php
           pop: 1
         - include: php-doc
+    # inline doc
+    - match: (?=/\*\*\s+@.*\s\*/\s*$)
+      push:
+        - meta_scope: comment.block.documentation.phpdoc.php
+        - match: (/\*\*)\s+
+          captures:
+            1: punctuation.definition.comment.begin.php
+          push:
+            - include: php-doc-tags
+            - match: ''
+              pop: 1
+        - match: \*/
+          scope: punctuation.definition.comment.end.php
+          pop: 1
     - match: /\*
       scope: punctuation.definition.comment.begin.php
       push:

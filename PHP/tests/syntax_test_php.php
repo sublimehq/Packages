@@ -471,8 +471,9 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //  ^ text.html.basic meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
 */
 
-/** @var Properties: class properties. */
+/** @var @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
+//       ^ - keyword.other.phpdoc
 
 /* No phpdoc highlight since there are not two * after the opening /
  * @return
