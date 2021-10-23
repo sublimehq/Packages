@@ -640,9 +640,10 @@ line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
 match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
 #                  ^^^^^^^^^^ meta.group.regexp
 #                  ^ punctuation.section.group.begin
-#                   ^^^ punctuation.definition.group.capture
-#                      ^^^^ entity.name.other.group
-#                          ^ punctuation.definition.group.capture
+#                   ^^ keyword.other.backref-and-recursion
+#                     ^ punctuation.definition.capture-group-name.begin
+#                      ^^^^ entity.name.capture-group
+#                          ^ punctuation.definition.capture-group-name.end
 #                            ^ punctuation.section.group.end
 #                             ^ keyword.operator.quantifier
 #                               ^ punctuation.section.group.begin
@@ -661,9 +662,10 @@ match = re.match(r'(a)?b(?(1)c|d)', line)
 match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
 #                     ^^^^^^^^^^^^^^^ meta.group.regexp
 #                     ^ punctuation.section.group.begin
-#                      ^^^ punctuation.definition.group.capture
-#                         ^^^^^ entity.name.other.group
-#                              ^ punctuation.definition.group.capture
+#                      ^^ keyword.other.backref-and-recursion
+#                        ^ punctuation.definition.capture-group-name.begin
+#                         ^^^^^ entity.name.capture-group
+#                              ^ punctuation.definition.capture-group-name.end
 #                               ^^^^ meta.set
 #                               ^ punctuation.definition.set.begin
 #                                  ^ punctuation.definition.set.end
@@ -671,6 +673,7 @@ match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
 #                                    ^ keyword.other.any - meta.group
 #                                     ^^ keyword.operator.quantifier
 #                                        ^^^^^^^^ keyword.other.back-reference.named
+#                                           ^^^^^ variable.other.backref-and-recursion
 match = re.search(r'''(?ix)some text(?-i)''', line)
 #                     ^ punctuation.definition.modifier.begin
 #                       ^^ storage.modifier.mode
