@@ -511,7 +511,8 @@ WHERE race_id=200;
 
 -- https://docs.datastax.com/en/cql-oss/3.x/cql/cql_using/useQueryJSON.html
 select json name, checkin_id, timestamp from checkin;
--- ^^^^^^^^ keyword.other.DML
+-- ^^^ keyword.other.DML
+--     ^^^^ storage.modifier
 
 select name, checkin_id, toJson(timestamp) from checkin;
 --                       ^^^^^^ meta.function-call support.function

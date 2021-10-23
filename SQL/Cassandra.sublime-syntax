@@ -50,8 +50,10 @@ contexts:
 
   dml-statements:
     - meta_prepend: true
-    - match: (?i:\bselect\s+json\b)
-      scope: keyword.other.DML.sql
+    - match: \b(?i:(select)\s+(json))\b
+      captures:
+        1: keyword.other.DML.sql
+        2: storage.modifier.cql
     - match: \b(?i:allow filtering)\b
       scope: keyword.other.dml.cql
     - match: \b(?i:copy)\b
