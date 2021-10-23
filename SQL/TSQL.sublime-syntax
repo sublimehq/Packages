@@ -754,6 +754,7 @@ contexts:
         - single-identifier
 
   function-name:
+    - meta_include_prototype: false
     - meta_content_scope: variable.function.tsql
     - match: ''
       pop: 1
@@ -782,11 +783,13 @@ contexts:
         - single-identifier
 
   index-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.index-name.tsql
     - match: ''
       pop: 1
 
   filegroup-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.filegroup-name.tsql
     - match: ''
       pop: 1
