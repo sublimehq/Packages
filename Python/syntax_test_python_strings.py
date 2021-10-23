@@ -89,7 +89,7 @@ conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 #                                                          ^ constant.character.escape.python
 
 regex = r'\b ([fobar]*){1}(?:a|b)?'
-#         ^ meta.string.python keyword.control.anchors.regexp
+#         ^ meta.string.python keyword.control.anchor.regexp
 #                       ^ keyword.operator.quantifier.regexp
 
 regex = r'.* # Not a comment (yet)'
@@ -103,20 +103,20 @@ regex = r".* # Not a comment (yet)"
 #                                  ^ - invalid
 
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
-#           ^ keyword.control.anchors.regexp
+#           ^ keyword.control.anchor.regexp
 #                         ^ keyword.operator.quantifier.regexp
 
 regex = r"""\b ([fobar]*){1}(?:a|b)?"""
-#           ^ keyword.control.anchors.regexp
+#           ^ keyword.control.anchor.regexp
 #                         ^ keyword.operator.quantifier.regexp
 
 # Capital R prevents all syntax embedding
 regex = R'\b ([fobar]*){1}(?:a|b)?'
-#         ^ - keyword.control.anchors.regexp
+#         ^ - keyword.control.anchor.regexp
 #                       ^ - keyword.operator.quantifier.regexp
 
 regex = R"\b ([fobar]*){1}(?:a|b)?"
-#         ^ - keyword.control.anchors.regexp
+#         ^ - keyword.control.anchor.regexp
 #                       ^ - keyword.operator.quantifier.regexp
 
 bad_string = 'SELECT * FROM users
@@ -623,7 +623,7 @@ rf"\r\n" f"\r\n" Rf'\r\n'
 
 expr = fr"^\s*({label}|{notlabel})"
 #         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.python
-#         ^ meta.string.interpolated.python string.quoted.double.python source.regexp.python keyword.control.anchors.regexp
+#         ^ meta.string.interpolated.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
 #             ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
 #              ^^^^^^^ source.python meta.string.interpolated.python meta.interpolation.python
 #               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python

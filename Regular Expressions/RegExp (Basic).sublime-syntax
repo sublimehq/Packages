@@ -251,7 +251,7 @@ contexts:
 
   anchors:
     - match: \\[bBAZzG]|[\^$]
-      scope: keyword.control.anchors.regexp
+      scope: keyword.control.anchor.regexp
       push: maybe-unexpected-quantifiers
 
   backrefs:
