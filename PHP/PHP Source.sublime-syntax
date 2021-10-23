@@ -1676,7 +1676,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.php
       push: php-doc-tags
-    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
+    - match: ((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]
       scope: markup.underline.link.php
   php-doc-tags:
     - match: (@access)\s+(({{visibility_modifier}})|(.+))\s*$
