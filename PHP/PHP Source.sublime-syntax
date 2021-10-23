@@ -972,16 +972,15 @@ contexts:
           pop: 1
         - include: php-doc
     # inline doc
-    - match: (?=/\*\*\s+@.*\s\*/\s*$)
+    - match: (/\*\*)\s+(?=@.*\s\*/\s*$)
+      captures:
+        1: punctuation.definition.comment.begin.php
       push:
-        - meta_scope: comment.block.documentation.phpdoc.php
-        - match: (/\*\*)\s+
-          captures:
-            1: punctuation.definition.comment.begin.php
-          push: php-doc-tags
-        - match: \*/
-          scope: punctuation.definition.comment.end.php
-          pop: 1
+        - - meta_scope: comment.block.documentation.phpdoc.php
+          - match: \*/
+            scope: punctuation.definition.comment.end.php
+            pop: 1
+        - php-doc-tags
     - match: /\*
       scope: punctuation.definition.comment.begin.php
       push:
