@@ -36,7 +36,7 @@ contexts:
 
   block-comments:
     - meta_include_prototype: false
-    - match: /\*
+    - match: /\*+
       scope: punctuation.definition.comment.begin.sql
       push: inside-comment-block
 
@@ -49,10 +49,10 @@ contexts:
   inside-comment-block:
     - meta_include_prototype: false
     - meta_scope: comment.block.sql
-    - match: \*/
+    - match: \*+/
       scope: punctuation.definition.comment.end.sql
       pop: 1
-    - match: ^\s*(\*)(?!/)
+    - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.sql
 
@@ -69,7 +69,7 @@ contexts:
   single-quoted-string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.single.sql
-    - match: (?:'')
+    - match: \'\'
       scope: constant.character.escape.sql
     - match: \'
       scope: punctuation.definition.string.end.sql
@@ -77,6 +77,7 @@ contexts:
     - include: string-escape
 
   identifier-create:
+    - meta_include_prototype: false
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.function.sql
     - match: ''
       pop: 1
@@ -86,6 +87,7 @@ contexts:
       set: single-identifier
 
   single-identifier:
+    - meta_include_prototype: false
     - include: pop-on-top-level-reserved-word
     - match: ''
       set:
@@ -148,12 +150,12 @@ contexts:
       set: single-identifier-after-whitespace
 
   dml-condition:
-    - match: (?i:\b(if)\b)
+    - match: \b(?i:if)\b
       scope: keyword.control.flow.sql
     - include: logical-operators
 
   logical-operators:
-    - match: (?i:\b(and|or|having|exists|between|in|not|is)\b)
+    - match: \b(?i:and|or|having|exists|between|in|not|is)\b
       scope: keyword.operator.logical.sql
 
   operators:
@@ -192,7 +194,7 @@ contexts:
       scope: meta.number.integer.decimal.sql constant.numeric.value.sql
 
   expressions:
-    - match: (?i)\bas\b
+    - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
       push:
         - column-alias
@@ -216,9 +218,9 @@ contexts:
 
   numbers-variables-and-strings:
     - include: numbers
-    - match: (?i)\b(?:true|false)\b
+    - match: \b(?i:true|false)\b
       scope: constant.language.boolean.sql
-    - match: (?i:\bnull\b)
+    - match: \b(?i:null)\b
       scope: constant.language.null.sql
     - include: strings
 
@@ -237,7 +239,7 @@ contexts:
     - match: \b(?i:end)\b
       scope: keyword.control.conditional.end.sql
       pop: 1
-    - match: \b(?i)(case)\s+(when)\b
+    - match: \b(?i:(case)\s+(when))\b
       captures:
         1: keyword.control.conditional.case.sql
         2: keyword.control.conditional.when.sql
@@ -251,13 +253,13 @@ contexts:
 
   built-in-aggregate-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-    - match: (?i)\b(?:AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
+    - match: \b(?i:AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
       scope: support.function.aggregate.sql
       push: begin-method-call-paren
 
   built-in-scalar-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-    - match: (?i)\b(?:CURRENT_(?:DATE|TIME(?:STAMP)?|USER)|(?:SESSION|SYSTEM)_USER)\b
+    - match: \b(?i:CURRENT_(?:DATE|TIME(?:STAMP)?|USER)|(?:SESSION|SYSTEM)_USER)\b
       scope: support.function.scalar.sql
 
   user-defined-function-calls:
@@ -315,7 +317,7 @@ contexts:
         - ddl-create-target
         - create-condition
         - ddl-target
-    - match: (?i:\bdrop\s+table\b)
+    - match: \b(?i:drop\s+table)\b
       scope: keyword.other.ddl.sql
       push: ddl-drop-table
     - match: \b(?i:drop)\b
@@ -335,7 +337,7 @@ contexts:
       push:
         - ddl-alter-target
         - ddl-target
-    - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
+    - match: \b(?i:grant(?:\swith\sgrant\soption)?|revoke)\b
       scope: keyword.other.authorization.sql
 
   ddl-create-target:
@@ -354,6 +356,7 @@ contexts:
       set: inside-ddl-table-creation-columns
 
   ddl-drop-target:
+    - meta_include_prototype: false
     - meta_scope: meta.drop.sql
     - match: ''
       pop: 1
@@ -530,6 +533,7 @@ contexts:
         - table-valued-function-call
 
   table-name-not-function-call:
+    - meta_include_prototype: false
     - match: ''
       push:
         - fail-if-function-call
@@ -584,6 +588,7 @@ contexts:
       scope: keyword.operator.assignment.sql
 
   table-valued-function-call:
+    - meta_include_prototype: false
     - match: ''
       set:
         - maybe-table-alias
