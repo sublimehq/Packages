@@ -1006,7 +1006,6 @@ contexts:
     - match: \*/
       scope: punctuation.definition.comment.end.php
       pop: 1
-        - php-doc-tags
   constants:
     - match: |-
         \b(?xi:
