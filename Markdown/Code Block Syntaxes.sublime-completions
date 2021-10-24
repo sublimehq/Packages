@@ -74,6 +74,12 @@
 			"details": "Specifies <code>Erlang</code> code highlighting"
 		},
 		{
+			"trigger": "go",
+			"annotation": "Go",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Go</code> code highlighting"
+		},
+		{
 			"trigger": "golang",
 			"annotation": "Go",
 			"kind": ["markup", "s", "Syntax"],
