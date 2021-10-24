@@ -27,7 +27,7 @@ on:
 
 jobs:
   run_syntax_tests:
-    name: Test syntaxes on Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
+    name: Test on Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.optional }}
     strategy:
@@ -36,10 +36,10 @@ jobs:
       matrix:
         include:
           - sublime-channel: stable
-            sublime-build: 4113
+            sublime-build: 4121
             optional: true
           - sublime-channel: dev
-            sublime-build: 4118
+            sublime-build: 4120
             optional: false
     steps:
 
