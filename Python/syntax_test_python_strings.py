@@ -198,7 +198,7 @@ query = \
                 EXISTS(
                 select 1)
             ELSE NULL
-        ) as result
+        END) as result
     """
 
 query = \
@@ -213,7 +213,7 @@ query = \
                 EXISTS(
                 select 1)
             ELSE NULL
-        ) as result
+        END) as result
     """
 
 query = \
@@ -227,7 +227,7 @@ SELECT
             EXISTS(
             select 1)
         ELSE NULL
-    ) as result
+    END) as result
 '''
 
 sql = 'SELECT * FROM foo -- bar baz'
