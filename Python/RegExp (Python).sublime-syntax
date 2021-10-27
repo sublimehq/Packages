@@ -35,10 +35,12 @@ contexts:
         2: punctuation.definition.capture-group-name.begin.regexp
         3: entity.name.capture-group.regexp
         4: punctuation.definition.capture-group-name.end.regexp
-    - match: (\?\(([1-9][0-9]?|[a-zA-Z_][a-zA-Z_0-9]*)\))
+    - match: (\?)(\()([1-9][0-9]?|[a-zA-Z_][a-zA-Z_0-9]*)(\))
       # We can make this more sophisticated to match the | character that separates
       # yes-pattern from no-pattern, but it's not really necessary.
       captures:
-        1: punctuation.definition.group.assertion.conditional.regexp
-        2: variable.other.back-reference.regexp
+        1: keyword.other.backref-and-recursion.conditional.regexp
+        2: punctuation.definition.group.begin.assertion.conditional.regexp
+        3: variable.other.back-reference.regexp
+        4: punctuation.definition.group.end.assertion.conditional.regexp
 

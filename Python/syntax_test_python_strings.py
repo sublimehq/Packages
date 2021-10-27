@@ -647,7 +647,10 @@ match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
 #                            ^ punctuation.section.group.end
 #                             ^ keyword.operator.quantifier
 #                               ^ punctuation.section.group.begin
-#                                ^^^^^^^ punctuation.definition.group.assertion.conditional
+#                                ^ keyword.other.backref-and-recursion.conditional
+#                                 ^ punctuation.definition.group.begin.assertion.conditional
+#                                  ^^^^ variable.other.back-reference
+#                                      ^ punctuation.definition.group.end.assertion.conditional
 #                                        ^ keyword.operator.alternation
 #                                          ^ punctuation.section.group.end
 match = re.match(r'(a)?b(?(1)c|d)', line)
@@ -656,7 +659,10 @@ match = re.match(r'(a)?b(?(1)c|d)', line)
 #                    ^ punctuation.section.group.end
 #                     ^ keyword.operator.quantifier
 #                       ^ punctuation.section.group.begin
-#                        ^^^^ punctuation.definition.group.assertion.conditional
+#                        ^ keyword.other.backref-and-recursion.conditional
+#                         ^ punctuation.definition.group.begin.assertion.conditional
+#                          ^ variable.other.back-reference
+#                           ^ punctuation.definition.group.end.assertion.conditional
 #                             ^ keyword.operator.alternation
 #                               ^ punctuation.section.group.end
 match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
