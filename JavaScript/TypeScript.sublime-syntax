@@ -60,6 +60,22 @@ contexts:
     - include: comments
     - include: else-pop
 
+  export-extended:
+    - meta_prepend: true
+    - match: as{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - expect-semicolon
+        - ts-export-as-namespace
+
+  ts-export-as-namespace:
+    - match: namespace{{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - ts-namespace-name-end
+        - ts-namespace-name
+    - include: else-pop
+
   branch-possible-arrow-function:
     - meta_prepend: true
     - match: (?=\()
@@ -177,14 +193,28 @@ contexts:
       scope: storage.modifier.js
       set: ts-enum
 
-  ts-declare-enum:
+  ts-declare:
     - match: declare{{identifier_break}}
       scope: storage.modifier.js
+      set: ts-declare-contents
+
+  ts-declare-contents:
+    - match: module{{identifier_break}}
+      scope: keyword.declaration.module.js
       set:
-        - include: ts-const-enum
-        - include: ts-enum
-        - match: (?=\S)
-          fail: ts-declare-enum
+        - ts-meta-module
+        - block
+        - literal-string
+    - include: declaration
+    - match: (?={{identifier_start}})
+      pop: true
+    - match: (?=\S)
+      fail: ts-declare
+
+  ts-meta-module:
+    - meta_include_prototype: false
+    - meta_scope: meta.module.js
+    - include: immediately-pop
 
   ts-abstract-class:
     - match: abstract{{identifier_break}}
@@ -202,22 +232,25 @@ contexts:
     - include: ts-namespace-declaration
 
     - match: (?=const{{identifier_break}})
+      pop: true
+      branch_point: ts-const-enum
       branch:
         - ts-const-declaration
         - ts-const-enum
-      branch_point: ts-const-enum
 
     - match: (?=declare{{identifier_break}})
+      pop: true
+      branch_point: ts-declare
       branch:
-        - ts-declare-enum
+        - ts-declare
         - expression-statement
-      branch_point: ts-declare-enum
 
     - match: (?=abstract{{identifier_break}})
+      pop: true
+      branch_point: ts-abstract-class
       branch:
         - ts-abstract-class
         - expression-statement
-      branch_point: ts-abstract-class
 
   class:
     - match: class{{identifier_break}}
@@ -421,12 +454,19 @@ contexts:
       set:
         - ts-namespace-meta
         - block
+        - ts-namespace-name-end
         - ts-namespace-name
 
   ts-namespace-meta:
     - meta_include_prototype: false
     - meta_scope: meta.namespace.js
     - include: immediately-pop
+
+  ts-namespace-name-end:
+    - match: \.
+      scope: punctuation.accessor.dot.ts
+      push: ts-namespace-name
+    - include: else-pop
 
   ts-namespace-name:
     - match: '{{identifier_name}}'
@@ -461,6 +501,12 @@ contexts:
         - function-declaration-expect-generator-star
         - function-declaration-expect-function-keyword
         - function-declaration-expect-async
+
+  function-declaration-expect-body:
+    - meta_prepend: true
+    - match: ;
+      scope: punctuation.terminator.statement.js
+      pop: 2
 
   ts-type-parameter-list:
     - match: \<(?!<)

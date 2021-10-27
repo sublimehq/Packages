@@ -265,11 +265,22 @@ import foo;
 //                ^^^^ keyword.declaration.enum
 //                     ^^^ entity.name.enum
 
+    declare const foo: any;
+//  ^^^^^^^ storage.modifier
+//          ^^^^^ keyword.declaration
+//                ^^^ meta.binding.name variable.other.readwrite
+//                   ^ punctuation.separator.type
+//                     ^^^ meta.type support.type.any
+//                        ^ punctuation.terminator.statement
+
     const; // While typing
 //  ^^^^^ keyword.declaration
 
     declare();
 //  ^^^^^^^ meta.function-call variable.function
+
+    declare con;
+//  ^^^^^^^ storage.modifier
 
     const declare;
 //  ^^^^^ keyword.declaration
@@ -476,6 +487,14 @@ import foo;
 //                ^ meta.block punctuation.section.block.begin
     }
 //  ^ meta.block punctuation.section.block.end
+
+    namespace Foo.bar {}
+//  ^^^^^^^^^^^^^^^^^^^^ meta.namespace
+//  ^^^^^^^^^ keyword.declaration
+//            ^^^ entity.name.namespace
+//               ^ punctuation.accessor.dot
+//                ^^^ entity.name.namespace
+//                    ^^ meta.block punctuation.section.block
 
 /* Annotations */
 
