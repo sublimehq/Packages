@@ -16,7 +16,7 @@ variables:
 contexts:
   base:
     - meta_prepend: true
-    - match: (#)[^]\[(){}^$+*?\\|"']*$
+    - match: (#)[^]\[(){}^$+*?\\|"']*$\n?
       # Restrictive allowed chars after comment punctuation to avoid false positives,
       # since the availability of comments depend on regexp flags.
       scope: comment.line.number-sign.regexp
