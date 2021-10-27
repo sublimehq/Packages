@@ -25,10 +25,10 @@ contexts:
 
   group-start:
     - meta_prepend: true
-    - match: (?:\?P=([a-zA-Z_][a-zA-Z_0-9]*\w*))(?=\))
-      scope: keyword.other.back-reference.named.regexp
+    - match: (\?P=)([a-zA-Z_][a-zA-Z_0-9]*\w*)(?=\))
       captures:
-        1: variable.other.backref-and-recursion.regexp
+        1: keyword.other.back-reference.named.regexp
+        2: variable.other.backref-and-recursion.regexp
     - match: (\?P)(<)([a-z]\w*)(>)
       captures:
         1: keyword.other.backref-and-recursion.regexp
