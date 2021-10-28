@@ -6,11 +6,11 @@
 ###################
 
 ^foo \bbar$ \<test\>
-# <- keyword.control.anchors
-#    ^^ keyword.control.anchors
-#         ^ keyword.control.anchors
-#           ^^ keyword.control.anchors
-#                 ^^ keyword.control.anchors
+# <- keyword.control.anchor
+#    ^^ keyword.control.anchor
+#         ^ keyword.control.anchor
+#           ^^ keyword.control.anchor
+#                 ^^ keyword.control.anchor
 
 \^foo \\bbar\$
  # <- constant.character.escape
@@ -522,7 +522,7 @@ where escape characters are ignored.\).
 #           ^ punctuation.definition.modifier.begin.regexp
 #            ^^ storage.modifier.mode.regexp
 #              ^ punctuation.definition.modifier.end.regexp
-#               ^ keyword.control.anchors.regexp
+#               ^ keyword.control.anchor.regexp
 #                ^ punctuation.section.group.end.regexp
 #                 ^ punctuation.definition.set.begin.regexp
 #                  ^^ constant.character.escape.regexp

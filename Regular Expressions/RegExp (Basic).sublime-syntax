@@ -15,7 +15,7 @@ variables:
   # modifiers
   activate_x_mode: (?:\?[ims]*x[ixms]*(?:-[ims]+)?)
   deactivate_x_mode: (?:\?[ims]*-[ims]*x[imxs]*)
-  other_modifiers: \?(?:[ixms]*-)?[ixms]+
+  other_modifiers: (?:\?(?:[ixms]*-)?[ixms]+)
 
   # quantifiers
   character_quantifier: '[?*+]'
@@ -251,7 +251,7 @@ contexts:
 
   anchors:
     - match: \\[bBAZzG]|[\^$]
-      scope: keyword.control.anchors.regexp
+      scope: keyword.control.anchor.regexp
       push: maybe-unexpected-quantifiers
 
   backrefs:
