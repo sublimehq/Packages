@@ -73,14 +73,6 @@
 //   ^^^^ comment.block.documentation.js
 //       ^ - comment
 
-/// <foo bar="baz"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - meta.preprocessor
-
-//// <foo bar="baz"/>
-// <- comment.line.other.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
-
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
 //  ^ punctuation.definition.tag.begin
