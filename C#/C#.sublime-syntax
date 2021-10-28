@@ -564,12 +564,12 @@ contexts:
       scope: storage.modifier.access.cs
     - match: '\boperator\b'
       scope: storage.modifier.cs
-      push: method_name
+      push: method_name_or_member_variable
     - match: '({{name}})\s*(<)'
       captures:
         1: support.type.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: [method_name, type_argument]
+      push: [method_name_or_member_variable, type_argument]
     - match: '(~{{name}})(\s*)(\()'
       captures:
         1: meta.method.cs entity.name.function.destructor.cs
@@ -599,11 +599,11 @@ contexts:
             5: punctuation.section.brackets.end.cs
             6: keyword.operator.pointer.cs
         - match: ''
-          set: method_name
+          set: method_name_or_member_variable
     - match: (?=\()
-      push: [method_name, type_tuple]
+      push: [method_name_or_member_variable, type_tuple]
 
-  method_name: # also matches member variables
+  method_name_or_member_variable:
     - match: '\.'
       scope: punctuation.accessor.dot.cs
     - match: '(operator)\s*({{unary_op}}|{{bin_op}})\s*(\()'
@@ -612,31 +612,45 @@ contexts:
         2: meta.method.cs entity.name.function.cs
         3: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       set: [method_body_transition, method_params]
-    - match: '({{name}}\s*)?((=>)\s*)'
+    - match: (?={{name}})
+      branch_point: method_or_member_variable_name
+      branch:
+        - member_lambda_or_plain
+        - method_name
+      pop: true
+
+  member_lambda_or_plain:
+    - match: ({{name}})\s*(=>)
+      scope: meta.method.cs
       captures:
         1: variable.other.member.cs
-        2: meta.method.cs
-        3: keyword.declaration.function.accessor.get.cs
+        2: keyword.declaration.function.accessor.get.cs
       set:
         - meta_scope: meta.property.cs
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
-    - match: '({{name}})\s*(?==[^>])'
-      captures:
-        1: variable.other.member.cs
+    - match: (?={{namespaced_name}}\s+{{name}}\s+=>)
+      pop: true
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+    - match: (?==[^>])
       set: member_variables_declaration
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: (?=\})
+      pop: true
+    - match: (?=\S)
+      fail: method_or_member_variable_name
+
+  method_name:
     - match: '({{name}})?\s*(\()'
-      # here the name is optionnal since it may already have been match by
+      # here the name is optional since it may already have been matched by
       # '{{name}}\s*(<)' (see rule below)
       captures:
         1: meta.method.cs entity.name.function.cs
         2: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       set: [method_body_transition, method_params]
-    - match: '({{name}})\s*(;)'
-      captures:
-        1: variable.other.member.cs
-        2: punctuation.terminator.statement.cs
-      pop: true
     - match: '({{name}})\s*(<)(?=[^(]*>\.)'
       scope: meta.method.cs
       captures:
@@ -682,6 +696,9 @@ contexts:
           pop: true
     - match: '(?=\s*\{)'
       set: method_accessor
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
 
   method_body_transition:
     - match: ''
