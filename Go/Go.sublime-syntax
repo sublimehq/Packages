@@ -53,12 +53,16 @@
 # lines, for example to trim whitespace and comments, may be unexpectedly
 # interrupted by sibling rules with $.
 
-
-
+name: Go
+scope: source.go
 
 file_extensions:
   - go
-scope: source.go
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bgo(lang)?\b .*? -\*-  # editorconfig
+  )
 
 variables:
   # https://golang.org/ref/spec#Keywords

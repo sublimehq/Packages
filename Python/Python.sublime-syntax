@@ -1,6 +1,8 @@
 %YAML 1.2
 ---
 name: Python
+scope: source.python
+
 file_extensions:
   - py
   - py3
@@ -24,8 +26,12 @@ file_extensions:
   - wscript
   - bazel
   - bzl
-first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
-scope: source.python
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \bpython(\d(\.\d)?)?\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bpython(\d(\.\d)?)?\b .*? -\*-  # editorconfig
+  )
 
 variables:
   # We support unicode here because Python 3 is the future

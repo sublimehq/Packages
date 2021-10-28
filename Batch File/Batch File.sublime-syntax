@@ -9,6 +9,12 @@ file_extensions:
   - bat
   - cmd
 
+first_line_match: |-
+  (?xi:
+    ^ \s* (?:\:|rem) .*? -\*- .*? \bbat\b .*? -\*-  # editorconfig
+  | ^ \s* @echo\s+(?:on|off)\b
+  )
+
 ###############################################################################
 
 variables:

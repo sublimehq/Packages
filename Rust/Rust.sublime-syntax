@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Rust
+scope: source.rust
+
 file_extensions:
   - rs
-scope: source.rust
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
+  )
+
 variables:
   identifier: '(?:(?:[[:alpha:]][_[:alnum:]]*|_[_[:alnum:]]+)\b)' # include a word boundary at the end to ensure all possible characters are consumed, to prevent catastrophic backtracking
   escaped_byte: '\\(x\h{2}|n|r|t|0|"|''|\\)'

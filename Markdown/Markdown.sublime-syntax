@@ -2,17 +2,20 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Markdown
-file_extensions:
-  - md
-  - mdown
-  - markdown
-  - markdn
 scope: text.html.markdown
+
 comment: |-
   this definition aims to meet CommonMark specifications http://spec.commonmark.org/
   with GitHub Formatted Markdown extensions              https://github.github.com/gfm/
   and has a few extras like Markdown Extra's footnotes   https://michelf.ca/projects/php-markdown/extra/#footnotes
   the scope suffix should indicate which flavor of Markdown the feature came from, to help make this syntax definition easier to maintain
+
+file_extensions:
+  - md
+  - mdown
+  - markdown
+  - markdn
+
 variables:
     thematic_break: |-
         (?x:

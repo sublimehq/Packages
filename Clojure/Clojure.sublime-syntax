@@ -3,11 +3,17 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 
 name: Clojure
+scope: source.clojure
+
 file_extensions:
   - clj
   - cljc
   - edn
-scope: source.clojure
+
+first_line_match: |-
+  (?xi:
+    ^ \s* ; .*? -\*- .*? \bclojure\b .*? -\*-  # editorconfig
+  )
 
 variables:
   non_symbol_chars: \s,;\(\)\[\]{}\"`~@\^\\

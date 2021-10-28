@@ -1,11 +1,18 @@
 %YAML 1.2
 ---
-version: 2
 name: TypeScript
+scope: source.ts
+version: 2
+
+extends: JavaScript.sublime-syntax
+
 file_extensions:
   - ts
-scope: source.ts
-extends: JavaScript.sublime-syntax
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \b(ts|typescript)\b .*? -\*-  # editorconfig
+  )
 
 variables:
   dot_accessor: (?:[?!]?\.)

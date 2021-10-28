@@ -1,14 +1,21 @@
 %YAML 1.2
 ---
 # Derived from JavaScript Next: https://github.com/Benvie/JavaScriptNext.tmLanguage
-version: 2
 name: JavaScript
+scope: source.js
+version: 2
+
 file_extensions:
   - js
   - mjs
   - htc
-first_line_match: ^#!\s*/.*\b(node|js)\b
-scope: source.js
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \b(node|js)\b                              # shebang
+  | ^ \s* // .*? -\*- .*? \b(js|javascript)\b .*? -\*-  # editorconfig
+  )
+
 variables:
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'

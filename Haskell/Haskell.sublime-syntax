@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Haskell
+scope: source.haskell
+
 file_extensions:
   - hs
-scope: source.haskell
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \brunhaskell\b                     # shebang
+  | ^ \s* -- .*? -\*- .*? \bhaskell\b .*? -\*-  # editorconfig
+  )
 
 variables:
   # In case this regex seems overly general,
