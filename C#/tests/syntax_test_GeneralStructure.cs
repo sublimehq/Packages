@@ -788,6 +788,21 @@ namespace TestNamespace.Test
         {
         }
 
+        [SomeAttribute (Url="//")]
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - comment
+///     ^ punctuation.definition.annotation.begin
+///      ^^^^^^^^^^^^^ variable.annotation
+///                    ^ punctuation.section.group.begin
+///                     ^^^ variable.parameter
+///                        ^ keyword.operator.assignment
+///                         ^^^^ string.quoted.double
+///                             ^ punctuation.section.group.end
+///                              ^ punctuation.definition.annotation.end
+///                               ^ - meta.annotation
+        void Test() {
+        }
+
+
         int Method4 => 5;
 ///     ^^^ storage.type
 ///         ^^^^^^^ variable.other.member

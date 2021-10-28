@@ -838,7 +838,7 @@ contexts:
 
   attribute_in:
     - meta_scope: meta.annotation.cs
-    - match: '({{name}})(\()'
+    - match: '({{name}})\s*(\()'
       captures:
         1: variable.annotation.cs
         2: meta.group.cs punctuation.section.group.begin.cs
