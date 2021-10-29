@@ -1,0 +1,30 @@
+%YAML 1.2
+---
+name: Regular Expression (Perl inside square brackets)
+scope: source.regexp.perl.brackets
+version: 2
+hidden: true
+
+extends: RegExp (Perl).sublime-syntax
+
+variables:
+  interpolation_begin: (?=[@$%][^{{terminator}}])
+  terminator: \]
+
+contexts:
+
+  main:
+    - include: perl-pattern-end
+    - include: main-extended
+
+  base-literal:
+    - meta_prepend: true
+    - include: perl-pattern-end
+
+  base-literal-extended:
+    - meta_prepend: true
+    - include: perl-pattern-end
+
+  perl-pattern-end:
+    - match: (?={{terminator}})
+      pop: true

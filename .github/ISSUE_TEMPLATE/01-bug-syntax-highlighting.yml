@@ -1,0 +1,28 @@
+name: Syntax Highlighting problem
+description: Create a bug report for mis-highlighted code in one of the default languages.
+title: '[PackageName] Title'
+labels: ['bug']
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Please search [existing issues](https://github.com/sublimehq/Packages/issues/) and [existing pull requests](https://github.com/sublimehq/Packages/pulls/) to avoid creating duplicates.
+        Also, your issue might **already be fixed** in the current `master` branch.
+        Please refer to the [installation section of the README](https://github.com/sublimehq/Packages#installation) to check the latest version of this language highlighting.
+
+        If the problem persists, please begin the issue title with the language in square brackets, e.g. `[XML] Tags with underscores`.
+
+  - type: textarea
+    id: body
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: |
+        Tell us what you see! Please also copy & paste code snippets for reference.
+
+        ```text
+        ... your code here ...
+        ```
+    validations:
+      required: true

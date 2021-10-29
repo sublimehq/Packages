@@ -159,8 +159,8 @@ contexts:
         - match: ^\1(?=end)\b
           pop: true
         - include: embedded-expressions
-    # Uses lookahead to match classes that (may) inherit from ActiveRecord::Base
-    - match: (^\s*)(?=class\s+.+ActiveRecord::Base\b)
+    # Uses lookahead to match classes that (may) inherit from ActiveRecord::Base or ApplicationRecord
+    - match: (^\s*)(?=class\s+.+(ActiveRecord::Base|ApplicationRecord)\b)
       push:
         - meta_scope: meta.model.rails
         - match: ^\1(?=end)\b

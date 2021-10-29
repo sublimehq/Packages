@@ -2,6 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Perl
+scope: source.perl
+
 file_extensions:
   - pl
   - pc
@@ -9,12 +11,12 @@ file_extensions:
   - pmc
   - pod
   - t
+
 first_line_match: |-
   (?xi:
-    ^\#! .* \bperl\b |                     # shebang
-    ^\# \s* -\*- [^*]* perl [^*]* -\*-     # editorconfig
+    ^ \#! .* \bperl\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bperl\b .*? -\*-  # editorconfig
   )
-scope: source.perl
 
 variables:
   break: \b(?!::)
@@ -105,6 +107,7 @@ variables:
 
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
@@ -169,42 +172,50 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.perl
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.shebang.perl
-        # Note: Keep sync with first_line_match!
-        - match: \bperl\b
-          scope: constant.language.shebang.perl
-        - match: \n
-          pop: true
+      set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
+      pop: true
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.perl
+    # Note: Keep sync with first_line_match!
+    - match: \bperl\b
+      scope: constant.language.shebang.perl
+    - match: \n
       pop: true
 
   comment-line:
     - match: \#+
       scope: punctuation.definition.comment.perl
-      push:
-        - meta_scope: meta.comment.perl comment.line.number-sign.perl
-        - match: \n
-          pop: true
+      push: comment-line-body
+
+  comment-line-body:
+    - meta_scope: meta.comment.perl comment.line.number-sign.perl
+    - match: \n
+      pop: true
 
   comment-pod:
     # SEE: https://perldoc.perl.org/perlpod.html
     - match: ^{{pod}}
       scope: entity.name.tag.pod.perl
       push:
-        - meta_scope: meta.comment.perl comment.block.documentation.perl
-        - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \n
-          set: comment-pod-body
-        - include: comment-pod-formatting
+        - comment-pod-body
+        - comment-pod-begin
+
+  comment-pod-begin:
+    - meta_content_scope: meta.string.perl string.unquoted.perl
+    - match: \n
+      pop: true
+    - include: comment-pod-formatting
 
   comment-pod-body:
-    - meta_content_scope: meta.comment.perl comment.block.documentation.perl
+    - meta_scope: meta.comment.perl comment.block.documentation.perl
     - match: ^=cut\b
-      scope: meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
+      scope: entity.name.tag.pod.perl
       pop: true
     - include: comment-pod-embedded
     - include: comment-pod-keyword
@@ -213,62 +224,66 @@ contexts:
   comment-pod-embedded:
     - match: ^=begin\b
       scope: entity.name.tag.pod.perl
-      push:
-        - clear_scopes: 1 # remove `comment`
-        - meta_scope: meta.interpolation.perl
-        # end embedded section
-        - match: ^=end\b
-          scope: entity.name.tag.pod.perl
-          pop: true
-        # embedded css
-        - match: \bcss\b
-          scope: constant.other.language-name.css.perl
-          embed: scope:source.css
-          embed_scope: source.css.embedded.perl
-          escape: (?=^{{pod}})
-        # embedded html
-        - match: \bhtml\b
-          scope: constant.other.language-name.html.perl
-          embed: scope:text.html.basic
-          embed_scope: text.html.embedded.perl
-          escape: (?=^{{pod}})
-        # embedded javascript
-        - match: \b(?:js|javascript)\b
-          scope: constant.other.language-name.js.perl
-          embed: scope:source.js
-          embed_scope: source.js.embedded.perl
-          escape: (?=^{{pod}})
-        # embedded json
-        - match: \bjson\b
-          scope: constant.other.language-name.json.perl
-          embed: scope:source.json
-          embed_scope: source.json.embedded.perl
-          escape: (?=^{{pod}})
-        # embedded sql
-        - match: \bsql\b
-          scope: constant.other.language-name.sql.perl
-          embed: scope:source.sql
-          embed_scope: source.sql.embedded.perl
-          escape: (?=^{{pod}})
-        # embedded xml
-        - match: \bxml\b
-          scope: constant.other.language-name.xml.perl
-          embed: scope:text.xml
-          embed_scope: text.xml.embedded.perl
-          escape: (?=^{{pod}})
-        # unexpected pod command
-        - match: ^{{pod}}
-          scope: invalid.illegal.end-expected.perl
-          pop: true
-        - include: else-pop
+      push: comment-pod-embedded-body
+
+  comment-pod-embedded-body:
+    - clear_scopes: 1 # remove `comment`
+    - meta_scope: meta.interpolation.perl
+    # end embedded section
+    - match: ^=end\b
+      scope: entity.name.tag.pod.perl
+      pop: true
+    # embedded css
+    - match: \bcss\b
+      scope: constant.other.language-name.css.perl
+      embed: scope:source.css
+      embed_scope: source.css.embedded.perl
+      escape: (?=^{{pod}})
+    # embedded html
+    - match: \bhtml\b
+      scope: constant.other.language-name.html.perl
+      embed: scope:text.html.basic
+      embed_scope: text.html.embedded.perl
+      escape: (?=^{{pod}})
+    # embedded javascript
+    - match: \b(?:js|javascript)\b
+      scope: constant.other.language-name.js.perl
+      embed: scope:source.js
+      embed_scope: source.js.embedded.perl
+      escape: (?=^{{pod}})
+    # embedded json
+    - match: \bjson\b
+      scope: constant.other.language-name.json.perl
+      embed: scope:source.json
+      embed_scope: source.json.embedded.perl
+      escape: (?=^{{pod}})
+    # embedded sql
+    - match: \bsql\b
+      scope: constant.other.language-name.sql.perl
+      embed: scope:source.sql
+      embed_scope: source.sql.embedded.perl
+      escape: (?=^{{pod}})
+    # embedded xml
+    - match: \bxml\b
+      scope: constant.other.language-name.xml.perl
+      embed: scope:text.xml
+      embed_scope: text.xml.embedded.perl
+      escape: (?=^{{pod}})
+    # unexpected pod command
+    - match: ^{{pod}}
+      scope: invalid.illegal.end-expected.perl
+      pop: true
+    - include: else-pop
 
   comment-pod-keyword:
     - match: ^{{pod}}
       scope: entity.name.tag.pod.perl
-      push:
-        - meta_content_scope: markup.heading.perl
-        - include: eol-pop
-        - include: comment-pod-formatting
+      push: comment-pod-keyword-body
+
+  comment-pod-keyword-body:
+    - meta_content_scope: markup.heading.perl
+    - include: eol-pop
+    - include: comment-pod-formatting
 
   comment-pod-formatting:
     # bold text : B<content>
@@ -674,7 +689,7 @@ contexts:
         6: punctuation.definition.string.end.perl
     - match:  |-
         (?ix:
-          (') ( [-+]? ) ( 
+          (') ( [-+]? ) (
           (\.)[\d_]+ (?: e[-+]?[\d_]+ )?  |  # .1 .1e1 .1e-1 .1e+1
               [\d_]+ (?: (\.) (?:
               [\d_]+ (?: e[-+]?[\d_]+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
@@ -938,21 +953,26 @@ contexts:
         4: punctuation.definition.tag.end.perl
       set: [string-heredoc-xml, string-heredoc-expr]
     # single quoted heredoc string without interpolation
-    - match: \s*((')(\s*{{identifier}})('))
+    - match: \s*((')(\s*[^'\s]+)('))
       captures:
         1: meta.tag.heredoc.perl
         2: punctuation.definition.tag.begin.perl
         3: entity.name.tag.heredoc.plain.perl
         4: punctuation.definition.tag.end.perl
       set: [string-heredoc-plain, string-heredoc-expr]
-    # unquoted or double quoted heredoc string with interpolation
-    - match: \s*(("?)(\s*{{identifier}})(\2))
+    # double quoted heredoc string with interpolation
+    - match: \s*((")(\s*[^"\s]+)("))
       captures:
         1: meta.tag.heredoc.perl
         2: punctuation.definition.tag.begin.perl
         3: entity.name.tag.heredoc.plain.perl
         4: punctuation.definition.tag.end.perl
-      set: [string-heredoc-interpolated, string-heredoc-expr]
+      set: [string-heredoc-interpolated-quoted, string-heredoc-expr]
+    # unquoted heredoc string with interpolation
+    - match: \s*({{identifier}})
+      captures:
+        1: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      set: [string-heredoc-interpolated-unquoted, string-heredoc-expr]
     - include: immediately-pop
 
   string-heredoc-expr:
@@ -1024,9 +1044,16 @@ contexts:
       scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
       pop: true
 
-  string-heredoc-interpolated:
+  string-heredoc-interpolated-quoted:
     - meta_content_scope: string.unquoted.heredoc.perl
     - match: ^\3$
+      scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      pop: true
+    - include: interpolated-common
+
+  string-heredoc-interpolated-unquoted:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^\1$
       scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
       pop: true
     - include: interpolated-common
@@ -1152,13 +1179,10 @@ contexts:
     - match: -[rwx0RWXOezsfdlpSbctugkTBMAC]\b
       scope: keyword.operator.filetest.perl
       push: expressions-begin
-    - match: '[!~=]~'
-      scope: keyword.operator.binary.perl
-      push: expressions-begin
     - match: <<|>>
       scope: keyword.operator.bitwise.perl
       push: expressions-begin
-    - match: <=>|==|!=|>=|<=|[<>]
+    - match: <=>|==|!=|>=|<=|[<>]|[!~=]~
       scope: keyword.operator.comparison.perl
       push: expressions-begin
     - match: \&\&|\|\||//|[:!?]
@@ -1294,7 +1318,7 @@ contexts:
         - match: \}
           scope: punctuation.section.braces.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.braces
     - match: \[
       scope: punctuation.section.brackets.begin.perl
       set:
@@ -1303,7 +1327,7 @@ contexts:
         - match: \]
           scope: punctuation.section.brackets.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.brackets
     - match: \<
       scope: punctuation.section.generic.begin.perl
       set:
@@ -1312,7 +1336,7 @@ contexts:
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.angles
     - match: \(
       scope: punctuation.section.parens.begin.perl
       set:
@@ -1321,7 +1345,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.parens
     - include: else-pop
 
   quoted-like-args-interpolated:

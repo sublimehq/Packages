@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.css comment.block</string>
+	<key>settings</key>
+	<dict>
+		<!--
+		This file makes sure to align CSS content after documentation
+		comments with opening /* rather than closing */.
+
+		Example:
+
+		/**
+		 * Doc
+		 **/
+
+		p {
+		}
+		-->
+		<key>preserveIndent</key>
+		<true/>
+		<key>unIndentedLinePattern</key>
+		<string>.</string>
+	</dict>
+</dict>
+</plist>

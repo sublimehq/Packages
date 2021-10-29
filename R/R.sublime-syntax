@@ -2,11 +2,17 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: R
+scope: source.r
+
 file_extensions:
   - R
-  - r
   - Rprofile
-scope: source.r
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \br\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \br\b .*? -\*-  # editorconfig
+  )
 
 variables:
   exponent: (?:[eE][-+]?\d+)

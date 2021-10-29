@@ -53,12 +53,16 @@
 # lines, for example to trim whitespace and comments, may be unexpectedly
 # interrupted by sibling rules with $.
 
-
-
+name: Go
+scope: source.go
 
 file_extensions:
   - go
-scope: source.go
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bgo(lang)?\b .*? -\*-  # editorconfig
+  )
 
 variables:
   # https://golang.org/ref/spec#Keywords
@@ -589,7 +593,7 @@ contexts:
   # false positives in non-fmt strings that just happen to contain %, but don't
   # want too much coupling with the current version of fmt.
   match-fmt:
-    - match: '\%(?:\[\d+\])?[ .\d#+-]*[A-Za-z]'
+    - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
       scope: constant.other.placeholder.go
 
   match-keyword-break:

@@ -86,7 +86,7 @@ public struct Point3D
 ///               ^^^ storage.modifier
 ///                   ^^^^^^^^ storage.modifier
 ///                            ^^^^^^^ support.type
-///                                    ^^^^^^^ variable.other.member
+///                                    ^^^^^^ variable.other.member
 ///                                           ^^ keyword.declaration.function.accessor.get
 ///                                              ^^^ keyword.other
 ///                                                  ^^^^^^ variable.other
@@ -219,7 +219,7 @@ static Quadrant GetQuadrant(Point point) => point switch
     (0, 0) => Quadrant.Origin,
     var (x, y) when x > 0 && y > 0 => Quadrant.One,
 /// ^^^ storage.type.variable
-///     ^^^^^^ meta.group.tuple
+///     ^^^^^^ meta.sequence.tuple
 ///            ^^^^ keyword.control.switch.case.when
 ///                 ^ variable.other
 ///                   ^ keyword.operator
@@ -238,9 +238,9 @@ static Quadrant GetQuadrant(Point point) => point switch
     var (x, y) when x > 0 && y < 0 => Quadrant.Four,
     var (_, _) => Quadrant.OnBorder,
 /// ^^^ storage.type.variable
-///     ^^^^^^ meta.group.tuple
+///     ^^^^^^ meta.sequence.tuple
 ///      ^ variable.language.deconstruction.discard
-///       ^ punctuation.separator.tuple
+///       ^ punctuation.separator.sequence
 ///         ^ variable.language.deconstruction.discard
     _ => Quadrant.Unknown
 /// ^ variable.language.deconstruction.discard
