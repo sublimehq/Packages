@@ -893,8 +893,8 @@ coproc foobar {
 #   ^ punctuation.section.compound.end.shell
 
    () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
-#^^ - meta.function
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#^^ source.shell - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell - meta.function meta.function
 #  ^ meta.function.parameters.shell
 #   ^ meta.function.parameters.shell
 #    ^ meta.function.shell - meta.function.identifier - meta.compound
@@ -911,8 +911,8 @@ coproc foobar {
 #                     ^^ keyword.operator.logical
 
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
-#^^ - meta.function
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#^^ source.shell - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell - meta.function meta.function
 #  ^^^^ meta.function.identifier.shell
 #      ^ meta.function.identifier.shell
 #       ^ meta.function.parameters.shell
@@ -934,7 +934,8 @@ coproc foobar {
 #                          ^^ keyword.operator.logical.shell
 
 logExit ( ) {
-# <- meta.function.identifier.shell entity.name.function.shell
+# <- source.shell meta.function.identifier.shell entity.name.function.shell
+#^^^^^^^^^^^^^ source.shell - meta.function meta.function
 #^^^^^^ meta.function.identifier.shell entity.name.function.shell
 #      ^ meta.function.identifier.shell
 #       ^^^ meta.function.parameters.shell
@@ -981,8 +982,8 @@ logExit $? $WEIRD
 #                ^ - meta.function-call - meta.interpolation - variable
 
 function foo
-#^^^^^^^^^^^^ - meta.function meta.function
-# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^ source.shell - meta.function meta.function
+# <- source.shell meta.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^^^ meta.function.identifier.shell
 #^^^^^^^ keyword.declaration.function.shell
@@ -1007,11 +1008,11 @@ function foo
 
 function func\
 name
-# <- meta.function.identifier.shell entity.name.function.shell
+# <- source.shell meta.function.identifier.shell entity.name.function.shell
 
 function foo (     ) {
-#^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
-# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^^^^^^^^^^^ source.shell - meta.function meta.function
+# <- source.shell meta.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^^^ meta.function.identifier.shell
 #            ^^^^^^^ meta.function.parameters.shell

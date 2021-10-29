@@ -191,14 +191,11 @@ contexts:
 ###[ FUNCTION DEFINITIONS ]####################################################
 
   def-anonymous:
-    - match: (\()\s*(\))
-      scope: meta.function.parameters.shell
-      captures:
-        1: punctuation.section.parameters.begin.shell
-        2: punctuation.section.parameters.end.shell
+    - match: (?=\(\s*\))
       push:
         - def-functions-redirection
         - def-anonymous-body
+        - def-functions-params
 
   def-anonymous-body:
     - include: def-function-body-braces
@@ -277,7 +274,7 @@ contexts:
         - include: statements
 
   def-functions-redirection:
-    - meta_content_scope: meta.function.shell
+    - meta_scope: meta.function.shell
     - include: redirections
     - include: else-pop
     - include: eol-pop
