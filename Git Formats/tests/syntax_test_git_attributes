@@ -196,11 +196,13 @@ pattern attr= no_value attr=value, eol=lf,
 #                          ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
 #                          ^ punctuation.separator.mapping.key-value.git
 #                           ^^^^^ string.unquoted.git.attributes
-#                           ^^^^^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
+#                           ^^^^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
+#                                ^ meta.mapping.git.attributes punctuation.separator.mapping.values.git.attributes
 #                                 ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
 #                                  ^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
 #                                     ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
 #                                     ^ punctuation.separator.mapping.key-value.git
 #                                      ^^ string.unquoted.git.attributes
-#                                      ^^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
+#                                      ^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
+#                                        ^ meta.mapping.git.attributes punctuation.separator.mapping.values.git.attributes
 #                                         ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git

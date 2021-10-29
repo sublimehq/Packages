@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+name: Regular Expression (Perl inside parens)
+scope: source.regexp.perl.parens
+version: 2
+hidden: true
+
+extends: RegExp (Perl brackets).sublime-syntax
+
+variables:
+  terminator: \)

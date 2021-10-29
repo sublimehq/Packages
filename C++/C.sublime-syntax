@@ -2,11 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C
+scope: source.c
+
 file_extensions:
   - c
   - h
-first_line_match: "-[*]-( Mode:)? C -[*]-"
-scope: source.c
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bc\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   # number digits
@@ -785,9 +790,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.c
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: keyword.declaration.struct.c
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:
@@ -813,7 +817,7 @@ contexts:
     - include: preprocessor-rule-disabled-data-structures
 
   preprocessor-rule-disabled-data-structures:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
@@ -838,25 +842,28 @@ contexts:
               pop: true
             - include: preprocessor-disabled
 
+  preprocessor-if-true:
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      pop: true
+    - match: ^\s*(#\s*else)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.else.c
+      push:
+        - meta_content_scope: comment.block.preprocessor.else-branch.c
+        - match: (?=^\s*#\s*endif\b)
+          pop: true
+        - include: preprocessor-disabled
+
   preprocessor-rule-enabled-data-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -883,7 +890,7 @@ contexts:
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
@@ -910,24 +917,13 @@ contexts:
             - include: preprocessor-disabled
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -1015,7 +1011,7 @@ contexts:
   ## Preprocessor for statements
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
@@ -1041,24 +1037,13 @@ contexts:
             - include: preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)

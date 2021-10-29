@@ -1,0 +1,46 @@
+%YAML 1.2
+---
+name: Regular Expressions (Python)
+scope: source.regexp.python
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp (Basic).sublime-syntax
+
+variables:
+  # modifiers
+  activate_x_mode: (?:\?[imsLua]*x[ixmsLua]*(?:-[imsLua]+)?)
+  deactivate_x_mode: (?:\?[imsLua]*-[imsLua]*x[imxsLua]*)
+  other_modifiers: \?(?:[ixmsLua]*-)?[ixmsLua]+
+
+contexts:
+  base:
+    - meta_prepend: true
+    - match: (#)[^]\[(){}^$+*?\\|"']*$\n?
+      # Restrictive allowed chars after comment punctuation to avoid false positives,
+      # since the availability of comments depend on regexp flags.
+      scope: comment.line.number-sign.regexp
+      captures:
+        1: punctuation.definition.comment.regexp
+
+  group-start:
+    - meta_prepend: true
+    - match: (\?P=)([a-zA-Z_][a-zA-Z_0-9]*\w*)(?=\))
+      captures:
+        1: keyword.other.back-reference.named.regexp
+        2: variable.other.backref-and-recursion.regexp
+    - match: (\?P)(<)([a-z]\w*)(>)
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: punctuation.definition.capture-group-name.begin.regexp
+        3: entity.name.capture-group.regexp
+        4: punctuation.definition.capture-group-name.end.regexp
+    - match: (\?)(\()([1-9][0-9]?|[a-zA-Z_][a-zA-Z_0-9]*)(\))
+      # We can make this more sophisticated to match the | character that separates
+      # yes-pattern from no-pattern, but it's not really necessary.
+      captures:
+        1: keyword.other.backref-and-recursion.conditional.regexp
+        2: punctuation.definition.group.begin.assertion.conditional.regexp
+        3: variable.other.back-reference.regexp
+        4: punctuation.definition.group.end.assertion.conditional.regexp
+

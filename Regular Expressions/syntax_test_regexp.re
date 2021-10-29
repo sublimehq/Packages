@@ -6,11 +6,11 @@
 ###################
 
 ^foo \bbar$ \<test\>
-# <- keyword.control.anchors
-#    ^^ keyword.control.anchors
-#         ^ keyword.control.anchors
-#           ^^ keyword.control.anchors
-#                 ^^ keyword.control.anchors
+# <- keyword.control.anchor
+#    ^^ keyword.control.anchor
+#         ^ keyword.control.anchor
+#           ^^ keyword.control.anchor
+#                 ^^ keyword.control.anchor
 
 \^foo \\bbar\$
  # <- constant.character.escape
@@ -64,15 +64,15 @@
 
 (?abc)
 #^ invalid.illegal.unexpected-quantifier.regexp - storage.modifier.mode.regexp
-# ^^^ meta.literal.regexp - storage.modifier.mode.regexp
+# ^^^ - storage.modifier.mode.regexp
 
  .*?
-#^ keyword.other.any.regexp - meta.literal.regexp
+#^ keyword.other.any.regexp
 # ^^ keyword.operator.quantifier.regexp
 
 (?=.++\.??\|{2,3}|{2})
 #^^ constant.other.assertion.regexp
-#  ^ keyword.other.any.regexp - meta.literal.regexp
+#  ^ keyword.other.any.regexp
 #   ^^ keyword.operator.quantifier.regexp
 #     ^^ constant.character.escape.regexp
 #       ^^ keyword.operator.quantifier.regexp
@@ -109,8 +109,6 @@ a{}
 
 hello**
 #     ^ invalid.illegal.unexpected-quantifier.regexp
-#<- meta.literal.regexp
-#^^^^ meta.literal.regexp
 
 )
 # <- invalid.illegal.unmatched-brace.regexp
@@ -136,68 +134,89 @@ hello++
 ###################
 
  [b-c]
-#^^^^^ meta.set
-#^ keyword.control.set
-#    ^ keyword.control.set
-# ^^^ constant.other.range
+#^^^^^ meta.set.regexp
+#^ punctuation.definition.set.begin.regexp
+#    ^ punctuation.definition.set.end.regexp
+# ^^^ constant.other.range.regexp
+#  ^ punctuation.separator.sequence.regexp
 
 [\x00-\x{A}]
-# <- keyword.control.set
-#          ^ keyword.control.set
+# <- meta.set.regexp punctuation.definition.set.begin.regexp
+#^^^^^^^^^^^ meta.set.regexp
 #^^^^^^^^^^ constant.other.range
 #^^^^ constant.character.escape
+#    ^ punctuation.separator.sequence - constant.character
 #     ^^^^^ constant.character.escape
+#          ^ punctuation.definition.set.end.regexp
 
 [[a-z]&&[:ascii:]]
+# <- meta.set.regexp punctuation.definition.set.begin.regexp
 #^^^^^ meta.set meta.set
-#     ^^ keyword.operator.intersection
+#^ punctuation.definition.set.begin.regexp
 # ^^^ constant.other.range
+#    ^ punctuation.definition.set.end.regexp
+#     ^^ keyword.operator.intersection
+#       ^ punctuation.definition.set.begin.regexp
 #        ^^^^^^^ constant.other.posix-class
+#               ^^ punctuation.definition.set.end.regexp
 
 [^abc\w0-9]
-# <- keyword.control.set
-#^ keyword.control.set
-#    ^^ keyword.control.character-class
+#^^^^^^^^^^ meta.set.regexp
+# <- punctuation.definition.set.begin.regexp
+#^ keyword.operator.logical.regexp
+#    ^^ keyword.control.character-class.regexp
+#      ^^^ constant.other.range.regexp
+#       ^ punctuation.separator.sequence.regexp
+#         ^ punctuation.definition.set.end.regexp
 
 [a-c-x]
 #^^^ constant.other.range
 #   ^^ - constant.other.range
 
 []-]
-#  ^ keyword.control.set
+# <- punctuation.definition.set.begin.regexp
+#^ - punctuation
 # ^ - constant.other.range
+#  ^ punctuation.definition.set.end.regexp
 
 [-a-n]
-#    ^ keyword.control.set
+# <- punctuation.definition.set.begin.regexp
 #^ - constant.other.range
 # ^^^ constant.other.range
+#    ^ punctuation.definition.set.end.regexp
 
 [\-a]
+# <- punctuation.definition.set.begin.regexp
 #^^^ - constant.other.range
-#   ^ keyword.control.set
+#   ^ punctuation.definition.set.end.regexp
 
 [a-z\-9]
+# <- punctuation.definition.set.begin.regexp
 #   ^^^ - constant.other.range
-#      ^ keyword.control.set
+#      ^ punctuation.definition.set.end.regexp
 
 [\--z]
+# <- punctuation.definition.set.begin.regexp
 #^^^^ constant.other.range
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set.end.regexp
 
 [a-\z]
+# <- punctuation.definition.set.begin.regexp
 #^^^^ constant.other.range
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set.end.regexp
 
 [a-\-]
+# <- punctuation.definition.set.begin.regexp
 #^^^^ constant.other.range
-#    ^ keyword.control.set
+#    ^ punctuation.definition.set.end.regexp
 
 (?:a|b|c)
-#^^^^^^^^ meta.group
-# <- keyword.control.group
-#^^ constant.other.assertion
-#   ^ keyword.operator
-#       ^ keyword.control.group
+#^^^^^^^^ meta.group.regexp
+# <- meta.group.regexp punctuation.section.group.begin.regexp
+#^^ constant.other.assertion.regexp
+#   ^ keyword.operator.alternation.regexp
+#     ^ keyword.operator.alternation.regexp
+#       ^ punctuation.section.group.end.regexp
 
 
 ###################
@@ -205,13 +224,13 @@ hello++
 ###################
 
 (?#foobar)
-#^^^^^^^^^ meta.group comment.block.group
+#^^^^^^^^^ comment.block.group
 # <- comment.block.group punctuation.definition.comment.begin
 #^^ punctuation.definition.comment.begin
 #        ^ punctuation.definition.comment.end
 
 ( abc (?#foobar) )
-#     ^^^^^^^^^^ meta.group meta.group comment.block.group
+#     ^^^^^^^^^^ meta.group comment.block.group
 
 (?#
 
@@ -228,26 +247,116 @@ where escape characters are ignored.\).
 ###################
 
 (?x)
+# <- meta.modifier.regexp
+#^^^ meta.modifier.regexp
 #^^ storage.modifier.mode.regexp
 #   ^ meta.ignored-whitespace
+
+(?x){1}
+# <- meta.modifier.regexp
+#^^^ meta.modifier.regexp
+#^^ storage.modifier.mode.regexp
+#   ^^^ invalid.illegal.unexpected-quantifier.regexp
 
 # this is a comment
 #^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
 # <- comment punctuation.definition.comment
- (?-ix)
+
+####################
+# <- comment.line.number-sign.regexp punctuation.definition.comment.regexp
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.regexp punctuation.definition.comment.regexp
+#                   ^ comment.line.number-sign.regexp - punctuation
+
+## this is a comment
+# <- comment.line.number-sign.regexp punctuation.definition.comment.regexp
+#^ comment.line.number-sign.regexp punctuation.definition.comment.regexp
+# ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.regexp - punctuation
+
+ (?-ix){1}
 # <- meta.ignored-whitespace
+#^^^^^^ meta.modifier.regexp
+#^ punctuation.definition.modifier.begin.regexp
 # ^^^^ storage.modifier.mode.regexp
+#     ^ punctuation.definition.modifier.end.regexp
+#      ^^^ invalid.illegal.unexpected-quantifier.regexp
+
+# not a comment
+# <- - comment
+
+ (?-ix)
+# <- - meta.ignored-whitespace
+#^^^^^^ meta.modifier.regexp
+#^ punctuation.definition.modifier.begin.regexp
+# ^^^^ storage.modifier.mode.regexp
+#     ^ punctuation.definition.modifier.end.regexp
 
 # not a comment
 # <- - comment
 
 (
+# <- meta.group.regexp punctuation.section.group.begin.regexp
+#^ meta.group.regexp - keyword
     (?x)
+#  ^ meta.group.regexp
+#   ^^^^ meta.group.regexp meta.modifier.regexp - meta.group meta.group
+#   ^ punctuation.definition.modifier.begin.regexp
+#    ^^ storage.modifier.mode.regexp
+#      ^ punctuation.definition.modifier.end.regexp
     # comment
 #   ^^^^^^^^^ comment
-   (?-x)
+    (?x)
+#  ^ meta.group.regexp
+#   ^^^^ meta.group.regexp meta.modifier.regexp - meta.group meta.group
+#   ^ punctuation.definition.modifier.begin.regexp
+#    ^^ storage.modifier.mode.regexp
+#      ^ punctuation.definition.modifier.end.regexp
+    # comment
+#   ^^^^^^^^^ comment
+    (?-x)
+#   ^^^^^ meta.group.regexp meta.modifier.regexp - meta.group meta.group
+    # comment
+#   ^^^^^^^^^ - comment
+    (?-x)
+#   ^^^^^ meta.group.regexp meta.modifier.regexp - meta.group meta.group
+    # comment
+#   ^^^^^^^^^ - comment
+
+    (?:
+#  ^ meta.group.regexp - meta.group meta.group
+#   ^^^^ meta.group.regexp meta.group.regexp
+        (?x)
+#      ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#       ^^^^ meta.group.regexp meta.group.regexp meta.modifier.regexp - meta.group meta.group meta.group
+#           ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#       ^ punctuation.definition.modifier.begin.regexp
+#        ^^ storage.modifier.mode.regexp
+#          ^ punctuation.definition.modifier.end.regexp
+        # comment
+#       ^^^^^^^^^ comment
+        (?x)
+#      ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#       ^^^^ meta.group.regexp meta.group.regexp meta.modifier.regexp - meta.group meta.group meta.group
+#           ^ meta.group.regexp meta.group.regexp - meta.group meta.group meta.group
+#       ^ punctuation.definition.modifier.begin.regexp
+#        ^^ storage.modifier.mode.regexp
+#          ^ punctuation.definition.modifier.end.regexp
+        # comment
+#       ^^^^^^^^^ comment
+        (?-x)
+#       ^^^^^ meta.group.regexp meta.group.regexp meta.modifier.regexp - meta.group meta.group meta.group
+        # comment
+#       ^^^^^^^^^ - comment
+        (?-x)
+#       ^^^^^ meta.group.regexp meta.group.regexp meta.modifier.regexp - meta.group meta.group meta.group
+        # comment
+#       ^^^^^^^^^ - comment
+    ) # no comment
+#^^^^ meta.group.regexp meta.group.regexp meta.mode.basic.regexp
+#    ^^^^^^^^^^^^^^ meta.group.regexp meta.mode.basic.regexp - meta.group meta.group
+#   ^ punctuation.section.group.end.regexp
+#     ^^^^^^^^^^^^ - comment
 ) # no comment
-# <- keyword.control.group
+# <- punctuation.section.group.end.regexp
 # ^ - comment
 
 (?sm-ixxs)
@@ -255,23 +364,22 @@ where escape characters are ignored.\).
 
  (?i:hello)
 #^^^^^^^^^^ meta.group.regexp
-#^ keyword.control.group.regexp
+#^ punctuation.section.group.begin.regexp
 # ^^^ storage.modifier.mode.regexp
 #    ^ - storage.modifier.mode.regexp
-#         ^ keyword.control.group.regexp
+#         ^ punctuation.section.group.end.regexp
 
  (?i-s:hello)
 #^^^^^^^^^^^^ meta.group.regexp
-#^ keyword.control.group.regexp
+#^ punctuation.section.group.begin.regexp
 # ^^^^^ storage.modifier.mode.regexp
 #      ^ - storage.modifier.mode.regexp
-#           ^ keyword.control.group.regexp
+#           ^ punctuation.section.group.end.regexp
 
 # not a comment
 ^ - comment
 
 (?ix:
-#^^^^
 # comment
 #^^^^^^^^ comment.line.number-sign
 
@@ -284,7 +392,7 @@ where escape characters are ignored.\).
 
 )
 # not a comment
-^ - comment
+# ^ - comment
 
 (?x:[ ] )
 #    ^ - meta.ignored-whitespace.regexp
@@ -298,7 +406,7 @@ where escape characters are ignored.\).
 (?<named_group>test)
 #^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #  ^^^^^^^^^^^ entity.name.capture-group.regexp
-#              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+#              ^^^^ - keyword.other.named-capture-group.regexp
 
  \g{1}
 #^^^^^ keyword.other.backref-and-recursion.regexp - keyword.operator.quantifier.regexp
@@ -320,16 +428,18 @@ where escape characters are ignored.\).
 #^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
-(?1)
+(?1){1}
 #^^ keyword.other.backref-and-recursion.regexp
 # ^ variable.other.backref-and-recursion.regexp
+#   ^^^ keyword.operator.quantifier.regexp
 
 (1)
-#^ meta.literal.regexp - keyword - variable
+#^ - keyword - variable
 
-(?&named_group)
+(?&named_group){1}
 #^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #  ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#              ^^^ keyword.operator.quantifier.regexp
 
 (hello)(?-1)(?+1)(wow) relative capture groups are supported
 #       ^^^ keyword.other.backref-and-recursion.regexp
@@ -347,14 +457,17 @@ where escape characters are ignored.\).
 #                 ^^ variable.other.backref-and-recursion.regexp
 
 (?x)(?<named_group>test)(?&named_group)(?-x)
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp
 #    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
-#      ^^^^^^^^^^^ entity.name.capture-group.regexp
 #     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^^^^^^^^ entity.name.capture-group.regexp
 #                 ^ punctuation.definition.capture-group-name.end.regexp
-#                  ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+#                  ^^^^ - keyword.other.named-capture-group.regexp
+#                      ^ punctuation.section.group.end.regexp
+#                       ^ punctuation.section.group.begin.regexp
 #                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#                                     ^ punctuation.section.group.end.regexp
 
 (?x)(?<named-group>test)(?&named-group)(?-x)
 #     ^ punctuation.definition.capture-group-name.begin.regexp
@@ -378,35 +491,43 @@ where escape characters are ignored.\).
 #             ^^^^ variable.other.backref-and-recursion.regexp
 #                 ^ punctuation.definition.capture-group-name.end.regexp
 #                         ^^^^ entity.name.capture-group.regexp
-#                              ^ meta.literal.regexp
 #                                   ^ punctuation.definition.capture-group-name.begin.regexp
 #                                    ^^^^ variable.other.backref-and-recursion.regexp
 #                                        ^ punctuation.definition.capture-group-name.end.regexp
-#                                         ^ keyword.control.group.regexp
+#                                         ^ punctuation.definition.modifier.begin.regexp
 
 ###################
 ## Assertions
 ###################
 
 (?![a-z]+?)
-#^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
+# <- meta.group.regexp punctuation.section.group.begin.regexp
+#^^^^^^^^^^ meta.group.regexp - meta.group meta.group
+#^^ constant.other.assertion.regexp
 #  ^^^^^ meta.set.regexp
-#  ^ keyword.control.set.regexp
-#      ^ keyword.control.set.regexp
+#  ^ punctuation.definition.set.begin.regexp
 #   ^^^ constant.other.range.regexp
+#      ^ punctuation.definition.set.end.regexp
 #       ^^ keyword.operator.quantifier.regexp
+#         ^ punctuation.section.group.end.regexp
 
 (?![abc].\g1(?m)$)[\g1]
+# <- punctuation.section.group.begin.regexp
 #^^ constant.other.assertion.regexp
-#  ^ keyword.control.set.regexp
-#      ^ keyword.control.set.regexp
-#   ^^^ - meta.literal.regexp
+#  ^ punctuation.definition.set.begin.regexp
+#      ^ punctuation.definition.set.end.regexp
 #       ^ keyword.other.any.regexp
 #        ^^^ keyword.other.backref-and-recursion.regexp
-#               ^ keyword.control.anchors.regexp
-#            ^^ meta.group.regexp meta.group.regexp storage.modifier.mode.regexp
+#           ^^^^ meta.group.regexp meta.modifier.regexp
+#           ^ punctuation.definition.modifier.begin.regexp
+#            ^^ storage.modifier.mode.regexp
+#              ^ punctuation.definition.modifier.end.regexp
+#               ^ keyword.control.anchor.regexp
+#                ^ punctuation.section.group.end.regexp
+#                 ^ punctuation.definition.set.begin.regexp
 #                  ^^ constant.character.escape.regexp
 #                  ^^^ - keyword.other.backref-and-recursion.regexp
+#                     ^ punctuation.definition.set.end.regexp
 
 (?<=blah)
 #^^^ constant.other.assertion.regexp
@@ -414,10 +535,10 @@ where escape characters are ignored.\).
 #^^^ constant.other.assertion.regexp
 (?>\[\d+\])
 #^^ constant.other.assertion.regexp
-#  ^^ constant.character.escape.regexp - keyword.control.set.regexp
+#  ^^ constant.character.escape.regexp - punctuation.definition.set.regexp
 #    ^^ keyword.control.character-class.regexp
 #      ^ keyword.operator.quantifier.regexp
-#       ^^ constant.character.escape.regexp - keyword.control.set.regexp
+#       ^^ constant.character.escape.regexp - punctuation.definition.set.regexp
 
 
 ###################
@@ -434,60 +555,45 @@ where escape characters are ignored.\).
 #     ^^^^ keyword.other.backref-and-recursion.conditional.regexp
 (?(?!\d)a|b)
 #^ keyword.other.conditional.regexp
-# ^ keyword.control.group.regexp
+# ^ punctuation.section.group.begin.regexp
 #  ^^ constant.other.assertion.regexp
 #    ^^ keyword.control.character-class.regexp
-#      ^ keyword.control.group.regexp
-#       ^ meta.literal.regexp
+#      ^ punctuation.section.group.end.regexp
 #        ^ keyword.operator.alternation.regexp
-#         ^ meta.literal.regexp
-#          ^ keyword.control.group.regexp
+#          ^ punctuation.section.group.end.regexp
 (?(?=\d)\da|b)
 #^ keyword.other.conditional.regexp
-# ^ keyword.control.group.regexp
+# ^ punctuation.section.group.begin.regexp
 #  ^^ constant.other.assertion.regexp
 #    ^^ keyword.control.character-class.regexp
-#      ^ keyword.control.group.regexp
+#      ^ punctuation.section.group.end.regexp
 #       ^^ keyword.control.character-class.regexp
-#         ^ meta.literal.regexp
 #          ^ keyword.operator.alternation.regexp
-#           ^ meta.literal.regexp
-#            ^ keyword.control.group.regexp
+#            ^ punctuation.section.group.end.regexp
 (?(?<=\dc)a|b)
 #^ keyword.other.conditional.regexp
-# ^ keyword.control.group.regexp
+# ^ punctuation.section.group.begin.regexp
 #  ^^^ constant.other.assertion.regexp
 #     ^^ keyword.control.character-class.regexp
-#       ^ meta.literal.regexp
-#        ^ keyword.control.group.regexp
-#         ^ meta.literal.regexp
+#        ^ punctuation.section.group.end.regexp
 #          ^ keyword.operator.alternation.regexp
-#           ^ meta.literal.regexp
-#            ^ keyword.control.group.regexp
+#            ^ punctuation.section.group.end.regexp
 (?(R)a|b)
 #^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#    ^ meta.literal.regexp
 #     ^ keyword.operator.alternation.regexp
-#      ^ meta.literal.regexp
-#       ^ keyword.control.group.regexp
+#       ^ punctuation.section.group.end.regexp
 (?(R1)a|b)
 #^^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#     ^ meta.literal.regexp
 #      ^ keyword.operator.alternation.regexp
-#       ^ meta.literal.regexp
-#        ^ keyword.control.group.regexp
+#        ^ punctuation.section.group.end.regexp
 (?(R1)a|b)
 #^^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#     ^ meta.literal.regexp
 #      ^ keyword.operator.alternation.regexp
-#       ^ meta.literal.regexp
-#        ^ keyword.control.group.regexp
+#        ^ punctuation.section.group.end.regexp
 (?<a>a)?b(?(R&a)c|d)(?1)
 #         ^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#               ^ meta.literal.regexp
 #                ^ keyword.operator.alternation.regexp
-#                 ^ meta.literal.regexp
-#                  ^ keyword.control.group.regexp
+#                  ^ punctuation.section.group.end.regexp
 (?(DEFINE)(?<a>abcd))(?&a)
 #^^^^^^^^^ keyword.other.conditional.definition.regexp
 #                     ^^^ keyword.other.backref-and-recursion.regexp
@@ -508,54 +614,41 @@ where escape characters are ignored.\).
 #     ^^^^ keyword.other.backref-and-recursion.conditional.regexp
 (?(?!\d)a|b)
 #^ keyword.other.conditional.regexp
-# ^ keyword.control.group.regexp
+# ^ punctuation.section.group.begin.regexp
 #  ^^ constant.other.assertion.regexp
 #    ^^ keyword.control.character-class.regexp
-#      ^ keyword.control.group.regexp
-#       ^ meta.literal.regexp
+#      ^ punctuation.section.group.end.regexp
 #        ^ keyword.operator.alternation.regexp
-#         ^ meta.literal.regexp
-#          ^ keyword.control.group.regexp
+#          ^ punctuation.section.group.end.regexp
 (?(?=\d)\da|b)
 #^ keyword.other.conditional.regexp
-# ^ keyword.control.group.regexp
+# ^ punctuation.section.group.begin.regexp
 #  ^^ constant.other.assertion.regexp
 #    ^^ keyword.control.character-class.regexp
-#      ^ keyword.control.group.regexp
+#      ^ punctuation.section.group.end.regexp
 #       ^^ keyword.control.character-class.regexp
-#         ^ meta.literal.regexp
 #          ^ keyword.operator.alternation.regexp
-#           ^ meta.literal.regexp
-#            ^ keyword.control.group.regexp
+#            ^ punctuation.section.group.end.regexp
 (?(?<=\dc)a|b)
 #^ keyword.other.conditional.regexp
-# ^ keyword.control.group.regexp
+# ^ punctuation.section.group.begin.regexp
 #  ^^^ constant.other.assertion.regexp
 #     ^^ keyword.control.character-class.regexp
-#       ^ meta.literal.regexp
-#        ^ keyword.control.group.regexp
-#         ^ meta.literal.regexp
+#        ^ punctuation.section.group.end.regexp
 #          ^ keyword.operator.alternation.regexp
-#           ^ meta.literal.regexp
-#            ^ keyword.control.group.regexp
+#            ^ punctuation.section.group.end.regexp
 (?(R)a|b)
 #^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#    ^ meta.literal.regexp
 #     ^ keyword.operator.alternation.regexp
-#      ^ meta.literal.regexp
-#       ^ keyword.control.group.regexp
+#       ^ punctuation.section.group.end.regexp
 (?(R1)a|b)
 #^^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#     ^ meta.literal.regexp
 #      ^ keyword.operator.alternation.regexp
-#       ^ meta.literal.regexp
-#        ^ keyword.control.group.regexp
+#        ^ punctuation.section.group.end.regexp
 (?<a>a)?b(?(R&a)c|d)(?1)
 #         ^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
-#               ^ meta.literal.regexp
 #                ^ keyword.operator.alternation.regexp
-#                 ^ meta.literal.regexp
-#                  ^ keyword.control.group.regexp
+#                  ^ punctuation.section.group.end.regexp
 (?(DEFINE)(?<a>abcd))(?&a)
 #^^^^^^^^^ keyword.other.conditional.definition.regexp
 #                     ^^^ keyword.other.backref-and-recursion.regexp
@@ -568,7 +661,7 @@ where escape characters are ignored.\).
 #      ^^^^^^^^^^^ keyword.control.verb.regexp
  (*PRUNE) (*SKIP) (*THEN) (*COMMIT) (*FAIL) (*F) (*ACCEPT)
 #^^^^^^^^ keyword.control.verb.regexp
-#        ^ meta.literal.regexp - keyword.control.verb.regexp
+#        ^ - keyword.control.verb.regexp
 #         ^^^^^^^ keyword.control.verb.regexp
 #                ^ - keyword.control.verb.regexp
 #                 ^^^^^^^ keyword.control.verb.regexp
@@ -583,9 +676,11 @@ where escape characters are ignored.\).
 (*FA)
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?x)
+# <- meta.modifier.regexp
+#^^^ meta.modifier.regexp
  (*PRUNE) (*SKIP) (*THEN) (*COMMIT) (*FAIL) (*F) (*ACCEPT)
 #^^^^^^^^ keyword.control.verb.regexp
-#        ^ - meta.literal.regexp - keyword.control.verb.regexp
+#        ^ - keyword.control.verb.regexp
 #         ^^^^^^^ keyword.control.verb.regexp
 #                ^ - keyword.control.verb.regexp
 #                 ^^^^^^^ keyword.control.verb.regexp
@@ -600,12 +695,30 @@ where escape characters are ignored.\).
 (*FA)
 #^ invalid.illegal.unexpected-quantifier.regexp
 (?-x)
+# <- meta.modifier.regexp punctuation.definition.modifier.begin.regexp
+#^^^ meta.modifier.regexp storage.modifier.mode.regexp
+#   ^ meta.modifier.regexp punctuation.definition.modifier.end.regexp
 
- \Qtext.here.is\dliteral)\E{1,2}{1,2}
+ \Qtext.here.is\dliteral)\E{1,2}{1,2}{1,2}
 #^^ keyword.control
 #  ^^^^^^^^^^^^^^^^^^^^^^ meta.literal - keyword
 #                        ^^ keyword.control
 #                          ^^^^^ keyword.operator.quantifier
-#                               ^^^^^ invalid.illegal.unexpected-quantifier
+#                               ^^^^^^^^^^ invalid.illegal.unexpected-quantifier
  \K
 #^^ keyword.control
+
+(?x)(?i:{2})(?x:*)(?-x:?)(?-i:{2})(?i:(?-i:{1}))
+# <- meta.modifier.regexp
+#^^^ meta.modifier.regexp
+#       ^^^ meta.group.regexp invalid.illegal.unexpected-quantifier
+#               ^ meta.group.regexp invalid.illegal.unexpected-quantifier
+#                      ^ meta.group invalid.illegal.unexpected-quantifier
+#                             ^^^ meta.group.regexp invalid.illegal.unexpected-quantifier
+#                                          ^^^ meta.group.regexp meta.group.regexp invalid.illegal.unexpected-quantifier
+#                                               ^ meta.ignored-whitespace - meta.group
+(?:(?x-i))
+# <- meta.group.regexp - meta.group meta.group
+#^^ meta.group.regexp - meta.group meta.group
+#  ^^^^^^ meta.group.regexp meta.modifier.regexp
+#        ^ meta.group.regexp - meta.group meta.group

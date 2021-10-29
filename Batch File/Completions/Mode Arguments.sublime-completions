@@ -1,0 +1,169 @@
+{
+	"scope": "source.dosbatch meta.command.mode meta.function-call.arguments - comment",
+	"completions": [
+
+		{
+			"trigger": "COMx",
+			"contents": "COM${0:1}",
+			"kind": ["variable", "d", "Device"],
+			"details": "<code>COM</code> port"
+		},
+		{
+			"trigger": "LPTx",
+			"contents": "LPT${0:1}",
+			"kind": ["variable", "d", "Device"],
+			"details": "<code>LPT</code> port"
+		},
+		{
+			"trigger": "CON",
+			"kind": ["variable", "d", "Device"],
+			"details": "<code>CONSOLE</code>"
+		},
+
+		// Common Properties
+
+		{
+			"trigger": "BAUD",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "PARITY",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "DATA",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "STOP",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "to",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "xon",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "odsr",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "octs",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "dtr",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "rts",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "idsr",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>COM/LPT</code> options"
+		},
+		{
+			"trigger": "CP",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>CON</code> options"
+		},
+		{
+			"trigger": "SELECT",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>CON</code> options"
+		},
+		{
+			"trigger": "COLS",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>CON</code> options"
+		},
+		{
+			"trigger": "LINES",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>CON</code> options"
+		},
+		{
+			"trigger": "RATE",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>CON</code> options"
+		},
+		{
+			"trigger": "DELAY",
+			"kind": ["variable", "p", "Parameter"],
+			"details": "<code>CON</code> options"
+		},
+
+		// Common Values
+
+		{
+			"trigger": "9600",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "14400",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "19200",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "28800",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "38400",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "57600",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "115200",
+			"kind": ["variable", "c", "Constant"],
+			"details": "typical baud rate"
+		},
+		{
+			"trigger": "on",
+			"kind": ["variable", "c", "Constant"],
+			"details": ""
+		},
+		{
+			"trigger": "off",
+			"kind": ["variable", "c", "Constant"],
+			"details": ""
+		},
+		{
+			"trigger": "hs",
+			"kind": ["variable", "c", "Constant"],
+			"details": ""
+		},
+		{
+			"trigger": "tg",
+			"kind": ["variable", "c", "Constant"],
+			"details": ""
+		},
+	]
+}

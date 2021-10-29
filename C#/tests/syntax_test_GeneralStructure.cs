@@ -788,6 +788,21 @@ namespace TestNamespace.Test
         {
         }
 
+        [SomeAttribute (Url="//")]
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - comment
+///     ^ punctuation.definition.annotation.begin
+///      ^^^^^^^^^^^^^ variable.annotation
+///                    ^ punctuation.section.group.begin
+///                     ^^^ variable.parameter
+///                        ^ keyword.operator.assignment
+///                         ^^^^ string.quoted.double
+///                             ^ punctuation.section.group.end
+///                              ^ punctuation.definition.annotation.end
+///                               ^ - meta.annotation
+        void Test() {
+        }
+
+
         int Method4 => 5;
 ///     ^^^ storage.type
 ///         ^^^^^^^ variable.other.member
@@ -1372,3 +1387,53 @@ struct Example
         set => counter = value;
     }
 }
+
+public class MyClass
+{
+    Dictionary<MyEnum, List<uint>> myDict
+/// ^^^^^^^^^^ support.type
+///           ^ punctuation.definition.generic.begin
+///            ^^^^^^ support.type
+///                  ^ punctuation.separator.type
+///                    ^^^^ support.type
+///                        ^ punctuation.definition.generic.begin
+///                         ^^^^ storage.type
+///                             ^^ punctuation.definition.generic.end
+///                                ^^^^^^ variable.other.member
+        = new Dictionary<MyEnum, List<uint>>
+///     ^ keyword.operator.assignment.variable
+///       ^^^ keyword.operator.new
+        {
+            [One] = new List<uint>
+            {
+                1, 2, 3
+            },
+            [Two] = new List<uint>
+            {
+                4, 5, 6
+            }
+        };
+///     ^ punctuation.section.braces.end - invalid
+///      ^ punctuation.terminator.statement - invalid
+}
+
+public class MyClass
+{
+    bool var // missing semi-colon
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+
+    bool var => return 0;
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+///          ^^ keyword.declaration.function.accessor.get
+///             ^^^^^^ keyword.other
+///                    ^ meta.number.integer.decimal constant.numeric.value
+///                     ^ punctuation.terminator.statement
+
+    bool var // missing semi-colon
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+}
+/// <- meta.class.body meta.block punctuation.section.block.end
+/// ^ - meta

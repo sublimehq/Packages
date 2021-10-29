@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Tcl
+scope: source.tcl
+
 file_extensions:
   - tcl
-scope: source.tcl
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \# .*? -\*- .*? \btcl\b .*? -\*-  # editorconfig
+  )
+
 variables:
   special_chars: '[;{}\[\]"\\]'
   unquoted_string: '[^\s{{special_chars}}][^\s${{special_chars}}]*'

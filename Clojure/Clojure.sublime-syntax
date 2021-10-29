@@ -3,11 +3,17 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 
 name: Clojure
+scope: source.clojure
+
 file_extensions:
   - clj
   - cljc
   - edn
-scope: source.clojure
+
+first_line_match: |-
+  (?xi:
+    ^ \s* ; .*? -\*- .*? \bclojure\b .*? -\*-  # editorconfig
+  )
 
 variables:
   non_symbol_chars: \s,;\(\)\[\]{}\"`~@\^\\
@@ -30,6 +36,14 @@ variables:
   other_integer: ({{sign}})((?:[2-9]|[1-9]\d+)[Rr])([0-9A-Za-z]+)(?=[{{non_number_chars}}])
   rational: ({{sign}})(\d+)(/)(\d+)(?=[{{non_number_chars}}])
   float: ({{sign}})(\d+)(?:((\.)\d+{{dec_exponent}}?|{{dec_exponent}})(M)?|(M))(?=[{{non_number_chars}}])
+
+  # no odd number of backslashes behind (`\` or `\\\`)
+  # note:
+  #  1. For use in `escape` commands only !!
+  #  2. ST's Regex Compatibility Check marks it as incompatible
+  #     as the real usage of the variable is not checked.
+  #     It's a false positive as long as (1.) is respected.
+  no_escape_behind: '(?<![^\\]\\)(?<![^\\][\\]{3})'
 
 contexts:
   main:
@@ -226,8 +240,13 @@ contexts:
       scope: keyword.operator.macro.clojure
       pop: true
     - match: '"'
-      scope: punctuation.definition.string.begin.clojure
-      set: pop-regexp-tail
+      scope: string.regexp.clojure punctuation.definition.string.begin.clojure
+      pop: 1
+      embed: scope:source.regexp
+      embed_scope: string.regexp.clojure
+      escape: '{{no_escape_behind}}"'
+      escape_captures:
+        0: string.regexp.clojure punctuation.definition.string.end.clojure
     - match: (?=[\^:])
       pop: true
     - match: (?=\S)
@@ -248,17 +267,6 @@ contexts:
       pop: true
     - match: (?=\S)
       set: pop-expr
-
-  pop-regexp-tail:
-    - meta_scope: string.regexp.clojure
-    - match: '"'
-      scope: punctuation.definition.string.end.clojure
-      pop: true
-    - match: ''
-      push: scope:source.regexp#base-literal
-      with_prototype:
-        - match: (?=")
-          pop: true
 
   pop-string-tail:
     - meta_scope: string.quoted.double.clojure

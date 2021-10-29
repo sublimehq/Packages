@@ -1,6 +1,5 @@
 %YAML 1.2
 ---
-name: Ruby
 # TODO: unresolved issues
 #
 # text:
@@ -25,6 +24,9 @@ name: Ruby
 # solution:
 # ternary operator rule, precedence stuff, symbol rule.
 # but also consider 'a.b?(:c)' ??
+name: Ruby
+scope: source.ruby
+
 file_extensions:
   - rb
   - Appfile
@@ -60,12 +62,13 @@ file_extensions:
   - thor
   - Thorfile
   - Vagrantfile
+
 first_line_match: |-
   (?xi:
-    ^\#! .* \bj?ruby\b |                # shebang
-    ^\# \s* -\*- [^*]* ruby [^*]* -\*-  # editorconfig
+    ^ \#! .* \bj?ruby\b                      # shebang
+  | ^ \s* \# .*? -\*- .*? \bruby\b .*? -\*-  # editorconfig
   )
-scope: source.ruby
+
 variables:
   bin_digits: (?:[01]+(?:_[01]+)*)
   dec_digits: (?:\d+(?:_\d+)*)
@@ -123,8 +126,10 @@ contexts:
 
   class:
     # Defining a class method
-    - match: \bclass\b(?=\s*<)
-      scope: keyword.declaration.class.ruby
+    - match: \b(class)\s*(<<)
+      captures:
+        1: keyword.declaration.class.ruby
+        2: keyword.operator.assignment.augmented.ruby
     - match: \bclass\b
       scope: keyword.declaration.class.ruby
       push: class-declaration
@@ -570,16 +575,16 @@ contexts:
       scope: keyword.operator.bitwise.ruby
       push: after-operator
     - match: \?
-      scope: keyword.operator.conditional.ruby
+      scope: keyword.operator.ternary.ruby
       push:
         # Handle hash-key-lookalike of identifier: in ternary
         - match: \s*{{identifier}}(:)(?!:)
           captures:
-            1: keyword.operator.conditional.ruby
+            1: keyword.operator.ternary.ruby
           set: after-operator
         - include: after-operator
     - match: :(?!:)
-      scope: keyword.operator.conditional.ruby
+      scope: keyword.operator.ternary.ruby
       push: after-operator
     - match: \.\.\.?
       scope: keyword.operator.range.ruby
@@ -640,12 +645,12 @@ contexts:
     # Handles a : right after an identifier. In this case it can't be the
     # beginning of a symbol, so it must be part of a ternary operator
     - match: ':(?!:)'
-      scope: keyword.operator.conditional.ruby
-      pop: true
-    - match: \s*(<<)
+      scope: keyword.operator.ternary.ruby
+      set: after-operator
+    - match: \s*(<<)(?![-~])
       captures:
         1: keyword.operator.assignment.augmented.ruby
-      pop: true
+      set: after-operator
     - match: ''
       pop: true
 
@@ -677,13 +682,17 @@ contexts:
         - match: '\]'
           pop: true
         - include: expressions
-    - match: '(::)?(\b[[:upper:]]\w*)(?=((\.|::)[[:alpha:]_]|\[))'
+    # maybe nested (trailing) constants with uppercase only notation
+    - match: '(::)?(\b[[:upper:]_][[:upper:][:digit:]_]*\b)'
+      captures:
+        1: punctuation.accessor.double-colon.ruby
+        2: variable.other.constant.ruby
+      push: after-variable
+    # maybe nested class
+    - match: '(::)?(\b[[:upper:]]\w*\b)'
       captures:
         1: punctuation.accessor.double-colon.ruby
         2: support.class.ruby
-      push: after-variable
-    - match: '\b[[:upper:]]\w*\b'
-      scope: variable.other.constant.ruby
       push: after-variable
 
   after-variable:

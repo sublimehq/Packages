@@ -2,11 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Objective-C++
+scope: source.objc++
+
 file_extensions:
   - mm
   - M
   - h
-scope: source.objc++
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bobj(ective-)?(c\+\+|cpp\b) .*? -\*-  # editorconfig
+  )
+
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
@@ -63,15 +70,15 @@ contexts:
     - include: objc-structures
     # Take care of comments just before a function definition.
     - match: /\*
-      scope: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.objc++
       push:
         - - match: \s*(?=\w)
             set: global-modifier
           - match: ""
             pop: true
-        - - meta_scope: comment.block.c
+        - - meta_scope: comment.block.objc++
           - match: \*/
-            scope: punctuation.definition.comment.c
+            scope: punctuation.definition.comment.objc++
             pop: true
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
@@ -839,9 +846,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.objc++
           pop: true
-        - match: \b(struct)\s+({{identifier}})\b
-          captures:
-            1: keyword.declaration.struct.objc++
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions-minus-generic-type
 
   parens:
