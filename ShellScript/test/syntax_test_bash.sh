@@ -1543,6 +1543,70 @@ printFunction "$variableString1" "`declare -p variableArray`"
 
 
 ####################################################################
+# Exec builtins                                                   #
+####################################################################
+
+exec
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell support.function.exec.shell
+
+exec --
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#^^^ support.function.exec.shell
+#   ^^^ meta.function-call.arguments.shell
+#    ^^ keyword.operator.end-of-options.shell
+
+exec 3<&-
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#^^^ support.function.exec.shell
+#    ^ constant.numeric.value.shell
+#     ^^ keyword.operator.assignment.redirection.shell
+#       ^ punctuation.terminator.file-descriptor.shell
+
+exec -- foo bar
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^ meta.function-call.arguments.shell
+#       ^^^ meta.function-call.identifier.shell
+#          ^^^^ meta.function-call.arguments.shell
+#^^^ support.function.exec.shell
+#    ^^ keyword.operator.end-of-options.shell
+#       ^^^ variable.function.shell
+
+exec -c -l -a name git status
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                  ^^^ meta.function-call.identifier.shell
+#                     ^^^^^^^ meta.function-call.arguments.shell
+# <- support.function.exec.shell
+#^^^ support.function.exec.shell
+#    ^^ variable.parameter.option.shell
+#       ^^ variable.parameter.option.shell
+#          ^^ variable.parameter.option.shell
+#             ^^^^ meta.string.shell string.unquoted.shell
+#                  ^^^ variable.function.shell
+
+exec git diff-index --check --cached $against --
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^ meta.function-call.arguments.shell
+#    ^^^ meta.function-call.identifier.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# <- support.function.exec.shell
+#^^^ support.function.exec.shell
+#    ^^^ variable.function.shell
+#                   ^^^^^^^ variable.parameter.option.shell
+#                           ^^^^^^^^ variable.parameter.option.shell
+#                                             ^^ keyword.operator.end-of-options.shell
+
+
+####################################################################
 # export builtin                                                   #
 ####################################################################
 

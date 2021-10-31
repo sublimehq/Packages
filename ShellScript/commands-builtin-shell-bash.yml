@@ -67,9 +67,7 @@ ulimit:
 eval:
   allow-end-of-options-token: false
 
-exec:
-  short-options-compact: cl
-  short-options: a
+# "exec" is handled in the syntax def, don't put it here!
 
 # "exit" is handled as keyword.control.flow in the syntax def, don't put it here!
 

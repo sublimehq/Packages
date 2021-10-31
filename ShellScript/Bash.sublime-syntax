@@ -108,6 +108,7 @@ contexts:
     - include: cmd-test
     - include: cmd-control
     - include: cmd-coproc
+    - include: cmd-exec
     - include: cmd-unalias
     - include: cmd-unset
     - include: cmd-builtins
@@ -511,6 +512,35 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+
+###[ EXEC BUILTINS ]###########################################################
+
+  cmd-exec:
+    - match: exec{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.exec.shell
+      push: cmd-exec-args
+
+  cmd-exec-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
+    - match: ([-+])[cl]*[a]{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-value
+    - match: ([-+])[cl]+{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (?:\s+|^)(--){{cmd_break}}
+      captures:
+        0: meta.function-call.arguments.shell
+        1: keyword.operator.end-of-options.shell
+      pop: 1
+    - match: (?=\S)
+      pop: 1
 
 ###[ EXPORT BUILTINS ]#########################################################
 
