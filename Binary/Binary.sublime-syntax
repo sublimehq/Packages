@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+name: Binary
+scope: binary.plain
+version: 2
+
+first_line_match: ^(?:\h{4} )+\h{4}$
+
+contexts:
+  main: []
