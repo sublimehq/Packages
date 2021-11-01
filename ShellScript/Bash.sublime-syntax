@@ -534,14 +534,13 @@ contexts:
       scope: meta.parameter.option.shell variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: cmd-args-illegal-options
     - match: (?:\s+|^)(--){{cmd_break}}
       captures:
         0: meta.function-call.arguments.shell
         1: keyword.operator.end-of-options.shell
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: cmd-args-illegal-options
+    - include: else-pop
 
 ###[ EXPORT BUILTINS ]#########################################################
 
