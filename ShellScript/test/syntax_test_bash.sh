@@ -1591,6 +1591,28 @@ exec -c -l -a name git status
 #             ^^^^ meta.string.shell string.unquoted.shell
 #                  ^^^ variable.function.shell
 
+exec -la name -i --bar -- foo bar
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                        ^ - meta.function-call
+#                         ^^^ meta.function-call.identifier.shell
+#                            ^^^^ meta.function-call.arguments.shell
+#^^^ support.function.exec.shell
+#    ^^^ variable.parameter.option.shell
+#        ^^^^ string.unquoted.shell
+#             ^^ invalid.illegal.parameter.shell
+#                ^^^^^ invalid.illegal.parameter.shell
+#                      ^^ keyword.operator.end-of-options.shell
+#                         ^^^ variable.function.shell
+
+exec -al name
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#        ^^^^ meta.function-call.identifier.shell
+#^^^ support.function.exec.shell
+#    ^^^ invalid.illegal.parameter.shell
+#        ^^^^ variable.function.shell
+
 exec git diff-index --check --cached $against --
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
 # <- meta.function-call.identifier.shell support.function.exec.shell
