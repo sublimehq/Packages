@@ -349,6 +349,7 @@ contexts:
         - cmd-alias-args
 
   cmd-alias-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.alias.arguments.shell
     - include: immediately-pop
 
@@ -459,6 +460,7 @@ contexts:
     - include: statement
 
   cmd-coproc-compound-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.coproc.command.shell
     - include: immediately-pop
 
@@ -483,6 +485,7 @@ contexts:
         - cmd-declare-args
 
   cmd-declare-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
@@ -524,6 +527,7 @@ contexts:
         - cmd-export-args
 
   cmd-export-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -565,6 +569,7 @@ contexts:
         - cmd-readonly-args
 
   cmd-readonly-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
@@ -768,6 +773,7 @@ contexts:
         - cmd-unalias-options
 
   cmd-unalias-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -792,6 +798,7 @@ contexts:
         - cmd-unset-args
 
   cmd-unset-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -1670,6 +1677,7 @@ contexts:
         1: punctuation.definition.variable.shell
 
   expansions-parameter-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.interpolation.parameter.shell
     - include: immediately-pop
 
