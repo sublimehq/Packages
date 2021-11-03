@@ -233,19 +233,17 @@ imag = 123_45i + 0_.1_i + 12_.e1i;
 //           ^ constant.numeric.suffix.d
 //             ^ keyword.operator.arithmetic.d
 //               ^^^^^^ meta.number.imaginary.decimal.d
-//               ^^ constant.numeric.value.d
+//               ^^^^^ constant.numeric.value.d
 //                 ^ punctuation.separator.decimal.d
-//                  ^^ constant.numeric.value.d
 //                    ^ constant.numeric.suffix.d
 //                        ^^^^^^^ meta.number.imaginary.decimal.d
-//                        ^^^ constant.numeric.value.d
-//                           ^ punctuation.separator.decimal.d
-//                            ^^ constant.numeric.value.exponent.d
-//                              ^ constant.numeric.suffix.d
+//                        ^^^ constant.numeric.value.d - punctuation
+//                           ^ constant.numeric.value.d punctuation.separator.decimal.d
+//                            ^^ constant.numeric.value.d - punctuation
+//                              ^ constant.numeric.suffix.d - punctuation
 imag = 23134723__742e1i;
 //     ^^^^^^^^^^^^^^^^ meta.number.imaginary.decimal.d
-//     ^^^^^^^^^^^^^ constant.numeric.value.d
-//                  ^^ constant.numeric.value.exponent.d
+//     ^^^^^^^^^^^^^^^ constant.numeric.value.d
 //                    ^ constant.numeric.suffix.d
 imag = 0x_3472389742f_i;
 //     ^^^^^^^^^^^^^^^^ meta.number.imaginary.hexadecimal.d
@@ -257,8 +255,7 @@ imag = 0x_34723897p-34i;
 //     ^^^^^^^^^^^^^^^^ meta.number.imaginary.hexadecimal.d
 //     ^^ constant.numeric.base.d
 //       ^ invalid.illegal.numeric.d
-//        ^^^^^^^^ constant.numeric.value.d
-//                ^^^^ constant.numeric.value.exponent.d
+//        ^^^^^^^^^^^^ constant.numeric.value.d
 //                    ^ constant.numeric.suffix.d
 imag = 0x347._23897p-34i;
 //     ^^^^^ meta.number.integer.hexadecimal.d
@@ -277,17 +274,16 @@ imag = 0b_0100_010_00_i;
 
 auto f = 0_.0_;
 //       ^^^^^ meta.number.float.decimal.d
-//       ^^ constant.numeric.value.d
+//       ^^^^^ constant.numeric.value.d
 //         ^ punctuation.separator.decimal.d
-//          ^^ constant.numeric.value.d
 f = 0_.;
 //  ^^^ meta.number.float.decimal.d
-//  ^^ constant.numeric.value.d
-//    ^ punctuation.separator.decimal.d
+//  ^^ constant.numeric.value.d - punctuation
+//    ^ constant.numeric.value.d punctuation.separator.decimal.d
 f = .123_1243;
 //  ^^^^^^^^^ meta.number.float.decimal.d
-//  ^ punctuation.separator.decimal.d
-//   ^^^^^^^^ constant.numeric.value.d
+//  ^ constant.numeric.value.d punctuation.separator.decimal.d
+//   ^^^^^^^^ constant.numeric.value.d - punctuation
 f = ._123_1243 + 1._123;
 //  ^ punctuation.accessor.dot.d
 //   ^^^^^^^^^ variable.other.d
@@ -297,20 +293,18 @@ f = ._123_1243 + 1._123;
 //                 ^^^^ variable.other.d
 f = 3423.2e-45;
 //  ^^^^^^^^^^ meta.number.float.decimal.d
-//  ^^^^ constant.numeric.value.d
-//      ^ punctuation.separator.decimal.d
-//       ^ constant.numeric.value.d
-//        ^^^^ constant.numeric.value.exponent.d
+//  ^^^^ constant.numeric.value.d - punctuation
+//      ^ constant.numeric.value.d punctuation.separator.decimal.d
+//       ^^^^^ constant.numeric.value.d - punctuation
 f = 2.e-45;
 //  ^^^^^^ meta.number.float.decimal.d
-//  ^ constant.numeric.value.d
-//   ^ punctuation.separator.decimal.d
-//    ^^^^ constant.numeric.value.exponent.d
+//  ^ constant.numeric.value.d - punctuation
+//   ^ constant.numeric.value.d punctuation.separator.decimal.d
+//    ^^^^ constant.numeric.value.d - punctuation
 f = .4E+4L;
 //  ^^^^^^ meta.number.float.decimal.d
-//  ^ punctuation.separator.decimal.d
-//   ^ constant.numeric.value.d
-//    ^^^ constant.numeric.value.exponent.d
+//  ^ constant.numeric.value.d punctuation.separator.decimal.d
+//   ^^^^ constant.numeric.value.d - punctuation
 //       ^ constant.numeric.suffix.d
 f =  1f;
 //   ^^ meta.number.float.decimal.d
@@ -319,8 +313,7 @@ f =  1f;
 f = 0x123p2f;
 //  ^^^^^^^^ meta.number.float.hexadecimal.d
 //  ^^ constant.numeric.base.d
-//    ^^^ constant.numeric.value.d
-//       ^^ constant.numeric.value.exponent.d
+//    ^^^^^ constant.numeric.value.d
 //         ^ constant.numeric.suffix.d
 f = 0b10101101f;
 //  ^^^^^^^^^^^ meta.number.float.binary.d
@@ -330,18 +323,48 @@ f = 0b10101101f;
 f = 0x.1aFp2;
 //  ^^^^^^^^ meta.number.float.hexadecimal.d
 //  ^^ constant.numeric.base.d
-//    ^ punctuation.separator.decimal.d
-//     ^ constant.numeric.value.d
-//      ^^ constant.numeric.value.d
-//        ^^ constant.numeric.value.exponent.d
+//    ^ constant.numeric.value.d punctuation.separator.decimal.d
+//     ^^^^^ constant.numeric.value.d - punctuation
 f = 0xF.AP-2f;
 //  ^^^^^^^^^ meta.number.float.hexadecimal.d
 //  ^^ constant.numeric.base.d
-//    ^ constant.numeric.value.d
-//     ^ punctuation.separator.decimal.d
-//      ^ constant.numeric.value.d
-//       ^^^ constant.numeric.value.exponent.d
+//    ^ constant.numeric.value.d - punctuation
+//     ^ constant.numeric.value.d punctuation.separator.decimal.d
+//      ^^^^ constant.numeric.value.d - punctuation
 //          ^ constant.numeric.suffix.d
+
+  @Foo!5
+//^ punctuation.definition.annotation.begin.d
+// ^^^ meta.path.d storage.type.d
+//    ^ punctuation.section.generic.begin.d
+//     ^ constant.numeric.value.d
+  struct Bar {}
+//^^^^^^^^^^^^^ meta.struct.d
+//^^^^^^ keyword.declaration.struct.d
+//       ^^^ entity.name.struct.d
+
+  @Foo!(int)
+//^ punctuation.definition.annotation.begin.d
+// ^^^ meta.path.d storage.type.d
+//    ^ punctuation.section.generic.begin.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^ storage.type.d
+//         ^ punctuation.section.parens.end.d
+  struct Bar {}
+//^^^^^^^^^^^^^ meta.struct.d
+//^^^^^^ keyword.declaration.struct.d
+//       ^^^ entity.name.struct.d
+
+  @(Foo!5)
+//^ punctuation.definition.annotation.begin.d
+// ^ punctuation.section.parens.begin.d
+//  ^^^ meta.function-call.d meta.path.d variable.function.d
+//     ^ meta.function-call.d punctuation.section.generic.begin.d
+//      ^ meta.function-call.d constant.numeric.value.d
+  struct Baz {}
+//^^^^^^^^^^^^^ meta.struct.d
+//^^^^^^ keyword.declaration.struct.d
+//       ^^^ entity.name.struct.d
 
   @foo:
 //^ punctuation.definition.annotation.begin.d
@@ -578,7 +601,7 @@ extern(1)
 //    ^ variable.other.d
 //     ^ punctuation.terminator.d
   foo[string] b = 123;
-//^^^ variable.other.d
+//^^^ storage.type.d
 //   ^ punctuation.section.brackets.begin.d
 //    ^^^^^^ storage.type.d
 //          ^ punctuation.section.brackets.end.d
@@ -587,9 +610,112 @@ extern(1)
 //                ^^^ meta.number.integer.decimal.d
 //                   ^ punctuation.terminator.d
   bar* some_long_Name;
-//^^^ variable.other.d
+//^^^ storage.type.d
 //   ^ keyword.operator.pointer.d
 //     ^^^^^^^^^^^^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+  bar *some_long_Name;
+//^^^ storage.type.d
+//    ^ keyword.operator.pointer.d
+//     ^^^^^^^^^^^^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+  foo[BAR] baz;
+//^^^ storage.type.d
+//   ^ punctuation.section.brackets.begin.d
+//    ^^^ variable.other.d
+//       ^ punctuation.section.brackets.end.d
+//         ^^^ variable.other.d
+//            ^ punctuation.terminator.d
+  foo bar;
+//^^^ storage.type.d
+//    ^^^ variable.other.d
+//       ^ punctuation.terminator.d
+  foo* bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo** bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo **bar;
+//^^^ storage.type.d
+//    ^^ keyword.operator.pointer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo*bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^^ variable.other.d
+//       ^ punctuation.terminator.d
+  foo**bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo[] bar;
+//^^^ storage.type.d
+//   ^^ punctuation.section.brackets
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo*[] bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^ punctuation.section.brackets
+//       ^^^ variable.other.d
+//          ^ punctuation.terminator.d
+  foo**[] bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^ punctuation.section.brackets
+//        ^^^ variable.other.d
+//           ^ punctuation.terminator.d
+  foo[]bar;
+//^^^ storage.type.d
+//   ^^ punctuation.section.brackets
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo*[]bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^ punctuation.section.brackets
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo**[]bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^ punctuation.section.brackets
+//       ^^^ variable.other.d
+//          ^ punctuation.terminator.d
+  foo.bar baz;
+//^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ meta.path.d storage.type.d
+//        ^^^ variable.other.d
+//           ^ punctuation.terminator.d
+  foo.bar.baz**var;
+//^^^^^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ storage.type.d
+//       ^ punctuation.accessor.dot.d
+//        ^^^ storage.type.d
+//           ^^ keyword.operator.pointer.d
+//             ^^^ variable.other.d
+//                ^ punctuation.terminator.d
+  foo.bar.baz**[] var;
+//^^^^^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ storage.type.d
+//       ^ punctuation.accessor.dot.d
+//        ^^^ storage.type.d
+//           ^^ keyword.operator.pointer.d
+//             ^^ punctuation.section.brackets
+//                ^^^ variable.other.d
 //                   ^ punctuation.terminator.d
   auto foo = 3;
 //^^^^ storage.modifier.d
@@ -1091,7 +1217,7 @@ extern(1)
     }
   //^ meta.function.d meta.block.d punctuation.section.block.end.d
     T[] map(T, void fn)(T[] array) {
-  //^ variable.other.d
+  //^ storage.type.d
   // ^ punctuation.section.brackets.begin.d
   //  ^ punctuation.section.brackets.end.d
   //    ^^^ meta.function.d entity.name.function.d
@@ -2107,6 +2233,32 @@ extern(1)
 //                                           ^^^^^ string.quoted.double.d
 //                                                ^ punctuation.terminator.d
 
+  foo* bar = foo* bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//         ^ keyword.operator.assignment.d
+//           ^^^ variable.other.d
+//              ^ keyword.operator.arithmetic.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+
+  foo bar = (baz *var[foo* bar]);
+//^^^ storage.type.d
+//    ^^^ variable.other.d
+//        ^ keyword.operator.assignment.d
+//          ^ punctuation.section.group.begin.d
+//           ^^^ variable.other.d
+//               ^ keyword.operator.arithmetic.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.section.brackets.begin.d
+//                    ^^^ variable.other.d
+//                       ^ keyword.operator.arithmetic.d
+//                         ^^^ variable.other.d
+//                            ^ punctuation.section.brackets.end.d
+//                             ^ punctuation.section.group.end.d
+//                              ^ punctuation.terminator.d
+
   auto f = foo ? 12 : 15;
 //^^^^ storage.modifier.d
 //     ^ variable.other.d
@@ -2117,6 +2269,28 @@ extern(1)
 //                  ^ keyword.operator.ternary.d
 //                    ^^ meta.number.integer.decimal.d
 //                      ^ punctuation.terminator.d
+
+  int a = b ? c : d;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//      ^ keyword.operator.assignment.d
+//        ^ meta.path.d variable.other.d
+//          ^ keyword.operator.ternary.d
+//            ^ meta.path.d variable.other.d
+//              ^ keyword.operator.ternary.d
+//                ^ meta.path.d variable.other.d
+//                 ^ punctuation.terminator.d
+
+  int a=b?c:d;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//     ^ keyword.operator.assignment.d
+//      ^ meta.path.d variable.other.d
+//       ^ keyword.operator.ternary.d
+//        ^ meta.path.d variable.other.d
+//         ^ keyword.operator.ternary.d
+//          ^ meta.path.d variable.other.d
+//           ^ punctuation.terminator.d
 
   foreach (ref a; foo) {}
 //^^^^^^^ keyword.control.loop.d
@@ -2186,6 +2360,22 @@ extern(1)
   //       ^^ keyword.operator.arithmetic.d
   //          ^ meta.number.integer.decimal.d
   //           ^ punctuation.separator.case-statement.d
+    case foo:
+  //^^^^ keyword.control.flow.d
+  //     ^^^ meta.path.d variable.other.d
+  //        ^ punctuation.separator.case-statement.d
+      baz();
+  //  ^^^^^ meta.block.d meta.function-call.d
+  //       ^ punctuation.terminator.d
+    case foo, bar:
+  //^^^^ keyword.control.flow.d
+  //     ^^^ meta.path.d variable.other.d
+  //        ^ punctuation.separator.sequence.d
+  //          ^^^ meta.path.d variable.other.d
+  //             ^ punctuation.separator.case-statement.d
+      baz();
+  //  ^^^^^ meta.block.d meta.function-call.d
+  //       ^ punctuation.terminator.d
     case 2, "foo":
   //^^^^ keyword.control.flow.d
   //     ^ meta.number.integer.decimal.d
@@ -2202,6 +2392,30 @@ extern(1)
   //           ^^^^ keyword.control.flow.d
   //                ^ meta.number.integer.decimal.d
   //                 ^ punctuation.separator.case-statement.d
+    case NO_KEY:
+  //^^^^ keyword.control.flow.d
+  //     ^^^^^^ meta.path.d variable.other.d
+  //           ^ punctuation.separator.case-statement.d
+      if (foo) {
+  //  ^^ keyword.control.conditional.d
+      }
+      break;
+  //  ^^^^^ keyword.control.flow.d
+  //       ^ punctuation.terminator.d
+    case no_key: .. case NO_KEY:
+  //^^^^ keyword.control.flow.d
+  //     ^^^^^^ meta.path.d variable.other.d
+  //           ^ punctuation.separator.case-statement.d
+  //             ^^ keyword.operator.d
+  //                ^^^^ keyword.control.flow.d
+  //                     ^^^^^^ meta.path.d variable.other.d
+  //                           ^ punctuation.separator.case-statement.d
+      if (foo) {
+  //  ^^ keyword.control.conditional.d
+      }
+      break;
+  //  ^^^^^ keyword.control.flow.d
+  //       ^ punctuation.terminator.d
     default:
   //^^^^^^^ keyword.control.flow.d
   //       ^ punctuation.separator.case-statement.d

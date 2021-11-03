@@ -36,9 +36,9 @@ hidden_file_extensions:
   - eclass
 
 first_line_match: |-
-  (?x:
-    ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b |        # shebang
-    ^\# \s* -\*- [^*]* shell-script [^*]* -\*-  # editorconfig
+  (?xi:
+    ^ \#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b            # shebang
+  | ^ \s* \# .*? -\*- .*? \bshell(-script)?\b .*? -\*-  # editorconfig
   )
 
 ###############################################################################
@@ -99,6 +99,7 @@ contexts:
     - include: line-continuations
     - include: operators
     - include: redirections
+    - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-compound
@@ -171,7 +172,6 @@ contexts:
     # comment).
     - match: \n
       pop: 1
-    - include: line-continuations
 
   shebang:
     - match: ^\#!
@@ -187,9 +187,21 @@ contexts:
       scope: constant.language.shebang.shell
     - match: \n
       pop: 1
-    - include: line-continuations
 
 ###[ FUNCTION DEFINITIONS ]####################################################
+
+  def-anonymous:
+    - match: (?=\(\s*\))
+      push:
+        - def-functions-redirection
+        - def-anonymous-body
+        - def-functions-params
+
+  def-anonymous-body:
+    - include: def-function-body-braces
+    - include: line-continuations
+    - include: comments
+    - include: else-pop
 
   def-functions:
     # [Bash] 3.3 Shell Functions
@@ -230,9 +242,18 @@ contexts:
         1: punctuation.section.parameters.begin.shell
         2: punctuation.section.parameters.end.shell
       pop: 1
+    - include: line-continuations
+    - include: comments
     - include: else-pop
 
   def-functions-body:
+    - include: def-function-body-braces
+    - include: def-function-body-parens
+    - include: line-continuations
+    - include: comments
+    - include: else-pop
+
+  def-function-body-braces:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
       scope: punctuation.section.compound.begin.shell
       set:
@@ -241,6 +262,8 @@ contexts:
           scope: punctuation.section.compound.end.shell
           pop: 1
         - include: statements
+
+  def-function-body-parens:
     - match: \(
       scope: punctuation.section.compound.begin.shell
       set:
@@ -249,11 +272,9 @@ contexts:
           scope: punctuation.section.compound.end.shell
           pop: 1
         - include: statements
-    - include: comments
-    - include: else-pop
 
   def-functions-redirection:
-    - meta_content_scope: meta.function.shell
+    - meta_scope: meta.function.shell
     - include: redirections
     - include: else-pop
     - include: eol-pop
@@ -328,6 +349,7 @@ contexts:
         - cmd-alias-args
 
   cmd-alias-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.alias.arguments.shell
     - include: immediately-pop
 
@@ -438,6 +460,7 @@ contexts:
     - include: statement
 
   cmd-coproc-compound-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.coproc.command.shell
     - include: immediately-pop
 
@@ -462,6 +485,7 @@ contexts:
         - cmd-declare-args
 
   cmd-declare-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
@@ -503,6 +527,7 @@ contexts:
         - cmd-export-args
 
   cmd-export-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -544,6 +569,7 @@ contexts:
         - cmd-readonly-args
 
   cmd-readonly-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
@@ -630,7 +656,7 @@ contexts:
           captures:
             1: support.function.double-brace.end.shell
           pop: 1
-        - include: cmd-test-body
+        - include: test-expression-body
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
       push:
@@ -639,7 +665,7 @@ contexts:
           captures:
             1: support.function.test.end.shell
           pop: 1
-        - include: cmd-test-body
+        - include: test-expression-body
     - match: test{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
@@ -648,19 +674,68 @@ contexts:
 
   cmd-test-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-test-body
     - include: redirections
+    - include: cmd-test-args-common
     - include: eoc-pop
 
-  cmd-test-body:
+  cmd-test-args-common:
     - match: \(
       scope: punctuation.section.group.begin.shell
-      push:
-        - meta_scope: meta.group.shell
-        - match: \)
-          scope: punctuation.section.group.end.shell
-          pop: 1
-        - include: cmd-test-body
+      push: cmd-test-args-group-body
+    - match: ([=!]=|=~)\s*
+      captures:
+        1: keyword.operator.comparison.shell
+      push: cmd-test-args-pattern
+    - include: test-expression-common
+
+  cmd-test-args-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: cmd-test-args-common
+    - include: eoc-pop
+
+  cmd-test-args-pattern:
+    - meta_content_scope: meta.pattern.regexp.shell
+    - include: test-pattern-common
+    - include: eoc-pop
+
+  test-expression-body:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: test-expression-group-body
+    - match: ([=!]=|=~)\s*
+      captures:
+        1: keyword.operator.comparison.shell
+      push: test-expression-pattern
+    - include: test-expression-common
+
+  test-expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: test-expression-body
+
+  test-expression-pattern:
+    - meta_content_scope: meta.pattern.regexp.shell
+    - include: test-pattern-common
+    - match: (?=\))
+      pop: 1
+
+  test-pattern-common:
+    - match: (?=\s)
+      pop: 1
+    - match: \(
+      scope:
+        meta.group.regexp.shell
+        punctuation.definition.group.begin.regexp.shell
+      push: expansions-pattern-group-body
+    - include: boolean
+    - include: expansions-and-strings
+
+  test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))
       scope:
         meta.parameter.option.shell
@@ -673,14 +748,6 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.binary.shell
-      push: cmd-test-pattern
-    - match: ([=!]=)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push: cmd-test-pattern
     - match: '<=?|>=?'
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
@@ -694,14 +761,6 @@ contexts:
     - include: variables
     - include: line-continuations
 
-  cmd-test-pattern:
-    - meta_content_scope: meta.pattern.regexp.shell
-    - match: (?=\s)
-      pop: 1
-    - include: boolean
-    - include: number
-    - include: expansions-and-strings
-
 ###[ UNALIAS BUILTINS ]########################################################
 
   cmd-unalias:
@@ -714,6 +773,7 @@ contexts:
         - cmd-unalias-options
 
   cmd-unalias-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -738,6 +798,7 @@ contexts:
         - cmd-unset-args
 
   cmd-unset-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -896,8 +957,8 @@ contexts:
   cmd-args-functions-chars:
     - meta_scope: meta.variable.shell
     - match: '{{identifier_char}}+'
-      scope: entity.name.function.shell
-    - include: entity-function-expansions
+      scope: variable.function.shell
+    - include: variable-function-expansions
     - include: immediately-pop
 
   cmd-args-end-of-options-then-variables:
@@ -1587,6 +1648,13 @@ contexts:
         2: keyword.operator.match.shell
 
   expansions-parameter:
+    - match: (\$)(\{)(#)(\})
+      captures:
+        0: meta.interpolation.parameter.shell
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+        3: variable.language.shell
+        4: punctuation.section.interpolation.end.shell
     - match: (\$)(\{)
       captures:
         1: punctuation.definition.variable.shell
@@ -1609,6 +1677,7 @@ contexts:
         1: punctuation.definition.variable.shell
 
   expansions-parameter-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.interpolation.parameter.shell
     - include: immediately-pop
 
@@ -1727,9 +1796,10 @@ contexts:
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
-    - match: (?:-)?(\])
+    - match: -?(\])([*?+]*)
       captures:
         1: punctuation.definition.set.end.regexp.shell
+        2: keyword.operator.quantifier.regexp.shell
       pop: 1
     - match: ((\.)[[:word:]](\.))(\])
       captures:

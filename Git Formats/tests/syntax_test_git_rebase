@@ -1,5 +1,18 @@
 # SYNTAX TEST "Git Rebase.sublime-syntax"
 # <- text.git.rebase comment.line punctuation.definition.comment
+label onto
+# <- meta.branch.label.git.rebase keyword.other.label.git.rebase
+#^^^^^^^^^ meta.branch.label.git.rebase
+#^^^^ keyword.other.label.git.rebase
+#     ^^^^ constant.language.branch-name.git.commit
+reset 9698953 # Fix form submission
+# <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
+#^^^^^^^^^^^^ meta.branch.reset.git.rebase
+#            ^ - meta.branch - comment
+#             ^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+#             ^ punctuation.definition.comment.git.rebase
+#^^^^ keyword.operator.branch.reset.git.rebase
+#     ^^^^^^^ constant.other.hash.git.rebase
 pick d284bb2 Initial commit
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
@@ -63,6 +76,28 @@ a 6746x20 Invalid command and hash # no comment (#403)
 #                                                ^ punctuation.definition.reference.issue.git
 #                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
 #                                                     ^ - meta.subject.git.commit
+label feature/branch-name
+# <- meta.branch.label.git.rebase keyword.other.label.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
+#^^^^ keyword.other.label.git.rebase
+#     ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+reset onto
+# <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
+#^^^^^^^^^ meta.branch.reset.git.rebase
+#^^^^ keyword.operator.branch.reset.git.rebase
+#     ^^^^ constant.language.branch-name.git.commit
+merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
+# <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
+#                                   ^ - meta.branch - comment
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+#                                    ^ punctuation.definition.comment.git.rebase
+#^^^^ keyword.operator.branch.merge.git.rebase
+#     ^^ variable.parameter.option.git.rebase
+#     ^ punctuation.definition.variable.git.rebase
+#        ^^^^^^^ constant.other.hash.git.rebase
+#                ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
   d d284bb2 Drop commit
@@ -73,10 +108,6 @@ a 6746x20 Invalid command and hash # no comment (#403)
 # ^ keyword.operator.commit.edit
   edit d284bb2 Edit commit
 # ^^^^ keyword.operator.commit.edit
-  x d284bb2 Execute command
-# ^ keyword.operator.commit.exec
-  exec d284bb2 Execute command
-# ^^^^ keyword.operator.commit.exec
   f d284bb2 Fixup commit
 # ^ keyword.operator.commit.fixup
   fixup d284bb2 Fixup commit
@@ -85,6 +116,24 @@ a 6746x20 Invalid command and hash # no comment (#403)
 # ^ keyword.operator.commit.reword
   reword d284bb2 Reword commit
 # ^^^^^^ keyword.operator.commit.reword
+  x git tag -d 0.1.0
+# ^ meta.shell.git.rebase - source.shell
+#  ^^^^^^^^^^^^^^^^^ meta.shell.git.rebase source.shell.embedded.git.rebase
+#   ^^^ meta.function-call.identifier.shell
+#      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                   ^ meta.shell.git.rebase - source
+# ^ keyword.operator.exec.git.rebase
+#   ^^^ variable.function.shell
+#           ^^ variable.parameter.option.shell
+  exec git tag -d 0.1.0
+# ^^^^ meta.shell.git.rebase - source.shell
+#     ^^^^^^^^^^^^^^^^^ meta.shell.git.rebase source.shell.embedded.git.rebase
+#      ^^^ meta.function-call.identifier.shell
+#         ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^ keyword.operator.exec.git.rebase
+#      ^^^ variable.function.shell
+#              ^^ variable.parameter.option.shell
+#                      ^ meta.shell.git.rebase - source
 
 # Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
 # <- comment.line punctuation.definition.comment

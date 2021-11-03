@@ -1,4 +1,4 @@
-# SYNTAX TEST "Perl.sublime-syntax"
+# SYNTAX TEST "Packages/Perl/Perl.sublime-syntax"
 
 # comment ; still in here
 # ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.perl
@@ -888,7 +888,7 @@ $var = <<JAVASCRIPT;
 #                   ^ - source.js.embedded.perl
   var basic;
 # <- meta.string.heredoc.perl source.js.embedded.perl source.js
-# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js storage.type.js
+# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js keyword.declaration
 JAVASCRIPT
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
 #^^^^^^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
@@ -1010,7 +1010,7 @@ chomp (my $common_end = <<"EOF") =~ s/(.*)/$1/g if $opt_o;
 #^^^^ support.function.perl
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #                       ^^ keyword.operator.heredoc.perl
-#                                ^^ keyword.operator.binary.perl
+#                                ^^ keyword.operator.comparison.perl
   foo bar baz
 # <- meta.string.heredoc.perl string.unquoted.heredoc.perl
 # ^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
@@ -1041,6 +1041,30 @@ EOT
 EOT
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 #^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+
+print << 'EOT-EOT-EOT';
+#     ^^^ meta.string.heredoc.perl - meta.tag
+#        ^^^^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+#                     ^^ meta.string.heredoc.perl - meta.tag
+#     ^^ keyword.operator.heredoc.perl
+  Heredoc
+# ^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+EOT-EOT-EOT
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#          ^ - meta.string
+
+print << "EOT-EOT-EOT";
+#     ^^^ meta.string.heredoc.perl - meta.tag
+#        ^^^^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+#                     ^^ meta.string.heredoc.perl - meta.tag
+#     ^^ keyword.operator.heredoc.perl
+  Heredoc
+# ^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+EOT-EOT-EOT
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#          ^ - meta.string
 
 # MUST NOT BE HEREDOC
   (1 << 0) ;
@@ -1082,11 +1106,11 @@ EOT
   %
 # ^ keyword.operator.arithmetic.perl
   !~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   =~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   ~~
-# ^^ keyword.operator.binary.perl
+# ^^ keyword.operator.comparison.perl
   <=>
 # ^^^ keyword.operator.comparison.perl
   //
@@ -1122,9 +1146,9 @@ EOT
   ~
 # ^ keyword.operator.bitwise.perl
   .
-# ^ keyword.operator.concat.perl
+# ^ keyword.operator.concatenation.perl
   .=
-# ^^ keyword.operator.concat.perl
+# ^^ keyword.operator.concatenation.perl
   ..
 # ^^ keyword.operator.range.perl
   \  \\  \\\
@@ -1205,7 +1229,7 @@ EOT
   0b1.0b1
 # ^^ meta.number.integer.binary.perl constant.numeric.base.perl
 #   ^ meta.number.integer.binary.perl constant.numeric.value.perl
-#    ^ keyword.operator.concat.perl
+#    ^ keyword.operator.concatenation.perl
 #     ^^ meta.number.integer.binary.perl constant.numeric.base.perl
 #       ^ meta.number.integer.binary.perl constant.numeric.value.perl
   0b11__011        # binary integer
@@ -1242,7 +1266,7 @@ EOT
   0x9.0x10         # hexadecimal integer
 # ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
 #   ^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
-#    ^ keyword.operator.concat.perl
+#    ^ keyword.operator.concatenation.perl
 #     ^^ meta.number.integer.hexadecimal.perl constant.numeric.base.perl
 #       ^^ meta.number.integer.hexadecimal.perl constant.numeric.value.perl
   01.1             # normal float
@@ -1550,7 +1574,7 @@ EOT
 #            ^ keyword.operator.dereference.perl
 #             ^ punctuation.definition.variable.begin.perl
 #               ^^^^^^^^^^^^^ string.quoted.double.perl
-#                             ^ keyword.operator.concat.perl
+#                             ^ keyword.operator.concatenation.perl
 #                               ^^^^ variable.other.readwrite.perl
 #                                   ^ punctuation.section.item-access.begin.perl
 #                                    ^^^ constant.other.key.perl
@@ -1778,6 +1802,24 @@ EOT
 #                                             ^ constant.language.flags.regexp.perl
 #                                              ^ punctuation.terminator.statement.perl
 #                                                ^ comment.line.number-sign.perl punctuation.definition.comment.perl
+  m{{1}\d(?-x) ${VAR} \}\w+}
+# ^ meta.function-call.perl - meta.braces
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl meta.braces.perl
+#                           ^ - meta.function-call - meta.braces
+#  ^ punctuation.section.braces.begin.perl
+#   ^^^^^^^^^^^ meta.string.perl - meta.interpolation
+#              ^^^^^ meta.string.perl meta.interpolation.perl
+#                    ^^^^^^ meta.string.perl - meta.interpolation
+#   ^^^^^^^^^^^ string.regexp.perl
+#   ^^^ invalid.illegal.unexpected-quantifier.regexp
+#              ^^^^^^ - string.regexp
+#              ^ keyword.operator.dereference.perl
+#               ^ punctuation.definition.variable.begin.perl
+#                ^^^ string.unquoted.perl
+#                   ^ punctuation.definition.variable.end.perl
+#                    ^^^^^^ string.regexp.perl
+#                     ^^ constant.character.escape.regexp
+#                          ^ punctuation.section.braces.end.perl
   m\@pattern\g; # comment
 # ^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -3452,9 +3494,9 @@ EOT
 # ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 # ^^^^^^^ keyword.control.import.require.perl
 #         ^^^ meta.string.perl string.unquoted.perl
-#            ^ keyword.operator.concat.perl
+#            ^ keyword.operator.concatenation.perl
 #             ^^^^ variable.other.readwrite.perl
-#                 ^ keyword.operator.concat.perl
+#                 ^ keyword.operator.concatenation.perl
 #                  ^^ variable.function.perl
 #                    ^ punctuation.terminator.statement.perl
   require-name;
@@ -3468,7 +3510,7 @@ EOT
 # ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 #             ^ - meta.preprocessor.require
 # ^^^^^^^ keyword.control.import.require.perl
-#        ^ keyword.operator.concat.perl
+#        ^ keyword.operator.concatenation.perl
 #         ^^^^ variable.function.perl
 #             ^ punctuation.terminator.statement.perl
   CORE::require;
@@ -3645,7 +3687,7 @@ my (
 #           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
-#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                          ^ punctuation.section.generic.end.perl
 #                           ^ punctuation.terminator.statement.perl
 #                             ^ punctuation.section.block.end.perl
@@ -3724,7 +3766,7 @@ our $VERSION = do {
 #            ^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl
 #                      ^^^^ - constant.numeric
 #                           ^ punctuation.section.generic.end.perl
-#                             ^^ keyword.operator.binary.perl
+#                             ^^ keyword.operator.comparison.perl
 #                                ^ punctuation.section.generic.begin.perl
 #                                 ^^^ meta.string.perl string.regexp.perl source.regexp
 #                                    ^ punctuation.section.generic.end.perl
@@ -3733,7 +3775,7 @@ our $VERSION = do {
 # ^^^^^^^ support.function.perl
 #         ^^^^^ meta.string.perl string.quoted.double.perl
 #          ^^ constant.other.placeholder
-#              ^ keyword.operator.concat.perl
+#              ^ keyword.operator.concatenation.perl
 #               ^^^^^^ meta.string.perl string.quoted.double.perl
 #                ^^^^ constant.other.placeholder
 #                      ^ keyword.operator.arithmetic.perl
@@ -4732,7 +4774,7 @@ state
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
-#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
   print(grep /^Client-/, $res->header_field_names)

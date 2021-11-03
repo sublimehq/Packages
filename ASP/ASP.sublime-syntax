@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: ASP
-file_extensions:
-  - asa # asp is handled by HTML-ASP.sublime-syntax
 scope: source.asp
+
+file_extensions:
+  - vbs # Visual Basic Script
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \' .*? -\*- .*? \b(vbs|vbscript)\b .*? -\*-  # editorconfig
+  )
+
 variables:
   apostrophe_comment_begin: "'"
   rem_comment_begin: '\b(?i:REM)\b'

@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+name: XSL
+scope: text.xml.xsl
+version: 2
+
+extends: XML.sublime-syntax
+
+file_extensions:
+  - xsd
+  - xsl
+  - xslt

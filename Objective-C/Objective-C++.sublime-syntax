@@ -2,11 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Objective-C++
+scope: source.objc++
+
 file_extensions:
   - mm
   - M
   - h
-scope: source.objc++
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bobj(ective-)?(c\+\+|cpp\b) .*? -\*-  # editorconfig
+  )
+
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
@@ -21,11 +28,12 @@ variables:
   before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local'
-  type_qualifier: 'const|constexpr|mutable|typename|volatile'
+  type_qualifier: 'const|mutable|typename|volatile'
+  constant_expression_specifiers: 'consteval|constexpr|constinit'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
-  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
+  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
 
   regular: '[^(){}&;*^%=<>-]*'
@@ -62,15 +70,15 @@ contexts:
     - include: objc-structures
     # Take care of comments just before a function definition.
     - match: /\*
-      scope: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.objc++
       push:
         - - match: \s*(?=\w)
             set: global-modifier
           - match: ""
             pop: true
-        - - meta_scope: comment.block.c
+        - - meta_scope: comment.block.objc++
           - match: \*/
-            scope: punctuation.definition.comment.c
+            scope: punctuation.definition.comment.objc++
             pop: true
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
@@ -360,6 +368,7 @@ contexts:
             - include: scope:source.objc#protocol_type_qualifier
             - include: expressions
         - include: comments
+        - include: attribute
         - match: '(,)\s+(\.\.\.)\s*'
           captures:
             1: punctuation.separator.objc++
@@ -453,18 +462,7 @@ contexts:
           scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.objc++
-        2: meta.group.objc++ punctuation.section.group.begin.objc++
-      push :
-        - meta_scope: meta.attribute.objc++
-        - meta_content_scope: meta.group.objc++
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: meta.group.objc++ punctuation.section.group.end.objc++
-          pop: true
+    - include: attribute
     - match: \b(__declspec)(\()
       captures:
         1: storage.modifier.objc++
@@ -493,6 +491,20 @@ contexts:
               scope: keyword.operator.assignment.objc++
         - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
           scope: constant.other.objc++
+
+  attribute:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
+      push :
+        - meta_scope: meta.attribute.objc++
+        - meta_content_scope: meta.group.objc++
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
+          pop: true
 
   types-parens:
     - match: '\b(decltype)\b\s*(\()'
@@ -834,9 +846,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.objc++
           pop: true
-        - match: \b(struct)\s+({{identifier}})\b
-          captures:
-            1: keyword.declaration.struct.objc++
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions-minus-generic-type
 
   parens:

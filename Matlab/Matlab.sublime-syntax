@@ -9,6 +9,11 @@ version: 2
 file_extensions:
   - matlab
 
+first_line_match: |-
+  (?xi:
+    ^ \s* \%+ .*? -\*- .*? \bmatlab\b .*? -\*-  # editorconfig
+  )
+
 variables:
   # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
   identifier: (?:[A-Za-z]\w*)

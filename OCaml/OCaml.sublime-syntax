@@ -2,10 +2,17 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: OCaml
+scope: source.ocaml
+
 file_extensions:
   - ml
   - mli
-scope: source.ocaml
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \(\* .*? -\*- .*? \bocaml\b .*? -\*-  # editorconfig
+  )
+
 variables:
   sign: (?:-|\b)
   suffix: (?:[lLn]|(?!\.))\b
@@ -414,36 +421,30 @@ contexts:
 
     # http://caml.inria.fr/pub/docs/manual-ocaml/lex.html
     # hexadecimal floats
-    - match: ({{sign}})(0[xX])(_*)({{hex_integer}})(?:(\.)({{hex_digit}}*)({{hex_exponent}})?|({{hex_exponent}}))
+    - match: ({{sign}})(0[xX])((_*){{hex_integer}}(?:(\.){{hex_digit}}*{{hex_exponent}}?|{{hex_exponent}}))
       scope: meta.number.float.hexadecimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
-        3: invalid.illegal.numeric.ocaml
-        4: constant.numeric.value.ocaml
+        3: constant.numeric.value.ocaml
+        4: invalid.illegal.numeric.ocaml
         5: punctuation.separator.decimal.ocaml
-        6: constant.numeric.value.ocaml
-        7: constant.numeric.value.exponent.ocaml
-        8: invalid.illegal.numeric.ocaml
-        9: constant.numeric.value.exponent.ocaml
-        10: invalid.illegal.numeric.ocaml
+        6: invalid.illegal.numeric.ocaml
+        7: invalid.illegal.numeric.ocaml
     # decimal floats
-    - match: ({{sign}})({{dec_integer}})(?:(\.)({{dec_digit}}*)({{dec_exponent}})?|({{dec_exponent}}))
+    - match: ({{sign}})({{dec_integer}}(?:(\.){{dec_digit}}*{{dec_exponent}}?|{{dec_exponent}}))
       scope: meta.number.float.decimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.value.ocaml
         3: punctuation.separator.decimal.ocaml
-        4: constant.numeric.value.ocaml
-        5: constant.numeric.value.exponent.ocaml
-        6: invalid.illegal.numeric.ocaml
-        7: constant.numeric.value.exponent.ocaml
-        8: invalid.illegal.numeric.ocaml
+        4: invalid.illegal.numeric.ocaml
+        5: invalid.illegal.numeric.ocaml
     # hexadecimal integers
     - match: ({{sign}})(0[xX])(_*)({{hex_integer}}*)({{suffix}})
       scope: meta.number.integer.hexadecimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -452,7 +453,7 @@ contexts:
     - match: ({{sign}})(0[oO])(_*)({{oct_integer}}*)({{suffix}})
       scope: meta.number.integer.octal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -461,7 +462,7 @@ contexts:
     - match: ({{sign}})(0[bB])(_*)({{bin_integer}}*)({{suffix}})
       scope: meta.number.integer.binary.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -470,7 +471,7 @@ contexts:
     - match: ({{sign}})({{dec_integer}})({{suffix}})
       scope: meta.number.integer.decimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.value.ocaml
         3: constant.numeric.suffix.ocaml
     # invalid numbers

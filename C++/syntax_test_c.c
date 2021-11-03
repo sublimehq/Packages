@@ -191,7 +191,9 @@ int main() {
 
 #if 0
 #ifdef moo
-/* <- - keyword.control */
+/* <- - keyword.control
+    ^ meta.number constant.numeric.value
+*/
 #endif
 /* <- - keyword.control */
 #endif
@@ -203,6 +205,12 @@ int disabled_func() {
 }
 #endif
 
+#if 0000000
+/*
+    ^^^^^^^ meta.number constant.numeric.value
+*/
+#endif
+
 #if 1
 /*  ^ meta.number constant.numeric.value */
 int enabled_func() {}
@@ -211,6 +219,12 @@ int enabled_func() {}
 int disabled_func() {
 /*  ^ comment.block */
 }
+#endif
+
+#if 0090
+/*
+    ^^^^ meta.number constant.numeric.value
+*/
 #endif
 
 #if 1
@@ -289,9 +303,18 @@ typedef int myint;
 
 typedef struct mystruct {
 /* <- keyword.declaration */
-/*             ^ - entity */
+/*      ^ keyword.declaration.struct.c */
+/*             ^ entity.name.struct.c */
 } mystruct;
-/* ^ entity.name.type */
+/* ^ entity.name.type.typedef.c */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
+/*             ^^^^^^^^^^^ entity.name.struct.c */
+/*                         ^ punctuation.section.block.begin.c */
+/*                          ^ punctuation.section.block.end.c */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c */
 
 /////////////////////////////////////////////
 // Data structures and return values
@@ -721,11 +744,7 @@ oct2 = 01284967Z0L;
 /*     ^^^^^^^^^^^ meta.number.integer.octal.c */
 /*     ^ constant.numeric.base.c */
 /*      ^^ constant.numeric.value.c */
-/*        ^ invalid.illegal.numeric.digit.c */
-/*         ^ constant.numeric.value.c */
-/*          ^ invalid.illegal.numeric.digit.c */
-/*           ^^ constant.numeric.value.c */
-/*             ^^^ invalid.illegal.numeric.suffix.c */
+/*        ^^^^^^^^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
 hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
@@ -759,127 +778,102 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*     ^^^^^^^^^^^^^ meta.number.float.hexadecimal.c */
 /*     ^^ constant.numeric.base.c */
-/*       ^^ constant.numeric.value.c */
+/*       ^^^^^^^^^^^ constant.numeric.value.c */
 /*         ^ punctuation.separator.decimal.c */
-/*          ^^^^^ constant.numeric.value.c */
-/*               ^^^ constant.numeric.value.exponent.c */
 /*                  ^ keyword.operator.arithmetic - constant.c */
 /*                   ^^^^^^^^^^^^^^ meta.number.float.hexadecimal.c */
 /*                   ^^ constant.numeric.base.c */
-/*                     ^ constant.numeric.value.c */
+/*                     ^^^^^^^^^^^ constant.numeric.value.c */
 /*                      ^ punctuation.separator.decimal.c */
-/*                       ^^^^^^ constant.numeric.value.c */
-/*                             ^^^ constant.numeric.value.exponent.c */
 /*                                ^ constant.numeric.suffix.c */
 /*                                 ^ punctuation.terminator - constant */
 
 f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
 /*  ^^^ meta.number.float.decimal.c */
-/*  ^ constant.numeric.value.c */
+/*  ^^^ constant.numeric.value.c */
 /*   ^ punctuation.separator.decimal.c */
-/*    ^ constant.numeric.value.c */
 /*     ^ keyword.operator.arithmetic.c */
 /*      ^^^^^ meta.number.float.decimal.c */
-/*      ^ constant.numeric.value.c */
+/*      ^^^^^ constant.numeric.value.c */
 /*       ^ punctuation.separator.decimal.c */
-/*        ^ constant.numeric.value.c */
-/*         ^^ constant.numeric.value.exponent.c */
 /*           ^ keyword.operator.arithmetic.c */
 /*            ^^^^^^ meta.number.float.decimal.c */
-/*            ^ constant.numeric.value.c */
+/*            ^^^^^^ constant.numeric.value.c */
 /*             ^ punctuation.separator.decimal.c */
-/*              ^ constant.numeric.value.c */
-/*               ^^^ constant.numeric.value.exponent.c */
 /*                  ^ keyword.operator.arithmetic.c */
 /*                   ^^^^ meta.number.float.decimal.c */
-/*                   ^ constant.numeric.value.c */
+/*                   ^^^ constant.numeric.value.c */
 /*                    ^ punctuation.separator.decimal.c */
-/*                     ^ constant.numeric.value.c */
 /*                      ^ constant.numeric.suffix.c */
 /*                       ^ keyword.operator.arithmetic.c */
 /*                        ^^^^^^ meta.number.float.decimal.c */
-/*                        ^ constant.numeric.value.c */
+/*                        ^^^^^ constant.numeric.value.c */
 /*                         ^ punctuation.separator.decimal.c */
-/*                          ^ constant.numeric.value.c */
-/*                           ^^ constant.numeric.value.exponent.c */
 /*                             ^ constant.numeric.suffix.c */
 /*                              ^ keyword.operator.arithmetic.c */
 /*                               ^^^^^^^ meta.number.float.decimal.c */
-/*                               ^ constant.numeric.value.c */
+/*                               ^^^^^^ constant.numeric.value.c */
 /*                                ^ punctuation.separator.decimal.c */
-/*                                 ^ constant.numeric.value.c */
-/*                                  ^^^ constant.numeric.value.exponent.c */
 /*                                     ^ constant.numeric.suffix.c */
 /*                                      ^ keyword.operator.arithmetic.c */
 /*                                       ^^^^ meta.number.float.decimal.c */
-/*                                       ^ constant.numeric.value.c */
+/*                                       ^^^ constant.numeric.value.c */
 /*                                        ^ punctuation.separator.decimal.c */
-/*                                         ^ constant.numeric.value.c */
 /*                                          ^ constant.numeric.suffix.c */
 /*                                           ^ keyword.operator.arithmetic.c */
 /*                                            ^^^^^^ meta.number.float.decimal.c */
-/*                                            ^ constant.numeric.value.c */
+/*                                            ^^^^^ constant.numeric.value.c */
 /*                                             ^ punctuation.separator.decimal.c */
-/*                                              ^ constant.numeric.value.c */
-/*                                               ^^ constant.numeric.value.exponent.c */
 /*                                                 ^ constant.numeric.suffix.c */
 /*                                                  ^ keyword.operator.arithmetic.c */
 /*                                                   ^^^^^^^ meta.number.float.decimal.c */
-/*                                                   ^ constant.numeric.value.c */
+/*                                                   ^^^^^^ constant.numeric.value.c */
 /*                                                    ^ punctuation.separator.decimal.c */
-/*                                                     ^ constant.numeric.value.c */
-/*                                                      ^^^ constant.numeric.value.exponent.c */
 /*                                                         ^ constant.numeric.suffix.c */
 /*                                                          ^ punctuation.terminator - constant */
 
 f = 1.e1+1.e-1+1.e1f+1.e-1f+1.e1L+1.e-1L;
 /*  ^^^^ meta.number.float.decimal.c */
-/*  ^ constant.numeric.value.c */
+/*  ^^^^ constant.numeric.value.c */
 /*   ^ punctuation.separator.decimal.c */
-/*    ^^ constant.numeric.value.exponent.c */
 /*      ^ keyword.operator.arithmetic.c */
 /*       ^^^^^ meta.number.float.decimal.c */
-/*       ^ constant.numeric.value.c */
+/*       ^^^^^ constant.numeric.value.c */
 /*        ^ punctuation.separator.decimal.c */
-/*         ^^^ constant.numeric.value.exponent.c */
 /*            ^ keyword.operator.arithmetic.c */
 /*             ^^^^^ meta.number.float.decimal.c */
-/*             ^ constant.numeric.value.c */
+/*             ^^^^ constant.numeric.value.c */
 /*              ^ punctuation.separator.decimal.c */
-/*               ^^ constant.numeric.value.exponent.c */
 /*                 ^ constant.numeric.suffix.c */
 /*                  ^ keyword.operator.arithmetic.c */
 /*                   ^^^^^^ meta.number.float.decimal.c */
-/*                   ^ constant.numeric.value.c */
+/*                   ^^^^^ constant.numeric.value.c */
 /*                    ^ punctuation.separator.decimal.c */
-/*                     ^^^ constant.numeric.value.exponent.c */
 /*                        ^ constant.numeric.suffix.c */
 /*                         ^ keyword.operator.arithmetic.c */
 /*                          ^^^^^ meta.number.float.decimal.c */
-/*                          ^ constant.numeric.value.c */
+/*                          ^^^^ constant.numeric.value.c */
 /*                           ^ punctuation.separator.decimal.c */
-/*                            ^^ constant.numeric.value.exponent.c */
 /*                              ^ constant.numeric.suffix.c */
 /*                               ^ keyword.operator.arithmetic.c */
 /*                                ^^^^^^ meta.number.float.decimal.c */
-/*                                ^ constant.numeric.value.c */
+/*                                ^^^^^ constant.numeric.value.c */
 /*                                 ^ punctuation.separator.decimal.c */
-/*                                  ^^^ constant.numeric.value.exponent.c */
 /*                                     ^ constant.numeric.suffix.c */
 /*                                      ^ punctuation.terminator - constant */
 
 f = 1.+1.f+1.L+1..;
 /*  ^^ meta.number.float.decimal.c */
-/*  ^ constant.numeric.value.c */
+/*  ^^ constant.numeric.value.c */
 /*   ^ punctuation.separator.decimal.c */
 /*    ^ keyword.operator.arithmetic.c */
 /*     ^^^ meta.number.float.decimal.c */
-/*     ^ constant.numeric.value.c */
+/*     ^^ constant.numeric.value.c */
 /*      ^ punctuation.separator.decimal.c */
 /*       ^ constant.numeric.suffix.c */
 /*        ^ keyword.operator.arithmetic.c */
 /*         ^^^ meta.number.float.decimal.c */
-/*         ^ constant.numeric.value.c */
+/*         ^^ constant.numeric.value.c */
 /*          ^ punctuation.separator.decimal.c */
 /*           ^ constant.numeric.suffix.c */
 /*            ^ keyword.operator.arithmetic.c */
@@ -890,83 +884,111 @@ f = 1.+1.f+1.L+1..;
 
 f = 1e1+1e1f+1e1L;
 /*  ^^^ meta.number.float.decimal.c */
-/*  ^ constant.numeric.value.c */
-/*   ^^ constant.numeric.value.exponent.c */
+/*  ^^^ constant.numeric.value.c */
 /*     ^ keyword.operator.arithmetic.c */
 /*      ^^^^ meta.number.float.decimal.c */
-/*      ^ constant.numeric.value.c */
-/*       ^^ constant.numeric.value.exponent.c */
+/*      ^^^ constant.numeric.value.c */
 /*         ^ constant.numeric.suffix.c */
 /*          ^ keyword.operator.arithmetic.c */
 /*           ^^^^ meta.number.float.decimal.c */
-/*           ^ constant.numeric.value.c */
-/*            ^^ constant.numeric.value.exponent.c */
+/*           ^^^ constant.numeric.value.c */
 /*              ^ constant.numeric.suffix.c */
 /*               ^ punctuation.terminator - constant */
 
 f = .1+.1e1+.1e-1+.1f+.1e1f+.1e-1f+.1L+.1e1L+.1e-1L;
 /*  ^^ meta.number.float.decimal.c */
+/*  ^^ constant.numeric.value.c */
 /*  ^ punctuation.separator.decimal.c */
-/*   ^ constant.numeric.value.c */
 /*    ^ keyword.operator.arithmetic.c */
 /*     ^^^^ meta.number.float.decimal.c */
 /*     ^ punctuation.separator.decimal.c */
-/*      ^ constant.numeric.value.c */
-/*       ^^ constant.numeric.value.exponent.c */
+/*     ^^^^ constant.numeric.value.c */
 /*         ^ keyword.operator.arithmetic.c */
 /*          ^^^^^ meta.number.float.decimal.c */
 /*          ^ punctuation.separator.decimal.c */
-/*           ^ constant.numeric.value.c */
-/*            ^^^ constant.numeric.value.exponent.c */
+/*          ^^^^^ constant.numeric.value.c */
 /*               ^ keyword.operator.arithmetic.c */
 /*                ^^^ meta.number.float.decimal.c */
 /*                ^ punctuation.separator.decimal.c */
-/*                 ^ constant.numeric.value.c */
+/*                ^^ constant.numeric.value.c */
 /*                  ^ constant.numeric.suffix.c */
 /*                   ^ keyword.operator.arithmetic.c */
 /*                    ^^^^^ meta.number.float.decimal.c */
 /*                    ^ punctuation.separator.decimal.c */
-/*                     ^ constant.numeric.value.c */
-/*                      ^^ constant.numeric.value.exponent.c */
+/*                    ^^^^ constant.numeric.value.c */
 /*                        ^ constant.numeric.suffix.c */
 /*                         ^ keyword.operator.arithmetic.c */
 /*                          ^^^^^^ meta.number.float.decimal.c */
 /*                          ^ punctuation.separator.decimal.c */
-/*                           ^ constant.numeric.value.c */
-/*                            ^^^ constant.numeric.value.exponent.c */
+/*                          ^^^^^ constant.numeric.value.c */
 /*                               ^ constant.numeric.suffix.c */
 /*                                 ^^^ meta.number.float.decimal.c */
 /*                                 ^ punctuation.separator.decimal.c */
-/*                                  ^ constant.numeric.value.c */
+/*                                 ^^ constant.numeric.value.c */
 /*                                   ^ constant.numeric.suffix.c */
 /*                                    ^ keyword.operator.arithmetic.c */
 /*                                     ^^^^^ meta.number.float.decimal.c */
 /*                                     ^ punctuation.separator.decimal.c */
-/*                                      ^ constant.numeric.value.c */
-/*                                       ^^ constant.numeric.value.exponent.c */
+/*                                     ^^^^ constant.numeric.value.c */
 /*                                         ^ constant.numeric.suffix.c */
 /*                                          ^ keyword.operator.arithmetic.c */
 /*                                           ^^^^^^ meta.number.float.decimal.c */
 /*                                           ^ punctuation.separator.decimal.c */
-/*                                            ^ constant.numeric.value.c */
-/*                                             ^^^ constant.numeric.value.exponent.c */
+/*                                           ^^^^^ constant.numeric.value.c */
 /*                                                ^ constant.numeric.suffix.c */
 /*                                                 ^ punctuation.terminator - constant */
 
-f = 1.0suff+1.suff*.0suff/{1suff}
-/*  ^^^ meta.number.float.decimal - invalid */
-/*     ^^^^ meta.number.float.decimal invalid.illegal.numeric.suffix */
-/*         ^ keyword.operator.arithmetic */
-/*          ^^ meta.number.float.decimal - invalid */
-/*            ^^^^ meta.number.float.decimal invalid.illegal.numeric.suffix */
-/*                ^ keyword.operator */
-/*                 ^^ meta.number.float.decimal - invalid */
-/*                   ^^^^ meta.number.float.decimal invalid.illegal.numeric.suffix */
-/*                       ^ keyword.operator.arithmetic */
-/*                        ^ punctuation.section.block.begin */
-/*                         ^ meta.number.integer.decimal - invalid */
-/*                          ^^^^ meta.number.integer.decimal invalid.illegal.numeric.suffix */
-/*                              ^ punctuation.section.block.end */
+units0 = 1.0suff+1.suff*.0suff/{1suff}
+/*       ^^^^^^^ meta.number.float.decimal */
+/*          ^^^^ invalid.illegal.numeric.suffix */
+/*              ^ keyword.operator.arithmetic */
+/*               ^^^^^^ meta.number.float.decimal */
+/*                 ^^^^ invalid.illegal.numeric.suffix */
+/*                     ^ keyword.operator */
+/*                      ^^^^^^ meta.number.float.decimal */
+/*                        ^^^^ invalid.illegal.numeric.suffix */
+/*                            ^ keyword.operator.arithmetic */
+/*                             ^ punctuation.section.block.begin */
+/*                              ^^^^^ meta.number.integer.decimal */
+/*                              ^ constant.numeric.value */
+/*                               ^^^^ invalid.illegal.numeric.suffix */
+/*                                   ^ punctuation.section.block.end */
+
+units1 = 134h + 123.45h;
+/*       ^^^^ meta.number.integer.decimal */
+/*          ^ invalid.illegal.numeric.suffix */
+/*           ^^^ - constant */
+/*              ^^^^^^^ meta.number.float.decimal */
+/*                 ^ punctuation.separator.decimal */
+/*                    ^ invalid.illegal.numeric.suffix */
+/*                     ^ punctuation.terminator - constant */
+
+units2 = 147min + 147.min;
+/*       ^^^^^^ meta.number.integer.decimal */
+/*          ^^^ invalid.illegal.numeric.suffix */
+/*             ^^^ - constant */
+/*                ^^^^^^^ meta.number.float.decimal */
+/*                   ^ punctuation.separator.decimal */
+/*                    ^^^ invalid.illegal.numeric.suffix */
+/*                       ^ punctuation.terminator - constant */
+
+units3 = 357s + 34.7s;
+/*       ^^^^ meta.number.integer.decimal */
+/*          ^ invalid.illegal.numeric.suffix */
+/*           ^^^ - constant */
+/*              ^^^^^ meta.number.float.decimal */
+/*                ^ punctuation.separator.decimal */
+/*                  ^ invalid.illegal.numeric.suffix */
+/*                   ^ punctuation.terminator - constant */
+
+units4 = 234_custom + 10e-1_custom;
+/*       ^^^^^^^^^^ meta.number.integer.decimal */
+/*       ^^^ constant.numeric.value */
+/*          ^^^^^^^ invalid.illegal.numeric.suffix */
+/*                 ^^^ - constant */
+/*                    ^^^^^^^^^^^^ meta.number.float.decimal */
+/*                         ^^^^^^^ invalid.illegal.numeric.suffix */
+/*                                ^ punctuation.terminator - constant */
 
 scanf("%ms %as %*[, ]", &buf);
 /*     ^^^ constant.other.placeholder */

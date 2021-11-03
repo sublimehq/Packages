@@ -1,234 +1,81 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
-import TheirClass from "./mypath";
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
-// ^ keyword.control.import-export
-//                  ^ keyword.control.import-export
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^ comment.line.double-slash.js
 
-import {identifier, otherIdentifier} from "somewhere";
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
-// ^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
-//     ^ punctuation.section.block.begin
-//                                 ^ punctuation.section.block.end
-//       ^ meta.import meta.block variable.other.readwrite
+// comment //
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^ comment.line.double-slash.js
+//         ^^ punctuation.definition.comment.js
 
-import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
-// ^ keyword.control.import-export
-//      ^ variable.other.readwrite
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
-//                ^ variable.other.readwrite
-//                        ^ keyword.control.import-export
-//                                     ^ variable.other.readwrite
-//                                             ^ constant.other.js
-//                                                             ^ keyword.control.import-export
+/// comment
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^ comment.line.triple-slash.js
 
-import 'module';
-// ^^^^^^^^^^^^^ meta.import
+/// comment ///
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^ comment.line.triple-slash.js
+//          ^^^ punctuation.definition.comment.js
 
-// Better highlighting while typing.
-import
-import;
-// <- keyword.control.import-export
+/////////////////////////////////////////////////////////////////
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
+//                                                               ^ comment.line.other.js - punctuation
 
-import;/**/
-//     ^ - meta.import
+/* */
+// <- comment.block.js punctuation.definition.comment.begin.js
+//^^^ comment.block.js
+//   ^ - comment
 
-export { name1, name2 as name3 };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
-//            ^ punctuation.separator.comma
-//                    ^^ keyword.control.import-export
+    /**/ /***/
+// ^ - comment
+//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
+//      ^ - comment
+//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
+//            ^ - comment
 
-export let name1, name2;
-//^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^ storage.type
-//              ^ punctuation.separator.comma
+    /** @todo **/
+//  ^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^ punctuation.definition.comment.begin.js
+//      ^^^^^ entity.other.attribute-name.documentation.js
+//            ^^^ punctuation.definition.comment.end.js
 
-export var name3;
-//^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^ storage.type
+    /**
+// ^ - comment
+//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//     ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     **/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^ comment.block.documentation.js
+//      ^ - comment
 
-export const name1 = 5;
-//^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^^^ storage.type
-//                 ^ keyword.operator.assignment
+    /*** @todo ***/
+//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^^ punctuation.definition.comment.begin.js
+//       ^^^^^ entity.other.attribute-name.documentation.js
+//             ^^^^ punctuation.definition.comment.end.js
 
-export let foo = 123 // No semicolon
-export function bar() {}
-// <- keyword.control.import-export
+    /***
+// ^ - comment
+//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//      ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     ***/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^^ comment.block.documentation.js
+//       ^ - comment
 
-export function foo() {};
-//^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^ meta.function
-//                      ^ punctuation.terminator.statement.empty
-
-export function* foo() {};
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^  meta.function
-//                       ^ punctuation.terminator.statement.empty
-
-export async function foo() {};
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//                            ^ punctuation.terminator.statement.empty
-
-export class Foo {};
-//^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^^^^^^ meta.class
-//                 ^ punctuation.terminator.statement.empty
-
-export default expression;
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^ keyword.control.import-export
-
-export default function (a) { };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^ keyword.control.import-export
-//             ^^^^^^^^^^^^^^^^ meta.function
-//                             ^ punctuation.terminator.statement.empty - meta.export
-
-export default function* (a) { };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^ keyword.control.import-export
-//             ^^^^^^^^^^^^^^^^^ meta.function
-//                              ^ punctuation.terminator.statement.empty - meta.export
-
-export default function name1(b) { }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^ keyword.control.import-export
-//             ^^^^^^^^ keyword.declaration.function
-//                      ^ entity.name.function
-
-export default class Foo {};
-//^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^ keyword.control.import-export
-//             ^^^^^^^^^^^^ meta.class
-//                         ^ punctuation.terminator.statement.empty
-
-export default +function (a) { };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^^^^ keyword.control.import-export
-//     ^^^^^^^ keyword.control.import-export
-//              ^^^^^^^^^^^^^^^^ meta.function
-
-export { name1 as default };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^^^ meta.block
-//             ^ keyword.control.import-export
-//                ^ keyword.control.import-export
-
-export * from "./othermod";
-//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^ constant.other
-//       ^ keyword.control.import-export
-
-export { name1, name2 } from "./othermod";
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^ meta.block
-//     ^ punctuation.section.block.begin
-//                    ^ punctuation.section.block.end
-//                      ^ keyword.control.import-export
-
-export { import1 as name1, import2 as name2, nameN } from "./othermod";
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
-//               ^ keyword.control.import-export
-//                                 ^ keyword.control.import-export
-//                                                   ^ keyword.control.import-export
-
-// Better highlighting while typing.
-export
-export;
-// <- keyword.control.import-export
-
-export;/**/
-//     ^ - meta.export
-
-import * as
-    alias from "module";
-// ^^^^^^^^^^^^^^^^^^^^^ meta.import.js
-
-import { member as
-    alias } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
-
-import { * as
-    alias } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
-
-export { member as
-    alias } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
-
-export { member as
-    default } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
-
-let from;
-//  ^^^^ variable.other.readwrite.js
-
-import from from "./othermod";
-//     ^^^^ variable.other.readwrite.js
-
-import { from } from "./othermod";
-//       ^^^^ variable.other.readwrite.js
-
-export from from "./othermod";
-//     ^^^^ variable.other.readwrite.js
-
-export { from } from "./othermod";
-//       ^^^^ variable.other.readwrite.js
-
-export default$
-//     ^^^^^^^^ - keyword
-;
-
-let x = import.meta;
-//      ^^^^^^^^^^^ - meta.import
-//      ^^^^^^ keyword.import
-//            ^ punctuation.accessor
-//             ^^^^ variable.language.import
-
-    import.meta;
-//  ^^^^^^^^^^^ - meta.import
-//  ^^^^^^ keyword.import
-//        ^ punctuation.accessor
-//         ^^^^ variable.language.import
-
-    import
-//  ^^^^^^ - meta.import
-    .meta;
-//  ^^^^^ - meta.import
-//  ^ punctuation.accessor
-//   ^^^^ variable.language.import
-
-    import('foo');
-//  ^^^^^^ keyword.import
-//        ^^^^^^^ meta.group
-
-    import
-//  ^^^^^^ - meta.import
-    ('foo');
-//  ^^^^^^^ meta.group
+//// <foo bar="baz"/>
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
 
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
@@ -254,7 +101,7 @@ someFunction({
 //  ^ meta.function meta.block
 
     var bar = function() {
-//  ^^^ storage.type
+//  ^^^ keyword.declaration
 //      ^^^ entity.name.function variable.other.readwrite
 //            ^^^^^^^^^^^^ meta.function - meta.function meta.function
 //            ^^^^^^^^ keyword.declaration.function
@@ -280,12 +127,6 @@ function() {}
 function foo(){}/**/
 //              ^ - meta.function
 
-if (true)
-// <- keyword.control.conditional.if
-{
-    bar()
-}
-
 // This is a comment function() { }
 // <- punctuation.definition.comment
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash
@@ -306,13 +147,10 @@ if (true)
 
 x --> y;
 //^^ keyword.operator.arithmetic.js
-//  ^ keyword.operator.relational.js
+//  ^ keyword.operator.comparison.js
 
 #! /usr/bin/env node
-// <- comment.line.shebang punctuation.definition.comment
-
- #! /usr/bin/env node
-//^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
+//^^^^^^^^^^^^^^^^^^ - comment.line.shebang
 
 /*@if /*/
 //     ^^ punctuation.definition.comment.end
@@ -401,7 +239,7 @@ not_a_comment;
 
 var str = '\':';
 var str2 = NaN;
-// <- storage.type
+// <- keyword.declaration
 //   ^ variable.other.readwrite
 //       ^ keyword.operator.assignment
 //         ^^^ constant.language.nan
@@ -428,6 +266,9 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 tag `template`;
 // <- variable.function.tagged-template
 //  ^^^^^^^^^^ meta.string string.quoted.other
+
+tag/**/`template`;
+// <- variable.function.tagged-template
 
 x ? y // y is a template tag!
 `template` : z;
@@ -470,6 +311,9 @@ var obj = {
 //            ^^^^^^^^^^^^ meta.function
     },
 
+    class: null, // Keys are IdentifierNames, not merely Identifiers
+//  ^^^^^ meta.mapping.key
+
     [true==false ? 'one' : 'two']: false,
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
 //  ^ punctuation.section.brackets.begin
@@ -503,7 +347,7 @@ var obj = {
 //                 ^^^^^^^^ keyword.declaration.function
 
     objKey: new class Foo {
-//              ^^^^^ storage.type.class
+//              ^^^^^ keyword.declaration.class
         get baz() {}
 //      ^^^ storage.type.accessor
 //          ^^^ entity.name.function
@@ -609,6 +453,16 @@ var obj = {
 
     get: 42,
 //  ^^^ meta.mapping.key
+
+    async() {}
+//  ^^^^^^^^^^ meta.function
+//  ^^^^^ entity.name.function
+//       ^^ meta.function.parameters
+//       ^ punctuation.section.group.begin
+//        ^ punctuation.section.group.end
+//          ^^ meta.block
+//          ^ punctuation.section.block.begin
+//           ^ punctuation.section.block.end
 }
 // <- meta.mapping - meta.block
 
@@ -666,295 +520,12 @@ baz = "";
 //    ^^ meta.string string.quoted.double
 
 var qux = 100;
-// <- storage.type
+// <- keyword.declaration
 //   ^ variable.other.readwrite
 //         ^ constant.numeric
 
-{}/**/
-//^ - meta.block
-
-if (Infinity > qux) {
-// <- meta.conditional.js keyword.control.conditional.if
-// ^^^^^^^^^^^^^^^ meta.conditional
-//  ^^^^^^^^ constant.language.infinity
-    a;
-//  ^ meta.conditional meta.block
-}
-// <- meta.conditional meta.block
-
-if (foo bar)
-    baz = "test"
-
-if(false){}/**/
-//         ^ - meta.conditional
-
-do {
-// <- meta.do-while keyword.control.loop.do-while
-// ^ meta.block
-    qux += 1
-//  ^^^^^^^^ meta.do-while meta.block
-} while(qux < 20);
-// <- meta.block
-// ^^^^^^^^^^^^^^ meta.do-while - meta.block
-// ^^^^ keyword.control.loop.while
-//      ^^^^^^^^ meta.group
-
-do // Incomplete statement
-    42;
-//  ^^ constant.numeric - meta.do-while
-
-do {} while (false)/**/
-// <- meta.do-while keyword.control.loop.do-while
-//^^^^^^^^^^^^^^^^^ meta.do-while.js
-//                 ^^ - meta.do-while
-//    ^^^^^ keyword.control.loop.while.js
-
-for (var i = 0; i < 10; i++) {
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//   ^^^^^^^^^^^^^^^^^^^^^^ meta.group
-//   ^^^ storage.type.js
-//                           ^ meta.block
-    i += 1;
-//  ^^^^^^^ meta.for meta.block
-}
-// <- meta.block
-
-    for (; x in list;) {}
-//  ^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop.for
-//      ^^^^^^^^^^^^^^ meta.group
-//       ^ punctuation.separator.expression
-//           ^^ keyword.operator
-//                  ^ punctuation.separator.expression
-
-    for (a[x in list];;) {}
-//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop.for
-//      ^^^^^^^^^^^^^^^^ meta.group
-//        ^^^^^^^^^^^ meta.brackets
-//           ^^ keyword.operator
-//                   ^ punctuation.separator.expression
-//                    ^ punctuation.separator.expression
-
-    for (;function () {}/a/g;) {}
-//                      ^ keyword.operator
-
-    for (const x in list) {}
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop.for
-//      ^^^^^^^^^^^^^^^^^ meta.group
-//       ^^^^^ storage.type
-//               ^^ keyword.operator.word
-
-    for (const x of list) {}
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop.for
-//      ^^^^^^^^^^^^^^^^^ meta.group
-//       ^^^^^ storage.type
-//               ^^ keyword.operator.word
-
-    for (x in list) {}
-//  ^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop.for
-//      ^^^^^^^^^^^ meta.group
-//         ^^ keyword.operator.word
-
-    for (x of list) {}
-//  ^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop.for
-//      ^^^^^^^^^^^ meta.group
-//         ^^ keyword.operator.word
-
-    for await (const x of list) {}
-//  ^^^ keyword.control.loop.for
-//      ^^^^^ keyword.control.flow.await
-
-for
-    42;
-//  ^^ constant.numeric - meta.for
-
-for(;;){}/**/
-//       ^ - meta.for
-
-while (true)
-// ^^^^^^^^^ meta.while
-//     ^^^^ meta.group
-{
-// <- meta.block
-    x = yield;
-//      ^^^^^ keyword.control.flow.yield
-
-    x = yield * 42;
-//      ^^^^^ keyword.control.flow.yield
-//            ^ keyword.generator.asterisk
-
-    x = yield
-    function f() {}
-    [];
-//  ^^ meta.sequence - meta.brackets
-
-
-    x = yield*
-    function f() {}
-    [];
-//  ^^ meta.brackets - meta.sequence
-
-    y = await 42;
-//      ^^^^^ keyword.control.flow.await
-
-    y = yield await 42;
-//      ^^^^^ keyword.control.flow.yield
-//            ^^^^^ keyword.control.flow.await
-
-    yield (parenthesized_expression);
-//  ^^^^^ keyword.control.flow.yield
-
-    yield `template`;
-//  ^^^^^ keyword.control.flow.yield
-
-    break;
-//  ^^^^^ keyword.control.flow.break
-
-    break foo;
-//  ^^^^^ keyword.control.flow.break
-//        ^^^ variable.label
-
-    break
-    foo;
-//  ^^^ variable.other.readwrite - variable.label
-
-    break/**/foo;
-//           ^^^ variable.label - variable.other.readwrite
-
-    break/*
-    */foo;
-//    ^^^ variable.other.readwrite - variable.label
-
-    break function;
-//        ^^^^^^^^ invalid.illegal.identifier variable.label
-
-    continue;
-//  ^^^^^^^^ keyword.control.flow.continue
-
-    continue foo;
-//  ^^^^^^^^ keyword.control.flow.continue
-//           ^^^ variable.label
-
-    continue
-    foo;
-//  ^^^ variable.other.readwrite - variable.label
-
-    continue/**/foo;
-//              ^^^ variable.label - variable.other.readwrite
-
-    continue/*
-    */ foo;
-//     ^^^ variable.other.readwrite - variable.label
-
-    goto;
-//  ^^^^ variable.other.readwrite - keyword
-}
-// <- meta.block
-
-while // Incomplete statement
-    42;
-//  ^^ constant.numeric - meta.while
-
-while(false){}/**/
-//            ^ - meta.while
-
-with (undefined) {
-// <- keyword.control.import.with
-//^^^^^^^^^^ meta.with
-//    ^^^^^^^^^ constant.language.undefined
-    return;
-//  ^^^^^^ meta.with.js meta.block.js keyword.control.flow.return
-}
-
-with // Incomplete statement
-    42;
-//  ^^ constant.numeric - meta.while
-
-with(false){}/**/
-//           ^ - meta.with
-
-switch ($foo) {
-// <- meta.switch.js keyword.control.conditional.switch
-// ^^^^^^^^^^^^ meta.switch
-//^^^^ keyword.control.conditional.switch
-//      ^^^^ meta.group
-//            ^ meta.block punctuation.section.block.begin
-    case foo:
-    // ^ meta.switch meta.block keyword.control.conditional.case
-    //      ^ - punctuation.separator.key-value
-        qux = 1;
-        break;
-        // ^ keyword.control.flow.break
-    case "baz":
-    // ^ keyword.control.conditional.case
-    //        ^ - punctuation.separator.key-value string
-        qux = 2;
-        break;
-        // ^ keyword.control.flow.break
-    default:
-    // ^ meta.switch meta.block keyword.control.conditional.default
-    //     ^ - punctuation.separator.key-value
-        qux = 3;
-
-    case$
-//  ^^^^^ - keyword
-    ;
-
-    default$
-//  ^^^^^^^^ - keyword
-    ;
-
-    case 0: {}
-    case 1:
-//  ^^^^ keyword.control.conditional.case
-}
-// <- meta.block punctuation.section.block.end
-
-try {
-// <- meta.try keyword.control.exception.try
-// ^^ meta.try
-//  ^ meta.block
-    foobar = qux.bar();
-//  ^^^^^^^^^^^^^^^^^^^ meta.try meta.block
-} catch (e) {
-// <- meta.block
-//^^^^^^^^^^^^ meta.catch
-//^^^^^ keyword.control.exception.catch
-//       ^ meta.group
-//          ^ meta.block
-    foobar = 0
-//  ^^^^^^^^^^ meta.catch meta.block
-} finally {
-// <- meta.block
-//^^^^^^^^^^ meta.finally
-//^^^^^^^ keyword.control.exception.finally
-//        ^ meta.block
-    foobar += 1
-//  ^^^^^^^^^^^ meta.finally meta.block
-}
-// <- meta.block
-
-switch // Incomplete statement
-    42;
-//  ^^ constant.numeric - meta.switch
-
-switch(x){}/**/
-//         ^^ - meta.switch
-
-try{}/**/
-//   ^ - meta.try
-catch{}/**/
-//     ^ - meta.catch
-finally{}/**/
-//       ^ - meta.finally
-
 class MyClass extends TheirClass {
-// <- storage.type.class
+// <- keyword.declaration.class
 //    ^^^^^^^ entity.name.class
 //            ^^^^^^^ storage.modifier.extends
 //                    ^^^^^^^^^^ entity.other.inherited-class
@@ -1211,17 +782,17 @@ class Foo extends getSomeClass() {}
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //         ^^^^^^^ storage.modifier.extends
 //                 ^^^^^^^^ meta.class meta.class
-//                 ^^^^^ storage.type.class
+//                 ^^^^^ keyword.declaration.class
 
 // Better highlighting while typing.
 class
 class
-// <- storage.type.class - entity.name.class
+// <- keyword.declaration.class - entity.name.class
 
 class{}/**/
 //     ^ - meta.class
 
-    () => {}
+    () => {};
 //  ^^^^^^^^ meta.function - meta.function meta.function
 //  ^^ meta.function.parameters
 //  ^ punctuation.section.group.begin
@@ -1230,25 +801,6 @@ class{}/**/
 //        ^^ meta.block
 //        ^ punctuation.section.block
 //         ^ punctuation.section.block
-
-    @foo class Foo {}
-//  ^^^^ meta.annotation
-//  ^ punctuation.definition.annotation
-//   ^^^ variable.annotation
-//       ^^^^^ storage.type.class
-
-    @foo.bar class Foo {}
-//  ^^^^^^^^ meta.annotation
-//  ^ punctuation.definition.annotation
-//   ^^^ variable.other.readwrite - variable.annotation
-//       ^^^ variable.annotation
-//           ^^^^^ storage.type.class
-
-    @(whatever) class Foo {}
-//  ^^^^^^^^^^^ meta.annotation
-//  ^ punctuation.definition.annotation
-//   ^^^^^^^^^^ meta.group
-//              ^^^^^ storage.type.class
 
     () => {};
 //  ^^^^^ meta.function
@@ -1410,6 +962,15 @@ sources.DOM
 //      ^ punctuation.definition.js
 //          ^^ meta.group.js
 
+foo
+    .tag``;
+//  ^ punctuation.accessor
+//   ^^^ variable.function.tagged-template
+//      ^^ meta.string string.quoted.other punctuation.definition.string
+
+foo.tag/**/``;
+//  ^^^ variable.function.tagged-template
+
 return new Promise(resolve => preferenceObject.set({value}, resolve));
 //                                                                  ^ meta.function-call.constructor punctuation.section.group.end
 
@@ -1470,7 +1031,7 @@ var obj = new function() {}();
 //            ^^^^^^^^ keyword.declaration.function
 
 var obj2 = new class Foo{}();
-//             ^^^^^ storage.type.class
+//             ^^^^^ keyword.declaration.class
 
 this.func()
 // <- variable.language.this
@@ -1731,7 +1292,7 @@ new FooBar(function(){
 {
 // <- meta.block punctuation.section.block.begin
     let foo = 1;
-//  ^^^ meta.block storage.type
+//  ^^^ meta.block keyword.declaration
 //      ^^^ variable.other.readwrite
 }
 // <- meta.block punctuation.section.block.end
@@ -1846,8 +1407,14 @@ return/*
 //^^^^^^ meta.block - meta.mapping
 
 const abc = new Set
-if (true) {};
-// <- keyword.control.conditional
+
+    const x =
+    const y = 1; // Better highlighting while typing.
+//  ^^^^^ keyword.declaration
+
+    let x =
+    const y = 1; // Better highlighting while typing.
+//  ^^^^^ keyword.declaration
 
 var o = {
     a,
@@ -2032,6 +1599,15 @@ debugger
     a ?? b;
 //    ^^ keyword.operator.logical
 
+    a &&= b;
+//    ^^^ keyword.operator.assignment.augmented
+
+    a ||= b;
+//    ^^^ keyword.operator.assignment.augmented
+
+    a ??= b;
+//    ^^^ keyword.operator.assignment.augmented
+
     a ?.5 : .7;
 //    ^ keyword.operator.ternary
 //     ^^ constant.numeric
@@ -2058,4 +1634,4 @@ debugger
     a.b?.();
 //  ^^^^^^^ meta.function-call.method
 //    ^ variable.function
-//     
+//
