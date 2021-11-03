@@ -251,12 +251,13 @@ NaN
 #          ^ keyword.operator.arithmetic.r
 #            ^ keyword.operator.arithmetic.r
 
-  <<- <- = -> ->>
+  <<- <- = -> ->> |>
 # ^^^ keyword.operator.assignment.r
 #     ^^ keyword.operator.assignment.r
 #        ^ keyword.operator.assignment.r
 #          ^^ keyword.operator.assignment.r
 #             ^^^ keyword.operator.assignment.r
+#                 ^^ keyword.operator.assignment.redirection.r
 
   == != <= >= <> < > && & || | !
 # ^^ keyword.operator.comparison.r
