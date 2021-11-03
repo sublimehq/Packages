@@ -2,7 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C++
-comment: I don't think anyone uses .hp. .cp tends to be paired with .h. (I could be wrong. :) -- chris
+scope: source.c++
+
 file_extensions:
   - cpp
   - cc
@@ -17,8 +18,12 @@ file_extensions:
   - h++
   - inl
   - ipp
-first_line_match: '-\*- C\+\+ -\*-'
-scope: source.c++
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \b(c\+\+|cpp\b) .*? -\*-  # editorconfig
+  )
+
 variables:
   # number digits
   bin_digit: '[01'']'
@@ -33,7 +38,7 @@ variables:
   hex_exponent: '(?:[pP][-+]?{{dec_digit}}*)'
 
   # number suffixes
-  # note: nearly everything can be defined as suffix 
+  # note: nearly everything can be defined as suffix
   # a) see user literals
   #    https://en.cppreference.com/w/cpp/language/user_literal
   # b) see complex `operator` keyword
@@ -41,7 +46,7 @@ variables:
   bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
-  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'  
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
   float_suffix: '[fF]'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
@@ -842,9 +847,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.c++
           pop: true
-        - match: \b(struct)\s+({{identifier}})\b
-          captures:
-            1: keyword.declaration.struct.c++
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions-minus-generic-type
 
   parens:

@@ -1,5 +1,104 @@
 // SYNTAX TEST "Packages/JavaScript/TypeScript.sublime-syntax"
 
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^ comment.line.double-slash.js
+
+// comment //
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^ comment.line.double-slash.js
+//         ^^ punctuation.definition.comment.js
+
+/// comment
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^ comment.line.triple-slash.js
+
+/// comment ///
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^ comment.line.triple-slash.js
+//          ^^^ punctuation.definition.comment.js
+
+/////////////////////////////////////////////////////////////////
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
+//                                                               ^ comment.line.other.js - punctuation
+
+/* */
+// <- comment.block.js punctuation.definition.comment.begin.js
+//^^^ comment.block.js
+//   ^ - comment
+
+    /**/ /***/
+// ^ - comment
+//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
+//      ^ - comment
+//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
+//            ^ - comment
+
+    /** @todo **/
+//  ^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^ punctuation.definition.comment.begin.js
+//      ^^^^^ entity.other.attribute-name.documentation.js
+//            ^^^ punctuation.definition.comment.end.js
+
+    /**
+// ^ - comment
+//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//     ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     **/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^ comment.block.documentation.js
+//      ^ - comment
+
+    /*** @todo ***/
+//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^^ punctuation.definition.comment.begin.js
+//       ^^^^^ entity.other.attribute-name.documentation.js
+//             ^^^^ punctuation.definition.comment.end.js
+
+    /***
+// ^ - comment
+//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//      ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     ***/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^^ comment.block.documentation.js
+//       ^ - comment
+
+/// <reference no-default-lib="true"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^ comment.line.triple-slash.js punctuation.definition.comment.js
+// ^ comment.line.triple-slash.js - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
+//                                    ^ comment.line.triple-slash.js - meta.preprocessor
+
+/// <foo bar="baz"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^ comment.line.triple-slash.js punctuation.definition.comment.js
+// ^ comment.line.triple-slash.js - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
+//                  ^ comment.line.triple-slash.js - meta.preprocessor
+
+//// <foo bar="baz"/>
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
+
+import foo;
+
+/// <normal comment="after first statement"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^ comment.line.triple-slash.js punctuation.definition.comment.js
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - punctuation - meta.preprocessor
+
+
 /* Import/Export */
 
     import type T from 'somewhere';
@@ -42,6 +141,32 @@
 //         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.namespace
 //                       ^^ meta.block
+
+    export abstract class C {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^^ storage.modifier
+//                  ^^^^^^^^^^ meta.class
+//                  ^^^^^ keyword.declaration.class
+//                        ^ entity.name.class
+//                          ^^ punctuation.section.block
+
+    export declare enum E {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^ storage.modifier
+//                 ^^^^^^^^^ meta.enum
+//                 ^^^^ keyword.declaration.enum
+//                      ^ entity.name.enum
+//                        ^^ meta.block punctuation.section.block
+
+    export default interface Foo {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^ keyword.control.import-export
+//                 ^^^^^^^^^^^^^^^^ meta.interface
+//                 ^^^^^^^^^ keyword.declaration
+//                           ^^^  entity.name.interface
 
 /* Declarations */
 
@@ -102,7 +227,7 @@
 
     enum Foo {
 //  ^^^^^^^^^^^ meta.enum
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.enum
 //       ^^^ entity.name.enum
 //           ^ punctuation.section.block.begin
         x,
@@ -122,20 +247,48 @@
 //  ^ meta.enum meta.block punctuation.section.block.end
 
     const enum Foo {}
-//  ^^^^^ keyword.declaration
+//  ^^^^^ storage.modifier
 //        ^^^^^^^^^^^ meta.enum
-//        ^^^^ storage.type
+//        ^^^^ keyword.declaration.enum
 //             ^^^ entity.name.enum
 
     declare enum Foo {}
-//  ^^^^^^^ storage.type
+//  ^^^^^^^ storage.modifier
 //          ^^^^^^^^^^^ meta.enum
-//          ^^^^ storage.type
+//          ^^^^ keyword.declaration.enum
 //               ^^^ entity.name.enum
+
+    declare const enum Foo {}
+//  ^^^^^^^ storage.modifier
+//          ^^^^^ storage.modifier
+//                ^^^^^^^^^^^ meta.enum
+//                ^^^^ keyword.declaration.enum
+//                     ^^^ entity.name.enum
+
+    declare const foo: any;
+//  ^^^^^^^ storage.modifier
+//          ^^^^^ keyword.declaration
+//                ^^^ meta.binding.name variable.other.readwrite
+//                   ^ punctuation.separator.type
+//                     ^^^ meta.type support.type.any
+//                        ^ punctuation.terminator.statement
+
+    const; // While typing
+//  ^^^^^ keyword.declaration
+
+    declare();
+//  ^^^^^^^ meta.function-call variable.function
+
+    declare con;
+//  ^^^^^^^ storage.modifier
+
+    const declare;
+//  ^^^^^ keyword.declaration
+//        ^^^^^^^ meta.binding.name variable.other.readwrite
 
     type x < T > = any;
 //  ^^^^^^^^^^^^^^^^^^ meta.type-alias
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.type
 //       ^ entity.name.type
 //         ^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
@@ -146,7 +299,7 @@
 
     type x < T = Foo > = any;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-alias
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration.type
 //       ^ entity.name.type
 //         ^^^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
@@ -294,6 +447,9 @@
 
     }
 
+    abstract();
+//  ^^^^^^^^ meta.function-call variable.function
+
     class Foo < T > extends Bar implements Baz, Xyzzy { }
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //  ^^^^^ keyword.declaration.class
@@ -331,6 +487,14 @@
 //                ^ meta.block punctuation.section.block.begin
     }
 //  ^ meta.block punctuation.section.block.end
+
+    namespace Foo.bar {}
+//  ^^^^^^^^^^^^^^^^^^^^ meta.namespace
+//  ^^^^^^^^^ keyword.declaration
+//            ^^^ entity.name.namespace
+//               ^ punctuation.accessor.dot
+//                ^^^ entity.name.namespace
+//                    ^^ meta.block punctuation.section.block
 
 /* Annotations */
 
@@ -556,6 +720,11 @@ let x: readonly any [];
 //     ^^^^^^^^ storage.modifier.readonly
 //              ^^^ support.type.any
 //                  ^^ storage.modifier.array
+
+let x: foo<T>[];
+//     ^^^^^^^^ meta.type
+//        ^^^ meta.type meta.generic
+//           ^^ meta.type storage.modifier.array
 
 let x: any [ "foo" | 'bar' ];
 //     ^^^^^^^^^^^^^^^^^^^^^ meta.type
@@ -844,7 +1013,7 @@ let x: {
 //                                        ^ support.class
 //                                          ^ punctuation.section.brackets.end
 //                                            ^ punctuation.separator
-    
+
     }
 //  ^ meta.type punctuation.section.mapping.end
 
@@ -886,6 +1055,24 @@ let x: abstract new () => T;
 //                  ^^ meta.group
 //                     ^^ keyword.declaration.function
 //                        ^ support.class
+
+let x: (n: number | { valueOf(): number }) => string;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//      ^ variable.parameter
+//       ^ punctuation.separator.type
+//         ^^^^^^ support.type.primitive.number
+//                ^ keyword.operator.type.union
+//                  ^^^^^^^^^^^^^^^^^^^^^ meta.type meta.group meta.type
+//                  ^ punctuation.section.mapping.begin
+//                    ^^^^^^^ variable.other.readwrite
+//                           ^^ meta.function.parameters punctuation.section.group
+//                             ^ punctuation.separator.type
+//                               ^^^^^^ support.type.primitive.number
+//                                      ^ punctuation.section.mapping.end
+//                                         ^^ keyword.declaration.function
+//                                            ^^^^^^ support.type.primitive.string
 
 let x: ( foo );
 //     ^^^^^^^ meta.type meta.group

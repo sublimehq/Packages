@@ -2,11 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C
+scope: source.c
+
 file_extensions:
   - c
   - h
-first_line_match: "-[*]-( Mode:)? C -[*]-"
-scope: source.c
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bc\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   # number digits
@@ -785,9 +790,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.c
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: keyword.declaration.struct.c
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:

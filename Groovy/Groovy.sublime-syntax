@@ -2,13 +2,19 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Groovy
+scope: source.groovy
+
 file_extensions:
   - groovy
   - gvy
   - gradle
   - Jenkinsfile
 
-first_line_match: ^#!.*\bgroovy\b
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \bgroovy\b                        # shebang
+  | ^ \s* // .*? -\*- .*? \bgroovy\b .*? -\*-  # editorconfig
+  )
 
 variables:
   unicode_letter: |-
@@ -27,7 +33,7 @@ variables:
   # in identifiers in other contexts
   # e.g. `"$$a"` is invalid, but `"${$a}"` is fine.
   single_dollar_interpolation_identifier: (?:{{unicode_letter}}|[a-zA-Z_])(?:{{unicode_letter}}|[a-zA-Z0-9_])*
-scope: source.groovy
+
 contexts:
   main:
     - match: ^(#!).+$\n

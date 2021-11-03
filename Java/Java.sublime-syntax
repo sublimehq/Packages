@@ -2,10 +2,17 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Java
+scope: source.java
+
 file_extensions:
   - java
   - bsh
-scope: source.java
+
+first_line_match: |-
+  (?x:
+    ^ \#! .* \b(bsh|java)\b                  # shebang
+  | ^ \s* // .*? -\*- .*? \bjava\b .*? -\*-  # editorconfig
+  )
 
 variables:
   primitives: (?:boolean|byte|char|short|int|float|long|double)

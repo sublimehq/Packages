@@ -1,4 +1,5 @@
-name: CI
+name: ci
+
 on:
   push:
     branches:
@@ -22,31 +23,40 @@ on:
       - '**/*.tmLanguage'
       - '**/*.tmPreferences'
       - '.github/workflows/ci.yml'
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Run syntax_tests
-    runs-on: ubuntu-18.04
+  run_syntax_tests:
+    name: Test on Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.optional }}
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        include:
+          - sublime-channel: stable
+            sublime-build: 4121
+            optional: true
+          - sublime-channel: dev
+            sublime-build: 4120
+            optional: false
     steps:
-      - uses: actions/checkout@master
 
-      - name: Download syntax_tests
-        run: wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_4114_x64.tar.xz
+      - name: Git checkout
+        uses: actions/checkout@master
 
-      - name: Extract syntax_tests
-        run: tar xf st_syntax_tests.tar.xz
+      - name: Get binary for Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
+        run: |
+          wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.sublime-build }}_x64.tar.xz
+          tar xf st_syntax_tests.tar.xz
+          mv st_syntax_tests/* ./
+          rm -R st_syntax_tests st_syntax_tests.tar.xz
 
-      - name: Move syntax_tests
-        run: mv st_syntax_tests/* ./
-
-      - name: Cleanup syntax_tests archive
-        run: rm -R st_syntax_tests st_syntax_tests.tar.xz
-
-      - name: Setup Data/Packages/
-        run: mkdir -p Data/Packages/
-
-      - name: Move packages into Data dir
-        run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
+      - name: 'Move root dirs into "Data/Packages/" subdir'
+        run: |
+          mkdir -p Data/Packages/
+          find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
 
       - name: Run syntax tests
         run: ./syntax_tests

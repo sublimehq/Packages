@@ -1,12 +1,18 @@
 %YAML 1.2
 ---
 name: SQL
+scope: source.sql
+version: 2
+
 file_extensions:
   - sql
   - ddl
   - dml
-scope: source.sql
-version: 2
+
+first_line_match: |-
+  (?xi:
+    ^ \s* -- .*? -\*- .*? \bsql\b .*? -\*-  # editorconfig
+  )
 
 contexts:
   main:

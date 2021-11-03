@@ -2,10 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Objective-C
+scope: source.objc
+
 file_extensions:
   - m
   - h
-scope: source.objc
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bobj(ective-)?c\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
@@ -883,9 +889,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.objc
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: keyword.declaration.struct.objc
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:

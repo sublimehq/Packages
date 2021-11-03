@@ -36,12 +36,14 @@
 #   for nested block collections (`- !!seq -`).
 ---
 name: YAML
+scope: source.yaml
+
 file_extensions:
   - yaml
   - yml
   - sublime-syntax
+
 first_line_match: ^%YAML( ?1.\d+)? # Technically the number is required, but we'll be a bit loose here
-scope: source.yaml
 
 ##############################################################################
 

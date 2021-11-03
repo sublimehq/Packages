@@ -7,11 +7,13 @@
 # Examples: https://github.com/alexkaratarakis/gitattributes
 
 name: Git Attributes
+scope: text.git.attributes
+version: 2
+
 file_extensions:
   - attributes                # .git/info/attributes
   - gitattributes             # *.gitattributes
   - .gitattributes            # ~/.gitattributes
-scope: text.git.attributes
 
 contexts:
 
@@ -59,7 +61,7 @@ contexts:
     - meta_scope: string.unquoted.git.attributes
     - meta_content_scope: entity.name.pattern.git.attributes
     - match: (?=\s)
-      pop: true
+      pop: 1
     - include: Git Common.sublime-syntax#fnmatch-body
 
   pattern-attributes:
@@ -74,7 +76,7 @@ contexts:
     # attriubte list ends with line
     - match: $\n?
       scope: meta.attributes-list.git.attributes
-      pop: true
+      pop: 1
     # set/unset operators
     - match: '[-!](?=\w)'
       scope: keyword.operator.logical.git.attributes
@@ -154,10 +156,10 @@ contexts:
   attribute-maybe-value-list:
     - meta_content_scope: meta.mapping.git.attributes
     - match: =(?=\S)
-      scope: punctuation.separator.mapping.key-value.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.mapping.key-value.git.attributes
       set: [attribute-value-list, attribute-value-content]
     - match: =
-      scope: punctuation.separator.mapping.key-value.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.mapping.key-value.git.attributes
       set: attribute-value-expected
     - include: attribute-separator
     - include: immediately-pop
@@ -169,7 +171,7 @@ contexts:
       scope: punctuation.separator.mapping.values.git.attributes
       push: attribute-value-content
     - match: ','
-      scope: punctuation.separator.mapping.values.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.mapping.values.git.attributes
       set: attribute-value-expected
     - match: \S
       scope: invalid.illegal.value.git.attributes
@@ -183,7 +185,7 @@ contexts:
     # unquoted value is everything except , and whitespace
     - match: '[^,\s]*'
       scope: meta.string.git.attributes string.unquoted.git.attributes
-      pop: true
+      pop: 1
     - include: immediately-pop
 
   attribute-value-expected:
@@ -191,14 +193,14 @@ contexts:
     # One whitespace after each attribute/value is captured as separator
     - match: \s
       scope: meta.mapping.expect-value.git.attributes punctuation.separator.mapping.pair.git.attributes
-      pop: true
+      pop: 1
 
   attribute-separator:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
       scope: meta.mapping.git.attributes punctuation.separator.mapping.pair.git.attributes
-      pop: true
+      pop: 1
 
 ##[ PROTOTYPES ]#######################################################
 
@@ -212,11 +214,11 @@ contexts:
   string-end:
     - match: \"
       scope: punctuation.definition.string.end.git.attributes
-      pop: true
+      pop: 1
     - match: \n
       scope: invalid.illegal.unexpected.eol.git.attributes
-      pop: true
+      pop: 1
 
   immediately-pop:
     - match: ''
-      pop: true
+      pop: 1

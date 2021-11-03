@@ -2,12 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: D
-comment: D language
+scope: source.d
+
 file_extensions:
   - d
   - di
-first_line_match: ^#!.*\bg?dmd\b.
-scope: source.d
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \bg?dmd\b                           # shebang
+  | ^ \s* // .*? -\*- .*? \bd(lang)?\b .*? -\*-  # editorconfig
+  )
+
 variables:
   name: '[[:alpha:]_][[:alpha:]0-9_]*'
   name_lookahead: '(?=\b{{name}}\b)'
@@ -40,7 +46,7 @@ variables:
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
   definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
-  definitely_declaration_lookahead: '(?=({{name}})(\s+\*|(\*|\[.*\])?\s+)({{name}})|\b({{type_qualifier}})\b)'
+  definitely_declaration_lookahead: '(?=(?:{{name}}\.)*{{name}}(\s+|\s*\*+\s*|\**\[.*\]\s*){{name}}|\b{{type_qualifier}}\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
@@ -650,7 +656,7 @@ contexts:
       set: [meta-function-call, uda-after, value-list]
     - match: '({{name}})\b'
       scope: meta.path.d storage.type.d
-      pop: true
+      set: value-after
   uda-after:
     - match: '\)'
       scope: punctuation.section.parens.end.d

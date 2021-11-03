@@ -1,10 +1,14 @@
 %YAML 1.2
 ---
 name: Git Log
+scope: text.git.log
+version: 2
+
 file_extensions:
   - gitlog   # no real extension but why not?
+
 first_line_match: ^commit\s+\h{7,}
-scope: text.git.log
+
 variables:
   diff_begin: ^diff\s+--git\s
   commit_begin: ^(commit)\s+(\h{7,})
@@ -25,7 +29,7 @@ contexts:
         - meta_scope: meta.header.git.commit markup.raw.block.git.log
         - match: $\n?
           scope: meta.header.git.commit markup.raw.block.git.log
-          pop: true
+          pop: 1
           embed: commit-header
           escape: '{{commit_or_diff_begin}}'
         - match: (\()(HEAD)\s*(->)
@@ -36,7 +40,7 @@ contexts:
           push:
             - match: \)
               scope: punctuation.section.parens.end.git.log
-              pop: true
+              pop: 1
             - match: \b(?:master|main)\b
               scope: entity.other.branch-name.master.git.log
             - match: (\w+)(?:(/)(\w+))?
@@ -62,7 +66,7 @@ contexts:
         - meta_scope: meta.header.git.commit markup.raw.block.git.log
         - meta_content_scope: string.unquoted.log
         - match: \n
-          pop: true
+          pop: 1
         - include: Git Common.sublime-syntax#email
     # using push instead of include as workaround for
     # https://github.com/SublimeTextIssues/Core/issues/2395
@@ -90,7 +94,7 @@ contexts:
         1: keyword.context.git.log
       push: copy-or-move
     - match: ^
-      pop: true
+      pop: 1
       embed: scope:source.diff
       escape: '{{commit_or_diff_begin}}'
 

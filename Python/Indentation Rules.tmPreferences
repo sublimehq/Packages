@@ -8,7 +8,20 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*(elif|else|except|finally)\b.*:</string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*(class|(\basync\s+)?(def|for|with)|elif|else|except|finally|if|try|while)\b.*:\s*$</string>
+		<string><![CDATA[(?x)
+			^\s*
+			(
+			# declaration or control flow keywords
+			  (
+			  	( async\s+ )? ( def | for | with )
+			  | class | elif | else | except | finally | if | try | while
+			  ) \b
+			# pattern matching keyword followed by at least one non-whitespace token
+			| ( case | match )\b \s* [^:]
+			)
+			# terminated by colon and followed only by optional whitespace or comment
+			.* : \s* (\#.*)? $
+		]]></string>
 		<key>disableIndentNextLinePattern</key>
 		<string></string>
 	</dict>
