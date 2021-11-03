@@ -120,6 +120,8 @@ contexts:
     - match: '>'
       scope: punctuation.definition.reference.email.end.git
       pop: 1
+    - match: (?=\s)
+      pop: 1
 
   username:
     # user reference
@@ -158,12 +160,10 @@ contexts:
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
   fnmatch-body:
-    - match: \[           # shell style character class
-      scope: keyword.control.char-class.begin.fnmatch.git
-      push:
-        - fnmatch-char-class-body
-        - fnmatch-char-class-start
-        - fnmatch-char-class-operator
+    - include: fnmatch-char-classes
+    - include: fnmatch-common
+
+  fnmatch-common:
     - match: '/'          # path separators
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
@@ -189,6 +189,14 @@ contexts:
       pop: 1
     - match: ''
       pop: 1
+
+  fnmatch-char-classes:
+    - match: \[           # shell style character class
+      scope: keyword.control.char-class.begin.fnmatch.git
+      push:
+        - fnmatch-char-class-body
+        - fnmatch-char-class-start
+        - fnmatch-char-class-operator
 
   fnmatch-char-class-operator:
     - match: '[!^]?'  # optional pattern negation
