@@ -174,15 +174,11 @@ contexts:
         - include: comments
         - match: $
           pop: true
-    - match: '\b(nullable)\s+(enable|disable|restore)\s+(annotations|warnings)\b'
+    - match: '\b(nullable)\s+(enable|disable|restore)(?:\s+(annotations|warnings))?\b'
       captures:
         1: keyword.other.preprocessor.cs
         2: keyword.other.preprocessor.cs
         3: keyword.other.preprocessor.cs
-    - match: '\b(nullable)\s+(enable|disable|restore)\b'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: keyword.other.preprocessor.cs
     - match: .*
       scope: invalid.illegal.cs
     - match: $
