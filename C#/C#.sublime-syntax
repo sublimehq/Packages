@@ -221,6 +221,8 @@ contexts:
       scope: invalid.illegal.stray.brace.cs
 
   using:
+    - match: \bglobal\b
+      scope: storage.modifier.cs
     - match: '\b(using)\s+(?={{name}}\s*=\s*)'
       captures:
         1: keyword.control.import.cs
@@ -248,7 +250,7 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.cs
     - match: \.
-      scope: punctuation.separator.namespace.cs
+      scope: meta.path.cs punctuation.separator.namespace.cs
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
@@ -295,10 +297,12 @@ contexts:
         1: storage.type.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
-    - match: \b(record)\s+({{name}})
+    - match: (?:\b(readonly)\s+)?\b(record)\s+(?:(struct)\s+)?({{name}})
       captures:
-        1: storage.type.class.record.cs
-        2: entity.name.class.cs
+        1: storage.modifier.cs
+        2: storage.type.class.record.cs
+        3: storage.type.struct.record.cs
+        4: entity.name.class.cs
       push: [record_signature, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
@@ -519,7 +523,7 @@ contexts:
     - match: '({{name}})?(\.)'
       captures:
         1: meta.path.cs
-        2: punctuation.accessor.dot.namespace.cs
+        2: meta.path.cs punctuation.accessor.dot.namespace.cs
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
