@@ -133,24 +133,69 @@ puts <<-HTML; # comment
 #       ^^^^ entity.name.tag.ruby
 #           ^ punctuation.terminator.statement.ruby - meta.string
 #             ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
-  <body>
-# ^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure
+  <script>
+    let me = #{@ruby_null};
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby source.js.embedded.html
+#            ^^^^^^^^^^^^^ meta.interpolation.ruby
+  </script>
+  <style>
+  .class[att=#{@ruby_sel}] {
+#            ^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby source.css.embedded.html meta.selector.css meta.interpolation.ruby
+    font-family: #{@ruby_font};
+#                ^^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby source.css.embedded.html meta.property-list.css meta.property-value.css meta.interpolation.ruby
+  }
+  </style>
+  <body class="#@var" style="color: #@color" onclick="run(#@what)">
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded meta.tag.structure
+#              ^^^^^ meta.string.html meta.interpolation.ruby variable.other.readwrite.instance.ruby - string
+#                                   ^^^^^^^ meta.string.html meta.interpolation.ruby variable.other.readwrite.instance.ruby - string
+#                                                         ^^^^^^ meta.string.html meta.interpolation.ruby variable.other.readwrite.instance.ruby - string
     #{ sym } #@var
-#  ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#  ^ meta.string.heredoc.ruby text.html.embedded - meta.interpolation
 #   ^^^^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby
-#           ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#           ^ meta.string.heredoc.ruby text.html.embedded - meta.interpolation
 #            ^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby variable.other.readwrite.instance.ruby
-#                 ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#                 ^ meta.string.heredoc.ruby text.html.embedded - meta.interpolation
 #   ^^ punctuation.section.interpolation.begin.ruby
 #     ^^^^^ source.ruby.embedded.ruby
 #          ^ punctuation.section.interpolation.end.ruby
 #            ^^ punctuation.definition.variable.ruby
 #            ^^^^^ variable.other.readwrite.instance.ruby
   </body>
-# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure.any.html
+# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded meta.tag.structure.any.html
   HTML
 # ^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #     ^ - meta.string - string.unquoted
+
+def CssHeredoc()
+  css = <<-CSS
+#       ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#          ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+  .class[att=#{@ruby_sel}] {
+#            ^^^^^^^^^^^^ meta.string.heredoc.ruby source.css.embedded.ruby meta.selector.css meta.interpolation.ruby
+
+    font-family: #{@ruby_font};
+#                ^^^^^^^^^^^^^ meta.string.heredoc.ruby source.css.embedded.ruby meta.property-list.css meta.property-value.css meta.interpolation.ruby
+  }
+  CSS
+# ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+end
+
+def JavaScriptHeredoc()
+  js = <<-JS
+#      ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#         ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+    let me = #{@ruby_null};
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js.embedded
+#            ^^^^^^^^^^^^^ meta.interpolation.ruby
+    function test() { var local = #{@ruby_init}; }
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js.embedded
+#                                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+  JS
+# ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+end
 
 class_eval <<-RUBY, __FILE__, __LINE__ + 1
   def #{sym}(*args, &block)
@@ -171,8 +216,9 @@ puts <<-SH; # comment
 #       ^^ entity.name.tag.ruby
 #         ^ punctuation.terminator.statement.ruby - meta.string - string
 #           ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
-  git log
-# ^^^^^^^ meta.string.heredoc.ruby source.shell.embedded.ruby
+  $( git log #@var )
+# ^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.shell.embedded meta.function-call meta.interpolation.command.shell
+#            ^^^^^ meta.interpolation.ruby variable.other.readwrite.instance.ruby
   SH
 # ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #   ^ - meta.string - string.unquoted
