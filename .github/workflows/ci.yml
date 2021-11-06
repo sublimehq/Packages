@@ -39,7 +39,7 @@ jobs:
             sublime-build: 4121
             optional: true
           - sublime-channel: dev
-            sublime-build: 4120
+            sublime-build: 4122
             optional: false
     steps:
 
