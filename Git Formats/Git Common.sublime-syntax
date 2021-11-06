@@ -10,7 +10,11 @@ hidden: true
 variables:
   comment_char: '[#;]'
   hash: \b\h{7,}\b
-  repository_ref: '(?x: \b(?: [\w-]+ (/) )? [\w-]+)'  # user (optional) / repo
+  repository_ref: |-
+    (?x:
+      [\w-]+ (/) [\w-]+   # user / repo
+    | [\w-]{2,}           # user with a heuristic to exclude C#7, F#7, ...
+    )
   pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
   pretty_formats_empty_value_modifiers: '[-+ ]?'
 
@@ -80,7 +84,7 @@ contexts:
           )?                         # keyword is optional
           # user/repo#issue
           (
-            {{repository_ref}}?
+            (?: {{repository_ref}} | \B )
             (\#)[0-9]+               # issue number
           )\b
       scope: meta.reference.issue.git
