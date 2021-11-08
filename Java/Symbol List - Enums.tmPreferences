@@ -2,13 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>entity.name.key.java-props</string>
+	<string>source.java meta.enum.identifier entity.name.enum</string>
 	<key>settings</key>
 	<dict>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
-		<key>symbolTransformation</key>
-		<string>s/\\(?!u)//g;</string>
 	</dict>
 </dict>
 </plist>

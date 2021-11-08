@@ -2,13 +2,11 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>entity.name.key.java-props</string>
+	<string>source.java meta.field.identifier variable.other</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
-		<key>symbolTransformation</key>
-		<string>s/\\(?!u)//g;</string>
 	</dict>
 </dict>
 </plist>
