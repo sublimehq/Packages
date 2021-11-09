@@ -35,7 +35,7 @@ variables:
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
   base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)\b)
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
-  generic_declaration: \s*(<[^(={};]*>)?\s*
+  generic_declaration: \s*(<[^={};]*>)?\s*
 
   brackets_capture: '((\[)(,*)(\]))'
   type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
@@ -974,36 +974,6 @@ contexts:
         - include: method_declaration
         - match: ''
           pop: true
-    - match: ({{name}})\s*(?={{generic_declaration}}\()(<)
-      scope: meta.function-call.cs
-      captures:
-        1: variable.function.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push:
-        - meta_content_scope: meta.generic.cs
-        - match: ','
-          scope: punctuation.separator.type.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          pop: true
-        - include: type
-    - match: '({{name}})(<)'
-      captures:
-        1: support.type.cs
-        2: meta.generic.cs punctuation.definition.generic.begin.cs
-      set:
-        - meta_content_scope: meta.generic.cs
-        - match: '>'
-          scope: meta.generic.cs punctuation.definition.generic.end.cs
-          set:
-            - match: \.
-              set: line_of_code
-              scope: punctuation.accessor.dot.namespace.cs
-            - match: \s+
-              set: variables_declaration
-            - match: (?=\S)
-              set: line_of_code
-        - include: type_argument
     - match: \bconst\b
       scope: storage.modifier.cs
     - match: '(var|dynamic)\s+({{reserved}}|{{base_type}})\s*(=)'
@@ -1297,7 +1267,7 @@ contexts:
     - match: '(@\$|\$@)"'
       scope: punctuation.definition.string.begin.cs
       push: long_format_string
-    - match: '({{name}})(<)(?=[^(]*>\s*\()'
+    - match: '({{name}})(?={{generic_declaration}}\s*\()(<)'
       captures:
         1: variable.function.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
@@ -1306,12 +1276,9 @@ contexts:
         - meta_content_scope: meta.generic.cs
         - match: ','
           scope: punctuation.separator.type.cs
-        - match: '(>)\s*(\()'
-          scope: meta.function-call.cs
-          captures:
-            1: meta.generic.cs punctuation.definition.generic.end.cs
-            2: meta.group.cs punctuation.section.group.begin.cs
-          set: [function_call_arguments, arguments]
+        - match: '>'
+          scope: punctuation.definition.generic.end.cs
+          set: function_call_begin_paren
         - include: type
     - match: ({{name}})(<)(?={{namespaced_name}}>\s*\.)
       captures:
@@ -1443,14 +1410,9 @@ contexts:
         - meta_content_scope: meta.generic.cs
         - match: ','
           scope: punctuation.separator.type.cs
-        - match: (>)\s*(\()
-          captures:
-            1: meta.generic.cs punctuation.definition.generic.end.cs
-            2: meta.function-call.cs meta.group.cs punctuation.section.group.begin.cs
-          set: [function_call_arguments, arguments]
         - match: '>'
           scope: meta.generic.cs punctuation.definition.generic.end.cs
-          pop: true
+          set: function_call_begin_paren
         - include: type
         - include: line_of_code_in_no_semicolon
     - include: line_of_code_in_no_semicolon
@@ -1486,6 +1448,14 @@ contexts:
     - match: \{
       scope: punctuation.section.braces.begin.cs
       set: initializer_constructor
+
+  function_call_begin_paren:
+    - meta_content_scope: meta.function-call.cs meta.group.cs
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      set: [function_call_arguments, arguments]
+    - match: (?=\S)
+      pop: true
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
