@@ -1267,7 +1267,7 @@ contexts:
     - match: '(@\$|\$@)"'
       scope: punctuation.definition.string.begin.cs
       push: long_format_string
-    - match: '({{name}})(?={{generic_declaration}}\s*\()(<)'
+    - match: '({{name}})(?={{generic_declaration}}\()\s*(<)'
       captures:
         1: variable.function.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
