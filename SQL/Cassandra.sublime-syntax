@@ -54,7 +54,7 @@ contexts:
       captures:
         1: keyword.other.dml.sql
         2: storage.modifier.cql
-    - match: \b(?i:allow filtering)\b
+    - match: \b(?i:allow\s+filtering)\b
       scope: keyword.other.dml.cql
     - match: \b(?i:copy)\b
       scope: keyword.other.dml.cql

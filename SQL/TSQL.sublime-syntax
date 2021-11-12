@@ -269,11 +269,6 @@ contexts:
     - match: (?i)\b(?:begin|commit|rollback|save)\s+tran(saction)?\b
       scope: keyword.context.tsql
 
-  declarations:
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.tsql
-      push: after-declare
-
   expressions:
     - meta_prepend: true
     - match: \b(?i:cast)\b

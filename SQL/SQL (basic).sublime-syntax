@@ -15,7 +15,7 @@ variables:
   ddl_target: |-
     (?xi)
     \b
-    (?:aggregate|conversion|database|domain|function|group|
+    (?:aggregate|constraint|conversion|database|domain|function|group|
     (?:(?:fulltext|spatial|unique)\s+)?index|
     language|operator class|operator|procedure|rule|
     schema|sequence|table(?:space)?|trigger|type|user|view)\b
@@ -154,7 +154,9 @@ contexts:
   drop-condition:
     - include: dml-condition
     - match: (?=\S)
-      set: single-identifier-after-whitespace
+      set:
+        - ddl-target-on
+        - single-identifier-after-whitespace
 
   dml-condition:
     - match: \b(?i:if)\b
@@ -349,6 +351,9 @@ contexts:
 
   ddl-create-target:
     - meta_scope: meta.create.sql
+    - include: ddl-target-on
+
+  ddl-target-on:
     - match: \b(?i:on)\b
       scope: keyword.other.sql
       push:
@@ -384,8 +389,7 @@ contexts:
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
-    - match: \b(?i:(?:add|drop)(?:\s+column)?|alter\s+column)\b
-      scope: keyword.other.ddl.sql
+    - include: ddl-alter-column
     - include: ddl-alter-common
     - include: expressions-or-column-name
 
@@ -396,13 +400,21 @@ contexts:
       pop: 1
 
   ddl-alter-common:
-    - match: (?i:\s*\b(add)\s+(constraint|(?:fulltext|spatial)\s+(index|key)|index))
-      scope: meta.add.sql
-      captures:
-        1: keyword.other.add.sql
-        2: keyword.other.sql
+    - match: \b(?i:add\s+constraint)\b
+      scope: meta.add.sql keyword.other.sql
+      push:
+        - constraint-name
+        - single-identifier-after-whitespace
+    - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
+      scope: meta.add.sql keyword.other.sql
     - include: types
     - include: pop-on-top-level-reserved-word
+
+  ddl-alter-column:
+    - match: \b(?i:(?:add|drop|alter)\s+column)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:(?:add|drop|alter))\b(?!\s+{{ddl_target}})
+      scope: keyword.other.ddl.sql
 
   dml-statements:
     - match: \b(?i:select)\b
@@ -634,3 +646,12 @@ contexts:
         2: constant.language.sql
       pop: true
     - include: expressions
+
+  declarations:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.variable.tsql
+      push: after-declare
+
+  after-declare:
+    - match: ''
+      pop: 1
