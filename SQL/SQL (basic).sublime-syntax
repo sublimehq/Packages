@@ -312,7 +312,7 @@ contexts:
     - include: dml-statements
 
   ddl-statements:
-    - match: \b(?i:create\s+table)\b
+    - match: \b(?i:create\s+(?:temporary\s+)?table)\b
       scope: keyword.other.ddl.sql
       push:
         - ddl-create-target

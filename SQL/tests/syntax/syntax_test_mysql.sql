@@ -283,3 +283,10 @@ FROM customers;
 -- ^ keyword.other.dml
 --   ^^^^^^^^^ meta.table-name
 --            ^ punctuation.terminator.statement
+
+CREATE TEMPORARY TABLE IF NOT EXISTS foo (
+-- ^^^^^^^^^^^^^^^^^^^ meta.create keyword.other.ddl
+--                                   ^^^ meta.toc-list.full-identifier entity.name.function
+    bar NVARCHAR(400),
+    baz INT
+);
