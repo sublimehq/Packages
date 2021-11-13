@@ -70,16 +70,17 @@ contexts:
     - match: \b(?i:source)\b
       scope: keyword.other.cql
 
-  types:
+  built-in-type:
     - meta_prepend: true
     - match: \b(?i:set|frozen|map|tuple)(<)
       scope: storage.type.cql
       captures:
         1: punctuation.definition.generic.begin.cql
-      push: generic-type
+      set:
+        - end-generic-type
+        - built-in-type
 
-  generic-type:
-    - include: types
+  end-generic-type:
     - match: \>
       scope: storage.type.cql punctuation.definition.generic.end.cql
       pop: 1
@@ -122,8 +123,9 @@ contexts:
       push: partition-key
     - match: \b(?i:primary\s+key)\b
       scope: storage.modifier.cql
-      push: partition-key
-    - include: expressions-or-column-name
+      #push: partition-key
+    - include: expressions
+    - include: ddl-creation-column
 
   partition-key:
     - meta_content_scope: meta.group.partition-key.cql
@@ -136,13 +138,15 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cql
       set: inside-group
-    - include: inside-ddl-table-creation-columns
+    - include: column-references
 
   inside-partition-key-group:
     - match: \)
       scope: punctuation.section.group.end.cql
       pop: 1
-    - include: inside-ddl-table-creation-columns
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+    - include: column-references
 
   joins:
     - match: \bjoin\b

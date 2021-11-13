@@ -32,11 +32,6 @@ variables:
     )
 
 contexts:
-  types:
-    - meta_append: true
-    - match: '::'
-      scope: keyword.operator.cast.postgresql
-
   expressions:
     - meta_prepend: true
     - match: \b(?i:ARRAY)\b
@@ -62,6 +57,9 @@ contexts:
 
   operators:
     - meta_prepend: true
+    - match: '::'
+      scope: keyword.operator.cast.postgresql
+      push: expect-type
     - include: regex-operators
 
   regex-operators:

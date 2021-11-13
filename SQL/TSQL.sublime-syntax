@@ -196,7 +196,7 @@ contexts:
     - match: (?=\S)
       fail: like-strings-branch
 
-  types:
+  built-in-type:
     - meta_prepend: true
     - match: |-
         (?xi)
@@ -204,6 +204,7 @@ contexts:
         {{simple_types}}
         {{enclosed_type_end}}
       scope: storage.type.sql
+      pop: 1
     - match: |-
         (?xi)
         {{enclosed_type_begin}}
@@ -216,12 +217,14 @@ contexts:
         2: constant.language.max.sql
         3: punctuation.separator.sequence.sql
         4: constant.numeric.sql
+      pop: 1
     - match: |-
         (?xi)
         (?:{{enclosed_type_begin}}|\b)
         table
         (?:{{enclosed_type_end}}|\b)
       scope: storage.type.sql
+      pop: 1
 
   statements:
     - meta_append: true
@@ -397,8 +400,19 @@ contexts:
       set:
         - cursor-name
         - single-identifier
+    - match: '(@){{simple_identifier}}'
+      scope: variable.other.readwrite.declaration.tsql
+      captures:
+        1: punctuation.definition.variable.tsql
+      set: expect-type
     - match: (?=\S)
       pop: 1
+
+  expect-type:
+    - meta_prepend: true
+    - match: \b(?i:as)\b
+      scope: keyword.other.tsql
+      set: computed-column-definition
 
   set:
     - meta_prepend: true
@@ -543,6 +557,7 @@ contexts:
       pop: 1
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
+      push: expect-type
     - include: expressions-or-column-name
 
   joins:
@@ -656,9 +671,6 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
       scope: storage.modifier.tsql
-    - match: \b(?i:AS)\b
-      scope: keyword.other.tsql
-      push: computed-column-definition
 
   computed-column-definition:
     - meta_content_scope: meta.computed-column-definition.tsql

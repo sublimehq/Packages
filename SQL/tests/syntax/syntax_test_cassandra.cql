@@ -175,7 +175,8 @@ CREATE TABLE IF NOT EXISTS date_by_userid (
 --         ^^^^ storage.type
 --              ^^^^^^^^^^^ storage.modifier
 --                         ^ punctuation.separator.sequence
-    date timestamp -- TODO: scope date as a column name
+    date timestamp
+--  ^^^^ meta.column-name
 --       ^^^^^^^^^ storage.type
 );
 

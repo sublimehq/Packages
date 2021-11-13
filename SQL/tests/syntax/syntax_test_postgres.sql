@@ -107,7 +107,12 @@ CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 --               ^^ keyword.context.block
 CREATE TABLE person (
     name text,
-    current_mood mood -- TODO: scope custom types
+--  ^^^^ meta.column-name variable.other.member.declaration
+--       ^^^^ storage.type
+--           ^ punctuation.separator.sequence
+    current_mood mood
+--  ^^^^^^^^^^^^ meta.column-name variable.other.member.declaration
+--               ^^^^ support.type
 );
 INSERT INTO person VALUES ('Moe', 'happy');
 SELECT * FROM person WHERE current_mood = 'happy';

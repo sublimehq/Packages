@@ -174,9 +174,10 @@ contexts:
       scope: keyword.operator.arithmetic.sql
     - include: logical-operators
 
-  types:
+  built-in-type:
     - match: '{{simple_types}}'
       scope: storage.type.sql
+      pop: 1
     - match: |-
         (?xi)
         {{types_with_optional_number}}
@@ -186,16 +187,27 @@ contexts:
         1: constant.numeric.sql
         2: punctuation.separator.sequence.sql
         3: constant.numeric.sql
+      pop: 1
 
   expect-type:
-    - include: types
-    # TODO: support custom type identifiers
+    - include: built-in-type
+    # TODO: support custom type identifiers wrapped in square brackets etc. in TSQL syntax just like built-in types
+    - match: '{{simple_identifier}}'
+      scope: support.type.sql
+      pop: 1
+    - match: (?=\S)
+      pop: 1
+
+  after-type:
     - match: (?=\S)
       pop: 1
 
   expressions-or-column-name:
     - include: wildcard-identifier
     - include: expressions
+    - include: column-references
+
+  column-references:
     - match: (?=\S)
       push:
         - possible-operator
@@ -219,9 +231,10 @@ contexts:
       push: inside-case-expression
     - include: numbers-variables-and-strings
     - include: operators
+    - include: collate
     - include: built-in-aggregate-function-calls
     - include: built-in-scalar-function-calls
-    - include: types
+    #- include: types
     - include: user-defined-function-calls
     - include: begin-group
     - match: \)
@@ -367,8 +380,11 @@ contexts:
     - match: \b(?i:returns)\b
       scope: keyword.other.sql
       push: expect-type
-    - include: pop-on-top-level-reserved-word
+    - match: (@){{simple_identifier}}
+      scope: variable.parameter.sql
+      push: expect-type
     - include: expressions
+    - include: pop-on-top-level-reserved-word
 
   ddl-target-on:
     - match: \b(?i:on)\b
@@ -424,14 +440,32 @@ contexts:
         - single-identifier-after-whitespace
     - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
       scope: meta.add.sql keyword.other.sql
-    - include: types
+    #- include: types
     - include: pop-on-top-level-reserved-word
 
   ddl-alter-column:
-    - match: \b(?i:(?:add|drop|alter)\s+column)\b
+    - match: \b(?i:(?:add|alter)\s+column)\b
       scope: keyword.other.ddl.sql
-    - match: \b(?i:(?:add|drop|alter))\b(?!\s+{{ddl_target}})
+      push:
+        - expect-type
+        - column-name-declaration
+        - single-identifier-after-whitespace
+    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}})
       scope: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - column-name-declaration
+        - single-identifier-after-whitespace
+    - match: \b(?i:drop\s+column)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - column-name
+        - single-identifier-after-whitespace
+    - match: \b(?i:drop)\b(?!\s+{{ddl_target}})
+      scope: keyword.other.ddl.sql
+      push:
+        - column-name
+        - single-identifier-after-whitespace
 
   dml-statements:
     - match: \b(?i:select)\b
@@ -481,10 +515,13 @@ contexts:
         - single-identifier-after-whitespace
     - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default))\b
       scope: storage.modifier.sql
-    - include: collate
     - include: expressions
+    - include: ddl-creation-column
+
+  ddl-creation-column:
     - match: (?=\S)
       push:
+        - after-type
         - expect-type
         - column-name-declaration
         - single-identifier

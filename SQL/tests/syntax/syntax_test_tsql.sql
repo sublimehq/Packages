@@ -620,7 +620,7 @@ CREATE OR ALTER PROC CreateOrAlterDemo
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
---^^^^^ variable.other.readwrite
+--^^^^^ variable.parameter
 --      ^^^ storage.type
 --          ^^^^^^ storage.modifier.output
 AS
@@ -656,7 +656,7 @@ ALTER PROC CreateOrAlterDemo
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
---^^^^^ variable.other.readwrite
+--^^^^^ variable.parameter
 --      ^^^ storage.type
 --          ^^^^^^ storage.modifier.output
 AS
@@ -1569,7 +1569,7 @@ CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
 )
 -- <- meta.group punctuation.section.group.end
 --^ - meta.group
-
+;
 WITH cols
 --^^ keyword.other.dml
 --   ^^^^ meta.cte-table-name
