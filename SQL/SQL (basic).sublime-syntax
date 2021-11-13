@@ -481,7 +481,13 @@ contexts:
         - single-identifier-after-whitespace
     - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default))\b
       scope: storage.modifier.sql
-    - include: expressions-or-column-name
+    - include: collate
+    - include: expressions
+    - match: (?=\S)
+      push:
+        - expect-type
+        - column-name-declaration
+        - single-identifier
 
   use-db:
     - match: \b(?i:use)\b
@@ -516,6 +522,12 @@ contexts:
   column-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.column-name.sql
+    - match: ''
+      pop: 1
+
+  column-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.column-name.sql variable.other.member.declaration.sql
     - match: ''
       pop: 1
 
@@ -671,4 +683,16 @@ contexts:
 
   after-declare:
     - match: ''
+      pop: 1
+
+  collate:
+    - match: \b(?i:collate)\b
+      scope: keyword.other.sql
+      push: collation
+
+  collation:
+    - match: \w+
+      scope: support.constant.sql
+      pop: 1
+    - match: (?=\S)
       pop: 1

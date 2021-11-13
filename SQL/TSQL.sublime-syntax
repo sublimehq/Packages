@@ -282,9 +282,6 @@ contexts:
     - match: \b(?i:cursor)\b
       scope: support.type.tsql
       set: cursor-declaration
-    - match: \b(?i:collate)\b
-      scope: keyword.other.tsql
-      push: collation
     - match: \b(?i:when\s+(?:not\s+)?matched)\b
       scope: keyword.control.conditional.case.sql
       push: merge-condition
@@ -547,13 +544,6 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
     - include: expressions-or-column-name
-
-  collation:
-    - match: \w+
-      scope: support.constant.tsql
-      pop: 1
-    - match: (?=\S)
-      pop: 1
 
   joins:
     - meta_append: true

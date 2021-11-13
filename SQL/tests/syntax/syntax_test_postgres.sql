@@ -7,7 +7,7 @@ CREATE TABLE test1 (a character(4));
 --                 ^^^^^^^^^^^^^^^^ meta.group.table-columns
 --                                 ^ punctuation.terminator.statement
 --                 ^ punctuation.section.group.begin
---                  ^ meta.column-name
+--                  ^ meta.column-name variable.other.member.declaration
 --                    ^^^^^^^^^^^^ storage.type
 --                              ^ constant.numeric
 --                                ^ punctuation.section.group.end
@@ -15,12 +15,12 @@ CREATE TABLE test1 (a character(4));
 INSERT INTO test1 VALUES ('ok');
 SELECT a, char_length(a) FROM test1;
 -- ^^^ keyword.other.dml
---     ^ meta.column-name
+--     ^ meta.column-name - variable.other.member.declaration
 --      ^ punctuation.separator.sequence
 --        ^^^^^^^^^^^^^^ meta.function-call
 --        ^^^^^^^^^^^ support.function
 --                   ^ meta.group punctuation.section.parens.begin
---                    ^ meta.group meta.column-name
+--                    ^ meta.group meta.column-name - variable.other.member.declaration
 --                     ^ meta.group punctuation.section.parens.end
 --                       ^^^^ keyword.other.dml - meta.group
 --                            ^^^^^ meta.table-name
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --                                             ^ punctuation.separator.sequence
     name text COLLATE pg_catalog."default",
     doc jsonb,
---  ^^^ meta.column-name
+--  ^^^ meta.column-name variable.other.member.declaration
 --      ^^^^^ storage.type
 --           ^ punctuation.separator.sequence
     poc json,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --             ^^^^^^^^^^^ meta.constraint-name
 --                         ^^^^^^ keyword.other
 --                                ^ punctuation.section.group.begin
---                                 ^^ meta.column-name
+--                                 ^^ meta.column-name - variable.other.member.declaration
 --                                   ^ punctuation.separator.sequence
 --                                     ^^^^ meta.column-name
 --                                         ^ punctuation.section.group.end
