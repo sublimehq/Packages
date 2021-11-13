@@ -187,6 +187,12 @@ contexts:
         2: punctuation.separator.sequence.sql
         3: constant.numeric.sql
 
+  expect-type:
+    - include: types
+    # TODO: support custom type identifiers
+    - match: (?=\S)
+      pop: 1
+
   expressions-or-column-name:
     - include: wildcard-identifier
     - include: expressions
@@ -323,6 +329,7 @@ contexts:
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
       push:
+        - ddl-create-target-expect-as
         - ddl-create-target
         - create-condition
         - ddl-target
@@ -352,6 +359,16 @@ contexts:
   ddl-create-target:
     - meta_scope: meta.create.sql
     - include: ddl-target-on
+
+  ddl-create-target-expect-as:
+    - match: \b(?i:as)\b
+      scope: keyword.context.block.sql
+      pop: 1
+    - match: \b(?i:returns)\b
+      scope: keyword.other.sql
+      push: expect-type
+    - include: pop-on-top-level-reserved-word
+    - include: expressions
 
   ddl-target-on:
     - match: \b(?i:on)\b
@@ -468,7 +485,7 @@ contexts:
 
   use-db:
     - match: \b(?i:use)\b
-      scope: keyword.context.tsql
+      scope: keyword.context.sql
       push:
         - database-name
         - single-identifier-after-whitespace
@@ -580,8 +597,8 @@ contexts:
   after-table-alias:
     - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
       captures:
-        1: keyword.other.tsql
-        2: meta.group.tablesample.tsql punctuation.section.group.begin.tsql
+        1: keyword.other.sql
+        2: meta.group.tablesample.sql punctuation.section.group.begin.sql
       push: tablesample
     - match: (?=\S)
       pop: 1
@@ -642,14 +659,14 @@ contexts:
       scope: constant.language.sql
     - match: (\))(?:\s*((?i:repeatable))\b)?
       captures:
-        1: meta.group.tablesample.tsql punctuation.section.group.end.sql
+        1: meta.group.tablesample.sql punctuation.section.group.end.sql
         2: constant.language.sql
       pop: true
     - include: expressions
 
   declarations:
     - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.tsql
+      scope: keyword.declaration.variable.sql
       push: after-declare
 
   after-declare:

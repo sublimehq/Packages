@@ -104,7 +104,7 @@ CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 -- ^^^ meta.create keyword.other.ddl
 --     ^^^^ meta.create keyword.other
 --          ^^^^ meta.create meta.toc-list.full-identifier entity.name.function
---               ^^ keyword.operator.assignment.alias
+--               ^^ keyword.context.block
 CREATE TABLE person (
     name text,
     current_mood mood -- TODO: scope custom types

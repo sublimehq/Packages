@@ -197,7 +197,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --                          ^^^ keyword.operator.logical
 --                              ^^^^^^ keyword.operator.logical
 --                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
---                                                ^^ keyword.operator.assignment.alias
+--                                                ^^ keyword.context.block
     SELECT *
 --  ^^^^^^ keyword.other.dml
 --         ^ variable.language.wildcard.asterisk

@@ -39,7 +39,6 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - match: \b(?i:as\s+\$\$)
     - match: \b(?i:ARRAY)\b
       scope: keyword.declaration.postgresql
     - match: \[
@@ -48,8 +47,6 @@ contexts:
       scope: punctuation.section.brackets.end.postgresql
     - match: ':(?!:)'
       scope: keyword.operator.range.postgresql
-    - match: \b(?i:returns)\b
-      scope: keyword.other.postgresql
     - match: \b(?i:return)\b
       scope: keyword.control.flow.return.postgresql
 
@@ -108,3 +105,7 @@ contexts:
     - meta_scope: variable.other.postgresql
     - match: ''
       pop: true
+
+  ddl-statements:
+    - meta_prepend: true
+    - match: \$\$

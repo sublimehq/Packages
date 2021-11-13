@@ -272,7 +272,7 @@ CREATE ALGORITHM=MERGE VIEW contactPersons(
     phone
 ) AS
 -- <- meta.group punctuation.section.group.end
--- ^ keyword.operator.assignment.alias - meta.group
+-- ^ keyword.context.block - meta.group
 SELECT
 -- ^^^ keyword.other.dml
     customerName,

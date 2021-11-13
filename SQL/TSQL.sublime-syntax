@@ -362,15 +362,6 @@ contexts:
         - ddl-create-target-expect-as
         - expect-procedure-name
 
-  ddl-create-target-expect-as:
-    - match: \b(?i:as)\b
-      scope: keyword.context.block.sql
-      pop: 1
-    - match: \b(?i:returns)\b
-      scope: keyword.other.tsql
-    - include: pop-on-top-level-reserved-word
-    - include: expressions
-
   top:
     - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
       captures:
