@@ -280,6 +280,10 @@ DECLARE
 -- ^^^^ keyword.declaration.variable
     output varchar[];
 --  ^^^^^^ variable.other
+--         ^^^^^^^ storage.type
+--                ^ punctuation.section.brackets.begin
+--                 ^ punctuation.section.brackets.end
+--                  ^ punctuation.terminator.statement
 BEGIN
 -- ^^ keyword.other.LUW
     FOR I IN array_lower(vals, 1)..array_upper(vals, 1) LOOP

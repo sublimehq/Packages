@@ -96,6 +96,7 @@ contexts:
   after-declare:
     - match: ''
       set:
+        - expect-type
         - declaration-variable-name
         - single-identifier
 
