@@ -226,6 +226,9 @@ CREATE TYPE user_defined_type (
 --          ^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
 --                            ^ meta.group punctuation.section.group.begin
     type1 timestamp,
+--  ^^^^^ meta.column-name variable.other.member.declaration
+--        ^^^^^^^^^ storage.type
+--                 ^ punctuation.separator.sequence
     type2 text,
     type3 counter,
 --  ^^^^^ meta.column-name

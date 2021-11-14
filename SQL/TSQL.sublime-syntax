@@ -381,9 +381,26 @@ contexts:
 
   built-in-scalar-function-calls:
     - meta_append: true
-    - match: (?i)\b(?:CONVERT|GETDATE)(?=\s*\()
+    - match: (?i)\b(CONVERT)\s*(\()
+      scope: meta.function-call.sql
+      captures:
+         1: support.function.scalar.sql
+         2: meta.group.sql punctuation.section.parens.begin.sql
+      push:
+        - method-call-convert
+        - expect-type
+    - match: (?i)\b(?:GETDATE)(?=\s*\()
       scope: support.function.scalar.sql
       push: begin-method-call-paren
+
+  method-call-convert:
+    - meta_content_scope: meta.function-call.sql meta.group.sql
+    - match: \)
+      scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.argument.sql
+    - include: expressions-or-column-name
 
   label-name:
     - meta_content_scope: meta.label-name.sql

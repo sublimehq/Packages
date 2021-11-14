@@ -108,6 +108,15 @@ contexts:
     - match: \b(?i:clustering)\b
       scope: keyword.other.cql
 
+  ddl-statements:
+    - meta_prepend: true
+    - match: \b(?i:create\s+type)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-create-target
+        - ddl-table-creation-columns
+        - create-condition
+
   ddl-alter-common:
     - meta_prepend: false
 
