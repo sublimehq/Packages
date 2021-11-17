@@ -191,6 +191,7 @@ class X {
 ///     ^ variable.function
 ///      ^^^^^ meta.generic
 ///       ^^^ storage.type
+///           ^ - meta.group
 ///            ^ punctuation.section.group.begin - meta.generic
 ///             ^ variable.other
 ///              ^ punctuation.separator.argument

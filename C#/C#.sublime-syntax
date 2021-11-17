@@ -1450,9 +1450,9 @@ contexts:
       set: initializer_constructor
 
   function_call_begin_paren:
-    - meta_content_scope: meta.function-call.cs meta.group.cs
+    - meta_content_scope: meta.function-call.cs
     - match: \(
-      scope: punctuation.section.group.begin.cs
+      scope: meta.group.cs punctuation.section.group.begin.cs
       set: [function_call_arguments, arguments]
     - match: (?=\S)
       pop: true
