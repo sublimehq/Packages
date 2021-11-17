@@ -182,7 +182,7 @@ def CssHeredoc()
 # ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 end
 
-def JavaScriptHeredoc()
+def InterpolatedJavaScriptHeredoc()
   js = <<-JS
 #      ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
 #         ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
@@ -193,6 +193,21 @@ def JavaScriptHeredoc()
     function test() { var local = #{@ruby_init}; }
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js.embedded
 #                                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+  JS
+# ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+end
+
+def LiteralJavaScriptHeredoc()
+  js = <<-'JS'
+#      ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#          ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+    let me = #{@ruby_null};
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js
+#            ^^^^^^^^^^^^^ - meta.interpolation
+    function test() { var local = #{@ruby_init}; }
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js
+#                                 ^^^^^^^^^^^^^ - meta.interpolation
   JS
 # ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 end
