@@ -209,6 +209,12 @@ call(2**10, *range(10), **dict(), * *{}, ***a)
 #                                 ^ keyword.operator.unpacking.sequence.python
 #                                   ^ - keyword.operator.unpacking
 #                                        ^^^ invalid.illegal.syntax.python
+call(*args, **kwargs)
+#    ^ keyword.operator.unpacking.sequence.python
+#           ^^ keyword.operator.unpacking.mapping.python
+
+call(**kwargs)
+#    ^^ keyword.operator.unpacking.mapping.python
 
 if p.type not in ('NUMBER', 'INTEGER'):
 #             ^^ keyword.operator - meta.function-call invalid
@@ -241,6 +247,39 @@ def _():
 #             ^ punctuation.section.function.begin
 #               ^^^^ invalid.illegal.name.python
 
+    {key: lambda x, y: 10}
+#   ^ punctuation.section.mapping.begin
+#         ^^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^ keyword.declaration.function.inline.python
+#                ^^^^^ meta.function.inline.parameters
+#                ^ variable.parameter
+#                 ^ punctuation.separator.parameters
+#                   ^ variable.parameter
+#                      ^^ constant.numeric
+#                        ^ punctuation.section.mapping.end
+
+    {lambda x, y: 10}
+#   ^ punctuation.section.set.begin
+#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ keyword.declaration.function.inline.python
+#           ^^^^^ meta.function.inline.parameters
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#                 ^^ constant.numeric
+#                   ^ punctuation.section.set.end
+
+    [lambda x, y: 10]
+#   ^ punctuation.section.sequence.begin
+#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ keyword.declaration.function.inline.python
+#           ^^^^^ meta.function.inline.parameters
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#                 ^^ constant.numeric
+#                   ^ punctuation.section.sequence.end
+
     _(lambda x, y: 10)
 #     ^^^^^^^^^^^^^^^ meta.function.inline
 #     ^^^^^^ keyword.declaration.function.inline.python
@@ -264,6 +303,10 @@ def _():
 #              ^^ invalid.illegal.name
 
     lambda *a, **kwa, ab*, * *: (a, kwa)
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.function.inline.parameters.python
+#                              ^^^^^^^^^ meta.function.inline.body.python
 #          ^ keyword.operator.unpacking.sequence.python
 #           ^ variable.parameter.python
 #                ^^^ variable.parameter.python
@@ -275,10 +318,11 @@ def _():
 #   ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 
     lambda (x, y): 0
-#   ^^^^^^^^^^^^^^^^ meta.function.inline
+#   ^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
 #         ^^^^^^^^ meta.function.inline.parameters.python
-#                 ^^ meta.function.inline.body.python
 #          ^^^^^^ meta.group.python
+#                 ^^ meta.function.inline.body.python
 #          ^ punctuation.section.group.begin.python
 #           ^ variable.parameter.python
 #            ^ punctuation.separator.parameters.python
@@ -286,7 +330,8 @@ def _():
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.function.begin.python
     lambda (
-#   ^^^^^^^^^ meta.function.inline.python
+#   ^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
 #         ^^^ meta.function.inline.parameters.python
 #          ^^ meta.group.python
 #          ^ punctuation.section.group.begin.python
@@ -298,6 +343,7 @@ def _():
 #      ^^^^ meta.function.inline.parameters.python meta.group.python
 #       ^ variable.parameter.python
     ):
+#^^^^^^ - meta.function.inline meta.function.inline
 #^^^^ meta.function.inline.parameters.python meta.group.python
 #   ^ punctuation.section.group.end.python
 #    ^ punctuation.section.function.begin.python
@@ -307,9 +353,9 @@ def _():
     ( 3 - 6 \
 #   ^^^^^^^^^ meta.group.python
 #   ^ punctuation.section.group.begin.python
-#     ^ constant.numeric.integer.decimal.python
+#     ^ meta.number.integer.decimal.python constant.numeric.value.python
 #       ^ keyword.operator.arithmetic.python
-#         ^ constant.numeric.integer.decimal.python
+#         ^ meta.number.integer.decimal.python constant.numeric.value.python
 #           ^ punctuation.separator.continuation.line.python
      )
 #^^^^^ meta.group.python
@@ -563,7 +609,7 @@ def _():
     if 213 is 231:
 #   ^^^^^^^^^^^^^^ meta.statement.conditional.if.python
 #   ^^ keyword.control.conditional.if.python
-#      ^^^ constant.numeric.integer.decimal.python
+#      ^^^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^^ keyword.operator.logical.python
 #                ^ punctuation.section.block.conditional.if.python
         pass
@@ -618,6 +664,32 @@ def abc():
 #                ^^^ invalid.illegal.name
 #                               ^ invalid.illegal.name.storage
 
+def my_func # comment
+#^^^^^^^^^^ meta.function.python
+#          ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#           ^^^^^^^^^ comment.line.number-sign.python
+
+def my_func() # comment
+#^^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^^^^^^ meta.function.python
+#          ^^ meta.function.parameters.python
+#            ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#          ^ punctuation.section.parameters.begin.python
+#           ^ punctuation.section.parameters.end.python
+#             ^^^^^^^^^ comment.line.number-sign.python
+
+def my_func(): # comment
+#^^^^^^^^^^ meta.function.python
+#          ^^ meta.function.parameters.python
+#            ^ meta.function.python
+#             ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#          ^ punctuation.section.parameters.begin.python
+#           ^ punctuation.section.parameters.end.python
+#            ^ punctuation.section.function.begin.python
+#              ^^^^^^^^^ comment.line.number-sign.python
 
 def my_func(param1, # Multi-line function definition
 #                 ^ punctuation.separator.parameters
@@ -666,8 +738,54 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
 #                                                                                                        ^ punctuation.section.function.begin
+
+def type_annotations_line_continuation_without_terminator() \
+      -> int
+#^^^^^^^^^^^ - meta.function meta.function
+#           ^ - meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
     pass
 
+def type_annotations_line_continuation_without_terminator_but_comment() \
+      -> int # comment
+#^^^^^^^^^^^ - meta.function meta.function
+#           ^^^^^^^^^^ - meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
+    pass
+
+def type_annotations_line_continuation() \
+      -> int:
+#^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#           ^ meta.function.python
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
+#           ^ punctuation.section.function.begin
+    pass
+
+def type_annotations_line_continuation() \
+      -> \
+      int:
+#^^^^^^^^ meta.function.annotation.return
+#        ^ meta.function.python
+#     ^^^ support.type
+#        ^ punctuation.section.function.begin
+    pass
+
+def type_annotations_line_continuation() \
+      -> \
+      int \
+      :
+#^^^^^ meta.function.annotation.return
+#     ^ meta.function.python punctuation.section.function.begin.python
+    pass
 
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -710,9 +828,9 @@ def func(args, (x, y)=(0,0)):
 #                   ^ punctuation.section.group.end.python
 #                    ^ keyword.operator.assignment.python
 #                     ^ punctuation.section.sequence.begin.python
-#                      ^ constant.numeric.integer.decimal.python
+#                      ^ meta.number.integer.decimal.python constant.numeric.value.python
 #                       ^ punctuation.separator.sequence.python
-#                        ^ constant.numeric.integer.decimal.python
+#                        ^ meta.number.integer.decimal.python constant.numeric.value.python
 #                         ^ punctuation.section.sequence.end.python
 #                          ^ punctuation.section.parameters.end.python
     pass
@@ -834,6 +952,12 @@ class Class():
 #                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
         return self.__class__(method)
+
+    @deco(*args)
+#         ^ keyword.operator.unpacking.sequence.python
+
+    @deco(**kwargs)
+#         ^^ keyword.operator.unpacking.mapping.python
 
     @deco #comment
 #^^^ - meta.annotation
@@ -985,7 +1109,7 @@ myset = {"key", True, key2, [-1], {}:1}
 mapping_or_set = {
 #                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
     1: True
-#   ^ meta.mapping.key.python constant.numeric.integer.decimal.python
+#   ^ meta.mapping.key.python meta.number.integer.decimal.python constant.numeric.value.python
 #    ^ punctuation.separator.mapping.key-value.python
 }
 # <- meta.mapping.python punctuation.section.mapping.end.python
@@ -1206,93 +1330,113 @@ raise KeyError() from z
 ##################
 
 decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
-#         ^^^^^^^^^^ constant.numeric.integer.decimal.python
-#                      ^^^^^^^^^^^ constant.numeric.integer.decimal.python
-#                                ^ storage.type.numeric.python
+#         ^^^^^^^^^^ meta.number.integer.decimal.python constant.numeric.value.python
+#                      ^^^^^^^^^^ meta.number.integer.decimal.python constant.numeric.value.python
+#                                ^ meta.number.integer.decimal.python constant.numeric.suffix.python
 #                                    ^ keyword.operator.arithmetic.python - constant.numeric
+#                                     ^ meta.number.integer.decimal.python constant.numeric.value.python
 #                                         ^ keyword.operator.arithmetic.python - constant.numeric
-#                                            ^ storage.type.numeric.python
-#                                                ^^^^ constant.numeric.integer
+#                                          ^^ meta.number.integer.decimal.python constant.numeric.value.python
+#                                            ^ meta.number.integer.decimal.python constant.numeric.suffix.python
+#                                                ^ meta.number.integer.octal.python constant.numeric.base.python
+#                                                 ^^^ meta.number.integer.octal.python constant.numeric.value.python
 
 floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
-#          ^^^ constant.numeric.float.decimal.python
+#          ^^^ meta.number.float.decimal.python constant.numeric.value.python
+#                ^^ meta.number.float.decimal.python constant.numeric.value.python
 #                ^ punctuation.separator.decimal.python
-#                ^^ constant.numeric.float.decimal.python
-#                     ^^^^^^ constant.numeric.float.decimal.python
+#                     ^^^^^^ meta.number.float.decimal.python constant.numeric.value.python
+#                              ^^^^^ meta.number.float.decimal.python constant.numeric.value.python
 #                               ^ punctuation.separator.decimal.python
-#                              ^^^^^ constant.numeric.float.decimal.python
-#                                      ^^ constant.numeric.float.decimal.python
+#                                      ^^ meta.number.float.decimal.python constant.numeric.value.python
 #                                       ^ punctuation.separator.decimal.python
 
 binary = 0b1010011 | 0b0110110L
-#        ^^^^^^^^^ constant.numeric.integer.binary.python
-#        ^^ punctuation.definition.numeric.base.python
-#                    ^^^^^^^^^^ constant.numeric.integer.binary.python
-#                    ^^ punctuation.definition.numeric.base.python
-#                             ^ storage.type.numeric.python
+#        ^^ meta.number.integer.binary.python constant.numeric.base.python
+#          ^^^^^^^ meta.number.integer.binary.python constant.numeric.value.python
+#                  ^ keyword.operator.arithmetic.python
+#                    ^^ meta.number.integer.binary.python constant.numeric.base.python
+#                      ^^^^^^^ meta.number.integer.binary.python constant.numeric.value.python
+#                             ^ meta.number.integer.binary.python constant.numeric.suffix.python
 
 octal = 0o755 ^ 0o644L
-#       ^^^^^ constant.numeric.integer.octal.python
-#       ^^ punctuation.definition.numeric.base.python
-#                    ^ storage.type.numeric.python
-#               ^^^^^^ constant.numeric.integer.octal.python
-#               ^^ punctuation.definition.numeric.base.python
+#       ^^ meta.number.integer.octal.python constant.numeric.base.python
+#         ^^^ meta.number.integer.octal.python constant.numeric.value.python
+#             ^ keyword.operator.arithmetic.python
+#               ^^ meta.number.integer.octal.python constant.numeric.base.python
+#                 ^^^ meta.number.integer.octal.python constant.numeric.value.python
+#                    ^ meta.number.integer.octal.python constant.numeric.suffix.python
 
 old_style_octal = 010 + 007 - 012345670L
-#                 ^^^ constant.numeric.integer.octal.python
-#                 ^ punctuation.definition.numeric.base.python
-#                       ^^^ constant.numeric.integer.octal.python
-#                       ^ punctuation.definition.numeric.base.python
-#                             ^^^^^^^^^^ constant.numeric.integer.octal.python
-#                             ^ punctuation.definition.numeric.base.python
-#                                      ^ storage.type.numeric.python
+#                 ^ meta.number.integer.octal.python constant.numeric.base.python
+#                  ^^ meta.number.integer.octal.python constant.numeric.value.python
+#                     ^ keyword.operator.arithmetic.python
+#                       ^ meta.number.integer.octal.python constant.numeric.base.python
+#                        ^^ meta.number.integer.octal.python constant.numeric.value.python
+#                           ^ keyword.operator.arithmetic.python
+#                             ^ meta.number.integer.octal.python constant.numeric.base.python
+#                              ^^^^^^^^ meta.number.integer.octal.python constant.numeric.value.python
+#                                      ^ meta.number.integer.octal.python constant.numeric.suffix.python
 
 hexadecimal = 0x100af - 0XDEADF00L
-#             ^^^^^^^ constant.numeric.integer.hexadecimal.python
-#             ^^ punctuation.definition.numeric.base.python
-#                       ^^^^^^^^^^ constant.numeric.integer.hexadecimal.python
-#                       ^^ punctuation.definition.numeric.base.python
-#                                ^ storage.type.numeric.python
+#             ^^ meta.number.integer.hexadecimal.python constant.numeric.base.python
+#               ^^^^^ meta.number.integer.hexadecimal.python constant.numeric.value.python
+#                     ^ keyword.operator.arithmetic.python
+#                       ^^ meta.number.integer.hexadecimal.python constant.numeric.base.python
+#                         ^^^^^^^ meta.number.integer.hexadecimal.python constant.numeric.value.python
+#                                ^ meta.number.integer.hexadecimal.python constant.numeric.suffix.python
 
 unintuitive = 0B101 + 0O101 + 10l
-#             ^^^^^ constant.numeric.integer.binary.python
-#             ^^ punctuation.definition.numeric.base.python
-#                     ^^^^^ constant.numeric.integer.octal.python
-#                     ^^ punctuation.definition.numeric.base.python
-#                             ^^^ constant.numeric.integer.decimal.python
-#                               ^ storage.type.numeric.python
+#             ^^ meta.number.integer.binary.python constant.numeric.base.python
+#               ^^^ meta.number.integer.binary.python constant.numeric.value.python
+#                   ^ keyword.operator.arithmetic.python
+#                     ^^ meta.number.integer.octal.python constant.numeric.base.python
+#                       ^^^ meta.number.integer.octal.python constant.numeric.value.python
+#                           ^ keyword.operator.arithmetic.python
+#                             ^^ meta.number.integer.decimal.python constant.numeric.value.python
+#                               ^ meta.number.integer.decimal.python constant.numeric.suffix.python
 
 illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
-#           ^ - constant.numeric
-#                 ^ - constant.numeric
-#                          ^^^ - constant.numeric
-#                                    ^^^^^^^^^ - constant.numeric
+#           ^ - meta.number - constant.numeric
+#                 ^ - meta.number - constant.numeric
+#                     ^^ meta.number.integer.binary.python constant.numeric.base.python
+#                       ^^^ meta.number.integer.binary.python constant.numeric.value.python
+#                          ^^^^^^ - meta.number - constant.numeric
+#                                ^^ meta.number.integer.hexadecimal.python constant.numeric.base.python
+#                                  ^^ meta.number.integer.hexadecimal.python constant.numeric.value.python
+#                                    ^^^^^^^^^ - meta.number- constant.numeric
 
 amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
-#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal.python
+#        ^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.python constant.numeric.value.python
 #                  ^ punctuation.separator.decimal.python
-#                             ^^^ - constant
-#                                       ^^ - constant
+#                             ^^^ - meta.number constant.numeric
+#                                   ^^^^ meta.number.float.decimal.python constant.numeric.value.python
+#                                      ^ punctuation.separator.decimal.python
+#                                       ^^ - meta.number constant.numeric
 
 very_complex = 23_2.2e2_0J + 2_1j
-#              ^^^^^^^^^^^ constant.numeric.imaginary.decimal.python
+#              ^^^^^^^^^^ meta.number.imaginary.decimal.python constant.numeric.value.python
 #                  ^ punctuation.separator.decimal.python
-#                            ^^^^ constant.numeric.imaginary.decimal.python
-#                        ^ storage.type.numeric.python
-#                               ^ storage.type.numeric.python
+#                        ^ meta.number.imaginary.decimal.python constant.numeric.suffix.python
+#                            ^^^ meta.number.imaginary.decimal.python constant.numeric.value.python
+#                               ^ meta.number.imaginary.decimal.python constant.numeric.suffix.python
 
 addr = 0xCAFE_F00D
-#      ^^^^^^^^^^^ constant.numeric
-#      ^^ punctuation.definition.numeric.base.python
+#      ^^ meta.number.integer.hexadecimal.python constant.numeric.base.python
+#        ^^^^^^^^^ meta.number.integer.hexadecimal.python constant.numeric.value.python
 
 flags = 0b_0011_1111_0100_1110 | 0b_1 & 0b_0_
-#       ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
-#       ^^ punctuation.definition.numeric.base.python
-#                                ^^^^ constant.numeric.integer.binary.python
+#       ^^ meta.number.integer.binary.python constant.numeric.base.python
+#         ^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary.python constant.numeric.value.python
+#                                ^^ meta.number.integer.binary.python constant.numeric.base.python
+#                                  ^^ meta.number.integer.binary.python constant.numeric.value.python
+#                                       ^^ meta.number.integer.binary.python constant.numeric.base.python
+#                                         ^^ meta.number.integer.binary.python constant.numeric.value.python
 #                                           ^ - constant
 
 octoct = 0o_2 ^ 0o_
-#        ^^^^ constant.numeric.integer.octal.python
+#        ^^ meta.number.integer.octal.python constant.numeric.base.python
+#          ^^ meta.number.integer.octal.python constant.numeric.value.python
 #               ^^^ - constant
 
 ##################

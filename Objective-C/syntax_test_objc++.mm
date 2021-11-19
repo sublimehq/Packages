@@ -1,5 +1,27 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
 
+Task<int> natural_numbers()
+{
+  int n = 0;
+  while (true) {
+    co_yield n;
+    /*     ^ keyword.control */
+    n++;
+  }
+}
+Task<int> foo()
+{
+  co_return 42;
+  /*      ^ keyword.control */
+  /*         ^ constant.numeric */
+}
+Task<void> bar()
+{
+  co_await natural_numbers();
+  /*     ^ keyword.control */
+  /*                     ^ variable.function */
+}
+
 int main(){
     int a=5,b=0;
     while(a-->0)++b;
@@ -528,6 +550,9 @@ bool A<T>::operator   >    (const A& other) { return false; }
 template <class T>
 bool A<T>::operator    ==    (const A& other) { return false; }
 /*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator   <=>    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
 /*                   ^ punctuation.section.generic.begin */
@@ -759,7 +784,14 @@ int main() {
 template <typename T>
 struct A<T, enable_if_t<std::is_arithmetic<T>::value && !is_std_char_type<T>::value>> {
     using x = conditional_t<sizeof(T) <= sizeof(long), long, long long>;
-    /*                                ^^ keyword.operator */
+    /*                                ^^ keyword.operator.comparison */
+
+    template<int>
+    struct Y {
+        constexpr int operator<=>(const Y&) { return 0; }
+    };
+    Y<Y<0>{} <=> Y<0>> y;
+    /*       ^^^ keyword.operator.comparison */
 };
 /* <- - invalid.illegal */
 
@@ -1007,11 +1039,16 @@ hex5 = 0x0+0xFL+0xaull+0xallu+0xfu+0xf'12_4_uz;
 /*                                       ^^^^^ storage.type.numeric */
 /*                                            ^ punctuation.terminator - constant */
 
-hex2 = 0xc1.01AbFp-1;
+hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
 /*     ^^ punctuation.definition.numeric.base */
 /*         ^ punctuation.separator.decimal */
-/*                  ^ punctuation.terminator - constant */
+/*                  ^ keyword.operator.arithmetic - constant */
+/*                   ^^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
+/*                   ^^ punctuation.definition.numeric.base */
+/*                      ^ punctuation.separator.decimal */
+/*                                ^ storage.type.numeric */
+/*                                 ^ punctuation.terminator - constant */
 
 bin1 = 0b010110;
 /*     ^^^^^^^^ constant.numeric.integer.binary */

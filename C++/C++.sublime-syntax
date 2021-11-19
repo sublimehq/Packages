@@ -38,10 +38,11 @@ variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
-  operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
+  operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<=>|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
   operator_keywords: 'and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|xor|xor_eq|noexcept'
-  control_keywords: 'break|case|catch|continue|default|do|else|for|goto|if|_Pragma|return|switch|throw|try|while'
+  coroutine_keywords: co_(?:await|return|yield)
+  control_keywords: 'break|case|catch|continue|default|do|else|for|goto|if|_Pragma|switch|throw|try|while|{{coroutine_keywords}}'
   memory_operators: 'new|delete'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
@@ -186,7 +187,9 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.float.hexadecimal.c++
-        - match: '{{hex_exponent}}'
+        - match: '{{hex_exponent}}([fFlL]\b)?'
+          captures:
+            1: storage.type.numeric.c
           pop: true
         - match: \.
           scope: punctuation.separator.decimal.c++
@@ -347,8 +350,9 @@ contexts:
     - include: keywords
     - include: numbers
     # Prevent a '<' from getting scoped as the start of another template
-    # parameter list, if in reality a less-than-or-equals sign is meant.
-    - match: <=
+    # parameter list, if in reality a less-than-or-equals sign or
+    # three-way comparison operator is meant.
+    - match: '<=>?'
       scope: keyword.operator.comparison.c
 
   early-expressions-after-generic-type:

@@ -173,6 +173,9 @@ contexts:
         # The next non-space element will be a regex string
         - match: '(?=\{|\s+--\s+)'
           set:
+            - match: \s+(--)\s+
+              captures:
+                1: punctuation.separator.tcl
             - match: \{
               set:
                 - meta_content_scope: string.regexp.tcl
@@ -182,6 +185,12 @@ contexts:
             - match: '(?=")'
               set:
                 - include: strings
+                # One of these characters indicates the string is complete
+                - match: '(?={{inline_end_chars}})'
+                  pop: true
+            - match: '(?=\S)'
+              set:
+                - meta_content_scope: string.regexp.tcl
                 # One of these characters indicates the string is complete
                 - match: '(?={{inline_end_chars}})'
                   pop: true

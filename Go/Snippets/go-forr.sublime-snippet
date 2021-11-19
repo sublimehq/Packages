@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[for _, ${2:var} := range ${1:var} {
+	${0:/* code */}
+}]]></content>
+	<tabTrigger>forr</tabTrigger>
+	<scope>source.go</scope>
+	<description>for _, var := range var</description>
+</snippet>

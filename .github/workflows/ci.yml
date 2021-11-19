@@ -1,0 +1,31 @@
+name: CI
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    name: Run syntax_tests
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Download syntax_tests
+        run: wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4086_x64.tar.xz
+      - name: Extract syntax_tests
+        run: tar xf "$(ls st_syntax_tests_build_*_x64.tar.xz)"
+      - name: Move syntax_tests
+        run: mv st_syntax_tests/* ./
+      - name: Cleanup syntax_tests archive
+        run: rm -R st_syntax_tests*
+      - name: Setup Data/Packages/
+        run: mkdir -p Data/Packages/
+      - name: Move packages into Data dir
+        run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ \;
+      - name: Run syntax tests
+        run: ./syntax_tests

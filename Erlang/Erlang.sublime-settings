@@ -1,5 +1,5 @@
 {
-    // Characters that are considered to separate words
-    // Note: default separators without `@`
-    "word_separators": "./\\()\"'-:,.;<>~!#$%^&*|+=[]{}`~?",
+	// Characters that are considered to separate words
+	// Note: default separators without `@`
+	"word_separators": "./\\()\"'-:,.;<>~!#$%^&*|+=[]{}`~?",
 }

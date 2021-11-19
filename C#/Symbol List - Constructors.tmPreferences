@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.cs meta.method.constructor - meta.method.constructor.prebody</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\s{2,}/ /g;    # collapse whitespace
+			s/\/\*.*\*\///g; # remove block comments
+			s/\/\/.*$\n?//g; # remove line comments
+			s/^\s*/  /;      # indent by two spaces
+		</string>
+	</dict>
+</dict>
+</plist>

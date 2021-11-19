@@ -1603,6 +1603,31 @@ extern(1)
 //          ^ punctuation.definition.string.end.d
 //           ^ punctuation.section.parens.end.d
 //            ^ punctuation.terminator.d
+  is(mixin("int") == int);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^^^ keyword.control.d
+//        ^ punctuation.section.parens.begin.d
+//         ^ meta.string.d string.quoted.double.d punctuation.definition.string.begin.d
+//          ^^^^ meta.string.d string.quoted.double.d
+//              ^ punctuation.section.parens.end.d
+//                ^^ keyword.operator.comparison.d
+//                   ^^^ meta.path.d storage.type.d
+//                      ^ punctuation.section.parens.end.d
+//                       ^ punctuation.terminator.d
+
+  mixin("int") foo() {}
+//^^^^^ keyword.control.d
+//     ^ punctuation.section.parens.begin.d
+//      ^ meta.string.d string.quoted.double.d punctuation.definition.string.begin.d
+//       ^^^^ meta.string.d string.quoted.double.d
+//           ^ punctuation.section.parens.end.d
+//             ^^^ meta.function.d entity.name.function.d
+//                ^ meta.function.parameters.d punctuation.section.group.begin.d
+//                 ^ meta.function.parameters.d punctuation.section.group.end.d
+//                   ^ meta.function.d meta.block.d punctuation.section.block.begin.d
+//                    ^ meta.function.d meta.block.d punctuation.section.block.end.d
+
 
   foo:
 //^^^ entity.name.label.d

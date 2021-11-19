@@ -215,6 +215,7 @@ let x = import.meta;
 //         ^^^^ variable.language.import
 
     import
+//  ^^^^^^ - meta.import
     .meta;
 //  ^^^^^ - meta.import
 //  ^ punctuation.accessor
@@ -225,6 +226,7 @@ let x = import.meta;
 //        ^^^^^^^ meta.group
 
     import
+//  ^^^^^^ - meta.import
     ('foo');
 //  ^^^^^^^ meta.group
 
@@ -353,6 +355,10 @@ not_a_comment;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
 //                       ^ - meta.function.declaration meta.function.declaration
 });
+
+1
+    /* Block Comment */
+//  ^^^^^^^^^^^^^^^^^^^ comment.block
 
 {
     let _$Foobar1Ù𝓩ʷªאξ‿ᛮↂ〩;
@@ -1038,21 +1044,6 @@ class MyClass extends TheirClass {
 //         ^^^^^^^^^^^^^^^^^ meta.function
 //         ^ entity.name.function variable.other.readwrite
 
-    a, 'b' = 50, "c", [d] = 100, #e;
-//  ^ variable.other.readwrite
-//      ^ variable.other.readwrite
-//                ^ variable.other.readwrite
-//                     ^ variable.other.readwrite
-//                                ^ variable.other.readwrite
-
-    static a, 'b' = 50, "c", [d] = 100, #e;
-//  ^^^^^^ storage.modifier.js
-//         ^ variable.other.readwrite
-//             ^ variable.other.readwrite
-//                       ^ variable.other.readwrite
-//                            ^ variable.other.readwrite
-//                                       ^ variable.other.readwrite
-
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
 //  ^^ meta.class.js meta.block.js meta.function.declaration.js
@@ -1067,6 +1058,11 @@ class MyClass extends TheirClass {
 //                               ^ punctuation.definition.variable
 //                                ^^^^ meta.property.object
     }
+
+    #privateMethod() {}
+//  ^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^ entity.name.function.js
+//  ^ punctuation.definition.js
 
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
@@ -1165,6 +1161,10 @@ class MyClass extends TheirClass {
     *foo() {}
 //  ^ keyword.generator.asterisk
 
+    async *foo() {}
+//  ^^^^^ storage.type
+//        ^ keyword.generator.asterisk
+
     static async foo() {}
 //         ^^^^^ storage.type
 }
@@ -1247,12 +1247,26 @@ class{}/**/
 //   ^^^^^^^^^^ meta.group
 //              ^^^^^ storage.type.class
 
-() => {}
+() => {};
 // <- meta.function.declaration punctuation.section.group.begin
  // <- meta.function.declaration punctuation.section.group.end
 //^^^ meta.function.declaration
 //    ^ meta.block punctuation.section.block.begin
 //     ^ meta.block punctuation.section.block.end
+
+    (foo, bar = 42)
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
+//   ^^^ meta.binding.name
+//        ^^^ meta.binding.name
+    => 42;
+//  ^^^^^ meta.function
+//  ^^ meta.function.declaration storage.type.function.arrow
+
+    foo
+//  ^^^ meta.function.declaration variable.parameter.function
+    => 42;
+//  ^^^^^ meta.function
+//  ^^ meta.function.declaration storage.type.function.arrow
 
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
@@ -1975,25 +1989,30 @@ debugger
     a ?? b;
 //    ^^ keyword.operator.logical
 
-    a.?b.?c;
+    a ?.5 : .7;
+//    ^ keyword.operator.ternary
+//     ^^ constant.numeric
+//        ^ keyword.operator.ternary
+
+    a?.b?.c;
 //   ^^ punctuation.accessor
 //     ^ meta.property.object
 //      ^^ punctuation.accessor
 //        ^ meta.property.object
 
-    a.?[propName];
+    a?.[propName];
 //   ^^^^^^^^^^^^ meta.brackets
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.brackets.begin
 
-    a.?();
+    a?.();
 //  ^^^^^ meta.function-call
 //  ^ variable.function
 //   ^^^^ meta.group
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.group.begin
 
-    a.b.?();
+    a.b?.();
 //  ^^^^^^^ meta.function-call.method
 //    ^ variable.function
 //     

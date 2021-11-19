@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>entity.name.type.exception.ocaml</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>
