@@ -1,0 +1,24 @@
+%YAML 1.2
+---
+# Closing parentheses are treated differently depending on whether a command
+# is called in top-level position or whether it is enclosed by parentheses.
+#
+# Example:
+#
+#    ECHO This is literal ) parentheses followed by text
+#
+#    ( ECHO This is text printed up to ) but this is illegal
+#
+# This hidden syntax is used for code enclosed by parentheses.
+# By adding `)` to the command termination pattern it ensures all command or
+# statement contexts are popped off stack if a `)` is found while keeping
+# parentheses hierarchies intact.
+name: Batch File (Compound)
+scope: source.dosbatch.compound
+version: 2
+hidden: true
+
+extends: Packages/Batch File/Batch File.sublime-syntax
+
+variables:
+  command_terminator_chars: '[|&<>)]'

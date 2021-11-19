@@ -1,6 +1,5 @@
 %YAML 1.2
 ---
-name: Ruby
 # TODO: unresolved issues
 #
 # text:
@@ -25,6 +24,9 @@ name: Ruby
 # solution:
 # ternary operator rule, precedence stuff, symbol rule.
 # but also consider 'a.b?(:c)' ??
+name: Ruby
+scope: source.ruby
+
 file_extensions:
   - rb
   - Appfile
@@ -60,12 +62,13 @@ file_extensions:
   - thor
   - Thorfile
   - Vagrantfile
+
 first_line_match: |-
   (?xi:
-    ^\#! .* \bj?ruby\b |                # shebang
-    ^\# \s* -\*- [^*]* ruby [^*]* -\*-  # editorconfig
+    ^ \#! .* \bj?ruby\b                      # shebang
+  | ^ \s* \# .*? -\*- .*? \bruby\b .*? -\*-  # editorconfig
   )
-scope: source.ruby
+
 variables:
   bin_digits: (?:[01]+(?:_[01]+)*)
   dec_digits: (?:\d+(?:_\d+)*)

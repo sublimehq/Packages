@@ -1,11 +1,17 @@
 %YAML 1.2
 ---
 name: SQL
+scope: source.sql
+
 file_extensions:
   - sql
   - ddl
   - dml
-scope: source.sql
+
+first_line_match: |-
+  (?xi:
+    ^ \s* -- .*? -\*- .*? \bsql\b .*? -\*-  # editorconfig
+  )
 
 variables:
   end_identifier: (?=[ \t]*(?:[^\w'"`. \t]|$))
@@ -268,7 +274,7 @@ contexts:
     - match: (?:\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
       captures:
         1: punctuation.accessor.dot.sql
-      # Handle situations where the schema and . 
+      # Handle situations where the schema and .
     - match: '{{end_identifier}}'
       pop: true
   create-condition:

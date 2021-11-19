@@ -1,11 +1,18 @@
 %YAML 1.2
 ---
-version: 2
 name: JSX
+scope: source.jsx
+version: 2
+
+extends: JavaScript.sublime-syntax
+
 file_extensions:
   - jsx
-scope: source.jsx
-extends: JavaScript.sublime-syntax
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bjsx\b .*? -\*-  # editorconfig
+  )
 
 variables:
   jsx_identifier_part: (?:{{identifier_part}}|-)

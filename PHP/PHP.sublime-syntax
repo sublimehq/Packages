@@ -1,7 +1,9 @@
 %YAML 1.2
 ---
 name: PHP
+scope: embedding.php
 version: 2
+
 file_extensions:
   - php
   - php3
@@ -12,8 +14,14 @@ file_extensions:
   - phps
   - phpt
   - phtml
-first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
-scope: embedding.php
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .*[^-]php(?:\d+(?:\.\d+){0,2})?\b # shebang
+  | ^ \s* // .*? -\*- .*? \bphp(?:\d+(?:\.\d+){0,2})?\b .*? -\*-  # editorconfig
+  | ^ \s* <\?php\b                          # php tag
+  )
+
 contexts:
   main:
     - meta_include_prototype: false

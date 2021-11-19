@@ -392,6 +392,17 @@ open.__new__(12, \
 #                ^ punctuation.separator.continuation.line.python
              True)
 
+iter()
+#^^^ support.function.builtin
+aiter()
+#^^^^ support.function.builtin
+
+next()
+#^^^ support.function.builtin
+anext()
+#^^^^ support.function.builtin
+
+
 TypeError()
 #^^^^^^^^ support.type.exception
 #
@@ -1285,6 +1296,22 @@ def _():
         case()
 #       ^^^^ variable.function.python - keyword
 
+    case: int = 0
+#   ^^^^ meta.generic-name.python - keyword
+#       ^ punctuation.separator.annotation.variable.python
+#         ^^^ meta.qualified-name.python support.type.python
+#             ^ keyword.operator.assignment.python
+#               ^ meta.number.integer.decimal.python constant.numeric.value.python
+
+    case \
+#   ^^^^ meta.generic-name.python - keyword
+#        ^ punctuation.separator.continuation.line.python
+    : int = 0
+#   ^ punctuation.separator.annotation.variable.python
+#     ^^^ meta.qualified-name.python support.type.python
+#         ^ keyword.operator.assignment.python
+#           ^ meta.number.integer.decimal.python constant.numeric.value.python
+
     match = re.match(r"^.*$")
 #   ^^^^^ meta.generic-name.python - keyword
 #              ^^^^^ meta.function-call.python variable.function.python
@@ -1301,6 +1328,21 @@ def _():
 #            ^ punctuation.accessor.dot.python
 #             ^^^^^ meta.generic-name.python - keyword
 
+    match: int = 0
+#   ^^^^^ meta.generic-name.python - keyword
+#        ^ punctuation.separator.annotation.variable.python
+#          ^^^ meta.qualified-name.python support.type.python
+#              ^ keyword.operator.assignment.python
+#                ^ meta.number.integer.decimal.python constant.numeric.value.python
+
+    match \
+#   ^^^^^ meta.generic-name.python - keyword
+#         ^ punctuation.separator.continuation.line.python
+    : int = 0
+#   ^ punctuation.separator.annotation.variable.python
+#     ^^^ meta.qualified-name.python support.type.python
+#         ^ keyword.operator.assignment.python
+#           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
 ##################
 # Function definitions
@@ -1848,6 +1890,69 @@ dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                           ^ punctuation.section.mapping.end.python
+
+list_ = [lambda: 1 for i in range(10)]
+#       ^ meta.sequence.list.python - meta.function
+#        ^^^^^^ meta.sequence.list.python meta.function.inline.python
+#              ^ meta.sequence.list.python meta.function.inline.parameters.python
+#               ^^^ meta.sequence.list.python meta.function.inline.body.python
+#                  ^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python - meta.function
+#                                     ^ - meta.sequence
+#       ^ punctuation.section.sequence.begin.python
+#        ^^^^^^ keyword.declaration.function.inline.python
+#              ^ punctuation.section.function.begin.python
+#                ^ constant.numeric.value.python
+#                  ^^^ keyword.control.loop.for.generator.python
+#                      ^ meta.generic-name.python
+#                        ^^ keyword.control.loop.for.in.python
+#                           ^^^^^ support.function.builtin.python
+#                                ^ punctuation.section.arguments.begin.python
+#                                 ^^ constant.numeric.value.python
+#                                   ^ punctuation.section.arguments.end.python
+#                                    ^ punctuation.section.sequence.end.python
+
+generator_ = (lambda: 1 for i in range(10))
+#            ^ meta.sequence.generator.python - meta.function
+#             ^^^^^^ meta.sequence.generator.python meta.function.inline.python
+#                   ^ meta.sequence.generator.python meta.function.inline.parameters.python
+#                    ^^^ meta.sequence.generator.python meta.function.inline.body.python
+#                       ^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python - meta.function
+#                                          ^ - meta.sequence
+#            ^ punctuation.section.sequence.begin.python
+#             ^^^^^^ keyword.declaration.function.inline.python
+#                   ^ punctuation.section.function.begin.python
+#                     ^ constant.numeric.value.python
+#                       ^^^ keyword.control.loop.for.generator.python
+#                           ^ meta.generic-name.python
+#                             ^^ keyword.control.loop.for.in.python
+#                                ^^^^^ support.function.builtin.python
+#                                     ^ punctuation.section.arguments.begin.python
+#                                      ^^ constant.numeric.value.python
+#                                        ^ punctuation.section.arguments.end.python
+#                                         ^ punctuation.section.sequence.end.python
+
+set_ = {lambda: 1 for i in range(10)}
+#      ^ meta.set.python - meta.function
+#       ^^^^^^ meta.set.python meta.function.inline.python
+#             ^ meta.set.python meta.function.inline.parameters.python
+#              ^^^ meta.set.python meta.function.inline.body.python
+#                 ^^^^^^^^^^^^^^^^^^^ meta.set.python - meta.function
+#                                    ^ - meta.set
+#      ^ punctuation.section.set.begin.python
+#       ^^^^^^ keyword.declaration.function.inline.python
+#             ^ punctuation.section.function.begin.python
+#               ^ constant.numeric.value.python
+#                 ^^^ keyword.control.loop.for.generator.python
+#                     ^ meta.generic-name.python
+#                       ^^ keyword.control.loop.for.in.python
+#                          ^^^^^ support.function.builtin.python
+#                               ^ punctuation.section.arguments.begin.python
+#                                ^^ constant.numeric.value.python
+#                                  ^ punctuation.section.arguments.end.python
+#                                   ^ punctuation.section.set.end.python
+
+invalid_ = lambda: 1 for i in range(10)
+#                    ^^^ invalid.illegal.name.python
 
 list(i for i in generator)
 #      ^^^^^^^^ meta.expression.generator

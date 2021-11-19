@@ -333,6 +333,39 @@ f = 0xF.AP-2f;
 //      ^^^^ constant.numeric.value.d - punctuation
 //          ^ constant.numeric.suffix.d
 
+  @Foo!5
+//^ punctuation.definition.annotation.begin.d
+// ^^^ meta.path.d storage.type.d
+//    ^ punctuation.section.generic.begin.d
+//     ^ constant.numeric.value.d
+  struct Bar {}
+//^^^^^^^^^^^^^ meta.struct.d
+//^^^^^^ keyword.declaration.struct.d
+//       ^^^ entity.name.struct.d
+
+  @Foo!(int)
+//^ punctuation.definition.annotation.begin.d
+// ^^^ meta.path.d storage.type.d
+//    ^ punctuation.section.generic.begin.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^ storage.type.d
+//         ^ punctuation.section.parens.end.d
+  struct Bar {}
+//^^^^^^^^^^^^^ meta.struct.d
+//^^^^^^ keyword.declaration.struct.d
+//       ^^^ entity.name.struct.d
+
+  @(Foo!5)
+//^ punctuation.definition.annotation.begin.d
+// ^ punctuation.section.parens.begin.d
+//  ^^^ meta.function-call.d meta.path.d variable.function.d
+//     ^ meta.function-call.d punctuation.section.generic.begin.d
+//      ^ meta.function-call.d constant.numeric.value.d
+  struct Baz {}
+//^^^^^^^^^^^^^ meta.struct.d
+//^^^^^^ keyword.declaration.struct.d
+//       ^^^ entity.name.struct.d
+
   @foo:
 //^ punctuation.definition.annotation.begin.d
 // ^^^ meta.path.d storage.type.d
@@ -593,6 +626,97 @@ extern(1)
 //       ^ punctuation.section.brackets.end.d
 //         ^^^ variable.other.d
 //            ^ punctuation.terminator.d
+  foo bar;
+//^^^ storage.type.d
+//    ^^^ variable.other.d
+//       ^ punctuation.terminator.d
+  foo* bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo** bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo **bar;
+//^^^ storage.type.d
+//    ^^ keyword.operator.pointer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo*bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^^ variable.other.d
+//       ^ punctuation.terminator.d
+  foo**bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo[] bar;
+//^^^ storage.type.d
+//   ^^ punctuation.section.brackets
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo*[] bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^ punctuation.section.brackets
+//       ^^^ variable.other.d
+//          ^ punctuation.terminator.d
+  foo**[] bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^ punctuation.section.brackets
+//        ^^^ variable.other.d
+//           ^ punctuation.terminator.d
+  foo[]bar;
+//^^^ storage.type.d
+//   ^^ punctuation.section.brackets
+//     ^^^ variable.other.d
+//        ^ punctuation.terminator.d
+  foo*[]bar;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//    ^^ punctuation.section.brackets
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
+  foo**[]bar;
+//^^^ storage.type.d
+//   ^^ keyword.operator.pointer.d
+//     ^^ punctuation.section.brackets
+//       ^^^ variable.other.d
+//          ^ punctuation.terminator.d
+  foo.bar baz;
+//^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ meta.path.d storage.type.d
+//        ^^^ variable.other.d
+//           ^ punctuation.terminator.d
+  foo.bar.baz**var;
+//^^^^^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ storage.type.d
+//       ^ punctuation.accessor.dot.d
+//        ^^^ storage.type.d
+//           ^^ keyword.operator.pointer.d
+//             ^^^ variable.other.d
+//                ^ punctuation.terminator.d
+  foo.bar.baz**[] var;
+//^^^^^^^^^^^ meta.path.d
+//^^^ storage.type.d
+//   ^ punctuation.accessor.dot.d
+//    ^^^ storage.type.d
+//       ^ punctuation.accessor.dot.d
+//        ^^^ storage.type.d
+//           ^^ keyword.operator.pointer.d
+//             ^^ punctuation.section.brackets
+//                ^^^ variable.other.d
+//                   ^ punctuation.terminator.d
   auto foo = 3;
 //^^^^ storage.modifier.d
 //     ^^^ variable.other.d

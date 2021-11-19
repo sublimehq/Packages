@@ -1,13 +1,18 @@
 %YAML 1.2
 ---
-file_extensions:
-  - lua
+name: Lua
 scope: source.lua
 version: 2
+
+file_extensions:
+  - lua
+
 first_line_match: |-
-  (?x:
-    ^\#! .* \blua\b # shebang
+  (?xi:
+    ^ \#! .* \blua\b                        # shebang
+  | ^ \s* -- .*? -\*- .*? \blua\b .*? -\*-  # editorconfig
   )
+
 variables:
   reserved_word: |-
     (?x:(?:

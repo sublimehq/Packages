@@ -1,6 +1,8 @@
 %YAML 1.2
 ---
 name: Python
+scope: source.python
+
 file_extensions:
   - py
   - py3
@@ -24,8 +26,12 @@ file_extensions:
   - wscript
   - bazel
   - bzl
-first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
-scope: source.python
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \bpython(\d(\.\d)?)?\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bpython(\d(\.\d)?)?\b .*? -\*-  # editorconfig
+  )
 
 variables:
   # We support unicode here because Python 3 is the future
@@ -35,7 +41,7 @@ variables:
   digits: (?:\d+(?:_\d+)*)
   exponent: (?:[eE][-+]?{{digits}})
   path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
-  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
+  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH|DECLARE|IF\s+(?:NOT\s+)?EXISTS)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
   format_spec: |-
     (?x:
@@ -49,6 +55,93 @@ variables:
       [bcdeEfFgGnosxX%]? # type
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
+
+  builtin_exceptions: |-
+    \b(?x:
+      ArithmeticError
+    | AssertionError
+    | AttributeError
+    | BaseException
+    | BlockingIOError
+    | BrokenPipeError
+    | BufferError
+    | BytesWarning
+    | ChildProcessError
+    | ConnectionAbortedError
+    | ConnectionRefusedError
+    | ConnectionResetError
+    | DeprecationWarning
+    | EnvironmentError
+    | EOFError
+    | Exception
+    | FileExistsError
+    | FileNotFoundError
+    | FloatingPointError
+    | FutureWarning
+    | GeneratorExit
+    | ImportError
+    | ImportWarning
+    | IndentationError
+    | IndexError
+    | InterruptedError
+    | IOError
+    | IsADirectoryError
+    | KeyboardInterrupt
+    | KeyError
+    | LookupError
+    | MemoryError
+    | ModuleNotFoundError
+    | NameError
+    | NotADirectoryError
+    | NotImplemented
+    | NotImplementedError
+    | OSError
+    | OverflowError
+    | PendingDeprecationWarning
+    | PermissionError
+    | ProcessLookupError
+    | RecursionError
+    | ReferenceError
+    | ResourceWarning
+    | RuntimeError
+    | RuntimeWarning
+    | StandardError
+    | StopAsyncIteration
+    | StopIteration
+    | SyntaxError
+    | SyntaxWarning
+    | SystemError
+    | SystemExit
+    | TabError
+    | TimeoutError
+    | TypeError
+    | UnboundLocalError
+    | UnicodeDecodeError
+    | UnicodeEncodeError
+    | UnicodeTranslateError
+    | UnicodeWarning
+    | UserWarning
+    | ValueError
+    | VMSError
+    | Warning
+    | WindowsError
+    | ZeroDivisionError
+    )\b
+
+  builtin_functions: |-
+    \b(?x:
+      __import__ | all | abs | any | ascii | bin | callable | chr | classmethod
+    | compile | delattr | dir | divmod | enumerate | eval | filter | format
+    | getattr | globals | hasattr | hash | help | hex | id | input | isinstance
+    | issubclass | iter | len | locals | map | max | min | next | oct | open
+    | ord | pow | property | range | repr | reversed | round | setattr | sorted
+    | staticmethod | sum | super | type | vars | zip
+      # Python 2 functions
+    | apply | cmp | coerce | execfile | intern | raw_input | reduce | reload
+    | unichr | xrange
+    # Python 3 functions
+    | aiter| anext| breakpoint | exec | print
+    )\b
 
   builtin_types: |-
     \b(?x:
@@ -370,7 +463,9 @@ contexts:
         - case-statement-begin
 
   case-statement-begin:
-    - include: case-statement-fail
+    # fail if match is directly followed by `:` or end of statement
+    - match: (?=$|#|;|:)
+      fail: case-statements
     - include: allow-unpack-operators
 
   case-statement-end:
@@ -582,23 +677,23 @@ contexts:
         - match-statement-begin
 
   match-statement-begin:
-    - include: match-statement-fail
+    # fail if match is directly followed by `:` or end of statement
+    - match: (?=$|#|;|:)
+      fail: match-statements
+    - include: line-continuation
     - include: allow-unpack-operators
 
   match-statement-body:
     - meta_scope: meta.statement.conditional.match.python
+    - match: (?=$|#|;)
+      fail: match-statements
     - include: match-statement-end
-    - include: match-statement-fail
     - include: expression-in-a-statement
 
   match-statement-end:
     - match: ':(?!=)'
       scope: punctuation.section.block.conditional.match.python
       pop: true
-
-  match-statement-fail:
-    - match: (?=$|#|;)
-      fail: match-statements
 
   structural-pattern-fallback:
     # Fallback context, which is used if `match` or `case` don't seem to
@@ -643,7 +738,6 @@ contexts:
     - include: numbers
     - include: yields
     - include: operators
-    - include: lambda
     - match: \b(await)\b
       scope: keyword.other.await.python
     - include: inline-if
@@ -658,6 +752,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
+    - include: lambda
     - include: expressions-common
     - include: qualified-name
 
@@ -665,6 +760,7 @@ contexts:
     # Differs from expression-as-a-statement in that:
     # - invalid-name matches will pop the current context
     # - assignment expressions
+    - include: lambda
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
@@ -673,7 +769,11 @@ contexts:
   expression-in-a-group:  # Always include this last!
     # Differs from expression-in-a-statement in that:
     # - accessor matching continues into the next line
-    - include: expression-in-a-statement
+    - include: lambda-in-groups
+    - include: expressions-common
+    - include: illegal-name
+    - include: qualified-name
+    - include: assignment-expression
     - match: '(\.) *(?={{identifier}})'
       captures:
         1: punctuation.accessor.dot.python
@@ -1215,8 +1315,39 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.parameter.python
 
+  lambda-in-groups:
+    # A lambda keyword within a group may be part of a generator expression
+    # Hence pop contexts off stack if `for` keyword is matched in order to
+    # not scope it invalid.
+    - match: \blambda(?=\s|:|$)
+      scope:
+        meta.function.inline.python
+        storage.type.function.inline.python
+        keyword.declaration.function.inline.python
+      push: [lambda-in-group-parameters, allow-unpack-operators]
+
+  lambda-in-group-parameters:
+    - meta_content_scope: meta.function.inline.parameters.python
+    - match: ':'
+      scope: punctuation.section.function.begin.python
+      set:
+        - meta_include_prototype: false
+        - match: ''
+          set: lambda-in-group-body
+    - include: lambda-in-group-end
+    - include: lambda-parameters-common
+
+  lambda-in-group-body:
+    - meta_scope: meta.function.inline.body.python
+    - include: lambda-in-group-end
+    - include: lambda-body
+
+  lambda-in-group-end:
+    - match: (?=for\b)
+      pop: true
+
   lambda:
-    - match: \b(lambda)(?=\s|:|$)
+    - match: \blambda(?=\s|:|$)
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
@@ -1225,32 +1356,37 @@ contexts:
 
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
-    - include: line-continuation-or-pop
-    - match: '\:'
+    - match: ':'
       scope: punctuation.section.function.begin.python
       set:
-        # clear meta_scope
+        - meta_include_prototype: false
         - match: ''
-          set:
-            - meta_scope: meta.function.inline.body.python
-            - include: illegal-assignment-expression
-            # We don't know whether we are within a grouped
-            # or line-statement context at this point.
-            # If we're in a group, the underlying context will take over
-            # at the end of the line.
-            - match: (?=[,:)}\]])|$
-              pop: true
-            - include: expression-in-a-statement
+          set: lambda-body
+    - include: lambda-parameters-common
+
+  lambda-parameters-common:
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
+    - include: line-continuation-or-pop
     - include: keyword-arguments
     - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
-    - match: '\S'
+    - match: \S
       scope: invalid.illegal.expected-parameter.python
+
+  lambda-body:
+    - meta_scope: meta.function.inline.body.python
+    - include: illegal-assignment-expression
+    # We don't know whether we are within a grouped
+    # or line-statement context at this point.
+    # If we're in a group, the underlying context will take over
+    # at the end of the line.
+    - match: (?=[,:)}\]])|$
+      pop: true
+    - include: expression-in-a-statement
 
   generators-groups-and-tuples:
     - include: empty-tuples
@@ -1459,37 +1595,11 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
 
   builtin-exceptions:
-    - match: |-
-        (?x)\b(
-          (?:
-            Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
-            Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
-            FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
-            Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
-            NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
-            Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
-            Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
-          )Error|
-          (?:(?:Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
-          (?:Base)?Exception|
-          SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
-        )\b
+    - match: '{{builtin_exceptions}}'
       scope: support.type.exception.python
 
   builtin-functions:
-    - match: |-
-        (?x)\b(?:
-          __import__|all|abs|any|ascii|bin|callable|chr|classmethod|
-          compile|delattr|dir|divmod|enumerate|eval|filter|format|getattr|
-          globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|
-          len|locals|map|max|min|next|oct|open|ord|pow|property|range|
-          repr|reversed|round|setattr|sorted|staticmethod|
-          sum|super|type|vars|zip
-          # Python 2 functions
-          |apply|cmp|coerce|execfile|intern|raw_input|reduce|reload|unichr|xrange
-          # Python 3 functions
-          |breakpoint|exec|print
-        )\b
+    - match: '{{builtin_functions}}'
       scope: support.function.builtin.python
 
   builtin-types:

@@ -21,6 +21,11 @@ file_extensions:
   - ipynb
   - Pipfile.lock
 
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bjson\b .*? -\*-  # editorconfig
+  )
+
 contexts:
 
   prototype:

@@ -1,11 +1,18 @@
 %YAML 1.2
 ---
-version: 2
 name: TypeScript
+scope: source.ts
+version: 2
+
+extends: JavaScript.sublime-syntax
+
 file_extensions:
   - ts
-scope: source.ts
-extends: JavaScript.sublime-syntax
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \b(ts|typescript)\b .*? -\*-  # editorconfig
+  )
 
 variables:
   dot_accessor: (?:[?!]?\.)
@@ -39,6 +46,43 @@ variables:
   modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
 
 contexts:
+  main:
+    - meta_include_prototype: false # don't match before shebang
+    - match: ''
+      push: [script, preprocessor, shebang]
+
+  preprocessor:
+    # https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
+    - meta_include_prototype: false # don't match comments before preprocessor directive
+    - match: (///)(?!/)\s*
+      captures:
+        0: comment.line.triple-slash.js
+        1: punctuation.definition.comment.js
+      embed: scope:text.xml#tag
+      embed_scope: comment.line.triple-slash.js meta.preprocessor.directive.js
+      escape: (//+)?\n
+      escape_captures:
+        0: comment.line.triple-slash.js
+        1: punctuation.definition.comment.js
+    - include: comments
+    - include: else-pop
+
+  export-extended:
+    - meta_prepend: true
+    - match: as{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - expect-semicolon
+        - ts-export-as-namespace
+
+  ts-export-as-namespace:
+    - match: namespace{{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - ts-namespace-name-end
+        - ts-namespace-name
+    - include: else-pop
+
   branch-possible-arrow-function:
     - meta_prepend: true
     - match: (?=\()
@@ -115,12 +159,6 @@ contexts:
         - ts-import-type
         - import-check-branch
 
-  export-extended:
-    - meta_prepend: true
-    - include: ts-type-declaration
-    - include: ts-interface-declaration
-    - include: ts-namespace-declaration
-
   property-access:
     - meta_prepend: true
     - match: \!\.
@@ -136,41 +174,90 @@ contexts:
 
   ts-type-declaration:
     - match: type{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.type.js
       set:
         - ts-type-alias-meta
         - ts-type-alias-body
         - ts-type-parameter-list
         - ts-type-alias-name
 
-  statement:
+  ts-const-declaration:
+    - match: const{{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - expect-semicolon
+        - variable-binding-list-top
+        - variable-binding-top
+        - ts-check-not-enum
+
+  ts-check-not-enum:
+    - match: (?=enum{{identifier_break}})
+      fail: ts-const-enum
+    - include: else-pop
+
+  ts-const-enum:
+    - match: const{{identifier_break}}
+      scope: storage.modifier.js
+      set: ts-enum
+
+  ts-declare:
+    - match: declare{{identifier_break}}
+      scope: storage.modifier.js
+      set: ts-declare-contents
+
+  ts-declare-contents:
+    - match: module{{identifier_break}}
+      scope: keyword.declaration.module.js
+      set:
+        - ts-meta-module
+        - block
+        - literal-string
+    - include: declaration
+    - match: (?={{identifier_start}})
+      pop: true
+    - match: (?=\S)
+      fail: ts-declare
+
+  ts-meta-module:
+    - meta_include_prototype: false
+    - meta_scope: meta.module.js
+    - include: immediately-pop
+
+  ts-abstract-class:
+    - match: abstract{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - include: class
+        - match: (?=\S)
+          fail: ts-abstract-class
+
+  declaration:
     - meta_prepend: true
     - include: ts-enum
     - include: ts-type-declaration
     - include: ts-interface-declaration
     - include: ts-namespace-declaration
 
-    - match: const{{identifier_break}}
-      scope: keyword.declaration.js
-      set:
-        - include: ts-enum
-        - match: (?=\S)
-          set:
-            - expect-semicolon
-            - variable-binding-list-top
-            - variable-binding-top
+    - match: (?=const{{identifier_break}})
+      pop: true
+      branch_point: ts-const-enum
+      branch:
+        - ts-const-declaration
+        - ts-const-enum
 
-    - match: declare{{identifier_break}}
-      scope: storage.type.js
-      set:
-        - include: ts-enum
-        - include: else-pop
+    - match: (?=declare{{identifier_break}})
+      pop: true
+      branch_point: ts-declare
+      branch:
+        - ts-declare
+        - expression-statement
 
-    - match: abstract{{identifier_break}}
-      scope: storage.modifier.js
-      set:
-        - include: class
-        - include: else-pop
+    - match: (?=abstract{{identifier_break}})
+      pop: true
+      branch_point: ts-abstract-class
+      branch:
+        - ts-abstract-class
+        - expression-statement
 
   class:
     - match: class{{identifier_break}}
@@ -316,7 +403,7 @@ contexts:
 
   ts-enum:
     - match: enum{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.enum.js
       set:
         - ts-enum-meta
         - ts-enum-body
@@ -374,12 +461,19 @@ contexts:
       set:
         - ts-namespace-meta
         - block
+        - ts-namespace-name-end
         - ts-namespace-name
 
   ts-namespace-meta:
     - meta_include_prototype: false
     - meta_scope: meta.namespace.js
     - include: immediately-pop
+
+  ts-namespace-name-end:
+    - match: \.
+      scope: punctuation.accessor.dot.ts
+      push: ts-namespace-name
+    - include: else-pop
 
   ts-namespace-name:
     - match: '{{identifier_name}}'
@@ -414,6 +508,12 @@ contexts:
         - function-declaration-expect-generator-star
         - function-declaration-expect-function-keyword
         - function-declaration-expect-async
+
+  function-declaration-expect-body:
+    - meta_prepend: true
+    - match: ;
+      scope: punctuation.terminator.statement.js
+      pop: 2
 
   ts-type-parameter-list:
     - match: \<(?!<)
@@ -698,7 +798,7 @@ contexts:
   ts-generic-type-arguments:
     - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
-      set:
+      push:
         - meta_scope: meta.generic.js
         - match: \>
           scope: punctuation.definition.generic.end.js
@@ -876,6 +976,8 @@ contexts:
           - match: \)
             scope: punctuation.section.group.end.js
             pop: true
+          - match: (?=\S)
+            fail: ts-function-type
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin

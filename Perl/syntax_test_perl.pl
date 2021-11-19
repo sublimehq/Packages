@@ -1802,6 +1802,24 @@ EOT-EOT-EOT
 #                                             ^ constant.language.flags.regexp.perl
 #                                              ^ punctuation.terminator.statement.perl
 #                                                ^ comment.line.number-sign.perl punctuation.definition.comment.perl
+  m{{1}\d(?-x) ${VAR} \}\w+}
+# ^ meta.function-call.perl - meta.braces
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl meta.braces.perl
+#                           ^ - meta.function-call - meta.braces
+#  ^ punctuation.section.braces.begin.perl
+#   ^^^^^^^^^^^ meta.string.perl - meta.interpolation
+#              ^^^^^ meta.string.perl meta.interpolation.perl
+#                    ^^^^^^ meta.string.perl - meta.interpolation
+#   ^^^^^^^^^^^ string.regexp.perl
+#   ^^^ invalid.illegal.unexpected-quantifier.regexp
+#              ^^^^^^ - string.regexp
+#              ^ keyword.operator.dereference.perl
+#               ^ punctuation.definition.variable.begin.perl
+#                ^^^ string.unquoted.perl
+#                   ^ punctuation.definition.variable.end.perl
+#                    ^^^^^^ string.regexp.perl
+#                     ^^ constant.character.escape.regexp
+#                          ^ punctuation.section.braces.end.perl
   m\@pattern\g; # comment
 # ^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -3669,7 +3687,7 @@ my (
 #           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
-#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#                   ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                          ^ punctuation.section.generic.end.perl
 #                           ^ punctuation.terminator.statement.perl
 #                             ^ punctuation.section.block.end.perl
@@ -4756,7 +4774,7 @@ state
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
-#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
+#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
   print(grep /^Client-/, $res->header_field_names)

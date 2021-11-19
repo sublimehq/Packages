@@ -2,10 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Objective-C
+scope: source.objc
+
 file_extensions:
   - m
   - h
-scope: source.objc
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bobj(ective-)?c\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'

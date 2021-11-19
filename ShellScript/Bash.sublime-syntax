@@ -36,9 +36,9 @@ hidden_file_extensions:
   - eclass
 
 first_line_match: |-
-  (?x:
-    ^\#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b |   # shebang
-    ^\# \s* -\*- [^*]* shell-script [^*]* -\*-  # editorconfig
+  (?xi:
+    ^ \#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b            # shebang
+  | ^ \s* \# .*? -\*- .*? \bshell(-script)?\b .*? -\*-  # editorconfig
   )
 
 ###############################################################################

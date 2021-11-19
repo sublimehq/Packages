@@ -2,6 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Perl
+scope: source.perl
+
 file_extensions:
   - pl
   - pc
@@ -9,12 +11,12 @@ file_extensions:
   - pmc
   - pod
   - t
+
 first_line_match: |-
   (?xi:
-    ^\#! .* \bperl\b |                     # shebang
-    ^\# \s* -\*- [^*]* perl [^*]* -\*-     # editorconfig
+    ^ \#! .* \bperl\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bperl\b .*? -\*-  # editorconfig
   )
-scope: source.perl
 
 variables:
   break: \b(?!::)
@@ -1316,7 +1318,7 @@ contexts:
         - match: \}
           scope: punctuation.section.braces.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.braces
     - match: \[
       scope: punctuation.section.brackets.begin.perl
       set:
@@ -1325,7 +1327,7 @@ contexts:
         - match: \]
           scope: punctuation.section.brackets.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.brackets
     - match: \<
       scope: punctuation.section.generic.begin.perl
       set:
@@ -1334,7 +1336,7 @@ contexts:
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.angles
     - match: \(
       scope: punctuation.section.parens.begin.perl
       set:
@@ -1343,7 +1345,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.perl
           pop: true
-        - include: scope:source.regexp#base-literal-extended
+        - include: scope:source.regexp.perl.parens
     - include: else-pop
 
   quoted-like-args-interpolated:

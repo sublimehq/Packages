@@ -2,13 +2,20 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: BibTeX
+scope: text.bibtex
 comment: |
   Grammar based on description from http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html#comment
 
       TODO: Does not support @preamble
+
 file_extensions:
   - bib
-scope: text.bibtex
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \%+ .*? -\*- .*? \bbibtex\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - match: "@Comment"
