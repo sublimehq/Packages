@@ -3,8 +3,7 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.js entity.name.function,
-		source.js meta.class entity.name.class
+		entity.name.interface.js
 	</string>
 	<key>settings</key>
 	<dict>

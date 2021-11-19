@@ -44,6 +44,7 @@ variables:
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier_name}})
 
+  possible_arrow_function_begin: (?:\(|{{identifier_start}})
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier_name}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
@@ -64,6 +65,8 @@ variables:
       {{property_name}}
       | \#{{identifier_name}}
     )
+
+  modifier: (?:static{{identifier_break}})
 
   # Newline not permitted between `async` and `function`.
   func_lookahead: |-
@@ -426,8 +429,9 @@ contexts:
   variable-binding-name:
     - match: (?={{non_reserved_identifier}})
       set:
-        - meta_scope: meta.binding.name.js
-        - include: literal-variable
+        - - meta_scope: meta.binding.name.js
+          - include: immediately-pop
+        - literal-variable
 
   variable-binding-array-destructuring:
     - match: '\['
@@ -485,11 +489,6 @@ contexts:
     - include: else-pop
 
   variable-binding-top:
-    - match: (?={{identifier_name}}{{function_assignment_lookahead}})
-      set:
-        - initializer
-        - function-name-meta
-        - variable-binding-pattern
     - match: (?={{binding_pattern_lookahead}})
       set:
         - initializer
@@ -572,17 +571,21 @@ contexts:
   function-parameter-binding-spread:
     - match: '\.\.\.'
       scope: keyword.operator.spread.js
-      push: function-parameter-binding-pattern
+      push: function-parameter
 
   function-parameter-binding-list:
     - match: ','
       scope: punctuation.separator.parameter.function.js
     - include: function-parameter-binding-spread
     - match: (?={{binding_pattern_lookahead}})
-      push:
+      push: function-parameter
+    - include: else-pop
+
+  function-parameter:
+    - match: ''
+      set:
         - initializer
         - function-parameter-binding-pattern
-    - include: else-pop
 
   initializer:
     - match: '='
@@ -631,7 +634,7 @@ contexts:
       set:
         - do-while-meta
         - do-while-condition
-        - block-scope
+        - statement
 
     - match: for{{identifier_break}}
       scope: keyword.control.loop.for.js
@@ -659,21 +662,21 @@ contexts:
       scope: keyword.control.conditional.if.js
       set:
         - conditional-meta
-        - block-scope
+        - statement
         - expect-parenthesized-expression
 
     - match: else\s+if{{identifier_break}}
       scope: keyword.control.conditional.elseif.js
       set:
         - conditional-meta
-        - block-scope
+        - statement
         - expect-parenthesized-expression
 
     - match: else{{identifier_break}}
       scope: keyword.control.conditional.else.js
       set:
         - conditional-meta
-        - block-scope
+        - statement
 
     - match: try{{identifier_break}}
       scope: keyword.control.exception.try.js
@@ -767,7 +770,7 @@ contexts:
   for-condition-contents:
     # This could be either type of for loop.
     - match: (?:const|let|var){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - - include: for-of-rest
           - match: (?=\S)
@@ -928,7 +931,6 @@ contexts:
 
     - include: regexp-complete
     - include: literal-string
-    - include: tagged-template
     - include: literal-string-template
     - include: constructor
     - include: literal-number
@@ -951,7 +953,7 @@ contexts:
     - include: object-literal
 
     # Newline not allowed between `async` and parameters.
-    - match: (?=async{{identifier_break}}{{nothing}}(?:\(|{{identifier_start}}))
+    - match: (?=async{{identifier_break}}{{nothing}}{{possible_arrow_function_begin}})
       pop: true
       branch_point: async-arrow-function
       branch:
@@ -960,19 +962,12 @@ contexts:
 
     - include: literal-call
 
-    - match: (?={{identifier_start}})
+    - match: (?={{possible_arrow_function_begin}})
       pop: true
-      branch_point: bare-arrow-function
+      branch_point: arrow-function
       branch:
-        - branch-possible-bare-arrow-function
-        - bare-arrow-function-fallback
-
-    - match: (?=\()
-      pop: true
-      branch_point: parenthesized-arrow-function
-      branch:
-        - branch-possible-parenthesized-arrow-function
-        - parenthesized-arrow-function-fallback
+        - branch-possible-arrow-function
+        - arrow-function-declaration
 
     - include: array-literal
 
@@ -996,45 +991,21 @@ contexts:
     - match: (?=\S)
       fail: async-arrow-function
 
-  branch-possible-bare-arrow-function:
+  branch-possible-arrow-function:
     - meta_include_prototype: false
-    - match: ''
-      push:
-        - detect-bare-arrow
+    - match: (?=\()
+      set:
+        - detect-arrow
+        - parenthesized-expression
+    - match: (?={{identifier_start}})
+      set:
+        - detect-arrow
         - literal-variable
 
-  detect-bare-arrow:
+  detect-arrow:
     - match: (?==>)
-      fail: bare-arrow-function
-    - match: (?=\S)
-      pop: 2
-
-  bare-arrow-function-fallback:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - immediately-pop-2
-        - arrow-function-declaration
-
-  branch-possible-parenthesized-arrow-function:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - detect-parenthesized-arrow
-        - parenthesized-expression
-
-  detect-parenthesized-arrow:
-    - match: (?==>)
-      fail: parenthesized-arrow-function
-    - match: (?=\S)
-      pop: 2
-
-  parenthesized-arrow-function-fallback:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - immediately-pop-2
-        - arrow-function-declaration
+      fail: arrow-function
+    - include: else-pop
 
   literal-string:
     - match: "'"
@@ -1061,11 +1032,6 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-
-  tagged-template:
-    - match: '{{identifier_name}}(?=\s*`)'
-      scope: variable.function.tagged-template.js
-      pop: true
 
   literal-string-template:
     - match: '`'
@@ -1198,9 +1164,6 @@ contexts:
     - match: in{{identifier_break}}
       scope: keyword.operator.js
       push: expression-begin
-    - match: '&&|\|\||\?\?'
-      scope: keyword.operator.logical.js
-      push: expression-begin
     - match: '=(?![=>])'
       scope: keyword.operator.assignment.js
       push: expression-begin
@@ -1216,8 +1179,14 @@ contexts:
         \|=  | # assignment      right-to-left   both
         <<=  | # assignment      right-to-left   both
         >>=  | # assignment      right-to-left   both
-        >>>=   # assignment      right-to-left   both
+        >>>= | # assignment      right-to-left   both
+        &&=   |
+        \|\|= |
+        \?\?=
       scope: keyword.operator.assignment.augmented.js
+      push: expression-begin
+    - match: '&&|\|\||\?\?'
+      scope: keyword.operator.logical.js
       push: expression-begin
     - match: |-
         (?x)
@@ -1231,11 +1200,11 @@ contexts:
       push: expression-begin
     - match: |-
         (?x)
-        <=   | # relational      left-to-right   both
-        >=   | # relational      left-to-right   both
-        <    | # relational      left-to-right   both
-        >      # relational      left-to-right   both
-      scope: keyword.operator.relational.js
+        <=   | # comparison      left-to-right   both
+        >=   | # comparison      left-to-right   both
+        <    | # comparison      left-to-right   both
+        >      # comparison      left-to-right   both
+      scope: keyword.operator.comparison.js
       push: expression-begin
     - match: |-
         (?x)
@@ -1333,8 +1302,14 @@ contexts:
         - function-declaration-expect-body
         - function-declaration-expect-parameters
 
-    - match: static{{identifier_break}}
-      scope: storage.modifier.js
+    - match: (?=static{{identifier_break}})
+      branch_point: static-block
+      branch:
+        - static-block
+        - class-element-modifiers
+
+    - match: (?={{modifier}})
+      push: class-element-modifiers
 
     - match: |-
         (?x)(?=
@@ -1358,6 +1333,40 @@ contexts:
 
     - match: (?={{class_element_name}})
       push: class-element
+
+  static-block:
+    - match: static{{identifier_break}}
+      scope: storage.modifier.js
+      set:
+        - match: \{
+          scope: punctuation.section.block.begin.js
+          set: static-block-body
+        - match: (?=\S)
+          fail: static-block
+
+  static-block-body:
+    - meta_scope: meta.block.js
+    - match: \}
+      scope: punctuation.section.block.end.js
+      pop: true
+    - include: statements
+
+  class-element-modifiers:
+    - match: ''
+      pop: true
+      branch_point: class-element-modifier
+      branch:
+        - class-element-modifier
+        - class-element
+
+  class-element-modifier:
+    - match: '{{modifier}}'
+      scope: storage.modifier.js
+      set:
+        - match: (?={{class_element_name}}|\*)
+          pop: true
+        - match: (?=\S)
+          fail: class-element-modifier
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1610,9 +1619,6 @@ contexts:
     - match: (?=\*)
       push: method-declaration
 
-    - match: '{{identifier_name}}(?=\s*(?:[},]|$|//|/\*))'
-      scope: variable.other.readwrite.js
-
     - match: (?=(?:get|set|async){{identifier_break}})
       branch_point: prefixed-object-literal-method
       branch:
@@ -1634,7 +1640,10 @@ contexts:
       push: expression-no-comma
 
   object-literal-element:
-    - match: ''
+    - match: '{{identifier_name}}(?=\s*(?:[},]|$|//|/\*))'
+      scope: variable.other.readwrite.js
+      pop: true
+    - match: (?=\S)
       pop: true
       branch_point: object-literal-property
       branch:
@@ -1778,14 +1787,11 @@ contexts:
         - function-declaration-expect-body
         - function-declaration-expect-parameters
         - method-name
-        - method-declaration-expect-prefix
-        - function-declaration-expect-async
+        - method-declaration-expect-asterisk
 
-  method-declaration-expect-prefix:
+  method-declaration-expect-asterisk:
     - match: \*
       scope: keyword.generator.asterisk.js
-    - match: (?:get|set){{identifier_break}}(?!\s*\()
-      scope: storage.type.accessor.js
     - include: else-pop
 
   parenthesized-expression:
@@ -1970,6 +1976,15 @@ contexts:
   literal-variable:
     - include: special-identifier
     - include: support
+
+    - match: '(?={{identifier_name}}{{function_assignment_lookahead}})'
+      set:
+        - function-name-meta
+        - literal-variable-base
+
+    - match: '{{identifier_name}}(?={{nothing}}`)'
+      scope: variable.function.tagged-template.js
+      pop: true
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
@@ -2317,7 +2332,7 @@ contexts:
     - match: (?:document|window|navigator){{identifier_break}}
       scope: support.type.object.dom.js
       pop: true
-    - match: (?:clearTimeout|setTimeout){{identifier_break}}
+    - match: (?:clearTimeout|clearInterval|setTimeout|setInterval){{identifier_break}}
       scope: support.function.dom.js
       pop: true
 
@@ -2391,6 +2406,10 @@ contexts:
 
     - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
+
+    - match: '{{identifier_name}}(?={{nothing}}`)'
+      scope: variable.function.tagged-template.js
+      pop: true
 
     - include: object-property-base
     - include: else-pop

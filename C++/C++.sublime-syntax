@@ -57,11 +57,12 @@ variables:
   before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local'
-  type_qualifier: 'const|constexpr|mutable|typename|volatile'
+  type_qualifier: 'const|mutable|typename|volatile'
+  constant_expression_specifiers: 'consteval|constexpr|constinit'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
-  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
+  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
 
   regular: '[^(){}&;*^%=<>-]*'
@@ -139,7 +140,7 @@ contexts:
       scope: keyword.operator.word.c++
 
   unique-types:
-    - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
+    - match: \b(char8_t|char16_t|char32_t|wchar_t|nullptr_t)\b
       scope: storage.type.c++
     - match: \bclass\b
       scope: keyword.declaration.class.c++
@@ -1148,7 +1149,7 @@ contexts:
       scope: keyword.declaration.struct.type.c++
       set: data-structures-struct-definition
     - match: '\benum(\s+(class|struct))?\b'
-      scope: keyword.declaration.union.type.c++
+      scope: keyword.declaration.enum.type.c++
       set: data-structures-enum-definition
     - match: '\bunion\b'
       scope: keyword.declaration.union.type.c++
@@ -1638,7 +1639,7 @@ contexts:
     - include: preprocessor-practical-workarounds
 
   preprocessor-rule-disabled-data-structures:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1664,7 +1665,7 @@ contexts:
             - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-data-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1708,7 +1709,7 @@ contexts:
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1735,7 +1736,7 @@ contexts:
             - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1840,7 +1841,7 @@ contexts:
   ## Preprocessor for statements
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
@@ -1866,7 +1867,7 @@ contexts:
             - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++

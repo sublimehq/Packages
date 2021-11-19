@@ -44,8 +44,8 @@
 				| <\?(?!.*?\?>)
 				# sections that don't close themselves on the same line
 				| <\%(?!.*?\%>)
-				# open curly braces that don't have close braces or string punctuation after them
-				| \{(?![}"'])
+				# open curly braces at the end of a line with comments allowed
+				| \{(?=\s*(?:<!--.*)?$)
 			)
 		]]></string>
 		<key>bracketIndentNextLinePattern</key>

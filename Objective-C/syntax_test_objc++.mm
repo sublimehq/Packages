@@ -269,10 +269,10 @@ char str1[] = "abc";
 /*             ^ string.quoted.double */
 /*                ^ punctuation.definition.string.end */
 
-char str2[] = u8"abc";
-/*            ^ storage.type.string */
-/*              ^ punctuation.definition.string.begin */
-/*               ^ string.quoted.double */
+char8_t str2[] = u8"abc";
+/*               ^ storage.type.string */
+/*                 ^ punctuation.definition.string.begin */
+/*                  ^ string.quoted.double */
 
 char16_t str3[] = u"abc";
 /*                ^ storage.type.string */
@@ -312,13 +312,16 @@ char str8[] = "\x0a|\x41|\xA|\x000065";
 /*                       ^^^ constant.character.escape */
 /*                           ^^^^^^^^ constant.character.escape */
 
-char16_t str9[] = u"\u0063";
+char8_t str9[] = u8"\u0063";
 /*                  ^^^^^^ constant.character.escape */
 
-char32_t str10[] = U"\U00000063";
+char16_t str10[] = u"\u0063";
+/*                   ^^^^^^ constant.character.escape */
+
+char32_t str11[] = U"\U00000063";
 /*                   ^^^^^^^^^^ constant.character.escape */
 
-char str11[] = "\q";
+char str12[] = "\q";
 /*              ^^ invalid.illegal.unknown-escape */
 
 scanf("%ms %as %*[, ]", &buf);
@@ -809,6 +812,12 @@ const int XYZ = 2;
 /* <- storage.modifier */
 
 constexpr int ABC = 3 + 5;
+/* <- storage.modifier */
+
+consteval int f() { return 42; }
+/* <- storage.modifier */
+
+constinit const int i = f();
 /* <- storage.modifier */
 
 thread_local int x;
@@ -2692,6 +2701,10 @@ void sayHi()
 /*                           ^ punctuation.separator.objc           */
 /*                             ^ keyword.other.property.attribute.  */
 /*                                  ^ punctuation.section.scope.end */
+- (NSString*)formatWithPattern:(NSString*)pattern __attribute__((swift_name("format(pattern:)")));
+/*                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.objc++*/
+/*                                                ^^^^^^^^^^^^^ storage.modifier.objc++*/
+/*                                                                          ^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */

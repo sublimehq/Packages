@@ -221,7 +221,9 @@ void __sdhci_read_caps(struct sdhci_host *host, u16 *ver);
 
 #if 0
 #ifdef moo
-/* <- - keyword.control */
+/* <- - keyword.control
+    ^ meta.number constant.numeric.value
+*/
 #endif
 /* <- - keyword.control */
 #endif
@@ -233,6 +235,12 @@ int disabled_func() {
 }
 #endif
 
+#if 0000000
+/*
+    ^^^^^^^ meta.number constant.numeric.value
+*/
+#endif
+
 #if 1
 /*  ^ meta.number constant.numeric.value */
 int enabled_func() {}
@@ -241,6 +249,12 @@ int enabled_func() {}
 int disabled_func() {
 /*  ^ comment.block */
 }
+#endif
+
+#if 0090
+/*
+    ^^^^ meta.number constant.numeric.value
+*/
 #endif
 
 #if 1

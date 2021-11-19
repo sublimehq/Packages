@@ -71,7 +71,7 @@ namespace YourNamespace
 ///                         ^^^^ support.type
 ///                              ^^^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
-///                                     ^^ keyword.declaration.function.anonymous.cs
+///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^^^^ variable.language
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
@@ -120,7 +120,7 @@ namespace YourNamespace
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                     ^^^^^^^^^ entity.name.function
 ///                              ^^ meta.method.parameters
-///                                 ^^ keyword.declaration.function.anonymous.cs
+///                                 ^^ keyword.declaration.function.arrow.cs
 ///                                    ^^^^^ constant.language
     }
 
@@ -829,24 +829,24 @@ namespace TestNamespace.Test
 ///              ^^^ variable.other
 ///                    ^ keyword.operator.assignment
 ///                        ^^^^^^^^ meta.function.anonymous
-///                        ^^ keyword.declaration.function.anonymous
+///                        ^^ keyword.declaration.function.arrow
             Func<float, float> times2 = x => x + x;
 ///         ^^^ support.type
 ///                            ^^^ variable.other
 ///                                   ^ keyword.operator.assignment
 ///                                     ^^^^^^^^^^ meta.function.anonymous
-///                                       ^^ keyword.declaration.function.anonymous
+///                                       ^^ keyword.declaration.function.arrow
 
             var changes = refs.ToDictionary(kvp => kvp.key, arg => k + 5);
 ///                                         ^^^^^^^^^^^^^^ meta.function.anonymous.cs
 ///                                         ^^^ variable.parameter.cs
-///                                             ^^ keyword.declaration.function.anonymous.cs
+///                                             ^^ keyword.declaration.function.arrow.cs
 ///                                                ^^^ variable.other.cs
 ///                                                       ^ punctuation.separator.argument.cs
 ///                                                       ^^ - meta.function.anonymous
 ///                                                         ^^^^^^^^^^^^ meta.function.anonymous.cs
 ///                                                         ^^^ variable.parameter.cs
-///                                                             ^^ keyword.declaration.function.anonymous.cs
+///                                                             ^^ keyword.declaration.function.arrow.cs
 ///                                                                ^ variable.other.cs
 ///                                                                  ^ keyword.operator.cs
 ///                                                                    ^ meta.number.integer.decimal.cs
@@ -862,7 +862,7 @@ namespace TestNamespace.Test
 ///                                              ^ punctuation.separator.parameter.function.cs
 ///                                                ^^^^^ variable.parameter.cs
 ///                                                     ^ punctuation.section.group.end.cs
-///                                                       ^^ keyword.declaration.function.anonymous.cs
+///                                                       ^^ keyword.declaration.function.arrow.cs
 ///                                                          ^^^^^ variable.other.cs
 
         }
@@ -1010,7 +1010,7 @@ namespace TestNamespace.Test
 
     void TestMe () {
         a = b => b * 2;
-///           ^^ keyword.declaration.function.anonymous
+///           ^^ keyword.declaration.function.arrow
 ///           ^^^^^^^^ meta.function.anonymous
 ///                   ^ punctuation.terminator.statement - meta.function.anonymous
 
@@ -1031,7 +1031,7 @@ namespace TestNamespace.Test
         }
 
         a = b => { return b * 2; };
-///           ^^ meta.function.anonymous keyword.declaration.function.anonymous
+///           ^^ meta.function.anonymous keyword.declaration.function.arrow
 ///              ^ meta.function.anonymous punctuation.section.block.begin
 ///                              ^ punctuation.section.block.end
 ///                               ^ punctuation.terminator.statement - meta.function.anonymous
@@ -1055,7 +1055,7 @@ namespace TestNamespace.Test
 ///          ^ variable.parameter
 ///           ^ punctuation.separator
 ///             ^ variable.parameter
-///                ^^ keyword.declaration.function.anonymous
+///                ^^ keyword.declaration.function.arrow
 ///                   ^ meta.function.anonymous punctuation.section.block.begin
 ///                                   ^ punctuation.section.block.end
 ///                                    ^ punctuation.terminator.statement - meta.function.anonymous
@@ -1082,7 +1082,7 @@ namespace TestNamespace.Test
 ///                                     ^ variable.parameter
 ///                                      ^ punctuation.separator.parameter.function
 ///                                        ^ variable.parameter
-///                                           ^^ keyword.declaration.function.anonymous
+///                                           ^^ keyword.declaration.function.arrow
 ///                                                     ^ punctuation.terminator.statement
 ///                                                      ^ - meta.function.anonymous
 
@@ -1133,7 +1133,7 @@ namespace TestNamespace.Test
 ///                 ^^^^^^ meta.cast support.type
 ///                        ^ punctuation.section.group.begin
 ///                         ^^ meta.function.anonymous meta.group
-///                            ^^ keyword.declaration.function.anonymous
+///                            ^^ keyword.declaration.function.arrow
 ///                                             ^ punctuation.section.group.end
         test = (Action)(() => {});
 ///            ^^^^^^^^ meta.cast
@@ -1141,7 +1141,7 @@ namespace TestNamespace.Test
 ///                     ^^^^^^^ meta.function.anonymous
 ///                     ^ meta.group punctuation.section.group.begin
 ///                      ^ meta.group punctuation.section.group.end
-///                        ^^ keyword.declaration.function.anonymous
+///                        ^^ keyword.declaration.function.arrow
 ///                           ^ punctuation.section.block.begin
 ///                            ^ punctuation.section.block.end
 ///                             ^ meta.group punctuation.section.group.end

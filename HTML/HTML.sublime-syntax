@@ -43,27 +43,38 @@ variables:
       | text/livescript
     )
 
-  custom_element_char: |-
+  # Embedded script and style syntaxes may be wrapped into html comments for
+  # historical reasons. The following patterns match them, while maintaining
+  # correct boundaries of embedded source scopes. That's required to enable
+  # embedded syntax's comment toggling in the first and last line.
+  #
+  # see:
+  # - https://github.com/sublimehq/Packages/issues/2322
+  # - https://github.com/sublimehq/sublime_text/issues/4701
+  script_content_begin: |-
     (?x:
-      # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
-        [-._a-z0-9\x{00B7}]
-      | [\x{00C0}-\x{00D6}]
-      | [\x{00D8}-\x{00F6}]
-      | [\x{00F8}-\x{02FF}]
-      | [\x{0300}-\x{037D}]
-      | [\x{037F}-\x{1FFF}]
-      | [\x{200C}-\x{200D}]
-      | [\x{203F}-\x{2040}]
-      | [\x{2070}-\x{218F}]
-      | [\x{2C00}-\x{2FEF}]
-      | [\x{3001}-\x{D7FF}]
-      | [\x{F900}-\x{FDCF}]
-      | [\x{FDF0}-\x{FFFD}]
-      | [\x{10000}-\x{EFFFF}]
+    # whitespace followed by opening html comment begin punctuation
+      \s*(<!--)
+    # or any other non-whitespace character ahead
+    | (?=\s*(?!<!--)\S)
+    # or beginning of a line
+    | ^
     )
-
-  script_close_lookahead: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}})
-  style_close_lookahead: (?=</(?i:style){{tag_name_break_char}})
+  script_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </script> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:script){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
+  style_content_begin: '{{script_content_begin}}'
+  style_content_end: |-
+    (?x:
+    # optional html comment end punctuation followed by </style> tag
+      (?: (\s*) (-->) \s* )? (?=</(?i:style){{tag_name_break_char}})
+    # or standalone html comment end punctuation in a line
+    |   ^ (\s*) (-->) \s* $
+    )
 
 ###############################################################################
 
@@ -71,7 +82,7 @@ contexts:
 
   tag:
     - include: tag-html
-    - include: tag-custom
+    - include: tag-other
     - include: tag-incomplete
 
 ###[ HTML TAGS ]##############################################################
@@ -152,33 +163,14 @@ contexts:
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
 
-###[ CUSTOM TAG ]#############################################################
+###[ OTHER TAG ]##############################################################
 
-  tag-custom:
-    - match: </?(?=[A-Za-z]{{tag_name_char}}*?-)
-      scope: punctuation.definition.tag.begin.html
-      push:
-        - tag-custom-content
-        - tag-custom-name
+  tag-other:
     - match: </?(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
         - tag-other-content
         - tag-other-name
-
-  tag-custom-name:
-      - meta_content_scope: entity.name.tag.custom.html
-      - match: '{{tag_name_break}}'
-        pop: 1
-      - match: '{{custom_element_char}}+'
-        # no scope
-      - match: '{{tag_name_char}}'
-        scope: invalid.illegal.custom-tag-name.html
-
-  tag-custom-content:
-      - meta_scope: meta.tag.custom.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
 
   tag-other-name:
       - meta_content_scope: entity.name.tag.other.html
@@ -198,14 +190,23 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
-        - include: script-close-tag
-        - include: script-javascript-content
+        - script-close-tag
+        - script-javascript-content
 
   script-javascript-content:
-    - match: (?=\S)
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.js
       embed_scope: source.js.embedded.html
-      escape: '{{script_close_lookahead}}'
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   script-html:
     - meta_scope: meta.tag.script.begin.html
@@ -214,7 +215,6 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: comment
         - include: script-close-tag
         - include: main
 
@@ -226,20 +226,14 @@ contexts:
       set: script-close-tag
 
   script-close-tag:
-    - match: <!--
-      scope: comment.block.html punctuation.definition.comment.begin.html
-    - match: '{{script_close_lookahead}}'
+    - match: (</)((?i:script){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
       set:
-        - match: -->
-          scope: comment.block.html punctuation.definition.comment.end.html
-        - match: (</)((?i:script){{tag_name_break}})
-          captures:
-            1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.script.html
-          set:
-            - meta_scope: meta.tag.script.end.html
-            - include: tag-end
-            - include: tag-attributes
+        - meta_scope: meta.tag.script.end.html
+        - include: tag-end
+        - include: tag-attributes
 
   script-common:
     - include: script-type-attribute
@@ -248,16 +242,21 @@ contexts:
 
   script-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: entity.other.attribute-name.html
-      set:
-        - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
-        - match: =
-          scope: punctuation.separator.key-value.html
-          set:
-            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
-            - include: script-type-decider
-        - match: (?=\S)
-          set: script-javascript
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: script-type-attribute-assignment
+
+  script-type-attribute-assignment:
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: script-type-attribute-value
+    - match: (?=\S)
+      set: script-javascript
+
+  script-type-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - include: script-type-decider
 
   script-type-decider:
     - match: (?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
@@ -294,14 +293,23 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
-        - include: style-close-tag
-        - include: style-css-content
+        - style-close-tag
+        - style-css-content
 
   style-css-content:
-    - match: ''
+    - meta_include_prototype: false
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
       embed: scope:source.css
       embed_scope: source.css.embedded.html
-      escape: '{{style_close_lookahead}}'
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
 
   style-other:
     - meta_scope: meta.tag.style.begin.html
@@ -327,16 +335,21 @@ contexts:
 
   style-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: entity.other.attribute-name.html
-      set:
-        - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
-        - match: =
-          scope: punctuation.separator.key-value.html
-          set:
-            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
-            - include: style-type-decider
-        - match: (?=\S)
-          set: style-css
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: style-type-attribute-assignment
+
+  style-type-attribute-assignment:
+    - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: style-type-attribute-value
+    - match: (?=\S)
+      set: style-css
+
+  style-type-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - include: style-type-decider
 
   style-type-decider:
     - match: (?=(?i:text/css{{unquoted_attribute_break}}|'text/css'|"text/css"))
@@ -406,6 +419,7 @@ contexts:
     - include: else-pop
 
   tag-class-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -519,6 +533,7 @@ contexts:
     - include: else-pop
 
   tag-href-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html
@@ -559,11 +574,13 @@ contexts:
     - include: tag-attribute-value-unquoted-invalid-char
 
   tag-href-attribute-value-content:
+    - include: tag-attribute-value-content
     - match: (%)\h{2}
       scope: constant.character.escape.url.html
       captures:
         1: punctuation.definition.escape.html
-    - include: tag-attribute-value-content
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.html
 
 ###[ ID ATTRIBUTE ]###########################################################
 
@@ -586,6 +603,7 @@ contexts:
     - include: else-pop
 
   tag-id-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope:
         meta.string.html string.quoted.double.html

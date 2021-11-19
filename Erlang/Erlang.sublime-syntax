@@ -13,7 +13,6 @@ file_extensions:
 
 hidden_extensions:
   - Emakefile
-  - emakefile
 
 first_line_match: |-
   (?x:
@@ -127,11 +126,12 @@ variables:
 contexts:
 
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
   prototype:
-    - include: comment
+    - include: comments
 
   statements:
     - include: preproc-control
@@ -234,26 +234,32 @@ contexts:
 
 ###[ COMMENTS ]###############################################################
 
-  comment:
+  comments:
     - match: \%+
       scope: punctuation.definition.comment.percentage.erlang
-      push:
-        - meta_scope: comment.line.percentage.erlang
-        - match: \n
-          pop: 1
+      push: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.percentage.erlang
+    - match: \n
+      pop: 1
 
   shebang:
+    - meta_include_prototype: false
     - match: ^\#!
       scope: punctuation.definition.comment.shell
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.shebang.shell
-        # Note: Keep sync with first_line_match!
-        - match: \b(erlang|escript)\b
-          scope: constant.language.erlang
-        - match: \n
-          pop: 1
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.shell
+    # Note: Keep sync with first_line_match!
+    - match: \b(erlang|escript)\b
+      scope: constant.language.shebang.erlang
+    - match: \n
       pop: 1
 
 ###[ PREPROCESSOR CONTROL ]###################################################
@@ -671,7 +677,7 @@ contexts:
 
   preproc-spec-return:
     - match: ->
-      scope: 
+      scope:
         meta.preprocessor.spec.erlang
         punctuation.separator.parameters-return-type.erlang
       set:

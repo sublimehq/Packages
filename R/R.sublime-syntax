@@ -4,7 +4,6 @@
 name: R
 file_extensions:
   - R
-  - r
   - Rprofile
 scope: source.r
 
@@ -150,7 +149,9 @@ contexts:
       scope: keyword.operator.arithmetic.r
     - match: (<-|->)
       scope: keyword.operator.assignment.r
-    - match: (==|!=|<=|>=|<>|&&|\|\|)
+    - match: (==|!=|<>|<=?|>=?)
+      scope: keyword.operator.comparison.r
+    - match: (&&?|\|\|?)
       scope: keyword.operator.logical.r
     - match: :=
       scope: keyword.operator.other.r
@@ -159,7 +160,7 @@ contexts:
       scope: keyword.operator.arithmetic.r
     - match: =
       scope: keyword.operator.assignment.r
-    - match: '[!&|<>]'
+    - match: '!'
       scope: keyword.operator.logical.r
     - match: '[:~@]'
       scope: keyword.other.r

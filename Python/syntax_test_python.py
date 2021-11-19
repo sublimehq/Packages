@@ -47,7 +47,43 @@ import ..
 #      ^^ invalid.illegal.unexpected-relative-import.python
 import .. sys
 #      ^^ invalid.illegal.unexpected-relative-import.python
+import *
+#      ^ invalid.illegal.name.import.python
 
+from os import *  # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+# <- keyword.control.import.from.python
+#^^^ keyword.control.import.from.python
+#    ^^ meta.import-name.python
+#       ^^^^^^ keyword.control.import.python
+#              ^ constant.language.import-all.python
+#               ^^ - comment - constant - meta.statement
+#                 ^^^^^^^^^^ comment.line.number-sign.python
+from os import *, path # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#               ^^^^^^^^^^^^^^^^^ - meta.statement
+#              ^ constant.language.import-all.python
+#               ^ invalid.illegal.unexpected-import.python
+#                 ^^^^ invalid.illegal.unexpected-import.python
+#                      ^^^^^^^^^^ comment.line.number-sign.python
+from os import path, * # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                  ^ punctuation.separator.import-list.python
+#                    ^ invalid.illegal.name.import.python
+#                     ^ - meta.statement
+#                      ^^^^^^^^^^ comment.line.number-sign.python
 from os import path, chdir # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -58,7 +94,7 @@ from os import path, chdir # comment
 #^^^ keyword.control.import.from
 #       ^^^^^^ keyword.control.import
 #                  ^ punctuation.separator.import-list
-#                          ^ comment
+#                          ^^^^^^^^^^ comment.line.number-sign.python
 from . import module
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -76,6 +112,8 @@ from .import module  # yes, this is actually legit
 #                  ^ - meta.statement
 #    ^ keyword.control.import.relative.python
 #     ^^^^^^ keyword.control.import.python
+#            ^^^^^^ meta.generic-name.python
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 from collections.abc import Iterable
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -102,7 +140,7 @@ from a.b.c. import module
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
 #           ^^^^^^ keyword.control.import
-from a.b.c. as module
+from a.b.c. as module # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
@@ -112,7 +150,8 @@ from a.b.c. as module
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
 #           ^^ keyword.control.import.as.python
-from a.b.c..
+#                     ^^^^^^^^^^ comment.line.number-sign.python
+from a.b.c.. # comment
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
@@ -120,6 +159,7 @@ from a.b.c..
 #     ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #         ^^ invalid.illegal.name.python
+#            ^^^^^^^^^^ comment.line.number-sign.python
 from a.b.c.. import module
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
@@ -198,8 +238,10 @@ from sys import (version, # comment
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
 #               ^ punctuation.section.import-list.begin
 #                         ^ comment
+                 anything \
+#                         ^ invalid.illegal.name.import.python
                  version_info, . ) # comment
-#                ^^^^^^^^^^^^^ meta.statement.import
+#                ^^^^^^^^^^^^^^^^^ meta.statement.import
 #                              ^ invalid.illegal.name.import.python
 #                                ^ punctuation.section.import-list.end
 #                                  ^ comment
@@ -209,13 +251,26 @@ from .sub import *
 #                ^ constant.language.import-all.python
 import a as b
 #        ^^ keyword.control.import.as.python
+import a as b#comment
+#        ^^ keyword.control.import.as.python
+#            ^^^^^^^^^ comment.line.number-sign.python
 import a as .b, .b
 #        ^^ keyword.control.import.as.python
 #           ^^ invalid.illegal.name.import.python
-#               ^^ invalid.illegal.name.import.python
-from a import b as c, d as e
+#               ^ invalid.illegal.unexpected-relative-import.python
+#                ^ meta.generic-name.python
+import a.b as c, a.e as f
+#      ^^^ meta.qualified-name.python
+#          ^^ keyword.control.import.as.python
+#             ^ meta.generic-name.python
+#              ^ punctuation.separator.import-list.python
+#                ^^^ meta.qualified-name.python
+#                    ^^ keyword.control.import.as.python
+#                       ^ meta.generic-name.python
+from a import b as c, d as  # comment
 #               ^^ keyword.control.import.as.python
 #                       ^^ keyword.control.import.as.python
+#                           ^^^^^^^^^^ comment.line.number-sign.python
 from a import (b as c)
 #                ^^ keyword.control.import.as.python
 
@@ -686,23 +741,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.group.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.tuple
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.group.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as (
-#      ^ punctuation.section.group.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.tuple
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ):
-#   ^ punctuation.section.group.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     with captured() as [out, err]:
@@ -1207,9 +1262,9 @@ also_a_tuple = ()[-1]
 #                ^^^^ meta.item-access
 
 not_a_tuple = (a = 2, b += 3)
-#             ^^^^^^^^^^^^^^^ - meta.sequence
-#                ^ - keyword
-#                        ^ - keyword
+#             ^^^^^^^^^^^^^^^ meta.sequence
+#                ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
+#                        ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
 
 just_a_group = (1)
 #              ^^^ meta.group.python
@@ -1264,6 +1319,9 @@ mydict = { 'a' : xform, 'b' : form, 'c' : frm }
 #                                 ^ meta.mapping.python punctuation.separator.mapping.python
 #                                       ^ punctuation.separator.mapping.key-value.python
 
+mydict = { a : b async for b in range(1, 2) }
+#                ^^^^^ storage.modifier.async.python
+
 myset = {"key", True, key2, [-1], {}:1}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #       ^ punctuation.section.set.begin.python
@@ -1280,7 +1338,7 @@ myset = {"key", True, key2, [-1], {}:1}
 #                                     ^ punctuation.section.set.end.python
 
 mapping_or_set = {
-#                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
+#                ^ meta.mapping.python punctuation.section.mapping.begin.python
     1: True
 #   ^ meta.mapping.key.python meta.number.integer.decimal.python constant.numeric.value.python
 #    ^ punctuation.separator.mapping.key-value.python
@@ -1288,8 +1346,7 @@ mapping_or_set = {
 # <- meta.mapping.python punctuation.section.mapping.end.python
 
 complex_mapping = {(): "value"}
-#                 ^^^ meta.mapping-or-set.python
-#                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
+#                 ^^^^^^^^^^^^^ meta.mapping
 
 more_complex_mapping = {**{1: 1}, 2: 2}
 #                      ^ meta.mapping.python
@@ -1297,14 +1354,14 @@ more_complex_mapping = {**{1: 1}, 2: 2}
 #                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
 
 more_complex_set = {
-#                  ^ meta.mapping-or-set.python
+#                  ^ meta.set.python
     *{1}, 2: 2}
 #   ^ meta.set.python
 #       ^ meta.set.python punctuation.separator.set.python
 #          ^ meta.set.python invalid.illegal.colon-inside-set.python
 
 generator = (i for i in range(100))
-#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.loop.for.generator
 #                    ^^ keyword.control.loop.for.in
@@ -1314,7 +1371,7 @@ list_ = [i for i in range(100)]
 #          ^^^ keyword.control.loop.for.generator
 #                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
-#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.loop.for.generator
 #               ^^ keyword.control.loop.for.in
@@ -1339,15 +1396,14 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #            ^^^^^^^^^^^ meta.sequence.tuple.python
-#           ^ punctuation.section.group.begin.python
-#            ^ punctuation.section.sequence.begin.python
+#           ^^ punctuation.section.sequence.begin.python
 #                      ^ punctuation.section.sequence.end.python
 #                            ^^ punctuation.section.target-list.begin.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                        ^ punctuation.section.target-list.end.python
-#                                               ^ punctuation.section.group.end.python
+#                                               ^ punctuation.section.sequence.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python
@@ -1392,6 +1448,9 @@ result = [i async for i in aiter() if i % 2]
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
+foo, bar = get_vars()
+#  ^ punctuation.separator.sequence.python
+#        ^ keyword.operator.assignment.python
 
 t = (*tuple(), *[1, 2], 3*1)
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
