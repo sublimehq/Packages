@@ -180,14 +180,14 @@
 //                     ^^^ variable.other.readwrite
 
         foo(): any {}
-//      ^^^^^^^^^^^ meta.function.declaration
+//      ^^^^^^^^^^^^^ meta.function
 //      ^^^ entity.name.function
 //           ^ punctuation.separator.type
 //             ^^^ meta.type support.type.any
 //                 ^^ meta.function meta.block
 
         foo<T>(): any {}
-//      ^^^^^^^^^^^^^ meta.function.declaration
+//      ^^^^^^^^^^^^^^^^ meta.function
 //      ^^^ entity.name.function
 //         ^^^ meta.generic
 //              ^ punctuation.separator.type
@@ -293,15 +293,12 @@ function f(x?: any) {}
 
 function f(): any {}
 //^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^ meta.function.declaration
 //          ^ punctuation.separator.type
 //            ^^^meta.type support.type.any
 //                ^^ meta.block
 
 function f ( x : any , ... y : any ) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //           ^ meta.binding.name variable.parameter.function
 //             ^ punctuation.separator.type
 //               ^^^ meta.type support.type.any
@@ -324,7 +321,6 @@ function f ( @foo x , @bar() y ) {}
 
 function f<T, U>() {}
 //^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^ meta.function.declaration
 //        ^^^^^^ meta.generic
 //         ^ variable.parameter.generic
 //          ^ punctuation.separator.comma
@@ -332,7 +328,6 @@ function f<T, U>() {}
 
 function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //           ^ punctuation.separator.type
 //             ^^^^^^^^^ meta.type
 //               ^^ keyword.operator.word
@@ -340,7 +335,6 @@ function f(x): x is any {};
 
 function f(x): asserts x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //           ^ punctuation.separator.type
 //            ^^^^^^^^^^^^^^^^^ meta.type
 //             ^^^^^^^ storage.modifier.asserts
@@ -354,10 +348,53 @@ function f(this : any) {}
 
     (x: any) => 42;
 //  ^^^^^^^^^^^^^^ meta.function
-//  ^^^^^^^^^^^ meta.function.declaration
 //    ^ punctuation.separator.type
 //      ^^^ meta.type support.type.any
-//           ^^ storage.type.function.arrow
+//           ^^ keyword.declaration.function.arrow
+
+    x ? (y) : z;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.ternary
+//      ^^^ meta.group
+//       ^ variable.other.readwrite
+//          ^ keyword.operator.ternary
+
+    x ? (y) : T => r : z;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.ternary
+//      ^^^^^^^^^^^^^ meta.function
+//       ^ meta.binding.name variable.parameter.function
+//          ^ punctuation.separator.type
+//            ^ meta.type support.class
+//              ^^ keyword.declaration.function.arrow
+//                 ^meta.block variable.other.readwrite
+//                   ^ keyword.operator.ternary
+//                     ^ variable.other.readwrite
+
+    x ? y : T => z;
+//      ^ variable.other.readwrite - variable.parameter
+//        ^ keyword.operator.ternary
+//          ^^^^^^ meta.function
+//          ^ variable.parameter.function
+//            ^^ keyword.declaration.function.arrow
+
+    async (x): T => y;
+//  ^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^ storage.type
+//         ^ meta.binding.name variable.parameter.function
+//           ^ punctuation.separator.type
+//             ^ meta.type support.class
+//               ^^ keyword.declaration.function.arrow
+//                  ^ meta.block variable.other.readwrite
+
+    x ? async (y) : T => r : z;
+//      ^^^^^^^^^^^^^^^^^^ meta.function
+//                ^ punctuation.separator.type
+//                         ^ keyword.operator.ternary
+
+    x ? async (y) : T;
+//      ^^^^^ variable.function
+//                ^ keyword.operator.ternary
 
 /* Assertions */
 
@@ -377,6 +414,10 @@ x as const;
 //    ^ keyword.operator.type
 //      ^ punctuation.terminator.statement
 
+// This is a type assertion that is incompatible with JSX
+let strLength: number = (<string>someValue).length; // </string>
+//                       ^^^^^^^^ meta.assertion - meta.tag
+//                                                     ^^^^^^^^^ comment - meta.tag
 
 /* Types */
 
@@ -466,7 +507,7 @@ let x: Foo<any, any>;
 
 
 function f<T extends Foo>() {}
-//        ^^^^^^^^^^^^^^^ meta.function.declaration meta.generic
+//        ^^^^^^^^^^^^^^^ meta.function meta.generic
 //         ^ variable.parameter.generic
 //           ^^^^^^^ storage.modifier.extends
 //                   ^^^ support.class
@@ -684,13 +725,23 @@ let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^ meta.group
 //     ^ punctuation.section.group.begin
-//       ^^^ variable.other.readwrite
+//       ^^^ variable.other.readwrite - support.class
 //           ^ storage.modifier.optional
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any
 //                   ^ punctuation.section.group.end
-//                     ^^ storage.type.function
+//                     ^^ keyword.declaration.function
 //                        ^^^ support.class
+
+let x: () => T
+    U
+//  ^ variable.other.constant - meta.type
+
+let x: ( foo );
+//     ^^^^^^^ meta.type meta.group
+//     ^ punctuation.section.group.begin
+//       ^^^ support.class
+//           ^ punctuation.section.group.end
 
 let x: T extends U ? V : W;
 //     ^^^^^^^^^^^^^^^^^^^ meta.type
@@ -722,3 +773,39 @@ let x: import ( "foo" ) . Bar ;
 //                    ^ punctuation.section.group.end
 //                      ^ punctuation.separator.accessor
 //                        ^^^ support.class
+
+    foo < bar > ();
+//  ^^^ variable.function
+//      ^^^^^^^ meta.generic
+//      ^ punctuation.definition.generic.begin
+//        ^^^ support.class
+//            ^ punctuation.definition.generic.end
+//              ^^ meta.group
+
+    foo < bar
+//  ^^^ variable.other.readwrite
+//      ^ keyword.operator.logical
+//        ^^^ variable.other.readwrite
+    ;
+
+    new Foo<bar>;
+//  ^^^ keyword.operator.word.new
+//      ^^^ variable.other.constant
+//         ^^^^^ meta.generic
+
+    foo<bar>``;
+//  ^^^ variable.other.readwrite
+//     ^^^^^ meta.generic
+//          ^^ meta.string string.quoted.other
+
+var foo = 1 << 0 /x/g;
+//          ^^ keyword.operator.bitwise
+//               ^ keyword.operator.arithmetic
+//                ^ variable.other.readwrite
+//                 ^ keyword.operator.arithmetic
+//                  ^ variable.other.readwrite
+
+if (a < b || c < d) {}
+//    ^ keyword.operator.logical
+//        ^^ keyword.operator.logical
+//             ^ keyword.operator.logical

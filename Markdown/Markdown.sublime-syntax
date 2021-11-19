@@ -1055,6 +1055,8 @@ contexts:
             - include: list-content
         - match: \s+
           scope: meta.paragraph.list.markdown
+        - match: (?=^{{atx_heading}})
+          pop: true
         - match: '(?=\S)'
           push: list-content
     - match: '(?=\S)'
@@ -1182,6 +1184,21 @@ contexts:
       escape: '{{code_fence_escape}}'
       escape_captures:
         0: meta.code-fence.definition.end.json.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:typescript|ts))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.typescript.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:source.ts
+      embed_scope: markup.raw.code-fence.typescript.markdown-gfm
+      escape: '{{code_fence_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.typescript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
     - match: |-
          (?x)

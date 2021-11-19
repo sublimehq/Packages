@@ -725,7 +725,7 @@ contexts:
 
   struct-keyword:
     - match: '\bstruct\b'
-      scope: storage.type.c
+      scope: keyword.declaration.struct.c
       push:
         - meta_scope: meta.struct.c
         - include: data-structures-definition-common-begin
@@ -759,7 +759,7 @@ contexts:
 
   enum-keyword:
     - match: '\benum\b'
-      scope: storage.type.c
+      scope: keyword.declaration.enum.c
       push:
         - meta_scope: meta.enum.c
         - include: data-structures-definition-common-begin
@@ -812,7 +812,7 @@ contexts:
 
   union-keyword:
     - match: '\bunion\b'
-      scope: storage.type.c
+      scope: keyword.declaration.union.c
       push:
         - meta_scope: meta.union.c
         - include: data-structures-definition-common-begin
@@ -980,7 +980,7 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.c
+      scope: keyword.declaration.type.c
       push:
         - typedef-identifier-list
         - type-declaration

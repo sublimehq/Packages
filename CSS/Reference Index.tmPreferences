@@ -2,11 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>text.html meta.toc-list.id.html</string>
+	<string>
+		source.css variable.other.custom-property
+	</string>
 	<key>settings</key>
 	<dict>
-		<key>showInSymbolList</key>
-		<integer>1</integer>
+		<key>showInIndexedReferenceList</key>
+		<string>1</string>
 	</dict>
 </dict>
 </plist>

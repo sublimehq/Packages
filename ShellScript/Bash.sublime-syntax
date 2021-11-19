@@ -24,8 +24,6 @@ hidden_file_extensions:
   - .bash_profile
   - .bash_variables
   - .bashrc
-  - .ebuild
-  - .eclass
   - .profile
   - .textmate_init
   - .zlogin
@@ -34,6 +32,8 @@ hidden_file_extensions:
   - .zshenv
   - .zshrc
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
+  - ebuild
+  - eclass
 
 first_line_match: |-
   (?x:
@@ -202,7 +202,6 @@ contexts:
     - match: function{{cmd_break}}
       scope:
         meta.function.shell
-        storage.type.function.shell
         keyword.declaration.function.shell
       push:
         - def-functions-redirection
@@ -323,7 +322,6 @@ contexts:
     - match: alias{{cmd_break}}
       scope:
         meta.declaration.alias.shell
-        storage.type.alias.shell
         keyword.declaration.alias.shell
       push:
         - cmd-alias-args-meta
@@ -419,7 +417,6 @@ contexts:
     - match: coproc{{cmd_break}}
       scope:
         meta.coproc.shell
-        storage.type.coproc.shell
         keyword.declaration.coproc.shell
       push: cmd-coproc-identifier
 
@@ -459,7 +456,6 @@ contexts:
     - match: (declare|local|typeset){{cmd_break}}
       scope:
         meta.declaration.variable.shell
-        storage.type.variable.shell
         keyword.declaration.variable.shell
       push:
         - cmd-declare-args-meta
@@ -542,7 +538,6 @@ contexts:
     - match: readonly{{cmd_break}}
       scope:
         meta.declaration.variable.shell
-        storage.type.variable.shell
         keyword.declaration.variable.shell
       push:
         - cmd-readonly-args-meta
@@ -1518,8 +1513,10 @@ contexts:
     - include: expansions-tilde
 
   expansions-arithmetic:
-    - match: \$\(\((?=.+\)\))
-      scope: punctuation.section.interpolation.begin.shell
+    - match: (\$)(\(\((?=.+\)\)))
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
       push:
         - meta_scope: meta.interpolation.arithmetic.shell
         - match: \)\)
@@ -1540,8 +1537,10 @@ contexts:
         - include: expansions-and-strings
 
   expansions-command:
-    - match: \$\(
-      scope: punctuation.section.interpolation.begin.shell
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
       push:
         - meta_scope: meta.interpolation.command.shell
         - match: \s*(\))
@@ -1565,21 +1564,13 @@ contexts:
     # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
     # which is the last job stopped while it was in the foreground or started in
     # the background. The previous job may be referenced using ‘%-’.
-    - match: (%)[-+%]
+    # Job number n may be referred to as ‘%n’.
+    - match: (%)([-+%]|\d+)
       scope:
         meta.interpolation.job.shell
         variable.language.job.shell
       captures:
         1: punctuation.definition.variable.shell
-    # The character ‘%’ introduces a job specification (jobspec). Job number n
-    # may be referred to as ‘%n’.
-    - match: (%)(\d+)
-      scope:
-        meta.interpolation.job.shell
-        variable.language.job.shell
-      captures:
-        1: punctuation.definition.variable.shell
-        2: constant.numeric.integer.decimal.shell
     # A job may also be referred to using a prefix of the name used to start it,
     # or using a substring that appears in its command line. For example, ‘%ce’
     # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
@@ -1596,8 +1587,10 @@ contexts:
         2: keyword.operator.match.shell
 
   expansions-parameter:
-    - match: \$\{
-      scope: punctuation.section.interpolation.begin.shell
+    - match: (\$)(\{)
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
       push:
         - expansions-parameter-meta
         - expansions-parameter-chars

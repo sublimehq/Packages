@@ -1,0 +1,420 @@
+%YAML 1.2
+---
+###############################################################################
+# This is a very low-level HTML implementation, which is meant to be used as
+# base definition for any kind of context/syntax, which just needs plain HTML
+# tag and attribute highlighting support without the overhead of:
+# a) embedded CSS/JS syntaxes
+# b) all the different kinds of tags and attributes.
+#
+# Any kind of high-level highlighting support such as additional tag types,
+# attributes or embedded syntaxes are to be implemented into HTML.sublime-syntax
+###############################################################################
+#
+# NOTES
+#
+#  1 STRING INTERPOLATION
+#
+#    The syntax definition excludes prototypes from quoted strings by default
+#    to kindly ask an inherited syntax definition to explicitly handle string
+#    interpolation.
+#
+#    An inherited syntax might most likely want to define a `prototype` to
+#    inject its templating patterns in all (appropriate) contexts which are
+#    already defined by this base syntax definition. That's basically fine.
+#
+#    What we want is replacing `string` scope by `meta.interpolation` in case
+#    of injecting template patterns into a string, which can't be achieved
+#    using prototype context. Interpolation requires special patterns which
+#    push into contexts with `- clear_scope: 1`.
+#
+#    Example:
+#
+#      prototype:
+#        - meta_prepend: true
+#        - include: asp-tags
+#
+#      tag-attribute-value-content:
+#        - meta_prepend: true
+#        - include: asp-interpolations
+#
+#      strings-common-content:
+#        - meta_prepend: true
+#        - include: asp-interpolations
+#
+#      asp-interpolations:
+#        - match: <%
+#          scope: punctuation.section.embedded.begin.html
+#          push: asp-tag-content
+#
+#      asp-tag-content:
+#        - clear_scopes: 1
+#        - meta_scope: meta.interpolation.html
+#        - meta_content_scope: source.asp.embedded.html
+#        - match: '%>'
+#          scope: punctuation.section.embedded.end.html
+#          pop: 1
+#        - ...
+#
+###############################################################################
+# https://www.sublimetext.com/docs/syntax.html
+# https://html.spec.whatwg.org/multipage/syntax.html
+###############################################################################
+
+name: HTML (Plain)
+scope: text.html.plain
+version: 2
+hidden: true
+
+###############################################################################
+
+variables:
+  ascii_space: '\t\n\f '
+
+  # https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+  attribute_name_break_char: '[{{ascii_space}}=/>]'
+  attribute_name_break: (?={{attribute_name_break_char}})
+  attribute_name_start: (?=[^{{attribute_name_break_char}}])
+
+  # https://html.spec.whatwg.org/multipage/syntax.html#syntax-attribute-value
+  unquoted_attribute_break: (?=[{{ascii_space}}]|/?>)
+  unquoted_attribute_start: (?=[^{{ascii_space}}=>])
+
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+  tag_name_break_char: '[{{ascii_space}}/<>]'
+  tag_name_break: (?={{tag_name_break_char}})
+  tag_name_char: '[^{{tag_name_break_char}}]'
+  tag_name: '[A-Za-z]{{tag_name_char}}*'
+
+###############################################################################
+
+contexts:
+
+  main:
+    - include: preprocessor
+    - include: doctype
+    - include: comment
+    - include: cdata
+    - include: tag
+    - include: entities
+
+###[ CDATA ]##################################################################
+
+  cdata:
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: keyword.declaration.cdata.html
+        3: punctuation.definition.tag.begin.html
+      push: cdata-content
+
+  cdata-content:
+    - meta_scope: meta.tag.sgml.cdata.html
+    - meta_content_scope: string.unquoted.cdata.html
+    - match: ']]>'
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+###[ COMMENT ]################################################################
+
+  comment:
+    - match: (<!--)(-?>)?
+      captures:
+        1: punctuation.definition.comment.begin.html
+        2: invalid.illegal.bad-comments-or-CDATA.html
+      push: comment-content
+
+  comment-content:
+    - meta_scope: comment.block.html
+    - match: (<!-)?(--\s*>)
+      captures:
+        1: invalid.illegal.bad-comments-or-CDATA.html
+        2: punctuation.definition.comment.end.html
+      pop: 1
+    - match: <!--(?!-?>)|--!>
+      scope: invalid.illegal.bad-comments-or-CDATA.html
+
+###[ DOCTYPE DECLARATION ]####################################################
+
+  doctype:
+    - match: (<!)((?i:doctype){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: keyword.declaration.doctype.html
+      push:
+        - doctype-meta
+        - doctype-content
+        - doctype-content-type
+        - doctype-name
+
+  doctype-meta:
+    - meta_scope: meta.tag.sgml.doctype.html
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+  doctype-name:
+    - match: '{{tag_name}}'
+      scope: constant.language.doctype.html
+      pop: 1
+    - include: else-pop
+
+  doctype-content-type:
+    - match: (?i:public|system){{tag_name_break}}
+      scope: keyword.content.external.html
+      pop: 1
+    - include: else-pop
+
+  doctype-content:
+    - match: \[
+      scope: punctuation.section.brackets.begin.html
+      set: doctype-internal-subset-content
+    - include: strings
+    - include: else-pop
+
+  doctype-internal-subset-content:
+    - meta_scope: meta.brackets.html meta.internal-subset.xml.html
+    - match: \]
+      scope: punctuation.section.brackets.end.html
+      pop: 1
+    - include: comment
+
+###[ PREPROCESSOR ]###########################################################
+
+  preprocessor:
+    - match: (<\?)(xml)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.xml.html
+      push: preprocessor-content
+
+  preprocessor-content:
+    - meta_scope: meta.tag.preprocessor.xml.html
+    - match: \?>
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+    - include: tag-generic-attribute
+    - include: strings
+
+###[ TAGS ]###################################################################
+
+  tag:
+    - include: tag-html
+    - include: tag-incomplete
+
+  tag-incomplete:
+    - match: (<)[{{ascii_space}}]*(/?>)
+      scope: meta.tag.incomplete.html invalid.illegal.incomplete.html
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: punctuation.definition.tag.end.html
+
+  tag-end:
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+  tag-end-self-closing:
+    - match: />
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+  tag-end-maybe-self-closing:
+    - match: /?>
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+###[ HTML TAGS ]##############################################################
+
+  tag-html:
+    - match: </?(?=[A-Za-z])
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - tag-html-content
+        - tag-html-name
+
+  tag-html-name:
+      - meta_content_scope: entity.name.tag.html
+      - match: '{{tag_name_break}}'
+        pop: 1
+
+  tag-html-content:
+      - meta_scope: meta.tag.html
+      - include: tag-end-maybe-self-closing
+      - include: tag-attributes
+
+###[ ATTRIBUTES ]#############################################################
+
+  tag-attributes:
+    - include: tag-generic-attribute
+
+  tag-attribute-value-content:
+    - include: entities
+
+  tag-attribute-value-unquoted-end:
+    - match: '{{unquoted_attribute_break}}'
+      pop: 1
+
+  tag-attribute-value-unquoted-invalid-char:
+    - match: '["''`<]'
+      scope: invalid.illegal.attribute-value.html
+
+###[ GENERIC ATTRIBUTE ]######################################################
+
+  tag-generic-attribute:
+    - match: '{{attribute_name_start}}'
+      push:
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-assignment
+        - tag-generic-attribute-name
+
+  tag-generic-attribute-name:
+    - meta_scope: entity.other.attribute-name.html
+    - match: '{{attribute_name_break}}'
+      pop: 1
+    - match: '["''`<]'
+      scope: invalid.illegal.attribute-name.html
+
+  tag-generic-attribute-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute-with-value.html
+    - include: immediately-pop
+
+  tag-generic-attribute-assignment:
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: tag-generic-attribute-value
+    - include: else-pop
+
+  tag-generic-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      set: tag-generic-attribute-value-double-quoted-content
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      set: tag-generic-attribute-value-single-quoted-content
+    - match: '{{unquoted_attribute_start}}'
+      set: tag-generic-attribute-value-unquoted-content
+    - include: else-pop
+
+  tag-generic-attribute-value-double-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.html string.quoted.double.html
+    - include: strings-double-quoted-end
+    - include: tag-generic-attribute-value-quoted-content
+
+  tag-generic-attribute-value-single-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.html string.quoted.single.html
+    - include: strings-single-quoted-end
+    - include: tag-generic-attribute-value-quoted-content
+
+  tag-generic-attribute-value-quoted-content:
+    - include: tag-generic-attribute-value-content
+
+  tag-generic-attribute-value-unquoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.html string.unquoted.html
+    - include: tag-attribute-value-unquoted-end
+    - include: tag-generic-attribute-value-content
+    - include: tag-attribute-value-unquoted-invalid-char
+
+  tag-generic-attribute-value-content:
+    - include: tag-attribute-value-content
+
+###[ CONSTANTS ]##############################################################
+
+  entities:
+    - match: (&#[xX])[01]?\h{1,5}(;)
+      scope: constant.character.entity.hexadecimal.html
+      captures:
+        1: punctuation.definition.entity.html
+        2: punctuation.terminator.entity.html
+    - match: (&#)[0-9]{1,7}(;)
+      scope: constant.character.entity.decimal.html
+      captures:
+        1: punctuation.definition.entity.html
+        2: punctuation.terminator.entity.html
+    - match: (&)[a-zA-Z0-9]+(;)
+      scope: constant.character.entity.named.html
+      captures:
+        1: punctuation.definition.entity.html
+        2: punctuation.terminator.entity.html
+
+  strings:
+    - include: strings-double-quoted
+    - include: strings-single-quoted
+
+  strings-double-quoted:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      push: strings-double-quoted-content
+
+  strings-double-quoted-end:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.end.html
+      pop: 1
+
+  strings-double-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.html string.quoted.double.html
+    - include: strings-double-quoted-end
+    - include: strings-quoted-content
+
+  strings-single-quoted:
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      push: strings-single-quoted-content
+
+  strings-single-quoted-end:
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.end.html
+      pop: 1
+
+  strings-single-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.html string.quoted.single.html
+    - include: strings-single-quoted-end
+    - include: strings-quoted-content
+
+  strings-quoted-content:
+    # This context exists as common entry point for inherited syntaxes to add
+    # custom highlighting to all quoted strings.
+    - include: strings-common-content
+
+  strings-unquoted-content:
+    # This context exists as common entry point for inherited syntaxes to add
+    # custom highlighting to all unquoted strings.
+    - include: strings-common-content
+
+  strings-common-content:
+    # This context exists as common entry point for inherited syntaxes to add
+    # custom highlighting to all strings.
+    - include: entities
+
+###[ PROTOTYPES ]#############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1

@@ -1,4 +1,4 @@
-' SYNTAX TEST "Packages/ASP/HTML-ASP.sublime-syntax"
+' SYNTAX TEST "Packages/ASP/HTML (ASP).sublime-syntax"
 <!DOCTYPE html>
 <html>
 '<- meta.tag.structure.any.html punctuation.definition.tag.begin.html - source.asp.embedded.html
@@ -64,7 +64,7 @@
        '^^^^^^^^^^^^ storage.modifier.asp
        '             ^ entity.name.constant.asp
        '               ^ keyword.operator.assignment.asp
-       '                 ^^^^ constant.numeric.float.decimal.asp
+       '                 ^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
        '                     ^ punctuation.separator.variable-declaration.asp
        '                       ^^ entity.name.constant.asp
        '                         ^ keyword.operator.assignment.asp
@@ -75,8 +75,10 @@
 '<- - invalid.illegal.unexpected-token.asp
         Const d = &HAB
        '^^^^^ storage.modifier.asp
-       '          ^^^^ constant.numeric.integer.hexadecimal.asp
-       '          ^^ punctuation.definition.numeric.hexadecimal.asp
+       '          ^^^^ meta.number.integer.hexadecimal.asp
+       '          ^ constant.numeric.asp punctuation.definition.numeric.asp
+       '           ^ constant.numeric.base.asp - punctuation
+       '            ^^ constant.numeric.value.asp
         Const e = "I am an unclosed string
         '         ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.asp
         '                                 ^ invalid.illegal.unclosed-string.asp
@@ -424,7 +426,7 @@
     value = 1/2
     '        ^ keyword.operator.asp
     value = &HFF mod 3
-    '       ^^^^ constant.numeric.integer.hexadecimal.asp
+    '       ^^^^ meta.number.integer.hexadecimal.asp
     '            ^^^ keyword.operator.asp
     Select Case call value:Case 1
    '^^^^^^^^^^^ keyword.control.flow.asp
@@ -505,9 +507,11 @@
         '    ^ punctuation.section.array.begin.asp
         '     ^ constant.numeric
         '      ^ punctuation.separator.array.asp
-        '       ^^^^ constant.numeric.integer.hexadecimal.asp
-        '       ^^ punctuation.definition.numeric.hexadecimal.asp
-        '          ^ punctuation.definition.numeric.hexadecimal.asp
+        '       ^^^^ meta.number.integer.hexadecimal.asp
+        '       ^ constant.numeric.asp punctuation.definition.numeric.asp
+        '        ^ constant.numeric.base.asp - punctuation
+        '         ^ constant.numeric.value.asp - punctuation
+        '          ^ constant.numeric.asp punctuation.definition.numeric.asp
         '           ^ punctuation.section.array.end.asp
         b = a Is Empty : Dim loop,nope : Dim foobar
        '^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
@@ -526,7 +530,10 @@
        '               ^^^ variable.other.asp
        '                   ^^^^^^^^ meta.array.definition.asp
        '                   ^ punctuation.section.array.begin.asp
-       '                     ^^^ constant.numeric.integer.hexadecimal.asp
+       '                     ^^^ meta.number.integer.hexadecimal.asp
+       '                     ^ constant.numeric.asp punctuation.definition.numeric.asp
+       '                      ^ constant.numeric.base.asp - punctuation
+       '                       ^ constant.numeric.value.asp - punctuation
        '                        ^ punctuation.separator.array.asp
        '                          ^ punctuation.section.array.end.asp
         For x = LBound(a) to UBound(a) Step 2 'test
@@ -590,8 +597,8 @@
     Call NoParams
     
          Sub Wow (test _ 'test
- ,def _ '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
-      _ '^^^ storage.type.function.asp
+        '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
+        '^^^ storage.type.function.asp
         '    ^^^ entity.name.function.asp
         '                ^^^^^ invalid.illegal.expected-end-of-line.asp
     ) ' this bracket doesn't form part of the method declaration - the line above is missing a _ and contains non-whitespace
@@ -800,26 +807,34 @@
     ' ^^^ storage.type.function.end.asp - meta.method.identifier.asp
     
     a=3.4*.5*6.*0.25
-    ' ^^^ constant.numeric.float.decimal.asp
-    '     ^^ constant.numeric.float.decimal.asp
-    '        ^^ constant.numeric.float.decimal.asp
-    '           ^^^^ constant.numeric.float.decimal.asp
+    ' ^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '  ^ punctuation.separator.decimal.asp
+    '     ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '     ^ punctuation.separator.decimal.asp
+    '        ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '         ^ punctuation.separator.decimal.asp
+    '           ^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '            ^ punctuation.separator.decimal.asp
     a=a+0.8
-    '   ^^^ constant.numeric.float.decimal.asp
+    '   ^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '    ^ punctuation.separator.decimal.asp
     ExampleSub 3.4,.5,6.,&HA,&H2,7*2.1e2,9,-3.402823E+38, 3.402823E38 ,1.401298E-45,Round(4.94065645841247E-324),a2,2a,123.456.789.321.654.321
-    '          ^^^ constant.numeric.float.decimal.asp
-    '              ^^ constant.numeric.float.decimal.asp
-    '                 ^^ constant.numeric.float.decimal.asp
-    '                    ^^^ constant.numeric.integer.hexadecimal.asp
-    '                        ^^^ constant.numeric.integer.hexadecimal.asp
+    '          ^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '           ^ punctuation.separator.decimal.asp
+    '              ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '              ^ punctuation.separator.decimal.asp
+    '                 ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '                  ^ punctuation.separator.decimal.asp
+    '                    ^^^ meta.number.integer.hexadecimal.asp
+    '                        ^^^ meta.number.integer.hexadecimal.asp
     '                            ^ constant.numeric
-    '                              ^^^^^ constant.numeric.float.decimal.asp
+    '                              ^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
     '                                    ^ constant.numeric
-    '                                       ^^^^^^^^^^^^ constant.numeric.float.decimal.asp
-    '                                                     ^^^^^^^^^^^ constant.numeric.float.decimal.asp
-    '                                                                  ^^^^^^^^^^^^ constant.numeric.float.decimal.asp
+    '                                       ^^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '                                                     ^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '                                                                  ^^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
     '                                                                               ^^^^^ support.function.vb.asp
-    '                                                                                     ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal.asp
+    '                                                                                     ^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
     '                                                                                                            ^^ - constant.numeric
     '                                                                                                                ^ - constant.numeric
     '                                                                                                                         ^^^^^^^^ - constant.numeric

@@ -51,37 +51,42 @@ contexts:
     - match: \b(TRUE|FALSE|NULL|NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
       scope: constant.language.r
     # complex imaginary
-    - match: \b(0[xX])\h+(?:(i)|(I))\b
-      scope: constant.numeric.imaginary.hexadecimal.r
+    - match: \b(0[xX])(\h+)(?:(i)|(I))\b
+      scope: meta.number.imaginary.hexadecimal.r
       captures:
-        1: punctuation.definition.numeric.hexadecimal.r
-        2: storage.type.numeric.r
-        3: invalid.illegal.numeric.r
-    - match: (?:(\.)\d+|\b\d+(\.)?\d*){{exponent}}?(?:(i)|(I))\b
-      scope: constant.numeric.imaginary.decimal.r
-      captures:
-        1: punctuation.separator.decimal.r
-        2: punctuation.separator.decimal.r
-        3: storage.type.numeric.r
+        1: constant.numeric.base.r
+        2: constant.numeric.value.r
+        3: constant.numeric.suffix.r
         4: invalid.illegal.numeric.r
+    - match: ((?:(\.)\d+|\b\d+(\.)?\d*){{exponent}}?)(?:(i)|(I))\b
+      scope: meta.number.imaginary.decimal.r
+      captures:
+        1: constant.numeric.value.r
+        2: punctuation.separator.decimal.r
+        3: punctuation.separator.decimal.r
+        4: constant.numeric.suffix.r
+        5: invalid.illegal.numeric.r
     # integers
-    - match: \b(0[xX])\h+(?:(L)|(l))\b
-      scope: constant.numeric.integer.hexadecimal.r
+    - match: \b(0[xX])(\h+)(?:(L)|(l))\b
+      scope: meta.number.integer.hexadecimal.r
       captures:
-        1: punctuation.definition.numeric.hexadecimal.r
-        2: storage.type.numeric.r
-        3: invalid.illegal.numeric.r
-    - match: \b\d+(\.)?\d*(?:(L)|(l))\b
-      scope: constant.numeric.integer.decimal.r
+        1: constant.numeric.base.r
+        2: constant.numeric.value.r
+        3: constant.numeric.suffix.r
+        4: invalid.illegal.numeric.r
+    - match: \b(\d+(\.)?\d*)(?:(L)|(l))\b
+      scope: meta.number.integer.decimal.r
       captures:
-        1: punctuation.separator.decimal.r
-        2: storage.type.numeric.r
-        3: invalid.illegal.numeric.r
+        1: constant.numeric.value.r
+        2: punctuation.separator.decimal.r
+        3: constant.numeric.suffix.r
+        4: invalid.illegal.numeric.r
     # floats
-    - match: \b(0[xX])\h+\b
-      scope: constant.numeric.float.hexadecimal.r
+    - match: \b(0[xX])(\h+)\b
+      scope: meta.number.float.hexadecimal.r
       captures:
-        1: punctuation.definition.numeric.hexadecimal.r
+        1: constant.numeric.base.r
+        2: constant.numeric.value.r
     - match: |-
         (?x:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1, 1e1, 1e-1
@@ -89,7 +94,7 @@ contexts:
           # .1, .1e1, .1e-1
           | (\.) \d+ {{exponent}}? \b
         )
-      scope: constant.numeric.float.decimal.r
+      scope: meta.number.float.decimal.r constant.numeric.value.r
       captures:
         1: punctuation.separator.decimal.r
         2: punctuation.separator.decimal.r
@@ -294,7 +299,7 @@ contexts:
     - match: \b(function)\s*(?=\()
       scope: meta.function.r
       captures:
-        1: storage.type.function.r
+        1: keyword.declaration.function.r
       push:
         - match: \(
           scope: punctuation.section.parameters.begin.r

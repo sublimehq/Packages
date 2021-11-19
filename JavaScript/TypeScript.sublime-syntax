@@ -5,12 +5,68 @@ name: TypeScript
 file_extensions:
   - ts
 scope: source.ts
-extends: Packages/JavaScript/JSX.sublime-syntax
+extends: JavaScript.sublime-syntax
 
 variables:
   dot_accessor: (?:[?!]?\.)
 
+  function_call_lookahead: >-
+    (?x:(?=
+      {{identifier}}
+      \s*
+      (?:
+        <
+        .*
+        >
+        \s*
+      )?
+      (?:{{dot_accessor}})?
+      \(
+    ))
+
 contexts:
+  detect-parenthesized-arrow:
+    - meta_prepend: true
+    - match: (?=:)
+      pop: true
+      branch_point: ts-arrow-function-return-type
+      branch:
+        - ts-detect-arrow-function-return-type
+        - immediately-pop-2
+
+  ts-detect-arrow-function-return-type:
+    - match: ''
+      push:
+        - ts-detect-arrow-after-return-type
+        - ts-type-annotation
+
+  ts-detect-arrow-after-return-type:
+    - match: (?==>)
+      fail: parenthesized-arrow-function
+    - match: (?=\S)
+      fail: ts-arrow-function-return-type
+
+  async-arrow-function:
+    - match: async{{identifier_break}}
+      scope: storage.type.js
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - arrow-function-expect-arrow-or-fail-async
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+
+  arrow-function-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - arrow-function-expect-arrow
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+        - function-declaration-expect-async
+
   ts-import-type:
     - match: type{{identifier_break}}
       scope: keyword.control.import-export.js
@@ -297,7 +353,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - ts-type-annotation
         - function-declaration-expect-parameters
         - ts-type-parameter-list
@@ -307,7 +362,7 @@ contexts:
         - function-declaration-expect-async
 
   ts-type-parameter-list:
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
         - meta_scope: meta.generic.js
@@ -387,7 +442,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - ts-type-annotation
         - function-declaration-expect-parameters
         - ts-type-parameter-list
@@ -398,10 +452,43 @@ contexts:
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
+    - match: '<<'
+      scope: keyword.operator.bitwise.js
+      push: expression-begin
+    - match: (?=<)
+      branch_point: ts-function-type-arguments
+      branch:
+        - ts-function-type-arguments
+        - ts-less-than
+
+  ts-function-type-arguments:
+    - match: \<(?!<)
+      scope: punctuation.definition.generic.begin.js
+      set:
+        - - meta_scope: meta.generic.js
+          - match: \>
+            scope: punctuation.definition.generic.end.js
+            pop: true
+          - match: ','
+            scope: punctuation.separator.comma.js
+            push:
+              - ts-type-expression-end
+              - ts-type-expression-end-no-line-terminator
+              - ts-type-expression-begin
+          - match: (?=\S)
+            fail: ts-function-type-arguments
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
+  ts-less-than:
+    - match: '<'
+      scope: keyword.operator.logical.js
+      set: expression-begin
 
   expression-begin:
     - meta_prepend: true
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.assertion.begin.js
       set:
         - - meta_scope: meta.assertion.js
@@ -458,6 +545,8 @@ contexts:
     - include: immediately-pop
 
   ts-type-expression-end:
+    - match: (?=\|\||&&)
+      fail: ts-function-type-arguments
     - match: \&
       scope: keyword.operator.type.intersection.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
@@ -470,9 +559,9 @@ contexts:
     - match: \.
       scope: punctuation.separator.accessor.js
       push:
-      - match: '{{identifier}}'
-        scope: support.class.js
-        pop: true
+        - match: '{{identifier}}'
+          scope: support.class.js
+          set: ts-type-expression-end-no-line-terminator
 
     - match: extends{{identifier_break}}
       scope: keyword.operator.type.extends.js
@@ -529,7 +618,7 @@ contexts:
     - include: else-pop
 
   ts-generic-type-arguments:
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
         - meta_scope: meta.generic.js
@@ -577,7 +666,13 @@ contexts:
     - include: ts-type-special
     - include: ts-type-primitive
     - include: ts-type-basic
-    - include: ts-type-function
+
+    - match: (?=\()
+      pop: true
+      branch_point: ts-function-type
+      branch:
+        - ts-type-parenthesized
+        - ts-type-function
 
     - include: literal-string
     - include: literal-number
@@ -664,6 +759,21 @@ contexts:
       scope: support.class.js
       pop: true
 
+  ts-type-parenthesized:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - - match: (?==>)
+            fail: ts-function-type
+          - include: else-pop
+        - - meta_scope: meta.group.js
+          - match: \)
+            scope: punctuation.section.group.end.js
+            pop: true
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
   ts-type-function:
     - match: \(
       scope: punctuation.section.group.begin.js
@@ -673,7 +783,7 @@ contexts:
           scope: punctuation.section.group.end.js
           set:
             - match: =>
-              scope: storage.type.function.js
+              scope: keyword.declaration.function.js
               set:
                 - ts-type-expression-end
                 - ts-type-expression-end-no-line-terminator

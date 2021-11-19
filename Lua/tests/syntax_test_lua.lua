@@ -434,7 +434,7 @@
 
     function function_name( a, b, ... )
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
---  ^^^^^^^^ storage.type.function keyword.declaration.function
+--  ^^^^^^^^ keyword.declaration.function
 --           ^^^^^^^^^^^^^ entity.name.function
 --                        ^^^^^^^^^^^^^ meta.group
 --                        ^ punctuation.section.group.begin
@@ -473,7 +473,7 @@
 
     ~function( a, b, ... ) end;
 --   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
---   ^^^^^^^^ storage.type
+--   ^^^^^^^^ keyword.declaration.function.lua
 --           ^^^^^^^^^^^^^ meta.group
 --                         ^^^ keyword.control.end
 
@@ -525,6 +525,12 @@
     if true end
 --  ^^^^^^^^^^^ - meta.block
 --          ^^^ invalid.illegal.unexpected-end
+
+
+    if a ! = b then end
+--       ^ invalid.illegal.unexpected-character.lua
+--             ^^^^ keyword.control.conditional
+--                  ^^^ keyword.control.end
 
     while true do
 --  ^^^^^ keyword.control.loop

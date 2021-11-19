@@ -119,7 +119,7 @@
         ##                     ^ - meta.tag
         ##                      ^^^^ - comment
             h2 {
-            ## <- entity.name.tag.css
+            ## <- entity.name.tag.html.css
 ## <- source.css.embedded.html - source.css source.css
                 font-family: "Arial";
                 ##             ^ string.quoted.double.css
@@ -504,7 +504,8 @@ class="foo"></div>
         ##         ^ string.quoted.double.html punctuation.definition.string.begin.html
         ##                     ^ string.quoted.double.html punctuation.definition.string.end.html
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
-        ##                 ^^^^ meta.property-value.css constant.numeric.integer.decimal.css
+        ##                 ^^^ meta.property-value.css meta.number.integer.decimal.css constant.numeric.value.css
+        ##                    ^ meta.property-value.css meta.number.integer.decimal.css constant.numeric.suffix.css
 
         <div style='width: 100%;'></div>
         ##  ^ - meta.attribute-with-value.style
@@ -518,7 +519,8 @@ class="foo"></div>
         ##         ^ string.quoted.single.html punctuation.definition.string.begin.html
         ##                      ^ string.quoted.single.html punctuation.definition.string.end.html
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
-        ##                 ^^^^ meta.property-value.css constant.numeric.integer.decimal.css
+        ##                 ^^^ meta.property-value.css meta.number.integer.decimal.css constant.numeric.value.css
+        ##                    ^ meta.property-value.css meta.number.integer.decimal.css constant.numeric.suffix.css
 
         <tag attr otherattr attr-with-dashes attr_with_underscores attr.with.dot attr.with.dot.value="val"></tag>
         ##   ^ entity.other.attribute-name.html

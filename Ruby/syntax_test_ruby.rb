@@ -965,17 +965,17 @@ do |&bl| end
 
 module MyModule
 #^^^^^^^^^^^^^^ meta.namespace
-# <- meta.namespace storage.type.namespace keyword.declaration.namespace
-#^^^^^ storage.type.namespace keyword.declaration.namespace
+# <- meta.namespace keyword.declaration.namespace
+#^^^^^ keyword.declaration.namespace
 #     ^ - entity - keyword - storage
 #      ^^^^^^^^ entity.name.namespace
 end
 
 module MyModule::OtherModule
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace
-# <- meta.namespace storage.type.namespace keyword.declaration.namespace
+# <- meta.namespace keyword.declaration.namespace
 #      ^^^^^^^^^^^^^^^^^^^^^ entity.name.namespace
-#^^^^^ storage.type.namespace keyword.declaration.namespace
+#^^^^^ keyword.declaration.namespace
 #     ^ - entity - keyword - storage
 #      ^^^^^^^^ support.other.namespace
 #              ^^ punctuation.accessor.double-colon
@@ -984,8 +984,8 @@ end
 
 class ::MyModule::MyClass < MyModule::InheritedClass
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-# <- meta.class storage.type.class keyword.declaration.class
-#^^^^ storage.type.class keyword.declaration.class
+# <- meta.class keyword.declaration.class
+#^^^^ keyword.declaration.class
 #    ^ - entity - keyword - storage - punctuation
 #     ^^ punctuation.accessor.double-colon
 #       ^^^^^^^^ support.other.namespace
@@ -997,7 +997,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^^^^^^ entity.name.function
 #              ^^^^^^^^^^^^^^^^ meta.function.parameters
 #              ^ punctuation.definition.group.begin
@@ -1007,7 +1007,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_second_method *arg_without_parens # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^^ entity.name.function
@@ -1019,7 +1019,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_third_method(a, b="foo", c=[], d=foo(), *args)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^ entity.name.function
@@ -1047,7 +1047,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def nested((a, b), c, (d, *e))
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^^^ entity.name.function
 #           ^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #           ^ punctuation.definition.group.begin
@@ -1068,7 +1068,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   end
 
   def block_param(&block)
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #                ^^^^^^^^ meta.function.parameters
 #                 ^ keyword.operator
 #                  ^^^^^ variable.parameter
@@ -1121,7 +1121,7 @@ def f.my_instance_method
 end
 
 class MyClass
-# ^ meta.class.ruby storage.type.class.ruby
+# ^ meta.class.ruby keyword.declaration.class.ruby
 #     ^ meta.class.ruby entity.name.class.ruby
 
   prepend Module.new
@@ -1153,7 +1153,7 @@ exit! 2
 #^^^^ support.function.builtin
 
 get :name, -> { "John" }
-#          ^^ meta.function.ruby storage.type.function.ruby keyword.declaration.function.lambda.ruby
+#          ^^ meta.function.ruby keyword.declaration.function.anonymous.ruby
 
 ##################
 # Symbol literals
@@ -1349,7 +1349,7 @@ def huh?(a, b=def huh?(a); "h?"; end)
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #             ^^^^^^^^^^^ meta.function meta.function
 #                     ^^^ meta.function.parameters meta.function.parameters
-#^^ storage.type.function keyword.declaration.function
+#^^ keyword.declaration.function
 #                      ^ variable.parameter
   a
 end

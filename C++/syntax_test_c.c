@@ -36,9 +36,9 @@ struct __declspec(dllimport) X {};
 struct foo {
 /*     ^ entity.name.struct */
     union {
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
         struct {
-/*      ^ storage.type */
+/*      ^ keyword.declaration */
             int a;
 /*          ^ storage.type */
             int b;
@@ -51,13 +51,13 @@ struct foo {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group */
 /*                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group meta.group */
-/*                                                                     ^^^^^^ storage.type */
+/*                                                                     ^^^^^^ keyword.declaration.struct.c */
 /*                                                                            ^ support.type */
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant.preprocessor */
 /*                                        ^ comment.block */
 /*                                                              ^ keyword.operator.word */
-/*                                                                     ^ storage.type */
+/*                                                                     ^ keyword.declaration */
 /*                                                                                              ^ comment.line */
 
 #pragma foo(bar, \
@@ -326,13 +326,13 @@ if (4) {
 /////////////////////////////////////////////
 
 typedef int myint;
-/* <- storage.type */
+/* <- keyword.declaration.type.c */
 /*      ^^^ storage.type.c */
 /*          ^ entity.name.type */
 /*               ^ punctuation.terminator.c */
 
 typedef unsigned long long ull_t,
-/* <- storage.type */
+/* <- keyword.declaration.type.c */
 /*      ^^^^^^^^ storage.type.c */
 /*               ^^^^ storage.type.c */
 /*                    ^^^^ storage.type.c */
@@ -347,8 +347,8 @@ typedef unsigned long long ull_t,
 /*                                ^ punctuation.terminator.c */
 
 typedef struct mystruct {
-/* <- storage.type */
-/*      ^^^^^^ storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^ entity.name.struct.c */
 /*                      ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
   int a;
@@ -360,8 +360,8 @@ typedef struct mystruct {
 /*        ^ punctuation.terminator.c */
 
 typedef struct another
-/* <- storage.type */
-/*      ^^^^^^ storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^ entity.name.struct.c */
 {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
@@ -376,64 +376,64 @@ typedef struct another
 /*                     ^ punctuation.terminator.c */
 
 typedef another_t another2_t;
-/* <- storage.type */
+/* <- keyword.declaration.type.c */
 /*      ^^^^^^^^^ support.type.c */
 /*                ^^^^^^^^^^ entity.name.type.typedef.c */
 /*                          ^ punctuation.terminator.c */
 
 typedef another_t *anotherp_t;
-/* <- storage.type */
+/* <- keyword.declaration.type.c */
 /*      ^^^^^^^^^ support.type.c */
 /*                ^ storage.modifier.c */
 /*                 ^^^^^^^^^^ entity.name.type.typedef.c */
 /*                           ^ punctuation.terminator.c */
 
 typedef void (*xhci_get_quirks_t)(struct device *d, struct xhci_hcd *);
-/*<- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*      ^^^^ storage.type.c */
 /*            ^ storage.modifier.c */
 /*             ^^^^^^^^^^^^^^^^^ entity.name.type.c */
-/*                                ^^^^^^ storage.type.c */
+/*                                ^^^^^^ keyword.declaration.struct.c */
 /*                                       ^^^^^^ support.type.c */
 /*                                              ^ storage.modifier.c */
 /*                                               ^ variable.parameter.c */
 /*                                                ^ punctuation.separator */
-/*                                                  ^^^^^^ storage.type.c */
+/*                                                  ^^^^^^ keyword.declaration.struct.c */
 /*                                                         ^^^^^^^^ support.type.c */
 /*                                                                  ^ storage.modifier.c */
 
 typedef struct Node* (*get_node_t)(struct device *d, struct xhci_hcd *);
-/*<- storage.type.c */
-/*      ^^^^^^ storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^^^^ support.type.c */
 /*                 ^ storage.modifier.c */
 /*                    ^ storage.modifier.c */
 /*                     ^^^^^^^^^^ entity.name.type.c */
-/*                                 ^^^^^^ storage.type.c */
+/*                                 ^^^^^^ keyword.declaration.struct.c */
 /*                                        ^^^^^^ support.type.c */
 /*                                               ^ storage.modifier.c */
 /*                                                ^ variable.parameter.c */
 /*                                                 ^ punctuation.separator */
-/*                                                   ^^^^^^ storage.type.c */
+/*                                                   ^^^^^^ keyword.declaration.struct.c */
 /*                                                          ^^^^^^^^ support.type.c */
 /*                                                                   ^ storage.modifier.c */
 
 
 typedef struct Node Node;
-/*<- storage.type.c */
-/*      ^^^^^^storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^^^^ support.type.c */
 /*                  ^^^^ entity.name.type.typedef.c */
 typedef struct Node* NodePtr;
-/*<- storage.type.c */
-/*      ^^^^^^storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^^^^ support.type.c */
 /*                 ^ storage.modifier.c */
 /*                   ^^^^^^^ entity.name.type.typedef.c */
 
 typedef struct {
-/*<- storage.type.c */
-/*      ^^^^^^storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^ meta.struct.body.c punctuation.section.block.begin.c */
     int data1;
 /*  ^^^ storage.type.c */
@@ -443,8 +443,8 @@ typedef struct {
 /*^^^^^^^ entity.name.type.typedef.c */
 
 typedef struct MyStruct {
-/*<- storage.type.c */
-/*      ^^^^^^storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^^^ keyword.declaration.struct.c */
 /*             ^^^^^^^^ entity.name.struct.c */
 /*                      ^ meta.struct.body.c punctuation.section.block.begin.c */
     int data1;
@@ -455,7 +455,7 @@ typedef struct MyStruct {
 /*^^^^^^^ entity.name.type.typedef.c */
 
 typedef char arrType[6];
-/*<- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*      ^^^^ storage.type.c */
 /*           ^^^^^^^ entity.name.type */
 /*                  ^ punctuation.section.brackets.begin.c */
@@ -463,7 +463,7 @@ typedef char arrType[6];
 /*                    ^ punctuation.section.brackets.end.c */
 
 typedef char arrType[NUMBER_OF_ELEMENTS];
-/*<- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*      ^^^^ storage.type.c */
 /*           ^^^^^^^ entity.name.type.typedef.c */
 /*                  ^ punctuation.section.brackets.begin.c */
@@ -471,7 +471,7 @@ typedef char arrType[NUMBER_OF_ELEMENTS];
 /*                                     ^ punctuation.section.brackets.end.c */
 
 typedef unsigned long ulong, *ulongptr;
-/*<- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*      ^^^^^^^^ storage.type.c */
 /*               ^^^^ storage.type.c */
 /*                    ^^^^^ entity.name.type.typedef.c */
@@ -480,8 +480,8 @@ typedef unsigned long ulong, *ulongptr;
 /*                            ^^^^^^^^ entity.name.type.typedef.c */
 
 typedef enum state {DEAD,ALIVE} State;
-/*<- storage.type.c */
-/*      ^^^^ storage.type.c */
+/* <- keyword.declaration.type.c */
+/*      ^^^^ keyword.declaration.enum.c */
 /*           ^^^^^ entity.name.enum.c */
 /*                  ^^^^ entity.name.constant.enum.c */
 /*                      ^ punctuation.separator.c */
@@ -491,16 +491,16 @@ typedef enum state {DEAD,ALIVE} State;
 
 
 typedef   __u8    u_int8_t;
-/* <- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*        ^^^^ constant.other.macro.c */
 /*                ^^^^^^^^ entity.name.type.typedef.c */
 typedef   __s8    int8_t;
-/* <- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*        ^^^^ constant.other.macro.c */
 /*                ^^^^^^ entity.name.type.typedef.c */
 
 typedef unsigned long long __u64;
-/* <- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*      ^^^^^^^^ storage.type.c */
 /*               ^^^^ storage.type.c */
 /*                    ^^^^ storage.type.c */
@@ -521,7 +521,7 @@ __extension__ typedef unsigned long long __u64;
 /////////////////////////////////////////////
 
 typedef void (*attrs_t)(
-/* <- storage.type.c */
+/* <- keyword.declaration.type.c */
 /*      ^^^^ storage.type.c */
 /*             ^^^^^^^ entity.name.type.c */
 /*                     ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
@@ -636,7 +636,7 @@ void proto(int, char*, char, struct foobar);
 /*                   ^ punctuation.separator.c */
 /*                     ^^^^ storage.type.c */
 /*                         ^ punctuation.separator.c */
-/*                           ^^^^^^ storage.type.c */
+/*                           ^^^^^^ keyword.declaration.struct.c */
 /*                                  ^^^^^^ support.type.c */
 /*                                         ^ punctuation.terminator.c */
 
@@ -673,7 +673,7 @@ static string foo(__attribute__((unused)));
 /////////////////////////////////////////////
 
 struct point
-/* ^ storage.type */
+/* ^ keyword.declaration.struct.c */
 /*     ^ entity.name.struct */
 {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
@@ -683,7 +683,7 @@ struct point
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 struct point2 {
-/* ^ storage.type */
+/* ^ keyword.declaration.struct.c */
 /*     ^ entity.name.struct */
 /*            ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int x;
@@ -697,7 +697,7 @@ int main(void) {
 }
 
 enum codes get_code() {}
-/* <- storage.type */
+/* <- keyword.declaration.enum.c */
 /*     ^ support.type - entity.name.struct */
 /*         ^^^^^^^^^  meta.function */
 /*         ^ entity.name.function */
@@ -707,7 +707,7 @@ enum codes get_code() {}
 /*                     ^ punctuation.section.block.end */
 
 union codes get_code() {}
-/* <- storage.type */
+/* <- keyword.declaration.union.c */
 /*     ^ support.type - entity.name.struct */
 /*          ^^^^^^^^^  meta.function */
 /*          ^ entity.name.function */
@@ -717,7 +717,7 @@ union codes get_code() {}
 /*                      ^ punctuation.section.block.end */
 
 struct point get_point() {}
-/* <- storage.type */
+/* <- keyword.declaration.struct.c */
 /*     ^ support.type - entity.name.struct */
 /*           ^^^^^^^^^  meta.function */
 /*           ^ entity.name.function */
@@ -731,7 +731,7 @@ EXPORT_SYMBOL(get_point);
 /*            ^^^^^^^^^ variable.other.indexed.c */
 
 inline struct point **alloc_points();
-/*     ^ storage.type */
+/*     ^ keyword.declaration.struct.c */
 /*            ^ support.type - entity.name.struct */
 /*                  ^^ storage.modifier.c */
 /*                    ^ entity.name.function */
@@ -744,7 +744,7 @@ EXPORT_SYMBOL(alloc_points);
 /*            ^^^^^^^^^^^^ variable.other.indexed.c */
 
 struct point* alloc_point();
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^ meta.struct.c support.type.c */
 /*          ^ storage.modifier.c */
 /*                  ^ entity.name.function - variable.function */
@@ -754,7 +754,7 @@ struct point* alloc_point();
 /*                         ^ punctuation.terminator.c */
 
 struct point FOO_API *alloc_point3(), alloc_point2(), struct_var2;
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^ meta.struct.c support.type.c */
 /*                   ^ storage.modifier.c */
 /*                     ^ entity.name.function - variable.function */
@@ -766,7 +766,7 @@ struct point FOO_API *alloc_point3(), alloc_point2(), struct_var2;
 /*                                                    ^^^^^^^^^^^ entity.name.variable.indexed.c */
 
 struct {
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
   int a;
 /*^^^ storage.type.c */
@@ -797,7 +797,7 @@ int f_with_s(struct { int a; } *s);
 /*<- storage.type.c */
 /*  ^^^^^^^^ meta.function.c entity.name.function.c */
 /*          ^ meta.function.parameters.c punctuation.section.group.begin.c */
-/*           ^^^^^^ meta.struct.c storage.type.c */
+/*           ^^^^^^ meta.struct.c keyword.declaration.struct.c */
 /*                  ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
 /*                    ^^^ storage.type.c */
 /*                        ^ entity.name.member.c */
@@ -813,12 +813,12 @@ TRACE_EVENT(mmc_request_start,
 /*                           ^ punctuation.separator.c */
   TP_PROTO(struct mmc_host *host, struct mmc_request *mrq)
 /*^^^^^^^^ constant.other.macro.c */
-/*         ^^^^^^ storage.type.c */
+/*         ^^^^^^ keyword.declaration.struct.c */
 /*                ^^^^^^^^ support.type.c */
 /*                         ^ keyword.operator.c */
 /*                          ^^^^ variable.other.c */
 /*                              ^ punctuation.separator.c */
-/*                                ^^^^^^ storage.type.c */
+/*                                ^^^^^^ keyword.declaration.struct.c */
 /*                                       ^^^^^^^^^^^ support.type.c */
 /*                                                   ^ keyword.operator.c */
 /*                                                    ^^^ variable.other.c */
@@ -848,7 +848,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
     __field(enum nl802154_iftype, type)
 /*  ^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*         ^ punctuation.section.group.begin.c */
-/*          ^^^^ storage.type.c */
+/*          ^^^^ keyword.declaration.enum.c */
 /*               ^^^^^^^^^^^^^^^ support.type.c */
 /*                              ^ punctuation.separator.c */
 /*                                ^^^^ variable.other.c */
@@ -958,7 +958,7 @@ static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
 /*                ^^^^^^^^^^^^ entity.name.function.c */
 /*                            ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
 /*                             ^^^^^ storage.modifier.c */
-/*                                   ^^^^^^ storage.type.c */
+/*                                   ^^^^^^ keyword.declaration.struct.c */
 /*                                          ^^^^^^^^ support.type.c */
 /*                                                   ^ storage.modifier.c */
 /*                                                    ^^^^ variable.parameter.c */
@@ -974,12 +974,12 @@ static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
 int main(void)
 {
     struct UI_BoundingBox decorativeBox = {10, titleHeight-3, width-20, height-10};
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type - entity.name */
 }
 
 struct MACRO foo {
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^ constant.other.macro */
 /*           ^ entity.name.struct */
 }
@@ -1020,60 +1020,60 @@ struct foo
 /*     ^ entity.name */
 
 struct UI_MenuBoxData
-/* <- storage.type */
+/* <- keyword.declaration.struct.c */
 /*     ^ entity.name.struct */
 {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     struct UI_BoundingBox position;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^ entity.name.member.indexed.c */
 /*                                ^ punctuation.terminator.c */
     struct UI_BoundingBox *position_p;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                         ^ entity.name.member.indexed.c */
 /*                                   ^ punctuation.terminator.c */
     struct UI_BoundingBox * position_p1;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                          ^ entity.name.member.indexed.c */
 /*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox **position_p2;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^^ storage.modifier.c */
 /*                          ^ entity.name.member.indexed.c */
 /*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox ** position_p3;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^^ storage.modifier.c */
 /*                           ^ entity.name.member.indexed.c */
 /*                                      ^ punctuation.terminator.c */
     struct UI_BoundingBox* position_p4;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                       ^ storage.modifier.c */
 /*                         ^ entity.name.member.indexed.c */
 /*                                    ^ punctuation.terminator.c */
     struct UI_BoundingBox** position_p5;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                       ^^ storage.modifier.c */
 /*                          ^ entity.name.member.indexed.c */
 /*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox * * position_p5;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                          ^ storage.modifier.c */
 /*                            ^ entity.name.member.indexed.c */
 /*                                       ^ punctuation.terminator.c */
     struct UI_BoundingBox *pos_1, *pos_1;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                         ^ entity.name.member.indexed.c */
@@ -1084,7 +1084,7 @@ struct UI_MenuBoxData
     const volatile struct UI_BoundingBox *cv_p;
 /*  ^^^^^ storage.modifier.c */
 /*        ^^^^^^^^ storage.modifier.c */
-/*                 ^^^^^^ storage.type */
+/*                 ^^^^^^ keyword.declaration.struct.c */
 /*                        ^ support.type.c - entity.name */
 /*                                       ^ storage.modifier.c */
 /*                                        ^ entity.name.member.indexed.c */
@@ -1098,27 +1098,27 @@ struct UI_MenuBoxData
 /*                                  ^ punctuation.section.brackets.end.c */
 /*                                   ^ punctuation.terminator.c */
     struct xhci_run_regs __iomem *run_regs;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                       ^ constant.other.macro.c */
 /*                               ^ storage.modifier.c */
 /*                                 ^ entity.name.member.indexed.c */
 /*                                        ^ punctuation.terminator.c */
     struct xhci_run_regs __attribute__((noderef)) *run_regs;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity.name */
 /*                       ^ - entity.name */
 /*                                                ^ storage.modifier.c */
 /*                                                 ^ entity.name.member.indexed.c */
 /*                                                         ^ punctuation.terminator.c */
     struct __attribute__((noderef)) xhci_run_regs *run_regs;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*                                  ^ support.type.c - entity.name */
 /*                                                ^ storage.modifier.c */
 /*                                                 ^ entity.name.member.indexed.c */
 /*                                                         ^ punctuation.terminator.c */
     struct nested_t {
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^^^^^^^^ entity.name.struct.c */
 /*                  ^ meta.struct.body.c meta.block.c meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
         int bar;
@@ -1134,7 +1134,7 @@ struct UI_MenuBoxData
 /*      ^ meta.preprocessor.macro.c entity.name.constant.preprocessor.c */
 
     enum UI_BoxCharType borderType;
-/*  ^^^^ storage.type.c */
+/*  ^^^^ keyword.declaration.enum.c */
 /*       ^^^^^^^^^^^^^^ support.type.c - entity.name */
 /*                      ^ entity.name.member.indexed.c */
 /*                                ^ punctuation.terminator.c */
@@ -1149,7 +1149,7 @@ struct UI_MenuBoxData
 /*               ^^^^^^^^ entity.name.member.indexed.c */
 /*                       ^ punctuation.terminator.c */
     struct UI_ScrollBoxText boxContents[];
-/*  ^^^^^^ storage.type.c */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^^^^^^^^^^^^^^^^ support.type.c */
 /*                          ^^^^^^^^^^^ entity.name.member.indexed.c */
 /*                                     ^ punctuation.section.brackets.begin.c */
@@ -1157,14 +1157,14 @@ struct UI_MenuBoxData
 /*                                       ^ punctuation.terminator.c */
 
     struct delayed_work monitor_work ____cacheline_aligned_in_smp;
-/*  ^^^^^^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^^^^^^^^^^^^ support.type.c */
 /*                      ^^^^^^^^^^^^ entity.name.member.indexed.c */
 /*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
 /*                                                               ^ punctuation.terminator.c */
     const struct efx_channel_type *
 /*  ^^^^^storage.modifier.c */
-/*        ^^^^^^ storage.type.c */
+/*        ^^^^^^ keyword.declaration.struct.c */
 /*               ^^^^^^^^^^^^^^^^ support.type - entity.name */
 /*                                ^ storage.modifier.c */
     extra_channel_type[EFX_MAX_EXTRA_CHANNELS];
@@ -1188,7 +1188,7 @@ struct UI_MenuBoxData
 /*      ^ meta.preprocessor.macro.c entity.name.constant.preprocessor.c */
 
 struct __attribute__((packed)) child_t {
-/* <- storage.type */
+/* <- keyword.declaration.struct.c */
 /*     ^ meta.attribute.c storage.modifier.c */
 /*                             ^^^^^^^ entity.name.struct */
     int foo;
@@ -1199,7 +1199,7 @@ struct __attribute__((packed)) child_t {
 struct child_t child1;
 
 struct __attribute__((packed)) child_t_line
-/* <- storage.type */
+/* <- keyword.declaration.struct.c */
 /*     ^ meta.attribute.c storage.modifier.c */
 /*                             ^^^^^^^ entity.name.struct */
 {
@@ -1209,7 +1209,7 @@ struct __attribute__((packed)) child_t_line
 };
 
 struct __attribute__((packed))
-/* <- storage.type */
+/* <- keyword.declaration.struct.c */
 /*     ^ meta.attribute.c storage.modifier.c */
 {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
@@ -1220,20 +1220,20 @@ struct __attribute__((packed))
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 struct rproc_ops {
-/* <- storage.type */
+/* <- keyword.declaration.struct.c */
 /*     ^ entity.name.struct */
 /*               ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int (*start)(struct rproc *rproc);
 /*  ^^^ storage.type.c */
 /*        ^^^^^ entity.name.member.indexed.c */
-/*               ^^^^^^ storage.type.c */
+/*               ^^^^^^ keyword.declaration.struct.c */
 /*                      ^^^^^ support.type.c */
 /*                             ^^^^^ variable.parameter.c */
     int (*start)(struct rproc *);
 /*  ^^^ storage.type.c */
 /*        ^^^^^ entity.name.member.indexed.c */
 /*              ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
-/*               ^^^^^^ storage.type.c */
+/*               ^^^^^^ keyword.declaration.struct.c */
 /*                      ^^^^^ support.type.c */
 /*                            ^ storage.modifier.c */
 /*                             ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
@@ -1241,18 +1241,18 @@ struct rproc_ops {
 /*  ^^^ support.type.c */
 /*        ^^^^^ entity.name.member.indexed.c */
 /*              ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
-/*               ^^^^^^ storage.type.c */
+/*               ^^^^^^ keyword.declaration.struct.c */
 /*                      ^^^^^ support.type.c */
 /*                            ^ storage.modifier.c */
 /*                             ^ punctuation.separator.c */
-/*                               ^^^^^^ storage.type.c */
+/*                               ^^^^^^ keyword.declaration.struct.c */
 /*                                      ^^^^^ support.type.c */
 /*                                            ^ storage.modifier.c */
 /*                                             ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
     void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 /*  ^^^ storage.type.c */
 /*           ^^^^^^^^ entity.name.member.indexed.c */
-/*                     ^^^^^^ storage.type.c */
+/*                     ^^^^^^ keyword.declaration.struct.c */
 /*                            ^^^^^ support.type.c */
 /*                                   ^^^^^ variable.parameter.c */
 /*                                          ^^^ support.type */
@@ -1260,17 +1260,17 @@ struct rproc_ops {
 /*                                                  ^^^ storage.type */
 /*                                                      ^^^ variable.parameter */
     struct resource_table *(*find_loaded_rsc_table)(
-/*  ^^^^^^ storage.type.c */
+/*  ^^^^^^ keyword.declaration.struct.c */
 /*         ^^^^^^^^^^^^^^ support.type.c */
 /*                           ^^^^^^^^^^^^^^^^^^^^^ entity.name.member.indexed.c */
                 struct rproc *rproc, const struct firmware *fw);
-/*              ^^^^^^ storage.type.c */
+/*              ^^^^^^ keyword.declaration.struct.c */
 /*                     ^^^^^ support.type.c */
 /*                           ^ storage.modifier.c */
 /*                            ^^^^^ variable.parameter.c */
 /*                                 ^ punctuation.separator */
 /*                                   ^^^^^ storage.modifier.c */
-/*                                         ^^^^^^ storage.type.c */
+/*                                         ^^^^^^ keyword.declaration.struct.c */
 /*                                                ^^^^^^^^ support.type.c */
 /*                                                          ^^ variable.parameter.c */
 };
@@ -1279,7 +1279,7 @@ struct rproc_ops {
 void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 /* <- storage.type.c */
 /*       ^^^^^^^^ entity.name.variable.indexed.c */
-/*                 ^^^^^^ storage.type.c */
+/*                 ^^^^^^ keyword.declaration.struct.c */
 /*                        ^^^^^ support.type.c */
 /*                              ^ storage.modifier.c */
 /*                               ^^^^^ variable.parameter.c */
@@ -1289,17 +1289,17 @@ void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 /*                                                  ^^^ variable.parameter */
 
 struct resource_table *(*find_loaded_rsc_table)(
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^^^^^^^^^^ support.type.c */
 /*                       ^^^^^^^^^^^^^^^^^^^^^ entity.name.variable.indexed.c */
             struct rproc *rproc, const struct firmware *fw);
-/*          ^^^^^^ storage.type.c */
+/*          ^^^^^^ keyword.declaration.struct.c */
 /*                 ^^^^^ support.type.c */
 /*                       ^ storage.modifier.c */
 /*                        ^^^^^ variable.parameter.c */
 /*                             ^ punctuation.separator */
 /*                               ^^^^^ storage.modifier.c */
-/*                                     ^^^^^^ storage.type.c */
+/*                                     ^^^^^^ keyword.declaration.struct.c */
 /*                                            ^^^^^^^^ support.type.c */
 /*                                                     ^ storage.modifier.c */
 /*                                                      ^^ variable.parameter.c */
@@ -1308,7 +1308,7 @@ struct resource_table *(*find_loaded_rsc_table)(
 void do_pci_scan_bridge(struct device *dev,
 /*   ^^^^^^^^^^^^^^^^^^ meta.function.c entity.name.function.c */
 /*                     ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c - meta.function.c */
-/*                      ^^^^^^ storage.type.c */
+/*                      ^^^^^^ keyword.declaration.struct.c */
 /*                             ^^^^^^ support.type.c */
 /*                                    ^ storage.modifier.c */
 /*                                     ^^^ variable.parameter.c */
@@ -1333,7 +1333,7 @@ extern int (*something)(const struct pci_dev *dev);
 /*           ^^^^^^^^^ entity.name.variable.indexed.c */
 /*                     ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
 /*                      ^^^^^ storage.modifier.c */
-/*                            ^^^^^^ storage.type.c */
+/*                            ^^^^^^ keyword.declaration.struct.c */
 /*                                   ^^^^^^^ support.type.c */
 /*                                           ^ storage.modifier.c */
 /*                                            ^^^ variable.parameter.c*/
@@ -1347,7 +1347,7 @@ static ssize_t function_with_params_on_newline
 /*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.c*/
     (struct device *dev,
 /*  ^ meta.group.c punctuation.section.group.begin.c */
-/*   ^^^^^^ storage.type.c */
+/*   ^^^^^^ keyword.declaration.struct.c */
 /*          ^^^^^^ support.type.c */
 /*                 ^ keyword.operator.c */
 /*                  ^^^ variable.other.c */
@@ -1367,7 +1367,7 @@ static ssize_t function_with_params_on_newline
 static const struct pci_driver my_driver __pci_driver __driver = {
 /* <- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
-/*           ^^^^^^ storage.type.c */
+/*           ^^^^^^ keyword.declaration.struct.c */
 /*                  ^^^^^^^^^^ support.type.c */
 /*                             ^^^^^^^^^ entity.name.variable.indexed.c */
 /*                                       ^^^^^^^^^^^^ constant.other.macro.c */
@@ -1394,22 +1394,22 @@ static const struct pci_driver my_driver __pci_driver __driver = {
 };
 
 struct __ec_align4 ec_response_get_version {};
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^^^^^^^ constant.other.macro.c */
 /*                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
 struct __align(4) ec_response_get_version {};
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*            ^^^ meta.function-call.parameters.c  */
 /*                ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
 
 struct ALIGN4 ec_response_get_version {};
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^^ constant.other.macro */
 /*            ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
 
 static const struct spd_info {
-/*           ^^^^^^ meta.struct.c storage.type.c */
+/*           ^^^^^^ meta.struct.c keyword.declaration.struct.c */
 /*                  ^^^^^^^^ entity.name.struct.c */
     size_t spd_len;
 /*  ^^^^^^ support.type */
@@ -1485,16 +1485,16 @@ pgd_t swapper_pg_dir[PTRS_PER_PGD] __aligned(PAGE_SIZE);
 /*                                                     ^ punctuation.terminator.c */
 
 struct mac_tfm_ctx {
-/* <- storage.type.c */
+/* <- keyword.declaration.struct.c */
 /*     ^^^^^^^^^^^ entity.name.struct.c */
 /*                 ^ meta.block.c  punctuation.section.block.begin.c */
   struct crypto_aes_ctx key;
-/*^^^^^^ storage.type.c */
+/*^^^^^^ keyword.declaration.struct.c */
 /*       ^^^^^^^^^^^^^^ support.type.c */
 /*                      ^^^ entity.name.member.c */
 /*                         ^ punctuation.terminator.c */
   struct crypto_aes_ctx __aligned(8) key2;
-/*^^^^^^ storage.type.c */
+/*^^^^^^ keyword.declaration.struct.c */
 /*       ^^^^^^^^^^^^^^ support.type.c */
 /*                      ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                               ^^^ meta.function-call.parameters.c */
@@ -1752,7 +1752,7 @@ static const struct print_field const err_flags[];
 /*                                               ^ punctuation.terminator.c */
 
 enum {
-/* <- storage.type */
+/* <- keyword.declaration.enum.c */
     ENUM_A,
 /*  ^ entity.name.constant.enum.c */
 /*        ^ punctuation.separator.c */
@@ -1785,7 +1785,7 @@ enum {
 };
 
 enum typec_mux {
-/* <- meta.enum.c storage.type.c */
+/* <- meta.enum.c keyword.declaration.enum.c */
 /*   ^^^^^^^^^ entity.name.enum.c */
   TYPEC_MUX_NONE = 0,
 /*^^^^^^^^^^^^^^ entity.name.constant.enum.c */
@@ -1968,7 +1968,7 @@ void func(int pack __attribute__((unused)),
 /*                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
 /*                                        ^ punctuation.separator.c */
   struct usbip_usb_interface *udev
-/*^^^^^^ storage.type.c */
+/*^^^^^^ keyword.declaration.struct.c */
 /*       ^^^^^^^^^^^^^^^^^^^ support.type.c */
 /*                           ^ storage.modifier.c */
 /*                            ^^^^ variable.parameter.c */
@@ -2006,7 +2006,7 @@ MACRO1 void * MACRO2 myfuncname () {
     }
 
     struct Args {
-/*  ^ storage.type */
+/*  ^ keyword.declaration.struct.c */
 /*         ^ entity.name.struct */
         void* hello;
 /*            ^^^^^ entity.name.member.indexed.c */
@@ -2015,7 +2015,7 @@ MACRO1 void * MACRO2 myfuncname () {
     };
 
     struct Args args;
-/*  ^ storage.type */
+/*  ^ keyword.declaration.struct.c */
 /*         ^ support.type.c - entity */
 /*              ^^^^ variable.other.c */
 }

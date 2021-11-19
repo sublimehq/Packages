@@ -23,7 +23,7 @@ def foo: Baz = 42
 //  ^^^ entity.name.function.scala
 //       ^^^ support.class
 //           ^ keyword.operator.assignment.scala
-//             ^^ constant.numeric.integer.decimal.scala
+//             ^^ meta.number.integer.decimal.scala
 
 def foo: Baz => Bar = 42;
 //       ^^^ support.class
@@ -40,7 +40,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //                 ^^^ support.class
 //                       ^^^ support.class
 //                           ^ keyword.operator.assignment.scala
-//                             ^^ constant.numeric.integer.decimal.scala
+//                             ^^ meta.number.integer.decimal.scala
 
    def +(a: Int)
 // ^^^ storage.type.function.scala
@@ -93,7 +93,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //     ^^^ variable.other.constant.scala
 //          ^^^^ storage.type.primitive.scala
 //              ^ punctuation.terminator.scala
-//                ^^ constant.numeric.integer.decimal.scala
+//                ^^ meta.number.integer.decimal.scala
 
    var foo: Unit
 // ^^^ storage.type.volatile.scala
@@ -126,12 +126,12 @@ def foo(a: Int, b: Bar): Baz = 42
 class Foo(x: Int = 42)
 //               ^ - support
 //               ^ keyword.operator.assignment.scala
-//                 ^^ constant.numeric
+//                 ^^ meta.number
 
 def foo(x: Int = 42)
 //             ^ - support
 //             ^ keyword.operator.assignment.scala
-//               ^^ constant.numeric
+//               ^^ meta.number
 
 trait Foo
 // ^^ storage.type.class.scala
@@ -179,121 +179,176 @@ type Foo = Bar[A] forSome { type A }
 
    42D 42d
 //^ - constant
-// ^^^ constant.numeric.float.decimal.scala
-//   ^ storage.type.numeric.scala
-//    ^ - constant
-//     ^^^ constant.numeric.float.decimal.scala
-//       ^ storage.type.numeric.scala
-//        ^ - constant
+// ^^^ meta.number.float.decimal.scala
+// ^^ constant.numeric.value.scala
+//   ^ constant.numeric.suffix.scala
+//    ^ - meta.number
+//     ^^^ meta.number.float.decimal.scala
+//     ^^ constant.numeric.value.scala
+//       ^ constant.numeric.suffix.scala
+//        ^ - meta.number
 
    42F 42f
-//^ - constant
-// ^^^ constant.numeric.float.decimal.scala
-//   ^ storage.type.numeric.scala
-//    ^ - constant
-//     ^^^ constant.numeric.float.decimal.scala
-//       ^ storage.type.numeric.scala
-//        ^ - constant
+//^ - meta.number
+// ^^^ meta.number.float.decimal.scala
+// ^^ constant.numeric.value.scala
+//   ^ constant.numeric.suffix.scala
+//    ^ - meta.number
+//     ^^^ meta.number.float.decimal.scala
+//     ^^ constant.numeric.value.scala
+//       ^ constant.numeric.suffix.scala
+//        ^ - meta.number
 
    .045 .045e2 .045e-2 .045e+2 .045e2f .045e-2f .045e+2f
-//^ - constant
+//^ - meta.number
 // ^ punctuation.separator.decimal.scala
-// ^^^^ constant.numeric.float.decimal.scala
-//     ^ - constant
-//      ^^^^^^ constant.numeric.float.decimal.scala
+// ^^^^ meta.number.float.decimal.scala
+//  ^^^ constant.numeric.value.scala
+//     ^ - meta.number
+//      ^^^^^^ meta.number.float.decimal.scala
 //      ^ punctuation.separator.decimal.scala
-//            ^ - constant
-//             ^^^^^^^ constant.numeric.float.decimal.scala
+//       ^^^ constant.numeric.value.scala
+//          ^^ constant.numeric.value.exponent.scala
+//            ^ - meta.number
+//             ^^^^^^^ meta.number.float.decimal.scala
 //             ^ punctuation.separator.decimal.scala
-//                    ^ - constant
-//                     ^^^^^^^ constant.numeric.float.decimal.scala
+//              ^^^ constant.numeric.value.scala
+//                 ^^^ constant.numeric.value.exponent.scala
+//                    ^ - meta.number
+//                     ^^^^^^^ meta.number.float.decimal.scala
 //                     ^ punctuation.separator.decimal.scala
-//                            ^ - constant
-//                             ^^^^^^^ constant.numeric.float.decimal.scala
+//                      ^^^ constant.numeric.value.scala
+//                         ^^^ constant.numeric.value.exponent.scala
+//                            ^ - meta.number
+//                             ^^^^^^^ meta.number.float.decimal.scala
 //                             ^ punctuation.separator.decimal.scala
-//                                   ^ storage.type.numeric.scala
-//                                    ^ - constant
-//                                     ^^^^^^^^ constant.numeric.float.decimal.scala
+//                              ^^^ constant.numeric.value.scala
+//                                 ^^ constant.numeric.value.exponent.scala
+//                                   ^ constant.numeric.suffix.scala
+//                                    ^ - meta.number
+//                                     ^^^^^^^^ meta.number.float.decimal.scala
 //                                     ^ punctuation.separator.decimal.scala
-//                                            ^ storage.type.numeric.scala
-//                                             ^ - constant
-//                                              ^^^^^^^^ constant.numeric.float.decimal.scala
+//                                      ^^^ constant.numeric.value.scala
+//                                         ^^^ constant.numeric.value.exponent.scala
+//                                            ^ constant.numeric.suffix.scala
+//                                             ^ - meta.number
+//                                              ^^^^^^^^ meta.number.float.decimal.scala
 //                                              ^ punctuation.separator.decimal.scala
-//                                                     ^ storage.type.numeric.scala
-//                                                      ^ - constant
+//                                               ^^^ constant.numeric.value.scala
+//                                                  ^^^ constant.numeric.value.exponent.scala
+//                                                     ^ constant.numeric.suffix.scala
+//                                                      ^ - meta.number
 
    0.045 0.045e2 0.045e-2 0.045e+2 0.045e2f 0.045e-2f 0.045e+2f
-//^ - constant
-// ^^^^^ constant.numeric.float.decimal.scala
+//^ - meta.number
+// ^^^^^ meta.number.float.decimal.scala
+// ^ constant.numeric.value.scala
 //  ^ punctuation.separator.decimal.scala
-//      ^ - constant
-//       ^^^^^^^ constant.numeric.float.decimal.scala
+//   ^^^ constant.numeric.value.scala
+//      ^ - meta.number
+//       ^^^^^^^ meta.number.float.decimal.scala
+//       ^ constant.numeric.value.scala
 //        ^ punctuation.separator.decimal.scala
-//              ^ - constant
-//               ^^^^^^^^ constant.numeric.float.decimal.scala
+//         ^^^ constant.numeric.value.scala
+//            ^^ constant.numeric.value.exponent.scala
+//              ^ - meta.number
+//               ^^^^^^^^ meta.number.float.decimal.scala
+//               ^ constant.numeric.value.scala
 //                ^ punctuation.separator.decimal.scala
-//                       ^ - constant
-//                        ^^^^^^^^ constant.numeric.float.decimal.scala
+//                 ^^^ constant.numeric.value.scala
+//                    ^^^ constant.numeric.value.exponent.scala
+//                       ^ - meta.number
+//                        ^^^^^^^^ meta.number.float.decimal.scala
+//                        ^ constant.numeric.value.scala
 //                         ^ punctuation.separator.decimal.scala
-//                                ^ - constant
-//                                 ^^^^^^^^ constant.numeric.float.decimal.scala
+//                          ^^^ constant.numeric.value.scala
+//                             ^^^ constant.numeric.value.exponent.scala
+//                                ^ - meta.number
+//                                 ^^^^^^^^ meta.number.float.decimal.scala
+//                                 ^ constant.numeric.value.scala
 //                                  ^ punctuation.separator.decimal.scala
-//                                        ^ storage.type.numeric.scala
-//                                         ^ - constant
-//                                          ^^^^^^^^^ constant.numeric.float.decimal.scala
+//                                   ^^^ constant.numeric.value.scala
+//                                      ^^ constant.numeric.value.exponent.scala
+//                                        ^ constant.numeric.suffix.scala
+//                                         ^ - meta.number
+//                                          ^^^^^^^^^ meta.number.float.decimal.scala
+//                                          ^ constant.numeric.value.scala
 //                                           ^ punctuation.separator.decimal.scala
-//                                                  ^ storage.type.numeric.scala
-//                                                   ^ - constant
-//                                                    ^^^^^^^^^ constant.numeric.float.decimal.scala
+//                                            ^^^ constant.numeric.value.scala
+//                                               ^^^ constant.numeric.value.exponent.scala
+//                                                  ^ constant.numeric.suffix.scala
+//                                                   ^ - meta.number
+//                                                    ^^^^^^^^^ meta.number.float.decimal.scala
+//                                                    ^ constant.numeric.value.scala
 //                                                     ^ punctuation.separator.decimal.scala
-//                                                            ^ storage.type.numeric.scala
-//                                                             ^ - constant
+//                                                      ^^^ constant.numeric.value.scala
+//                                                         ^^^ constant.numeric.value.exponent.scala
+//                                                            ^ constant.numeric.suffix.scala
+//                                                             ^ - meta.number
 
    1e2 1e-2 1e+2 1e2f 1e-2f 1e+2f
-//^ - constant
-// ^^^ constant.numeric.float.decimal.scala
-//    ^ - constant
-//     ^^^^ constant.numeric.float.decimal.scala
-//         ^ - constant
-//          ^^^^ constant.numeric.float.decimal.scala
-//              ^ - constant
-//               ^^^^ constant.numeric.float.decimal.scala
-//                  ^ storage.type.numeric.scala
-//                   ^ - constant
-//                    ^^^^^ constant.numeric.float.decimal.scala
-//                        ^ storage.type.numeric.scala
-//                         ^ - constant
-//                          ^^^^^ constant.numeric.float.decimal.scala
-//                              ^ storage.type.numeric.scala
+//^ - meta.number
+// ^^^ meta.number.float.decimal.scala
+// ^ constant.numeric.value.scala
+//  ^^ constant.numeric.value.exponent.scala
+//    ^ - meta.number
+//     ^^^^ meta.number.float.decimal.scala
+//     ^ constant.numeric.value.scala
+//      ^^^ constant.numeric.value.exponent.scala
+//         ^ - meta.number
+//          ^^^^ meta.number.float.decimal.scala
+//          ^ constant.numeric.value.scala
+//           ^^^ constant.numeric.value.exponent.scala
+//              ^ - meta.number
+//               ^^^^ meta.number.float.decimal.scala
+//               ^ constant.numeric.value.scala
+//                ^^ constant.numeric.value.exponent.scala
+//                  ^ constant.numeric.suffix.scala
+//                   ^ - meta.number
+//                    ^^^^^ meta.number.float.decimal.scala
+//                    ^ constant.numeric.value.scala
+//                     ^^^ constant.numeric.value.exponent.scala
+//                        ^ constant.numeric.suffix.scala
+//                         ^ - meta.number
+//                          ^^^^^ meta.number.float.decimal.scala
+//                          ^ constant.numeric.value.scala
+//                           ^^^ constant.numeric.value.exponent.scala
+//                              ^ constant.numeric.suffix.scala
 
 // decimal integers
 
    42 42L 42l
-//^ - constant
-// ^^ constant.numeric.integer.decimal.scala
-//   ^ - constant
-//    ^^^ constant.numeric.integer.decimal.scala
-//      ^ storage.type.numeric.scala
-//       ^ - constant
-//        ^^^ constant.numeric.integer.decimal.scala
-//          ^ storage.type.numeric.scala
-//           ^ - constant
+//^ - meta.number
+// ^^ meta.number.integer.decimal.scala
+// ^^ constant.numeric.value.scala
+//   ^ - meta.number
+//    ^^^ meta.number.integer.decimal.scala
+//    ^^ constant.numeric.value.scala
+//      ^ constant.numeric.suffix.scala
+//       ^ - meta.number
+//        ^^^ meta.number.integer.decimal.scala
+//        ^^ constant.numeric.value.scala
+//          ^ constant.numeric.suffix.scala
+//           ^ - meta.number
 
 // hexadecimal integers
 
    0x0aF9123 0x42L 0x42l
-//^ - constant
-// ^^ punctuation.definition.numeric.base.scala
-// ^^^^^^^^^ constant.numeric.integer.hexadecimal.scala
-//          ^ - constant
-//           ^^ punctuation.definition.numeric.base.scala
-//           ^^^^^ constant.numeric.integer.hexadecimal.scala
-//               ^ storage.type.numeric.scala
-//                ^ - constant
-//                 ^^ punctuation.definition.numeric.base.scala
-//                 ^^^^^ constant.numeric.integer.hexadecimal.scala
-//                     ^ storage.type.numeric.scala
-//                      ^ - constant
+//^ - meta.number
+// ^^^^^^^^^ meta.number.integer.hexadecimal.scala
+// ^^ constant.numeric.base.scala
+//   ^^^^^^^ constant.numeric.value.scala
+//          ^ - meta.number
+//           ^^^^^ meta.number.integer.hexadecimal.scala
+//           ^^ constant.numeric.base.scala
+//             ^^ constant.numeric.value.scala
+//               ^ constant.numeric.suffix.scala
+//                ^ - meta.number
+//                 ^^^^^ meta.number.integer.hexadecimal.scala
+//                 ^^ constant.numeric.base.scala
+//                   ^^ constant.numeric.value.scala
+//                     ^ constant.numeric.suffix.scala
+//                      ^ - meta.number
 
 // characters
 
@@ -352,7 +407,7 @@ type Foo = Bar[A] forSome { type A }
 // ^ support.function
 //           ^^ variable.other
 //              ^^ punctuation.definition.expression
-//                ^^ constant.numeric.integer.decimal.scala
+//                ^^ meta.number.integer.decimal.scala
 //                  ^ punctuation.definition.expression
 
    s"""testing $a ${42}"""
@@ -360,7 +415,7 @@ type Foo = Bar[A] forSome { type A }
 // ^ support.function
 //             ^^ variable.other
 //                ^^ punctuation.definition.expression
-//                  ^^ constant.numeric.integer.decimal.scala
+//                  ^^ meta.number.integer.decimal.scala
 //                    ^ punctuation.definition.expression
 //                     ^^^ string.quoted.triple.interpolated.scala
 
@@ -575,7 +630,7 @@ type Foo = Bar[A] forSome { type A }
    =>
 
    case 42 =>
-//      ^^ constant.numeric.integer.decimal.scala
+//      ^^ meta.number.integer.decimal.scala
 
    case 'a' =>
 //      ^^^ constant.character.literal.scala
@@ -953,7 +1008,7 @@ type Foo >: Bar
 
    a =>42
 // ^ variable.parameter
-//     ^^ constant.numeric.integer.decimal.scala
+//     ^^ meta.number.integer.decimal.scala
 
   (a: Int => Boolean) => 42
 //        ^^ keyword.operator.arrow.scala
@@ -1074,7 +1129,7 @@ for {} yield ()
 //           ^^ constant.language.scala
 
    42.bar
-//   ^ - constant.numeric.scala
+//   ^ - meta.number.scala
 
   baz[m.type]
 //      ^^^^ keyword.other.scala
@@ -1277,11 +1332,11 @@ def <(a: Int) = 42
 //                                      ^ text.xml meta.tag.xml
 //                     ^ text.xml string.quoted.single.xml punctuation.definition.string.begin.xml
 //                          ^ text.xml string.quoted.single.xml punctuation.definition.string.end.xml
-//                                  ^^ source.scala constant.numeric.integer.decimal.scala
+//                                  ^^ source.scala meta.number.integer.decimal.scala
      {
        42 + "thing"
 //     ^^^^^^^^^^^^ - text.xml
-//     ^^ source.scala constant.numeric.integer.decimal.scala
+//     ^^ source.scala meta.number.integer.decimal.scala
 //          ^^^^^^^ source.scala string.quoted.double.scala
        // comments!
 //     ^^^^^^^^^^^^ source.scala comment.line.double-slash.scala
@@ -1377,7 +1432,7 @@ def test
 // ^^^ storage.type.function.scala
 
 def foo: Map[Bar]=42
-//                ^^ constant.numeric.integer.decimal.scala
+//                ^^ meta.number.integer.decimal.scala
 
    x: Foo.Bar => ()
 // ^ variable.parameter.scala
@@ -1507,7 +1562,7 @@ String @local
 @obsolete("this class is horrible don't use it", alpha=3)
 //  ^^ variable.annotation
 //            ^ string
-//                                                     ^ constant.numeric.integer
+//                                                     ^ meta.number.integer
 trait Function0[@specialized(Unit, Int, Double) T] {
 //               ^^ variable.annotation
 //                           ^^ storage.type.primitive
@@ -1545,7 +1600,7 @@ class Foo extends Bar[A with B](42)
 //                    ^ support.class.scala
 //                      ^^^^ keyword.declaration.scala
 //                           ^ support.class.scala
-//                              ^^ constant.numeric.integer.decimal.scala
+//                              ^^ meta.number.integer.decimal.scala
 
 class Foo extends Bar { val x = 42 } with Baz
 //                    ^ punctuation.section.braces.begin.scala
@@ -1644,21 +1699,21 @@ class Foo extends Bar
 
 def foo
    42
-// ^^ constant.numeric.integer.decimal.scala
+// ^^ meta.number.integer.decimal.scala
 
 def foo()
    42
-// ^^ constant.numeric.integer.decimal.scala
+// ^^ meta.number.integer.decimal.scala
 
 def foo():
    42
-// ^^ constant.numeric.integer.decimal.scala
+// ^^ meta.number.integer.decimal.scala
 
 val foo: Thing =42
-//              ^^ constant.numeric.integer.decimal.scala
+//              ^^ meta.number.integer.decimal.scala
 
 var foo: Thing =42
-//              ^^ constant.numeric.integer.decimal.scala
+//              ^^ meta.number.integer.decimal.scala
 
 class Foo extends Bar with {
    import Thing._
@@ -1821,7 +1876,7 @@ type =?>[A] = Any
 //           ^^ support.type.scala
 
 val x: = 42
-//       ^^ constant.numeric.integer.decimal.scala
+//       ^^ meta.number.integer.decimal.scala
 
    object Foo
    IO

@@ -3,7 +3,7 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.js meta.function.declaration entity.name.function,
+		source.js entity.name.function,
 		source.js meta.class entity.name.class
 	</string>
 	<key>settings</key>

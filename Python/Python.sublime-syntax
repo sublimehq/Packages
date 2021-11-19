@@ -117,87 +117,100 @@ contexts:
     - match: \b(import)\b
       scope: keyword.control.import.python
       push:
-        - meta_scope: meta.statement.import.python
-        - include: line-continuation-or-pop
-        - match: ','
-          scope: punctuation.separator.import-list.python
-        - match: \.
-          scope: invalid.illegal.unexpected-relative-import.python
-        - include: import-alias
-        - include: qualified-name
-        - match: (?=\S)
-          pop: true
+        - imports-import-body
+        - expect-absolute-import
     - match: \b(from)\b
       scope: keyword.control.import.from.python
       push:
-        - meta_scope: meta.statement.import.python
-        - meta_content_scope: meta.import-source.python
-        - include: line-continuation-or-pop
-        - match: \b(import)\b
+        - imports-from-body
+        - maybe-relative-import
+
+  imports-import-body:
+    - meta_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - match: ','
+      scope: punctuation.separator.import-list.python
+      push: expect-absolute-import
+    - match: (?=\bas\b)
+      set: import-alias-list
+    - include: qualified-name
+    - match: (?=\S)
+      pop: true
+
+  imports-from-body:
+    - meta_scope: meta.statement.import.python
+    - meta_content_scope: meta.import-source.python
+    - include: line-continuation-or-pop
+    - match: (?=\bas\b)
+      set: import-alias-list
+    - match: (?=\bimport\b)
+      set:
+        - meta_include_prototype: false
+        - match: import
           scope: keyword.control.import.python
+          set: imports-from-import-body
+    - match: '{{illegal_names}}\b'
+      scope: meta.import-path.python invalid.illegal.name.python
+    - match: '{{identifier}}'
+      scope: meta.import-path.python meta.import-name.python
+    - match: \s*(\.) *(?={{identifier}}|$)
+      captures:
+        0: meta.import-path.python
+        1: punctuation.accessor.dot.python
+    - match: \s*(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+      captures:
+        0: meta.import-path.python
+        1: invalid.illegal.name.python
+    - match: (?=\S)
+      pop: true
+
+  imports-from-import-body:
+    - meta_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - match: (?=\()
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.import-list.begin.python
           set:
-            - meta_scope: meta.statement.import.python
-            - include: line-continuation-or-pop
-            - match: ' *(\()'
-              captures:
-                1: punctuation.section.import-list.begin.python
-              set:
-                - meta_scope: meta.statement.import.python
-                - include: comments
-                - match: \)
-                  scope: punctuation.section.import-list.end.python
-                  pop: true
-                - include: import-name-list
-                - match: (?=\S)
-                  pop: true
-            - match: ''
-              set:
-                - meta_scope: meta.statement.import.python
-                - include: line-continuation-or-pop
-                - include: import-name-list
-                - match: (?=\S)
-                  pop: true
-            - match: (?=\S)
+            - meta_scope: meta.statement.import.python meta.import-list.python
+            - match: \)
+              scope: punctuation.section.import-list.end.python
               pop: true
-        - include: import-from-name
-        - match: (?=\S)
-          pop: true
+            - include: comments
+            - include: import-name-list
+    - match: (?=\S)
+      set: import-alias-list
+
+  import-alias-list:
+    - meta_content_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - include: import-name-list
 
   import-name-list:
     - match: ','
       scope: punctuation.separator.import-list.python
-    - include: import-alias
-    - include: name
     - match: \*
       scope: constant.language.import-all.python
-    - match: \S+
-      scope: invalid.illegal.name.import.python
-
-  import-alias:
     - match: \b(as)\b
       scope: keyword.control.import.as.python
+    - include: name
+    - match: '[^\s,)]+'
+      scope: invalid.illegal.name.import.python
 
-  import-from-name:
+  expect-absolute-import:
+    - include: line-continuation-or-pop
+    - match: \.+
+      scope: invalid.illegal.unexpected-relative-import.python
+    - match: (?=\S)
+      pop: true
+
+  maybe-relative-import:
+    - include: line-continuation-or-pop
     - match: \.+
       scope: meta.import-path.python keyword.control.import.relative.python
-    - match: (?={{path}})
-      push:
-        - meta_scope: meta.import-path.python
-        - match: '{{illegal_names}}\b'
-          scope: invalid.illegal.name.python
-        - match: '{{identifier}}'
-          scope: meta.import-name.python
-        - match: \s*(\.) *(?:({{illegal_names}}\b)|({{identifier}}))
-          captures:
-            1: punctuation.accessor.dot.python
-            2: invalid.illegal.name.python
-            3: meta.import-name.python
-        - match: \ *(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
-          captures:
-            1: invalid.illegal.name.python
-          pop: true
-        - match: ''
-          pop: true
+    - match: (?=\S)
+      pop: true
 
   block-statements:
     # async for ... in ...:
@@ -566,7 +579,7 @@ contexts:
   classes:
     - match: '^\s*(class)\b'
       captures:
-        1: storage.type.class.python keyword.declaration.class.python
+        1: keyword.declaration.class.python
       push:
         - meta_scope: meta.class.python
         - include: line-continuation-or-pop
@@ -615,8 +628,8 @@ contexts:
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
-        1: storage.modifier.async.python
-        2: storage.type.function.python keyword.declaration.function.python
+        1: keyword.declaration.async.python
+        2: keyword.declaration.function.python
       push:
         - meta_scope: meta.function.python
         - include: line-continuation-or-pop
@@ -1165,6 +1178,8 @@ contexts:
         - include: dotted-name
         - match: ''
           pop: true
+    - match: \.
+      scope: punctuation.accessor.dot.python
 
   qualified-name-until-leaf:
     # Push this together with another context to match a qualified name

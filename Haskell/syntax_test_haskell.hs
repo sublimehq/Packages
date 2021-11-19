@@ -124,19 +124,19 @@
 --     ^ keyword.operator.haskell
 --       ^^^ variable.function.infix.haskell
 --        ^ keyword.operator.haskell
---             ^ constant.numeric.integer.decimal.haskell
+--             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
    a a = (-) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ variable.function.infix.haskell
---             ^ constant.numeric.integer.decimal.haskell
+--             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
    a a = (*) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ variable.function.infix.haskell
---             ^ constant.numeric.integer.decimal.haskell
+--             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
    a a = (/) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ variable.function.infix.haskell
---             ^ constant.numeric.integer.decimal.haskell
+--             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
 
    a `member` x
@@ -256,53 +256,64 @@ main = do
     [1,2]
 --  ^^^^^ meta.sequence.haskell
 --  ^ punctuation.section.sequence.begin.haskell
---   ^ constant.numeric.integer.decimal.haskell
+--   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 --    ^ punctuation.separator.sequence.haskell
---     ^ constant.numeric.integer.decimal.haskell
+--     ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 --      ^ punctuation.section.sequence.end.haskell
 
 
 --NUMBERS
 
     0
---  ^ constant.numeric.integer.decimal
+--  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     1234567890
---  ^^^^^^^^^^ constant.numeric.integer.decimal
+--  ^^^^^^^^^^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     0o1234567
---  ^^^^^^^^^ constant.numeric.integer.octal
---  ^^ punctuation.definition.numeric.base.haskell
+--  ^^^^^^^^^ meta.number.integer.octal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^ constant.numeric.value.haskell
 
     1.
---  ^ constant.numeric.integer.decimal
+--  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 --   ^ keyword.operator.haskell
 
     .2
 --  ^ keyword.operator.haskell
---   ^ constant.numeric.integer.decimal
+--   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     12.345
---  ^^^^^^ constant.numeric.float.decimal
+--  ^^^^^^ meta.number.float.decimal.haskell
+--  ^^ constant.numeric.value.haskell
 --    ^ punctuation.separator.decimal
+--     ^^^ constant.numeric.value.haskell
 
     1e10
---  ^^^^ constant.numeric.float.decimal
+--  ^^^^ meta.number.float.decimal.haskell
+--  ^ constant.numeric.value.haskell
+--   ^^^ constant.numeric.value.exponent.haskell
 
     0.5e+0
---  ^^^^^^ constant.numeric.float.decimal
---   ^ punctuation.separator.decimal
+--  ^^^^^^ meta.number.float.decimal.haskell
+--  ^ constant.numeric.value.haskell
+--   ^ punctuation.separator.decimal.haskell
+--    ^ constant.numeric.value.haskell
+--     ^^^ constant.numeric.value.exponent.haskell
 
     9e-1
---  ^^^^ constant.numeric.float.decimal
+--  ^^^^ meta.number.float.decimal.haskell
+--  ^ constant.numeric.value.haskell
+--   ^^^ constant.numeric.value.exponent.haskell
 
     0x0
---  ^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^^ meta.number.integer.hexadecimal.haskell
+--  ^^ constant.numeric.base.haskell
 
     0XdeafBEEF42
---  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^^^^^^^^^^^ meta.number.integer.hexadecimal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^ constant.numeric.value.haskell
 
 --STRINGS
 

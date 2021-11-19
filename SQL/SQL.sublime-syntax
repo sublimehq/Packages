@@ -16,7 +16,7 @@ contexts:
     - match: |-
         (?xi)
         \b(create(?:\s+or\s+replace)?)\s+
-        (aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
+        (aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
         \b\s*
       scope: meta.create.sql
       captures:
@@ -40,14 +40,19 @@ contexts:
       captures:
         1: keyword.other.create.sql
         2: keyword.other.table.sql
+    - match: (?i:\s*\b(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))
+      scope: meta.add.sql
+      captures:
+        1: keyword.other.add.sql
+        2: keyword.other.sql
     - match: |-
         (?xi)
 
                 # normal stuff, capture 1
-                 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|inet|int|integer|line|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text)\b
+                \b(bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
 
                 # numeric suffix, capture 2 + 3i
-                |\b(bit\svarying|character\s(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
+                |\b(bit\svarying|character\s+(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
 
                 # optional numeric suffix, capture 4 + 5i
                 |\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
@@ -56,10 +61,10 @@ contexts:
                 |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
 
                 # special case, captures 9, 10i, 11
-                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\stime\szone\b)?
+                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\s+time\s+zone\b)?
 
                 # special case, captures 12, 13, 14i, 15
-                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\stime\szone\b)?
+                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\s+time\s+zone\b)?
 
 
       captures:
@@ -78,7 +83,7 @@ contexts:
         13: storage.type.sql
         14: constant.numeric.sql
         15: storage.type.sql
-    - match: (?i:\b((?:primary|foreign)\s+key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
+    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
       scope: storage.modifier.sql
     - match: \b\d+\b
       scope: constant.numeric.sql

@@ -40,7 +40,7 @@ int main(){
 #define IGUARD_
  /* <- keyword.control.import.define */
 struct foo* alloc_foo();
-/* <- storage.type */
+/* <- keyword.declaration */
        /* <- - entity.name.type */
             /* <- entity.name.function */
 #endif
@@ -440,7 +440,7 @@ auto a = 2;
 /* <- storage.type */
 
 decltype(s) dt;
-/* <- storage.type */
+/* <- keyword.declaration.type */
 /*      ^ punctuation.section.group.begin */
 /*        ^ punctuation.section.group.end */
 
@@ -451,11 +451,11 @@ double d;
 /* <- storage.type */
 
 typedef int my_int;
-/* <- storage.type */
+/* <- keyword.declaration.type */
 /*          ^ entity.name.type */
 
 typedef struct Books {
-/*      ^ storage.type */
+/*      ^^^^^^ keyword.declaration.struct */
 /*             ^ - entity.name.type */
    char title[50];
    int book_id;
@@ -512,24 +512,24 @@ typedef struct Books Book;
 /*                   ^ entity.name.type.typedef */
 
 template class MyStack<int, 6>;
-/* <- storage.type.template */
+/* <- keyword.declaration.template */
 /*                    ^ punctuation.section.generic */
 /*                     ^ storage.type */
 /*                          ^ meta.number */
 /*                           ^ punctuation.section.generic */
 
 template<class typeId, int N> class tupleTmpl;
-/* <- storage.type.template */
+/* <- keyword.declaration.template */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */
 /*      ^ punctuation.section.generic.begin */
-/*       ^ storage.type */
+/*       ^^^^^ keyword.declaration.c++ */
 /*                      ^ storage.type */
 /*                          ^ punctuation.section.generic.end */
 
 template<typename First = U<V>, typename... Rest> class tupleVariadic;
-/* <- storage.type.template */
+/* <- keyword.declaration.template */
 /*      ^ punctuation.section.generic.begin */
-/*       ^ storage.type */
+/*       ^^^^^^^^ keyword.declaration */
 /*                         ^ punctuation.section.generic.begin */
 /*                           ^ punctuation.section.generic.end */
 /*                            ^ punctuation.separator */
@@ -568,7 +568,7 @@ bool A::operator<(const A& a) { return false; }
 /*      ^^^^^^^^^ entity.name.function */
 /*               ^ meta.function.parameters punctuation.section.group.begin */
 template <class T> bool A<T>::operator<(const A& a) { return false; }
-/*     ^ storage.type.template */
+/*     ^ keyword.declaration.template */
 /*       ^ punctuation.section.generic.begin */
 /*               ^ punctuation.section.generic.end */
 /*                      ^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
@@ -661,9 +661,9 @@ template <class ...Types> class C { /* ... */ };
 template<template<class> class P> class X { /* ... */ };
 /*      ^ meta.template punctuation                              */
 /*               ^ meta.template meta.template punctuation       */
-/*                ^^^^^ meta.template meta.template storage.type */
+/*                ^^^^^ meta.template meta.template keyword.declaration */
 /*                     ^ meta.template meta.template punctuation */
-/*                       ^^^^^ meta.template storage.type        */
+/*                       ^^^^^ meta.template keyword.declaration */
 /*                              ^ meta.template punctuation      */
 
 X<A> xa; // OK
@@ -673,7 +673,7 @@ X<C> xc; // OK in C++14 after CWG 150
 
 // template declarations spanning multiple lines
 template
-/* <- meta.template storage.type */
+/* <- meta.template keyword.declaration.template */
 <
 /* <- meta.template punctuation.section.generic.begin */
     class T,
@@ -705,7 +705,7 @@ static bool decode(const Node& node, T& sequence) {
   for (const auto& item : node) {
     sequence.push_back(item.template as<typename T::value_type>());
     /*                     ^ punctuation.accessor                           */
-    /*                      ^ storage.type - variable.other                 */
+    /*                      ^ keyword.declaration.template - variable.other */
     /*                               ^ variable.function                    */
     /*                                 ^ punctuation                        */
     /*                                            ^^ punctuation.accessor   */
@@ -773,7 +773,7 @@ void f(T* p)
 
     T* p2 = p->template alloc<200>(); // OK: < starts template argument list
     /*        ^ punctuation.accessor           */
-    /*         ^ storage.type - variable.other */
+    /*         ^ keyword.declaration.template - variable.other */
     /*                  ^ variable.function    */
 
     // Be optimistic: scope it as a template member function call anyway.
@@ -782,7 +782,7 @@ void f(T* p)
     T::template adjust<100>(); // OK: < starts template argument list
     /* <- - variable.function                    */
     /*^ punctuation.accessor                     */
-    /* ^ storage.type - variable.other           */
+    /* ^ keyword.declaration.template - variable.other */
     /* ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
     /*          ^ variable.function              */
 }
@@ -1430,7 +1430,7 @@ struct foo **alloc_foo();
 /*                    ^^ meta.function.parameters meta.group */
 /*                    ^ punctuation.section.group.begin */
 /*                     ^ punctuation.section.group.end */
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*     ^ - entity.name.struct */
 /*         ^^ keyword.operator */
 /*           ^ entity.name.function */
@@ -1482,7 +1482,7 @@ MACRO1 void * MACRO2 myfuncname () {
 /*                   ^ entity.name.function */
 
     struct Args {
-/*  ^ storage.type */
+/*  ^^^^^^ keyword.declaration.struct.type */
 /*         ^ entity.name.struct */
         void* hello;
         void* foobar;
@@ -1496,11 +1496,11 @@ MACRO1 void * MACRO2 myfuncname () {
     };
 
     struct Args args2;
-/*  ^ storage.type */
+/*  ^^^^^^ keyword.declaration */
 /*         ^ - entity */
 
     class LocalFoo MYMACRO
-/*  ^ storage.type */
+/*  ^^^^^ keyword.declaration.class */
 /*        ^ entity.name.class */
 /*                 ^ - entity */
     {
@@ -1509,7 +1509,7 @@ MACRO1 void * MACRO2 myfuncname () {
     }
 
     class LocalFoo test;
-/*  ^ storage.type */
+/*  ^^^^^ keyword.declaration.class */
 /*        ^ - entity */
 
 }
@@ -1644,7 +1644,7 @@ void test_in_extern_c_block()
 /*            <- meta.preprocessor */
 /*      <- keyword.control.import */
    typedef bool _Bool;   /* semi-hackish: C++ has no _Bool; bool is builtin */
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*              ^ entity.name.type.typedef */
 # endif
 /*     <- meta.preprocessor */
@@ -1799,7 +1799,7 @@ class BaseClass;
 /*    ^^^^^^^^^ entity.name.class.forward-decl */
 
 class BaseClass // comment
-/* <- storage.type */
+/* <- keyword.declaration */
 /*    ^ entity.name.class */
 {
 public :
@@ -2047,7 +2047,7 @@ private:
 /*  ^ entity.name.function */
 
     enum
-/*  ^^^^ meta.enum storage.type */
+/*  ^^^^ meta.enum keyword.declaration */
     {
 /*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
@@ -2075,7 +2075,7 @@ private:
 
     friend class ::FooBar;
 /*  ^ storage.modifier */
-/*         ^ storage.type
+/*         ^ keyword.declaration
 /*               ^^ punctuation.accessor */
 /*                 ^ - entity */
 
@@ -2230,7 +2230,7 @@ struct A {
 
 struct bar {
 /*^^^^^^^^^^ meta.struct */
-/*^^^^ storage.type */
+/*^^^^ keyword.declaration */
 /*     ^^^ entity.name.struct */
 /*         ^ meta.block punctuation.section.block.begin */
     bar()
@@ -2243,7 +2243,7 @@ struct bar {
 
 enum baz {
 /*^^^^^^^^ meta.enum */
-/* <- meta.enum storage.type */
+/* <- meta.enum keyword.declaration */
 /*   ^^^ entity.name.enum */
 /*       ^ meta.block punctuation.section.block.begin */
     FOO = 1,
@@ -2277,7 +2277,7 @@ struct foo
 /*     ^ entity.name */
 
 struct UI_MenuBoxData
-/* <- storage.type */
+/* <- keyword.declaration */
 /*     ^ entity.name.struct */
 {
     struct UI_BoundingBox position;
@@ -2295,7 +2295,7 @@ struct UI_MenuBoxData
 
 enum class qux : std::uint8_t
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
-/*^^^^^^^^ storage.type */
+/*^^^^^^^^ keyword.declaration */
 /*         ^^^ entity.name.enum */
 /*             ^ punctuation.separator */
 /*               ^^^^^^^^^^^^ entity.other.inherited-class */
@@ -2318,7 +2318,7 @@ enum LineEnding : uint32_t;
 /*                        ^ - meta.enum */
 
 union foobaz {
-/* <- meta.union storage.type */
+/* <- meta.union keyword.declaration */
 /*    ^^^^^^ entity.name.union */
 /*           ^ meta.block punctuation.section.block.begin */
 }
@@ -2330,7 +2330,7 @@ class SP {}
 /*    ^^ entity.name.class */
 
 class MyClass MACRO MACRO2
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*    ^ entity.name.class */
 /*            ^ - entity */
 /*                  ^ - entity */

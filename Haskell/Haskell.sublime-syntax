@@ -85,16 +85,18 @@ contexts:
       scope: constant.other.haskell
 
   number:
-    - match: \b(0[oO])[0-7]+\b
-      scope: constant.numeric.integer.octal.haskell
+    - match: \b(0[oO])([0-7]+)\b
+      scope: meta.number.integer.octal.haskell
       captures:
-        1: punctuation.definition.numeric.base.haskell
-    - match: \b(0[xX])\h+\b
-      scope: constant.numeric.integer.hexadecimal.haskell
+        1: constant.numeric.base.haskell
+        2: constant.numeric.value.haskell
+    - match: \b(0[xX])(\h+)\b
+      scope: meta.number.integer.hexadecimal.haskell
       captures:
-        1: punctuation.definition.numeric.base.haskell
+        1: constant.numeric.base.haskell
+        2: constant.numeric.value.haskell
     - match: \b\d+\b
-      scope: constant.numeric.integer.decimal.haskell
+      scope: meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
   declaration:
     - match: \bmodule\b
@@ -197,10 +199,14 @@ contexts:
         2: punctuation.definition.function.end.haskell
     - match: '\binfix[lr]?\b'
       scope: keyword.operator.haskell
-    - match: \b\d+(?:(\.)\d+(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+))\b
-      scope: constant.numeric.float.decimal.haskell
+    - match: \b(\d+)(?:(\.)(\d+)([eE][-+]?\d+)?|([eE][-+]?\d+))\b
+      scope: meta.number.float.decimal.haskell
       captures:
-        1: punctuation.separator.decimal.haskell
+        1: constant.numeric.value.haskell
+        2: punctuation.separator.decimal.haskell
+        3: constant.numeric.value.haskell
+        4: constant.numeric.value.exponent.haskell
+        5: constant.numeric.value.exponent.haskell
     - match: '{{operator_infix}}'
       scope: keyword.operator.haskell
     - include: operator_paren

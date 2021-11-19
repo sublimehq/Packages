@@ -133,7 +133,7 @@ contexts:
     - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
       scope: storage.type.c++
     - match: \bclass\b
-      scope: storage.type.c++
+      scope: keyword.declaration.class.c++
 
   unique-strings:
     - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
@@ -523,7 +523,7 @@ contexts:
   types-parens:
     - match: '\b(decltype)\b\s*(\()'
       captures:
-        1: storage.type.c++
+        1: keyword.declaration.type.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
       push:
         - meta_content_scope: meta.group.c++
@@ -607,7 +607,7 @@ contexts:
 
   template:
     - match: \btemplate\b
-      scope: storage.type.template.c++
+      scope: keyword.declaration.template.c++
       push:
         - meta_scope: meta.template.c++
         # Explicitly include comments here at the top, in order to NOT match the
@@ -623,14 +623,14 @@ contexts:
             - match: \.{3}
               scope: keyword.operator.variadic.c++
             - match: \b(typename|{{before_tag}})\b
-              scope: storage.type.c++
+              scope: keyword.declaration.c++
             - include: template # include template here for nested templates
             - include: template-common
         - match: (?=\S)
           set:
             - meta_content_scope: meta.template.c++
             - match: \b({{before_tag}})\b
-              scope: storage.type.c++
+              scope: keyword.declaration.c++
             - include: template-common
 
   generic-type:
@@ -638,7 +638,7 @@ contexts:
       push:
         - meta_scope: meta.function-call.c++
         - match: \btemplate\b
-          scope: storage.type.template.c++
+          scope: keyword.declaration.template.c++
         - match: (?:(::)\s*)?({{identifier}})\s*(<)
           captures:
             1: punctuation.accessor.double-colon.c++
@@ -767,7 +767,7 @@ contexts:
     # kind of entity we're accessing.
     - include: comments
     - match: \btemplate\b
-      scope: meta.method-call.c++ storage.type.template.c++
+      scope: meta.method-call.c++ keyword.declaration.template.c++
       # Guaranteed to be a template member function call after we match this
       set:
         - meta_content_scope: meta.method-call.c++
@@ -860,7 +860,7 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.c++
+      scope: keyword.declaration.type.c++
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
@@ -868,7 +868,7 @@ contexts:
           pop: true
         - match: \b(struct)\s+({{identifier}})\b
           captures:
-            1: storage.type.c++
+            1: keyword.declaration.struct.c++
         - include: expressions-minus-generic-type
 
   parens:
@@ -984,7 +984,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.c++
+        1: keyword.declaration.c++
       set:
         - include: identifiers
         - match: ''
@@ -1164,19 +1164,19 @@ contexts:
 
   data-structures:
     - match: '\bclass\b'
-      scope: storage.type.c++
+      scope: keyword.declaration.class.c++
       set: data-structures-class-definition
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{path_lookahead}}\s+{{path_lookahead}}\s*[=;\[])'
-      scope: storage.type.c++
+      scope: keyword.declaration.c++
     - match: '\bstruct\b'
-      scope: storage.type.c++
+      scope: keyword.declaration.struct.type.c++
       set: data-structures-struct-definition
     - match: '\benum(\s+(class|struct))?\b'
-      scope: storage.type.c++
+      scope: keyword.declaration.union.type.c++
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.c++
+      scope: keyword.declaration.union.type.c++
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -1400,7 +1400,7 @@ contexts:
       push:
         - include: comments
         - match: '\b({{before_tag}})\b'
-          scope: storage.type.c++
+          scope: keyword.declaration.c++
           set: data-structures-modifier-friend
         - match: '(?=\S)(?=[^;]+;)'
           set: data-structures-modifier-friend
@@ -1479,7 +1479,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.c++
+        1: keyword.declaration.c++
       set:
         - include: identifiers
         - match: ''

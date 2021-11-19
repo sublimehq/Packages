@@ -71,7 +71,7 @@ namespace YourNamespace
 ///                         ^^^^ support.type
 ///                              ^^^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
-///                                     ^^ storage.type.function
+///                                     ^^ keyword.declaration.function.anonymous.cs
 ///                                        ^^^^ variable.language
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
@@ -120,7 +120,7 @@ namespace YourNamespace
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                     ^^^^^^^^^ entity.name.function
 ///                              ^^ meta.method.parameters
-///                                 ^^ storage.type.function
+///                                 ^^ keyword.declaration.function.anonymous.cs
 ///                                    ^^^^^ constant.language
     }
 
@@ -1100,12 +1100,17 @@ namespace TestNamespace.Test
                 goto case 'b';
 ///             ^^^^ keyword.control.flow.goto
 ///                  ^^^^ keyword.control.switch.case
-///                       ^^^ constant.character
+///                       ^^^ meta.string string.quoted.single
+///                       ^ punctuation.definition.string.begin
+///                        ^ constant.character.literal
+///                         ^ punctuation.definition.string.end
 ///                          ^ punctuation.terminator.statement
             case 'b':
 ///         ^^^^ keyword.control.switch.case - invalid
-///              ^^^ constant.character
-///                 ^ punctuation.separator.case-statement
+///              ^^^ meta.string string.quoted.single
+///              ^ punctuation.definition.string.begin
+///               ^ constant.character.literal
+///                ^ punctuation.definition.string.end
                 result += 6;
                 break;
             case 'c':

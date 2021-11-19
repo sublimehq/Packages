@@ -1313,6 +1313,12 @@ for (var i = 0; i < 10; i++) {
 ```
 | <- punctuation.definition.raw.code-fence.end
 
+```ts
+|  ^^ constant.other.language-name
+declare type foo = 'bar'
+|       ^^^^ source.ts meta.type-alias storage.type
+```
+
 ```testing``123```
 | <- punctuation.definition.raw.begin
 |         ^^ - punctuation
@@ -2018,8 +2024,8 @@ okay
 |<- source.clojure
 |^^^^^^^^^^ source.clojure
 | ^ variable.function
-|   ^^ constant.numeric
-|      ^^^ constant.numeric
+|   ^^ meta.number
+|      ^^^ meta.number
 ```
 |^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
 
@@ -2145,3 +2151,12 @@ end
 link with a single underscore inside the text : [@_test](http://example.com)
 |                                                ^^^^^^ meta.paragraph meta.link.inline.description - punctuation.definition
 |                                                      ^ meta.paragraph meta.link.inline punctuation.definition.link.end
+
+# h1
+- list
+## h2
+|^ punctuation.definition.heading.begin
+1. list
+### h3
+|^^ punctuation.definition.heading.begin
+
