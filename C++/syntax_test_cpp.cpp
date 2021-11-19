@@ -293,7 +293,7 @@ struct UI_BoundingBox ** position_p2;
 /*                       ^ - entity.name */
 
 struct UI_MenuBoxData
-/* <- storage.type */
+/* <- keyword.declaration.struct.type.c++ */
 /*     ^ entity.name.struct */
 {
     struct UI_BoundingBox position;
