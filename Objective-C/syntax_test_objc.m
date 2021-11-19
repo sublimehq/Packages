@@ -286,9 +286,18 @@ typedef int myint;
 
 typedef struct mystruct {
 /* <- keyword.declaration */
-/*             ^ - entity */
+/*      ^ keyword.declaration.struct.objc */
+/*             ^ entity.name.struct.objc */
 } mystruct;
 /* ^ entity.name.type */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.objc */
+/*      ^^^^^^ keyword.declaration.struct.objc */
+/*             ^^^^^^^^^^^ entity.name.struct.objc */
+/*                         ^ punctuation.section.block.begin.objc */
+/*                          ^ punctuation.section.block.end.objc */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.objc */
 
 /////////////////////////////////////////////
 // Data structures and return values

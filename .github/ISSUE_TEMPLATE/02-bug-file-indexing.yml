@@ -1,0 +1,45 @@
+name: Go to Symbol problem
+description: Create a bug report for file indexing in one of the default languages.
+title: '[PackageName] Title'
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues to avoid creating duplicates.
+        Also, if you are able, follow the [directions](https://github.com/sublimehq/Packages#installation) to check the latest version of this language's behavior.
+
+        If the problem persists, please begin the issue title with the language in square brackets, e.g. `[Java] Can't go-to-symbol on classes`.
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      placeholder: |
+        This is what should happen:
+
+        ... (you can drop images here)
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      placeholder: |
+        This is what happened instead:
+
+        ... (you can drop images here)
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      placeholder:  |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true

@@ -1,4 +1,4 @@
-# SYNTAX TEST "Perl.sublime-syntax"
+# SYNTAX TEST "Packages/Perl/Perl.sublime-syntax"
 
 # comment ; still in here
 # ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.perl

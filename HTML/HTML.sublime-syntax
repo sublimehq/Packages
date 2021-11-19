@@ -88,16 +88,8 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   tag-html:
-    - match: (<)((?i:style)){{tag_name_break}}
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
-      push: style-css
-    - match: (<)((?i:script)){{tag_name_break}}
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.script.html
-      push: script-javascript
+    - include: script-tag
+    - include: style-tag
     - match: (</?)((?i:body|head|html){{tag_name_break}})
       captures:
         1: punctuation.definition.tag.begin.html
@@ -184,14 +176,35 @@ contexts:
 
 ###[ SCRIPT TAG ]#############################################################
 
+  script-tag:
+    - match: (<)((?i:script)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      push: script-javascript
+    - match: (</)((?i:script){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      push: script-close-tag-content
+
+  script-close-tag:
+    - match: (</)((?i:script){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+      set: script-close-tag-content
+
+  script-close-tag-content:
+    - meta_scope: meta.tag.script.end.html
+    - include: tag-end
+
   script-javascript:
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - script-close-tag
-        - script-javascript-content
+      set: script-javascript-content
 
   script-javascript-content:
     - meta_include_prototype: false
@@ -211,12 +224,7 @@ contexts:
   script-html:
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
-    - match: '>'
-      scope: punctuation.definition.tag.end.html
-      set:
-        - meta_content_scope: text.html.embedded.html
-        - include: script-close-tag
-        - include: main
+    - include: tag-end
 
   script-other:
     - meta_scope: meta.tag.script.begin.html
@@ -224,16 +232,6 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-close-tag
-
-  script-close-tag:
-    - match: (</)((?i:script){{tag_name_break}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.script.html
-      set:
-        - meta_scope: meta.tag.script.end.html
-        - include: tag-end
-        - include: tag-attributes
 
   script-common:
     - include: script-type-attribute
@@ -287,14 +285,35 @@ contexts:
 
 ###[ STYLE TAG ]##############################################################
 
+  style-tag:
+    - match: (<)((?i:style)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      push: style-css
+    - match: (</)((?i:style){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      push: style-close-tag-content
+
+  style-close-tag:
+    - match: (</)((?i:style){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+      set: style-close-tag-content
+
+  style-close-tag-content:
+    - meta_scope: meta.tag.style.end.html
+    - include: tag-end
+
   style-css:
     - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - style-close-tag
-        - style-css-content
+      set: style-css-content
 
   style-css-content:
     - meta_include_prototype: false
@@ -317,16 +336,6 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-close-tag
-
-  style-close-tag:
-    - match: (</)((?i:style){{tag_name_break}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.style.html
-      set:
-        - meta_scope: meta.tag.style.end.html
-        - include: tag-end
-        - include: tag-attributes
 
   style-common:
     - include: style-type-attribute
