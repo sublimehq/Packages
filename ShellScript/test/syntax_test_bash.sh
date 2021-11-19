@@ -893,8 +893,8 @@ coproc foobar {
 #   ^ punctuation.section.compound.end.shell
 
    () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
-#^^ - meta.function
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#^^ source.shell - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell - meta.function meta.function
 #  ^ meta.function.parameters.shell
 #   ^ meta.function.parameters.shell
 #    ^ meta.function.shell - meta.function.identifier - meta.compound
@@ -911,8 +911,8 @@ coproc foobar {
 #                     ^^ keyword.operator.logical
 
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
-#^^ - meta.function
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#^^ source.shell - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell - meta.function meta.function
 #  ^^^^ meta.function.identifier.shell
 #      ^ meta.function.identifier.shell
 #       ^ meta.function.parameters.shell
@@ -934,7 +934,8 @@ coproc foobar {
 #                          ^^ keyword.operator.logical.shell
 
 logExit ( ) {
-# <- meta.function.identifier.shell entity.name.function.shell
+# <- source.shell meta.function.identifier.shell entity.name.function.shell
+#^^^^^^^^^^^^^ source.shell - meta.function meta.function
 #^^^^^^ meta.function.identifier.shell entity.name.function.shell
 #      ^ meta.function.identifier.shell
 #       ^^^ meta.function.parameters.shell
@@ -981,8 +982,8 @@ logExit $? $WEIRD
 #                ^ - meta.function-call - meta.interpolation - variable
 
 function foo
-#^^^^^^^^^^^^ - meta.function meta.function
-# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^ source.shell - meta.function meta.function
+# <- source.shell meta.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^^^ meta.function.identifier.shell
 #^^^^^^^ keyword.declaration.function.shell
@@ -1007,11 +1008,11 @@ function foo
 
 function func\
 name
-# <- meta.function.identifier.shell entity.name.function.shell
+# <- source.shell meta.function.identifier.shell entity.name.function.shell
 
 function foo (     ) {
-#^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
-# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^^^^^^^^^^^ source.shell - meta.function meta.function
+# <- source.shell meta.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^^^ meta.function.identifier.shell
 #            ^^^^^^^ meta.function.parameters.shell
@@ -1539,6 +1540,92 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #                                          ^^ variable.parameter.option
 #                                             ^^^^^^^^^^^^^ variable.other.readwrite
 #                                                          ^ punctuation.section.interpolation.end.shell
+
+
+####################################################################
+# Exec builtins                                                   #
+####################################################################
+
+exec
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell support.function.exec.shell
+
+exec --
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#^^^ support.function.exec.shell
+#   ^^^ meta.function-call.arguments.shell
+#    ^^ keyword.operator.end-of-options.shell
+
+exec 3<&-
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#^^^ support.function.exec.shell
+#    ^ constant.numeric.value.shell
+#     ^^ keyword.operator.assignment.redirection.shell
+#       ^ punctuation.terminator.file-descriptor.shell
+
+exec -- foo bar
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^ meta.function-call.arguments.shell
+#       ^^^ meta.function-call.identifier.shell
+#          ^^^^ meta.function-call.arguments.shell
+#^^^ support.function.exec.shell
+#    ^^ keyword.operator.end-of-options.shell
+#       ^^^ variable.function.shell
+
+exec -c -l -a name git status
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                  ^^^ meta.function-call.identifier.shell
+#                     ^^^^^^^ meta.function-call.arguments.shell
+# <- support.function.exec.shell
+#^^^ support.function.exec.shell
+#    ^^ variable.parameter.option.shell
+#       ^^ variable.parameter.option.shell
+#          ^^ variable.parameter.option.shell
+#             ^^^^ meta.string.shell string.unquoted.shell
+#                  ^^^ variable.function.shell
+
+exec -la name -i --bar -- foo bar
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                        ^ - meta.function-call
+#                         ^^^ meta.function-call.identifier.shell
+#                            ^^^^ meta.function-call.arguments.shell
+#^^^ support.function.exec.shell
+#    ^^^ variable.parameter.option.shell
+#        ^^^^ string.unquoted.shell
+#             ^^ invalid.illegal.parameter.shell
+#                ^^^^^ invalid.illegal.parameter.shell
+#                      ^^ keyword.operator.end-of-options.shell
+#                         ^^^ variable.function.shell
+
+exec -al name
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#        ^^^^ meta.function-call.identifier.shell
+#^^^ support.function.exec.shell
+#    ^^^ invalid.illegal.parameter.shell
+#        ^^^^ variable.function.shell
+
+exec git diff-index --check --cached $against --
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
+# <- meta.function-call.identifier.shell support.function.exec.shell
+#^^^ meta.function-call.identifier.shell
+#   ^ meta.function-call.arguments.shell
+#    ^^^ meta.function-call.identifier.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# <- support.function.exec.shell
+#^^^ support.function.exec.shell
+#    ^^^ variable.function.shell
+#                   ^^^^^^^ variable.parameter.option.shell
+#                           ^^^^^^^^ variable.parameter.option.shell
+#                                             ^^ keyword.operator.end-of-options.shell
 
 
 ####################################################################

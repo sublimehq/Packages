@@ -1,50 +1,63 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://en.wikipedia.org/wiki/.properties
+# http://www.sublimetext.com/docs/syntax.html
 name: Java Properties
+scope: source.java-props
+version: 2
+
 file_extensions:
   - properties
-scope: source.java-props
 
-# https://en.wikipedia.org/wiki/.properties
 contexts:
   main:
-    - match: ^\s*([#!]).*
-      scope: comment.line.java-props
+    - match: ([#!]).*\n?
       captures:
+        0: comment.line.java-props
         1: punctuation.definition.comment.java-props
-
     - match: (?=\S)
-      push:
-        - - meta_scope: meta.property.java-props
-          - match: ''
-            pop: true
-        - property
+      push: property-key
 
-  property:
-    - meta_content_scope: entity.name.key.java-props
-    - include: backslash
-    - match: (?=[:=\s])
-      set:
-        - match: '[:=]'
-          scope: punctuation.separator.java-props
-          set: property-value
-        - include: property-value
-      with_prototype:
-        - match: (?=\n)
-          pop: true
+  property-key:
+    - meta_content_scope: meta.mapping.key.java-props entity.name.key.java-props
+    - include: line-continuation
+    - include: escapes
+    - match: \s*([:=])
+      captures:
+        1: punctuation.separator.mapping.key-value.java-props
+      set: maybe-property-value
+    - match: \s+(?=\S)
+      set: maybe-property-value
+    - match: \s*$
+      pop: 1
+
+  maybe-property-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.mapping.java-props
+    - match: (?=\S)
+      set: property-value
+    - include: eol-pop
 
   property-value:
-    - match: (?=\S)
-      set:
-        - meta_content_scope: string.unquoted.java-props
-        - include: backslash
+    - meta_content_scope: meta.mapping.value.java-props string.unquoted.java-props
+    - include: eol-pop
+    - include: escapes
 
-  backslash:
-    - match: (\\)\n
-      captures:
-        1: punctuation.separator.continuation.java-props
+  escapes:
     - match: \\u[[:xdigit:]]{4}
       scope: constant.character.escape.unicode.java-props
     - match: \\[^u]
       scope: constant.character.escape.java-props
+
+  eol-pop:
+    - include: line-continuation
+    - match: $
+      pop: 1
+
+  line-continuation:
+    - match: (\\)\n
+      captures:
+        1: punctuation.separator.continuation.java-props
+      push:
+        - match: ^
+          pop: 1

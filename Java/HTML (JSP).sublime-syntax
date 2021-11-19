@@ -1,0 +1,503 @@
+%YAML 1.2
+---
+# https://www.oracle.com/technetwork/java/syntaxref12-149806.pdf
+# https://www.sublimetext.com/docs/syntax.html
+name: HTML (JSP)
+scope: text.html.jsp
+version: 2
+
+extends: Packages/HTML/HTML.sublime-syntax
+
+file_extensions:
+  - jsp
+  - jspf
+  - jspx
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: jsp-embedded
+
+###[ HTML CUSTOM TAGS ]#######################################################
+
+  tag-other:
+    - meta_prepend: true
+    - include: tag-jsp-declaration
+    - include: tag-jsp-directive
+    - include: tag-jsp-expression
+    - include: tag-jsp-scriptlet
+    - include: tag-jsp-other
+    - include: tag-jstl
+
+  script-javascript-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.embedded.jsp
+      embed_scope: source.js.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  style-css-content:
+    - meta_include_prototype: false
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.embedded.jsp
+      embed_scope: source.css.embedded.html
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  tag-event-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.js.embedded.jsp
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.js.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html
+           punctuation.definition.string.end.html
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.js.embedded.jsp
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.js.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html
+           punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-style-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.css.embedded.jsp#rule-list-body
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.css.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html
+           punctuation.definition.string.end.html
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.css.embedded.jsp#rule-list-body
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.css.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html
+           punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-href-attribute:
+    - meta_append: true
+    - include: tag-xmlns-attribute
+
+  tag-xmlns-attribute:
+    - match: ((?i:xmlns))(?:(:)([^{{attribute_name_break_char}}]+))?{{attribute_name_break}}
+      captures:
+        1: entity.other.attribute-name.namespace.html
+        2: punctuation.separator.namespace.html
+        3: entity.other.attribute-name.localname.html
+      push:
+        - tag-xmlns-attributes-meta
+        - tag-href-attributes-assignment
+
+  tag-xmlns-attributes-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute-with-value.xmlns.html
+    - include: immediately-pop
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: jsp-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: jsp-interpolations
+
+###[ JSP TAG DECLARATION ]####################################################
+
+  tag-jsp-declaration:
+    - match: (?i)(<)(jsp)(:)(declaration){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-declaration-attributes
+    - match: (?i)(</)(jsp)(:)(declaration){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-declaration-end
+
+  tag-jsp-declaration-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.declaration.begin.html
+    - match: '>'
+      scope:
+        meta.tag.jsp.declaration.begin.html
+        punctuation.definition.tag.end.html
+      pop: 1
+      embed: scope:source.java.embedded.html
+      embed_scope: source.java.embedded.jsp
+      escape: (?=</?(?i:jsp:))
+    - include: tag-end-self-closing
+    - include: jsp-tag-attributes
+
+  tag-jsp-declaration-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.declaration.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSP TAG DIRECTIVE ]######################################################
+
+  tag-jsp-directive:
+    - match: (?i)(<)(jsp)(:)(directive)(.)({{tag_name_char}}+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+        5: punctuation.accessor.dot.jsp
+        6: keyword.control.directive.jsp
+      push: tag-jsp-directive-attributes
+    - match: (?i)(</)(jsp)(:)(directive){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+        5: punctuation.accessor.dot.jsp
+        6: keyword.control.directive.jsp
+      push: tag-jsp-directive-end
+
+  tag-jsp-directive-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.directive.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: jsp-tag-attributes
+
+  tag-jsp-directive-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.directive.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSP TAG EXPRESSION ]#####################################################
+
+  tag-jsp-expression:
+    - match: (?i)(<)(jsp)(:)(expression){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-expression-attributes
+    - match: (?i)(</)(jsp)(:)(expression){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-expression-end
+
+  tag-jsp-expression-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.expression.begin.html
+    - match: '>'
+      scope:
+        meta.tag.jsp.expression.begin.html
+        punctuation.definition.tag.end.html
+      pop: 1
+      embed: scope:source.java.embedded.html#expressions
+      embed_scope: source.java.embedded.jsp
+      escape: (?=</?(?i:jsp:))
+    - include: tag-end-self-closing
+    - include: jsp-tag-attributes
+
+  tag-jsp-expression-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.expression.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSP TAG OTHER ]##########################################################
+
+  tag-jsp-other:
+    - match: (?i)(<)(jsp)(:)({{tag_name}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-other-attributes
+    - match: (?i)(</)(jsp)(:)({{tag_name}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-other-end
+
+  tag-jsp-other-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.other.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: jsp-tag-attributes
+
+  tag-jsp-other-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.other.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSP TAG SCRIPTLET ]######################################################
+
+  tag-jsp-scriptlet:
+    - match: (?i)(<)(jsp)(:)(scriptlet){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-scriptlet-attributes
+    - match: (?i)(</)(jsp)(:)(scriptlet){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-jsp-scriptlet-end
+
+  tag-jsp-scriptlet-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.scriptlet.begin.html
+    - match: '>'
+      scope:
+        meta.tag.jsp.scriptlet.begin.html
+        punctuation.definition.tag.end.html
+      pop: 1
+      embed: scope:source.java.embedded.html
+      embed_scope: source.java.embedded.jsp
+      escape: (?=</?(?i:jsp:))
+    - include: tag-end-self-closing
+    - include: jsp-tag-attributes
+
+  tag-jsp-scriptlet-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.jsp.scriptlet.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSTL TAG ]################################################################
+
+  tag-jstl:
+    # highlight namespace part of tags like XML (not supported by HTML)
+    - match: (?i)(<)({{tag_name}})(:)({{tag_name}}){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-other-attributes
+    - match: (?i)(</)({{tag_name}})(:)({{tag_name}}){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: tag-other-end
+
+  tag-other-attributes:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.begin.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
+
+  tag-other-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.end.html
+    - include: tag-end
+    - include: illegal-attributes
+
+###[ JSP TAG PROTOTYPES ]#####################################################
+
+  jsp-tag-attributes:
+    - match: (?i:file|page){{attribute_name_break}}
+      scope: entity.other.attribute-name.href.html
+      push:
+        - tag-href-attributes-meta
+        - tag-href-attributes-assignment
+    - include: tag-attributes
+
+  illegal-attributes:
+    - match: '{{tag_name_char}}+'
+      scope: invalid.illegal.attributes-unexpected.html
+
+###[ JSP INTERPOLATIONS ]#####################################################
+
+  jsp-interpolations:
+    - match: (?=(?:<%|\$\{))
+      push: jsp-interpolation-content
+
+  jsp-interpolation-content:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.jsp
+    - match: \$\{
+      scope: punctuation.section.interpolation.begin.jsp
+      embed: scope:source.java.embedded.html#expressions
+      embed_scope: source.java.embedded.jsp
+      escape: \}
+      escape_captures:
+        0: punctuation.section.interpolation.end.jsp
+    - include: jsp-embedded
+    - include: immediately-pop
+
+  jsp-embedded:
+    - include: jsp-embedded-comments
+    - include: jsp-embedded-declarations
+    - include: jsp-embedded-directives
+    - include: jsp-embedded-expressions
+    - include: jsp-embedded-scriptlets
+
+  jsp-embedded-comments:
+    - match: <%--
+      scope: punctuation.definition.comment.begin.jsp
+      push: jsp-embedded-comments-content
+
+  jsp-embedded-comments-content:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.jsp
+    - match: --%>
+      scope: punctuation.definition.comment.end.jsp
+      pop: 1
+
+  jsp-embedded-declarations:
+    - match: <%!
+      scope:
+        meta.embedded.declaration.jsp
+        punctuation.section.embedded.begin.jsp
+      embed: scope:source.java.embedded.jsp
+      embed_scope:
+        meta.embedded.declaration.jsp
+        source.java.embedded.jsp
+      escape: \%>
+      escape_captures:
+        0: meta.embedded.declaration.jsp
+           punctuation.section.embedded.end.jsp
+
+  jsp-embedded-directives:
+    - match: <%@
+      scope: punctuation.section.embedded.begin.jsp
+      push: jsp-embedded-directives-common
+
+  jsp-embedded-directives-common:
+    - meta_include_prototype: false
+    - meta_scope: meta.embedded.directive.jsp
+    - match: \%>
+      scope: punctuation.section.embedded.end.jsp
+      pop: 1
+    - match: \w+
+      scope: keyword.control.directive.jsp
+      push: jsp-embedded-directives-content
+
+  jsp-embedded-directives-content:
+    - meta_include_prototype: false
+    - match: \w+
+      scope: entity.other.attribute-name.jsp
+    - match: =
+      scope: punctuation.separator.key-value.jsp
+    - include: jsp-strings-double-quoted
+    - include: jsp-strings-single-quoted
+    - include: else-pop
+
+  jsp-embedded-expressions:
+    - match: <%=
+      scope:
+        meta.embedded.expression.jsp
+        punctuation.section.embedded.begin.jsp
+      embed: scope:source.java.embedded.jsp#expressions
+      embed_scope:
+        meta.embedded.expression.jsp
+        source.java.embedded.jsp
+      escape: \%>
+      escape_captures:
+        0: meta.embedded.expression.jsp
+           punctuation.section.embedded.end.jsp
+
+  jsp-embedded-scriptlets:
+    - match: <%
+      scope:
+        meta.embedded.scriptlet.jsp
+        punctuation.section.embedded.begin.jsp
+      embed: scope:source.java.embedded.jsp
+      embed_scope:
+        meta.embedded.scriptlet.jsp
+        source.java.embedded.jsp
+      escape: \%>
+      escape_captures:
+        0: meta.embedded.scriptlet.jsp
+           punctuation.section.embedded.end.jsp
+
+###[ JSP CONSTANTS ]##########################################################
+
+  jsp-strings-double-quoted:
+    - match: \"
+      scope: punctuation.definition.string.begin.jsp
+      push: jsp-strings-double-quoted-content
+
+  jsp-strings-double-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.jsp string.quoted.double.jsp
+    - match: \"
+      scope: punctuation.definition.string.end.jsp
+      pop: 1
+    - include: jsp-string-escapes
+
+  jsp-strings-single-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.jsp
+      push: jsp-strings-single-quoted-content
+
+  jsp-strings-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.jsp string.quoted.single.jsp
+    - match: \'
+      scope: punctuation.definition.string.end.jsp
+      pop: 1
+    - include: jsp-string-escapes
+
+  jsp-string-escapes:
+    - match: \\.
+      scope: constant.character.escape.jsp

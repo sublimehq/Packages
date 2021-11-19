@@ -68,3 +68,25 @@ public class MyClass
 //         ^^^^^ variable.other.section
 #endregion
 // ^^ storage.type.section
+
+#nullable enable
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable disable
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable restore
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable enable annotations
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+///              ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable disable warnings
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+// /              ^^ meta.preprocessor keyword.other.preprocessor

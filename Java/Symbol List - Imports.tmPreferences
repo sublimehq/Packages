@@ -2,9 +2,11 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.java meta.namespace.module.identifier &amp; (meta.path, entity.name.namespace)</string>
+	<string>source.java meta.import meta.path</string>
 	<key>settings</key>
 	<dict>
+		<key>showInIndexedSymbolList</key>
+		<integer>0</integer>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
@@ -12,6 +14,7 @@
 			s/\/\*.*?\*\///g;  # remove block comments
 			s/\/\/[^\n]*\n//g; # remove line comments
 			s/\s+//g;          # remove whitespace
+			s/^/import /;      # prepend import keyword
 		</string>
 	</dict>
 </dict>

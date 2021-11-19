@@ -1,0 +1,45 @@
+%YAML 1.2
+---
+###############################################################################
+# This intermediate syntax is used by `HTML (JSP).sublime-syntax`
+#
+# It powers Java highlighting within following XML noted JSP tags:
+#   <jsp:declaration>...</jsp:declaration>
+#   <jsp:expression>...</jsp:expression>
+#   <jsp:scriptlet>...</jsp:scriptlet>
+#
+# The primary tasks are:
+#   1) to disable stray bracket highlighting
+#   2) highlight HTML entities within Java code
+#   3) highlight CDATA tags within Java code
+###############################################################################
+
+scope: source.java.embedded.html
+version: 2
+hidden: true
+
+extends: Java.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_append: true
+    - include: HTML (Plain).sublime-syntax#entities
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        0: meta.tag.sgml.cdata.html
+        1: punctuation.definition.tag.begin.html
+        2: keyword.declaration.cdata.html
+        3: punctuation.definition.tag.begin.html
+    - match: ']]>'
+      scope:
+        meta.tag.sgml.cdata.html
+        punctuation.definition.tag.end.html
+
+  stray-braces:
+    - match: \}
+      scope: punctuation.section.block.end.java
+
+  stray-group:
+    - match: \)
+      scope: punctuation.section.group.end.java

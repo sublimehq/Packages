@@ -108,6 +108,7 @@ contexts:
     - include: cmd-test
     - include: cmd-control
     - include: cmd-coproc
+    - include: cmd-exec
     - include: cmd-unalias
     - include: cmd-unset
     - include: cmd-builtins
@@ -191,14 +192,11 @@ contexts:
 ###[ FUNCTION DEFINITIONS ]####################################################
 
   def-anonymous:
-    - match: (\()\s*(\))
-      scope: meta.function.parameters.shell
-      captures:
-        1: punctuation.section.parameters.begin.shell
-        2: punctuation.section.parameters.end.shell
+    - match: (?=\(\s*\))
       push:
         - def-functions-redirection
         - def-anonymous-body
+        - def-functions-params
 
   def-anonymous-body:
     - include: def-function-body-braces
@@ -277,7 +275,7 @@ contexts:
         - include: statements
 
   def-functions-redirection:
-    - meta_content_scope: meta.function.shell
+    - meta_scope: meta.function.shell
     - include: redirections
     - include: else-pop
     - include: eol-pop
@@ -352,6 +350,7 @@ contexts:
         - cmd-alias-args
 
   cmd-alias-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.alias.arguments.shell
     - include: immediately-pop
 
@@ -462,6 +461,7 @@ contexts:
     - include: statement
 
   cmd-coproc-compound-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.coproc.command.shell
     - include: immediately-pop
 
@@ -486,6 +486,7 @@ contexts:
         - cmd-declare-args
 
   cmd-declare-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
@@ -515,6 +516,35 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
 
+###[ EXEC BUILTINS ]###########################################################
+
+  cmd-exec:
+    - match: exec{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.exec.shell
+      push: cmd-exec-args
+
+  cmd-exec-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
+    - match: ([-+])[cl]*[a]{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-value
+    - match: ([-+])[cl]+{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (?:\s+|^)(--){{cmd_break}}
+      captures:
+        0: meta.function-call.arguments.shell
+        1: keyword.operator.end-of-options.shell
+      pop: 1
+    - include: cmd-args-illegal-options
+    - include: else-pop
+
 ###[ EXPORT BUILTINS ]#########################################################
 
   cmd-export:
@@ -527,6 +557,7 @@ contexts:
         - cmd-export-args
 
   cmd-export-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -568,6 +599,7 @@ contexts:
         - cmd-readonly-args
 
   cmd-readonly-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
@@ -771,6 +803,7 @@ contexts:
         - cmd-unalias-options
 
   cmd-unalias-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -795,6 +828,7 @@ contexts:
         - cmd-unset-args
 
   cmd-unset-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -1673,6 +1707,7 @@ contexts:
         1: punctuation.definition.variable.shell
 
   expansions-parameter-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.interpolation.parameter.shell
     - include: immediately-pop
 

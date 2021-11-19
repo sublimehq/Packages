@@ -1,8 +1,10 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
+# https://docs.oracle.com/javase/specs/jls/se13/html/index.html
 name: Java
 scope: source.java
+version: 2
 
 file_extensions:
   - java
@@ -14,20 +16,91 @@ first_line_match: |-
   | ^ \s* // .*? -\*- .*? \bjava\b .*? -\*-  # editorconfig
   )
 
+###############################################################################
+
 variables:
-  primitives: (?:boolean|byte|char|short|int|float|long|double)
-  storage_modifiers: (?:public|private|protected|static|final|native|synchronized|strictfp|abstract|transient|default|volatile)
+  # Reserved keywords
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
+  reserved_words: |-
+    (?x:
+      {{keywords}}
+    | {{storage_types}}
+    | {{storage_modifiers}}
+    | {{constants}}
+    | {{variables}}
+    )
+  keywords: |-
+    (?x:
+      {{declaration_keywords}}
+    | {{control_keywords}}
+    | {{operator_keywords}}
+    | {{illegal_keywords}}
+    )
+  declaration_keywords: |-
+    (?x: class | enum | @?interface | record | var | void | extends | implements | import | package )
+  control_keywords: |-
+    (?x: assert | break | case | catch | continue | do | else | finally | for
+    | if | return | switch | throw | throws | try | while )
+  operator_keywords: |-
+    (?x: new | instanceof )
+  illegal_keywords: |-
+    (?x: const | goto )
 
-  id: (?:[\p{L}_$][\p{L}\p{N}_$]*)
-  classcase_id: (?:\p{Lu}[\p{L}\p{N}_$]*)
-  lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*\b)
-  uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*\b)
+  # Storage Modifiers
+  storage_modifiers: |-
+    (?x:
+      {{class_modifier}}
+    | {{class_no_modifier}}
+    )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
+  class_modifier: |-
+    (?x: public | protected | private | abstract | final | sealed | static | strictfp )
+  class_no_modifier: |-
+    (?x: default | native | synchronized | transient | volatile )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
+  constructor_modifier: |-
+    (?x: public | protected | private )
+  constructor_no_modifier: |-
+    (?x: abstract | default | final | native | sealed | static | strictfp | synchronized | transient | volatile )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3.1
+  field_modifier: |-
+    (?x: public | protected | private | final | static | transient | volatile )
+  field_no_modifier: |-
+    (?x: abstract | default | native | sealed | strictfp | synchronized )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
+  interface_modifier: |-
+    (?x: public | protected | private | abstract | sealed | static | strictfp )
+  interface_no_modifier: |-
+    (?x: default | final | native | synchronized | transient | volatile )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.4
+  method_modifier: |-
+    (?x: public | protected | private | abstract | default | final | native | static | strictfp | synchronized )
+  method_no_modifier: |-
+    (?x: sealed | transient | volatile )
 
-  # One dot is mandatory to not compete with other regexes that match an id.
-  before_fqn: (?={{lowercase_id}}\s*\.)
+  # Storage Types
+  storage_types: |-
+    (?x: boolean | byte | char | short | int | float | long | double )
 
-  # utility lookaround
-  lambda_lookahead: (?:\(.*\)|{{id}})\s*->
+  # Literals
+  constants: |-
+    (?x: false | null | true )
+  variables: |-
+    (?x: _ | super | this )
+
+  # Identifiers
+  break: (?!{{id_char}})
+
+  identifier: (?!{{reserved_words}}[^{{id_char}}]){{id}}
+
+  id: (?:{{id_first_char}}{{id_char}}*)
+  id_first_char: '[\p{L}_$]'
+  id_char: '[\p{L}\p{N}_$]'
+
+  classcase_id: (?:\p{Lu}{{id_char}}*)
+  lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*{{break}})
+  uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*{{break}})
 
   # digits
   bin_digit: '[01_]'
@@ -36,504 +109,2228 @@ variables:
   hex_digit: '[\h_]'
   dec_exponent: '[eE][-+]?{{dec_digit}}*'
   hex_exponent: '[pP][-+]?{{dec_digit}}*'
+  float_suffix: '[dDfF]{{break}}'
+  int_suffix: '[lL]{{break}}'
+
+  escape_octal: \\[0-3]?[0-7]{1,2}
+  escape_other: \\[btnfr"'\\]
+  escape_unicode: \\u+\h{4}
+
+  # accessor but no variadic operator
+  single_dot: \.(?!\.)
+
+###############################################################################
 
 contexts:
-  prototype:
-    - match: (?=%>)
-      pop: true
-    - include: comments
-    - include: illegal-keywords
-
-  any_POP:
-    - match: (?=\S)
-      pop: true
-
-  immediate_POP:
-    - match: ''
-      pop: true
-
   main:
-    - include: prototype
-    - include: package-statement
-    - include: import-statement
+    - meta_include_prototype: false
+    - match: ''
+      push: [java, shebang]
+
+  java:
+    - include: import
     - include: module
-    - include: class
-    - include: annotations
-    # Get modifiers defined on a different line than the class
+    - include: package
+    - include: statements
+    - include: declarations
+    - include: else-expressions
+
+  statements:
+    - include: member-statements
+    - include: synchronized-statements
+
+  member-statements:
+    - include: punctuation-terminator-semicolon
+    - include: blocks
+    - include: stray-group
+    - include: flow-control-statements
+    - include: if-else-statements
+    - include: switch-case-statements
+    - include: do-while-statements
+    - include: for-statements
+    - include: try-catch-statements
+    - include: labeled-statements
+
+  expressions:
+    - include: groups
+    - include: literals
+    - include: punctuations
+    - include: lambdas
+    - include: operators
+    - include: instantiations
+    - include: primitive-types
+    - include: var-types
+    - include: array-modifiers
     - include: storage-modifiers
-    - include: stray-braces
-    - include: code
+    - include: object-types
+    - include: variables
 
-  punctuation-accessor-dot:
-    - match: \.
-      scope: punctuation.accessor.dot.java
+###[ COMMENTS ]################################################################
 
-  punctuation-separator-comma:
-    - match: \,
-      scope: punctuation.separator.comma.java
+  comments:
+    - include: line-comments
+    - include: block-comments
 
-  punctuation-terminator-semicolon:
-    - match: ;
-      scope: punctuation.terminator.java
+  block-comments:
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.java punctuation.definition.comment.java
+    # documentation block comments
+    - match: /\*\*+
+      scope:
+        comment.block.documentation.java
+        punctuation.definition.comment.begin.java
+      embed: Packages/Java/JavaDoc.sublime-syntax#javadoc
+      embed_scope: comment.block.documentation.java
+      escape: \*+/
+      escape_captures:
+        0: comment.block.documentation.java
+           punctuation.definition.comment.end.java
+    # normal block comments
+    - match: /\*
+      scope: punctuation.definition.comment.begin.java
+      push: block-comment-body
 
-  dot-separated-identifier:
-    - match: '{{id}}'
-    - include: punctuation-accessor-dot
-    - include: immediate_POP
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.java
+    - match: \*+/
+      scope: punctuation.definition.comment.end.java
+      pop: 1
+    - match: ^\s*(\*)(?![*/])
+      scope: punctuation.definition.comment.java
 
-  package-statement:
-    - match: \bpackage\b
-      scope: keyword.other.package.java
-      push:
-        - - meta_scope: meta.package-declaration.java
-          - include: immediate_POP
-        - - match: '{{id}}'
-            set:
-              - meta_scope: meta.path.java entity.name.namespace.java
-              - include: dot-separated-identifier
-          - include: any_POP
+  line-comments:
+    - match: //+
+      scope: punctuation.definition.comment.java
+      push: line-comment-body
 
-  import-statement:
-    - match: \bimport\b
-      scope: keyword.control.import.java
-      push:
-        - - meta_scope: meta.import.java
-          - include: immediate_POP
-        - import-statement-body
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.java
+    - match: (//+)?\n
+      captures:
+        1: punctuation.definition.comment.java
+      pop: 1
 
-  import-statement-body:
-    - match: \bstatic\b
-      scope: keyword.control.import.static.java
-      set: static-import-statement-body
-    - include: before-next-import
-    - match: '{{lowercase_id}}'
-      scope: meta.path.java support.type.package.java
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.java
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.java
+    # Note: Keep sync with first_line_match!
+    - match: \b(bsh|java)\b
+      scope: constant.language.shebang.java
+    - match: \n
+      pop: 1
+
+###[ ANNOTATIONS ]#############################################################
+
+  annotations:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
+    - match: \@(?!interface{{break}})
+      scope: punctuation.definition.annotation.java
+      branch_point: annotation-identifier
+      branch:
+        - annotation-unqualified-identifier
+        - annotation-qualified-identifier
+
+  annotation-unqualified-identifier:
+    - meta_scope: meta.annotation.identifier.java
+    - match: '{{identifier}}'
+      scope: variable.annotation.java
+      branch_point: annotation-unqualified-parameters
+      branch:
+        - annotation-unqualified-parameters
+        - immediately-pop2
+    - include: else-pop
+
+  annotation-unqualified-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      pop: 2
+      push: annotation-parameters-body
+    # fail: looks like a qualified annotation
+    - match: (?={{single_dot}})
+      fail: annotation-identifier
+    # fail: truncate meta scope immediatelly
+    - match: (?=\S)
+      fail: annotation-unqualified-parameters
+
+  annotation-qualified-identifier:
+    - meta_include_prototype: false
+    - meta_scope: meta.annotation.identifier.java meta.path.java
+    - match: ''
+      branch_point: annotation-qualified-identifier
+      branch:
+        - annotation-qualified-identifier-path
+        - annotation-qualified-identifier-name
+
+  annotation-qualified-identifier-path:
+    - match: '{{identifier}}'
+      scope: variable.annotation.namespace.java
+      set: annotation-qualified-identifier-accessor
+    - include: else-pop2
+
+  annotation-qualified-identifier-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: annotation-qualified-identifier
+
+  annotation-qualified-identifier-name:
+    - match: '{{identifier}}'
+      scope:
+        meta.annotation.identifier.java meta.path.java
+        variable.annotation.java
+      pop: 2
+      branch_point: annotation-qualified-parameters
+      branch:
+        - annotation-qualified-parameters
+        - immediately-pop
+    - include: else-pop2
+
+  annotation-qualified-parameters:
+    - meta_content_scope: meta.annotation.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: annotation-parameters-body
+    - match: (?=\S)
+      fail: annotation-qualified-parameters
+
+  annotation-parameters-body:
+    - meta_scope: meta.annotation.parameters.java meta.group.java
+    - include: group-end
+    - match: (?={{id_first_char}})
+      branch_point: annotation-parameter
+      branch:
+        - annotation-parameter
+        - expression
+    - include: variable-initializers
+
+  annotation-parameter:
+    - match: '{{identifier}}'
+      scope: variable.parameter.java
+      set: annotation-parameter-assignment
+    - match: ''
+      fail: annotation-parameter
+
+  annotation-parameter-assignment:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set: variable-initializer
+    - match: (?=\S)
+      fail: annotation-parameter
+
+###[ DECLARATIONS ]############################################################
+
+  declarations:
+    # As per specification separate declarations for globals, members, and
+    # locals are needed, as each of them supports only a subset of declaration
+    # statements:
+    #   - globals: class, enum, interface
+    #   - members: class, enum, interface, constructor, field, method
+    #   - locals:  class, variables
+    #   - try/for: variables
+    #
+    # Member declarations need to be handled differently as constructurs look
+    # exactly like function calls. The other two scopes (global, local) are
+    # merged here to maintain syntax highlighting whenever possible. That's
+    # needed for `incomplete code` scenarios or if contexts are lost due to
+    # embedding Java into JSP.
+    - match: (?=[{{id_first_char}}@<])
+      branch_point: declarations
+      branch:
+        - declaration-maybe-class
+        - declaration-maybe-enum
+        - declaration-maybe-interface
+        - declaration-maybe-variable
+        - declaration-maybe-method
+
+  declaration-else-fail:
+    - match: (?=\S)
+      fail: declarations
+
+  declaration-maybe-class:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
+    - meta_scope: meta.class.java
+    - include: class-keyword
+    - include: record-keyword
+    - include: class-modifiers
+    - include: declaration-else-fail
+
+  declaration-maybe-enum:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
+    # Note: Local enum declarations are not valid,
+    #       but may help maintaining highlighting in incomplete code.
+    - meta_scope: meta.enum.java
+    - include: enum-keyword
+    - include: class-modifiers
+    - include: declaration-else-fail
+
+  declaration-maybe-interface:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
+    # Note: Local interface declarations are not valid,
+    #       but may help maintaining highlighting in incomplete code.
+    - meta_scope: meta.interface.java
+    - include: interface-keyword
+    - include: interface-modifiers
+    - include: declaration-else-fail
+
+  declaration-maybe-method:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    - meta_include_prototype: false
+    - match: ''
       set:
-        - meta_content_scope: meta.path.java
-        - include: before-next-import
-        - include: package
-        - match: \*
-          scope: meta.path.java keyword.operator.wildcard.asterisk.java
-          pop: true
-        - match: '{{classcase_id}}'
-          scope: support.class.import.java
-          set:
-            - include: before-next-import
-            - include: punctuation-accessor-dot
-            - include: import-class
-            - include: import-wildcard
-            - include: any_POP
-        - include: any_POP
-    - include: any_POP
+        - method-block
+        - method-attributes
+        - method-array-modifiers
+        - declaration-method-signature
+        - method-modifier
 
-  static-import-statement-body:
-    - include: before-next-import
-    - match: '{{lowercase_id}}'
-      scope: meta.path.java support.type.package.java
+  declaration-method-signature:
+    - include: method-void-signature
+    - match: (?=\S)
       set:
-        - meta_content_scope: meta.path.java
-        - include: before-next-import
-        - include: package
-        - match: '{{classcase_id}}'
-          scope: support.class.import.java
-          set:
-            - include: before-next-import
-            - include: punctuation-accessor-dot
-            - include: import-constant
-            - include: import-class
-            - include: import-function
-            - include: import-wildcard
-            - include: any_POP
-        - include: any_POP
-    - include: any_POP
+        - declaration-method-expect-parameters
+        - declaration-method-expect-identifier
+        - method-result-modifier
+        - method-result-type
 
-  before-next-import:
-    # Prevent next import statement to be consumed when a current statement isn't terminated with ';'.
-    - match: (?=\bimport\b)
-      pop: true
-    # For a case of a statement immediately before a class definition.
-    - match: (?=\b(?:{{storage_modifiers}}|class|interface|enum)\b)
-      pop: true
+  declaration-method-expect-identifier:
+    - include: method-identifier
+    - include: declaration-else-fail
+
+  declaration-method-expect-parameters:
+    - meta_content_scope: meta.function.identifier.java
+    - include: method-parameters
+    - include: declaration-else-fail
+
+  declaration-maybe-variable:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - variable-declaration-list
+        - variable-declaration-value-assignment
+        - variable-declaration-expect-identifier
+        - variable-declaration-type-modifier
+        - variable-declaration-type
+
+###[ PACKAGE DECLARATIONS ]####################################################
 
   package:
+    - match: package{{break}}
+      scope: keyword.declaration.namespace.package.java
+      push:
+        - meta_scope: meta.namespace.package.java
+        - match: (?=\S)
+          set: package-identifier
+
+  package-identifier:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.namespace.package.identifier.java
+    - include: entity-package
+    - include: immediately-pop
+
+###[ MODULE DECLARATIONS ]#####################################################
+
+  module:
+    - match: (?:(open)\s+)?(module){{break}}
+      captures:
+        1: storage.modifier.java
+        2: keyword.declaration.namespace.module.java
+      push:
+        - meta_scope: meta.namespace.module.java
+        - match: (?=\S)
+          set:
+            - module-block
+            - module-identifier
+
+  module-identifier:
+    - meta_include_prototype: false
+    - include: entity-module
+    - include: immediately-pop
+
+  module-block:
+    - meta_content_scope: meta.namespace.module.identifier.java
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: module-block-body
+    - include: else-pop
+
+  module-block-body:
+    - meta_scope: meta.namespace.module.java meta.block.java
+    - include: block-end
+    - include: punctuation-terminator-semicolon
+    - match: exports{{break}}
+      scope: keyword.other.module.exports.java
+      push:
+        - module-exports-meta
+        - module-exports-or-opens-body
+    - match: opens{{break}}
+      scope: keyword.other.module.opens.java
+      push:
+        - module-opens-meta
+        - module-exports-or-opens-body
+    - match: requires{{break}}
+      scope: keyword.other.module.requires.java
+      push: module-requires-body
+    - match: uses{{break}}
+      scope: keyword.other.module.uses.java
+      push:
+        - module-uses-meta
+        - module-provides-or-uses-body
+    - match: provides{{break}}
+      scope: keyword.other.module.provides.java
+      push:
+        - module-provides-meta
+        - module-provides-or-uses-body
+
+  module-exports-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.exports.java
+    - include: immediately-pop
+
+  module-opens-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.opens.java
+    - include: immediately-pop
+
+  module-exports-or-opens-body:
+    - include: module-statement-terminator
+    - match: to{{break}}
+      scope: keyword.other.module.to.java
+      set:
+        - include: module-statement-terminator
+        - include: punctuation-separator-comma
+        - include: entity-module
+    - include: entity-package
+
+  module-requires-body:
+    - meta_scope: meta.requires.java
+    - match: transitive{{break}}
+      scope: keyword.other.module.transitive.java
+    - include: module-statement-terminator
+    - include: entity-module
+
+  module-uses-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.uses.java
+    - include: immediately-pop
+
+  module-provides-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.provides.java
+    - include: immediately-pop
+
+  module-provides-or-uses-body:
+    - include: module-statement-terminator
+    - match: with{{break}}
+      scope: keyword.other.module.with.java
+      set:
+        - include: module-statement-terminator
+        - include: punctuation-separator-comma
+        - include: entity-class
+    - include: entity-class
+
+  module-statement-terminator:
+    - match: (?=[;}]|(?:exports|opens|requires|provides|uses|{{reserved_words}}){{break}})
+      pop: 1
+
+###[ IMPORT DECLARATIONS ]#####################################################
+
+  import:
+    - match: import{{break}}
+      scope: keyword.declaration.import.java
+      push: import-modifier
+
+  import-modifier:
+    - meta_scope: meta.import.java
+    - match: static{{break}}
+      scope: storage.modifier.java
+      set:
+        - meta_content_scope: meta.import.java
+        - match: (?=\S)
+          set: import-static-namespace
+    - match: (?=\S)
+      set: import-normal-namespace
+
+  import-normal-namespace:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-package-name
+    - match: (?=\S)
+      set: import-normal-class
+
+  import-normal-class:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-class-name
+    - include: import-wildcard
+    - include: else-pop
+
+  import-static-namespace:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-package-name
+    - match: (?=\S)
+      set: import-static-class
+
+  import-static-class:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-constant-name
+    - include: import-class-path
+    - include: import-function-name
+    - include: import-wildcard
+    - include: else-pop
+
+  import-constant-name:
+    - match: '{{uppercase_id}}(?!\s*\.)'
+      scope:
+        meta.import.java meta.path.java
+        entity.name.constant.java
+      set: import-expect-terminator
+
+  import-package-name:
     - match: '{{lowercase_id}}'
-      scope: support.type.package.java
+      scope: variable.namespace.java
+      push: import-acessor-or-termintor
     - include: punctuation-accessor-dot
 
-  all-types:
-    - include: primitive-types
-    - include: object-types
-
-  import-constant:
-    - match: '{{uppercase_id}}'
-      scope: constant.other.import.java
-
-  import-class:
+  import-class-path:
     - match: '{{classcase_id}}'
-      scope: support.class.import.java
+      scope: storage.type.class.java
+      push: import-acessor-or-termintor
+    - include: punctuation-accessor-dot
 
-  import-function:
-    - match: '{{id}}'
-      scope: support.function.import.java
+  import-class-name:
+    - match: '{{classcase_id}}'
+      scope: entity.name.class.java
+      push: import-acessor-or-termintor
+    - include: punctuation-accessor-dot
+
+  import-function-name:
+    - match: '{{identifier}}'
+      scope:
+        meta.import.java meta.path.java
+        entity.name.function.java
+      set: import-expect-terminator
 
   import-wildcard:
     - match: \*
-      scope: keyword.operator.wildcard.asterisk.java
+      scope:
+        meta.import.java meta.path.java
+        variable.language.wildcard.asterisk.java
+      set: import-expect-terminator
 
-  annotations:
-    - match: \@
-      scope: punctuation.definition.annotation.java
-      push:
-        - - meta_scope: meta.annotation.java
-          - include: immediate_POP
-        - annotation-parameters
-        - - meta_content_scope: meta.annotation.identifier.java
-          - include: immediate_POP
-        - annotation-type-reference
+  import-acessor-or-termintor:
+    # continue with the import context
+    - include: punctuation-accessor-dot-pop
+    # pop the import context
+    - match: (?=\s*;|\S)
+      pop: 2
 
-  annotation-type-reference:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - match: '{{lowercase_id}}'
-          scope: variable.annotation.package.java
-        - include: punctuation-accessor-dot
-        - include: annotation-type-no-fqn
-    - include: annotation-type-no-fqn
+  import-expect-terminator:
+    - include: import-terminator
+    - match: \S
+      scope: invalid.illegal.expect-semicolon.java
 
-  annotation-type-no-fqn:
-    - match: '{{classcase_id}}'
-      scope: variable.annotation.java
-      set: after-annotation-type-reference
-    - include: any_POP
+  import-terminator:
+    - match: (?=\s*;|{{reserved_words}}{{break}})
+      pop: 1
 
-  after-annotation-type-reference:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      set: annotation-type-no-fqn
-    - include: any_POP
+###[ CLASS DECLARATIONS ]######################################################
 
-  annotation-parameters:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.annotation.parameters.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - match: ({{id}})\s*(=)
-          captures:
-            1: variable.parameter.java
-            2: keyword.operator.assignment.java
-          push:
-            - match: (?=[,})])
-              pop: true
-            - include: annotations
-            - include: code
-        - include: annotation-array-initialization
-        - include: annotations
-        - include: code
-    - include: any_POP
-
-  annotation-array-initialization:
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      push:
-        - meta_scope: meta.braces.annotation-array-initialization.java
-        - include: array-initialization-common
-        - include: annotations
-
-  anonymous-classes-and-new:
-    - match: \bnew\b
-      scope: keyword.other.storage.new.java
-      push:
-        - - meta_scope: meta.instantiation.java
-          - include: immediate_POP
-        - instantiation
-
-  instantiation:
-    - match: \b{{primitives}}\b
-      scope: storage.type.primitive.java
-      set: array-definition
-    - match: '{{before_fqn}}'
-      set: [after-object-type-in-instantiation, object-type-fqn]
-    - include: object-type-instantiation-no-fqn
-
-  object-type-instantiation-no-fqn:
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      set: after-object-type-in-instantiation
-    - include: any_POP
-
-  after-object-type-in-instantiation:
-    - match: (?=\[)
-      set: array-definition
-    - match: (?=\()
-      set: object-construction
-    - match: <>
-      scope: punctuation.definition.generic.diamond.java
-      set: object-construction
-    - match: (?=<)
-      set: [after-generic-in-instantiation, generic-type-invocation]
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      set: object-type-instantiation-no-fqn
-    - include: any_POP
-
-  after-generic-in-instantiation:
-    - match: (?=\[)
-      set: array-definition
-    - include: object-construction
-
-  object-construction:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.parens.constructor-arguments.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          set:
-            - match: \{
-              scope: punctuation.section.braces.begin.java
-              set:
-                - meta_scope: meta.class.body.anonymous.java
-                - match: \}
-                  scope: punctuation.section.braces.end.java
-                  pop: true
-                - include: class-body
-            - include: any_POP
-        - include: illegal-parens-terminators
-        - include: code
-    - include: any_POP
-
-  array-definition:
-    - match: \[
-      scope: punctuation.section.brackets.begin.java
-      set:
-        - meta_scope: meta.brackets.array-initialization.java
-        - match: \]
-          scope: punctuation.section.brackets.end.java
-          set:
-            - match: (?=\[)
-              set: array-definition
-            - match: \{
-              scope: punctuation.section.braces.begin.java
-              set: array-initialization
-            - include: any_POP
-        - include: code
-    - include: any_POP
-
-  array-initialization:
-    - meta_scope: meta.braces.array-initialization.java
-    - include: array-initialization-common
-
-  array-initialization-common:
-    - match: \}
-      scope: punctuation.section.braces.end.java
-      pop: true
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      push: array-initialization
-    - include: code
-
-  class:
-    - match: (?=({{storage_modifiers}}\s+)*(?:class|(?:@)?interface|enum)\b)
-      push: [class-meta, class-type]
-
-  class-meta:
-    - meta_scope: meta.class.java
-    - include: immediate_POP
-
-  class-type:
-    - include: storage-modifiers
-    - match: (?:class|(\@?)interface)\b
-      scope: storage.type.java
-      captures:
-        1: punctuation.definition.type.java
+  class-keyword:
+    - match: class{{break}}
+      scope: keyword.declaration.class.java
       set:
         - class-block
         - class-extends
-        - generic-type-declaration
+        - class-name-meta
+        - maybe-type-parameter
         - class-name
-    - match: enum\b
-      scope: storage.type.java
-      set:
-        - enum-block
-        - class-extends
-        - generic-type-declaration
-        - class-name
-    - include: any_POP
+
+  class-modifiers:
+    - match: '{{class_modifier}}{{break}}'
+      scope: storage.modifier.java
+    - match: '{{class_no_modifier}}{{break}}'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: annotations
 
   class-name:
-    - meta_scope: meta.class.identifier.java
-    - match: (?!extends|implements){{id}}\b
+    - match: '{{identifier}}'
       scope: entity.name.class.java
-      pop: true
-    - include: any_POP
+      pop: 1
+    - include: else-pop
+
+  class-name-meta:
+    - meta_content_scope: meta.class.identifier.java
+    - include: else-pop
 
   class-extends:
-    - match: extends\b
-      scope: keyword.declaration.extends.java
+    - match: extends{{break}}
+      scope: storage.modifier.extends.java
       push:
-        - - meta_scope: meta.class.extends.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
-        - inherited-object-type-reference
-    - match: implements\b
-      scope: keyword.declaration.implements.java
+        - class-extends-object-type-list
+        - inherited-object-type
+    - match: implements{{break}}
+      scope: storage.modifier.implements.java
       push:
-        - - meta_scope: meta.class.implements.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
-        - inherited-object-type-reference
-    - include: any_POP
+        - class-implements-object-type-list
+        - inherited-object-type
+    - match: permits{{break}}
+      scope: storage.modifier.permits.java
+      push:
+        - class-permits-object-type-list
+        - inherited-object-type
+    - include: else-pop
+
+  class-extends-object-type-list:
+    - meta_scope: meta.class.extends.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  class-implements-object-type-list:
+    - meta_scope: meta.class.implements.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  class-permits-object-type-list:
+    - meta_scope: meta.class.permits.java
+    - include: inherited-object-type-list
+    - include: else-pop
 
   class-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set:
-        - meta_scope: meta.class.body.java meta.block.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: class-body
-    - include: any_POP
+      set: class-block-body
+    - include: else-pop
 
-  class-body:
-    - include: class
-    - include: annotations
-    - include: fields-and-methods
-    - include: constants-and-special-vars
-    - include: storage-modifiers
-    - include: all-types
-    - include: static-code-block
-    - include: punctuation-separator-comma
-    - include: punctuation-terminator-semicolon
-    - match: (?=<)
-      push: generic-type-declaration
+  class-block-body:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
+    - meta_scope: meta.class.java meta.block.java
+    - include: block-end
+    - include: member-statements
+    - include: member-declarations
+    - include: else-expressions
+
+###[ ENUM DECLARATIONS ]#######################################################
+
+  enum-keyword:
+    - match: enum{{break}}
+      scope: keyword.declaration.enum.java
+      set:
+        - enum-block
+        - enum-extends
+        - enum-name-meta
+        - maybe-illegal-type-parameter
+        - enum-name
+
+  enum-name:
+    - match: '{{identifier}}'
+      scope: entity.name.enum.java
+      pop: 1
+    - include: else-pop
+
+  enum-name-meta:
+    - meta_content_scope: meta.enum.identifier.java
+    - include: else-pop
+
+  enum-extends:
+    - match: extends{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - enum-extends-object-type-list
+        - inherited-object-type
+    - match: implements{{break}}
+      scope: storage.modifier.implements.java
+      push:
+        - enum-implements-object-type-list
+        - inherited-object-type
+    - match: permits{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - enum-permits-object-type-list
+        - inherited-object-type
+    - include: else-pop
+
+  enum-extends-object-type-list:
+    - meta_scope: meta.enum.extends.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  enum-implements-object-type-list:
+    - meta_scope: meta.enum.implements.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  enum-permits-object-type-list:
+    - meta_scope: meta.enum.permits.java
+    - include: inherited-object-type-list
+    - include: else-pop
 
   enum-block:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
     - match: \{
       scope: punctuation.section.block.begin.java
       set:
-        - meta_scope: meta.class.body.java meta.block.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: enum-body
-    - include: any_POP
+        - enum-block-body
+        - enum-constants-list
+    - include: else-pop
 
-  enum-body:
-    - match: ^(?=\s*([[:upper:]_][[:upper:][:digit:]_]*|(?!{{primitives}}|{{storage_modifiers}})[[:lower:]_][[:alnum:]_]*)\s*[,;{(])
-      push:
-        - match: (?=[;}])
-          pop: true
-        - match: \w+
-          scope: constant.other.enum.java
-          push:
-            - meta_scope: meta.enum.java
-            - match: \{
-              scope: punctuation.section.block.begin.java
-              push:
-                - meta_scope: meta.enum.body.java meta.block.java
-                - match: \}
-                  scope: punctuation.section.block.end.java
-                  pop: true
-                - include: enum-body
-            - include: parens
-            - include: any_POP
-        - include: punctuation-separator-comma
-    - include: class-body
+  enum-block-body:
+    - meta_scope: meta.enum.java meta.block.java
+    - include: class-block-body
 
-  code:
-    - include: constants-and-special-vars
-    - include: assignment
-    - include: lambdas
-    - include: strings
-    - include: anonymous-classes-and-new
-    - include: keywords-control
-    - include: method-invocations
-    - include: uppercase-identifiers
-    - include: all-types
-    - include: keywords
-    - include: code-block-include
-    - include: parens
-  code-block-include:
+  enum-constants-list:
+    - meta_content_scope: meta.sequence.constants.java
+    - match: '{{identifier}}'
+      scope: meta.constant.identifier.java entity.name.constant.java
+      push: enum-constant-arguments
+    - include: punctuation-separator-comma
+    - include: else-pop
+
+  enum-constant-arguments:
+    - meta_content_scope: meta.constant.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - enum-constant-block
+        - enum-constant-arguments-body
+    - include: enum-constant-block
+
+  enum-constant-arguments-body:
+    - clear_scopes: 1
+    - meta_scope: meta.constant.arguments.java meta.group.java
+    - include: group-body
+
+  enum-constant-block:
+    - meta_content_scope: meta.constant.java
     - match: \{
       scope: punctuation.section.block.begin.java
-      push:
-        - meta_scope: meta.block.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block
-  code-block:
-    - include: storage-modifiers
-    - include: var-type
-    - include: code
-    - include: annotations
-    - include: code-block-include
-    - include: stray-parens
-  comments:
-    - match: /\*\*/
-      scope: comment.block.empty.java punctuation.definition.comment.java
-    - include: scope:text.html.javadoc
-    - include: comments-inline
-  comments-inline:
-    - match: /\*
-      scope: punctuation.definition.comment.java
-      push:
-        - meta_scope: comment.block.java
-        - match: \*/
-          scope: punctuation.definition.comment.java
-          pop: true
-    - match: //
-      scope: punctuation.definition.comment.java
-      push:
-        - meta_scope: comment.line.double-slash.java
-        - match: \n
-          pop: true
-        - match: (?=%>)
-          pop: true
+      set: enum-constant-block-body
+    - include: else-pop
 
-  constants-and-special-vars:
-    - match: \b(true|false|null)\b
-      scope: constant.language.java
-    - match: \b(this|super)\b
-      scope: variable.language.java
+  enum-constant-block-body:
+    - meta_scope: meta.constant.java meta.block.java
+    - include: class-block-body
+
+###[ INTERFACE DECLARATIONS ]##################################################
+
+  interface-keyword:
+    - match: (@?)interface{{break}}
+      scope: keyword.declaration.interface.java
+      set:
+        - interface-block
+        - interface-extends
+        - interface-name-meta
+        - maybe-type-parameter
+        - interface-name
+
+  interface-modifiers:
+    - match: '{{interface_modifier}}{{break}}'
+      scope: storage.modifier.java
+    - match: '{{interface_no_modifier}}{{break}}'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: annotations
+
+  interface-name:
+    - match: '{{identifier}}'
+      scope: entity.name.interface.java
+      pop: 1
+    - include: else-pop
+
+  interface-name-meta:
+    - meta_content_scope: meta.interface.identifier.java
+    - include: else-pop
+
+  interface-extends:
+    - match: extends{{break}}
+      scope: storage.modifier.extends.java
+      push:
+        - interface-extends-object-type-list
+        - inherited-object-type
+    - match: implements{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - interface-implements-object-type-list
+        - inherited-object-type
+    - match: permits{{break}}
+      scope: storage.modifier.permits.java
+      push:
+        - interface-permits-object-type-list
+        - inherited-object-type
+    - include: else-pop
+
+  interface-extends-object-type-list:
+    - meta_scope: meta.interface.extends.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  interface-implements-object-type-list:
+    - meta_scope: meta.interface.implements.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  interface-permits-object-type-list:
+    - meta_scope: meta.interface.permits.java
+    - include: inherited-object-type-list
+    - include: else-pop
+
+  interface-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: interface-block-body
+    - include: else-pop
+
+  interface-block-body:
+    - meta_scope: meta.interface.java meta.block.java
+    - include: class-block-body
+
+###[ RECORD DECLARATIONS ]#####################################################
+
+  record-keyword:
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
+    - match: record{{break}}
+      scope: keyword.declaration.record.java
+      set:
+        - class-block
+        - record-extends
+        - record-parameters
+        - maybe-type-parameter
+        - class-name
+
+  record-parameters:
+    - meta_content_scope: meta.class.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - record-parameter-body
+        - parameter-maybe-identifier
+        - parameter-maybe-variadic
+        - maybe-array-modifiers
+        - parameter-type
+    - include: else-pop
+
+  record-parameter-body:
+    - meta_scope: meta.class.parameters.java meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set:
+        - meta_content_scope: meta.class.java
+        - include: else-pop
+    - include: method-parameters-body
+
+  record-extends:
+    - match: extends{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - class-extends-object-type-list
+        - inherited-object-type
+    - match: implements{{break}}
+      scope: storage.modifier.implements.java
+      push:
+        - class-implements-object-type-list
+        - inherited-object-type
+    - match: permits{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - class-permits-object-type-list
+        - inherited-object-type
+    - include: else-pop
+
+###[ MEMBER DECLARATIONS ]#####################################################
+
+  member-declarations:
+    - match: (?=[{{id_first_char}}@<])
+      branch_point: class-members
+      branch:
+        - member-maybe-constructor
+        - member-maybe-method
+        - member-maybe-field
+        - member-maybe-class
+        - member-maybe-enum
+        - member-maybe-interface
+
+  member-else-fail:
+    - match: (?=\S)
+      fail: class-members
+
+  member-reserved-fail:
+    - match: (?={{reserved_words}}{{break}})
+      fail: class-members
+
+  member-maybe-class:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
+    - meta_scope: meta.class.java
+    - include: class-keyword
+    - include: record-keyword
+    - include: class-modifiers
+    - include: member-else-fail
+
+  member-maybe-enum:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
+    - meta_scope: meta.enum.java
+    - include: enum-keyword
+    - include: class-modifiers
+    - include: member-else-fail
+
+  member-maybe-interface:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
+    - meta_scope: meta.interface.java
+    - include: interface-keyword
+    - include: interface-modifiers
+    - include: member-else-fail
+
+  member-maybe-field:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - field-identifier-list
+        - field-value-assignment
+        - field-identifier
+        - field-type-modifier
+        - field-type
+        - field-modifier
+
+  member-maybe-constructor:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - method-block
+        - method-attributes
+        - method-array-modifiers
+        - method-expect-parameters
+        - constructor-name
+        - method-modifier
+
+  member-maybe-method:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - method-block
+        - method-attributes
+        - method-array-modifiers
+        - method-signature
+        - method-modifier
+
+###[ FIELD DECLARATIONS ]######################################################
+
+  field-modifier:
+    - clear_scopes: 1
+    - meta_scope: meta.field.modifier.java
+    - match: '{{field_modifier}}{{break}}'
+      scope: storage.modifier.java
+    - match: '{{field_no_modifier}}{{break}}'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: type-parameters
+    - include: annotation-else-pop
+
+  field-type:
+    - include: primitive-type
+    - include: object-type
+    - include: illegal-var-type
+    - include: member-else-fail
+
+  field-type-modifier:
+    - clear_scopes: 1
+    - meta_scope: meta.field.type.java
+    - include: array-modifiers
+    - include: annotations
+    - match: (?=[{(]|{{declaration_keywords}}{{break}})
+      fail: class-members
+    - include: else-pop
+
+  field-identifier-list:
+    - match: ','
+      scope:
+        meta.field.java
+        punctuation.separator.comma.java
+      push:
+        - field-value-assignment
+        - field-identifier
+    - include: else-pop
+
+  field-identifier:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
+    - match: '{{uppercase_id}}'
+      scope: entity.name.constant.java
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.other.member.java
+      pop: 1
+    - match: '{{variables}}{{break}}'
+      scope: invalid.illegal.identifier.java
+      pop: 1
+    - include: else-pop
+
+  field-value-assignment:
+    - meta_content_scope: meta.field.identifier.java
+    - match: =
+      scope:
+        meta.field.java
+        keyword.operator.assignment.java
+      set: field-value-initializer
+    - include: maybe-only-array-modifiers
+
+  field-value-initializer:
+    - meta_content_scope: meta.field.value.java
+    - include: variable-initializer
+
+###[ METHOD DECLARATIONS ]#####################################################
+
+  constructor-name:
+    - include: member-reserved-fail
+    - match: '{{id}}'
+      scope: entity.name.function.constructor.java
+      pop: 1
+    - include: else-pop
+
+  method-modifier:
+    - meta_scope: meta.function.modifier.java
+    - match: '{{method_modifier}}{{break}}'
+      scope: storage.modifier.java
+    - match: '{{method_no_modifier}}{{break}}'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: type-parameters
+    - include: annotation-else-pop
+
+  method-signature:
+    - include: method-void-signature
+    - include: method-result-signature
+
+  method-void-signature:
+    # void indicates a method for sure
+    - match: (?=void{{break}})
+      set:
+        - method-maybe-parameters
+        - method-maybe-identifier
+        - method-result-modifier
+        - method-void-type
+
+  method-void-type:
+    - match: void
+      scope: storage.type.void.java
+      pop: 1
+
+  method-result-signature:
+    # a method only if parameter list found
+    - match: (?=\S)
+      set:
+        - method-expect-parameters
+        - method-expect-identifier
+        - method-result-modifier
+        - method-result-type
+
+  method-result-type:
+    - include: primitive-type
+    - include: object-type
+    - include: illegal-var-type
+    - include: else-pop
+
+  method-result-modifier:
+    - clear_scopes: 1
+    - meta_scope: meta.function.return-type.java
+    - include: maybe-array-modifiers
+
+  method-expect-identifier:
+    - include: method-identifier
+    - include: member-else-fail
+
+  method-maybe-identifier:
+    - include: method-identifier
+    - include: else-pop
+
+  method-identifier:
+    - match: '{{identifier}}'
+      scope: entity.name.function.java
+      pop: 1
+
+  method-expect-parameters:
+    - meta_content_scope: meta.function.identifier.java
+    - include: method-parameters
+    - match: (?=\{)
+      pop: 1
+    - include: member-else-fail
+
+  method-maybe-parameters:
+    - meta_content_scope: meta.function.identifier.java
+    - include: method-parameters
+    - include: else-pop
+
+  method-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - method-parameters-body
+        - receiver-or-parameter
+
+  method-parameters-body:
+    - meta_scope: meta.function.parameters.java meta.group.java
+    - include: group-end
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push:
+        - parameter-maybe-identifier
+        - parameter-maybe-variadic
+        - maybe-array-modifiers
+        - parameter-type
+    - include: expression-terminator
+
+  method-array-modifiers:
+    - meta_include_prototype: false
+    - match: ''
+      set: method-array-modifiers-content
+
+  method-array-modifiers-content:
+    - meta_scope: meta.function.java
+    - include: maybe-array-modifiers
+
+  method-attributes:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
+    - match: throws{{break}}
+      scope: keyword.declaration.throws.java
+      set:
+        - method-throws-body
+        - maybe-illegal-array-modifiers
+        - expect-object-type
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
+    - match: default{{break}}
+      scope: keyword.declaration.default.java
+      set: method-default-body
+    - include: else-pop
+
+  method-default-body:
+    - meta_scope: meta.function.default.java
+    - include: variable-initializer
+
+  method-throws-body:
+    - meta_scope: meta.function.throws.java
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push:
+        - maybe-illegal-array-modifiers
+        - expect-object-type
+    - include: else-pop
+
+  method-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: method-block-body
+    - include: else-pop
+
+  method-block-body:
+    - meta_scope: meta.function.java meta.block.java
+    - include: block-body
+
+###[ VARIABLE DECLARATIONS ]###################################################
+
+  variable-declaration-type:
+    - include: primitive-type
+    - include: var-type
+    - include: object-type
+    - include: final-modifiers
+    - include: annotations
+    - include: illegal-storage-modifiers
+    - include: else-pop
+
+  variable-declaration-type-modifier:
+    - clear_scopes: 1
+    - meta_scope: meta.declaration.type.java
+    - include: maybe-only-array-modifiers
+
+  variable-declaration-list:
+    - match: ','
+      scope:
+        meta.declaration.java
+        punctuation.separator.comma.java
+      push:
+        - variable-declaration-value-assignment
+        - variable-declaration-maybe-identifier
+    - include: else-pop
+
+  variable-declaration-expect-identifier:
+    - include: variable-declaration-identifier
+    - include: declaration-else-fail
+
+  variable-declaration-maybe-identifier:
+    - include: variable-declaration-identifier
+    - include: else-pop
+
+  variable-declaration-identifier:
+    - match: '{{uppercase_id}}'
+      scope: constant.other.java
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.other.java
+      pop: 1
+
+  variable-declaration-value-assignment:
+    - meta_content_scope: meta.declaration.identifier.java
+    - match: =
+      scope:
+        meta.declaration.java
+        keyword.operator.assignment.java
+      set: variable-declaration-value-initializer
+    # found parentheses after identifier, appears to be a method declaration
+    - match: (?=\()
+      fail: declarations
+    - include: maybe-only-array-modifiers
+
+  variable-declaration-value-initializer:
+    - meta_content_scope: meta.declaration.value.java
+    - include: variable-initializer
+
+###[ VARIABLE DECLARATIONS OR ASSIGNMENTS ]####################################
+
+  variable-declarations-or-assignments:
+    # A subset of `declarations` to optimize performance in contexts which need
+    # to distinguish between variable declaration and variable assignment only.
+    - match: (?=[{{id_first_char}}@<])
+      branch_point: variable-declarations-or-assignments
+      branch:
+        - variable-maybe-declaration
+        - variable-maybe-assignment
+
+  variable-maybe-assignment:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - variable-maybe-modifier
+        - variable-expect-identifier
+
+  variable-maybe-modifier:
+    - meta_content_scope: meta.variable.identifier.java
+    - include: maybe-only-array-modifiers
+
+  variable-maybe-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - variable-declaration-list
+        - variable-declaration-value-assignment
+        - variable-expect-identifier
+        - variable-declaration-type-modifier
+        - variable-declaration-type
+
+  variable-expect-identifier:
+    - include: variable-declaration-identifier
+    - match: (?=\S)
+      fail: variable-declarations-or-assignments
+
+###[ IF ELSE STATEMENTS ]######################################################
+
+  if-else-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.9
+    - match: if{{break}}
+      scope: keyword.control.conditional.if.java
+      push:
+        - if-meta
+        - block-or-expression
+        - maybe-group
+    - match: else{{break}}
+      scope: keyword.control.conditional.else.java
+      push:
+        - else-meta
+        - block-or-expression
+
+  if-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.conditional.if.java
+    - include: immediately-pop
+
+  else-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.conditional.else.java
+    - include: immediately-pop
+
+###[ SWITCH CASE STATEMENTS ]##################################################
+
+  switch-case-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
+    - match: case{{break}}
+      scope: keyword.control.conditional.case.java
+      branch_point: case-label
+      branch:
+        - case-label-constant
+        - case-label-expression
+    - match: default{{break}}
+      scope: keyword.control.conditional.default.java
+      push: case-default-end
+    - match: switch{{break}}
+      scope: keyword.control.conditional.switch.java
+      push:
+        - switch-meta
+        - block-or-expression
+        - maybe-group
+
+  switch-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.conditional.switch.java
+    - include: immediately-pop
+
+  case-default-end:
+    - meta_scope: meta.statement.conditional.default.java
+    - match: ':|->'
+      scope: punctuation.separator.expressions.java
+      pop: 1
+    - include: else-pop
+
+  case-label-constant:
+    - meta_scope: meta.statement.conditional.case.java
+    - match: (?=\S)
+      set:
+        - case-label-constant-end
+        - case-label-constant-identifier
+
+  case-label-constant-identifier:
+    - include: literal-constant
+    - include: constant
+    - include: annotations
+    - include: case-label-fail
+
+  case-label-constant-end:
+    - meta_content_scope: meta.statement.conditional.case.label.java
+    - include: case-label-end
+    - match: (?=[;{}]|(?:{{keywords}}|{{storage_types}}|{{storage_modifiers}}){{break}})
+      pop: 1
+    - include: case-label-fail
+
+  case-label-expression:
+    - meta_scope: meta.statement.conditional.case.java
+    - match: (?=\S)
+      set: case-label-expression-body
+
+  case-label-expression-body:
+    - meta_content_scope: meta.statement.conditional.case.label.java
+    - include: case-label-end
+    - include: expression
+
+  case-label-end:
+    - match: ':|->'
+      scope: meta.statement.conditional.case.java punctuation.separator.expressions.java
+      pop: 1
+
+  case-label-fail:
+    - match: (?=\S)
+      fail: case-label
+
+###[ DO WHILE STATEMENTS ]#####################################################
+
+  do-while-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.12
+    - match: while{{break}}
+      scope: keyword.control.loop.while.java
+      push:
+        - while-meta
+        - block-or-expression
+        - maybe-group
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.13
+    - match: do{{break}}
+      scope: keyword.control.loop.do-while.java
+      push:
+        - do-meta
+        - block-or-expression
+
+  do-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.do-while.java
+    - include: immediately-pop
+
+  while-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.while.java
+    - include: immediately-pop
+
+###[ FOR LOOP STATEMENTS ]#####################################################
+
+  for-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
+    - match: for{{break}}
+      scope: keyword.control.loop.for.java
+      push:
+        - for-meta
+        - block-or-expression
+        - for-parameters
+
+  for-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.for.java
+    - include: immediately-pop
+
+  for-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - for-parameters-update
+        - for-parameters-init
+    - include: else-pop
+
+  for-parameters-init:
+    # enhanced for statement
+    - match: ':'
+      scope: keyword.operator.assignment.java
+      pop: 1
+    # basic for statement
+    - match: ';'
+      scope: punctuation.terminator.java
+      set: for-parameters-condition
+    - include: variable-declarations-or-assignments
+    - include: expressions
+    - include: expression-terminator
+
+  for-parameters-condition:
+    - include: punctuation-terminator-semicolon-pop
+    - include: expressions
+    - include: expression-terminator
+
+  for-parameters-update:
+    - meta_scope: meta.group.java
+    - include: group-end
+    - include: expressions
+    - match: ;
+      scope: invalid.illegal.stray.java
+    - include: expression-terminator
+
+###[ FLOW CONTROL STATEMENTS ]#################################################
+
+  labeled-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
+    - match: ({{identifier}})(:)(?!:)
+      captures:
+        1: entity.name.label.java
+        2: punctuation.separator.colon.java
+
+  flow-control-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.10
+    - match: assert{{break}}
+      scope: keyword.control.flow.assert.java
+      push: assert-statement-body
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.15
+    - match: break{{break}}
+      scope: keyword.control.flow.break.java
+      push:
+        - break-statement-end
+        - variable-label
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.16
+    - match: continue{{break}}
+      scope: keyword.control.flow.continue.java
+      push:
+        - continue-statement-end
+        - variable-label
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.17
+    - match: return{{break}}
+      scope: keyword.control.flow.return.java
+      push: return-statement-body
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.18
+    - match: throw{{break}}
+      scope: keyword.control.flow.throw.java
+      push: throw-statement-body
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-14.html#jls-14.21
+    - match: yield{{break}}
+      scope: keyword.control.flow.yield.java
+      push: yield-statement-body
+
+  assert-statement-body:
+    - meta_scope: meta.statement.conditional.assertion.java
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+    - include: expression
+
+  break-statement-end:
+    - meta_scope: meta.statement.flow.break.java
+    - include: expect-expression-terminator
+
+  continue-statement-end:
+    - meta_scope: meta.statement.flow.continue.java
+    - include: expect-expression-terminator
+
+  return-statement-body:
+    - meta_scope: meta.statement.flow.return.java
+    - include: expression
+
+  throw-statement-body:
+    - meta_scope: meta.statement.flow.throw.java
+    - include: expression
+
+  yield-statement-body:
+    - meta_scope: meta.statement.flow.yield.java
+    - include: expression
+
+  variable-label:
+    - match: '{{identifier}}'
+      scope: variable.label.java
+      pop: 1
+    - include: else-pop
+
+###[ SYNCHRONIZED STATEMENTS ]#################################################
+
+  synchronized-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.19
+    - match: synchronized{{break}}
+      scope: keyword.control.flow.synchronized.java
+      push:
+        - synchronized-meta
+        - block-or-expression
+        - maybe-group
+
+  synchronized-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.flow.synchronized.java
+    - include: immediately-pop
+
+###[ TRY CATCH STATEMENTS ]####################################################
+
+  try-catch-statements:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
+    - match: catch{{break}}
+      scope: keyword.control.exception.catch.java
+      push:
+        - catch-meta
+        - block-or-expression
+        - catch-parameters
+    - match: finally{{break}}
+      scope: keyword.control.exception.finally.java
+      push:
+        - finally-meta
+        - block-or-expression
+    - match: try{{break}}
+      scope: keyword.control.exception.try.java
+      push:
+        - try-meta
+        - block-or-expression
+        - try-parameters
+
+  catch-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.exception.catch.java
+    - include: immediately-pop
+
+  catch-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - catch-parameters-end
+        - maybe-illegal-array-modifiers
+        - catch-parameter-identifier
+        - maybe-illegal-array-modifiers
+        - catch-parameter-type
+    - include: else-pop
+
+  catch-parameter-type:
+    - include: final-modifiers
+    - include: illegal-storage-modifiers
+    - include: expect-object-type
+
+  catch-parameter-identifier:
+    - match: \|
+      scope: punctuation.separator.pipe.java
+      push:
+        - maybe-illegal-array-modifiers
+        - catch-parameter-type
+    - match: '{{identifier}}'
+      scope: variable.other.java
+      pop: 1
+    - match: '{{variables}}{{break}}'
+      scope: invalid.illegal.identifier.java
+      pop: 1
+    - include: else-pop
+
+  catch-parameters-end:
+    - meta_scope: meta.group.java
+    - include: group-end
+    - match: '[^\s\)]+'
+      scope: invalid.illegal.unexpected-token.java
+
+  finally-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.exception.finally.java
+    - include: immediately-pop
+
+  try-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.exception.try.java
+    - include: immediately-pop
+
+  try-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: try-parameters-body
+    - include: else-pop
+
+  try-parameters-body:
+    - meta_scope: meta.group.java
+    - include: group-end
+    - include: variable-declarations-or-assignments
+    - include: punctuation-terminator-semicolon
+    - include: expressions
+    - include: expression-terminator
+
+###[ EXPRESSIONS ]#############################################################
+
+  else-expressions:
+    - match: (?=\S)
+      push: expression
+
+  else-expression:
+    - match: (?=\S)
+      set: expression
+
+  expression:
+    - include: expression-terminator
+    - include: expressions
+
+  expression-terminator:
+    - match: |-
+        (?x)(?=
+          [;)\]{}] |
+          ( {{control_keywords}}
+          | {{declaration_keywords}}
+          | {{storage_modifiers}}
+          | {{storage_types}}
+          ){{break}}
+        )
+      pop: 1
+
+  expect-expression-terminator:
+    - include: expression-terminator
+    - match: \S
+      scope: invalid.illegal.expect-terminator.java
+
+###[ INSTANTIATION EXPRESSIONS ]###############################################
+
+  instantiations:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.9
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.10
+    - match: new{{break}}
+      scope: keyword.other.storage.new.java
+      push:
+        - instantiation-meta
+        - instantiation-arguments
+        - instantiation-type
+        - maybe-type-argument
+    - include: annotations
+
+  instantiation-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.instantiation.java
+    - include: immediately-pop
+
+  instantiation-type:
+    - include: primitive-type
+    - include: object-type
+    - include: annotations
+    - include: illegal-storage-modifiers
+    - include: illegal-unexpected-keywords
+    - include: else-pop
+
+  instantiation-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - class-block
+        - group-body
+    - include: array-dimensions
+    - include: else-pop
+
+  array-dimensions:
+    - match: \[
+      scope: punctuation.section.brackets.begin.java
+      set: array-dimension-body
+    - include: array-initializer
+    - include: annotations
+
+  array-dimension-body:
+    - meta_scope: meta.brackets.java
+    - match: \]
+      scope: punctuation.section.brackets.end.java
+      set:
+        - include: array-dimensions
+        - include: else-pop
+    - include: expressions
+    - include: expression-terminator
+
+###[ INITIALIZATION EXPRESSIONS ]##############################################
+
+  variable-initializers:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
+    - include: array-initializers
+    - include: ternary-initializers
+    - include: expressions
+
+  variable-initializer:
+    - match: (?=,)
+      pop: 1
+    - include: array-initializers
+    - include: ternary-initializers
+    - include: expression
+
+  array-initializers:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-10.html#jls-10.6
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      push: array-initializer-body
+
+  array-initializer:
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      set: array-initializer-body
+
+  array-initializer-body:
+    - meta_scope: meta.braces.java
+    - match: \}
+      scope: punctuation.section.braces.end.java
+      pop: 1
+    - include: variable-initializers
+
+  ternary-initializers:
+    - match: \?
+      scope: keyword.operator.ternary.java
+      push: ternary-initializer-body
+
+  ternary-initializer-body:
+    - include: operator-ternary-colon
+    - include: variable-initializer
+
+###[ BLOCKS ]##################################################################
+
+  block-or-expression:
+    - include: block
+    - include: else-expression
+
+  blocks:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push: block-body
+    - include: stray-braces
+
+  block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: block-body
+
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.java
+      pop: 1
+
+  block-body:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
+    - meta_scope: meta.block.java
+    - include: block-end
+    - include: statements
+    - include: declarations
+    - include: else-expressions
+
+###[ GROUPS ]##################################################################
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      branch_point: groups
+      branch:
+        - cast-expression-group
+        - expression-group
+        - lambda-parameter-group
+
+  group-else-fail:
+    - match: (?=\S)
+      fail: groups
+
+  maybe-group:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: group-body
+    - include: else-pop
+
+  group-body:
+    - meta_scope: meta.group.java
+    - include: group-end
+    - include: expressions
+    - include: expression-terminator
+
+  group-end:
+    - match: \)
+      scope: punctuation.section.group.end.java
+      pop: 1
+
+###[ CAST EXPRESSION GROUPS ]##################################################
+
+  cast-expression-group:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
+    - meta_scope: meta.cast.java meta.group.java
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cast-expression-group-body
+        - maybe-only-array-modifiers
+        - cast-expression-type
+
+  cast-expression-group-body:
+    - meta_scope: meta.cast.java meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set: cast-expression-group-end
+    - include: additional-bounds
+    - include: group-else-fail
+
+  cast-expression-group-end:
+    # cast expressions may be followed by:
+    # - `!`     : unary operator
+    # - `~`     : unary operator
+    # - `(`     : cast, lambda or group expression
+    # - literal : variable, type or method
+    - match: (?=[{{id_first_char}}!~(])
+      pop: 1
+    - include: group-else-fail
+
+  cast-expression-type:
+    - include: primitive-type
+    - include: object-type
+    - include: illegal-var-type
+    - include: annotations
+    - include: maybe-type-argument
+
+###[ EXPRESSION GROUPS ]#######################################################
+
+  expression-group:
+    - meta_scope: meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set: expression-group-end
+    - include: expressions
+    - include: expression-terminator
+
+  expression-group-end:
+    # looks like a lambda
+    - match: (?=->)
+      fail: groups
+    - include: else-pop
+
+###[ LAMBDA PARAMETER GROUPS ]#################################################
+
+  lambda-parameter-group:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
+    - meta_scope: meta.function.anonymous.parameters.java meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set: lambda-meta
+    - match: (?=[{{id_first_char}}@<])
+      branch_point: lambda-parameter-declaration
+      branch:
+        - lambda-parameter-declaration
+        - lambda-parameter-declaration-identifier
+    - include: punctuation-separator-comma
+    - include: expect-expression-terminator
+
+  lambda-parameter-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - lambda-parameter-declaration-identifier
+        - parameter-maybe-variadic
+        - maybe-array-modifiers
+        - variable-declaration-type
+
+  lambda-parameter-declaration-identifier:
+    - include: parameter-identifier
+    - match: (?=\S)
+      fail: lambda-parameter-declaration
+
+  lambdas:
+    - match: ->
+      scope:
+        meta.function.anonymous.java
+        keyword.declaration.function.arrow.java
+      push:
+        - lambda-meta
+        - block-or-expression
+
+  lambda-meta:
+    - meta_content_scope: meta.function.anonymous.java
+    - include: else-pop
+
+###[ RECEIVER OR FORMAL PARAMETERS ]###########################################
+
+  receiver-or-parameter:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    # The first parameter of a method or constructor declaration may be a
+    # receiver parameter which represents the object to invoke the method for.
+    - match: (?=[{{id_first_char}}<])
+      branch_point: receiver-or-parameter
+      branch:
+        - receiver
+        - parameter
+    - include: annotation-else-pop
+
+  receiver:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+      set:
+        - receiver-identifier
+        - receiver-type
+
+  receiver-type:
+    # A 'receiver-type' is basically an 'object-type' whose 'namespace' part
+    # is skipped as it is expected to be declared in the same source file due
+    # to receiver args being valid only for nested class' methods.
+    - match: (?={{reserved_words}}{{break}})
+      fail: receiver-or-parameter
+    - match: (?=\S)
+      branch_point: receiver-type
+      branch:
+        - receiver-unqualified-type
+        - receiver-qualified-type
+
+  receiver-unqualified-type:
+    - match: '{{identifier}}'
+      scope: storage.type.class.java
+      push:
+        - receiver-unqualified-type-end
+        - maybe-array-modifiers
+        - maybe-type-argument
+    - include: else-pop2
+
+  receiver-unqualified-type-end:
+    - match: (?={{id_first_char}})
+      pop: 3
+    - match: (?={{single_dot}})
+      fail: receiver-type
+    - match: (?=\S)
+      fail: receiver-or-parameter
+
+  receiver-qualified-type:
+    - meta_scope: meta.path.java
+    - match: '{{identifier}}'
+      scope: storage.type.class.java
+      push:
+        - receiver-qualified-type-end
+        - qualified-object-type-arguments
+    - include: annotation-else-pop2
+
+  receiver-qualified-type-end:
+    - match: \s*({{single_dot}})
+      captures:
+        1: punctuation.accessor.dot.java
+      pop: 1
+    # consume comments
+    - match: \s*(?=/[/*])
+    # Maintain meta.path boundaries at the end of the type.
+    - match: (?=\s*\S)
+      pop: 3
+
+  receiver-identifier:
+    - match: (?=\S)
+      branch_point: receiver-identifier
+      branch:
+        - receiver-unqualified-identifier
+        - receiver-qualified-identifier
+
+  receiver-unqualified-identifier:
+    - match: this{{break}}
+      scope: variable.parameter.this.java
+      push: receiver-identifier-end
+    - match: '{{identifier}}'
+      scope: variable.parameter.java
+      set: receiver-unqualified-identifier-end
+    - include: annotation-else-pop2
+
+  receiver-unqualified-identifier-end:
+    - match: (?={{single_dot}})
+      fail: receiver-identifier
+    - match: (?=\S)
+      fail: receiver-or-parameter
+
+  receiver-qualified-identifier:
+    - meta_include_prototype: false
+    - match: ''
+      branch_point: receiver-qualified-identifier
+      branch:
+        - receiver-qualified-identifier-path
+        - receiver-qualified-identifier-name
+
+  receiver-qualified-identifier-path:
+    - meta_scope: meta.path.java
+    - match: '{{id}}'
+      scope: storage.type.class.java
+      push:
+        - receiver-qualified-identifier-accessor
+        - maybe-type-argument
+    - include: annotation-else-pop3
+
+  receiver-qualified-identifier-accessor:
+    - include: punctuation-accessor-dot-pop2
+    - match: (?=\S)
+      fail: receiver-qualified-identifier
+
+  receiver-qualified-identifier-name:
+    - meta_scope: meta.path.java
+    - match: this{{break}}
+      scope: variable.parameter.this.java
+      set: receiver-identifier-end
+    - match: '{{identifier}}'
+      scope: invalid.illegal.identifier.java
+      set: receiver-identifier-end
+    - include: annotation-else-pop3
+
+  receiver-identifier-end:
+    - include: illegal-array-modifiers
+    - include: illegal-members
+    - include: annotation-else-pop3
+
+  parameter:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+      set:
+        - parameter-maybe-identifier
+        - parameter-maybe-variadic
+        - maybe-array-modifiers
+        - parameter-type
+
+  parameter-type:
+    - include: final-modifiers
+    - include: illegal-storage-modifiers
+    - include: primitive-type
+    - include: illegal-var-type
+    - include: maybe-object-type
+
+  parameter-maybe-variadic:
+    - match: \.\.\.
+      scope: keyword.operator.variadic.java
+      pop: 1
+    - include: annotation-else-pop
+
+  parameter-maybe-identifier:
+    - include: parameter-identifier
+    - include: else-pop
+
+  parameter-identifier:
+    - match: '{{identifier}}'
+      scope: variable.parameter.java
+      set: maybe-only-array-modifiers
+    - match: '{{variables}}{{break}}'
+      scope: invalid.illegal.identifier.java
+      set: maybe-only-array-modifiers
+
+###[ VARIABLES ]###############################################################
+
+  variables:
+    # Note:
+    # 1) `variable-other` must be the first branch to scope the very last
+    #    identifier before eof or end of embedded section as ordinary variable.
+    # 2) `variable-qualifier` scopes identifiers not followed by ClassCaseIds
+    #    as ordinary variables. Found no easy enough solution by only using
+    #    `variable-other` and `variable-namespace`.
+    - match: (?={{id_first_char}})
+      branch_point: variables
+      branch:
+        - variable-other
+        - variable-namespace
+        - variable-qualifier
+        - method-call-identifier
+        - lambda-parameter
+    - include: variable-item-access
+
+  method-call-identifier:
+    - meta_include_prototype: false
+    - match: '{{id}}'
+      scope:
+        meta.function-call.identifier.java
+        variable.function.java
+      set: method-call-arguments
+    - include: immediately-pop
+
+  method-call-arguments:
+    - meta_content_scope: meta.function-call.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: method-call-arguments-body
+    - match: (?=\S)
+      fail: variables
+
+  method-call-arguments-body:
+    - meta_scope: meta.function-call.arguments.java meta.group.java
+    - include: group-body
+
+  lambda-parameter:
+    - meta_include_prototype: false
+    - match: '{{id}}'
+      scope:
+        meta.function.anonymous.parameters.java
+        variable.parameter.java
+      set: lambda-parameter-end
+    - include: immediately-pop
+
+  lambda-parameter-end:
+    - meta_content_scope: meta.function.anonymous.java
+    - include: else-pop
+
+  variable-namespace:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      push: variable-namespace-accessor
+    - match: ''
+      fail: variables
+
+  variable-namespace-accessor:
+    - meta_scope: meta.path.java
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      set:
+        - match: '{{classcase_id}}'
+          scope: storage.type.class.java
+          set:
+            - variable-namespace-meta
+            - maybe-object-type-child
+            - maybe-array-modifiers
+            - maybe-type-argument
+        - include: else-pop
+    - match: (?=\S)
+      fail: variables
+
+  variable-namespace-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.java
+    - include: immediately-pop2
+
+  variable-other:
+    - meta_include_prototype: false
+    - match: '{{id}}'
+      scope:
+        meta.variable.identifier.java
+        variable.other.java
+      set: variable-other-end
+    - include: immediately-pop
+
+  variable-other-end:
+    - meta_content_scope: meta.variable.identifier.java
+    - match: \s*(\.|\(|->)
+      fail: variables
+    - include: variable-item-access-end
+
+  variable-qualifier:
+    - meta_include_prototype: false
+    - match: '{{id}}'
+      scope:
+        meta.variable.identifier.java
+        variable.other.java
+      set: variable-qualifier-end
+    - include: immediately-pop
+
+  variable-qualifier-end:
+    - meta_content_scope: meta.variable.identifier.java
+    - match: \s*(\(|->)
+      fail: variables
+    - include: variable-item-access-end
+
+  variable-item-access:
+    - match: \[
+      scope: punctuation.section.brackets.begin.java
+      push: variable-item-access-body
+
+  variable-item-access-body:
+    - meta_scope: meta.variable.item-access.java meta.brackets.java
+    - match: \]
+      scope: punctuation.section.brackets.end.java
+      set: variable-item-access-end
+    - include: expressions
+    - include: expression-terminator
+
+  variable-item-access-end:
+    - meta_content_scope: meta.variable.item-access.java
+    - match: \s*(?=\[|/[/*])
+    - match: (?=\s*\S)
+      pop: 1
+
+  variable-language-class:
+    - match: class{{break}}
+      scope: variable.language.class.java
+      pop: 1
+
+  maybe-function-reference:
+    - match: new{{break}}
+      scope: keyword.other.storage.new.java
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.function.reference.java
+      pop: 1
+    - include: else-pop
+
+###[ LITERALS ]################################################################
+
+  literals:
+    - include: literal-chars
+    - include: literal-strings
+    - include: literal-numbers
+    - include: literal-constants
+    - include: literal-variables
+
+  literal-variables:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+    - match: super{{break}}
+      scope: variable.language.super.java
+    - match: this{{break}}
+      scope: variable.language.this.java
+
+  literal-constants:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.java
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
+    - match: null{{break}}
+      scope: constant.language.null.java
+
+  literal-constant:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.java
+      pop: 1
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
+    - match: null{{break}}
+      scope: constant.language.null.java
+      pop: 1
+
+  literal-numbers:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10
     # hexadecimal floats
     - match: |-
         (?x)
-        \b(0[xX])
-        (
-          # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1
-          {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} )
-          # 0x.1, 0x.1p1, 0x.1p-1
-          | (\.) {{hex_digit}}+ (?:{{hex_exponent}})?
-        )
+        # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1 | 0x.1, 0x.1p1, 0x.1p-1
+        (0[xX]) ( {{hex_digit}}* (?: ({{single_dot}}) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ({{float_suffix}})?
       scope: meta.number.float.hexadecimal.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: punctuation.separator.decimal.java
-        4: punctuation.separator.decimal.java
+        4: constant.numeric.suffix.java
     # decimal floats
     - match: |-
         (?x)
-        \b([0-9]{{dec_digit}}*)
+        ([0-9]{{dec_digit}}*)
         (?:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
-          ( (\.) {{dec_digit}}* (?:{{dec_exponent}})? ) ([dDfF]\b)?
+          ( ({{single_dot}}) {{dec_digit}}* (?:{{dec_exponent}})? ) ({{float_suffix}})?
           # 1e1 1e1d
-          | ({{dec_exponent}}) ([dDfF]\b)?
+          | ({{dec_exponent}}) ({{float_suffix}})?
           # 1d
-          | ([dDfF]\b)
+          | ({{float_suffix}})
         )
-        | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ([dDfF]\b)?
+        | ( ({{single_dot}}) {{dec_digit}}+ (?:{{dec_exponent}})? ) ({{float_suffix}})?
       scope: meta.number.float.decimal.java
       captures:
         1: constant.numeric.value.java
@@ -547,696 +2344,891 @@ contexts:
         9: punctuation.separator.decimal.java
         10: constant.numeric.suffix.java
     # binary integers
-    - match: \b(0[bB])({{bin_digit}}*)([lL]\b)?
+    - match: (0[bB])({{bin_digit}}*)({{int_suffix}})?
       scope: meta.number.integer.binary.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: constant.numeric.suffix.java
     # hexadecimal integers
-    - match: \b(0[xX])({{hex_digit}}*)([lL]\b)?
+    - match: (0[xX])({{hex_digit}}*)({{int_suffix}})?
       scope: meta.number.integer.hexadecimal.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: constant.numeric.suffix.java
     # octal integers
-    - match: \b(0)({{oct_digit}}+)([lL]\b|(?![\d_]))
+    - match: (0)({{oct_digit}}+)({{int_suffix}}|(?![\d_]))
       scope: meta.number.integer.octal.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: constant.numeric.suffix.java
     # decimal integers
-    - match: \b((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))([lL]\b)?
+    - match: ((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))({{int_suffix}})?
       scope: meta.number.integer.decimal.java
       captures:
         1: constant.numeric.value.java
         2: invalid.illegal.numeric.java
         3: constant.numeric.suffix.java
 
-  keywords:
-    - match: '::'
-      scope: punctuation.accessor.double-colon.java
-      push:
-        - match: '{{id}}'
-          scope: variable.function.reference.java
-          pop: true
-        - include: any_POP
-    - match: '\?|:'
-      scope: keyword.operator.ternary.java
-    - match: \binstanceof\b
-      scope: keyword.operator.word.instanceof.java
-    - match: (<<|>>>?)
-      scope: keyword.operator.bitshift.java
-    - match: (==|!=|<=|>=|<>|<|>)
-      scope: keyword.operator.comparison.java
-    - match: (\-\-|\+\+)
-      scope: keyword.operator.increment-decrement.java
-    - match: (\-|\+|\*|\/|%)
-      scope: keyword.operator.arithmetic.java
-    - match: (!|&&|\|\|)
-      scope: keyword.operator.logical.java
-    - match: (~|\^|&|\|)
-      scope: keyword.operator.bitwise.java
-    - match: (\.)(class\b)?
+  literal-chars:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.4
+    - match: (')(?:({{escape_unicode}})|({{escape_octal}})|({{escape_other}})|([^']))(')
+      scope: meta.string.java string.quoted.single.java
       captures:
-        1: punctuation.accessor.dot.java
-        2: variable.language.java
-    - include: punctuation-separator-comma
-    - include: punctuation-terminator-semicolon
+        1: punctuation.definition.string.begin.java
+        2: constant.character.escape.unicode.java
+        3: constant.character.escape.octal.java
+        4: constant.character.escape.other.java
+        5: constant.character.literal.java
+        6: punctuation.definition.string.end.java
 
-  keywords-control:
-    # exceptions
-    - match: \bcatch\b
-      scope: keyword.control.exception.catch.java
-      push:
-        - meta_scope: meta.catch.java
-        - match: (?=\()
-          set:
-            - match: \(
-              scope: punctuation.section.parens.begin.java
-              set:
-                - meta_scope: meta.catch.parameters.java meta.parens.java
-                - match: \)
-                  scope: punctuation.section.parens.end.java
-                  pop: true
-                - match: \|
-                  scope: punctuation.separator.bar.java
-                - include: parameters
-        - include: any_POP
-    - match: \bfinally\b
-      scope: keyword.control.exception.finally.java
-    - match: \btry\b
-      scope: keyword.control.exception.try.java
-      push: declaration-statement-parens
-    # flow
-    - match: \bassert\b
-      scope: keyword.control.flow.assert.java
-      push:
-        - meta_scope: meta.assertion.java
-        - match: (?=;)
-          pop: true
-        - match: ':'
-          scope: punctuation.separator.expressions.java
-        - include: code
-    - match: \bbreak\b
-      scope: keyword.control.flow.break.java
-    - match: \bcontinue\b
-      scope: keyword.control.flow.continue.java
-    - match: \breturn\b
-      scope: keyword.control.flow.return.java
-    - match: \bthrow\b
-      scope: keyword.control.flow.throw.java
-    # conditional
-    - match: \bif\b
-      scope: keyword.control.conditional.if.java
-    - match: \belse\b
-      scope: keyword.control.conditional.else.java
-    - match: \bswitch\b
-      scope: keyword.control.conditional.switch.java
-    - match: \bcase\b
-      scope: keyword.control.conditional.case.java
-    - match: \bdefault\b
-      scope: keyword.control.conditional.default.java
-    # loop
-    - match: \bdo\b
-      scope: keyword.control.loop.do-while.java
-    - match: \bfor\b
-      scope: keyword.control.loop.for.java
-      push: declaration-statement-parens
-    - match: \bwhile\b
-      scope: keyword.control.loop.while.java
+  literal-strings:
+    - include: literal-double-quoted-textblocks
+    - include: literal-double-quoted-strings
+    - include: literal-single-quoted-strings
 
-  illegal-keywords:
-    - match: \b(goto|const)\b
-      scope: invalid.illegal.keyword.java
+  literal-single-quoted-strings:
+    # Java doesn't support single quoted strings, but Groovy does.
+    - match: (')[^']+(')
+      scope: invalid.illegal.not-a-char.java
 
-  illegal-open-block:
-    - match: \s?(?={)
-      scope: invalid.illegal.stray-terminator-end
-      pop: true
-
-  illegal-semicolon:
-    - match: ;
-      scope: invalid.illegal.stray-terminator-end
-      pop: true
-
-  illegal-parens-terminators:
-    # Pops the stack if anything matches
-    - include: illegal-semicolon
-    - include: illegal-open-block
-
-  method-invocations:
-    - match: (\.)\s*(?=<)
-      captures:
-        1: punctuation.accessor.dot.java
-      push: generic-type-invocation
-    - match: ({{id}})\s*(\()
-      captures:
-        1: variable.function.java
-        2: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.function-call.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-parens-terminators
-        - include: code
-
-  fields-and-methods:
-    - match: \bvoid\b
-      scope: storage.type.void.java
-      push: method
-    - match: (?={{id}}\s*\()
-      push: method
-    - match: '{{before_fqn}}'
-      push: [field-or-method, after-object-and-array-types, object-type-fqn]
-    - match: \b{{classcase_id}}
-      scope: support.class.java
-      push: [field-or-method, after-object-and-array-types]
-    - match: \b{{primitives}}\b
-      scope: storage.type.primitive.java
-      push: [field-or-method, array-brackets]
-
-  field-or-method:
-    - match: (?={{id}}\s*\()
-      set: method
-    - match: (?=\S)
-      set:
-      - include: before-next-field
-      - match: (?:({{uppercase_id}})|({{id}}))
-        captures:
-          1: entity.name.constant.java
-          2: meta.field.java
-        push: [static-assignment, array-brackets]
-      - include: punctuation-separator-comma
-      - include: any_POP
-
-  before-next-field:
-    # Prevent style from being removed from whole file when making a new expression
-    - match: (?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)
-      pop: true
-
-  method:
-    - meta_scope: meta.method.java
-    - match: ({{classcase_id}})\s*(?=\()
-      captures:
-        1: meta.method.identifier.java entity.name.function.constructor.java
-    - match: ({{id}})\s*(?=\()
-      captures:
-        1: meta.method.identifier.java entity.name.function.java
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.method.parameters.java meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: parameters
-        - match: \S
-          scope: invalid.illegal.missing-parameter-end
-          pop: true
-    - include: throws
-    - include: annotation-default
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      set:
-        - meta_scope: meta.method.java meta.method.body.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block
-    - include: any_POP
-
-  throws:
-    - match: \bthrows\b
-      scope: keyword.declaration.throws.java
-      push:
-      - - meta_scope: meta.method.throws.java
-        - match: \,
-          scope: punctuation.separator.comma.java
-          push: object-type-reference
-        - include: any_POP
-      - object-type-reference
-
-  # Stand-along uppercase id, either type or constant.
-  # Should be used only inside code blocks.
-  uppercase-identifiers:
-    # Popular JDK classes
-    - match: \b(?:UUID|UR[LI])\b
-      scope: support.class.java
-      push: after-object-type
-    # Generic type variable
-    - match: \b\p{Lu}\b
-      scope: support.class.java
-      push: after-object-type
-    # Uppercase constants
-    - match: \b{{uppercase_id}}
-      scope: constant.other.java
-
-  # Stand-alone type, maybe type of the variable or class object reference.
-  # Should be used only inside code blocks.
-  object-types:
-    # Here the match is more complex than 'before_fqn'.
-    # In code block we can't simply distinguish package from variable.
-    - match: (?=\b(?:{{lowercase_id}}\.)+\p{Lu})
-      push: [after-object-type, object-type-fqn]
-    - match: \b{{classcase_id}}\b
-      scope: support.class.java
-      push: after-object-type
-
-  object-type-fqn:
-    - meta_scope: meta.path.java
-    - include: package
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      pop: true
-    - include: any_POP
-
-  after-object-type:
-    - match: (?=<)
-      set: [array-brackets, generic-type-invocation]
-    - match: \.(?!\.)
-      scope: punctuation.accessor.dot.java
-      set:
-        - match: (?=<)
-          set: generic-type-invocation
-        - match: (?:(class)\b|({{uppercase_id}}))
-          captures:
-            1: variable.language.java
-            2: constant.other.java
-          pop: true
-        - match: '{{classcase_id}}'
-          scope: support.class.java
-          set: after-object-type
-        - include: any_POP
-    - include: array-brackets
-
-  # Used in 'throws' and generic bounds
-  object-type-reference:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - include: package
-        - include: object-type-reference-no-fqn
-    - include: object-type-reference-no-fqn
-
-  object-type-reference-no-fqn:
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      set: after-object-type-reference
-    - include: any_POP
-
-  after-object-type-reference:
-    - match: (?=<)
-      set: generic-type-invocation
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      set: object-type-reference-no-fqn
-    - include: any_POP
-
-  # Used in method's and generic's parameters
-  object-and-array-types:
-    - match: '{{before_fqn}}'
-      push:
-        - meta_scope: meta.path.java
-        - include: package
-        - include: object-and-array-types-no-fqn
-    - match: \b({{primitives}})(?=\s*\[)
-      scope: storage.type.primitive.java
-      push: array-brackets
-    - match: \b{{classcase_id}}
-      scope: support.class.java
-      push: after-object-and-array-types
-
-  object-and-array-types-no-fqn:
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      set: after-object-and-array-types
-    - include: any_POP
-
-  after-object-and-array-types:
-    - match: (?=<)
-      set: [array-brackets, generic-type-invocation]
-    - match: \.(?!\.)
-      scope: punctuation.accessor.dot.java
-      set: object-and-array-types-no-fqn
-    - include: array-brackets
-
-  # Used in class-level 'extends' and 'implements'
-  inherited-object-type-reference:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - match: '{{lowercase_id}}'
-          scope: entity.other.inherited-class.package.java
-        - include: punctuation-accessor-dot
-        - include: inherited-object-type-reference-no-fqn
-    - include: inherited-object-type-reference-no-fqn
-
-  inherited-object-type-reference-no-fqn:
-    - match: (?!class|extends|implements|interface){{id}}
-      scope: entity.other.inherited-class.java
-      set: after-inherited-object-type-reference
-    - include: any_POP
-
-  after-inherited-object-type-reference:
-    - match: (?=<)
-      set: generic-type-invocation
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      set: inherited-object-type-reference-no-fqn
-    - include: any_POP
-
-  generic-type-declaration:
-    - match: <
-      scope: punctuation.definition.generic.begin.java
-      push: generic-type-parameter
-    - include: any_POP
-
-  generic-type-terminator:
-    - include: illegal-semicolon
-    # These characters can't appear in a generic. If we've matched
-    # them then someone forgot to close it.
-    - match: (?=[{}()])
-      pop: true
-    - match: '>'
-      scope: punctuation.definition.generic.end.java
-      pop: true
-
-  generic-type-parameter:
-    - meta_scope: meta.generic.declaration.java
-    - match: \b{{id}}\b
-      scope: variable.parameter.type.java
-      push: generic-type-bounds
-    - include: generic-type-terminator
-
-  generic-type-bounds:
-    - match: (,)|(?=>)
-      captures:
-        1: punctuation.separator.comma.java
-      pop: true
-    - match: \bextends\b
-      scope: keyword.declaration.extends.java
-      push: [generic-type-extends-multiple-bounds, object-type-reference]
-    - match: \bsuper\b
-      scope: keyword.declaration.super.java
-      push: object-type-reference
-
-  generic-type-extends-multiple-bounds:
-    - match: '&'
-      scope: keyword.operator.multiple-bounds.java
-      set: [generic-type-extends-multiple-bounds, object-type-reference]
-    - include: any_POP
-
-  generic-type-invocation:
-    - match: <
-      scope: punctuation.definition.generic.begin.java
-      set: generic-type-argument
-    - include: any_POP
-
-  generic-type-argument:
-    - meta_scope: meta.generic.java
-    - match: \?
-      scope: keyword.operator.wildcard.java
-      push: generic-type-bounds
-    - include: generic-type-terminator
-    - include: object-and-array-types
-    - include: annotations
-    - include: punctuation-separator-comma
-
-  annotation-default:
-    - match: \bdefault\b
-      scope: keyword.declaration.default.java
-      push:
-        - meta_scope: meta.annotation.default.java
-        - match: (?=;)
-          pop: true
-        - include: code
-
-  parameters:
-    - match: \bfinal\b
-      scope: storage.modifier.java
-    - include: annotations
-    - include: primitive-types
-    - include: object-and-array-types
-    - match: \.\.\.
-      scope: keyword.operator.variadic.java
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      push: array-brackets
-    - include: punctuation-separator-comma
-
-  lambdas:
-    - match: (?={{lambda_lookahead}})
-      push: lambda-params
-
-  lambda-params:
-    - meta_scope: meta.function.anonymous.parameters.java
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.function.anonymous.parameters.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          set: lambda-arrow
-        - include: parameters
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      set: lambda-arrow
-
-  lambda-arrow:
-    - match: ->
-      scope: storage.type.function.anonymous.java
-      set:
-        - meta_scope: meta.function.anonymous.body.java
-        - match: (?=[)};])
-          pop: true
-        - include: code
-
-  parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-parens-terminators
-        - include: code
-
-  declaration-statement-parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-open-block
-        - include: code-block
-    - include: any_POP
-
-  primitive-types:
-    - match: \b{{primitives}}\b
-      scope: storage.type.primitive.java
-      push: array-brackets
-
-  var-type:
-    - match: \bvar\b
-      scope: storage.type.var.java
-
-  array-brackets:
-    - match: \[\s*\]
-      scope: storage.modifier.array.java
-    - include: any_POP
-
-  static-assignment:
-    - match: \=
-      scope: keyword.operator.assignment.java
-      set:
-        - meta_scope: meta.assignment.rhs.java
-        - match: (?=[,;])
-          pop: true
-        - include: before-next-field
-        - include: code
-        - include: stray-parens
-    - include: any_POP
-
-  assignment:
-    - match: ([|&^*/+-]\=|\=(?!=))
-      scope: keyword.operator.assignment.java
-      push:
-        - meta_scope: meta.assignment.rhs.java
-        - match: (?=;|\)|\}|,)
-          pop: true
-        - include: code
-  static-code-block:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      push:
-        - meta_scope: meta.static.body.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block
-  storage-modifiers:
-    - match: \b{{storage_modifiers}}\b
-      scope: storage.modifier.java
-  stray-braces:
-    - match: \}
-      scope: invalid.illegal.stray-brace-end
-  stray-parens:
-    - match: \)
-      scope: invalid.illegal.stray-parens-end
-
-  strings:
+  literal-double-quoted-strings:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
     - match: \"
       scope: punctuation.definition.string.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.java
-        - match: \"
-          scope: punctuation.definition.string.end.java
-          pop: true
-        - include: strings-common
-    - match: \'
-      scope: punctuation.definition.string.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.java
-        - match: \'
-          scope: punctuation.definition.string.end.java
-          pop: true
-        - include: strings-common
+      push: literal-double-quoted-string-body
 
-  strings-common:
-    - match: \n
-      scope: invalid.illegal.newline.java
-      pop: true
-    - include: string-escapes
+  literal-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.java string.quoted.double.java
+    - match: \"
+      scope: punctuation.definition.string.end.java
+      pop: 1
+    - include: illegal-newline
+    - include: literal-string-escapes
 
-  string-escapes:
-    - match: \\u+\h{4}
+  literal-double-quoted-textblocks:
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-3.html#jls-3.10.6
+    - match: (\"{3})\s*(.*)$
+      captures:
+        1: punctuation.definition.string.begin.java
+        2: invalid.illegal.unexpected-content.java
+      push: literal-double-quoted-textblock-body
+
+  literal-double-quoted-textblock-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.java string.quoted.triple.java
+    - match: \"{3}
+      scope: punctuation.definition.string.end.java
+      pop: 1
+    - include: literal-string-escapes
+
+  literal-string-escapes:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
+    - match: '{{escape_unicode}}'
       scope: constant.character.escape.unicode.java
-    - match: \\[0-3]?[0-7]{1,2}
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.6
+    - match: '{{escape_octal}}'
       scope: constant.character.escape.octal.java
-    - match: \\[btnfr"'\\]
-      scope: constant.character.escape.java
+    - match: '{{escape_other}}'
+      scope: constant.character.escape.other.java
     - match: \\.
       scope: invalid.illegal.escape.java
 
-  module:
-    - match: (?=\b(?:open\s+)?module\b)
+###[ OPERATORS ]###############################################################
+
+  operators:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.12
+    - match: (<<|>>>?|[-+*/%|&\^])=
+      scope: keyword.operator.assignment.augmented.java
+    - match: '<<|>>>?'
+      scope: keyword.operator.bitwise.java
+    - match: '==|!=|<=|>=|<>|<|>'
+      scope: keyword.operator.comparison.java
+    - match: '='
+      scope: keyword.operator.assignment.java
+      push: variable-initializer
+    - match: '\+\+?|\-\-?|[*/%]'
+      scope: keyword.operator.arithmetic.java
+    - match: '!|&&|\|\|'
+      scope: keyword.operator.logical.java
+    - match: '[~|&\^]'
+      scope: keyword.operator.bitwise.java
+    - match: '\?'
+      scope: keyword.operator.ternary.java
+      push: ternary-expression
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
+    - match: instanceof{{break}}
+      scope: keyword.other.storage.instanceof.java
       push:
-      - - meta_scope: meta.module.java
-        - include: immediate_POP
-      - - match: \bopen\b
-          scope: storage.modifier.java
-        - match: \bmodule\b
-          scope: storage.type.java
-          set: [module-body, module-identifier-scope, module-identifier]
+        - maybe-only-array-modifiers
+        - cast-expression-type
 
-  module-identifier-scope:
-    - meta_scope: meta.module.identifier.java
-    - include: immediate_POP
+  operator-ternary-colon:
+    - match: ':'
+      scope: keyword.operator.ternary.java
+      pop: 1
 
-  module-identifier:
-    - match: '{{id}}'
-      set:
-        - - meta_scope: entity.name.module.java
-          - include: immediate_POP
-        - dot-separated-identifier
-    - include: any_POP
+  ternary-expression:
+    - include: operator-ternary-colon
+    - include: expression
 
-  module-body:
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      set:
-        - meta_scope: meta.module.body.java
-        - include: module-body-content
-        - match: \}
-          scope: punctuation.section.braces.end.java
-          pop: true
-    - include: any_POP
+###[ PUNCTUATIONS ]############################################################
 
-  module-body-content:
-    - match: \bexports\b
-      scope: keyword.other.module.exports.java
-      push: [exports-statement-scope, exports-or-opens-statement]
-    - match: \bopens\b
-      scope: keyword.other.module.opens.java
-      push: [opens-statement-scope, exports-or-opens-statement]
-    - match: \brequires\b
-      scope: keyword.other.module.requires.java
-      push: requires-statement
-    - match: \buses\b
-      scope: keyword.other.module.uses.java
-      push: [uses-statement-scope, object-type-reference]
-    - match: \bprovides\b
-      scope: keyword.other.module.provides.java
-      push: [provides-statement-scope, provides-with-statement, object-type-reference]
-    - include: punctuation-terminator-semicolon
-
-  # Should always come before module/package patterns
-  module-statement-terminator:
-    - match: (?=[;\}])
-      pop: true
-    - match: (?=\b(?:requires|exports|uses|provides|opens)\b)
-      pop: true
-
-  support-type-module:
-    - match: '{{id}}'
+  punctuations:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.java
       push:
-        - - meta_scope: support.type.module.java
-          - include: immediate_POP
-        - dot-separated-identifier
-
-  exports-statement-scope:
-    - meta_scope: meta.exports.java
-    - include: immediate_POP
-
-  opens-statement-scope:
-    - meta_scope: meta.opens.java
-    - include: immediate_POP
-
-  exports-or-opens-statement:
-    - match: \bto\b
-      scope: keyword.other.module.to.java
-      set:
-        - include: module-statement-terminator
-        - include: support-type-module
-        - include: punctuation-separator-comma
-    - include: module-statement-terminator
-    - match: '{{id}}'
+        - maybe-function-reference
+        - maybe-type-argument
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
       push:
-        - - meta_scope: support.type.package.java
-          - include: immediate_POP
-        - dot-separated-identifier
+        - include: variable-language-class
+        - include: maybe-type-argument
+    - include: punctuation-separator-comma
 
-  requires-statement:
-    - meta_scope: meta.requires.java
-    - match: \btransitive\b
-      scope: keyword.other.module.transitive.java
-    - include: module-statement-terminator
-    - include: support-type-module
+  punctuation-accessor-dot:
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
 
-  uses-statement-scope:
-    - meta_scope: meta.uses.java
-    - include: immediate_POP
+  punctuation-accessor-dot-pop:
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      pop: 1
 
-  provides-statement-scope:
-    - meta_scope: meta.provides.java
-    - include: immediate_POP
+  punctuation-accessor-dot-pop2:
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      pop: 2
 
-  provides-with-statement:
-    - match: \bwith\b
-      scope: keyword.other.module.with.java
+  punctuation-separator-comma:
+    - match: ','
+      scope: punctuation.separator.comma.java
+
+  punctuation-terminator-semicolon:
+    - match: ;
+      scope: punctuation.terminator.java
+
+  punctuation-terminator-semicolon-pop:
+    - match: ;
+      scope: punctuation.terminator.java
+      pop: 1
+
+###[ CONSTANT ]################################################################
+
+  constant:
+    - match: (?={{identifier}})
+      branch_point: constant
+      branch:
+        - unqualified-constant
+        - qualified-constant
+
+  unqualified-constant:
+    - meta_include_prototype: false
+    - match: '{{id}}'
+      scope: constant.other.java
+      set: unqualified-constant-end
+    - include: immediately-pop2
+
+  unqualified-constant-end:
+    - match: (?={{single_dot}})
+      fail: constant
+    - include: else-pop2
+
+  qualified-constant:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.java
+    - match: ''
+      branch_point: qualified-constant
+      branch:
+        - qualified-constant-package
+        - qualified-constant-class-or-name
+
+  qualified-constant-package:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      set: qualified-constant-package-accessor
+    - include: annotations
+    - match: (?=\S)
+      fail: qualified-constant
+
+  qualified-constant-package-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: qualified-constant
+
+  qualified-constant-class-or-name:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+      branch_point: qualified-constant-class-or-name
+      branch:
+        - qualified-constant-class
+        - qualified-constant-name
+
+  qualified-constant-class:
+    - meta_include_prototype: false
+    - match: '{{identifier}}'
+      scope: storage.type.class.java
       set:
-        - - match: \,
-            scope: punctuation.separator.comma.java
-            push: object-type-reference
-          - include: any_POP
-        - object-type-reference
-    - include: any_POP
+        - qualified-constant-class-accessor
+        - maybe-type-argument
+    - include: annotation-else-pop3
+
+  qualified-constant-class-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: qualified-constant-class-or-name
+
+  qualified-constant-name:
+    - meta_include_prototype: false
+    - match: '{{identifier}}'
+      scope: constant.other.java
+      pop: 3
+    - include: annotation-else-pop3
+
+###[ ENTITY CLASS ]############################################################
+
+  entity-class:
+    - match: (?={{identifier}})
+      branch_point: entity-class
+      branch:
+        - entity-class-qualified-identifier
+        - entity-class-unqualified-identifier
+
+  entity-class-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{single_dot}}'
+          scope: punctuation.accessor.dot.java
+          set:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.path.java
+            - match: ''
+              branch_point: entity-class-path
+              branch:
+                - entity-class-qualifier
+                - entity-class-identifier
+        - match: (?=\S)
+          fail: entity-class
+
+  entity-class-qualifier:
+    - match: '{{identifier}}'
+      scope: variable.namespace.java
+      set:
+        - entity-class-accessor
+        - maybe-type-argument
+    - include: else-pop2
+
+  entity-class-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: entity-class-path
+
+  entity-class-identifier:
+    - match: '{{identifier}}'
+      scope: entity.name.class.java
+      set:
+        - immediately-pop2
+        - maybe-type-argument
+    - include: else-pop2
+
+  entity-class-unqualified-identifier:
+    - match: '{{id}}'
+      scope: entity.name.class.java
+      set: maybe-type-argument
+
+###[ ENTITY MODULE ]###########################################################
+
+  entity-module:
+    - match: (?={{identifier}})
+      branch_point: entity-module
+      branch:
+        - entity-module-qualified-identifier
+        - entity-module-unqualified-identifier
+
+  entity-module-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{single_dot}}'
+          scope: punctuation.accessor.dot.java
+          set:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.path.java
+            - match: ''
+              branch_point: entity-module-path
+              branch:
+                - entity-module-qualifier
+                - entity-module-identifier
+        - match: (?=\S)
+          fail: entity-module
+
+  entity-module-qualifier:
+    - match: '{{identifier}}'
+      scope: variable.namespace.java
+      set: entity-module-accessor
+    - include: else-pop2
+
+  entity-module-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: entity-module-path
+
+  entity-module-identifier:
+    - match: '{{identifier}}'
+      scope: entity.name.namespace.module.java
+      pop: 2
+    - include: else-pop2
+
+  entity-module-unqualified-identifier:
+    - match: '{{id}}'
+      scope: entity.name.namespace.module.java
+      pop: 1
+
+###[ ENTITY PACKAGE ]##########################################################
+
+  entity-package:
+    - match: (?={{identifier}})
+      branch_point: entity-package
+      branch:
+        - entity-package-qualified-identifier
+        - entity-package-unqualified-identifier
+
+  entity-package-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{single_dot}}'
+          scope: punctuation.accessor.dot.java
+          set:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.path.java
+            - match: ''
+              branch_point: entity-package-path
+              branch:
+                - entity-package-qualifier
+                - entity-package-identifier
+        - match: (?=\S)
+          fail: entity-package
+
+  entity-package-qualifier:
+    - match: '{{identifier}}'
+      scope: variable.namespace.java
+      set: entity-package-accessor
+    - include: else-pop2
+
+  entity-package-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: entity-package-path
+
+  entity-package-identifier:
+    - match: '{{identifier}}'
+      scope: entity.name.namespace.package.java
+      pop: 2
+    - include: else-pop2
+
+  entity-package-unqualified-identifier:
+    - match: '{{id}}'
+      scope: entity.name.namespace.package.java
+      pop: 1
+
+###[ OBJECT TYPES ]############################################################
+
+  object-types:
+    # Popular JDK classes, generic type variable
+    - match: (?:UUID|UR[LI]|\p{Lu}){{break}}
+      scope: storage.type.class.java
+      push:
+        - maybe-object-type-child
+        - maybe-array-modifiers
+        - maybe-type-argument
+    # Uppercase constants
+    - match: '{{uppercase_id}}'
+      scope: constant.other.java
+    # Classes
+    - match: '{{classcase_id}}'
+      scope: storage.type.class.java
+      push:
+        - maybe-object-type-child
+        - maybe-array-modifiers
+        - maybe-type-argument
+
+  maybe-object-type-child:
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      set: object-types-child-identifier
+    - include: else-pop
+
+  object-types-child-identifier:
+    - include: variable-language-class
+    - match: '{{uppercase_id}}'
+      scope: constant.other.java
+      pop: 1
+    - match: '{{classcase_id}}'
+      scope: storage.type.class.java
+      set:
+        - maybe-object-type-child
+        - maybe-array-modifiers
+        - maybe-type-argument
+    - include: annotation-else-pop
+
+###[ OBJECT TYPE ]#############################################################
+
+  expect-object-type:
+    - include: object-type
+    - include: annotations
+    - include: illegal-unexpected-reserved
+    - include: else-pop
+
+  maybe-object-type:
+    - include: object-type
+    - include: annotation-else-pop
+
+  object-type:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
+    - match: (?={{identifier}})
+      branch_point: object-type
+      branch:
+        - unqualified-object-type
+        - qualified-object-type
+
+  unqualified-object-type:
+    - match: '{{id}}'
+      scope: storage.type.class.java
+      push:
+        - unqualiefied-object-type-end
+        - maybe-type-argument
+
+  unqualiefied-object-type-end:
+    - match: (?={{single_dot}})
+      fail: object-type
+    - include: else-pop3
+
+  qualified-object-type:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.java
+    - match: ''
+      branch_point: qualified-object-type
+      branch:
+        - qualified-object-type-package
+        - qualified-object-type-class
+
+  qualified-object-type-package:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      set: qualified-object-type-accessor
+    - include: annotations
+    - match: (?=\S)
+      fail: qualified-object-type
+
+  qualified-object-type-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: qualified-object-type
+
+  qualified-object-type-class:
+    - match: '{{identifier}}'
+      scope: storage.type.class.java
+      push:
+        - qualified-object-type-end
+        - qualified-object-type-arguments
+    - include: annotation-else-pop3
+
+  qualified-object-type-arguments:
+    - match: (?=\s*<)
+      set: maybe-type-argument
+    - match: (?=\s*\S)
+      pop: 1
+
+  qualified-object-type-end:
+    - match: \s*({{single_dot}})
+      captures:
+        1: punctuation.accessor.dot.java
+      pop: 1
+    - match: (?=\s*\S)
+      pop: 4
+
+###[ REFERENCE TYPE ]##########################################################
+
+  maybe-additional-bounds:
+    - include: additional-bounds
+    - include: else-pop
+
+  additional-bounds:
+    - match: '&'
+      scope: keyword.operator.logical.java
+      push: maybe-reference-type
+
+  maybe-reference-type:
+    - include: reference-type
+    - include: annotation-else-pop
+
+  reference-type:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
+    - match: (?={{storage_types}}{{break}})
+      branch_point: primitive-array-type
+      branch:
+        - reference-type-array
+        - reference-type-illegal
+    - match: (?={{id_first_char}})
+      set:
+        - maybe-array-modifiers
+        - maybe-object-type
+
+  reference-type-array:
+    # note: simplified pattern as primitive types consist of ascii chars only
+    - match: '[A-Za-z]+'
+      scope: storage.type.primitive.java
+      set: reference-type-array-item-access
+
+  reference-type-array-item-access:
+    - match: (?=\[)
+      pop: 1
+      set: maybe-array-modifiers
+    - include: annotations
+    - match: (?=\S)
+      fail: primitive-array-type
+
+  reference-type-illegal:
+    # note: simplified pattern as primitive types consist of ascii chars only
+    - match: '[A-Za-z]+'
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 2
+
+###[ INHERRITED TYPE REFERENCES ]##############################################
+
+  # Used in class-level 'extends' and 'implements'
+  inherited-object-type-list:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.4
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push: inherited-object-type
+
+  inherited-object-type:
+    - match: (?={{identifier}})
+      branch_point: inherited-object-type
+      branch:
+        - unqualified-inherited-object-type
+        - qualified-inherited-object-type
+    - include: annotation-else-pop
+
+  unqualified-inherited-object-type:
+    - match: '{{id}}'
+      scope: entity.other.inherited-class.java
+      push:
+        - unqualiefied-inherited-object-type-end
+        - maybe-type-argument
+
+  unqualiefied-inherited-object-type-end:
+    - match: (?={{single_dot}})
+      fail: inherited-object-type
+    - include: illegal-array-modifiers
+    - include: annotation-else-pop3
+
+  qualified-inherited-object-type:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.java
+    - match: ''
+      branch_point: qualified-inherited-object-type
+      branch:
+        - qualified-inherited-object-type-package
+        - qualified-inherited-object-type-class
+
+  qualified-inherited-object-type-package:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      set: qualified-inherited-object-type-accessor
+    - include: annotations
+    - match: (?=\S)
+      fail: qualified-inherited-object-type
+
+  qualified-inherited-object-type-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: qualified-inherited-object-type
+
+  qualified-inherited-object-type-class:
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.java
+      push:
+        - qualified-object-type-end
+        - qualified-object-type-arguments
+    - include: annotation-else-pop3
+
+###[ TYPE ARGUMENTS ]##########################################################
+
+  maybe-type-argument:
+    - include: type-argument
+    - include: else-pop
+
+  type-argument:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.5.1
+    - match: <>
+      scope:
+        meta.generic.java
+        punctuation.section.generic.diamond.java
+      pop: 1
+    - match: <
+      scope: punctuation.section.generic.begin.java
+      set:
+        - type-argument-body
+        - type-argument-reference
+
+  type-argument-body:
+    - meta_scope: meta.generic.java
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push: type-argument-reference
+    - include: type-parameter-end
+
+  type-argument-reference:
+    - match: \?
+      scope: variable.language.wildcard.java
+      set: type-argument-bounds
+    - include: maybe-reference-type
+
+  type-argument-bounds:
+    - match: extends{{break}}
+      scope: storage.modifier.extends.java
+      set:
+        - maybe-additional-bounds
+        - maybe-reference-type
+    - match: super{{break}}
+      scope: keyword.declaration.super.java
+      set: maybe-reference-type
+    - include: else-pop
+
+###[ TYPE PARAMETERS ]#########################################################
+
+  maybe-type-parameter:
+    - include: type-parameter
+    - include: else-pop
+
+  type-parameters:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
+    - match: <
+      scope: punctuation.section.generic.begin.java
+      push:
+        - type-parameter-body
+        - type-parameter-bounds
+        - type-parameter-reference
+
+  type-parameter:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
+    - match: <
+      scope: punctuation.section.generic.begin.java
+      set:
+        - type-parameter-body
+        - type-parameter-bounds
+        - type-parameter-reference
+
+  type-parameter-body:
+    - meta_scope: meta.generic.declaration.java
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push:
+        - type-parameter-bounds
+        - type-parameter-reference
+    - include: type-parameter-end
+
+  type-parameter-reference:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
+    - match: '{{identifier}}'
+      scope: variable.parameter.type.java
+      pop: 1
+    - match: \?|{{storage_types}}{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 1
+    - include: annotation-else-pop
+
+  type-parameter-bounds:
+    - match: extends{{break}}
+      scope: storage.modifier.extends.java
+      set:
+        - maybe-additional-bounds
+        - maybe-reference-type
+    - match: super{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      set: maybe-reference-type
+    - include: else-pop
+
+  type-parameter-end:
+    - match: '>'
+      scope: punctuation.section.generic.end.java
+      pop: 1
+    - match: extends{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push:
+        - maybe-additional-bounds
+        - maybe-reference-type
+    - match: super{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      push: maybe-reference-type
+    - include: annotation-else-pop
+
+###[ PRIMITIVE TYPES ]#########################################################
+
+  primitive-types:
+    - match: '{{storage_types}}{{break}}'
+      scope: storage.type.primitive.java
+      push: maybe-array-modifiers
+
+  primitive-type:
+    - match: '{{storage_types}}{{break}}'
+      scope: storage.type.primitive.java
+      pop: 1
+
+  var-types:
+    - match: var{{break}}
+      scope: storage.type.variant.java
+      push: maybe-illegal-array-modifiers
+
+  var-type:
+    - match: var{{break}}
+      scope: storage.type.variant.java
+      set: maybe-illegal-array-modifiers
+
+  maybe-array-modifiers:
+    - include: array-modifiers
+    - include: annotation-else-pop
+
+  maybe-only-array-modifiers:
+    - include: array-modifiers
+    - include: annotations
+    - include: illegal-members
+    - include: else-pop
+
+  array-modifiers:
+    - match: \[\s*\]
+      scope: storage.modifier.array.java
+
+  final-modifiers:
+    - match: final{{break}}
+      scope: storage.modifier.java
+
+  storage-modifiers:
+    - match: '{{storage_modifiers}}{{break}}'
+      scope: storage.modifier.java
+
+###[ PROTOTYPES ]##############################################################
+
+  prototype:
+    - include: comments
+    - include: illegal-keywords
+
+  annotation-else-pop:
+    - include: annotations
+    - include: else-pop
+
+  annotation-else-pop2:
+    - include: annotations
+    - include: else-pop2
+
+  annotation-else-pop3:
+    - include: annotations
+    - include: else-pop3
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  else-pop2:
+    - match: (?=\S)
+      pop: 2
+
+  else-pop3:
+    - match: (?=\S)
+      pop: 3
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+  immediately-pop2:
+    - match: ''
+      pop: 2
+
+  immediately-pop3:
+    - match: ''
+      pop: 3
+
+###[ ILLEGALS ]################################################################
+
+  maybe-illegal-array-modifiers:
+    - include: illegal-array-modifiers
+    - include: annotation-else-pop
+
+  illegal-array-modifiers:
+    - match: \[\s*\]
+      scope: invalid.illegal.unexpected-modifier.java
+
+  illegal-keywords:
+    - match: '{{illegal_keywords}}{{break}}'
+      scope: invalid.illegal.keyword.java
+
+  illegal-unexpected-keywords:
+    - match: '{{keywords}}{{break}}'
+      scope: invalid.illegal.unexpected-keyword.java
+
+  illegal-unexpected-reserved:
+    - match: '{{reserved_words}}'
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 1
+
+  illegal-members:
+    - match: '{{single_dot}}'
+      scope: invalid.illegal.unexpected-accessor.java
+      push:
+        - maybe-illegal-array-modifiers
+        - maybe-illegal-member
+
+  maybe-illegal-member:
+    - match: '{{id}}'
+      scope: invalid.illegal.unexpected-member.java
+      pop: 1
+    - include: else-pop
+
+  illegal-newline:
+    - match: \n
+      scope: invalid.illegal.unexpected-newline.java
+      pop: 1
+
+  illegal-storage-modifiers:
+    - match: '{{storage_modifiers}}{{break}}'
+      scope: invalid.illegal.unexpected-keyword.java
+
+  maybe-illegal-type-parameter:
+    - match: \<
+      set: illegal-type-parameter-body
+    - include: else-pop
+
+  illegal-type-parameter-body:
+        - meta_scope: invalid.illegal.unexpected-type-parameters.java
+        - match: \<
+          push:
+            - match: \>
+              pop: 1
+        - match: \>
+          pop: 1
+
+  illegal-var-type:
+    - match: var{{break}}
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 1
+
+  stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray.java
+
+  stray-group:
+    - match: \)
+      scope: invalid.illegal.stray.java
