@@ -1143,13 +1143,12 @@ hex5 = 0x0+0xFL+0xaull+0xallu+0xfu+0xf'12_4_uz;
 hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*     ^^^^^^^^^^^^^ meta.number.float.hexadecimal.c++ */
 /*     ^^ constant.numeric.base.c++ */
-/*       ^^ constant.numeric.value.c++ */
+/*       ^^^^^^^^^^^ constant.numeric.value.c++ */
 /*         ^ punctuation.separator.decimal.c++ */
-/*          ^^^^^ constant.numeric.value.c++ */
-/*               ^^^ constant.numeric.value.exponent.c++ */
 /*                  ^ keyword.operator.arithmetic - constant.c++ */
 /*                   ^^^^^^^^^^^^^^ meta.number.float.hexadecimal.c++ */
 /*                   ^^ constant.numeric.base.c++ */
+/*                     ^^^^^^^^^^^ constant.numeric.value.c++ */
 /*                      ^ punctuation.separator.decimal.c++ */
 /*                                ^ constant.numeric.suffix.c++ */
 /*                                 ^ punctuation.terminator - constant */
@@ -1174,181 +1173,151 @@ bin3 = 0b1001'1101'0010'1100;
 
 f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
 /*  ^^^ meta.number.float.decimal.c++ */
-/*  ^ constant.numeric.value.c++ */
+/*  ^^^ constant.numeric.value.c++ */
 /*   ^ punctuation.separator.decimal.c++ */
-/*    ^ constant.numeric.value.c++ */
-/*     ^ keyword.operator.arithmetic */
+/*     ^ keyword.operator.arithmetic.c */
 /*      ^^^^^ meta.number.float.decimal.c++ */
-/*      ^ constant.numeric.value.c++ */
+/*      ^^^^^ constant.numeric.value.c++ */
 /*       ^ punctuation.separator.decimal.c++ */
-/*        ^ constant.numeric.value.c++ */
-/*         ^^ constant.numeric.value.exponent.c++ */
-/*           ^ keyword.operator.arithmetic */
+/*           ^ keyword.operator.arithmetic.c */
 /*            ^^^^^^ meta.number.float.decimal.c++ */
-/*            ^ constant.numeric.value.c++ */
+/*            ^^^^^^ constant.numeric.value.c++ */
 /*             ^ punctuation.separator.decimal.c++ */
-/*              ^ constant.numeric.value.c++ */
-/*               ^^^ constant.numeric.value.exponent.c++ */
-/*                  ^ keyword.operator.arithmetic */
+/*                  ^ keyword.operator.arithmetic.c */
 /*                   ^^^^ meta.number.float.decimal.c++ */
-/*                   ^ constant.numeric.value.c++ */
+/*                   ^^^ constant.numeric.value.c++ */
 /*                    ^ punctuation.separator.decimal.c++ */
-/*                     ^ constant.numeric.value.c++ */
 /*                      ^ constant.numeric.suffix.c++ */
-/*                       ^ keyword.operator.arithmetic */
+/*                       ^ keyword.operator.arithmetic.c */
 /*                        ^^^^^^ meta.number.float.decimal.c++ */
-/*                        ^ constant.numeric.value.c++ */
+/*                        ^^^^^ constant.numeric.value.c++ */
 /*                         ^ punctuation.separator.decimal.c++ */
-/*                          ^ constant.numeric.value.c++ */
-/*                           ^^ constant.numeric.value.exponent.c++ */
 /*                             ^ constant.numeric.suffix.c++ */
-/*                              ^ keyword.operator.arithmetic */
+/*                              ^ keyword.operator.arithmetic.c */
 /*                               ^^^^^^^ meta.number.float.decimal.c++ */
-/*                               ^ constant.numeric.value.c++ */
+/*                               ^^^^^^ constant.numeric.value.c++ */
 /*                                ^ punctuation.separator.decimal.c++ */
-/*                                 ^ constant.numeric.value.c++ */
-/*                                  ^^^ constant.numeric.value.exponent.c++ */
 /*                                     ^ constant.numeric.suffix.c++ */
-/*                                      ^ keyword.operator.arithmetic */
+/*                                      ^ keyword.operator.arithmetic.c */
 /*                                       ^^^^ meta.number.float.decimal.c++ */
-/*                                       ^ constant.numeric.value.c++ */
+/*                                       ^^^ constant.numeric.value.c++ */
 /*                                        ^ punctuation.separator.decimal.c++ */
-/*                                         ^ constant.numeric.value.c++ */
 /*                                          ^ constant.numeric.suffix.c++ */
-/*                                           ^ keyword.operator.arithmetic */
+/*                                           ^ keyword.operator.arithmetic.c */
 /*                                            ^^^^^^ meta.number.float.decimal.c++ */
-/*                                            ^ constant.numeric.value.c++ */
+/*                                            ^^^^^ constant.numeric.value.c++ */
 /*                                             ^ punctuation.separator.decimal.c++ */
-/*                                              ^ constant.numeric.value.c++ */
-/*                                               ^^ constant.numeric.value.exponent.c++ */
 /*                                                 ^ constant.numeric.suffix.c++ */
-/*                                                  ^ keyword.operator.arithmetic */
+/*                                                  ^ keyword.operator.arithmetic.c */
 /*                                                   ^^^^^^^ meta.number.float.decimal.c++ */
-/*                                                   ^ constant.numeric.value.c++ */
+/*                                                   ^^^^^^ constant.numeric.value.c++ */
 /*                                                    ^ punctuation.separator.decimal.c++ */
-/*                                                     ^ constant.numeric.value.c++ */
-/*                                                      ^^^ constant.numeric.value.exponent.c++ */
 /*                                                         ^ constant.numeric.suffix.c++ */
 /*                                                          ^ punctuation.terminator - constant */
 
 f = 1.e1+1.e-1+1.e1f+1.e-1f+1.e1L+1.e-1L;
 /*  ^^^^ meta.number.float.decimal.c++ */
-/*  ^ constant.numeric.value.c++ */
+/*  ^^^^ constant.numeric.value.c++ */
 /*   ^ punctuation.separator.decimal.c++ */
-/*    ^^ constant.numeric.value.exponent.c++ */
-/*      ^ keyword.operator.arithmetic */
+/*      ^ keyword.operator.arithmetic.c */
 /*       ^^^^^ meta.number.float.decimal.c++ */
-/*       ^ constant.numeric.value.c++ */
+/*       ^^^^^ constant.numeric.value.c++ */
 /*        ^ punctuation.separator.decimal.c++ */
-/*         ^^^ constant.numeric.value.exponent.c++ */
-/*            ^ keyword.operator.arithmetic */
+/*            ^ keyword.operator.arithmetic.c */
 /*             ^^^^^ meta.number.float.decimal.c++ */
-/*             ^ constant.numeric.value.c++ */
+/*             ^^^^ constant.numeric.value.c++ */
 /*              ^ punctuation.separator.decimal.c++ */
-/*               ^^ constant.numeric.value.exponent.c++ */
 /*                 ^ constant.numeric.suffix.c++ */
-/*                  ^ keyword.operator.arithmetic */
+/*                  ^ keyword.operator.arithmetic.c */
 /*                   ^^^^^^ meta.number.float.decimal.c++ */
-/*                   ^ constant.numeric.value.c++ */
+/*                   ^^^^^ constant.numeric.value.c++ */
 /*                    ^ punctuation.separator.decimal.c++ */
-/*                     ^^^ constant.numeric.value.exponent.c++ */
 /*                        ^ constant.numeric.suffix.c++ */
-/*                         ^ keyword.operator.arithmetic */
+/*                         ^ keyword.operator.arithmetic.c */
 /*                          ^^^^^ meta.number.float.decimal.c++ */
-/*                          ^ constant.numeric.value.c++ */
+/*                          ^^^^ constant.numeric.value.c++ */
 /*                           ^ punctuation.separator.decimal.c++ */
-/*                            ^^ constant.numeric.value.exponent.c++ */
 /*                              ^ constant.numeric.suffix.c++ */
-/*                               ^ keyword.operator.arithmetic */
+/*                               ^ keyword.operator.arithmetic.c */
 /*                                ^^^^^^ meta.number.float.decimal.c++ */
-/*                                ^ constant.numeric.value.c++ */
+/*                                ^^^^^ constant.numeric.value.c++ */
 /*                                 ^ punctuation.separator.decimal.c++ */
-/*                                  ^^^ constant.numeric.value.exponent.c++ */
 /*                                     ^ constant.numeric.suffix.c++ */
 /*                                      ^ punctuation.terminator - constant */
 
 f = 1.+1.f+1.L+1..;
 /*  ^^ meta.number.float.decimal.c++ */
-/*  ^ constant.numeric.value.c++ */
+/*  ^^ constant.numeric.value.c++ */
 /*   ^ punctuation.separator.decimal.c++ */
-/*    ^ keyword.operator.arithmetic */
+/*    ^ keyword.operator.arithmetic.c */
 /*     ^^^ meta.number.float.decimal.c++ */
-/*     ^ constant.numeric.value.c++ */
+/*     ^^ constant.numeric.value.c++ */
 /*      ^ punctuation.separator.decimal.c++ */
 /*       ^ constant.numeric.suffix.c++ */
-/*        ^ keyword.operator.arithmetic */
+/*        ^ keyword.operator.arithmetic.c */
 /*         ^^^ meta.number.float.decimal.c++ */
-/*         ^ constant.numeric.value.c++ */
+/*         ^^ constant.numeric.value.c++ */
 /*          ^ punctuation.separator.decimal.c++ */
 /*           ^ constant.numeric.suffix.c++ */
-/*            ^ keyword.operator.arithmetic */
+/*            ^ keyword.operator.arithmetic.c */
 /*             ^ meta.number.integer.decimal.c++ */
 /*             ^ constant.numeric.value.c++ */
-/*              ^^ invalid.illegal.syntax */
+/*              ^^ invalid.illegal.syntax.c */
 /*                ^ punctuation.terminator - constant */
 
 f = 1e1+1e1f+1e1L;
 /*  ^^^ meta.number.float.decimal.c++ */
-/*  ^ constant.numeric.value.c++ */
-/*   ^^ constant.numeric.value.exponent.c++ */
-/*     ^ keyword.operator.arithmetic */
+/*  ^^^ constant.numeric.value.c++ */
+/*     ^ keyword.operator.arithmetic.c */
 /*      ^^^^ meta.number.float.decimal.c++ */
-/*      ^ constant.numeric.value.c++ */
-/*       ^^ constant.numeric.value.exponent.c++ */
+/*      ^^^ constant.numeric.value.c++ */
 /*         ^ constant.numeric.suffix.c++ */
-/*          ^ keyword.operator.arithmetic */
+/*          ^ keyword.operator.arithmetic.c */
 /*           ^^^^ meta.number.float.decimal.c++ */
-/*           ^ constant.numeric.value.c++ */
-/*            ^^ constant.numeric.value.exponent.c++ */
+/*           ^^^ constant.numeric.value.c++ */
 /*              ^ constant.numeric.suffix.c++ */
 /*               ^ punctuation.terminator - constant */
 
 f = .1+.1e1+.1e-1+.1f+.1e1f+.1e-1f+.1L+.1e1L+.1e-1L;
 /*  ^^ meta.number.float.decimal.c++ */
+/*  ^^ constant.numeric.value.c++ */
 /*  ^ punctuation.separator.decimal.c++ */
-/*   ^ constant.numeric.value.c++ */
-/*    ^ keyword.operator.arithmetic */
+/*    ^ keyword.operator.arithmetic.c */
 /*     ^^^^ meta.number.float.decimal.c++ */
 /*     ^ punctuation.separator.decimal.c++ */
-/*      ^ constant.numeric.value.c++ */
-/*       ^^ constant.numeric.value.exponent.c++ */
-/*         ^ keyword.operator.arithmetic */
+/*     ^^^^ constant.numeric.value.c++ */
+/*         ^ keyword.operator.arithmetic.c */
 /*          ^^^^^ meta.number.float.decimal.c++ */
 /*          ^ punctuation.separator.decimal.c++ */
-/*           ^ constant.numeric.value.c++ */
-/*            ^^^ constant.numeric.value.exponent.c++ */
-/*               ^ keyword.operator.arithmetic */
+/*          ^^^^^ constant.numeric.value.c++ */
+/*               ^ keyword.operator.arithmetic.c */
 /*                ^^^ meta.number.float.decimal.c++ */
 /*                ^ punctuation.separator.decimal.c++ */
-/*                 ^ constant.numeric.value.c++ */
+/*                ^^ constant.numeric.value.c++ */
 /*                  ^ constant.numeric.suffix.c++ */
-/*                   ^ keyword.operator.arithmetic */
+/*                   ^ keyword.operator.arithmetic.c */
 /*                    ^^^^^ meta.number.float.decimal.c++ */
 /*                    ^ punctuation.separator.decimal.c++ */
-/*                     ^ constant.numeric.value.c++ */
-/*                      ^^ constant.numeric.value.exponent.c++ */
+/*                    ^^^^ constant.numeric.value.c++ */
 /*                        ^ constant.numeric.suffix.c++ */
-/*                         ^ keyword.operator.arithmetic */
+/*                         ^ keyword.operator.arithmetic.c */
 /*                          ^^^^^^ meta.number.float.decimal.c++ */
 /*                          ^ punctuation.separator.decimal.c++ */
-/*                           ^ constant.numeric.value.c++ */
-/*                            ^^^ constant.numeric.value.exponent.c++ */
+/*                          ^^^^^ constant.numeric.value.c++ */
 /*                               ^ constant.numeric.suffix.c++ */
 /*                                 ^^^ meta.number.float.decimal.c++ */
 /*                                 ^ punctuation.separator.decimal.c++ */
-/*                                  ^ constant.numeric.value.c++ */
+/*                                 ^^ constant.numeric.value.c++ */
 /*                                   ^ constant.numeric.suffix.c++ */
-/*                                    ^ keyword.operator.arithmetic */
+/*                                    ^ keyword.operator.arithmetic.c */
 /*                                     ^^^^^ meta.number.float.decimal.c++ */
 /*                                     ^ punctuation.separator.decimal.c++ */
-/*                                      ^ constant.numeric.value.c++ */
-/*                                       ^^ constant.numeric.value.exponent.c++ */
+/*                                     ^^^^ constant.numeric.value.c++ */
 /*                                         ^ constant.numeric.suffix.c++ */
-/*                                          ^ keyword.operator.arithmetic */
+/*                                          ^ keyword.operator.arithmetic.c */
 /*                                           ^^^^^^ meta.number.float.decimal.c++ */
 /*                                           ^ punctuation.separator.decimal.c++ */
-/*                                            ^ constant.numeric.value.c++ */
-/*                                             ^^^ constant.numeric.value.exponent.c++ */
+/*                                           ^^^^^ constant.numeric.value.c++ */
 /*                                                ^ constant.numeric.suffix.c++ */
 /*                                                 ^ punctuation.terminator - constant */
 
@@ -1364,6 +1333,22 @@ f = 2'837e1'000;
 f = 23e-1'000;
 /*  ^^^^^^^^^ meta.number.float.decimal */
 /*           ^ punctuation.terminator - constant */
+
+units0 = 1.0suff+1.suff*.0suff/{1suff}
+/*       ^^^^^^^ meta.number.float.decimal */
+/*          ^^^^ constant.numeric.suffix */
+/*              ^ keyword.operator.arithmetic */
+/*               ^^^^^^ meta.number.float.decimal */
+/*                 ^^^^ constant.numeric.suffix */
+/*                     ^ keyword.operator */
+/*                      ^^^^^^ meta.number.float.decimal */
+/*                        ^^^^ constant.numeric.suffix */
+/*                            ^ keyword.operator.arithmetic */
+/*                             ^ punctuation.section.block.begin */
+/*                              ^^^^^ meta.number.integer.decimal */
+/*                              ^ constant.numeric.value */
+/*                               ^^^^ constant.numeric.suffix */
+/*                                   ^ punctuation.section.block.end */
 
 units1 = 134h + 123.45h;
 /*       ^^^^ meta.number.integer.decimal */

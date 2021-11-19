@@ -346,7 +346,7 @@ contexts:
         - include: main
 
   roxygen-content:
-    - meta_scope: comment.line.roxygen.r
+    - meta_scope: comment.line.documentation.r
     - match: $\n?
       pop: true
 

@@ -31,7 +31,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^^ meta.interface
-//         ^^^^^^^^^ storage.type
+//         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.interface
 //                       ^^ meta.block
 
@@ -39,7 +39,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^^ meta.namespace
-//         ^^^^^^^^^ storage.type
+//         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.namespace
 //                       ^^ meta.block
 
@@ -47,7 +47,7 @@
 
     interface Foo {
 //  ^^^^^^^^^^^^^^^^ meta.interface
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.interface
 //                ^ meta.block punctuation.section.block.begin
         foo: any;
@@ -68,7 +68,7 @@
 
     interface Foo < T > extends Bar < T > {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.interface
 //                ^^^^^ meta.generic
 //                ^ punctuation.definition.generic.begin
@@ -237,7 +237,7 @@
 
     namespace Foo {
 //  ^^^^^^^^^^^^^^^^ meta.namespace
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.namespace
 //                ^ meta.block punctuation.section.block.begin
     }
@@ -544,7 +544,21 @@ let x: 'a string';
 //     ^ meta.type meta.string string.quoted.single
 
 let x: 42;
-//     ^^ meta.number.integer.decimal.js constant.numeric.value.js
+//     ^^ meta.type meta.number.integer.decimal constant.numeric.value
+
+let x: -42;
+//     ^^^ meta.type
+//     ^ keyword.operator.arithmetic
+//      ^^ meta.number.integer.decimal constant.numeric.value
+
+let x: 1.5;
+//     ^^^ meta.type meta.number.float.decimal constant.numeric.value
+
+let x: 1e10;
+//     ^^^^ meta.type meta.number.float.decimal constant.numeric.value
+
+let x: 0xabc;
+//     ^^^^^ meta.type meta.number.integer.hexadecimal
 
 let x: typeof Foo;
 //     ^^^^^^^^^^ meta.type
@@ -558,7 +572,7 @@ let x: keyof Foo;
 let x: Foo.bar;
 //     ^^^^^^^ meta.type
 //     ^^^ support.class
-//        ^ punctuation.separator.accessor
+//        ^ punctuation.accessor
 //         ^^^ support.class
 
 let x: {
@@ -725,13 +739,21 @@ let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^ meta.group
 //     ^ punctuation.section.group.begin
-//       ^^^ variable.other.readwrite - support.class
+//       ^^^ variable.parameter - support.class
 //           ^ storage.modifier.optional
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any
 //                   ^ punctuation.section.group.end
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
+
+let x: ( ... foo : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^ meta.group
+//       ^^^ keyword.operator.spread
+//           ^^^ variable.parameter
+//               ^ punctuation.separator.type
+//                 ^^^ support.type.any
 
 let x: () => T
     U
@@ -771,7 +793,7 @@ let x: import ( "foo" ) . Bar ;
 //            ^ punctuation.section.group.begin
 //              ^^^^^ meta.string string.quoted.double
 //                    ^ punctuation.section.group.end
-//                      ^ punctuation.separator.accessor
+//                      ^ punctuation.accessor
 //                        ^^^ support.class
 
     foo < bar > ();
@@ -809,3 +831,9 @@ if (a < b || c < d) {}
 //    ^ keyword.operator.logical
 //        ^^ keyword.operator.logical
 //             ^ keyword.operator.logical
+
+const f = (): any => {};
+//    ^ entity.name.function meta.binding.name variable.other.readwrite
+
+    a != b;
+//    ^^ keyword.operator.comparison

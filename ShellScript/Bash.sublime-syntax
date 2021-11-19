@@ -99,6 +99,7 @@ contexts:
     - include: line-continuations
     - include: operators
     - include: redirections
+    - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-compound
@@ -171,7 +172,6 @@ contexts:
     # comment).
     - match: \n
       pop: 1
-    - include: line-continuations
 
   shebang:
     - match: ^\#!
@@ -187,9 +187,24 @@ contexts:
       scope: constant.language.shebang.shell
     - match: \n
       pop: 1
-    - include: line-continuations
 
 ###[ FUNCTION DEFINITIONS ]####################################################
+
+  def-anonymous:
+    - match: (\()\s*(\))
+      scope: meta.function.parameters.shell
+      captures:
+        1: punctuation.section.parameters.begin.shell
+        2: punctuation.section.parameters.end.shell
+      push:
+        - def-functions-redirection
+        - def-anonymous-body
+
+  def-anonymous-body:
+    - include: def-function-body-braces
+    - include: line-continuations
+    - include: comments
+    - include: else-pop
 
   def-functions:
     # [Bash] 3.3 Shell Functions
@@ -230,9 +245,18 @@ contexts:
         1: punctuation.section.parameters.begin.shell
         2: punctuation.section.parameters.end.shell
       pop: 1
+    - include: line-continuations
+    - include: comments
     - include: else-pop
 
   def-functions-body:
+    - include: def-function-body-braces
+    - include: def-function-body-parens
+    - include: line-continuations
+    - include: comments
+    - include: else-pop
+
+  def-function-body-braces:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
       scope: punctuation.section.compound.begin.shell
       set:
@@ -241,6 +265,8 @@ contexts:
           scope: punctuation.section.compound.end.shell
           pop: 1
         - include: statements
+
+  def-function-body-parens:
     - match: \(
       scope: punctuation.section.compound.begin.shell
       set:
@@ -249,8 +275,6 @@ contexts:
           scope: punctuation.section.compound.end.shell
           pop: 1
         - include: statements
-    - include: comments
-    - include: else-pop
 
   def-functions-redirection:
     - meta_content_scope: meta.function.shell
@@ -1587,6 +1611,13 @@ contexts:
         2: keyword.operator.match.shell
 
   expansions-parameter:
+    - match: (\$)(\{)(#)(\})
+      captures:
+        0: meta.interpolation.parameter.shell
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+        3: variable.language.shell
+        4: punctuation.section.interpolation.end.shell
     - match: (\$)(\{)
       captures:
         1: punctuation.definition.variable.shell

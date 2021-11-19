@@ -181,4 +181,7 @@
 //     ^ - punctuation
     }
 //  ^ punctuation.definition.interpolation.end
-</foo>
+</foo>;
+
+    <class />;
+//   ^^^^^ entity.name.tag
