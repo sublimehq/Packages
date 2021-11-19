@@ -66,6 +66,21 @@
     }
 //  ^ meta.block punctuation.section.block.end
 
+    interface Foo < T > extends Bar < T > {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
+//  ^^^^^^^^^ storage.type
+//            ^^^ entity.name.interface
+//                ^^^^^ meta.generic
+//                ^ punctuation.definition.generic.begin
+//                  ^ variable.parameter.generic
+//                    ^ punctuation.definition.generic.end
+//                      ^^^^^^^ storage.modifier.extends
+//                              ^^^ entity.other.inherited-class
+//                                  ^^^^^ meta.interface meta.generic
+//                                  ^ punctuation.definition.generic.begin
+//                                    ^ support.class
+//                                      ^ punctuation.definition.generic.end
+
     enum Foo {
 //  ^^^^^^^^^^^ meta.enum
 //  ^^^^ storage.type
@@ -77,7 +92,7 @@
         y = 2,
 //      ^ variable.other.readwrite
 //        ^ keyword.operator.assignment
-//          ^ constant.numeric.integer.decimal
+//          ^ meta.number.integer.decimal.js constant.numeric.value.js
 //           ^ punctuation.separator.comma
 
         'FOO'
@@ -296,6 +311,17 @@ function f ( x : any , ... y : any ) {}
 //                           ^ punctuation.separator.type
 //                             ^^^ meta.type support.type.any
 
+function f ( @foo x , @bar() y ) {}
+//           ^^^^ meta.annotation
+//           ^ punctuation.definition.annotation
+//            ^^^ variable.annotation
+//                ^ meta.binding.name variable.parameter.function
+//                    ^^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation
+//                     ^^^^^ meta.function-call
+//                     ^^^ variable.function
+//                           ^ meta.binding.name variable.parameter.function
+
 function f<T, U>() {}
 //^^^^^^^^^^^^^^^^^^^ meta.function
 //^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -412,7 +438,7 @@ let x: any [ "foo" | 'bar' ];
 let x: any [ 0 ];
 //         ^^^^^ meta.type meta.brackets
 //         ^ punctuation.section.brackets.begin
-//           ^ constant.numeric.integer.decimal
+//           ^ meta.number.integer.decimal.js constant.numeric.value.js
 //             ^ punctuation.section.brackets.end
 
 let x: any [
@@ -477,7 +503,7 @@ let x: 'a string';
 //     ^ meta.type meta.string string.quoted.single
 
 let x: 42;
-//     ^^ meta.type constant.numeric.integer.decimal
+//     ^^ meta.number.integer.decimal.js constant.numeric.value.js
 
 let x: typeof Foo;
 //     ^^^^^^^^^^ meta.type

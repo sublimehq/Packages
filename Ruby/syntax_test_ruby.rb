@@ -222,190 +222,192 @@ BAR
 ##################
 
  1234
-#^^^^ constant.numeric.integer.decimal
+#^^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  1_234
-#^^^^^ constant.numeric.integer.decimal
+#^^^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  0d170
-#^^^^^ constant.numeric.integer.decimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  0D170
-#^^^^^ constant.numeric.integer.decimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  0xAa
-#^^^^ constant.numeric.integer.hexadecimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
  0XAa
-#^^^^ constant.numeric.integer.hexadecimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
  0252
-#^^^^ constant.numeric.integer.octal
-#^ punctuation.definition.numeric.base
+#^ meta.number.integer.octal.ruby constant.numeric.base.ruby
+# ^^^ meta.number.integer.octal.ruby constant.numeric.value.ruby
  0o252
-#^^^^^ constant.numeric.integer.octal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.octal.ruby constant.numeric.value.ruby
  0O252
-#^^^^^ constant.numeric.integer.octal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.octal.ruby constant.numeric.value.ruby
  0b10101010
-#^^^^^^^^^^ constant.numeric.integer.binary
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.integer.binary.ruby constant.numeric.value.ruby
  0B10101010
-#^^^^^^^^^^ constant.numeric.integer.binary
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.integer.binary.ruby constant.numeric.value.ruby
  12.
-#^^ constant.numeric.integer.decimal
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
  12.ir
-#^^ constant.numeric.integer.decimal
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
 #   ^^ - constant.numeric - invalid.illegal - storage.type.numeric
 
  12.34
-#^^^^^ constant.numeric.float.decimal
+#^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
  1234e-2
-#^^^^^^^ constant.numeric.float.decimal
+#^^^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
  1.234E1
-#^^^^^^^ constant.numeric.float.decimal
+#^^^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
  12e3r
-#^^^^^ constant.numeric.float.decimal
-#    ^ invalid.illegal.numeric
+#^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.float.decimal.ruby constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
  1.2e3r
-#^^^^^^ constant.numeric.float.decimal
+#^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric
+#     ^ meta.number.float.decimal.ruby constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
 
  12r
-#^^^ constant.numeric.rational.decimal
-#  ^ storage.type.numeric
+#^^ meta.number.rational.decimal.ruby constant.numeric.value.ruby
+#  ^ meta.number.rational.decimal.ruby constant.numeric.suffix.ruby
  12.3r
-#^^^^^ constant.numeric.rational.decimal
+#^^^^ meta.number.rational.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric
+#    ^ meta.number.rational.decimal.ruby constant.numeric.suffix.ruby
  0d170r
-#^^^^^^ constant.numeric.rational.decimal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.rational.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.rational.decimal.ruby constant.numeric.value.ruby
+#     ^ meta.number.rational.decimal.ruby constant.numeric.suffix.ruby
  0xAar
-#^^^^^ constant.numeric.rational.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^ storage.type.numeric
+#^^ meta.number.rational.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.rational.hexadecimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.rational.hexadecimal.ruby constant.numeric.suffix.ruby
  0o252r
-#^^^^^^ constant.numeric.rational.octal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.rational.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.rational.octal.ruby constant.numeric.value.ruby
+#     ^ meta.number.rational.octal.ruby constant.numeric.suffix.ruby
  0b10101010r
-#^^^^^^^^^^^ constant.numeric.rational.binary
-#^^ punctuation.definition.numeric.base
-#          ^ storage.type.numeric
+#^^ meta.number.rational.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.rational.binary.ruby constant.numeric.value.ruby
+#          ^ meta.number.rational.binary.ruby constant.numeric.suffix.ruby
 
  12i
-#^^^ constant.numeric.imaginary.decimal
-#  ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12.3i
-#^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric
+#    ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12e3i
-#^^^^^ constant.numeric.imaginary.decimal
-#    ^ storage.type.numeric
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12e-3i
-#^^^^^^ constant.numeric.imaginary.decimal
-#     ^ storage.type.numeric
+#^^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  1.2e3i
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#     ^ storage.type.numeric
+#     ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  1.2e-3i
-#^^^^^^^ constant.numeric.imaginary.decimal
+#^^^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#      ^ storage.type.numeric
+#      ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12ri
-#^^^^ constant.numeric.imaginary.decimal
-#  ^^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12.3ri
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^^ storage.type.numeric
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  0d170i
-#^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  0d170ri
-#^^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.base
-#     ^^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  0xAai
-#^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^ storage.type.numeric
+#^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.imaginary.hexadecimal.ruby constant.numeric.suffix.ruby
  0xAari
-#^^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^^ storage.type.numeric
+#^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.suffix.ruby
  0o252i
-#^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.octal.ruby constant.numeric.value.ruby
+#     ^ meta.number.imaginary.octal.ruby constant.numeric.suffix.ruby
  0o252ri
-#^^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.base
-#     ^^ storage.type.numeric
+#^^ meta.number.imaginary.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.octal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.octal.ruby constant.numeric.suffix.ruby
  0b10101010i
-#^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.base
-#          ^ storage.type.numeric
+#^^ meta.number.imaginary.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.imaginary.binary.ruby constant.numeric.value.ruby
+#          ^ meta.number.imaginary.binary.ruby constant.numeric.suffix.ruby
  0b10101010ri
-#^^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.base
-#          ^^ storage.type.numeric
+#^^ meta.number.imaginary.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.imaginary.binary.ruby constant.numeric.value.ruby
+#          ^^ meta.number.imaginary.binary.ruby constant.numeric.suffix.ruby
  12e3ri
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #    ^ invalid.illegal.numeric
-#     ^ storage.type.numeric
  1.2e3ri
-#^^^^^^^ constant.numeric.imaginary.decimal
-# ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric
-#      ^ storage.type.numeric
+#^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#   ^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^ invalid.illegal.numeric.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12ir
-#^^^^ constant.numeric.imaginary.decimal
-#  ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #   ^ invalid.illegal.numeric
  12.3ir
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #     ^ invalid.illegal.numeric
  12e3ir
-#^^^^^^ constant.numeric.imaginary.decimal
-#    ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #     ^ invalid.illegal.numeric
  1.2e3ir
-#^^^^^^^ constant.numeric.imaginary.decimal
+#^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#     ^ storage.type.numeric
+#   ^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #      ^ invalid.illegal.numeric
  0d170ir
-#^^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #      ^ invalid.illegal.numeric
  0xAair
-#^^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^ storage.type.numeric
+#^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.suffix.ruby
 #     ^ invalid.illegal.numeric
  0o252ir
-#^^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.octal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.octal.ruby constant.numeric.suffix.ruby
 #      ^ invalid.illegal.numeric
  0b10101010ir
-#^^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.base
-#          ^ storage.type.numeric
+#^^ meta.number.imaginary.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.imaginary.binary.ruby constant.numeric.value.ruby
+#          ^^ meta.number.imaginary.binary.ruby constant.numeric.suffix.ruby
 #           ^ invalid.illegal.numeric
 
 ##################
@@ -720,15 +722,15 @@ Symbol === :foo
 #    ^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
 # ^ punctuation.definition.constant.ruby
 #    ^ punctuation.section.braces.begin.ruby
-#     ^^ constant.numeric.integer.hexadecimal.ruby
+#     ^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
 #       ^ punctuation.section.braces.end.ruby
   ?\u{012ACF 0gxs}
 # ^^^ meta.constant.ruby - meta.braces.ruby constant.character.ruby
 #    ^^^^^^^^^^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
 # ^ punctuation.definition.constant.ruby
 #    ^ punctuation.section.braces.begin.ruby
-#     ^^^^^^ constant.numeric.integer.hexadecimal.ruby
-#            ^ constant.numeric.integer.hexadecimal.ruby
+#     ^^^^^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
+#            ^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
 #             ^^^ invalid.illegal.escape.ruby
 #                ^ punctuation.section.braces.end.ruby
 
@@ -746,7 +748,7 @@ Symbol === :foo
 #       ^^ constant.character.ruby
 #         ^ - constant
 #          ^ keyword.operator.conditional.ruby
-#           ^^ constant.numeric.integer.decimal.ruby
+#           ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
 # ^ punctuation.definition.constant.ruby

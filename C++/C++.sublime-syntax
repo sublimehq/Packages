@@ -152,92 +152,111 @@ contexts:
     # decimal floats
     - match: |-
         (?x:
-          \b{{dec_digits}}
+          \b({{dec_digits}})
           (?:
             (?:
               (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                {{dec_digits}} {{dec_exponent}}?
+                ({{dec_digits}}) ({{dec_exponent}})?
                 # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | {{dec_exponent}}
+                | ({{dec_exponent}})
                 # 1., 1.f, 1.L # but not `..`
                 | (?!\.)
               )
               # 1e1 1e1f 1e1L
-              | {{dec_exponent}}
+              | ({{dec_exponent}})
             ) ({{dec_suffix}})?
             # 1f
             | ({{float_suffix}})
           )
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | (\.) {{dec_digits}} {{dec_exponent}}? ({{dec_suffix}})?
+          | (\.) ({{dec_digits}}) ({{dec_exponent}})? ({{dec_suffix}})?
         )
-      scope: constant.numeric.float.decimal.c++
+      scope: meta.number.float.decimal.c++
       captures:
-        1: punctuation.separator.decimal.c++
-        2: storage.type.numeric.c++
-        3: storage.type.numeric.c++
-        4: punctuation.separator.decimal.c++
-        5: storage.type.numeric.c++
+        1: constant.numeric.value.c++
+        2: punctuation.separator.decimal.c++
+        3: constant.numeric.value.c++
+        4: constant.numeric.value.exponent.c++
+        5: constant.numeric.value.exponent.c++
+        6: constant.numeric.value.exponent.c++
+        7: constant.numeric.suffix.c++
+        8: constant.numeric.suffix.c++
+        9: punctuation.separator.decimal.c++
+        10: constant.numeric.value.c++
+        11: constant.numeric.value.exponent.c++
+        12: constant.numeric.suffix.c++
 
     # hexadecimal float (C99)
     - match: \b0[xX](?=[[:alnum:]_''.]+?[pP])
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.base.c++
       push:
         - meta_include_prototype: false
-        - meta_scope: constant.numeric.float.hexadecimal.c++
-        - match: '{{hex_exponent}}([fFlL]\b)?'
+        - meta_scope: meta.number.float.hexadecimal.c++
+        - match: '({{hex_exponent}})([fFlL]\b)?'
           captures:
-            1: storage.type.numeric.c
+            1: constant.numeric.value.exponent.c++
+            2: constant.numeric.suffix.c++
           pop: true
         - match: \.
           scope: punctuation.separator.decimal.c++
-        - match: \H
+        - match: \h
+          scope: constant.numeric.value.c++
+        - match: .
           scope: invalid.illegal.numeric.digit.c++
 
     # https://en.cppreference.com/w/c/language/integer_constant
 
     # binary integer
     - match: \b0[bB]
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.base.c++
       push:
         - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.binary.c++
+        - meta_scope: meta.number.integer.binary.c++
         - include: decimal-suffix
         - match: '[2-9]'
           scope: invalid.illegal.numeric.digit.c++
+        - match: .
+          scope: constant.numeric.value.c++
     # hexadecimal integer
     - match: \b0[xX]
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.base.c++
       push:
         - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.hexadecimal.c++
+        - meta_scope: meta.number.integer.hexadecimal.c++
         - include: hexadecimal-suffix
+        - match: .
+          scope: constant.numeric.value.c++
     # octal integer
     - match: \b0(?=[\d''])
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.base.c++
       push:
         - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.octal.c++
+        - meta_scope: meta.number.integer.octal.c++
         - include: decimal-suffix
         - match: '[89]'
           scope: invalid.illegal.numeric.digit.c++
+        - match: .
+          scope: constant.numeric.value.c++
     # decimal integer
     - match: \b\d+
+      scope: constant.numeric.value.c++
       push:
         - meta_include_prototype: false
-        - meta_scope: constant.numeric.integer.decimal.c++
+        - meta_scope: meta.number.integer.decimal.c++
         - include: decimal-suffix
+        - match: .
+          scope: constant.numeric.value.c++
 
   decimal-suffix:
     - match: '{{dec_suffix}}'
-      scope: storage.type.numeric.c++
+      scope: constant.numeric.suffix.c++
       pop: true
 
   hexadecimal-suffix:
     - match: '{{hex_suffix}}'
-      scope: storage.type.numeric.c++
+      scope: constant.numeric.suffix.c++
       pop: true
 
   identifiers:
@@ -1109,7 +1128,7 @@ contexts:
     - match: '&'
       scope: keyword.operator.c++
     - match: \b0\b
-      scope: constant.numeric.integer.decimal.c++
+      scope: meta.number.integer.decimal.c++ constant.numeric.value.c++
     - match: \b(default|delete)\b
       scope: storage.modifier.c++
     - match: '(?=\{)'
@@ -1575,7 +1594,7 @@ contexts:
     - match: '&'
       scope: keyword.operator.c++
     - match: \b0\b
-      scope: constant.numeric.integer.decimal.c++
+      scope: meta.number.integer.decimal.c++ constant.numeric.value.c++
     - match: \b(default|delete)\b
       scope: storage.modifier.c++
     - match: '(?=:)'
@@ -1648,7 +1667,7 @@ contexts:
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
-        3: constant.numeric.integer.decimal.c++
+        3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1674,7 +1693,7 @@ contexts:
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
-        3: constant.numeric.integer.decimal.c++
+        3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1718,7 +1737,7 @@ contexts:
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
-        3: constant.numeric.integer.decimal.c++
+        3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1745,7 +1764,7 @@ contexts:
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
-        3: constant.numeric.integer.decimal.c++
+        3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1850,7 +1869,7 @@ contexts:
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
-        3: constant.numeric.integer.decimal.c++
+        3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1876,7 +1895,7 @@ contexts:
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
-        3: constant.numeric.integer.decimal.c++
+        3: meta.number.integer.decimal.c++ constant.numeric.value.c++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

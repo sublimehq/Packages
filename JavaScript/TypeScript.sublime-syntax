@@ -8,16 +8,7 @@ scope: source.ts
 extends: Packages/JavaScript/JSX.sublime-syntax
 
 variables:
-  dot_accessor: |-
-    (?x: # Also match !.
-      !\.
-      |
-      (?:
-        \.
-        (?! \? [\[(] )
-        \??
-      )
-    )
+  dot_accessor: (?:[?!]?\.)
 
 contexts:
   ts-import-type:
@@ -132,6 +123,7 @@ contexts:
       set:
         - ts-interface-meta
         - ts-type-body
+        - class-extends
         - ts-type-parameter-list
         - ts-interface-name
 
@@ -360,6 +352,9 @@ contexts:
 
   function-parameter-binding-list:
     - meta_prepend: true
+
+    - include: decorator
+
     - match: (?:private|public|protected|readonly){{identifier_break}}
       scope: storage.modifier.js
 
@@ -417,7 +412,6 @@ contexts:
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
-    - match: (?=\b\B)
 
   ts-type-assertion:
     - match: '!(?!\.)'

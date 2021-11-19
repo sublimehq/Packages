@@ -434,23 +434,26 @@ contexts:
       comment: Not equal is written ~= not !=.
       scope: invalid.illegal.invalid-inequality.matlab
   number:
-    - match: '\b(0[xX])\h+(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
-      scope: constant.numeric.integer.hexadecimal.matlab
+    - match: '\b(0[xX])(\h+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+      scope: meta.number.integer.hexadecimal.matlab
       captures:
-        1: punctuation.definition.numeric.base.matlab
-        2: storage.type.numeric.matlab
-    - match: '\b(0[bB])[01]+(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
-      scope: constant.numeric.integer.binary.matlab
+        1: constant.numeric.base.matlab
+        2: constant.numeric.value.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '\b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+      scope: meta.number.integer.binary.matlab
       captures:
-        1: punctuation.definition.numeric.base.matlab
-        2: storage.type.numeric.matlab
-    - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?(i|j)\b'
-      scope: constant.numeric.imaginary.decimal.matlab
+        1: constant.numeric.base.matlab
+        2: constant.numeric.value.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '((?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?)(i|j)\b'
+      scope: meta.number.imaginary.decimal.matlab
       captures:
-        1: punctuation.separator.decimal.matlab
-        2: storage.type.numeric.matlab
+        1: constant.numeric.value.matlab
+        2: punctuation.separator.decimal.matlab
+        3: constant.numeric.suffix.matlab
     - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?\b'
-      scope: constant.numeric.float.decimal.matlab
+      scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
       captures:
         1: punctuation.separator.decimal.matlab
   operators:
