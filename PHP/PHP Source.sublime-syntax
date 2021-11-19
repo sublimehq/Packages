@@ -1261,10 +1261,14 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.php
           set: after-function-call
-        - match: ','
-          scope: punctuation.separator.php
-        - include: function-call-named-parameters
-        - include: nested-expressions
+        - match: (?=\S)
+          push:
+            - match: (?=\))
+              pop: 1
+            - match: ','
+              scope: punctuation.separator.php
+            - include: function-call-named-parameters
+            - include: nested-expressions
   function-call-named-parameters:
     # https://wiki.php.net/rfc/named_params
     - match: ({{identifier}})\s*(:)(?!:)
