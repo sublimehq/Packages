@@ -55,7 +55,7 @@ contexts:
       scope: punctuation.separator.key-value.html
       set: script-lang-attribute-value
     - match: (?=\S)
-      set: script-javascript
+      set: script-vbscript
 
   script-lang-attribute-value:
     - meta_include_prototype: false

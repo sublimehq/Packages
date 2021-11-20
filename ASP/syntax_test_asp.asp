@@ -77,6 +77,21 @@
     '                          ^^^^^^^^^^^^^ source.js.embedded.html - meta.tag
     '                                       ^^^^^^^^^ meta.tag - source
 
+    <script language=> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^ meta.tag - source
+    '                 ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                              ^^^^^^^^^ meta.tag - source
+
+    <script language=""> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                   ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                ^^^^^^^^^ meta.tag - source
+
+    <script language="vb"> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                     ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                  ^^^^^^^^^ meta.tag - source
+
     <script language="vbscript"> Dim var = 0 </script>
     ' ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
     '                           ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
