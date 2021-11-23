@@ -13,6 +13,24 @@ file_extensions:
   - jspf
   - jspx
 
+variables:
+  # Identifiers
+  break: (?!{{id_char}})
+
+  id: (?:{{id_first_char}}{{id_char}}*)
+  id_first_char: '[\p{L}_$]'
+  id_char: '[\p{L}\p{N}_$]'
+
+  implicit_objects: |-
+    (?x:
+      param | paramValues | header | headerValues | initParam | cookie
+    | pageScope | requestScope | sessionScope | applicationScope | pageContext
+    ){{break}}
+
+  # digits
+  dec_digit: '\d'
+  dec_exponent: '[eE][-+]?{{dec_digit}}*'
+
 contexts:
 
   prototype:
@@ -374,13 +392,6 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.jsp
-    - match: \$\{
-      scope: punctuation.section.interpolation.begin.jsp
-      embed: scope:source.java.embedded.html#expressions
-      embed_scope: source.java.embedded.jsp
-      escape: \}
-      escape_captures:
-        0: punctuation.section.interpolation.end.jsp
     - include: jsp-embedded
     - include: immediately-pop
 
@@ -390,6 +401,7 @@ contexts:
     - include: jsp-embedded-directives
     - include: jsp-embedded-expressions
     - include: jsp-embedded-scriptlets
+    - include: jstl-embedded
 
   jsp-embedded-comments:
     - match: <%--
@@ -501,3 +513,144 @@ contexts:
   jsp-string-escapes:
     - match: \\.
       scope: constant.character.escape.jsp
+
+###[ JSTL EXPRESSIONS ]#######################################################
+
+  jstl-embedded:
+    - match: \$\{
+      scope: punctuation.section.embedded.begin.jsp
+      push: jstl-embedded-body
+
+  jstl-embedded-body:
+    - meta_scope: meta.embedded.jsp
+    - match: \}
+      scope: punctuation.section.embedded.end.jsp
+      pop: 1
+    - include: jstl-expressions
+
+  jstl-expressions:
+    - include: jsp-strings-double-quoted
+    - include: jsp-strings-single-quoted
+    - include: jstl-groups
+    - include: jstl-item-access
+    - include: jstl-operators
+    - include: jstl-numbers
+    - include: jstl-constants
+    - include: jstl-function-calls
+    - include: jstl-variables
+
+  jstl-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.jsp
+      push: jstl-group-body
+
+  jstl-group-body:
+    - meta_scope: meta.group.jsp
+    - match: \)
+      scope: punctuation.section.group.end.jsp
+      pop: 1
+    - include: jstl-expressions
+
+  jstl-item-access:
+    - match: \[
+      scope: punctuation.section.brackets.begin.jsp
+      push: jstl-item-access-body
+
+  jstl-item-access-body:
+    - meta_scope: meta.brackets.jsp
+    - match: \]
+      scope: punctuation.section.brackets.end.jsp
+      pop: 1
+    - include: jstl-expressions
+
+  jstl-constants:
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.jsp
+    - match: null{{break}}
+      scope: constant.language.null.jsp
+
+  jstl-constant:
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.jsp
+      pop: 1
+    - match: null{{break}}
+      scope: constant.language.null.jsp
+      pop: 1
+
+  jstl-numbers:
+    # decimal floats
+    - match: |-
+        (?x)
+        [0-9]{{dec_digit}}*
+        (?:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1
+            (\.) {{dec_digit}}* (?:{{dec_exponent}})?
+          # 1e1
+          | {{dec_exponent}}
+        )
+        | (\.) {{dec_digit}}+ (?:{{dec_exponent}})?
+      scope: meta.number.float.decimal.java
+      captures:
+        0: constant.numeric.value.java
+        1: punctuation.separator.decimal.java
+        2: punctuation.separator.decimal.java
+    # decimal integers
+    - match: '{{dec_digit}}+'
+      scope: meta.number.integer.decimal.java constant.numeric.value.java
+
+  jstl-function-calls:
+    - match: ({{id}})(:)({{id}}?)(?=\()
+      captures:
+        0: meta.function-call.identifier.jsp meta.path.jsp
+        1: variable.namespace.jsp
+        2: punctuation.accessor.namespace.jsp
+        3: variable.function.jsp
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.jsp
+          set: jstl-function-call-arguments
+
+  jstl-function-call-arguments:
+    - meta_scope: meta.function-call.arguments.jsp meta.group.jsp
+    - include: jstl-group-body
+
+  jstl-variables:
+    - match: '{{implicit_objects}}'
+      scope: support.variable.jsp
+    - match: ({{id}}?)(\.)
+      captures:
+        1: variable.namespace.jsp
+        2: punctuation.accessor.namespace.jsp
+      push: jstl-qualified-variable
+    - match: '{{id}}'
+      scope: variable.other.jsp
+
+  jstl-qualified-variable:
+    - meta_scope: meta.path.jsp
+    - include: jstl-constant
+    - match: ({{id}}?)(\.)
+      captures:
+        1: variable.namespace.jsp
+        2: punctuation.accessor.namespace.jsp
+    - match: '{{id}}'
+      scope: variable.other.jsp
+      pop: 1
+
+  jstl-operators:
+    - match: (?:div|mod){{break}}
+      scope: keyword.operator.arithmetic.jsp
+    - match: (?:lt|gt|le|ge|eq|ne){{break}}
+      scope: keyword.operator.comparison.jsp
+    - match: (?:and|or|not|empty){{break}}
+      scope: keyword.operator.logical.jsp
+    - match: '[-+*/%]'
+      scope: keyword.operator.arithmetic.jsp
+    - match: '==|!=|<=|>=|<|>'
+      scope: keyword.operator.comparison.jsp
+    - match: '!|&&|\|\|'
+      scope: keyword.operator.logical.jsp
+    - match: '[?:]'
+      scope: keyword.operator.ternary.jsp
+    - match: ','
+      scope: punctuation.separator.comma.jsp
