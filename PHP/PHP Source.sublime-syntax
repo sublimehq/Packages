@@ -340,6 +340,8 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
+        - match: ','
+          scope: punctuation.separator.comma.php
         - include: nested-expressions
     - match: \[
       scope: punctuation.section.array.begin.php
@@ -348,6 +350,8 @@ contexts:
         - match: \]
           scope: punctuation.section.array.end.php
           pop: 1
+        - match: ','
+          scope: punctuation.separator.comma.php
         - include: nested-expressions
 
   after-identifier:

@@ -259,10 +259,23 @@ $a = $b ? : $c::MY_CONST;
 //            ^^ punctuation.accessor.double-colon
 //              ^^^^^^^^ constant.other.class
 
-$arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c'];
+$arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
+//      ^^^^^ support.function.construct
+//           ^ punctuation.section.array.begin
+//                 ^^^ keyword.operator.spread
+//                    ^^^^^ variable.other
+//                                ^^^ keyword.operator.spread
+//                                             ^ punctuation.separator.comma
+//                                              ^ punctuation.section.array.end
+
+$arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c',];
+//      ^ punctuation.section.array.begin
+//          ^ punctuation.separator.comma
 //            ^^^ keyword.operator.spread
 //               ^^^^^ variable.other
 //                           ^^^ keyword.operator.spread
+//                                        ^ punctuation.separator.comma
+//                                         ^ punctuation.section.array.end
 
 $array = [   ];
 //       ^ meta.array.empty.php punctuation.section.array.begin.php
