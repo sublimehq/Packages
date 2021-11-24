@@ -978,9 +978,9 @@ func_call(true, 1, "string");
 //       ^ punctuation.section.group.begin
 //                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
-//            ^ punctuation.separator.php
+//            ^ punctuation.separator.comma
 //              ^ meta.number.integer.decimal constant.numeric.value
-//               ^ punctuation.separator.php
+//               ^ punctuation.separator.comma
 //                 ^^^^^^^^ string.quoted.double
 
 $object->method(func_call());
@@ -1044,7 +1044,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
-//                       ^ punctuation.separator.php
+//                       ^ punctuation.separator.comma
 //                         ^ variable.other.php
 //                                ^ punctuation.section.group.end.php
 //                                  ^ storage.modifier.extends.php

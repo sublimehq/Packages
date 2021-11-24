@@ -62,7 +62,7 @@ contexts:
             - match: '(?={{path}})'
               push: inherited
             - match: ','
-              scope: punctuation.separator.php
+              scope: punctuation.separator.comma.php
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -88,7 +88,7 @@ contexts:
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
-        2: punctuation.separator.php
+        2: punctuation.separator.colon.php
     - match: \{
       scope: punctuation.section.block.begin.php
     - match: \}
@@ -423,14 +423,14 @@ contexts:
               scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
               pop: 1
             - match: ','
-              scope: punctuation.separator.php
+              scope: punctuation.separator.comma.php
             - include: function-call-named-parameters
             - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - include: expression-end-pop
 
   class-builtin:
@@ -497,7 +497,7 @@ contexts:
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
 
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
@@ -612,7 +612,7 @@ contexts:
     - match: (?=;)
       pop: 1
     - match: ':'
-      scope: punctuation.separator.php
+      scope: punctuation.separator.colon.php
       push:
         - match: (?={{path}})
           set:
@@ -621,7 +621,7 @@ contexts:
             - match: ''
               pop: 1
         - match: (?=\S)
-          pop: 1              
+          pop: 1
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: class-body
@@ -645,7 +645,7 @@ contexts:
             - match: ''
               pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - match: (?=\S)
           pop: 1
 
@@ -685,7 +685,7 @@ contexts:
         - match: '(?={{path}})'
           push: inherited
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - match: '(?=\S)'
           pop: 1
 
@@ -752,7 +752,7 @@ contexts:
             - match: ''
               pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
     - include: statements
 
   typed-property:
@@ -895,7 +895,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
     - match: '='
       scope: keyword.operator.assignment.php
       push:
@@ -926,7 +926,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
@@ -935,7 +935,7 @@ contexts:
       scope: meta.block.php punctuation.section.block.begin.php
       set: function-body
     - match: ':'
-      scope: punctuation.separator.php
+      scope: punctuation.separator.colon.php
     - include: type-hint
     # Exit on unexpected content
     - match: (?=\S)
@@ -1269,7 +1269,7 @@ contexts:
           scope: punctuation.section.group.end.php
           set: after-function-call
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - include: function-call-named-parameters
         - include: nested-expressions
   function-call-named-parameters:
