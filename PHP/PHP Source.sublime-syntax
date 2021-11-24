@@ -235,22 +235,7 @@ contexts:
         - include: variables
     - include: variables
     - include: strings
-    - match: (array)(\()(\))
-      scope: meta.array.empty.php
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-        3: punctuation.section.array.end.php
-    - match: (array)(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: nested-expressions
+    - include: arrays
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
@@ -324,19 +309,6 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - match: '(\[)\s*(\])'
-      scope: meta.array.empty.php
-      captures:
-        1: punctuation.section.array.begin.php
-        2: punctuation.section.array.end.php
-    - match: '\['
-      scope: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: '\]'
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: nested-expressions
     - include: constants
     - match: \(
       scope: punctuation.section.group.begin.php
@@ -344,6 +316,37 @@ contexts:
         - meta_scope: meta.group.php
         - match: \)
           scope: punctuation.section.group.end.php
+          pop: 1
+        - include: nested-expressions
+
+  arrays:
+    - match: (array)(\()(\))
+      scope: meta.array.empty.php
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.array.begin.php
+        3: punctuation.section.array.end.php
+    - match: (\[)\s*(\])
+      scope: meta.array.empty.php
+      captures:
+        1: punctuation.section.array.begin.php
+        2: punctuation.section.array.end.php
+    - match: (array)(\()
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \)
+          scope: punctuation.section.array.end.php
+          pop: 1
+        - include: nested-expressions
+    - match: \[
+      scope: punctuation.section.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \]
+          scope: punctuation.section.array.end.php
           pop: 1
         - include: nested-expressions
 
@@ -1628,6 +1631,7 @@ contexts:
       push: after-identifier
   parameter-default-types:
     - include: strings
+    - include: arrays
     - include: numbers
     - include: variables
     - match: "=>"
@@ -1636,17 +1640,6 @@ contexts:
       scope: keyword.operator.assignment.php
     - match: '&(?=\s*\$)'
       scope: storage.modifier.reference.php
-    - match: (array)\s*(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: expression-end-pop
-        - include: parameter-default-types
     - include: instantiation
     - match: \s*(?={{path}}(::)({{identifier}})?)
       push:
