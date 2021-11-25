@@ -1639,14 +1639,17 @@ if ($a !== $b || $a == $b);
 //                  ^^ keyword.operator.comparison
 
 if ():
+//   ^ punctuation.separator.colon
 else:
 // <- keyword.control - entity.name.label
+//  ^ punctuation.separator.colon
 endif;
 
 switch (1) {
 //^ keyword.control
     case 1:
   //^^^^ keyword.control.php - entity.name.label.php
+  //      ^ punctuation.separator.colon
     default:
   //^^^^^^^ keyword.control.php - entity.name.label.php
 }

@@ -94,6 +94,11 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.php
     - include: expressions
+    # catch some stray cases
+    - match: ':'
+      scope: punctuation.separator.colon.php
+    - match: ','
+      scope: punctuation.separator.comma.php
 
   block:
     - match: \}
