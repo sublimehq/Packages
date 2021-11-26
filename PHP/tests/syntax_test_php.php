@@ -2295,3 +2295,15 @@ h1 {
     <? } ?>
 }
 </style>
+
+<?php
+    for ($i = 0; $i < 10; $i++) { echo $i; }
+//  ^^^ keyword.control.loop.for.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//      ^ punctuation.section.group.begin.php
+//             ^ punctuation.terminator.expression.php
+//                      ^ punctuation.terminator.expression.php
+//                            ^ punctuation.section.group.end.php
+//                              ^ punctuation.section.block.begin.php
+//                                         ^ punctuation.section.block.end.php
+ ?>
