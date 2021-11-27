@@ -2112,6 +2112,16 @@ class D {
 var_dump(new C(42));
 //           ^ meta.path support.class
 
+// test for https://github.com/sublimehq/Packages/issues/3134
+$array = array_reduce(
+    $items,
+    function ($array, $item) {
+        return $array;
+    },
+    $initial
+);
+// <- punctuation.section.group.end
+
 ?>
 
 <div><?php include 'image.svg' ?></div>

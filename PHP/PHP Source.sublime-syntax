@@ -26,8 +26,7 @@ variables:
 
   keywords_declaration: |-
     (?x:
-      class | declare | enddeclare | function | global | import | include
-    | include_once | interface | namespace | require | use
+      class | declare | enddeclare | global | interface | namespace | use
     )\b
 
   keywords_control: |-
