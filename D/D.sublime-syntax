@@ -1469,7 +1469,7 @@ contexts:
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d
-      set: value
+      set: value-no-mapping-key
     - include: not-whitespace-illegal-pop
   value-parens-after:
     - match: '\)'
