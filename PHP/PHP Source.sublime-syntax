@@ -160,11 +160,12 @@ contexts:
           pop: 1
         - match: (?=\S)
           pop: 1
+    - include: for-statements
     - match: |-
         \b(?xi:
           break | case | continue | declare | default | die | do | else |
           elseif | enddeclare | endfor | endforeach | endif | endswitch | endwhile | exit |
-          for | foreach | if | match | return | switch | use | while
+          foreach | if | match | return | switch | use | while
         )\b
       scope: keyword.control.php
     - match: \b(catch)\b\s*(\()
@@ -464,6 +465,27 @@ contexts:
         1: punctuation.separator.namespace.php
         2: support.class.builtin.php
 
+  for-statements:
+    - match: \b(?i:for)\b
+      scope: keyword.control.loop.for.php
+      push: for-statement-group
+
+  for-statement-group:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: for-statement-group-body
+    - match: (?=\S)
+      pop: 1
+
+  for-statement-group-body:
+    - meta_scope: meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - match: (?=}|\s*\?>|{{keywords}})
+      pop: 1
+    - include: expressions
+
   use-statement:
     - match: (?i)\b(use)\b\s*
       captures:
@@ -613,7 +635,7 @@ contexts:
             - match: ''
               pop: 1
         - match: (?=\S)
-          pop: 1              
+          pop: 1
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: class-body
