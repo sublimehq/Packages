@@ -467,7 +467,7 @@ contexts:
         2: support.class.builtin.php
 
   for-statements:
-    - match: \bfor\b
+    - match: \b(?i:for)\b
       scope: keyword.control.loop.for.php
       push: for-statement-group
 

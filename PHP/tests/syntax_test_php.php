@@ -2306,4 +2306,14 @@ h1 {
 //                            ^ punctuation.section.group.end.php
 //                              ^ punctuation.section.block.begin.php
 //                                         ^ punctuation.section.block.end.php
+
+    FOR ($i = 0; $i < 10; $i++) { ECHO $i; }
+//  ^^^ keyword.control.loop.for.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//      ^ punctuation.section.group.begin.php
+//             ^ punctuation.terminator.expression.php
+//                      ^ punctuation.terminator.expression.php
+//                            ^ punctuation.section.group.end.php
+//                              ^ punctuation.section.block.begin.php
+//                                         ^ punctuation.section.block.end.php
  ?>
