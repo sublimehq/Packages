@@ -1056,6 +1056,9 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                                     ^^ meta.class.php
 //                                                                     ^^ meta.block.php
 
+$user_1 = new User("John", "a@b.com");
+//                       ^ punctuation.separator.comma
+
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
 //           ^ entity.name.function.php
