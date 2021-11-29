@@ -1305,13 +1305,10 @@ contexts:
             2: punctuation.terminator.expression.php
             3: meta.heredoc-end.php
           pop: 1
-        - match: (<<<)\s*(()(HTML)())\s*$\n?
+        - match: (<<<)\s*(HTML)\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-html
           embed_scope: meta.embedded.html
           escape: (?=^\s*HTML\b)
@@ -1325,13 +1322,10 @@ contexts:
           embed: scope:text.html.basic
           embed_scope: meta.embedded.html text.html
           escape: (?=^\s*HTML\b)
-        - match: (<<<)\s*(()(XML)())\s*$\n?
+        - match: (<<<)\s*(XML)\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-xml
           embed_scope: meta.embedded.xml
           escape: (?=^\s*XML\b)
@@ -1345,13 +1339,10 @@ contexts:
           embed: scope:text.xml
           embed_scope: meta.embedded.xml text.xml
           escape: (?=^\s*XML\b)
-        - match: (<<<)\s*(()(SQL)())\s*$\n?
+        - match: (<<<)\s*(SQL)\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-sql
           embed_scope: meta.embedded.sql
           escape: (?=^\s*SQL\b)
@@ -1365,13 +1356,10 @@ contexts:
           embed: scope:source.sql
           embed_scope: meta.embedded.sql source.sql
           escape: (?=^\s*SQL\b)
-        - match: (<<<)\s*(()(JAVASCRIPT)())\s*$\n?
+        - match: (<<<)\s*(JAVASCRIPT)\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-javascript
           embed_scope: meta.embedded.js
           escape: (?=^\s*JAVASCRIPT\b)
@@ -1385,13 +1373,10 @@ contexts:
           embed: scope:source.js
           embed_scope: meta.embedded.js source.js
           escape: (?=^\s*JAVASCRIPT\b)
-        - match: (<<<)\s*(()(JSON)())\s*$\n?
+        - match: (<<<)\s*(JSON)\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-json
           embed_scope: meta.embedded.json
           escape: (?=^\s*JSON\b)
@@ -1405,13 +1390,10 @@ contexts:
           embed: scope:source.json
           embed_scope: meta.embedded.json source.json
           escape: (?=^\s*JSON\b)
-        - match: (<<<)\s*(()(CSS)())\s*$\n?
+        - match: (<<<)\s*(CSS)\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-css
           embed_scope: meta.embedded.css
           escape: (?=^\s*CSS\b)
@@ -1425,16 +1407,13 @@ contexts:
           embed: scope:source.css
           embed_scope: meta.embedded.css source.css
           escape: (?=^\s*CSS\b)
-        - match: (<<<)\s*(()({{identifier}})())\s*$\n?
+        - match: (<<<)\s*({{identifier}})\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           push:
             - meta_scope: string.unquoted.heredoc.php
-            - match: (?=^\s*\4\b)
+            - match: (?=^\s*\2\b)
               pop: 1
             - include: interpolation
         - match: (<<<)\s*((')({{identifier}})('))
