@@ -1925,6 +1925,9 @@ three: "$four"
 //   ^       punctuation.separator.key-value.mapping
 //     ^^^^^^^ string.quoted.double
 //      ^^^^^ variable.other.php
+Yml;
+// <- meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
+//^^ meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
 yml;
 // <- entity.name.tag.heredoc
 // ^ punctuation.terminator.expression
