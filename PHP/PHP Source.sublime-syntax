@@ -1407,6 +1407,23 @@ contexts:
           embed: scope:source.css
           embed_scope: meta.embedded.css source.css
           escape: (?=^\s*\4\b)
+        - match: (<<<)\s*(?i:(YA?ML))\s*$\n?
+          captures:
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+          embed: heredoc-yaml
+          embed_scope: meta.embedded.yaml
+          escape: (?=^\s*\2\b)
+        - match: (<<<)\s*((')(?i:(YA?ML))('))\s*$\n?
+          captures:
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php
+            3: punctuation.definition.tag.begin.php
+            4: entity.name.tag.heredoc.php
+            5: punctuation.definition.tag.end.php
+          embed: scope:source.yaml
+          embed_scope: meta.embedded.yaml source.yaml
+          escape: (?=^\s*\4\b)
         - match: (<<<)\s*({{identifier}})\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
@@ -1461,6 +1478,12 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.css
+      with_prototype:
+        - include: interpolation
+  heredoc-yaml:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.yaml
       with_prototype:
         - include: interpolation
   instantiation:
