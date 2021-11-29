@@ -1910,7 +1910,7 @@ CSS;
 // ^ punctuation.terminator.expression
 //  ^ meta.heredoc-end
 
-echo <<<SQL
+echo <<<sql
 //   ^^^ keyword.operator.heredoc
 //      ^^^ meta.string.heredoc meta.tag.heredoc
 //      ^^^ entity.name.tag.heredoc
@@ -1920,7 +1920,7 @@ SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
-SQL;
+sql;
 // <- entity.name.tag.heredoc
 // ^ punctuation.terminator.expression
 //  ^ meta.heredoc-end
