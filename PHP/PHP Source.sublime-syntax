@@ -1356,14 +1356,14 @@ contexts:
           embed: scope:source.sql
           embed_scope: meta.embedded.sql source.sql
           escape: (?=^\s*\4\b)
-        - match: (<<<)\s*(?i:(JAVASCRIPT))\s*$\n?
+        - match: (<<<)\s*(?i:(JAVASCRIPT|JS))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-javascript
           embed_scope: meta.embedded.js
           escape: (?=^\s*\2\b)
-        - match: (<<<)\s*((')(?i:(JAVASCRIPT))('))\s*$\n?
+        - match: (<<<)\s*((')(?i:(JAVASCRIPT|JS))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
