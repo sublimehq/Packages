@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: Binary
+scope: binary.plain
+hidden: true
+contexts:
+  main: []
