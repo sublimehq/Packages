@@ -288,6 +288,8 @@ contexts:
     - match: \b(?i:when\s+(?:not\s+)?matched)\b
       scope: keyword.control.conditional.case.sql
       push: merge-condition
+    - match: \b(?i:include)\b
+      scope: keyword.other.sql
 
   numbers-variables-and-strings:
     - meta_prepend: true
