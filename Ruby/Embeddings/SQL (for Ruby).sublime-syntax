@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 scope: source.sql.embedded.ruby
-# version: 2
+version: 2
 hidden: true
 
 extends: Packages/SQL/SQL.sublime-syntax
