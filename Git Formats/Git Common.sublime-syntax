@@ -10,7 +10,11 @@ hidden: true
 variables:
   comment_char: '[#;]'
   hash: \b\h{7,}\b
-  repository_ref: '(?x: \b(?: [\w-]+ (/) )? [\w-]+)'  # user (optional) / repo
+  repository_ref: |-
+    (?x:
+      [\w-]+ (/) [\w-]+   # user / repo
+    | [\w-]{2,}           # user with a heuristic to exclude C#7, F#7, ...
+    )
   pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
   pretty_formats_empty_value_modifiers: '[-+ ]?'
 
@@ -80,7 +84,7 @@ contexts:
           )?                         # keyword is optional
           # user/repo#issue
           (
-            {{repository_ref}}?
+            (?: {{repository_ref}} | \B )
             (\#)[0-9]+               # issue number
           )\b
       scope: meta.reference.issue.git
@@ -120,6 +124,8 @@ contexts:
     - match: '>'
       scope: punctuation.definition.reference.email.end.git
       pop: 1
+    - match: (?=\s)
+      pop: 1
 
   username:
     # user reference
@@ -158,12 +164,10 @@ contexts:
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
   fnmatch-body:
-    - match: \[           # shell style character class
-      scope: keyword.control.char-class.begin.fnmatch.git
-      push:
-        - fnmatch-char-class-body
-        - fnmatch-char-class-start
-        - fnmatch-char-class-operator
+    - include: fnmatch-char-classes
+    - include: fnmatch-common
+
+  fnmatch-common:
     - match: '/'          # path separators
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
@@ -189,6 +193,14 @@ contexts:
       pop: 1
     - match: ''
       pop: 1
+
+  fnmatch-char-classes:
+    - match: \[           # shell style character class
+      scope: keyword.control.char-class.begin.fnmatch.git
+      push:
+        - fnmatch-char-class-body
+        - fnmatch-char-class-start
+        - fnmatch-char-class-operator
 
   fnmatch-char-class-operator:
     - match: '[!^]?'  # optional pattern negation

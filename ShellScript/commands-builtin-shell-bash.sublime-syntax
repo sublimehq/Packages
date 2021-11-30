@@ -66,9 +66,6 @@ contexts:
   - match: eval{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.eval.shell
     push: cmd-eval-args
-  - match: exec{{cmd_break}}
-    scope: meta.function-call.identifier.shell support.function.exec.shell
-    push: cmd-exec-args
   - match: getopts{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.getopts.shell
     push: cmd-getopts-args
@@ -244,18 +241,6 @@ contexts:
   cmd-eval-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate
-  cmd-exec-args:
-  - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
-  - match: ([-+])[cl]*[a]
-    scope: meta.parameter.option.shell variable.parameter.option.shell
-    captures:
-      1: punctuation.definition.parameter.shell
-    push: cmd-args-option-maybe-value
-  - match: ([-+])[cl]+
-    scope: meta.parameter.option.shell variable.parameter.option.shell
-    captures:
-      1: punctuation.definition.parameter.shell
   cmd-getopts-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options

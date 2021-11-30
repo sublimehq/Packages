@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: Classes</string>
 	<key>scope</key>
-	<string>source.java meta.class meta.class.identifier</string>
+	<string>source.java meta.class.identifier entity.name.class</string>
 	<key>settings</key>
 	<dict>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 	</dict>

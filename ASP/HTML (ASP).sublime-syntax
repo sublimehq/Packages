@@ -13,8 +13,14 @@ file_extensions:
 
 variables:
 
+  jscript_lang: |-
+    (?ix: js | jscript )
+
+  vbscript_lang: |-
+    (?xi: vb | vbscript )
+
   vbscript_mime_type: |-
-      (?xi: (?: (?:application|text) / )? vbscript )
+    (?xi: (?: (?:application|text) / )? vbscript )
 
 contexts:
 
@@ -33,6 +39,50 @@ contexts:
     - include: asp-interpolations
 
 ###[ SCRIPT TAGS ]############################################################
+
+  script-common:
+    - meta_prepend: true
+    - include: script-lang-attribute
+
+  script-lang-attribute:
+    - match: (?i:language){{attribute_name_break}}
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: script-lang-attribute-assignment
+
+  script-lang-attribute-assignment:
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: script-lang-attribute-value
+    - match: (?=\S)
+      set: script-vbscript
+
+  script-lang-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - include: script-lang-decider
+
+  script-lang-decider:
+    - match: (?={{jscript_lang}}{{unquoted_attribute_break}}|'{{jscript_lang}}'|"{{jscript_lang}}")
+      set:
+        - script-javascript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?={{vbscript_lang}}{{unquoted_attribute_break}}|'{{vbscript_lang}}'|"{{vbscript_lang}}")
+      set:
+        - script-vbscript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=>|''|"")
+      set:
+        - script-vbscript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=\S)
+      set:
+        - script-other
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
 
   script-type-decider:
     - meta_prepend: true

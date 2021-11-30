@@ -35,6 +35,12 @@ Thanks to @username <name@mail-host.domain>.
 This is a <tag> name <tag.name>
 #         ^^^^^ - meta.reference - entity
 #                    ^^^^^^^^^^ - meta.reference - entity
+These are no C#, C#7, C#10 issues.
+#            ^^^^^^^^^^^^^ - constant
+This is a valid u/r#1 issue.
+#               ^^^^^ meta.reference.issue.git constant.other.reference.issue.git
+#                ^ punctuation.separator.reference.issue.git
+#                  ^ punctuation.definition.reference.issue.git
 Issue user/repo#230 is not closed yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
@@ -47,7 +53,13 @@ Issue repo-with/many-hyphen_and_underscores#1 closed yet.
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.reference.issue.git
 #              ^ punctuation.separator.reference.issue.git
 #                                          ^ punctuation.definition.reference.issue.git
-Issue repo#230 is not resolved yet.
+Issue -user-/-repo-#230 starting and ending with hyphons.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#     ^^^^^^^^^^^^^^^^^ constant.other.reference.issue.git
+#           ^ punctuation.separator.reference.issue.git
+#                  ^ punctuation.definition.reference.issue.git
+Issue user#230 is not resolved yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #     ^^^^^^^^ constant.other.reference.issue.git
@@ -132,6 +144,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
   This commit references a hash: 21dde213
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                                ^^^^^^^^ constant.other.hash.git
+  This commit does not references a hash: user@21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                         ^^^^^^^^^^^^^ constant.other.hash.git
+#                                             ^ punctuation.separator.reference.commit.git
   This commit references a hash on a different repo: test/repo@21dde213
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                                                    ^^^^^^^^^^^^^^^^^^ constant.other.hash.git

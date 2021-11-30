@@ -27,7 +27,7 @@ variables:
             )
             [ \t]*$                          # followed by any number of tabs or spaces, followed by the end of the line
         )
-    block_quote: (?:[ ]{,3}>(?:.|$))             # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
+    block_quote: (?:[ ]{,3}(>)[ ]?)          # between 0 and 3 spaces, followed by a greater than sign, (followed by any character or the end of the line = "only care about optional space!")
     atx_heading: (?:[ ]{,3}[#]{1,6}(?:[ \t]|$))  # between 0 and 3 spaces, followed 1 to 6 hashes, followed by at least one space or tab or by end of the line
     atx_heading_space: (?:(?=[ \t]+#+[ \t]*$)|[ \t]+|$) # consume spaces only if heading is not empty to ensure `atx_heading_end` can fully match closing hashes
     atx_heading_end: (?:[ \t]+(#+))?[ \t]*($\n?) # \n is optional so ## is matched as end punctuation in new document (at eof)
@@ -235,7 +235,7 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
-        - include: block-quote
+        - include: block-quotes
         - include: ligatures
         - include: indented-code-block
         - include: atx-heading
@@ -388,9 +388,10 @@ contexts:
                               # >= >== >=== >=> >==> >===> >=< >==< >===<
     - match: '<<+|<>|>>+'     # << <<< <<<< <> >>>> >>> >>
 
-  block-quote:
-    - match: '[ ]{,3}(>)[ ]?'
-      comment: |
+  block-quotes:
+    # https://spec.commonmark.org/0.30/#block-quotes
+    - match: ^{{block_quote}}
+      comment: |-
         We terminate the block quote when seeing an empty line, a
         separator or a line with leading > characters. The latter is
         to “reset” the quote level for quoted lines.
@@ -401,62 +402,33 @@ contexts:
       captures:
         1: punctuation.definition.blockquote.markdown
       push:
-        - meta_scope: markup.quote.markdown
-        - match: |-
-            (?x)^
-            (?=  \s*$
-            |    {{thematic_break}}
-            |    {{block_quote}}
-            )
-          pop: true
-        - match: |-
-            (?x)
-            (?=  {{block_quote}}
-            )
-          push:
-            - match: ^
-              pop: true
-            - include: block-quote
-        - match: |-
-            (?x)
-            (?=  {{indented_code_block}}
-            |    {{atx_heading}}
-            |    {{thematic_break}}
-            |    {{list_item}}
-            )
-          push:
-            - include: indented-code-block
-            - include: atx-heading
-            - include: thematic-break
-            - match: ([ ]{,3})(\d+([.)]))(\s)
-              captures:
-                1: markup.list.numbered.markdown
-                2: markup.list.numbered.bullet.markdown
-                3: punctuation.definition.list_item.markdown
-                4: markup.list.numbered.markdown
-              push:
-                - meta_content_scope: markup.list.numbered.markdown meta.paragraph.list.markdown
-                - include: list-content
-            - match: ([ ]{,3})([*+-])((?:[ ](\[[ xX]\]))?\s)
-              captures:
-                1: markup.list.unnumbered.markdown
-                2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
-                3: markup.list.unnumbered.markdown
-                4: constant.language.checkbox.markdown-gfm
-              push:
-                - meta_content_scope: markup.list.unnumbered.markdown meta.paragraph.list.markdown
-                - include: list-content
-            - match: ^
-              pop: true
-            - include: list-paragraph
-        - include: block-quote-code-blocks
-        - match: ''
-          push:
-            - match: ^
-              pop: true
-            - include: inline-bold-italic-linebreak
+        - block-quote-meta
+        - block-quote-content
 
-  block-quote-code-blocks:
+  block-quote-nested:
+    - match: '{{block_quote}}'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+      set:
+        - block-quote-meta
+        - block-quote-content
+
+  block-quote-meta:
+    - meta_include_prototype: false
+    - meta_scope: markup.quote.markdown
+    - include: immediately-pop
+
+  block-quote-content:
+    - include: block-quote-nested
+    - include: block-quote-code-block
+    - include: block-quote-list-item
+    - include: atx-heading
+    - include: indented-code-block
+    - include: thematic-break
+    - match: ''
+      set: block-quote-text
+
+  block-quote-code-block:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
@@ -466,22 +438,70 @@ contexts:
         0: meta.code-fence.definition.begin.text.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
-      push: block-quote-code-block-content
+      set: block-quote-code-block-content
 
   block-quote-code-block-content:
+    - match: ^(?!\s*{{block_quote}})
+      pop: true
     - match: '{{code_fence_end}}'
       captures:
         0: meta.code-fence.definition.end.text.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
       pop: true
-    - match: '[ ]{,3}(>)[ ]?'
+    - match: '{{block_quote}}'
       captures:
         1: punctuation.definition.blockquote.markdown
     - match: ''
-      push:
-        - meta_content_scope: markup.raw.code-fence.markdown-gfm
-        - match: ^
-          pop: true
+      push: block-quote-code-block-text
+
+  block-quote-code-block-text:
+    - meta_include_prototype: false
+    - meta_content_scope: markup.raw.code-fence.markdown-gfm
+    - match: ^
+      pop: true
+
+  block-quote-list-item:
+    - match: ([ ]{,3})(\d+)(\.)(\s)
+      captures:
+        1: markup.list.numbered.markdown
+        2: markup.list.numbered.bullet.markdown
+        3: markup.list.numbered.bullet.markdown punctuation.definition.list_item.markdown
+        4: markup.list.numbered.markdown
+      set:
+        - block-quote-ordered-list-content
+        - list-content
+    - match: ([ ]{,3})([*+-])((?:[ ](\[[ xX]\]))?\s)
+      captures:
+        1: markup.list.unnumbered.markdown
+        2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+        3: markup.list.unnumbered.markdown
+        4: constant.language.checkbox.markdown-gfm
+      set:
+        - block-quote-unordered-list-content
+        - list-content
+
+  block-quote-ordered-list-content:
+    - meta_content_scope: markup.list.numbered.markdown meta.paragraph.list.markdown
+    - include: block-quote-text
+
+  block-quote-unordered-list-content:
+    - meta_content_scope: markup.list.unnumbered.markdown meta.paragraph.list.markdown
+    - include: block-quote-text
+
+  block-quote-text:
+    - match: |-
+        (?x)
+        ^
+        (?= \s*$
+        |   {{atx_heading}}
+        |   {{block_quote}}
+        |   {{fenced_code_block_start}}
+        |   {{list_item}}
+        |   {{thematic_break}}
+        )
+      pop: true
+    - include: inline-bold-italic-linebreak
+    - include: scope:text.html.basic
 
   indented-code-block:
     - match: '{{indented_code_block}}.*$\n?'
@@ -1118,11 +1138,12 @@ contexts:
         - include: indented-code-block
         - match: $
           pop: true
-    - match: '^(?=\s+{{block_quote}})'
+    - match: ^[ ]*{{block_quote}}
+      captures:
+        1: punctuation.definition.blockquote.markdown
       push:
-        - include: block-quote
-        - match: $
-          pop: true
+        - block-quote-meta
+        - block-quote-content
     - include: fenced-code-blocks
     - include: reference-link-definition
     - match: \s+(?=\S)

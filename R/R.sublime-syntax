@@ -156,6 +156,8 @@ contexts:
       scope: keyword.operator.arithmetic.r
     - match: (<-|->)
       scope: keyword.operator.assignment.r
+    - match: \|>
+      scope: keyword.operator.assignment.redirection.r
     - match: (==|!=|<>|<=?|>=?)
       scope: keyword.operator.comparison.r
     - match: (&&?|\|\|?)

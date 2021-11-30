@@ -2292,6 +2292,25 @@ extern(1)
 //          ^ meta.path.d variable.other.d
 //           ^ punctuation.terminator.d
 
+  int a = c ? x ? r1 : r2 : y ? r3 : r4;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//      ^ keyword.operator.assignment.d
+//        ^ variable.other.d
+//          ^ keyword.operator.ternary.d
+//            ^ variable.other.d
+//              ^ keyword.operator.ternary.d
+//                ^^ variable.other.d
+//                   ^ keyword.operator.ternary.d
+//                     ^^ variable.other.d
+//                        ^ keyword.operator.ternary.d
+//                          ^ variable.other.d
+//                            ^ keyword.operator.ternary.d
+//                              ^^ variable.other.d
+//                                 ^ keyword.operator.ternary.d
+//                                   ^^ variable.other.d
+//                                     ^ punctuation.terminator.d
+
   foreach (ref a; foo) {}
 //^^^^^^^ keyword.control.loop.d
 //        ^ punctuation.section.parens.begin.d

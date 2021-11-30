@@ -2112,6 +2112,16 @@ class D {
 var_dump(new C(42));
 //           ^ meta.path support.class
 
+// test for https://github.com/sublimehq/Packages/issues/3134
+$array = array_reduce(
+    $items,
+    function ($array, $item) {
+        return $array;
+    },
+    $initial
+);
+// <- punctuation.section.group.end
+
 ?>
 
 <div><?php include 'image.svg' ?></div>
@@ -2295,3 +2305,25 @@ h1 {
     <? } ?>
 }
 </style>
+
+<?php
+    for ($i = 0; $i < 10; $i++) { echo $i; }
+//  ^^^ keyword.control.loop.for.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//      ^ punctuation.section.group.begin.php
+//             ^ punctuation.terminator.expression.php
+//                      ^ punctuation.terminator.expression.php
+//                            ^ punctuation.section.group.end.php
+//                              ^ punctuation.section.block.begin.php
+//                                         ^ punctuation.section.block.end.php
+
+    FOR ($i = 0; $i < 10; $i++) { ECHO $i; }
+//  ^^^ keyword.control.loop.for.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//      ^ punctuation.section.group.begin.php
+//             ^ punctuation.terminator.expression.php
+//                      ^ punctuation.terminator.expression.php
+//                            ^ punctuation.section.group.end.php
+//                              ^ punctuation.section.block.begin.php
+//                                         ^ punctuation.section.block.end.php
+ ?>
