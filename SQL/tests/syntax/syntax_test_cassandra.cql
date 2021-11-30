@@ -175,7 +175,8 @@ CREATE TABLE IF NOT EXISTS date_by_userid (
 --         ^^^^ storage.type
 --              ^^^^^^^^^^^ storage.modifier
 --                         ^ punctuation.separator.sequence
-    date timestamp -- TODO: scope date as a column name
+    date timestamp
+--  ^^^^ meta.column-name
 --       ^^^^^^^^^ storage.type
 );
 
@@ -197,7 +198,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --                          ^^^ keyword.operator.logical
 --                              ^^^^^^ keyword.operator.logical
 --                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
---                                                ^^ keyword.operator.assignment.alias
+--                                                ^^ keyword.context.block
     SELECT *
 --  ^^^^^^ keyword.other.dml
 --         ^ variable.language.wildcard.asterisk
@@ -225,6 +226,9 @@ CREATE TYPE user_defined_type (
 --          ^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
 --                            ^ meta.group punctuation.section.group.begin
     type1 timestamp,
+--  ^^^^^ meta.column-name variable.other.member.declaration
+--        ^^^^^^^^^ storage.type
+--                 ^ punctuation.separator.sequence
     type2 text,
     type3 counter,
 --  ^^^^^ meta.column-name

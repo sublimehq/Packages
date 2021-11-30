@@ -196,7 +196,7 @@ contexts:
     - match: (?=\S)
       fail: like-strings-branch
 
-  types:
+  built-in-type:
     - meta_prepend: true
     - match: |-
         (?xi)
@@ -204,6 +204,7 @@ contexts:
         {{simple_types}}
         {{enclosed_type_end}}
       scope: storage.type.sql
+      pop: 1
     - match: |-
         (?xi)
         {{enclosed_type_begin}}
@@ -216,12 +217,14 @@ contexts:
         2: constant.language.max.sql
         3: punctuation.separator.sequence.sql
         4: constant.numeric.sql
+      pop: 1
     - match: |-
         (?xi)
         (?:{{enclosed_type_begin}}|\b)
         table
         (?:{{enclosed_type_end}}|\b)
       scope: storage.type.sql
+      pop: 1
 
   statements:
     - meta_append: true
@@ -269,11 +272,6 @@ contexts:
     - match: (?i)\b(?:begin|commit|rollback|save)\s+tran(saction)?\b
       scope: keyword.context.tsql
 
-  declarations:
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.tsql
-      push: after-declare
-
   expressions:
     - meta_prepend: true
     - match: \b(?i:cast)\b
@@ -287,12 +285,11 @@ contexts:
     - match: \b(?i:cursor)\b
       scope: support.type.tsql
       set: cursor-declaration
-    - match: \b(?i:collate)\b
-      scope: keyword.other.tsql
-      push: collation
     - match: \b(?i:when\s+(?:not\s+)?matched)\b
       scope: keyword.control.conditional.case.sql
       push: merge-condition
+    - match: \b(?i:include)\b
+      scope: keyword.other.sql
 
   numbers-variables-and-strings:
     - meta_prepend: true
@@ -367,15 +364,6 @@ contexts:
         - ddl-create-target-expect-as
         - expect-procedure-name
 
-  ddl-create-target-expect-as:
-    - match: \b(?i:as)\b
-      scope: keyword.context.block.sql
-      pop: 1
-    - match: \b(?i:returns)\b
-      scope: keyword.other.tsql
-    - include: pop-on-top-level-reserved-word
-    - include: expressions
-
   top:
     - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
       captures:
@@ -395,9 +383,26 @@ contexts:
 
   built-in-scalar-function-calls:
     - meta_append: true
-    - match: (?i)\b(?:CONVERT|GETDATE)(?=\s*\()
+    - match: (?i)\b(CONVERT)\s*(\()
+      scope: meta.function-call.sql
+      captures:
+         1: support.function.scalar.sql
+         2: meta.group.sql punctuation.section.parens.begin.sql
+      push:
+        - method-call-convert
+        - expect-type
+    - match: (?i)\b(?:GETDATE)(?=\s*\()
       scope: support.function.scalar.sql
       push: begin-method-call-paren
+
+  method-call-convert:
+    - meta_content_scope: meta.function-call.sql meta.group.sql
+    - match: \)
+      scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.argument.sql
+    - include: expressions-or-column-name
 
   label-name:
     - meta_content_scope: meta.label-name.sql
@@ -414,8 +419,19 @@ contexts:
       set:
         - cursor-name
         - single-identifier
+    - match: '(@){{simple_identifier}}'
+      scope: variable.other.readwrite.declaration.tsql
+      captures:
+        1: punctuation.definition.variable.tsql
+      set: expect-type
     - match: (?=\S)
       pop: 1
+
+  expect-type:
+    - meta_prepend: true
+    - match: \b(?i:as)\b
+      scope: keyword.other.tsql
+      set: computed-column-definition
 
   set:
     - meta_prepend: true
@@ -560,14 +576,8 @@ contexts:
       pop: 1
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
+      push: expect-type
     - include: expressions-or-column-name
-
-  collation:
-    - match: \w+
-      scope: support.constant.tsql
-      pop: 1
-    - match: (?=\S)
-      pop: 1
 
   joins:
     - meta_append: true
@@ -680,9 +690,6 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
       scope: storage.modifier.tsql
-    - match: \b(?i:AS)\b
-      scope: keyword.other.tsql
-      push: computed-column-definition
 
   computed-column-definition:
     - meta_content_scope: meta.computed-column-definition.tsql

@@ -7,7 +7,7 @@ CREATE TABLE test1 (a character(4));
 --                 ^^^^^^^^^^^^^^^^ meta.group.table-columns
 --                                 ^ punctuation.terminator.statement
 --                 ^ punctuation.section.group.begin
---                  ^ meta.column-name
+--                  ^ meta.column-name variable.other.member.declaration
 --                    ^^^^^^^^^^^^ storage.type
 --                              ^ constant.numeric
 --                                ^ punctuation.section.group.end
@@ -15,12 +15,12 @@ CREATE TABLE test1 (a character(4));
 INSERT INTO test1 VALUES ('ok');
 SELECT a, char_length(a) FROM test1;
 -- ^^^ keyword.other.dml
---     ^ meta.column-name
+--     ^ meta.column-name - variable.other.member.declaration
 --      ^ punctuation.separator.sequence
 --        ^^^^^^^^^^^^^^ meta.function-call
 --        ^^^^^^^^^^^ support.function
 --                   ^ meta.group punctuation.section.parens.begin
---                    ^ meta.group meta.column-name
+--                    ^ meta.group meta.column-name - variable.other.member.declaration
 --                     ^ meta.group punctuation.section.parens.end
 --                       ^^^^ keyword.other.dml - meta.group
 --                            ^^^^^ meta.table-name
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --                                             ^ punctuation.separator.sequence
     name text COLLATE pg_catalog."default",
     doc jsonb,
---  ^^^ meta.column-name
+--  ^^^ meta.column-name variable.other.member.declaration
 --      ^^^^^ storage.type
 --           ^ punctuation.separator.sequence
     poc json,
@@ -83,6 +83,13 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --              ^ punctuation.separator.sequence
     CONSTRAINT id_name_uix UNIQUE (id, name)
 --  ^^^^^^^^^^ storage.modifier
+--             ^^^^^^^^^^^ meta.constraint-name
+--                         ^^^^^^ keyword.other
+--                                ^ punctuation.section.group.begin
+--                                 ^^ meta.column-name - variable.other.member.declaration
+--                                   ^ punctuation.separator.sequence
+--                                     ^^^^ meta.column-name
+--                                         ^ punctuation.section.group.end
 )
 
 SELECT '\xDEADBEEF';
@@ -97,10 +104,15 @@ CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 -- ^^^ meta.create keyword.other.ddl
 --     ^^^^ meta.create keyword.other
 --          ^^^^ meta.create meta.toc-list.full-identifier entity.name.function
---               ^^ keyword.operator.assignment.alias
+--               ^^ keyword.context.block
 CREATE TABLE person (
     name text,
-    current_mood mood -- TODO: scope custom types
+--  ^^^^ meta.column-name variable.other.member.declaration
+--       ^^^^ storage.type
+--           ^ punctuation.separator.sequence
+    current_mood mood
+--  ^^^^^^^^^^^^ meta.column-name variable.other.member.declaration
+--               ^^^^ support.type
 );
 INSERT INTO person VALUES ('Moe', 'happy');
 SELECT * FROM person WHERE current_mood = 'happy';
@@ -189,3 +201,103 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 --                    ^ punctuation.section.brackets.end
 --                      ^^^^ keyword.other.dml
 --                           ^^^^^^^ meta.table-name
+
+CREATE EXTENSION hstore SCHEMA addons; -- TODO: scope schema correctly
+-- ^^^ meta.create keyword.other.ddl
+--     ^^^^^^^^^ meta.create keyword.other
+--               ^^^^^^ meta.create meta.toc-list.full-identifier entity.name.function
+
+CREATE TABLE example_table (
+     first_name VARCHAR(100)
+         CONSTRAINT check_first_name
+--       ^^^^^^^^^^ storage.modifier
+--                  ^^^^^^^^^^^^^^^^ meta.constraint-name
+         ( first_name ~* '^[a-z]+$')
+--       ^ punctuation.section.group.begin
+--         ^^^^^^^^^^ meta.column-name
+--                    ^^ keyword.operator.comparison
+--                       ^^^^^^^^^^ meta.string.regexp
+--                        ^^^^^^^^ source.regexp
+--                       ^ punctuation.definition.string.begin
+--                                ^ punctuation.definition.string.end
+--                                 ^ punctuation.section.group.end - meta.string
+);
+
+ALTER TABLE mytable ADD CONSTRAINT verif_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA')); -- TODO: scope CHECK correctly
+-- ^^^^^^^^ keyword.other.ddl
+--          ^^^^^^^ meta.table-name
+--                  ^^^^^^^^^^^^^^ keyword.other
+--                                 ^^^^^^^^^^ meta.constraint-name
+
+
+CREATE TABLE test1 (
+    name                     varchar(500)  NOT NULL PRIMARY KEY,
+    description              varchar       NOT NULL DEFAULT '',
+    authors                  varchar[],
+);
+
+CREATE TABLE test2 (
+    test1name               varchar(500)  NOT NULL REFERENCES test1(name) ON DELETE CASCADE ON UPDATE CASCADE,
+--  ^^^^^^^^^ meta.column-name
+--                          ^^^^^^^^^^^^ storage.type
+--                                        ^^^ keyword.operator.logical
+--                                            ^^^^ constant.language.null
+--                                                 ^^^^^^^^^^ storage.modifier
+--                                                            ^^^^^ meta.table-name
+--                                                                 ^ punctuation.section.group.begin
+--                                                                  ^^^^ meta.column-name
+--                                                                      ^ punctuation.section.group.end
+--                                                                        ^^^^^^^^^^^^^^^^^ storage.modifier
+--                                                                                          ^^^^^^^^^^^^^^^^^ storage.modifier
+--                                                                                                           ^ punctuation.separator.sequence
+    PRIMARY KEY(test1name)
+);
+
+ALTER TABLE test2 ADD something varchar[];
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter
+-- ^^^^^^^^ keyword.other.ddl
+--          ^^^^^ meta.table-name
+--                ^^^ keyword.other.ddl
+--                    ^^^^^^^^^ meta.column-name
+--                              ^^^^^^^ storage.type
+--                                     ^ punctuation.section.brackets.begin
+--                                      ^ punctuation.section.brackets.end
+--                                       ^ punctuation.terminator.statement
+
+
+CREATE TRIGGER blah AFTER INSERT OR UPDATE
+-- ^^^ keyword.other.ddl
+--     ^^^^^^^ keyword.other
+--             ^^^^ meta.toc-list.full-identifier entity.name.function
+--                  ^^^^^^^^^^^^^^^^^^^^^^ keyword.other
+    ON some_table FOR EACH ROW EXECUTE PROCEDURE some_procedure(); -- TODO:
+--  ^^ keyword.other
+--     ^^^^^^^^^^ meta.table-name
+
+
+CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, something_else boolean) RETURNS varchar[] AS $$
+DECLARE
+-- ^^^^ keyword.declaration.variable
+    output varchar[];
+--  ^^^^^^ variable.other
+--         ^^^^^^^ storage.type
+--                ^ punctuation.section.brackets.begin
+--                 ^ punctuation.section.brackets.end
+--                  ^ punctuation.terminator.statement
+BEGIN
+-- ^^ keyword.other.LUW
+    FOR I IN array_lower(vals, 1)..array_upper(vals, 1) LOOP
+        output[I] := compute_result(vals[I], something, something_else);
+    END LOOP;
+    RETURN output;
+--  ^^^^^^ keyword.control.flow.return
+END;
+$$ LANGUAGE plpgsql STABLE;
+
+DROP TRIGGER blah ON some_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop
+-- ^ keyword.other.ddl
+--   ^^^^^^^ keyword.other
+--                ^^ keyword.other
+--                   ^^^^^^^^^^ meta.table-name
+--                             ^ punctuation.terminator.statement

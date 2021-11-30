@@ -62,10 +62,10 @@ create table IF NOT EXISTS `testing123` (
 --           ^^ keyword.control.flow
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT, -- TODO: is unsigned a modifier or part of the type?
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 --  ^^^^ meta.column-name
 --       ^^^^^^^ storage.type
---               ^^^^^^^^ storage.type
+--               ^^^^^^^^ storage.modifier
 --                        ^^^ keyword.operator.logical
 --                            ^^^^ constant.language.null
 --                                 ^^^^^^^^^^^^^^ keyword.other
@@ -176,6 +176,8 @@ ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
 --                     ^^^^^^^^^^^^^ meta.alter keyword.other.ddl
+--                                   ^^^^^^^^ meta.column-name
+--                                            ^^^^^^^^ meta.column-name variable.other.member.declaration
 --                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
@@ -272,7 +274,7 @@ CREATE ALGORITHM=MERGE VIEW contactPersons(
     phone
 ) AS
 -- <- meta.group punctuation.section.group.end
--- ^ keyword.operator.assignment.alias - meta.group
+-- ^ keyword.context.block - meta.group
 SELECT
 -- ^^^ keyword.other.dml
     customerName,
@@ -283,3 +285,10 @@ FROM customers;
 -- ^ keyword.other.dml
 --   ^^^^^^^^^ meta.table-name
 --            ^ punctuation.terminator.statement
+
+CREATE TEMPORARY TABLE IF NOT EXISTS foo (
+-- ^^^^^^^^^^^^^^^^^^^ meta.create keyword.other.ddl
+--                                   ^^^ meta.toc-list.full-identifier entity.name.function
+    bar NVARCHAR(400),
+    baz INT
+);

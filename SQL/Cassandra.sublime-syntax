@@ -54,7 +54,7 @@ contexts:
       captures:
         1: keyword.other.dml.sql
         2: storage.modifier.cql
-    - match: \b(?i:allow filtering)\b
+    - match: \b(?i:allow\s+filtering)\b
       scope: keyword.other.dml.cql
     - match: \b(?i:copy)\b
       scope: keyword.other.dml.cql
@@ -70,16 +70,17 @@ contexts:
     - match: \b(?i:source)\b
       scope: keyword.other.cql
 
-  types:
+  built-in-type:
     - meta_prepend: true
     - match: \b(?i:set|frozen|map|tuple)(<)
       scope: storage.type.cql
       captures:
         1: punctuation.definition.generic.begin.cql
-      push: generic-type
+      set:
+        - end-generic-type
+        - built-in-type
 
-  generic-type:
-    - include: types
+  end-generic-type:
     - match: \>
       scope: storage.type.cql punctuation.definition.generic.end.cql
       pop: 1
@@ -107,6 +108,15 @@ contexts:
     - match: \b(?i:clustering)\b
       scope: keyword.other.cql
 
+  ddl-statements:
+    - meta_prepend: true
+    - match: \b(?i:create\s+type)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-create-target
+        - ddl-table-creation-columns
+        - create-condition
+
   ddl-alter-common:
     - meta_prepend: false
 
@@ -122,8 +132,9 @@ contexts:
       push: partition-key
     - match: \b(?i:primary\s+key)\b
       scope: storage.modifier.cql
-      push: partition-key
-    - include: expressions-or-column-name
+      #push: partition-key
+    - include: expressions
+    - include: ddl-creation-column
 
   partition-key:
     - meta_content_scope: meta.group.partition-key.cql
@@ -136,13 +147,15 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cql
       set: inside-group
-    - include: inside-ddl-table-creation-columns
+    - include: column-references
 
   inside-partition-key-group:
     - match: \)
       scope: punctuation.section.group.end.cql
       pop: 1
-    - include: inside-ddl-table-creation-columns
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+    - include: column-references
 
   joins:
     - match: \bjoin\b

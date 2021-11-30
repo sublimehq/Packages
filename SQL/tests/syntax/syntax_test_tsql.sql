@@ -620,7 +620,7 @@ CREATE OR ALTER PROC CreateOrAlterDemo
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
---^^^^^ variable.other.readwrite
+--^^^^^ variable.parameter
 --      ^^^ storage.type
 --          ^^^^^^ storage.modifier.output
 AS
@@ -656,7 +656,7 @@ ALTER PROC CreateOrAlterDemo
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
---^^^^^ variable.other.readwrite
+--^^^^^ variable.parameter
 --      ^^^ storage.type
 --          ^^^^^^ storage.modifier.output
 AS
@@ -1569,7 +1569,7 @@ CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
 )
 -- <- meta.group punctuation.section.group.end
 --^ - meta.group
-
+;
 WITH cols
 --^^ keyword.other.dml
 --   ^^^^ meta.cte-table-name
@@ -1653,3 +1653,19 @@ OPTION (OPTIMIZE FOR UNKNOWN);
 --      ^^^^^^^^^^^^^^^^^^^^ keyword.other
 --                          ^ punctuation.section.group.end
 --                           ^ punctuation.terminator.statement
+
+
+CREATE NONCLUSTERED INDEX IX_Address_PostalCode
+ON Person.Address (PostalCode)
+-- <- keyword.other
+-- ^^^^^^^^^^^^^^ meta.table-name
+--                ^ punctuation.section.group.begin
+--                 ^^^^^^^^^^ meta.column-name
+--                           ^ punctuation.section.group.end
+INCLUDE (AddressLine1, AddressLine2, City, StateProvinceID)
+-- ^^^^ keyword.other - meta.function-call - support.function
+--      ^ punctuation.section.group.begin
+--       ^^^^^^^^^^^^ meta.column-name
+--                   ^ punctuation.separator.sequence
+WHERE CountryCode = 'FR'
+

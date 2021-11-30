@@ -10,8 +10,8 @@ variables:
     (?xi:
       \b
       (?:bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|integer|
-        line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext|
-        unsigned)
+        line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext
+      )
       \b
     )
   types_with_optional_number: |-
@@ -96,10 +96,14 @@ contexts:
     - match: \|\|
       scope: keyword.operator.concatenation.sql
 
-  types:
-    - meta_append: true
+  after-type:
+    - meta_prepend: true
+    - match: \b(?i:unsigned)\b
+      scope: storage.modifier.mysql
+      pop: 1
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.type.sql
+      pop: 1
 
   inside-number-sign-comment:
     - meta_include_prototype: false
@@ -182,6 +186,10 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:change\s+column)\b
       scope: keyword.other.ddl.sql
+      push:
+        - new-column-name
+        - column-name
+        - single-identifier-after-whitespace
 
   inside-ddl-table-creation-columns:
     - meta_prepend: true
@@ -196,3 +204,10 @@ contexts:
       pop: true
     - match: (?=\S)
       pop: true
+
+  new-column-name:
+    - match: (?=\S)
+      set:
+        - expect-type
+        - column-name-declaration
+        - single-identifier

@@ -15,7 +15,7 @@ variables:
   ddl_target: |-
     (?xi)
     \b
-    (?:aggregate|conversion|database|domain|function|group|
+    (?:aggregate|constraint|conversion|database|domain|function|group|
     (?:(?:fulltext|spatial|unique)\s+)?index|
     language|operator class|operator|procedure|rule|
     schema|sequence|table(?:space)?|trigger|type|user|view)\b
@@ -154,7 +154,9 @@ contexts:
   drop-condition:
     - include: dml-condition
     - match: (?=\S)
-      set: single-identifier-after-whitespace
+      set:
+        - ddl-target-on
+        - single-identifier-after-whitespace
 
   dml-condition:
     - match: \b(?i:if)\b
@@ -172,9 +174,10 @@ contexts:
       scope: keyword.operator.arithmetic.sql
     - include: logical-operators
 
-  types:
+  built-in-type:
     - match: '{{simple_types}}'
       scope: storage.type.sql
+      pop: 1
     - match: |-
         (?xi)
         {{types_with_optional_number}}
@@ -184,10 +187,27 @@ contexts:
         1: constant.numeric.sql
         2: punctuation.separator.sequence.sql
         3: constant.numeric.sql
+      pop: 1
+
+  expect-type:
+    - include: built-in-type
+    # TODO: support custom type identifiers wrapped in square brackets etc. in TSQL syntax just like built-in types
+    - match: '{{simple_identifier}}'
+      scope: support.type.sql
+      pop: 1
+    - match: (?=\S)
+      pop: 1
+
+  after-type:
+    - match: (?=\S)
+      pop: 1
 
   expressions-or-column-name:
     - include: wildcard-identifier
     - include: expressions
+    - include: column-references
+
+  column-references:
     - match: (?=\S)
       push:
         - possible-operator
@@ -211,9 +231,10 @@ contexts:
       push: inside-case-expression
     - include: numbers-variables-and-strings
     - include: operators
+    - include: collate
     - include: built-in-aggregate-function-calls
     - include: built-in-scalar-function-calls
-    - include: types
+    #- include: types
     - include: user-defined-function-calls
     - include: begin-group
     - match: \)
@@ -312,7 +333,7 @@ contexts:
     - include: dml-statements
 
   ddl-statements:
-    - match: \b(?i:create\s+table)\b
+    - match: \b(?i:create\s+(?:temporary\s+)?table)\b
       scope: keyword.other.ddl.sql
       push:
         - ddl-create-target
@@ -321,6 +342,7 @@ contexts:
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
       push:
+        - ddl-create-target-expect-as
         - ddl-create-target
         - create-condition
         - ddl-target
@@ -349,6 +371,22 @@ contexts:
 
   ddl-create-target:
     - meta_scope: meta.create.sql
+    - include: ddl-target-on
+
+  ddl-create-target-expect-as:
+    - match: \b(?i:as)\b
+      scope: keyword.context.block.sql
+      pop: 1
+    - match: \b(?i:returns)\b
+      scope: keyword.other.sql
+      push: expect-type
+    - match: (@){{simple_identifier}}
+      scope: variable.parameter.sql
+      push: expect-type
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
+
+  ddl-target-on:
     - match: \b(?i:on)\b
       scope: keyword.other.sql
       push:
@@ -384,8 +422,7 @@ contexts:
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
-    - match: \b(?i:(?:add|drop)(?:\s+column)?|alter\s+column)\b
-      scope: keyword.other.ddl.sql
+    - include: ddl-alter-column
     - include: ddl-alter-common
     - include: expressions-or-column-name
 
@@ -396,13 +433,39 @@ contexts:
       pop: 1
 
   ddl-alter-common:
-    - match: (?i:\s*\b(add)\s+(constraint|(?:fulltext|spatial)\s+(index|key)|index))
-      scope: meta.add.sql
-      captures:
-        1: keyword.other.add.sql
-        2: keyword.other.sql
-    - include: types
+    - match: \b(?i:add\s+constraint)\b
+      scope: meta.add.sql keyword.other.sql
+      push:
+        - constraint-name
+        - single-identifier-after-whitespace
+    - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
+      scope: meta.add.sql keyword.other.sql
+    #- include: types
     - include: pop-on-top-level-reserved-word
+
+  ddl-alter-column:
+    - match: \b(?i:(?:add|alter)\s+column)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - column-name-declaration
+        - single-identifier-after-whitespace
+    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}})
+      scope: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - column-name-declaration
+        - single-identifier-after-whitespace
+    - match: \b(?i:drop\s+column)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - column-name
+        - single-identifier-after-whitespace
+    - match: \b(?i:drop)\b(?!\s+{{ddl_target}})
+      scope: keyword.other.ddl.sql
+      push:
+        - column-name
+        - single-identifier-after-whitespace
 
   dml-statements:
     - match: \b(?i:select)\b
@@ -452,11 +515,20 @@ contexts:
         - single-identifier-after-whitespace
     - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default))\b
       scope: storage.modifier.sql
-    - include: expressions-or-column-name
+    - include: expressions
+    - include: ddl-creation-column
+
+  ddl-creation-column:
+    - match: (?=\S)
+      push:
+        - after-type
+        - expect-type
+        - column-name-declaration
+        - single-identifier
 
   use-db:
     - match: \b(?i:use)\b
-      scope: keyword.context.tsql
+      scope: keyword.context.sql
       push:
         - database-name
         - single-identifier-after-whitespace
@@ -487,6 +559,12 @@ contexts:
   column-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.column-name.sql
+    - match: ''
+      pop: 1
+
+  column-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.column-name.sql variable.other.member.declaration.sql
     - match: ''
       pop: 1
 
@@ -568,8 +646,8 @@ contexts:
   after-table-alias:
     - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
       captures:
-        1: keyword.other.tsql
-        2: meta.group.tablesample.tsql punctuation.section.group.begin.tsql
+        1: keyword.other.sql
+        2: meta.group.tablesample.sql punctuation.section.group.begin.sql
       push: tablesample
     - match: (?=\S)
       pop: 1
@@ -630,7 +708,28 @@ contexts:
       scope: constant.language.sql
     - match: (\))(?:\s*((?i:repeatable))\b)?
       captures:
-        1: meta.group.tablesample.tsql punctuation.section.group.end.sql
+        1: meta.group.tablesample.sql punctuation.section.group.end.sql
         2: constant.language.sql
       pop: true
     - include: expressions
+
+  declarations:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.variable.sql
+      push: after-declare
+
+  after-declare:
+    - match: ''
+      pop: 1
+
+  collate:
+    - match: \b(?i:collate)\b
+      scope: keyword.other.sql
+      push: collation
+
+  collation:
+    - match: \w+
+      scope: support.constant.sql
+      pop: 1
+    - match: (?=\S)
+      pop: 1
