@@ -61,7 +61,7 @@ contexts:
             - match: '(?={{path}})'
               push: inherited
             - match: ','
-              scope: punctuation.separator.php
+              scope: punctuation.separator.comma.php
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -87,12 +87,17 @@ contexts:
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
-        2: punctuation.separator.php
+        2: punctuation.separator.colon.php
     - match: \{
       scope: punctuation.section.block.begin.php
     - match: \}
       scope: punctuation.section.block.end.php
     - include: expressions
+    # catch some stray cases
+    - match: ':'
+      scope: punctuation.separator.colon.php
+    - match: ','
+      scope: punctuation.separator.comma.php
 
   block:
     - match: \}
@@ -235,22 +240,7 @@ contexts:
         - include: variables
     - include: variables
     - include: strings
-    - match: (array)(\()(\))
-      scope: meta.array.empty.php
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-        3: punctuation.section.array.end.php
-    - match: (array)(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: nested-expressions
+    - include: arrays
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
@@ -309,6 +299,8 @@ contexts:
         - match: ':'
           scope: keyword.operator.ternary.php
           pop: 1
+    - match: ','
+      scope: punctuation.separator.comma.php
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -324,19 +316,6 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - match: '(\[)\s*(\])'
-      scope: meta.array.empty.php
-      captures:
-        1: punctuation.section.array.begin.php
-        2: punctuation.section.array.end.php
-    - match: '\['
-      scope: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: '\]'
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: nested-expressions
     - include: constants
     - match: \(
       scope: punctuation.section.group.begin.php
@@ -345,6 +324,41 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.php
           pop: 1
+        - include: nested-expressions
+
+  arrays:
+    - match: (array)(\()(\))
+      scope: meta.array.empty.php
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.array.begin.php
+        3: punctuation.section.array.end.php
+    - match: (\[)\s*(\])
+      scope: meta.array.empty.php
+      captures:
+        1: punctuation.section.array.begin.php
+        2: punctuation.section.array.end.php
+    - match: (array)(\()
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \)
+          scope: punctuation.section.array.end.php
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.comma.php
+        - include: nested-expressions
+    - match: \[
+      scope: punctuation.section.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \]
+          scope: punctuation.section.array.end.php
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.comma.php
         - include: nested-expressions
 
   after-identifier:
@@ -416,14 +430,14 @@ contexts:
               scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
               pop: 1
             - match: ','
-              scope: punctuation.separator.php
+              scope: punctuation.separator.comma.php
             - include: function-call-named-parameters
             - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - include: expression-end-pop
 
   class-builtin:
@@ -511,7 +525,7 @@ contexts:
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
 
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
@@ -626,7 +640,7 @@ contexts:
     - match: (?=;)
       pop: 1
     - match: ':'
-      scope: punctuation.separator.php
+      scope: punctuation.separator.colon.php
       push:
         - match: (?={{path}})
           set:
@@ -659,7 +673,7 @@ contexts:
             - match: ''
               pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - match: (?=\S)
           pop: 1
 
@@ -699,7 +713,7 @@ contexts:
         - match: '(?={{path}})'
           push: inherited
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - match: '(?=\S)'
           pop: 1
 
@@ -766,7 +780,7 @@ contexts:
             - match: ''
               pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
     - include: statements
 
   typed-property:
@@ -909,7 +923,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
     - match: '='
       scope: keyword.operator.assignment.php
       push:
@@ -940,7 +954,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
@@ -949,7 +963,7 @@ contexts:
       scope: meta.block.php punctuation.section.block.begin.php
       set: function-body
     - match: ':'
-      scope: punctuation.separator.php
+      scope: punctuation.separator.colon.php
     - include: type-hint
     # Exit on unexpected content
     - match: (?=\S)
@@ -1283,7 +1297,7 @@ contexts:
           scope: punctuation.section.group.end.php
           set: after-function-call
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - include: function-call-named-parameters
         - include: nested-expressions
   function-call-named-parameters:
@@ -1649,6 +1663,7 @@ contexts:
       push: after-identifier
   parameter-default-types:
     - include: strings
+    - include: arrays
     - include: numbers
     - include: variables
     - match: "=>"
@@ -1657,17 +1672,6 @@ contexts:
       scope: keyword.operator.assignment.php
     - match: '&(?=\s*\$)'
       scope: storage.modifier.reference.php
-    - match: (array)\s*(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: expression-end-pop
-        - include: parameter-default-types
     - include: instantiation
     - match: \s*(?={{path}}(::)({{identifier}})?)
       push:
