@@ -1929,7 +1929,30 @@ CSS;
 // ^ punctuation.terminator.expression
 //  ^ meta.heredoc-end
 
-echo <<<SQL
+echo <<< yml
+//   ^^^ keyword.operator.heredoc
+//       ^^^ meta.string.heredoc meta.tag.heredoc
+//       ^^^ entity.name.tag.heredoc
+one: two
+//^^^^^^ meta.embedded.yaml source.yaml
+//^ string.unquoted.plain.out entity.name.tag
+// ^       punctuation.separator.key-value.mapping
+//   ^^^ string.unquoted.plain.out
+three: "$four"
+//^^^^^^^^^^^^ meta.embedded.yaml source.yaml
+//^^^ string.unquoted.plain.out entity.name.tag
+//   ^       punctuation.separator.key-value.mapping
+//     ^^^^^^^ string.quoted.double
+//      ^^^^^ variable.other.php
+Yml;
+// <- meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
+//^^ meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
+yml;
+// <- entity.name.tag.heredoc
+// ^ punctuation.terminator.expression
+//  ^ meta.heredoc-end
+
+echo <<<sql
 //   ^^^ keyword.operator.heredoc
 //      ^^^ meta.string.heredoc meta.tag.heredoc
 //      ^^^ entity.name.tag.heredoc
@@ -1939,7 +1962,7 @@ SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
-SQL;
+sql;
 // <- entity.name.tag.heredoc
 // ^ punctuation.terminator.expression
 //  ^ meta.heredoc-end
