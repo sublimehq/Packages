@@ -604,6 +604,12 @@ contexts:
     - match: ''
       pop: 1
 
+  schema-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.schema-name.sql
+    - match: ''
+      pop: 1
+
   subquery:
     - match: \(
       scope: punctuation.section.group.begin.sql

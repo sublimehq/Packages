@@ -202,10 +202,13 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 --                      ^^^^ keyword.other.dml
 --                           ^^^^^^^ meta.table-name
 
-CREATE EXTENSION hstore SCHEMA addons; -- TODO: scope schema correctly
+CREATE EXTENSION hstore SCHEMA addons;
 -- ^^^ meta.create keyword.other.ddl
 --     ^^^^^^^^^ meta.create keyword.other
 --               ^^^^^^ meta.create meta.toc-list.full-identifier entity.name.function
+--                      ^^^^^^ storage.modifier
+--                             ^^^^^^ meta.schema-name
+--                                   ^ punctuation.terminator.statement
 
 CREATE TABLE example_table (
      first_name VARCHAR(100)
@@ -223,11 +226,14 @@ CREATE TABLE example_table (
 --                                 ^ punctuation.section.group.end - meta.string
 );
 
-ALTER TABLE mytable ADD CONSTRAINT verif_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA')); -- TODO: scope CHECK correctly
+ALTER TABLE mytable ADD CONSTRAINT verif_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA'));
 -- ^^^^^^^^ keyword.other.ddl
 --          ^^^^^^^ meta.table-name
 --                  ^^^^^^^^^^^^^^ keyword.other
 --                                 ^^^^^^^^^^ meta.constraint-name
+--                                            ^^^^^ keyword.other
+--                                                  ^ punctuation.section.group.begin
+--                                                   ^^^^ meta.column-name
 
 
 CREATE TABLE test1 (
@@ -270,9 +276,11 @@ CREATE TRIGGER blah AFTER INSERT OR UPDATE
 --     ^^^^^^^ keyword.other
 --             ^^^^ meta.toc-list.full-identifier entity.name.function
 --                  ^^^^^^^^^^^^^^^^^^^^^^ keyword.other
-    ON some_table FOR EACH ROW EXECUTE PROCEDURE some_procedure(); -- TODO:
+    ON some_table FOR EACH ROW EXECUTE PROCEDURE some_procedure();
 --  ^^ keyword.other
 --     ^^^^^^^^^^ meta.table-name
+--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other
+--                                               ^^^^^^^^^^^^^^ meta.function-call support.function
 
 
 CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, something_else boolean) RETURNS varchar[] AS $$

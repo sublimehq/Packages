@@ -55,6 +55,11 @@ contexts:
     - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
       scope: keyword.other.postgresql
 
+  ddl-alter-common:
+    - meta_prepend: true
+    - match: \b(?i:check)\b
+      scope: keyword.other.postgresql
+
   operators:
     - meta_prepend: true
     - match: '::'
@@ -108,3 +113,13 @@ contexts:
   ddl-statements:
     - meta_prepend: true
     - match: \$\$
+
+  ddl-create-target-expect-as:
+    - meta_prepend: true
+    - match: \b(?i:FOR\s+EACH\s+ROW\s+EXECUTE\s+PROCEDURE)\b
+      scope: keyword.other.postgresql
+    - match: \b(?i:schema)\b
+      scope: storage.modifier.postgresql
+      push:
+        - schema-name
+        - single-identifier-after-whitespace
