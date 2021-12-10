@@ -2570,7 +2570,6 @@ contexts:
         - qualified-constant-name
 
   qualified-constant-class:
-    - meta_include_prototype: false
     - match: '{{identifier}}'
       scope: storage.type.class.java
       set:
@@ -2584,7 +2583,6 @@ contexts:
       fail: qualified-constant-class-or-name
 
   qualified-constant-name:
-    - meta_include_prototype: false
     - match: '{{identifier}}'
       scope: constant.other.java
       pop: 3
