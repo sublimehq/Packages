@@ -520,10 +520,11 @@ import
 import no.terminator
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
-//     ^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^^^^^^^^^^^^^ meta.import.java meta.path.java
+//                  ^ - meta.import - meta.path
 //     ^^ variable.namespace.java - punctuation
 //       ^ punctuation.accessor.dot.java - entity - variable
-//        ^^^^^^^^^^ variable.namespace.java - punctuation
+//        ^^^^^^^^^^ entity.name.class.java - punctuation
     variable
 //  ^^^^^^^^ variable.other - meta.import
 
@@ -534,10 +535,11 @@ import static
 import static no.terminator
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
-//            ^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//            ^^^^^^^^^^^^^ meta.import.java meta.path.java
+//                         ^ - meta.import - meta.path
 //            ^^ variable.namespace.java - punctuation
 //              ^ punctuation.accessor.dot.java - entity - variable
-//               ^^^^^^^^^^ variable.namespace.java - punctuation
+//               ^^^^^^^^^^ entity.name.import.java - punctuation
     variable
 //  ^^^^^^^^ variable.other - meta.import
 
@@ -623,7 +625,7 @@ import a.b.Class.*;
 //      ^ punctuation.accessor.dot.java - entity - variable
 //       ^ variable.namespace.java
 //        ^ punctuation.accessor.dot.java - entity - variable
-//         ^^^^^ entity.name.class.java
+//         ^^^^^ storage.type.class.java
 //              ^ punctuation.accessor.dot.java - entity - variable
 //               ^ variable.language.wildcard.asterisk.java
 
@@ -634,7 +636,7 @@ import a.b.Class.SubClass;
 //      ^ punctuation.accessor.dot.java - entity - variable
 //       ^ variable.namespace.java
 //        ^ punctuation.accessor.dot.java - entity - variable
-//         ^^^^^ entity.name.class.java
+//         ^^^^^ storage.type.class.java
 //              ^ punctuation.accessor.dot.java - entity
 //               ^^^^^^^^ entity.name.class.java
 
@@ -653,7 +655,7 @@ import
     .Class
 //^^^^^^^^^^^ meta.import.java meta.path.java
 //  ^ punctuation.accessor.dot.java - entity - variable
-//   ^^^^^ entity.name.class.java
+//   ^^^^^ storage.type.class.java
     .
 //^^^^ meta.import.java meta.path.java
 //  ^ punctuation.accessor.dot.java - entity
@@ -686,7 +688,7 @@ import static a.b.Class.fooMethod;
 //               ^ punctuation.accessor.dot.java
 //                ^^^^^ storage.type.class.java
 //                     ^ punctuation.accessor.dot.java
-//                      ^^^^^^^^^ meta.import.java entity.name.function.java
+//                      ^^^^^^^^^ entity.name.import.java
 //                               ^ punctuation.terminator.java
 
 import static a.b.Class.CONSTANT ;
@@ -780,6 +782,17 @@ import static a.b.Class.*;
 //                     ^ punctuation.accessor.dot.java
 //                      ^ variable.language.wildcard.asterisk.java
 
+import static C.d.ced
+//^^^^^^^^^^^^ meta.import.java
+//            ^^^^^^^ meta.import.java meta.path.java
+//                   ^ - meta.import - meta.path
+//^^^^ keyword.declaration.import.java
+//     ^^^^^^ storage.modifier.java
+//            ^ storage.type.class.java
+//             ^ punctuation.accessor.dot.java
+//              ^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^^ entity.name.import.java
 
 /******************************************************************************
  * Class Declaration Tests
