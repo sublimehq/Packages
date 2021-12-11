@@ -83,6 +83,78 @@
 
     </script>
 //  ^^^^^^^^^ meta.tag.script.end.html
+
+    <!-- XHTML/JSPX: wrap scripts in CDATA -->
+    <script><![CDATA[var i = 0;]]></script>
+    // ^^^^^ meta.tag.script.begin.html - source
+    //      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //                            ^^^^^^^^^ meta.tag.script.end.html
+    //      ^^^ punctuation.definition.tag.begin.html
+    //         ^^^^^ keyword.declaration.cdata.html
+    //              ^ punctuation.definition.tag.begin.html
+    //               ^^^^^^^^^^ source.js.embedded.html
+    //                         ^^^ punctuation.definition.tag.end.html
+
+    <script>
+        <![CDATA[
+    // ^ - meta.tag - punctuation - source
+    //  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //  ^^^ punctuation.definition.tag.begin.html
+    //     ^^^^^ keyword.declaration.cdata.html
+    //          ^ punctuation.definition.tag.begin.html
+            var i = <% initialValue() %>;
+    //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html source.js.embedded.html
+    //              ^^^^^^^^^^^^^^^^^^^^ meta.embedded.scriptlet.jsp
+        ]]>
+    // ^ meta.tag.sgml.cdata.html source.js.embedded.html
+    //  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    //     ^ - meta.tag - punctuation - source
+    </script>
+
+    <script type="text/html">
+        <![CDATA[
+    // ^ - meta.tag - punctuation - source
+    //  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //  ^^^ punctuation.definition.tag.begin.html
+    //     ^^^^^ keyword.declaration.cdata.html
+    //          ^ punctuation.definition.tag.begin.html
+            var i = 0;
+    //    ^^^^^^^^^^^^^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+        ]]>
+    // ^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+    //  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    //     ^ - meta.tag - punctuation - source
+    </script>
+
+    <!-- XHTML: wrap style in CDATA -->
+    <style><![CDATA[h1 {}]]></style>
+    // ^^^^ meta.tag.style.begin.html - source
+    //     ^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //                      ^^^^^^^^ meta.tag.style.end.html
+    //     ^^^ punctuation.definition.tag.begin.html
+    //        ^^^^^ keyword.declaration.cdata.html
+    //             ^ punctuation.definition.tag.begin.html
+    //              ^^^^^ source.css.embedded.html
+    //                   ^^^ punctuation.definition.tag.end.html
+    //                      ^^ punctuation.definition.tag.begin.html
+    //                        ^^^^^ entity.name.tag.style.html
+    //                             ^ punctuation.definition.tag.end.html
+
+    <style>
+        <![CDATA[
+    // ^ - meta.tag - punctuation - source
+    //  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //  ^^^ punctuation.definition.tag.begin.html
+    //     ^^^^^ keyword.declaration.cdata.html
+    //          ^ punctuation.definition.tag.begin.html
+            h1 {}
+    //     ^^^^^^^ meta.tag.sgml.cdata.html source.css.embedded.html
+        ]]>
+    // ^ meta.tag.sgml.cdata.html source.css.embedded.html
+    //  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    //     ^ - meta.tag - punctuation - source
+    </style>
+
 </head>
 <body>
 
