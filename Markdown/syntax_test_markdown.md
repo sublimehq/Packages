@@ -18,7 +18,7 @@
 https://spec.commonmark.org/0.30/#example-71
 
   ## Heading ##
-|^^^^^^^^^^^^^^^ meta.block-level.markdown markup.heading.2.markdown
+|^^^^^^^^^^^^^^^ markup.heading.2.markdown
 |^ - punctuation
 | ^^ punctuation.definition.heading.begin.markdown
 |   ^^^^^^^^^ - punctuation
@@ -43,7 +43,7 @@ https://spec.commonmark.org/0.30/#example-74
 https://spec.commonmark.org/0.30/#example-75
 # #heading# #
 | <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
-|^^^^^^^^^^^^^ meta.block-level.markdown markup.heading.1.markdown
+|^^^^^^^^^^^^^ markup.heading.1.markdown
 |^ - entity.name.section
 | ^^^^^^^^^ entity.name.section.markdown
 |          ^^ - entity.name.section
@@ -52,7 +52,7 @@ https://spec.commonmark.org/0.30/#example-75
 https://spec.commonmark.org/0.30/#example-76
 ## heading \##
 | <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown
-|^^^^^^^^^^^^^^ meta.block-level.markdown markup.heading.2.markdown
+|^^^^^^^^^^^^^^ markup.heading.2.markdown
 |^^ - entity
 |  ^^^^^^^^^^^ entity.name.section.markdown
 |          ^^ constant.character.escape.markdown
@@ -65,7 +65,7 @@ https://spec.commonmark.org/0.30/#example-79
 
 # #
 | <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
-|^^^ meta.block-level.markdown markup.heading.1.markdown - entity.name.section
+|^^^ markup.heading.1.markdown - entity.name.section
 | ^ punctuation.definition.heading.end.markdown
 
 ## 
@@ -74,19 +74,19 @@ https://spec.commonmark.org/0.30/#example-79
 
 ## ##
 | <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown - entity.name.section
-|^^^^^ meta.block-level.markdown markup.heading.2.markdown - entity.name.section
+|^^^^^ markup.heading.2.markdown - entity.name.section
 |^ punctuation.definition.heading.begin.markdown
 |  ^^ punctuation.definition.heading.end.markdown
 
 ### ###
-| <- meta.block-level.markdown markup.heading.3.markdown  - entity.name.sectionpunctuation.definition.heading.begin.markdown
-|^^^^^^^ meta.block-level.markdown markup.heading.3.markdown - entity.name.section
+| <- markup.heading.3.markdown  - entity.name.sectionpunctuation.definition.heading.begin.markdown
+|^^^^^^^ markup.heading.3.markdown - entity.name.section
 |^^ punctuation.definition.heading.begin.markdown
 |   ^^^ punctuation.definition.heading.end.markdown
 
 # #### #
 | <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
-|^^^^^^^^ meta.block-level.markdown markup.heading.1.markdown
+|^^^^^^^^ markup.heading.1.markdown
 |^ - entity.name.section
 | ^^^^ entity.name.section.markdown
 |     ^^ - entity.name.section
@@ -94,7 +94,7 @@ https://spec.commonmark.org/0.30/#example-79
 
 ## #### ##
 | <- markup.heading.2.markdown punctuation.definition.heading.begin.markdown
-|^^^^^^^^^^ meta.block-level.markdown markup.heading.2.markdown
+|^^^^^^^^^^ markup.heading.2.markdown
 |^ - entity.name.section
 |  ^^^^ entity.name.section.markdown
 |      ^^^ - entity.name.section
@@ -406,7 +406,7 @@ Fenced codeblocks are no no setext heading
 Paragraph of text that should be scoped as meta.paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
 A [link](https://example.com){ :_attr = value }, *italic text* and **bold**.
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
+| ^^^^^^ meta.link.inline.description.markdown
 | ^ punctuation.definition.link.begin
 |      ^ punctuation.definition.link.end
 |       ^ punctuation.definition.metadata
@@ -452,17 +452,79 @@ Here is a [](https://example.com){_attr="value"}.
 |                                       ^^^^^^^ string.quoted.double.markdown
 |                                              ^ punctuation.definition.attributes.end.markdown
 
+Here is a [link](#with_(parens/inside)_urls).
+|         ^^^^^^ meta.link.inline.description.markdown
+|               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline.metadata.markdown
+|                                           ^^ - meta.link
+|               ^ punctuation.definition.metadata.begin.markdown
+|                ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.markdown
+|                                          ^ punctuation.definition.metadata.end.markdown
+
+Here is a [link](\(foo\)).
+|         ^^^^^^ meta.link.inline.description.markdown
+|               ^^^^^^^^^ meta.link.inline.metadata.markdown
+|                        ^^ - meta.link
+|               ^ punctuation.definition.metadata.begin.markdown
+|                ^^^^^^^ markup.underline.link.markdown
+|                ^^ constant.character.escape.markdown
+|                     ^^ constant.character.escape.markdown
+|                       ^ punctuation.definition.metadata.end.markdown
+
+Here is a [link](foo\)\:).
+|         ^^^^^^ meta.link.inline.description.markdown
+|               ^^^^^^^^^ meta.link.inline.metadata.markdown
+|                        ^^ - meta.link
+|               ^ punctuation.definition.metadata.begin.markdown
+|                ^^^^^^^ markup.underline.link.markdown
+|                   ^^ constant.character.escape.markdown
+|                       ^ punctuation.definition.metadata.end.markdown
+
+Here is a [link](<foo(and(bar)>).
+|         ^^^^^^ meta.link.inline.description.markdown
+|               ^^^^^^^^^^^^^^^^ meta.link.inline.metadata.markdown
+|                               ^^ - meta.link
+|               ^ punctuation.definition.metadata.begin.markdown
+|                ^ punctuation.definition.link.begin.markdown
+|                 ^^^^^^^^^^^^ markup.underline.link.markdown
+|                             ^ punctuation.definition.link.end.markdown
+|                              ^ punctuation.definition.metadata.end.markdown
+
+Here is a [link](http://example.com?foo=3#frag).
+|         ^^^^^^ meta.link.inline.description.markdown
+|               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline.metadata.markdown
+|                                              ^^ - meta.link
+|               ^ punctuation.definition.metadata.begin.markdown
+|                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.markdown
+|                    ^^^ punctuation.separator.path.markdown
+|                                  ^ punctuation.separator.path.markdown
+|                                        ^ punctuation.separator.path.markdown
+|                                             ^ punctuation.definition.metadata.end.markdown
+
+Not a [link] (url) due to space.
+|     ^^^^^^ meta.link.reference.description.markdown
+|           ^^^^^^^^^^^^^^^^^^^^^ - meta.link
+
 Here is a [reference link][name].
-|         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
-|                         ^ punctuation.definition.constant.begin
-|                          ^^^^ constant.other.reference.link
-|                              ^ punctuation.definition.constant.end
+|         ^^^^^^^^^^^^^^^^ meta.link.reference.description.markdown
+|                         ^^^^^^ meta.link.reference.metadata.markdown
+|         ^ punctuation.definition.link.begin.markdown
+|                        ^ punctuation.definition.link.end.markdown
+|                         ^ punctuation.definition.metadata.begin.markdown
+|                          ^^^^ markup.underline.link.markdown
+|                              ^ punctuation.definition.metadata.end.markdown
 
 Here is a [reference link][name]{_attr='value' :att2}.
-|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
-|                         ^ punctuation.definition.constant.begin
-|                          ^^^^ constant.other.reference.link
-|                              ^ punctuation.definition.constant.end
+|         ^^^^^^^^^^^^^^^^ meta.link.reference.description.markdown
+|                         ^^^^^^ meta.link.reference.metadata.markdown
+|                               ^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.attributes.markdown
+|                                ^^^^^^^^^^^^^ meta.attribute-with-value.markdown
+|                                             ^ - meta.attribute-with-value
+|                                              ^^^^^ meta.attribute-with-value.markdown
+|         ^ punctuation.definition.link.begin.markdown
+|                        ^ punctuation.definition.link.end.markdown
+|                         ^ punctuation.definition.metadata.begin.markdown
+|                          ^^^^ markup.underline.link.markdown
+|                              ^ punctuation.definition.metadata.end.markdown
 |                               ^ punctuation.definition.attributes.begin.markdown
 |                                ^^^^^ entity.other.attribute-name.markdown
 |                                     ^ punctuation.separator.key-value.markdown
@@ -471,32 +533,49 @@ Here is a [reference link][name]{_attr='value' :att2}.
 |                                                   ^ punctuation.definition.attributes.end.markdown
 
 Here is a [blank reference link][]{}.
-|         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
-|                               ^ punctuation.definition.constant.begin
-|                                ^ punctuation.definition.constant.end
+|         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.literal.description.markdown
+|                               ^^ meta.link.reference.literal.metadata.markdown
+|                                 ^^ meta.link.reference.literal.attributes.markdown
+|         ^ punctuation.definition.link.begin.markdown
+|                              ^ punctuation.definition.link.end.markdown
+|                               ^ punctuation.definition.metadata.begin.markdown
+|                                ^ punctuation.definition.metadata.end.markdown
 |                                 ^ punctuation.definition.attributes.begin.markdown
 |                                  ^ punctuation.definition.attributes.end.markdown
 
 Here is a footnote[^1][link][] or long[^longnote][link][].
 |                 ^^^^ meta.link.reference.footnote.markdown-extra
-|                     ^^^^^^^^ meta.link.reference.literal
+|                     ^^^^^^ meta.link.reference.literal.description.markdown
+|                           ^^ meta.link.reference.literal.metadata.markdown
 |                                     ^^^^^^^^^^^ meta.link.reference.footnote.markdown-extra
 |                                                ^^^^^^^^ meta.link.reference.literal
 
+Here is a footnote [^footnote](not_link_dest).
+|                  ^^^^^^^^^^^ meta.paragraph.markdown meta.link.reference.footnote.markdown-extra
+|                  ^ punctuation.definition.link.begin.markdown
+|                   ^^^^^^^^^ meta.link.reference.literal.footnote-id.markdown
+|                            ^ punctuation.definition.link.end.markdown
+|                             ^^^^^^^^^^^^^^^ meta.paragraph.markdown - meta.link
+
 Here is a ![](https://example.com/cat.gif).
-|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
-|          ^ punctuation.definition.image.begin
-|           ^ punctuation.definition.image.end - string
-|            ^ punctuation.definition.metadata
-|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                        ^ punctuation.definition.metadata
+|         ^^^ meta.image.inline.description.markdown
+|            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline.metadata.markdown
+|                                         ^^ - meta.image
+|         ^^ punctuation.definition.image.begin.markdown
+|           ^ punctuation.definition.image.end.markdown - string
+|            ^ punctuation.definition.metadata.begin.markdown
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                                        ^ punctuation.definition.metadata.end.markdown
 
 Here is a ![](https://example.com/cat.gif){_at"r=value :att2}.
-|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
-|          ^ punctuation.definition.image.begin
-|           ^ punctuation.definition.image.end - string
-|            ^ punctuation.definition.metadata
-|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|         ^^^ meta.image.inline.description.markdown
+|            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline.metadata.markdown
+|                                         ^^^^^^^^^^^^^^^^^^^ meta.image.inline.attributes.markdown
+|                                                            ^^ - meta.image
+|         ^^ punctuation.definition.image.begin.markdown
+|           ^ punctuation.definition.image.end.markdown - string
+|            ^ punctuation.definition.metadata.begin.markdown
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
 |                                        ^ punctuation.definition.metadata
 |                                         ^ punctuation.definition.attributes.begin.markdown
 |                                          ^^^^^ entity.other.attribute-name.markdown
@@ -507,71 +586,78 @@ Here is a ![](https://example.com/cat.gif){_at"r=value :att2}.
 |                                                           ^ punctuation.definition.attributes.end.markdown
 
 Here is a ![Image Alt Text](https://example.com/cat.gif).
-|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
-|          ^ punctuation.definition.image.begin
-|                         ^ punctuation.definition.image.end - string
-|                          ^ punctuation.definition.metadata
-|                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                      ^ punctuation.definition.metadata
+|         ^^^^^^^^^^^^^^^^^ meta.image.inline.description.markdown
+|                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline.metadata.markdown
+|                                                       ^^ - meta.image
+|         ^^ punctuation.definition.image.begin.markdown
+|                         ^ punctuation.definition.image.end.markdown - string
+|                          ^ punctuation.definition.metadata.begin.markdown
+|                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                                                      ^ punctuation.definition.metadata.end.markdown
 
 Here is a ![Image Alt Text](  https://example.com/cat.gif  ).
-|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
-|          ^ punctuation.definition.image.begin
+|         ^^^^^^^^^^^^^^^^^ meta.image.inline.description.markdown
+|                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline.metadata.markdown
+|                                                           ^^ - meta.image
+|         ^^ punctuation.definition.image.begin.markdown
 |                         ^ punctuation.definition.image.end - string
-|                          ^ punctuation.definition.metadata
-|                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                          ^ punctuation.definition.metadata
+|                          ^ punctuation.definition.metadata.begin.markdown
+|                           ^^ - markup.underline
+|                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                                                        ^^ - markup.underline
+|                                                          ^ punctuation.definition.metadata.end.markdown
 
 Here is a ![Image Alt Text](
   https://example.com/cat.gif  ).
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                              ^ punctuation.definition.metadata
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                              ^ punctuation.definition.metadata.end.markdown
 
 Here is a ![Image Alt Text](
   https://example.com/cat.gif
  "hello"   ).
-|^^^^^^^ meta.image.inline string.other.link.description.title
+|^^^^^^^ meta.image.inline string.quoted.double
 |       ^^^^ meta.image.inline
 |          ^ punctuation.definition.metadata.end
 
 Here is a ![Image Alt Text](
   <https://example.com/cat.gif> "hello"   ).
-| ^ punctuation.definition.link.begin
-|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                             ^ punctuation.definition.link.end
-|                               ^^^^^^^ string.other.link.description.title
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.image.inline
-|                                         ^ punctuation.definition.metadata.end
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.image.inline.metadata.markdown
+|                                          ^^ meta.paragraph.markdown - meta.image
+| ^ punctuation.definition.link.begin.markdown
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                             ^ punctuation.definition.link.end.markdown
+|                               ^^^^^^^ string.quoted.double.markdown
+|                               ^ punctuation.definition.string.begin.markdown
+|                                     ^ punctuation.definition.string.end.markdown
+|                                         ^ punctuation.definition.metadata.end.markdown
 
 Here is a ![Image Alt Text](
   <https://example .com /cat.gif> (hello)   ).
-| ^ punctuation.definition.link.begin
-|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                 ^ invalid.illegal.unexpected-whitespace
-|                      ^ invalid.illegal.unexpected-whitespace
-|                               ^ punctuation.definition.link.end
-|                                 ^^^^^^^ string.other.link.description.title
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.image.inline
-|                                           ^ punctuation.definition.metadata.end
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.image.inline.metadata.markdown
+|                                            ^^ meta.paragraph.markdown - meta.image
+| ^ punctuation.definition.link.begin.markdown
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                               ^ punctuation.definition.link.end.markdown
+|                                 ^^^^^^^ string.quoted.other.markdown
+|                                 ^ punctuation.definition.string.begin.markdown
+|                                       ^ punctuation.definition.string.end.markdown
+|                                           ^ punctuation.definition.metadata.end.markdown
 
 Here is a ![Image Alt Text](
   https://example .com /cat.gif (hello)   ).
-| ^^^^^^^^^^^^^^^ markup.underline.link.image
-|                ^ invalid.illegal.unexpected-whitespace
-|                 ^^^^ markup.underline.link.image
-|                     ^ invalid.illegal.unexpected-whitespace
-|                      ^^^^^^^^ markup.underline.link.image
-|                               ^^^^^^^ string.other.link.description.title
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.image.inline
-|                                         ^ punctuation.definition.metadata.end
+|^ meta.paragraph.markdown meta.image.inline.metadata.markdown - markup.underline
+| ^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.image.inline.metadata.markdown markup.underline.link.image.markdown
+|                ^ meta.paragraph.markdown meta.image.inline.metadata.markdown - markup.underline
+|                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown - meta.image - markup.underline
 
 Here is a ![Image Ref Alt][1].
-|         ^^^^^^^^^^^^^^^^^^^ meta.image.reference
-|         ^^ punctuation.definition.image.begin
-|                        ^ punctuation.definition.image.end
-|                         ^ punctuation.definition.constant
-|                          ^ constant.other.reference.link
-|                           ^ punctuation.definition.constant
+|         ^^^^^^^^^^^^^^^^ meta.image.reference.description.markdown
+|                         ^^^ meta.image.reference.metadata.markdown
+|         ^^ punctuation.definition.image.begin.markdown
+|                        ^ punctuation.definition.image.end.markdown
+|                         ^ punctuation.definition.metadata.begin.markdown
+|                          ^ markup.underline.link.markdown
+|                           ^ punctuation.definition.metadata.end.markdown
 
 now you can access the [The Ever Cool Site: Documentation about Sites](
   www.thecoolsite.com.ca/documentations/about/cool ) for more information about...
@@ -581,19 +667,16 @@ now you can access the [The Ever Cool Site: Documentation about Sites](
 
 now you can access the [The Ever Cool Site: Documentation about Sites](
   www.thecoolsite.com.ca /documentations/about/cool ) for more information about...
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inline
-| ^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
-|                       ^ invalid.illegal.unexpected-whitespace
-|                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
-|                                                  ^ - invalid
-|                                                   ^ punctuation.definition.metadata.end
+| ^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inline markup.underline.link
+|                       ^ meta.paragraph meta.link.inline - markup.underline.link
+|                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph - meta.link.inline
 
 now you can access the [The Ever Cool Site: Documentation about Sites](
   www.thecoolsite.com.ca/documentations/about/cool
   (title)) for more information about...
 | ^^^^^^^^ meta.paragraph meta.link.inline
 |        ^ punctuation.definition.metadata.end
-| ^^^^^^^ string.other.link.description.title.markdown
+| ^^^^^^^ string.quoted.other.markdown
 
   1. Ordered list item
 | ^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
@@ -666,18 +749,18 @@ Paragraph break.
 Paragraph break.
 
 ---
-|^^^ meta.block-level meta.separator.thematic-break
+|^^^ meta.separator.thematic-break
 |^^ punctuation.definition.thematic-break
 
 Paragraph break.
 
 --------
-|^^^^^^^^ meta.block-level meta.separator.thematic-break
+|^^^^^^^^ meta.separator.thematic-break
 |^^^^^^^ punctuation.definition.thematic-break
 
 [1]: https://google.com
-| <- meta.link.reference.def
-|^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+| <- meta.link.reference.def.markdown
+|^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
 |^ entity.name.reference.link
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^ markup.underline.link
@@ -758,41 +841,41 @@ non-disabled markdown
 |   ^^ - punctuation.definition.blockquote.markdown
 
 > Block quote
-| <- meta.block-level markup.quote punctuation.definition.blockquote
-| ^^^^^^^^^^^ meta.block-level markup.quote
+| <- markup.quote punctuation.definition.blockquote
+| ^^^^^^^^^^^ markup.quote
 
 > Block quote followed by an empty block quote line
 >
-| <- meta.block-level markup.quote punctuation.definition.blockquote
+| <- markup.quote punctuation.definition.blockquote
 
 > Block quote followed by an empty block quote line
 >
 > Followed by more quoted text
-| <- meta.block-level markup.quote punctuation.definition.blockquote
+| <- markup.quote punctuation.definition.blockquote
 
 > > Nested block quote
-| <- meta.block-level markup.quote punctuation.definition.blockquote
-| ^^^^^^^^^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown
+| <- markup.quote punctuation.definition.blockquote
+| ^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown markup.quote.markdown
 |^ - punctuation
 | ^ punctuation.definition.blockquote
 |  ^ - punctuation
 
 > > Nested quote
 > Followed by more quoted text that is not nested
-| <- meta.block-level markup.quote punctuation.definition.blockquote - markup.quote markup.quote
+| <- markup.quote punctuation.definition.blockquote - markup.quote markup.quote
 
 > Here is a block quote
 This quote continues on. Line breaking is OK in markdown
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.quote
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote
 > Here it is again
 | <- punctuation.definition.blockquote
 
 paragraph
-| <- meta.paragraph - meta.block-level
+| <- meta.paragraph
 
 >    > this is a nested quote but no code in a block quote
 | <- punctuation.definition.blockquote
-|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown markup.quote.markdown
 
 >     > this is code in a block quote, not a nested quote
 | <- punctuation.definition.blockquote
@@ -800,53 +883,53 @@ paragraph
 
 > CommonMark expects following line to be indented code block (see: example 326)
     > but all common parsers handle it as continued text.
-|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown - markup.raw
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown - markup.raw
 |   ^ - punctuation
 
 > Quoted fenced code block begin
 > ```
-| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
-| ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ markup.quote.markdown - meta.code-fence
+| ^^^^ markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
 | ^^^ punctuation.definition.raw.code-fence.begin.markdown
 
 > Quoted fenced code block language identifier
 > ```C++
-| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
-| ^^^^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ markup.quote.markdown - meta.code-fence
+| ^^^^^^^ markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
 |    ^^^ constant.other.language-name.markdown
 
 > Quoted fenced code block language identifier
 > ```C++ info string
-| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
-| ^^^^^^^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ markup.quote.markdown - meta.code-fence
+| ^^^^^^^^^^^^^^^^^^^ markup.quote.markdown meta.code-fence.definition.begin.text.markdown-gfm
 |    ^^^ constant.other.language-name.markdown
 |       ^^^^^^^^^^^^^ - constant
 
 > Quoted fenced code block content
 > ```
 > code block
-| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown markup.raw.code-fence.markdown-gfm
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ markup.quote.markdown - meta.code-fence
+| ^^^^^^^^^^^ markup.quote.markdown markup.raw.code-fence.markdown-gfm
 
 > Quoted fenced code block end
 > ```
 > ```
-| <- meta.block-level.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|^ meta.block-level.markdown markup.quote.markdown - meta.code-fence
-| ^^^^ meta.block-level.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^ markup.quote.markdown - meta.code-fence
+| ^^^^ markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
 | ^^^ punctuation.definition.raw.code-fence.end.markdown
 
 > > 2nd level quoted fenced code block
 > > ```
 > > code block ```
 > > ```
-| <- meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown - meta.code-fence
-|   ^^^^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
+| <- markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^ markup.quote.markdown markup.quote.markdown - meta.code-fence
+|   ^^^^ markup.quote.markdown markup.quote.markdown meta.code-fence.definition.end.text.markdown-gfm
 
 > Block quote followed by fenced code block
 ```
@@ -876,8 +959,8 @@ no code block
 
 > Block quote followed by heading
 # heading
-| <- meta.block-level.markdown markup.heading.1.markdown punctuation.definition.heading.begin.markdown
-|^^^^^^^^^ meta.block-level.markdown markup.heading.1.markdown - meta.quote
+| <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+|^^^^^^^^^ markup.heading.1.markdown - meta.quote
 | ^^^^^^^ entity.name.section.markdown
 
 > Block quote followed by list
@@ -903,114 +986,295 @@ no code block
 
 > Block quote followed by thematic break
 ***
-| <- meta.block-level.markdown meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown - meta.quote
+| <- meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown - meta.quote
 
 > Block quote followed by thematic break
 - - -
-| <- meta.block-level.markdown meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown - meta.quote
+| <- meta.separator.thematic-break.markdown punctuation.definition.thematic-break.markdown - meta.quote
 
 Code block below:
 
     this is code!
-| ^^^^^^^^^^^^^^^^ meta.block-level markup.raw.block
+| ^^^^^^^^^^^^^^^^ markup.raw.block
 
     more code
     spanning multiple lines
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.raw.block
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block
 
 paragraph
-| <- meta.paragraph - meta.block-level
+| <- meta.paragraph
 
 - - - -
-| ^^^^^^ meta.block-level meta.separator
+| ^^^^^^ meta.separator
 | ^ punctuation.definition.thematic-break
 |   ^ punctuation.definition.thematic-break
 |     ^ punctuation.definition.thematic-break
 |  ^ - punctuation
 * * * * *
-| ^^^^^^^^ meta.block-level meta.separator
+| ^^^^^^^^ meta.separator
 
 _ _ _ _ _ _ _
-| ^^^^^^^^^^^^ meta.block-level meta.separator
+| ^^^^^^^^^^^^ meta.separator
 | ^ punctuation.definition.thematic-break
 |   ^ punctuation.definition.thematic-break
 |  ^ - punctuation
 
 -  -  -  - 
-| <- meta.block-level meta.separator.thematic-break punctuation.definition.thematic-break
+| <- meta.separator.thematic-break punctuation.definition.thematic-break
 |^^ - punctuation
 |  ^ punctuation
 |        ^ punctuation
 
+###[ COMMONMARK AUTOLINKS ]###################################################
+
 <mailto:test+test@test.com>
-| ^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.email.lt-gt markup.underline.link
+| <- meta.link.email.markdown punctuation.definition.link.begin.markdown - markup.underline
+|^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.email.markdown markup.underline.link.markdown
+|                         ^ meta.link.email.markdown - markup.underline
+|      ^ punctuation.separator.path.markdown
+|                ^ punctuation.separator.path.markdown
+|                         ^ punctuation.definition.link.end.markdown
+
+<foo#bar?@mail.test.com>
+| <- meta.link.email.markdown punctuation.definition.link.begin.markdown - markup.underline
+|^^^^^^^^^^^^^^^^^^^^^^ meta.link.email.markdown markup.underline.link.markdown
+|                      ^ meta.link.email.markdown - markup.underline
+|        ^ punctuation.separator.path.markdown
+|                      ^ punctuation.definition.link.end.markdown
+
 <http://www.test.com/>
-| ^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown - markup.underline
+|^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|                    ^ meta.link.inet.markdown - markup.underline
+|    ^^^ punctuation.separator.path.markdown
+|                   ^ punctuation.separator.path.markdown
+|                    ^ punctuation.definition.link.end.markdown
+
 <https://test.com/>
-| ^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown - markup.underline
+|^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|                 ^ meta.link.inet.markdown - markup.underline
+|     ^^^ punctuation.separator.path.markdown
+|                ^ punctuation.separator.path.markdown
+|                 ^ punctuation.definition.link.end.markdown
+
 <ftp://test.com/>
-| ^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown - markup.underline
+|^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|               ^ meta.link.inet.markdown - markup.underline
+|   ^^^ punctuation.separator.path.markdown
+|              ^ punctuation.separator.path.markdown
+|               ^ punctuation.definition.link.end.markdown
+
+<irc://foo%20bar.com:2233/baz>
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown - markup.underline
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|                            ^ meta.link.inet.markdown - markup.underline
+|   ^^^ punctuation.separator.path.markdown
+|         ^ constant.character.escape.url.markdown punctuation.definition.escape.markdown
+|          ^^ constant.character.escape.url.markdown - punctuation
+|                        ^ punctuation.separator.path.markdown
+
+<a+b+c:d>
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown
+|^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|       ^ meta.paragraph.markdown meta.link.inet.markdown punctuation.definition.link.end.markdown
+
+<made-up-scheme://foo,bar>
+| <- meta.paragraph.markdown meta.link.inet.markdown punctuation.definition.link.begin.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.link.inet.markdown markup.underline.link.markdown
+|                        ^ meta.paragraph.markdown meta.link.inet.markdown punctuation.definition.link.end.markdown
+|              ^^^ punctuation.separator.path.markdown
+
+<http://../>
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown
+|^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|          ^ meta.paragraph.markdown meta.link.inet.markdown punctuation.definition.link.end.markdown
+|    ^^^ punctuation.separator.path.markdown
+|         ^ punctuation.separator.path.markdown
+
+<localhost:5001/foo>
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown
+|^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|                  ^ meta.paragraph.markdown meta.link.inet.markdown punctuation.definition.link.end.markdown
+|         ^ punctuation.separator.path.markdown
+|              ^ punctuation.separator.path.markdown
+
+<http://foo.bar/baz bim>
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown
+|^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|                  ^^^^^^ - meta.link
+|    ^^^ punctuation.separator.path.markdown
+|              ^ punctuation.separator.path.markdown
+
+<http://example.com/\[\>
+| <- meta.link.inet.markdown punctuation.definition.link.begin.markdown
+|^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link.markdown
+|                      ^ meta.paragraph.markdown meta.link.inet.markdown punctuation.definition.link.end.markdown
+|    ^^^ punctuation.separator.path.markdown
+|                  ^ punctuation.separator.path.markdown
+
+###[ GFM AUTOLINKS ]##########################################################
+
+Visit ftp://intra%20net
+|     ^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|        ^^^ punctuation.separator.path.markdown
+|               ^ - constant
+|                ^ constant.character.escape.url.markdown punctuation.definition.escape.markdown
+|                 ^^ constant.character.escape.url.markdown - punctuation
+|                   ^^^ - constant
+
+Visit http://intra%20net
+|     ^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|         ^^^ punctuation.separator.path.markdown
+|                ^ - constant
+|                 ^ constant.character.escape.url.markdown punctuation.definition.escape.markdown
+|                  ^^ constant.character.escape.url.markdown - punctuation
+|                    ^^^ - constant
+
+Visit https://intra%20net
+|     ^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|          ^^^ punctuation.separator.path.markdown
+|                 ^ - constant
+|                  ^ constant.character.escape.url.markdown punctuation.definition.escape.markdown
+|                   ^^ constant.character.escape.url.markdown - punctuation
+|                     ^^^ - constant
+
+Visit www.intra%20net
+|     ^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ - constant
+|              ^ constant.character.escape.url.markdown punctuation.definition.escape.markdown
+|               ^^ constant.character.escape.url.markdown - punctuation
+|                 ^^^ - constant
 
 Visit www.commonmark.org/help for more information.
-|     ^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|     ^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|                       ^ punctuation.separator.path.markdown
 |                            ^^^^^^^^^^^^^^^^^^^^^^^ - markup.underline.link
+
 Visit www.commonmark.org.
-|     ^^^^^^^^^^^^^^^^^^ meta.paragraph markup.underline.link
+|     ^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet.markdown markup.underline.link
 |                       ^^ - markup.underline.link
+
 Visit www.commonmark.org/a.b.
-|     ^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph markup.underline.link
+|     ^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet.markdown markup.underline.link
 |                           ^ - markup.underline.link
+|                       ^ punctuation.separator.path.markdown
+
 www.google.com/search?q=(business))+ok
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
 |                                     ^ - markup.underline.link
+
 www.google.com/search?q=Markup+(business)
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+
 www.commonmark.org/he<lp>
-|^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|                 ^ punctuation.separator.path.markdown
 |                    ^ - markup.underline.link
+
 http://commonmark.org
-|^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|   ^^^ punctuation.separator.path.markdown
+
 www.google.com/search?q=commonmark&hl=en
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+|                                 ^ punctuation.separator.path.markdown
 |                                       ^ - markup.underline.link
+
 www.google.com/search?q=commonmark&hl;
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
 |                                 ^^^^ constant.character.entity.named.html - markup.underline.link
+
+www.google.com/search?q=commonmark&hl;&hl;
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+|                                 ^^^^^^^^ constant.character.entity.named.html - markup.underline.link
+
+www.google.com/search?q=commonmark&hl;!
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|                                 ^^^^^^ - meta.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+|                                 ^^^^ constant.character.entity.named.html - markup.underline.link
+
+www.google.com/search?q=commonmark&hl;f
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|                                      ^ - meta.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+|                                 ^^^^ - constant.character
+
 (Visit https://encrypted.google.com/search?q=Markup+(business))
-|      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|           ^^^ punctuation.separator.path.markdown
+|                                  ^ punctuation.separator.path.markdown
+|                                         ^ punctuation.separator.path.markdown
 |                                                             ^^ - markup.underline.link
+
 Anonymous FTP is available at ftp://foo.bar.baz.
-|                             ^^^^^^^^^^^^^^^^^ markup.underline.link
+|                             ^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|                                ^^^ punctuation.separator.path.markdown
 |                                              ^^ - markup.underline.link
+
 (see http://www.google.com/search?q=commonmark&hl=en)
-|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|        ^^^ punctuation.separator.path.markdown
+|                         ^ punctuation.separator.path.markdown
+|                                ^ punctuation.separator.path.markdown
+|                                             ^ punctuation.separator.path.markdown
 |                                                   ^^ - markup.underline.link
 
 foo@bar.baz
-|^^^^^^^^^^ markup.underline.link
+| <- meta.link.email.markdown markup.underline.link.markdown
+|^^^^^^^^^^ meta.link.email.markdown markup.underline.link.markdown
+|  ^ punctuation.separator.path.markdown
+|          ^ - meta.link - markup.underline.link
+
 hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.underline.link
-|                                       ^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.link - markup.underline.link
+|                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.link.email.markdown markup.underline.link.markdown
+
+ test@test.test.me
+| <- - meta.link - markup.underline
+|^^^^^^^^^^^^^^^^^ meta.link.email.markdown markup.underline.link.markdown
+|    ^ punctuation.separator.path.markdown
+|                 ^ - meta.link - markup.underline.link
+
  a.b-c_d@a.b
-|^^^^^^^^^^^ markup.underline.link
-|           ^ - markup.underline.link
+| <- - meta.link - markup.underline
+|^^^^^^^^^^^ meta.link.email.markdown markup.underline.link.markdown
+|       ^ punctuation.separator.path.markdown
+|           ^ - meta.link - markup.underline.link
+
 a.b-c_d@a.b.
 |^^^^^^^^^^ markup.underline.link
 |          ^^ - markup.underline.link
+
  a.b-c_d@a.b-
-|^^^^^^^^^^^^^ - markup.underline.link
+| <- - meta.link - markup.underline
+|^^^^^^^^^^^^^ - meta.link - markup.underline.link
+
  a.b-c_d@a.b_
-|^^^^^^^^^^^^^ - markup.underline.link
- test@test.test.me
-|^^^^^^^^^^^^^^^^^ markup.underline.link
+| <- - meta.link - markup.underline
+|^^^^^^^^^^^^^ - meta.link - markup.underline.link
+
+###[ LIGATURES ]##############################################################
 
 this is a raw ampersand & does not require HTML escaping
-|                       ^ meta.other.valid-ampersand
+|                       ^ - entity - illegal
 
 this is a raw bracket < > does not require HTML escaping
-|                     ^^^ - meta.tag 
-|                     ^ meta.other.valid-bracket
-|                       ^ - meta.other.valid-bracket
+|                     ^^^ - meta.tag - punctuation
 
 these are raw ligatures << <<< <<<< <<<<< >>>>> >>>> >>> >>
 |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
@@ -1043,22 +1307,22 @@ these are raw ligatures - -- --- ---- ----- ===== ==== === == =
 |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
 
 [2]: https://github.com/sublimehq/Packages "Packages Repo"
-| <- meta.link.reference.def
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+| <- meta.link.reference.def.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
 |^ entity.name.reference.link
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
-|                                          ^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                          ^^^^^^^^^^^^^^^ string.quoted.double
 |                                          ^ punctuation.definition.string.begin
 |                                                        ^ punctuation.definition.string.end
 
 [3]: https://github.com/sublimehq/Packages/issues/ 'Issues on Packages Repo'
-| <- meta.link.reference.def
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+| <- meta.link.reference.def.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
 |^ entity.name.reference.link
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
-|                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 |                                                  ^ punctuation.definition.string.begin
 |                                                                          ^ punctuation.definition.string.end
 
@@ -1085,23 +1349,30 @@ because it doesn't begin with the number one:
 
 > Block quote with list items
 > - list item 1
-| ^ meta.block-level markup.quote punctuation.definition.list_item
+| ^ markup.quote punctuation.definition.list_item
 > - list item 2
 | ^ markup.list.unnumbered.bullet punctuation.definition.list_item
-| ^^^^^^^^^^^^^^ meta.block-level markup.quote markup.list.unnumbered
+| ^^^^^^^^^^^^^^ markup.quote markup.list.unnumbered
 |   ^^^^^^^^^^^^ meta.paragraph.list
 >   1. sub list item
-| <- meta.block-level markup.quote punctuation.definition.blockquote
-|^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.quote
+| <- markup.quote punctuation.definition.blockquote
+|^^^^^^^^^^^^^^^^^^^^ markup.quote
 |    ^ punctuation.definition.list_item
 |   ^^ markup.list.numbered.bullet
 | ^^^^^^^^^^^^^^^^^^^ markup.list.numbered
 |      ^^^^^^^^^^^^^^ meta.paragraph.list
+> - list item 3
+  continued
+| ^^^^^^^^^^ markup.quote.markdown markup.list.unnumbered.markdown meta.paragraph.list.markdown
 
 * this is a list
 
    > This is a blockquote.
 |  ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+
+  - this is a list
+    > This is a blockquote.
+|   ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
 
  This is a paragraph still part of the 
  list item
@@ -1116,13 +1387,21 @@ because it doesn't begin with the number one:
 * list continues
 * [ ] Unticked GitHub-flavored-markdown checkbox
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-| ^^^ constant.language.checkbox
+| ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|  ^ markup.checkbox.mark.markdown-gfm - punctuation
+|   ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 * [x] Ticked GFM checkbox
-| ^^^ constant.language.checkbox
+| ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|  ^ markup.checkbox.mark.markdown-gfm - punctuation
+|   ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 * [X] Another ticked checkbox
-| ^^^ constant.language.checkbox
+| ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|  ^ markup.checkbox.mark.markdown-gfm - punctuation
+|   ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
     + [ ] Sub-item with checkbox
-|     ^^^ constant.language.checkbox
+|     ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|      ^ markup.checkbox.mark.markdown-gfm - punctuation
+|       ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 * [] Not a checkbox
 | ^^^^^^^^^^^^^^^^^ - storage - constant
 * [/] Not a checkbox
@@ -1130,37 +1409,58 @@ because it doesn't begin with the number one:
 * Not [ ] a [x] checkbox [X]
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - storage - constant
 * [ ] [Checkbox][] with next word linked
-| ^^^ constant.language.checkbox
+| ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|  ^ markup.checkbox.mark.markdown-gfm - punctuation
+|   ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 |     ^^^^^^^^^^^^ meta.link
 * list has `unclosed code
 * list continues
 | ^^^^^^^^^^^^^^^ - markup.raw
 
 > * [ ] task
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^^^^^^^^^^^ markup.quote.markdown
 | ^ markup.list.unnumbered.bullet.markdown
 |  ^^^^^^^^^^ markup.list.unnumbered.markdown
 | ^ punctuation.definition.list_item.markdown
-|   ^^^ constant.language.checkbox.markdown-gfm
+|   ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|    ^ markup.checkbox.mark.markdown-gfm - punctuation
+|     ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 > * [x] task
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^^^^^^^^^^^ markup.quote.markdown
 | ^ markup.list.unnumbered.bullet.markdown
 |  ^^^^^^^^^^ markup.list.unnumbered.markdown
 | ^ punctuation.definition.list_item.markdown
-|   ^^^ constant.language.checkbox.markdown-gfm
+|   ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|    ^ markup.checkbox.mark.markdown-gfm - punctuation
+|     ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 > * [X] task
-| ^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^^^^^^^^^^^ markup.quote.markdown
 | ^ markup.list.unnumbered.bullet.markdown
 |  ^^^^^^^^^^ markup.list.unnumbered.markdown
 | ^ punctuation.definition.list_item.markdown
-|   ^^^ constant.language.checkbox.markdown-gfm
+|   ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|    ^ markup.checkbox.mark.markdown-gfm - punctuation
+|     ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
 > * [X] task
 >   - [ ] task
-| ^^^^^^^^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^^^^^^^^^^^^^ markup.quote.markdown
 |   ^ markup.list.unnumbered.bullet.markdown
 |    ^^^^^^^^^^ markup.list.unnumbered.markdown
 |   ^ punctuation.definition.list_item.markdown
-|     ^^^ constant.language.checkbox.markdown-gfm
+|     ^ markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
+|      ^ markup.checkbox.mark.markdown-gfm - punctuation
+|       ^ markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
+
+* list item
+  
+  <p>*no-markdown*</p>
+| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.disable-markdown
+|                 ^^^^ meta.tag
+  - list item
+
+    <p>*no-markdown*</p>
+|   ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.disable-markdown
+|                   ^^^^ meta.tag
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
@@ -1193,8 +1493,8 @@ because it doesn't begin with the number one:
 |               ^^^^^^^^^^^^^ meta.image.inline.description
 |                            ^ punctuation.definition.image.end
 |                             ^ punctuation.definition.metadata
-|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                                                           ^^^^^^^^^^^^^^^^^ string.quoted.double
 |                                                           ^ punctuation.definition.string.begin
 |                                                                           ^ punctuation.definition.string.end
 |                                                                            ^ punctuation.definition.metadata
@@ -1204,8 +1504,8 @@ because it doesn't begin with the number one:
 |               ^^^^^^^^^^^^^ meta.image.inline.description
 |                            ^ punctuation.definition.image.end
 |                             ^ punctuation.definition.metadata
-|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                                                           ^^^^^^^^^^^^^^^^^ string.quoted.single
 |                                                           ^ punctuation.definition.string.begin
 |                                                                           ^ punctuation.definition.string.end
 |                                                                            ^ punctuation.definition.metadata
@@ -1215,8 +1515,8 @@ because it doesn't begin with the number one:
 |               ^^^^^^^^^^^^^ meta.image.inline.description
 |                            ^ punctuation.definition.image.end
 |                             ^ punctuation.definition.metadata
-|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
+|                                                           ^^^^^^^^^^^^^^^^^ string.quoted.other
 |                                                           ^ punctuation.definition.string.begin
 |                                                                           ^ punctuation.definition.string.end
 |                                                                            ^ punctuation.definition.metadata
@@ -1969,6 +2269,7 @@ new paragraph~~.
 
 | <- invalid.illegal.non-terminated.bold-italic
 
+
 # Fenced Code Block Tests
 
 Paragraph is terminated by fenced code blocks.
@@ -2053,7 +2354,6 @@ for (var i = 0; i < 10; i++) {
 ```ts
 |  ^^ constant.other.language-name
 declare type foo = 'bar'
-|       ^^^^ source.ts meta.type-alias keyword.declaration.type
 ```
 
 ```R%&?! weired language name
@@ -2251,46 +2551,46 @@ _foo [**bar**](/url)_
 |^^ punctuation.definition.bold.begin
 |            ^^^^^^^ constant.character.entity.decimal.html
 |                   ^^ punctuation.definition.bold.end
-|                       ^^^^^^^ constant.other.reference.link
+|                       ^^^^^^^ markup.underline.link
 
 [Read more &#8594;][details]
 |          ^^^^^^^ constant.character.entity.decimal.html
-|                   ^^^^^^^ constant.other.reference.link
+|                   ^^^^^^^ markup.underline.link
 
 [Read more <span style="font-weight: bold;">&#8594;</span>][details]
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.description
 |                       ^^^^^^^^^^^^^^^^^^ source.css
 |                                           ^^^^^^^ constant.character.entity.decimal.html
-|                                                           ^^^^^^^ constant.other.reference.link
+|                                                           ^^^^^^^ markup.underline.link
 
 [![Cool ★ Image - Click to Enlarge][img-example]][img-example]
 |^ punctuation.definition.image.begin
-|                                   ^^^^^^^^^^^ constant.other.reference.link
+|                                   ^^^^^^^^^^^ markup.underline.link
 |                                               ^ punctuation.definition.link.end
-|                                                 ^^^^^^^^^^^ constant.other.reference.link
+|                                                 ^^^^^^^^^^^ markup.underline.link
 
 [![Cool ★ Image - Click to Enlarge](http://www.sublimetext.com/anim/rename2_packed.png)](http://www.sublimetext.com/anim/rename2_packed.png)
 |^ punctuation.definition.image.begin
 |                                  ^ punctuation.definition.metadata.begin
-|                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image.markdown
 |                                                                                     ^ punctuation.definition.metadata.end
 |                                                                                       ^ punctuation.definition.metadata.begin
 |                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                                                                                                                          ^ punctuation.definition.metadata.end
 
 [img-example]: http://www.sublimetext.com/anim/rename2_packed.png
-|^^^^^^^^^^^ meta.link.reference.def entity.name.reference.link
+|^^^^^^^^^^^ meta.link.reference.def.markdown entity.name.reference.link
 |            ^ punctuation.separator.key-value
 |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                                                ^ - meta.link - markup
 
 [//]: # (This is a comment without a line-break.)
-|     ^ meta.link.reference.def markup.underline.link
-|       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|     ^ meta.link.reference.def.markdown markup.underline.link
+|       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.other
 |                                                ^ - meta.link
 
 [//]: # (This is a comment with a
-|     ^ meta.link.reference.def markup.underline.link
+|     ^ meta.link.reference.def.markdown markup.underline.link
 |       ^ punctuation.definition.string.begin
         line-break.)
 |                  ^ punctuation.definition.string.end
@@ -2305,11 +2605,11 @@ _foo [**bar**](/url)_
 
 [//]: # (testing
 blah
-| <- meta.link.reference.def string.other.link.description.title
+| <- meta.link.reference.def.markdown string.quoted.other
 
 | <- invalid.illegal.non-terminated.link-title
 text
-| <- meta.paragraph - meta.link.reference.def
+| <- meta.paragraph - meta.link.reference.def.markdown
 
 [foo]: <bar> "test" 
 |^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
@@ -2317,7 +2617,7 @@ text
 |      ^ punctuation.definition.link.begin
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
-|            ^^^^^^ string.other.link.description.title
+|            ^^^^^^ string.quoted.double
 |                  ^ - invalid.illegal.expected-eol
 
 [foo]: <bar>> "test" 
@@ -2332,16 +2632,16 @@ text
 https://michelf.ca/projects/php-markdown/extra/#footnotes
 That's some text with a footnote.[^1]
 |                                ^^^^ meta.paragraph meta.link.reference.footnote.markdown-extra
-|                                ^^ punctuation.definition.link.begin
-|                                  ^ meta.link.reference.literal.footnote-id
+|                                ^ punctuation.definition.link.begin
+|                                 ^^ meta.link.reference.literal.footnote-id
 |                                   ^ punctuation.definition.link.end
 
  [^1]: And that's the footnote.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra
-|^ punctuation.definition.constant.begin
-|   ^ punctuation.definition.constant.end
-| ^^ entity.name.reference.link
-|    ^ punctuation.separator.key-value
+|^ punctuation.definition.reference.begin.markdown
+| ^^ entity.name.reference.link.markdown
+|   ^ punctuation.definition.reference.end.markdown
+|    ^ punctuation.separator.key-value.markdown
 
 [^1]:
     And that's the footnote.
@@ -2349,13 +2649,6 @@ That's some text with a footnote.[^1]
     That's the *second* paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra - markup.raw
 |              ^^^^^^^^ markup.italic
-
- [^footnote](not_link_dest)
-|^^^^^^^^^^^ meta.paragraph.markdown meta.link.reference.footnote.markdown-extra
-|^^ punctuation.definition.link.begin.markdown
-|  ^^^^^^^^ meta.link.reference.literal.footnote-id.markdown
-|          ^ punctuation.definition.link.end.markdown
-|           ^^^^^^^^^^^^^^^ meta.paragraph.markdown - meta.link.inline.markdown
 
 - a
   - b
@@ -2391,51 +2684,55 @@ abc
 | <- meta.paragraph - markup.list
 
 | foo | bar |
-|^^^^^^^^^^^^^ meta.block-level meta.table.header
+|^^^^^^^^^^^^^ meta.table.header
 | <- punctuation.separator.table-cell
 |     ^ punctuation.separator.table-cell
 |           ^ punctuation.separator.table-cell
 | ^^^^ - punctuation.separator.table-cell
+
+| foo | bar |
 | --- | --- |
 | baz | bim <kbd>Ctrl+C</kbd> |
-| <- meta.block-level meta.table punctuation.separator.table-cell
+| <- meta.table punctuation.separator.table-cell
 |           ^^^^^ meta.tag.inline.any
 |                             ^ punctuation.separator.table-cell
 
-| <- - meta.block-level - meta.table
+| <- - meta.table
 
 | abc | defghi |
 :-: | -----------:
-|^^^^^^^^^^^^^^^^^ meta.block-level meta.table.header-separator
+|^^^^^^^^^^^^^^^^^ meta.table.header-separator
 | <- punctuation.definition.table-cell-alignment
 |^ punctuation.section.table-header
 |   ^ punctuation.separator.table-cell
 |     ^^^^^^^^^^^ punctuation.section.table-header
 |                ^ punctuation.definition.table-cell-alignment - punctuation.section.table-header
 bar | baz
-|   ^ meta.block-level meta.table punctuation.separator.table-cell
+|   ^ meta.table punctuation.separator.table-cell
 
 | f\|oo  |
-| <- meta.block-level meta.table punctuation.separator.table-cell
-|  ^^ meta.block-level meta.table constant.character.escape - punctuation.separator.table-cell
-|        ^ meta.block-level meta.table punctuation.separator.table-cell
+| <- meta.table punctuation.separator.table-cell
+|  ^^ meta.table constant.character.escape - punctuation.separator.table-cell
+|        ^ meta.table punctuation.separator.table-cell
+
+| f\|oo  |
 | ------ |
 | b `|` az |
-|   ^^^ meta.block-level meta.table markup.raw.inline - meta.table.header-separator
-|          ^ meta.block-level meta.table punctuation.separator.table-cell
+|   ^^^ meta.table markup.raw.inline - meta.table.header-separator
+|          ^ meta.table punctuation.separator.table-cell
 | b **|** im |
-| <- meta.block-level meta.table punctuation.separator.table-cell
-|   ^^^^^ meta.block-level meta.table markup.bold - punctuation.separator.table-cell
-|            ^ meta.block-level meta.table punctuation.separator.table-cell
+| <- meta.table punctuation.separator.table-cell
+|   ^^^^^ meta.table markup.bold - punctuation.separator.table-cell
+|            ^ meta.table punctuation.separator.table-cell
 
 | abc | def |
 | --- | --- |
 | bar | baz |
-|^^^^^^^^^^^^^ meta.block-level meta.table
+|^^^^^^^^^^^^^ meta.table
 test
-|^^^^ meta.block-level meta.table
+|^^^^ meta.table
 > bar
-| <- meta.block-level markup.quote punctuation.definition.blockquote - meta.table
+| <- markup.quote punctuation.definition.blockquote - meta.table
 
 `|` this `|` example `|` is not a table `|`
 | ^ punctuation.definition.raw.end - meta.table
@@ -2447,7 +2744,7 @@ test
 | First row     | Data          | Very long data entry |
 | Second row    | **Cell**      | *Cell*               |
 | Third row     | Cell that spans across two columns  ||
-| ^^^^^^^^^^^^^^ meta.block-level meta.table
+| ^^^^^^^^^^^^^^ meta.table
 |                                                     ^^ punctuation.separator.table-cell
 
  | table that doesn't start at column 0 |
@@ -2462,26 +2759,26 @@ not a table |
  abc | def
  --- | ---
  --- | ---
-| ^^^^ meta.block-level meta.table - meta.table.header
+| ^^^^ meta.table - meta.table.header
 
  a | b
  - | -
-|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^^^^^^ meta.table.header-separator.markdown-gfm
 |^ punctuation.section.table-header.markdown
 |  ^ punctuation.separator.table-cell.markdown
 |    ^ punctuation.section.table-header.markdown
  - | -
-|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+|^^^^^^ meta.table.markdown-gfm
 
  a | b
  -:| -
-|^^^^^^ meta.block-level.markdown meta.table.header-separator.markdown-gfm
+|^^^^^^ meta.table.header-separator.markdown-gfm
 |^ punctuation.section.table-header.markdown
 | ^ punctuation.definition.table-cell-alignment.markdown
 |  ^ punctuation.separator.table-cell.markdown
 |    ^ punctuation.section.table-header.markdown
  - | -
-|^^^^^^ meta.block-level.markdown meta.table.markdown-gfm
+|^^^^^^ meta.table.markdown-gfm
 
 | test | me |
 |------|----|
@@ -2493,6 +2790,40 @@ not a table |
 |`test | me |
 |^ invalid.deprecated.unescaped-backticks
 |      ^ punctuation.separator.table-cell
+
+| table | followed by
+paragraph
+| <- meta.paragraph.markdown
+|^^^^^^^^^ meta.paragraph.markdown
+
+| table | followed by
+https://foo.bar/baz
+| <- meta.paragraph.markdown meta.link.inet.markdown markup.underline.link.markdown-gfm
+|^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.link.inet.markdown markup.underline.link.markdown-gfm
+
+| table | followed by
+# heading
+| <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+|^^^^^^^^^ markup.heading.1.markdown
+
+| table | followed by
+> quote
+| <- markup.quote.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^ markup.quote.markdown
+
+| table | followed by
+    quote
+| <- markup.raw.block.markdown
+|^^^^^^^^^ markup.raw.block.markdown
+
+| table | followed by
+```fenced
+| <- meta.code-fence.definition.begin.text.markdown-gfm
+|^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm
+code block
+```
+| <- meta.code-fence.definition.end.text.markdown-gfm
+|^^ meta.code-fence.definition.end.text.markdown-gfm
 
 A line without bolded |
 |                     ^ - punctuation.separator.table-cell
@@ -2732,14 +3063,19 @@ okay
 http://spec.commonmark.org/0.28/#example-148
 
 <!DOCTYPE html>
-| ^^^^^^^ meta.disable-markdown meta.tag.sgml.doctype.html keyword.declaration.doctype.html
+| ^^^^^^^ meta.disable-markdown meta.tag.sgml.doctype.html
+okay
+| <- - meta.disable-markdown
+
+<!ENTITY html>
+| ^^^^^^^^^^^^^ meta.disable-markdown
 okay
 | <- - meta.disable-markdown
 
 http://spec.commonmark.org/0.28/#example-149
 
 <![CDATA[
-| ^^^^^^^^ meta.disable-markdown meta.tag.sgml.cdata.html
+| ^^^^^^^^ meta.disable-markdown meta.tag.sgml
 function matchwo(a,b)
 {
   if (a < b && a < 0) then {
@@ -2751,7 +3087,7 @@ function matchwo(a,b)
   }
 }
 ]]>
-|^ meta.disable-markdown meta.tag.sgml.cdata.html
+|^ meta.disable-markdown meta.tag.sgml
 okay
 | <- - meta.disable-markdown
 
@@ -2775,11 +3111,18 @@ okay
  (/ 10 3.0)
 |<- source.clojure
 |^^^^^^^^^^ source.clojure
-| ^ variable.function
-|   ^^ meta.number
-|      ^^^ meta.number
 ```
 |^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
+
+```cmd
+
+| <- markup.raw.code-fence.dosbatch.markdown-gfm source.dosbatch
+```
+
+```css
+
+| <- markup.raw.code-fence.css.markdown-gfm source.css
+```
 
 ```diff
 + inserted
@@ -2800,9 +3143,8 @@ okay
 ```
 
 ```jsx
-  <Component>
-| <- markup.raw.code-fence.jsx.markdown-gfm source.jsx
-| ^^^^^^^^^^^ source.jsx meta.jsx.js
+
+| <- markup.raw.code-fence.jsx.markdown-gfm
 ```
 
 ```lisp
@@ -2846,9 +3188,8 @@ okay
 ```
 
 ```tsx
-  <Component>
-| <- markup.raw.code-fence.tsx.markdown-gfm source.tsx
-| ^^^^^^^^^^^ markup.raw.code-fence.tsx.markdown-gfm source.tsx meta.jsx.js
+
+| <- markup.raw.code-fence.tsx.markdown-gfm
 ```
 
 ```xml
@@ -2867,8 +3208,7 @@ okay
 |^^^^^ meta.code-fence.definition.begin.sql
 |  ^^^ constant.other.language-name
 SELECT TOP 10 *
-|^^^^^^^^^^^^^^^ markup.raw.code-fence.sql
-|^^^^^^^^^ keyword.other.DML.sql
+|^^^^^^^^^^^^^^^ markup.raw.code-fence.sql source.sql
 FROM TableName
 ```
 |^^ meta.code-fence.definition.end.sql punctuation.definition.raw.code-fence.end - markup
@@ -2879,7 +3219,7 @@ FROM TableName
 |  ^^^^^^ constant.other.language-name
 def function():
     pass
-|   ^^^^ keyword.control.flow.pass.python
+|   ^^^^ keyword.control.flow
 unclosed_paren = (
 |                ^ meta.group.python punctuation.section.group.begin.python
 ```
@@ -2948,17 +3288,17 @@ end
 |^ constant.character.escape
 
   -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - keyword - variable
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  - constant - keyword - variable
 
     -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
-|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.raw - constant - keyword - variable - punctuation
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw - constant - keyword - variable - punctuation
 
 >  -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level - constant - keyword - variable
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - keyword - variable
 
 > > -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
-| ^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
-|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level - constant - keyword - variable
+| ^ markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - keyword - variable
 
 \<div>
 |<- constant.character.escape
@@ -2989,31 +3329,41 @@ link with a single underscore inside the text : [@_test](http://example.com)
 |            ^^^^^ - meta.link
 
   [001]: https://en.wikipedia.org/wiki/Root-mean-square_deviation "Wikipedia - RMSE"
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.link.reference.def
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.link.reference.def.markdown
 1. another list item
 
 [foo]: /url "title"
-|^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
 |    ^ punctuation.separator.key-value
 |      ^^^^ markup.underline.link
-|           ^^^^^^^ string.other.link.description.title
+|           ^^^^^^^ string.quoted.double
 
 [foo]
 |<- meta.link.reference punctuation.definition.link.begin
 |^^^ meta.paragraph meta.link.reference
 |   ^ meta.link.reference punctuation.definition.link.end
 
+This is literal [Foo*bar\]] but [ref][Foo*bar\]]
+|               ^^^^^^^^^^^ meta.link.reference.description.markdown
+|               ^ punctuation.definition.link.begin.markdown
+|                ^^^^^^^ - constant
+|                       ^^ constant.character.escape.markdown
+|                         ^ punctuation.definition.link.end.markdown
+|                               ^^^^^ meta.link.reference.description.markdown
+|                                    ^^^^^^^^^^^ meta.link.reference.metadata.markdown
+
  [Foo*bar\]]:my_(url) 'title (with parens)'
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
-|^ punctuation.definition.constant.begin
-| ^^^^^^^^^ entity.name.reference.link - punctuation
-|          ^ punctuation.definition.constant.end
-|           ^ punctuation.separator.key-value
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
+|^ punctuation.definition.reference.begin.markdown
+| ^^^^^^^^^ entity.name.reference.link.markdown - punctuation
+|          ^ punctuation.definition.reference.end.markdown
+|           ^ punctuation.separator.key-value.markdown
 |            ^^^^^^^^ markup.underline.link
-|                     ^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                    ^ - markup - string
+|                     ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 
  [foo]: <>
-|^^^^^^^^^ meta.link.reference.def
+|^^^^^^^^^ meta.link.reference.def.markdown
 |     ^ punctuation.separator.key-value
 |       ^ punctuation.definition.link.begin
 |        ^ punctuation.definition.link.end
@@ -3048,16 +3398,12 @@ Additional {++[Link](https://foo.bar)++} and {++![Image](images/image.png)++}.
 |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.critic.addition.markdown
 |                                                                            ^^ - markup.critic
 |          ^^^ punctuation.definition.critic.begin.markdown
-|             ^ meta.link.inline.markdown punctuation.definition.link.begin.markdown 
-|              ^^^^ meta.link.inline.description.markdown
-|                  ^ meta.link.inline.markdown punctuation.definition.link.end.markdown
-|                   ^^^^^^^^^^^^^^^^^ meta.link.inline.markdown
+|             ^^^^^^ meta.link.inline.description.markdown
+|                   ^^^^^^^^^^^^^^^^^ meta.link.inline.metadata.markdown
 |                                    ^^^ punctuation.definition.critic.end.markdown
 |                                            ^^^ punctuation.definition.critic.begin.markdown
-|                                               ^^ meta.image.inline.markdown punctuation.definition.image.begin.markdown
-|                                                 ^^^^^ meta.image.inline.description.markdown
-|                                                      ^ meta.image.inline.markdown punctuation.definition.image.end.markdown
-|                                                       ^^^^^^^^^^^^^^^^^^ meta.image.inline.markdown
+|                                               ^^^^^^^^ meta.image.inline.description.markdown
+|                                                       ^^^^^^^^^^^^^^^^^^ meta.image.inline.metadata.markdown
 |                                                                         ^^^ punctuation.definition.critic.end.markdown
 
 This is a {-- deletion --} and {~~substitute~>with~~striked~~text~~} or {~~~~old~~~>~~new~~~~}.
