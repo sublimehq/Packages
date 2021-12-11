@@ -590,6 +590,15 @@ myobj.method().attribute
 #    ^ punctuation.accessor.dot
 #      ^^^^^ variable.function
 
+'foo'.and()
+#    ^^^^^^ meta.function-call
+#    ^ punctuation.accessor.dot
+#     ^^^ invalid.illegal.name.python
+
+'foo'and()
+#    ^^^ keyword.operator.logical.python
+#       ^^ meta.sequence.tuple.empty.python
+
 func()(1, 2)
 # <- meta.function-call
 #^^^^^^^^^^^ meta.function-call
@@ -1723,6 +1732,11 @@ mytuple = ("this", 'is', 4, tuple)
 also_a_tuple = ()[-1]
 #              ^^ meta.sequence.tuple.empty.python
 #                ^^^^ meta.item-access
+
+tuple_expression = ()and()
+#                  ^^ meta.sequence.tuple.empty.python
+#                    ^^^ keyword.operator.logical.python
+#                       ^^ meta.sequence.tuple.empty.python
 
 not_a_tuple = (a = 2, b += 3)
 #             ^^^^^^^^^^^^^^^ meta.sequence
