@@ -186,6 +186,51 @@
         >
         ## <- meta.tag.script.end.html punctuation.definition.tag.end.html
 
+        <!-- XHTML: wrap scripts in CDATA -->
+        <script><![CDATA[var i = 0;]]></script>
+        ## ^^^^^ meta.tag.script.begin.html - source
+        ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##                            ^^^^^^^^^ meta.tag.script.end.html
+        ##      ^^^ punctuation.definition.tag.begin.html
+        ##         ^^^^^ keyword.declaration.cdata.html
+        ##              ^ punctuation.definition.tag.begin.html
+        ##               ^^^^^^^^^^ source.js.embedded.html
+        ##                         ^^^ punctuation.definition.tag.end.html
+
+        <script>
+            <![CDATA[
+        ## ^ - meta.tag - punctuation - source
+        ##  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##  ^^^ punctuation.definition.tag.begin.html
+        ##     ^^^^^ keyword.declaration.cdata.html
+        ##          ^ punctuation.definition.tag.begin.html
+                var i = 0;
+        ##      ^^^^^^^^^^ meta.tag.sgml.cdata.html source.js.embedded.html
+            ]]>
+        ## ^ meta.tag.sgml.cdata.html source.js.embedded.html
+        ##  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+        ##     ^ - meta.tag - punctuation - source
+        </script>
+
+        <script type="text/html">
+            <![CDATA[
+        ## ^ - meta.tag - punctuation - source
+        ##  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##  ^^^ punctuation.definition.tag.begin.html
+        ##     ^^^^^ keyword.declaration.cdata.html
+        ##          ^ punctuation.definition.tag.begin.html
+                var i = 0;
+        ##    ^^^^^^^^^^^^^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+            ]]>
+        ## ^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+        ##  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+        ##     ^ - meta.tag - punctuation - source
+        </script>
+
+        <script />
+        ##        ^ - source.js.embedded.html
+        ## ^ meta.tag.script entity.name.tag.script
+
         <style type="text/css"> h1 {} </style>
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
         ##                     ^^^^^^^ source.css.embedded.html - meta.tag - comment
@@ -292,6 +337,35 @@
         >
         ## <- meta.tag.style.end.html punctuation.definition.tag.end.html
 
+        <!-- XHTML: wrap style in CDATA -->
+        <style><![CDATA[h1 {}]]></style>
+        ## ^^^^ meta.tag.style.begin.html - source
+        ##     ^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##                      ^^^^^^^^ meta.tag.style.end.html
+        ##     ^^^ punctuation.definition.tag.begin.html
+        ##        ^^^^^ keyword.declaration.cdata.html
+        ##             ^ punctuation.definition.tag.begin.html
+        ##              ^^^^^ source.css.embedded.html
+        ##                   ^^^ punctuation.definition.tag.end.html
+        ##                      ^^ punctuation.definition.tag.begin.html
+        ##                        ^^^^^ entity.name.tag.style.html
+        ##                             ^ punctuation.definition.tag.end.html
+
+        <style>
+            <![CDATA[
+        ## ^ - meta.tag - punctuation - source
+        ##  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##  ^^^ punctuation.definition.tag.begin.html
+        ##     ^^^^^ keyword.declaration.cdata.html
+        ##          ^ punctuation.definition.tag.begin.html
+                h1 {}
+        ##     ^^^^^^^ meta.tag.sgml.cdata.html source.css.embedded.html
+            ]]>
+        ## ^ meta.tag.sgml.cdata.html source.css.embedded.html
+        ##  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+        ##     ^ - meta.tag - punctuation - source
+        </style>
+
         </style>
         ##^^^^^^ meta.tag.style.end.html
         ##^^^^^ entity.name.tag.style.html
@@ -300,9 +374,7 @@
         <style />
         ##       ^ - source.css.embedded.html
         ## ^ meta.tag.style entity.name.tag.style
-        <script />
-        ##        ^ - source.js.embedded.html
-        ## ^ meta.tag.script entity.name.tag.script
+
     </head>
     <body>
 
