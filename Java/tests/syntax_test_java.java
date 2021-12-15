@@ -554,7 +554,8 @@ import *. ;
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java
-//      ^^^ - meta.import - meta.path
+//      ^ meta.import - meta.path
+//       ^^ - meta.import - meta.path
 //     ^ variable.language.wildcard.asterisk.java
 //      ^ invalid.illegal.expect-semicolon.java
 //        ^ punctuation.terminator.java
@@ -563,7 +564,8 @@ import *.* ;
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java
-//      ^^^^ - meta.import - meta.path
+//      ^^ meta.import - meta.path
+//        ^^ - meta.import - meta.path
 //     ^ variable.language.wildcard.asterisk.java
 //      ^^ invalid.illegal.expect-semicolon.java
 //         ^ punctuation.terminator.java
@@ -572,7 +574,8 @@ import *.a ;
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java
-//      ^^^^ - meta.import - meta.path
+//      ^^ meta.import - meta.path
+//        ^^ - meta.import - meta.path
 //     ^ variable.language.wildcard.asterisk.java
 //      ^^ invalid.illegal.expect-semicolon.java
 //         ^ punctuation.terminator.java
@@ -581,7 +584,8 @@ import a . * . b ;
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^ meta.import.java meta.path.java
-//          ^^^^^^ - meta.import - meta.path
+//          ^^^^ meta.import - meta.path
+//              ^^ - meta.import - meta.path
 //     ^ variable.namespace.java
 //      ^^^ - variable
 //       ^ punctuation.accessor.dot.java

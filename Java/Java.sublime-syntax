@@ -572,7 +572,7 @@ contexts:
   import-wildcard:
     - match: \*
       scope: variable.language.wildcard.asterisk.java
-      pop: 3 # skip meta-import
+      pop: 2
       set: import-expect-terminator
 
   import-expect-terminator:
