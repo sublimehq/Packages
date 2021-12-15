@@ -2121,11 +2121,21 @@ contexts:
       pop: true
     - match: ','
       scope: punctuation.separator.property.cs
+    - match: ({{name}})\s*(\.)
+      captures:
+        1: variable.other.member.cs
+        2: punctuation.accessor.dot.cs
     - match: '({{name}})\s*(:)?'
       captures:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
-      push: line_of_code_in_no_semicolon
+      push: maybe_nested_pattern_matching_object
+
+  maybe_nested_pattern_matching_object:
+    - match: (?=\{)
+      push: maybe_pattern_matching_object
+    - match: (?=\S)
+      set: line_of_code_in_no_semicolon
 
   for_var_assignment:
     - match: '='

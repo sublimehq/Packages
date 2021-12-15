@@ -44,3 +44,29 @@ public readonly record struct Person(string Name);
 ///                                         ^^^^ variable.parameter
 ///                                             ^ punctuation.section.parameters.end
 ///                                              ^ punctuation.terminator.statement
+
+if (obj is Person { Address: { City: "Seattle" } })
+///     ^^ keyword.operator.reflection
+///        ^^^^^^ support.type
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous
+///                 ^^^^^^^ variable.other.member
+///                        ^ keyword.operator.assignment
+///                          ^ punctuation.section.block.begin
+///                            ^^^^ variable.other.member
+///                                ^ keyword.operator.assignment
+///                                  ^^^^^^^^^ string.quoted.double
+///                                            ^ punctuation.section.block.end
+///                                              ^ punctuation.section.block.end
+    Console.WriteLine("Seattle");
+
+if (obj is Person { Address.City: "Seattle" }) // Extended property pattern
+///     ^^ keyword.operator.reflection
+///        ^^^^^^ support.type
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous
+///                 ^^^^^^^ variable.other.member
+///                        ^ punctuation.accessor.dot
+///                         ^^^^ variable.other.member
+///                             ^ keyword.operator.assignment
+///                               ^^^^^^^^^ string.quoted.double
+///                                         ^ punctuation.section.block.end
+    Console.WriteLine("Seattle");
