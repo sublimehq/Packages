@@ -70,3 +70,35 @@ if (obj is Person { Address.City: "Seattle" }) // Extended property pattern
 ///                               ^^^^^^^^^ string.quoted.double
 ///                                         ^ punctuation.section.block.end
     Console.WriteLine("Seattle");
+
+static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Day: 19 or 20 or 21 };
+///^^^ storage.modifier
+///    ^^^^ storage.type
+///         ^^^^^^^^^^^^^^^ meta.method entity.name.function
+///                        ^ meta.method.parameters punctuation.section.parameters.begin
+///                         ^^^^^^^^ meta.method.parameters support.type
+///                                  ^^^^ meta.method.parameters variable.parameter
+///                                      ^ meta.method.parameters punctuation.section.parameters.end
+///                                        ^^ meta.method keyword.declaration.function.arrow
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+///                                           ^^^^ variable.other
+///                                                ^^ keyword.operator.reflection
+///                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern meta.class.body.anonymous meta.block
+///                                                   ^ punctuation.section.block.begin
+///                                                     ^^^^ variable.other.member
+///                                                         ^ keyword.operator.assignment
+///                                                           ^^^^ meta.number.integer.decimal constant.numeric.value
+///                                                               ^ punctuation.separator.property
+///                                                                 ^^^^^ variable.other.member
+///                                                                      ^ keyword.operator.assignment
+///                                                                        ^ meta.number.integer.decimal constant.numeric.value
+///                                                                         ^ punctuation.separator.property
+///                                                                           ^^^ variable.other.member
+///                                                                              ^ keyword.operator.assignment
+///                                                                                ^^ meta.number.integer.decimal constant.numeric.value
+///                                                                                   ^^ keyword.operator.logical
+///                                                                                      ^^ meta.number.integer.decimal constant.numeric.value
+///                                                                                         ^^ keyword.operator.logical
+///                                                                                            ^^ meta.number.integer.decimal constant.numeric.value
+///                                                                                               ^ punctuation.section.block.end
+///                                                                                                ^ punctuation.terminator.statement

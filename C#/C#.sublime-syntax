@@ -1149,7 +1149,7 @@ contexts:
     - match: \b(as|is(?:\s+not)?)\s+
       captures:
         1: keyword.operator.reflection.cs
-      push: [maybe_pattern_matching_object, type_no_space]
+      push: [maybe_pattern_matching_object, type_no_space_pop_if_anonymous]
     - match: \b(checked|unchecked)\b
       scope: keyword.other.cs
       push:
@@ -1192,31 +1192,33 @@ contexts:
         1: keyword.operator.with.cs
         2: meta.instance.cs meta.braces.cs punctuation.section.braces.begin.cs
       push: initializer_constructor #maybe_an_anonymous_class
-    - match: \b(and|not)\s+
+    - match: \b(and|not|or)\s+
       captures:
         1: keyword.operator.logical.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
+
+  inside_anonymous_class:
+    - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.class.cs
+    - match: '({{name}})\s*(=)'
+      captures:
+        1: variable.other.member.cs
+        2: keyword.operator.assignment.cs
+      push: line_of_code_in
+    - match: (?=\S)
+      push: line_of_code_in
 
   maybe_an_anonymous_class:
     - meta_content_scope: meta.instance.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
       # Found an anonymous class
-      set:
-        - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - match: ','
-          scope: punctuation.separator.class.cs
-        - match: '({{name}})\s*(=)'
-          captures:
-            1: variable.other.member.cs
-            2: keyword.operator.assignment.cs
-          push: line_of_code_in
-        - match: (?=\S)
-          push: line_of_code_in
+      set: inside_anonymous_class
     - match: (?=[^{\s])
       # This is not an anonymous class
       set:
@@ -1251,6 +1253,11 @@ contexts:
           scope: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_arguments, arguments]
         - include: type
+
+  type_no_space_pop_if_anonymous:
+    - match: (?=\{)
+      pop: true
+    - include: type_no_space
 
   line_of_code_in:
     - include: lambdas
