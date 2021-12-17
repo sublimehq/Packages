@@ -43,7 +43,10 @@ contexts:
 
   block-comments:
     - meta_include_prototype: false
-    - match: /\*+
+    - match: /\*\*+
+      scope: punctuation.definition.comment.begin.sql
+      push: inside-comment-docblock
+    - match: /\*
       scope: punctuation.definition.comment.begin.sql
       push: inside-comment-block
 
@@ -53,15 +56,22 @@ contexts:
     - match: \n
       pop: 1
 
-  inside-comment-block:
+  inside-comment-docblock:
     - meta_include_prototype: false
-    - meta_scope: comment.block.sql
+    - meta_scope: comment.block.documentation.sql
     - match: \*+/
       scope: punctuation.definition.comment.end.sql
       pop: 1
     - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.sql
+
+  inside-comment-block:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.sql
+    - match: \*+/
+      scope: punctuation.definition.comment.end.sql
+      pop: 1
 
   string-escape:
     - meta_include_prototype: false
