@@ -3,7 +3,8 @@
 <dict>
 	<key>scope</key>
 	<string>
-		variable.declaration.go - meta.block.go
+		variable.other.constant.declaration.go - meta.block.go,
+		variable.other.readwrite.declaration.go - meta.block.go
 	</string>
 	<key>settings</key>
 	<dict>

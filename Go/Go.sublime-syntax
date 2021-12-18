@@ -286,7 +286,7 @@ contexts:
         - match: \b_\b
           scope: variable.language.blank.go
         - match: '{{ident}}'
-          scope: variable.declaration.go
+          scope: variable.other.readwrite.declaration.go
         - include: match-comma
         - include: pop-before-nonblank
 
@@ -802,13 +802,13 @@ contexts:
             - match: \b_\b(?={{noise}},)
               scope: variable.language.blank.go
             - match: '{{ident}}(?={{noise}},)'
-              scope: variable.declaration.go
+              scope: variable.other.readwrite.declaration.go
 
             - match: \b_\b
               scope: variable.language.blank.go
               push: pop-var-type-and-or-assignment
             - match: '{{ident}}'
-              scope: variable.declaration.go
+              scope: variable.other.readwrite.declaration.go
               push: pop-var-type-and-or-assignment
 
             - include: match-any
@@ -819,13 +819,13 @@ contexts:
         - match: \b_\b(?={{noise}},)
           scope: variable.language.blank.go
         - match: '{{ident}}(?={{noise}},)'
-          scope: variable.declaration.go
+          scope: variable.other.readwrite.declaration.go
 
         - match: \b_\b
           scope: variable.language.blank.go
           set: pop-var-type-and-or-assignment
         - match: '{{ident}}'
-          scope: variable.declaration.go
+          scope: variable.other.readwrite.declaration.go
           set: pop-var-type-and-or-assignment
 
         - include: pop-before-nonblank

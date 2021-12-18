@@ -1633,7 +1633,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     func _() {
         var iota = 0
 //      ^^^ keyword.declaration.var.go
-//          ^^^^ variable.declaration.go
+//          ^^^^ variable.other.readwrite.declaration.go
 //               ^ keyword.operator.assignment.go
 //                 ^ meta.number.integer.decimal.go constant.numeric.value.go
         var _ = iota
@@ -1656,7 +1656,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //       ^^^ keyword.declaration.var.go
     /**/ ident /**/ typ /**/ = /**/ 10 /**/
 //  ^^^^ comment.block.go
-//       ^^^^^ variable.declaration.go
+//       ^^^^^ variable.other.readwrite.declaration.go
 //             ^^^^ comment.block.go
 //                  ^^^ storage.type.go
 //                      ^^^^ comment.block.go
@@ -1667,30 +1667,30 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     var ident, ident = 10, 20
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //           ^ punctuation.separator.go
-//             ^^^^^ variable.declaration.go
+//             ^^^^^ variable.other.readwrite.declaration.go
 
     var ident, ident typ
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //           ^ punctuation.separator.go
-//             ^^^^^ variable.declaration.go
+//             ^^^^^ variable.other.readwrite.declaration.go
 //                   ^^^ storage.type.go
 
     var ident,
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //           ^ punctuation.separator.go
         ident = 10, 20
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 
     var ident,
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //           ^ punctuation.separator.go
         ident typ
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //            ^^^ storage.type.go
 
     /**/ var
@@ -1700,7 +1700,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^ punctuation.section.parens.begin.go
         /**/ ident /**/ typ /**/ = /**/ ident /**/ + /**/ 20 /**/
 //      ^^^^ comment.block.go
-//           ^^^^^ variable.declaration.go
+//           ^^^^^ variable.other.readwrite.declaration.go
 //                 ^^^^ comment.block.go
 //                      ^^^ storage.type.go
 //                          ^^^^ comment.block.go
@@ -1715,7 +1715,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
         /**/ ident /**/ = /**/ ident + 20 /**/
 //      ^^^^ comment.block.go
-//           ^^^^^ variable.declaration.go
+//           ^^^^^ variable.other.readwrite.declaration.go
 //                 ^^^^ comment.block.go
 //                      ^ keyword.operator.assignment.go
 //                        ^^^^ comment.block.go
@@ -1725,10 +1725,10 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                        ^^^^ comment.block.go
 
         ident,
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //           ^ punctuation.separator.go
         ident typ = ident, ident
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //            ^^^ storage.type.go
 //                ^ keyword.operator.assignment.go
 //                  ^^^^^ variable.other.go
@@ -1740,21 +1740,21 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ## Short Variable Declaration
 
     ident := expr
-//  ^^^^^ variable.declaration.go
+//  ^^^^^ variable.other.readwrite.declaration.go
 //        ^^ keyword.operator.assignment.go
 //           ^^^^ variable.other.go
 
     ident, ident := expr
-//  ^^^^^ variable.declaration.go
+//  ^^^^^ variable.other.readwrite.declaration.go
 //       ^ punctuation.separator.go
-//         ^^^^^ variable.declaration.go
+//         ^^^^^ variable.other.readwrite.declaration.go
 //               ^^ keyword.operator.assignment.go
 //                  ^^^^ variable.other.go
 
     ident, ident :=
-//  ^^^^^ variable.declaration.go
+//  ^^^^^ variable.other.readwrite.declaration.go
 //       ^ punctuation.separator.go
-//         ^^^^^ variable.declaration.go
+//         ^^^^^ variable.other.readwrite.declaration.go
 //               ^^ keyword.operator.assignment.go
     expr
 //  ^^^^ variable.other.go
@@ -2817,12 +2817,12 @@ every type individually.
 
     var ident typ
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //            ^^^ storage.type.go -support
 
     var ident int
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go
+//      ^^^^^ variable.other.readwrite.declaration.go
 //            ^^^ storage.type.go support.type.builtin.go
 
     ident.(typ)
@@ -2885,7 +2885,7 @@ every type individually.
 
     var make
 //  ^^^ keyword.declaration.var.go
-//      ^^^^ variable.declaration.go -support
+//      ^^^^ variable.other.readwrite.declaration.go -support
 
     new(typ, ident)
 //  ^^^ variable.function.go support.function.builtin.go
@@ -2930,7 +2930,7 @@ every type individually.
 
     var new
 //  ^^^ keyword.declaration.var.go
-//      ^^^ variable.declaration.go -support
+//      ^^^ variable.other.readwrite.declaration.go -support
 
 // ## Other Functions
 
@@ -2963,7 +2963,7 @@ every function individually.
 
     var close
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.declaration.go -support
+//      ^^^^^ variable.other.readwrite.declaration.go -support
 
 
 /*
