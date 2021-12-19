@@ -824,6 +824,8 @@ contexts:
           scope: punctuation.separator.slice.python
         - include: expression-in-a-group
     # indirect function call following attribute access
+    - match: (?={{illegal_names}})
+      pop: true
     - include: function-calls
     # arbitrary attribute access
     - match: '\s*(\.)'
