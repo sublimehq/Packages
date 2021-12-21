@@ -29,8 +29,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bpython(?:\d(?:\.\d)?)?\b                        # shebang
-  | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d)?)?\b .*? -\*-  # editorconfig
+    ^ \#! .* \bpython(?:\d(?:\.\d+)?)?\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d+)?)?\b .*? -\*-  # editorconfig
   )
 
 variables:
@@ -171,7 +171,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.python
     # Note: Keep sync with first_line_match!
-    - match: \bpython(?:\d(?:\.\d)?)?\b
+    - match: \bpython(?:\d(?:\.\d+)?)?\b
       scope: constant.language.shebang.python
     - match: \n
       pop: true
