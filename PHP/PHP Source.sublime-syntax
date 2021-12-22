@@ -446,7 +446,7 @@ contexts:
     - match: |-
         (?xi)(\\)?\b(
           AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError |
-          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BadFunctionCallException |
+          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BackedEnum | BadFunctionCallException |
           BadMethodCallException | CachingIterator | Collator | CompileError | Countable | CURLFile | CURLStringFile |
           DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
           DivisionByZeroError | DOMAttr | DOMAttribute | DOMCharacterData | DOMComment | DOMDocument |
@@ -474,7 +474,7 @@ contexts:
           SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
           SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Stringable | Swish | SwishResult |
           SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError | UnderflowException |
-          UnexpectedValueException | UnhandledMatchError | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
+          UnexpectedValueException | UnhandledMatchError | UnitEnum | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
           finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy | tidyNode
         )\b
       captures:
