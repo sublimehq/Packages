@@ -541,6 +541,23 @@ contexts:
     - include: jstl-function-calls
     - include: jstl-variables
 
+  jstl-function-calls:
+    - match: ({{id}})(:)({{id}}?)(?=\()
+      captures:
+        0: meta.function-call.identifier.jstl meta.path.jstl
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
+        3: variable.function.jstl
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.jstl
+          set: jstl-function-call-arguments
+
+  jstl-function-call-arguments:
+    - meta_scope: meta.function-call.arguments.jstl meta.group.jstl
+    - include: jstl-group-body
+
   jstl-groups:
     - match: \(
       scope: punctuation.section.group.begin.jstl
@@ -629,23 +646,6 @@ contexts:
   jstl-string-escapes:
     - match: \\.
       scope: constant.character.escape.jstl
-
-  jstl-function-calls:
-    - match: ({{id}})(:)({{id}}?)(?=\()
-      captures:
-        0: meta.function-call.identifier.jstl meta.path.jstl
-        1: variable.namespace.jstl
-        2: punctuation.accessor.namespace.jstl
-        3: variable.function.jstl
-      push:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.jstl
-          set: jstl-function-call-arguments
-
-  jstl-function-call-arguments:
-    - meta_scope: meta.function-call.arguments.jstl meta.group.jstl
-    - include: jstl-group-body
 
   jstl-variables:
     - match: '{{implicit_objects}}'
