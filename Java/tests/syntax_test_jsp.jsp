@@ -773,7 +773,5 @@
 //           ^ punctuation.separator.decimal.jstl
 //               ^^^^^^ meta.number.float.decimal.jstl constant.numeric.value.jstl
 //                ^ punctuation.separator.decimal.jstl
-
-    ${}
 </body>
 </html>
