@@ -519,19 +519,20 @@ contexts:
 
   jstl-embedded:
     - match: \$\{
-      scope: punctuation.section.embedded.begin.jsp
+      scope: punctuation.section.embedded.begin.jstl
       push: jstl-embedded-body
 
   jstl-embedded-body:
-    - meta_scope: meta.embedded.jsp
+    - meta_scope: meta.embedded.expression.jstl
+    - meta_content_scope: source.jstl.embedded.jsp
     - match: \}
-      scope: punctuation.section.embedded.end.jsp
+      scope: punctuation.section.embedded.end.jstl
       pop: 1
     - include: jstl-expressions
 
   jstl-expressions:
-    - include: jsp-strings-double-quoted
-    - include: jsp-strings-single-quoted
+    - include: jstl-strings-double-quoted
+    - include: jstl-strings-single-quoted
     - include: jstl-groups
     - include: jstl-item-access
     - include: jstl-operators
@@ -542,40 +543,40 @@ contexts:
 
   jstl-groups:
     - match: \(
-      scope: punctuation.section.group.begin.jsp
+      scope: punctuation.section.group.begin.jstl
       push: jstl-group-body
 
   jstl-group-body:
-    - meta_scope: meta.group.jsp
+    - meta_scope: meta.group.jstl
     - match: \)
-      scope: punctuation.section.group.end.jsp
+      scope: punctuation.section.group.end.jstl
       pop: 1
     - include: jstl-expressions
 
   jstl-item-access:
     - match: \[
-      scope: punctuation.section.brackets.begin.jsp
+      scope: punctuation.section.brackets.begin.jstl
       push: jstl-item-access-body
 
   jstl-item-access-body:
-    - meta_scope: meta.brackets.jsp
+    - meta_scope: meta.brackets.jstl
     - match: \]
-      scope: punctuation.section.brackets.end.jsp
+      scope: punctuation.section.brackets.end.jstl
       pop: 1
     - include: jstl-expressions
 
   jstl-constants:
     - match: (?:false|true){{break}}
-      scope: constant.language.boolean.jsp
+      scope: constant.language.boolean.jstl
     - match: null{{break}}
-      scope: constant.language.null.jsp
+      scope: constant.language.null.jstl
 
   jstl-constant:
     - match: (?:false|true){{break}}
-      scope: constant.language.boolean.jsp
+      scope: constant.language.boolean.jstl
       pop: 1
     - match: null{{break}}
-      scope: constant.language.null.jsp
+      scope: constant.language.null.jstl
       pop: 1
 
   jstl-numbers:
@@ -590,68 +591,98 @@ contexts:
           | {{dec_exponent}}
         )
         | (\.) {{dec_digit}}+ (?:{{dec_exponent}})?
-      scope: meta.number.float.decimal.java
+      scope: meta.number.float.decimal.jstl
       captures:
-        0: constant.numeric.value.java
-        1: punctuation.separator.decimal.java
-        2: punctuation.separator.decimal.java
+        0: constant.numeric.value.jstl
+        1: punctuation.separator.decimal.jstl
+        2: punctuation.separator.decimal.jstl
     # decimal integers
     - match: '{{dec_digit}}+'
-      scope: meta.number.integer.decimal.java constant.numeric.value.java
+      scope: meta.number.integer.decimal.jstl constant.numeric.value.jstl
+
+  jstl-strings-double-quoted:
+    - match: \"
+      scope: punctuation.definition.string.begin.jstl
+      push: jstl-strings-double-quoted-content
+
+  jstl-strings-double-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.jstl string.quoted.double.jstl
+    - match: \"
+      scope: punctuation.definition.string.end.jstl
+      pop: 1
+    - include: jstl-string-escapes
+
+  jstl-strings-single-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.jstl
+      push: jstl-strings-single-quoted-content
+
+  jstl-strings-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.jstl string.quoted.single.jstl
+    - match: \'
+      scope: punctuation.definition.string.end.jstl
+      pop: 1
+    - include: jstl-string-escapes
+
+  jstl-string-escapes:
+    - match: \\.
+      scope: constant.character.escape.jstl
 
   jstl-function-calls:
     - match: ({{id}})(:)({{id}}?)(?=\()
       captures:
-        0: meta.function-call.identifier.jsp meta.path.jsp
-        1: variable.namespace.jsp
-        2: punctuation.accessor.namespace.jsp
-        3: variable.function.jsp
+        0: meta.function-call.identifier.jstl meta.path.jstl
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
+        3: variable.function.jstl
       push:
         - meta_include_prototype: false
         - match: \(
-          scope: punctuation.section.group.begin.jsp
+          scope: punctuation.section.group.begin.jstl
           set: jstl-function-call-arguments
 
   jstl-function-call-arguments:
-    - meta_scope: meta.function-call.arguments.jsp meta.group.jsp
+    - meta_scope: meta.function-call.arguments.jstl meta.group.jstl
     - include: jstl-group-body
 
   jstl-variables:
     - match: '{{implicit_objects}}'
-      scope: support.variable.jsp
+      scope: support.variable.jstl
     - match: ({{id}}?)(\.)
       captures:
-        1: variable.namespace.jsp
-        2: punctuation.accessor.namespace.jsp
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
       push: jstl-qualified-variable
     - match: '{{id}}'
-      scope: variable.other.jsp
+      scope: variable.other.jstl
 
   jstl-qualified-variable:
-    - meta_scope: meta.path.jsp
+    - meta_scope: meta.path.jstl
     - include: jstl-constant
     - match: ({{id}}?)(\.)
       captures:
-        1: variable.namespace.jsp
-        2: punctuation.accessor.namespace.jsp
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
     - match: '{{id}}'
-      scope: variable.other.jsp
+      scope: variable.other.jstl
       pop: 1
 
   jstl-operators:
     - match: (?:div|mod){{break}}
-      scope: keyword.operator.arithmetic.jsp
+      scope: keyword.operator.arithmetic.jstl
     - match: (?:lt|gt|le|ge|eq|ne){{break}}
-      scope: keyword.operator.comparison.jsp
+      scope: keyword.operator.comparison.jstl
     - match: (?:and|or|not|empty){{break}}
-      scope: keyword.operator.logical.jsp
+      scope: keyword.operator.logical.jstl
     - match: '[-+*/%]'
-      scope: keyword.operator.arithmetic.jsp
+      scope: keyword.operator.arithmetic.jstl
     - match: '==|!=|<=|>=|<|>'
-      scope: keyword.operator.comparison.jsp
+      scope: keyword.operator.comparison.jstl
     - match: '!|&&|\|\|'
-      scope: keyword.operator.logical.jsp
+      scope: keyword.operator.logical.jstl
     - match: '[?:]'
-      scope: keyword.operator.ternary.jsp
+      scope: keyword.operator.ternary.jstl
     - match: ','
-      scope: punctuation.separator.comma.jsp
+      scope: punctuation.separator.comma.jstl
