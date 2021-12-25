@@ -578,6 +578,10 @@ contexts:
     - include: else-pop
 
   function-parameter-binding-name:
+    - match: '{{dollar_identifier}}'
+      scope: meta.binding.name.js variable.parameter.function.js
+      captures:
+        1: punctuation.dollar.js
     - match: '{{non_reserved_identifier}}'
       scope: meta.binding.name.js variable.parameter.function.js
     - match: '{{identifier_name}}'
