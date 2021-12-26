@@ -125,6 +125,28 @@
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
 
+        <script type=application/json>
+            {
+        ##  ^ source.json.embedded.html meta.mapping.json punctuation.section.mapping.begin.json
+                "key": "value",
+        ##      ^^^^^ source.json.embedded.html meta.mapping.key.json
+        ##             ^^^^^^^ source.json.embedded.html meta.mapping.value.json
+            }
+        ##  ^ source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
+        </script>
+
+        <script type="whatever+json">
+            <![CDATA[
+                {
+        ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.begin.json
+                    "key": "value",
+        ##          ^^^^^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.key.json
+        ##                 ^^^^^^^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.value.json
+                }
+        ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
+            ]]>
+        </script>
+
         <script type = "text/html"> <!--
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ##      ^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
