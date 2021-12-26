@@ -1834,9 +1834,9 @@ contexts:
       captures:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
-
+      pop: true
     - match: (?=\[)
-      push: computed-property-name
+      set: computed-property-name
 
     - include: else-pop
 
