@@ -43,6 +43,9 @@ variables:
       | text/livescript
     )
 
+  # https://mimesniff.spec.whatwg.org/#json-mime-type
+  json_mime_type: (?i:application/|text/|.+\+)json
+
   # Embedded script and style syntaxes may be wrapped into html comments for
   # historical reasons. The following patterns match them, while maintaining
   # correct boundaries of embedded source scopes. That's required to enable
@@ -318,7 +321,7 @@ contexts:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?=(?i:application/json{{unquoted_attribute_break}}|'application/json'|"application/json"))
+    - match: (?={{json_mime_type}}{{unquoted_attribute_break}}|'{{json_mime_type}}'|"{{json_mime_type}}")
       set:
         - script-json
         - tag-generic-attribute-meta
