@@ -1719,9 +1719,7 @@ contexts:
         - object-property-name
 
   object-property-name:
-    - match: (?=\[)
-      set: computed-property-name
-
+    - include: computed-property-name
     - include: literal-string
     - include: literal-number
 
@@ -1790,8 +1788,7 @@ contexts:
           pop: true
         - include: string-content
 
-    - match: (?=\[)
-      push: computed-property-name
+    - include: computed-property-name
 
     - include: else-pop
 
@@ -1803,6 +1800,11 @@ contexts:
       pop: true
     - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
+      pop: true
+    - match: (#)({{identifier_name}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: variable.other.readwrite.js
       pop: true
     - match: "'"
       scope: punctuation.definition.string.begin.js
@@ -1830,13 +1832,8 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-    - match: (#)({{identifier_name}})
-      captures:
-        1: punctuation.definition.variable.js
-        2: variable.other.readwrite.js
-      pop: true
-    - match: (?=\[)
-      set: computed-property-name
+
+    - include: computed-property-name
 
     - include: else-pop
 
