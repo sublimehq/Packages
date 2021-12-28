@@ -31,11 +31,19 @@ class MyClass extends TheirClass {
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
+    [w]
+    get other() {}
+//  ^^^ storage.type.accessor.js
+
     #v = 42;
 //  ^ punctuation.definition.variable
 //   ^ variable.other.readwrite
 //     ^ keyword.operator.assignment
 //       ^^ constant.numeric
+
+    #u
+    get other() {}
+//  ^^^ storage.type.accessor.js
 
     f = a => b;
 //  ^ entity.name.function variable.other.readwrite
