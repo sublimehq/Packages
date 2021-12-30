@@ -256,6 +256,7 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
+        - import-assert
         - import-string-or-items
         - import-check-branch
 
@@ -336,6 +337,14 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       push: import-export-alias
+    - include: else-pop
+
+  import-assert:
+    - match: assert{{identifier_break}}
+      scope: keyword.control.import-export.js
+      set:
+        - include: object-literal
+        - include: else-pop
     - include: else-pop
 
   export-meta:
