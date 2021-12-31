@@ -2837,12 +2837,26 @@ import  :B;
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*      ^^ entity.name.module.c++ */
 
+import   "ABC";
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*        ^^^ meta.module.import.c++ string.quoted.double.import.c++ */
+/*       ^ punctuation.definition.string.begin.c++ */
+/*           ^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.c++ */
+
 import   <ABC>;
 /* <- meta.module.c++ keyword.control.module.c++ */
-/*       ^^^^^ string.quoted.other.lt-gt.import.c++ */
+/*        ^^^ meta.module.import.c++ string.quoted.other.lt-gt.import.c++ */
 /*       ^ punctuation.definition.string.begin */
 /*           ^ punctuation.definition.string.end */
 /*            ^ punctuation.terminator.c++ */
+
+import "ABC/BCD.h";
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*      ^^^^^^^^^ meta.module.import.c++ string.quoted.double.import.c++ */
+/*     ^ punctuation.definition.string.begin.c++ */
+/*               ^ punctuation.definition.string.end */
+/*                ^ punctuation.terminator.c++ */
 
 export module ABC:d
 /* <- meta.module.c++ keyword.control.module.c++ */

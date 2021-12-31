@@ -611,12 +611,20 @@ contexts:
       push:
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
-        - match: '(<){{identifier}}(>)'
-          scope: meta.module.import.c++
-          captures:
-            0: string.quoted.other.lt-gt.import.c++
-            1: punctuation.definition.string.begin
-            2: punctuation.definition.string.end
+        - match: '"'
+          scope: punctuation.definition.string.begin.c++
+          push:
+            - meta_scope: meta.module.import.c++ string.quoted.double.import.c++
+            - match: '"'
+              scope: punctuation.definition.string.end.c++
+              pop: true
+        - match: \<
+          scope: punctuation.definition.string.begin.c++
+          push:
+            - meta_scope: meta.module.import.c++ string.quoted.other.lt-gt.import.c++
+            - match: '>'
+              scope: punctuation.definition.string.end.c++
+              pop: true
         - match: ';'
           scope: punctuation.terminator.c++
           pop: true
