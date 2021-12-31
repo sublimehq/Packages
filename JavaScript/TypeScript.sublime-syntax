@@ -155,6 +155,7 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
+        - import-assert
         - import-string-or-items
         - ts-import-type
         - import-check-branch
