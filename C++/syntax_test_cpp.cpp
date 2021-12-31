@@ -2773,3 +2773,109 @@ void sayHi()
 /**
       *
 /*    ^ comment.block.c punctuation.definition.comment.c */
+
+/////////////////////////////////////////////
+// Modules
+/////////////////////////////////////////////
+
+export module A;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*            ^ entity.name.module.c++ */
+/*             ^ punctuation.terminator.c++ */
+
+export  module  A.B;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*      ^^^^^^ keyword.control.module.c++ */
+/*              ^^^ entity.name.module.c++ */
+
+export   module   A:B;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*       ^^^^^^ keyword.control.module.c++ */
+/*                ^^^ entity.name.module.c++ */
+
+module A;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^ entity.name.module.c++ */
+/*      ^ punctuation.terminator.c++ */
+
+module  A.B;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*      ^^^ entity.name.module.c++ */
+
+module   A:B;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*       ^^^ entity.name.module.c++ */
+
+module :private;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^^^ entity.name.module.c++ */
+
+export import A;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*            ^ entity.name.module.c++ */
+/*             ^ punctuation.terminator.c++ */
+
+export import  :B;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*             ^^ entity.name.module.c++ */
+
+export import   <ABC>;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*              ^^^^^ string.quoted.other.lt-gt.import.c++ */
+/*              ^ punctuation.definition.string.begin */
+/*                  ^ punctuation.definition.string.end */
+
+import A;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^ entity.name.module.c++ */
+
+import  :B;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*      ^^ entity.name.module.c++ */
+
+import   <ABC>;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*       ^^^^^ string.quoted.other.lt-gt.import.c++ */
+/*       ^ punctuation.definition.string.begin */
+/*           ^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.c++ */
+
+export module ABC:d
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*            ^^^^^ entity.name.module.c++ */
+
+export import ABC:d
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*            ^^^^^ entity.name.module.c++ */
+
+export {
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^ meta.block.c++ punctuation.section.block.begin.c++ */
+    void test();
+/*  ^^^^ meta.block.c++ storage.type.c */
+/*       ^^^^ meta.block.c++ meta.function.c++ entity.name.function.c++ */
+    void test2();
+/*  ^^^^ meta.block.c++ storage.type.c */
+/*       ^^^^^ meta.block.c++ meta.function.c++ entity.name.function.c++ */
+}
+/* <- meta.block.c++ punctuation.section.block.end.c++ */
+
+export void test3();
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^ storage.type.c */
+/*          ^^^^^ meta.function.c++ entity.name.function.c++ */
+
+export
+/* <- meta.module.c++ keyword.control.module.c++ */
+template <typename T>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+void test4()
+{
+    return;
+}

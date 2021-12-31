@@ -18,6 +18,7 @@ file_extensions:
   - h++
   - inl
   - ipp
+  - ixx
 
 first_line_match: |-
   (?xi:
@@ -69,6 +70,7 @@ variables:
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
+  module_identifier: '(\:?[{{identifier}}.])(\:?[{{identifier}}.])?'
 
   regular: '[^(){}&;*^%=<>-]*'
   regular_plus: '[^(){}&;*^%=<>-]+'
@@ -275,6 +277,7 @@ contexts:
           set: global-modifier
     - include: using-namespace
     - include: namespace
+    - include: module
     - include: keywords-angle-brackets
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
@@ -577,6 +580,60 @@ contexts:
                 - include: preprocessor-global
                 - include: global
             - include: expressions
+
+  module:
+    - match: '\b(export)\s+'
+      scope: meta.module.c++
+      captures:
+        1: keyword.control.module.c++
+      push:
+        - match: ''
+          set:
+            - match: '\}'
+              scope: meta.block.c++ punctuation.section.block.end.c++
+              pop: true
+            - match: '\{'
+              scope: punctuation.section.block.begin.c++
+              push:
+                - meta_scope: meta.block.c++
+                - match: '(?=\})'
+                  pop: true
+                - include: preprocessor-global
+                - include: global
+            - match: '(?=(module|import))'
+              pop: true
+            - match: ''
+              set: global-type
+    - match: '\b(import)\s+'
+      scope: meta.module.c++
+      captures:
+        1: keyword.control.module.c++
+      push:
+        - match: '{{module_identifier}}'
+          scope: meta.module.c++ entity.name.module.c++
+        - match: '(<){{identifier}}(>)'
+          scope: meta.module.import.c++
+          captures:
+            0: string.quoted.other.lt-gt.import.c++
+            1: punctuation.definition.string.begin
+            2: punctuation.definition.string.end
+        - match: ';'
+          scope: punctuation.terminator.c++
+          pop: true
+        - match: (?=\S|$) # safety pop
+          pop: true
+    - match: '\b(module)(\s+)?'
+      scope: meta.module.c++
+      captures:
+        1: keyword.control.module.c++
+      push:
+        - match: '{{module_identifier}}'
+          scope: meta.module.c++ entity.name.module.c++
+        - match: ';'
+          scope: punctuation.terminator.c++
+          pop: true
+        - match: (?=\S|$) # safety pop
+          pop: true
 
   template-common:
     # Exit the template scope if we hit some basic invalid characters. This
