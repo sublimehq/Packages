@@ -19,6 +19,7 @@ file_extensions:
   - inl
   - ipp
   - ixx
+  - cppm
 
 first_line_match: |-
   (?xi:
