@@ -214,12 +214,12 @@ contexts:
 ##[ COMMANDS ]#########################################################
 
   branch-commands:
-    - match: ^\s*(label)\s+(\S+)
+    - match: ^\s*(l|label)\s+(\S+)
       captures:
         0: meta.branch.label.git.rebase
         1: keyword.other.label.git.rebase
         2: constant.language.branch-name.git.commit
-    - match: ^\s*(merge)\s+((-)C)\s+({{hash}})\s+(\S+)
+    - match: ^\s*(m|merge)\s+((-)C)\s+({{hash}})\s+(\S+)
       captures:
         0: meta.branch.merge.git.rebase
         1: keyword.operator.branch.merge.git.rebase
@@ -227,7 +227,7 @@ contexts:
         3: punctuation.definition.variable.git.rebase
         4: constant.other.hash.git.rebase
         5: constant.language.branch-name.git.commit
-    - match: ^\s*(reset)\s+(?:({{hash}})|(\S+))
+    - match: ^\s*(t|reset)\s+(?:({{hash}})|(\S+))
       captures:
         0: meta.branch.reset.git.rebase
         1: keyword.operator.branch.reset.git.rebase

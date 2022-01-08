@@ -76,16 +76,35 @@ a 6746x20 Invalid command and hash # no comment (#403)
 #                                                ^ punctuation.definition.reference.issue.git
 #                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
 #                                                     ^ - meta.subject.git.commit
+l feature/branch-name
+# <- meta.branch.label.git.rebase keyword.other.label.git.rebase
+#^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
+# ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
 label feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
 #^^^^ keyword.other.label.git.rebase
 #     ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+t onto
+# <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
+#^^^^^ meta.branch.reset.git.rebase
+# ^^^^ constant.language.branch-name.git.commit
 reset onto
 # <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
 #^^^^^^^^^ meta.branch.reset.git.rebase
 #^^^^ keyword.operator.branch.reset.git.rebase
 #     ^^^^ constant.language.branch-name.git.commit
+m -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
+# <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
+#                               ^ - meta.branch - comment
+#                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+#                                ^ punctuation.definition.comment.git.rebase
+# <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
+# ^^ variable.parameter.option.git.rebase
+# ^ punctuation.definition.variable.git.rebase
+#    ^^^^^^^ constant.other.hash.git.rebase
+#            ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
 merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
