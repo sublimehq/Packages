@@ -94,7 +94,7 @@ reset onto
 #^^^^^^^^^ meta.branch.reset.git.rebase
 #^^^^ keyword.operator.branch.reset.git.rebase
 #     ^^^^ constant.language.branch-name.git.commit
-m -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
+m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
 #                               ^ - meta.branch - comment

@@ -14,6 +14,7 @@ first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
 variables:
   comment_char: '[#;]'
   hash: \b\h{7,}\b
+  option: (-)[[:alnum:]]+\b
 
 contexts:
 
@@ -219,7 +220,7 @@ contexts:
         0: meta.branch.label.git.rebase
         1: keyword.other.label.git.rebase
         2: constant.language.branch-name.git.commit
-    - match: ^\s*(m|merge)\s+((-)C)\s+({{hash}})\s+(\S+)
+    - match: ^\s*(m|merge)\s+({{option}})\s+({{hash}})\s+(\S+)
       captures:
         0: meta.branch.merge.git.rebase
         1: keyword.operator.branch.merge.git.rebase
@@ -301,7 +302,7 @@ contexts:
         0: meta.shell.git.rebase
 
   cmd-options:
-    - match: (-)[[:alpha:]]
+    - match: '{{option}}'
       scope: variable.parameter.option.git.rebase
       captures:
         1: punctuation.definition.variable.git.rebase
