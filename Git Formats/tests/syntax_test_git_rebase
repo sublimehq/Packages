@@ -116,6 +116,10 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # ^ keyword.operator.commit.fixup
   fixup d284bb2 Fixup commit
 # ^^^^^ keyword.operator.commit.fixup
+  f -c d284bb2 Fixup commit
+# ^ keyword.operator.commit.fixup
+  fixup -C d284bb2 Fixup commit
+# ^^^^^ keyword.operator.commit.fixup
   r d284bb2 Reword commit
 # ^ keyword.operator.commit.reword
   reword d284bb2 Reword commit
@@ -178,6 +182,17 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.fixup
 # ^ keyword.operator.commit.fixup
 #    ^^^^^ keyword.operator.commit.fixup
+#
+# Newer version of the fixup help command:
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+# ^ keyword.operator.commit.fixup
+#    ^^^^^ keyword.operator.commit.fixup
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+#                    commit's log message, unless -C is used, in which case
+#                    keep only this commit's message; -c is same as -C but
+#                    opens the editor
+# ^^^^^^^^^^^^^^^^^^^ meta.commands-help.fixup.git.rebase - string
+#                    ^^^^^^^^^^^^^^^^ meta.commands-help.fixup.git.rebase string.unquoted.git.rebase
 # x, exec = run command (the rest of the line) using shell
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.exec
 # ^ keyword.operator.commit.exec

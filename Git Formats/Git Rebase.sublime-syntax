@@ -78,14 +78,12 @@ contexts:
         3: keyword.operator.commit.exec.git.rebase
         4: punctuation.separator.mapping.pair.git.rebase
         5: string.unquoted.git.rebase
-    - match: \b(f)\s*(,)\s*(fixup)\s*(=)\s*(.+)
-      scope: meta.commands-help.fixup.git.rebase
+    - match: \b(f)\s*(,)\s*(fixup)\b
       captures:
         1: keyword.operator.commit.fixup.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.fixup.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
+      push: help-fixup-args
     - match: \b(l)\s*(,)\s*(label)\s*((<)label(>))\s*(=)\s*(.+)
       scope: meta.commands-help.label.git.rebase
       captures:
@@ -97,7 +95,7 @@ contexts:
         6: punctuation.definition.variable.end.git.rebase
         7: punctuation.separator.mapping.pair.git.rebase
         8: string.unquoted.git.rebase
-    - match: \b(m)\s*(,)\s*(merge)\s+(?=\[.+\]$)
+    - match: \b(m)\s*(,)\s*(merge)\b
       captures:
         1: keyword.operator.commit.merge.git.rebase
         2: punctuation.separator.sequence.git.rebase
@@ -139,29 +137,29 @@ contexts:
         4: punctuation.separator.mapping.pair.git.rebase
         5: string.unquoted.git.rebase
 
+  help-fixup-args:
+    - meta_scope: meta.commands-help.fixup.git.rebase
+    - match: (=)\s*(\S.+)
+      captures:
+        1: punctuation.separator.mapping.pair.git.rebase
+        2: string.unquoted.git.rebase
+      set: help-fixup-description
+    - include: help-cmd-args
+
+  help-fixup-description:
+    - match: ^(#)\s{20,}?(\S.+)
+      scope: meta.commands-help.fixup.git.rebase
+      captures:
+        1: punctuation.definition.comment.git.rebase
+        2: string.unquoted.git.rebase
+    - match: ^
+      pop: 1
+
   help-merge-args:
     - meta_scope: meta.commands-help.merge.git.rebase
     - match: \n
       set: help-merge-description
-    - match: \[
-      scope: punctuation.section.brackets.begin.git.rebase
-      push: help-merge-args-brackets
-    - include: help-merge-parameters
-
-  help-merge-args-brackets:
-    - meta_scope: meta.brackets.git.rebase
-    - match: \]
-      scope: punctuation.section.brackets.end.git.rebase
-      pop: 1
-    - match: \#
-      scope: punctuation.definition.comment.git.rebase
-    - match: \|
-      scope: punctuation.separator.sequence.git.rebase
-    - match: (-)[[:alpha:]]
-      scope: variable.parameter.option.git.rebase
-      captures:
-        1: punctuation.definition.variable.git.rebase
-    - include: help-merge-parameters
+    - include: help-cmd-args
 
   help-merge-description:
     - match: ^(#)\s+(\.)\s+(.+)
@@ -173,7 +171,29 @@ contexts:
     - match: ^
       pop: 1
 
-  help-merge-parameters:
+  help-cmd-args:
+    - include: help-cmd-brackets
+    - include: help-cmd-parameters
+    - include: cmd-options
+
+  help-cmd-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.git.rebase
+      push: help-cmd-brackets-body
+
+  help-cmd-brackets-body:
+    - meta_scope: meta.brackets.git.rebase
+    - match: \]
+      scope: punctuation.section.brackets.end.git.rebase
+      pop: 1
+    - match: \#
+      scope: punctuation.definition.comment.git.rebase
+    - match: \|
+      scope: punctuation.separator.sequence.git.rebase
+    - include: help-cmd-parameters
+    - include: cmd-options
+
+  help-cmd-parameters:
     - match: (<)[-\w]+(>)
       scope: variable.parameter.git.rebase
       captures:
@@ -251,6 +271,7 @@ contexts:
     - match: '{{hash}}' # e.g. d284bb2
       scope: constant.other.hash.git.rebase
       pop: 1
+    - include: cmd-options
     - include: line-end
     - match: \S+
       scope: invalid.illegal.hash-expected.git.rebase
@@ -278,6 +299,12 @@ contexts:
       escape: $\n?
       escape_captures:
         0: meta.shell.git.rebase
+
+  cmd-options:
+    - match: (-)[[:alpha:]]
+      scope: variable.parameter.option.git.rebase
+      captures:
+        1: punctuation.definition.variable.git.rebase
 
 ##[ PROTOTYPES ]#######################################################
 
