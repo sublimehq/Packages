@@ -178,6 +178,13 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.exec
 # ^ keyword.operator.commit.exec
 #    ^^^^ keyword.operator.commit.exec
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase meta.commands-help.break.git.rebase
+# ^ keyword.operator.commit.break.git.rebase
+#  ^ punctuation.separator.sequence.git.rebase
+#    ^^^^^ keyword.operator.commit.break.git.rebase
+#          ^ punctuation.separator.mapping.pair.git.rebase
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 # d, drop = remove commit
 # ^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.drop
 # ^ keyword.operator.commit.drop
