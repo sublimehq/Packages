@@ -100,6 +100,10 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+  b
+# ^ keyword.operator.commit.break
+  break
+# ^^^^^ keyword.operator.commit.break
   d d284bb2 Drop commit
 # ^ keyword.operator.commit.drop
   drop d284bb2 Drop commit

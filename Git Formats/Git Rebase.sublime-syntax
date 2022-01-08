@@ -220,6 +220,9 @@ contexts:
       push: [commit-subject, commit-hash, commit-command]
 
   commit-command:
+    - match: (?:b|break)\b
+      scope: keyword.operator.commit.break.git.rebase
+      pop: 1
     - match: (?:d|drop)\b
       scope: keyword.operator.commit.drop.git.rebase
       pop: 1
