@@ -46,6 +46,14 @@ contexts:
   commands-help:
     # highlight the commands and separators in this comment
     # e.g. p, pick = use commit
+    - match: \b(b)\s*(,)\s*(break)\s*(=)\s*(.+)
+      scope: meta.commands-help.break.git.rebase
+      captures:
+        1: keyword.operator.commit.break.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.break.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
     - match: \b(d)\s*(,)\s*(drop)\s*(=)\s*(.+)
       scope: meta.commands-help.drop.git.rebase
       captures:
@@ -78,6 +86,23 @@ contexts:
         3: keyword.operator.commit.fixup.git.rebase
         4: punctuation.separator.mapping.pair.git.rebase
         5: string.unquoted.git.rebase
+    - match: \b(l)\s*(,)\s*(label)\s*((<)label(>))\s*(=)\s*(.+)
+      scope: meta.commands-help.label.git.rebase
+      captures:
+        1: keyword.operator.commit.label.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.label.git.rebase
+        4: variable.parameter.git.rebase
+        5: punctuation.definition.variable.begin.git.rebase
+        6: punctuation.definition.variable.end.git.rebase
+        7: punctuation.separator.mapping.pair.git.rebase
+        8: string.unquoted.git.rebase
+    - match: \b(m)\s*(,)\s*(merge)\s+(?=\[.+\]$)
+      captures:
+        1: keyword.operator.commit.merge.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.merge.git.rebase
+      push: help-merge-args
     - match: \b(p)\s*(,)\s*(pick)\s*(=)\s*(.+)
       scope: meta.commands-help.pick.git.rebase
       captures:
@@ -94,6 +119,17 @@ contexts:
         3: keyword.operator.commit.reword.git.rebase
         4: punctuation.separator.mapping.pair.git.rebase
         5: string.unquoted.git.rebase
+    - match: \b(t)\s*(,)\s*(reset)\s*((<)label(>))\s*(=)\s*(.+)
+      scope: meta.commands-help.label.git.rebase
+      captures:
+        1: keyword.operator.commit.reset.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.reset.git.rebase
+        4: variable.parameter.git.rebase
+        5: punctuation.definition.variable.begin.git.rebase
+        6: punctuation.definition.variable.end.git.rebase
+        7: punctuation.separator.mapping.pair.git.rebase
+        8: string.unquoted.git.rebase
     - match: \b(s)\s*(,)\s*(squash)\s*(=)\s*(.+)
       scope: meta.commands-help.squash.git.rebase
       captures:
@@ -102,6 +138,47 @@ contexts:
         3: keyword.operator.commit.squash.git.rebase
         4: punctuation.separator.mapping.pair.git.rebase
         5: string.unquoted.git.rebase
+
+  help-merge-args:
+    - meta_scope: meta.commands-help.merge.git.rebase
+    - match: \n
+      set: help-merge-description
+    - match: \[
+      scope: punctuation.section.brackets.begin.git.rebase
+      push: help-merge-args-brackets
+    - include: help-merge-parameters
+
+  help-merge-args-brackets:
+    - meta_scope: meta.brackets.git.rebase
+    - match: \]
+      scope: punctuation.section.brackets.end.git.rebase
+      pop: 1
+    - match: \#
+      scope: punctuation.definition.comment.git.rebase
+    - match: \|
+      scope: punctuation.separator.sequence.git.rebase
+    - match: (-)[[:alpha:]]
+      scope: variable.parameter.option.git.rebase
+      captures:
+        1: punctuation.definition.variable.git.rebase
+    - include: help-merge-parameters
+
+  help-merge-description:
+    - match: ^(#)\s+(\.)\s+(.+)
+      scope: meta.commands-help.merge.git.rebase
+      captures:
+        1: punctuation.definition.comment.git.rebase
+        2: punctuation.definition.description.git.rebase
+        3: string.unquoted.git.rebase
+    - match: ^
+      pop: 1
+
+  help-merge-parameters:
+    - match: (<)[-\w]+(>)
+      scope: variable.parameter.git.rebase
+      captures:
+        1: punctuation.definition.variable.begin.git.rebase
+        2: punctuation.definition.variable.end.git.rebase
 
   rebase-msg:
     # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
