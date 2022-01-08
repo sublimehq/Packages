@@ -10,8 +10,8 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: HAML (Rails).sublime-syntax#interpolations
+    - include: HAML.sublime-syntax#interpolations
 
   string-content:
     - meta_prepend: true
-    - include: HAML (Rails).sublime-syntax#string-interpolations
+    - include: HAML.sublime-syntax#string-interpolations

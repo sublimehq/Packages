@@ -1,7 +1,7 @@
 %YAML 1.2
 # https://haml.info/docs/yardoc/file.REFERENCE.html
 ---
-name: HAML (Rails)
+name: HAML
 scope: text.haml
 version: 2
 

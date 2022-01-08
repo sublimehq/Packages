@@ -12,11 +12,11 @@ contexts:
 
   strings-common-content:
     - meta_prepend: true
-    - include: HAML (Rails).sublime-syntax#string-interpolations
+    - include: HAML.sublime-syntax#string-interpolations
 
   tag-attribute-value-content:
     - meta_prepend: true
-    - include: HAML (Rails).sublime-syntax#string-interpolations
+    - include: HAML.sublime-syntax#string-interpolations
 
   tag-event-attribute-value:
     - match: \"

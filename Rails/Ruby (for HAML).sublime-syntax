@@ -9,7 +9,7 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: HAML (Rails).sublime-syntax#continuations
+    - include: HAML.sublime-syntax#continuations
 
   comments:
     - meta_prepend: true
