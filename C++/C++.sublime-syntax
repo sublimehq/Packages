@@ -588,23 +588,21 @@ contexts:
       captures:
         1: keyword.control.module.c++
       push:
+        - match: '\}'
+          scope: meta.block.c++ punctuation.section.block.end.c++
+          pop: true
+        - match: '\{'
+          scope: punctuation.section.block.begin.c++
+          push:
+            - meta_scope: meta.block.c++
+            - match: '(?=\})'
+              pop: true
+            - include: preprocessor-global
+            - include: global
+        - match: '(?=(module|import))'
+          pop: true
         - match: ''
-          set:
-            - match: '\}'
-              scope: meta.block.c++ punctuation.section.block.end.c++
-              pop: true
-            - match: '\{'
-              scope: punctuation.section.block.begin.c++
-              push:
-                - meta_scope: meta.block.c++
-                - match: '(?=\})'
-                  pop: true
-                - include: preprocessor-global
-                - include: global
-            - match: '(?=(module|import))'
-              pop: true
-            - match: ''
-              set: global-type
+          set: global-type
     - match: '\b(import)\s+'
       scope: meta.module.c++
       captures:
