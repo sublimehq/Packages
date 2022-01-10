@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Rust Symbols</string>
 	<key>scope</key>
 	<string>entity.name.function.rust, entity.name.macro.rust, entity.name.struct.rust, entity.name.enum.rust, entity.name.module.rust, entity.name.type.rust, entity.name.impl.rust, entity.name.trait.rust</string>
 	<key>settings</key>
