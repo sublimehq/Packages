@@ -2,7 +2,15 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>entity.name.function.rust, entity.name.macro.rust, entity.name.struct.rust, entity.name.enum.rust, entity.name.module.rust, entity.name.type.rust, entity.name.impl.rust, entity.name.trait.rust</string>
+	<string>
+		entity.name.constant.rust,
+		entity.name.impl.rust,
+		entity.name.macro.rust,
+		entity.name.module.rust,
+		entity.name.struct.rust,
+		entity.name.trait.rust,
+		entity.name.union.rust
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
