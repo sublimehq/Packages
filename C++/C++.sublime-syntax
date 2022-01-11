@@ -71,7 +71,7 @@ variables:
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
-  module_identifier: '[{{identifier}}\.]+'
+  module_identifier: '{{identifier}}(?:\.{{identifier}})*'
 
   regular: '[^(){}&;*^%=<>-]*'
   regular_plus: '[^(){}&;*^%=<>-]+'
@@ -582,6 +582,16 @@ contexts:
                 - include: global
             - include: expressions
 
+  test-invalid-module-partition:
+    - match: \s*(\:)
+      captures:
+        1: invalid.illegal.unexpected-character.c++
+      set:
+        - match: '.*$'
+          pop: true
+    - match: ''
+      pop: true
+
   module:
     - match: '\b(export)\s+'
       scope: meta.module.c++
@@ -608,6 +618,11 @@ contexts:
       captures:
         1: keyword.control.module.c++
       push:
+        - match: '\.'
+          scope: invalid.illegal.unexpected-character.c++
+          push:
+            - match: '.*$'
+              pop: true
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
         - match: (\:)({{module_identifier}})
@@ -615,6 +630,7 @@ contexts:
             0: meta.module.c++
             1: punctuation.accessor.c++
             2: entity.name.partition.other
+          push: test-invalid-module-partition
         - match: '"'
           scope: punctuation.definition.string.begin.c++
           push:
@@ -639,6 +655,11 @@ contexts:
       captures:
         1: keyword.control.module.c++
       push:
+        - match: '\.'
+          scope: invalid.illegal.unexpected-character.c++
+          push:
+            - match: '.*$'
+              pop: true
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
         - match: (\:)(private)
@@ -646,11 +667,13 @@ contexts:
             0: meta.module.c++
             1: punctuation.accessor.c++
             2: entity.name.partition.private
+          push: test-invalid-module-partition
         - match: (\:)({{module_identifier}})
           captures:
             0: meta.module.c++
             1: punctuation.accessor.c++
             2: entity.name.partition.other
+          push: test-invalid-module-partition
         - match: ';'
           scope: punctuation.terminator.c++
           pop: true

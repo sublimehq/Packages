@@ -2886,6 +2886,39 @@ export import ABC:d
 /*               ^  punctuation.accessor.c++ */
 /*                ^ entity.name.partition.other */
 
+export module .test.module;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*            ^ invalid.illegal.unexpected-character.c++ */
+/*             ^^^^^^^^^^^ source.c++ */
+
+import .test.module
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ source.c++ */
+
+module test:part1:part2;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^ entity.name.module.c++ */
+/*         ^  punctuation.accessor.c++ */
+/*          ^^^^^ entity.name.partition.other */
+/*               ^ invalid.illegal.unexpected-character.c++ */
+/*                ^^^^^^ source.c++ */
+
+import :part1:part2;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^ entity.name.partition.other */
+/*           ^ invalid.illegal.unexpected-character.c++ */
+/*            ^^^^^^ source.c++ */
+
+module :private:test2;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^^^ entity.name.partition.private */
+/*             ^ invalid.illegal.unexpected-character.c++ */
+/*              ^^^^^^ source.c++ */
+
 export {
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^ meta.block.c++ punctuation.section.block.begin.c++ */
