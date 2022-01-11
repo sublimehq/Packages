@@ -2778,38 +2778,48 @@ void sayHi()
 // Modules
 /////////////////////////////////////////////
 
-export module A;
+export module AA;
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
-/*            ^ entity.name.module.c++ */
-/*             ^ punctuation.terminator.c++ */
+/*            ^^ entity.name.module.c++ */
+/*              ^ punctuation.terminator.c++ */
 
 export  module  A.B;
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*      ^^^^^^ keyword.control.module.c++ */
 /*              ^^^ entity.name.module.c++ */
 
-export   module   A:B;
+export module A.BB.C.D;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^ keyword.control.module.c++ */
+/*            ^^^^^^^^ entity.name.module.c++ */
+
+export   module   ABC:DE;
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*       ^^^^^^ keyword.control.module.c++ */
 /*                ^^^ entity.name.module.c++ */
+/*                   ^  punctuation.accessor.c++ */
+/*                    ^^ entity.name.partition.other */
 
-module A;
+module ABC;
 /* <- meta.module.c++ keyword.control.module.c++ */
-/*     ^ entity.name.module.c++ */
-/*      ^ punctuation.terminator.c++ */
+/*     ^^^ entity.name.module.c++ */
+/*        ^ punctuation.terminator.c++ */
 
-module  A.B;
+module  AA.BB;
 /* <- meta.module.c++ keyword.control.module.c++ */
-/*      ^^^ entity.name.module.c++ */
+/*      ^^^^^ entity.name.module.c++ */
 
-module   A:B;
+module   A:BB;
 /* <- meta.module.c++ keyword.control.module.c++ */
-/*       ^^^ entity.name.module.c++ */
+/*       ^ entity.name.module.c++ */
+/*        ^  punctuation.accessor.c++ */
+/*         ^^ entity.name.partition.other */
 
 module :private;
 /* <- meta.module.c++ keyword.control.module.c++ */
-/*     ^^^^^^^^ entity.name.module.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^^^ entity.name.partition.private */
 
 export import A;
 /* <- meta.module.c++ keyword.control.module.c++ */
@@ -2817,10 +2827,11 @@ export import A;
 /*            ^ entity.name.module.c++ */
 /*             ^ punctuation.terminator.c++ */
 
-export import  :B;
+export import  :BB;
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
-/*             ^^ entity.name.module.c++ */
+/*             ^  punctuation.accessor.c++ */
+/*              ^^ entity.name.partition.other */
 
 export import   <ABC>;
 /* <- meta.module.c++ keyword.control.module.c++ */
@@ -2835,7 +2846,8 @@ import A;
 
 import  :B;
 /* <- meta.module.c++ keyword.control.module.c++ */
-/*      ^^ entity.name.module.c++ */
+/*      ^  punctuation.accessor.c++ */
+/*       ^ entity.name.partition.other */
 
 import   "ABC";
 /* <- meta.module.c++ keyword.control.module.c++ */
@@ -2858,15 +2870,21 @@ import "ABC/BCD.h";
 /*               ^ punctuation.definition.string.end */
 /*                ^ punctuation.terminator.c++ */
 
+// Doesn't break grammar when missing semi-colon.
 export module ABC:d
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
-/*            ^^^^^ entity.name.module.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^ entity.name.partition.other */
 
+// Doesn't break grammar when missing semi-colon.
 export import ABC:d
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
-/*            ^^^^^ entity.name.module.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^ entity.name.partition.other */
 
 export {
 /* <- meta.module.c++ keyword.control.module.c++ */

@@ -71,7 +71,7 @@ variables:
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
-  module_identifier: '(\:?[{{identifier}}.])(\:?[{{identifier}}.])?'
+  module_identifier: '[{{identifier}}\.]+'
 
   regular: '[^(){}&;*^%=<>-]*'
   regular_plus: '[^(){}&;*^%=<>-]+'
@@ -610,6 +610,11 @@ contexts:
       push:
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
+        - match: (\:)({{module_identifier}})
+          captures:
+            0: meta.module.c++
+            1: punctuation.accessor.c++
+            2: entity.name.partition.other
         - match: '"'
           scope: punctuation.definition.string.begin.c++
           push:
@@ -636,6 +641,16 @@ contexts:
       push:
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
+        - match: (\:)(private)
+          captures:
+            0: meta.module.c++
+            1: punctuation.accessor.c++
+            2: entity.name.partition.private
+        - match: (\:)({{module_identifier}})
+          captures:
+            0: meta.module.c++
+            1: punctuation.accessor.c++
+            2: entity.name.partition.other
         - match: ';'
           scope: punctuation.terminator.c++
           pop: true
