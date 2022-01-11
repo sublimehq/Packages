@@ -37,10 +37,10 @@ jobs:
       matrix:
         include:
           - sublime-channel: stable
-            sublime-build: 4121
+            sublime-build: 4126
             optional: true
           - sublime-channel: dev
-            sublime-build: 4122
+            sublime-build: 4125
             optional: false
     steps:
 
