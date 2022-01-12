@@ -1,0 +1,19 @@
+%YAML 1.2
+---
+scope: source.js.embedded.ruby
+version: 2
+hidden: true
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: Ruby.sublime-syntax#escaped-char
+    - include: Ruby.sublime-syntax#embedded-ruby
+
+  string-content:
+    - meta_prepend: true
+    - include: Ruby.sublime-syntax#escaped-char
+    - include: Ruby.sublime-syntax#interpolated-ruby

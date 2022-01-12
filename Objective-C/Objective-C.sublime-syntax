@@ -2,10 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Objective-C
+scope: source.objc
+
 file_extensions:
   - m
   - h
-scope: source.objc
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bobj(ective-)?c\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
@@ -43,8 +49,10 @@ contexts:
         - match: '\)'
           scope: punctuation.section.scope.end.objc
           pop: true
-        - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak)\b
+        - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
           scope: keyword.other.property.attribute.objc
+        - match: ','
+          scope: punctuation.separator.objc
     - match: ((@)property)\b
       scope: meta.property.objc
       captures:
@@ -260,7 +268,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -271,6 +278,7 @@ contexts:
     - include: block
     - include: variables
     - include: constants
+    - include: access
     - match: ','
       scope: punctuation.separator.objc
     - match: '\)|\}'
@@ -455,6 +463,7 @@ contexts:
             - include: protocol_type_qualifier
             - include: expressions
         - include: comments
+        - include: attribute
         - match: '(,)\s+(\.\.\.)\s*'
           captures:
             1: punctuation.separator.objc
@@ -475,7 +484,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -501,7 +510,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -547,7 +556,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.objc
+        1: keyword.declaration.objc
       set: global-maybe-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/union
@@ -649,15 +658,15 @@ contexts:
   data-structures:
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: storage.type.objc
+      scope: keyword.declaration.objc
     - match: '\bstruct\b'
-      scope: storage.type.objc
+      scope: keyword.declaration.struct.objc
       set: data-structures-struct-definition
     - match: '\benum\b'
-      scope: storage.type.objc
+      scope: keyword.declaration.enum.objc
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.objc
+      scope: keyword.declaration.union.objc
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -816,18 +825,7 @@ contexts:
         - include: expressions
 
   modifiers-parens:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.objc
-        2: meta.group.objc punctuation.section.group.begin.objc
-      push :
-        - meta_scope: meta.attribute.objc
-        - meta_content_scope: meta.group.objc
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: meta.group.objc punctuation.section.group.end.objc
-          pop: true
+    - include: attribute
     - match: \b(__declspec)(\()
       captures:
         1: storage.modifier.objc
@@ -857,6 +855,20 @@ contexts:
         - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
           scope: constant.other.objc
 
+  attribute:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push :
+        - meta_scope: meta.attribute.objc
+        - meta_content_scope: meta.group.objc
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: meta.group.objc punctuation.section.group.end.objc
+          pop: true
+
   keywords-parens:
     - match: '\b(sizeof)\b\s*(\()'
       captures:
@@ -871,15 +883,14 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.objc
+      scope: keyword.declaration.type.objc
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
             1: entity.name.type.typedef.objc
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: storage.type.objc
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:
@@ -909,7 +920,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -935,7 +946,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -979,7 +990,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1006,7 +1017,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1111,7 +1122,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1137,7 +1148,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

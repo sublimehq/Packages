@@ -2,6 +2,6 @@
 	<content><![CDATA[if __name__ == '__main__':
 	${1:main()}$0]]></content>
 	<tabTrigger>ifmain</tabTrigger>
-	<scope>source.python</scope>
+	<scope>source.python - meta.function.parameters - meta.function-call - meta.statement - meta.mapping - meta.sequence - meta.set - comment - string</scope>
 	<description>if __name__ == '__main__'</description>
 </snippet>

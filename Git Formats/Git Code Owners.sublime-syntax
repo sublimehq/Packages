@@ -1,0 +1,50 @@
+%YAML 1.2
+---
+# Syntax based on documentation here:
+# https://git-scm.com/docs/gitignore
+# https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
+
+name: Git Code Owners
+scope: text.git.codeowners
+version: 2
+
+file_extensions:
+  - CODEOWNERS
+
+contexts:
+
+  main:
+    - include: Git Common.sublime-syntax#comments
+    # note:
+    # - ignore whitespace at the beginning of a line
+    # - patterns may not start with operators: - !
+    # - escaped hash tags are not supported
+    - match: '[-!]|\\#|(?=\S)'
+      scope: invalid.illegal.operator.git.codeowners
+      push:
+        - pattern-content
+        - Git Common.sublime-syntax#fnmatch-start
+
+  pattern-content:
+    - meta_content_scope: meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+    - match: \s+(?=([^\@\s]+)?\@)
+      set: owners
+    # note: character classes are not supported
+    - include: Git Common.sublime-syntax#fnmatch-common
+    - include: eol-pop
+
+  owners:
+    - meta_content_scope: meta.owners.git.codeowners
+    - include: Git Common.sublime-syntax#username
+    - include: emails
+    - include: eol-pop
+
+  emails:
+    - match: (?=\S)
+      push:
+        - Git Common.sublime-syntax#email-meta
+        - Git Common.sublime-syntax#email-name
+
+  eol-pop:
+    - match: $
+      pop: 1

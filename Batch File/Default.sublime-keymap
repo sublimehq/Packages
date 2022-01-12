@@ -1,0 +1,26 @@
+[
+    // Auto-pair percentage
+    // Example: text -> %text%
+    {
+        "keys": ["%"],
+        "command": "insert_snippet",
+        "args": {"contents": "%${0:$SELECTION}%"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "source.dosbatch" }
+        ]
+    },
+    {
+        "keys": ["backspace"],
+        "command": "run_macro_file",
+        "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"},
+        "context": [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.dosbatch" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "%$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^%", "match_all": true }
+        ]
+    },
+]

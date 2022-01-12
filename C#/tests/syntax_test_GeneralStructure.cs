@@ -46,14 +46,14 @@ namespace YourNamespace
 ///                             ^ meta.property punctuation.section.block.begin
             get {return x;}
 ///         ^^^^^^^^^^^^^^^ meta.property meta.method
-///          ^ storage.type.function.accessor.get
+///          ^ keyword.declaration.function.accessor.get
 ///             ^^^^^^^^^^^ meta.property meta.method.body meta.block
 ///             ^ punctuation.section.block.begin
 ///                      ^ punctuation.terminator
 ///                       ^ punctuation.section.block.end
             set {x = value;}
 ///         ^^^^^^^^^^^^^^^^ meta.property meta.method
-///          ^ storage.type.function.accessor.set
+///          ^ keyword.declaration.function.accessor.set
 ///             ^^^^^^^^^^^^ meta.property meta.method.body meta.block
 ///             ^ punctuation.section.block.begin
 ///              ^ variable.other
@@ -71,7 +71,7 @@ namespace YourNamespace
 ///                         ^^^^ support.type
 ///                              ^^^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
-///                                     ^^ storage.type.function
+///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^^^^ variable.language
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
@@ -96,7 +96,7 @@ namespace YourNamespace
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                  ^ variable.other.member
-///                        ^^ storage.type.function.accessor.get
+///                        ^^ keyword.declaration.function.accessor.get
 ///                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 ///                                   ^^^^^^^ support.type
 ///                                          ^^^^^^ meta.generic
@@ -108,9 +108,9 @@ namespace YourNamespace
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
 ///                 ^^^^^^^^^^^^^^ variable.other.member
 ///                                ^^^^^^^^^^^^^^^^^^^^ meta.property meta.block
-///                                 ^^^ storage.type.function.accessor.get
+///                                 ^^^ keyword.declaration.function.accessor.get
 ///                                      ^^^^^^^ storage.modifier.access
-///                                              ^^^ storage.type.function.accessor.set
+///                                              ^^^ keyword.declaration.function.accessor.set
 ///                                                     ^ keyword.operator.assignment
 ///                                                       ^^^^^ constant.language
 
@@ -120,7 +120,7 @@ namespace YourNamespace
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                     ^^^^^^^^^ entity.name.function
 ///                              ^^ meta.method.parameters
-///                                 ^^ storage.type.function
+///                                 ^^ keyword.declaration.function.arrow.cs
 ///                                    ^^^^^ constant.language
     }
 
@@ -587,17 +587,17 @@ namespace TestNamespace.Test
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^ constant.numeric
-///                     ^ storage.type.numeric
+///                     ^ constant.numeric.suffix
             var l = 11545L;
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
-///                      ^ storage.type.numeric
+///                      ^ constant.numeric.suffix
             var d = 11545D;
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
-///                      ^ storage.type.numeric
+///                      ^ constant.numeric.suffix
             int x = 1, y = 0;
 ///         ^^^ storage.type
 ///             ^ variable.other
@@ -715,8 +715,8 @@ namespace TestNamespace.Test
 ///                           ^ punctuation.section.brackets.end
 ///                    ^^^ storage.type
 ///                        ^^^ variable.parameter
-///                              ^^^ storage.type.function.accessor
-///                                   ^^^ storage.type.function.accessor
+///                              ^^^ keyword.declaration.function.accessor
+///                                   ^^^ keyword.declaration.function.accessor
 
 
         /////////////////////////////
@@ -788,11 +788,26 @@ namespace TestNamespace.Test
         {
         }
 
+        [SomeAttribute (Url="//")]
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - comment
+///     ^ punctuation.definition.annotation.begin
+///      ^^^^^^^^^^^^^ variable.annotation
+///                    ^ punctuation.section.group.begin
+///                     ^^^ variable.parameter
+///                        ^ keyword.operator.assignment
+///                         ^^^^ string.quoted.double
+///                             ^ punctuation.section.group.end
+///                              ^ punctuation.definition.annotation.end
+///                               ^ - meta.annotation
+        void Test() {
+        }
+
+
         int Method4 => 5;
 ///     ^^^ storage.type
 ///         ^^^^^^^ variable.other.member
 ///                 ^^^^ meta.method
-///                 ^^ storage.type.function
+///                 ^^ keyword.declaration.function
 ///                    ^ constant.numeric
 ///                     ^ punctuation.terminator
 
@@ -829,27 +844,27 @@ namespace TestNamespace.Test
 ///              ^^^ variable.other
 ///                    ^ keyword.operator.assignment
 ///                        ^^^^^^^^ meta.function.anonymous
-///                        ^^ storage.type.function.lambda
+///                        ^^ keyword.declaration.function.arrow
             Func<float, float> times2 = x => x + x;
 ///         ^^^ support.type
 ///                            ^^^ variable.other
 ///                                   ^ keyword.operator.assignment
 ///                                     ^^^^^^^^^^ meta.function.anonymous
-///                                       ^^ storage.type.function.lambda
+///                                       ^^ keyword.declaration.function.arrow
 
             var changes = refs.ToDictionary(kvp => kvp.key, arg => k + 5);
 ///                                         ^^^^^^^^^^^^^^ meta.function.anonymous.cs
 ///                                         ^^^ variable.parameter.cs
-///                                             ^^ storage.type.function.lambda.cs
+///                                             ^^ keyword.declaration.function.arrow.cs
 ///                                                ^^^ variable.other.cs
 ///                                                       ^ punctuation.separator.argument.cs
 ///                                                       ^^ - meta.function.anonymous
 ///                                                         ^^^^^^^^^^^^ meta.function.anonymous.cs
 ///                                                         ^^^ variable.parameter.cs
-///                                                             ^^ storage.type.function.lambda.cs
+///                                                             ^^ keyword.declaration.function.arrow.cs
 ///                                                                ^ variable.other.cs
 ///                                                                  ^ keyword.operator.cs
-///                                                                    ^ constant.numeric.integer.decimal.cs
+///                                                                    ^ meta.number.integer.decimal.cs
 ///                                                                     ^ - meta.function.anonymous
 
             var shortDigits = digits.Where((digit, index) => digit.Length < index);
@@ -862,7 +877,7 @@ namespace TestNamespace.Test
 ///                                              ^ punctuation.separator.parameter.function.cs
 ///                                                ^^^^^ variable.parameter.cs
 ///                                                     ^ punctuation.section.group.end.cs
-///                                                       ^^ storage.type.function.lambda.cs
+///                                                       ^^ keyword.declaration.function.arrow.cs
 ///                                                          ^^^^^ variable.other.cs
 
         }
@@ -1010,7 +1025,7 @@ namespace TestNamespace.Test
 
     void TestMe () {
         a = b => b * 2;
-///           ^^ storage.type.function.lambda
+///           ^^ keyword.declaration.function.arrow
 ///           ^^^^^^^^ meta.function.anonymous
 ///                   ^ punctuation.terminator.statement - meta.function.anonymous
 
@@ -1031,7 +1046,7 @@ namespace TestNamespace.Test
         }
 
         a = b => { return b * 2; };
-///           ^^ meta.function.anonymous storage.type.function.lambda
+///           ^^ meta.function.anonymous keyword.declaration.function.arrow
 ///              ^ meta.function.anonymous punctuation.section.block.begin
 ///                              ^ punctuation.section.block.end
 ///                               ^ punctuation.terminator.statement - meta.function.anonymous
@@ -1055,7 +1070,7 @@ namespace TestNamespace.Test
 ///          ^ variable.parameter
 ///           ^ punctuation.separator
 ///             ^ variable.parameter
-///                ^^ storage.type.function.lambda
+///                ^^ keyword.declaration.function.arrow
 ///                   ^ meta.function.anonymous punctuation.section.block.begin
 ///                                   ^ punctuation.section.block.end
 ///                                    ^ punctuation.terminator.statement - meta.function.anonymous
@@ -1082,7 +1097,7 @@ namespace TestNamespace.Test
 ///                                     ^ variable.parameter
 ///                                      ^ punctuation.separator.parameter.function
 ///                                        ^ variable.parameter
-///                                           ^^ storage.type.function.lambda
+///                                           ^^ keyword.declaration.function.arrow
 ///                                                     ^ punctuation.terminator.statement
 ///                                                      ^ - meta.function.anonymous
 
@@ -1100,12 +1115,17 @@ namespace TestNamespace.Test
                 goto case 'b';
 ///             ^^^^ keyword.control.flow.goto
 ///                  ^^^^ keyword.control.switch.case
-///                       ^^^ constant.character
+///                       ^^^ meta.string string.quoted.single
+///                       ^ punctuation.definition.string.begin
+///                        ^ constant.character.literal
+///                         ^ punctuation.definition.string.end
 ///                          ^ punctuation.terminator.statement
             case 'b':
 ///         ^^^^ keyword.control.switch.case - invalid
-///              ^^^ constant.character
-///                 ^ punctuation.separator.case-statement
+///              ^^^ meta.string string.quoted.single
+///              ^ punctuation.definition.string.begin
+///               ^ constant.character.literal
+///                ^ punctuation.definition.string.end
                 result += 6;
                 break;
             case 'c':
@@ -1128,7 +1148,7 @@ namespace TestNamespace.Test
 ///                 ^^^^^^ meta.cast support.type
 ///                        ^ punctuation.section.group.begin
 ///                         ^^ meta.function.anonymous meta.group
-///                            ^^ storage.type.function.lambda
+///                            ^^ keyword.declaration.function.arrow
 ///                                             ^ punctuation.section.group.end
         test = (Action)(() => {});
 ///            ^^^^^^^^ meta.cast
@@ -1136,7 +1156,7 @@ namespace TestNamespace.Test
 ///                     ^^^^^^^ meta.function.anonymous
 ///                     ^ meta.group punctuation.section.group.begin
 ///                      ^ meta.group punctuation.section.group.end
-///                        ^^ storage.type.function.lambda
+///                        ^^ keyword.declaration.function.arrow
 ///                           ^ punctuation.section.block.begin
 ///                            ^ punctuation.section.block.end
 ///                             ^ meta.group punctuation.section.group.end
@@ -1182,6 +1202,12 @@ namespace TestNamespace.Test
 ///                            ^^^^^^^ constant.other.placeholder
 ///                                   ^ - constant
 ///                                    ^^^^^^^^ constant.other.placeholder
+
+        for (; ctr < names.Length; ctr++)
+///          ^ punctuation.terminator.statement
+///                              ^ punctuation.terminator.statement
+            continue;
+///         ^^^^^^^^ keyword.control.flow.break
 
         int MyInt = 100;
         Console.WriteLine("{0:C}", MyInt);
@@ -1295,7 +1321,7 @@ public class AfterTopLevelMethod {
     {
 /// ^ punctuation.section.block.begin
         add
-///     ^^^ meta.method storage.type.function.accessor.add
+///     ^^^ meta.method keyword.declaration.function.accessor.add
         {
 ///     ^ punctuation.section.block.begin
             lock (objectLock)
@@ -1308,7 +1334,7 @@ public class AfterTopLevelMethod {
 ///     ^ punctuation.section.block.end
 ///      ^ - meta.method
         remove
-///     ^^^^^^ meta.method storage.type.function.accessor.remove
+///     ^^^^^^ meta.method keyword.declaration.function.accessor.remove
         {
             lock (objectLock)
             {
@@ -1324,4 +1350,90 @@ public class AfterTopLevelMethod {
 ///              ^^^^^^^^^^^^^^^^^^ support.type
 ///                                 ^^^^^^^^^^^ variable.other.member
 ///                                            ^ punctuation.terminator.statement
+
+    public static implicit operator AfterTopLevelMethod(int[] some_ints)
+///        ^^^^^^ storage.modifier
+///               ^^^^^^^^ storage.modifier
+///                        ^^^^^^^^ storage.modifier
+///                                                     ^^^ meta.method.parameters storage.type
+///                                                           ^^^^^^^^^ meta.method.parameters variable.parameter
+    {
+        return new AfterTopLevelMethod(some_ints);
+    }
+    
+    Action<float> actionDelegate = delegate { };
+///                              ^ keyword.operator.assignment.variable
+///                                ^^^^^^^^ keyword.other
+///                                         ^ punctuation.section.block.begin
+///                                           ^ punctuation.section.block.end
+    event Action<float> eventAction;
+/// ^^^^^ storage.modifier
+    event Action<float> eventActionDelegate = delegate { };
+///                                         ^ keyword.operator.assignment.variable
+///                                           ^^^^^^^^ keyword.other
+///                                                    ^ punctuation.section.block.begin
+///                                                      ^ punctuation.section.block.end
 }
+
+struct Example
+{
+    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members
+    private int counter;
+    public int Counter
+    {
+        readonly get => counter;
+///     ^^^^^^^^ storage.modifier
+///              ^^^ keyword.declaration.function.accessor.get
+        set => counter = value;
+    }
+}
+
+public class MyClass
+{
+    Dictionary<MyEnum, List<uint>> myDict
+/// ^^^^^^^^^^ support.type
+///           ^ punctuation.definition.generic.begin
+///            ^^^^^^ support.type
+///                  ^ punctuation.separator.type
+///                    ^^^^ support.type
+///                        ^ punctuation.definition.generic.begin
+///                         ^^^^ storage.type
+///                             ^^ punctuation.definition.generic.end
+///                                ^^^^^^ variable.other.member
+        = new Dictionary<MyEnum, List<uint>>
+///     ^ keyword.operator.assignment.variable
+///       ^^^ keyword.operator.new
+        {
+            [One] = new List<uint>
+            {
+                1, 2, 3
+            },
+            [Two] = new List<uint>
+            {
+                4, 5, 6
+            }
+        };
+///     ^ punctuation.section.braces.end - invalid
+///      ^ punctuation.terminator.statement - invalid
+}
+
+public class MyClass
+{
+    bool var // missing semi-colon
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+
+    bool var => return 0;
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+///          ^^ keyword.declaration.function.accessor.get
+///             ^^^^^^ keyword.other
+///                    ^ meta.number.integer.decimal constant.numeric.value
+///                     ^ punctuation.terminator.statement
+
+    bool var // missing semi-colon
+/// ^^^^ storage.type
+///      ^^^ variable.other.member
+}
+/// <- meta.class.body meta.block punctuation.section.block.end
+/// ^ - meta

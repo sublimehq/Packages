@@ -124,6 +124,27 @@
 %           ^ support.function
 %
 
+\parencite[Propositon~1]{Ref}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%          ^ meta.group.bracket.latex
+%                         ^ constant.other.citation.latex
+
+\parencites[Proposition~1]{Firstref}[p.~2]{SecondRef}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%           ^ meta.group.bracket.latex
+%                          ^ constant.other.citation.latex
+%                                     ^ meta.group.bracket.latex
+%                                          ^ constant.other.citation.latex
+
+\Citeauthor*[]{ref}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%          ^ support.function.cite.latex
+%           ^ meta.group.bracket.latex
+%              ^ constant.other.citation.latex
+
 
 % URL COMMAND
 
@@ -394,7 +415,7 @@ class MyClass() {
 % <- meta.environment.verbatim.lstlisting.latex
 % <- meta.environment.embedded.java.latex
 % <- source.java.embedded
-% ^ storage.type.java
+% ^ keyword.declaration.class.java
 }
 \end{lstlisting}
 
@@ -498,7 +519,14 @@ a & b
 %                                  ^ meta.environment.tabular meta.function.column-spec
 \end{tabular}
 
+% issue 2238
 
+% \usepackage{dcolumn}
+\begin{tabular}{c|D{\%}{\cdot}{-1}}
+%              ^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex - comment
+%                   ^^ constant.character.escape.tex
+%                       ^^^^^ support.function.general.latex
+\end{tabular}
 
 \AnyDeclarationCommand{\eq}{\begin{equation}}
 

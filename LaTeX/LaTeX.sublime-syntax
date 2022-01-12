@@ -2,10 +2,17 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: LaTeX
+scope: text.tex.latex
+
 file_extensions:
   - tex
   - ltx
-scope: text.tex.latex
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \%+ .*? -\*- .*? \blatex\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   prototype:
     - include: comments
@@ -659,24 +666,41 @@ contexts:
   references:
     - match: |-
         (?x)
-        (
-          (\\)
-          (?:
-            [cC]ite(?:author|title|year|date|url|t|p|alt|alp|text|yearpar)?
-          | (?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext
-          )
-          \*?
+        (\\)
+        (?:
+          # biblatex commands
+          #   http://mirrors.ibiblio.org/CTAN/macros/latex/exptl/biblatex/doc/biblatex.pdf section 3.8
+          # commands with multicite variant
+            (?:[aA]uto|foot|[pP]aren|[sS]mart|super|[tT]ext)cites?
+          | [Cc]ites?
+          | footcitetexts?
+          # text commands
+          | [cC]ite(?:author)
+          | cite(?:title|year|date)
+          | citeurl
+          # special
+          | (?:[aA]|no|full|footfull)cites?
+          | [vV]olcites?
+          | (?:[pPfFsStTaA]|ft)volcites?
+          | (?:[pPf]?n|N)otecite
+          # non-biblatex
+          | [aA]cite
+          | [cC]ite(?:t|p|alt|alp|text|yearpar)
         )\b
+        # For simplicity with using \b, we match a star for all variants
+        \*?
+      scope: support.function.cite.latex keyword.other.cite.latex
       captures:
-        1: support.function.cite.latex keyword.other.cite.latex
-        2: punctuation.definition.backslash.latex
+        1: punctuation.definition.backslash.latex
       push:
         - meta_scope: meta.function.citation.latex
         - include: general-optional-arguments
         - match: '\{'
           scope: punctuation.definition.group.brace.begin.latex
-          set:
-            - meta_scope: meta.function.citation.latex meta.group.brace.latex
+          # Some commands, e.g. \parencites, allow multiple [][]{} argument sequences,
+          # so we `push` instead of `set`.
+          push:
+            - meta_scope: meta.group.brace.latex
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.citation.latex
             - match: '\}'
@@ -820,6 +844,12 @@ contexts:
           embed: scope:source.java
           embed_scope: meta.environment.embedded.java.latex source.java.embedded
           escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:html))$'
+          captures:
+            1: comment.line.percentage.latex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.embedded.html.latex source.html.embedded
+          escape: '(?=\\end\{lstlisting\})'
         - match: '.*(%\s*(?i:tex|latex))$'
           captures:
             1: comment.line.percentage.latex
@@ -879,6 +909,12 @@ contexts:
             1: comment.line.percentage.latex
           embed: scope:source.sql
           embed_scope: meta.environment.embedded.sql.latex source.sql.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:xml))$'
+          captures:
+            1: comment.line.percentage.latex
+          embed: scope:text.xml
+          embed_scope: meta.environment.embedded.xml.latex source.xml.embedded
           escape: '(?=\\end\{lstlisting\})'
         - match: '.*(%\s*(?i:yaml))$'
           captures:
@@ -955,6 +991,14 @@ contexts:
             3: punctuation.definition.group.brace.end.latex
           embed: scope:source.haskell
           embed_scope: meta.environment.embedded.haskell.latex source.haskell.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(html)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.embedded.html.latex text.html.embedded
           escape: '(?=\\end\{minted\})'
         - match: '(\{)(java)(\})'
           captures:
@@ -1076,6 +1120,14 @@ contexts:
           embed: scope:source.sql
           embed_scope: meta.environment.embedded.sql.latex source.sql.embedded
           escape: '(?=\\end\{minted\})'
+        - match: '(\{)(xml)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+          embed: scope:text.xml
+          embed_scope: meta.environment.embedded.xml.latex text.xml.embedded
+          escape: '(?=\\end\{minted\})'
         - match: '(\{)(yaml)(\})'
           captures:
             1: punctuation.definition.group.brace.begin.latex
@@ -1166,6 +1218,20 @@ contexts:
             6: punctuation.definition.verb.latex
           embed: scope:source.haskell
           embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.haskell.latex source.haskell.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: punctuation.definition.verb.latex
+        - match: '(\{)(html)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.latex
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+            5: punctuation.definition.group.brace.begin.latex
+            6: punctuation.definition.verb.latex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.html.latex text.html.embedded
           escape: '(\})|(\4)'
           escape_captures:
             1: punctuation.definition.group.brace.begin.latex
@@ -1380,6 +1446,20 @@ contexts:
           escape_captures:
             1: punctuation.definition.group.brace.begin.latex
             2: punctuation.definition.verb.latex
+        - match: '(\{)(xml)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.latex
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+            5: punctuation.definition.group.brace.begin.latex
+            6: punctuation.definition.verb.latex
+          embed: scope:text.xml
+          embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.xml.latex text.xml.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: punctuation.definition.verb.latex
         - match: '(\{)(yaml)(\})((\{)|(\W))'
           scope: meta.environment.verbatim.minted.latex
           captures:
@@ -1539,6 +1619,8 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
           pop: true
+        - include: general-constants
+        - include: general-commands
         - include: array-preamble
 
     - match: 'l|r|c'

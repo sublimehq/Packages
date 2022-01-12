@@ -1,13 +1,45 @@
 {
     "scope": "meta.mapping.expect-value & meta.attribute.builtin.whitespace.git.attributes",
     "completions": [
-        {"trigger": "blank-at-eof\twhitespace", "contents": "blank-at-eof"},
-        {"trigger": "blank-at-eol\twhitespace", "contents": "blank-at-eol"},
-        {"trigger": "cr-at-eol\twhitespace", "contents": "cr-at-eol"},
-        {"trigger": "indent-with-non-tab\twhitespace", "contents": "indent-with-non-tab"},
-        {"trigger": "space-before-tab\twhitespace", "contents": "space-before-tab"},
-        {"trigger": "tab-in-indent\twhitespace", "contents": "tab-in-indent"},
-        {"trigger": "trailing-space\twhitespace", "contents": "trailing-space"},
-        {"trigger": "tabwidth=x\twhitespace", "contents": "tabwidth=${0:8}"}
+        {
+            "trigger": "blank-at-eof",
+            "contents": "blank-at-eof",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "blank-at-eol",
+            "contents": "blank-at-eol",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "cr-at-eol",
+            "contents": "cr-at-eol",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "indent-with-non-tab",
+            "contents": "indent-with-non-tab",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "space-before-tab",
+            "contents": "space-before-tab",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "tab-in-indent",
+            "contents": "tab-in-indent",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "trailing-space",
+            "contents": "trailing-space",
+            "kind": ["variable", "w", "whitespace"]
+        },
+        {
+            "trigger": "tabwidth=x",
+            "contents": "tabwidth=${0:8}",
+            "kind": ["variable", "w", "whitespace"]
+        }
     ]
 }

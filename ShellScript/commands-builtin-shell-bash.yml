@@ -1,5 +1,6 @@
 %YAML 1.2
---- #---------------------------------------------------------------------------
+---
+###[ BUILTIN BASH COMMANDS ]###################################################
 
 bind:
   short-options: mqurfx
@@ -61,18 +62,14 @@ type:
 ulimit:
   short-options-compact: HSabcdefiklmnpqrstuvxPT
 
-unalias:
-  short-options: a
+# "unalias" is handled in the syntax def, don't put it here!
 
 eval:
   allow-end-of-options-token: false
 
-exec:
-  short-options-compact: cl
-  short-options: a
+# "exec" is handled in the syntax def, don't put it here!
 
-exit:
-  allow-end-of-options-token: false
+# "exit" is handled as keyword.control.flow in the syntax def, don't put it here!
 
 # "export" is handled as storage.modifier in the syntax def, don't put it here!
 # export, readonly, declare, local, typeset
@@ -89,12 +86,11 @@ pwd:
 
 # "readonly" is handled as storage.modifier in the syntax def, don't put it here!
 
-return:
-  allow-end-of-options-token: false
-  scope: keyword.control.flow.return.shell
+# "return" is handled as keyword.control.flow in the syntax def, don't put it here!
 
 shift:
   allow-end-of-options-token: false
+  allow-numeric-args: true
 
 times:
   ~
@@ -104,9 +100,9 @@ trap:
 
 umask:
   short-options: pS
+  allow-numeric-args: true
 
-unset:
-  short-options-compact: fnv
+# "unset" is handled in the syntax def, don't put it here!
 
 echo:
   short-options-compact: neE
@@ -114,7 +110,6 @@ echo:
 set:
   short-options-compact: abefhkmnptuvxBCEHPT
   short-options: o
-  short-option-prefixes: [\-, \+]
   allow-end-of-options-token: true
   allow-short-end-of-options-token: true
 
@@ -152,4 +147,10 @@ disown:
 suspend:
   short-options: f
 
+###[ BUILTIN LINUX COMMANDS ]##################################################
+
+su:
+  allow-end-of-options-token: true
+  short-options-compact: mp
+  short-options: -cls
 ...

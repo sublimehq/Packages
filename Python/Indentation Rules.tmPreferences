@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.python</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*(elif|else|except|finally)\b.*:</string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^\s*
+			(
+			# declaration or control flow keywords
+			  (
+			  	( async\s+ )? ( def | for | with )
+			  | class | elif | else | except | finally | if | try | while
+			  ) \b
+			# pattern matching keyword followed by at least one non-whitespace token
+			| ( case | match )\b \s* [^:]
+			)
+			# terminated by colon and followed only by optional whitespace or comment
+			.* : \s* (\#.*)? $
+		]]></string>
+		<key>disableIndentNextLinePattern</key>
+		<string></string>
+	</dict>
+</dict>
+</plist>

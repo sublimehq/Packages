@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[\$_GET['${1:variable}']]]></content>
-	<tabTrigger>$_</tabTrigger>
+	<tabTrigger>$_GET</tabTrigger>
 	<scope>source.php - string.quoted.single - comment</scope>
 	<description>GET['…']</description>
 </snippet>

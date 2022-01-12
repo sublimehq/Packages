@@ -2,13 +2,35 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: OCaml
+scope: source.ocaml
+
 file_extensions:
   - ml
   - mli
-scope: source.ocaml
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \(\* .*? -\*- .*? \bocaml\b .*? -\*-  # editorconfig
+  )
+
 variables:
+  sign: (?:-|\b)
+  suffix: (?:[lLn]|(?!\.))\b
+  bin_digit: '[01_]'
+  oct_digit: '[0-7_]'
+  dec_digit: '[0-9_]'
+  hex_digit: '[\h_]'
+  bin_integer: (?:[01]{{bin_digit}}*)
+  oct_integer: (?:[0-7]{{oct_digit}}*)
+  dec_integer: (?:[0-9]{{dec_digit}}*)
+  hex_integer: (?:\h{{hex_digit}}*)
+  exponent: '[-+]??(_?){{dec_integer}}'
+  dec_exponent: (?:[Ee]{{exponent}})
+  hex_exponent: (?:[Pp]{{exponent}})
+
   identifier: '[a-z][a-zA-Z0-9''_]*'
   capIdentifier: '[A-Z][a-zA-Z0-9''_]*'
+
 contexts:
   main:
     - match: '\b(let)\s+(module)\s+({{capIdentifier}})\s*(=)'
@@ -394,18 +416,68 @@ contexts:
         3: meta.empty-typing-pair.ocaml
     - match: \b(true|false)\b
       scope: constant.language.boolean.ocaml
-    - match: '\b-?[0-9][0-9_]*((\.([0-9][0-9_]*([eE][+-]??[0-9][0-9_]*)?)?)|([eE][+-]??[0-9][0-9_]*))'
-      scope: constant.numeric.floating-point.ocaml
-    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))n'
-      scope: constant.numeric.integer.nativeint.ocaml
-    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))L'
-      scope: constant.numeric.integer.int64.ocaml
-    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))l'
-      scope: constant.numeric.integer.int32.ocaml
-    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))'
-      scope: constant.numeric.integer.ocaml
     - match: '''(.|\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]))'''
       scope: constant.character.ocaml
+
+    # http://caml.inria.fr/pub/docs/manual-ocaml/lex.html
+    # hexadecimal floats
+    - match: ({{sign}})(0[xX])((_*){{hex_integer}}(?:(\.){{hex_digit}}*{{hex_exponent}}?|{{hex_exponent}}))
+      scope: meta.number.float.hexadecimal.ocaml
+      captures:
+        1: keyword.operator.arithmetic.ocaml
+        2: constant.numeric.base.ocaml
+        3: constant.numeric.value.ocaml
+        4: invalid.illegal.numeric.ocaml
+        5: punctuation.separator.decimal.ocaml
+        6: invalid.illegal.numeric.ocaml
+        7: invalid.illegal.numeric.ocaml
+    # decimal floats
+    - match: ({{sign}})({{dec_integer}}(?:(\.){{dec_digit}}*{{dec_exponent}}?|{{dec_exponent}}))
+      scope: meta.number.float.decimal.ocaml
+      captures:
+        1: keyword.operator.arithmetic.ocaml
+        2: constant.numeric.value.ocaml
+        3: punctuation.separator.decimal.ocaml
+        4: invalid.illegal.numeric.ocaml
+        5: invalid.illegal.numeric.ocaml
+    # hexadecimal integers
+    - match: ({{sign}})(0[xX])(_*)({{hex_integer}}*)({{suffix}})
+      scope: meta.number.integer.hexadecimal.ocaml
+      captures:
+        1: keyword.operator.arithmetic.ocaml
+        2: constant.numeric.base.ocaml
+        3: invalid.illegal.numeric.ocaml
+        4: constant.numeric.value.ocaml
+        5: constant.numeric.suffix.ocaml
+    # octal integers
+    - match: ({{sign}})(0[oO])(_*)({{oct_integer}}*)({{suffix}})
+      scope: meta.number.integer.octal.ocaml
+      captures:
+        1: keyword.operator.arithmetic.ocaml
+        2: constant.numeric.base.ocaml
+        3: invalid.illegal.numeric.ocaml
+        4: constant.numeric.value.ocaml
+        5: constant.numeric.suffix.ocaml
+    # binary integers
+    - match: ({{sign}})(0[bB])(_*)({{bin_integer}}*)({{suffix}})
+      scope: meta.number.integer.binary.ocaml
+      captures:
+        1: keyword.operator.arithmetic.ocaml
+        2: constant.numeric.base.ocaml
+        3: invalid.illegal.numeric.ocaml
+        4: constant.numeric.value.ocaml
+        5: constant.numeric.suffix.ocaml
+    # decimal integers
+    - match: ({{sign}})({{dec_integer}})({{suffix}})
+      scope: meta.number.integer.decimal.ocaml
+      captures:
+        1: keyword.operator.arithmetic.ocaml
+        2: constant.numeric.value.ocaml
+        3: constant.numeric.suffix.ocaml
+    # invalid numbers
+    - match: '{{sign}}\d+.*\b'
+      scope: invalid.illegal.numeric.ocaml
+
   definite_storagetypes:
     - include: storagetypes
     - match: '\b[a-zA-Z0-9''_]+\b'

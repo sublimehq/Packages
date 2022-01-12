@@ -4,7 +4,7 @@
 # Strings and embedded syntaxes
 ###############################
 
-var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE} \N{dashed-name}"
 #     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
@@ -23,6 +23,7 @@ var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SP
 #                                                        ^^^^^^ constant.character.escape.unicode
 #                                                               ^^^^^^^^^^ constant.character.escape.unicode
 #                                                                          ^^^^^^^^^ constant.character.escape.unicode
+#                                                                                    ^^^^^^^^^^^^^^^ constant.character.escape.unicode
 
 invalid_escapes = "\.  \-"
 #                  ^^ invalid.deprecated.character.escape.python
@@ -136,10 +137,14 @@ string = """
 
 string = """
 #        ^^^ string.quoted.double.block - string string
+\
+# <- punctuation.separator.continuation.line.python
 """
 
 string = r"""
 #         ^^^ meta.string.python string.quoted.double.block
+\
+# <- - punctuation
 """
 
 string = r"""
@@ -168,18 +173,18 @@ string = r'''
 
 string = r'''
     [set]
-#   ^^^^^ constant.other.character-class.set.regexp
-#   ^ punctuation.definition.character-class.begin.regexp
-#       ^ punctuation.definition.character-class.end.regexp
+#   ^^^^^ meta.set.regexp
+#   ^ punctuation.definition.set.begin.regexp
+#       ^ punctuation.definition.set.end.regexp
     (group)
 #   ^^^^^^^ meta.group.regexp
-#   ^ punctuation.definition.group.begin.regexp
-#         ^ punctuation.definition.group.end.regexp
+#   ^ punctuation.section.group.begin.regexp
+#         ^ punctuation.section.group.end.regexp
     (?<!group)
-#   ^^^^^^^^^^ meta.group.assertion.regexp
-#   ^ punctuation.definition.group.begin.regexp
+#   ^^^^^^^^^^ meta.group.regexp
+#   ^ punctuation.section.group.begin.regexp
 #    ^^^ constant.other.assertion.regexp
-#            ^ punctuation.definition.group.end.regexp
+#            ^ punctuation.section.group.end.regexp
 '''
 
 query = \
@@ -324,66 +329,66 @@ RB'''This is a \n test, %s no unicode \uDEAD'''
 br'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
+#            ^^ constant.character.escape.regexp
+#                    ^ keyword.operator.alternation.regexp
 #                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
+#                                          ^^ constant.character.escape.regexp
 #                                            ^^^^ - constant
 Br'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
+#            ^^ constant.character.escape.regexp
+#                    ^ keyword.operator.alternation.regexp
 #                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
+#                                          ^^ constant.character.escape.regexp
 #                                            ^^^^ - constant
 rb'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
+#            ^^ constant.character.escape.regexp
+#                    ^ keyword.operator.alternation.regexp
 #                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
+#                                          ^^ constant.character.escape.regexp
 #                                            ^^^^ - constant
 rB'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
+#            ^^ constant.character.escape.regexp
+#                    ^ keyword.operator.alternation.regexp
 #                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
+#                                          ^^ constant.character.escape.regexp
 #                                            ^^^^ - constant
 br'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
+#              ^^ constant.character.escape.regexp
+#                      ^ keyword.operator.alternation.regexp
 #                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
+#                                            ^^ constant.character.escape.regexp
 #                                              ^^^^ - constant
 Br'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
+#              ^^ constant.character.escape.regexp
+#                      ^ keyword.operator.alternation.regexp
 #                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
+#                                            ^^ constant.character.escape.regexp
 #                                              ^^^^ - constant
 rb'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
+#              ^^ constant.character.escape.regexp
+#                      ^ keyword.operator.alternation.regexp
 #                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
+#                                            ^^ constant.character.escape.regexp
 #                                              ^^^^ - constant
 rB'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ meta.string.python string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
+#              ^^ constant.character.escape.regexp
+#                      ^ keyword.operator.alternation.regexp
 #                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
+#                                            ^^ constant.character.escape.regexp
 #                                              ^^^^ - constant
 
 datetime.strptime('2011227', '%Y%V%u')
@@ -411,7 +416,8 @@ datetime.strftime(datetime.now(), '%Y%V%uT')
 '{0:%Y}-{0:%m}-{0:%d}'.format(datetime.date.today())
 # ^^^^^^^^^^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
-#  ^^^ constant.other.format-spec.python
+#  ^ punctuation.separator.format-spec.python
+#   ^^ meta.format-spec.python constant.other.format-spec.python
 #      ^ - constant.other.placeholder.python
 #       ^^^^^^ constant.other.placeholder.python
 #          ^^ constant.other.format-spec.python
@@ -421,13 +427,11 @@ datetime.strftime(datetime.now(), '%Y%V%uT')
 '{0:%Y}-{0:%m
 # ^^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
-#  ^^^ constant.other.format-spec.python
 #      ^^^^ - constant.other.placeholder.python
 #            ^ invalid.illegal.unclosed-string.python
 '{0:%Y}-{0:%
 # ^^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
-#  ^^^ constant.other.format-spec.python
 #      ^^^^^ - constant.other.placeholder.python
 #           ^ invalid.illegal.unclosed-string.python
 
@@ -492,6 +496,8 @@ sql = b'just some \
 #     ^^^^ constant.other.placeholder.python
 "More {!a: <10s}"                 # Calls ascii() on the argument first, then formats
 #     ^^^^^^^^^^ constant.other.placeholder.python
+#        ^ punctuation.separator.format-spec.python - meta.format-spec.python
+#         ^^^^^ meta.format-spec.python constant.other.format-spec.python
 "Escaped {{0}}"                   # outputs: "Escaped {0}"
 #        ^^^^^ - constant.other.placeholder.python
 #        ^^ constant.character.escape.python
@@ -524,12 +530,13 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 
 "Testing {:j^9,}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
-#         ^^^^^ constant.other.format-spec
+#          ^^^^ meta.format-spec.python constant.other.format-spec
 
 "result: {value:{width}.{precision}}"
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
-#              ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#               ^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
 #        ^ punctuation.definition.placeholder.begin
+#              ^ punctuation.separator.format-spec.python
 #               ^^^^^^^ constant.other.placeholder constant.other.placeholder
 #               ^ punctuation.definition.placeholder.begin
 #                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
@@ -545,6 +552,47 @@ foo = "{text{" # Comment
 bar = "}}" # Comment
 #      ^^ constant.character.escape
 
+# The following section contains unusual and legal or illegal format placeholders.
+# We don't actually want to match the syntax 100% of the time,
+# since we never know for sure if the string is used as a format string,
+# so some of these matches are incorrect because of implementation details.
+
+# Not format specs
+"{:{ }"  # unclosed
+# ^ - constant.other.placeholder
+'{{foo!r:4.2}'  # escaped opening
+# ^ - constant.other.placeholder
+'{{foo!r:4.2}}'  # escaped opening and closing
+# ^ - constant.other.placeholder
+'{foo!a:ran{dom}'  # unclosed
+# ^ - constant.other.placeholder
+'{foo!a:ran{dom}'  # unclosed
+# ^ - constant.other.placeholder
+
+# Invalid field names
+'{foo{d}}'
+# ^ - constant.other.placeholder
+"{:{ {}}"  # issue 2232
+# ^ - constant.other.placeholder
+'{foo.!a:d}'  # incomplete accessor (in simple form)
+# ^ constant.other.placeholder
+
+# Syntactically correct, but hardly come up in real code
+"{:{ ()}}".format(0, **{" ()": "d"}) == '0'
+# ^ constant.other.placeholder
+'{foo/bar}'.format(**{"foo/bar": 1}) == '1'
+# ^ - constant.other.placeholder
+
+# Legal but non-standard format spec
+'{foo:{{w}}.{{p}}}'
+# ^ - constant.other.placeholder
+'{foo:w}}}'
+# ^ - constant.other.placeholder
+'{foo!a:random}'
+# ^ - constant.other.placeholder
+'{foo!a:ran{d}om}'  # nested specification
+# ^ constant.other.placeholder
+
 f"string"
 # <- storage.type.string
 #^^^^^^^^ string.quoted.double
@@ -556,35 +604,96 @@ f"string"
 F'''string'''
 # <- storage.type.string
 #^^^^^^^^^^^^ meta.string.interpolated string.quoted.single.block
+#^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+#         ^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.end.python
 
  rf'string'
 #^^ storage.type.string - string
 #  ^^^^^^^^ meta.string.interpolated string.quoted.single
 
 rf'\r\n' f'\r\n' Rf'\r\n'
-#  ^^^^ source.regexp constant.character.escape.backslash.regexp
+#  ^^^^ source.regexp constant.character.escape.regexp
 #          ^^^^ constant.character.escape.python
 #                   ^^^^ - constant
 
 rf"\r\n" f"\r\n" Rf'\r\n'
-#  ^^^^ source.regexp constant.character.escape.backslash.regexp
+#  ^^^^ source.regexp constant.character.escape.regexp
 #          ^^^^ constant.character.escape.python
 #                   ^^^^ - constant
 
 expr = fr"^\s*({label}|{notlabel})"
 #         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.python
 #         ^ meta.string.interpolated.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
-#             ^ source.regexp.python meta.group.regexp punctuation.definition.group.begin.regexp
+#             ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
 #              ^^^^^^^ source.python meta.string.interpolated.python meta.interpolation.python
 #               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python
-#                                ^ source.regexp.python meta.group.regexp punctuation.definition.group.end.regexp
+#                                ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
 
 line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
-#                  ^^^^^ constant.character.escape.backslash.regexp
+#                  ^^^ constant.character.escape.backslash.regexp
 #                   ^^ constant.character.escape.python
+#                     ^^ constant.character.escape.regexp
 #                          ^^^ constant.character.escape.backslash.regexp
 #                           ^^ constant.character.escape.python
 #                              ^ punctuation.section.interpolation.begin.python
+
+match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
+#                  ^^^^^^^^^^ meta.group.regexp
+#                  ^ punctuation.section.group.begin
+#                   ^^ keyword.other.backref-and-recursion
+#                     ^ punctuation.definition.capture-group-name.begin
+#                      ^^^^ entity.name.capture-group
+#                          ^ punctuation.definition.capture-group-name.end
+#                            ^ punctuation.section.group.end
+#                             ^ keyword.operator.quantifier
+#                               ^ punctuation.section.group.begin
+#                                ^ keyword.other.backref-and-recursion.conditional
+#                                 ^ punctuation.definition.group.begin.assertion.conditional
+#                                  ^^^^ variable.other.back-reference
+#                                      ^ punctuation.definition.group.end.assertion.conditional
+#                                        ^ keyword.operator.alternation
+#                                          ^ punctuation.section.group.end
+match = re.match(r'(a)?b(?(1)c|d)', line)
+#                  ^^^ meta.group.regexp
+#                  ^ punctuation.section.group.begin
+#                    ^ punctuation.section.group.end
+#                     ^ keyword.operator.quantifier
+#                       ^ punctuation.section.group.begin
+#                        ^ keyword.other.backref-and-recursion.conditional
+#                         ^ punctuation.definition.group.begin.assertion.conditional
+#                          ^ variable.other.back-reference - punctuation - keyword
+#                           ^ punctuation.definition.group.end.assertion.conditional
+#                             ^ keyword.operator.alternation
+#                               ^ punctuation.section.group.end
+match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
+#                     ^^^^^^^^^^^^^^^ meta.group.regexp
+#                     ^ punctuation.section.group.begin
+#                      ^^ keyword.other.backref-and-recursion
+#                        ^ punctuation.definition.capture-group-name.begin
+#                         ^^^^^ entity.name.capture-group
+#                              ^ punctuation.definition.capture-group-name.end
+#                               ^^^^ meta.set
+#                               ^ punctuation.definition.set.begin
+#                                  ^ punctuation.definition.set.end
+#                                   ^ punctuation.section.group.end
+#                                    ^ keyword.other.any - meta.group
+#                                     ^^ keyword.operator.quantifier
+#                                        ^^^ keyword.other.back-reference.named
+#                                           ^^^^^ variable.other.backref-and-recursion - keyword
+match = re.search(r'''(?ix)some text(?-i)''', line)
+#                     ^ punctuation.definition.modifier.begin
+#                       ^^ storage.modifier.mode
+#                         ^ punctuation.definition.modifier.end
+#                                   ^ punctuation.definition.modifier.begin
+#                                     ^^ storage.modifier.mode
+#                                       ^ punctuation.definition.modifier.end
+match = re.search(r'''(?ix:some text(?-i:hello))(?iLmsux)(?a)foo''', line)
+#                                              ^ meta.function-call.arguments meta.string string.quoted.single.block source.regexp meta.group meta.mode.extended punctuation.section.group.end
+#                                               ^ punctuation.definition.modifier.begin
+#                                                 ^^^^^^ storage.modifier.mode
+#                                                       ^ punctuation.definition.modifier.end
+#                                                        ^^^^ meta.modifier
+#                                                          ^ storage.modifier.mode
 
 f"\{{{x}\}} test"
 # ^ invalid.deprecated.character.escape.python
@@ -645,6 +754,10 @@ F""" {} {\} }
 #        ^ invalid.illegal.backslash-in-fstring
 #           ^ invalid.illegal.stray-brace
 """
+
+fr'''
+#    ^ - invalid
+'''
 
 # Most of these were inspired by
 # https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32

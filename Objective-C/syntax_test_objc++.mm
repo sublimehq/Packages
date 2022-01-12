@@ -1,11 +1,33 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
 
+Task<int> natural_numbers()
+{
+  int n = 0;
+  while (true) {
+    co_yield n;
+    /*     ^ keyword.control */
+    n++;
+  }
+}
+Task<int> foo()
+{
+  co_return 42;
+  /*      ^ keyword.control */
+  /*         ^ meta.number */
+}
+Task<void> bar()
+{
+  co_await natural_numbers();
+  /*     ^ keyword.control */
+  /*                     ^ variable.function */
+}
+
 int main(){
     int a=5,b=0;
     while(a-->0)++b;
     /*     ^^ keyword.operator.arithmetic */
     /*       ^ keyword.operator.comparison */
-    /*        ^ constant.numeric */
+    /*        ^ meta.number */
     /*          ^^ keyword.operator.arithmetic */
 }
 
@@ -18,7 +40,7 @@ int main(){
 #define IGUARD_
  /* <- keyword.control.import.define */
 struct foo* alloc_foo();
-/* <- storage.type */
+/* <- keyword.declaration */
        /* <- - entity.name.type */
             /* <- entity.name.function */
 #endif
@@ -32,7 +54,7 @@ int func() {
 /*  ^ keyword.control.import */
         #define PLL_RFD_PHI1    10      // PLL0_PH1 = 40MHz
 /*      ^ keyword.control.import */
-/*                              ^^ constant.numeric */
+/*                              ^^ meta.number */
 /*                                      ^ comment.line */
     #endif
 /*  ^ keyword.control.import */
@@ -106,7 +128,8 @@ int main() {
 // constructor.
 FOOLIB_RESULT
 some_namespace::some_function(int a_parameter, double another_parameter) {
-  /* <- meta.function entity.name.function - entity.name.function.constructor */
+  /* <- meta.function meta.toc-list.full-identifier */
+  /*            ^ entity.name.function - entity.name.function.constructor */
   return FOOLIB_SUCCESS;
 }
 
@@ -246,10 +269,10 @@ char str1[] = "abc";
 /*             ^ string.quoted.double */
 /*                ^ punctuation.definition.string.end */
 
-char str2[] = u8"abc";
-/*            ^ storage.type.string */
-/*              ^ punctuation.definition.string.begin */
-/*               ^ string.quoted.double */
+char8_t str2[] = u8"abc";
+/*               ^ storage.type.string */
+/*                 ^ punctuation.definition.string.begin */
+/*                  ^ string.quoted.double */
 
 char16_t str3[] = u"abc";
 /*                ^ storage.type.string */
@@ -289,13 +312,16 @@ char str8[] = "\x0a|\x41|\xA|\x000065";
 /*                       ^^^ constant.character.escape */
 /*                           ^^^^^^^^ constant.character.escape */
 
-char16_t str9[] = u"\u0063";
+char8_t str9[] = u8"\u0063";
 /*                  ^^^^^^ constant.character.escape */
 
-char32_t str10[] = U"\U00000063";
+char16_t str10[] = u"\u0063";
+/*                   ^^^^^^ constant.character.escape */
+
+char32_t str11[] = U"\U00000063";
 /*                   ^^^^^^^^^^ constant.character.escape */
 
-char str11[] = "\q";
+char str12[] = "\q";
 /*              ^^ invalid.illegal.unknown-escape */
 
 scanf("%ms %as %*[, ]", &buf);
@@ -366,7 +392,7 @@ auto a = 2;
 /* <- storage.type */
 
 decltype(s) dt;
-/* <- storage.type */
+/* <- keyword.declaration */
 /*      ^ punctuation.section.group.begin */
 /*        ^ punctuation.section.group.end */
 
@@ -377,40 +403,93 @@ double d;
 /* <- storage.type */
 
 typedef int my_int;
-/* <- storage.type */
+/* <- keyword.declaration */
 /*          ^ entity.name.type */
 
 typedef struct Books {
-/*      ^ storage.type */
+/*      ^ keyword.declaration */
 /*             ^ - entity.name.type */
    char title[50];
    int book_id;
 } Book;
 /*^ entity.name.type */
 
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.objc++ */
+/*      ^^^^^^ keyword.declaration.struct.objc++ */
+/*             ^^^^^^^^^^^ entity.name.struct.objc++ */
+/*                         ^ punctuation.section.block.begin.objc++ */
+/*                          ^ punctuation.section.block.end.objc++ */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.objc++ */
+
 typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
 
+using Alias = Foo;
+/* <- keyword.control */
+/*    ^^^^^ entity.name.type.using */
+
+using Alias
+  = NewLineFoo;
+/*^ - entity.name */
+
+template <typename T>
+using TemplateAlias = Foo<T>;
+/*    ^^^^^^^^^^^^^ entity.name.type.using */
+
+using std::cout;
+/* <- keyword.control */
+/*    ^ - entity.name */
+
+using std::
+  cout;
+/*^ - entity.name */
+
+class MyClass : public SuperClass
+{
+    using This = MyClass;
+/*  ^ keyword.control */
+/*        ^^^^ entity.name.type.using */
+
+    using MyInt
+/*  ^ keyword.control */
+        = int32_t;
+
+    using SuperClass::SuperClass;
+/*  ^ keyword.control */
+/*        ^ - entity.name */
+};
+
+class MyClass : public CrtpClass<MyClass>
+{
+    using typename CrtpClass<MyClass>::PointerType;
+/*  ^ keyword.control */
+/*        ^ storage.modifier */
+    using CrtpClass<
+/*  ^ keyword.control */
+        MyClass>::method;
+};
+
 template class MyStack<int, 6>;
-/* <- storage.type.template */
+/* <- keyword.declaration.template */
 /*                    ^ punctuation.section.generic */
 /*                     ^ storage.type */
-/*                          ^ constant.numeric */
+/*                          ^ meta.number */
 /*                           ^ punctuation.section.generic */
 
 template<class typeId, int N> class tupleTmpl;
-/* <- storage.type.template */
+/* <- keyword.declaration.template */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */
 /*      ^ punctuation.section.generic.begin */
-/*       ^ storage.type */
+/*       ^ keyword.declaration */
 /*                      ^ storage.type */
 /*                          ^ punctuation.section.generic.end */
 
 template<typename First = U<V>, typename... Rest> class tupleVariadic;
-/* <- storage.type.template */
+/* <- keyword.declaration.template */
 /*      ^ punctuation.section.generic.begin */
-/*       ^ storage.type */
+/*       ^ keyword.declaration */
 /*                         ^ punctuation.section.generic.begin */
 /*                           ^ punctuation.section.generic.end */
 /*                            ^ punctuation.separator */
@@ -445,24 +524,45 @@ void funcName<C>() {
 }
 bool A::operator<(const A& a) { return false; }
 /* ^ storage.type */
-/*   ^^^^^^^^^^^^ meta.function entity.name.function */
+/*   ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*      ^^^^^^^^^ entity.name.function */
 /*               ^ meta.function.parameters punctuation.section.group.begin */
 template <class T> bool A<T>::operator<(const A& a) { return false; }
-/*     ^ storage.type.template */
+/*     ^ keyword.declaration.template */
 /*       ^ punctuation.section.generic.begin */
 /*               ^ punctuation.section.generic.end */
-/*                      ^^^^^^^^^^^^^^^ meta.function entity.name.function */
+/*                      ^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*                            ^^^^^^^^^ entity.name.function */
 /*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
 template <typename Foo>
 SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
-/*                          ^^^^^^ meta.function entity.name.function */
+/*                  ^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*                          ^^^^^^ entity.name.function */
+
 template <typename Foo> SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
-/*                                                  ^^^^^^ meta.function entity.name.function */
+/*                                          ^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*                                                  ^^^^^^ entity.name.function */
+
+template <typename Foo> A<Foo>::A(YetAnotherType&& asRValue) {}
+/*                      ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*                              ^ entity.name.function */
+
+template <typename Foo> A<Foo>::A(YetAnotherType&& asRValue) {}
+/*                      ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*                              ^ entity.name.function.constructor */
+
+template <typename Foo> A<Foo>::~A(YetAnotherType&& asRValue) {}
+/*                      ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*                              ^ entity.name.function.destructor */
+
 template <class T>
 bool A<T>::operator   >    (const A& other) { return false; }
 /*         ^^^^^^^^^^^^ meta.function entity.name.function */
 template <class T>
 bool A<T>::operator    ==    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator   <=>    (const A& other) { return false; }
 /*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
@@ -474,7 +574,7 @@ typedef std :: vector<std::vector<int> > Table;
 template <typename T = float, int a = 3, bool b = true>
                   /* ^ meta.template keyword.operator                               */
                   /*                ^ meta.template keyword.operator                */
-                  /*                  ^ meta.template constant.numeric              */
+                  /*                  ^ meta.template meta.number              */
                   /*                            ^ meta.template keyword.operator    */
                   /*                              ^ meta.template constant.language */
 struct Foo
@@ -484,7 +584,7 @@ struct Foo
 
     void bar(int a = 3, bool b = true) {}
                 /* ^ - meta.template keyword.operator                */
-                /*   ^ - meta.template constant.numeric              */
+                /*   ^ - meta.template meta.number              */
                 /*             ^ - meta.template keyword.operator    */
                 /*               ^ - meta.template constant.language */
 };
@@ -494,7 +594,7 @@ struct Foo
 template <std::size_t Count = 128>
 /*           ^^ meta.template punctuation.accessor             */
 /*                          ^ meta.template keyword.operator   */
-/*                            ^ meta.template constant.numeric */
+/*                            ^ meta.template meta.number */
 class fixed_array : private std::array<int, Count> {};
 
 constexpr std::size_t f() { return 128; }
@@ -518,9 +618,9 @@ template <class ...Types> class C { /* ... */ };
 template<template<class> class P> class X { /* ... */ };
 /*      ^ meta.template punctuation                              */
 /*               ^ meta.template meta.template punctuation       */
-/*                ^^^^^ meta.template meta.template storage.type */
+/*                ^^^^^ meta.template meta.template keyword.declaration */
 /*                     ^ meta.template meta.template punctuation */
-/*                       ^^^^^ meta.template storage.type        */
+/*                       ^^^^^ meta.template keyword.declaration        */
 /*                              ^ meta.template punctuation      */
 
 X<A> xa; // OK
@@ -530,7 +630,7 @@ X<C> xc; // OK in C++14 after CWG 150
 
 // template declarations spanning multiple lines
 template
-/* <- meta.template storage.type */
+/* <- meta.template keyword.declaration */
 <
 /* <- meta.template punctuation.section.generic.begin */
     class T,
@@ -562,7 +662,7 @@ static bool decode(const Node& node, T& sequence) {
   for (const auto& item : node) {
     sequence.push_back(item.template as<typename T::value_type>());
     /*                     ^ punctuation.accessor                           */
-    /*                      ^ storage.type - variable.other                 */
+    /*                      ^ keyword.declaration - variable.other          */
     /*                               ^ variable.function                    */
     /*                                 ^ punctuation                        */
     /*                                            ^^ punctuation.accessor   */
@@ -614,7 +714,7 @@ int main() {
 
 // Example from section 14.2/4 of
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
-struct X 
+struct X
 {
     template <std::size_t>
     X* alloc();
@@ -622,24 +722,24 @@ struct X
     template <std::size_t>
     static X* adjust();
 };
-template <class T> 
-void f(T* p) 
+template <class T>
+void f(T* p)
 {
     // Be optimistic: scope it as a template member function call anyway.
     T* p1 = p->alloc<200>(); // ill-formed: < means less than
-    
+
     T* p2 = p->template alloc<200>(); // OK: < starts template argument list
     /*        ^ punctuation.accessor           */
-    /*         ^ storage.type - variable.other */
+    /*         ^ keyword.declaration - variable.other */
     /*                  ^ variable.function    */
 
     // Be optimistic: scope it as a template member function call anyway.
     T::adjust<100>(); // ill-formed: < means less than
-    
+
     T::template adjust<100>(); // OK: < starts template argument list
     /* <- - variable.function                    */
     /*^ punctuation.accessor                     */
-    /* ^ storage.type - variable.other           */
+    /* ^ keyword.declaration - variable.other    */
     /* ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
     /*          ^ variable.function              */
 }
@@ -673,15 +773,15 @@ void f()
 template<typename T> C<T> f(T t)
 {
     return C<T> { g<X<T>>(t) };
-    /*     ^ - variable.function */
-    /*          ^ punctuation.section.block.begin */
+    /*     ^ variable.function */
+    /*          ^ punctuation.section.group.begin */
 }
 
 template<typename T> C<X<T>> f(T t)
 {
     return C<X<T>> { g<X<T>>(t) };
-    /*     ^ - variable.function */
-    /*             ^ punctuation.section.block.begin */
+    /*     ^ variable.function */
+    /*             ^ punctuation.section.group.begin */
 }
 
 struct A { int foo; };
@@ -695,7 +795,14 @@ int main() {
 template <typename T>
 struct A<T, enable_if_t<std::is_arithmetic<T>::value && !is_std_char_type<T>::value>> {
     using x = conditional_t<sizeof(T) <= sizeof(long), long, long long>;
-    /*                                ^^ keyword.operator */
+    /*                                ^^ keyword.operator.comparison */
+
+    template<int>
+    struct Y {
+        constexpr int operator<=>(const Y&) { return 0; }
+    };
+    Y<Y<0>{} <=> Y<0>> y;
+    /*       ^^^ keyword.operator.comparison */
 };
 /* <- - invalid.illegal */
 
@@ -713,6 +820,12 @@ const int XYZ = 2;
 /* <- storage.modifier */
 
 constexpr int ABC = 3 + 5;
+/* <- storage.modifier */
+
+consteval int f() { return 42; }
+/* <- storage.modifier */
+
+constinit const int i = f();
 /* <- storage.modifier */
 
 thread_local int x;
@@ -776,7 +889,7 @@ try
 {
     throw std :: string("xyz");
     /* <- keyword.control.flow.throw */
-    /*    ^^^^^^^^^^^^^ variable.function */
+    /*           ^^^^^^ variable.function */
     /*        ^^ punctuation.accessor */
 }
 catch (...)
@@ -870,135 +983,339 @@ std::cout << __LINE__ << '\n';
 /////////////////////////////////////////////
 
 dec1 = 1234567890;
-/*     ^ constant.numeric */
-/*              ^ constant.numeric */
+/*     ^^^^^^^^^^ meta.number.integer.decimal constant.numeric.value */
+/*               ^ punctuation.terminator - constant */
 
 dec2 = 1'924'013;
-/*     ^ constant.numeric */
-/*             ^ constant.numeric */
+/*     ^^^^^^^^^ meta.number.integer.decimal constant.numeric.value */
+/*              ^ punctuation.terminator - constant */
 
 dec3 = 124ul;
-/*     ^ constant.numeric */
-/*         ^ constant.numeric */
+/*     ^^^^^ meta.number.integer.decimal.c++ */
+/*     ^^^ constant.numeric.value.c++ */
+/*        ^^ constant.numeric.suffix.c++ */
+/*          ^ punctuation.terminator - constant */
 
 dec4 = 9'204lu;
-/*     ^ constant.numeric */
-/*           ^ constant.numeric */
+/*     ^^^^^^^ meta.number.integer.decimal.c++ */
+/*     ^^^^^ constant.numeric.value.c++ */
+/*          ^^ constant.numeric.suffix.c++ */
+/*            ^ punctuation.terminator - constant */
 
 dec5 = 2'354'202'076LL;
-/*     ^ constant.numeric */
-/*                   ^ constant.numeric */
+/*     ^^^^^^^^^^^^^^^ meta.number.integer.decimal.c++ */
+/*     ^^^^^^^^^^^^^ constant.numeric.value.c++ */
+/*                  ^^ constant.numeric.suffix.c++ */
+/*                    ^ punctuation.terminator - constant */
 
-int oct1 = 01234567;
-/*         ^ constant.numeric */
-/*                ^ constant.numeric */
+oct1 = 0123_567;
+/*     ^^^^^^^^ meta.number.integer.octal.c++ */
+/*     ^ constant.numeric.base.c++ */
+/*      ^^^ constant.numeric.value.c++ */
+/*         ^^^^ constant.numeric.suffix.c++ */
+/*             ^ punctuation.terminator - constant */
 
-int oct2 = 014'70;
-/*         ^ constant.numeric */
-/*              ^ constant.numeric */
+oct2 = 014'70;
+/*     ^^^^^^ meta.number.integer.octal.c++ */
+/*     ^ constant.numeric.base.c++ */
+/*      ^^^^^ constant.numeric.value.c++ */
+/*           ^ punctuation.terminator - constant */
 
-int hex1 = 0x1234567890ABCDEF;
-/*         ^ constant.numeric */
-/*                          ^ constant.numeric */
+hex1 = 0x1234567890ABCDEF;
+/*     ^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*     ^^ constant.numeric.base.c++ */
+/*       ^^^^^^^^^^^^^^^^ constant.numeric.value.c++ */
+/*                       ^ punctuation.terminator - constant */
 
-int hex2 = 0X1234567890ABCDEF;
-/*         ^ constant.numeric */
-/*                          ^ constant.numeric */
+hex2 = 0X1234567890ABCDEF;
+/*     ^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*     ^^ constant.numeric.base.c++ */
+/*       ^^^^^^^^^^^^^^^^ constant.numeric.value.c++ */
+/*                       ^ punctuation.terminator - constant */
 
-int hex3 = 0x1234567890abcdef;
-/*         ^ constant.numeric */
-/*                          ^ constant.numeric */
+hex3 = 0x1234567890abcdef;
+/*     ^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*     ^^ constant.numeric.base.c++ */
+/*       ^^^^^^^^^^^^^^^^ constant.numeric.value.c++ */
+/*                       ^ punctuation.terminator - constant */
 
-int hex4 = 0xA7'45'8C'38;
-/*         ^ constant.numeric */
-/*                     ^ constant.numeric */
+hex4 = 0xA7'45'8C'38;
+/*     ^^^^^^^^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*     ^^ constant.numeric.base.c++ */
+/*       ^^^^^^^^^^^ constant.numeric.value.c++ */
+/*                  ^ punctuation.terminator - constant */
 
-int bin1 = 0b010110;
-/*         ^ constant.numeric */
-/*                ^ constant.numeric */
+hex5 = 0x0+0xFL+0xaull+0xallu+0xfu+0xf'12_4_uz;
+/*     ^^^ meta.number.integer.hexadecimal.c++ */
+/*     ^^ constant.numeric.base.c++ */
+/*       ^ constant.numeric.value.c++ */
+/*         ^^^^ meta.number.integer.hexadecimal.c++ */
+/*         ^^ constant.numeric.base.c++ */
+/*           ^ constant.numeric.value.c++ */
+/*            ^ constant.numeric.suffix.c++ */
+/*              ^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*              ^^ constant.numeric.base.c++ */
+/*                ^ constant.numeric.value.c++ */
+/*                 ^^^ constant.numeric.suffix.c++ */
+/*                     ^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*                     ^^ constant.numeric.base.c++ */
+/*                       ^ constant.numeric.value.c++ */
+/*                        ^^^ constant.numeric.suffix.c++ */
+/*                            ^^^^ meta.number.integer.hexadecimal.c++ */
+/*                            ^^ constant.numeric.base.c++ */
+/*                              ^ constant.numeric.value.c++ */
+/*                               ^ constant.numeric.suffix.c++ */
+/*                                 ^^^^^^^^^^ meta.number.integer.hexadecimal.c++ */
+/*                                 ^^ constant.numeric.base.c++ */
+/*                                   ^^^^ constant.numeric.value.c++ */
+/*                                       ^^^^^ constant.numeric.suffix.c++ */
+/*                                            ^ punctuation.terminator - constant */
 
-int bin2 = 0B010010;
-/*         ^ constant.numeric */
-/*                ^ constant.numeric */
+hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
+/*     ^^^^^^^^^^^^^ meta.number.float.hexadecimal.c++ */
+/*     ^^ constant.numeric.base.c++ */
+/*       ^^^^^^^^^^^ constant.numeric.value.c++ */
+/*         ^ punctuation.separator.decimal.c++ */
+/*                  ^ keyword.operator.arithmetic - constant.c++ */
+/*                   ^^^^^^^^^^^^^^ meta.number.float.hexadecimal.c++ */
+/*                   ^^ constant.numeric.base.c++ */
+/*                     ^^^^^^^^^^^ constant.numeric.value.c++ */
+/*                      ^ punctuation.separator.decimal.c++ */
+/*                                ^ constant.numeric.suffix.c++ */
+/*                                 ^ punctuation.terminator - constant */
 
-int bin3 = 0b1001'1101'0010'1100;
-/*         ^ constant.numeric */
-/*                             ^ constant.numeric */
+bin1 = 0b010110;
+/*     ^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^ constant.numeric.value */
+/*             ^ punctuation.terminator - constant */
 
-units1 = 134h;
-/*       ^ constant.numeric */
-/*          ^ constant.numeric */
+bin2 = 0B010010;
+/*     ^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^ constant.numeric.value */
+/*             ^ punctuation.terminator - constant */
 
-units2 = 147min;
-/*       ^ constant.numeric */
-/*            ^ constant.numeric */
+bin3 = 0b1001'1101'0010'1100;
+/*     ^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^^^^^^^^^^^^^^ constant.numeric.value */
+/*                          ^ punctuation.terminator - constant */
 
-units3 = 357s;
-/*       ^ constant.numeric */
-/*          ^ constant.numeric */
+f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
+/*  ^^^ meta.number.float.decimal.c++ */
+/*  ^^^ constant.numeric.value.c++ */
+/*   ^ punctuation.separator.decimal.c++ */
+/*     ^ keyword.operator.arithmetic.c */
+/*      ^^^^^ meta.number.float.decimal.c++ */
+/*      ^^^^^ constant.numeric.value.c++ */
+/*       ^ punctuation.separator.decimal.c++ */
+/*           ^ keyword.operator.arithmetic.c */
+/*            ^^^^^^ meta.number.float.decimal.c++ */
+/*            ^^^^^^ constant.numeric.value.c++ */
+/*             ^ punctuation.separator.decimal.c++ */
+/*                  ^ keyword.operator.arithmetic.c */
+/*                   ^^^^ meta.number.float.decimal.c++ */
+/*                   ^^^ constant.numeric.value.c++ */
+/*                    ^ punctuation.separator.decimal.c++ */
+/*                      ^ constant.numeric.suffix.c++ */
+/*                       ^ keyword.operator.arithmetic.c */
+/*                        ^^^^^^ meta.number.float.decimal.c++ */
+/*                        ^^^^^ constant.numeric.value.c++ */
+/*                         ^ punctuation.separator.decimal.c++ */
+/*                             ^ constant.numeric.suffix.c++ */
+/*                              ^ keyword.operator.arithmetic.c */
+/*                               ^^^^^^^ meta.number.float.decimal.c++ */
+/*                               ^^^^^^ constant.numeric.value.c++ */
+/*                                ^ punctuation.separator.decimal.c++ */
+/*                                     ^ constant.numeric.suffix.c++ */
+/*                                      ^ keyword.operator.arithmetic.c */
+/*                                       ^^^^ meta.number.float.decimal.c++ */
+/*                                       ^^^ constant.numeric.value.c++ */
+/*                                        ^ punctuation.separator.decimal.c++ */
+/*                                          ^ constant.numeric.suffix.c++ */
+/*                                           ^ keyword.operator.arithmetic.c */
+/*                                            ^^^^^^ meta.number.float.decimal.c++ */
+/*                                            ^^^^^ constant.numeric.value.c++ */
+/*                                             ^ punctuation.separator.decimal.c++ */
+/*                                                 ^ constant.numeric.suffix.c++ */
+/*                                                  ^ keyword.operator.arithmetic.c */
+/*                                                   ^^^^^^^ meta.number.float.decimal.c++ */
+/*                                                   ^^^^^^ constant.numeric.value.c++ */
+/*                                                    ^ punctuation.separator.decimal.c++ */
+/*                                                         ^ constant.numeric.suffix.c++ */
+/*                                                          ^ punctuation.terminator - constant */
 
-units4 = 234_custom;
-/*       ^ constant.numeric */
-/*                ^ constant.numeric */
+f = 1.e1+1.e-1+1.e1f+1.e-1f+1.e1L+1.e-1L;
+/*  ^^^^ meta.number.float.decimal.c++ */
+/*  ^^^^ constant.numeric.value.c++ */
+/*   ^ punctuation.separator.decimal.c++ */
+/*      ^ keyword.operator.arithmetic.c */
+/*       ^^^^^ meta.number.float.decimal.c++ */
+/*       ^^^^^ constant.numeric.value.c++ */
+/*        ^ punctuation.separator.decimal.c++ */
+/*            ^ keyword.operator.arithmetic.c */
+/*             ^^^^^ meta.number.float.decimal.c++ */
+/*             ^^^^ constant.numeric.value.c++ */
+/*              ^ punctuation.separator.decimal.c++ */
+/*                 ^ constant.numeric.suffix.c++ */
+/*                  ^ keyword.operator.arithmetic.c */
+/*                   ^^^^^^ meta.number.float.decimal.c++ */
+/*                   ^^^^^ constant.numeric.value.c++ */
+/*                    ^ punctuation.separator.decimal.c++ */
+/*                        ^ constant.numeric.suffix.c++ */
+/*                         ^ keyword.operator.arithmetic.c */
+/*                          ^^^^^ meta.number.float.decimal.c++ */
+/*                          ^^^^ constant.numeric.value.c++ */
+/*                           ^ punctuation.separator.decimal.c++ */
+/*                              ^ constant.numeric.suffix.c++ */
+/*                               ^ keyword.operator.arithmetic.c */
+/*                                ^^^^^^ meta.number.float.decimal.c++ */
+/*                                ^^^^^ constant.numeric.value.c++ */
+/*                                 ^ punctuation.separator.decimal.c++ */
+/*                                     ^ constant.numeric.suffix.c++ */
+/*                                      ^ punctuation.terminator - constant */
 
-fixed1 = 123.456;
-/*       ^ constant.numeric */
-/*             ^ constant.numeric */
+f = 1.+1.f+1.L+1..;
+/*  ^^ meta.number.float.decimal.c++ */
+/*  ^^ constant.numeric.value.c++ */
+/*   ^ punctuation.separator.decimal.c++ */
+/*    ^ keyword.operator.arithmetic.c */
+/*     ^^^ meta.number.float.decimal.c++ */
+/*     ^^ constant.numeric.value.c++ */
+/*      ^ punctuation.separator.decimal.c++ */
+/*       ^ constant.numeric.suffix.c++ */
+/*        ^ keyword.operator.arithmetic.c */
+/*         ^^^ meta.number.float.decimal.c++ */
+/*         ^^ constant.numeric.value.c++ */
+/*          ^ punctuation.separator.decimal.c++ */
+/*           ^ constant.numeric.suffix.c++ */
+/*            ^ keyword.operator.arithmetic.c */
+/*             ^ meta.number.integer.decimal.c++ */
+/*             ^ constant.numeric.value.c++ */
+/*              ^^ invalid.illegal.syntax.c */
+/*                ^ punctuation.terminator - constant */
 
-fixed2 = 12.;
-/*       ^ constant.numeric */
-/*         ^ constant.numeric */
+f = 1e1+1e1f+1e1L;
+/*  ^^^ meta.number.float.decimal.c++ */
+/*  ^^^ constant.numeric.value.c++ */
+/*     ^ keyword.operator.arithmetic.c */
+/*      ^^^^ meta.number.float.decimal.c++ */
+/*      ^^^ constant.numeric.value.c++ */
+/*         ^ constant.numeric.suffix.c++ */
+/*          ^ keyword.operator.arithmetic.c */
+/*           ^^^^ meta.number.float.decimal.c++ */
+/*           ^^^ constant.numeric.value.c++ */
+/*              ^ constant.numeric.suffix.c++ */
+/*               ^ punctuation.terminator - constant */
 
-fixed3 = .35;
-/*       ^ constant.numeric */
-/*         ^ constant.numeric */
+f = .1+.1e1+.1e-1+.1f+.1e1f+.1e-1f+.1L+.1e1L+.1e-1L;
+/*  ^^ meta.number.float.decimal.c++ */
+/*  ^^ constant.numeric.value.c++ */
+/*  ^ punctuation.separator.decimal.c++ */
+/*    ^ keyword.operator.arithmetic.c */
+/*     ^^^^ meta.number.float.decimal.c++ */
+/*     ^ punctuation.separator.decimal.c++ */
+/*     ^^^^ constant.numeric.value.c++ */
+/*         ^ keyword.operator.arithmetic.c */
+/*          ^^^^^ meta.number.float.decimal.c++ */
+/*          ^ punctuation.separator.decimal.c++ */
+/*          ^^^^^ constant.numeric.value.c++ */
+/*               ^ keyword.operator.arithmetic.c */
+/*                ^^^ meta.number.float.decimal.c++ */
+/*                ^ punctuation.separator.decimal.c++ */
+/*                ^^ constant.numeric.value.c++ */
+/*                  ^ constant.numeric.suffix.c++ */
+/*                   ^ keyword.operator.arithmetic.c */
+/*                    ^^^^^ meta.number.float.decimal.c++ */
+/*                    ^ punctuation.separator.decimal.c++ */
+/*                    ^^^^ constant.numeric.value.c++ */
+/*                        ^ constant.numeric.suffix.c++ */
+/*                         ^ keyword.operator.arithmetic.c */
+/*                          ^^^^^^ meta.number.float.decimal.c++ */
+/*                          ^ punctuation.separator.decimal.c++ */
+/*                          ^^^^^ constant.numeric.value.c++ */
+/*                               ^ constant.numeric.suffix.c++ */
+/*                                 ^^^ meta.number.float.decimal.c++ */
+/*                                 ^ punctuation.separator.decimal.c++ */
+/*                                 ^^ constant.numeric.value.c++ */
+/*                                   ^ constant.numeric.suffix.c++ */
+/*                                    ^ keyword.operator.arithmetic.c */
+/*                                     ^^^^^ meta.number.float.decimal.c++ */
+/*                                     ^ punctuation.separator.decimal.c++ */
+/*                                     ^^^^ constant.numeric.value.c++ */
+/*                                         ^ constant.numeric.suffix.c++ */
+/*                                          ^ keyword.operator.arithmetic.c */
+/*                                           ^^^^^^ meta.number.float.decimal.c++ */
+/*                                           ^ punctuation.separator.decimal.c++ */
+/*                                           ^^^^^ constant.numeric.value.c++ */
+/*                                                ^ constant.numeric.suffix.c++ */
+/*                                                 ^ punctuation.terminator - constant */
 
-fixed4 = 1'843'290.245'123;
-/*       ^ constant.numeric */
-/*                       ^ constant.numeric */
+f = 1'843'290.245'123;
+/*  ^^^^^^^^^^^^^^^^^ meta.number.float.decimal */
+/*           ^ punctuation.separator.decimal */
+/*                   ^ punctuation.terminator - constant */
 
-fixed5 = 0.3f;
-/*       ^ constant.numeric */
-/*          ^ constant.numeric */
+f = 2'837e1'000;
+/*  ^^^^^^^^^^^ meta.number.float.decimal */
+/*             ^ punctuation.terminator - constant */
 
-fixed6 = 0.82L;
-/*       ^ constant.numeric */
-/*           ^ constant.numeric */
+f = 23e-1'000;
+/*  ^^^^^^^^^ meta.number.float.decimal */
+/*           ^ punctuation.terminator - constant */
 
-float sci1 = 1.23e10;
-/*           ^ constant.numeric */
-/*                 ^ constant.numeric */
+units0 = 1.0suff+1.suff*.0suff/{1suff}
+/*       ^^^^^^^ meta.number.float.decimal */
+/*          ^^^^ constant.numeric.suffix */
+/*              ^ keyword.operator.arithmetic */
+/*               ^^^^^^ meta.number.float.decimal */
+/*                 ^^^^ constant.numeric.suffix */
+/*                     ^ keyword.operator */
+/*                      ^^^^^^ meta.number.float.decimal */
+/*                        ^^^^ constant.numeric.suffix */
+/*                            ^ keyword.operator.arithmetic */
+/*                             ^ punctuation.section.block.begin */
+/*                              ^^^^^ meta.number.integer.decimal */
+/*                              ^ constant.numeric.value */
+/*                               ^^^^ constant.numeric.suffix */
+/*                                   ^ punctuation.section.block.end */
 
-float sci2 = 13e5;
-/*           ^ constant.numeric */
-/*              ^ constant.numeric */
+units1 = 134h + 123.45h;
+/*       ^^^^ meta.number.integer.decimal */
+/*          ^ constant.numeric.suffix */
+/*           ^^^ - constant */
+/*              ^^^^^^^ meta.number.float.decimal */
+/*                 ^ punctuation.separator.decimal */
+/*                    ^ constant.numeric.suffix */
+/*                     ^ punctuation.terminator - constant */
 
-float sci3 = 14.23e+14;
-/*           ^ constant.numeric */
-/*                   ^ constant.numeric */
+units2 = 147min + 147.min;
+/*       ^^^^^^ meta.number.integer.decimal */
+/*          ^^^ constant.numeric.suffix */
+/*             ^^^ - constant */
+/*                ^^^^^^^ meta.number.float.decimal */
+/*                   ^ punctuation.separator.decimal */
+/*                    ^^^ constant.numeric.suffix */
+/*                       ^ punctuation.terminator - constant */
 
-float sci4 = 14e+14;
-/*           ^ constant.numeric */
-/*                ^ constant.numeric */
+units3 = 357s + 34.7s;
+/*       ^^^^ meta.number.integer.decimal */
+/*          ^ constant.numeric.suffix */
+/*           ^^^ - constant */
+/*              ^^^^^ meta.number.float.decimal */
+/*                ^ punctuation.separator.decimal */
+/*                  ^ constant.numeric.suffix */
+/*                   ^ punctuation.terminator - constant */
 
-float sci5 = 18.84e-12;
-/*           ^ constant.numeric */
-/*                   ^ constant.numeric */
-
-float sci6 = 46e-14;
-/*           ^ constant.numeric */
-/*                ^ constant.numeric */
-
-float sci7 = 2'837e1'000;
-/*           ^ constant.numeric */
-/*                     ^ constant.numeric */
-
-float sci8 = 23e-1'000;
-/*           ^ constant.numeric */
-/*                   ^ constant.numeric */
-
-double sci_hex = 0xc1.01AbFp-1;
-/*               ^^^^^^^^^^^^^ constant.numeric */
+units4 = 234_custom + 10e-1_custom;
+/*       ^^^^^^^^^^ meta.number.integer.decimal */
+/*       ^^^ constant.numeric.value */
+/*          ^^^^^^^ constant.numeric.suffix */
+/*                 ^^^ - constant */
+/*                    ^^^^^^^^^^^^ meta.number.float.decimal */
+/*                         ^^^^^^^ constant.numeric.suffix */
+/*                                ^ punctuation.terminator - constant */
 
 /////////////////////////////////////////////
 // Functions
@@ -1029,7 +1346,7 @@ struct foo **alloc_foo();
 /*                    ^^ meta.function.parameters meta.group */
 /*                    ^ punctuation.section.group.begin */
 /*                     ^ punctuation.section.group.end */
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*     ^ - entity.name.struct */
 /*         ^^ keyword.operator */
 /*           ^ entity.name.function */
@@ -1082,7 +1399,7 @@ MACRO1 void * MACRO2 myfuncname () {
 /*                   ^ entity.name.function */
 
     struct Args {
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
 /*         ^ entity.name.struct */
         void* hello;
         void* foobar;
@@ -1096,11 +1413,11 @@ MACRO1 void * MACRO2 myfuncname () {
     };
 
     struct Args args2;
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
 /*         ^ - entity */
 
     class LocalFoo MYMACRO
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
 /*        ^ entity.name.class */
 /*                 ^ - entity */
     {
@@ -1109,7 +1426,7 @@ MACRO1 void * MACRO2 myfuncname () {
     }
 
     class LocalFoo test;
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
 /*        ^ - entity */
 
 }
@@ -1124,7 +1441,8 @@ static const uint32_t * const MACRO funcname();
 
 void FooBar :: baz(int a)
 /*   ^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^^^ entity.name.function */
+/*   ^^^^^^^^^^^^^ meta.toc-list.full-identifier */
+/*             ^^^ entity.name.function */
 /*          ^^ punctuation.accessor */
 /*                ^^^^^^^ meta.function.parameters meta.group */
 /*                ^ punctuation.section.group.begin */
@@ -1134,7 +1452,8 @@ void FooBar :: baz(int a)
 }
 /* A comment. */ void FooBar :: baz(int a)
 /*                    ^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*                    ^^^^^^^^^^^^^ entity.name.function */
+/*                    ^^^^^^^^^^^^^ meta.toc-list.full-identifier */
+/*                              ^^^ entity.name.function */
 /*                           ^^ punctuation.accessor */
 /*                                 ^^^^^^^ meta.function.parameters meta.group */
 /*                                 ^ punctuation.section.group.begin */
@@ -1144,13 +1463,15 @@ void FooBar :: baz(int a)
 }
 // prevent leading comment from function recognition
 /**/ HRESULT A::b()
-/*           ^ meta.function entity.name.function */
+/*           ^ meta.function */
+/*              ^ entity.name.function */
 {
     return S_OK;
 }
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^ entity.name.function */
+/*^^^^^^^^^^^^ meta.toc-list.full-identifier */
+/*      ^^^^^^ entity.name.function */
 /*            ^^^^^^^ meta.function.parameters meta.group */
 /*            ^ punctuation.section.group.begin */
 /*             ^^^ storage.type */
@@ -1160,7 +1481,8 @@ FooBar::FooBar(int a)
 
 FooBar :: FooBar(int a) & =
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^^^ entity.name.function */
+/*^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
+/*        ^^^^^^ entity.name.function */
 /*              ^^^^^^^ meta.function.parameters meta.group */
 /*              ^ punctuation.section.group.begin */
 /*               ^^^ storage.type */
@@ -1172,7 +1494,8 @@ default;
 /*^^^^^ meta.function storage.modifier */
 
 FooBar::~FooBar
-/*^^^^^^^^^^^^^ meta.function entity.name.function */
+/*^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*      ^^^^^^^ entity.name.function */
 () { }
 /* <- meta.function.parameters meta.group punctuation.section.group.begin */
  /* <- meta.function.parameters meta.group punctuation.section.group.end */
@@ -1180,13 +1503,14 @@ FooBar::~FooBar
 
 ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath::
     ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath()
-/* <- entity.name.function */
+/* <- meta.function meta.toc-list.full-identifier */
     : var_name(nullptr) {
 }
 
 bool FooBar::operator==() {}
 /*   ^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^^^^^^^^ entity.name.function */
+/*   ^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
+/*           ^^^^^^^^^^ entity.name.function */
 /*                     ^^ meta.function.parameters meta.group */
 /*                     ^ punctuation.section.group.begin */
 /*                      ^ punctuation.section.group.end */
@@ -1203,7 +1527,8 @@ myns::FooBar::~FooBar() { }
 /*                      ^^^ meta.block */
 /*                      ^ punctuation.section.block.begin */
 /*                        ^ punctuation.section.block.end */
-/*^^^^^^^^^^^^^^^^^^^ entity.name.function */
+/*^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
+/*            ^^^^^^^ entity.name.function */
 
     extern "C" void test_in_extern_c_block()
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
@@ -1235,7 +1560,7 @@ void test_in_extern_c_block()
 /*            <- meta.preprocessor */
 /*      <- keyword.control.import */
    typedef bool _Bool;   /* semi-hackish: C++ has no _Bool; bool is builtin */
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*              ^ entity.name.type.typedef */
 # endif
 /*     <- meta.preprocessor */
@@ -1296,9 +1621,21 @@ using namespace NAME __attribute__((visibility ("hidden")));
 /*                   ^ storage.modifier */
 /*                                               ^ string */
 
+using namespace
+/* <- keyword.control */
+/*    ^ keyword.control */
+
 using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
+
+void func() {
+    using namespace NAME __attribute__((visibility ("hidden")));
+/*  ^ keyword.control */
+/*        ^ keyword.control */
+/*                       ^ storage.modifier */
+/*                                                   ^ string */
+}
 
 namespace ns :: abc /* Neither this comment... */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace */
@@ -1378,7 +1715,7 @@ class BaseClass;
 /*    ^^^^^^^^^ entity.name.class.forward-decl */
 
 class BaseClass // comment
-/* <- storage.type */
+/* <- keyword.declaration */
 /*    ^ entity.name.class */
 {
 public :
@@ -1418,7 +1755,7 @@ private:
     /* <- storage.modifier */
     /*           ^ entity.name.function */
     /*                         ^ storage.modifier */
-    /*                                 ^ constant.numeric */
+    /*                                 ^ meta.number */
 
     template<typename A>
     void func(){}
@@ -1626,7 +1963,7 @@ private:
 /*  ^ entity.name.function */
 
     enum
-/*  ^^^^ meta.enum storage.type */
+/*  ^^^^ meta.enum keyword.declaration */
     {
 /*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
@@ -1644,9 +1981,9 @@ private:
     friend int func(int a, int b) {
 /*  ^ storage.modifier */
 /*         ^ storage.type */
-/*             ^ - entity.name.function */
+/*             ^ entity.name.function */
 /*             ^ - meta.function-call */
-/*                                ^ meta.class meta.block meta.block punctuation.section.block.begin */
+/*                                ^ meta.class meta.block meta.method meta.block punctuation.section.block.begin */
         int a = 1;
     }
 /*  ^ meta.class meta.block meta.block punctuation.section.block.end */
@@ -1654,19 +1991,26 @@ private:
 
     friend class ::FooBar;
 /*  ^ storage.modifier */
-/*         ^ storage.type
+/*         ^ keyword.declaration
 /*               ^^ punctuation.accessor */
 /*                 ^ - entity */
 
+    friend bool operator != (const X& lhs, const X& rhs) {
+    /*          ^^^^^^^^^^^ entity.name.function */
+        int a = 1;
+    }
+/*  ^ meta.class meta.block meta.block punctuation.section.block.end */
+/*   ^ - meta.class meta.block meta.block */
+
     #if 0
-    /*  ^ constant.numeric */
+    /*  ^ meta.number */
     int disabled_func() {
     /*  ^ comment.block */
     }
     #endif
 
     #if 1
-    /*  ^ constant.numeric */
+    /*  ^ meta.number */
     int enabled_func() {}
     /*  ^ entity.name.function */
     #else
@@ -1802,7 +2146,7 @@ struct A {
 
 struct bar {
 /*^^^^^^^^^^ meta.struct */
-/*^^^^ storage.type */
+/*^^^^ keyword.declaration */
 /*     ^^^ entity.name.struct */
 /*         ^ meta.block punctuation.section.block.begin */
     bar()
@@ -1815,16 +2159,16 @@ struct bar {
 
 enum baz {
 /*^^^^^^^^ meta.enum */
-/* <- meta.enum storage.type */
+/* <- meta.enum keyword.declaration */
 /*   ^^^ entity.name.enum */
 /*       ^ meta.block punctuation.section.block.begin */
     FOO = 1,
 /*      ^ keyword.operator.assignment */
-/*        ^ constant.numeric */
+/*        ^ meta.number */
     BAR = 2,
     BAZ = 3,
 #if 0
-/*  ^ constant.numeric */
+/*  ^ meta.number */
     QUX = 4,
 /*  ^ comment.block */
 #endif
@@ -1849,7 +2193,7 @@ struct foo
 /*     ^ entity.name */
 
 struct UI_MenuBoxData
-/* <- storage.type */
+/* <- keyword.declaration */
 /*     ^ entity.name.struct */
 {
     struct UI_BoundingBox position;
@@ -1867,7 +2211,7 @@ struct UI_MenuBoxData
 
 enum class qux : std::uint8_t
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
-/*^^^^^^^^ storage.type */
+/*^^^^^^^^ keyword.declaration */
 /*         ^^^ entity.name.enum */
 /*             ^ punctuation.separator */
 /*               ^^^^^^^^^^^^ entity.other.inherited-class */
@@ -1876,7 +2220,7 @@ enum class qux : std::uint8_t
     FOO = 1,
     BAR = 2,
 /*      ^ keyword.operator.assignment */
-/*        ^ constant.numeric */
+/*        ^ meta.number */
     BAZ = 3
 }
 /* <- meta.enum meta.block punctuation.section.block.end */
@@ -1890,7 +2234,7 @@ enum LineEnding : uint32_t;
 /*                        ^ - meta.enum */
 
 union foobaz {
-/* <- meta.union storage.type */
+/* <- meta.union keyword.declaration */
 /*    ^^^^^^ entity.name.union */
 /*           ^ meta.block punctuation.section.block.begin */
 }
@@ -1902,7 +2246,7 @@ class SP {}
 /*    ^^ entity.name.class */
 
 class MyClass MACRO MACRO2
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*    ^ entity.name.class */
 /*            ^ - entity */
 /*                  ^ - entity */
@@ -1917,7 +2261,7 @@ class __declspec(property(get=foo)) SkBitmap {}
 /*                                  ^ entity.name.class */
 class __declspec(align(8)) SkBitmap {}
 /*               ^ storage.modifier */
-/*                     ^ constant.numeric */
+/*                     ^ meta.number */
 /*                         ^ entity.name.class */
 class __declspec(dllimport) SkBitmap {}
 /*               ^ constant.other */
@@ -1976,7 +2320,7 @@ enum class Namespace::MyEnum
 };
 
 class Namespace::
-MyClass MACRO1 
+MyClass MACRO1
 /* <- entity.name.class */
 /*      ^ - entity.name */
 {
@@ -2075,14 +2419,14 @@ int foo(int val, float val2[], bool val3 = false)
  /* <- - meta.function */
 
 #if 0
-/*  ^ constant.numeric */
+/*  ^ meta.number */
 int disabled_func() {
 /*  ^ comment.block */
 }
 #endif
 
 #if 1
-/*  ^ constant.numeric */
+/*  ^ meta.number */
 int enabled_func() {}
 /*  ^ entity.name.function */
 #else
@@ -2094,7 +2438,7 @@ int disabled_func() {
 #if 1
     int a = 1;
     #if 0
-/*      ^ constant.numeric */
+/*      ^ meta.number */
         int b = 2;
 /*      ^ comment.block */
     #else
@@ -2293,7 +2637,7 @@ void sayHi()
     );
 
     if (::std::foo()) {}
-/*      ^^^^^^^^^^ variable.function */
+/*             ^^^ variable.function */
 /*      ^^ punctuation.accessor */
 /*           ^^ punctuation.accessor */
 
@@ -2315,14 +2659,36 @@ void sayHi()
 /*  ^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
 /*        ^ punctuation.section.generic.begin */
-/*         ^ constant.numeric */
+/*         ^ meta.number */
 /*          ^ punctuation.section.generic.end */
 /*           ^^ meta.group */
+
+    ::myns::foo<int>();
+/*  ^^ punctuation.accessor.double-colon */
+/*        ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*          ^^^ variable.function */
+/*              ^^^ storage.type */
+
+    myns::FooClass{42};
+/*      ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*        ^^^^^^^^ variable.function */
+
+    ::myns::BarClass<int>{};
+/*  ^^ punctuation.accessor.double-colon */
+/*        ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*          ^^^^^^^^ variable.function */
+/*                   ^^^ storage.type */
 
     int a[5];
 /*       ^^^ meta.brackets */
 /*       ^ punctuation.section.brackets.begin */
 /*         ^ punctuation.section.brackets.end */
+
+    std::cout << ">> Hi!\n";
+/*            ^^ keyword.operator.arithmetic.c */
 }
 
 /////////////////////////////////////////////
@@ -2335,7 +2701,18 @@ void sayHi()
 @property (readonly) NSString *firstName;
 /* <- keyword.other punctuation.definition.keyword */
 /*^ keyword.other */
-@property (readonly) NSString *lastName;
+@property (readonly, nullable, class) NSString *lastName;
+/* <- keyword.other punctuation.definition.keyword                  */
+/*         ^ keyword.other.property.attribute                       */
+/*                 ^ punctuation.separator.objc                     */
+/*                   ^ keyword.other.property.attribute             */
+/*                           ^ punctuation.separator.objc           */
+/*                             ^ keyword.other.property.attribute.  */
+/*                                  ^ punctuation.section.scope.end */
+- (NSString*)formatWithPattern:(NSString*)pattern __attribute__((swift_name("format(pattern:)")));
+/*                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.objc++*/
+/*                                                ^^^^^^^^^^^^^ storage.modifier.objc++*/
+/*                                                                          ^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */

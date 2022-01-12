@@ -1,224 +1,838 @@
 {
-  "scope": "source.java",
+    "scope": "source.java",
 
-  // All the completions with a . are commented out because they cause the autocompletion system to misbehave.
-  "completions": [
-    // Keywords
-    "abstract",
-    "continue",
-    "for",
-    "new",
-    "switch",
-    "assert",
-    "default",
-    "goto",
-    "package",
-    "synchronized",
-    "boolean",
-    "do",
-    "if",
-    "private",
-    "this",
-    "break",
-    "double",
-    "implements",
-    "protected",
-    "throw",
-    "byte",
-    "else",
-    "import",
-    "public",
-    "throws",
-    "case",
-    "enum",
-    "instanceof",
-    "return",
-    "transient",
-    "catch",
-    "extends",
-    "int",
-    "short",
-    "try",
-    "char",
-    "final",
-    "interface",
-    "static",
-    "void",
-    "class",
-    "finally",
-    "long",
-    "strictfp",
-    "volatile",
-    "const",
-    "float",
-    "native",
-    "super",
-    "while",
+    // All the completions with a . are commented out because they cause the autocompletion system to misbehave.
+    "completions": [
+        // Keywords
+        {
+            "trigger": "assert",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "break",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "case",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "catch",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "class",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "continue",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "default",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "do",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "double",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "else",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "enum",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "extends",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "finally",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "for",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "if",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "implements",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "import",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "instanceof",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "interface",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "new",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "package",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "record",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "return",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "switch",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "synchronized",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "throw",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "throws",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "try",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "var",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "void",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "while",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "yield",
+            "kind": "keyword"
+        },
 
-    // Extracted from https://docs.oracle.com/javase/8/docs/api/java/lang/package-summary.html
+        // Built-In Constants
+        {
+            "trigger": "false",
+            "annotation": "built-in",
+            "kind": ["variable", "c", "Constant"]
+        },
+        {
+            "trigger": "null",
+            "annotation": "built-in",
+            "kind": ["variable", "c", "Constant"]
+        },
+        {
+            "trigger": "true",
+            "annotation": "built-in",
+            "kind": ["variable", "c", "Constant"]
+        },
 
-    // java.lang interfaces
-    "Appendable",
-    "AutoCloseable",
-    "CharSequence",
-    "Cloneable",
-    "Comparable",
-    "Iterable",
-    "Readable",
-    "Runnable",
-    // "Thread.UncaughtExceptionHandler",
+        // Built-In Modifiers
+        {
+            "trigger": "abstract",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "final",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "native",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "permits",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "private",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "protected",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "public",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "static",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "strictfp",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "sealed",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "transient",
+            "kind": ["keyword", "m", "Modifier"]
+        },
+        {
+            "trigger": "volatile",
+            "kind": ["keyword", "m", "Modifier"]
+        },
 
-    // java.lang Classes
-    "Boolean",
-    "Byte",
-    "Character",
-    // "Character.Subset",
-    // "Character.UnicodeBlock",
-    "Class",
-    "ClassLoader",
-    "ClassValue",
-    "Compiler",
-    "Double",
-    "Enum",
-    "Float",
-    "InheritableThreadLocal",
-    "Integer",
-    "Long",
-    "Math",
-    "Number",
-    "Object",
-    "Package",
-    "Process",
-    "ProcessBuilder",
-    // "ProcessBuilder.Redirect",
-    "Runtime",
-    "RuntimePermission",
-    "SecurityManager",
-    "Short",
-    "StackTraceElement",
-    "StrictMath",
-    "String",
-    "StringBuffer",
-    "StringBuilder",
-    "System",
-    "Thread",
-    "ThreadGroup",
-    "ThreadLocal",
-    "Throwable",
-    "Void",
+        // Built-In Types
+        {
+            "trigger": "boolean",
+            "annotation": "built-in",
+            "kind": "type"
+        },
+        {
+            "trigger": "byte",
+            "annotation": "built-in",
+            "kind": "type"
+        },
+        {
+            "trigger": "char",
+            "annotation": "built-in",
+            "kind": "type"
+        },
+        {
+            "trigger": "float",
+            "annotation": "built-in",
+            "kind": "type"
+        },
+        {
+            "trigger": "int",
+            "annotation": "built-in",
+            "kind": "type"
+        },
+        {
+            "trigger": "long",
+            "annotation": "built-in",
+            "kind": "type"
+        },
+        {
+            "trigger": "short",
+            "annotation": "built-in",
+            "kind": "type"
+        },
 
-    // java.lang Enums
-    // "Character.UnicodeScript",
-    // "ProcessBuilder.Redirect.Type",
-    // "Thread.State",
+        // Built-In Variables
+        {
+            "trigger": "super",
+            "annotation": "built-in",
+            "kind": "variable"
+        },
+        {
+            "trigger": "this",
+            "annotation": "built-in",
+            "kind": "variable"
+        },
 
-    // java.lang Exceptions
-    "ArithmeticException",
-    "ArrayIndexOutOfBoundsException",
-    "ArrayStoreException",
-    "ClassCastException",
-    "ClassNotFoundException",
-    "CloneNotSupportedException",
-    "EnumConstantNotPresentException",
-    "Exception",
-    "IllegalAccessException",
-    "IllegalArgumentException",
-    "IllegalMonitorStateException",
-    "IllegalStateException",
-    "IllegalThreadStateException",
-    "IndexOutOfBoundsException",
-    "InstantiationException",
-    "InterruptedException",
-    "NegativeArraySizeException",
-    "NoSuchFieldException",
-    "NoSuchMethodException",
-    "NullPointerException",
-    "NumberFormatException",
-    "ReflectiveOperationException",
-    "RuntimeException",
-    "SecurityException",
-    "StringIndexOutOfBoundsException",
-    "TypeNotPresentException",
-    "UnsupportedOperationException",
+        // Extracted from https://docs.oracle.com/javase/8/docs/api/java/lang/package-summary.html
 
-    // java.lang Errors
-    "AbstractMethodError",
-    "AssertionError",
-    "BootstrapMethodError",
-    "ClassCircularityError",
-    "ClassFormatError",
-    "Error",
-    "ExceptionInInitializerError",
-    "IllegalAccessError",
-    "IncompatibleClassChangeError",
-    "InstantiationError",
-    "InternalError",
-    "LinkageError",
-    "NoClassDefFoundError",
-    "NoSuchFieldError",
-    "NoSuchMethodError",
-    "OutOfMemoryError",
-    "StackOverflowError",
-    "ThreadDeath",
-    "UnknownError",
-    "UnsatisfiedLinkError",
-    "UnsupportedClassVersionError",
-    "VerifyError",
-    "VirtualMachineError",
+        // java.lang interfaces
+        {
+            "trigger": "Appendable",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "AutoCloseable",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "CharSequence",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Cloneable",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Comparable",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Iterable",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Readable",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Runnable",
+            "kind": ["type", "i", "Interface"]
+        },
+        // "Thread.UncaughtExceptionHandler",
 
-    // java.lang Annotations
-    "Deprecated",
-    "FunctionalInterface",
-    "Override",
-    "SafeVarargs",
-    "SuppressWarnings",
+        // java.lang Classes
+        {
+            "trigger": "Boolean",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Byte",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Character",
+            "kind": ["type", "c", "Class"]
+        },
+        // "Character.Subset",
+        // "Character.UnicodeBlock",
+        {
+            "trigger": "Class",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "ClassLoader",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "ClassValue",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Compiler",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Double",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Enum",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Float",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "InheritableThreadLocal",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Integer",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Long",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Math",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Number",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Object",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Package",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Process",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "ProcessBuilder",
+            "kind": ["type", "c", "Class"]
+        },
+        // "ProcessBuilder.Redirect",
+        {
+            "trigger": "Runtime",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "RuntimePermission",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "SecurityManager",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Short",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "StackTraceElement",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "StrictMath",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "String",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "StringBuffer",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "StringBuilder",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "System",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Thread",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "ThreadGroup",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "ThreadLocal",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Throwable",
+            "kind": ["type", "c", "Class"]
+        },
+        {
+            "trigger": "Void",
+            "kind": ["type", "c", "Class"]
+        },
+
+        // java.lang Enums
+        // "Character.UnicodeScript",
+        // "ProcessBuilder.Redirect.Type",
+        // "Thread.State",
+
+        // java.lang Exceptions
+        {
+            "trigger": "ArithmeticException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "ArrayIndexOutOfBoundsException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "ArrayStoreException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "ClassCastException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "ClassNotFoundException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "CloneNotSupportedException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "EnumConstantNotPresentException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "Exception",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "IllegalAccessException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "IllegalArgumentException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "IllegalMonitorStateException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "IllegalStateException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "IllegalThreadStateException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "IndexOutOfBoundsException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "InstantiationException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "InterruptedException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "NegativeArraySizeException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "NoSuchFieldException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "NoSuchMethodException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "NullPointerException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "NumberFormatException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "ReflectiveOperationException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "RuntimeException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "SecurityException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "StringIndexOutOfBoundsException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "TypeNotPresentException",
+            "kind": ["type", "x", "Exception"]
+        },
+        {
+            "trigger": "UnsupportedOperationException",
+            "kind": ["type", "x", "Exception"]
+        },
+
+        // java.lang Errors
+        {
+            "trigger": "AbstractMethodError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "AssertionError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "BootstrapMethodError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "ClassCircularityError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "ClassFormatError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "Error",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "ExceptionInInitializerError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "IllegalAccessError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "IncompatibleClassChangeError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "InstantiationError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "InternalError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "LinkageError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "NoClassDefFoundError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "NoSuchFieldError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "NoSuchMethodError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "OutOfMemoryError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "StackOverflowError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "ThreadDeath",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "UnknownError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "UnsatisfiedLinkError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "UnsupportedClassVersionError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "VerifyError",
+            "kind": ["type", "e", "Error"]
+        },
+        {
+            "trigger": "VirtualMachineError",
+            "kind": ["type", "e", "Error"]
+        },
+
+        // java.lang Annotations
+        {
+            "trigger": "Deprecated",
+            "kind": ["function", "a", "Annotation"]
+        },
+        {
+            "trigger": "FunctionalInterface",
+            "kind": ["function", "a", "Annotation"]
+        },
+        {
+            "trigger": "Override",
+            "kind": ["function", "a", "Annotation"]
+        },
+        {
+            "trigger": "SafeVarargs",
+            "kind": ["function", "a", "Annotation"]
+        },
+        {
+            "trigger": "SuppressWarnings",
+            "kind": ["function", "a", "Annotation"]
+        },
 
 
-    // Extracted from https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+        // Extracted from https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
 
-    // java.util.function Interfaces
-    "BiConsumer",
-    "BiFunction",
-    "BinaryOperator",
-    "BiPredicate",
-    "BooleanSupplier",
-    "Consumer",
-    "DoubleBinaryOperator",
-    "DoubleConsumer",
-    "DoubleFunction",
-    "DoublePredicate",
-    "DoubleSupplier",
-    "DoubleToIntFunction",
-    "DoubleToLongFunction",
-    "DoubleUnaryOperator",
-    "Function",
-    "IntBinaryOperator",
-    "IntConsumer",
-    "IntFunction",
-    "IntPredicate",
-    "IntSupplier",
-    "IntToDoubleFunction",
-    "IntToLongFunction",
-    "IntUnaryOperator",
-    "LongBinaryOperator",
-    "LongConsumer",
-    "LongFunction",
-    "LongPredicate",
-    "LongSupplier",
-    "LongToDoubleFunction",
-    "LongToIntFunction",
-    "LongUnaryOperator",
-    "ObjDoubleConsumer",
-    "ObjIntConsumer",
-    "ObjLongConsumer",
-    "Predicate",
-    "Supplier",
-    "ToDoubleBiFunction",
-    "ToDoubleFunction",
-    "ToIntBiFunction",
-    "ToIntFunction",
-    "ToLongBiFunction",
-    "ToLongFunction",
-    "UnaryOperator"
-  ]
+        // java.util.function Interfaces
+        {
+            "trigger": "BiConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "BiFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "BinaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "BiPredicate",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "BooleanSupplier",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Consumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleBinaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoublePredicate",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleSupplier",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleToIntFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleToLongFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "DoubleUnaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Function",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntBinaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntPredicate",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntSupplier",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntToDoubleFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntToLongFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "IntUnaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongBinaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongPredicate",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongSupplier",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongToDoubleFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongToIntFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "LongUnaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ObjDoubleConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ObjIntConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ObjLongConsumer",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Predicate",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "Supplier",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ToDoubleBiFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ToDoubleFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ToIntBiFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ToIntFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ToLongBiFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "ToLongFunction",
+            "kind": ["type", "i", "Interface"]
+        },
+        {
+            "trigger": "UnaryOperator",
+            "kind": ["type", "i", "Interface"]
+        },
+    ]
 }

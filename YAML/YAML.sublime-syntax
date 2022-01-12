@@ -36,12 +36,14 @@
 #   for nested block collections (`- !!seq -`).
 ---
 name: YAML
+scope: source.yaml
+
 file_extensions:
   - yaml
   - yml
   - sublime-syntax
+
 first_line_match: ^%YAML( ?1.\d+)? # Technically the number is required, but we'll be a bit loose here
-scope: source.yaml
 
 ##############################################################################
 
@@ -110,57 +112,55 @@ variables:
 
   # patterns for plain scalars of implicit different types
   # (for the Core Schema: http://www.yaml.org/spec/1.2/spec.html#schema/core/)
-  _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
-  _type_bool: |- # http://yaml.org/type/bool.html
+  
+  # http://yaml.org/type/null.html
+  _type_null: (?:null|Null|NULL|~)
+  
+  # http://yaml.org/type/bool.html
+  _type_bool_11: |-
     (?x:
        y|Y|yes|Yes|YES|n|N|no|No|NO
       |true|True|TRUE|false|False|FALSE
       |on|On|ON|off|Off|OFF
     )
-  _type_int: |- # http://yaml.org/type/int.html
+  # https://yaml.org/spec/1.2/spec.html#id2805071
+  _type_bool_12: (?x:true | True | TRUE | false | False | FALSE)
+
+  # http://yaml.org/type/int.html
+  _type_int_binary: ([-+]?)(0b)([0-1_]+) # (base 2)
+  _type_int_octal: ([-+]?)(0)([0-7_]+) # (base 8)
+  _type_int_decimal: ([-+]?)(0|[1-9][0-9_]*) # (base 10)
+  _type_int_hexadecimal: ([-+]?)(0x)([0-9a-fA-F_]+) # (base 16)
+  _type_int_other: ([-+]?)([1-9][0-9_]*(?::[0-5]?[0-9])+) # (base 60)
+
+  # http://yaml.org/type/float.html
+  _type_float_decimal: ([-+]?)((?:[0-9][0-9_]*)?(\.)[0-9.]*(?:[eE][-+][0-9]+)?)
+  _type_float_other: ([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+(\.)[0-9_]*) # (base 60)
+  _type_float_infinity: '([-+])?(\.(?:inf|Inf|INF))' # (infinity)
+  _type_float_nan: \.(?:nan|NaN|NAN) # (not a number)
+
+  # http://yaml.org/type/timestamp.html
+  _type_timestamp: |-
     (?x:
-        [-+]? 0b [0-1_]+ # (base 2)
-      | [-+]? 0  [0-7_]+ # (base 8)
-      | [-+]? (?: 0|[1-9][0-9_]*) # (base 10)
-      | [-+]? 0x [0-9a-fA-F_]+ # (base 16)
-      | [-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+ # (base 60)
-    )
-  _type_float: |- # http://yaml.org/type/float.html
-    (?x:
-        [-+]? (?: [0-9] [0-9_]*)? \. [0-9.]* (?: [eE] [-+] [0-9]+)? # (base 10)
-      | [-+]? [0-9] [0-9_]* (?: :[0-5]?[0-9])+ \. [0-9_]* # (base 60)
-      | [-+]? \. (?: inf|Inf|INF) # (infinity)
-      |       \. (?: nan|NaN|NAN) # (not a number)
-    )
-  _type_timestamp: |- # http://yaml.org/type/timestamp.html
-    (?x:
-        \d{4} - \d{2} - \d{2}           # (y-m-d)
+        \d{4} (-) \d{2} (-) \d{2}       # (y-m-d)
       | \d{4}                           # (year)
-        - \d{1,2}                       # (month)
-        - \d{1,2}                       # (day)
+        (-) \d{1,2}                     # (month)
+        (-) \d{1,2}                     # (day)
         (?: [Tt] | [ \t]+) \d{1,2}      # (hour)
-        : \d{2}                         # (minute)
-        : \d{2}                         # (second)
-        (?: \.\d*)?                     # (fraction)
+        (:) \d{2}                       # (minute)
+        (:) \d{2}                       # (second)
+        (?: (\.)\d*)?                   # (fraction)
         [ \t]*
         (?:
-          Z | [-+] \d{1,2} (?: :\d{1,2})?
+          Z | [-+] \d{1,2} (?: (:)\d{1,2})?
         )?                              # (time zone)
     )
 
-  _type_value: '=' # http://yaml.org/type/value.html
-  _type_merge: '<<' # http://yaml.org/type/merge.html
+  # http://yaml.org/type/value.html
+  _type_value: '='
 
-  _type_all: |-
-    (?x:
-        ({{_type_null}})
-      | ({{_type_bool}})
-      | ({{_type_int}})
-      | ({{_type_float}})
-      | ({{_type_timestamp}})
-      | ({{_type_value}})
-      | ({{_type_merge}})
-     )
+  # http://yaml.org/type/merge.html
+  _type_merge: '<<'
 
 ##############################################################################
 
@@ -301,7 +301,7 @@ contexts:
         # TODO consider scoping meaningful trailing whitespace for color
         # schemes with background color definitions.
         - meta_scope: string.quoted.double.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: '{{c_ns_esc_char}}'
           scope: constant.character.escape.double-quoted.yaml
         - match: \\\n
@@ -317,61 +317,192 @@ contexts:
       scope: punctuation.definition.string.begin.yaml
       push:
         - meta_scope: string.quoted.single.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: "''"
           scope: constant.character.escape.single-quoted.yaml
         - match: "'"
           scope: punctuation.definition.string.end.yaml
           pop: true
 
-  flow-scalar-plain-in-implicit-type:
-    - match: |
-        (?x)
-        {{_type_all}}
-        {{_flow_scalar_end_plain_in}}
-      captures: # &implicit_type_captures
-        1: constant.language.null.yaml
-        2: constant.language.boolean.yaml
-        3: constant.numeric.integer.yaml
-        4: constant.numeric.float.yaml
-        5: constant.other.timestamp.yaml
-        6: constant.language.value.yaml
-        7: constant.language.merge.yaml
+  flow-scalar-plain-in-implicit-type-11:
+    - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-in-implicit-type-common
 
-  flow-scalar-plain-out-implicit-type:
-    - match: |
-        (?x)
-        {{_type_all}}
-        {{_flow_scalar_end_plain_out}}
-      captures: # *implicit_type_captures
-        # Alias does not work, see https://github.com/SublimeTextIssues/Core/issues/967
-        1: constant.language.null.yaml
-        2: constant.language.boolean.yaml
-        3: constant.numeric.integer.yaml
-        4: constant.numeric.float.yaml
-        5: constant.other.timestamp.yaml
-        6: constant.language.value.yaml
-        7: constant.language.merge.yaml
+  flow-scalar-plain-in-implicit-type-12:
+    # Less aggressive variant based on the YAML 1.2 core schema
+    - match: '{{_type_bool_12}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-in-implicit-type-common
+
+  flow-scalar-plain-in-implicit-type-common:
+    - match: '{{_type_null}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.null.yaml
+    - match: '{{_type_value}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.value.yaml
+    - match: '{{_type_merge}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.merge.yaml
+    # integers
+    - match: '{{_type_int_binary}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.binary.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_octal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.octal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_decimal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.hexadecimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_other}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    # floats
+    - match: '{{_type_float_decimal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_other}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_infinity}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.language.infinity.yaml
+    - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.yaml constant.language.nan.yaml
+    # timestamp
+    - match: '{{_type_timestamp}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.other.timestamp.yaml
+      captures:
+        1: punctuation.separator.date.yaml
+        2: punctuation.separator.date.yaml
+        3: punctuation.separator.date.yaml
+        4: punctuation.separator.date.yaml
+        5: punctuation.separator.time.yaml
+        6: punctuation.separator.time.yaml
+        7: punctuation.separator.time.yaml
+        8: punctuation.separator.time.yaml
+
+  flow-scalar-plain-out-implicit-type-11:
+    - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-out-implicit-type-common
+
+  flow-scalar-plain-out-implicit-type-12:
+    # Less aggressive variant based on the YAML 1.2 core schema
+    - match: '{{_type_bool_12}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-out-implicit-type-common
+
+  flow-scalar-plain-out-implicit-type-common:
+    - match: '{{_type_null}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.null.yaml
+    - match: '{{_type_value}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.value.yaml
+    - match: '{{_type_merge}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.merge.yaml
+    # integers
+    - match: '{{_type_int_binary}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.binary.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_octal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.octal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_decimal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.hexadecimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_other}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    # floats
+    - match: '{{_type_float_decimal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_other}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_infinity}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.language.infinity.yaml
+    - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.yaml constant.language.nan.yaml
+    # timestamp
+    - match: '{{_type_timestamp}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.other.timestamp.yaml
+      captures:
+        1: punctuation.separator.date.yaml
+        2: punctuation.separator.date.yaml
+        3: punctuation.separator.date.yaml
+        4: punctuation.separator.date.yaml
+        5: punctuation.separator.time.yaml
+        6: punctuation.separator.time.yaml
+        7: punctuation.separator.time.yaml
+        8: punctuation.separator.time.yaml
 
   flow-scalar-plain-out:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
-    - include: flow-scalar-plain-out-implicit-type
-    - match: '{{ns_plain_first_plain_out}}'
+    - include: flow-scalar-plain-out-implicit-type-11
+    - match: (?={{ns_plain_first_plain_out}})
       push:
         - meta_scope: string.unquoted.plain.out.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
 
   flow-scalar-plain-in:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-in, c=flow-key)
-    - include: flow-scalar-plain-in-implicit-type
-    - match: '{{ns_plain_first_plain_in}}'
+    - include: flow-scalar-plain-in-implicit-type-11
+    - match: (?={{ns_plain_first_plain_in}})
       push:
         - meta_scope: string.unquoted.plain.in.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
 
@@ -433,13 +564,13 @@ contexts:
         # TODO Use a merge type here and add "pop: true" and "scope: entity.name.tag.yaml";
         # https://github.com/SublimeTextIssues/Core/issues/966
         - meta_scope: meta.flow-pair.key.yaml
-        - include: flow-scalar-plain-in-implicit-type
+        - include: flow-scalar-plain-in-implicit-type-12
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
-        - match: '{{ns_plain_first_plain_in}}'
+        - match: (?={{ns_plain_first_plain_in}})
           set:
-            - meta_scope: string.unquoted.plain.in.yaml entity.name.tag.yaml
-              meta_include_prototype: false
+            - meta_scope: meta.flow-pair.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml
+            - meta_include_prototype: false
             - match: '{{_flow_scalar_end_plain_in}}'
               pop: true
     - include: flow-node
@@ -468,7 +599,7 @@ contexts:
           # note that we do not check if indentation is enough
           set:
             - meta_scope: string.unquoted.block.yaml
-              meta_include_prototype: false
+            - meta_include_prototype: false
             - match: ^(?!\1|\s*$)
               pop: true
         - match: ^(?=\S)  # the block is empty
@@ -519,13 +650,13 @@ contexts:
           (\s|$)
         )
       push:
-        - include: flow-scalar-plain-out-implicit-type
+        - include: flow-scalar-plain-out-implicit-type-12
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
-        - match: '{{ns_plain_first_plain_out}}'
+        - match: (?={{ns_plain_first_plain_out}})
           set:
             - meta_scope: string.unquoted.plain.out.yaml entity.name.tag.yaml
-              meta_include_prototype: false
+            - meta_include_prototype: false
             - match: '{{_flow_scalar_end_plain_out}}'
               pop: true
     - match: :(?=\s|$)

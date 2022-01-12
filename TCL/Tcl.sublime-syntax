@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Tcl
+scope: source.tcl
+
 file_extensions:
   - tcl
-scope: source.tcl
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \# .*? -\*- .*? \btcl\b .*? -\*-  # editorconfig
+  )
+
 variables:
   special_chars: '[;{}\[\]"\\]'
   unquoted_string: '[^\s{{special_chars}}][^\s${{special_chars}}]*'
@@ -84,16 +91,25 @@ contexts:
     - match: '{{unquoted_string}}'
 
   numbers:
-    - match: \b0x\h*\b(?={{inline_end_chars}})
-      scope: constant.numeric.integer.tcl
-    - match: \b0b[01]*\b(?={{inline_end_chars}})
-      scope: constant.numeric.integer.tcl
-    - match: \b0o[0-7]*\b(?={{inline_end_chars}})
-      scope: constant.numeric.integer.tcl
+    - match: \b(0x)(\h*)\b(?={{inline_end_chars}})
+      scope: meta.number.integer.hexadecimal.tcl
+      captures:
+        1: constant.numeric.base.tcl
+        2: constant.numeric.value.tcl
+    - match: \b(0b)([01]*)\b(?={{inline_end_chars}})
+      scope: meta.number.integer.binary.tcl
+      captures:
+        1: constant.numeric.base.tcl
+        2: constant.numeric.value.tcl
+    - match: \b(0o)([0-7]*)\b(?={{inline_end_chars}})
+      scope: meta.number.integer.octal.tcl
+      captures:
+        1: constant.numeric.base.tcl
+        2: constant.numeric.value.tcl
     - match: \b[0-9]+\.[0-9]+\b(?={{inline_end_chars}})
-      scope: constant.numeric.float.tcl
+      scope: meta.number.float.decimal.tcl constant.numeric.value.tcl
     - match: \b[0-9]+\b(?={{inline_end_chars}})
-      scope: constant.numeric.integer.tcl
+      scope: meta.number.float.decimal.tcl constant.numeric.value.tcl
 
   comments:
     - match: '#'
@@ -173,6 +189,9 @@ contexts:
         # The next non-space element will be a regex string
         - match: '(?=\{|\s+--\s+)'
           set:
+            - match: \s+(--)\s+
+              captures:
+                1: punctuation.separator.tcl
             - match: \{
               set:
                 - meta_content_scope: string.regexp.tcl
@@ -182,6 +201,12 @@ contexts:
             - match: '(?=")'
               set:
                 - include: strings
+                # One of these characters indicates the string is complete
+                - match: '(?={{inline_end_chars}})'
+                  pop: true
+            - match: '(?=\S)'
+              set:
+                - meta_content_scope: string.regexp.tcl
                 # One of these characters indicates the string is complete
                 - match: '(?={{inline_end_chars}})'
                   pop: true

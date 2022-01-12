@@ -1,20 +1,50 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
 name: HTML (Erlang)
+scope: text.html.erlang
+version: 2
+
+extends: Packages/HTML/HTML.sublime-syntax
+
 file_extensions:
   - yaws
-scope: text.html.erlang.yaws
+
 contexts:
-  main:
-    - match: <erl>
+  tag:
+    - meta_prepend: true
+    - include: tag-erlang
+
+###[ PUBLIC CONTEXT ]#########################################################
+
+  tag-erlang:
+    # Note: This context can be included in other HTML
+    #       variants to support the Erlang custom tag.
+    # Use:  - import: scope:text.html.erlang#tag-erlang
+    - match: (<)((?i:erl)){{tag_name_break}}
       captures:
-        0: punctuation.section.embedded.erlang
-      push:
-        - meta_scope: source.erlang.embedded.html
-        - match: </erl>
-          captures:
-            0: punctuation.section.embedded.erlang
-          pop: true
-        - include: scope:source.erlang
-    - include: scope:text.html.basic
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.erl.html
+      push: [tag-erlang-body, tag-erlang-attributes]
+
+###[ PRIVATE CONTEXTS ]#######################################################
+
+  tag-erlang-attributes:
+    - meta_scope: meta.tag.erl.begin.html
+    - include: tag-end
+    - include: tag-attributes
+
+  tag-erlang-body:
+    - match: (</)((?i:erl)){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.erl.html
+      set:
+        - meta_scope: meta.tag.erl.end.html
+        - include: tag-end
+        - match: '{{tag_name_char}}+'
+          scope: invalid.illegal.attributes-unexpected.html
+    - match: ''
+      embed: scope:source.erlang#statements
+      embed_scope: source.erlang.embedded.html
+      escape: (?=</(?i:erl){{tag_name_break_char}})

@@ -1,4 +1,4 @@
 {
-    "selector" : "source.shell",
-    "target" : "run_shell_script"
+	"selector" : "source.shell",
+	"target" : "run_shell_script"
 }

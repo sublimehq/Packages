@@ -24,29 +24,29 @@ contexts:
       captures:
         1: punctuation.definition.separator.diff
     - match: ^\d+(,\d+)*(a|d|c)\d+(,\d+)*$\n?
-      scope: meta.diff.range.normal
+      scope: meta.diff.range.normal meta.range.normal.diff
     - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*$\n?
-      scope: meta.diff.range.unified
+      scope: meta.diff.range.unified meta.range.unified.diff
       captures:
         1: punctuation.definition.range.diff
         2: meta.toc-list.line-number.diff
         3: punctuation.definition.range.diff
         4: entity.name.section.diff
     - match: '^(((\-{3}) .+ (\-{4}))|((\*{3}) .+ (\*{4})))$\n?'
-      scope: meta.diff.range.context
+      scope: meta.diff.range.context meta.range.context.diff
       captures:
         3: punctuation.definition.range.diff
         4: punctuation.definition.range.diff
         6: punctuation.definition.range.diff
         7: punctuation.definition.range.diff
     - match: '(^(((-{3}) .+)|((\*{3}) .+))$\n?|^(={4}) .+(?= - ))'
-      scope: meta.diff.header.from-file
+      scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
         4: punctuation.definition.from-file.diff
         6: punctuation.definition.from-file.diff
         7: punctuation.definition.from-file.diff
     - match: '(^(\+{3}) .+$\n?| (-) .* (={4})$\n?)'
-      scope: meta.diff.header.to-file
+      scope: meta.diff.header.to-file meta.header.to-file.diff
       captures:
         2: punctuation.definition.to-file.diff
         3: punctuation.definition.to-file.diff
@@ -66,7 +66,7 @@ contexts:
         3: punctuation.definition.deleted.diff
         6: punctuation.definition.deleted.diff
     - match: ^Index(:) (.+)$\n?
-      scope: meta.diff.index
+      scope: meta.diff.index meta.index.diff
       captures:
         1: punctuation.separator.key-value.diff
         2: meta.toc-list.file-name.diff

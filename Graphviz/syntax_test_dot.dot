@@ -9,6 +9,14 @@
 // ^^^^^^^^^^ comment.block.dot
 //         ^^ punctuation.definition.comment.dot
 
+/**
+// <-         punctuation.definition.comment.dot
+//^^          comment.block.dot
+    * Me as well!
+//  ^         punctuation.definition.comment.dot
+*/
+// <-         punctuation.definition.comment.dot
+
 # Me also!
 // <-      punctuation.definition.comment.dot
 // ^^^^^^^ comment.line.number-sign.dot
@@ -42,7 +50,7 @@ graph cluster_n {
 //    ^^^^^^^^  meta.annotation.dot variable.annotation.cluster.dot
 //            ^ - meta.annotation.dot variable.annotation.cluster.dot
     t -> n;
-//    ^^        punctuation.operator.relationship.dot
+//    ^^        keyword.operator.relationship.dot
 }
 
 // Loosely taken from http://www.graphviz.org/content/node-shapes#html

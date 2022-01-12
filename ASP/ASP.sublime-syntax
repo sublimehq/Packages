@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: ASP
-file_extensions:
-  - asa # asp is handled by HTML-ASP.sublime-syntax
 scope: source.asp
+
+file_extensions:
+  - vbs # Visual Basic Script
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \' .*? -\*- .*? \b(vbs|vbscript)\b .*? -\*-  # editorconfig
+  )
+
 variables:
   apostrophe_comment_begin: "'"
   rem_comment_begin: '\b(?i:REM)\b'
@@ -14,8 +21,8 @@ variables:
   math_operators: '(?:[+*^&/\\-]|\b(?i:Mod)\b)'
   logical_operators: '\b(?i:And|Not|Or|Xor|Is)\b'
   operators: '{{comparison_operators}}|{{math_operators}}|{{logical_operators}}'
-  literal_number_hex: '(&[hH])\h+(&)?(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
-  literal_number_decimal: '(?:(?:\d+\.\d*|\.?\d+)(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
+  literal_number_hex: '(&)([hH])(\h+)(&?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
+  literal_number_decimal: '(?:(?:\d+(\.)\d*|(\.?)\d+)(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
   reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
   keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
   constants: '\b(?i:vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewLine|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123])\b'
@@ -258,13 +265,18 @@ contexts:
     - match: '{{whitespace_or_end_of_statement}}' # as the above include has been commented out, this match pattern has been added to pop at the end of the logical statement
       pop: true
     - match: '{{literal_number_hex}}'
-      scope: constant.numeric.integer.hexadecimal.asp
+      scope: meta.number.integer.hexadecimal.asp
       captures:
-        1: punctuation.definition.numeric.hexadecimal.asp
-        2: punctuation.definition.numeric.hexadecimal.asp
+        1: constant.numeric.asp punctuation.definition.numeric.asp
+        2: constant.numeric.base.asp
+        3: constant.numeric.value.asp
+        4: constant.numeric.asp punctuation.definition.numeric.asp
       pop: true
     - match: '{{literal_number_decimal}}'
-      scope: constant.numeric.float.decimal.asp
+      scope: meta.number.float.decimal.asp constant.numeric.value.asp
+      captures:
+        1: punctuation.separator.decimal.asp
+        2: punctuation.separator.decimal.asp
       pop: true
     - match: '{{constants}}'
       scope: constant.language.asp
@@ -444,12 +456,17 @@ contexts:
     - match: \)
       scope: invalid.illegal.stray-close-bracket.asp
     - match: '{{literal_number_hex}}'
-      scope: constant.numeric.integer.hexadecimal.asp
+      scope: meta.number.integer.hexadecimal.asp
       captures:
-        1: punctuation.definition.numeric.hexadecimal.asp
-        2: punctuation.definition.numeric.hexadecimal.asp
+        1: constant.numeric.asp punctuation.definition.numeric.asp
+        2: constant.numeric.base.asp
+        3: constant.numeric.value.asp
+        4: constant.numeric.asp punctuation.definition.numeric.asp
     - match: '{{literal_number_decimal}}'
-      scope: constant.numeric.float.decimal.asp
+      scope: meta.number.float.decimal.asp constant.numeric.value.asp
+      captures:
+        1: punctuation.separator.decimal.asp
+        2: punctuation.separator.decimal.asp
     - match: '{{constants}}'
       scope: support.type.vb.asp # maybe this should be constant.language.asp
     - match: '{{functions}}'
@@ -672,23 +689,28 @@ contexts:
         - match: '<%=?'
           scope: punctuation.section.embedded.begin.inside-block.asp
           pop: true
-        - match: '\s+$' # eat whitespace so that the lookahead on the next match pattern can match the next line if appropriate
+        # Eat whitespace so that the lookahead on the next match pattern
+        # can match the next line if appropriate.
+        - match: '\s*\n'
           push:
             - match: ^
               pop: true
-        - match: '(\s*")?(?=[^<>]*>|\s+\w+=\s*")' # if the next occurrence of a < or > is a >, we are inside a tag. If it looks like an attribute is being defined, we are probably in a tag
-          scope: string.quoted.double.html punctuation.definition.string.end.html
-          push: # use a push and an include so that the root scope (text.html.basic) isn't applied
-            - meta_scope: meta.tag.after-embedded-asp.any.html
-            - match: '>'
-              scope: punctuation.definition.tag.end.html
-              set: scope:text.html.asp#html
-            - include: scope:text.html.basic#tag-attributes
-          with_prototype:
-            - match: '(?=<%)'
-              pop: true
+        # If the next occurrence of a < or > is a >, we are inside a tag.
+        # If it looks like an attribute is being defined, we are probably in a tag
+        - match: '(?:\s*("))?(?=[^<>]*>|\s+\w+=\s*")'
+          scope: string.quoted.double.html
+          captures:
+             1: punctuation.definition.string.end.html
+          embed: inside_block_html_tag_attributes
+          escape: '(?=<%)'
+        # Continue with normal HTML otherwise
         - match: ''
-          push: scope:text.html.asp#html
-          with_prototype:
-            - match: '(?=<%)'
-              pop: true
+          embed: Packages/HTML/HTML.sublime-syntax
+          escape: '(?=<%)'
+
+  inside_block_html_tag_attributes:
+    - meta_scope: meta.tag.after-embedded-asp.any.html
+    - match: '/?>'
+      scope: punctuation.definition.tag.end.html
+      set: Packages/HTML/HTML.sublime-syntax
+    - include: Packages/HTML/HTML.sublime-syntax#tag-attributes

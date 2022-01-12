@@ -2,10 +2,13 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Textile
+scope: text.html.textile
+
 file_extensions:
   - textile
+
 first_line_match: textile
-scope: text.html.textile
+
 contexts:
   main:
     - match: '(^h[1-6]([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'

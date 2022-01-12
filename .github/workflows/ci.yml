@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.hidden-tmLanguage'
+      - '**/*.sublime-syntax'
+      - '**/*.tmLanguage'
+      - '**/*.tmPreferences'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.hidden-tmLanguage'
+      - '**/*.sublime-syntax'
+      - '**/*.tmLanguage'
+      - '**/*.tmPreferences'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+
+jobs:
+  run_syntax_tests:
+    name: Test on Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15 # default is 6 hours!
+    continue-on-error: ${{ matrix.optional }}
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        include:
+          - sublime-channel: stable
+            sublime-build: 4126
+            optional: true
+          - sublime-channel: dev
+            sublime-build: 4125
+            optional: false
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@master
+
+      - name: Get binary for Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
+        run: |
+          wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.sublime-build }}_x64.tar.xz
+          tar xf st_syntax_tests.tar.xz
+          mv st_syntax_tests/* ./
+          rm -R st_syntax_tests st_syntax_tests.tar.xz
+
+      - name: 'Move root dirs into "Data/Packages/" subdir'
+        run: |
+          mkdir -p Data/Packages/
+          find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
+
+      - name: Run syntax tests
+        run: ./syntax_tests

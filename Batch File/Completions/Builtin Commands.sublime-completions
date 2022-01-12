@@ -1,0 +1,190 @@
+{
+	"scope": "source.dosbatch - meta.function-call.arguments - meta.command - comment - string",
+	"completions": [
+		{
+			"trigger": "assoc",
+			"kind": "function",
+			"details": "Display file type associations"
+		},
+		{
+			"trigger": "break",
+			"kind": "function",
+			"details": "Enable/Disable <code>ctrl+c</code>"
+		},
+		{
+			"trigger": "cd",
+			"kind": "function",
+			"details": "Change to new directory"
+		},
+		{
+			"trigger": "chdir",
+			"kind": "function",
+			"details": "Change to new directory"
+		},
+		{
+			"trigger": "cls",
+			"kind": "function",
+			"details": "Clear terminal text"
+		},
+		{
+			"trigger": "color",
+			"kind": "function",
+			"details": "Change terminal colors"
+		},
+		{
+			"trigger": "copy",
+			"kind": "function",
+			"details": "Copy one or more files"
+		},
+		{
+			"trigger": "date",
+			"kind": "function",
+			"details": "Returns current date"
+		},
+		{
+			"trigger": "del",
+			"kind": "function",
+			"details": "Delete one or more files"
+		},
+		{
+			"trigger": "dir",
+			"kind": "function",
+			"details": "List directory content"
+		},
+		{
+			"trigger": "dpath",
+			"kind": "function",
+			"details": "Add directory lookup path"
+		},
+		{
+			"trigger": "erase",
+			"kind": "function",
+			"details": "Delete one or more files"
+		},
+		{
+			"trigger": "echo",
+			"kind": "function",
+			"details": "Display text"
+		},
+		{
+			"trigger": "ftype",
+			"kind": "function",
+			"details": "Display file types"
+		},
+		{
+			"trigger": "md",
+			"kind": "function",
+			"details": "Make directory"
+		},
+		{
+			"trigger": "mkdir",
+			"kind": "function",
+			"details": "Configure system devices"
+		},
+		{
+			"trigger": "mklink",
+			"kind": "function",
+			"details": "Creates symbolic link"
+		},
+		{
+			"trigger": "mode",
+			"kind": "function",
+			"details": "Configure system devices"
+		},
+		{
+			"trigger": "move",
+			"kind": "function",
+			"details": "Move one or more files"
+		},
+		{
+			"trigger": "path",
+			"kind": "function",
+			"details": "Define executable search paths"
+		},
+		{
+			"trigger": "popd",
+			"kind": "function",
+			"details": "Pop current directory from stack"
+		},
+		{
+			"trigger": "prompt",
+			"kind": "function",
+			"details": "Define prompt text"
+		},
+		{
+			"trigger": "pushd",
+			"kind": "function",
+			"details": "Push specified directory onto stack"
+		},
+		{
+			"trigger": "rem",
+			"kind": "function",
+			"details": "Comment command"
+		},
+		{
+			"trigger": "ren",
+			"kind": "function",
+			"details": "Rename a file"
+		},
+		{
+			"trigger": "rename",
+			"kind": "function",
+			"details": "Rename a file"
+		},
+		{
+			"trigger": "rd",
+			"kind": "function",
+			"details": "Remove directory"
+		},
+		{
+			"trigger": "rmdir",
+			"kind": "function",
+			"details": "Remove directory"
+		},
+		{
+			"trigger": "set",
+			"kind": "function",
+			"details": "Define variable"
+		},
+		{
+			"trigger": "shift",
+			"kind": "function",
+			"details": "Moves batch parameters"
+		},
+		{
+			"trigger": "start",
+			"kind": "function",
+			"details": "Execute program in new window"
+		},
+		{
+			"trigger": "time",
+			"kind": "function",
+			"details": "Returns current time"
+		},
+		{
+			"trigger": "title",
+			"kind": "function",
+			"details": "Change terminal window's tilte"
+		},
+		{
+			"trigger": "type",
+			"kind": "function",
+			"details": "Display file content."
+		},
+		{
+			"trigger": "ver",
+			"kind": "function",
+			"details": "Display Windows version"
+		},
+		{
+			"trigger": "verify",
+			"kind": "function",
+			"details": "Verify file write operations"
+		},
+		{
+			"trigger": "vol",
+			"kind": "function",
+			"details": "Display storage name and serial"
+		},
+	]
+}

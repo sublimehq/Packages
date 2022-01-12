@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/3/syntax.html
+
+name: ClojureScript
+scope: source.clojure.clojurescript
+
+file_extensions:
+  - cljs
+  - cljc
+
+contexts:
+  main:
+    - include: scope:source.clojure

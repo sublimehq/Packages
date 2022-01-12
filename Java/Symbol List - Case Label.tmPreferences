@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.java meta.statement.conditional.case.label.java</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\/\*.*?\*\///g;  # remove block comments
+			s/\/\/[^\n]*\n//g; # remove line comments
+			s/\s+//g;          # remove whitespace
+			s/^/case /;        # prepend case keyword
+		</string>
+	</dict>
+</dict>
+</plist>

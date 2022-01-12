@@ -1,0 +1,171 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: HTML (ASP)
+scope: text.html.asp
+version: 2
+
+extends: Packages/HTML/HTML.sublime-syntax
+
+file_extensions:
+  - asp
+  - asa
+
+variables:
+
+  jscript_lang: |-
+    (?ix: js | jscript )
+
+  vbscript_lang: |-
+    (?xi: vb | vbscript )
+
+  vbscript_mime_type: |-
+    (?xi: (?: (?:application|text) / )? vbscript )
+
+contexts:
+
+###[ HTML TAGS ]##############################################################
+
+  prototype:
+    - meta_prepend: true
+    - include: asp-tags
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: asp-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: asp-interpolations
+
+###[ SCRIPT TAGS ]############################################################
+
+  script-common:
+    - meta_prepend: true
+    - include: script-lang-attribute
+
+  script-lang-attribute:
+    - match: (?i:language){{attribute_name_break}}
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set: script-lang-attribute-assignment
+
+  script-lang-attribute-assignment:
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: script-lang-attribute-value
+    - match: (?=\S)
+      set: script-vbscript
+
+  script-lang-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - include: script-lang-decider
+
+  script-lang-decider:
+    - match: (?={{jscript_lang}}{{unquoted_attribute_break}}|'{{jscript_lang}}'|"{{jscript_lang}}")
+      set:
+        - script-javascript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?={{vbscript_lang}}{{unquoted_attribute_break}}|'{{vbscript_lang}}'|"{{vbscript_lang}}")
+      set:
+        - script-vbscript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=>|''|"")
+      set:
+        - script-vbscript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=\S)
+      set:
+        - script-other
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+
+  script-type-decider:
+    - meta_prepend: true
+    - match: (?={{vbscript_mime_type}}{{unquoted_attribute_break}}|'{{vbscript_mime_type}}'|"{{vbscript_mime_type}}")
+      set:
+        - script-vbscript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+
+  script-vbscript:
+    - meta_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set: script-vbscript-content
+
+  script-vbscript-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.asp
+      embed_scope: source.asp.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.asp.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.asp.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+###[ ASP TAGS ]###############################################################
+
+  asp-tags:
+    - match: <%
+      scope: punctuation.section.embedded.begin.asp
+      push: asp-tag-content
+
+  asp-interpolations:
+    - match: <%
+      scope: punctuation.section.embedded.begin.asp
+      push: [asp-tag-clear-scope, asp-tag-content]
+
+  asp-tag-clear-scope:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.html
+    - include: immediately-pop
+
+  asp-tag-content:
+    - match: \@ # https://msdn.microsoft.com/en-us/library/ms525579%28v=vs.90%29.aspx
+      set: asp-directive
+    - match: =
+      scope: punctuation.section.embedded.begin.asp
+      set: asp-expression
+    - match: (?=\S)
+      set: asp-statements
+
+  asp-directive:
+    - match: \@?\s*\b((?i:ENABLESESSIONSTATE|LANGUAGE|LCID|TRANSACTION))\b
+      captures:
+        1: constant.language.processing-directive.asp
+      push:
+        - match: \s*(=)\s*
+          captures:
+            1: punctuation.separator.key-value.asp
+          pop: 1
+        - match: (?=%>)
+          pop: 1
+    - include: asp-end
+
+  asp-expression:
+    - meta_content_scope: source.asp.embedded.html
+    - include: asp-end
+    - include: Packages/ASP/ASP.sublime-syntax#expression
+      apply_prototype: true
+
+  asp-statements:
+    - meta_content_scope: source.asp.embedded.html
+    - include: asp-end
+    - include: Packages/ASP/ASP.sublime-syntax
+      apply_prototype: true
+
+  asp-end:
+    - match: '%>'
+      scope: punctuation.section.embedded.end.asp
+      pop: 1

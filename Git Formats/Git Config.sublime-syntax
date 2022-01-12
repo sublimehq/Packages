@@ -4,12 +4,15 @@
 # https://git-scm.com/docs/git-config#_syntax
 
 name: Git Config
+scope: text.git.config
+version: 2
+
 file_extensions:
   - gitconfig                # /etc/gitconfig
   - .gitconfig               # ~/.gitconfig
   - .gitmodules              # ~/.gitmodules
+
 first_line_match: ^\[core\]  # .git/config files always start with [core]
-scope: text.git.config
 
 variables:
   variable_name: '[a-zA-Z][\w-]*'
@@ -44,7 +47,7 @@ contexts:
     - meta_scope: meta.brackets.git.config
     - match: \]
       scope: punctuation.definition.brackets.end.git.config
-      pop: true
+      pop: 1
     - include: illegal-line-end-pop
     - match: \S
       scope: invalid.illegal.header-end.git.config
@@ -59,7 +62,7 @@ contexts:
       scope: punctuation.accessor.dot.git.config
       set: subsection-name-unquoted
     - match: (?=\])
-      pop: true
+      pop: 1
     - include: illegal-line-end-pop
     - match: \S
       scope: invalid.illegal.section-name.git.config
@@ -70,7 +73,7 @@ contexts:
     - meta_scope: string.quoted.double.git.config
     - match: \"
       scope: punctuation.definition.string.end.git.config
-      pop: true
+      pop: 1
     - match: \\[\\"]
       scope: constant.character.escape.git.config
     # `\` is legal, but it can lead to confusion because escapes like `\t`
@@ -87,14 +90,14 @@ contexts:
     - match: \.
       scope: punctuation.accessor.dot.git.config
     - match: (?=\])
-      pop: true
+      pop: 1
     - include: illegal-line-end-pop
     - match: \S
       scope: invalid.illegal.subsection-name.git.config
 
   expect-section:
     - match: (?=^\s*\[) # start of new section
-      pop: true
+      pop: 1
     - match: \]
       scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
 
@@ -135,8 +138,10 @@ contexts:
     # example: bold, italic, underline
     - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink)\b
       scope: support.constant.color-attribute.git.config
+    - match: \b(?:normal|auto)\b
+      scope: support.constant.color.automatic.git.config
     # example: red, blue, green
-    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto)\b
+    - match: \b(?:bright)?(?:yellow|white|red|magenta|green|cyan|blue|black)\b
       scope: support.constant.color.git.config
     # example: 0-255
     - match: \b(?:{{zero_to_255}})\b
@@ -210,11 +215,11 @@ contexts:
     # make sure to resume parsing at next line
       push:
         - match: (?=\S|^\s*$)
-          pop: true
+          pop: 1
 
   line-end:
     - match: $
-      pop: true
+      pop: 1
 
   expect-line-end:
     - include: line-end
@@ -230,4 +235,4 @@ contexts:
   illegal-line-end-pop:
     - match: $\n?
       scope: invalid.illegal.unexpected.eol.git.config
-      pop: true
+      pop: 1

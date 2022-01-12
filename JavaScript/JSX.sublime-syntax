@@ -1,0 +1,209 @@
+%YAML 1.2
+---
+name: JSX
+scope: source.jsx
+version: 2
+
+extends: JavaScript.sublime-syntax
+
+file_extensions:
+  - jsx
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bjsx\b .*? -\*-  # editorconfig
+  )
+
+variables:
+  jsx_identifier_part: (?:{{identifier_part}}|-)
+  jsx_identifier_break: (?!{{jsx_identifier_part}})
+  jsx_identifier: '{{identifier_start}}{{jsx_identifier_part}}*{{jsx_identifier_break}}'
+
+contexts:
+  expression-begin:
+    - meta_prepend: true
+    - include: jsx-tag-hack
+
+  jsx-interpolation:
+    - match: (?={/\*)
+      branch_point: jsx-interpolation-comment
+      branch:
+        - jsx-interpolation-comment
+        - jsx-interpolation-plain
+    - match: (?={)
+      push: jsx-interpolation-plain
+
+  jsx-interpolation-comment:
+    - match: '({)(/\*)'
+      captures:
+        1: punctuation.definition.interpolation.begin.js
+        2: punctuation.definition.comment.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.interpolation.js comment.block.js
+        - match: '(\*/)(})'
+          captures:
+            1: punctuation.definition.comment.end.js
+            2: punctuation.definition.interpolation.end.js
+          pop: true
+        - match: (?=\*/)
+          fail: jsx-interpolation-comment
+
+  jsx-interpolation-plain:
+    - match: '{'
+      scope: punctuation.definition.interpolation.begin.js
+      set:
+        - - meta_scope: meta.interpolation.js
+          - meta_content_scope: source.js.embedded.jsx
+          - match: '}'
+            scope: punctuation.definition.interpolation.end.js
+            pop: true
+        - expression
+
+  jsx-expect-tag-end:
+    - meta_content_scope: meta.tag.js
+    - match: '>'
+      scope: meta.tag.js punctuation.definition.tag.end.js
+      pop: true
+    - include: else-pop
+
+  jsx-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.jsx.js
+    - include: immediately-pop
+
+  jsx-tag:
+    - match: '<'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta
+        - jsx-tag-attributes-top
+
+  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
+    - include: jsx-tag
+
+  jsx-tag-attributes-top:
+    - meta_scope: meta.tag.js
+    - match: '/'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta-unmatched-tag
+        - jsx-expect-tag-end
+        - jsx-tag-name
+
+    - match: (?=\S)
+      set:
+        - jsx-tag-attributes
+        - jsx-tag-name
+
+  jsx-meta-unmatched-tag:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.unmatched-tag.js
+    - include: immediately-pop
+
+  jsx-tag-attributes:
+    - meta_scope: meta.tag.attributes.js
+
+    - match: '>'
+      scope: punctuation.definition.tag.end.js
+      set: jsx-body
+
+    - match: '/'
+      scope: punctuation.definition.tag.end.js
+      set: jsx-expect-tag-end
+
+    - include: jsx-interpolation
+
+    - match: '{{jsx_identifier}}'
+      scope: entity.other.attribute-name.js
+
+    - match: '='
+      scope: punctuation.separator.key-value.js
+      push: jsx-attribute-value
+
+  jsx-attribute-value:
+    - include: jsx-tag
+    - include: jsx-interpolation
+
+    - match: "'"
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.js
+        - match: \'
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - include: jsx-html-escapes
+    - match: '"'
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.js
+        - match: \"
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - include: jsx-html-escapes
+
+    - include: else-pop
+
+  jsx-html-escapes:
+    - match: '(&)#?[[:alnum:]]+(;)'
+      scope: constant.character.escape.js
+      captures:
+        1: punctuation.definition.entity.js
+        2: punctuation.definition.entity.js
+
+  jsx-tag-name:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - jsx-tag-name-meta
+        - jsx-tag-name-end
+        - jsx-tag-name-component-possibly-native
+
+  jsx-tag-name-meta:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.name.js
+    - include: immediately-pop
+
+  jsx-tag-name-end:
+    - match: '[:.]'
+      scope: punctuation.accessor.js
+      push: jsx-tag-name-component
+    - include: else-pop
+
+  jsx-tag-name-component:
+    - match: '{{jsx_identifier}}'
+      scope: entity.name.tag.js
+      pop: true
+    - include: else-pop
+
+  jsx-tag-name-component-possibly-native:
+    - match: '[[:lower:]]{{jsx_identifier_part}}*{{jsx_identifier_break}}(?!{{nothing}}[.:])'
+      scope: entity.name.tag.native.js
+      pop: true
+    - include: jsx-tag-name-component
+
+  jsx-body:
+    - meta_include_prototype: false
+
+    - match: '<'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - meta_scope: meta.tag.js
+
+        - match: '/'
+          scope: punctuation.definition.tag.begin.js
+          set:
+            - jsx-expect-tag-end
+            - jsx-tag-name
+
+        - match: (?=\S)
+          set:
+            - jsx-body
+            - jsx-tag-attributes
+            - jsx-tag-name
+
+    - include: jsx-html-escapes
+    - include: jsx-interpolation

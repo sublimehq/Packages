@@ -65,12 +65,13 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 ///                            ^ variable.other
 ///                                  ^ punctuation.separator
-///                                   ^^^ constant.numeric
+///                                   ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                   ^ keyword.operator.arithmetic.cs
 ///                                      ^ punctuation.section.interpolation.end
 ///                                        ^ punctuation.section.interpolation.begin
 ///                                         ^ variable.other
 ///                                                         ^ punctuation.separator
-///                                                          ^ constant.numeric
+///                                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                                           ^ punctuation.separator
 ///                                                            ^^ constant.other.format-spec
 ///                                                                ^^ constant.character.escape
@@ -103,7 +104,7 @@ string unclosed_interpolation = $"inner {
 
 string unclosed_interpolation = $"inner {2}
 ///                                     ^ punctuation.section.interpolation.begin.cs
-///                                      ^ constant.numeric
+///                                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                       ^ punctuation.section.interpolation.end.cs
 ///                                        ^ invalid.illegal.unclosed-string.cs
 
@@ -153,7 +154,7 @@ string Frag
 {
 /// <- punctuation.section.block.begin
     get
-/// ^^^ - storage.type.function
+/// ^^^ - keyword.declaration.function
     {
 /// ^ punctuation.section.block.begin
         var list = new List<string>();
@@ -162,3 +163,65 @@ string Frag
 /// ^ punctuation.section.block.end - invalid
 }
 /// <- punctuation.section.block.end
+
+
+class X {
+    void M ()
+    {
+        Z<int>(P, x => { return 1; });
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call - invalid
+///     ^ variable.function
+///      ^^^^^ meta.generic
+///       ^^^ storage.type
+///           ^ punctuation.section.group.begin - meta.generic
+///            ^ variable.other
+///             ^ punctuation.separator.argument
+///               ^^^^^^ meta.function.anonymous
+///                 ^^ keyword.declaration.function.arrow
+///                    ^ punctuation.section.block.begin
+///                      ^^^^^^ keyword.control.flow.return
+///                             ^ meta.number.integer.decimal constant.numeric.value
+///                              ^ punctuation.terminator.statement
+///                                ^ punctuation.section.block.end
+///                                 ^ punctuation.section.group.end
+///                                  ^ punctuation.terminator.statement
+        Z(P, x => { return 1; });
+        Z<int> (P, x => { return 1; });
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call - invalid
+///     ^ variable.function
+///      ^^^^^ meta.generic
+///       ^^^ storage.type
+///           ^ - meta.group
+///            ^ punctuation.section.group.begin - meta.generic
+///             ^ variable.other
+///              ^ punctuation.separator.argument
+///                ^^^^^^ meta.function.anonymous
+///                  ^^ keyword.declaration.function.arrow
+///                     ^ punctuation.section.block.begin
+///                       ^^^^^^ keyword.control.flow.return
+///                              ^ meta.number.integer.decimal constant.numeric.value
+///                               ^ punctuation.terminator.statement
+///                                 ^ punctuation.section.block.end
+///                                  ^ punctuation.section.group.end
+///                                   ^ punctuation.terminator.statement
+        Z (P, x => { return 1; });
+
+        X.Z <int>();
+///     ^ variable.other
+///      ^ punctuation.accessor.dot
+///       ^^^^^^^^^ meta.function-call
+///       ^ variable.function
+///         ^ meta.generic punctuation.definition.generic.begin
+///          ^^^ meta.generic storage.type
+///             ^ meta.generic punctuation.definition.generic.end
+///              ^ meta.group punctuation.section.group.begin - meta.generic
+///               ^ meta.group punctuation.section.group.end
+///                ^ punctuation.terminator.statement
+        X.Z<int>();
+    }
+
+    string P { get => null; }
+    void Z<T> (string p1, Func<int, T> func)
+    {
+    }
+}

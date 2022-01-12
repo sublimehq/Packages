@@ -1,8 +1,8 @@
 {
-    // YAML mandates that tabs aren't used for indentation
-    "translate_tabs_to_spaces": true,
+	// YAML mandates that tabs aren't used for indentation
+	"translate_tabs_to_spaces": true,
 
-    // In practice, editing YAML files with anything other than two space
-    // indentation is tedious, due to the "- " list prefix
-    "tab_size": 2,
+	// In practice, editing YAML files with anything other than two space
+	// indentation is tedious, due to the "- " list prefix
+	"tab_size": 2,
 }

@@ -8,7 +8,7 @@ namespace HelloWorld
 {
     /// <summary>
 //* ^^^ punctuation.definition.comment.documentation.cs
-//* ^^^^^^^^^^^^^^ comment.block.documentation
+//* ^^^^^^^^^^^^^^ comment.line.documentation
 //*     ^ punctuation.definition.tag.begin
 //*      ^^^^^^^ entity.name.tag.begin
 //*             ^ punctuation.definition.tag.end
@@ -16,7 +16,7 @@ namespace HelloWorld
 //*     ^^^^^^^^^ - text.documentation
 //*              ^ text.documentation
     /// This class is testing comments
-//* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
+//* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation
 //*    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.documentation
     /// </summary>
 //*     ^^ punctuation.definition.tag.begin
@@ -30,6 +30,10 @@ namespace HelloWorld
 //*              ^ punctuation.separator.argument.value
 //*                               ^ punctuation.definition.tag.end
 //*                                ^^^^^^^^^ text.documentation
+    /**
+        *
+//*     ^ meta.namespace.cs meta.block.cs comment.block.cs punctuation.definition.comment.cs 
+    */
     class Hello
     {
         /// <summary>

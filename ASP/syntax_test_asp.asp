@@ -1,4 +1,4 @@
-' SYNTAX TEST "Packages/ASP/HTML-ASP.sublime-syntax"
+' SYNTAX TEST "Packages/ASP/HTML (ASP).sublime-syntax"
 <!DOCTYPE html>
 <html>
 '<- meta.tag.structure.any.html punctuation.definition.tag.begin.html - source.asp.embedded.html
@@ -38,6 +38,154 @@
     '                                ^^^^^^^^^^^^^^^ support.class.collection.asp
     '                                                              ^^ punctuation.section.embedded.end.asp - source.asp
     '                                                                ^^^^^^^^ meta.tag
+
+    <script> var i = 0; </script>
+    '  ^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^ source.js.embedded.html
+    '                   ^^^^^^^^^ meta.tag - source
+    '
+
+    <script> <!-- var i = 0; --> </script>
+    '       ^^^^^ - source - meta.tag
+    '        ^^^^ punctuation.definition.comment.begin.html
+    '            ^^^^^^^^^^^^ source.js.embedded.html
+    '                        ^^^^ - source - meta.tag
+    '                        ^^^ comment.block.html punctuation.definition.comment.end.html
+    '
+
+    <script>
+
+' <- source.js.embedded.html
+' ^^^^^^^^^^^^^ source.js.embedded.html
+    </script>
+
+    <script>
+        <!--
+    '  ^^^^^ - source - meta.tag
+    '   ^^^^ punctuation.definition.comment.begin.html
+        var i = 0;
+    '  ^^^^^^^^^^^^ source.js.embedded.html
+        -->
+    '   ^^^^ - source - meta.tag
+    '   ^^^ comment.block.html punctuation.definition.comment.end.html
+        var i = 0;
+    '  ^^^^^^^^^^^^ - source
+    </script>
+
+    <script language="jscript"> var foo = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                          ^^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+    '                                       ^^^^^^^^^ meta.tag - source
+
+    <script language=> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^ meta.tag - source
+    '                 ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                              ^^^^^^^^^ meta.tag - source
+
+    <script language=""> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                   ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                ^^^^^^^^^ meta.tag - source
+
+    <script language="vb"> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                     ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                  ^^^^^^^^^ meta.tag - source
+
+    <script language="vbscript"> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                           ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                        ^^^^^^^^^ meta.tag - source
+
+    <script type="vbscript"> Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                    ^^^^^^^^^ meta.tag - source
+
+    <script type="vbscript"> Dim var = 0 --> </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                    ^^^^ - meta.tag - source
+    '                                    ^^^ comment.block.html punctuation.definition.comment.end.html
+    '                                        ^^^^^^^^^ meta.tag - source
+
+    <script type="vbscript"> <!-- Dim var = 0 </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^ - meta.tag - source
+    '                            ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                         ^^^^^^^^^ meta.tag - source
+    '                        ^^^^ punctuation.definition.comment.begin.html
+
+    <script type="vbscript"> <!-- Dim var = 0 --> </script>
+    ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                       ^^^^^ - meta.tag - source
+    '                        ^^^^ punctuation.definition.comment.begin.html
+    '                            ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    '                                         ^^^^ - meta.tag - source
+    '                                         ^^^ comment.block.html punctuation.definition.comment.end.html
+    '                                             ^^^^^^^^^ meta.tag - source
+
+    <script type="vbscript">
+
+' <- source.asp.embedded.html
+' ^^^^^^^^^^^^^ source.asp.embedded.html
+    </script>
+
+    <script type="text/vbscript">
+    ' <- meta.tag punctuation.definition.tag.begin
+    '^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '                           ^ punctuation.definition.tag.end
+        Dim var = 0
+    '   ^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+    </script
+    ' <- meta.tag punctuation.definition.tag.begin - source
+    '^ meta.tag punctuation.definition.tag.begin - source
+    ' ^^^^^^ meta.tag - punctuation
+    >
+    ' <- meta.tag punctuation.definition.tag.end
+
+    <script type="vbscript">
+        <!--
+    '  ^^^^^ - meta.tag - source
+    '   ^^^^ punctuation.definition.comment.begin.html
+            Dim var = 0
+    '  ^^^^^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
+        -->
+    ' <- source.asp.embedded.html
+    '^^^ source.asp.embedded.html
+    '   ^^^^ - meta.tag - source
+    '   ^^^ comment.block.html punctuation.definition.comment.end.html
+    </script>
+    ' ^^^^^^^ meta.tag - source
+
+    <style type="text/css"> <!-- h1 {} --> </style>
+    '  ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+    '                      ^ - meta.tag - comment - source
+    '                       ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+    '                           ^^^^^^^ source.css.embedded.html
+    '                                  ^^^ comment.block.html punctuation.definition.comment.end.html - source
+    '                                     ^ - meta.tag - comment - source
+    '                                      ^^^^^^^^ meta.tag - comment - source
+
+    <style>
+
+' <- source.css.embedded.html
+' ^^^^^^^^^^^^^ source.css.embedded.html
+    </style>
+
+    <style type="text/css">
+        <!--
+    '  ^ - meta.tag - comment - source
+    '   ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+    '       ^ source.css.embedded.html - comment
+            h1 {}
+    '      ^^^^^^^ source.css.embedded.html
+        -->
+    '  ^ source.css.embedded.html - comment
+    '   ^^^ comment.block.html punctuation.definition.comment.end.html - source
+    '      ^ - meta.tag - comment - source
+    </style>
+    '  ^^^^^ meta.tag - comment - source
 </head>
 <body>
     <%
@@ -45,10 +193,10 @@
     'this is a comment
    '^ punctuation.definition.comment.asp
    '^^^^^^^^^^^^^^^^^^^ comment.line.apostrophe.asp
-    
+
     Option Explicit
    '^^^^^^^^^^^^^^^ keyword
-    
+
     Class TestClass
    '^^^^^^^^^^^^^^^ meta.class.asp meta.class.identifier.asp - meta.class.body.asp
    '^^^^^ storage.type.asp
@@ -64,7 +212,7 @@
        '^^^^^^^^^^^^ storage.modifier.asp
        '             ^ entity.name.constant.asp
        '               ^ keyword.operator.assignment.asp
-       '                 ^^^^ constant.numeric.float.decimal.asp
+       '                 ^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
        '                     ^ punctuation.separator.variable-declaration.asp
        '                       ^^ entity.name.constant.asp
        '                         ^ keyword.operator.assignment.asp
@@ -75,8 +223,10 @@
 '<- - invalid.illegal.unexpected-token.asp
         Const d = &HAB
        '^^^^^ storage.modifier.asp
-       '          ^^^^ constant.numeric.integer.hexadecimal.asp
-       '          ^^ punctuation.definition.numeric.hexadecimal.asp
+       '          ^^^^ meta.number.integer.hexadecimal.asp
+       '          ^ constant.numeric.asp punctuation.definition.numeric.asp
+       '           ^ constant.numeric.base.asp - punctuation
+       '            ^^ constant.numeric.value.asp
         Const e = "I am an unclosed string
         '         ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.asp
         '                                 ^ invalid.illegal.unclosed-string.asp
@@ -424,7 +574,7 @@
     value = 1/2
     '        ^ keyword.operator.asp
     value = &HFF mod 3
-    '       ^^^^ constant.numeric.integer.hexadecimal.asp
+    '       ^^^^ meta.number.integer.hexadecimal.asp
     '            ^^^ keyword.operator.asp
     Select Case call value:Case 1
    '^^^^^^^^^^^ keyword.control.flow.asp
@@ -505,9 +655,11 @@
         '    ^ punctuation.section.array.begin.asp
         '     ^ constant.numeric
         '      ^ punctuation.separator.array.asp
-        '       ^^^^ constant.numeric.integer.hexadecimal.asp
-        '       ^^ punctuation.definition.numeric.hexadecimal.asp
-        '          ^ punctuation.definition.numeric.hexadecimal.asp
+        '       ^^^^ meta.number.integer.hexadecimal.asp
+        '       ^ constant.numeric.asp punctuation.definition.numeric.asp
+        '        ^ constant.numeric.base.asp - punctuation
+        '         ^ constant.numeric.value.asp - punctuation
+        '          ^ constant.numeric.asp punctuation.definition.numeric.asp
         '           ^ punctuation.section.array.end.asp
         b = a Is Empty : Dim loop,nope : Dim foobar
        '^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
@@ -526,7 +678,10 @@
        '               ^^^ variable.other.asp
        '                   ^^^^^^^^ meta.array.definition.asp
        '                   ^ punctuation.section.array.begin.asp
-       '                     ^^^ constant.numeric.integer.hexadecimal.asp
+       '                     ^^^ meta.number.integer.hexadecimal.asp
+       '                     ^ constant.numeric.asp punctuation.definition.numeric.asp
+       '                      ^ constant.numeric.base.asp - punctuation
+       '                       ^ constant.numeric.value.asp - punctuation
        '                        ^ punctuation.separator.array.asp
        '                          ^ punctuation.section.array.end.asp
         For x = LBound(a) to UBound(a) Step 2 'test
@@ -590,8 +745,8 @@
     Call NoParams
     
          Sub Wow (test _ 'test
- ,def _ '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
-      _ '^^^ storage.type.function.asp
+        '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
+        '^^^ storage.type.function.asp
         '    ^^^ entity.name.function.asp
         '                ^^^^^ invalid.illegal.expected-end-of-line.asp
     ) ' this bracket doesn't form part of the method declaration - the line above is missing a _ and contains non-whitespace
@@ -800,26 +955,34 @@
     ' ^^^ storage.type.function.end.asp - meta.method.identifier.asp
     
     a=3.4*.5*6.*0.25
-    ' ^^^ constant.numeric.float.decimal.asp
-    '     ^^ constant.numeric.float.decimal.asp
-    '        ^^ constant.numeric.float.decimal.asp
-    '           ^^^^ constant.numeric.float.decimal.asp
+    ' ^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '  ^ punctuation.separator.decimal.asp
+    '     ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '     ^ punctuation.separator.decimal.asp
+    '        ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '         ^ punctuation.separator.decimal.asp
+    '           ^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '            ^ punctuation.separator.decimal.asp
     a=a+0.8
-    '   ^^^ constant.numeric.float.decimal.asp
+    '   ^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '    ^ punctuation.separator.decimal.asp
     ExampleSub 3.4,.5,6.,&HA,&H2,7*2.1e2,9,-3.402823E+38, 3.402823E38 ,1.401298E-45,Round(4.94065645841247E-324),a2,2a,123.456.789.321.654.321
-    '          ^^^ constant.numeric.float.decimal.asp
-    '              ^^ constant.numeric.float.decimal.asp
-    '                 ^^ constant.numeric.float.decimal.asp
-    '                    ^^^ constant.numeric.integer.hexadecimal.asp
-    '                        ^^^ constant.numeric.integer.hexadecimal.asp
+    '          ^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '           ^ punctuation.separator.decimal.asp
+    '              ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '              ^ punctuation.separator.decimal.asp
+    '                 ^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '                  ^ punctuation.separator.decimal.asp
+    '                    ^^^ meta.number.integer.hexadecimal.asp
+    '                        ^^^ meta.number.integer.hexadecimal.asp
     '                            ^ constant.numeric
-    '                              ^^^^^ constant.numeric.float.decimal.asp
+    '                              ^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
     '                                    ^ constant.numeric
-    '                                       ^^^^^^^^^^^^ constant.numeric.float.decimal.asp
-    '                                                     ^^^^^^^^^^^ constant.numeric.float.decimal.asp
-    '                                                                  ^^^^^^^^^^^^ constant.numeric.float.decimal.asp
+    '                                       ^^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '                                                     ^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
+    '                                                                  ^^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
     '                                                                               ^^^^^ support.function.vb.asp
-    '                                                                                     ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal.asp
+    '                                                                                     ^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.asp constant.numeric.value.asp
     '                                                                                                            ^^ - constant.numeric
     '                                                                                                                ^ - constant.numeric
     '                                                                                                                         ^^^^^^^^ - constant.numeric
@@ -1000,8 +1163,10 @@ test = "hello%>
 '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
 '                                         ^^^^^^^^^ meta.tag.block.any.html
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
-'         ^^^ meta.attribute-with-value.class.html string.quoted.double.html
-'                                   ^^^^^^^^^^ meta.attribute-with-value.class.html string.quoted.double.html
+'         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
+'          ^^ meta.attribute-with-value.class.html  meta.string.html meta.interpolation.html - string
+'                                   ^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html meta.interpolation.html - string
+'                                            ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
 '                                             ^ - string
 '          ^^^^^^^^^^^^^^^^ meta.class-name.html
 '                                  ^^^^^^^^^^ meta.class-name.html
@@ -1027,7 +1192,7 @@ test = "hello%>
 '       ^^^^^^^^^^^^^^^^ string.quoted.double.asp
 '                        ^^ punctuation.section.embedded.end.asp
 '                           ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'                               ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                               ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                     ^ punctuation.definition.tag.end.html
 '                                          ^ - meta.tag.block.any.html
 <% If True Then
@@ -1042,7 +1207,7 @@ test = "hello%>
        '                           ^^ punctuation.section.embedded.end.inside-block.asp
        '                             ^^^^^^^^^^^^ meta.tag
        '                              ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-       '                                  ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+       '                                  ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
        '                                        ^ punctuation.definition.tag.end.html
        '                                         ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
        '                                         ^^ punctuation.definition.tag.begin.html
@@ -1066,13 +1231,13 @@ test = "hello%>
 '                          ^^^^^ entity.other.attribute-name.class.html
 '                               ^ punctuation.separator.key-value.html
 '                                ^ string.quoted.double.html punctuation.definition.string.begin.html
-'                                 ^^^^ string.quoted.double.html meta.class-name.html
+'                                 ^^^^ meta.class-name.html string.quoted.double.html
 '                                     ^ string.quoted.double.html punctuation.definition.string.end.html
 '                                       ^^ punctuation.section.embedded.begin.inside-block.asp
 '                                          ^^^^^^ keyword.control.flow.asp
 '                                                 ^^ punctuation.section.embedded.end.asp
 '                                                    ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'                                                        ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                                                        ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                                              ^ punctuation.definition.tag.end.html
  <span <% If True Then %>
   class="test"
@@ -1081,7 +1246,7 @@ test = "hello%>
 ' ^^^^^ entity.other.attribute-name.class.html
 '      ^ punctuation.separator.key-value.html
 '       ^ string.quoted.double.html punctuation.definition.string.begin.html
-'        ^^^^ string.quoted.double.html meta.class-name.html
+'        ^^^^ meta.class-name.html string.quoted.double.html
 '            ^ string.quoted.double.html punctuation.definition.string.end.html
  <% End If %>
 '^^ punctuation.section.embedded.begin.inside-block.asp
@@ -1090,7 +1255,7 @@ test = "hello%>
  id="test4"></span>
 '^^^^^^^^^^^ meta.tag
 '^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'    ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'    ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '          ^ punctuation.definition.tag.end.html
 '           ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
 '           ^^ punctuation.definition.tag.begin.html
@@ -1107,7 +1272,7 @@ test = "hello%>
 '                          ^^^^^^^^^^^^^ meta.tag
 '                          ^ string.quoted.double.html punctuation.definition.string.end.html
 '                            ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'                                ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                                ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                      ^ punctuation.definition.tag.end.html
 '                                       ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
 '                                       ^^ punctuation.definition.tag.begin.html

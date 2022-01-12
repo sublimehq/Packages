@@ -4,6 +4,6 @@
 except ${2:Exception} as ${3:e}:
 	${4:raise $3}]]></content>
 	<tabTrigger>try</tabTrigger>
-	<scope>source.python</scope>
+	<scope>source.python - meta.function.parameters - meta.function-call - meta.statement - meta.mapping - meta.sequence - meta.set - comment - string</scope>
 	<description>Try/Except</description>
 </snippet>

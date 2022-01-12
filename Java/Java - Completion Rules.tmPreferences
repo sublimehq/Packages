@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.java</string>
+	<key>settings</key>
+	<dict>
+		<key>cancelCompletion</key>
+		<string><![CDATA[(?x)
+			# prevent completions for class/enum/package names
+			^ (.*\*/)? \s* (class|enum|@?interface|package|record)\s*[\w$]*\s*$
+		]]></string>
+	</dict>
+</dict>
+</plist>

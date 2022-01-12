@@ -1,21 +1,36 @@
 %YAML 1.2
 ---
 name: PHP
+scope: embedding.php
+version: 2
+
 file_extensions:
   - php
   - php3
   - php4
   - php5
   - php7
+  - php8
   - phps
   - phpt
   - phtml
-first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
-scope: embedding.php
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .*[^-]php(?:\d+(?:\.\d+){0,2})?\b # shebang
+  | ^ \s* // .*? -\*- .*? \bphp(?:\d+(?:\.\d+){0,2})?\b .*? -\*-  # editorconfig
+  | ^ \s* <\?php\b                          # php tag
+  )
+
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
-      push: scope:text.html.basic
+      push: [real-main, shebang]
+
+  real-main:
+    - match: ''
+      set: scope:text.html.basic
       with_prototype:
         - match: <\?(?i:php|=)?(?![^?]*\?>)
           scope: punctuation.section.embedded.begin.php
@@ -32,9 +47,25 @@ contexts:
             - include: php-end-tag-pop
             - include: scope:source.php
 
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.php
+      set: shebang-body
+    - match: ^|(?=\S)
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.php
+    - match: \bphp(?:[-_]?\d+(?:\.\d+){0,2})?\b
+      scope: constant.language.shebang.php
+    - match: \n
+      pop: 1
+
   php-end-tag-pop:
     - match: (\?>)(\s*\n)?
       captures:
         1: punctuation.section.embedded.end.php
         2: meta.html-newline-after-php.php
-      pop: true
+      pop: 1

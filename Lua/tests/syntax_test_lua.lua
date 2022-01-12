@@ -3,22 +3,28 @@
 --COMMENTS
 
     -- Foo!
---  ^^^^^^^ comment.line
+-- ^ - comment
+--  ^^^^^^^^ comment.line
 --  ^^ punctuation.definition.comment
 
 
     --[[ Foo! ]]
+-- ^ - comment
 --  ^^^^^^^^^^^^ comment.block
 --  ^^^^ punctuation.definition.comment.begin
 --            ^^ punctuation.definition.comment.end
+--              ^ - comment
 
     --[=[ Foo! ]] ]=]
+-- ^ - comment
 --  ^^^^^^^^^^^^^^^^^ comment.block
 --  ^^^^^ punctuation.definition.comment.begin
 --             ^^ - punctuation
 --                ^^^ punctuation.definition.comment.end
+--                   ^ - comment
 
     --[=[
+-- ^ - comment
 --  ^^^^^ comment.block punctuation.definition.comment.begin
         ]]
 --      ^^^ comment.block - punctuation
@@ -30,6 +36,7 @@
 --      ^^ - punctuation
     ]=]
 --  ^^^ comment.block punctuation.definition.comment.end
+--     ^ - comment
 
 --VARIABLES
 
@@ -42,10 +49,10 @@
 --CONSTANTS
 
     true;
---  ^^^^ constant.language.boolean.true
+--  ^^^^ constant.language.boolean.lua
 
     false;
---  ^^^^^ constant.language.boolean.true
+--  ^^^^^ constant.language.boolean.lua
 
     nil;
 --  ^^^ constant.language.null
@@ -59,74 +66,99 @@
 --NUMBERS
 
     0;
---  ^ constant.numeric.decimal
+--  ^ meta.number.integer.decimal constant.numeric.value
 
     1234567890;
---  ^^^^^^^^^^ constant.numeric.decimal
+--  ^^^^^^^^^^ meta.number.integer.decimal constant.numeric.value
 
     12.345;
---  ^^^^^^ constant.numeric.decimal
+--  ^^^^^^ meta.number.float.decimal constant.numeric.value
+--    ^ punctuation.separator.decimal
 
     1.;
---  ^^ constant.numeric.decimal
+--  ^^ meta.number.float.decimal constant.numeric.value
+--   ^ punctuation.separator.decimal
 
     .2;
---  ^^ constant.numeric.decimal
+--  ^^ meta.number.float.decimal constant.numeric.value
+--  ^ punctuation.separator.decimal
 
     1e10;
---  ^^^^ constant.numeric.decimal
+--  ^^^^ meta.number.float.decimal constant.numeric.value
 
     0.5e+0;
---  ^^^^^^ constant.numeric.decimal
+--  ^^^^^^ meta.number.float.decimal constant.numeric.value
+--   ^ punctuation.separator.decimal
 
     9e-1;
---  ^^^^ constant.numeric.decimal
+--  ^^^^ meta.number.float.decimal constant.numeric.value
 
     0x0;
---  ^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^^ meta.number.integer.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^ constant.numeric.value
 
     0XdeafBEEF42;
---  ^^^^^^^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^^^^^^^^^^ constant.numeric.value
 
-    0xa.bc;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+    0xa.bc + 0xa. + 0x.b;
+--  ^^^^^^ meta.number.float.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^^^^ constant.numeric.value
+--     ^ punctuation.separator.decimal
+--           ^^^^ meta.number.float.hexadecimal constant.numeric
+--           ^^ constant.numeric.base
+--             ^^ constant.numeric.value
+--              ^ punctuation.separator.decimal
+--                  ^^^^ meta.number.float.hexadecimal constant.numeric
+--                  ^^ constant.numeric.base
+--                    ^^ constant.numeric.value
+--                    ^ punctuation.separator.decimal
 
-    0x1p10;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+    0x1p10 + 0x1.p10 + 0x.1p10;
+--  ^^^^^^ meta.number.float.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^^^^ constant.numeric.value
+--           ^^^^^^^ meta.number.float.hexadecimal constant.numeric
+--           ^^ constant.numeric.base
+--             ^^^^^ constant.numeric.value
+--              ^ punctuation.separator.decimal
+--                     ^^^^^^^ meta.number.float.hexadecimal constant.numeric
+--                     ^^ constant.numeric.base
+--                       ^^^^^ constant.numeric.value
+--                       ^ punctuation.separator.decimal
 
     'foo';
---  ^^^^^ string.quoted.single
+--  ^^^^^ meta.string string.quoted.single
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
 --STRINGS
 
     'foo';
---  ^^^^^ string.quoted.single
+--  ^^^^^ meta.string string.quoted.single
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
     '-- [[';
---  ^^^^^^^ string.quoted.single - comment
+--  ^^^^^^^ meta.string string.quoted.single - comment
 
     "foo";
---  ^^^^^ string.quoted.double
+--  ^^^^^ meta.string string.quoted.double
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
     "-- [[";
---  ^^^^^^^ string.quoted.double - comment
+--  ^^^^^^^ meta.string string.quoted.double - comment
 
     '\a\b\f\n\r\t\v\\\'\"\[\]';
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
 --   ^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
 
     '\x1ff';
---   ^^^^ constant.character.escape.hexadecimal
+--   ^^^^ meta.string constant.character.escape.hexadecimal
 --       ^ - constant
 
     '\0 \123 \1234';
@@ -164,39 +196,39 @@
 --   ^ invalid.illegal.unclosed-string
 
     "foo\"\'";
---  ^^^^^^^^^ string.quoted.double
+--  ^^^^^^^^^ meta.string string.quoted.double
 --  ^ punctuation.definition.string.begin
 --      ^^^^ constant.character.escape
 --          ^ punctuation.definition.string.end
 
     [[ Foo! ]];
---  ^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^ punctuation.definition.string.end
 
     [[ -- [[ ]];
---  ^^^^^^^^^^^ string.quoted.multiline - comment
+--  ^^^^^^^^^^^ meta.string string.quoted.multiline - comment
 
     [[ Foo! \a \]];
---  ^^^^^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^^^ - constant
 --              ^^ punctuation.definition.string.end
 
     [=[ Foo! ]] ]=];
---  ^^^^^^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^^ punctuation.definition.string.begin
 --           ^^ - punctuation
 --              ^^^ punctuation.definition.string.end
 
     [=[
---  ^^^ string.quoted.multiline punctuation.definition.string.begin
+--  ^^^ meta.string string.quoted.multiline punctuation.definition.string.begin
         ]]
---      ^^^ string.quoted.multiline - punctuation
+--      ^^^ meta.string string.quoted.multiline - punctuation
         ]==]
---      ^^^^ string.quoted.multiline - punctuation
+--      ^^^^ meta.string string.quoted.multiline - punctuation
     ]=];
---  ^^^ string.quoted.multiline punctuation.definition.string.end
+--  ^^^ meta.string string.quoted.multiline punctuation.definition.string.end
 
 --OPERATORS
 
@@ -205,15 +237,15 @@
 
     -1;
 --  ^ keyword.operator.arithmetic
---   ^ constant.numeric.decimal
+--   ^ meta.number.integer.decimal constant.numeric.value
 
     ~1;
 --  ^ keyword.operator.bitwise
---   ^ constant.numeric.decimal
+--   ^ meta.number.integer.decimal constant.numeric.value
 
     not true;
 --  ^^^ keyword.operator.logical
---      ^^^^ constant.language.boolean.true
+--      ^^^^ constant.language.boolean.lua
 
     2 + 2 - 2 * 2 / 2 // 2 % 2 ^ 2;
 --    ^ keyword.operator.arithmetic
@@ -268,20 +300,41 @@
 --              ^ punctuation.section.block.end
 
     {[a] = x, b = y};
---   ^^^ meta.brackets
+--  ^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+--   ^^^ meta.mapping.key meta.brackets
 --   ^ punctuation.section.brackets.begin
 --    ^ variable.other
 --     ^ punctuation.section.brackets.end
 --       ^ punctuation.separator.key-value
---         ^ variable.other
---          ^ punctuation.separator.field
---            ^ meta.key string.unquoted.key
+--         ^ meta.mapping.value variable.other
+--          ^ meta.mapping.lua punctuation.separator.field
+--            ^ meta.mapping.key string.unquoted.key
 --              ^ punctuation.separator.key-value
 --                ^ meta.mapping variable.other
 
     {[[actually a string]], [=[this too]=]}
---   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+--   ^^ meta.mapping.lua meta.string string.quoted.multiline.lua punctuation.definition.string.begin.lua
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+
+    {some = 2}, {some == 2}
+--   ^^^^ meta.mapping.key string.unquoted.key.lua
+--        ^ punctuation.separator.key-value.lua
+--          ^ meta.mapping.value meta.number.integer.decimal constant.numeric.value
+--               ^^^^ variable.other.lua - meta.mapping.key
+--                    ^^ keyword.operator.comparison
+
+    {__index = function(i) end,
+--   ^^^^^^^ meta.mapping.key entity.name.function support.function.metamethod.lua
+     method = function ()
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua - support
+     end,
+     __call = some_func,
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua support.function.metamethod.lua
+     not_method = some_var,
+--   ^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua - entity - support
+     __metatable = nil,
+--   ^^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua support.other.metaproperty.lua
+ }
 
 --PARENS
 
@@ -294,29 +347,32 @@
 --     ^ punctuation.accessor
 --      ^^^ meta.property
 
+    foo.__mode = "kv";
+--      ^^^^^^ meta.property.lua support.other.metaproperty.lua
+
     foo:bar;
 --     ^ punctuation.accessor
 --      ^^^ meta.property
 
     foo.baz();
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz "";
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz '';
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz [=[ a string ]=];
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz {};
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 --          ^^ meta.function-call.arguments meta.mapping
 
     foo[bar + baz];
@@ -337,7 +393,7 @@
     foo[return] foo[false]
 --      ^^^^^^ invalid.unexpected-keyword.lua
 --            ^ - meta.brackets
---                  ^^^^^ constant.language.boolean.true.lua
+--                  ^^^^^ constant.language.boolean.lua
 
     some.return
 --       ^^^^^^ invalid.unexpected-keyword.lua
@@ -345,25 +401,25 @@
 --FUNCTION CALLS
 
     f(42);
---  ^ variable.function
+--  ^ meta.function-call variable.function
 --   ^ meta.function-call.arguments meta.group
 --   ^ punctuation.section.group.begin
 --      ^ punctuation.section.group.end
 
     f "argument";
---  ^ variable.function
---    ^^^^^^^^^^ meta.function-call.arguments string.quoted.double
+--  ^ meta.function-call variable.function
+--    ^^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.double
 
     f
     'argument';
---  ^^^^^^^^^^ meta.function-call.arguments string.quoted.single
+--  ^^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.single
 
     f [[ foo ]];
---  ^ variable.function
---    ^^^^^^^^^ meta.function-call.arguments string.quoted.multiline
+--  ^ meta.function-call variable.function
+--    ^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.multiline
 
     f {};
---  ^ variable.function
+--  ^ meta.function-call variable.function
 --    ^^ meta.function-call.arguments meta.mapping
 
     f( 'unclosed)
@@ -371,11 +427,14 @@
 --  ^^^^^^ meta.function-call.arguments.lua meta.group.lua invalid.unexpected-keyword.lua
 --         ^ - meta.function-call
 
+    print('argument')
+--  ^ meta.function-call.lua support.function.builtin.lua
+
 --FUNCTIONS
 
     function function_name( a, b, ... )
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
---  ^^^^^^^^ storage.type.function
+--  ^^^^^^^^ keyword.declaration.function
 --           ^^^^^^^^^^^^^ entity.name.function
 --                        ^^^^^^^^^^^^^ meta.group
 --                        ^ punctuation.section.group.begin
@@ -398,6 +457,9 @@
 --                       ^^^^^ meta.group
 --                             ^^^ keyword.control.end
 
+    function foo.bar:__index (...) end
+--                   ^^^^^^^ meta.name.function meta.property.lua entity.name.function.lua support.function.metamethod.lua
+
     function foo
         .bar () end
 --      ^^^^^^^^^^^ meta.function
@@ -411,7 +473,7 @@
 
     ~function( a, b, ... ) end;
 --   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
---   ^^^^^^^^ storage.type
+--   ^^^^^^^^ keyword.declaration.function.lua
 --           ^^^^^^^^^^^^^ meta.group
 --                         ^^^ keyword.control.end
 
@@ -424,6 +486,9 @@
 
     foo.bar = function() end;
 --      ^^^ meta.property entity.name.function
+
+    foo.__call = function() end;
+--      ^^^^^^ meta.property.lua entity.name.function.lua support.function.metamethod.lua
 
     function (return) end;
 --            ^^^^^^ invalid.unexpected-keyword.lua
@@ -461,6 +526,12 @@
 --  ^^^^^^^^^^^ - meta.block
 --          ^^^ invalid.illegal.unexpected-end
 
+
+    if a ! = b then end
+--       ^ invalid.illegal.unexpected-character.lua
+--             ^^^^ keyword.control.conditional
+--                  ^^^ keyword.control.end
+
     while true do
 --  ^^^^^ keyword.control.loop
 --             ^^ keyword.control
@@ -480,7 +551,7 @@
 --      ^^^ invalid.illegal.unexpected-end
     until true;
 --  ^^^^^ keyword.control.loop
---        ^^^^ constant.language.boolean.true
+--        ^^^^ constant.language.boolean.lua
 
     for x = 1, y, z do end
 --  ^^^ keyword.control.loop
@@ -517,6 +588,10 @@
 --     ^^^ entity.name.label
 --         ^^ punctuation.definition.label.end
 
+    local x = 1
+    ::foo::
+--  ^^ punctuation.definition.label.begin
+
     goto foo;
 --  ^^^^ keyword.control.goto
 --       ^^^ variable.label
@@ -527,17 +602,76 @@
     return;
 --  ^^^^^^ keyword.control.return
 
-    return foo;
+    return foo or a < b and a <= b;
 --  ^^^^^^ keyword.control.return
 --         ^^^ variable.other
+--             ^^ keyword.operator.logical.lua
+--                  ^ keyword.operator.comparison.lua
+--                      ^^^ keyword.operator.logical.lua
+--                            ^^ keyword.operator.comparison.lua
+
+    return a << b;
+--           ^^ keyword.operator.bitwise.lua
 
     local x = 1, y = 2;
 --  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
---            ^ constant.numeric.decimal
+--            ^ meta.number.integer.decimal constant.numeric.value
 --             ^ punctuation.separator.comma
 --               ^ variable.other
 --                 ^ keyword.operator.assignment
---                   ^ constant.numeric.decimal
+--                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
+
+    local x <const>, y <  const  > = 1, 2;
+--  ^^^^^ storage.modifier.lua
+--        ^ variable.other.lua
+--          ^^^^^^^ meta.modifier.lua
+--          ^ punctuation.definition.modifier.begin.lua
+--                ^ punctuation.definition.modifier.end.lua
+--           ^^^^^ storage.modifier.lua
+--                                 ^ keyword.operator.assignment.lua
+--                                   ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+--                 ^ punctuation.separator.comma.lua
+--                   ^ variable.other.lua
+--                     ^^^^^^^^^^^ meta.modifier.lua
+--                     ^ punctuation.definition.modifier.begin.lua
+--                        ^^^^^ storage.modifier.lua
+--                               ^ punctuation.definition.modifier.end.lua
+--                                 ^ keyword.operator.assignment.lua
+--                                      ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+
+    local t = a >= b and b <= a
+--  ^^^^^ storage.modifier.lua
+--          ^ keyword.operator.assignment.lua
+--              ^^ keyword.operator.comparison.lua
+--                   ^^^ keyword.operator.logical.lua
+--                         ^^ keyword.operator.comparison.lua
+
+    local text <const = "Hello, World";
+--  ^^^^^ storage.modifier.lua
+--        ^^^^ variable.other.lua
+--              ^^^^^ - storage.modifier.lua
+--                    ^ keyword.operator.assignment.lua - meta.modifier
+--                      ^ punctuation.definition.string.begin.lua - meta.modifier
+--                       ^^^^^^^^^^^^ meta.string.lua string.quoted.double.lua
+--                                   ^ punctuation.definition.string.end.lua
+--                                    ^ punctuation.terminator.statement.lua
+
+    local f <close> = io.open("/etc/fstab", "r")
+--  ^^^^^ storage.modifier.lua
+--        ^ variable.other.lua
+--          ^^^^^^^ meta.modifier.lua
+--          ^ punctuation.definition.modifier.begin.lua
+--           ^^^^^ storage.modifier.lua
+--                ^ punctuation.definition.modifier.end.lua
+--                  ^ keyword.operator.assignment.lua
+--                    ^^ support.constant.builtin.lua
+--                      ^ punctuation.accessor.lua
+--                       ^^^^ meta.property.lua support.function.builtin.lua
+--                           ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.lua meta.group.lua
+--                           ^ punctuation.section.group.begin.lua
+--                            ^^^^^^^^^^^^ meta.string string.quoted.double.lua
+--                                        ^ punctuation.separator.comma.lua
+--                                             ^ punctuation.section.group.end.lua

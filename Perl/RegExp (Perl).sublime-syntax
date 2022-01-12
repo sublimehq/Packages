@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+name: Regular Expression (Perl)
+scope: source.regexp.perl
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp.sublime-syntax
+
+variables:
+  interpolation_begin: (?=[@$%])
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: perl-interpolations
+
+  perl-interpolations:
+    - match: '{{interpolation_begin}}'
+      push:
+        - perl-interpolations-meta
+        - perl-interpolations-body
+
+  perl-interpolations-body:
+    - include: Perl.sublime-syntax#variables-interpolation-body
+
+  perl-interpolations-meta:
+    - clear_scopes: 2  # remove 'string meta.mode'
+    - meta_scope: meta.interpolation.perl
+    - include: Perl.sublime-syntax#maybe-item-access

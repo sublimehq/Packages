@@ -13,7 +13,7 @@ using System;
 #pragma checksum "file.cs" "{3673e4ca-6098-4ec1-890f-8fceb2a794a2}" "{012345678AB}" // New checksum
 //       ^ keyword.other.preprocessor
 //                 ^ stirng.quoted.double
-//                                     ^ constant.numeric
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 
 #region
 /// ^^ meta.preprocessor keyword.other.preprocessor
@@ -68,3 +68,25 @@ public class MyClass
 //         ^^^^^ variable.other.section
 #endregion
 // ^^ storage.type.section
+
+#nullable enable
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable disable
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable restore
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable enable annotations
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+///              ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable disable warnings
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+// /              ^^ meta.preprocessor keyword.other.preprocessor

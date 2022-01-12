@@ -1,4 +1,4 @@
 {
-  // Prefer tabs because gofmt enforces tabs.
-  "translate_tabs_to_spaces": false,
+	// Prefer tabs because gofmt enforces tabs.
+	"translate_tabs_to_spaces": false,
 }

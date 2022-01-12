@@ -2,13 +2,39 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C
+scope: source.c
+
 file_extensions:
   - c
   - h
-first_line_match: "-[*]-( Mode:)? C -[*]-"
-scope: source.c
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bc\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
+  # number digits
+  bin_digit: '[01]'
+  oct_digit: '[0-7]'
+  dec_digit: '\d'
+  hex_digit: '\h'
+
+  dec_digits: '{{dec_digit}}+'
+
+  # number exponents
+  dec_exponent: '(?:[eE][-+]?{{dec_digit}}*)'
+  hex_exponent: '(?:[pP][-+]?{{dec_digit}}*)'
+
+  # number suffixes
+  bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
+  oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
+  dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  double_suffix: '[fFlL]'
+  float_suffix: '[fF]'
+  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
+
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
@@ -50,6 +76,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.c
     - match: \*/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
     - match: ^// =(\s*.*?)\s*=\s*$\n?
@@ -150,7 +179,9 @@ contexts:
       scope: support.function.C99.c
 
   types:
-    - match: \b({{basic_types}}|{{before_tag}})\b
+    - match: \b({{before_tag}})\b
+      scope: keyword.declaration.c
+    - match: \b({{basic_types}})\b
       scope: storage.type.c
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t|ptrdiff_t)\b
       scope: support.type.sys-types.c
@@ -166,8 +197,90 @@ contexts:
       scope: support.type.mac-classic.c
 
   numbers:
-    - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([fF]|(l{1,2}|L{1,2})[uU]?|[uU](l{0,2}|L{0,2}))?\b'
-      scope: constant.numeric.c
+    # https://en.cppreference.com/w/c/language/floating_constant
+
+    # decimal floats
+    - match: |-
+        (?x:
+          \b({{dec_digits}})
+          (?:
+            ( (\.)
+              (?:
+                # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
+                {{dec_digit}}+ {{dec_exponent}}?
+                # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
+                | {{dec_exponent}}
+                # 1., 1.f, 1.L # but not `..`
+                | (?!\.)
+              )
+              # 1e1 1e1f 1e1L
+              | {{dec_exponent}}
+            ) ({{double_suffix}})?
+            # 1f
+            | ({{float_suffix}})
+          ) ({{dec_suffix}})?
+          # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
+          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
+        )
+      scope: meta.number.float.decimal.c
+      captures:
+        1: constant.numeric.value.c
+        2: constant.numeric.value.c
+        3: punctuation.separator.decimal.c
+        4: constant.numeric.suffix.c
+        5: constant.numeric.suffix.c
+        6: invalid.illegal.numeric.suffix.c
+        7: constant.numeric.value.c
+        8: punctuation.separator.decimal.c
+        9: constant.numeric.suffix.c
+        10: invalid.illegal.numeric.suffix.c
+
+    # hexadecimal float (C99)
+    - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})(?:([fFlL]\b)|({{dec_suffix}}))?
+      scope: meta.number.float.hexadecimal.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: punctuation.separator.decimal.c
+        4: constant.numeric.suffix.c
+        5: invalid.illegal.numeric.suffix.c
+
+    # https://en.cppreference.com/w/c/language/integer_constant
+
+    # binary integer (C23)
+    - match: \b(0[bB])({{bin_digit}}*)(?:({{integer_suffix}})|({{bin_suffix}}))?
+      scope: meta.number.integer.binary.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: constant.numeric.suffix.c
+        4: invalid.illegal.numeric.suffix.c
+
+    # hexadecimal integer
+    - match: \b(0[xX])({{hex_digit}}*)(?:({{integer_suffix}})|({{hex_suffix}}))?
+      scope: meta.number.integer.hexadecimal.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: constant.numeric.suffix.c
+        4: invalid.illegal.numeric.suffix.c
+
+    # octal integer
+    - match: \b(0)({{oct_digit}}+)(?:({{integer_suffix}})|({{oct_suffix}}))?
+      scope: meta.number.integer.octal.c
+      captures:
+        1: constant.numeric.base.c
+        2: constant.numeric.value.c
+        3: constant.numeric.suffix.c
+        4: invalid.illegal.numeric.suffix.c
+
+    # decimal integer
+    - match: \b({{dec_digits}})(?:({{integer_suffix}})|({{dec_suffix}}))?
+      scope: meta.number.integer.decimal.c
+      captures:
+        1: constant.numeric.value.c
+        2: constant.numeric.suffix.c
+        3: invalid.illegal.numeric.suffix.c
 
   operators:
     - match: (?:\+\+|--)
@@ -299,7 +412,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -311,6 +423,7 @@ contexts:
     - include: block
     - include: variables
     - include: constants
+    - include: access
     - match: ','
       scope: punctuation.separator.c
     - match: '\)|\}'
@@ -347,7 +460,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.c
+        1: keyword.declaration.c
       set: global-maybe-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/union
@@ -449,15 +562,15 @@ contexts:
   data-structures:
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: storage.type.c
+      scope: keyword.declaration.c
     - match: '\bstruct\b'
-      scope: storage.type.c
+      scope: keyword.declaration.struct.c
       set: data-structures-struct-definition
     - match: '\benum\b'
-      scope: storage.type.c
+      scope: keyword.declaration.enum.c
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.c
+      scope: keyword.declaration.union.c
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -671,15 +784,14 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.c
+      scope: keyword.declaration.type.c
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
             1: entity.name.type.typedef.c
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: storage.type.c
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:
@@ -705,11 +817,11 @@ contexts:
     - include: preprocessor-rule-disabled-data-structures
 
   preprocessor-rule-disabled-data-structures:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -730,25 +842,28 @@ contexts:
               pop: true
             - include: preprocessor-disabled
 
+  preprocessor-if-true:
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      pop: true
+    - match: ^\s*(#\s*else)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.else.c
+      push:
+        - meta_content_scope: comment.block.preprocessor.else-branch.c
+        - match: (?=^\s*#\s*endif\b)
+          pop: true
+        - include: preprocessor-disabled
+
   preprocessor-rule-enabled-data-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -775,11 +890,11 @@ contexts:
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -802,24 +917,13 @@ contexts:
             - include: preprocessor-disabled
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -907,11 +1011,11 @@ contexts:
   ## Preprocessor for statements
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -933,24 +1037,13 @@ contexts:
             - include: preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)

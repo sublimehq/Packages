@@ -3,12 +3,19 @@
 # This file is some kind of internal library which is used to store
 # common rules which are used by the visible syntax files.
 name: Git Common
-hidden: true
 scope: text.git.common
+version: 2
+hidden: true
 
 variables:
   comment_char: '[#;]'
-  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw
+  hash: \b\h{7,}\b
+  repository_ref: |-
+    (?x:
+      [\w-]+ (/) [\w-]+   # user / repo
+    | [\w-]{2,}           # user with a heuristic to exclude C#7, F#7, ...
+    )
+  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
   pretty_formats_empty_value_modifiers: '[-+ ]?'
 
 contexts:
@@ -27,18 +34,18 @@ contexts:
     # make sure to resume parsing at next line
       push:
         - match: (?=\S|^\s*$)
-          pop: true
+          pop: 1
 
   eol-pop:
     - include: line-continuation
     - match: $
-      pop: true
+      pop: 1
 
   illegal-eol-pop:
     - include: line-continuation
     - match: $\n?
       scope: invalid.illegal.unexpected.eol.git
-      pop: true
+      pop: 1
 
 ##[ COMMENTS ]#########################################################
 
@@ -63,6 +70,7 @@ contexts:
     - include: issue
     - include: email
     - include: username
+    - include: commit
 
   issue:
     # issue reference
@@ -76,9 +84,7 @@ contexts:
           )?                         # keyword is optional
           # user/repo#issue
           (
-            (?:
-              \b(?: \w+ (/) )? \w+   # user (optional) / repo
-            )?
+            (?: {{repository_ref}} | \B )
             (\#)[0-9]+               # issue number
           )\b
       scope: meta.reference.issue.git
@@ -86,7 +92,7 @@ contexts:
         1: keyword.other.resolved-issue.git
         2: punctuation.separator.mapping.pair.resolved-issue.git
         3: constant.other.reference.issue.git
-        4: punctuation.separator.reference.issue.git
+        4: punctuation.separator.reference.issue.git  # (inside repository_ref)
         5: punctuation.definition.reference.issue.git
 
   email:
@@ -96,14 +102,15 @@ contexts:
       push: [email-meta, email-name]
 
   email-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.reference.email.git
     - match: ''
-      pop: true
+      pop: 1
 
   email-name:
     - meta_content_scope: entity.name.reference.email.git
     - match: '@'
-      scope: punctuation.separator.email.git
+      scope: entity.name.reference.email.git punctuation.separator.email.git
       set: email-domain
     - include: email-end
 
@@ -116,7 +123,9 @@ contexts:
   email-end:
     - match: '>'
       scope: punctuation.definition.reference.email.end.git
-      pop: true
+      pop: 1
+    - match: (?=\s)
+      pop: 1
 
   username:
     # user reference
@@ -124,6 +133,13 @@ contexts:
       scope: meta.reference.username.git entity.name.reference.username.git
       captures:
         1: punctuation.definition.reference.username.git
+
+  commit:
+    - match: (?:{{repository_ref}}(@))?{{hash}}
+      scope: constant.other.hash.git
+      captures:
+        1: punctuation.separator.reference.commit.git  # (inside repository_ref)
+        2: punctuation.separator.reference.commit.git
 
 ##[ FNMATCH ]##########################################################
 
@@ -135,11 +151,11 @@ contexts:
     - match: '[A-Za-z](:)(?=/)'
       captures:
         1: punctuation.separator.drive.fnmatch.git
-      pop: true
+      pop: 1
     # homedir tilde operator
     - match: ~(?=/)
       scope: variable.language.environment.home.fnmatch.git
-      pop: true
+      pop: 1
     # any other directory pattern
     - include: fnmatch-dir-pattern
 
@@ -148,12 +164,10 @@ contexts:
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
   fnmatch-body:
-    - match: \[           # shell style character class
-      scope: keyword.control.char-class.begin.fnmatch.git
-      push:
-        - fnmatch-char-class-body
-        - fnmatch-char-class-start
-        - fnmatch-char-class-operator
+    - include: fnmatch-char-classes
+    - include: fnmatch-common
+
+  fnmatch-common:
     - match: '/'          # path separators
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
@@ -173,31 +187,39 @@ contexts:
   fnmatch-dir-pattern:
     - match: \.\.(?=/)
       scope: constant.language.path.parent.fnmatch.git
-      pop: true
+      pop: 1
     - match: \.(?=/)
       scope: constant.language.path.self.fnmatch.git
-      pop: true
+      pop: 1
     - match: ''
-      pop: true
+      pop: 1
+
+  fnmatch-char-classes:
+    - match: \[           # shell style character class
+      scope: keyword.control.char-class.begin.fnmatch.git
+      push:
+        - fnmatch-char-class-body
+        - fnmatch-char-class-start
+        - fnmatch-char-class-operator
 
   fnmatch-char-class-operator:
     - match: '[!^]?'  # optional pattern negation
       scope: keyword.operator.logical.fnmatch.git
-      pop: true
+      pop: 1
 
   fnmatch-char-class-start:
     - match: \]?  # first unescaped ']' is matched as normal char
       scope: constant.character.char-class.fnmatch.git
-      pop: true
+      pop: 1
 
   fnmatch-char-class-body:
     - meta_scope: meta.char-class.fnmatch.git
     - match: \]
       scope: keyword.control.char-class.end.fnmatch.git
-      pop: true
+      pop: 1
     - match: $\n?     # class must end before end of line
       scope: invalid.illegal.unexpected.eol.fnmatch.git
-      pop: true
+      pop: 1
     - match: '\\\]'   # backslash escapes only ']'
       scope: constant.character.escape.char-class.fnmatch.git
     - match: '[*?]'   # asterisk is ignored by fnmatch
@@ -228,7 +250,7 @@ contexts:
         # 1: punctuation.definition.parameter.shell
         # 2: variable.parameter.option.shell
         # 3: keyword.operator.assignment.option.shell
-        # 4: constant.language.pretty-formats.git
+        4: constant.language.pretty-formats.git
         5: keyword.declaration.pretty-formats.git
         6: keyword.operator.assignment.option.pretty-formats.git
       push: include-pretty-formats
@@ -236,7 +258,7 @@ contexts:
   include-pretty-formats:
     - meta_content_scope: meta.pretty-formats.git
     - match: (?!\S)
-      pop: true
+      pop: 1
     - match: (\')(?:(t?format)(:))?
       captures:
         1: punctuation.definition.string.begin.shell
@@ -246,7 +268,7 @@ contexts:
         - meta_scope: string.quoted.single.shell
         - match: \'
           scope: punctuation.definition.string.end.shell
-          pop: true
+          pop: 1
         - include: illegal-eol-pop
         - include: pretty-formats
     - match: \"(?:(t?format)(:))?
@@ -258,7 +280,7 @@ contexts:
         - meta_scope: string.quoted.double.shell
         - match: \"
           scope: punctuation.definition.string.end.shell
-          pop: true
+          pop: 1
         - include: illegal-eol-pop
         - include: pretty-formats
     - include: pretty-formats
@@ -273,7 +295,7 @@ contexts:
           %{{pretty_formats_empty_value_modifiers}}
           (?:
             [HhTtPpdDesSfbBNmn]| # single-char
-            [ac][nNeEdDrtiI]|    # author and committer
+            [ac][nNeElLdDsrtiI]| # author and committer
             G[G?DKFP]|           # GPG
             g[dnNeEs]            # reflog
           )
@@ -293,9 +315,9 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.pretty-formats.git
         - match: '\)'
           scope: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.end.pretty-formats.git
-          pop: true
+          pop: 1
         - match: \d+
-          scope: constant.numeric.integer.pretty-formats.git
+          scope: meta.number.integer.decimal.git constant.numeric.value.git
         - match: ',,'
           scope: invalid.illegal.pretty-formats.git
         - match: ','
@@ -317,7 +339,7 @@ contexts:
         1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
         2: meta.function-call.arguments.pretty-formats.git
         3: punctuation.section.parens.begin.pretty-formats.git
-        4: constant.numeric.integer.pretty-formats.git
+        4: meta.number.integer.decimal.git constant.numeric.value.git
         5: punctuation.separator.parameters.pretty-formats.git
         6: support.constant.truncation.pretty-formats.git
         7: punctuation.section.parens.end.pretty-formats.git
@@ -337,7 +359,7 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.pretty-formats.git
         - match: \)
           scope: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.end.pretty-formats.git
-          pop: true
+          pop: 1
         - include: Git Config.sublime-syntax#color-value
         - match: reset
           scope: support.constant.color-reset.git.config
@@ -352,13 +374,13 @@ contexts:
         - include: illegal-eol-pop
         - match: \)
           scope: punctuation.section.parens.end.pretty-formats.git
-          pop: true
+          pop: 1
         - match: ':'
           scope: keyword.operator.assignment.option.pretty-formats.git
           push:
             - include: eol-pop
             - match: (?=\))
-              pop: true
+              pop: 1
             - match: ',,|:'
               scope: invalid.illegal.pretty-formats.git
             - match: ','

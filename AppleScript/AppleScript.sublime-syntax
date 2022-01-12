@@ -2,11 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: AppleScript
+scope: source.applescript
+
 file_extensions:
   - applescript
   - script editor
-first_line_match: ^#!.*(osascript)
-scope: source.applescript
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \bosascript\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bosascript\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - include: blocks
@@ -518,7 +525,7 @@ contexts:
     - match: \b(?i:seconds|minutes|hours|days)\b
       scope: support.class.built-in.time.applescript
   comments:
-    - match: ^\s*(#!).*$\n?
+    - match: ^\s*(#).*$\n?
       scope: comment.line.number-sign.applescript
       captures:
         1: punctuation.definition.comment.applescript
