@@ -582,22 +582,25 @@ contexts:
                 - include: global
             - include: expressions
 
+  # Make sure a module name doesn't have multiple partitions.
+  # We are set into this upon matching a partition.
   test-invalid-module-partition:
-    - match: \s*(\:)
+    - match: (\:)[^:;\s]*
       captures:
         1: invalid.illegal.unexpected-character.c++
-      set:
-        - match: '.*$'
-          pop: true
-    - match: ''
+    - match: ';'
+      scope: punctuation.terminator.c++
+    - match: (?=\S)
       pop: true
 
   module:
+    # The export keyword can go before most anything.
     - match: '\b(export)\s+'
       scope: meta.module.c++
       captures:
         1: keyword.control.module.c++
       push:
+        # export {...} block.
         - match: '\}'
           scope: meta.block.c++ punctuation.section.block.end.c++
           pop: true
@@ -609,8 +612,10 @@ contexts:
               pop: true
             - include: preprocessor-global
             - include: global
+        # If this is exporting a module declaration, pop so we can handle it.
         - match: '(?=(module|import))'
           pop: true
+        # Otherwise, set into a normal declaration.  We are exporting a function or something.
         - match: ''
           set: global-type
     - match: '\b(import)\s+'
@@ -618,19 +623,19 @@ contexts:
       captures:
         1: keyword.control.module.c++
       push:
+        # Stray periods in the name are invalid.
         - match: '\.'
           scope: invalid.illegal.unexpected-character.c++
-          push:
-            - match: '.*$'
-              pop: true
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
+        # Module partition - check for invalid partition names.
         - match: (\:)({{module_identifier}})
           captures:
             0: meta.module.c++
             1: punctuation.accessor.c++
             2: entity.name.partition.other
-          push: test-invalid-module-partition
+          set: test-invalid-module-partition
+        # import "header"
         - match: '"'
           scope: punctuation.definition.string.begin.c++
           push:
@@ -638,6 +643,7 @@ contexts:
             - match: '"'
               scope: punctuation.definition.string.end.c++
               pop: true
+        # import <header>
         - match: \<
           scope: punctuation.definition.string.begin.c++
           push:
@@ -655,25 +661,24 @@ contexts:
       captures:
         1: keyword.control.module.c++
       push:
+        # Stray periods in the name are invalid.
         - match: '\.'
           scope: invalid.illegal.unexpected-character.c++
-          push:
-            - match: '.*$'
-              pop: true
         - match: '{{module_identifier}}'
           scope: meta.module.c++ entity.name.module.c++
+        # Module partition - check for invalid partition names.
         - match: (\:)(private)
           captures:
             0: meta.module.c++
             1: punctuation.accessor.c++
             2: entity.name.partition.private
-          push: test-invalid-module-partition
+          set: test-invalid-module-partition
         - match: (\:)({{module_identifier}})
           captures:
             0: meta.module.c++
             1: punctuation.accessor.c++
             2: entity.name.partition.other
-          push: test-invalid-module-partition
+          set: test-invalid-module-partition
         - match: ';'
           scope: punctuation.terminator.c++
           pop: true
