@@ -2779,23 +2779,23 @@ void sayHi()
 /////////////////////////////////////////////
 
 export module AA;
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
 /*            ^^ entity.name.module.c++ */
 /*              ^ punctuation.terminator.c++ */
 
 export  module  A.B;
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*      ^^^^^^ keyword.control.module.c++ */
 /*              ^^^ entity.name.module.c++ */
 
 export module A.BB.C.D;
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
 /*            ^^^^^^^^ entity.name.module.c++ */
 
 export   module   ABC:DE;
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*       ^^^^^^ keyword.control.module.c++ */
 /*                ^^^ entity.name.module.c++ */
 /*                   ^  punctuation.accessor.c++ */
@@ -2843,7 +2843,7 @@ import "ABC/BCD.h";
 
 // Doesn't break grammar when missing semi-colon.
 export module ABC:d
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
 /*            ^^^ entity.name.module.c++ */
 /*               ^  punctuation.accessor.c++ */
@@ -2851,7 +2851,7 @@ export module ABC:d
 
 // Doesn't break grammar when missing semi-colon.
 export import ABC:d
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
 /*            ^^^ entity.name.module.c++ */
 /*               ^  punctuation.accessor.c++ */
@@ -2869,19 +2869,35 @@ import .test.module;
 /*      ^^^^^^^^^^^ entity.name.module.c++ */
 /*                 ^ punctuation.terminator.c++ */
 
-module test:part1:part2;
+module test : part1:part2;
 /* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^^^^ entity.name.module.c++ */
-/*         ^  punctuation.accessor.c++ */
-/*          ^^^^^ entity.name.partition.other */
-/*               ^ invalid.illegal.unexpected-character.c++ */
-/*                ^^^^^ - entity.name.partition.other */
-/*                     ^ punctuation.terminator.c++ */
+/*          ^  punctuation.accessor.c++ */
+/*            ^^^^^ entity.name.partition.other */
+/*                 ^ invalid.illegal.unexpected-character.c++ */
+/*                  ^^^^^ - entity.name.partition.other */
+/*                       ^ punctuation.terminator.c++ */
+
+module abc.def.:part1:part2;
+/* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^^^ entity.name.module.c++ */
+/*            ^ invalid.illegal.unexpected-character.c++ */
+/*             ^  punctuation.accessor.c++ */
+/*              ^^^^^ entity.name.partition.other */
+/*                   ^ invalid.illegal.unexpected-character.c++ */
+/*                    ^^^^^ - entity.name.partition.other */
+/*                         ^ punctuation.terminator.c++ */
 
 module test.
 /* <- meta.module.c++ keyword.control.module.c++ */
+/*     ^^^^^ entity.name.module.c++ */
+/*         ^ - invalid.illegal.unexpected-character.c++ */
+
+module test. ;
+/* <- meta.module.c++ keyword.control.module.c++ */
 /*     ^^^^ entity.name.module.c++ */
-/*         ^ invalid.illegal.unexpected-character.c++ */
+/*         ^^ invalid.illegal.unexpected-character.c++ */
+/*           ^ punctuation.terminator.c++ */
 
 import :part1:part2;
 /* <- meta.module.c++ keyword.control.module.c++ */
@@ -2909,7 +2925,7 @@ import .test.module; import ABD;
 /*                             ^ punctuation.terminator.c++ */
 
 export module ABC:test1:test2; import DEF;
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
 /*            ^^^ entity.name.module.c++ */
 /*               ^  punctuation.accessor.c++ */
@@ -2922,7 +2938,7 @@ export module ABC:test1:test2; import DEF;
 /*                                       ^ punctuation.terminator.c++ */
 
 export module ABC:test1:test2 import DEF;
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^^^ keyword.control.module.c++ */
 /*            ^^^ entity.name.module.c++ */
 /*               ^  punctuation.accessor.c++ */
@@ -2934,7 +2950,7 @@ export module ABC:test1:test2 import DEF;
 /*                                      ^ punctuation.terminator.c++ */
 
 export {
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^ meta.block.c++ punctuation.section.block.begin.c++ */
     void test();
 /*  ^^^^ meta.block.c++ storage.type.c */
@@ -2946,12 +2962,12 @@ export {
 /* <- meta.block.c++ punctuation.section.block.end.c++ */
 
 export void test3();
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 /*     ^^^^ storage.type.c */
 /*          ^^^^^ meta.function.c++ entity.name.function.c++ */
 
 export
-/* <- meta.module.c++ keyword.control.module.c++ */
+/* <- storage.modifier.c++ */
 template <typename T>
 /* <- meta.template.c++ keyword.declaration.template.c++ */
 void test4()

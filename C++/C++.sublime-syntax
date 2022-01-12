@@ -582,23 +582,11 @@ contexts:
                 - include: global
             - include: expressions
 
-  # Make sure a module name doesn't have multiple partitions.
-  # We are set into this upon matching a partition.
-  test-invalid-module-partition:
-    - match: (\:)[^:;\s]*
-      captures:
-        1: invalid.illegal.unexpected-character.c++
-    - match: ';'
-      scope: punctuation.terminator.c++
-    - match: (?=\S)
-      pop: true
-
   module:
     # The export keyword can go before most anything.
     - match: '\b(export)\s+'
-      scope: meta.module.c++
       captures:
-        1: keyword.control.module.c++
+        1: storage.modifier.c++
       push:
         # export {...} block.
         - match: '\}'
@@ -619,22 +607,47 @@ contexts:
         - match: ''
           set: global-type
     - match: '\b(import)\s+'
-      scope: meta.module.c++
       captures:
         1: keyword.control.module.c++
       push:
-        # Stray periods in the name are invalid.
-        - match: '\.'
-          scope: invalid.illegal.unexpected-character.c++
+        - meta_scope: meta.module.c++
+        # Match our module name.
+        # Special handling for trailing periods to prevent color changing while typing.
         - match: '{{module_identifier}}'
-          scope: meta.module.c++ entity.name.module.c++
-        # Module partition - check for invalid partition names.
-        - match: (\:)({{module_identifier}})
+          scope: entity.name.module.c++
+          push:
+            # Exit to catch invalid trailing period.
+            - match: '(?=\.\s*[\:;])'
+              pop: true
+            # Prevent color changing.
+            - match: \.
+              scope: entity.name.module.c++
+            # Upcoming partition.
+            - match: (?=\s*\:)
+              pop: true
+            # Forgotten semmi-colon, fully abort out to handle upcoming syntax.
+            - match: (?=\s*\S)
+              pop: 2
+            - match: '' #safety pop
+              pop: true
+        # Stray periods in the name are invalid.
+        # Only mark the first period as invalid, even though trailing periods are also invalid.
+        - match: '\B\.'
+          scope: invalid.illegal.unexpected-character.c++
+        # Stray period at end of module name.
+        - match: '(\.)(?=\s*\:)'
           captures:
-            0: meta.module.c++
+            1: invalid.illegal.unexpected-character.c++
+        # Module partition - check for invalid partition names.
+        - match: (\:)\s*({{module_identifier}})\s*(\:)
+          captures:
             1: punctuation.accessor.c++
             2: entity.name.partition.other
-          set: test-invalid-module-partition
+            3: invalid.illegal.unexpected-character.c++
+        - match: (\:)\s*({{module_identifier}})
+          captures:
+            1: punctuation.accessor.c++
+            2: entity.name.partition.other
         # import "header"
         - match: '"'
           scope: punctuation.definition.string.begin.c++
@@ -651,36 +664,69 @@ contexts:
             - match: '>'
               scope: punctuation.definition.string.end.c++
               pop: true
-        - match: ';'
-          scope: punctuation.terminator.c++
+        - match: '(\.\s*)?(;)'
+          captures:
+            1: invalid.illegal.unexpected-character.c++
+            2: punctuation.terminator.c++
           pop: true
         - match: (?=\S|$) # safety pop
           pop: true
     - match: '\b(module)(\s+)?'
-      scope: meta.module.c++
       captures:
         1: keyword.control.module.c++
       push:
-        # Stray periods in the name are invalid.
-        - match: '\.'
-          scope: invalid.illegal.unexpected-character.c++
+        - meta_scope: meta.module.c++
+        # Match our module name.
+        # Special handling for trailing periods to prevent color changing while typing.
         - match: '{{module_identifier}}'
-          scope: meta.module.c++ entity.name.module.c++
-        # Module partition - check for invalid partition names.
-        - match: (\:)(private)
+          scope: entity.name.module.c++
+          push:
+            # Exit to catch invalid trailing period.
+            - match: '(?=\.\s*[\:;])'
+              pop: true
+            # Prevent color changing.
+            - match: \.
+              scope: entity.name.module.c++
+            # Upcoming partition.
+            - match: (?=\s*\:)
+              pop: true
+            # Forgotten semmi-colon, fully abort out to handle upcoming syntax.
+            - match: (?=\s*\S)
+              pop: 2
+            - match: '' #safety pop
+              pop: true
+        # Stray periods in the name are invalid.
+        # Only mark the first period as invalid, even though trailing periods are also invalid.
+        - match: '\B\.'
+          scope: invalid.illegal.unexpected-character.c++
+        # Stray period at end of module name.
+        - match: '(\.)(?=\s*\:)'
           captures:
-            0: meta.module.c++
+            1: invalid.illegal.unexpected-character.c++
+        # Module partition - check for invalid partition names.
+        - match: (\:)\s*(private)\s*(\:)
+          captures:
             1: punctuation.accessor.c++
             2: entity.name.partition.private
-          set: test-invalid-module-partition
-        - match: (\:)({{module_identifier}})
+            3: invalid.illegal.unexpected-character.c++
+        - match: (\:)\s*(private)
           captures:
-            0: meta.module.c++
+            1: punctuation.accessor.c++
+            2: entity.name.partition.private
+        - match: (\:)\s*({{module_identifier}})\s*(\:)
+          captures:
             1: punctuation.accessor.c++
             2: entity.name.partition.other
-          set: test-invalid-module-partition
-        - match: ';'
-          scope: punctuation.terminator.c++
+            3: invalid.illegal.unexpected-character.c++
+        - match: (\:)\s*({{module_identifier}})
+          captures:
+            1: punctuation.accessor.c++
+            2: entity.name.partition.other
+        # End of line, but also check for stray period.
+        - match: '(\.\s*)?(;)'
+          captures:
+            1: invalid.illegal.unexpected-character.c++
+            2: punctuation.terminator.c++
           pop: true
         - match: (?=\S|$) # safety pop
           pop: true
