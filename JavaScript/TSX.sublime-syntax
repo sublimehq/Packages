@@ -25,6 +25,19 @@ contexts:
 
   jsx-tag-hack: []
 
+  jsx-tag-name:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - jsx-tag-name-meta
+        - tsx-tag-generic-arguments
+        - jsx-tag-name-end
+        - jsx-tag-name-component-possibly-native
+
+  tsx-tag-generic-arguments:
+    - include: ts-generic-type-arguments
+    - include: else-pop
+
   jsx-tag-attributes-top:
     - meta_scope: meta.tag.js
     - match: '/'
