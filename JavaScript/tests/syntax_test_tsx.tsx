@@ -215,3 +215,22 @@ if (a < b || c <= d) {}
 //  ^^^^^^^^^ meta.tag
 //   ^ meta.tag.name entity.name.tag
 //     ^^^^^ meta.tag.attributes meta.interpolation
+
+    <C<T> a="foo" />;
+//  ^^^^^^^^^^^^^^^^ meta.jsx
+//  ^ meta.tag punctuation.definition.tag.begin
+//   ^^^^^ meta.tag.name
+//   ^ entity.name.tag
+//    ^^^ meta.generic
+//    ^ punctuation.definition.generic.begin
+//     ^ support.class
+//      ^ punctuation.definition.generic.end
+//        ^^^^^^^^^ meta.tag.attributes
+//        ^ entity.other.attribute-name
+//         ^ punctuation.separator.key-value
+//          ^^^^^ string.quoted.double
+//          ^ punctuation.definition.string.begin
+//              ^ punctuation.definition.string.end
+//                ^ punctuation.definition.tag.end
+//                 ^ meta.tag punctuation.definition.tag.end
+//                  ^ punctuation.terminator.statement
