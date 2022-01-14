@@ -2,15 +2,13 @@
 
 ## Requirements
 
-These packages are developed against the latest Build of **Sublime Text** in the [`dev` channel](https://www.sublimetext.com/dev).
+These packages are developed against the latest build of Sublime Text in the [`dev` channel](https://www.sublimetext.com/dev).
 
-Bugs may exist on older builds, and the format used is **not compatible with builds older than `Build 4095`**.
+Bugs may exist on older builds, and the format used is **not compatible** with builds older than Build 4095.
 
 ## Installation
 
-If you want to make changes to these packages and test them locally, fork this repository and then symlink the changed packages into your [`Packages`](https://www.sublimetext.com/docs/packages.html) folder.
-
-*Replace `Python` in the following commands with the name of the syntax to install.*
+To make changes to these packages and test them locally, fork this repository. Then symlink the changed packages into your [`Packages`](https://www.sublimetext.com/docs/packages.html) folder. (Replace `Python` in the following commands with the name of the syntax to install.)
 
 ### OS X
 
@@ -36,28 +34,27 @@ PS> git clone https://github.com/sublimehq/Packages.git
 PS> cmd /c mklink /J "$env:APPDATA/Sublime Text 3/Packages/Python" (convert-path ./Packages/Python)
 ```
 
-Alternatively, download the portable version, and clone this repository directly as a subdirectory of the `Data` folder.
+Alternatively, download the portable version and clone this repository directly as a subdirectory of the `Data` folder.
 
 ### ⚠️ Things to keep in mind
 
 After you've finished, keep in mind that you're now overriding a default package.
-When Sublime Text updates to a new version, you'll run the risk of having an out-of-date package unless you pull the latest changes from this repository.
+If other people make upstream changes to an overridden package, yours will be out-of-date when Sublime Text updates to a new version. To get the latest version, pull the changes from this repository.
 
 ## Reference
 
-Please refer to the **official docs**:
+Please refer to the official documentation:
 
-* [syntax definitions](https://www.sublimetext.com/docs/syntax.html#ver-dev)
-* [scope naming](https://www.sublimetext.com/docs/scope_naming.html)
+* [Syntax definitions](https://www.sublimetext.com/docs/syntax.html#ver-dev)
+* [Scope naming](https://www.sublimetext.com/docs/scope_naming.html)
 
 ## Pull Requests
 
 Pull requests should:
 
  1. Start with the name of the package in square brackets, e.g. `[XML]`.
- 2. Be as small and self-contained as is reasonable.
-    *Smaller changes are quicker to review.*
- 3. Include a new, or enhanced, [syntax test](https://www.sublimetext.com/docs/syntax.html#testing) when changing a `.sublime-syntax` file.
+ 2. Be as small and self-contained as is reasonable. Smaller changes are quicker to review.
+ 3. Include a new (or enhanced) [syntax test](https://www.sublimetext.com/docs/syntax.html#testing) when changing a `.sublime-syntax` file.
  4. Have multiple syntax tests and a set of performance measurements (old vs. new) when making significant changes.
 
 ### New Packages
