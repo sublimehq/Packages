@@ -4,6 +4,8 @@
 
 These packages are developed against the latest build of Sublime Text in the [`dev` channel](https://www.sublimetext.com/dev).
 
+The latest release of Packages shipped with Sublime Text should be tagged via git in this repository, you can find a list at <https://github.com/sublimehq/Packages/tags>.
+
 Bugs may exist on older builds, and the format used is **not compatible** with builds older than Build 4095.
 
 ## Installation
