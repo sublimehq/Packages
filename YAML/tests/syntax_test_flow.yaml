@@ -132,7 +132,12 @@ continuation"
 #              ^^^^^ meta.mapping.value.yaml constant.language.boolean.yaml
 #                    ^ meta.mapping.yaml punctuation.definition.mapping.end
 
-{ 1: 2 }
+ { 1: 2 }
+#^^^^^^^^ meta.mapping - meta.mapping meta.mapping - string
+#  ^ meta.mapping.key.yaml constant.numeric
+#   ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#    ^^^ meta.mapping.value.yaml
+#     ^ constant.numeric
 
 {? !!str 'key' : !!str value,
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
