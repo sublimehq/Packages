@@ -37,13 +37,13 @@ import foo from 'bar' assert { type: "json" };
 //                  ^ punctuation.definition.string.end.js
 //                    ^^^^^^ keyword.control.import-export.js
 //                           ^^^^^^^^^^^^^^^^ meta.mapping.js
-//                           ^ punctuation.section.block.begin.js
+//                           ^ punctuation.section.mapping.begin.js
 //                             ^^^^ meta.mapping.key.js
 //                                 ^ punctuation.separator.key-value.js
 //                                   ^^^^^^ meta.string.js string.quoted.double.js
 //                                   ^ punctuation.definition.string.begin.js
 //                                        ^ punctuation.definition.string.end.js
-//                                          ^ punctuation.section.block.end.js
+//                                          ^ punctuation.section.mapping.end.js
 //                                           ^ punctuation.terminator.statement.js
 
 // Better highlighting while typing.

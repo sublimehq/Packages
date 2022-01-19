@@ -768,7 +768,7 @@ let x: any [
 let x: any
 //     ^^^ meta.type support.type.any
     [];
-//  ^^ meta.sequence punctuation.section.brackets - meta.type
+//  ^^ meta.sequence punctuation.section.sequence - meta.type
 
 let x: Foo<any, any>;
 //     ^^^^^^^^^^^^^ meta.type
@@ -789,7 +789,7 @@ function f<T extends Foo>() {}
 
 let x: [ any , any ? , ... any [] ];
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type meta.sequence
-//     ^ punctuation.section.brackets.begin
+//     ^ punctuation.section.sequence.begin
 //       ^^^ support.type.any
 //           ^ punctuation.separator.comma
 //             ^^^ support.type.any
@@ -798,7 +798,7 @@ let x: [ any , any ? , ... any [] ];
 //                     ^^^ keyword.operator.spread
 //                         ^^^ support.type.any
 //                             ^^ storage.modifier.array
-//                                ^ punctuation.section.brackets.end
+//                                ^ punctuation.section.sequence.end
 
 let x: any & any;
 //     ^^^^^^^^^ meta.type

@@ -501,22 +501,22 @@ contexts:
 
   variable-binding-array-destructuring:
     - match: '\['
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.binding.destructuring.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: variable-binding-spread
         - include: variable-binding-list
 
   variable-binding-object-destructuring:
     - match: '\{'
-      scope: punctuation.section.block.begin.js
+      scope: punctuation.section.mapping.begin.js
       set:
         - meta_scope: meta.binding.destructuring.mapping.js
         - match: '\}'
-          scope: punctuation.section.block.end.js
+          scope: punctuation.section.mapping.end.js
           pop: true
         - include: variable-binding-spread
         - match: (?={{identifier_start}}|\[|'|")
@@ -598,23 +598,23 @@ contexts:
 
   function-parameter-binding-array-destructuring:
     - match: '\['
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.binding.destructuring.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: function-parameter-binding-list
 
   function-parameter-binding-object-destructuring:
     - match: '\{'
-      scope: punctuation.section.block.begin.js
+      scope: punctuation.section.mapping.begin.js
       set:
         - meta_scope: meta.binding.destructuring.mapping.js
         - match: ','
           scope: punctuation.separator.parameter.function.js
         - match: '\}'
-          scope: punctuation.section.block.end.js
+          scope: punctuation.section.mapping.end.js
           pop: true
         - include: function-parameter-binding-spread
         - match: (?={{identifier_start}}|\[|'|")
@@ -1663,14 +1663,14 @@ contexts:
 
   object-literal:
     - match: '\{'
-      scope: punctuation.section.block.begin.js
+      scope: punctuation.section.mapping.begin.js
       set: object-literal-contents
 
   object-literal-contents:
     - meta_scope: meta.mapping.js
 
     - match: '\}'
-      scope: punctuation.section.block.end.js
+      scope: punctuation.section.mapping.end.js
       pop: true
 
     - match: \.\.\.
@@ -1886,11 +1886,11 @@ contexts:
 
   array-literal:
     - match: '\['
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: expression-list
 
