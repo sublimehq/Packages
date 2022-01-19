@@ -535,6 +535,17 @@ contexts:
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
 
+  flow-scalar-plain-in-12:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/plain
+    # ns-plain(n,c) (c=flow-in, c=flow-key)
+    - include: flow-scalar-plain-in-implicit-type-12
+    - match: (?={{ns_plain_first_plain_in}})
+      push:
+        - meta_scope: string.unquoted.plain.in.yaml
+        - meta_include_prototype: false
+        - match: '{{_flow_scalar_end_plain_in}}'
+          pop: true
+
   flow-sequence:
     # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
     # c-flow-sequence(n,c)
@@ -611,7 +622,7 @@ contexts:
     - match: :(?=\s|$|{{c_flow_indicator}})
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
       pop: true
-    - include: flow-scalar-plain-in-implicit-type-12
+    - include: flow-scalar-plain-in-12
 
   flow-pair-key-no-clear:
     - meta_content_scope: meta.mapping.key.yaml
