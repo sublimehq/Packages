@@ -3,7 +3,7 @@
     { "keys": ["\""], "command": "insert", "args": {"characters": "\""}, "context":
         [
             { "key": "setting.auto_match_enabled" },
-            { "key": "selector", "operand": "source.python" },
+            { "key": "selector", "operand": "source.python - string.quoted.double" },
             { "key": "selection_empty", "match_all": true }
         ]
     },
@@ -29,7 +29,7 @@
     { "keys": ["'"], "command": "insert", "args": {"characters": "'"}, "context":
         [
             { "key": "setting.auto_match_enabled" },
-            { "key": "selector", "operand": "source.python" },
+            { "key": "selector", "operand": "source.python - string.quoted.single" },
             { "key": "selection_empty", "match_all": true }
         ]
     },
