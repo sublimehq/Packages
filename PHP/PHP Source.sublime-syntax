@@ -820,7 +820,7 @@ contexts:
                   scope: punctuation.section.group.begin.php
                   set:
                     - meta_scope: meta.function.parameters.php meta.group.php
-                    - match: '{{visibility_modifier}}'
+                    - match: '(?i){{visibility_modifier}}|\breadonly\b'
                       scope: storage.modifier.php
                     - include: function-parameters
             # Exit on unexpected content
