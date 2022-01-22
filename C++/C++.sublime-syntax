@@ -627,7 +627,7 @@ contexts:
     # The export keyword can go before most anything.
     - match: '\b(export)\s+'
       captures:
-        1: storage.modifier.c++
+        1: keyword.control.c++
       push:
         # export {...} block.
         - match: '\}'
@@ -650,7 +650,7 @@ contexts:
 
     - match: '\b(import)\s+'
       captures:
-        1: keyword.control.module.c++
+        1: keyword.control.c++
       push:
         - meta_scope: meta.module.c++
         # Module name.
@@ -677,7 +677,7 @@ contexts:
 
     - match: '\b(module)(\s+)?'
       captures:
-        1: keyword.control.module.c++
+        1: keyword.control.c++
       push:
         - meta_scope: meta.module.c++
         # Module name.
