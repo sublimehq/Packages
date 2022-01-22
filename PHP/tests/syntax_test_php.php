@@ -2151,6 +2151,14 @@ class D {
     }
 }
 
+class E {
+    public function __construct(
+        public readonly int $val = 1
+//      ^^^^^^ storage.modifier
+//             ^^^^^^^^ storage.modifier
+    ) {}
+}
+
 var_dump(new C(42));
 //           ^ meta.path support.class
 
