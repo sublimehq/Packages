@@ -1,5 +1,27 @@
 /* SYNTAX TEST "Packages/C++/C.sublime-syntax" */
 
+// =Banner=
+/*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
+
+/* =Banner= */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*  ^^^^^^ meta.toc-list.banner.block.c  */
+/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+//! Comment
+/* <- comment.line.other.c punctuation.definition.comment.c */
+ /* <- comment.line.other.c punctuation.definition.comment.c */
+  /* <- comment.line.other.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.other.c - punctuation */
+
+/// Comment ///
+/* <- comment.line.triple-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.triple-slash.c punctuation.definition.comment.c */
+  /* <- comment.line.triple-slash.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.triple-slash.c - punctuation */
+ /*         ^^^ comment.line.triple-slash.c punctuation.definition.comment.c */
+
 int main(){
     int a=5,b=0;
     while(a-->0)++b;

@@ -65,35 +65,76 @@ contexts:
   #############################################################################
 
   comments:
-    - match: ^/\* =(\s*.*?)\s*= \*/$\n?
-      scope: comment.block.c
+    - include: block-comments
+    - include: line-comments
+
+  block-comments:
+    - match: ^(/\*) =(\s*.*?)\s*= (\*/)$\n?
+      scope: comment.block.banner.c
       captures:
-        1: meta.toc-list.banner.block.c
-    - match: /\*
-      scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.block.c
-        - match: \*/
-          scope: punctuation.definition.comment.c
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.c
+        1: punctuation.definition.comment.begin.c
+        2: meta.toc-list.banner.block.c
+        3: punctuation.definition.comment.end.c
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.c punctuation.definition.comment.c
+    # normal block comments
+    - match: /\*+
+      scope: punctuation.definition.comment.begin.c
+      push: block-comment-body
+    # stray block comment end
     - match: \*/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
-    - match: ^// =(\s*.*?)\s*=\s*$\n?
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.c
+    - match: \*+/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.c
+
+  line-comments:
+    - match: ^(//) =(\s*.*?)\s*=\s*$\n?
       scope: comment.line.banner.c
       captures:
-        1: meta.toc-list.banner.line.c
-    - match: //
+        1: punctuation.definition.comment.c
+        2: meta.toc-list.banner.line.c
+    - match: (?:/{2}!|/{4,})
       scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.line.double-slash.c
-        - match: '(\\)$\n'
-          captures:
-            1: punctuation.separator.continuation.c
-        - match: \n
-          pop: true
+      push: line-comment-other-body
+    - match: /{3}
+      scope: punctuation.definition.comment.c
+      push: line-comment-triple-slash-body
+    - match: /{2}
+      scope: punctuation.definition.comment.c
+      push: line-comment-double-slash-body
+
+  line-comment-end:
+    - match: (//+)?\n
+      captures:
+        1: punctuation.definition.comment.c
+      pop: 1
+    - match: (\\)\n
+      captures:
+        1: punctuation.separator.continuation.c
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.c
+    - include: line-comment-end
+
+  line-comment-triple-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.triple-slash.c
+    - include: line-comment-end
+
+  line-comment-other-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.other.c
+    - include: line-comment-end
 
   strings:
     - match: '(L|u8|u|U)?(")'
