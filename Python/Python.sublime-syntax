@@ -2012,31 +2012,25 @@ contexts:
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
-        - meta_scope: meta.interpolation.python
-        - match: (?=\})
-          pop: true
-        - match: '![ars]'
-          scope: storage.modifier.conversion.python
-        - match: =
-          scope: storage.modifier.debug.python
-        - match: ':'
-          push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
-            # Because replacements can also be used *within* the format-spec,
-            # basically any character is valid and matching {{format_spec}} is useless.
-            # - match: '{{format_spec}}'
-            - match: (?=\})
-              pop: true
-            - include: f-string-content
-        - match: ''
-          push:
-            - meta_content_scope: source.python.embedded
-            - match: (?==?(![^=]|:|\}))
-              pop: true
-            - match: \\
-              scope: invalid.illegal.backslash-in-fstring.python
-            - include: inline-for
-            - include: expression-in-a-group
+        - f-string-replacement-modifier
+        - f-string-replacement-expression
+
+  f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - match: (?=\s*(?:=\s*)?(![^=]|:|\}))
+      pop: true
+    - match: \\
+      scope: invalid.illegal.backslash-in-fstring.python
+    - include: inline-for
+    - include: expression-in-a-group
+
+  f-string-replacement-modifier:
+    - meta_scope: meta.interpolation.python
+    - match: (?=\})
+      pop: true
+    - match: =
+      scope: storage.modifier.debug.python
+    - include: f-string-common
 
   f-string-replacement-reset:
     # Same as f-string-replacement, but with clear_scopes: true
@@ -2048,26 +2042,38 @@ contexts:
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
-        - meta_scope: meta.interpolation.python
-        - match: (?=\})
-          pop: true
-        - match: '![ars]'
-          scope: storage.modifier.conversion.python
-        - match: ':'
-          push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
-            - match: (?=\})
-              pop: true
-            - include: f-string-content
-        - match: ''
-          push:
-            - meta_content_scope: source.python.embedded
-            - match: (?=![^=]|:|\})
-              pop: true
-            - match: \\
-              scope: invalid.illegal.backslash-in-fstring.python
-            - include: inline-for
-            - include: expression-in-a-group
+        - f-string-replacement-reset-modifier
+        - f-string-replacement-reset-expression
+
+  f-string-replacement-reset-expression:
+    - meta_content_scope: source.python.embedded
+    - match: (?=![^=]|:|\})
+      pop: true
+    - match: \\
+      scope: invalid.illegal.backslash-in-fstring.python
+    - include: inline-for
+    - include: expression-in-a-group
+
+  f-string-replacement-reset-modifier:
+    - meta_scope: meta.interpolation.python
+    - match: (?=\})
+      pop: true
+    - include: f-string-common
+
+  f-string-common:
+    - match: '![ars]'
+      scope: storage.modifier.conversion.python
+    - match: ':'
+      push: f-string-format-spec
+
+  f-string-format-spec:
+    - meta_scope: meta.format-spec.python constant.other.format-spec.python
+    # Because replacements can also be used *within* the format-spec,
+    # basically any character is valid and matching {{format_spec}} is useless.
+    # - match: '{{format_spec}}'
+    - match: (?=\})
+      pop: true
+    - include: f-string-content
 
   string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
