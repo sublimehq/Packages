@@ -3,12 +3,6 @@
 // =Banner=
 /*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
 
-/* =Banner= */
-/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
-/*^^^^^^^^^^ comment.block.banner.c - punctuation */
-/*  ^^^^^^ meta.toc-list.banner.block.c  */
-/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
-
 //! Comment
 /* <- comment.line.other.c punctuation.definition.comment.c */
  /* <- comment.line.other.c punctuation.definition.comment.c */
@@ -21,6 +15,44 @@
   /* <- comment.line.triple-slash.c punctuation.definition.comment.c */
  /*^^^^^^^^^ comment.line.triple-slash.c - punctuation */
  /*         ^^^ comment.line.triple-slash.c punctuation.definition.comment.c */
+
+
+/* =Banner= */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*  ^^^^^^ meta.toc-list.banner.block.c  */
+/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+   /*****/
+/* ^^^^^^^ comment.block.empty.c punctuation.definition.comment.c */
+
+   /**
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /***
+/* ^^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!****
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c - punctuation */
+
+   /*!****/
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c punctuation.definition.comment.end.c */
+
+   /*!
+    * docstring
+    **/
+/*  ^^^ comment.block.documentation.c */
+
+    */
+/*  ^^ invalid.illegal.stray-comment-end.c */
+
+    **/
+/*  ^^^ invalid.illegal.stray-comment-end.c */
 
 int main(){
     int a=5,b=0;
@@ -295,7 +327,11 @@ struct X
 
 /**
     *
-/*  ^ comment.block.c punctuation.definition.comment.c */
+/*  ^ comment.block.documentation.c punctuation.definition.comment.c */
+
+/*
+    *
+/*  ^ comment.block.c - punctuation */
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks

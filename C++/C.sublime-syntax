@@ -78,23 +78,34 @@ contexts:
     # empty block comments
     - match: /\*\*+/
       scope: comment.block.empty.c punctuation.definition.comment.c
+    # documentation block comments
+    - match: (?:/\*!|/\*{2,})
+      scope: punctuation.definition.comment.begin.c
+      push: block-comment-documentation-body
     # normal block comments
-    - match: /\*+
+    - match: /\*
       scope: punctuation.definition.comment.begin.c
       push: block-comment-body
     # stray block comment end
-    - match: \*/(?!\*)
+    - match: \*+/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
+
+  block-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.c
+    - match: \*+/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+    - match: ^\s*(\*)(?!\**/)
+      captures:
+        1: punctuation.definition.comment.c
 
   block-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.block.c
-    - match: \*+/
+    - match: \*/
       scope: punctuation.definition.comment.end.c
       pop: true
-    - match: ^\s*(\*)(?!/)
-      captures:
-        1: punctuation.definition.comment.c
 
   line-comments:
     - match: ^(//) =(\s*.*?)\s*=\s*$\n?
