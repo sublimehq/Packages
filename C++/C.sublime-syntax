@@ -113,39 +113,31 @@ contexts:
       captures:
         1: punctuation.definition.comment.c
         2: meta.toc-list.banner.line.c
-    - match: (?:/{2}!|/{4,})
+    - match: //[/!]
       scope: punctuation.definition.comment.c
-      push: line-comment-other-body
-    - match: /{3}
+      push: line-comment-documentation-body
+    - match: /{2,}
       scope: punctuation.definition.comment.c
-      push: line-comment-triple-slash-body
-    - match: /{2}
-      scope: punctuation.definition.comment.c
-      push: line-comment-double-slash-body
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.c
+    - include: line-comment-end
+
+  line-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.documentation.c
+    - include: line-comment-end
 
   line-comment-end:
     - match: (//+)?\n
       captures:
         1: punctuation.definition.comment.c
       pop: 1
-    - match: (\\)\n
+    - match: (\\)$\n?
       captures:
         1: punctuation.separator.continuation.c
-
-  line-comment-double-slash-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.double-slash.c
-    - include: line-comment-end
-
-  line-comment-triple-slash-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.triple-slash.c
-    - include: line-comment-end
-
-  line-comment-other-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.other.c
-    - include: line-comment-end
 
   strings:
     - match: '(L|u8|u|U)?(")'

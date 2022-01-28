@@ -4,17 +4,17 @@
 /*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
 
 //! Comment
-/* <- comment.line.other.c punctuation.definition.comment.c */
- /* <- comment.line.other.c punctuation.definition.comment.c */
-  /* <- comment.line.other.c punctuation.definition.comment.c */
- /*^^^^^^^^^ comment.line.other.c - punctuation */
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
 
 /// Comment ///
-/* <- comment.line.triple-slash.c punctuation.definition.comment.c */
- /* <- comment.line.triple-slash.c punctuation.definition.comment.c */
-  /* <- comment.line.triple-slash.c punctuation.definition.comment.c */
- /*^^^^^^^^^ comment.line.triple-slash.c - punctuation */
- /*         ^^^ comment.line.triple-slash.c punctuation.definition.comment.c */
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+ /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
 
 
 /* =Banner= */
