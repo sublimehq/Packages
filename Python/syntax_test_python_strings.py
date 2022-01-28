@@ -775,6 +775,27 @@ f'{x=!s:*^20}'
 #      ^^^^^ meta.format-spec.python
 f'{"Σ"=}'
 #     ^ storage.modifier.debug.python
+f'{"Σ"= }'
+# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
+#     ^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#     ^ storage.modifier.debug.python
+f'{"Σ" =}'
+# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
+#     ^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#      ^ storage.modifier.debug.python
+f'{"Σ" = }'
+# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
+#     ^^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#      ^ storage.modifier.debug.python
+f'{"Σ" = !s}'
+# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
+#     ^^^^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+#      ^ storage.modifier.debug.python
+#        ^^ storage.modifier.conversion.python
 f'{0==1}'
 #   ^^ -storage.modifier.debug.python
 f'{0!=1}'

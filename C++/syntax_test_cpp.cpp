@@ -2826,3 +2826,204 @@ void sayHi()
 /**
       *
 /*    ^ comment.block.documentation.c punctuation.definition.comment.c */
+
+/////////////////////////////////////////////
+// Modules
+/////////////////////////////////////////////
+
+export module AA;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^ entity.name.module.c++ */
+/*              ^ punctuation.terminator.c++ */
+
+export  module  A.B;
+/* <- keyword.control.c++ */
+/*      ^^^^^^ keyword.control.c++ */
+/*              ^^^ entity.name.module.c++ */
+
+export module A.BB.C.D;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^^^^^^ entity.name.module.c++ */
+
+export   module   ABC:DE;
+/* <- keyword.control.c++ */
+/*       ^^^^^^ keyword.control.c++ */
+/*                ^^^ entity.name.module.c++ */
+/*                   ^  punctuation.accessor.c++ */
+/*                    ^^ entity.name.partition.other */
+
+module ABC;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^ entity.name.module.c++ */
+/*        ^ punctuation.terminator.c++ */
+
+module :private;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^^^ entity.name.partition.private */
+
+import A;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ entity.name.module.c++ */
+
+import  :B;
+/* <- meta.module.c++ keyword.control.c++ */
+/*      ^  punctuation.accessor.c++ */
+/*       ^ entity.name.partition.other */
+
+import   "ABC";
+/* <- meta.module.c++ keyword.control.c++ */
+/*        ^^^ meta.module.import.c++ string.quoted.double.import.c++ */
+/*       ^ punctuation.definition.string.begin.c++ */
+/*           ^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.c++ */
+
+import   <ABC>;
+/* <- meta.module.c++ keyword.control.c++ */
+/*        ^^^ meta.module.import.c++ string.quoted.other.lt-gt.import.c++ */
+/*       ^ punctuation.definition.string.begin */
+/*           ^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.c++ */
+
+import "ABC/BCD.h";
+/* <- meta.module.c++ keyword.control.c++ */
+/*      ^^^^^^^^^ meta.module.import.c++ string.quoted.double.import.c++ */
+/*     ^ punctuation.definition.string.begin.c++ */
+/*               ^ punctuation.definition.string.end */
+/*                ^ punctuation.terminator.c++ */
+
+// Doesn't break grammar when missing semi-colon.
+export module ABC:d
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^ entity.name.partition.other */
+
+// Doesn't break grammar when missing semi-colon.
+export import ABC:d
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^ entity.name.partition.other */
+
+module .test.module;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ entity.name.module.c++ */
+/*                 ^ punctuation.terminator.c++ */
+
+import .test.module;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ entity.name.module.c++ */
+/*                 ^ punctuation.terminator.c++ */
+
+module test : part1:part2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^ entity.name.module.c++ */
+/*          ^  punctuation.accessor.c++ */
+/*            ^^^^^ entity.name.partition.other */
+/*                 ^ invalid.illegal.unexpected-character.c++ */
+/*                  ^^^^^ - entity.name.partition.other */
+/*                       ^ punctuation.terminator.c++ */
+
+module abc.def.:part1:part2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^^^^ entity.name.module.c++ */
+/*            ^ invalid.illegal.unexpected-character.c++ */
+/*             ^  punctuation.accessor.c++ */
+/*              ^^^^^ entity.name.partition.other */
+/*                   ^ invalid.illegal.unexpected-character.c++ */
+/*                    ^^^^^ - entity.name.partition.other */
+/*                         ^ punctuation.terminator.c++ */
+
+module test.
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^^ entity.name.module.c++ */
+/*         ^ - invalid.illegal.unexpected-character.c++ */
+
+module test. ;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^ entity.name.module.c++ */
+/*         ^^ invalid.illegal.unexpected-character.c++ */
+/*           ^ punctuation.terminator.c++ */
+
+import :part1:part2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^ entity.name.partition.other */
+/*           ^ invalid.illegal.unexpected-character.c++ */
+/*            ^^^^^^ - entity.name.partition.other */
+/*                 ^ punctuation.terminator.c++ */
+
+module :private:test2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^^^ entity.name.partition.private */
+/*             ^ invalid.illegal.unexpected-character.c++ */
+/*              ^^^^^^ - entity.name.partition.other */
+/*                   ^ punctuation.terminator.c++ */
+
+import .test.module; import ABD;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ source.c++ */
+/*                 ^ punctuation.terminator.c++ */
+/*                   ^^^^^^ meta.module.c++ keyword.control.c++ */
+/*                          ^^^ entity.name.module.c++ */
+/*                             ^ punctuation.terminator.c++ */
+
+export module ABC:test1:test2; import DEF;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^^^^^ entity.name.partition.other */
+/*                     ^ invalid.illegal.unexpected-character.c++ */
+/*                      ^^^^^^ - entity.name.partition.other */
+/*                           ^ punctuation.terminator.c++ */
+/*                             ^^^^^^ meta.module.c++ keyword.control.c++ */
+/*                                    ^^^ entity.name.module.c++ */
+/*                                       ^ punctuation.terminator.c++ */
+
+export module ABC:test1:test2 import DEF;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^^^^^ entity.name.partition.other */
+/*                     ^ invalid.illegal.unexpected-character.c++ */
+/*                      ^^^^^ - entity.name.partition.other */
+/*                            ^^^^^^ meta.module.c++ keyword.control.c++ */
+/*                                   ^^^ entity.name.module.c++ */
+/*                                      ^ punctuation.terminator.c++ */
+
+export {
+/* <- keyword.control.c++ */
+/*     ^ meta.block.c++ punctuation.section.block.begin.c++ */
+    void test();
+/*  ^^^^ meta.block.c++ storage.type.c */
+/*       ^^^^ meta.block.c++ meta.function.c++ entity.name.function.c++ */
+    void test2();
+/*  ^^^^ meta.block.c++ storage.type.c */
+/*       ^^^^^ meta.block.c++ meta.function.c++ entity.name.function.c++ */
+}
+/* <- meta.block.c++ punctuation.section.block.end.c++ */
+
+export void test3();
+/* <- keyword.control.c++ */
+/*     ^^^^ storage.type.c */
+/*          ^^^^^ meta.function.c++ entity.name.function.c++ */
+
+export
+/* <- keyword.control.c++ */
+template <typename T>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+void test4()
+{
+    return;
+}

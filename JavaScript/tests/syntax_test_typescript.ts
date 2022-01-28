@@ -182,6 +182,18 @@ import foo;
 //                 ^^^^^^^^^ keyword.declaration
 //                           ^^^  entity.name.interface
 
+    export { type T as U };
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^^^^^^^^^ meta.block
+//         ^ punctuation.section.block.begin
+//           ^^^^ keyword.control.import-export.ts
+//                ^ variable.other.readwrite
+//                  ^^ keyword.control.import-export
+//                     ^ variable.other.readwrite
+//                       ^ punctuation.section.block.end
+//                        ^ punctuation.terminator.statement
+
 /* Declarations */
 
     interface Foo {
