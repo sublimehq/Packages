@@ -16,7 +16,6 @@
  /*^^^^^^^^^ comment.line.documentation.c - punctuation */
  /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
 
-
 /* =Banner= */
 /* <- comment.block.banner.c punctuation.definition.comment.begin.c */
 /*^^^^^^^^^^ comment.block.banner.c - punctuation */
