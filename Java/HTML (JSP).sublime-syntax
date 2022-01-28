@@ -12,6 +12,25 @@ file_extensions:
   - jsp
   - jspf
   - jspx
+  - jstl
+
+variables:
+  # Identifiers
+  break: (?!{{id_char}})
+
+  id: (?:{{id_first_char}}{{id_char}}*)
+  id_first_char: '[\p{L}_$]'
+  id_char: '[\p{L}\p{N}_$]'
+
+  implicit_objects: |-
+    (?x:
+      param | paramValues | header | headerValues | initParam | cookie
+    | pageScope | requestScope | sessionScope | applicationScope | pageContext
+    ){{break}}
+
+  # digits
+  dec_digit: '\d'
+  dec_exponent: '[eE][-+]?{{dec_digit}}*'
 
 contexts:
 
@@ -398,13 +417,6 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.jsp
-    - match: \$\{
-      scope: punctuation.section.interpolation.begin.jsp
-      embed: scope:source.java.embedded.html#expressions
-      embed_scope: source.java.embedded.jsp
-      escape: \}
-      escape_captures:
-        0: punctuation.section.interpolation.end.jsp
     - include: jsp-embedded
     - include: immediately-pop
 
@@ -414,6 +426,7 @@ contexts:
     - include: jsp-embedded-directives
     - include: jsp-embedded-expressions
     - include: jsp-embedded-scriptlets
+    - include: jstl-embedded
 
   jsp-embedded-comments:
     - match: <%--
@@ -525,3 +538,175 @@ contexts:
   jsp-string-escapes:
     - match: \\.
       scope: constant.character.escape.jsp
+
+###[ JSTL EXPRESSIONS ]#######################################################
+
+  jstl-embedded:
+    - match: \$\{
+      scope: punctuation.section.embedded.begin.jstl
+      push: jstl-embedded-body
+
+  jstl-embedded-body:
+    - meta_scope: meta.embedded.expression.jstl
+    - meta_content_scope: source.jstl.embedded.jsp
+    - match: \}
+      scope: punctuation.section.embedded.end.jstl
+      pop: 1
+    - include: jstl-expressions
+
+  jstl-expressions:
+    - include: jstl-strings-double-quoted
+    - include: jstl-strings-single-quoted
+    - include: jstl-groups
+    - include: jstl-item-access
+    - include: jstl-operators
+    - include: jstl-numbers
+    - include: jstl-constants
+    - include: jstl-function-calls
+    - include: jstl-variables
+
+  jstl-function-calls:
+    - match: ({{id}})(:)({{id}}?)(?=\()
+      captures:
+        0: meta.function-call.identifier.jstl meta.path.jstl
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
+        3: variable.function.jstl
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.jstl
+          set: jstl-function-call-arguments
+
+  jstl-function-call-arguments:
+    - meta_scope: meta.function-call.arguments.jstl meta.group.jstl
+    - include: jstl-group-body
+
+  jstl-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.jstl
+      push: jstl-group-body
+
+  jstl-group-body:
+    - meta_scope: meta.group.jstl
+    - match: \)
+      scope: punctuation.section.group.end.jstl
+      pop: 1
+    - include: jstl-expressions
+
+  jstl-item-access:
+    - match: \[
+      scope: punctuation.section.brackets.begin.jstl
+      push: jstl-item-access-body
+
+  jstl-item-access-body:
+    - meta_scope: meta.brackets.jstl
+    - match: \]
+      scope: punctuation.section.brackets.end.jstl
+      pop: 1
+    - include: jstl-expressions
+
+  jstl-constants:
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.jstl
+    - match: null{{break}}
+      scope: constant.language.null.jstl
+
+  jstl-constant:
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.jstl
+      pop: 1
+    - match: null{{break}}
+      scope: constant.language.null.jstl
+      pop: 1
+
+  jstl-numbers:
+    # decimal floats
+    - match: |-
+        (?x)
+        [0-9]{{dec_digit}}*
+        (?:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1
+            (\.) {{dec_digit}}* (?:{{dec_exponent}})?
+          # 1e1
+          | {{dec_exponent}}
+        )
+        | (\.) {{dec_digit}}+ (?:{{dec_exponent}})?
+      scope: meta.number.float.decimal.jstl
+      captures:
+        0: constant.numeric.value.jstl
+        1: punctuation.separator.decimal.jstl
+        2: punctuation.separator.decimal.jstl
+    # decimal integers
+    - match: '{{dec_digit}}+'
+      scope: meta.number.integer.decimal.jstl constant.numeric.value.jstl
+
+  jstl-strings-double-quoted:
+    - match: \"
+      scope: punctuation.definition.string.begin.jstl
+      push: jstl-strings-double-quoted-content
+
+  jstl-strings-double-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.jstl string.quoted.double.jstl
+    - match: \"
+      scope: punctuation.definition.string.end.jstl
+      pop: 1
+    - include: jstl-string-escapes
+
+  jstl-strings-single-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.jstl
+      push: jstl-strings-single-quoted-content
+
+  jstl-strings-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.jstl string.quoted.single.jstl
+    - match: \'
+      scope: punctuation.definition.string.end.jstl
+      pop: 1
+    - include: jstl-string-escapes
+
+  jstl-string-escapes:
+    - match: \\.
+      scope: constant.character.escape.jstl
+
+  jstl-variables:
+    - match: '{{implicit_objects}}'
+      scope: support.variable.jstl
+    - match: ({{id}}?)(\.)
+      captures:
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
+      push: jstl-qualified-variable
+    - match: '{{id}}'
+      scope: variable.other.jstl
+
+  jstl-qualified-variable:
+    - meta_scope: meta.path.jstl
+    - include: jstl-constant
+    - match: ({{id}}?)(\.)
+      captures:
+        1: variable.namespace.jstl
+        2: punctuation.accessor.namespace.jstl
+    - match: '{{id}}'
+      scope: variable.other.jstl
+      pop: 1
+
+  jstl-operators:
+    - match: (?:div|mod){{break}}
+      scope: keyword.operator.arithmetic.jstl
+    - match: (?:lt|gt|le|ge|eq|ne){{break}}
+      scope: keyword.operator.comparison.jstl
+    - match: (?:and|or|not|empty){{break}}
+      scope: keyword.operator.logical.jstl
+    - match: '[-+*/%]'
+      scope: keyword.operator.arithmetic.jstl
+    - match: '==|!=|<=|>=|<|>'
+      scope: keyword.operator.comparison.jstl
+    - match: '!|&&|\|\|'
+      scope: keyword.operator.logical.jstl
+    - match: '[?:]'
+      scope: keyword.operator.ternary.jstl
+    - match: ','
+      scope: punctuation.separator.comma.jstl
