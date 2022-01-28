@@ -68,18 +68,7 @@ contexts:
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
     - include: objc-structures
-    # Take care of comments just before a function definition.
-    - match: /\*
-      scope: punctuation.definition.comment.objc++
-      push:
-        - - match: \s*(?=\w)
-            set: global-modifier
-          - match: ""
-            pop: true
-        - - meta_scope: comment.block.objc++
-          - match: \*/
-            scope: punctuation.definition.comment.objc++
-            pop: true
+    - include: global-block-comments
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.objc++
@@ -110,6 +99,38 @@ contexts:
     - match: ^\s*(?=\w)
       push: global-modifier
     - include: late-expressions
+
+  global-block-comments:
+    # NOTE: This context overrides `comments` context, which re-uses scopes
+    # from `source.c#comments`. So keep the trailing `c` for consistency reasons!
+    - match: ^(/\*) =(\s*.*?)\s*= (\*/)$\n?
+      scope: comment.block.banner.c
+      captures:
+        1: punctuation.definition.comment.begin.c
+        2: meta.toc-list.banner.block.c
+        3: punctuation.definition.comment.end.c
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.c punctuation.definition.comment.c
+      push: global-block-comment-after
+    # documentation block comments
+    - match: (?:/\*!|/\*{2,})
+      scope: punctuation.definition.comment.begin.c
+      push:
+        - global-block-comment-after
+        - scope:source.c#block-comment-documentation-body
+    # normal block comments
+    - match: /\*
+      scope: punctuation.definition.comment.begin.c
+      push:
+        - global-block-comment-after
+        - scope:source.c#block-comment-body
+
+  global-block-comment-after:
+    - match: \s*(?=\w)
+      set: global-modifier
+    - match: ''
+      pop: true
 
   statements:
     - include: preprocessor-statements
