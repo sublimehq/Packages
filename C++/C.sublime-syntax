@@ -69,7 +69,7 @@ contexts:
     - include: line-comments
 
   block-comments:
-    - match: ^(/\*) =(\s*.*?)\s*= (\*/)$\n?
+    - match: ^(/\*) =\s*(.*?)\s*= (\*/)$\n?
       scope: comment.block.banner.c
       captures:
         1: punctuation.definition.comment.begin.c
@@ -108,7 +108,7 @@ contexts:
       pop: true
 
   line-comments:
-    - match: ^(//) =(\s*.*?)\s*=\s*$\n?
+    - match: ^(//) =\s*(.*?)\s*=\s*$\n?
       scope: comment.line.banner.c
       captures:
         1: punctuation.definition.comment.c

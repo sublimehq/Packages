@@ -3,6 +3,12 @@
 // =Banner=
 /*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
 
+// = Banner =
+/* ^^^^^^^^^^^ comment.line.banner.c */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.line.c */
+/*         ^^^ - meta.toc-list  */
+
 //! Comment
 /* <- comment.line.documentation.c punctuation.definition.comment.c */
  /* <- comment.line.documentation.c punctuation.definition.comment.c */
@@ -21,6 +27,14 @@
 /*^^^^^^^^^^ comment.block.banner.c - punctuation */
 /*  ^^^^^^ meta.toc-list.banner.block.c  */
 /*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+/* = Banner = */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.block.c  */
+/*         ^^^^^ - meta.toc-list  */
+/*            ^^ comment.block.banner.c punctuation.definition.comment.end.c */
 
    /*****/
 /* ^^^^^^^ comment.block.empty.c punctuation.definition.comment.c */
