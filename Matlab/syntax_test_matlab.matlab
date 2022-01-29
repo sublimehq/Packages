@@ -171,7 +171,9 @@ xAprox = fMetodoDeNewton( xi )
 %% comment % comment
 %<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
 %^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
-% ^^^^^^^^^^^^^^^^^^^ comment.line.double-percentage.matlab - punctuation
+% ^ comment.line.double-percentage.matlab - punctuation - entity
+%  ^^^^^^^^^^^^^^^^^ comment.line.double-percentage.matlab entity.name.section.matlab
+%                   ^ comment.line.double-percentage.matlab - entity
 
 %%%
 %<- comment.line.percentage.matlab punctuation.definition.comment.matlab
@@ -188,8 +190,8 @@ a = b % doc
 %      ^^^^^ comment.line.percentage.matlab - punctuation
 
 a = b %% doc
-%     ^^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
-%       ^^^^^ comment.line.double-percentage.matlab - punctuation
+%     ^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%       ^^^^^ comment.line.percentage.matlab - punctuation - entity
 
 
 %---------------------------------------------
