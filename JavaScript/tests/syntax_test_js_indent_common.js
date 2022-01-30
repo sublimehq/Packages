@@ -668,33 +668,33 @@ function testSwitchCaseIndentationWithLineComments(v) {
     }                            // comments
 }                                // comments
 
-function testForIndentation(int  {
+function testForIndentation(v)  {
 
-    for (int i = 0; i < 10; i++)
+    for (let i = 0; i < 10; i++)
         System.out.println("Row " + i);
 
-    for (int i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         System.out.println("Row " + i);
     }
 
-    for (int i = 0; i < 10; i++)
+    for (let i = 0; i < 10; i++)
     {
         System.out.println("Row " + i);
     }
 
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++)
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++)
             System.out.println("Row " + i + " Col " + j);
     }
 
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
             System.out.println("Row " + i + " Col " + j);
         }
     }
 }
 
-function testWhileIndentationNoBraces(int  {
+function testWhileIndentationNoBraces(v)  {
     while () v++
     while () v++;
     while (()) v++
@@ -722,7 +722,7 @@ function testWhileIndentationNoBraces(int  {
         v++
 }
 
-function testWhileIndentationNoBracesButComments(int  {
+function testWhileIndentationNoBracesButComments(v)  {
     while () v++                      // ; "comment" ()
     while () v++;                     // ; "comment" ()
     while (()) v++                    // ; "comment" ()
@@ -751,7 +751,7 @@ function testWhileIndentationNoBracesButComments(int  {
     while () { } // a hack to make tests succeed
 }
 
-function testWhileIndentationNoBracesButBlockCommentsPart1(int  {
+function testWhileIndentationNoBracesButBlockCommentsPart1(v)  {
     while /*(*/ () v++ /*(*/ // ; "comment" ()
     while /*(*/ () v++; /*(*/ // ; "comment" ()
     while /*(*/ (()) v++ /*(*/ // ; "comment" ()
@@ -780,7 +780,7 @@ function testWhileIndentationNoBracesButBlockCommentsPart1(int  {
     while /*(*/ () { } // a hack to make tests succeed
 }
 
-function testWhileIndentationNoBracesButBlockCommentsPart2(int  {
+function testWhileIndentationNoBracesButBlockCommentsPart2(v)  {
     while /*)*/ () v++ /*)*/ // ; "comment" ()
     while /*)*/ () v++; /*)*/ // ; "comment" ()
     while /*)*/ (()) v++ /*)*/ // ; "comment" ()
@@ -809,7 +809,7 @@ function testWhileIndentationNoBracesButBlockCommentsPart2(int  {
     while /*)*/ () { } // a hack to make tests succeed
 }
 
-function testWhileIndentationWithBraces(int  {
+function testWhileIndentationWithBraces(v)  {
 
     while () { v++ }
     while () { v++; }
@@ -888,7 +888,7 @@ function testWhileIndentationWithBraces(int  {
     }
 }
 
-function testWhileIndentationWithBracesAndComments(int  {
+function testWhileIndentationWithBracesAndComments(v)  {
 
     while () { v++ }                    // ;  "comments" ()
     while () { v++; }                   // ;  "comments" ()
