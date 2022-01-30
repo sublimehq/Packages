@@ -692,6 +692,23 @@ function testForIndentation(v)  {
             System.out.println("Row " + i + " Col " + j);
         }
     }
+
+    for (
+        let i = 0;
+        i < 10;
+        i++)
+    {
+        let j = 0;
+        let k = 0;
+    }
+
+    for (
+        let i = 0;
+        i < 10;
+        i++) {
+        let j = 0;
+        let k = 0;
+    }
 }
 
 function testWhileIndentationNoBraces(v)  {
@@ -886,6 +903,24 @@ function testWhileIndentationWithBraces(v)  {
     {
         v++
     }
+    while (
+        v == foo( bar("") + "" )
+        )
+    {
+        v++
+        v++
+    }
+    while (
+        v == foo( bar("") + "" ) ) {
+        v++
+        v++
+    }
+    while (
+        v == foo( bar("") + "" )
+        ) {
+        v++
+        v++
+    }
 }
 
 function testWhileIndentationWithBracesAndComments(v)  {
@@ -963,6 +998,24 @@ function testWhileIndentationWithBracesAndComments(v)  {
     }                                   // ;  "comments" ()
     while (v == foo( bar("") + "" ))    // ;  "comments" ()
     {                                   // ;  "comments" ()
+        v++                             // ;  "comments" ()
+    }                                   // ;  "comments" ()
+    while (                             // ;  "comments" ()
+        v == foo( bar("") + "" )        // ;  "comments" ()
+        )                               // ;  "comments" ()
+    {                                   // ;  "comments" ()
+        v++                             // ;  "comments" ()
+        v++                             // ;  "comments" ()
+    }                                   // ;  "comments" ()
+    while (                             // ;  "comments" ()
+        v == foo( bar("") + "" ) ) {    // ;  "comments" ()
+        v++                             // ;  "comments" ()
+        v++                             // ;  "comments" ()
+    }                                   // ;  "comments" ()
+    while (                             // ;  "comments" ()
+        v == foo( bar("") + "" )        // ;  "comments" ()
+        ) {                             // ;  "comments" ()
+        v++                             // ;  "comments" ()
         v++                             // ;  "comments" ()
     }                                   // ;  "comments" ()
 }
