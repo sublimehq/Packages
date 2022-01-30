@@ -467,10 +467,11 @@ contexts:
     - include: block-comments
 
   line-comments:
-    - match: (%%(?!%)).*\n?
+    - match: ^\s*(%%(?!%))\s*(.*\S)?\s*\n?
       scope: comment.line.double-percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
+        2: entity.name.section.matlab
     - match: (%+).*\n?
       scope: comment.line.percentage.matlab
       captures:
