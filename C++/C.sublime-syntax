@@ -113,10 +113,10 @@ contexts:
       captures:
         1: punctuation.definition.comment.c
         2: meta.toc-list.banner.line.c
-    - match: //[/!]
+    - match: //(?:!|/(?!/))
       scope: punctuation.definition.comment.c
       push: line-comment-documentation-body
-    - match: /{2,}
+    - match: //+
       scope: punctuation.definition.comment.c
       push: line-comment-body
 
@@ -131,7 +131,7 @@ contexts:
     - include: line-comment-end
 
   line-comment-end:
-    - match: (//+)?\n
+    - match: (?:(//+)\s*)?$\n?
       captures:
         1: punctuation.definition.comment.c
       pop: 1

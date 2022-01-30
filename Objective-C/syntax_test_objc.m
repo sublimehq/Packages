@@ -9,6 +9,12 @@
 /*   ^^^^^^ meta.toc-list.banner.line.c */
 /*         ^^^ - meta.toc-list  */
 
+// Comment //
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*        ^^ comment.line.double-slash.c punctuation.definition.comment.c */
+
 //! Comment
 /* <- comment.line.documentation.c punctuation.definition.comment.c */
  /* <- comment.line.documentation.c punctuation.definition.comment.c */
@@ -21,6 +27,14 @@
   /* <- comment.line.documentation.c punctuation.definition.comment.c */
  /*^^^^^^^^^ comment.line.documentation.c - punctuation */
  /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
+
+//// Comment ////  
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*  ^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*          ^^^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*               ^^ comment.line.double-slash.c - punctuation */
 
 /* =Banner= */
 /* <- comment.block.banner.c punctuation.definition.comment.begin.c */
