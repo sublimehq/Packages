@@ -1,50 +1,33 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
 name: Literate Haskell
+scope: text.tex.latex.haskell
+
+extends: Packages/LaTeX/LaTeX.sublime-syntax
+
 file_extensions:
   - lhs
-scope: text.tex.latex.haskell
+
 contexts:
-  prototype:
-    - include: scope:text.tex.latex#comments
-
-  main:
-    - include: scope:text.tex.latex#unique-latex
-    - include: scope:text.tex.latex#packages
+  plain-tex:
+    - meta_prepend: true
     - include: haskell-code
-    - include: scope:text.tex.latex#plain-tex
-    - include: scope:text.tex.latex#begin-end-commands
-    - include: scope:text.tex.latex#general-commands
-    - include: global-braces
-
-  global-braces:
-    - match: '\{'
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: main
 
   haskell-code:
-    - match: '(?:\s*)((\\)begin)(\{)(code)(\})'
+    - match: ((\\)begin)(\{)(code)(\})
       captures:
-        1: support.function.be.latex
+        1: support.function.begin.latex keyword.control.block.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.group.brace.end.latex
-      push:
-        - meta_scope: meta.function.embedded.haskell.latex
-        - meta_content_scope: source.haskell.embedded.latex
-        - match: '((\\)end)(\{)(code)(\})'
-          captures:
-            1: support.function.be.latex
-            2: punctuation.definition.backslash.latex
-            3: punctuation.definition.group.brace.begin.latex
-            4: variable.parameter.function.latex
-            5: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: scope:source.haskell
+      embed: scope:source.haskell
+      embed_scope: source.haskell.embedded.latex
+      escape: ((\\)end)(\{)(code)(\})
+      escape_captures:
+        1: support.function.end.latex keyword.control.block.end.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.haskell entity.name.function - entity.name.function.infix</string>
+	<string>source.haskell entity.name.export</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
