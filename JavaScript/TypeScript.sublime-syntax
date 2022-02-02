@@ -880,11 +880,11 @@ contexts:
 
   ts-type-tuple:
     - match: \[
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.sequence.js
         - match: \]
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: comma-separator
         - match: \.\.\.
