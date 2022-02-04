@@ -6,7 +6,7 @@ cabal-version:   >=2.2
 --           ^ meta.mapping.cabal
 --            ^^^^^^^^^ meta.mapping.value.version.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
---           ^ punctuation.separator.mapping.key-value.cabal
+--           ^ punctuation.separator.key-value.cabal
 --               ^^ keyword.operator.comparison.cabal
 --                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                  ^ punctuation.separator.decimal.cabal
@@ -17,7 +17,7 @@ name:            pandoc
 --  ^ meta.mapping.cabal
 --   ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal
 -- ^ entity.name.tag.cabal
---  ^ punctuation.separator.mapping.key-value.cabal
+--  ^ punctuation.separator.key-value.cabal
 
 version:         2.11.3.1
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
@@ -25,7 +25,7 @@ version:         2.11.3.1
 --     ^ meta.mapping.cabal
 --      ^^^^^^^^^^^^^^^^^^ meta.mapping.value.version.cabal
 -- ^^^^ entity.name.tag.cabal
---     ^ punctuation.separator.mapping.key-value.cabal
+--     ^ punctuation.separator.key-value.cabal
 --               ^^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                ^ punctuation.separator.decimal.cabal
 --                   ^ punctuation.separator.decimal.cabal
@@ -41,7 +41,7 @@ author: Jon Doe <jon.doe@nowhere.com>
 --                                  ^ meta.mapping.value.other.cabal meta.path.email.cabal - meta.string
 --                                   ^ meta.mapping.value.other.cabal - meta.path
 --^^^^ entity.name.tag.cabal
---    ^ punctuation.separator.mapping.key-value.cabal
+--    ^ punctuation.separator.key-value.cabal
 --              ^ punctuation.definition.path.begin.cabal
 --                      ^ punctuation.separator.path.email.cabal
 --                              ^ punctuation.separator.path.domain.cabal
@@ -54,7 +54,7 @@ maintainer: cabal-devel@haskell.org
 --         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal
 --          ^^^^^^^^^^^^^^^^^^^^^^^ meta.path.email.cabal meta.string.cabal string.unquoted.cabal
 --^^^^ entity.name.tag.cabal
---        ^ punctuation.separator.mapping.key-value.cabal
+--        ^ punctuation.separator.key-value.cabal
 --                     ^ punctuation.separator.path.email.cabal
 --                             ^ punctuation.separator.path.domain.cabal
 
@@ -64,7 +64,7 @@ tests: True
 --   ^ meta.mapping.cabal
 --    ^^^^^^ meta.mapping.value.boolean.cabal
 --^^^ entity.name.tag.cabal
---   ^ punctuation.separator.mapping.key-value.cabal
+--   ^ punctuation.separator.key-value.cabal
 --     ^^^^ constant.language.boolean.cabal
 
 optimization: False
@@ -73,7 +73,7 @@ optimization: False
 --          ^ meta.mapping.cabal
 --           ^^^^^^^ meta.mapping.value.boolean.cabal
 --^^^^^^^^^^ entity.name.tag.cabal
---          ^ punctuation.separator.mapping.key-value.cabal
+--          ^ punctuation.separator.key-value.cabal
 --            ^^^^ constant.language.boolean.cabal
 
 build-type:      Simple
@@ -82,7 +82,7 @@ build-type:      Simple
 --        ^ meta.mapping.cabal
 --         ^^^^^^^^^^^^^ meta.mapping.value.other.cabal
 -- ^^^^^^^ entity.name.tag.cabal
---        ^ punctuation.separator.mapping.key-value.cabal
+--        ^ punctuation.separator.key-value.cabal
 
 bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
@@ -90,7 +90,7 @@ bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
 --         ^ meta.mapping.cabal
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal
 -- ^^^^^^^^ entity.name.tag.cabal
---         ^ punctuation.separator.mapping.key-value.cabal
+--         ^ punctuation.separator.key-value.cabal
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.cabal meta.string.cabal string.unquoted.cabal
 --                    ^^^ punctuation.separator.path.cabal
 --                                 ^ punctuation.separator.path.cabal
@@ -105,7 +105,7 @@ homepage:
 --      ^ meta.mapping.cabal
 --       ^ meta.mapping.value.urls.cabal
 -- ^^^^^ entity.name.tag.cabal
---      ^ punctuation.separator.mapping.key-value.cabal
+--      ^ punctuation.separator.key-value.cabal
     https://sublimehq.com
 -- ^ meta.mapping.value.urls.cabal - meta.string - string
 --  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal meta.path.url.cabal meta.string.cabal string.unquoted.cabal
@@ -118,7 +118,7 @@ flags: +embed_data_files -trypandoc "+Dkey: value"
 --   ^ meta.mapping.cabal
 --    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.options.cabal
 --^^^ entity.name.tag.cabal
---   ^ punctuation.separator.mapping.key-value.cabal
+--   ^ punctuation.separator.key-value.cabal
 --     ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
 --      ^^^^^^^^^^^^^^^^ variable.parameter.option.haskell - punctuation
 --                       ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
@@ -131,7 +131,7 @@ ghc-options: -j +RTS -A64m -RTS
 --         ^ meta.mapping.cabal
 --          ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.options.cabal
 --^^^^^^^^^ entity.name.tag.cabal
---         ^ punctuation.separator.mapping.key-value.cabal
+--         ^ punctuation.separator.key-value.cabal
 --           ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
 --            ^ variable.parameter.option.haskell - punctuation
 --              ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
@@ -147,7 +147,7 @@ exposed-modules: ,
 --             ^ meta.mapping.cabal
 --              ^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^^^ entity.name.tag.cabal
---             ^ punctuation.separator.mapping.key-value.cabal
+--             ^ punctuation.separator.key-value.cabal
 --               ^ punctuation.separator.sequence.cabal
 
 exposed-modules: ModId.ModName,
@@ -156,7 +156,7 @@ exposed-modules: ModId.ModName,
 --             ^ meta.mapping.cabal
 --               ^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^^^ entity.name.tag.cabal
---             ^ punctuation.separator.mapping.key-value.cabal
+--             ^ punctuation.separator.key-value.cabal
 --               ^^^^^ variable.namespace.haskell
 --                    ^ punctuation.accessor.dot.haskell
 --                     ^^^^^^^ variable.namespace.haskell
@@ -175,7 +175,7 @@ exposed-modules: ModId.ModName
 --             ^ meta.mapping.cabal
 --              ^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^^^ entity.name.tag.cabal
---             ^ punctuation.separator.mapping.key-value.cabal
+--             ^ punctuation.separator.key-value.cabal
 --               ^^^^^ variable.namespace.haskell
 --                    ^ punctuation.accessor.dot.haskell
 --                     ^^^^^^^ variable.namespace.haskell
@@ -195,7 +195,7 @@ other-modules: ModId.ModName
 --           ^ meta.mapping.cabal
 --            ^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
---           ^ punctuation.separator.mapping.key-value.cabal
+--           ^ punctuation.separator.key-value.cabal
 --             ^^^^^ variable.namespace.haskell
 --                  ^ punctuation.accessor.dot.haskell
 --                   ^^^^^^^ variable.namespace.haskell
@@ -213,7 +213,7 @@ NoModule
 data-files:
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
---        ^ meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+--        ^ meta.mapping.cabal punctuation.separator.key-value.cabal
 --         ^ meta.mapping.value.paths.cabal
                  -- documentation
                  INSTALL.md, AUTHORS.md, README.md,
@@ -250,7 +250,7 @@ build-depends:  pandoc,
 --           ^ meta.mapping.cabal
 --            ^^^^^^^^^^ meta.mapping.value.dependencies.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
---           ^ punctuation.separator.mapping.key-value.cabal
+--           ^ punctuation.separator.key-value.cabal
         base    >= 4.8 && < 5,
 --      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
 --              ^^ keyword.operator.comparison.cabal
@@ -284,7 +284,7 @@ executable pandoc
   --           ^ meta.mapping.cabal
   --            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
   --^^^^^^^^^^^ entity.name.tag.cabal
-  --           ^ punctuation.separator.mapping.key-value.cabal
+  --           ^ punctuation.separator.key-value.cabal
   --                   ^ punctuation.separator.sequence.cabal
   --                          ^^ keyword.operator.comparison.cabal
   --                             ^^^ meta.number.version.cabal constant.numeric.value.cabal
