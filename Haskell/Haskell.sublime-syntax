@@ -636,14 +636,16 @@ contexts:
       scope:
         meta.declaration.class.haskell
         punctuation.separator.type.context.haskell
-      set: class-signature
-    - include: type-expressions
+      set:
+        - class-maybe-args
+        - class-name
+    - include: expressions
 
   class-signature:
     - meta_include_prototype: false
     - match: ''
       set:
-        - class-args
+        - class-expect-args
         - class-name
 
   class-name:
@@ -655,18 +657,21 @@ contexts:
       pop: 1
     - include: else-pop
 
-  class-args:
+  class-expect-args:
     - meta_content_scope: meta.declaration.class.haskell
     - match: (?={{operator_big_arrow}})
       fail: class-declaration
+    - include: class-type
+
+  class-maybe-args:
+    - meta_content_scope: meta.declaration.class.haskell
     - include: class-type
 
   class-type:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       set: class-block
-    - include: type-expressions
-    - include: else-pop
+    - include: declaration-type
 
   class-block:
     - match: \{
@@ -701,20 +706,17 @@ contexts:
       scope:
         meta.declaration.instance.haskell
         punctuation.separator.type.context.haskell
-      set: instance-signature
-    - include: type-expressions
+      set: instance-maybe-type
+    - include: expressions
 
   instance-signature:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - instance-args
-        - class-name
-
-  instance-args:
     - meta_content_scope: meta.declaration.instance.haskell
     - match: (?={{operator_big_arrow}})
       fail: instance-declaration
+    - include: class-type
+
+  instance-maybe-type:
+    - meta_content_scope: meta.declaration.instance.haskell
     - include: class-type
 
 ###[ DATA DECLARATIONS ]#######################################################
@@ -733,27 +735,33 @@ contexts:
         - data-context
 
   data-context:
+    # A data declaration with optional `context` expression being present.
     - meta_content_scope: meta.declaration.data.context.haskell
     - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.data.haskell
-        punctuation.separator.type.context.haskell
-      set: data-signature
-    - include: type-expressions
+      scope: punctuation.separator.type.context.haskell
+      set:
+        - data-maybe-constructors
+        - type-name
+    - include: expressions
 
   data-signature:
+    # A data declaration without optional `context` expression being present.
+    # That's the more common use case and thus matched first.
     - meta_include_prototype: false
     - match: ''
       set:
-        - data-args
+        - data-expect-constructors
         - type-name
 
-  data-args:
-    - meta_content_scope: meta.declaration.data.haskell
+  data-expect-constructors:
+    - meta_scope: meta.declaration.data.haskell
     - match: (?={{operator_big_arrow}})
       fail: data-declaration
-    - include: type-expressions
-    - include: else-pop
+    - include: declaration-type
+
+  data-maybe-constructors:
+    - meta_scope: meta.declaration.data.haskell
+    - include: declaration-type
 
 ###[ DEFAULT DECLARATIONS ]####################################################
 
@@ -877,25 +885,28 @@ contexts:
   newtype-context:
     - meta_content_scope: meta.declaration.newtype.context.haskell
     - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.newtype.haskell
-        punctuation.separator.type.context.haskell
-      set: newtype-signature
-    - include: type-expressions
+      scope: punctuation.separator.type.context.haskell
+      set:
+        - newtype-maybe-args
+        - type-name
+    - include: expressions
 
   newtype-signature:
     - meta_include_prototype: false
     - match: ''
       set:
-        - newtype-args
+        - newtype-expect-args
         - type-name
 
-  newtype-args:
-    - meta_content_scope: meta.declaration.newtype.haskell
+  newtype-expect-args:
+    - meta_scope: meta.declaration.newtype.haskell
     - match: (?={{operator_big_arrow}})
       fail: newtype-declaration
-    - include: type-expressions
-    - include: else-pop
+    - include: declaration-type
+
+  newtype-maybe-args:
+    - meta_scope: meta.declaration.newtype.haskell
+    - include: declaration-type
 
 ###[ TYPE DECLARATIONS ]#######################################################
 
@@ -914,17 +925,17 @@ contexts:
   type-context:
     - meta_content_scope: meta.declaration.type.context.haskell
     - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.type.haskell
-        punctuation.separator.type.context.haskell
-      set: type-signature
-    - include: type-expressions
+      scope: punctuation.separator.type.context.haskell
+      set:
+        - type-maybe-args
+        - type-name
+    - include: expressions
 
   type-signature:
     - meta_include_prototype: false
     - match: ''
       set:
-        - type-args
+        - type-expect-args
         - type-name
 
   type-name:
@@ -936,11 +947,50 @@ contexts:
       pop: 1
     - include: else-pop
 
-  type-args:
-    - meta_content_scope: meta.declaration.type.haskell
+  type-expect-args:
+    - meta_scope: meta.declaration.type.haskell
     - match: (?={{operator_big_arrow}})
       fail: type-declaration
-    - include: type-expressions
+    - include: declaration-type
+
+  type-maybe-args:
+    - meta_scope: meta.declaration.type.haskell
+    - include: declaration-type
+
+###[ DECLARATION TYPE EXPRESSIONS ]############################################
+
+  declaration-type:
+    - match: (?=;|=(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}}|{{reserved_id}})
+      pop: 1
+    # pop context if beginning of a line looks like a function declaration or assignment expression
+    - match: ^\s*(?={{var_id}})
+      branch_point: declaration-type-end
+      branch:
+        - declaration-type-variable
+        - immediately-pop2
+    - include: right-arrow-operators
+    - include: infix-quoted-operators
+    - include: infix-operators
+    - include: type-lists
+    - include: type-parens
+    - include: type-forall
+    - include: ident-anonymous
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-variables
+    - match: \S
+      scope: invalid.illegal.haskell
+
+  declaration-type-variable:
+    - match: '{{var_id}}'
+      scope: variable.other.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      set: declaration-type-variable-after
+
+  declaration-type-variable-after:
+    - match: (?==(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}})
+      fail: declaration-type-end
     - include: else-pop
 
 ###[ TYPE EXPRESSIONS ]########################################################
@@ -1459,14 +1509,7 @@ contexts:
     - include: right-arrow-operators
     - include: prefix-parens-operators
     - include: infix-quoted-operators
-    # Match all not otherwise matched single quotes as promoition operator
-    # Note: Found in real world code but not in specs so far.
-    - match: \'
-      scope: keyword.operator.haskell
-    - match: '{{operator_double_colon}}'
-      scope: punctuation.separator.type.haskell
-    - match: '{{operator_symbol}}'
-      scope: keyword.operator.haskell
+    - include: infix-operators
 
   big-arrow-operators:
     - match: '{{operator_big_arrow}}'
@@ -1487,6 +1530,16 @@ contexts:
         1: punctuation.definition.prefix.begin.haskell
         2: keyword.operator.haskell
         3: punctuation.definition.prefix.end.haskell
+
+  infix-operators:
+    # Match all not otherwise matched single quotes as promoition operator
+    # Note: Found in real world code but not in specs so far.
+    - match: \'
+      scope: keyword.operator.haskell
+    - match: '{{operator_double_colon}}'
+      scope: punctuation.separator.type.haskell
+    - match: '{{operator_symbol}}'
+      scope: keyword.operator.haskell
 
   infix-quoted-operators:
     - match: (?=\`)
@@ -1534,3 +1587,8 @@ contexts:
   immediatelly-pop:
     - match: ''
       pop: 1
+
+  immediately-pop2:
+    - match: ''
+      pop: 2
+
