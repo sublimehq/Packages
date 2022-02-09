@@ -152,19 +152,22 @@ variables:
   prelude_classes: |-
     (?x:
     # 9 Standard Prelude
-      Applicative | Bounded | Enum | Eq | Floating | Foldableble | Fractional
-    | Functor | Integral | Monad | Monadoid | Num | Ord | Rational | Read
-    | Real | RealFloat | RealFrac | Show | Traversable
+      Applicative | Bifoldable | Bifunctor | Bitraversable | Bits | Bounded
+    | Coercible | Enum | Eq | Floating | Foldable | Fractional | Functor | Integral
+    | IsString | Ix | Monad | Monoid | Num | Ord | Read | Real | RealFloat
+    | RealFrac | Semigroup | Show | Traversable | Typeable
     ){{break}}
 
   prelude_constants: |-
-    (?x: otherwise | Nothing | True | False | LT | EQ | GT ){{break}}
+    (?x: Just | Left | Nothing | Right | True | False | LT | EQ | GT ){{break}}
 
   prelude_types: |-
     (?x:
     # 9 Standard Prelude
-      Bool | Char | Double | Either | FilePath | Float | Integer | IO | IOError
-    | Maybe | Just | Left | Ordering | ReadS | Right | ShowS | String
+    # https://hackage.haskell.org/package/base-4.16.0.0
+      Bool | Char | Complex | Constraint | Double | Dynamic  | Either | FilePath
+    | Float | Integer | IO | IOError | IOException | IORef | Maybe | Ordering | Proxy
+    | Ratio | Rational | ReadS | ShowS | STRef | String | Type | Unique | Version | Void
     # 24 Foreign
     # https://www.haskell.org/onlinereport/haskell2010/haskellch24.html#x32-26200024
     | Int | Int8 | Int16 | Int32 | Int64 | Word | Word8 | Word16 | Word32 | Word64
@@ -257,6 +260,7 @@ contexts:
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-builtin-functions
+    - include: ident-builtin-constants
     - include: ident-types
     - include: ident-variables
 
@@ -834,9 +838,6 @@ contexts:
         2: keyword.operator.haskell
         3: punctuation.definition.prefix.end.haskell
       push: variable-name-end
-    - match: '{{prelude_constants}}'
-      scope: support.constant.prelude.haskell
-      push: variable-name-end
     - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
       push: variable-name-end
@@ -1250,10 +1251,13 @@ contexts:
     - match: '{{prelude_classes}}'
       scope: support.class.prelude.haskell
 
-  ident-builtin-types:
-    # Prelude Data Types of special meaning
+  ident-builtin-constants:
+    # Data constructors without arguments are also called constants.
+    # Thus all data constructors are scoped as constant.
     - match: '{{prelude_constants}}'
       scope: support.constant.prelude.haskell
+
+  ident-builtin-types:
     # Prelude Data Types
     - match: '{{prelude_types}}'
       scope: support.type.prelude.haskell

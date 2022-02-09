@@ -1082,7 +1082,7 @@
 --         ^^^^^^^ support.class.prelude.haskell
 --                 ^ variable.other.haskell
 --                  ^ punctuation.separator.sequence.haskell
---                    ^^^^^^^^ storage.type.haskell
+--                    ^^^^^^^^ support.class.prelude.haskell
 --                             ^ variable.other.haskell
 --                              ^ punctuation.section.sequence.end.haskell
 --                                ^^ punctuation.separator.type.context.haskell
@@ -1280,7 +1280,7 @@
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^^^ variable.other.haskell
 --                     ^^ punctuation.separator.type.haskell
---                        ^^^^^^^^ support.class.prelude.haskell
+--                        ^^^^^^^^ support.type.prelude.haskell
       } deriving (Eq, Ord, Generic)
 --   ^^ meta.block.haskell
 --     ^ - meta
@@ -2122,11 +2122,11 @@
 --                  ^^^^^^^ variable.other.haskell
 --                          ^ variable.other.haskell
 --                            ^ keyword.operator.haskell
---                              ^^^^ support.type.prelude.haskell
+--                              ^^^^ support.constant.prelude.haskell
 --                                   ^ variable.other.haskell
                   | otherwise = M.lookup c asciiMap
 --                ^ punctuation.separator.sequence.haskell
---                  ^^^^^^^^^ support.constant.prelude.haskell
+--                  ^^^^^^^^^ variable.other.haskell
 --                            ^ keyword.operator.haskell
 --                              ^ variable.namespace.haskell
 --                               ^ punctuation.accessor.dot.haskell
@@ -2905,7 +2905,7 @@ main = do
 --       ^ variable.other.haskell
 
     Just
---  ^^^^ support.type.prelude.haskell
+--  ^^^^ support.constant.prelude.haskell
 
     Just#
 --  ^^^^ storage.type.haskell - storage.modifier
