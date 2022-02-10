@@ -794,17 +794,21 @@ contexts:
       scope: storage.modifier.haskell
       push:
         - deriving-meta
-        - deriving-body
+        - deriving-begin
 
   deriving-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.deriving.haskell
     - include: immediatelly-pop
 
-  deriving-body:
+  deriving-begin:
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
       set: deriving-tuple-body
+    - match: (?=\S)
+      set: deriving-body
+
+  deriving-body:
     - include: ident-namespaces
     - include: ident-type
     - include: else-pop
