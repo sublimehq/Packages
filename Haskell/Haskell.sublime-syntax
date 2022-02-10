@@ -1246,26 +1246,11 @@ contexts:
       captures:
         1: storage.modifier.unboxed.haskell
 
-  ident-builtin-classes:
-    # Prelude Class Types
-    - match: '{{prelude_classes}}'
-      scope: support.class.prelude.haskell
-
   ident-builtin-constants:
     # Data constructors without arguments are also called constants.
     # Thus all data constructors are scoped as constant.
     - match: '{{prelude_constants}}'
       scope: support.constant.prelude.haskell
-
-  ident-builtin-types:
-    # Prelude Data Types
-    - match: '{{prelude_types}}'
-      scope: support.type.prelude.haskell
-    # Unboxed Data Types
-    - match: '{{unboxed_types}}'
-      scope: support.type.unboxed.haskell
-      captures:
-        1: storage.modifier.unboxed.haskell
 
   ident-builtin-functions:
     - match: '{{prelude_functions}}'
@@ -1286,25 +1271,49 @@ contexts:
       pop: 1
 
   ident-types:
-    - include: ident-builtin-classes
     - include: ident-builtin-types
+    - include: ident-user-types
+
+  ident-builtin-types:
+    # Prelude Class Types
+    - match: '{{prelude_classes}}'
+      scope: support.class.prelude.haskell
+    # Prelude Data Types
+    - match: '{{prelude_types}}'
+      scope: support.type.prelude.haskell
+    # Unboxed Data Types
+    - match: '{{unboxed_types}}'
+      scope: support.type.unboxed.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+
+  ident-user-types:
     - match: '{{con_id}}'
       scope: storage.type.haskell
       captures:
         1: storage.modifier.unboxed.haskell
 
   ident-type:
+    - include: ident-builtin-type
+    - include: ident-user-type
+
+  ident-builtin-type:
+    # Prelude Class Types
     - match: '{{prelude_classes}}'
       scope: support.class.prelude.haskell
       pop: 1
+    # Prelude Data Types
     - match: '{{prelude_types}}'
       scope: support.type.prelude.haskell
       pop: 1
+    # Unboxed Data Types
     - match: '{{unboxed_types}}'
       scope: support.type.unboxed.haskell
-      pop: 1
       captures:
         1: storage.modifier.unboxed.haskell
+      pop: 1
+
+  ident-user-type:
     - match: '{{con_id}}'
       scope: storage.type.haskell
       captures:
