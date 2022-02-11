@@ -520,3 +520,12 @@ select json name, checkin_id, timestamp from checkin;
 
 select name, checkin_id, toJson(timestamp) from checkin;
 --                       ^^^^^^ meta.function-call support.function
+
+update blah.table
+--^^^^ keyword.other.dml
+--     ^^^^^^^^^^ meta.table-name
+set x = 4
+--^ keyword.other.dml
+--  ^ meta.column-name
+--    ^ keyword.operator
+--      ^ meta.number.integer.decimal constant.numeric.value

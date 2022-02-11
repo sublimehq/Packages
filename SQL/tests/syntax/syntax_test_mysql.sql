@@ -1,4 +1,4 @@
--- SYNTAX TEST "Packages/SQL/SQL.sublime-syntax"
+-- SYNTAX TEST "Packages/SQL/MySQL.sublime-syntax"
 
 SELECT 'Foo Bar';
 --     ^^^^^^^^^ string.quoted.single
@@ -224,7 +224,7 @@ multiline comment
 select
 
 
-   <=>  
+   <=>
 -- ^^^ keyword.operator.comparison.sql
 
 SELECT  *,

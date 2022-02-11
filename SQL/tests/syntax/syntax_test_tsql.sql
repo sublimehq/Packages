@@ -1669,3 +1669,22 @@ INCLUDE (AddressLine1, AddressLine2, City, StateProvinceID)
 --                   ^ punctuation.separator.sequence
 WHERE CountryCode = 'FR'
 
+  /**/
+--^^^^ comment.block - comment.block.documentation
+--^^ punctuation.definition.comment.begin
+--  ^^ punctuation.definition.comment.end
+
+  /***/
+--^^^ comment.block.documentation punctuation.definition.comment.begin
+--   ^^ comment.block.documentation punctuation.definition.comment.end
+
+  /****/
+--^^^^ comment.block.documentation punctuation.definition.comment.begin
+--    ^^ comment.block.documentation punctuation.definition.comment.end
+
+  /***
+   ***
+-- ^ comment.block.documentation punctuation.definition.comment
+    ^^ - punctuation
+   ***/
+-- ^^^^ comment.block.documentation punctuation.definition.comment.end

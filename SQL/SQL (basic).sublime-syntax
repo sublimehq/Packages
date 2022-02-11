@@ -43,7 +43,7 @@ contexts:
 
   block-comments:
     - meta_include_prototype: false
-    - match: /\*\*+
+    - match: /\*(?:\*(?!/))+
       scope: punctuation.definition.comment.begin.sql
       push: inside-comment-docblock
     - match: /\*
