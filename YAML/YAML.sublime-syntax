@@ -114,11 +114,15 @@ variables:
   _flow_key_in_lookahead: |-
     (?x:
       (?=
-        {{ns_plain_first_plain_in}}
-        ( [^\s:{{c_flow_indicator}}]
-        | : [^\s{{c_flow_indicator}}]
-        | \s+ (?![#\s])
-        )*
+        (
+          {{ns_plain_first_plain_in}}
+          ( [^\s:{{c_flow_indicator}}]
+          | : [^\s{{c_flow_indicator}}]
+          | \s+ (?![#\s])
+          )*
+          | \".*\"
+          | \'.*\'
+        )
         \s*
         :
         (\s|$)
@@ -217,13 +221,26 @@ contexts:
     # ns-flow-yaml-node(n,c)
     - include: flow-alias
     - include: flow-collection
-    - include: flow-scalar
+    - include: flow-scalar-11
 
-  flow-scalar:
+  flow-node-12:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/
+    # ns-flow-yaml-node(n,c)
+    - include: flow-alias
+    - include: flow-collection
+    - include: flow-scalar-12
+
+  flow-scalar-11:
     # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
     - include: flow-scalar-double-quoted
     - include: flow-scalar-single-quoted
     - include: flow-scalar-plain-in-11
+
+  flow-scalar-12:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
+    - include: flow-scalar-double-quoted
+    - include: flow-scalar-single-quoted
+    - include: flow-scalar-plain-in-12
 
   flow-collection:
     # http://yaml.org/spec/1.2/spec.html#style/flow/collection
@@ -580,79 +597,50 @@ contexts:
     - match: \?
       scope: meta.mapping.key.yaml punctuation.definition.key.begin.yaml
       push:
-        - flow-pair-value-set
+        - flow-pair-clear-1
         - flow-pair-key
     # Attempt to match plain-in scalars followed by a colon
     - match: '{{_flow_key_in_lookahead}}'
       push:
-        - flow-pair-value-set
-        - flow-pair-key-12
+        - flow-pair-clear-1
+        - flow-pair-key
     - match: :(?=\s|$|{{c_flow_indicator}}) # Empty mapping keys allowed
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      push: flow-pair-value
+      push:
+        - flow-pair-clear-1
+        - flow-pair-value
 
   # Variant without clearing the parent scope for pairs in a sequence
   flow-pair-no-clear:
     - match: \?
       scope: meta.mapping.key.yaml punctuation.definition.key.begin.yaml
-      push:
-        - flow-pair-value-set-no-clear
-        - flow-pair-key-no-clear
+      push: flow-pair-key
     - match: '{{_flow_key_in_lookahead}}'
-      push:
-        - flow-pair-value-set-no-clear
-        - flow-pair-key-no-clear
+      push: flow-pair-key
     - match: :(?=\s|$|{{c_flow_indicator}})
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      push: flow-pair-value-no-clear
+      push: flow-pair-value
 
   flow-pair-key:
-    - clear_scopes: 1
     - meta_content_scope: meta.mapping.key.yaml
-    - match: (?=[},\]])  # Empty mapping keys & values are allowed
-      pop: true
     - match: :(?=\s|$|{{c_flow_indicator}})
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
-    - include: flow-node
-
-  flow-pair-key-12:
-    - clear_scopes: 1
-    - meta_content_scope: meta.mapping.key.yaml
-    - match: (?=[},\]])  # Empty mapping keys & values are allowed
-      pop: true
-    - match: :(?=\s|$|{{c_flow_indicator}})
-      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
-    - include: flow-scalar-plain-in-12
-
-  flow-pair-key-no-clear:
-    - meta_content_scope: meta.mapping.key.yaml
-    - match: (?=[},\]])
-      pop: true
-    - match: :(?=\s|$|{{c_flow_indicator}})
-      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
-    - include: flow-node
-
-  flow-pair-value-set:
-    - match: ''
       set: flow-pair-value
+    - include: flow-pair-end  # Empty mapping keys & values are allowed
+    - include: flow-node-12
 
   flow-pair-value:
-    - clear_scopes: 1
     - meta_content_scope: meta.mapping.value.yaml
+    - include: flow-pair-end
     - include: flow-node
-    - match: (?=[},\]])
+
+  flow-pair-clear-1:
+    - meta_include_prototype: false
+    - clear_scopes: 1
+    - match: ''
       pop: true
 
-  flow-pair-value-set-no-clear:
-    - match: ''
-      set: flow-pair-value-no-clear
-
-  flow-pair-value-no-clear:
-    - meta_content_scope: meta.mapping.value.yaml
-    - include: flow-node
+  flow-pair-end:
     - match: (?=[},\]])
       pop: true
 

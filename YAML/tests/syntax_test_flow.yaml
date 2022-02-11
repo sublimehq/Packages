@@ -139,6 +139,22 @@ continuation"
 #    ^^^ meta.mapping.value.yaml
 #     ^ constant.numeric
 
+{ "key": "value", 'key': 0 }
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.yaml
+# <- source.yaml meta.mapping.yaml punctuation.definition.mapping.begin.yaml
+#^ meta.mapping.yaml
+# ^^^^^ meta.mapping.key string.quoted.double.yaml
+#      ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#       ^^^^^^^^ meta.mapping.value.yaml
+#        ^^^^^^^ string.quoted.double.yaml
+#               ^^ meta.mapping.yaml
+#               ^ punctuation.separator.mapping.yaml
+#                 ^^^^^ meta.mapping.key.yaml string.quoted.single.yaml
+#                      ^ punctuation.separator.key-value.mapping.yaml
+#                       ^^^ meta.mapping.value.yaml
+#                        ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
+#                          ^ meta.mapping.yaml punctuation.definition.mapping.end.yaml
+
 {? !!str 'key' : !!str value,
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #               ^^^^^^^^^^^^ meta.mapping.value
