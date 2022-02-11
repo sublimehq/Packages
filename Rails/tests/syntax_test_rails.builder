@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Rails/Ruby on Rails.sublime-syntax"
+# SYNTAX TEST "Packages/Rails/Ruby (Rails).sublime-syntax"
 
 class ApplicationController < ApplicationController
 # <- keyword.declaration.class
@@ -42,3 +42,10 @@ class PictureFile < ApplicationRecord
 end
 
 # <- source.ruby.rails
+
+ActionController::Routing::Routes
+# <- meta.routes.rails support.class.ruby
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.routes.rails
+#               ^^ punctuation.accessor.double-colon.ruby
+#                 ^^^^^^^ support.class.ruby
+#                        ^^ punctuation.accessor.double-colon.ruby

@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[<% end -%>]]></content>
 	<tabTrigger>end</tabTrigger>
-	<scope>text.html.ruby</scope>
+	<scope>text.html.rails</scope>
 	<description>end (ERB)</description>
 </snippet>
