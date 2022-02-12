@@ -115,12 +115,12 @@ variables:
     (?x:
       (?=
         (
-          {{ns_plain_first_plain_in}}
-          ( [^\s:{{c_flow_indicator}}]
-          | : [^\s{{c_flow_indicator}}]
-          | \s+ (?![#\s])
-          )*
-          | \".*\"
+            {{ns_plain_first_plain_in}}
+            ( [^\s:{{c_flow_indicator}}]
+            | : [^\s{{c_flow_indicator}}]
+            | \s+ (?![#\s])
+            )*
+          | \".*\" # simplified
           | \'.*\'
         )
         \s*
@@ -132,11 +132,15 @@ variables:
   _flow_key_out_lookahead: |-
     (?x:
       (?=
-        {{ns_plain_first_plain_out}}
-        ( [^\s:]
-        | : \S
-        | \s+ (?![#\s])
-        )*
+        (
+            {{ns_plain_first_plain_out}}
+            ( [^\s:]
+            | : \S
+            | \s+ (?![#\s])
+            )*
+          | \".*\" # simplified
+          | \'.*\'
+        )
         \s*
         :
         (\s|$)
@@ -242,6 +246,12 @@ contexts:
     - include: flow-scalar-single-quoted
     - include: flow-scalar-plain-in-12
 
+  flow-scalar-out-12:
+    # for block keys
+    - include: flow-scalar-double-quoted
+    - include: flow-scalar-single-quoted
+    - include: flow-scalar-plain-out-12
+
   flow-collection:
     # http://yaml.org/spec/1.2/spec.html#style/flow/collection
     - include: flow-sequence
@@ -253,6 +263,13 @@ contexts:
     - include: block-collection
     - include: flow-scalar-plain-out  # needs higher priority than flow-node, which includes flow-scalar-plain-in
     - include: flow-node
+
+  block-node-12:
+    # http://yaml.org/spec/1.2/spec.html#style/block/
+    - include: block-scalar
+    - include: block-collection
+    - include: flow-scalar-plain-out-12
+    - include: flow-node-12  # the -12 variant should not make a difference
 
   block-collection:
     # http://yaml.org/spec/1.2/spec.html#style/block/collection
@@ -559,6 +576,13 @@ contexts:
     - match: (?={{ns_plain_first_plain_out}})
       push: flow-scalar-plain-out-content
 
+  flow-scalar-plain-out-12:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/plain
+    # ns-plain(n,c) (c=flow-out, c=block-key)
+    - include: flow-scalar-plain-out-implicit-type-12
+    - match: (?={{ns_plain_first_plain_out}})
+      push: flow-scalar-plain-out-content
+
   flow-scalar-plain-out-content:
     - meta_scope: string.unquoted.plain.out.yaml
     - meta_include_prototype: false
@@ -680,38 +704,36 @@ contexts:
     - include: block-pair
 
   block-pair:
-    - match: \?
+    - match: \?(?=\s|$)
       scope: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
       push:
-        - meta_content_scope: meta.mapping.key.yaml
-        - match: (?=\?) # Empty mapping keys & values are allowed
-          pop: true
-        - match: ^ *(:)
-          scope: meta.mapping.yaml
-          captures:
-            1: punctuation.separator.key-value.mapping.yaml
-          pop: true
-        - match: ':'
-          scope: meta.mapping.yaml invalid.illegal.expected-newline.yaml
-          pop: true
-        - include: block-node
+        - block-key-explicit
     # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
     # if followed by a colon
-    # TODO rewrite with branching
     - match: '{{_flow_key_out_lookahead}}'
       push:
-        - meta_scope: meta.mapping.key.yaml
-        - include: flow-scalar-plain-out-implicit-type-12
-        - match: '{{_flow_scalar_end_plain_out}}'
-          pop: true
-        - match: (?={{ns_plain_first_plain_out}})
-          set:
-            - meta_scope: meta.mapping.key.yaml string.unquoted.plain.out.yaml
-            - meta_include_prototype: false
-            - match: '{{_flow_scalar_end_plain_out}}'
-              pop: true
+        - block-key-implicit
     - match: :(?=\s|$)
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+
+  block-key-implicit:
+    - meta_content_scope: meta.mapping.key.yaml
+    - match: :(?=\s|$)
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+      pop: true
+    - include: flow-scalar-out-12
+
+  block-key-explicit:
+    - meta_content_scope: meta.mapping.key.yaml
+    # the colon *must* be on a new line
+    - match: ^ *(:)
+      scope: meta.mapping.yaml
+      captures:
+        1: punctuation.separator.key-value.mapping.yaml
+      pop: true
+    - match: (?=\?(?=\s|$))  # Empty mapping keys & values are allowed
+      pop: true
+    - include: block-node-12
 
   comment:
     # http://www.yaml.org/spec/1.2/spec.html#comment//

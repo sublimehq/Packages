@@ -100,8 +100,14 @@ _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
 #                                ^ comment
 
 key on line one:
-#^^^^^^^^^^^^^^ meta.mapping.key
+#^^^^^^^^^^^^^^ meta.mapping.key string.unquoted.plain
   value on line two
+# ^^^^^^^^^^^^^^^^^ string.unquoted.plain.out - meta.mapping.key
+
+
+"quoted key": value
+#^^^^^^^^^^^ meta.mapping.key string.quoted.double
+#          ^ punctuation.definition.string.end
 
 ? explicit key # Empty value
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
@@ -121,11 +127,19 @@ key on line one:
 #      ^ punctuation.separator.key-value.mapping
 #        ^^^^^^ string.unquoted.plain.out
 
+# the entire first line is the key (as a mapping with one entry)
 ? a key : not a value
-#       ^ meta.mapping invalid.illegal.expected-newline
+# ^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+#       ^ meta.mapping.key meta.mapping punctuation.separator.key-value.mapping
+:
+# <- meta.mapping punctuation.separator.key-value.mapping - meta.mapping meta.mapping
 
 scalar
 # <- -meta.mapping
+
+ ?not a key
+#^^^^^^^^^^ - meta.mapping
+
 
 x:
   - #1
