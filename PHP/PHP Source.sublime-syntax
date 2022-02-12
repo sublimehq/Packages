@@ -38,6 +38,8 @@ variables:
   keywords_flow: |-
     (?x: break | continue | exit | finally | return | throw | yield )\b
 
+  heredoc_quoted_end: (?=^\s*\4\b)
+  heredoc_unquoted_end: (?=^\s*\2\b)
 
 contexts:
   main:
@@ -61,7 +63,7 @@ contexts:
             - match: '(?={{path}})'
               push: inherited
             - match: ','
-              scope: punctuation.separator.php
+              scope: punctuation.separator.comma.php
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -87,12 +89,17 @@ contexts:
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
-        2: punctuation.separator.php
+        2: punctuation.separator.colon.php
     - match: \{
       scope: punctuation.section.block.begin.php
     - match: \}
       scope: punctuation.section.block.end.php
     - include: expressions
+    # catch some stray cases
+    - match: ':'
+      scope: punctuation.separator.colon.php
+    - match: ','
+      scope: punctuation.separator.comma.php
 
   block:
     - match: \}
@@ -235,22 +242,7 @@ contexts:
         - include: variables
     - include: variables
     - include: strings
-    - match: (array)(\()(\))
-      scope: meta.array.empty.php
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-        3: punctuation.section.array.end.php
-    - match: (array)(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: nested-expressions
+    - include: arrays
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
@@ -309,6 +301,8 @@ contexts:
         - match: ':'
           scope: keyword.operator.ternary.php
           pop: 1
+    - match: ','
+      scope: punctuation.separator.comma.php
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -324,19 +318,6 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - match: '(\[)\s*(\])'
-      scope: meta.array.empty.php
-      captures:
-        1: punctuation.section.array.begin.php
-        2: punctuation.section.array.end.php
-    - match: '\['
-      scope: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: '\]'
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: nested-expressions
     - include: constants
     - match: \(
       scope: punctuation.section.group.begin.php
@@ -345,6 +326,41 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.php
           pop: 1
+        - include: nested-expressions
+
+  arrays:
+    - match: (array)(\()(\))
+      scope: meta.array.empty.php
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.array.begin.php
+        3: punctuation.section.array.end.php
+    - match: (\[)\s*(\])
+      scope: meta.array.empty.php
+      captures:
+        1: punctuation.section.array.begin.php
+        2: punctuation.section.array.end.php
+    - match: (array)(\()
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \)
+          scope: punctuation.section.array.end.php
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.comma.php
+        - include: nested-expressions
+    - match: \[
+      scope: punctuation.section.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \]
+          scope: punctuation.section.array.end.php
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.comma.php
         - include: nested-expressions
 
   after-identifier:
@@ -416,21 +432,21 @@ contexts:
               scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
               pop: 1
             - match: ','
-              scope: punctuation.separator.php
+              scope: punctuation.separator.comma.php
             - include: function-call-named-parameters
             - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - include: expression-end-pop
 
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
           AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError |
-          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BadFunctionCallException |
+          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BackedEnum | BadFunctionCallException |
           BadMethodCallException | CachingIterator | Collator | CompileError | Countable | CURLFile | CURLStringFile |
           DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
           DivisionByZeroError | DOMAttr | DOMAttribute | DOMCharacterData | DOMComment | DOMDocument |
@@ -458,7 +474,7 @@ contexts:
           SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
           SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Stringable | Swish | SwishResult |
           SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError | UnderflowException |
-          UnexpectedValueException | UnhandledMatchError | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
+          UnexpectedValueException | UnhandledMatchError | UnitEnum | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
           finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy | tidyNode
         )\b
       captures:
@@ -511,7 +527,7 @@ contexts:
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
 
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
@@ -626,7 +642,7 @@ contexts:
     - match: (?=;)
       pop: 1
     - match: ':'
-      scope: punctuation.separator.php
+      scope: punctuation.separator.colon.php
       push:
         - match: (?={{path}})
           set:
@@ -659,7 +675,7 @@ contexts:
             - match: ''
               pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - match: (?=\S)
           pop: 1
 
@@ -699,7 +715,7 @@ contexts:
         - match: '(?={{path}})'
           push: inherited
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - match: '(?=\S)'
           pop: 1
 
@@ -766,7 +782,7 @@ contexts:
             - match: ''
               pop: 1
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
     - include: statements
 
   typed-property:
@@ -804,7 +820,7 @@ contexts:
                   scope: punctuation.section.group.begin.php
                   set:
                     - meta_scope: meta.function.parameters.php meta.group.php
-                    - match: '{{visibility_modifier}}'
+                    - match: '(?i){{visibility_modifier}}|\breadonly\b'
                       scope: storage.modifier.php
                     - include: function-parameters
             # Exit on unexpected content
@@ -909,7 +925,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
     - match: '='
       scope: keyword.operator.assignment.php
       push:
@@ -940,7 +956,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: ','
-      scope: punctuation.separator.php
+      scope: punctuation.separator.comma.php
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
@@ -949,7 +965,7 @@ contexts:
       scope: meta.block.php punctuation.section.block.begin.php
       set: function-body
     - match: ':'
-      scope: punctuation.separator.php
+      scope: punctuation.separator.colon.php
     - include: type-hint
     # Exit on unexpected content
     - match: (?=\S)
@@ -1283,7 +1299,7 @@ contexts:
           scope: punctuation.section.group.end.php
           set: after-function-call
         - match: ','
-          scope: punctuation.separator.php
+          scope: punctuation.separator.comma.php
         - include: function-call-named-parameters
         - include: nested-expressions
   function-call-named-parameters:
@@ -1305,17 +1321,14 @@ contexts:
             2: punctuation.terminator.expression.php
             3: meta.heredoc-end.php
           pop: 1
-        - match: (<<<)\s*(()(HTML)())\s*$\n?
+        - match: (<<<)\s*(?i:(HTML))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-html
           embed_scope: meta.embedded.html
-          escape: (?=^\s*HTML\b)
-        - match: (<<<)\s*((')(HTML)('))\s*$\n?
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(HTML))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
@@ -1324,18 +1337,15 @@ contexts:
             5: punctuation.definition.tag.end.php
           embed: scope:text.html.basic
           embed_scope: meta.embedded.html text.html
-          escape: (?=^\s*HTML\b)
-        - match: (<<<)\s*(()(XML)())\s*$\n?
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*(?i:(XML))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-xml
           embed_scope: meta.embedded.xml
-          escape: (?=^\s*XML\b)
-        - match: (<<<)\s*((')(XML)('))\s*$\n?
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(XML))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
@@ -1344,18 +1354,15 @@ contexts:
             5: punctuation.definition.tag.end.php
           embed: scope:text.xml
           embed_scope: meta.embedded.xml text.xml
-          escape: (?=^\s*XML\b)
-        - match: (<<<)\s*(()(SQL)())\s*$\n?
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*(?i:(SQL))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-sql
           embed_scope: meta.embedded.sql
-          escape: (?=^\s*SQL\b)
-        - match: (<<<)\s*((')(SQL)('))\s*$\n?
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(SQL))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
@@ -1364,18 +1371,15 @@ contexts:
             5: punctuation.definition.tag.end.php
           embed: scope:source.sql
           embed_scope: meta.embedded.sql source.sql
-          escape: (?=^\s*SQL\b)
-        - match: (<<<)\s*(()(JAVASCRIPT)())\s*$\n?
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*(?i:(JAVASCRIPT|JS))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-javascript
           embed_scope: meta.embedded.js
-          escape: (?=^\s*JAVASCRIPT\b)
-        - match: (<<<)\s*((')(JAVASCRIPT)('))\s*$\n?
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(JAVASCRIPT|JS))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
@@ -1384,18 +1388,15 @@ contexts:
             5: punctuation.definition.tag.end.php
           embed: scope:source.js
           embed_scope: meta.embedded.js source.js
-          escape: (?=^\s*JAVASCRIPT\b)
-        - match: (<<<)\s*(()(JSON)())\s*$\n?
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*(?i:(JSON))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-json
           embed_scope: meta.embedded.json
-          escape: (?=^\s*JSON\b)
-        - match: (<<<)\s*((')(JSON)('))\s*$\n?
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(JSON))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
@@ -1404,18 +1405,15 @@ contexts:
             5: punctuation.definition.tag.end.php
           embed: scope:source.json
           embed_scope: meta.embedded.json source.json
-          escape: (?=^\s*JSON\b)
-        - match: (<<<)\s*(()(CSS)())\s*$\n?
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*(?i:(CSS))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
-            2: meta.string.heredoc.php meta.tag.heredoc.php
-            3: punctuation.definition.tag.begin.php
-            4: entity.name.tag.heredoc.php
-            5: punctuation.definition.tag.end.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           embed: heredoc-css
           embed_scope: meta.embedded.css
-          escape: (?=^\s*CSS\b)
-        - match: (<<<)\s*((')(CSS)('))\s*$\n?
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(CSS))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
@@ -1424,17 +1422,31 @@ contexts:
             5: punctuation.definition.tag.end.php
           embed: scope:source.css
           embed_scope: meta.embedded.css source.css
-          escape: (?=^\s*CSS\b)
-        - match: (<<<)\s*(()({{identifier}})())\s*$\n?
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*(?i:(YA?ML))\s*$\n?
+          captures:
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+          embed: heredoc-yaml
+          embed_scope: meta.embedded.yaml
+          escape: '{{heredoc_unquoted_end}}'
+        - match: (<<<)\s*((')(?i:(YA?ML))('))\s*$\n?
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php
             3: punctuation.definition.tag.begin.php
             4: entity.name.tag.heredoc.php
             5: punctuation.definition.tag.end.php
+          embed: scope:source.yaml
+          embed_scope: meta.embedded.yaml source.yaml
+          escape: '{{heredoc_quoted_end}}'
+        - match: (<<<)\s*({{identifier}})\s*$\n?
+          captures:
+            1: keyword.operator.heredoc.php
+            2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
           push:
             - meta_scope: string.unquoted.heredoc.php
-            - match: (?=^\s*\4\b)
+            - match: '{{heredoc_unquoted_end}}'
               pop: 1
             - include: interpolation
         - match: (<<<)\s*((')({{identifier}})('))
@@ -1446,7 +1458,7 @@ contexts:
             5: punctuation.definition.tag.end.php
           push:
             - meta_scope: string.unquoted.heredoc.php
-            - match: (?=^\s*\4\b)
+            - match: '{{heredoc_quoted_end}}'
               pop: 1
   heredoc-html:
     - meta_include_prototype: false
@@ -1482,6 +1494,12 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.css
+      with_prototype:
+        - include: interpolation
+  heredoc-yaml:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.yaml
       with_prototype:
         - include: interpolation
   instantiation:
@@ -1649,6 +1667,7 @@ contexts:
       push: after-identifier
   parameter-default-types:
     - include: strings
+    - include: arrays
     - include: numbers
     - include: variables
     - match: "=>"
@@ -1657,17 +1676,6 @@ contexts:
       scope: keyword.operator.assignment.php
     - match: '&(?=\s*\$)'
       scope: storage.modifier.reference.php
-    - match: (array)\s*(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: expression-end-pop
-        - include: parameter-default-types
     - include: instantiation
     - match: \s*(?={{path}}(::)({{identifier}})?)
       push:

@@ -1,0 +1,20 @@
+%YAML 1.2
+---
+name: CSS (Rails)
+scope: source.css.rails
+version: 2
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+file_extensions:
+  - css.erb
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  string-content:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations

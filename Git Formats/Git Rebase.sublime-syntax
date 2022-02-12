@@ -14,6 +14,7 @@ first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
 variables:
   comment_char: '[#;]'
   hash: \b\h{7,}\b
+  option: (-)[[:alnum:]]+\b
 
 contexts:
 
@@ -28,15 +29,27 @@ contexts:
   comments:
     - match: '{{comment_char}}'
       scope: punctuation.definition.comment.git.rebase
-      push: comment-content
+      push:
+        - comment-meta
+        - comment-content
+
+  comment-meta:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.git.rebase
+    - match: ''
+      pop: 1
 
   comment-content:
-    - meta_scope: comment.line.git.rebase
-    - match: ^(?!\s*{{comment_char}})
-      pop: 1
     - include: heading
     - include: commands-help
     - include: rebase-msg
+    - include: comment-text
+
+  comment-text:
+    # consume anything else up to the end of a line
+    - match: \S.*
+    - match: \n
+      pop: 1
 
   heading:
     # all comments ending with colon are scoped as headlines
@@ -46,62 +59,137 @@ contexts:
   commands-help:
     # highlight the commands and separators in this comment
     # e.g. p, pick = use commit
-    - match: \b(d)\s*(,)\s*(drop)\s*(=)\s*(.+)
-      scope: meta.commands-help.drop.git.rebase
+    - match: \b(b)(,) (break)\b
+      captures:
+        1: keyword.operator.commit.break.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.break.git.rebase
+      set: help-cmd-args
+    - match: \b(d)(,) (drop)\b
       captures:
         1: keyword.operator.commit.drop.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.drop.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
-    - match: \b(e)\s*(,)\s*(edit)\s*(=)\s*(.+)
-      scope: meta.commands-help.edit.git.rebase
+      set: help-cmd-args
+    - match: \b(e)(,) (edit)\b
       captures:
         1: keyword.operator.commit.edit.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.edit.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
-    - match: \b(x)\s*(,)\s*(exec)\s*(=)\s*(.+)
-      scope: meta.commands-help.exec.git.rebase
+      set: help-cmd-args
+    - match: \b(x)(,) (exec)\b
       captures:
         1: keyword.operator.commit.exec.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.exec.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
-    - match: \b(f)\s*(,)\s*(fixup)\s*(=)\s*(.+)
-      scope: meta.commands-help.fixup.git.rebase
+      set: help-cmd-args
+    - match: \b(f)(,) (fixup)\b
       captures:
         1: keyword.operator.commit.fixup.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.fixup.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
-    - match: \b(p)\s*(,)\s*(pick)\s*(=)\s*(.+)
-      scope: meta.commands-help.pick.git.rebase
+      set:
+        - help-fixup-description
+        - help-cmd-args-content
+    - match: \b(l)(,) (label)\b
+      captures:
+        1: keyword.operator.commit.label.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.label.git.rebase
+      set: help-cmd-args
+    - match: \b(m)(,) (merge)\b
+      captures:
+        1: keyword.operator.commit.merge.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.merge.git.rebase
+      set:
+        - help-merge-description
+        - help-cmd-args-content
+    - match: \b(p)(,) (pick)\b
       captures:
         1: keyword.operator.commit.pick.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.pick.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
-    - match: \b(r)\s*(,)\s*(reword)\s*(=)\s*(.+)
-      scope: meta.commands-help.reword.git.rebase
+      set: help-cmd-args
+    - match: \b(r)(,) (reword)\b
       captures:
         1: keyword.operator.commit.reword.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.reword.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
-    - match: \b(s)\s*(,)\s*(squash)\s*(=)\s*(.+)
-      scope: meta.commands-help.squash.git.rebase
+      set: help-cmd-args
+    - match: \b(t)(,) (reset)\b
+      captures:
+        1: keyword.operator.commit.reset.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.reset.git.rebase
+      set: help-cmd-args
+    - match: \b(s)(,) (squash)\b
       captures:
         1: keyword.operator.commit.squash.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.squash.git.rebase
-        4: punctuation.separator.mapping.pair.git.rebase
-        5: string.unquoted.git.rebase
+      set: help-cmd-args
+
+  help-fixup-description:
+    - meta_scope: meta.commands-help.git.rebase
+    - match: ^({{comment_char}})\s{20,}(\S.+)
+      captures:
+        1: punctuation.definition.comment.git.rebase
+        2: string.unquoted.git.rebase
+    - match: ^
+      pop: 1
+
+  help-merge-description:
+    - meta_scope: meta.commands-help.git.rebase
+    - match: ^({{comment_char}})\s+(\.)\s+(.+)
+      captures:
+        1: punctuation.definition.comment.git.rebase
+        2: punctuation.definition.description.git.rebase
+        3: string.unquoted.git.rebase
+    - match: ^
+      pop: 1
+
+  help-cmd-args:
+    - meta_scope: meta.commands-help.git.rebase
+    - include: help-cmd-args-content
+
+  help-cmd-args-content:
+    - include: help-cmd-descriptions
+    - include: help-cmd-brackets
+    - include: help-cmd-parameters
+    - include: cmd-options
+    - match: \n
+      pop: 1
+
+  help-cmd-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.git.rebase
+      push: help-cmd-brackets-body
+
+  help-cmd-brackets-body:
+    - meta_scope: meta.brackets.git.rebase
+    - match: \]
+      scope: punctuation.section.brackets.end.git.rebase
+      pop: 1
+    - match: \#
+      scope: punctuation.definition.comment.git.rebase
+    - match: \|
+      scope: punctuation.separator.sequence.git.rebase
+    - include: help-cmd-parameters
+    - include: cmd-options
+
+  help-cmd-descriptions:
+    - match: (=)\s*(\S.+)
+      captures:
+        1: punctuation.separator.mapping.pair.git.rebase
+        2: string.unquoted.git.rebase
+
+  help-cmd-parameters:
+    - match: (<)[-\w]+(>)
+      scope: variable.parameter.git.rebase
+      captures:
+        1: punctuation.definition.variable.begin.git.rebase
+        2: punctuation.definition.variable.end.git.rebase
 
   rebase-msg:
     # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
@@ -113,16 +201,17 @@ contexts:
         2: punctuation.separator.commit-range.git.rebase
         3: constant.other.hash.git.rebase
         4: constant.other.hash.git.rebase
+      pop: 1
 
 ##[ COMMANDS ]#########################################################
 
   branch-commands:
-    - match: ^\s*(label)\s+(\S+)
+    - match: ^\s*(l|label)\s+(\S+)
       captures:
         0: meta.branch.label.git.rebase
         1: keyword.other.label.git.rebase
         2: constant.language.branch-name.git.commit
-    - match: ^\s*(merge)\s+((-)C)\s+({{hash}})\s+(\S+)
+    - match: ^\s*(m|merge)\s+({{option}})\s+({{hash}})\s+(\S+)
       captures:
         0: meta.branch.merge.git.rebase
         1: keyword.operator.branch.merge.git.rebase
@@ -130,7 +219,7 @@ contexts:
         3: punctuation.definition.variable.git.rebase
         4: constant.other.hash.git.rebase
         5: constant.language.branch-name.git.commit
-    - match: ^\s*(reset)\s+(?:({{hash}})|(\S+))
+    - match: ^\s*(t|reset)\s+(?:({{hash}})|(\S+))
       captures:
         0: meta.branch.reset.git.rebase
         1: keyword.operator.branch.reset.git.rebase
@@ -143,6 +232,9 @@ contexts:
       push: [commit-subject, commit-hash, commit-command]
 
   commit-command:
+    - match: (?:b|break)\b
+      scope: keyword.operator.commit.break.git.rebase
+      pop: 1
     - match: (?:d|drop)\b
       scope: keyword.operator.commit.drop.git.rebase
       pop: 1
@@ -171,6 +263,7 @@ contexts:
     - match: '{{hash}}' # e.g. d284bb2
       scope: constant.other.hash.git.rebase
       pop: 1
+    - include: cmd-options
     - include: line-end
     - match: \S+
       scope: invalid.illegal.hash-expected.git.rebase
@@ -198,6 +291,12 @@ contexts:
       escape: $\n?
       escape_captures:
         0: meta.shell.git.rebase
+
+  cmd-options:
+    - match: '{{option}}'
+      scope: variable.parameter.option.git.rebase
+      captures:
+        1: punctuation.definition.variable.git.rebase
 
 ##[ PROTOTYPES ]#######################################################
 

@@ -29,8 +29,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bpython(?:\d(?:\.\d)?)?\b                        # shebang
-  | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d)?)?\b .*? -\*-  # editorconfig
+    ^ \#! .* \bpython(?:\d(?:\.\d+)?)?\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d+)?)?\b .*? -\*-  # editorconfig
   )
 
 variables:
@@ -171,7 +171,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.python
     # Note: Keep sync with first_line_match!
-    - match: \bpython(?:\d(?:\.\d)?)?\b
+    - match: \bpython(?:\d(?:\.\d+)?)?\b
       scope: constant.language.shebang.python
     - match: \n
       pop: true
@@ -824,6 +824,8 @@ contexts:
           scope: punctuation.separator.slice.python
         - include: expression-in-a-group
     # indirect function call following attribute access
+    - match: (?={{illegal_names}})
+      pop: true
     - include: function-calls
     # arbitrary attribute access
     - match: '\s*(\.)'
@@ -1981,8 +1983,7 @@ contexts:
       scope: constant.character.escape.python
     - match: \{\s*\}
       scope: invalid.illegal.empty-expression.python
-    - match: (?=\{)
-      push: f-string-replacement
+    - include: f-string-replacements
     - match: \}
       scope: invalid.illegal.stray-brace.python
 
@@ -1997,75 +1998,87 @@ contexts:
       scope: constant.character.escape.python
     - match: \{\s*\}
       scope: invalid.illegal.empty-expression.python
-    - match: (?=\{)
-      push: f-string-replacement-reset
+    - include: f-string-replacements-reset
     - match: \}
       scope: invalid.illegal.stray-brace.python
 
-  f-string-replacement:
-    - clear_scopes: 1
-    - match: \}
-      scope: meta.interpolation.python punctuation.section.interpolation.end.python
-      pop: true
+  f-string-replacements:
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
-        - meta_scope: meta.interpolation.python
-        - match: (?=\})
-          pop: true
-        - match: '![ars]'
-          scope: storage.modifier.conversion.python
-        - match: =
-          scope: storage.modifier.debug.python
-        - match: ':'
-          push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
-            # Because replacements can also be used *within* the format-spec,
-            # basically any character is valid and matching {{format_spec}} is useless.
-            # - match: '{{format_spec}}'
-            - match: (?=\})
-              pop: true
-            - include: f-string-content
-        - match: ''
-          push:
-            - meta_content_scope: source.python.embedded
-            - match: (?==?(![^=]|:|\}))
-              pop: true
-            - match: \\
-              scope: invalid.illegal.backslash-in-fstring.python
-            - include: inline-for
-            - include: expression-in-a-group
+        - f-string-replacement-meta
+        - f-string-replacement-modifier
+        - f-string-replacement-expression
 
-  f-string-replacement-reset:
+  f-string-replacement-meta:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.python
+    - match: ''
+      pop: 1
+
+  f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - match: (?=\s*(?:=\s*)?(![^=]|:|\}))
+      pop: 1
+    - match: \\
+      scope: invalid.illegal.backslash-in-fstring.python
+    - include: inline-for
+    - include: expression-in-a-group
+
+  f-string-replacement-modifier:
+    - include: f-string-replacement-end
+    - include: f-string-replacement-common
+    - match: =
+      scope: storage.modifier.debug.python
+
+  f-string-replacements-reset:
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-reset-meta
+        - f-string-replacement-reset-modifier
+        - f-string-replacement-reset-expression
+
+  f-string-replacement-reset-meta:
     # Same as f-string-replacement, but with clear_scopes: true
     - clear_scopes: true
-    - meta_scope: source.python meta.string.interpolated.python
+    - meta_include_prototype: false
+    - meta_scope: source.python meta.string.interpolated.python meta.interpolation.python
+    - match: ''
+      pop: 1
+
+  f-string-replacement-reset-expression:
+    - meta_content_scope: source.python.embedded
+    - match: (?=![^=]|:|\})
+      pop: 1
+    - match: \\
+      scope: invalid.illegal.backslash-in-fstring.python
+    - include: inline-for
+    - include: expression-in-a-group
+
+  f-string-replacement-reset-modifier:
+    - include: f-string-replacement-end
+    - include: f-string-replacement-common
+
+  f-string-replacement-common:
+    - match: '![ars]'
+      scope: storage.modifier.conversion.python
+    - match: ':'
+      set: f-string-format-spec
+
+  f-string-format-spec:
+    - meta_scope: meta.format-spec.python constant.other.format-spec.python
+    # Because replacements can also be used *within* the format-spec,
+    # basically any character is valid and matching {{format_spec}} is useless.
+    # - match: '{{format_spec}}'
+    - include: f-string-replacement-end
+    - include: f-string-content
+
+  f-string-replacement-end:
     - match: \}
-      scope: meta.interpolation.python punctuation.section.interpolation.end.python
-      pop: true
-    - match: \{
-      scope: punctuation.section.interpolation.begin.python
-      push:
-        - meta_scope: meta.interpolation.python
-        - match: (?=\})
-          pop: true
-        - match: '![ars]'
-          scope: storage.modifier.conversion.python
-        - match: ':'
-          push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
-            - match: (?=\})
-              pop: true
-            - include: f-string-content
-        - match: ''
-          push:
-            - meta_content_scope: source.python.embedded
-            - match: (?=![^=]|:|\})
-              pop: true
-            - match: \\
-              scope: invalid.illegal.backslash-in-fstring.python
-            - include: inline-for
-            - include: expression-in-a-group
+      scope: punctuation.section.interpolation.end.python
+      pop: 2
 
   string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding

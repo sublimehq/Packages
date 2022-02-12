@@ -2,6 +2,6 @@
 	<content><![CDATA[case ${1:a} of ${2:True} -> ${3:$1}
 	${1/./ /g}     ${4:otherwise} -> ${0:$1}]]></content>
 	<tabTrigger>case</tabTrigger>
-	<scope>source.haskell</scope>
+	<scope>source.haskell - comment - string</scope>
 	<description>Case</description>
 </snippet>

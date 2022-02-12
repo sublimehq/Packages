@@ -26,6 +26,11 @@ boolean_attributes = {
     'typemustmatch'
 }
 
+void_elements = {
+    'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta',
+    'param', 'source', 'track', 'wbr'
+}
+
 
 def timing(func):
     @wraps(func)
@@ -466,7 +471,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return None
 
         pt = locations[0] - len(prefix) - 1
-        ch = view.substr(sublime.Region(pt, pt + 1))
+        ch = view.substr(pt)
 
         if ch == '&':
             return self.entity_completions
@@ -474,7 +479,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         if ch == '<':
             # If the caret is in front of `>` complete only tag names.
             # see: https://github.com/sublimehq/sublime_text/issues/3508
-            ch = view.substr(sublime.Region(locations[0], locations[0] + 1))
+            ch = view.substr(locations[0])
             if ch == '>':
                 return self.tag_name_completions
             return self.tag_completions
@@ -531,7 +536,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         expr = expr[::-1]
 
         attr = 'class' if op == '.' else 'id'
-        snippet = f'<{tag} {attr}=\"{arg}\">$0</{tag}>'
+        snippet = f'<{tag} {attr}=\"{arg}\">' if tag in void_elements else f'<{tag} {attr}=\"{arg}\">$0</{tag}>'
 
         return sublime.CompletionList(
             [

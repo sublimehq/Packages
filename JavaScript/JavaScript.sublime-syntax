@@ -256,6 +256,7 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
+        - import-assert
         - import-string-or-items
         - import-check-branch
 
@@ -336,6 +337,14 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       push: import-export-alias
+    - include: else-pop
+
+  import-assert:
+    - match: assert{{identifier_break}}
+      scope: keyword.control.import-export.js
+      set:
+        - include: object-literal
+        - include: else-pop
     - include: else-pop
 
   export-meta:
@@ -492,22 +501,22 @@ contexts:
 
   variable-binding-array-destructuring:
     - match: '\['
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.binding.destructuring.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: variable-binding-spread
         - include: variable-binding-list
 
   variable-binding-object-destructuring:
     - match: '\{'
-      scope: punctuation.section.block.begin.js
+      scope: punctuation.section.mapping.begin.js
       set:
         - meta_scope: meta.binding.destructuring.mapping.js
         - match: '\}'
-          scope: punctuation.section.block.end.js
+          scope: punctuation.section.mapping.end.js
           pop: true
         - include: variable-binding-spread
         - match: (?={{identifier_start}}|\[|'|")
@@ -578,6 +587,10 @@ contexts:
     - include: else-pop
 
   function-parameter-binding-name:
+    - match: '{{dollar_identifier}}'
+      scope: meta.binding.name.js variable.parameter.function.js
+      captures:
+        1: punctuation.dollar.js
     - match: '{{non_reserved_identifier}}'
       scope: meta.binding.name.js variable.parameter.function.js
     - match: '{{identifier_name}}'
@@ -585,23 +598,23 @@ contexts:
 
   function-parameter-binding-array-destructuring:
     - match: '\['
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.binding.destructuring.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: function-parameter-binding-list
 
   function-parameter-binding-object-destructuring:
     - match: '\{'
-      scope: punctuation.section.block.begin.js
+      scope: punctuation.section.mapping.begin.js
       set:
         - meta_scope: meta.binding.destructuring.mapping.js
         - match: ','
           scope: punctuation.separator.parameter.function.js
         - match: '\}'
-          scope: punctuation.section.block.end.js
+          scope: punctuation.section.mapping.end.js
           pop: true
         - include: function-parameter-binding-spread
         - match: (?={{identifier_start}}|\[|'|")
@@ -1650,14 +1663,14 @@ contexts:
 
   object-literal:
     - match: '\{'
-      scope: punctuation.section.block.begin.js
+      scope: punctuation.section.mapping.begin.js
       set: object-literal-contents
 
   object-literal-contents:
     - meta_scope: meta.mapping.js
 
     - match: '\}'
-      scope: punctuation.section.block.end.js
+      scope: punctuation.section.mapping.end.js
       pop: true
 
     - match: \.\.\.
@@ -1715,9 +1728,7 @@ contexts:
         - object-property-name
 
   object-property-name:
-    - match: (?=\[)
-      set: computed-property-name
-
+    - include: computed-property-name
     - include: literal-string
     - include: literal-number
 
@@ -1786,8 +1797,7 @@ contexts:
           pop: true
         - include: string-content
 
-    - match: (?=\[)
-      push: computed-property-name
+    - include: computed-property-name
 
     - include: else-pop
 
@@ -1799,6 +1809,11 @@ contexts:
       pop: true
     - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
+      pop: true
+    - match: (#)({{identifier_name}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: variable.other.readwrite.js
       pop: true
     - match: "'"
       scope: punctuation.definition.string.begin.js
@@ -1826,13 +1841,8 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-    - match: (#)({{identifier_name}})
-      captures:
-        1: punctuation.definition.variable.js
-        2: variable.other.readwrite.js
 
-    - match: (?=\[)
-      push: computed-property-name
+    - include: computed-property-name
 
     - include: else-pop
 
@@ -1876,11 +1886,11 @@ contexts:
 
   array-literal:
     - match: '\['
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: expression-list
 

@@ -20,6 +20,7 @@ file_extensions:
   - sublime-workspace
   - ipynb
   - Pipfile.lock
+  - gltf
 
 first_line_match: |-
   (?xi:

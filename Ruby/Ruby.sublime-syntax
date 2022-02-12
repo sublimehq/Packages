@@ -29,6 +29,7 @@ scope: source.ruby
 
 file_extensions:
   - rb
+  - rbi
   - Appfile
   - Appraisals
   - Berksfile

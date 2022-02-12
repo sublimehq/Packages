@@ -43,6 +43,9 @@ variables:
       | text/livescript
     )
 
+  # https://mimesniff.spec.whatwg.org/#json-mime-type
+  json_mime_type: (?i:application/|text/|.+\+)json
+
   # Embedded script and style syntaxes may be wrapped into html comments for
   # historical reasons. The following patterns match them, while maintaining
   # correct boundaries of embedded source scopes. That's required to enable
@@ -208,6 +211,18 @@ contexts:
 
   script-javascript-content:
     - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js
+      embed_scope: meta.tag.sgml.cdata.html source.js.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
     - match: '{{script_content_begin}}'
       captures:
         1: comment.block.html punctuation.definition.comment.begin.html
@@ -219,6 +234,40 @@ contexts:
         1: source.js.embedded.html
         2: comment.block.html punctuation.definition.comment.end.html
         3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  script-json:
+    - meta_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set: script-json-content
+
+  script-json-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json
+      embed_scope: meta.tag.sgml.cdata.html source.json.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json
+      embed_scope: source.json.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.json.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.json.embedded.html
         4: comment.block.html punctuation.definition.comment.end.html
 
   script-html:
@@ -272,6 +321,11 @@ contexts:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
+    - match: (?={{json_mime_type}}{{unquoted_attribute_break}}|'{{json_mime_type}}'|"{{json_mime_type}}")
+      set:
+        - script-json
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
     - match: (?=(?i:text/html{{unquoted_attribute_break}}|'text/html'|"text/html"))
       set:
         - script-html
@@ -317,6 +371,18 @@ contexts:
 
   style-css-content:
     - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css
+      embed_scope: meta.tag.sgml.cdata.html source.css.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
     - match: '{{style_content_begin}}'
       captures:
         1: comment.block.html punctuation.definition.comment.begin.html

@@ -155,9 +155,20 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
+        - import-assert
         - import-string-or-items
         - ts-import-type
         - import-check-branch
+
+  import-brace:
+    - meta_prepend: true
+    - match: type{{identifier_break}}
+      scope: keyword.control.import-export.ts
+
+  export-brace:
+    - meta_prepend: true
+    - match: type{{identifier_break}}
+      scope: keyword.control.import-export.ts
 
   property-access:
     - meta_prepend: true
@@ -869,11 +880,11 @@ contexts:
 
   ts-type-tuple:
     - match: \[
-      scope: punctuation.section.brackets.begin.js
+      scope: punctuation.section.sequence.begin.js
       set:
         - meta_scope: meta.sequence.js
         - match: \]
-          scope: punctuation.section.brackets.end.js
+          scope: punctuation.section.sequence.end.js
           pop: true
         - include: comma-separator
         - match: \.\.\.

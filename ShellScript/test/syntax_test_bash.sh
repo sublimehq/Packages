@@ -168,6 +168,10 @@ echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z\''
 #                                                          ^^ constant.character.escape.shell
 #                                                            ^ punctuation.definition.string.end.shell
 
+echo -e "\e[33mcolored text\e[0m uncolored"
+#        ^^^^^^ constant.character.escape.color.shell
+#                          ^^^^^ constant.character.escape.color.shell
+
 echo $'Hello\' World\\'
 #    ^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.ansi-c.shell
 #    ^^ punctuation.definition.string.begin.shell

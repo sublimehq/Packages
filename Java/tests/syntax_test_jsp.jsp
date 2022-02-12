@@ -83,6 +83,78 @@
 
     </script>
 //  ^^^^^^^^^ meta.tag.script.end.html
+
+    <!-- XHTML/JSPX: wrap scripts in CDATA -->
+    <script><![CDATA[var i = 0;]]></script>
+    // ^^^^^ meta.tag.script.begin.html - source
+    //      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //                            ^^^^^^^^^ meta.tag.script.end.html
+    //      ^^^ punctuation.definition.tag.begin.html
+    //         ^^^^^ keyword.declaration.cdata.html
+    //              ^ punctuation.definition.tag.begin.html
+    //               ^^^^^^^^^^ source.js.embedded.html
+    //                         ^^^ punctuation.definition.tag.end.html
+
+    <script>
+        <![CDATA[
+    // ^ - meta.tag - punctuation - source
+    //  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //  ^^^ punctuation.definition.tag.begin.html
+    //     ^^^^^ keyword.declaration.cdata.html
+    //          ^ punctuation.definition.tag.begin.html
+            var i = <% initialValue() %>;
+    //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html source.js.embedded.html
+    //              ^^^^^^^^^^^^^^^^^^^^ meta.embedded.scriptlet.jsp
+        ]]>
+    // ^ meta.tag.sgml.cdata.html source.js.embedded.html
+    //  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    //     ^ - meta.tag - punctuation - source
+    </script>
+
+    <script type="text/html">
+        <![CDATA[
+    // ^ - meta.tag - punctuation - source
+    //  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //  ^^^ punctuation.definition.tag.begin.html
+    //     ^^^^^ keyword.declaration.cdata.html
+    //          ^ punctuation.definition.tag.begin.html
+            var i = 0;
+    //    ^^^^^^^^^^^^^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+        ]]>
+    // ^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+    //  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    //     ^ - meta.tag - punctuation - source
+    </script>
+
+    <!-- XHTML: wrap style in CDATA -->
+    <style><![CDATA[h1 {}]]></style>
+    // ^^^^ meta.tag.style.begin.html - source
+    //     ^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //                      ^^^^^^^^ meta.tag.style.end.html
+    //     ^^^ punctuation.definition.tag.begin.html
+    //        ^^^^^ keyword.declaration.cdata.html
+    //             ^ punctuation.definition.tag.begin.html
+    //              ^^^^^ source.css.embedded.html
+    //                   ^^^ punctuation.definition.tag.end.html
+    //                      ^^ punctuation.definition.tag.begin.html
+    //                        ^^^^^ entity.name.tag.style.html
+    //                             ^ punctuation.definition.tag.end.html
+
+    <style>
+        <![CDATA[
+    // ^ - meta.tag - punctuation - source
+    //  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+    //  ^^^ punctuation.definition.tag.begin.html
+    //     ^^^^^ keyword.declaration.cdata.html
+    //          ^ punctuation.definition.tag.begin.html
+            h1 {}
+    //     ^^^^^^^ meta.tag.sgml.cdata.html source.css.embedded.html
+        ]]>
+    // ^ meta.tag.sgml.cdata.html source.css.embedded.html
+    //  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    //     ^ - meta.tag - punctuation - source
+    </style>
+
 </head>
 <body>
 
@@ -655,14 +727,14 @@
 //                                              ^^^ meta.tag.inline.any.html
 
     <c:forEach var="customer" items="${customers}">
-//                                  ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation
-//                                   ^^^^^^^^^^^^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html meta.interpolation.jsp
-//                                               ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation
+//                                  ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation - meta.embedded
+//                                   ^^^^^^^^^^^^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html meta.interpolation.jsp meta.embedded.expression.jstl
+//                                               ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation - meta.embedded
 //                                                ^ meta.tag.other.begin.html - meta.string - meta.interpolation
 //                                  ^ string.quoted.double.html punctuation.definition.string.begin.html
-//                                   ^^ punctuation.section.interpolation.begin.jsp
-//                                     ^^^^^^^^^ source.java.embedded.jsp meta.variable.identifier.java variable.other.java
-//                                              ^ punctuation.section.interpolation.end.jsp
+//                                   ^^ punctuation.section.embedded.begin.jstl
+//                                     ^^^^^^^^^ variable.other.jstl
+//                                              ^ punctuation.section.embedded.end.jstl
 //                                               ^ string.quoted.double.html punctuation.definition.string.end.html
 
     </c:forEach>
@@ -673,5 +745,105 @@
 //      ^^^^^^^ entity.name.tag.localname.html
 //             ^ punctuation.definition.tag.end.html
 
+    <!--
+    ---------------------------------------------------------------------------
+    -- JSTL VARIABLES AND EXPRESSION LANGUAGE
+    ---------------------------------------------------------------------------
+    -->
+
+    ${fn:substringAfter(string, "Nakul")}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//    ^^^^^^^^^^^^^^^^^ meta.function-call.identifier.jstl meta.path.jstl
+//                     ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.jstl meta.group.jstl
+//  ^^ punctuation.section.embedded.begin.jstl - source.java
+//    ^^ variable.namespace.jstl
+//      ^ punctuation.accessor.namespace.jstl
+//       ^^^^^^^^^^^^^^ variable.function.jstl
+//                     ^ punctuation.section.group.begin.jstl
+//                      ^^^^^^ variable.other.jstl
+//                            ^ punctuation.separator.comma.jstl
+//                              ^^^^^^^ string.quoted.double.jstl
+//                                     ^ punctuation.section.group.end.jstl
+//                                      ^ punctuation.section.embedded.end.jstl - source.java
+
+    ${empty varname}
+//  ^^^^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//  ^^ punctuation.section.embedded.begin.jstl
+//    ^^^^^ keyword.operator.logical.jstl
+//          ^^^^^^^ variable.other.jstl - meta.path
+//                 ^ punctuation.section.embedded.end.jstl
+
+    ${!empty foo.bar.varname}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//           ^^^^^^^^^^^^^^^ meta.path.jstl
+//  ^^ punctuation.section.embedded.begin.jstl
+//    ^^^^^^ keyword.operator.logical.jstl
+//           ^^^ variable.namespace.jstl
+//              ^ punctuation.accessor.namespace.jstl
+//               ^^^ variable.namespace.jstl
+//                  ^ punctuation.accessor.namespace.jstl
+//                   ^^^^^^^ variable.other.jstl
+//                          ^ punctuation.section.embedded.end.jstl
+
+    ${not header[key]}
+//  ^^^^^^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//  ^^ punctuation.section.embedded.begin.jstl
+//    ^^^ keyword.operator.logical.jstl
+//        ^^^^^^ support.variable.jstl
+//              ^^^^^ meta.brackets.jstl
+//              ^ punctuation.section.brackets.begin.jstl
+//               ^^^ variable.other.jstl
+//                  ^ punctuation.section.brackets.end.jstl
+//                   ^ punctuation.section.embedded.end.jstl
+
+    ${test ? ns:foo() : Boolean.false}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//    ^^^^ variable.other.jstl
+//         ^ keyword.operator.ternary.jstl
+//           ^^^^^^ meta.function-call.identifier.jstl meta.path.jstl
+//           ^^ variable.namespace.jstl
+//             ^ punctuation.accessor.namespace.jstl
+//              ^^^ variable.function.jstl
+//                 ^^ meta.function-call.arguments.jstl meta.group.jstl
+//                 ^ punctuation.section.group.begin.jstl
+//                  ^ punctuation.section.group.end.jstl
+//                    ^ keyword.operator.ternary.jstl
+//                      ^^^^^^^^^^^^^ meta.path.jstl
+//                      ^^^^^^^ variable.namespace.jstl
+//                             ^ punctuation.accessor.namespace.jstl
+//                              ^^^^^ constant.language.boolean.jstl
+//                                   ^ punctuation.section.embedded.end.jstl
+
+    ${obj1 != null &&
+      obj2 != null}
+//    ^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//    ^^^^ variable.other.jstl
+//         ^^ keyword.operator.comparison.jstl
+//            ^^^^ constant.language.null.jstl
+//                ^ punctuation.section.embedded.end.jstl
+
+    ${!(2 == 3)}
+//  ^^^ meta.embedded.expression.jstl - meta.group
+//     ^^^^^^^^ meta.embedded.expression.jstl meta.group.jstl
+//             ^ meta.embedded.expression.jstl - meta.group
+//  ^^ punctuation.section.embedded.begin.jstl
+//    ^ keyword.operator.logical.jstl
+//     ^ punctuation.section.group.begin.jstl
+//      ^ meta.number.integer.decimal.jstl constant.numeric.value.jstl
+//        ^^ keyword.operator.comparison.jstl
+//           ^ meta.number.integer.decimal.jstl constant.numeric.value.jstl
+//            ^ punctuation.section.group.end.jstl
+//             ^ punctuation.section.embedded.end.jstl
+
+    ${1.43 -2.35 2.34E9}
+//  ^^^^^^^^^^^^^^^^^^^^ meta.embedded.expression.jstl
+//  ^^ punctuation.section.embedded.begin.jstl
+//    ^^^^ meta.number.float.decimal.jstl constant.numeric.value.jstl
+//     ^ punctuation.separator.decimal.jstl
+//         ^ keyword.operator.arithmetic.jstl
+//          ^^^^ meta.number.float.decimal.jstl constant.numeric.value.jstl
+//           ^ punctuation.separator.decimal.jstl
+//               ^^^^^^ meta.number.float.decimal.jstl constant.numeric.value.jstl
+//                ^ punctuation.separator.decimal.jstl
 </body>
 </html>

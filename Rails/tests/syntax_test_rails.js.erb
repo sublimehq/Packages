@@ -1,0 +1,40 @@
+// SYNTAX TEST "Packages/Rails/JavaScript (Rails).sublime-syntax"
+
+function <% @rubyFunction %> ( <% @args %> ) {
+//       ^^^^^^^^^^^^^^^^^^^ meta.function.js meta.embedded.rails
+//                          ^ meta.function.js - meta.embedded
+//                           ^^ meta.function.parameters.js - meta.embedded
+//                             ^^^^^^^^^^^ meta.function.parameters.js meta.embedded.rails
+//                                        ^^ meta.function.parameters.js
+//                                          ^^^ meta.function.js
+//       ^^ punctuation.section.embedded.begin.rails
+//         ^^^^^^^^^^^^^^^ source.ruby.rails.embedded.rails
+//                        ^^ punctuation.section.embedded.end.rails
+//                           ^ punctuation.section.group.begin.js
+//                             ^^ punctuation.section.embedded.begin.rails
+//                               ^^^^^^^ source.ruby.rails.embedded.rails
+//                                      ^^ punctuation.section.embedded.end.rails
+//                                         ^ punctuation.section.group.end.js
+//                                           ^ punctuation.section.block.begin.js
+    <% if (true) %>
+//  ^^^^^^^^^^^^^^^ meta.function.js meta.block.js meta.embedded.rails
+//  ^^ punctuation.section.embedded.begin.rails
+//    ^^^^^^^^^^^ source.ruby.rails.embedded.rails
+//               ^^ punctuation.section.embedded.end.rails
+
+        System.out.println("Error: <% @ruby_error %>");
+//                         ^^^^^^^^ meta.string.js - meta.interpolation
+//                                 ^^^^^^^^^^^^^^^^^ meta.string.js meta.interpolation.rails meta.embedded.rails
+//                                                  ^ meta.string.js - meta.interpolation
+//                         ^^^^^^^^ string.quoted.double.js
+//                                 ^^ punctuation.section.embedded.begin.rails
+//                                   ^^^^^^^^^^^^^ source.ruby.rails.embedded.rails
+//                                                ^^ punctuation.section.embedded.end.rails
+//                                                  ^ string.quoted.double.js punctuation.definition.string.end.js
+
+    <% end %>
+//  ^^^^^^^^^ meta.function.js meta.block.js meta.embedded.rails
+//  ^^ punctuation.section.embedded.begin.rails
+//    ^^^^^ source.ruby.rails.embedded.rails
+//         ^^ punctuation.section.embedded.end.rails
+}

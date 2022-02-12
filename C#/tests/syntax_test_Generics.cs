@@ -163,3 +163,65 @@ string Frag
 /// ^ punctuation.section.block.end - invalid
 }
 /// <- punctuation.section.block.end
+
+
+class X {
+    void M ()
+    {
+        Z<int>(P, x => { return 1; });
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call - invalid
+///     ^ variable.function
+///      ^^^^^ meta.generic
+///       ^^^ storage.type
+///           ^ punctuation.section.group.begin - meta.generic
+///            ^ variable.other
+///             ^ punctuation.separator.argument
+///               ^^^^^^ meta.function.anonymous
+///                 ^^ keyword.declaration.function.arrow
+///                    ^ punctuation.section.block.begin
+///                      ^^^^^^ keyword.control.flow.return
+///                             ^ meta.number.integer.decimal constant.numeric.value
+///                              ^ punctuation.terminator.statement
+///                                ^ punctuation.section.block.end
+///                                 ^ punctuation.section.group.end
+///                                  ^ punctuation.terminator.statement
+        Z(P, x => { return 1; });
+        Z<int> (P, x => { return 1; });
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call - invalid
+///     ^ variable.function
+///      ^^^^^ meta.generic
+///       ^^^ storage.type
+///           ^ - meta.group
+///            ^ punctuation.section.group.begin - meta.generic
+///             ^ variable.other
+///              ^ punctuation.separator.argument
+///                ^^^^^^ meta.function.anonymous
+///                  ^^ keyword.declaration.function.arrow
+///                     ^ punctuation.section.block.begin
+///                       ^^^^^^ keyword.control.flow.return
+///                              ^ meta.number.integer.decimal constant.numeric.value
+///                               ^ punctuation.terminator.statement
+///                                 ^ punctuation.section.block.end
+///                                  ^ punctuation.section.group.end
+///                                   ^ punctuation.terminator.statement
+        Z (P, x => { return 1; });
+
+        X.Z <int>();
+///     ^ variable.other
+///      ^ punctuation.accessor.dot
+///       ^^^^^^^^^ meta.function-call
+///       ^ variable.function
+///         ^ meta.generic punctuation.definition.generic.begin
+///          ^^^ meta.generic storage.type
+///             ^ meta.generic punctuation.definition.generic.end
+///              ^ meta.group punctuation.section.group.begin - meta.generic
+///               ^ meta.group punctuation.section.group.end
+///                ^ punctuation.terminator.statement
+        X.Z<int>();
+    }
+
+    string P { get => null; }
+    void Z<T> (string p1, Func<int, T> func)
+    {
+    }
+}

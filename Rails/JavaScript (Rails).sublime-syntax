@@ -1,26 +1,20 @@
 %YAML 1.2
 ---
 name: JavaScript (Rails)
+scope: source.js.rails
+version: 2
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
 file_extensions:
   - js.erb
-scope: source.js.rails
+
 contexts:
-  main:
-    - match: "<%+#"
-      scope: punctuation.definition.comment.erb
-      push:
-        - meta_scope: comment.block.erb
-        - match: "%>"
-          pop: true
-    - match: "<%+(?!>)[-=]?"
-      scope: punctuation.section.embedded.ruby
-      push:
-        - meta_scope: source.ruby.rails.erb
-        - match: "-?%>"
-          pop: true
-        - match: (#).*?(?=-?%>)
-          scope: comment.line.number-sign.ruby
-          captures:
-            1: punctuation.definition.comment.ruby
-        - include: "Ruby on Rails.sublime-syntax"
-    - include: 'scope:source.js'
+
+  prototype:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  string-content:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations

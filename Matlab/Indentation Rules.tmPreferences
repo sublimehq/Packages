@@ -11,10 +11,10 @@
 		<string>(?x)^\s*
 		\b(
 		classdef|properties|events|methods|enumeration
-		|function
+		|function|arguments
 		|if|else|elseif
 		|switch|case|otherwise
-		|for|while
+		|for|while|parfor
 		|try|catch
 		|unwind_protect
 		)\b

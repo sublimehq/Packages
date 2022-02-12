@@ -259,10 +259,23 @@ $a = $b ? : $c::MY_CONST;
 //            ^^ punctuation.accessor.double-colon
 //              ^^^^^^^^ constant.other.class
 
-$arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c'];
+$arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
+//      ^^^^^ support.function.construct
+//           ^ punctuation.section.array.begin
+//                 ^^^ keyword.operator.spread
+//                    ^^^^^ variable.other
+//                                ^^^ keyword.operator.spread
+//                                             ^ punctuation.separator.comma
+//                                              ^ punctuation.section.array.end
+
+$arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c',];
+//      ^ punctuation.section.array.begin
+//          ^ punctuation.separator.comma
 //            ^^^ keyword.operator.spread
 //               ^^^^^ variable.other
 //                           ^^^ keyword.operator.spread
+//                                        ^ punctuation.separator.comma
+//                                         ^ punctuation.section.array.end
 
 $array = [   ];
 //       ^ meta.array.empty.php punctuation.section.array.begin.php
@@ -965,9 +978,9 @@ func_call(true, 1, "string");
 //       ^ punctuation.section.group.begin
 //                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
-//            ^ punctuation.separator.php
+//            ^ punctuation.separator.comma
 //              ^ meta.number.integer.decimal constant.numeric.value
-//               ^ punctuation.separator.php
+//               ^ punctuation.separator.comma
 //                 ^^^^^^^^ string.quoted.double
 
 $object->method(func_call());
@@ -1031,7 +1044,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
-//                       ^ punctuation.separator.php
+//                       ^ punctuation.separator.comma
 //                         ^ variable.other.php
 //                                ^ punctuation.section.group.end.php
 //                                  ^ storage.modifier.extends.php
@@ -1042,6 +1055,9 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                           ^ entity.other.inherited-class.php
 //                                                                     ^^ meta.class.php
 //                                                                     ^^ meta.block.php
+
+$user_1 = new User("John", "a@b.com");
+//                       ^ punctuation.separator.comma
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
@@ -1626,14 +1642,17 @@ if ($a !== $b || $a == $b);
 //                  ^^ keyword.operator.comparison
 
 if ():
+//   ^ punctuation.separator.colon
 else:
 // <- keyword.control - entity.name.label
+//  ^ punctuation.separator.colon
 endif;
 
 switch (1) {
 //^ keyword.control
     case 1:
   //^^^^ keyword.control.php - entity.name.label.php
+  //      ^ punctuation.separator.colon
     default:
   //^^^^^^^ keyword.control.php - entity.name.label.php
 }
@@ -1910,7 +1929,30 @@ CSS;
 // ^ punctuation.terminator.expression
 //  ^ meta.heredoc-end
 
-echo <<<SQL
+echo <<< yml
+//   ^^^ keyword.operator.heredoc
+//       ^^^ meta.string.heredoc meta.tag.heredoc
+//       ^^^ entity.name.tag.heredoc
+one: two
+//^^^^^^ meta.embedded.yaml source.yaml
+//^ string.unquoted.plain.out entity.name.tag
+// ^       punctuation.separator.key-value.mapping
+//   ^^^ string.unquoted.plain.out
+three: "$four"
+//^^^^^^^^^^^^ meta.embedded.yaml source.yaml
+//^^^ string.unquoted.plain.out entity.name.tag
+//   ^       punctuation.separator.key-value.mapping
+//     ^^^^^^^ string.quoted.double
+//      ^^^^^ variable.other.php
+Yml;
+// <- meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
+//^^ meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
+yml;
+// <- entity.name.tag.heredoc
+// ^ punctuation.terminator.expression
+//  ^ meta.heredoc-end
+
+echo <<<sql
 //   ^^^ keyword.operator.heredoc
 //      ^^^ meta.string.heredoc meta.tag.heredoc
 //      ^^^ entity.name.tag.heredoc
@@ -1920,7 +1962,7 @@ SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
-SQL;
+sql;
 // <- entity.name.tag.heredoc
 // ^ punctuation.terminator.expression
 //  ^ meta.heredoc-end
@@ -2107,6 +2149,14 @@ class D {
 //                  ^^^^^^ entity.name.function.php - support.function.magic.php
     {
     }
+}
+
+class E {
+    public function __construct(
+        public readonly int $val = 1
+//      ^^^^^^ storage.modifier
+//             ^^^^^^^^ storage.modifier
+    ) {}
 }
 
 var_dump(new C(42));

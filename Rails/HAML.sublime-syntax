@@ -1,0 +1,321 @@
+%YAML 1.2
+# https://haml.info/docs/yardoc/file.REFERENCE.html
+---
+name: HAML
+scope: text.haml
+version: 2
+
+file_extensions:
+  - haml
+
+variables:
+
+  filter_escapes: ^(?!(\1\s)|\s*$)
+
+contexts:
+
+  main:
+    - include: comments
+    - include: doctypes
+    - include: tags
+    - include: escapes
+    - include: filters
+    - include: rubylines
+    - include: continuations
+    - include: interpolations
+
+###[ COMMENTS ]###############################################################
+
+  comments:
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#comments
+    # haml comments
+    - match: ^ *(-#)\s*\S.*$\n?
+      scope: comment.line.slash.haml
+      captures:
+        1: punctuation.definition.comment.haml
+    - match: ^( *)(-#)\s*$
+      captures:
+        2: punctuation.definition.comment.haml
+      push: comment-body
+    # html comments
+    - match: ^( *)(/)((\[)[^\]]*(\]))?\s*$
+      captures:
+        2: punctuation.definition.comment.haml
+        3: meta.brackets.haml
+        4: punctuation.section.brackets.begin.haml
+        5: punctuation.section.brackets.end.haml
+      push: comment-body
+    - match: ^ *(/)((\[)[^\]]*(\]))?\s*\S.*$\n?
+      scope: comment.line.slash.haml
+      captures:
+        1: punctuation.definition.comment.haml
+        2: meta.brackets.haml
+        3: punctuation.section.brackets.begin.haml
+        4: punctuation.section.brackets.end.haml
+
+  comment-body:
+    - meta_scope: comment.block.haml
+    - match: ^(?!\1  )
+      pop: 1
+    - include: main
+
+###[ CONTINUATIONS ]##########################################################
+
+  continuations:
+    # Attribute sections and embedded ruby code may continue on next line
+    # if the current line is terminated with comma.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#attributes
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#running-ruby--
+    - match: (,)\n
+      captures:
+        1: punctuation.separator.sequence.haml
+      push: comma-continuations-body
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#multiline
+    - match: (\|)\s*\n
+      captures:
+        1: punctuation.separator.continuation.haml
+      push: pipe-continuations-body
+
+  comma-continuations-body:
+    # Skip "line ends with pipe" check if previous line was continued by comma.
+    - match: (?=\S)
+      pop: 1
+
+  pipe-continuations-body:
+    - match: ^
+      pop: 1
+
+###[ HAML TAGS ]##############################################################
+
+  doctypes:
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#doctype-
+    - match: ^(!!!)(\s+(.*)\s*)?$
+      scope: meta.doctype.haml
+      captures:
+        1: punctuation.definition.doctype.haml
+        2: constant.language.doctype.haml
+
+  escapes:
+    - match: ^\s*(\\.)
+      captures:
+        1: meta.escape.haml
+
+  tags:
+    - match: ^\s*(?:((%)([\w:-]+))|(?=\.|#))
+      captures:
+        1: meta.tag.haml
+        2: punctuation.definition.tag.haml
+        3: entity.name.tag.haml
+      push: tag-content
+
+  tag-content:
+    - match: (\.)[\w-]+
+      scope: meta.tag.haml entity.name.tag.class.haml
+      captures:
+        1: punctuation.definition.tag.haml
+    - match: (#)[\w-]+
+      scope: meta.tag.haml entity.name.tag.id.haml
+      captures:
+        1: punctuation.definition.tag.haml
+    - match: \{(?=.*\}|.*(,|\|\s*)$)
+      scope: punctuation.section.braces.begin.haml
+      push: tag-attributes-content
+    - match: \[(?=.*\]|.*(,|\|\s*)$)
+      scope: punctuation.section.brackets.begin.haml
+      push: tag-object-content
+    - match: \(
+      scope: punctuation.section.parens.begin.haml
+      push: tag-attributes-html
+    - include: rubyline
+    - match: /
+      scope: punctuation.terminator.tag.haml
+    - match: '[<>]'
+      scope: keyword.operator.whitespace.haml
+    - match: ''
+      pop: 1
+
+  tag-attributes-content:
+    - meta_scope: meta.tag.attributes.haml meta.braces.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - match: \}(?!.*\})
+      scope: punctuation.section.braces.end.haml
+      pop: 1
+    - include: ruby-code
+
+  tag-object-content:
+    - meta_scope: meta.tag.object.haml meta.brackets.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - match: \](?!.*\])
+      scope: punctuation.section.brackets.end.haml
+      pop: 1
+    - include: ruby-code
+
+  tag-attributes-html:
+    - meta_scope: meta.tag.attributes.haml meta.parens.haml
+    - match: \)
+      scope: punctuation.section.parens.end.haml
+      pop: 1
+    - include: scope:text.html.embedded.haml#tag-attributes
+      apply_prototype: true
+
+###[ FILTERS ]##########################################################
+
+  filters:
+    # Notes:
+    # 1. Markdown is not implemented as it fails to render due to
+    #    indentation and because it embedds many syntaxes itself.
+    # 2. Syntaxes not part of this repo (LESS, SCSS, SASS, CoffeeScript)
+    #    are not implemented as those would cause issues when not present.
+    # source:
+    #   https://github.com/haml/haml/blob/main/lib/haml/filters.rb
+    - include: filters-css
+    - include: filters-erb
+    - include: filters-javascript
+    - include: filters-ruby
+    - include: filters-plain
+
+  filters-css:
+    - match: ^(\s*)((:)(css)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.css.filter.haml
+      embed: scope:source.css.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.css.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-erb:
+    - match: ^(\s*)((:)(erb)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.erb.haml
+      embed: scope:text.html.rails
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        text.html.rails.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-javascript:
+    - match: ^(\s*)((:)(javascript)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.javascript.haml
+      embed: scope:source.js.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.js.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-plain:
+    # all unrecognized filters are handled as plain text
+    # known filters: cdata|escaped|markdown|plain|preserve
+    - match: ^(\s*)((:)([[:alpha:]_][[:alnum:]_]*)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.plain.haml
+      push:
+        - meta_content_scope: meta.filter.haml text.plain.embedded.haml
+        - match: '{{filter_escapes}}'
+          pop: 1
+
+  filters-ruby:
+    - match: ^(\s*)((:)(ruby)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.ruby.haml
+      embed: scope:source.ruby.rails.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.ruby.rails.embedded.haml
+      escape: '{{filter_escapes}}'
+
+###[ EMBEDDED RUBY ]##########################################################
+
+  rubylines:
+    - match: ^\s*(=|-|~)
+      scope: punctuation.section.embedded.haml
+      push: rubyline-body
+
+  rubyline:
+    - match: (=|-|~)
+      scope: punctuation.section.embedded.haml
+      set: rubyline-body
+
+  rubyline-body:
+    - meta_scope: meta.line.ruby.haml meta.embedded.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - match: ((do|\{)( \|[^|]+\|)?)$
+      captures:
+        1: source.ruby.rails.embedded.html
+        2: keyword.control.start-block.ruby
+      pop: 1
+    - include: ruby-code
+
+  ruby-code:
+    - match: $
+      pop: 1
+    # A line after a pipe-continuation must be terminated by pipe, too.
+    - match: ^(?!.*(\|\s*$))
+      pop: 1
+    - include: scope:source.ruby.rails.embedded.haml
+      apply_prototype: true
+
+###[ INTERPOLATIONS ]#########################################################
+
+  string-interpolations:
+    # Interpolation with clearing `string` scope.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
+    # Used in
+    # - `HTML (for HAML).sublime-syntax`
+    # - `CSS (for HAML).sublime-syntax`
+    # - `JavaScript (for HAML).sublime-syntax`
+    - match: \#\{
+      scope: punctuation.section.interpolation.begin.haml
+      push: string-interpolation-expression
+    - match: (?=#[@$])
+      push: string-interpolation-variable
+
+  string-interpolation-expression:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - include: interpolation-expression
+
+  string-interpolation-variable:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.haml
+    - include: interpolation-variable
+
+  interpolations:
+    # Interpolation without clearing `string` scope for use in plain text.
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#ruby-interpolation-
+    # Used in:
+    # - `CSS (for HAML).sublime-syntax`
+    # - `JavaScript (for HAML).sublime-syntax`
+    - match: \#\{
+      scope: punctuation.section.interpolation.begin.haml
+      push: interpolation-expression
+    - match: (?=#[@$])
+      push: interpolation-variable
+
+  interpolation-expression:
+    - meta_scope: meta.interpolation.haml
+    - meta_content_scope: source.ruby.rails.embedded.haml
+    - match: \}
+      scope: punctuation.section.interpolation.end.haml
+      pop: 1
+    - include: scope:source.ruby.rails.embedded.haml#nest-curly-expressions
+      apply_prototype: true
+    - include: scope:source.ruby.rails.embedded.haml#expressions
+      apply_prototype: true
+
+  interpolation-variable:
+    - meta_scope: meta.interpolation.haml
+    - include: scope:source.ruby.rails.embedded.haml#interpolated-ruby-variables
+      apply_prototype: true

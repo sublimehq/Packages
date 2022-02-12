@@ -1958,6 +1958,8 @@ contexts:
       scope: constant.character.escape.shell
 
   string-escapes:
+    - match: '\\(?:e|033)\[\d{1,3}(?:;\d{1,3}){0,4}m'
+      scope: constant.character.escape.color.shell
     - match: \\[$`"\\]
       scope: constant.character.escape.shell
 

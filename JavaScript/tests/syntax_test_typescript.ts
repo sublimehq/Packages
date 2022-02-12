@@ -120,6 +120,20 @@ import foo;
 //                       ^^^^ keyword.control.import-export
 //                            ^^^^^^^^^^^ meta.string string.quoted.single
 
+    import { type W } from 'somewhere';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^^^^ meta.block
+//         ^ punctuation.section.block.begin
+//           ^^^^ keyword.control.import-export.ts
+//                ^ variable.other.readwrite
+//                  ^ punctuation.section.block.end
+//                    ^^^^ keyword.control.import-export
+//                         ^^^^^^^^^^^ meta.string string.quoted.single
+//                         ^ punctuation.definition.string.begin
+//                                   ^ punctuation.definition.string.end
+//                                    ^ punctuation.terminator.statement
+
     export type T = any;
 //  ^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
@@ -167,6 +181,18 @@ import foo;
 //                 ^^^^^^^^^^^^^^^^ meta.interface
 //                 ^^^^^^^^^ keyword.declaration
 //                           ^^^  entity.name.interface
+
+    export { type T as U };
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^^^^^^^^^^^^ meta.block
+//         ^ punctuation.section.block.begin
+//           ^^^^ keyword.control.import-export.ts
+//                ^ variable.other.readwrite
+//                  ^^ keyword.control.import-export
+//                     ^ variable.other.readwrite
+//                       ^ punctuation.section.block.end
+//                        ^ punctuation.terminator.statement
 
 /* Declarations */
 
@@ -754,7 +780,7 @@ let x: any [
 let x: any
 //     ^^^ meta.type support.type.any
     [];
-//  ^^ meta.sequence punctuation.section.brackets - meta.type
+//  ^^ meta.sequence punctuation.section.sequence - meta.type
 
 let x: Foo<any, any>;
 //     ^^^^^^^^^^^^^ meta.type
@@ -775,7 +801,7 @@ function f<T extends Foo>() {}
 
 let x: [ any , any ? , ... any [] ];
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type meta.sequence
-//     ^ punctuation.section.brackets.begin
+//     ^ punctuation.section.sequence.begin
 //       ^^^ support.type.any
 //           ^ punctuation.separator.comma
 //             ^^^ support.type.any
@@ -784,7 +810,7 @@ let x: [ any , any ? , ... any [] ];
 //                     ^^^ keyword.operator.spread
 //                         ^^^ support.type.any
 //                             ^^ storage.modifier.array
-//                                ^ punctuation.section.brackets.end
+//                                ^ punctuation.section.sequence.end
 
 let x: any & any;
 //     ^^^^^^^^^ meta.type
