@@ -38,6 +38,77 @@
 --  ^^^ comment.block punctuation.definition.comment.end
 --     ^ - comment
 
+---@param name_of_parameter Type @EmmyLua style doc comment
+-- <- comment.line.documentation.lua punctuation.definition.comment.lua
+ -- <- comment.line.documentation.lua punctuation.definition.comment.lua
+--^ comment.line.documentation.lua punctuation.definition.comment.lua
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+-- ^^^^^^ entity.name.tag.documentation.lua
+--        ^^^^^^^^^^^^^^^^^ variable.parameter.lua
+
+---@return Type|Othertype @the description of the return value
+-- ^^^^^^^ comment.line.documentation.lua entity.name.tag.documentation.lua
+
+---@unknowntagname
+-- ^^^^^^^^^^^^^^^ comment.line.documentation.lua entity.name.tag.documentation.custom.lua
+
+--- LDoc style doc comment.
+-- <- comment.line.documentation.lua punctuation.definition.comment.lua
+--^ comment.line.documentation.lua punctuation.definition.comment.lua
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+-- Description; this can extend over
+-- several lines
+-- ^^^^^^^^^^^^^^ comment.line.documentation.lua
+-- NOTE: The following comments with @tags start with a triple-dash to avoid being recognized as symbol tests by ST.
+--       The triple-dash is not required for consecutive doc comment lines by LDoc.
+--- @section section name
+--^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+--  ^^^^^^^^ entity.name.tag.documentation.lua
+--           ^^^^^^^^^^^^ entity.name.section.lua
+--- @param name_of_parameter the description of this parameter as verbose text
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+--  ^^^^^^ entity.name.tag.documentation.lua
+--         ^^^^^^^^^^^^^^^^^ variable.parameter.lua
+--- @return the description of the return value
+--  ^^^^^^^ entity.name.tag.documentation.lua
+--- @unknowntagname
+--  ^^^^^^^^^^^^^^^ entity.name.tag.documentation.custom.lua
+-- text @return text
+--      ^^^^^^^ - entity
+
+-- no more doc comment after empty line
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line.documentation
+
+-----------------
+--^^^^^^^^^^^^^^^ comment.line.documentation.lua punctuation.definition.comment.lua
+-- This will also do.
+-- ^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+
+    --[[--
+--  ^^^^^^ comment.block.documentation.lua punctuation.definition.comment.begin.lua
+        Summary. A description
+        @section section name
+--      ^^^^^^^^ entity.name.tag.documentation.lua
+--               ^^^^^^^^^^^^ entity.name.section.lua
+        @param name_of_parameter the description of this parameter as verbose text
+--      ^^^^^^ entity.name.tag.documentation.lua
+--             ^^^^^^^^^^^^^^^^^ variable.parameter.lua
+        @return the description of the return value
+--      ^^^^^^^ entity.name.tag.documentation.lua
+        @unknowntagname
+--      ^^^^^^^^^^^^^^^ entity.name.tag.documentation.custom.lua
+    ]]
+--  ^^ comment.block.documentation.lua punctuation.definition.comment.end.lua
+
+    --[[--
+--  ^^^^^^ comment.block.documentation.lua punctuation.definition.comment.begin.lua
+        @section section name ]
+--               ^^^^^^^^^^^^^^ entity.name.section.lua
+        @section section name ]]
+--               ^^^^^^^^^^^^ entity.name.section.lua
+--                            ^^ punctuation.definition.comment.end.lua - entity.name.section
+--                              ^ - comment
+
 --VARIABLES
 
     foo;
