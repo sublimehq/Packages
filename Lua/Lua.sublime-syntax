@@ -102,7 +102,7 @@ contexts:
       captures:
         1: entity.name.tag.documentation.lua
         2: entity.name.section.lua
-    - match: ^\s*(@param)\s+({{identifier}})\b
+    - match: ^\s*(@param)(?:\[[\w=']*\])?\s+({{identifier}})\b
       captures:
         1: entity.name.tag.documentation.lua
         2: variable.parameter.lua
@@ -136,7 +136,7 @@ contexts:
         1: entity.name.tag.documentation.lua
         2: entity.name.section.lua
       set: maybe-line-doc-comment
-    - match: \s*(@param)\s+({{identifier}})\b.*\n?
+    - match: \s*(@param)(?:\[[\w=']*\])?\s+({{identifier}})\b.*\n?
       captures:
         1: entity.name.tag.documentation.lua
         2: variable.parameter.lua

@@ -69,6 +69,14 @@
 --^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
 --  ^^^^^^ entity.name.tag.documentation.lua
 --         ^^^^^^^^^^^^^^^^^ variable.parameter.lua
+--- @param[opt] name_of_parameter the description of this parameter as verbose text
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+--  ^^^^^^ entity.name.tag.documentation.lua
+--              ^^^^^^^^^^^^^^^^^ variable.parameter.lua
+--- @param[type=number] name_of_parameter the description of this parameter as verbose text
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+--  ^^^^^^ entity.name.tag.documentation.lua
+--                      ^^^^^^^^^^^^^^^^^ variable.parameter.lua
 --- @return the description of the return value
 --  ^^^^^^^ entity.name.tag.documentation.lua
 --- @unknowntagname
