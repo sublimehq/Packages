@@ -8,7 +8,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'')
   simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
-  additional_reserved: (?i:\b(?:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b)
+  additional_reserved: \b(?i:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b
   enclosed_type_begin: (?:\[)
   enclosed_type_end: (?:\])
   identifier_for_lookahead: |-
@@ -18,16 +18,16 @@ variables:
     )
 
   simple_types: |-
-    (?ix:\b(?:
-      (?:bigint|bit|float|int|real|smallint|tinyint)
-    | (?:date|datetime|datetime2|datetimeoffset|smalldatetime|time)
-    | (?:geometry|hierarchyid|image|n?text|rowversion|sql_variant|sysname|uniqueidentifier|xml)
-    )\b)
+    \b(?xi:
+      (?: bigint | bit | float | int | real | smallint | tinyint )
+    | (?: date | datetime | datetime2 | datetimeoffset | smalldatetime | time )
+    | (?: geometry | hierarchyid | image | n?text | rowversion | sql_variant | sysname | uniqueidentifier | xml )
+    )\b
   types_with_optional_number: |-
-    (?ix:\b(?:
-      (?:n?char|n?varchar|binary|varbinary)
-    | (?:decimal|money|numeric)
-    )\b)
+    \b(?xi:
+      (?: n?char | n?varchar | binary | varbinary )
+    | (?: decimal | money | numeric )
+    )\b
 
 contexts:
   identifier-part:
@@ -387,7 +387,7 @@ contexts:
       scope: meta.function-call.sql
       captures:
          1: support.function.scalar.sql
-         2: meta.group.sql punctuation.section.parens.begin.sql
+         2: meta.group.sql punctuation.section.group.begin.sql
       push:
         - method-call-convert
         - expect-type
@@ -398,13 +398,14 @@ contexts:
   method-call-convert:
     - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
-      scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
+      scope: meta.function-call.sql meta.group.sql punctuation.section.group.end.sql
       pop: 1
     - match: ','
       scope: punctuation.separator.argument.sql
     - include: expressions-or-column-name
 
   label-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.label-name.sql
     - match: ''
       pop: 1
@@ -564,7 +565,7 @@ contexts:
   cast:
     - meta_scope: meta.function-call.sql
     - match: \(
-      scope: meta.group.sql punctuation.section.parens.begin.sql
+      scope: meta.group.sql punctuation.section.group.begin.sql
       set: inside-cast-method-call
     - match: (?=\S)
       pop: 1
@@ -572,7 +573,7 @@ contexts:
   inside-cast-method-call:
     - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
-      scope: meta.function-call.sql meta.group.sql punctuation.section.parens.end.sql
+      scope: meta.function-call.sql meta.group.sql punctuation.section.group.end.sql
       pop: 1
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
@@ -607,6 +608,7 @@ contexts:
       pop: 1
 
   expect-procedure-name:
+    - meta_include_prototype: false
     - match: ''
       set:
         - procedure-name
@@ -631,6 +633,7 @@ contexts:
     - include: expressions
 
   cte-table-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.cte-table-name.sql
     - match: ''
       pop: 1
@@ -651,7 +654,7 @@ contexts:
     - match: ';'
       scope: punctuation.separator.sequence.tsql
     - match: \)
-      scope: meta.function-call.tsql meta.group.tsql punctuation.section.parens.end.sql
+      scope: meta.function-call.tsql meta.group.tsql punctuation.section.group.end.sql
       set: maybe-table-alias
     - include: inside-method-call
 

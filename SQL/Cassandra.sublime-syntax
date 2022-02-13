@@ -9,17 +9,16 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   simple_types: |-
-    \b(?ix:
+    \b(?xi:
       ASCII | BIGINT | BLOB | BOOLEAN | COUNTER | DATE | DECIMAL | DOUBLE
     | DURATION | FLOAT | INET | INT | SMALLINT | TEXT | TIME | TIMESTAMP
     | TIMEUUID | TINYINT | UUID | VARCHAR | VARINT
     )\b
   types_with_optional_number: (?!)
   ddl_target: |-
-    (?xi)
-    \b(?:
-      function|index|keyspace|table|type|user
-      |(?:materialized\s+)?view
+    \b(?xi:
+      function | index | keyspace | table | type | user
+    | (?:materialized\s+)?view 
     )\b
 
 contexts:
@@ -90,7 +89,7 @@ contexts:
       scope: punctuation.section.braces.end.cql
       pop: 1
     - match: ':'
-      scope: punctuation.separator.mapping.key-value.cql
+      scope: punctuation.separator.key-value.cql
     - include: expressions
     - match: \w+
       scope: meta.mapping.key.cql string.unquoted.cql
@@ -128,7 +127,7 @@ contexts:
     - match: \b(?i:(primary\s+key))\s*(\()
       captures:
         1: storage.modifier.cql
-        2: meta.group.cql punctuation.section.group.begin.cql
+        2: meta.group.partition-key.cql punctuation.section.group.begin.cql
       push: partition-key
     - match: \b(?i:primary\s+key)\b
       scope: storage.modifier.cql
