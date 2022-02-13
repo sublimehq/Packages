@@ -192,6 +192,19 @@
 --              ^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
 --                        ^^^ punctuation.section.preprocessor.end.haskell
 
+    {-# OPTIONS -XMagicHash -XBangPatterns #-}
+--  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.options.haskell
+--                                         ^^^ meta.preprocessor.pragma.value.haskell
+--                                            ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^ keyword.directive.options.haskell
+--              ^^^^^^^^^^^ constant.other.pragma.haskell
+--              ^ punctuation.definition.constant.haskell
+--                          ^^^^^^^^^^^^^^ constant.other.pragma.haskell
+--                          ^ punctuation.definition.constant.haskell
+--                                         ^^^ punctuation.section.preprocessor.end.haskell
+
     {-# OPTIONS_GHC -Drelease #-}
 --  ^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
 --                 ^^^^^^^^^^^ meta.preprocessor.pragma.value.options.haskell
