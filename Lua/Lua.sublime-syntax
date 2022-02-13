@@ -130,37 +130,34 @@ contexts:
 
   line-doc-comment-body:
     - meta_include_prototype: false
+    - meta_scope: comment.line.documentation.lua
     - match: \s*(@section)\s+(.*\S)\s*\n?
-      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.lua
         2: entity.name.section.lua
       set: maybe-line-doc-comment
     - match: \s*(@param)(?:\[[\w=']*\])?\s+({{identifier}}).*\n?
-      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.lua
         2: variable.parameter.lua
       set: maybe-line-doc-comment
     - match: \s*({{doc_comment_tag}}).*\n?
-      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.lua
       set: maybe-line-doc-comment
     - match: \s*({{doc_comment_custom_tag}}).*\n?
-      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.custom.lua
       set: maybe-line-doc-comment
     - match: .*\n?
-      scope: comment.line.documentation.lua
       set: maybe-line-doc-comment
 
   maybe-line-doc-comment:
-    - match: ^\s*(-{2,})
-      captures:
-        1: comment.line.documentation.lua punctuation.definition.comment.lua
-      set: line-doc-comment-body
+    - match: ^\s*(?=--(?!\[\[))
+      set:
+        - match: -{2,}
+          scope: punctuation.definition.comment.lua
+          set: line-doc-comment-body
     - match: ^
       pop: 1
 

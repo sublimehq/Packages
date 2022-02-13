@@ -129,6 +129,12 @@
 --                            ^^ punctuation.definition.comment.end.lua - entity.name.section
 --                              ^ - comment
 
+    ---
+    -- line doc comment
+    --[[
+--  ^^^^ comment.block.lua punctuation.definition.comment.begin.lua - comment.line
+    ]]
+
 --VARIABLES
 
     foo;
