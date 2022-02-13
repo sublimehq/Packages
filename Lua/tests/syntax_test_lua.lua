@@ -59,7 +59,7 @@
 -- Description; this can extend over
 -- several lines
 -- ^^^^^^^^^^^^^^ comment.line.documentation.lua
--- NOTE: The following comments with @tags start with a triple-dash to avoid being recognized as symbol tests by ST.
+-- NOTE: The following comments with @tags start with a triple-dash to prevent being recognized as symbol tests by ST.
 --       The triple-dash is not required for consecutive doc comment lines by LDoc.
 --- @section section name
 --^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
@@ -91,6 +91,18 @@
 --^^^^^^^^^^^^^^^ comment.line.documentation.lua punctuation.definition.comment.lua
 -- This will also do.
 -- ^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+
+    --- LDoc style doc comment with indentation.
+    -- Description
+--^^ - comment
+--  ^^^^^^^^^^^^^^^ comment.line.documentation.lua
+--  ^^ punctuation.definition.comment.lua
+    --- @param name_of_parameter the description of this parameter as verbose text
+--^^ - comment
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.lua
+--  ^^^ punctuation.definition.comment.lua
+--      ^^^^^^ entity.name.tag.documentation.lua
+--             ^^^^^^^^^^^^^^^^^ variable.parameter.lua
 
     --[[--
 --  ^^^^^^ comment.block.documentation.lua punctuation.definition.comment.begin.lua

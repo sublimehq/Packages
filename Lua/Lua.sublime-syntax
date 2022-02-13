@@ -102,7 +102,7 @@ contexts:
       captures:
         1: entity.name.tag.documentation.lua
         2: entity.name.section.lua
-    - match: ^\s*(@param)(?:\[[\w=']*\])?\s+({{identifier}})\b
+    - match: ^\s*(@param)(?:\[[\w=']*\])?\s+({{identifier}})
       captures:
         1: entity.name.tag.documentation.lua
         2: variable.parameter.lua
@@ -122,7 +122,7 @@ contexts:
 
   line-comments:
     - match: -{3,}
-      scope: punctuation.definition.comment.lua
+      scope: comment.line.documentation.lua punctuation.definition.comment.lua
       push: line-doc-comment-body
     - match: --
       scope: punctuation.definition.comment.lua
@@ -130,31 +130,36 @@ contexts:
 
   line-doc-comment-body:
     - meta_include_prototype: false
-    - meta_scope: comment.line.documentation.lua
-    - match: \s*(@section)\s+(.*\S).*\n?
+    - match: \s*(@section)\s+(.*\S)\s*\n?
+      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.lua
         2: entity.name.section.lua
       set: maybe-line-doc-comment
-    - match: \s*(@param)(?:\[[\w=']*\])?\s+({{identifier}})\b.*\n?
+    - match: \s*(@param)(?:\[[\w=']*\])?\s+({{identifier}}).*\n?
+      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.lua
         2: variable.parameter.lua
       set: maybe-line-doc-comment
     - match: \s*({{doc_comment_tag}}).*\n?
+      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.lua
       set: maybe-line-doc-comment
     - match: \s*({{doc_comment_custom_tag}}).*\n?
+      scope: comment.line.documentation.lua
       captures:
         1: entity.name.tag.documentation.custom.lua
       set: maybe-line-doc-comment
-    - match: .*\n
+    - match: .*\n?
+      scope: comment.line.documentation.lua
       set: maybe-line-doc-comment
 
   maybe-line-doc-comment:
-    - match: ^-{2,}
-      scope: punctuation.definition.comment.lua
+    - match: ^\s*(-{2,})
+      captures:
+        1: comment.line.documentation.lua punctuation.definition.comment.lua
       set: line-doc-comment-body
     - match: ^
       pop: 1
