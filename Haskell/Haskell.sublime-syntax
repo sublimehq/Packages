@@ -14,7 +14,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \brunhaskell\b                     # shebang
+    ^ \#! .* \b(cabal|runhaskell|stack)\b       # shebang
   | ^ \s* -- .*? -\*- .*? \bhaskell\b .*? -\*-  # editorconfig
   )
 
@@ -219,6 +219,11 @@ contexts:
     - include: preprocessor-directives
 
   main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [haskell, shebang]
+
+  haskell:
     - include: modules
     - include: declarations
     - include: statements
@@ -289,6 +294,21 @@ contexts:
       scope: comment.line.double-dash.haskell
       captures:
         1: punctuation.definition.comment.haskell
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.haskell
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Haskell is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_scope: comment.line.shebang.haskell
+    # Note: Keep sync with first_line_match!
+    - match: \b(cabal|runhaskell|stack)\b
+      scope: constant.language.shebang.haskell
+    - match: \n
+      pop: 1
 
 ###[ PREPROCESSOR ]############################################################
 
