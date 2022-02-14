@@ -120,7 +120,7 @@ contexts:
       push:
         - meta_scope: embedding.php text.html.basic
         - clear_scopes: true
-        - match: <\?(?i:php)?
+        - match: <\?(?i:p(?:hp?)?)?
           scope: meta.embedded.block.php punctuation.section.embedded.begin.php
           pop: 1
         - match: ''
@@ -131,7 +131,7 @@ contexts:
           push: scope:text.html.basic
 
   single-line-php-tag:
-    - match: (?:<\?=|<\?(?i:php)?(?=.*\?>))
+    - match: (?:<\?=|<\?(?i:p(?:hp?)?)?(?=.*\?>))
       scope: punctuation.section.embedded.begin.php
       push:
         - meta_scope: meta.embedded.line.nested.php
