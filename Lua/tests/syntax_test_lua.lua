@@ -130,7 +130,7 @@
 --                              ^ - comment
 
     ---
-    -- line doc comment
+    -- line doc comment followed by block comment
     --[[
 --  ^^^^ comment.block.lua punctuation.definition.comment.begin.lua - comment.line
     ]]

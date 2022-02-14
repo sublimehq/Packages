@@ -54,13 +54,12 @@ variables:
   hex_exponent: (?:[Pp][-+]?\d*)
 
   doc_comment_tag: |-
-    (?x:(?:@(?:
+    (?x:@(?:
       alias|async|author|class|classmod|copyright|deprecated|diagnostic|field
       |fixme|function|generic|language|lfunction|license|local|module|nodiscard
       |overload|param|raise|release|return|script|section|see|submodule|table
       |todo|tparam|treturn|type|usage|vararg|version|warning|within
-    )\b))
-
+    )\b)
   doc_comment_custom_tag: (?:@\w+\b)
 
 contexts:
