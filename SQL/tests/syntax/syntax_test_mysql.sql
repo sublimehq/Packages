@@ -108,8 +108,8 @@ create table fancy_table (
 --                      ^^^^^^^^^^^^^^^^^ storage.type.sql
 --                                        ^^^^^^^ storage.modifier
 --                                                ^^^ meta.function-call support.function
---                                                   ^ punctuation.section.parens.begin
---                                                    ^ punctuation.section.parens.end
+--                                                   ^ punctuation.section.arguments.begin
+--                                                    ^ punctuation.section.arguments.end
 --                                                     ^ punctuation.separator.sequence
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone, -- TODO: seems like :: is a postgresql cast operator
 --                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql

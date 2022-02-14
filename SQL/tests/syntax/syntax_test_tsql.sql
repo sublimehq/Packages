@@ -220,15 +220,15 @@ SET @path = 'C:\Backup\'
 SELECT @fileDate = CONVERT(VARCHAR(20),GETDATE(),112)
 --               ^ keyword.operator
 --                 ^^^^^^^ meta.function-call support.function.scalar
---                        ^ meta.function-call meta.group punctuation.section.parens.begin
+--                        ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                         ^^^^^^^^^^^ storage.type
 --                                    ^ punctuation.separator
 --                                     ^^^^^^^ support.function.scalar
---                                            ^ punctuation.section.parens.begin
---                                             ^ punctuation.section.parens.end
+--                                            ^ punctuation.section.arguments.begin
+--                                             ^ punctuation.section.arguments.end
 --                                              ^ punctuation.separator.argument
 --                                               ^^^ meta.number.integer.decimal constant.numeric.value
---                                                  ^ punctuation.section.parens.end
+--                                                  ^ punctuation.section.arguments.end
 --                                                   ^ - meta.function-call - meta.group
 
 DECLARE db_cursor CURSOR SCROLL DYNAMIC FOR
@@ -397,8 +397,12 @@ INSERT INTO my_table (foo, bar)
 -- ^^^^^^^^ keyword.other.dml
 --          ^^^^^^^^^^^^^^^^^^^^ - meta.function-call - support
 --          ^^^^^^^^ meta.table-name
+--                   ^ punctuation.section.group.begin
+--                            ^ punctuation.section.group.end
 VALUES (2, 'two'),
 -- ^^^ keyword.other.dml.II
+--     ^ punctuation.section.group.begin
+--              ^ punctuation.section.group.end
        (3, 'three')
 
 INSERT INTO #my_table
@@ -419,9 +423,9 @@ SELECT  foo AS foobar, COUNT(*) AS tally
 --                     ^^^^^^^^ meta.function-call
 --                     ^^^^^ support.function.aggregate
 --                          ^^^ meta.group
---                          ^ punctuation.section.parens.begin
+--                          ^ punctuation.section.arguments.begin
 --                           ^ variable.language.wildcard.asterisk
---                            ^ punctuation.section.parens.end
+--                            ^ punctuation.section.arguments.end
 --                              ^^ keyword.operator.assignment.alias
 --                                 ^^^^^ meta.column-alias
 FROM    bar
@@ -560,11 +564,11 @@ PRINT 'Record with ID ' + CAST(@RecordID AS VARCHAR(10)) + ' has been updated.'
 --                      ^ keyword.operator.arithmetic
 --                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 --                        ^^^^ support.function
---                            ^ punctuation.section.parens.begin
+--                            ^ punctuation.section.arguments.begin
 --                             ^^^^^^^^^ variable.other.readwrite
 --                                       ^^ keyword.operator.assignment
 --                                          ^^^^^^^^^^^ storage.type
---                                                     ^ punctuation.section.parens.end
+--                                                     ^ punctuation.section.arguments.end
 
 UPDATE foo
 SET Value = Bar.Value
@@ -1016,9 +1020,9 @@ PIVOT
   AVG(StandardCost)
 --^^^^^^^^^^^^^^^^^ meta.function-call
 --^^^ support.function.aggregate
---   ^ punctuation.section.parens.begin
+--   ^ punctuation.section.arguments.begin
 --    ^^^^^^^^^^^^ meta.column-name
---                ^ punctuation.section.parens.end
+--                ^ punctuation.section.arguments.end
   FOR DaysToManufacture IN ([0], [1], [2], [3], [4])
 --^^^ keyword.other
 --    ^^^^^^^^^^^^^^^^^ meta.column-name
@@ -1210,8 +1214,8 @@ CREATE TABLE [dbo].[be_Categories](
 --                                                                                               ^^^^^^^ storage.modifier
 --                                                                                                       ^ punctuation.section.group.begin
 --                                                                                                        ^^^^^ meta.function-call support.function
---                                                                                                             ^ punctuation.section.parens.begin
---                                                                                                              ^ punctuation.section.parens.end
+--                                                                                                             ^ punctuation.section.arguments.begin
+--                                                                                                              ^ punctuation.section.arguments.end
 --                                                                                                               ^ punctuation.section.group.end
 --                                                                                                                ^ punctuation.separator.sequence
     [CategoryName] [nvarchar](50) NULL,
@@ -1316,9 +1320,9 @@ CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_resu
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-valued-function-name
 --                                            ^^^^^^^^^^^^^^^^ meta.group
---                                            ^ punctuation.section.parens.begin
+--                                            ^ punctuation.section.arguments.begin
 --                                             ^^^^^^^^^^^^^^ meta.column-name
---                                                           ^ punctuation.section.parens.end
+--                                                           ^ punctuation.section.arguments.end
 --                                                             ^^ keyword.operator.assignment.alias - meta.function-call
 --                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-alias-name
 GO
@@ -1326,25 +1330,29 @@ GO
 SELECT * FROM Department D
 OUTER APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID, 123, 'testing123')
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.table-valued-function-name
---                                            ^ meta.function-call meta.group punctuation.section.parens.begin
+--                                            ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                                             ^^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
 --                                                           ^ meta.function-call meta.group punctuation.separator.argument
 --                                                             ^^^ meta.function-call meta.group meta.number.integer.decimal constant.numeric.value
 --                                                                ^ meta.function-call meta.group punctuation.separator.argument
 --                                                                  ^^^^^^^^^^^^ meta.function-call meta.group string.quoted.single
---                                                                              ^ meta.function-call meta.group punctuation.section.parens.end
+--                                                                              ^ meta.function-call meta.group punctuation.section.arguments.end
 GO
 
 SELECT DB_NAME(r.database_id) AS [Database], st.[text] AS [Query]
 FROM sys.dm_exec_requests r
 CROSS APPLY sys.dm_exec_sql_text(r.plan_handle) st
 --          ^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.table-valued-function-name
---                              ^ meta.function-call meta.group punctuation.section.parens.begin
+--                              ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                               ^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
---                                            ^ meta.function-call meta.group punctuation.section.parens.end
+--                                            ^ meta.function-call meta.group punctuation.section.arguments.end
 --                                              ^^ meta.table-alias-name
 WHERE r.session_Id > 50           -- Consider spids for users only, no system spids.
 AND r.session_Id NOT IN (@@SPID)  -- Don't include request from current spid.
+--                      ^ meta.group punctuation.section.group.begin
+--                       ^^^^^^ support.variable.global
+--                       ^^ punctuation.definition.variable
+--                             ^ meta.group punctuation.section.group.end
 
 SELECT p.BusinessEntityID ,
        p.FirstName ,
@@ -1464,7 +1472,7 @@ FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath 
 --                                                        ^ - meta.function-call
 --        ^^^^^^^ meta.table-valued-function-name support.function
 --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
---                ^ punctuation.section.parens.begin
+--                ^ punctuation.section.arguments.begin
 --                 ^^^^^^^^^^^^^^^^^^  variable.other.readwrite
            WITH (CustomerID  varchar(10),
 --         ^^^^ keyword.other
@@ -1521,17 +1529,20 @@ SELECT a.*
    FROM OPENROWSET('Microsoft.Jet.OLEDB.4.0',
 -- ^^^^ keyword.other.dml
 --      ^^^^^^^^^^ meta.function-call meta.table-valued-function-name support.function
+--                ^ punctuation.section.arguments.begin
                    'C:\SAMPLES\Northwind.mdb';
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --                                           ^ punctuation.separator.sequence
                    'admin';
                    'password',
                    Customers) AS a;
---                          ^ meta.function-call meta.group punctuation.section.parens.end
+--                          ^ meta.function-call meta.group punctuation.section.arguments.end
 --                            ^^ keyword.operator.assignment.alias - meta.group - meta.function-call
 --                               ^ meta.table-alias-name
 
 DECLARE @Data NVARCHAR(MAX)
+--                    ^ punctuation.section.group.begin
+--                        ^ punctuation.section.group.end
 SELECT @Data = (
     SELECT [CustomerID] as "@CustomerID",
        [CustomerName],
@@ -1547,6 +1558,7 @@ SELECT @Data = (
     WHERE CustomerID < 3 FOR XML PATH('Customer'), ROOT('Customers')
 --                       ^^^^^^^ keyword.other
 --                               ^^^^ keyword.other
+--                                   ^ punctuation.section.group.begin
 --                                               ^ punctuation.separator.sequence
 --                                                 ^^^^ keyword.other
 )

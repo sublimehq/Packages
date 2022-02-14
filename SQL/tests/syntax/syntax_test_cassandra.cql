@@ -9,11 +9,11 @@ CREATE KEYSPACE killrvideo WITH replication = {'class':'SimpleStrategy', 'replic
 --                                          ^ keyword.operator
 --                                            ^ punctuation.section.braces.begin
 --                                             ^^^^^^^ string.quoted.single
---                                                    ^ punctuation.separator.mapping.key-value
+--                                                    ^ punctuation.separator.key-value
 --                                                     ^^^^^^^^^^^^^^^^ string.quoted.single
 --                                                                     ^ punctuation.separator.sequence
 --                                                                       ^^^^^^^^^^^^^^^^^^^^ string.quoted.single
---                                                                                            ^ punctuation.separator.mapping.key-value
+--                                                                                            ^ punctuation.separator.key-value
 --                                                                                              ^ meta.number.integer.decimal constant.numeric.value
 --                                                                                               ^ punctuation.section.braces.end
 --                                                                                                ^ punctuation.terminator.statement
@@ -23,9 +23,9 @@ select someid, token(someid), something
 --     ^^^^^^ meta.column-name
 --           ^ punctuation.separator.sequence
 --             ^^^^^ meta.function-call support.function
---                  ^ meta.function-call meta.group punctuation.section.parens.begin
+--                  ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                   ^^^^^^ meta.function-call meta.group meta.column-name
---                         ^ meta.function-call meta.group punctuation.section.parens.end
+--                         ^ meta.function-call meta.group punctuation.section.arguments.end
 --                          ^ punctuation.separator.sequence
 --                            ^^^^^^^^^ meta.column-name
 from something_by_someid
@@ -36,16 +36,16 @@ where token(someid) >= token(d821d7d8-8265-402e-9a72-c61ab8473ab6)
 --    ^^^^^^^^^^^^^ meta.function-call
 --    ^^^^^ support.function
 --         ^^^^^^^^ meta.group
---         ^ punctuation.section.parens.begin
+--         ^ punctuation.section.arguments.begin
 --          ^^^^^^ meta.column-name
---                ^ punctuation.section.parens.end
+--                ^ punctuation.section.arguments.end
 --                  ^^ keyword.operator.comparison
 --                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 --                     ^^^^^ support.function
 --                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
---                          ^ punctuation.section.parens.begin
+--                          ^ punctuation.section.arguments.begin
 --                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.uuid
---                                                               ^ punctuation.section.parens.end
+--                                                               ^ punctuation.section.arguments.end
 --                                                                ^ - meta
 and token(someid) <= token(cf0acefc-ccff-42a0-8753-65d82e9c9b0f)
 limit 2000;
@@ -249,18 +249,18 @@ VALUES (
     false,
     {77a969b4-378a-4fb0-b531-83404ee3c395:{id:22f7244c-c6d7-4bd7-aeac-a886c4242cd8,sometext:'text here',empty:{}}}
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.uuid
-    --                                   ^ punctuation.separator.mapping.key-value
+    --                                   ^ punctuation.separator.key-value
     --                                    ^ punctuation.section.braces.begin
     --                                     ^^ meta.mapping.key string.unquoted
-    --                                       ^ punctuation.separator.mapping.key-value
+    --                                       ^ punctuation.separator.key-value
     --                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.uuid
     --                                                                            ^ punctuation.separator.sequence
     --                                                                             ^^^^^^^^ meta.mapping.key string.unquoted
-    --                                                                                     ^ punctuation.separator.mapping.key-value
+    --                                                                                     ^ punctuation.separator.key-value
     --                                                                                      ^^^^^^^^^^^ string.quoted.single
     --                                                                                                 ^ punctuation.separator.sequence
     --                                                                                                  ^^^^^ meta.mapping.key string.unquoted
-    --                                                                                                       ^ punctuation.separator.mapping.key-value
+    --                                                                                                       ^ punctuation.separator.key-value
     --                                                                                                        ^ punctuation.section.braces.begin
     --                                                                                                         ^^^ punctuation.section.braces.end
 );
@@ -412,27 +412,27 @@ CREATE INDEX todo_dates ON users (KEYS(todo));
 --                         ^^^^^ meta.create meta.table-name
 --                               ^ punctuation.section.group.begin
 --                                ^^^^ meta.function-call support.function.scalar
---                                    ^ punctuation.section.parens.begin
+--                                    ^ punctuation.section.arguments.begin
 --                                     ^^^^ meta.column-name
---                                         ^ punctuation.section.parens.end
+--                                         ^ punctuation.section.arguments.end
 --                                          ^ punctuation.section.group.end
 
 CREATE INDEX entries_idx ON race (ENTRIES(race_wins));
 --                          ^^^^ meta.create meta.table-name
 --                               ^ punctuation.section.group.begin
 --                                ^^^^^^^ meta.function-call support.function.scalar
---                                       ^ punctuation.section.parens.begin
+--                                       ^ punctuation.section.arguments.begin
 --                                        ^^^^^^^^^ meta.column-name
---                                                 ^ punctuation.section.parens.end
+--                                                 ^ punctuation.section.arguments.end
 --                                                  ^ punctuation.section.group.end
 
 CREATE INDEX rnumbers_idx ON cycling.race_starts (FULL(rnumbers));
 --                           ^^^^^^^^^^^^^^^^^^^ meta.create meta.table-name
 --                                               ^ punctuation.section.group.begin
 --                                                ^^^^ meta.function-call support.function.scalar
---                                                    ^ punctuation.section.parens.begin
+--                                                    ^ punctuation.section.arguments.begin
 --                                                     ^^^^^^^^ meta.column-name
---                                                             ^ punctuation.section.parens.end
+--                                                             ^ punctuation.section.arguments.end
 --                                                              ^ punctuation.section.group.end
 
 SELECT album, tags

@@ -201,9 +201,8 @@ contexts:
   ddl-target-algorithm:
     - match: \b(?i:MERGE|TEMPTABLE|UNDEFINED)\b
       scope: keyword.other.mysql
-      pop: true
-    - match: (?=\S)
-      pop: true
+      pop: 1
+    - include: else-pop
 
   new-column-name:
     - match: (?=\S)

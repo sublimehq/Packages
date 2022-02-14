@@ -82,8 +82,7 @@ contexts:
       set:
         - like-escape-fail
         - inside-like-single-quoted-string
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   like-string-followed-by-escape-slash:
     - match: \'
@@ -92,8 +91,7 @@ contexts:
         - like-escape-character-slash
         - like-escape-pop
         - inside-like-single-quoted-string-slash-escape
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   like-string-followed-by-escape-caret:
     - match: \'
@@ -102,8 +100,7 @@ contexts:
         - like-escape-character-caret
         - like-escape-pop
         - inside-like-single-quoted-string-caret-escape
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   like-string-followed-by-unknown-escape:
     - match: \'
@@ -112,8 +109,7 @@ contexts:
         - like-escape-character-any
         - like-escape-pop
         - inside-like-single-quoted-string
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   inside-like-single-quoted-string-slash-escape:
     - meta_include_prototype: false
@@ -153,15 +149,13 @@ contexts:
   like-escape-fail:
     - match: \b(?i:escape)\b
       fail: like-strings-branch
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   like-escape-pop:
     - match: \b(?i:escape)\b
       scope: keyword.operator.word.sql
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   like-escape-character-any:
     - match: (\')([^'])(\')
@@ -171,8 +165,7 @@ contexts:
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   like-escape-character-caret:
     - match: (\')(\^)(\')
@@ -387,7 +380,7 @@ contexts:
       scope: meta.function-call.sql
       captures:
          1: support.function.scalar.sql
-         2: meta.group.sql punctuation.section.group.begin.sql
+         2: meta.group.sql punctuation.section.arguments.begin.sql
       push:
         - method-call-convert
         - expect-type
@@ -398,7 +391,7 @@ contexts:
   method-call-convert:
     - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
-      scope: meta.function-call.sql meta.group.sql punctuation.section.group.end.sql
+      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
       pop: 1
     - match: ','
       scope: punctuation.separator.argument.sql
@@ -425,8 +418,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.tsql
       set: expect-type
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   expect-type:
     - meta_prepend: true
@@ -449,8 +441,7 @@ contexts:
     - match: '[-+/*%^|]='
       scope: keyword.operator.assignment.tsql
     - include: operators
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   maybe-table-alias:
     - meta_prepend: true
@@ -565,15 +556,14 @@ contexts:
   cast:
     - meta_scope: meta.function-call.sql
     - match: \(
-      scope: meta.group.sql punctuation.section.group.begin.sql
+      scope: meta.group.sql punctuation.section.arguments.begin.sql
       set: inside-cast-method-call
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   inside-cast-method-call:
     - meta_content_scope: meta.function-call.sql meta.group.sql
     - match: \)
-      scope: meta.function-call.sql meta.group.sql punctuation.section.group.end.sql
+      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
       pop: 1
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
@@ -597,15 +587,14 @@ contexts:
       scope: meta.function-call.tsql
       captures:
         1: meta.table-valued-function-name.sql support.function.tsql
-        2: punctuation.section.group.begin.tsql
+        2: punctuation.section.arguments.begin.tsql
       set: inside-openrowset-call
 
   exec:
     - include: assignment-operator
     - include: pop-on-top-level-reserved-word
     - include: expressions
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   expect-procedure-name:
     - meta_include_prototype: false
@@ -635,8 +624,7 @@ contexts:
   cte-table-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.cte-table-name.sql
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   for-xml:
     - match: \b(?i:raw|auto|elements|root|path)\b
@@ -646,15 +634,14 @@ contexts:
     - match: (?=\))
       pop: 1
     - include: expressions
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   inside-openrowset-call:
     - meta_content_scope: meta.group.sql
     - match: ';'
       scope: punctuation.separator.sequence.tsql
     - match: \)
-      scope: meta.function-call.tsql meta.group.tsql punctuation.section.group.end.sql
+      scope: meta.function-call.tsql meta.group.tsql punctuation.section.arguments.end.sql
       set: maybe-table-alias
     - include: inside-method-call
 
@@ -686,8 +673,7 @@ contexts:
       set:
         - filegroup-name
         - single-identifier-after-whitespace
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   inside-ddl-table-creation-columns:
     - meta_prepend: true
@@ -710,8 +696,7 @@ contexts:
   raiserror-options:
     - match: \b(?i:nowait|log|seterror)\b
       scope: keyword.other.tsql
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   cursor-declaration:
     - meta_content_scope: meta.cursor-declaration.tsql
@@ -720,16 +705,14 @@ contexts:
     - match: \b(?i:for)\b
       scope: keyword.other.tsql
       set: expect-cursor-select-statement
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   expect-cursor-select-statement:
     - meta_content_scope: meta.cursor-declaration.tsql
     - match: \b(?i:select)\b
       scope: keyword.other.dml.sql
       set: after-cursor-select-statement
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   after-cursor-select-statement:
     - meta_content_scope: meta.cursor-declaration.tsql
@@ -747,8 +730,7 @@ contexts:
     - match: (?i)\b(?:READ\s+ONLY|UPDATE(?:\s+OF)?)\b
       scope: storage.modifier.tsql
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   with-column-definition:
     - match: \b(?i:with)\b

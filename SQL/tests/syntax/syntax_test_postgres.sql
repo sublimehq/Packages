@@ -19,9 +19,9 @@ SELECT a, char_length(a) FROM test1;
 --      ^ punctuation.separator.sequence
 --        ^^^^^^^^^^^^^^ meta.function-call
 --        ^^^^^^^^^^^ support.function
---                   ^ meta.group punctuation.section.parens.begin
+--                   ^ meta.group punctuation.section.arguments.begin
 --                    ^ meta.group meta.column-name - variable.other.member.declaration
---                     ^ meta.group punctuation.section.parens.end
+--                     ^ meta.group punctuation.section.arguments.end
 --                       ^^^^ keyword.other.dml - meta.group
 --                            ^^^^^ meta.table-name
 --                                 ^ punctuation.terminator.statement
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --              ^^^^ constant.language.null
 --                   ^^^^^^^ storage.modifier
 --                           ^^^^^^^^^^^^^^^^ meta.function-call support.function
---                                           ^ meta.function-call meta.group punctuation.section.parens.begin
---                                            ^ meta.function-call meta.group punctuation.section.parens.end
+--                                           ^ meta.function-call meta.group punctuation.section.arguments.begin
+--                                            ^ meta.function-call meta.group punctuation.section.arguments.end
 --                                             ^ punctuation.separator.sequence
     name text COLLATE pg_catalog."default",
     doc jsonb,

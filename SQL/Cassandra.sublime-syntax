@@ -18,7 +18,7 @@ variables:
   ddl_target: |-
     \b(?xi:
       function | index | keyspace | table | type | user
-    | (?:materialized\s+)?view 
+    | (?:materialized\s+)?view
     )\b
 
 contexts:
@@ -163,8 +163,7 @@ contexts:
     - match: \b(?i:from)\b
       scope: keyword.other.cql
       pop: 1
-    - match: ''
-      pop: 1
+    - include: else-pop
 
   built-in-scalar-function-calls:
     - meta_append: true
