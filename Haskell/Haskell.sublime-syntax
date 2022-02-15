@@ -757,11 +757,66 @@ contexts:
     - meta_scope: meta.declaration.data.haskell
     - match: (?={{operator_big_arrow}})
       fail: data-declaration
-    - include: declaration-type
+    - include: data-maybe-constructors
 
   data-maybe-constructors:
     - meta_scope: meta.declaration.data.haskell
+    - match: =
+      scope: keyword.operator.haskell
+      set:
+        - constructors
+        - constructor-or-type
     - include: declaration-type
+
+###[ CONSTRUCTOR DECLARATIONS ]################################################
+
+  constructors:
+    - meta_content_scope: meta.declaration.data.haskell
+    - match: \|
+      scope: punctuation.separator.sequence.haskell
+      push: constructor-or-type
+    - include: declaration-type
+
+  constructor-or-type:
+    - match: (?={{con_id}})
+      pop: 1
+      branch_point: constructor-or-type
+      branch:
+        - constructor
+        - ident-type
+    - include: else-pop
+
+  constructor:
+    # Data constructors without arguments are also called constants.
+    # Thus all data constructors are scoped as constant.
+    - match: '{{con_id}}'
+      scope: entity.name.constant.haskell
+      set: constructor-parameters
+
+  constructor-parameters:
+    - match: \{
+      scope: punctuation.section.block.begin.haskell
+      set: record-body
+    - match: (?=\S)
+      set: constructor-body
+
+  constructor-body:
+    - include: type-lists
+    - include: type-parens
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-variables
+    - match: \!
+      scope: keyword.operator.haskell
+    # terminated by
+    # - statement terminator
+    # - constructor separator
+    # - record block
+    # - any (key)word
+    - match: (?=[;|{\w])
+      pop: 1
+    - match: (?=\S)
+      fail: constructor-or-type
 
 ###[ DEFAULT DECLARATIONS ]####################################################
 
