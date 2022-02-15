@@ -32,6 +32,8 @@ contexts:
     - match: ''
       set: scope:text.html.basic
       with_prototype:
+        - match: <\?(?i:(?!php)ph?)
+          scope: meta.embedded.block.php punctuation.section.embedded.begin.php
         - match: <\?(?i:php|=)?(?![^?]*\?>)
           scope: punctuation.section.embedded.begin.php
           push:
