@@ -1,0 +1,15 @@
+%YAML 1.2
+---
+scope: source.shell.interactive.markdown
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Shell-Unix-Generic.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_append: true
+    - match: ^\$(?=\s)
+      scope: comment.other.shell
+    - match: ^(?!\s*#).*
+      scope: meta.output.shell

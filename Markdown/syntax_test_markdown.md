@@ -1933,11 +1933,17 @@ unclosed_paren = (
 |^^ meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
 ```shell
+$ ls ~
+| <- markup.raw.code-fence.shell.markdown-gfm source.shell.interactive comment.other.shell
+| ^^ meta.function-call.identifier.shell variable.function.shell
+|   ^^ meta.function-call.arguments.shell
 
-| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
+output.txt
+| <- markup.raw.code-fence.shell.markdown-gfm source.shell.interactive meta.output.shell
+|^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.interactive meta.output.shell
 ```
-| <- meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
-|^^ meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+| <- meta.code-fence.definition.end.shell.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.shell.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
 ```shell-script
 
