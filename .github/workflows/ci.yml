@@ -50,7 +50,7 @@ jobs:
           # first build with the latest changes to the syntax engine in core
           - sublime-channel: dev
             sublime-build: 4095
-            optional: false
+            optional: true
     steps:
 
       - name: Git checkout
