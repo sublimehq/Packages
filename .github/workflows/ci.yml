@@ -47,10 +47,6 @@ jobs:
             sublime-build: 4127
             optional: false
 
-          # first build with the latest changes to the syntax engine in core
-          - sublime-channel: dev
-            sublime-build: 4095
-            optional: true
     steps:
 
       - name: Git checkout
