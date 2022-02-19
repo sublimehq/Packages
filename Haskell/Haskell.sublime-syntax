@@ -506,29 +506,37 @@ contexts:
       scope: meta.import.haskell keyword.declaration.import.haskell
       push:
         - import-filter
-        - import-module
+        - import-hiding
+        - import-alias
+        - import-name
+        - import-modifier
+        - import-modifier
 
-  import-module:
-    - meta_content_scope: meta.import.module.haskell
-    - match: as{{break}}
-      scope: keyword.declaration.import.as.haskell
-      set: import-alias
-    - match: (?:qualified|hiding|safe){{break}}
+  import-modifier:
+    - match: (?:qualified|safe){{break}}
       scope: storage.modifier.import.haskell
-    - match: ({{con_id}})(\.)?
-      captures:
-        1: variable.namespace.haskell
-        2: storage.modifier.haskell
-        3: punctuation.accessor.dot.haskell
+      pop: 1
+    - include: else-pop
+
+  import-name:
+    - include: ident-namespaces
+    - include: ident-import
     - include: else-pop
 
   import-alias:
+    - meta_content_scope: meta.import.module.haskell
+    - match: as{{break}}
+      scope: keyword.declaration.import.as.haskell
+      set: import-alias-name
+    - include: else-pop
+
+  import-alias-name:
     - meta_scope: meta.import.alias.haskell
-    - include: ident-namespaces
-    - match: '{{con_id}}'
-      scope: entity.name.import.namespace.haskell
-      captures:
-        1: storage.modifier.unboxed.haskell
+    - include: import-name
+
+  import-hiding:
+    - match: hiding{{break}}
+      scope: storage.modifier.import.haskell
       pop: 1
     - include: else-pop
 
@@ -1281,6 +1289,13 @@ contexts:
   ident-module:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      pop: 1
+
+  ident-import:
+    - match: '{{con_id}}'
+      scope: variable.namespace.haskell
       captures:
         1: storage.modifier.unboxed.haskell
       pop: 1

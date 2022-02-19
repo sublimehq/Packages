@@ -552,10 +552,10 @@
 --         ^ punctuation.terminator.statement.haskell
 --           ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
 
-    import safe qualified Data.Vector.Mutable as MutableVector
+    import safe qualified Data.Vector.Mutable as My.MutableVector
 --  ^^^^^^ meta.import.haskell
 --        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.module.haskell
---                                            ^^^^^^^^^^^^^^^^ meta.import.alias.haskell
+--                                            ^^^^^^^^^^^^^^^^^^^ meta.import.alias.haskell
 --  ^^^^^^ keyword.declaration.import.haskell
 --         ^^^^ storage.modifier.import.haskell
 --              ^^^^^^^^^ storage.modifier.import.haskell
@@ -565,7 +565,9 @@
 --                                   ^ punctuation.accessor.dot.haskell - variable
 --                                    ^^^^^^^ variable.namespace.haskell - punctuation
 --                                            ^^ keyword.declaration.import.as.haskell
---                                               ^^^^^^^^^^^^^ entity.name.import.namespace.haskell
+--                                               ^^ variable.namespace.haskell
+--                                                 ^ punctuation.accessor.dot.haskell
+--                                                  ^^^^^^^^^^^^^ variable.namespace.haskell
 
     import
 --  ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
@@ -584,8 +586,22 @@
 --  ^^^ meta.import.alias.haskell
 --  ^^ keyword.declaration.import.as.haskell
     MutableVector
---  ^^^^^^^^^^^^^ meta.import.alias.haskell entity.name.import.namespace.haskell
---               ^ - meta.import - entity
+--  ^^^^^^^^^^^^^ meta.import.alias.haskell variable.namespace.haskell
+
+--  escape from imports as early as possible
+    import Data.Vector.Mutable My.MutableVector
+--  ^^^^^^ meta.import.haskell
+--        ^^^^^^^^^^^^^^^^^^^^^ meta.import.module.haskell
+--                             ^^^^^^^^^^^^^^^^^^ - meta.import
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^^^ variable.namespace.haskell - punctuation
+--                    ^ punctuation.accessor.dot.haskell - variable
+--                     ^^^^^^^ variable.namespace.haskell - punctuation
+--                             ^^ variable.namespace.haskell
+--                               ^ punctuation.accessor.dot.haskell
+--                                ^^^^^^^^^^^^^ storage.type.haskell
 
     import Mod1.Mod2.Module (funcName, unboxed#, Type#)
 --  ^^^^^^ meta.import.haskell - meta.sequence
