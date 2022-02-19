@@ -555,6 +555,10 @@ contexts:
       scope: invalid.illegal.accessor.haskell
     - match: module{{break}}
       scope: invalid.illegal.unexpected-keyword.haskell
+    - match: newtype{{break}}
+      scope: keyword.declaration.newtype.haskell
+    - match: type{{break}}
+      scope: keyword.declaration.type.haskell
     # class / constructor / data / module / type
     - match: '{{con_id}}'
       scope: entity.name.import.haskell
