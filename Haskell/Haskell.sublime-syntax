@@ -832,7 +832,7 @@ contexts:
   default-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.default.haskell
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   default-body:
     - match: \(
@@ -854,7 +854,7 @@ contexts:
   deriving-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.deriving.haskell
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   deriving-begin:
     - match: \(
@@ -1605,7 +1605,7 @@ contexts:
       branch_point: infix-quoted-operators
       branch:
         - infix-quoded-operators-begin
-        - immediatelly-pop
+        - immediately-pop
 
   infix-quoded-operators-begin:
     - match: (\`)\s*
@@ -1643,7 +1643,7 @@ contexts:
     - match: (?=\S)
       pop: 1
 
-  immediatelly-pop:
+  immediately-pop:
     - match: ''
       pop: 1
 
