@@ -56,19 +56,90 @@ You may have to disable Go-specific linters when working on this file.
     //go
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^ comment.line.go -meta.annotation
+//  ^^^^ comment.line.go -meta.annotation
 
     //go:
-// ^ -comment -meta -punctuation
+// ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^ meta.annotation.go comment.line.go
-//       ^ comment.line.go -meta.annotation
+//  ^^^^^ comment.line.go -meta.annotation
 
     //go:generate one two three
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
 //                             ^ comment.line.go -meta.annotation
+
+    //lint:ignore U1000 Reason.
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//                             ^ comment.line.go -meta.annotation
+
+    //lint:file-ignore Reason.
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//                            ^ comment.line.go -meta.annotation
+
+    //line :10
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^ meta.annotation.go comment.line.go
+//            ^ comment.line.go -meta.annotation
+
+    //line file.rl:10
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//                   ^ comment.line.go -meta.annotation
+
+    //line file.rl:100:10
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//                       ^ comment.line.go -meta.annotation
+
+    /*line :10*/
+// ^ -comment
+//  ^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//              ^ -comment.block.go -meta.annotation
+
+    /*line file.rl:10*/
+// ^ -comment
+//  ^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//                     ^ -comment.block.go -meta.annotation
+
+    /*line file.rl:100:10*/
+// ^ -comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//                         ^ -comment.block.go -meta.annotation
+
+    /*line :10 */
+// ^ -comment
+//  ^^^^^^^^^^^^^ comment.block.go -meta.annotation
+//               ^ -comment
+
+    /*line file.rl:10 */
+// ^ -comment
+//  ^^^^^^^^^^^^^^^^^^^^ comment.block.go -meta.annotation
+//                      ^ -comment
+
+    /*line file.rl:100:10 */
+// ^ -comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.go -meta.annotation
+//                          ^ -comment
+
+    //export myfunc
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//                 ^ comment.line.go -meta.annotation
+
+    //extern myfunc
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//                 ^ comment.line.go -meta.annotation
 
 
 // # Imports
