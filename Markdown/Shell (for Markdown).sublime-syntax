@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+name: Interactive Unix Shell
 scope: source.shell.interactive.markdown
 version: 2
 hidden: true
@@ -8,8 +9,18 @@ extends: Packages/ShellScript/Shell-Unix-Generic.sublime-syntax
 
 contexts:
   prototype:
-    - meta_append: true
+    - meta_prepend: true
+    # continuation lines begin with `> `
+    - match: ^>(?=\s)
+      scope: comment.other.shell
+
+  main:
+    - match: ^(?=\$\s)
+      push: shell-interactive
+    - include: statements
+
+  shell-interactive:
     - match: ^\$(?=\s)
       scope: comment.other.shell
-    - match: ^(?!\s*#).*
-      scope: meta.output.shell
+      embed: statements
+      escape: '{{no_escape_behind}}\n'
