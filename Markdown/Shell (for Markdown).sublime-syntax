@@ -23,4 +23,4 @@ contexts:
     - match: ^\$(?=\s)
       scope: comment.other.shell
       embed: statements
-      escape: '{{no_escape_behind}}\n'
+      escape: (?<![^\\]\\)(?<![\\]{3})\n
