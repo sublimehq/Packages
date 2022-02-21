@@ -36,12 +36,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
+
+          # latest stable build
           - sublime-channel: stable
             sublime-build: 4126
             optional: true
+
+          # latest dev build
           - sublime-channel: dev
-            sublime-build: 4125
+            sublime-build: 4127
             optional: false
+
     steps:
 
       - name: Git checkout
