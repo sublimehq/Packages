@@ -82,9 +82,6 @@ variables:
   # Directive comment key.
   directive: \b[[:alpha:]_][[:alnum:]_]*\b
 
-  # Line directive comment key.
-  line_directive: (line) ([a-zA-Z0-9. :]*(?::[0-9]+){1,2})
-
   # Cgo export and gccgo extern directive.
   export_directive: (export|extern) ({{ident}})
 
@@ -157,7 +154,7 @@ contexts:
     # position for the character immediately following the comment as
     # having come from the specified file, line and column. Both single
     # line and block comment line directives are valid.
-    - match: (//){{line_directive}}$
+    - match: (//)(line) ([a-zA-Z0-9. :]*(?::[0-9]+){1,2})$
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go
@@ -171,7 +168,7 @@ contexts:
         - match: $
           set: pop-line-comment
 
-    - match: (/\*){{line_directive}}(\*/)
+    - match: (/\*)(line) ([a-zA-Z0-9. :]*(?::[0-9]+){1,2})(\*/)
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go
