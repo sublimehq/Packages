@@ -82,9 +82,6 @@ variables:
   # Directive comment key.
   directive: \b[[:alpha:]_][[:alnum:]_]*\b
 
-  # Cgo export and gccgo extern directive.
-  export_directive: (export|extern) ({{ident}})
-
   # Single line only
   inline_comment: /[*](?:[^*]|[*](?!/))*[*]/
 
@@ -184,7 +181,7 @@ contexts:
           set: pop-line-comment
 
     # Finally, Cgo and gccgo have directives for exporting functions to C.
-    - match: (//){{export_directive}}$
+    - match: (//)(export|extern) ({{ident}})$
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go
