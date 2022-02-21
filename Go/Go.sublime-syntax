@@ -80,7 +80,7 @@ variables:
   ident: \b(?!{{keyword}})[[:alpha:]_][[:alnum:]_]*\b
 
   # Directive comment key.
-  directive: \b[[:alpha:]_][[:alnum:]_]*\b
+  directive: \b[[:alpha:]_-][[:alnum:]_-]*\b
 
   # Single line only
   inline_comment: /[*](?:[^*]|[*](?!/))*[*]/
@@ -117,7 +117,7 @@ contexts:
 
   # https://golang.org/ref/spec#Comments
   match-comments:
-    # Go has magic comments in the form of:
+   # Go has magic comments in the form of:
     #
     # //go:some_directive arg0 arg1 ...
     #
@@ -132,7 +132,7 @@ contexts:
     # highlighting them as compiler pragmas could be misleading. We scope them
     # as plain comments by default, and add some detailed meta scopes for
     # enterprising users wishing to add more color.
-    - match: (//)([a-z]+)(:)({{directive}}.*)
+    - match: (//)([a-z]+)(:)({{directive}})[ ]?
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go
@@ -140,7 +140,7 @@ contexts:
         4: meta.variable.function.go
       push:
         - meta_scope: meta.annotation.go comment.line.go
-        - match: \S+
+        - match: .+
           scope: meta.variable.parameter.go
         # End the annotation scope at EOL, but stretch the comment scope
         # indefinitely to the right.
@@ -154,22 +154,18 @@ contexts:
     - match: (//)(line) ([a-zA-Z0-9. :]*(?::[0-9]+){1,2})$
       captures:
         1: punctuation.definition.comment.go
-        2: meta.keyword.annotation.go
-        3: meta.variable.function.go
+        2: meta.variable.function.go
+        3: meta.variable.parameter.go
       push:
         - meta_scope: meta.annotation.go comment.line.go
-        - match: \S+
-          scope: meta.variable.parameter.go
-        # End the annotation scope at EOL, but stretch the comment scope
-        # indefinitely to the right.
         - match: $
           set: pop-line-comment
 
     - match: (/\*)(line) ([a-zA-Z0-9. :]*(?::[0-9]+){1,2})(\*/)
       captures:
         1: punctuation.definition.comment.go
-        2: meta.keyword.annotation.go
-        3: meta.variable.function.go
+        2: meta.variable.function.go
+        3: meta.variable.parameter.go
         4: punctuation.definition.comment.go
       push:
         - meta_scope: meta.annotation.go comment.block.go
@@ -184,14 +180,10 @@ contexts:
     - match: (//)(export|extern) ({{ident}})$
       captures:
         1: punctuation.definition.comment.go
-        2: meta.keyword.annotation.go
-        3: meta.variable.function.go
+        2: meta.variable.function.go
+        3: meta.variable.parameter.go
       push:
         - meta_scope: meta.annotation.go comment.line.go
-        - match: \S+
-          scope: meta.variable.parameter.go
-        # End the annotation scope at EOL, but stretch the comment scope
-        # indefinitely to the right.
         - match: $
           set: pop-line-comment
 

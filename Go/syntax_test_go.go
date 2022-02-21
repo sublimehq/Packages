@@ -67,51 +67,72 @@ You may have to disable Go-specific linters when working on this file.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^ meta.keyword.annotation.go
+//       ^^^^^^^^ meta.variable.function.go
+//                ^^^^^^^^^^^^^ meta.variable.parameter.go
 //                             ^ comment.line.go -meta.annotation
 
     //lint:ignore U1000 Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^^^ meta.keyword.annotation.go
+//         ^^^^^^ meta.variable.function.go
+//                ^^^^^^^^^^^^^ meta.variable.parameter.go
 //                             ^ comment.line.go -meta.annotation
 
     //lint:file-ignore Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^^^ meta.keyword.annotation.go
+//         ^^^^^^^^^^^ meta.variable.function.go
+//                     ^^^^^^^ meta.variable.parameter.go
 //                            ^ comment.line.go -meta.annotation
 
     //line :10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^^^ meta.variable.function.go
+//         ^^^ meta.variable.parameter.go
 //            ^ comment.line.go -meta.annotation
 
     //line file.rl:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^^^ meta.variable.function.go
+//         ^^^^^^^^^^ meta.variable.parameter.go
 //                   ^ comment.line.go -meta.annotation
 
     //line file.rl:100:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^^^ meta.variable.function.go
+//         ^^^^^^^^^^^^^^ meta.variable.parameter.go
 //                       ^ comment.line.go -meta.annotation
 
     /*line :10*/
 // ^ -comment
 //  ^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//    ^^^^ meta.variable.function.go
+//         ^^^ meta.variable.parameter.go
 //              ^ -comment.block.go -meta.annotation
 
     /*line file.rl:10*/
 // ^ -comment
 //  ^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//    ^^^^ meta.variable.function.go
+//         ^^^^^^^^^^ meta.variable.parameter.go
 //                     ^ -comment.block.go -meta.annotation
 
     /*line file.rl:100:10*/
 // ^ -comment
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//    ^^^^ meta.variable.function.go
+//         ^^^^^^^^^^^^^^ meta.variable.parameter.go
 //                         ^ -comment.block.go -meta.annotation
 
     /*line :10 */
