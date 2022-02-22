@@ -117,7 +117,7 @@ contexts:
 
   # https://golang.org/ref/spec#Comments
   match-comments:
-   # Go has magic comments in the form of:
+    # Go has magic comments in the form of:
     #
     # //go:some_directive arg0 arg1 ...
     #
