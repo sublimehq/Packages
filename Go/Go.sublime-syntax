@@ -132,7 +132,7 @@ contexts:
     # highlighting them as compiler pragmas could be misleading. We scope them
     # as plain comments by default, and add some detailed meta scopes for
     # enterprising users wishing to add more color.
-    - match: (//)([a-z]+)(:)({{directive}})[ ]?
+    - match: (//)([a-z]+[a-z-]*)(:)({{directive}})[ ]?
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go

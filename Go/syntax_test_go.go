@@ -72,6 +72,15 @@ You may have to disable Go-specific linters when working on this file.
 //                ^^^^^^^^^^^^^ meta.variable.parameter.go
 //                             ^ comment.line.go -meta.annotation
 
+    //go-sumtype:decl MySumType
+// ^ -comment -meta -punctuation
+//  ^^ punctuation.definition.comment.go
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
+//    ^^^^^^^^^^ meta.keyword.annotation.go
+//               ^^^^ meta.variable.function.go
+//                    ^^^^^^^^^ meta.variable.parameter.go
+//                             ^ comment.line.go -meta.annotation
+
     //lint:ignore U1000 Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
