@@ -2039,6 +2039,21 @@ generator = (
     range(100)
 )
 
+class Cls:
+    __slots__ = "item",
+#               ^^^^^^ meta.string.python string.quoted.double.python
+#                     ^ punctuation.separator.sequence.python
+
+    __slots__ = "item",
+
+    def method():
+# <- meta.function.python
+#^^^^^^^^^^^^^^^^ meta.function
+#   ^^^ keyword.declaration.function.python
+#       ^^^^^^ entity.name.function.python
+#             ^ punctuation.section.parameters.begin.python
+#              ^ punctuation.section.parameters.end.python
+#               ^ punctuation.section.function.begin.python
 
 ##################
 # Exception handling

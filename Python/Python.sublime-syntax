@@ -1014,6 +1014,8 @@ contexts:
       pop: true
     - match: (?=\S)
       pop: true
+    - match: ^(?!\s*[#*])
+      pop: true
 
   classes:
     - match: '^\s*(class)\b'
