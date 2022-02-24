@@ -2377,3 +2377,9 @@ h1 {
 //                              ^ punctuation.section.block.begin.php
 //                                         ^ punctuation.section.block.end.php
  ?>
+
+  <?phpzzzz
+//^^ punctuation.section.embedded.begin.php
+//  ^^^^^^^ constant.other.php
+  ?>
+//^^ punctuation.section.embedded.end.php
