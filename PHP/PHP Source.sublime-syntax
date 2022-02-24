@@ -122,20 +122,20 @@ contexts:
         - clear_scopes: true
         - match: <\?(?i:(?!php)ph?)
           scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-        - match: <\?(?i:php)?
+        - match: <\?(?i:php\b)?
           scope: meta.embedded.block.php punctuation.section.embedded.begin.php
           pop: 1
         - match: ''
           with_prototype:
             - include: single-line-php-tag
-            - match: (?=<\?(?i:php)?)
+            - match: (?=<\?(?i:php\b)?)
               pop: 1
           push: scope:text.html.basic
 
   single-line-php-tag:
     - match: <\?(?i:(?!php)ph?)
       scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-    - match: (?:<\?=|<\?(?i:php)?(?=.*\?>))
+    - match: (?:<\?=|<\?(?i:php\b)?(?=.*\?>))
       scope: punctuation.section.embedded.begin.php
       push:
         - meta_scope: meta.embedded.line.nested.php
