@@ -390,15 +390,15 @@ def get_tag_attributes():
         'onclick', 'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick',
         'ondrag', 'ondragend', 'ondragenter', 'ondragexit', 'ondragleave',
         'ondragover', 'ondragstart', 'ondrop', 'ondurationchange',
-        'onemptied', 'onended', 'onerror', 'onfocus', 'oninput', 'oninvalid',
-        'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onloadeddata',
-        'onloadedmetadata', 'onloadstart', 'onmousedown', 'onmouseenter',
-        'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover',
-        'onmouseup', 'onmousewheel', 'onpause', 'onplay', 'onplaying',
-        'onprogress', 'onratechange', 'onreset', 'onresize', 'onscroll',
-        'onseeked', 'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled',
-        'onsubmit', 'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange',
-        'onwaiting'
+        'onemptied', 'onended', 'onerror', 'onfocus', 'onfocusin', 'onfocusout'
+        'oninput', 'oninvalid', 'onkeydown', 'onkeypress', 'onkeyup', 'onload',
+        'onloadeddata', 'onloadedmetadata', 'onloadstart', 'onmousedown',
+        'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout',
+        'onmouseover', 'onmouseup', 'onmousewheel', 'onpause', 'onplay',
+        'onplaying', 'onprogress', 'onratechange', 'onreset', 'onresize',
+        'onscroll', 'onseeked', 'onseeking', 'onselect', 'onshow', 'onsort',
+        'onstalled', 'onsubmit', 'onsuspend', 'ontimeupdate', 'ontoggle',
+        'onvolumechange', 'onwaiting'
     )
 
     for attributes in tag_attr_dict.values():
