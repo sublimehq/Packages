@@ -706,13 +706,11 @@ contexts:
   block-pair:
     - match: \?(?=\s|$)
       scope: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
-      push:
-        - block-key-explicit
+      push: block-key-explicit
     # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
     # if followed by a colon
     - match: '{{_flow_key_out_lookahead}}'
-      push:
-        - block-key-implicit
+      push: block-key-implicit
     - match: :(?=\s|$)
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
 
