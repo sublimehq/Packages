@@ -140,13 +140,17 @@ You may have to disable Go-specific linters when working on this file.
     /*line file.rl:100:10*/
 // ^ -comment
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.block.go
+//  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^^^^^ meta.variable.parameter.go
+//                       ^^ punctuation.definition.comment.end.go
 //                         ^ -comment.block.go -meta.annotation
 
     /*line :10 */
 // ^ -comment
 //  ^^^^^^^^^^^^^ comment.block.go -meta.annotation
+//  ^^ punctuation.definition.comment.begin.go
+//             ^^ punctuation.definition.comment.end.go
 //               ^ -comment
 
     /*line file.rl:10 */
