@@ -162,15 +162,12 @@ contexts:
           set: pop-line-comment
 
     - match: (/\*)(line) ([a-zA-Z0-9. :]*(?::[0-9]+){1,2})(\*/)
+      scope: meta.annotation.go comment.block.go
       captures:
         1: punctuation.definition.comment.begin.go
         2: meta.variable.function.go
         3: meta.variable.parameter.go
         4: punctuation.definition.comment.end.go
-      push:
-        - meta_scope: meta.annotation.go comment.block.go
-        - match: $
-          pop: true
 
     # Finally, Cgo and gccgo have directives for exporting functions to C.
     - match: (//)(export|extern) ({{ident}})$
