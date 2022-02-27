@@ -141,7 +141,7 @@ contexts:
       push:
         - meta_scope: meta.annotation.go comment.line.go
         - match: .+
-          scope: meta.variable.parameter.go
+          scope: meta.annotation.parameters.go
         # End the annotation scope at EOL, but stretch the comment scope
         # indefinitely to the right.
         - match: $

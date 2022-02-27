@@ -69,7 +69,7 @@ You may have to disable Go-specific linters when working on this file.
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
 //    ^^ meta.keyword.annotation.go
 //       ^^^^^^^^ meta.variable.function.go
-//                ^^^^^^^^^^^^^ meta.variable.parameter.go
+//                ^^^^^^^^^^^^^ meta.annotation.parameters.go
 //                             ^ comment.line.go -meta.annotation
 
     //go-sumtype:decl MySumType
@@ -78,7 +78,7 @@ You may have to disable Go-specific linters when working on this file.
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
 //    ^^^^^^^^^^ meta.keyword.annotation.go
 //               ^^^^ meta.variable.function.go
-//                    ^^^^^^^^^ meta.variable.parameter.go
+//                    ^^^^^^^^^ meta.annotation.parameters.go
 //                             ^ comment.line.go -meta.annotation
 
     //lint:ignore U1000 Reason.
@@ -87,7 +87,7 @@ You may have to disable Go-specific linters when working on this file.
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^ meta.variable.function.go
-//                ^^^^^^^^^^^^^ meta.variable.parameter.go
+//                ^^^^^^^^^^^^^ meta.annotation.parameters.go
 //                             ^ comment.line.go -meta.annotation
 
     //lint:file-ignore Reason.
@@ -96,7 +96,7 @@ You may have to disable Go-specific linters when working on this file.
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.go comment.line.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^^^^^^ meta.variable.function.go
-//                     ^^^^^^^ meta.variable.parameter.go
+//                     ^^^^^^^ meta.annotation.parameters.go
 //                            ^ comment.line.go -meta.annotation
 
     //line :10
