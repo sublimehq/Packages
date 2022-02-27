@@ -86,7 +86,7 @@ variables:
     | oncontextmenu | oncuechange | ondblclick | ondrag | ondragend
     | ondragenter | ondragexit | ondragleave | ondragover | ondragstart | ondrop
     | ondurationchange | onemptied | onended | onerror | onfocus | onfocusin
-    | onfocusou | oninput | oninvalid | onkeydown | onkeypress | onkeyup
+    | onfocusout | oninput | oninvalid | onkeydown | onkeypress | onkeyup
     | onload | onloadeddata | onloadedmetadata | onloadstart | onmousedown
     | onmouseenter | onmouseleave | onmousemove | onmouseout | onmouseover
     | onmouseup | onmousewheel | onpause | onplay | onplaying | onprogress
