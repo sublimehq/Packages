@@ -1935,12 +1935,12 @@ echo <<< yml
 //       ^^^ entity.name.tag.heredoc
 one: two
 //^^^^^^ meta.embedded.yaml source.yaml
-//^ string.unquoted.plain.out entity.name.tag
+//^ meta.mapping.key string
 // ^       punctuation.separator.key-value.mapping
-//   ^^^ string.unquoted.plain.out
+//   ^^^ string
 three: "$four"
 //^^^^^^^^^^^^ meta.embedded.yaml source.yaml
-//^^^ string.unquoted.plain.out entity.name.tag
+//^^^ meta.mapping.key string
 //   ^       punctuation.separator.key-value.mapping
 //     ^^^^^^^ string.quoted.double
 //      ^^^^^ variable.other.php
