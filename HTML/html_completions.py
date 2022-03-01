@@ -385,20 +385,20 @@ def get_tag_attributes():
         'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
 
         # event handler attributes
-        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick',
-        'onblur', 'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange',
-        'onclick', 'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick',
+        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
+        'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange', 'onclick',
+        'onclose', 'oncontextmenu', 'oncopy', 'oncuechange', 'ondblclick',
         'ondrag', 'ondragend', 'ondragenter', 'ondragexit', 'ondragleave',
-        'ondragover', 'ondragstart', 'ondrop', 'ondurationchange',
-        'onemptied', 'onended', 'onerror', 'onfocus', 'onfocusin', 'onfocusout'
-        'oninput', 'oninvalid', 'onkeydown', 'onkeypress', 'onkeyup', 'onload',
+        'ondragover', 'ondragstart', 'ondrop', 'ondurationchange', 'onemptied',
+        'onended', 'onerror', 'onfocus', 'onfocusin', 'onfocusout', 'oninput',
+        'oninvalid', 'onkeydown', 'onkeypress', 'onkeyup', 'onload',
         'onloadeddata', 'onloadedmetadata', 'onloadstart', 'onmousedown',
-        'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout',
-        'onmouseover', 'onmouseup', 'onmousewheel', 'onpause', 'onplay',
-        'onplaying', 'onprogress', 'onratechange', 'onreset', 'onresize',
-        'onscroll', 'onseeked', 'onseeking', 'onselect', 'onshow', 'onsort',
-        'onstalled', 'onsubmit', 'onsuspend', 'ontimeupdate', 'ontoggle',
-        'onvolumechange', 'onwaiting'
+        'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover',
+        'onmouseup', 'onmousewheel', 'onpaste', 'onpause', 'onplay', 'onplaying',
+        'onprogress', 'onratechange', 'onreset', 'onresize', 'onscroll',
+        'onseeked', 'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled',
+        'onsubmit', 'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange',
+        'onwaiting'
     )
 
     for attributes in tag_attr_dict.values():
