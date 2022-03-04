@@ -401,6 +401,48 @@
 //^^^ comment.block.documentation.java - meta.tag
 // ^ punctuation.definition.comment.java
 //   ^ meta.tag punctuation.definition.tag.end.html
+   *
+   * <tag
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^^^^^ comment.block.documentation.java meta.tag.html
+   * attrib = "
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^^^^^^^^^^^ comment.block.documentation.java meta.tag.html meta.attribute-with-value.html
+//   ^^^^^^ entity.other.attribute-name.html
+//          ^ punctuation.separator.key-value.html
+//            ^ meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
+   * string"
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^^^^^^^ comment.block.documentation.java meta.tag.html meta.attribute-with-value.html meta.string.html string.quoted.double.html
+//         ^ punctuation.definition.string.end.html
+   * >
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+   *
+   * <tag
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^^^^^ comment.block.documentation.java meta.tag.html
+   * attrib
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^^^^^^^ comment.block.documentation.java meta.tag.html meta.attribute-with-value.html
+//   ^^^^^^ entity.other.attribute-name.html
+   * =
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^ comment.block.documentation.java meta.tag.html meta.attribute-with-value.html punctuation.separator.key-value.html
+   * string
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+//   ^^^^^^ comment.block.documentation.java meta.tag.html meta.attribute-with-value.html meta.string.html string.unquoted.html
+   * >
+// ^ comment.block.documentation.java punctuation.definition.comment.java - meta.tag - meta.attribute-with-value - string
+//  ^ comment.block.documentation.java - meta.tag - meta.attribute-with-value - string - punctuation
+   *
    * <script>
 //^^^^^^^^^^^^ comment.block.documentation.java
 // ^ punctuation.definition.comment.java
