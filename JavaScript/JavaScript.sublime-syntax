@@ -93,16 +93,6 @@ variables:
       =>
     )
 
-  line_continuation_lookahead: >-
-    (?x:(?=
-      (?! \+\+ | -- )
-      (?=
-        != |
-        [-+*/%><=&|^\[(;,.:?] |
-        (?:in|instanceof){{identifier_break}}
-      )
-    ))
-
   function_call_lookahead: (?={{identifier_name}}\s*(?:{{dot_accessor}})?\()
 
   function_assignment_lookahead: |-
@@ -562,11 +552,6 @@ contexts:
     - include: else-pop
 
   variable-binding-list-top:
-    - match: '{{line_ending_ahead}}'
-      set:
-        - match: '{{line_continuation_lookahead}}'
-          set: variable-binding-top
-        - include: else-pop
     - match: ','
       scope: punctuation.separator.comma.js
       push: variable-binding-top
@@ -672,11 +657,24 @@ contexts:
 
   expression-statement-end:
     - match: '{{line_ending_ahead}}'
-      set:
-        - match: '{{line_continuation_lookahead}}'
-          set: expression-statement-end
-        - include: else-pop
+      branch_point: expression-statement-continuation
+      branch:
+        - expression-statement-continuation
+        - immediately-pop-2
     - include: expression-end
+
+  expression-statement-continuation:
+    - match: (?=\+\+|--)
+      fail: expression-statement-continuation
+    - match: |-
+        (?x:(?=
+          != |
+          [-+*/%><=&|^\[(;,.:?] |
+          (?:in|instanceof){{identifier_break}}
+        ))
+      pop: true
+    - match: (?=\S)
+      fail: expression-statement-continuation
 
   restricted-production:
     - meta_include_prototype: false
@@ -937,15 +935,25 @@ contexts:
         - include: decorator-name
         - include: object-property
 
-    - include: expression-break
-
     - match: (?=`)
       push: literal-string-template
 
     - match: (?=(?:{{dot_accessor}})?\()
       push: function-call-arguments
 
+    - match: (?={{line_ending_ahead}})
+      branch_point: decorator-expression-continuation
+      branch:
+        - decorator-expression-continuation
+        - immediately-pop-2
+
     - include: else-pop
+
+  decorator-expression-continuation:
+    - match: (?=[.`(])
+      pop: true
+    - match: (?=\S)
+      fail: decorator-expression-continuation
 
   decorator-expression-begin:
     - include: decorator-name
