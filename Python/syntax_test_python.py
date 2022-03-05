@@ -1614,7 +1614,7 @@ class MyClass(Inherited, \
     pass
 
 
-class DataClass(TypedDict, None, total=False):
+class DataClass(TypedDict, None, total=False, True=False):
 #     ^^^^^^^^^ entity.name.class.python
 #               ^^^^^^^^^ entity.other.inherited-class.python
 #                        ^ punctuation.separator.inheritance.python
@@ -1623,6 +1623,10 @@ class DataClass(TypedDict, None, total=False):
 #                                ^^^^^ variable.parameter.class-inheritance.python
 #                                     ^ keyword.operator.assignment.python
 #                                      ^^^^^ constant.language.boolean.python
+#                                           ^ punctuation.separator.inheritance.python
+#                                             ^^^^ constant.language.boolean.python
+#                                                 ^ keyword.operator.assignment.python
+#                                                  ^^^^^ constant.language.boolean.python
 
 
 class Unterminated(Inherited:
