@@ -1056,7 +1056,7 @@ contexts:
               captures:
                 1: variable.parameter.class-inheritance.python
                 2: keyword.operator.assignment.python
-            - match: (?={{path}})
+            - match: (?=(?!None|False|True|Ellipsis|NotImplemented|__debug__){{path}})
               push:
                 - meta_scope: entity.other.inherited-class.python
                 - match: '{{identifier}}(?: *(\.) *)?'

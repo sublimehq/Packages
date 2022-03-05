@@ -1605,12 +1605,24 @@ class MyClass(Inherited, \
 #                                ^ punctuation.separator.inheritance
 #                                  ^^^^^^^^^ variable.parameter.class-inheritance
 #                                           ^ keyword.operator.assignment
+#                                            ^^^^^^^ entity.other.inherited-class.python
     ur'''
 #   ^^ storage.type.string
     This is a test of docstrings
     '''
 #   ^^^ comment.block.documentation.python
     pass
+
+
+class DataClass(TypedDict, None, total=False):
+#     ^^^^^^^^^ entity.name.class.python
+#               ^^^^^^^^^ entity.other.inherited-class.python
+#                        ^ punctuation.separator.inheritance.python
+#                          ^^^^ constant.language.null.python
+#                              ^ punctuation.separator.inheritance.python
+#                                ^^^^^ variable.parameter.class-inheritance.python
+#                                     ^ keyword.operator.assignment.python
+#                                      ^^^^^ constant.language.boolean.python
 
 
 class Unterminated(Inherited:
