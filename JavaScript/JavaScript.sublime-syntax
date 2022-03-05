@@ -957,6 +957,7 @@ contexts:
 
   decorator-expression-begin:
     - include: decorator-name
+    - include: parenthesized-expression
     - include: expression-begin
 
   expression-break:

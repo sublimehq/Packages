@@ -750,6 +750,16 @@ class MyClass extends TheirClass {
     ['bar']() {}
 //  ^^^^^^^^^^^^ meta.function
 
+    @foo()
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
+    @(foo)
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
     static ['foo']() {}
 //         ^^^^^^^^^^^^ meta.function
 
