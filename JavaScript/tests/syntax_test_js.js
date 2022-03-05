@@ -723,6 +723,21 @@ class MyClass extends TheirClass {
 //   ^^^^^^^^^^ meta.group
 //              ^^^ entity.name.function
 
+    @foo`bar` bar() {}
+//  ^^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.function.tagged-template
+//      ^^^^^ meta.string string.quoted.other
+//      ^ punctuation.definition.string.begin
+//          ^ punctuation.definition.string.end
+//            ^^^ meta.function entity.name.function
+
+    @foo['bar']() {}
+//  ^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.annotation
+//      ^^^^^^^^^^^^ meta.function - meta.annotation
+
     ['foo']() {}
 //  ^^^^^^^^^^^^ meta.function
 
