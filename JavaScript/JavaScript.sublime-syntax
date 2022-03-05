@@ -2028,12 +2028,12 @@ contexts:
   call-function-meta:
     - meta_include_prototype: false
     - meta_scope: meta.function-call.js
-    - include: else-pop
+    - include: immediately-pop
 
   call-method-meta:
     - meta_include_prototype: false
     - meta_scope: meta.function-call.method.js
-    - include: else-pop
+    - include: immediately-pop
 
   call-function-name:
     - match: '{{dollar_only_identifier}}'
