@@ -1052,7 +1052,8 @@ contexts:
             - match: ','
               scope: punctuation.separator.inheritance.python
             - include: illegal-name
-            - match: ({{identifier}}) *(=)
+            - include: constants
+            - match: (?:({{identifier}}) *)?(=)
               captures:
                 1: variable.parameter.class-inheritance.python
                 2: keyword.operator.assignment.python
