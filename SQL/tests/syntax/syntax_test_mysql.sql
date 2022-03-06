@@ -126,7 +126,7 @@ create table fancy_table (
     UNIQUE (foreign_id),
     CONSTRAINT fancy_table_valid1 CHECK (id <> foreign_id)
 --  ^^^^^^^^^^ storage.modifier.sql
---                                ^^^^^ storage.modifier.sql
+--                                ^^^^^ keyword.other
 --                                      ^^^^^^^^^^^^^^^^^^ meta.group meta.group
 --                                       ^^ meta.column-name
 --                                          ^^ keyword.operator.comparison

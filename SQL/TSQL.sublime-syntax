@@ -61,6 +61,8 @@ contexts:
         - like-string-followed-by-escape-slash
         - like-string-followed-by-escape-caret
         - like-string-followed-by-unknown-escape
+    - match: '%'
+      scope: keyword.operator.arithmetic.tsql
 
   variables:
     - match: (@)\w+
@@ -343,6 +345,10 @@ contexts:
         - create-condition
         - ddl-target
 
+  ddl-create-target-expect-as:
+    - meta_prepend: true
+    - include: with
+
   ddl-target:
     - meta_prepend: true
     - match: \b(?i:proc|unique|clustered|nonclustered)\b
@@ -528,6 +534,19 @@ contexts:
       push:
         - index-name
         - single-identifier-after-whitespace
+    - match: \b((?i:SYSTEM_VERSIONING))\s*(=)
+      captures:
+        1: keyword.other.tsql
+        2: keyword.operator.assignment.tsql
+      push:
+        - maybe-nested-with-group
+    - match: \b((?i:HISTORY_TABLE))\s*(=)
+      captures:
+        1: keyword.other.tsql
+        2: keyword.operator.assignment.tsql
+      push:
+        - table-name
+        - single-identifier-after-whitespace
     - match: \w+
       scope: constant.language.with.tsql
     - match: ','
@@ -537,14 +556,33 @@ contexts:
       push: with-assignment
 
   with-assignment:
+    - include: with-bool-assignment
+    - include: expressions-pop-at-comma
+
+  with-bool-assignment:
     - match: \b(?i:ON|OFF)\b
       scope: constant.language.bool.tsql
-    - include: expressions-pop-at-comma
 
   expressions-pop-at-comma:
     - match: (?=[,)])
       pop: 1
     - include: expressions
+
+  maybe-nested-with-group:
+    - include: with-bool-assignment
+    - match: \(
+      scope: meta.group.sql punctuation.section.group.begin.sql
+      set: inside-with-group
+    - include: else-pop
+
+  after-type:
+    - meta_prepend: true
+    - match: \b(?i:GENERATED\s+ALWAYS\s+AS\s+ROW\s+(?:START|END)(?:\s+HIDDEN)?)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:ENCRYPTED\s+WITH)\b
+      scope: storage.modifier.tsql
+      set: with-paren-or-pop
+    - include: collate
 
   maybe-identifier-accessor:
     - meta_prepend: true
@@ -664,6 +702,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.sql
       set:
+        - maybe-with-table-options
         - maybe-filegroup
         - inside-ddl-table-creation-columns
 
@@ -675,14 +714,22 @@ contexts:
         - single-identifier-after-whitespace
     - include: else-pop
 
+  maybe-with-table-options:
+    - include: with
+    - include: else-pop
+
   inside-ddl-table-creation-columns:
     - meta_prepend: true
     - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:period\s+for\s+system_time)\b
       scope: storage.modifier.tsql
 
   computed-column-definition:
     - meta_content_scope: meta.computed-column-definition.tsql
     - match: (?=,)
+      pop: 1
+    - match: (?=\b(?i:constraint)\b)
       pop: 1
     - include: expressions-or-column-name
 

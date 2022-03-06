@@ -445,6 +445,7 @@ contexts:
     - match: \b(?i:add\s+constraint)\b
       scope: meta.add.sql keyword.other.sql
       push:
+        - after-constraint-pop
         - constraint-name
         - single-identifier-after-whitespace
     - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
@@ -517,13 +518,7 @@ contexts:
       push:
         - constraint-name
         - single-identifier-after-whitespace
-    - match: \b(?i:references)\b
-      scope: storage.modifier.sql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
-    - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|default))\b
-      scope: storage.modifier.sql
+    - include: after-constraint
     - include: expressions
     - include: ddl-creation-column
 
@@ -730,4 +725,27 @@ contexts:
     - match: \w+
       scope: support.constant.sql
       pop: 1
+    - include: else-pop
+
+  after-constraint:
+    - match: \b(?i:check)\b
+      scope: keyword.other.sql
+    - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|default))\b
+      scope: storage.modifier.sql
+      push: maybe-column-reference
+    - match: \b(?i:references)\b
+      scope: storage.modifier.sql
+      push:
+        - maybe-column-reference
+        - table-name
+        - single-identifier-after-whitespace
+
+  after-constraint-pop:
+    - include: after-constraint
+    - include: else-pop
+
+  maybe-column-reference:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-ddl-table-creation-columns
     - include: else-pop

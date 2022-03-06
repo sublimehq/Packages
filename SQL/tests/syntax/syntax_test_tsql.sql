@@ -1254,6 +1254,57 @@ CREATE TABLE [dbo].[be_Categories](
 --           ^ punctuation.definition.identifier.end
 GO
 --------------
+CREATE TABLE [dbo].[table_with_constraint_following_derived_column](
+    [SomeID] [uniqueidentifier] ROWGUIDCOL NOT NULL CONSTRAINT [DF_be_Categories_CategoryID] DEFAULT (newid()),
+    [Data] [nvarchar](MAX) NOT NULL,
+    [DerivedColumn1] AS CAST(JSON_VALUE([Data], '$.info.address.PostCode') AS NVARCHAR(1000))
+--  ^^^^^^^^^^^^^^^^ meta.column-name variable.other.member.declaration
+--                   ^^ keyword.other
+--                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.computed-column-definition meta.function-call
+--                      ^^^^ support.function
+--                          ^ punctuation.section.arguments.begin
+--                           ^^^^^^^^^^ support.function
+--                                     ^ punctuation.section.arguments.begin
+--                                      ^^^^^^ meta.group meta.function-call meta.group meta.column-name
+--                                            ^ meta.group meta.function-call meta.group punctuation.separator.argument
+--                                              ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--                                                                       ^ punctuation.section.arguments.end
+--                                                                         ^^ keyword.operator.assignment
+--                                                                            ^^^^^^^^^^^^^^ storage.type
+--                                                                                          ^ punctuation.section.arguments.end
+    CONSTRAINT [PK_be_Categories] PRIMARY KEY CLUSTERED
+--  ^^^^^^^^^^ storage.modifier
+--             ^^^^^^^^^^^^^^^^^^ meta.constraint-name
+--                                ^^^^^^^^^^^ storage.modifier
+--                                            ^^^^^^^^^ storage.modifier
+    (
+        [CategoryID] ASC
+--      ^^^^^^^^^^^^ meta.column-name
+--                   ^^^ keyword.other.order
+    ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+--    ^^^^ keyword.other.dml
+--          ^^^^^^^^^ constant.language.with
+--                    ^ keyword.operator.assignment
+--                      ^^^ constant.language.bool
+--                         ^ punctuation.separator.sequence
+--                                                                               ^^^^^^^^^^^^^^^ constant.language.with
+--                                                                                               ^ keyword.operator.assignment
+--                                                                                                 ^^ constant.language.bool
+--                                                                                                   ^ punctuation.separator.sequence
+--                                                                                                     ^^^^^^^^^^^^^^^^ constant.language.with
+--                                                                                                                      ^ keyword.operator.assignment
+--                                                                                                                        ^^ constant.language.bool
+--                                                                                                                          ^ punctuation.section.group.end
+--                                                                                                                            ^^ keyword.other
+--                                                                                                                               ^^^^^^^^^ meta.filegroup-name
+) ON [PRIMARY]
+-- <- punctuation.section.group.end
+--^^ meta.create keyword.other
+--   ^^^^^^^^^ meta.filegroup-name
+--   ^ punctuation.definition.identifier.begin
+--           ^ punctuation.definition.identifier.end
+GO
+--------------
 CREATE TABLE [Employee](
    [EmployeeID] [int] NOT NULL PRIMARY KEY,
 -- ^^^^^^^^^^^^ meta.column-name
@@ -1700,3 +1751,102 @@ WHERE CountryCode = 'FR'
     ^^ - punctuation
    ***/
 -- ^^^^ comment.block.documentation punctuation.definition.comment.end
+
+SELECT FLOOR(hours / 24) as days, hours%24 as hours
+--                                     ^ keyword.operator.arithmetic
+FROM timings
+
+-- Temporal table
+CREATE TABLE Department
+(
+    DepartmentNumber CHAR(10) NOT NULL PRIMARY KEY CLUSTERED,
+    DepartmentName VARCHAR(50) NOT NULL,
+    ManagerID INT NULL,
+    ParentDepartmentNumber CHAR(10) NULL,
+    SysStartTime DATETIME2 GENERATED ALWAYS AS ROW START HIDDEN NOT NULL,
+--  ^^^^^^^^^^^^ meta.column-name variable.other.member.declaration
+--               ^^^^^^^^^ storage.type
+--                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other
+--                                                              ^^^ keyword.operator.logical
+--                                                                  ^^^^ constant.language.null
+--                                                                      ^ punctuation.separator.sequence
+    SysEndTime DATETIME2 GENERATED ALWAYS AS ROW END HIDDEN NOT NULL,
+--  ^^^^^^^^^^ meta.column-name variable.other.member.declaration
+--             ^^^^^^^^^ storage.type
+--                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other
+--                                                          ^^^ keyword.operator.logical
+--                                                              ^^^^ constant.language.null
+--                                                                  ^ punctuation.separator.sequence
+    PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime)
+--  ^^^^^^^^^^^^^^^^^^^^^^ storage.modifier
+--                         ^ punctuation.section.group.begin
+--                          ^^^^^^^^^^^^ meta.column-name - variable.other.member.declaration
+--                                      ^ punctuation.separator.sequence
+--                                        ^^^^^^^^^^ meta.column-name - variable.other.member.declaration
+--                                                  ^ punctuation.section.group.end
+)
+WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Department_History, DATA_CONSISTENCY_CHECK = ON));
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+--^^ keyword.other.dml
+--   ^ punctuation.section.group.begin
+--    ^^^^^^^^^^^^^^^^^ keyword.other
+--                      ^ keyword.operator.assignment
+--                        ^^ constant.language.bool
+--                           ^ punctuation.section.group.begin
+--                            ^^^^^^^^^^^^^ keyword.other
+--                                          ^ keyword.operator.assignment
+--                                            ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                                                                  ^ punctuation.separator.sequence
+--                                                                    ^^^^^^^^^^^^^^^^^^^^^^ constant.language.with
+--                                                                                           ^ keyword.operator.assignment
+--                                                                                             ^^ constant.language.bool
+--                                                                                               ^ punctuation.section.group.end
+--                                                                                                ^ punctuation.section.group.end
+--                                                                                                 ^ punctuation.terminator.statement
+
+CREATE TABLE Customers (
+    CustName NVARCHAR(60)
+        ENCRYPTED WITH (
+--      ^^^^^^^^^^^^^^ storage.modifier
+            COLUMN_ENCRYPTION_KEY = MyCEK,
+--          ^^^^^^^^^^^^^^^^^^^^^ constant.language.with
+            ENCRYPTION_TYPE = RANDOMIZED,
+--          ^^^^^^^^^^^^^^^ constant.language.with
+            ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256'
+--          ^^^^^^^^^ constant.language.with
+--                    ^ keyword.operator.assignment
+--                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+        ),
+--      ^ punctuation.section.group.end
+--       ^ punctuation.separator.sequence
+    SSN VARCHAR(11) COLLATE Latin1_General_BIN2
+--  ^^^ meta.create meta.group.table-columns meta.column-name variable.other.member.declaration
+--      ^^^^^^^^^^^ storage.type
+--                  ^^^^^^^ keyword.other
+--                          ^^^^^^^^^^^^^^^^^^^ support.constant
+        ENCRYPTED WITH (
+--      ^^^^^^^^^^^^^^ storage.modifier
+            COLUMN_ENCRYPTION_KEY = MyCEK,
+            ENCRYPTION_TYPE = DETERMINISTIC ,
+            ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256'
+        ),
+    Age INT NULL
+);
+
+ALTER TABLE inventory
+ADD CONSTRAINT fk_inv_product_id
+--^^^^^^^^^^^^ meta.alter meta.add keyword.other
+--             ^^^^^^^^^^^^^^^^^ meta.alter meta.constraint-name
+    FOREIGN KEY (product_id)
+--  ^^^^^^^^^^^ meta.alter storage.modifier
+--              ^ meta.alter meta.group.table-columns punctuation.section.group.begin
+--               ^^^^^^^^^^ meta.column-name
+    REFERENCES products (product_id)
+--  ^^^^^^^^^^ meta.alter storage.modifier
+--             ^^^^^^^^ meta.alter meta.table-name
+--                      ^ meta.alter meta.group.table-columns punctuation.section.group.begin
+--                       ^^^^^^^^^^ meta.column-name
+--                                 ^ punctuation.section.group.end
+    ON DELETE CASCADE;
+--  ^^^^^^^^^^^^^^^^^ meta.alter storage.modifier
+--                   ^ punctuation.terminator.statement
