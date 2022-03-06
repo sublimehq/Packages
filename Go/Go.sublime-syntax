@@ -137,7 +137,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go
-        3: punctuation.accessor.colon.go
+        3: meta.punctuation.accessor.colon.go
         4: meta.variable.function.go
       push: pop-line-annotation
 
