@@ -1371,8 +1371,8 @@ contexts:
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-          embed: heredoc-sql
-          embed_scope: meta.embedded.sql
+          embed: scope:source.sql.interpolated.php
+          embed_scope: meta.embedded.sql source.sql.embedded.php
           escape: '{{heredoc_unquoted_end}}'
         - match: (<<<)\s*((')(?i:(SQL))('))\s*$\n?
           captures:
@@ -1382,7 +1382,7 @@ contexts:
             4: entity.name.tag.heredoc.php
             5: punctuation.definition.tag.end.php
           embed: scope:source.sql
-          embed_scope: meta.embedded.sql source.sql
+          embed_scope: meta.embedded.sql source.sql.embedded.php
           escape: '{{heredoc_quoted_end}}'
         - match: (<<<)\s*(?i:(JAVASCRIPT|JS))\s*$\n?
           captures:
@@ -1482,12 +1482,6 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.xml
-      with_prototype:
-        - include: interpolation
-  heredoc-sql:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:source.sql
       with_prototype:
         - include: interpolation
   heredoc-javascript:

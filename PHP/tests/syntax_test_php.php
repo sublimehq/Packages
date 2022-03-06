@@ -2021,7 +2021,7 @@ echo <<<sql
 //      ^^^ meta.string.heredoc meta.tag.heredoc
 //      ^^^ entity.name.tag.heredoc
 SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql.embedded.php
 // <- keyword.other.DML
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
@@ -2038,7 +2038,7 @@ echo <<<'SQL'
 //      ^^^^^ meta.string.heredoc meta.tag.heredoc
 //       ^^^ entity.name.tag.heredoc
 SELECT * FROM users WHERE first_name = 'John'\n
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql.embedded.php
 // <- keyword.other.DML
 //     ^ variable.language.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
