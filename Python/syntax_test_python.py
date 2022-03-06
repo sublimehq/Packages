@@ -1625,7 +1625,7 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                                      ^^^^^ constant.language.boolean.python
 #                                           ^ punctuation.separator.inheritance.python
 #                                             ^^^^ constant.language.boolean.python
-#                                                 ^ keyword.operator.assignment.python
+#                                                 ^ invalid.illegal.not-allowed-here.python
 #                                                  ^^^^^ constant.language.boolean.python
 
 
@@ -2326,6 +2326,15 @@ class Starship:
 ##################
 # Assignment Expressions
 ##################
+
+True = False
+#    ^ invalid.illegal.not-allowed-here.python
+
+False = True
+#     ^ invalid.illegal.not-allowed-here.python
+
+None = True
+#    ^ invalid.illegal.not-allowed-here.python
 
 # Examples from https://www.python.org/dev/peps/pep-0572/
 
