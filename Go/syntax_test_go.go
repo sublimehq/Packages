@@ -66,86 +66,86 @@ You may have to disable Go-specific linters when working on this file.
     //go:generate one two three
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^ meta.keyword.annotation.go
 //       ^^^^^^^^ meta.variable.function.go
-//               ^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
+//                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                             ^ comment.line.go -meta.annotation
 
     //go-sumtype:decl MySumType
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^^^^^^^ meta.keyword.annotation.go
 //               ^^^^ meta.variable.function.go
-//                   ^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
+//                    ^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                             ^ comment.line.go -meta.annotation
 
     //lint:ignore U1000 Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^ meta.variable.function.go
-//               ^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
+//                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                             ^ comment.line.go -meta.annotation
 
     //lint:file-ignore Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^^^^^^ meta.variable.function.go
-//                    ^^^^^^^^ comment.line.go meta.annotation.parameters.go
+//                     ^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                            ^ comment.line.go -meta.annotation
 
     //line :10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//        ^^^^ comment.line.go meta.annotation.parameters.go
+//         ^^^ comment.line.go meta.annotation.parameters.go
 //            ^ comment.line.go -meta.annotation
 
     //line file.rl:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//        ^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
+//         ^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                   ^ comment.line.go -meta.annotation
 
     //line file.rl:100:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//        ^^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
+//         ^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                       ^ comment.line.go -meta.annotation
 
     /*line :10*/
 // ^ -comment
-//  ^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^^ comment.block.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//        ^^^^ comment.block.go meta.annotation.parameters.go
+//         ^^^ comment.block.go meta.annotation.parameters.go
 //            ^^ comment.block.go punctuation.definition.comment.end.go
 //              ^ -comment.block.go -meta.annotation
 
     /*line file.rl:10*/
 // ^ -comment
-//  ^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
-//        ^^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
+//         ^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
 //                   ^^ comment.block.go punctuation.definition.comment.end.go
 //                     ^ -comment.block.go -meta.annotation
 
     /*line file.rl:100:10*/
 // ^ -comment
-//  ^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
-//        ^^^^^^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
+//         ^^^^^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
 //                       ^^ comment.block.go punctuation.definition.comment.end.go
 //                         ^ -comment.block.go -meta.annotation
 
@@ -169,15 +169,15 @@ You may have to disable Go-specific linters when working on this file.
     //export myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^ comment.line.go meta.annotation.go
-//          ^^^^^^^ comment.line.go meta.annotation.parameters.go
+//  ^^^^^^^^^ comment.line.go meta.annotation.go
+//           ^^^^^^ comment.line.go meta.annotation.parameters.go
 //                 ^ comment.line.go -meta.annotation
 
     //extern myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^ comment.line.go meta.annotation.go
-//          ^^^^^^^ comment.line.go meta.annotation.parameters.go
+//  ^^^^^^^^^ comment.line.go meta.annotation.go
+//           ^^^^^^ comment.line.go meta.annotation.parameters.go
 //                 ^ comment.line.go -meta.annotation
 
 
