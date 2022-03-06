@@ -283,41 +283,43 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#directive//
     - match: ^%
       scope: punctuation.definition.directive.begin.yaml
-      push:
-        - meta_scope: meta.directive.yaml
-        # %YAML directive
-        # http://yaml.org/spec/1.2/spec.html#directive/YAML/
-        - match: (YAML)[ \t]+(\d+\.\d+)
-          captures:
-            1: keyword.other.directive.yaml.yaml
-            2: constant.numeric.yaml-version.yaml
-          set: directive-finish
-        # %TAG directive
-        # http://yaml.org/spec/1.2/spec.html#directive/TAG/
-        - match: |
-            (?x)
-            (TAG)
-            (?:[ \t]+
-             ({{c_tag_handle}})
-             (?:[ \t]+ ({{ns_tag_prefix}}) )?
-            )?
-          # handle and prefix are optional for when typing
-          captures:
-            1: keyword.other.directive.tag.yaml
-            2: storage.type.tag-handle.yaml
-            3: support.type.tag-prefix.yaml
-          set: directive-finish
-        # Any other directive
-        # http://yaml.org/spec/1.2/spec.html#directive/reserved/
-        - match: (?x) (\w+) (?:[ \t]+ (\w+) (?:[ \t]+ (\w+))? )?
-          # name and parameter are optional for when typing
-          captures:
-            1: support.other.directive.reserved.yaml
-            2: string.unquoted.directive-name.yaml
-            3: string.unquoted.directive-parameter.yaml
-          set: directive-finish
-        - match: ''
-          set: directive-finish
+      push: directive-body
+
+  directive-body:
+    - meta_scope: meta.directive.yaml
+    # %YAML directive
+    # http://yaml.org/spec/1.2/spec.html#directive/YAML/
+    - match: (YAML)[ \t]+(\d+\.\d+)
+      captures:
+        1: keyword.other.directive.yaml.yaml
+        2: constant.numeric.yaml-version.yaml
+      set: directive-finish
+    # %TAG directive
+    # http://yaml.org/spec/1.2/spec.html#directive/TAG/
+    - match: |
+        (?x)
+        (TAG)
+        (?:[ \t]+
+         ({{c_tag_handle}})
+         (?:[ \t]+ ({{ns_tag_prefix}}) )?
+        )?
+      # handle and prefix are optional for when typing
+      captures:
+        1: keyword.other.directive.tag.yaml
+        2: storage.type.tag-handle.yaml
+        3: support.type.tag-prefix.yaml
+      set: directive-finish
+    # Any other directive
+    # http://yaml.org/spec/1.2/spec.html#directive/reserved/
+    - match: (?x) (\w+) (?:[ \t]+ (\w+) (?:[ \t]+ (\w+))? )?
+      # name and parameter are optional for when typing
+      captures:
+        1: support.other.directive.reserved.yaml
+        2: string.unquoted.directive-name.yaml
+        3: string.unquoted.directive-parameter.yaml
+      set: directive-finish
+    - match: ''
+      set: directive-finish
 
   directive-finish:
     - match: (?=$|[ \t]+($|#))
@@ -328,24 +330,26 @@ contexts:
   property:
     # http://yaml.org/spec/1.2/spec.html#node/property/
     - match: (?=!|&)
-      push:
-        - meta_scope: meta.property.yaml
-        # &Anchor
-        # http://yaml.org/spec/1.2/spec.html#&%20anchor//
-        - match: (&)({{ns_anchor_name}})(\S+)?
-          captures:
-            1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
-            2: entity.name.other.anchor.yaml
-            3: invalid.illegal.character.anchor.yaml
-          pop: true
-        # !Tag Handle
-        # http://yaml.org/spec/1.2/spec.html#tag/property/
-        - match: '{{c_ns_tag_property}}(?=\ |\t|$)'
-          scope: storage.type.tag-handle.yaml
-          pop: true
-        - match: \S+
-          scope: invalid.illegal.tag-handle.yaml
-          pop: true
+      push: property-body
+
+  property-body:
+    - meta_scope: meta.property.yaml
+    # &Anchor
+    # http://yaml.org/spec/1.2/spec.html#&%20anchor//
+    - match: (&)({{ns_anchor_name}})(\S+)?
+      captures:
+        1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
+        2: entity.name.other.anchor.yaml
+        3: invalid.illegal.character.anchor.yaml
+      pop: true
+    # !Tag Handle
+    # http://yaml.org/spec/1.2/spec.html#tag/property/
+    - match: '{{c_ns_tag_property}}(?=\ |\t|$)'
+      scope: storage.type.tag-handle.yaml
+      pop: true
+    - match: \S+
+      scope: invalid.illegal.tag-handle.yaml
+      pop: true
 
   flow-alias:
     # http://yaml.org/spec/1.2/spec.html#alias//
@@ -358,34 +362,38 @@ contexts:
   flow-scalar-double-quoted:
     # http://yaml.org/spec/1.2/spec.html#style/flow/double-quoted
     # c-double-quoted(n,c)
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.yaml
-      push:
-        # TODO consider scoping meaningful trailing whitespace for color
-        # schemes with background color definitions.
-        - meta_scope: string.quoted.double.yaml
-        - meta_include_prototype: false
-        - match: '{{c_ns_esc_char}}'
-          scope: constant.character.escape.double-quoted.yaml
-        - match: \\\n
-          scope: constant.character.escape.double-quoted.newline.yaml
-        - match: '"'
-          scope: punctuation.definition.string.end.yaml
-          pop: true
+      push: flow-scalar-double-quoted-body
+
+  flow-scalar-double-quoted-body:
+    # TODO consider scoping meaningful trailing whitespace for color
+    # schemes with background color definitions.
+    - meta_include_prototype: false
+    - meta_scope: meta.string.yaml string.quoted.double.yaml
+    - match: '{{c_ns_esc_char}}'
+      scope: constant.character.escape.double-quoted.yaml
+    - match: \\\n
+      scope: constant.character.escape.double-quoted.newline.yaml
+    - match: \"
+      scope: punctuation.definition.string.end.yaml
+      pop: true
 
   flow-scalar-single-quoted:
     # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
     # c-single-quoted(n,c)
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.yaml
-      push:
-        - meta_scope: string.quoted.single.yaml
-        - meta_include_prototype: false
-        - match: "''"
-          scope: constant.character.escape.single-quoted.yaml
-        - match: "'"
-          scope: punctuation.definition.string.end.yaml
-          pop: true
+      push: flow-scalar-single-quoted-body
+
+  flow-scalar-single-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.yaml string.quoted.single.yaml
+    - match: \'\'
+      scope: constant.character.escape.single-quoted.yaml
+    - match: \'
+      scope: punctuation.definition.string.end.yaml
+      pop: true
 
   flow-scalar-plain-in-implicit-type-11:
     - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_in}}'
@@ -481,11 +489,11 @@ contexts:
 
   flow-scalar-plain-in-common:
     - match: (?={{ns_plain_first_plain_in}})
-      push: flow-scalar-plain-in-content
+      push: flow-scalar-plain-in-body
 
-  flow-scalar-plain-in-content:
-    - meta_scope: string.unquoted.plain.in.yaml
+  flow-scalar-plain-in-body:
     - meta_include_prototype: false
+    - meta_scope: meta.string.yaml string.unquoted.plain.in.yaml
     - match: '{{_flow_scalar_end_plain_in}}'
       pop: true
 
@@ -574,18 +582,18 @@ contexts:
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type-11
     - match: (?={{ns_plain_first_plain_out}})
-      push: flow-scalar-plain-out-content
+      push: flow-scalar-plain-out-body
 
   flow-scalar-plain-out-12:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type-12
     - match: (?={{ns_plain_first_plain_out}})
-      push: flow-scalar-plain-out-content
+      push: flow-scalar-plain-out-body
 
-  flow-scalar-plain-out-content:
-    - meta_scope: string.unquoted.plain.out.yaml
+  flow-scalar-plain-out-body:
     - meta_include_prototype: false
+    - meta_scope: meta.string.yaml string.unquoted.plain.out.yaml
     - match: '{{_flow_scalar_end_plain_out}}'
       pop: true
 
@@ -594,28 +602,32 @@ contexts:
     # c-flow-sequence(n,c)
     - match: \[
       scope: punctuation.definition.sequence.begin.yaml
-      push:
-        - meta_scope: meta.sequence.flow.yaml
-        - match: \]
-          scope: punctuation.definition.sequence.end.yaml
-          pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.yaml
-        - include: flow-pair-no-clear
-        - include: flow-node
+      push: flow-sequence-body
+
+  flow-sequence-body:
+    - meta_scope: meta.sequence.flow.yaml
+    - match: \]
+      scope: punctuation.definition.sequence.end.yaml
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.yaml
+    - include: flow-pair-no-clear
+    - include: flow-node
 
   flow-mapping:
     - match: \{
       scope: punctuation.definition.mapping.begin.yaml
-      push:
-        - meta_scope: meta.mapping.yaml
-        - match: \}
-          scope: punctuation.definition.mapping.end.yaml
-          pop: true
-        - match: ','
-          scope: punctuation.separator.mapping.yaml
-        - include: flow-pair
-        - include: flow-node  # for sets
+      push: flow-mapping-body
+
+  flow-mapping-body:
+    - meta_scope: meta.mapping.yaml
+    - match: \}
+      scope: punctuation.definition.mapping.end.yaml
+      pop: true
+    - match: ','
+      scope: punctuation.separator.mapping.yaml
+    - include: flow-pair
+    - include: flow-node  # for sets
 
   flow-pair:
     - match: \?
@@ -677,20 +689,24 @@ contexts:
         2: keyword.control.flow.block-scalar.folded.yaml
         3: constant.numeric.indentation-indicator.yaml
         4: storage.modifier.chomping-indicator.yaml
-      push:
-        - meta_include_prototype: false
-        - match: ^([ ]+)(?! )  # match first non-empty line to determine indentation level
-          # note that we do not check if indentation is enough
-          set:
-            - meta_scope: string.unquoted.block.yaml
-            - meta_include_prototype: false
-            - match: ^(?!\1|\s*$)
-              pop: true
-        - match: ^(?=\S)  # the block is empty
-          pop: true
-        - include: comment  # include comments but not properties
-        - match: .+
-          scope: invalid.illegal.expected-comment-or-newline.yaml
+      push: block-scalar-begin
+
+  block-scalar-begin:
+    - meta_include_prototype: false
+    - match: ^([ ]+)(?! )  # match first non-empty line to determine indentation level
+      # note that we do not check if indentation is enough
+      set: block-scalar-body
+    - match: ^(?=\S)  # the block is empty
+      pop: true
+    - include: comment  # include comments but not properties
+    - match: .+
+      scope: invalid.illegal.expected-comment-or-newline.yaml
+
+  block-scalar-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.yaml string.unquoted.block.yaml
+    - match: ^(?!\1|\s*$)
+      pop: true
 
   block-sequence:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/sequence
@@ -735,16 +751,20 @@ contexts:
 
   comment:
     # http://www.yaml.org/spec/1.2/spec.html#comment//
-    - match: | # l-comment
+    - match: |- # l-comment
         (?x)
         (?: ^ [ \t]* | [ \t]+ )
         (?=\#)
-      captures:
-      push:
-        - match: '#'
-          scope: punctuation.definition.comment.line.number-sign.yaml
-          set:
-            - meta_scope: comment.line.number-sign.yaml
-            - match: \n|\z
-              pop: true
-...
+      push: comment-begin
+
+  comment-begin:
+    - meta_include_prototype: false
+    - match: \#
+      scope: punctuation.definition.comment.line.number-sign.yaml
+      set: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.yaml
+    - match: \n
+      pop: true
