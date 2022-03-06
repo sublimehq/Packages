@@ -813,6 +813,20 @@
                             )
 --                          ^ punctuation.section.sequence.end.haskell
 
+    import Foo.Bar.Types (type (|?) (..))
+--  ^^^^^^ meta.import.haskell
+--        ^^^^^^^^^^^^^^^ meta.import.module.haskell
+--                       ^^^^^^^^^^^^^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell
+--                             ^^^^ meta.prefix.haskell
+--                                  ^^^^ meta.sequence.tuple.haskell meta.sequence.tuple.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^ variable.namespace.haskell
+--                ^ punctuation.accessor.dot.haskell
+--                 ^^^^^ variable.namespace.haskell
+--                       ^ punctuation.section.sequence.begin.haskell
+--                        ^^^^ keyword.declaration.type.haskell
 
 -- [ FOREIGN EXPORT DECLARATIONS ]---------------------------------------------
 

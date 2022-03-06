@@ -284,3 +284,24 @@ contexts:
       push:
         - clear_scopes: 1
         - include: javadoc-asterisk
+
+  tag-generic-attribute-assignment:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 2
+        - include: javadoc-asterisk
+
+  tag-generic-attribute-value:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 2
+        - include: javadoc-asterisk
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 4
+        - include: javadoc-asterisk

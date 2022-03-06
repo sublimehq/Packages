@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+scope: source.sql.embedded.php
+hidden: true
+
+extends: Packages/SQL/SQL.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: php-single-quoted-strings
+    - include: php-string-single-quoted-escapes
+
+  php-string-single-quoted-escapes:
+    - match: \\[\\']
+      scope: constant.character.escape.php
+
+  php-single-quoted-strings:
+    # single quoted sql strings use escaped quotes in a single quoted php string
+    - match: \\\'
+      scope: punctuation.definition.string.begin.sql constant.character.escape.php
+      push: php-string-single-quoted-content
+
+  php-string-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \\\'
+      scope: punctuation.definition.string.begin.sql constant.character.escape.php
+      pop: true
+    - match: \\.
+      scope: constant.character.escape.sql
