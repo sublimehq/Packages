@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 scope: source.sql.embedded.php
+version: 2
 hidden: true
 
 extends: Packages/SQL/SQL.sublime-syntax
@@ -10,6 +11,12 @@ contexts:
     - meta_prepend: true
     - include: php-single-quoted-strings
     - include: php-string-single-quoted-escapes
+
+  main:
+    - meta_prepend: true
+    # prevent stray bracket highlighting
+    - match: \)
+      scope: punctuation.section.arguments.end.sql
 
   php-string-single-quoted-escapes:
     - match: \\[\\']
