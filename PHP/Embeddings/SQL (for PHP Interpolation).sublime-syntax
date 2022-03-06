@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+scope: source.sql.interpolated.php
+hidden: true
+
+extends: Packages/SQL/SQL.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolation
