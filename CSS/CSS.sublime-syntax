@@ -296,6 +296,11 @@ variables:
   page_property_names: |-
     \b(?xi: bleed | margin | marks | size ){{break}}
 
+  # @property Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+  property_property_names: |-
+    \b(?xi: syntax | inherits | initial-value ){{break}}
+
   # @scroll-timeline Property Names
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
   scroll_timeline_property_names: |-
@@ -400,6 +405,7 @@ contexts:
     - include: at-namespace
     - include: at-page
     - include: at-page-margin
+    - include: at-property
     - include: at-scroll-timeline
     - include: at-supports
     - include: at-other
@@ -741,6 +747,44 @@ contexts:
 
   at-page-property-names:
     - match: '{{page_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
+
+  # @property Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+  at-property:
+    - match: (@)(?i:property){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-property-property-list
+        - at-property-name
+
+  at-property-name:
+    - include: custom-property
+    - include: else-pop
+
+  at-property-property-list:
+    - meta_scope: meta.at-rule.property.css
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-property-property-list-content
+    - include: else-pop
+
+  at-property-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-property-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-property-property-names:
+    - match: '{{property_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
     # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'

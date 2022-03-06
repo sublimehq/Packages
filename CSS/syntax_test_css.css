@@ -1131,6 +1131,60 @@
     }
 /* ^^ meta.at-rule.layer.css meta.block.css */
 
+    @property
+/* ^ - meta.at-rule */
+/*  ^^^^^^^^^^ meta.at-rule.property.css */
+/*  ^^^^^^^^^ keyword.control.directive.css */
+/*           ^ - keyword */
+
+    @property --foo
+/*  ^^^^^^^^^^^^^^^ meta.at-rule.property.css */
+/*  ^^^^^^^^^ keyword.control.directive.css */
+/*            ^^^^^ entity.other.custom-property.css */
+
+    @property --foo ;
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.property.css */
+/*                  ^ - meta.at-rule */
+/*  ^^^^^^^^^ keyword.control.directive.css */
+/*            ^^^^^ entity.other.custom-property.css */
+/*                  ^ punctuation.terminator.rule.css */
+
+    @property --foo {  }
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.property.css */
+/*                  ^^^^ meta.at-rule.property.css meta.property-list.css meta.block.css */
+/*                      ^ - meta.at-rule */
+/*  ^^^^^^^^^ keyword.control.directive.css */
+/*            ^^^^^ entity.other.custom-property.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                     ^ punctuation.section.block.end.css */
+
+    @property --my-color {
+      syntax: '<color>';
+/*   ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.property.css meta.property-list.css meta.block.css */
+/*    ^^^^^^ meta.property-name.css support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^^^^^^^ meta.property-value.css meta.string.css string.quoted.single.css */
+/*                     ^ punctuation.terminator.rule.css */
+      inherits: false;
+/*   ^^^^^^^^^^^^^^^^^^ meta.at-rule.property.css meta.property-list.css meta.block.css */
+/*    ^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*            ^ punctuation.separator.key-value.css */
+/*              ^^^^^ meta.property-value.css support.constant.property-value.css */
+/*                   ^ punctuation.terminator.rule.css */
+      initial-value: #c0ffee;
+/*   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.property.css meta.property-list.css meta.block.css */
+/*    ^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                 ^ punctuation.separator.key-value.css */
+/*                   ^^^^^^^ meta.property-value.css constant.other.color.rgb-value.css */
+/*                          ^ punctuation.terminator.rule.css */
+      font: value;
+/*   ^^^^^^^^^^^^^^ meta.at-rule.property.css meta.property-list.css meta.block.css */
+/*    ^^^^ - meta.property-name - support.type.property-name */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^^ meta.property-value.css support.constant.property-value.css */
+/*               ^ punctuation.terminator.rule.css */
+}
+
     @scroll-timeline
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.scroll-timeline.css */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
