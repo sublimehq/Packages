@@ -872,8 +872,8 @@ contexts:
     - match: \:?=
       scope: invalid.illegal.not-allowed-here.python
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: line-continuation-or-pop
+    - include: else-pop
 
   numbers:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
@@ -1774,6 +1774,10 @@ contexts:
   line-continuation-or-pop:
     - include: line-continuation
     - match: (?=\s*($|;|#))
+      pop: true
+
+  else-pop:
+    - match: (?=\S)
       pop: true
 
   magic-function-names:
