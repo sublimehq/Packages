@@ -1728,6 +1728,38 @@ $sql = "
 ";
 // <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
+$sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "GROUP BY" ;
+//     ^ meta.string.php - meta.interpolation
+//      ^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//             ^ meta.string.php - meta.interpolation
+//              ^^^^^^^^^^ - meta.string
+//                        ^ meta.string.php - meta.interpolation
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                                         ^ meta.string.php - meta.interpolation
+//                                                          ^^^^^^^^^^^ - meta.string
+//                                                                     ^ meta.string.php - meta.interpolation
+//                                                                      ^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                                                       ^ meta.string.php - meta.interpolation
+//                                                                        ^^^^^ - meta.string
+//                                                                             ^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//     ^ string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^ keyword.other.DML.sql
+//             ^ string.quoted.double.php punctuation.definition.string.end.php
+//               ^ keyword.operator.string.php
+//                 ^^^^ variable.other.php
+//                      ^ keyword.operator.string.php
+//                        ^ string.quoted.double.php punctuation.definition.string.begin.php
+//                              ^^^^^^ variable.other.php
+//                                                         ^ string.quoted.double.php punctuation.definition.string.end.php
+//                                                           ^ keyword.operator.string.php
+//                                                             ^^^^^ variable.other.php
+//                                                                   ^ keyword.operator.string.php
+//                                                                     ^ string.quoted.double.php punctuation.definition.string.begin.php
+//                                                                       ^ string.quoted.double.php punctuation.definition.string.end.php
+//                                                                         ^ punctuation.terminator.expression.php
+//                                                                           ^ keyword.operator.string.php
+//                                                                                        ^ punctuation.terminator.expression.php
+
 $non_sql = 'NO SELECT HIGHLIGHTING!';
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string
 //         ^ punctuation.definition.string.begin
@@ -1738,6 +1770,7 @@ $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
 //     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php - meta.interpolation - string string
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
 //      ^ keyword.other.DML
+//                                             ^^^^^^^^ meta.string.sql string.quoted.single.sql
 //                                             ^^ constant.character.escape.php
 //                                                   ^^ constant.character.escape.php
 //                                                     ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
@@ -1749,6 +1782,37 @@ $sql = '
 //                                         ^^ constant.character.escape.php
 ';
 // <- meta.string.php string.quoted.single.php punctuation.definition.string.end.php - meta.interpolation - string string
+
+$sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'GROUP BY' ;
+//     ^ meta.string.php - meta.interpolation
+//      ^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//             ^ meta.string.php - meta.interpolation
+//              ^^^^^^^^^^ - meta.string
+//                        ^ meta.string.php - meta.interpolation
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                                        ^ meta.string.php - meta.interpolation
+//                                                         ^^^^^^^^^^^ - meta.string
+//                                                                    ^ meta.string.php - meta.interpolation
+//                                                                     ^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                                                      ^ meta.string.php - meta.interpolation
+//                                                                       ^^^^^ - meta.string
+//                                                                            ^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation
+//     ^ string.quoted.single.php punctuation.definition.string.begin.php
+//      ^^^^^^ keyword.other.DML.sql
+//             ^ string.quoted.single.php punctuation.definition.string.end.php
+//               ^ keyword.operator.string.php
+//                 ^^^^ variable.other.php
+//                      ^ keyword.operator.string.php
+//                        ^ string.quoted.single.php punctuation.definition.string.begin.php
+//                                                        ^ string.quoted.single.php punctuation.definition.string.end.php
+//                                                          ^ keyword.operator.string.php
+//                                                            ^^^^^ variable.other.php
+//                                                                  ^ keyword.operator.string.php
+//                                                                    ^ string.quoted.single.php punctuation.definition.string.begin.php
+//                                                                      ^ string.quoted.single.php punctuation.definition.string.end.php
+//                                                                        ^ punctuation.terminator.expression.php
+//                                                                          ^ keyword.operator.string.php
+//                                                                                       ^ punctuation.terminator.expression.php
 
 preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
