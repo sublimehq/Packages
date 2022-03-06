@@ -1,5 +1,5 @@
 {
-	"scope": "source.php - string - comment - variable.other.php - meta.embedded.html",
+	"scope": "source.php - string - comment - variable.other.php - meta.embedded.html - punctuation.section.embedded.begin.php",
 	"completions":
 	[
 		"php",

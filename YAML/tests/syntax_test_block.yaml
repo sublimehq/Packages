@@ -83,11 +83,11 @@ plain
 # http://yaml.org/spec/1.2/spec.html#style/block/mapping
 
 key: value
-#^^        string.unquoted.plain.out entity.name.tag
+#^^        meta.mapping.key string.unquoted.plain.out
 #  ^       punctuation.separator.key-value.mapping, -entity
 #    ^^^^^ string.unquoted.plain.out
 key#  :  value
-#^^^           string.unquoted.plain.out entity.name.tag
+#^^^           meta.mapping.key string.unquoted.plain.out
 #   ^          -string
 #     ^        punctuation.separator.key-value.mapping
 #        ^^^^^ string.unquoted.plain.out
@@ -95,37 +95,51 @@ key#  :  value
 # <- punctuation.separator.key-value.mapping
 
 _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
-#^^^^^^^^^                         entity.name.tag
-#           ^^^^^^^^^^^^^^^^^^^^   -entity.name.tag
+#^^^^^^^^^                         meta.mapping.key
+#           ^^^^^^^^^^^^^^^^^^^^   -meta.mapping.key
 #                                ^ comment
 
 key on line one:
-#^^^^^^^^^^^^^^ entity.name.tag
+#^^^^^^^^^^^^^^ meta.mapping.key string.unquoted.plain
   value on line two
+# ^^^^^^^^^^^^^^^^^ string.unquoted.plain.out - meta.mapping.key
+
+
+"quoted key": value
+#^^^^^^^^^^^ meta.mapping.key string.quoted.double
+#          ^ punctuation.definition.string.end
 
 ? explicit key # Empty value
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
 # ^^^^^^^^^^^^               string.unquoted.plain.out
 #              ^^^^^^^^^^^^^ comment
-# <- meta.block-mapping punctuation.definition.key-value.begin
+# <- meta.mapping punctuation.definition.key-value.begin
 
 ? |
   block key
-# ^^^^^^^^^ meta.block-mapping string.unquoted.block
-# ^^^^^^^^^ -meta.block-mapping meta.block-mapping
+# ^^^^^^^^^ meta.mapping string.unquoted.block
+# ^^^^^^^^^ -meta.mapping meta.mapping
 : - one # Explicit compact
-# <- meta.block-mapping punctuation.separator.key-value.mapping
+# <- meta.mapping punctuation.separator.key-value.mapping
   - two: :three # block value
 # ^ punctuation.definition.block.sequence
-#   ^^^ string.unquoted.plain.out entity.name.tag
+#   ^^^ meta.mapping.key string.unquoted.plain.out
 #      ^ punctuation.separator.key-value.mapping
 #        ^^^^^^ string.unquoted.plain.out
 
+# the entire first line is the key (as a mapping with one entry)
 ? a key : not a value
-#       ^ meta.block-mapping invalid.illegal.expected-newline
+# ^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+#       ^ meta.mapping.key meta.mapping punctuation.separator.key-value.mapping
+:
+# <- meta.mapping punctuation.separator.key-value.mapping - meta.mapping meta.mapping
 
 scalar
-# <- -meta.block-mapping
+# <- -meta.mapping
+
+ ?not a key
+#^^^^^^^^^^ - meta.mapping
+
 
 x:
   - #1

@@ -1605,12 +1605,28 @@ class MyClass(Inherited, \
 #                                ^ punctuation.separator.inheritance
 #                                  ^^^^^^^^^ variable.parameter.class-inheritance
 #                                           ^ keyword.operator.assignment
+#                                            ^^^^^^^ entity.other.inherited-class.python
     ur'''
 #   ^^ storage.type.string
     This is a test of docstrings
     '''
 #   ^^^ comment.block.documentation.python
     pass
+
+
+class DataClass(TypedDict, None, total=False, True=False):
+#     ^^^^^^^^^ entity.name.class.python
+#               ^^^^^^^^^ entity.other.inherited-class.python
+#                        ^ punctuation.separator.inheritance.python
+#                          ^^^^ constant.language.null.python
+#                              ^ punctuation.separator.inheritance.python
+#                                ^^^^^ variable.parameter.class-inheritance.python
+#                                     ^ keyword.operator.assignment.python
+#                                      ^^^^^ constant.language.boolean.python
+#                                           ^ punctuation.separator.inheritance.python
+#                                             ^^^^ constant.language.boolean.python
+#                                                 ^ invalid.illegal.not-allowed-here.python
+#                                                  ^^^^^ constant.language.boolean.python
 
 
 class Unterminated(Inherited:
@@ -2039,6 +2055,21 @@ generator = (
     range(100)
 )
 
+class Cls:
+    __slots__ = "item",
+#               ^^^^^^ meta.string.python string.quoted.double.python
+#                     ^ punctuation.separator.sequence.python
+
+    __slots__ = "item",
+
+    def method():
+# <- meta.function.python
+#^^^^^^^^^^^^^^^^ meta.function
+#   ^^^ keyword.declaration.function.python
+#       ^^^^^^ entity.name.function.python
+#             ^ punctuation.section.parameters.begin.python
+#              ^ punctuation.section.parameters.end.python
+#               ^ punctuation.section.function.begin.python
 
 ##################
 # Exception handling
@@ -2295,6 +2326,15 @@ class Starship:
 ##################
 # Assignment Expressions
 ##################
+
+True = False
+#    ^ invalid.illegal.not-allowed-here.python
+
+False = True
+#     ^ invalid.illegal.not-allowed-here.python
+
+None = True
+#    ^ invalid.illegal.not-allowed-here.python
 
 # Examples from https://www.python.org/dev/peps/pep-0572/
 

@@ -926,7 +926,7 @@ contexts:
     - include: immediately-pop
 
   decorator-name:
-    - match: '{{identifier_name}}{{left_expression_end_lookahead}}'
+    - match: '{{identifier_name}}(?!\s*[.\(`])'
       scope: variable.annotation.js
       pop: true
 
@@ -937,7 +937,15 @@ contexts:
         - include: decorator-name
         - include: object-property
 
-    - include: left-expression-end
+    - include: expression-break
+
+    - match: (?=`)
+      push: literal-string-template
+
+    - match: (?=(?:{{dot_accessor}})?\()
+      push: function-call-arguments
+
+    - include: else-pop
 
   decorator-expression-begin:
     - include: decorator-name

@@ -79,6 +79,22 @@ variables:
     |   ^ (\s*) (-->) \s* $
     )
 
+  event_attribute_names: |-
+    (?xi:
+      onabort | onautocomplete | onautocompleteerror | onauxclick | onblur
+    | oncancel | oncanplay | oncanplaythrough | onchange | onclick | onclose
+    | oncontextmenu | oncopy | oncuechange | ondblclick | ondrag | ondragend
+    | ondragenter | ondragexit | ondragleave | ondragover | ondragstart | ondrop
+    | ondurationchange | onemptied | onended | onerror | onfocus | onfocusin
+    | onfocusout | oninput | oninvalid | onkeydown | onkeypress | onkeyup
+    | onload | onloadeddata | onloadedmetadata | onloadstart | onmousedown
+    | onmouseenter | onmouseleave | onmousemove | onmouseout | onmouseover
+    | onmouseup | onmousewheel | onpaste | onpause | onplay | onplaying
+    | onprogress | onratechange | onreset | onresize | onscroll | onseeked
+    | onseeking | onselect | onshow | onsort | onstalled | onsubmit | onsuspend
+    | ontimeupdate | ontoggle | onvolumechange | onwaiting
+    ){{attribute_name_break}}
+
 ###############################################################################
 
 contexts:
@@ -542,18 +558,7 @@ contexts:
 ###[ EVENT ATTRIBUTE ]########################################################
 
   tag-event-attribute:
-    - match: |-
-        (?ix:on(?:
-          abort|autocomplete|autocompleteerror|auxclick|blur|cancel|canplay
-          |canplaythrough|change|click|close|contextmenu|cuechange|dblclick|drag
-          |dragend|dragenter|dragexit|dragleave|dragover|dragstart|drop
-          |durationchange|emptied|ended|error|focus|input|invalid|keydown
-          |keypress|keyup|load|loadeddata|loadedmetadata|loadstart|mousedown
-          |mouseenter|mouseleave|mousemove|mouseout|mouseover|mouseup|mousewheel
-          |pause|play|playing|progress|ratechange|reset|resize|scroll|seeked
-          |seeking|select|show|sort|stalled|submit|suspend|timeupdate|toggle
-          |volumechange|waiting
-        )){{attribute_name_break}}
+    - match: '{{event_attribute_names}}'
       scope: entity.other.attribute-name.event.html
       push:
         - tag-event-attribute-meta

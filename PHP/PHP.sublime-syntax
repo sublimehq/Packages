@@ -32,14 +32,16 @@ contexts:
     - match: ''
       set: scope:text.html.basic
       with_prototype:
-        - match: <\?(?i:php|=)?(?![^?]*\?>)
+        - match: <\?(?i:(?!php)ph?)
+          scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+        - match: <\?(?i:php\b|=)?(?![^?]*\?>)
           scope: punctuation.section.embedded.begin.php
           push:
             - meta_scope: meta.embedded.block.php
             - meta_content_scope: source.php
             - include: php-end-tag-pop
             - include: scope:source.php
-        - match: <\?(?i:php|=)?
+        - match: <\?(?i:php\b|=)?
           scope: punctuation.section.embedded.begin.php
           push:
             - meta_scope: meta.embedded.line.php
