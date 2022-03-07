@@ -1629,7 +1629,19 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                                                  ^^^^^ constant.language.boolean.python
 
 
+
+class MyClass:
+    def foo():
+        return None
+
+    def bar():
+#   ^^^^^^^^^^ meta.function
+#   ^^^ keyword.declaration.function.python
+        return True
+
+
 class Unterminated(Inherited:
+# <- meta.class.python keyword.declaration.class.python
 #                           ^ invalid.illegal
 
 
