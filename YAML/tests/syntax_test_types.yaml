@@ -134,9 +134,9 @@
 #  ^^^^ meta.number.yaml constant.language.nan.yaml
 #           ^^^^ - constant
    ., .., ...,
-#         ^^^ string.unquoted.plain.in.yaml - meta.number.float
-#     ^^ string.unquoted.plain.in.yaml - meta.number.float
 #  ^ string.unquoted.plain.in.yaml - meta.number.float
+#     ^^ string.unquoted.plain.in.yaml - meta.number.float
+#         ^^^ string.unquoted.plain.in.yaml - meta.number.float
 ]
 
 
