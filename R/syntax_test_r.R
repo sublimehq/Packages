@@ -40,6 +40,14 @@
 #    ^^^^^^^^^^^^^ entity.name.section.r
 #                 ^^^^^^ comment.line.number-sign.r - entity
 
+######
+# ^^^^^ comment.line.number-sign.r - entity
+
+# # ####
+# <- comment.line.number-sign.r punctuation.definition.comment.r
+#^^^^^^^^ comment.line.number-sign.r
+# ^ entity.name.section.r
+
 # no section ###
 # ^^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
 
