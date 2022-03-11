@@ -118,8 +118,8 @@
 #              ^ keyword.operator.arithmetic.yaml
 #               ^^^^^^^^^ constant.numeric.value.yaml
 #                    ^ punctuation.separator.decimal.yaml
-#                          ^^^^^^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
-#                           ^ punctuation.separator.decimal.yaml
+#                          ^^^^^^^^^ - meta.number.float - constant.numeric
+#                           ^ - punctuation
 #                               ^ - punctuation
 #                                     ^ constant.language.null.yaml
 #                                        ^^^^^ - constant
@@ -133,6 +133,10 @@
    .NaN, ~, .Nan,
 #  ^^^^ meta.number.yaml constant.language.nan.yaml
 #           ^^^^ - constant
+   ., .., ...,
+#         ^^^ string.unquoted.plain.in.yaml - meta.number.float
+#     ^^ string.unquoted.plain.in.yaml - meta.number.float
+#  ^ string.unquoted.plain.in.yaml - meta.number.float
 ]
 
 
