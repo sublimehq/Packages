@@ -133,15 +133,24 @@
    .NaN, ~, .Nan,
 #  ^^^^ meta.number.yaml constant.language.nan.yaml
 #           ^^^^ - constant
-## Note: it's uncertain whether `._1` should be considered valid.
-   .1_, ._1, +._12,
+   .1_, ._1, +._12, 1._, 1_. ,
 #  ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
-#       ^^^ string.unquoted.plain.in.yaml
-#            ^^^^^ string.unquoted.plain.in.yaml
-   ., .., ...,
-#  ^ string.unquoted.plain.in.yaml - meta.number.float
-#     ^^ string.unquoted.plain.in.yaml - meta.number.float
-#         ^^^ string.unquoted.plain.in.yaml - meta.number.float
+#       ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#            ^^^^^ meta.number.float.decimal.yaml
+#             ^^^^ constant.numeric.value.yaml
+#                   ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#                        ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#                           ^ - meta.number constant.numeric
+#                            ^ punctuation.separator.sequence.yaml
+   ., .., ..., ._, ._ 1, _1.2, 1. 2,
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.number
+#  ^ string.unquoted.plain.in.yaml
+#     ^^ string.unquoted.plain.in.yaml
+#         ^^^ string.unquoted.plain.in.yaml
+#              ^^ string.unquoted.plain.in.yaml
+#                  ^^^^ string.unquoted.plain.in.yaml
+#                        ^^^^ string.unquoted.plain.in.yaml
+#                              ^^^^ string.unquoted.plain.in.yaml
 ]
 
 
