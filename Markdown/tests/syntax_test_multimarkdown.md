@@ -31,5 +31,5 @@ T:           ^^^^^^^^ meta.header.multimarkdown string.unquoted.multimarkdown
 
 T: <- meta.content.multimarkdown - meta.header.multimarkdown
 # Heading
-| <- markup.heading punctuation.definition.heading
-|^^^^^^^^ markup.heading
+T: <- markup.heading punctuation.definition.heading
+T:^^^^^^^ markup.heading
