@@ -83,6 +83,20 @@ contexts:
         - ts-namespace-name
     - include: else-pop
 
+  parenthesized-expression:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - meta_scope: meta.group.js
+        - match: \)
+          scope: punctuation.section.group.end.js
+          pop: true
+        # Bail early when we see what looks like a type annotation.
+        - match: '\??:'
+          fail: arrow-function
+        - match: (?=\S)
+          push: expression
+
   branch-possible-arrow-function:
     - meta_prepend: true
     - match: (?=\()
