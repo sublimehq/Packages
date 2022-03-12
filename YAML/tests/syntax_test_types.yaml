@@ -107,7 +107,7 @@
 ##############################################################################
 ## http://yaml.org/type/float.html
 
-- [0.1, +.293, -1_123.e-3, 2.234.567, ~, 0.1 f
+- [0.1, +.293, -1_123.e-3, 1.2e3, 1e3, 2.234.567, ~, 0.1 f
 #  ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
 #   ^ punctuation.separator.decimal.yaml
 #       ^^^^^ meta.number.float.decimal.yaml
@@ -118,11 +118,13 @@
 #              ^ keyword.operator.arithmetic.yaml
 #               ^^^^^^^^^ constant.numeric.value.yaml
 #                    ^ punctuation.separator.decimal.yaml
-#                          ^^^^^^^^^ - meta.number.float - constant.numeric
-#                           ^ - punctuation
-#                               ^ - punctuation
-#                                     ^ constant.language.null.yaml
-#                                        ^^^^^ - constant
+#                          ^^^^^ meta.number.float.decimal.yaml
+#                                 ^^^ - meta.number.float - constant.numeric
+#                                      ^^^^^^^^^ - meta.number.float - constant.numeric
+#                                       ^ - punctuation
+#                                           ^ - punctuation
+#                                                 ^ constant.language.null.yaml
+#                                                    ^^^^^ - constant
    .inf, +.INF, -.Inf, ~, .inF, .inf .inf
 #  ^^^^ meta.number.float.yaml constant.language.infinity.yaml
 #        ^^^^^ meta.number.float.yaml
