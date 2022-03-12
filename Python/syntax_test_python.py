@@ -1605,6 +1605,7 @@ class MyClass(Inherited, \
 #                                ^ punctuation.separator.inheritance
 #                                  ^^^^^^^^^ variable.parameter.class-inheritance
 #                                           ^ keyword.operator.assignment
+#                                            ^^^^^^^ entity.other.inherited-class.python
     ur'''
 #   ^^ storage.type.string
     This is a test of docstrings
@@ -1613,7 +1614,34 @@ class MyClass(Inherited, \
     pass
 
 
+class DataClass(TypedDict, None, total=False, True=False):
+#     ^^^^^^^^^ entity.name.class.python
+#               ^^^^^^^^^ entity.other.inherited-class.python
+#                        ^ punctuation.separator.inheritance.python
+#                          ^^^^ constant.language.null.python
+#                              ^ punctuation.separator.inheritance.python
+#                                ^^^^^ variable.parameter.class-inheritance.python
+#                                     ^ keyword.operator.assignment.python
+#                                      ^^^^^ constant.language.boolean.python
+#                                           ^ punctuation.separator.inheritance.python
+#                                             ^^^^ constant.language.boolean.python
+#                                                 ^ invalid.illegal.not-allowed-here.python
+#                                                  ^^^^^ constant.language.boolean.python
+
+
+
+class MyClass:
+    def foo():
+        return None
+
+    def bar():
+#   ^^^^^^^^^^ meta.function
+#   ^^^ keyword.declaration.function.python
+        return True
+
+
 class Unterminated(Inherited:
+# <- meta.class.python keyword.declaration.class.python
 #                           ^ invalid.illegal
 
 
@@ -2310,6 +2338,15 @@ class Starship:
 ##################
 # Assignment Expressions
 ##################
+
+True = False
+#    ^ invalid.illegal.not-allowed-here.python
+
+False = True
+#     ^ invalid.illegal.not-allowed-here.python
+
+None = True
+#    ^ invalid.illegal.not-allowed-here.python
 
 # Examples from https://www.python.org/dev/peps/pep-0572/
 

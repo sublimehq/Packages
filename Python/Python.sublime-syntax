@@ -854,16 +854,26 @@ contexts:
     - include: nones
     - match: \b(?:Ellipsis|NotImplemented|__debug__)\b
       scope: constant.language.python
+      push: illegal-assignment
     - match: \.{3}(?!\w)
       scope: constant.language.python
 
   booleans:
     - match: \b(?:True|False)\b
       scope: constant.language.boolean.python
+      push: illegal-assignment
 
   nones:
     - match: \bNone\b
       scope: constant.language.null.python
+      push: illegal-assignment
+
+  illegal-assignment:
+    - match: \:?=
+      scope: invalid.illegal.not-allowed-here.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: else-pop
 
   numbers:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
@@ -1052,7 +1062,8 @@ contexts:
             - match: ','
               scope: punctuation.separator.inheritance.python
             - include: illegal-name
-            - match: ({{identifier}}) *(=)
+            - include: constants
+            - match: (?:({{identifier}}) *)(=)
               captures:
                 1: variable.parameter.class-inheritance.python
                 2: keyword.operator.assignment.python
@@ -1763,6 +1774,10 @@ contexts:
   line-continuation-or-pop:
     - include: line-continuation
     - match: (?=\s*($|;|#))
+      pop: true
+
+  else-pop:
+    - match: (?=\S)
       pop: true
 
   magic-function-names:

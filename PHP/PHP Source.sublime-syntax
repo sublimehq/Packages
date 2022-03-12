@@ -41,6 +41,14 @@ variables:
   heredoc_quoted_end: (?=^\s*\4\b)
   heredoc_unquoted_end: (?=^\s*\2\b)
 
+  # no odd number of backslashes behind (`\` or `\\\`)
+  # note:
+  #  1. For use in `escape` commands only !!
+  #  2. ST's Regex Compatibility Check marks it as incompatible
+  #     as the real usage of the variable is not checked.
+  #     It's a false positive as long as (1.) is respected.
+  no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
+
 contexts:
   main:
     - include: statements
@@ -1363,8 +1371,8 @@ contexts:
           captures:
             1: keyword.operator.heredoc.php
             2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-          embed: heredoc-sql
-          embed_scope: meta.embedded.sql
+          embed: scope:source.sql.interpolated.php
+          embed_scope: meta.embedded.sql source.sql.embedded.php
           escape: '{{heredoc_unquoted_end}}'
         - match: (<<<)\s*((')(?i:(SQL))('))\s*$\n?
           captures:
@@ -1374,7 +1382,7 @@ contexts:
             4: entity.name.tag.heredoc.php
             5: punctuation.definition.tag.end.php
           embed: scope:source.sql
-          embed_scope: meta.embedded.sql source.sql
+          embed_scope: meta.embedded.sql source.sql.embedded.php
           escape: '{{heredoc_quoted_end}}'
         - match: (<<<)\s*(?i:(JAVASCRIPT|JS))\s*$\n?
           captures:
@@ -1474,12 +1482,6 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.xml
-      with_prototype:
-        - include: interpolation
-  heredoc-sql:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:source.sql
       with_prototype:
         - include: interpolation
   heredoc-javascript:
@@ -1780,13 +1782,10 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.php
     - meta_content_scope: string.quoted.double.php
-    - include: string-double-quoted-end
     - match: (?={{sql_indicator}})
-      push: string-quoted-sql-content
-      with_prototype:
-        - match: (?=")
-          pop: 1
-        - include: interpolation
+      set:
+        - nested-sql-expressions
+        - string-double-quoted-sql-content
     - match: (?=\S)
       set: string-double-quoted-plain-content
 
@@ -1836,6 +1835,15 @@ contexts:
     - include: string-double-quoted-end
     - include: interpolation
 
+  string-double-quoted-sql-content:
+    - match: ''
+      pop: 1
+      embed: scope:source.sql.interpolated.php
+      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      escape: '{{no_escape_behind}}"'
+      escape_captures:
+        0: meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+
 
   strings-single-quoted:
     - match: (?='/)
@@ -1858,12 +1866,9 @@ contexts:
     - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
     - match: (?={{sql_indicator}})
-      push: string-quoted-sql-content
-      with_prototype:
-        - match: (?=')
-          pop: 1
-        - match: '\\[\\'']'
-          scope: constant.character.escape.php
+      set:
+        - nested-sql-expressions
+        - string-single-quoted-sql-content
     - match: (?=\S)
       scope: punctuation.definition.string.begin.php
       set: string-single-quoted-plain-content
@@ -1910,12 +1915,31 @@ contexts:
     - match: \\[\\'']
       scope: constant.character.escape.php
 
-  string-quoted-sql-content:
-    - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_content_scope: meta.interpolation.php source.sql.embedded.php
-    - include: scope:source.sql
-      apply_prototype: true
+  string-single-quoted-sql-content:
+    - match: ''
+      pop: 1
+      embed: scope:source.sql.embedded.php  # no interpolation
+      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      escape: "{{no_escape_behind}}'"
+      escape_captures:
+        0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
+
+  nested-sql-expressions:
+    - match: \"
+      scope: meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
+      embed: scope:source.sql.interpolated.php
+      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      escape: '{{no_escape_behind}}"'
+      escape_captures:
+        0: meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+    - match: \'
+      scope: meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
+      embed: scope:source.sql.embedded.php  # no interpolation
+      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      escape: "{{no_escape_behind}}'"
+      escape_captures:
+        0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
+    - include: nested-expressions
 
 ###[ BUILTINS ]###############################################################
 
