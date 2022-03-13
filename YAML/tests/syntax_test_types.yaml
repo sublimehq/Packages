@@ -107,7 +107,7 @@
 ##############################################################################
 ## http://yaml.org/type/float.html
 
-- [0.1, +.293, -1_123.e-3, 2.234.567, ~, 0.1 f
+- [0.1, +.293, -1_123.e-3, 1.2e3, 1e3, 2.234.567, ~, 0.1 f
 #  ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
 #   ^ punctuation.separator.decimal.yaml
 #       ^^^^^ meta.number.float.decimal.yaml
@@ -118,11 +118,13 @@
 #              ^ keyword.operator.arithmetic.yaml
 #               ^^^^^^^^^ constant.numeric.value.yaml
 #                    ^ punctuation.separator.decimal.yaml
-#                          ^^^^^^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
-#                           ^ punctuation.separator.decimal.yaml
-#                               ^ - punctuation
-#                                     ^ constant.language.null.yaml
-#                                        ^^^^^ - constant
+#                          ^^^^^ meta.number.float.decimal.yaml
+#                                 ^^^ - meta.number.float - constant.numeric
+#                                      ^^^^^^^^^ - meta.number.float - constant.numeric
+#                                       ^ - punctuation
+#                                           ^ - punctuation
+#                                                 ^ constant.language.null.yaml
+#                                                    ^^^^^ - constant
    .inf, +.INF, -.Inf, ~, .inF, .inf .inf
 #  ^^^^ meta.number.float.yaml constant.language.infinity.yaml
 #        ^^^^^ meta.number.float.yaml
@@ -133,6 +135,24 @@
    .NaN, ~, .Nan,
 #  ^^^^ meta.number.yaml constant.language.nan.yaml
 #           ^^^^ - constant
+   .1_, ._1, +._12, 1._, 1_. ,
+#  ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#       ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#            ^^^^^ meta.number.float.decimal.yaml
+#             ^^^^ constant.numeric.value.yaml
+#                   ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#                        ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#                           ^ - meta.number constant.numeric
+#                            ^ punctuation.separator.sequence.yaml
+   ., .., ..., ._, ._ 1, _1.2, 1. 2,
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.number
+#  ^ string.unquoted.plain.in.yaml
+#     ^^ string.unquoted.plain.in.yaml
+#         ^^^ string.unquoted.plain.in.yaml
+#              ^^ string.unquoted.plain.in.yaml
+#                  ^^^^ string.unquoted.plain.in.yaml
+#                        ^^^^ string.unquoted.plain.in.yaml
+#                              ^^^^ string.unquoted.plain.in.yaml
 ]
 
 

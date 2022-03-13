@@ -171,9 +171,17 @@ variables:
   _type_int_other: ([-+]?)([1-9][0-9_]*(?::[0-5]?[0-9])+) # (base 60)
 
   # http://yaml.org/type/float.html
-  _type_float_decimal: ([-+]?)((?:[0-9][0-9_]*)?(\.)[0-9.]*(?:[eE][-+][0-9]+)?)
+  _type_float_decimal: |-
+    (?x)
+    ([-+]?) (
+      (?:
+        [0-9][0-9_]* (\.) [0-9_]*
+      | (\.) _*[0-9][0-9_]*
+      )
+      (?:[eE][-+]?[0-9]+)?
+    )
   _type_float_other: ([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+(\.)[0-9_]*) # (base 60)
-  _type_float_infinity: '([-+])?(\.(?:inf|Inf|INF))' # (infinity)
+  _type_float_infinity: ([-+])?(\.(?:inf|Inf|INF)) # (infinity)
   _type_float_nan: \.(?:nan|NaN|NAN) # (not a number)
 
   # http://yaml.org/type/timestamp.html
@@ -449,6 +457,7 @@ contexts:
         1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
+        4: punctuation.separator.decimal.yaml
     - match: '{{_type_float_other}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.float.other.yaml
       captures:
@@ -551,6 +560,7 @@ contexts:
         1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
+        4: punctuation.separator.decimal.yaml
     - match: '{{_type_float_other}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.float.other.yaml
       captures:
