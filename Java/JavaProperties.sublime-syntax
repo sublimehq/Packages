@@ -24,7 +24,7 @@ contexts:
     - include: escapes
     - match: \s*([:=])
       captures:
-        1: punctuation.separator.mapping.key-value.java-props
+        1: punctuation.separator.key-value.java-props
       set: maybe-property-value
     - match: \s+(?=\S)
       set: maybe-property-value
