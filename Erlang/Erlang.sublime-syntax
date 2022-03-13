@@ -1173,14 +1173,14 @@ contexts:
         - include: map-common
         # value
         - match: =>|\:=
-          scope: meta.mapping.erlang punctuation.separator.mapping.key-value.erlang
+          scope: meta.mapping.erlang punctuation.separator.key-value.erlang
           push:
             - meta_content_scope: meta.mapping.value.erlang
             - include: expressions
             - include: value-end-pop
         # key
         - match: ',?'
-          scope: meta.mapping.erlang punctuation.separator.mapping.pair.erlang
+          scope: meta.mapping.erlang punctuation.separator.sequence.erlang
           push:
             - meta_content_scope: meta.mapping.key.erlang
             - match: (?==>|\:=)
@@ -1198,14 +1198,14 @@ contexts:
         - include: map-common
         # value
         - match: =>|\:=
-          scope: meta.mapping.erlang punctuation.separator.mapping.key-value.erlang
+          scope: meta.mapping.erlang punctuation.separator.key-value.erlang
           push:
             - meta_content_scope: meta.mapping.value.erlang
             - include: type-expressions
             - include: value-end-pop
         # key
         - match: ',?'
-          scope: meta.mapping.erlang punctuation.separator.mapping.pair.erlang
+          scope: meta.mapping.erlang punctuation.separator.sequence.erlang
           push:
             - meta_content_scope: meta.mapping.key.erlang
             - match: (?==>|\:=)
@@ -1216,7 +1216,7 @@ contexts:
 
   map-separator:
     - match: =>|\:=
-      scope: punctuation.separator.mapping.key-value.erlang
+      scope: punctuation.separator.key-value.erlang
 
   map-common:
     - match: \}
