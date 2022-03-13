@@ -27,7 +27,7 @@ gitdir: ~/../sub..li~me/./packages/.git
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
 # <- keyword.other.gitdir.git.link
 #^^^^^ keyword.other.gitdir.git.link
-#     ^ punctuation.separator.mapping.key-value.git.link
+#     ^ punctuation.separator.key-value.git.link
 #      ^ - string.unquoted.git
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
 #                                      ^ - string.unquoted.git
@@ -48,7 +48,7 @@ gitdir invalid : ../data/s?bl*me/packages/.git
 # <- keyword.other.gitdir.git.link
 #^^^^^ keyword.other.gitdir.git.link
 #      ^^^^^^^ invalid.illegal.separator-expected.git.link
-#              ^ punctuation.separator.mapping.key-value.git.link
+#              ^ punctuation.separator.key-value.git.link
 #                ^^ constant.language.path.parent.git
 #                  ^ punctuation.separator.path.git
 #                       ^ punctuation.separator.path.git

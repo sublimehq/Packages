@@ -9,7 +9,7 @@ Author: username <user-name.last@host.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
 #^^^^^^^ - string.unquoted.log
 #^^^^^ keyword.other.header.git.log
-#     ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#     ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
 #                ^ punctuation.definition.reference.email.begin.git
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
@@ -22,7 +22,7 @@ Date:   Thu Sep 21 22:53:04 2017 +0200
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
 #^^^^^^^ - string.unquoted.log
 #^^^ keyword.other.header.git.log
-#   ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#   ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
 
 # <- text.git.log - meta.header.git.commit - markup.raw.block.git.log - keyword.other.header.git.log
@@ -59,7 +59,7 @@ Author: username <user-name.last@host.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
 #^^^^^^^ - string.unquoted.log
 #^^^^^ keyword.other.header.git.log
-#     ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#     ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
 #                ^ punctuation.definition.reference.email.begin.git
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
@@ -72,7 +72,7 @@ Date:   Thu Sep 21 22:53:04 2017 +0200
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
 #^^^^^^^ - string.unquoted.log
 #^^^ keyword.other.header.git.log
-#   ^ punctuation.separator.mapping.pair.git.log - keyword.other.header.git.log
+#   ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
 
 commit 344d003a330e244cc507d17c2f224bb295013511 (HEAD -> git_show, sublimehq/master, master)

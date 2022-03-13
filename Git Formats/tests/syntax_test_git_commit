@@ -105,7 +105,7 @@ Fix: #203
 #^^^^^^^^ meta.message.git.commit
 #^^^^^^^^ meta.reference.issue.git
 #^^ keyword.other.resolved-issue.git
-#  ^ punctuation.separator.mapping.pair.resolved-issue.git
+#  ^ punctuation.separator.key-value.resolved-issue.git
 #    ^ punctuation.definition.reference.issue.git
 #    ^^^^ constant.other.reference.issue.git
 #
@@ -134,7 +134,7 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                         ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 # ^^^^^^^^^^^^^ keyword.other.signed-off-by.git.commit
-#              ^ punctuation.separator.mapping.pair.git.commit
+#              ^ punctuation.separator.key-value.git.commit
 #                         ^ punctuation.definition.reference.email.begin.git
 #                          ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                              ^ - punctuation.separator.email.git
@@ -204,23 +204,23 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^ keyword.other.change-list.git.commit
-#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#            ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.inserted.file.git.commit
 #    modified:   gitconfig/Snippets/section.sublime-snippet
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^ keyword.other.change-list.git.commit
-#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#            ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
 #    renamed:    gitconfig/old_name -> gitconfig/new_name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
-#                                   ^^ punctuation.separator.mapping.pair.path.git.commit
+#                                   ^^ punctuation.separator.key-value.path.git.commit
 #    deleted:    gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^ keyword.other.change-list.git.commit
-#           ^ punctuation.separator.mapping.pair.change-list.git.commit
+#           ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
 # zum Commit vorgemerkte Änderungen:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
@@ -230,23 +230,23 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^^^ keyword.other.change-list.git.commit
-#              ^ punctuation.separator.mapping.pair.change-list.git.commit
+#              ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.inserted.file.git.commit
 #    geändert:   gitconfig/Snippets/section.sublime-snippet
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^ keyword.other.change-list.git.commit
-#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#            ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
 #    renommé:    gitconfig/old_name -> gitconfig/new_name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
-#                                   ^^ punctuation.separator.mapping.pair.path.git.commit
+#                                   ^^ punctuation.separator.key-value.path.git.commit
 #    gelöscht:   gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^ keyword.other.change-list.git.commit
-#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#            ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
 # 要提交的变更:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
@@ -256,23 +256,23 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^ keyword.other.change-list.git.commit
-#       ^ punctuation.separator.mapping.pair.change-list.git.commit
+#       ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.inserted.file.git.commit
 #    修改:         gitconfig/Snippets/section.sublime-snippet
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^ keyword.other.change-list.git.commit
-#      ^ punctuation.separator.mapping.pair.change-list.git.commit
+#      ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
 #    重命名:    gitconfig/old_name -> gitconfig/new_name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
-#                               ^^ punctuation.separator.mapping.pair.path.git.commit
+#                               ^^ punctuation.separator.key-value.path.git.commit
 #    删除:         gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^ keyword.other.change-list.git.commit
-#      ^ punctuation.separator.mapping.pair.change-list.git.commit
+#      ^ punctuation.separator.key-value.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
 # ------------------------ >8 ------------------------
 # Do not touch the line above.

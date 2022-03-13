@@ -61,7 +61,7 @@ contexts:
     - match: ^(\w+)\s*(:)\s*
       captures:
         1: keyword.other.header.git.log
-        2: punctuation.separator.mapping.pair.git.log
+        2: punctuation.separator.key-value.git.log
       push:
         - meta_scope: meta.header.git.commit markup.raw.block.git.log
         - meta_content_scope: string.unquoted.log

@@ -13,7 +13,7 @@
 #                         ^ keyword.operator.logical.git.attributes
 #                          ^^^^^ variable.language.attribute.git.attributes
 #                                ^^^^^^ variable.language.attribute.git.attributes
-#                                      ^ punctuation.separator.mapping.key-value.git.attributes
+#                                      ^ punctuation.separator.key-value.git.attributes
 #                                       ^^^^ string.unquoted.git.attributes
 [macro\tws]attr
 # <- meta.brackets.git.attributes punctuation.definition.brackets.begin.git.attributes
@@ -64,13 +64,13 @@
 #            ^ punctuation.definition.string.end.git.attributes - entity.name.pattern.git
 #             ^^^^^^ meta.attributes-list.git.attributes
 #              ^^^^ variable.language.attribute.git.attributes
-#                  ^ punctuation.separator.mapping.key-value.git.attributes
+#                  ^ punctuation.separator.key-value.git.attributes
 #                   ^ punctuation.definition.string.begin.git.attributes
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.git.attributes
 #                                     ^^^^^^^^^^ constant.character.escape.git.attributes
 #                                                                             ^ punctuation.definition.string.end.git.attributes
 #                                                                               ^^^^^ variable.language.attribute.git.attributes
-#                                                                                    ^ punctuation.separator.mapping.key-value.git.attributes
+#                                                                                    ^ punctuation.separator.key-value.git.attributes
 #                                                                                     ^^^^^^^^ string.quoted.double.git.attributes
 #                                                                                             ^^^^^^^^^ invalid.illegal.value.git.attributes
 
@@ -92,9 +92,9 @@
 #                           ^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes
 #                           ^^^^^^^^^^^^^^^ meta.attribute
 #                           ^^^^^^^^ meta.mapping.key.git.attributes variable.language.attribute.git.attributes
-#                                   ^ punctuation.separator.mapping.key-value.git.attributes
+#                                   ^ punctuation.separator.key-value.git.attributes
 #                                    ^^^^^ meta.mapping.value.git.attributes string.unquoted.git.attributes
-#                                         ^ meta.attribute meta.mapping.git.attributes punctuation.separator.mapping.pair.git.attributes
+#                                         ^ meta.attribute meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
 
 # set binary content
 /path/*.pb?proj binary -text !indent eol=crlf attr=val1,-val2,!val3 !attr2 # no-comment
@@ -116,15 +116,15 @@
 #                             ^^^^^^ variable.language.attribute.git.attributes
 #                                   ^ - variable.language.attribute - keyword.operator.logical
 #                                    ^^^ variable.language.attribute.git.attributes
-#                                       ^ punctuation.separator.mapping.key-value.git.attributes
+#                                       ^ punctuation.separator.key-value.git.attributes
 #                                        ^^^^ string.unquoted.git.attributes
 #                                            ^ - variable.language.attribute - keyword.operator.logical
 #                                             ^^^^ variable.language.attribute.git.attributes
-#                                                 ^ punctuation.separator.mapping.key-value.git.attributes
+#                                                 ^ punctuation.separator.key-value.git.attributes
 #                                                  ^^^^ string.unquoted.git.attributes
-#                                                      ^ punctuation.separator.mapping.values.git.attributes
+#                                                      ^ punctuation.separator.sequence.git.attributes
 #                                                       ^^^^^ string.unquoted.git.attributes
-#                                                            ^ punctuation.separator.mapping.values.git.attributes
+#                                                            ^ punctuation.separator.sequence.git.attributes
 #                                                             ^^^^^ string.unquoted.git.attributes
 #                                                                  ^ - variable.language.attribute - keyword.operator.logical
 #                                                                   ^ keyword.operator.logical.git.attributes
@@ -177,7 +177,7 @@ pattern attr=
 #      ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git
 #       ^^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
 #           ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
-#           ^ punctuation.separator.mapping.key-value.git
+#           ^ punctuation.separator.key-value.git
 #            ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
 
 # TEST: `meta.mapping.expect-value` at end of line
@@ -188,21 +188,21 @@ pattern attr= no_value attr=value, eol=lf,
 #      ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git
 #       ^^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
 #           ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
-#           ^ punctuation.separator.mapping.key-value.git
+#           ^ punctuation.separator.key-value.git
 #            ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
 #             ^^^^^^^^ meta.attribute.other.git meta.mapping.key.git variable.language.attribute.git - meta.mapping.expect-value.git
 #                     ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git
 #                      ^^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
 #                          ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
-#                          ^ punctuation.separator.mapping.key-value.git
+#                          ^ punctuation.separator.key-value.git
 #                           ^^^^^ string.unquoted.git.attributes
 #                           ^^^^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
-#                                ^ meta.mapping.git.attributes punctuation.separator.mapping.values.git.attributes
+#                                ^ meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
 #                                 ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
 #                                  ^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
 #                                     ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
-#                                     ^ punctuation.separator.mapping.key-value.git
+#                                     ^ punctuation.separator.key-value.git
 #                                      ^^ string.unquoted.git.attributes
 #                                      ^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
-#                                        ^ meta.mapping.git.attributes punctuation.separator.mapping.values.git.attributes
+#                                        ^ meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
 #                                         ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git

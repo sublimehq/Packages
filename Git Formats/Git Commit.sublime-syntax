@@ -82,7 +82,7 @@ contexts:
     - match: ^\s*(Signed-off-by)\s*(:)
       captures:
         1: keyword.other.signed-off-by.git.commit
-        2: punctuation.separator.mapping.pair.git.commit
+        2: punctuation.separator.key-value.git.commit
 
 ##[ COMMENTS ]#########################################################
 
@@ -112,40 +112,40 @@ contexts:
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.inserted.file.git.commit
     - match: \b({{copied}}|{{renamed}})\s*(:)\s*((.+)\s+(->)\s+(.+))
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit
         4: markup.changed.file.name.git.commit
-        5: punctuation.separator.mapping.pair.path.git.commit
+        5: punctuation.separator.key-value.path.git.commit
         6: markup.changed.file.name.git.commit
     - match: \b({{typechange}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.changed.file.name.git.commit
     - match: \b({{modified}}|{{both_modified}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.changed.file.content.git.commit
     - match: \b({{deleted}}|{{deleted_by_them}}|{{deleted_by_us}}|{{both_deleted}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.deleted.file.git.commit
     - match: \b({{unknown}}|{{unmerged}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.ignored.file.git.commit
 
   commands-line:
@@ -162,7 +162,7 @@ contexts:
     - match: \b({{date}})\s*(:)\s*(.*)
       captures:
         1: markup.heading.git.commit
-        2: punctuation.separator.mapping.pair.date.git.commit
+        2: punctuation.separator.key-value.date.git.commit
         3: constant.language.timestamp.git.commit
 
   heading:

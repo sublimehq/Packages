@@ -185,7 +185,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #  ^ punctuation.separator.sequence
 #    ^^^^ keyword.operator.commit.pick
 #        ^^^^^^^^^^^^^ - keyword.operator
-#         ^ punctuation.separator.mapping.pair
+#         ^ punctuation.separator.key-value
 # ^^^^^^^^^^ - string.unquoted
 #           ^^^^^^^^^^ string.unquoted
 #
@@ -198,7 +198,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #         ^^^^^^^^ variable.parameter.git.rebase
 #         ^ punctuation.definition.variable.begin.git.rebase
 #                ^ punctuation.definition.variable.end.git.rebase
-#                  ^ punctuation.separator.mapping.pair.git.rebase
+#                  ^ punctuation.separator.key-value.git.rebase
 #                    ^^^^^^^^^^ string.unquoted.git.rebase
 #
 # r, reword = use commit, but edit the commit message
@@ -216,7 +216,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #           ^^^^^^^^ variable.parameter.git.rebase
 #           ^ punctuation.definition.variable.begin.git.rebase
 #                  ^ punctuation.definition.variable.end.git.rebase
-#                    ^ punctuation.separator.mapping.pair.git.rebase
+#                    ^ punctuation.separator.key-value.git.rebase
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # e, edit = use commit, but stop for amending
@@ -234,7 +234,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #         ^^^^^^^^ variable.parameter.git.rebase
 #         ^ punctuation.definition.variable.begin.git.rebase
 #                ^ punctuation.definition.variable.end.git.rebase
-#                  ^ punctuation.separator.mapping.pair.git.rebase
+#                  ^ punctuation.separator.key-value.git.rebase
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # s, squash = use commit, but meld into previous commit
@@ -252,7 +252,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #           ^^^^^^^^ variable.parameter.git.rebase
 #           ^ punctuation.definition.variable.begin.git.rebase
 #                  ^ punctuation.definition.variable.end.git.rebase
-#                    ^ punctuation.separator.mapping.pair.git.rebase
+#                    ^ punctuation.separator.key-value.git.rebase
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # f, fixup = like "squash", but discard this commit's log message
@@ -289,7 +289,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #         ^^^^^^^^^ variable.parameter.git.rebase
 #         ^ punctuation.definition.variable.begin.git.rebase
 #                 ^ punctuation.definition.variable.end.git.rebase
-#                   ^ punctuation.separator.mapping.pair.git.rebase
+#                   ^ punctuation.separator.key-value.git.rebase
 #                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # b, break = stop here (continue rebase later with 'git rebase --continue')
@@ -298,7 +298,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # ^ keyword.operator.commit.break.git.rebase
 #  ^ punctuation.separator.sequence.git.rebase
 #    ^^^^^ keyword.operator.commit.break.git.rebase
-#          ^ punctuation.separator.mapping.pair.git.rebase
+#          ^ punctuation.separator.key-value.git.rebase
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # d, drop = remove commit
@@ -316,7 +316,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #         ^^^^^^^^ variable.parameter.git.rebase
 #         ^ punctuation.definition.variable.begin.git.rebase
 #                ^ punctuation.definition.variable.end.git.rebase
-#                  ^ punctuation.separator.mapping.pair.git.rebase
+#                  ^ punctuation.separator.key-value.git.rebase
 #                    ^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # l, label <label> = label current HEAD with a name
@@ -328,7 +328,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #          ^^^^^^^ variable.parameter.git.rebase
 #          ^ punctuation.definition.variable.begin.git.rebase
 #                ^ punctuation.definition.variable.end.git.rebase
-#                  ^ punctuation.separator.mapping.pair.git.rebase
+#                  ^ punctuation.separator.key-value.git.rebase
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # t, reset <label> = reset HEAD to a label
@@ -340,7 +340,7 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #          ^^^^^^^ variable.parameter.git.rebase
 #          ^ punctuation.definition.variable.begin.git.rebase
 #                ^ punctuation.definition.variable.end.git.rebase
-#                  ^ punctuation.separator.mapping.pair.git.rebase
+#                  ^ punctuation.separator.key-value.git.rebase
 #                    ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.rebase
 #
 # m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
