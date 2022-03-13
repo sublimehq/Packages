@@ -194,7 +194,7 @@ true: false
 #^^^^ constant.language.nan.yaml
 #    ^ punctuation.separator.key-value.mapping.yaml
 #      ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
-#       ^ punctuation.separator.mapping.yaml
+#       ^ punctuation.separator.sequence.yaml
 #         ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 #          ^ punctuation.separator.key-value.mapping.yaml
 #            ^^^^^^^^^^ constant.other.timestamp.yaml
