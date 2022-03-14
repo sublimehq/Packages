@@ -90,7 +90,7 @@ contexts:
       scope: meta.reference.issue.git
       captures:
         1: keyword.other.resolved-issue.git
-        2: punctuation.separator.mapping.pair.resolved-issue.git
+        2: punctuation.separator.key-value.resolved-issue.git
         3: constant.other.reference.issue.git
         4: punctuation.separator.reference.issue.git  # (inside repository_ref)
         5: punctuation.definition.reference.issue.git

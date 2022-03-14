@@ -181,7 +181,7 @@ contexts:
   help-cmd-descriptions:
     - match: (=)\s*(\S.+)
       captures:
-        1: punctuation.separator.mapping.pair.git.rebase
+        1: punctuation.separator.key-value.git.rebase
         2: string.unquoted.git.rebase
 
   help-cmd-parameters:
