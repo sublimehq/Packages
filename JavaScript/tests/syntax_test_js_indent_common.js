@@ -5,6 +5,33 @@
  * This will print 'Hello World' as the output
  **/
 
+function testIndentBrackets()
+{
+    let foo = [
+        [
+            [
+                0, 1,
+                2, 3
+            ],
+            [0, 1, 2, 3],
+            [
+                0, 1,
+                2, 3
+            ]
+        ]
+    ];
+
+    let foo = {
+        {
+            "key": "value"
+        },
+        { "key": "value" },
+        {
+            "key": "value"
+        }
+    }
+}
+
 function testIfElseIndentationNoBraces(v)
 {
     /**
@@ -696,6 +723,14 @@ function testForIndentation(v)  {
     for (
         let i = 0;
         i < 10;
+        i++) {
+        let j = 0;
+        let k = 0;
+    }
+
+    for (
+        let i = 0;
+        i < 10;
         i++)
     {
         let j = 0;
@@ -705,7 +740,8 @@ function testForIndentation(v)  {
     for (
         let i = 0;
         i < 10;
-        i++) {
+        i++
+    ) {
         let j = 0;
         let k = 0;
     }
@@ -905,7 +941,13 @@ function testWhileIndentationWithBraces(v)  {
     }
     while (
         v == foo( bar("") + "" )
-        )
+    )
+    {
+        v++
+        v++
+    }
+    while (
+        v == foo( bar("") + "" ) )
     {
         v++
         v++
@@ -917,7 +959,7 @@ function testWhileIndentationWithBraces(v)  {
     }
     while (
         v == foo( bar("") + "" )
-        ) {
+    ) {
         v++
         v++
     }

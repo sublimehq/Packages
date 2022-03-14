@@ -10,8 +10,8 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# dedent closing braces
-			  \}
+			# dedent closing brackets
+			  [])}]
 			# detent `case ... :`
 			| case\b
 			# detent `default:`
@@ -24,9 +24,9 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# indent after opening braces (may be followed by whitespace or comments)
+			# indent after opening brackets (may be followed by whitespace or comments)
 			# but exclude lines such as `extern "C" {`
-			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			  .* [\[({] (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
 			# indent after `case ... :`
 			| case\b
 			# indent after `default:`
@@ -84,8 +84,6 @@
 			)
 		]]></string>
 
-		<key>indentSquareBrackets</key>
-		<true/>
 	</dict>
 </dict>
 </plist>
