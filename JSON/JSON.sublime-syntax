@@ -116,7 +116,7 @@ contexts:
             - meta_include_prototype: false
             - include: inside-string
         - match: ':'
-          scope: punctuation.separator.mapping.key-value.json
+          scope: punctuation.separator.key-value.json
           push:
             - match: ',|\s?(?=\})'
               scope: invalid.illegal.expected-mapping-value.json
@@ -129,7 +129,7 @@ contexts:
                 - match: ''
                   set:
                     - match: ','
-                      scope: punctuation.separator.mapping.pair.json
+                      scope: punctuation.separator.sequence.json
                       pop: 1
                     - match: \s*(?=\})
                       pop: 1
