@@ -652,7 +652,7 @@ range(20)[10:2:-2]
 
 {foo.: bar.baz.}.
 #   ^ punctuation.accessor.dot.python
-#    ^ punctuation.separator.mapping.key-value.python
+#    ^ punctuation.separator.key-value.python
 #         ^ punctuation.accessor.dot.python
 #             ^ punctuation.accessor.dot.python
 #               ^ punctuation.accessor.dot.python
@@ -1116,13 +1116,13 @@ def _():
 #   ^^^^ keyword.control.conditional.case.python
 #        ^ punctuation.section.mapping.begin.python
 #         ^^^^^ meta.qualified-name.python meta.generic-name.python
-#              ^ punctuation.separator.mapping.key-value.python
+#              ^ punctuation.separator.key-value.python
 #                ^^^^^^^ string.quoted.single.python
-#                       ^ punctuation.separator.mapping.pair.python
+#                       ^ punctuation.separator.sequence.python
 #                         ^^^^^^^ meta.qualified-name.python
-#                                ^ punctuation.separator.mapping.key-value.python
+#                                ^ punctuation.separator.key-value.python
 #                                  ^^^ constant.numeric.value.python
-#                                     ^ punctuation.separator.mapping.pair.python
+#                                     ^ punctuation.separator.sequence.python
 #                                       ^^ keyword.operator.unpacking.mapping.python
 #                                         ^^^^^^^ meta.generic-name.python
 #                                                ^ punctuation.section.mapping.end.python
@@ -1804,11 +1804,11 @@ mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^ punctuation.section.mapping.begin
 #         ^^^^^ meta.mapping.key.python string.quoted.double
-#              ^ punctuation.separator.mapping.key-value
+#              ^ punctuation.separator.key-value
 #                ^^^^ meta.mapping.value.python constant.language
-#                    ^ punctuation.separator.mapping
+#                    ^ punctuation.separator.sequence.python
 #                      ^^^^ meta.mapping.key.python meta.qualified-name
-#                          ^ punctuation.separator.mapping
+#                          ^ punctuation.separator.key-value.python
 #                            ^^^^^^^^^^^^^^^^ meta.sequence.tuple
 #                            ^ punctuation.section.sequence.begin
 #                             ^ constant.numeric
@@ -1816,13 +1816,13 @@ mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
 #                                   ^^^^^^^^ meta.sequence.list
 #                                      ^ punctuation.separator.sequence
 #                                           ^ punctuation.section.sequence.end
-#                                            ^ punctuation.separator.mapping.python
+#                                            ^ punctuation.separator.sequence.python
 #                                              ^ invalid.illegal.expected-colon.python
 #                                               ^ punctuation.section.mapping.end - meta.mapping.key
 
 mydict = { 'a' : xform, 'b' : form, 'c' : frm }
-#                                 ^ meta.mapping.python punctuation.separator.mapping.python
-#                                       ^ punctuation.separator.mapping.key-value.python
+#                                 ^ meta.mapping.python punctuation.separator.sequence.python
+#                                       ^ punctuation.separator.key-value.python
 
 mydict = { a : b async for b in range(1, 2) }
 #                ^^^^^ storage.modifier.async.python
@@ -1846,7 +1846,7 @@ mapping_or_set = {
 #                ^ meta.mapping.python punctuation.section.mapping.begin.python
     1: True
 #   ^ meta.mapping.key.python meta.number.integer.decimal.python constant.numeric.value.python
-#    ^ punctuation.separator.mapping.key-value.python
+#    ^ punctuation.separator.key-value.python
 }
 # <- meta.mapping.python punctuation.section.mapping.end.python
 
@@ -1855,8 +1855,8 @@ complex_mapping = {(): "value"}
 
 more_complex_mapping = {**{1: 1}, 2: 2}
 #                      ^ meta.mapping.python
-#                               ^ meta.mapping.python punctuation.separator.mapping.python
-#                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
+#                               ^ meta.mapping.python punctuation.separator.sequence.python
+#                                  ^ meta.mapping.python punctuation.separator.key-value.python
 
 more_complex_set = {
 #                  ^ meta.set.python
@@ -2044,7 +2044,7 @@ d = {**d, **dict()}
 #    ^^^ - meta.mapping.key
 #    ^^ keyword.operator.unpacking.mapping.python
 #      ^ meta.qualified-name.python
-#       ^ punctuation.separator.mapping.python
+#       ^ punctuation.separator.sequence.python
 #         ^^^^^^^^ - meta.mapping.key
 #         ^^ keyword.operator.unpacking.mapping.python
 #           ^^^^ support.type.python

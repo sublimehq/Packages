@@ -601,12 +601,12 @@ contexts:
       scope: punctuation.section.mapping.end.python
       pop: true
     - match: ','
-      scope: punctuation.separator.mapping.pair.python
+      scope: punctuation.separator.sequence.python
     - match: \*\*
       scope: keyword.operator.unpacking.mapping.python
       push: case-pattern-dictionary-patterns
     - match: ':'
-      scope: meta.mapping.python punctuation.separator.mapping.key-value.python
+      scope: meta.mapping.python punctuation.separator.key-value.python
       push:
         - case-pattern-dictionary-value
         - allow-unpack-operators
@@ -1528,7 +1528,7 @@ contexts:
       set: after-expression
     - include: illegal-assignment-expression
     - match: ':'
-      scope: punctuation.separator.mapping.key-value.python
+      scope: punctuation.separator.key-value.python
       set: inside-directory-value
     - match: ','
       scope: invalid.illegal.expected-colon.python
@@ -1538,7 +1538,7 @@ contexts:
         - match: (?=\})
           pop: true
         - match: ','
-          scope: punctuation.separator.mapping.python
+          scope: punctuation.separator.sequence.python
           pop: true
         - include: expression-in-a-group
     - include: comments
@@ -1559,7 +1559,7 @@ contexts:
       set:
         # clear meta scope from this match, because 'inside-directory' has it in meta_scope
         - match: ','
-          scope: punctuation.separator.mapping.python
+          scope: punctuation.separator.sequence.python
           set: inside-dictionary
     - match: (?=(?:async|for)\b)
       push:
