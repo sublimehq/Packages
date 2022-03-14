@@ -635,7 +635,7 @@ contexts:
       scope: punctuation.definition.mapping.end.yaml
       pop: true
     - match: ','
-      scope: punctuation.separator.mapping.yaml
+      scope: punctuation.separator.sequence.yaml
     - include: flow-pair
     - include: flow-node  # for sets
 
