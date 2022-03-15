@@ -93,10 +93,10 @@ variables:
   pragma_directives: |-
     (?x:
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html
-      LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
-    | MINIMAL | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE | COLUMN | RULES
-    | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE | OVERLAPPING
-    | OVERLAPPABLE | OVERLAPS | INCOHERENT | CTYPE
+      LANGUAGE | OPTIONS | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING
+    | DEPRECATED | MINIMAL | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE
+    | COLUMN | RULES | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE
+    | OVERLAPPING | OVERLAPPABLE | OVERLAPS | INCOHERENT | CTYPE
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/profiling.html
     | CORE | GENERATED | SCC
     ){{break}}
@@ -336,7 +336,7 @@ contexts:
     - match: LANGUAGE{{break}}
       scope: keyword.directive.language.haskell
       set: preprocessor-pragma-language-value
-    - match: (?:OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
+    - match: (?:OPTIONS|OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
       scope: keyword.directive.options.haskell
       set: preprocessor-pragma-options-value
     - match: (?:COMPLETE|INLINE|INLINABLE|MINIMAL|NOINLINE){{break}}
