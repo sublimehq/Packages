@@ -41,12 +41,15 @@
 #                 ^^^^^^ comment.line.number-sign.r - entity
 
 ######
-# ^^^^^ comment.line.number-sign.r - entity
+# <- comment.line.number-sign.r punctuation.definition.comment.r - entity
+#^^^^^ comment.line.number-sign.r punctuation.definition.comment.r - entity
+#     ^ comment.line.number-sign.r - entity - punctuation
 
 # # ####
-# <- comment.line.number-sign.r punctuation.definition.comment.r
-#^^^^^^^^ comment.line.number-sign.r
-# ^ entity.name.section.r
+# <- comment.line.number-sign.r punctuation.definition.comment.r - entity
+#^ comment.line.number-sign.r - entity - punctuation
+# ^ comment.line.number-sign.r entity.name.section.r
+#  ^^^^^^ comment.line.number-sign.r - entity - punctuation
 
 # no section ###
 # ^^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
