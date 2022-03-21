@@ -399,6 +399,8 @@ contexts:
     # https://wiki.php.net/rfc/union_types_v2
     - match: '(?=(?:\?\s*)?{{path}})'
       push:
+        - match: (?=(?i:implements|extends)\b)
+          pop: 1
         - match: \?
           scope: storage.type.nullable.php
         - match: \|
@@ -659,8 +661,10 @@ contexts:
         - match: (?={{path}})
           set:
             - meta_scope: meta.path.php
+            - match: (?=(?i:implements|extends)\b)
+              pop: 1
             - include: type-hint
-            - match: ''
+            - match: (?=\S)
               pop: 1
         - match: (?=\S)
           pop: 1
@@ -684,7 +688,7 @@ contexts:
             - match: (\\)?{{identifier}}(?!\\)
               captures:
                 1: punctuation.separator.namespace.php
-            - match: ''
+            - match: (?=\S)
               pop: 1
         - match: ','
           scope: punctuation.separator.comma.php
