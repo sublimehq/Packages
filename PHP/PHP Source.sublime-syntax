@@ -423,7 +423,7 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
             2: support.class.php
-        - match: ''
+        - match: (?=\S)
           pop: 1
 
   attributes:
@@ -924,8 +924,6 @@ contexts:
           pop: 1
     - include: attributes
     - include: comments
-    - match: \b(array|callable|int|string|bool|float|object)\b
-      scope: storage.type.php
     # Class name type hint
     - include: type-hint
     - match: '\.\.\.'

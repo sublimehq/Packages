@@ -1108,7 +1108,7 @@ $user_1 = new User("John", "a@b.com");
 //                                                   ^ storage.type.nullable.php
 //                                                    ^ storage.type.php
 
-    function intersectionTypeFunction(?int $param1): Interface1&Interface2 {}
+    function intersectionTypeFunction(?int $param1): Interface1 & Interface2 {}
 //  ^ keyword.declaration.function
 //           ^ entity.name.function
 //                                   ^ punctuation.section.group.begin
@@ -1116,24 +1116,28 @@ $user_1 = new User("John", "a@b.com");
 //                                     ^ meta.function.parameters
 //                                                ^ punctuation.section.group.end
 //                                                   ^^^^^^^^^^ support.class
-//                                                             ^ punctuation.separator.type.intersection
-//                                                              ^^^^^^^^^^ support.class
+//                                                              ^ punctuation.separator.type.intersection
+//                                                                ^^^^^^^^^^ support.class
 
     function unionTypeFunction(
 //  ^ keyword.declaration.function
 //           ^ entity.name.function.php
-        Foo|\Foo\Bar|?int $param1,
+        int | string $param0,
+//      ^^^ storage.type
+//          ^ punctuation.separator.type
+//            ^^^^^^ storage.type
+        Foo | \Foo\Bar | ?int $param1,
 //      ^^^ support.class
-//         ^ punctuation.separator.type
-//          ^ punctuation.separator.namespace
-//           ^^^ support.other.namespace
-//              ^ punctuation.separator.namespace
-//               ^^^ support.class
-//                  ^ punctuation.separator.type
-//                   ^ storage.type.nullable
-//                    ^^^ storage.type
-//                        ^ punctuation.definition.variable
-//                         ^^^^^^ variable.parameter
+//          ^ punctuation.separator.type
+//            ^ punctuation.separator.namespace
+//             ^^^ support.other.namespace
+//                ^ punctuation.separator.namespace
+//                 ^^^ support.class
+//                     ^ punctuation.separator.type
+//                       ^ storage.type.nullable
+//                        ^^^ storage.type
+//                            ^ punctuation.definition.variable
+//                             ^^^^^^ variable.parameter
         Foo|\Foo\Bar|?int $param2,
 //      ^^^ support.class
 //         ^ punctuation.separator.type
