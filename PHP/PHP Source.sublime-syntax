@@ -201,7 +201,7 @@ contexts:
           scope: punctuation.section.group.end.php
           pop: 1
         - match: \|
-          scope: punctuation.separator.catch.php
+          scope: punctuation.separator.type.union.php
         - match: \\
           scope: meta.path.php punctuation.separator.namespace.php
         - match: '{{identifier}}'

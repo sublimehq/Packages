@@ -1474,7 +1474,7 @@ try {
 //        ^^^^^^ support.other.namespace.php
 //              ^ punctuation.separator.namespace.php
 //               ^^^^^^^^^^ support.class.exception.php
-//                          ^ punctuation.separator.catch.php
+//                          ^ punctuation.separator.type.union.php
 //                            ^^^^^^^^^^^^^^^^^ meta.path.php
 //                            ^ punctuation.separator.namespace.php
 //                             ^^^^^^ support.other.namespace.php
@@ -1490,7 +1490,7 @@ try {
 //   ^^^^^^ support.other.namespace.php
 //         ^ punctuation.separator.namespace.php
 //          ^^^^^^^^^^ support.class.exception.php
-//                     ^ punctuation.separator.catch.php
+//                     ^ punctuation.separator.type.union.php
     \Custom\Exception2 $e
 //  ^ punctuation.separator.namespace.php
 //   ^^^^^^ support.other.namespace.php
