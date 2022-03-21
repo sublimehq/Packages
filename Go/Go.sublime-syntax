@@ -82,7 +82,7 @@ variables:
   # Directive comment key.
   directive: \b[[:alpha:]_-][[:alnum:]_-]*\b
 
-  # Single line only
+  # Single-line general comment.
   inline_comment: /[*](?:[^*]|[*](?!/))*[*]/
 
   # Whitespace and general comments on a single line.
@@ -108,30 +108,42 @@ variables:
   bin_digits: (?:_?[01]+(?:_[01]+)*)
 
 contexts:
+  prototype:
+    - include: match-comments
+
   main:
     - include: match-any
 
   match-any:
-    - include: match-comments
     - include: match-tokens
 
   # https://golang.org/ref/spec#Comments
   match-comments:
-    # Go has magic comments in the form of:
-    #
-    # //go:some_directive arg0 arg1 ...
-    #
-    # These have been adopted outside the gc compiler for use in linting
-    # directives and pragmas for other compiler suites where they take the
-    # more generalised form of:
-    #
-    # //namespace:some_directive ...
-    #
-    # They're not part of the language spec, may not be recognized by some Go
-    # compilers, and may stop working in future releases. Therefore,
-    # highlighting them as compiler pragmas could be misleading. We scope them
-    # as plain comments by default, and add some detailed meta scopes for
-    # enterprising users wishing to add more color.
+    - include: match-comment-magic
+    - include: match-comment-line
+    - include: match-comment-general
+
+  match-comment-magic:
+    - include: match-comment-magic-general
+    - include: match-comment-magic-line-renum
+    - include: match-comment-magic-line-extern
+
+  # Go has magic comments in the form of:
+  #
+  # //go:directive arg0 arg1 ...
+  #
+  # These have been adopted outside the gc compiler for use in linting
+  # directives and pragmas for other compiler suites where they take the
+  # more generalised form of:
+  #
+  # //namespace:some_directive ...
+  #
+  # They're not part of the language spec, may not be recognized by some Go
+  # compilers, and may stop working in future releases. Therefore, highlighting
+  # them as compiler pragmas could be misleading. We scope them as plain
+  # comments by default, and add some detailed meta scopes for enterprising
+  # users wishing to add more color.
+  match-comment-magic-general:
     - match: (//)([a-z]+[a-z-]*)(:)({{directive}})([ ]?)
       scope: meta.annotation.go
       captures:
@@ -142,10 +154,11 @@ contexts:
         5: meta.punctuation.separator.space.go
       push: pop-line-annotation
 
-    # Go also has line renumbering; line directives specify the source
-    # position for the character immediately following the comment as
-    # having come from the specified file, line and column. Both single
-    # line and block comment line directives are valid.
+  # Go also has line renumbering; line directives specify the source
+  # position for the character immediately following the comment as
+  # having come from the specified file, line and column. Both single
+  # line and block comment line directives are valid.
+  match-comment-magic-line-renum:
     - match: ((//)(line)( ))([a-zA-Z0-9. :]*(?::[0-9]+){1,2})$\n?
       scope: comment.line.go
       captures:
@@ -165,7 +178,8 @@ contexts:
         5: meta.annotation.parameters.go
         6: meta.annotation.go punctuation.definition.comment.end.go
 
-    # Finally, Cgo and gccgo have directives for exporting functions to C.
+  # Finally, Cgo and gccgo have directives for exporting functions to C.
+  match-comment-magic-line-extern:
     - match: ((//)(export|extern)( ))({{ident}})$\n?
       scope: comment.line.go
       captures:
@@ -175,37 +189,45 @@ contexts:
         4: meta.punctuation.separator.space.go
         5: meta.annotation.parameters.go
 
-    # Line comment
-    - match: //
-      scope: punctuation.definition.comment.go
-      push: pop-line-comment
-
-    # General comment
-    - match: /\*
-      scope: punctuation.definition.comment.begin.go
-      push:
-        - meta_scope: comment.block.go
-        - match: \*/
-          scope: punctuation.definition.comment.end.go
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.go
+  pop-comment-line-annotation:
+    - meta_scope: meta.annotation.go comment.line.go
+    - match: \S+
+      scope: meta.variable.parameter.go
+    # End the annotation scope at EOL, but stretch the comment scope
+    # indefinitely to the right.
+    - match: $
+      set: pop-comment-line-normal
 
   pop-line-annotation:
     - meta_scope: comment.line.go
     - meta_content_scope: meta.annotation.parameters.go
-    - match: $\n?
-      pop: true
+    - include: pop-on-eol
 
-  pop-line-comment:
+  match-comment-line:
+    - match: //
+      scope: punctuation.definition.comment.go
+      push: pop-comment-line-normal
+
+  pop-comment-line-normal:
     - meta_scope: comment.line.go
-    # Including the newline allows the scope to visually stretch to the right,
-    # and ensures that functionality that relies on comment scoping, such as
-    # contextual hotkeys, works properly at EOL while typing a comment. This
-    # should also match \r\n due to Sublime's internal normalization.
-    - match: $\n?
+    - include: pop-on-eol
+
+  match-comment-general:
+    - match: /\*
+      scope: punctuation.definition.comment.begin.go
+      push: pop-comment-general
+
+  pop-comment-general:
+    - meta_scope: comment.block.go
+    - match: \*/
+      scope: punctuation.definition.comment.end.go
       pop: true
+    # Indentation, followed by exactly one space, followed by *.
+    # This enables support for javadoc comments, while avoiding false
+    # positives in non-javadoc comments that use "*" as simple list bullets.
+    - match: ^(?:\t|[ ]{2}|[ ]{4}|[ ]{8})*[ ](\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.go
 
   # https://golang.org/ref/spec#Tokens
   #
@@ -325,7 +347,6 @@ contexts:
   match-short-variable-declarations:
     - match: (?={{ident}}(?:{{noise}},{{noise}}{{ident}})*{{noise}}:=)
       push:
-        - include: match-comments
         - match: \b_\b
           scope: variable.language.anonymous.go
         - match: '{{ident}}'
@@ -389,7 +410,6 @@ contexts:
     - match: \.
       scope: punctuation.accessor.dot.go
       push:
-        - include: match-comments
         - include: pop-type-assertion
 
         # Note: we can't syntactically distinguish calls from type conversions.
@@ -422,7 +442,6 @@ contexts:
       scope: punctuation.section.brackets.end.go
       push:
         - include: pop-on-terminator
-        - include: match-comments
         - include: match-star
         - match: '{{ident}}(?={{noise}}\.)'
           scope: variable.other.go
@@ -572,6 +591,7 @@ contexts:
     - match: '`'
       scope: punctuation.definition.string.begin.go
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.other.go
         - match: '`'
           scope: punctuation.definition.string.end.go
@@ -585,6 +605,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.go
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.go
         - match: '"'
           scope: punctuation.definition.string.end.go
@@ -627,7 +648,6 @@ contexts:
          scope: keyword.control.go
        - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
          scope: variable.function.go support.function.builtin.go
-       - include: match-comments
        - include: match-strings
 
   # https://godoc.org/fmt
@@ -676,7 +696,6 @@ contexts:
 
             - include: match-any
 
-        - include: match-comments
         - include: match-comma
 
         - match: \b_\b(?={{noise}},)
@@ -721,8 +740,6 @@ contexts:
     - match: \bfunc\b
       scope: keyword.declaration.function.go
       push:
-        - include: match-comments
-
         # Method
         - match: (?=\({{noise}}[^)]+{{noise}}\){{noise}}{{ident}}{{noise}}\()
           set:
@@ -800,8 +817,6 @@ contexts:
     - match: \btype\b
       scope: keyword.declaration.type.go
       push:
-        - include: match-comments
-
         - match: \(
           scope: punctuation.section.parens.begin.go
           set:
@@ -856,7 +871,6 @@ contexts:
 
             - include: match-any
 
-        - include: match-comments
         - include: match-comma
 
         - match: \b_\b(?={{noise}},)
@@ -874,7 +888,6 @@ contexts:
         - include: pop-before-nonblank
 
   pop-func-signature:
-    - include: match-comments
     - match: \b_\b
       scope: variable.language.anonymous.go
       set: pop-func-parameter-and-return-lists
@@ -915,25 +928,21 @@ contexts:
   # multiline, and have name groups. We're still trying to cover as many edge
   # cases as possible.
   pop-func-parameter-and-return-lists:
-    - include: match-comments
     - match: (?=\()
       set: [pop-func-return-signature, pop-func-parameter-list]
     - include: pop-before-nonblank
 
   pop-func-return-signature:
     - include: pop-on-terminator
-    - include: match-comments
     - match: (?=\()
       set: pop-func-parameter-list
     - match: (?=\S)
       set: pop-type
 
   pop-func-parameter-list:
-    - include: match-comments
     - match: \(
       scope: punctuation.section.parens.begin.go
       set:
-        - include: match-comments
         - match: |
             (?x)
             (?=
@@ -949,7 +958,6 @@ contexts:
     - match: \)
       scope: punctuation.section.parens.end.go
       pop: true
-    - include: match-comments
     - include: match-keywords
     - include: match-comma
     - include: match-ellipsis
@@ -970,7 +978,6 @@ contexts:
     - match: \)
       scope: punctuation.section.parens.end.go
       pop: true
-    - include: match-comments
     - include: match-keywords
     - include: match-comma
     - include: match-ellipsis
@@ -993,7 +1000,6 @@ contexts:
 
   pop-type:
     - include: pop-on-semicolon
-    - include: match-comments
 
     # Note: Go allows wrapping types in an arbitrary number of parens.
     - match: \(
@@ -1040,7 +1046,6 @@ contexts:
     - match: \bstruct\b
       scope: keyword.declaration.struct.go
       set:
-        - include: match-comments
         - match: \{
           scope: punctuation.section.braces.begin.go
           set:
@@ -1070,7 +1075,6 @@ contexts:
                 - match: (?=\})
                   pop: true
                 - include: pop-on-terminator
-                - include: match-comments
                 - include: pop-type
                 - include: match-any
 
@@ -1082,7 +1086,6 @@ contexts:
     - match: \binterface\b
       scope: keyword.declaration.interface.go
       set:
-        - include: match-comments
         - match: \{
           scope: punctuation.section.braces.begin.go
           set:
@@ -1119,7 +1122,6 @@ contexts:
     - match: \bmap\b
       scope: keyword.declaration.map.go
       set:
-        - include: match-comments
         - include: pop-on-semicolon
         - match: \[
           scope: punctuation.section.brackets.begin.go
@@ -1129,7 +1131,6 @@ contexts:
               set:
                 - include: pop-on-terminator
                 - include: pop-type
-            - include: match-comments
             - match: (?=\S)
               push:
                 - match: (?=\])
@@ -1145,7 +1146,6 @@ contexts:
       set: pop-type
 
   pop-named-type:
-    - include: match-comments
     - match: \b_\b
       scope: variable.language.anonymous.go
       pop: true
@@ -1169,7 +1169,6 @@ contexts:
 
   pop-type-alias-or-typedef:
     - include: pop-on-terminator
-    - include: match-comments
     # Newlines after `=` are ok.
     - match: =
       scope: keyword.operator.assignment.go
@@ -1179,7 +1178,6 @@ contexts:
 
   pop-const-type-and-or-assignment:
     - include: pop-on-terminator
-    - include: match-comments
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-const-expressions
@@ -1188,7 +1186,6 @@ contexts:
 
   pop-const-assignment-or-terminate:
     - include: pop-on-terminator
-    - include: match-comments
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-const-expressions
@@ -1203,7 +1200,6 @@ contexts:
   # for the entire package.
   pop-const-expressions:
     - include: pop-on-semicolon
-    - include: match-comments
     - match: (?=\S)
       set:
         - include: pop-on-terminator
@@ -1213,7 +1209,6 @@ contexts:
 
   pop-var-type-and-or-assignment:
     - include: pop-on-terminator
-    - include: match-comments
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-var-expressions
@@ -1222,7 +1217,6 @@ contexts:
 
   pop-var-assignment-or-terminate:
     - include: pop-on-terminator
-    - include: match-comments
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-var-expressions
@@ -1231,7 +1225,6 @@ contexts:
   # Note: this doesn't support multiline expressions.
   pop-var-expressions:
     - include: pop-on-semicolon
-    - include: match-comments
     - match: (?=\S)
       set:
         - include: pop-on-terminator
@@ -1255,7 +1248,6 @@ contexts:
       pop: true
 
   pop-arguments-starting-with-type:
-    - include: match-comments
     # Go allows functions and types to be wrapped in an arbitrary number of
     # parens. These are not part of the call.
     - match: \)
@@ -1266,8 +1258,15 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.go
           pop: true
-        - include: match-comments
         - match: (?=\S)
           set: pop-type
     - include: pop-on-terminator
     - include: pop-before-nonblank
+
+  # Including the newline allows the scope to visually stretch to the right,
+  # and ensures that functionality that relies on comment scoping, such as
+  # contextual hotkeys, works properly at EOL while typing a comment. This
+  # should also match \r\n due to Sublime's internal normalization.
+  pop-on-eol:
+    - match: $\n?
+      pop: true

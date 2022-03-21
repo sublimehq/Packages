@@ -10,8 +10,7 @@ This file must not be formatted with `go fmt`.
 You may have to disable Go-specific linters when working on this file.
 */
 
-
-// # Comments
+/* # Comments */
 
     //
 // ^ -comment -punctuation
@@ -35,22 +34,30 @@ You may have to disable Go-specific linters when working on this file.
 //                            ^^^^^^^^^^^ comment.line.go
 
     /*
+//  ^^ comment.block.go punctuation.definition.comment.begin.go
 // ^ -comment
 //  ^^^^ comment.block.go
     comment
 //  ^^^^^^^^ comment.block.go
     */
-//  ^^ comment.block.go
+//  ^^ comment.block.go punctuation.definition.comment.end.go
 //    ^ -comment
 
     /* * */
 // ^ -comment
+//     ^ -punctuation.definition.comment.go
 //  ^^^^^^^ comment.block.go
 //         ^ -comment
 
-    /**
+    /*
+    *
+//  ^ -punctuation.definition.comment.go
+
+        *
+//      ^ -punctuation.definition.comment.go
+
      *
-//   ^ comment.block.go punctuation.definition.comment.go
+//   ^ punctuation.definition.comment.go
     */
 
     //go
@@ -66,7 +73,7 @@ You may have to disable Go-specific linters when working on this file.
     //go:generate one two three
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^ meta.keyword.annotation.go
 //       ^^^^^^^^ meta.variable.function.go
 //                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
@@ -75,7 +82,7 @@ You may have to disable Go-specific linters when working on this file.
     //go-sumtype:decl MySumType
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^^^^^^^ meta.keyword.annotation.go
 //               ^^^^ meta.variable.function.go
 //                    ^^^^^^^^^ comment.line.go meta.annotation.parameters.go
@@ -84,7 +91,7 @@ You may have to disable Go-specific linters when working on this file.
     //lint:ignore U1000 Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^ meta.variable.function.go
 //                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
@@ -93,7 +100,7 @@ You may have to disable Go-specific linters when working on this file.
     //lint:file-ignore Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^^^^^^ meta.variable.function.go
 //                     ^^^^^^^ comment.line.go meta.annotation.parameters.go
@@ -102,7 +109,7 @@ You may have to disable Go-specific linters when working on this file.
     //line :10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^ comment.line.go meta.annotation.parameters.go
 //            ^ comment.line.go -meta.annotation
@@ -110,7 +117,7 @@ You may have to disable Go-specific linters when working on this file.
     //line file.rl:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                   ^ comment.line.go -meta.annotation
@@ -118,14 +125,14 @@ You may have to disable Go-specific linters when working on this file.
     //line file.rl:100:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
 //                       ^ comment.line.go -meta.annotation
 
     /*line :10*/
 // ^ -comment
-//  ^^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^ comment.block.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^ comment.block.go meta.annotation.parameters.go
 //            ^^ comment.block.go punctuation.definition.comment.end.go
@@ -133,7 +140,7 @@ You may have to disable Go-specific linters when working on this file.
 
     /*line file.rl:10*/
 // ^ -comment
-//  ^^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
@@ -142,7 +149,7 @@ You may have to disable Go-specific linters when working on this file.
 
     /*line file.rl:100:10*/
 // ^ -comment
-//  ^^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
@@ -169,19 +176,19 @@ You may have to disable Go-specific linters when working on this file.
     //export myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^ comment.line.go meta.annotation.go
 //           ^^^^^^ comment.line.go meta.annotation.parameters.go
 //                 ^ comment.line.go -meta.annotation
 
     //extern myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^ comment.line.go meta.annotation.go
 //           ^^^^^^ comment.line.go meta.annotation.parameters.go
 //                 ^ comment.line.go -meta.annotation
 
 
-// # Imports
+/* # Imports */
 
     package main
 //  ^^^^^^^ storage.type.namespace.go keyword.declaration.namespace.go
@@ -218,7 +225,7 @@ You may have to disable Go-specific linters when working on this file.
     )
 
 
-// # Type Keywords and Syntax
+/* # Type Keywords and Syntax */
 
 /*
 Type keywords are tested early because they're used in many other tests.
@@ -228,7 +235,7 @@ Note: Go permits an arbitrary number of parens around a type.
 Note: built-ins are tested separately. Search for "# Built-in Types".
 */
 
-// ## chan
+/* ## chan */
 
     chan _
 //  ^^^^ keyword.declaration.chan.go
@@ -422,7 +429,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //               ^^^ storage.type.go
 
 
-// ## func
+/* ## func */
 
 // Note: a function type and the beginning of a non-method function declaration
 // are parsed EXACTLY the same. Function types may contain parameter names.
@@ -755,8 +762,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                                                     ^^^ storage.type.go
 //                                                                        ^^ punctuation.section.parens.end.go
 
-
-// ## interface
+/* ## interface */
 
     interface{}
 //  ^^^^^^^^^ keyword.declaration.interface.go
@@ -853,8 +859,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                                        ^ meta.type.go punctuation.terminator.go
 //                                                         ^ meta.type.go punctuation.section.braces.end.go
 
-
-// ## map
+/* ## map */
 
     map[typ]typ
 //  ^^^ keyword.declaration.map.go
@@ -1030,7 +1035,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                             ^^^ storage.type.go
 
 
-// ## struct
+/* ## struct */
 
     struct{}
 //  ^^^^^^ keyword.declaration.struct.go
@@ -1298,7 +1303,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     }
 
 
-// ## Array / Slice
+/* ## Array / Slice */
 
     [0]typ
 //  ^ punctuation.section.brackets.begin.go
@@ -1381,7 +1386,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^^^^^ variable.other.go
 
 
-// ## type
+/* ## type */
 
     type _ typ
 //  ^^^^ keyword.declaration.type.go
@@ -1547,7 +1552,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     )
 
 
-// # Constants and Vars
+/* # Constants and Vars */
 
 // Note: initialization expressions may span multiple lines, but the syntax
 // currently doesn't support this due to implementation difficulties. This may
@@ -1847,7 +1852,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     )
 //  ^ punctuation.section.parens.end.go
 
-// ## Short Variable Declaration
+/* ## Short Variable Declaration */
 
     ident := expr
 //  ^^^^^ variable.other.readwrite.declaration.go
@@ -1874,11 +1879,11 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^ keyword.operator.assignment.go
 //          ^^^^ variable.other.go
 
-// # Literals
+/* # Literals */
 
-// ## Integers
+/* ## Integers */
 
-// ### Decimal
+/* ### Decimal */
 
     0; 123456789; -0; -123456789; 1777_000_000;
 //  ^ meta.number.integer.decimal.go constant.numeric.value.go
@@ -1889,7 +1894,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^^^^^^^^^ meta.number.integer.decimal.go constant.numeric.value.go
 //                                ^^^^^^^^^^^^ meta.number.integer.decimal.go constant.numeric.value.go
 
-// ### Octal
+/* ### Octal */
 
     00; 01234567; -01234567; 0_0; 012_45;
 //  ^ meta.number.integer.octal.go constant.numeric.base.go
@@ -1921,7 +1926,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                               ^^ meta.number.integer.octal.go constant.numeric.base.go
 //                                 ^^^^^ meta.number.integer.octal.go constant.numeric.value.go
 
-// ### Hex
+/* ### Hex */
 
     0x0; 0x0123456789ABCDEFabcdef; -0x0123456789ABCDEFabcdef;
 //  ^^ meta.number.integer.hexadecimal.go constant.numeric.base.go
@@ -1938,7 +1943,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^^ meta.number.integer.hexadecimal.go constant.numeric.base.go
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.go constant.numeric.value.go
 
-// ### Binary
+/* ### Binary */
 
     0b1011; 0B00001; -0b1; 0b_1; 0B1_0;
 //  ^^ meta.number.integer.binary.go constant.numeric.base.go
@@ -1953,7 +1958,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                               ^^ meta.number.integer.binary.go constant.numeric.base.go
 //                                 ^^^ meta.number.integer.binary.go constant.numeric.value.go
 
-// ## Floats
+/* ## Floats */
 
     000.000; 123.456; .0; 1.;
 //  ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
@@ -2067,7 +2072,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                       ^^^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
 //                       ^ punctuation.separator.decimal.go
 
-// ## Imaginary
+/* ## Imaginary */
 
     000i; 100i; -100i; 1_1i;
 //  ^^^^ meta.number.imaginary.decimal.go
@@ -2197,7 +2202,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                 ^ punctuation.separator.decimal.go
 //                            ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 
-// ## Runes
+/* ## Runes */
 
     ' '
 //  ^^^ meta.string.go string.quoted.single.go
@@ -2243,7 +2248,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //   ^^^^ constant.character.escape.go
 //       ^ punctuation.definition.string.end.go - constant
 
-// ## Strings
+/* ## Strings */
 
     "one two"
 //  ^ punctuation.definition.string.begin.go
@@ -2377,7 +2382,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.go -comment
 
 
-// # Operators
+/* # Operators */
 
     !=
 //  ^^ keyword.operator.comparison.go
@@ -2453,7 +2458,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^ keyword.operator.bitwise.go
 
 
-// # Punctuation
+/* # Punctuation */
 
 // Note: [] can denote array and slice types. It's covered in the type section.
 
@@ -2477,9 +2482,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     }
 //  ^ meta.block.go punctuation.section.braces.end.go
 
-// ## Selector
+/* ## Selector */
 
-// ### Member
+/* ### Member */
 
     ident.ident
 //  ^^^^^ variable.other.go
@@ -2506,7 +2511,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     ident
 //  ^^^^^ variable.other.member.go
 
-// ### Type Assertion
+/* ### Type Assertion */
 
     ident.(ident)
 //  ^^^^^ variable.other.go
@@ -2585,7 +2590,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^ punctuation.accessor.dot.go
 //                      ^^^^^ storage.type.go
 
-// ## Parens
+/* ## Parens */
 
 // Note: we can't syntactically disambiguate calls and type conversions.
 
@@ -2702,7 +2707,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //          ^^^^^ variable.other.go
 
 
-// # Keywords
+/* # Keywords */
 
 // Some keywords are covered elsewhere in the test.
 
@@ -2737,7 +2742,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     switch
 //  ^^^^^^ keyword.control.go
 
-// ## func
+/* ## func */
 
 // Note: function signatures are thoroughly tested in the section of this test
 // file dedicated to types. The part after the function name (parameters and
@@ -2827,7 +2832,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //         ^ meta.block.go punctuation.section.braces.end.go
 
 
-// # Predeclared Constants
+/* # Predeclared Constants */
 
     true false nil
 //  ^^^^ constant.language.go
@@ -2835,7 +2840,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //             ^^^ constant.language.go
 
 
-// # Built-in Types
+/* # Built-in Types */
 
 /*
 These tests make sure that the treatment of built-ins is consistent with
@@ -2952,9 +2957,9 @@ every type individually.
 //        ^^^^^ variable.other.go
 
 
-// # Built-in Functions
+/* # Built-in Functions */
 
-// ## Special Functions
+/* ## Special Functions */
 
     make(typ)
 //  ^^^^ variable.function.go support.function.builtin.go
@@ -3042,7 +3047,7 @@ every type individually.
 //  ^^^ keyword.declaration.var.go
 //      ^^^ variable.other.readwrite.declaration.go -support
 
-// ## Other Functions
+/* ## Other Functions */
 
 /*
 These tests make sure that the treatment of built-ins is consistent with
