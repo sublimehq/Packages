@@ -10,8 +10,8 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# dedent closing braces
-			  \}
+			# dedent closing brackets
+			  [])}]
 			# detent `case ... :`
 			| case(?![\w$])
 			# detent `default:`
@@ -23,8 +23,8 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# indent after opening braces (may be followed by whitespace or comments)
-			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			# indent after opening brackets (may be followed by whitespace or comments)
+			  .* [\[({] (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
 			# indent after `case ... :`
 			| case(?![\w$])
 			# indent after `default:`
