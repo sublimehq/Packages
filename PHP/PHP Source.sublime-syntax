@@ -673,6 +673,8 @@ contexts:
       set: class-body
     - include: attributes
     - include: comments
+    - match: (?i)(extends)\b
+      scope: invalid.illegal.disallowed.php
     - match: (?i)(implements)\b\s*
       captures:
         1: storage.modifier.implements.php

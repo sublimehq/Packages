@@ -827,6 +827,9 @@ enum Suit {
     case Spades;
 }
 
+enum Suit: string extends Colorful {}
+//                ^^^^^^^ invalid
+
 enum Suit: string implements Colorful {
 // ^ keyword.declaration.enum
 //   ^^^^ entity.name.enum
