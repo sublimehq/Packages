@@ -9,6 +9,33 @@ static void main(void *argp, int argc) {
     printf("Hello World"); // ; "comment" ()
 }
 
+void testIndentBrackets()
+{
+    int foo[1][3][4] = [
+        [
+            [
+                0, 1,
+                2, 3
+            ],
+            [0, 1, 2, 3],
+            [
+                0, 1,
+                2, 3
+            ]
+        ]
+    ];
+
+    CDict* foo = new CDict({
+        {
+            "key": "value"
+        },
+        { "key": "value" },
+        {
+            "key": "value"
+        }
+    });
+}
+
 bool testIfElseIndentationNoBraces(CString v)
 {
     /**
@@ -700,6 +727,14 @@ bool testForIndentation(int v) {
     for (
         int i = 0;
         i < 10;
+        i++) {
+        int j = 0;
+        int k = 0;
+    }
+
+    for (
+        int i = 0;
+        i < 10;
         i++)
     {
         int j = 0;
@@ -709,7 +744,18 @@ bool testForIndentation(int v) {
     for (
         int i = 0;
         i < 10;
-        i++) {
+        i++
+    ) {
+        int j = 0;
+        int k = 0;
+    }
+
+    for (
+        int i = 0;
+        i < 10;
+        i++
+    )
+    {
         int j = 0;
         int k = 0;
     }
@@ -909,7 +955,7 @@ bool testWhileIndentationWithBraces(int v) {
     }
     while (
         v == foo( bar("") + "" )
-        )
+    )
     {
         v++
         v++
@@ -921,7 +967,7 @@ bool testWhileIndentationWithBraces(int v) {
     }
     while (
         v == foo( bar("") + "" )
-        ) {
+    ) {
         v++
         v++
     }
