@@ -201,7 +201,7 @@ contexts:
           scope: punctuation.section.group.end.php
           pop: 1
         - match: \|
-          scope: punctuation.separator.catch.php
+          scope: punctuation.separator.type.union.php
         - match: \\
           scope: meta.path.php punctuation.separator.namespace.php
         - match: '{{identifier}}'
@@ -399,6 +399,8 @@ contexts:
     # https://wiki.php.net/rfc/union_types_v2
     - match: '(?=(?:\?\s*)?{{path}})'
       push:
+        - match: (?=(?i:implements|extends)\b)
+          pop: 1
         - match: \?
           scope: storage.type.nullable.php
         - match: \|
@@ -423,7 +425,7 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
             2: support.class.php
-        - match: ''
+        - match: (?=\S)
           pop: 1
 
   attributes:
@@ -659,8 +661,10 @@ contexts:
         - match: (?={{path}})
           set:
             - meta_scope: meta.path.php
+            - match: (?=(?i:implements|extends)\b)
+              pop: 1
             - include: type-hint
-            - match: ''
+            - match: (?=\S)
               pop: 1
         - match: (?=\S)
           pop: 1
@@ -669,6 +673,8 @@ contexts:
       set: class-body
     - include: attributes
     - include: comments
+    - match: (?i)(extends)\b
+      scope: invalid.illegal.disallowed.php
     - match: (?i)(implements)\b\s*
       captures:
         1: storage.modifier.implements.php
@@ -684,7 +690,7 @@ contexts:
             - match: (\\)?{{identifier}}(?!\\)
               captures:
                 1: punctuation.separator.namespace.php
-            - match: ''
+            - match: (?=\S)
               pop: 1
         - match: ','
           scope: punctuation.separator.comma.php
@@ -924,8 +930,6 @@ contexts:
           pop: 1
     - include: attributes
     - include: comments
-    - match: \b(array|callable|int|string|bool|float|object)\b
-      scope: storage.type.php
     # Class name type hint
     - include: type-hint
     - match: '\.\.\.'
