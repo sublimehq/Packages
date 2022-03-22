@@ -10,8 +10,8 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# dedent closing brackets
-			  [])}]
+			# dedent closing braces
+			  \}
 			# detent `case ... :`
 			| case\b
 			# detent `default:`
@@ -24,9 +24,9 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# indent after opening brackets (may be followed by whitespace or comments)
+			# indent after opening braces (may be followed by whitespace or comments)
 			# but exclude lines such as `extern "C" {`
-			  .* [\[({] (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
 			# indent after `case ... :`
 			| case\b
 			# indent after `default:`
@@ -45,31 +45,15 @@
 			# indent after:
 			# - `else if (...)`
 			# - `if (...)`
-			# - `for (...)`
 			# - `while (...)`
-			| (?: (?: else \g<comment_or_whitespace> )? if | for | while )
-			  # followed by whitespace or block comments [optional]
-			  \g<comment_or_whitespace>
-			  # top-level balanced parentheses
-			  (?<group>
-			  	\( (?:
-				# nested balanced parentheses
-				  \g<group>
-				# double quoted string with ignored escaped quotation marks
-				| \".*(?<![^\\]\\)(?<![\\]{3})\"
-				# single quoted character with ignored escaped quotation marks
-				| \'.*(?<![^\\]\\)\'
-				# block comment
-				| \g<block_comment>
-				# anything but closing parenthesis
-				| [^)]
-				)* \)
-			  )
+			| (?: (?: else \g<comment_or_whitespace> )? if | while )
+			  \b
+			  # before a ;
+			  [^;]*
+			# indent after `for`
+			| for\b .*
 			)
-			# followed by whitespace or block comments [optional]
-			\g<comment_or_whitespace>
-			# followed by line comment [optional]
-			(?: //.* )? $
+			$
 		]]></string>
 
 		<key>unIndentedLinePattern</key>
@@ -84,6 +68,8 @@
 			)
 		]]></string>
 
+		<key>indentSquareBrackets</key>
+		<true/>
 	</dict>
 </dict>
 </plist>

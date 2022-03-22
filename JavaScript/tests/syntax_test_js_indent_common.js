@@ -5,42 +5,11 @@
  * This will print 'Hello World' as the output
  **/
 
-function testIndentBrackets()
-{
-    let foo = [
-        [
-            [
-                0, 1,
-                2, 3
-            ],
-            [0, 1, 2, 3],
-            [
-                0, 1,
-                2, 3
-            ]
-        ]
-    ];
-
-    let foo = {
-        {
-            "key": "value"
-        },
-        { "key": "value" },
-        {
-            "key": "value"
-        }
-    }
-}
-
 function testIfElseIndentationNoBraces(v)
 {
     /**
      * comment
      */
-    if (v.isNull() == true) return
-
-    if (v.isNull() == true) return fun(v)
-
     if (v.isNull() == true) return fun(v);
 
     if (v.isNull() == true)
@@ -82,12 +51,6 @@ function testIfElseIndentationNoBracesWithLineComments(v)
      */
 
     // line comment
-    if (v.isNull() == true) return
-
-    // line comment
-    if (v.isNull() == true) return fun(v)
-
-    // line comment
     if (v.isNull() == true) return fun(v);
 
     // line comment
@@ -149,12 +112,22 @@ function testIfElseIndentationNoBracesWithLineComments(v)
     }
 }
 
+function testIfElseIndentationNoBracesMultiLine(v)
+{
+    // line comment
+    if (v.isNull() == true
+        || v.endsWith(")"))
+        // line comment
+        return false;
+    else if (v.isNull() == true
+        || v.endsWith("("))
+        return false;
+    // line comment
+    return true;
+}
+
 function testIfElseIndentationNoBracesButComments(v)
 {
-    if (v.isNull() == true) return         /**/ // ; "comment" ()
-
-    if (v.isNull() == true) return fun(v)  /**/ // ; "comment" ()
-
     if (v.isNull() == true) return fun(v); /**/ // ; "comment" ()
 
     if (v.isNull() == true)                /**/ // ; "comment" ()
@@ -187,10 +160,6 @@ function testIfElseIndentationNoBracesButComments(v)
 
 function testIfElseIndentationNoBracesButBlockCommentsPart1(v)
 {
-    /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ true /*(*/ ) /*(*/ return /*(*/ // ; "comment" ()
-
-    /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ true /*(*/ ) /*(*/ return /*(*/ fun /*(*/ ( /*(*/ ) /*(*/ // ; "comment" ()
-
     /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ true /*(*/ ) /*(*/ return /*(*/ fun /*(*/ ( /*(*/ ) /*(*/ ; // ; "comment" ()
 
     /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ true /*(*/ ) /*(*/  // ; "comment" ()
@@ -223,10 +192,6 @@ function testIfElseIndentationNoBracesButBlockCommentsPart1(v)
 
 function testIfElseIndentationNoBracesButBlockCommentsPart2(v)
 {
-    /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ true /*)*/ ) /*)*/ return /*)*/ // ; "comment" ()
-
-    /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ true /*)*/ ) /*)*/ return /*)*/ fun /*)*/ ( /*)*/ ) /*)*/ // ; "comment" ()
-
     /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ true /*)*/ ) /*)*/ return /*)*/ fun /*)*/ ( /*)*/ ) /*)*/ ; // ; "comment" ()
 
     /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ true /*)*/ ) /*)*/ // ; "comment" ()
@@ -258,10 +223,6 @@ function testIfElseIndentationNoBracesButBlockCommentsPart2(v)
 }
 
 function testIfElseIndentationWithBraces(v) {
-
-    if (v.isNull() == true) { return }
-
-    if (v.isNull() == true) { return fun(v) }
 
     if (v.isNull() == true) { return fun(v); }
 
@@ -352,12 +313,6 @@ function testIfElseIndentationWithBraces(v) {
 }
 
 function testIfElseIndentationWithBracesAndLineComments(v) {
-
-    // comment
-    if (v.isNull() == true) { return }
-
-    // comment
-    if (v.isNull() == true) { return fun(v) }
 
     // comment
     if (v.isNull() == true) { return fun(v); }
@@ -723,245 +678,206 @@ function testForIndentation(v)  {
     for (
         let i = 0;
         i < 10;
-        i++) {
-        let j = 0;
-        let k = 0;
-    }
-
-    for (
-        let i = 0;
-        i < 10;
         i++)
     {
-        let j = 0;
-        let k = 0;
-    }
-
-    for (
-        let i = 0;
-        i < 10;
-        i++
-    ) {
         let j = 0;
         let k = 0;
     }
 }
 
 function testWhileIndentationNoBraces(v)  {
-    while () v++
     while () v++;
-    while (()) v++
-    while ((())) v++
-    while ((())()) v++
+    while (()) v++;
+    while ((())) v++;
+    while ((())()) v++;
     while ()
-        v++
+        v++;
     while (v == '(')
-        v++
+        v++;
     while (v == ')')
-        v++
+        v++;
     while (v == '\'')
-        v++
+        v++;
     while (v == '\\')
-        v++
+        v++;
     while (v == "(")
-        v++
+        v++;
     while (v == ")")
-        v++
+        v++;
     while (v == "\"")
-        v++
+        v++;
     while (v == "\\\"")
-        v++
+        v++;
     while (v == foo( bar("") + "" ))
-        v++
+        v++;
 }
 
 function testWhileIndentationNoBracesButComments(v)  {
-    while () v++                      // ; "comment" ()
     while () v++;                     // ; "comment" ()
-    while (()) v++                    // ; "comment" ()
-    while ((())) v++                  // ; "comment" ()
-    while ((())()) v++                // ; "comment" ()
+    while (()) v++;                   // ; "comment" ()
+    while ((())) v++;                 // ; "comment" ()
+    while ((())()) v++;               // ; "comment" ()
     while ()                          // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == '(')                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == ')')                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == '\'')                 // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == '\\')                 // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == "(")                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == ")")                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == "\"")                 // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == "\\\"")               // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == foo( bar("") + "" ))  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while () { } // a hack to make tests succeed
 }
 
 function testWhileIndentationNoBracesButBlockCommentsPart1(v)  {
-    while /*(*/ () v++ /*(*/ // ; "comment" ()
     while /*(*/ () v++; /*(*/ // ; "comment" ()
-    while /*(*/ (()) v++ /*(*/ // ; "comment" ()
-    while /*(*/ ((())) v++ /*(*/ // ; "comment" ()
-    while /*(*/ ((()/*(*/)/*(*/()) v++ /*(*/ // ; "comment" ()
+    while /*(*/ (()) v++; /*(*/ // ; "comment" ()
+    while /*(*/ ((())) v++; /*(*/ // ; "comment" ()
+    while /*(*/ ((()/*(*/)/*(*/()) v++; /*(*/ // ; "comment" ()
     while /*(*/ () /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ '(' /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ ')' /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ '\'' /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ '\\' /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ "(" /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ ")" /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ "\"" /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ "\\\"" /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ ( /*(*/ v /*(*/ == /*(*/ foo( /*(*/ bar( /*(*/ "/*(*/" /*(*/ ) /*(*/ + /*(*/ "" /*(*/ ) /*(*/ ) /*(*/ // ; "comment" ()
-        v++ /*(*/ // ; "comment" ()
+        v++; /*(*/ // ; "comment" ()
     while /*(*/ () { } // a hack to make tests succeed
 }
 
 function testWhileIndentationNoBracesButBlockCommentsPart2(v)  {
-    while /*)*/ () v++ /*)*/ // ; "comment" ()
     while /*)*/ () v++; /*)*/ // ; "comment" ()
-    while /*)*/ (()) v++ /*)*/ // ; "comment" ()
-    while /*)*/ ((())) v++ /*)*/ // ; "comment" ()
-    while /*)*/ ((()/*)*/)/*)*/()) v++ /*)*/ // ; "comment" ()
+    while /*)*/ (()) v++; /*)*/ // ; "comment" ()
+    while /*)*/ ((())) v++; /*)*/ // ; "comment" ()
+    while /*)*/ ((()/*)*/)/*)*/()) v++; /*)*/ // ; "comment" ()
     while /*)*/ () /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ '(' /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ ')' /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ '\'' /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ '\\' /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ "(" /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ ")" /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ "\"" /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ "\\\"" /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ ( /*)*/ v /*)*/ == /*)*/ foo( /*)*/ bar( /*)*/ "/*)*/" /*)*/ ) /*)*/ + /*)*/ "" /*)*/ ) /*)*/ ) /*)*/ // ; "comment" ()
-        v++ /*)*/ // ; "comment" ()
+        v++; /*)*/ // ; "comment" ()
     while /*)*/ () { } // a hack to make tests succeed
 }
 
 function testWhileIndentationWithBraces(v)  {
 
-    while () { v++ }
     while () { v++; }
-    while (()) { v++ }
-    while ((())) { v++ }
-    while ((())()) { v++ }
+    while (()) { v++; }
+    while ((())) { v++; }
+    while ((())()) { v++; }
     while () {
-        v++
+        v++;
     }
     while (v == '(') {
-        v++
+        v++;
     }
     while (v == ')') {
-        v++
+        v++;
     }
     while (v == '\'') {
-        v++
+        v++;
     }
     while (v == '\\') {
-        v++
+        v++;
     }
     while (v == "(") {
-        v++
+        v++;
     }
     while (v == ")") {
-        v++
+        v++;
     }
     while (v == "\"") {
-        v++
+        v++;
     }
     while (v == "\\\"") {
-        v++
+        v++;
     }
     while (v == foo( bar("") + "" )) {
-        v++
+        v++;
     }
     while ()
     {
-        v++
+        v++;
     }
     while (v == '(')
     {
-        v++
+        v++;
     }
     while (v == ')')
     {
-        v++
+        v++;
     }
     while (v == '\'')
     {
-        v++
+        v++;
     }
     while (v == '\\')
     {
-        v++
+        v++;
     }
     while (v == "(")
     {
-        v++
+        v++;
     }
     while (v == ")")
     {
-        v++
+        v++;
     }
     while (v == "\"")
     {
-        v++
+        v++;
     }
     while (v == "\\\"")
     {
-        v++
+        v++;
     }
     while (v == foo( bar("") + "" ))
     {
-        v++
+        v++;
     }
     while (
         v == foo( bar("") + "" )
-    )
+        )
     {
-        v++
-        v++
-    }
-    while (
-        v == foo( bar("") + "" ) )
-    {
-        v++
-        v++
-    }
-    while (
-        v == foo( bar("") + "" ) ) {
-        v++
-        v++
-    }
-    while (
-        v == foo( bar("") + "" )
-    ) {
-        v++
-        v++
+        v++;
+        v++;
     }
 }
 
