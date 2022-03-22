@@ -1218,4 +1218,19 @@ const x = {
     readonly get,
 //  ^^^^^^^^ storage.modifier
 //           ^^^ variable.other.readwrite
-}
+};
+
+    <any>(<any>a);
+//  ^^^^^ meta.assertion
+//  ^ punctuation.definition.assertion.begin
+//   ^^^ support.type.any
+//      ^ punctuation.definition.assertion.end
+//       ^^^^^^^^ meta.group
+//       ^ punctuation.section.group.begin
+//        ^^^^^ meta.assertion
+//        ^ punctuation.definition.assertion.begin
+//         ^^^ support.type.any
+//            ^ punctuation.definition.assertion.end
+//             ^ variable.other.readwrite
+//              ^ punctuation.section.group.end
+//               ^ punctuation.terminator.statement

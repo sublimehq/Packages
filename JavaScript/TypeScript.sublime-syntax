@@ -679,7 +679,7 @@ contexts:
     - match: (?=\()
       set:
         - detect-arrow
-        - ts-detect-arrow-function-return-type
+        - ts-detect-parenthesized-arrow-return-type
         - parenthesized-expression
     - include: else-pop
 
