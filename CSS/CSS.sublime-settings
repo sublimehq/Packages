@@ -8,4 +8,6 @@
 
     // Default separators except `-`
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?",
+
+    "sub_word_separators": "_-",
 }
