@@ -55,6 +55,7 @@
 
 name: Go
 scope: source.go
+version: 2
 
 file_extensions:
   - go
@@ -70,14 +71,18 @@ variables:
   keyword: \b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go|goto|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b
 
   # https://golang.org/ref/spec#Predeclared_identifiers
-  predeclared_type: \b(?:bool|byte|complex64|complex128|error|float32|float64|int|int8|int16|int32|int64|rune|string|uint|uint8|uint16|uint32|uint64|uintptr)\b
+  predeclared_type: \b(?:any|bool|byte|comparable|complex64|complex128|error|float32|float64|int|int8|int16|int32|int64|rune|string|uint|uint8|uint16|uint32|uint64|uintptr)\b
 
   # https://golang.org/ref/spec#Predeclared_identifiers
   predeclared_func: \b(?:append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover)\b
 
+  ident_anon: \b_\b
+
   # Note: this matches ALL valid identifiers, including predeclared constants,
   # functions and types.
   ident: \b(?!{{keyword}})[[:alpha:]_][[:alnum:]_]*\b
+
+  keyword_or_ident: \b[[:alpha:]_][[:alnum:]_]*\b
 
   # Directive comment key.
   directive: \b[[:alpha:]_-][[:alnum:]_-]*\b
@@ -106,6 +111,27 @@ variables:
 
   # Binary counterpart to dec_digits.
   bin_digits: (?:_?[01]+(?:_[01]+)*)
+
+  # Should be used only for lookahead. Syntactically ambiguous with many other
+  # uses of square brackets. Should be used ONLY in contexts where the use of
+  # brackets is unambiguous.
+  #
+  # Known defect: fails to recognize multiline type argument lists.
+  # We should convert from lookahead to branching.
+  type_argument_list: \[(?:{{noise}}|[^\[\]])*\]
+
+  iface_entry_delim: (?://|;|\}|$)
+  struct_entry_delim: (?:"|`|{{iface_entry_delim}})
+  struct_embed_argument_list: '{{type_argument_list}}{{noise}}{{struct_entry_delim}}'
+
+  operator_char: '[!%&*+/:<=>^|-]'
+  operator_break: (?!{{operator_char}})
+
+  # Tokens that may signify the beginning of a type. Should be used only for
+  # lookahead, and only in contexts where this is unambiguous with other
+  # expressions. Doesn't include `*` because inside brackets, it would be
+  # ambiguous with multiplication, which may be used for array size.
+  type_begin: (?:~|\[|{{keyword_or_ident}})
 
 contexts:
   prototype:
@@ -273,8 +299,7 @@ contexts:
     - include: match-predeclared-constants
     - include: match-call-or-type-conversion
     - include: match-short-variable-declarations
-    - match: \b_\b
-      scope: variable.language.anonymous.go
+    - include: match-identifier-anon
     - match: '{{ident}}'
       scope: variable.other.go
 
@@ -318,6 +343,7 @@ contexts:
   # However, we stick to `variable.function.go` to make the treatment of
   # built-ins purely additive, allowing the user to opt out.
   match-call-or-type-conversion:
+    - include: match-identifier-anon
     - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
       scope: variable.function.go support.function.builtin.go
       push: pop-arguments-starting-with-type
@@ -325,11 +351,15 @@ contexts:
       scope: variable.function.go support.type.builtin.go
     - match: '{{predeclared_func}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go support.function.builtin.go
+    - match: '{{ident}}(?=(?:{{noise}}\))*(?:{{noise}}{{type_argument_list}})?{{noise}}\()'
+      scope: variable.function.go
+      push: pop-type-argument-list
     - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go
 
   # See notes on `match-call-or-type-conversion`.
   pop-call-or-type-conversion:
+    - include: pop-identifier-anon
     - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
       scope: variable.function.go support.function.builtin.go
       set: pop-arguments-starting-with-type
@@ -339,6 +369,9 @@ contexts:
     - match: '{{predeclared_func}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go support.function.builtin.go
       pop: true
+    - match: '{{ident}}(?=(?:{{noise}}\))*(?:{{noise}}{{type_argument_list}})?{{noise}}\()'
+      scope: variable.function.go
+      set: pop-type-argument-list
     - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go
       pop: true
@@ -347,14 +380,25 @@ contexts:
   match-short-variable-declarations:
     - match: (?={{ident}}(?:{{noise}},{{noise}}{{ident}})*{{noise}}:=)
       push:
-        - match: \b_\b
-          scope: variable.language.anonymous.go
+        - include: match-identifier-anon
         - match: '{{ident}}'
           scope: variable.other.readwrite.declaration.go
         - include: match-comma
         - include: pop-before-nonblank
 
+  match-identifier-anon:
+    - match: '{{ident_anon}}'
+      scope: variable.language.anonymous.go
+
+  pop-identifier-anon:
+    - match: '{{ident_anon}}'
+      scope: variable.language.anonymous.go
+      pop: true
+
   # https://golang.org/ref/spec#Operators_and_punctuation
+  #
+  # Note: pipe "|" is not always bitwise. In type unions
+  # it should be scoped differently.
   match-operators:
     - match: '<<=|>>=|&\^=|&=|\^=|\|=|%=|\+=|-=|\*=|/=|\+\+|--'
       scope: keyword.operator.assignment.augmented.go
@@ -372,11 +416,22 @@ contexts:
       scope: keyword.operator.bitwise.go
     - match: '[-+/%]'
       scope: keyword.operator.arithmetic.go
-    - match: '[*&]'
+    - match: '[*&~]'
       scope: keyword.operator.go
 
+  # Special characters that in some contexts may precede a type.
+  # Not all of them are allowed in all contexts.
+  # Bundling them together simplifies our syntax implementation.
+  match-type-operators:
+    - include: match-star
+    - include: match-union-pipe
+
   match-star:
-    - match: \*
+    - match: \*{{operator_break}}
+      scope: keyword.operator.go
+
+  match-union-pipe:
+    - match: \|{{operator_break}}
       scope: keyword.operator.go
 
   # https://golang.org/ref/spec#Operators_and_punctuation
@@ -409,47 +464,71 @@ contexts:
   match-selector:
     - match: \.
       scope: punctuation.accessor.dot.go
-      push:
-        - include: pop-type-assertion
+      push: pop-selector
 
-        # Note: we can't syntactically distinguish calls from type conversions.
-        # It's also not always possible to distinguish function calls from
-        # method calls.
-        - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
-          scope: variable.function.go
-          pop: true
+  pop-selector:
+    - match: '{{ident_anon}}(?!{{noise}}\()'
+      scope: variable.language.anonymous.go
+      pop: true
+    - match: '{{ident}}(?!{{noise}}\()'
+      scope: variable.other.member.go
+      pop: true
+    - match: \(
+      scope: punctuation.section.parens.begin.go
+      set: pop-type-assertion
+    - include: pop-before-nonblank
 
-        - include: pop-member
-        # Note: newlines between dot and assertion/field are ok.
-        - include: pop-before-nonblank
+  pop-type-assertion:
+    - include: pop-on-paren-end
+    - match: (?=\S)
+      push: pop-type
 
   match-parens:
     - match: \(
       scope: punctuation.section.parens.begin.go
-      push:
-        - match: \)
-          scope: punctuation.section.parens.end.go
-          pop: true
-        - include: pop-call-or-type-conversion
-        - include: match-any
+      push: pop-parens-inner
     - match: \)
-      scope: punctuation.section.parens.end.go
+      scope: invalid.illegal.go
+
+  pop-parens-inner:
+    - include: pop-on-paren-end
+    - include: match-any
 
   match-brackets:
     - match: \[
       scope: punctuation.section.brackets.begin.go
+      push: [pop-after-brackets, pop-brackets-inner]
     - match: \]
-      scope: punctuation.section.brackets.end.go
-      push:
-        - include: pop-on-terminator
-        - include: match-star
-        - match: '{{ident}}(?={{noise}}\.)'
-          scope: variable.other.go
-        - match: \b_\b
-          scope: variable.language.anonymous.go
-          pop: true
-        - include: pop-type-identifier
-        - include: pop-before-nonblank
+      scope: invalid.illegal.go
+
+  pop-brackets-inner:
+    - match: ''
+      pop: true
+      branch_point: point-brackets-inner
+      branch:
+        - pop-brackets-inner-type-parameter-list
+        - pop-brackets-inner-any
+
+  pop-brackets-inner-type-parameter-list:
+    - match: (?={{ident}}{{noise}}(?:,|{{type_begin}}))
+      set: pop-type-parameter-list-inner
+    - match: (?=\S)
+      fail: point-brackets-inner
+
+  pop-brackets-inner-any:
+    - include: pop-on-bracket-end
+    - include: match-any
+
+  # Known bug:
+  #
+  #   _ = ident[0] * ident
+  #
+  # This currently parses as an array type of `[0]*ident`.
+  # Can we ever fix this false positive?
+  pop-after-brackets:
+    - include: pop-before-terminator
+    - include: match-type-operators
+    - include: pop-type-identifier
 
   # TODO: consider detecting composite literals. In principle, it should allow
   # us to drop the erroneous "meta.block" from composite literals, detect field
@@ -463,14 +542,13 @@ contexts:
   match-braces:
     - match: \{
       scope: punctuation.section.braces.begin.go
-      push:
-        - meta_scope: meta.block.go
-        - match: \}
-          scope: punctuation.section.braces.end.go
-          pop: true
-        - include: match-any
+      push: [meta-block, pop-braces-inner]
     - match: \}
-      scope: punctuation.section.braces.end.go
+      scope: invalid.illegal.go
+
+  pop-braces-inner:
+    - include: pop-on-brace-end
+    - include: match-any
 
   match-literals:
     - include: match-imaginary
@@ -678,18 +756,18 @@ contexts:
         - match: \(
           scope: punctuation.section.parens.begin.go
           set:
-            - match: \)
-              scope: punctuation.section.parens.end.go
-              pop: true
+            - include: pop-on-paren-end
 
-            - match: \b_\b(?={{noise}},)
+            - match: '{{ident_anon}}(?={{noise}},)'
               scope: variable.language.anonymous.go
+
             - match: '{{ident}}(?={{noise}},)'
               scope: variable.other.constant.declaration.go
 
-            - match: \b_\b
+            - match: '{{ident_anon}}'
               scope: variable.language.anonymous.go
               push: pop-const-type-and-or-assignment
+
             - match: '{{ident}}'
               scope: variable.other.constant.declaration.go
               push: pop-const-type-and-or-assignment
@@ -698,14 +776,16 @@ contexts:
 
         - include: match-comma
 
-        - match: \b_\b(?={{noise}},)
+        - match: '{{ident_anon}}(?={{noise}},)'
           scope: variable.language.anonymous.go
+
         - match: '{{ident}}(?={{noise}},)'
           scope: variable.other.constant.declaration.go
 
-        - match: \b_\b
+        - match: '{{ident_anon}}'
           scope: variable.language.anonymous.go
           set: pop-const-type-and-or-assignment
+
         - match: '{{ident}}'
           scope: variable.other.constant.declaration.go
           set: pop-const-type-and-or-assignment
@@ -739,25 +819,20 @@ contexts:
   match-keyword-func:
     - match: \bfunc\b
       scope: keyword.declaration.function.go
-      push:
-        # Method
-        - match: (?=\({{noise}}[^)]+{{noise}}\){{noise}}{{ident}}{{noise}}\()
-          set:
-            - meta_scope: meta.function.declaration.go
-            - match: (?=[^(])
-              set:
-                - meta_scope: meta.function.declaration.go
-                - include: pop-func-signature
-            # Receiver list
-            - match: (?=\()
-              push: pop-func-parameter-list
+      push: [meta-function-declaration, pop-func]
 
-        # Named function
-        - match: (?={{ident}}{{noise}}\()
-          set: pop-func-signature
-
-        # Anonymous function
-        - include: pop-func-parameter-and-return-lists
+  pop-func:
+    # Known false positive:
+    #
+    #   func(param Type[TypeArg]) Name[Type] {}
+    #
+    # In this example, the anonymous function is incorrectly scoped as a method,
+    # where `Name` is scoped as method name rather than type. TODO avoid.
+    # A proper implementation may involve complicated branching.
+    - match: (?=\([^()]*\){{noise}}{{ident}}{{noise}}[\[\(])
+      set: [pop-func-signature, pop-func-method-receiver]
+    - match: (?=\S)
+      set: pop-func-signature
 
   match-keyword-go:
     - match: \bgo\b
@@ -786,12 +861,13 @@ contexts:
   match-keyword-package:
     - match: \bpackage\b
       scope: storage.type.namespace.go keyword.declaration.namespace.go
-      push:
-        - meta_scope: meta.namespace.go
-        - match: '{{ident}}'
-          scope: entity.name.namespace.go
-          pop: true
-        - include: pop-before-nonblank
+      push: [meta-namespace, pop-package-name]
+
+  pop-package-name:
+    - match: '{{ident}}'
+      scope: entity.name.namespace.go
+      pop: true
+    - include: pop-before-nonblank
 
   match-keyword-range:
     - match: \brange\b
@@ -816,35 +892,31 @@ contexts:
   match-keyword-type:
     - match: \btype\b
       scope: keyword.declaration.type.go
-      push:
-        - match: \(
-          scope: punctuation.section.parens.begin.go
-          set:
-            - match: \)
-              scope: punctuation.section.parens.end.go
-              pop: true
-            - match: \b_\b
-              scope: variable.language.anonymous.go
-              push:
-                - match: (?=\))
-                  pop: true
-                - include: pop-type-alias-or-typedef
-            - match: '{{ident}}'
-              scope: entity.name.type.go
-              push:
-                - match: (?=\))
-                  pop: true
-                - include: pop-type-alias-or-typedef
-            - include: match-any
+      push: pop-type-declaration-or-list
 
-        - match: \b_\b
-          scope: variable.language.anonymous.go
-          set: pop-type-alias-or-typedef
-        - match: '{{ident}}'
-          scope: entity.name.type.go
-          set: pop-type-alias-or-typedef
+  pop-type-declaration-or-list:
+    - match: \(
+      scope: punctuation.section.parens.begin.go
+      set: pop-type-declaration-list
+    - match: (?=\S)
+      set: pop-type-declaration
 
-        - include: pop-before-nonblank
+  pop-type-declaration-list:
+    - include: pop-on-paren-end
+    - match: (?={{ident}})
+      push: pop-type-declaration
+    - include: match-any
+
+  pop-type-declaration:
+    - match: '{{ident_anon}}'
+      scope: variable.language.anonymous.go
+      set: pop-type-spec
+
+    - match: '{{ident}}'
+      scope: entity.name.type.go
+      set: pop-type-spec
+
+    - include: pop-before-nonblank
 
   match-keyword-var:
     - match: \bvar\b
@@ -853,18 +925,18 @@ contexts:
         - match: \(
           scope: punctuation.section.parens.begin.go
           set:
-            - match: \)
-              scope: punctuation.section.parens.end.go
-              pop: true
+            - include: pop-on-paren-end
 
-            - match: \b_\b(?={{noise}},)
+            - match: '{{ident_anon}}(?={{noise}},)'
               scope: variable.language.anonymous.go
+
             - match: '{{ident}}(?={{noise}},)'
               scope: variable.other.readwrite.declaration.go
 
-            - match: \b_\b
+            - match: '{{ident_anon}}'
               scope: variable.language.anonymous.go
               push: pop-var-type-and-or-assignment
+
             - match: '{{ident}}'
               scope: variable.other.readwrite.declaration.go
               push: pop-var-type-and-or-assignment
@@ -873,28 +945,71 @@ contexts:
 
         - include: match-comma
 
-        - match: \b_\b(?={{noise}},)
+        - match: '{{ident_anon}}(?={{noise}},)'
           scope: variable.language.anonymous.go
+
         - match: '{{ident}}(?={{noise}},)'
           scope: variable.other.readwrite.declaration.go
 
-        - match: \b_\b
+        - match: '{{ident_anon}}'
           scope: variable.language.anonymous.go
           set: pop-var-type-and-or-assignment
+
         - match: '{{ident}}'
           scope: variable.other.readwrite.declaration.go
           set: pop-var-type-and-or-assignment
 
         - include: pop-before-nonblank
 
-  pop-func-signature:
-    - match: \b_\b
+  pop-func-method-receiver:
+    - match: \(
+      scope: punctuation.section.parens.begin.go
+      set: pop-func-method-receiver-inner
+    - include: pop-before-nonblank
+
+  pop-func-method-receiver-inner:
+    - include: pop-on-paren-end
+    - include: match-type-operators
+    - include: match-namespace
+
+    # The lookahead is too special-case. TODO improve.
+    - match: '{{ident_anon}}(?={{noise}}(?:\*|{{ident}}))'
       scope: variable.language.anonymous.go
-      set: pop-func-parameter-and-return-lists
+    - match: '{{ident}}(?={{noise}}(?:\*|{{ident}}))'
+      scope: variable.parameter.go
+
+    - match: '{{ident}}'
+      scope: storage.type.go
+      push: pop-type-parameter-list-simple
+
+    - include: match-any
+
+  pop-func-signature:
+    - match: (?=\S)
+      set: [pop-func-parameter-and-return-lists, pop-type-parameter-list, pop-func-name]
+
+  pop-func-name:
+    - match: '{{ident_anon}}'
+      scope: variable.language.anonymous.go
+      pop: true
+
     - match: '{{ident}}'
       scope: entity.name.function.go
-      set: pop-func-parameter-and-return-lists
+      pop: true
+
     - include: pop-before-nonblank
+
+  pop-func-parameter-and-return-lists:
+    - match: (?=\()
+      set: [pop-func-return-signature, pop-func-parameter-list]
+    - include: pop-before-nonblank
+
+  pop-func-return-signature:
+    - include: pop-before-terminator
+    - match: (?=\()
+      set: pop-func-parameter-list
+    - match: (?=\S)
+      set: pop-type
 
   # https://golang.org/ref/spec#Function_types
   #
@@ -902,43 +1017,31 @@ contexts:
   #
   # Unnamed:
   #
-  #   (int)
-  #   (int, int)
-  #   (int, int, ...int)
+  #   (typ)
+  #   (typ, typ)
+  #   (typ, typ, ...typ)
   #
   # Named:
   #
-  #   (a int)
-  #   (a, b int)
-  #   (a, b ...int)
-  #   (a int, b int)
-  #   (a, b int, c ...int)
+  #   (a typ)
+  #   (a, b typ)
+  #   (a, b ...typ)
+  #   (a typ, b typ)
+  #   (a, b typ, c ...typ)
   #
   # The modes are distinct: either all named, or all unnamed.
   #
   # Gotchas:
   #
-  #   parameters can span multiple lines
-  #   a type can span multiple lines (anonymous struct, interface, etc.)
-  #   parameter groups AND parameter names are comma-separated
-  #   `chan type` is a type that looks like an identifier followed by a type
+  #   * Parameters can span multiple lines.
+  #   * A type can span multiple lines (anonymous struct, interface, etc.).
+  #   * Parameter groups AND parameter names are comma-separated.
+  #   * `chan type` is a type that looks like an identifier followed by a type.
   #
-  # I have an impression that with the current syntax engine, it's impossible to
-  # perfectly parse some parameter lists, particularly ones that are named,
-  # multiline, and have name groups. We're still trying to cover as many edge
-  # cases as possible.
-  pop-func-parameter-and-return-lists:
-    - match: (?=\()
-      set: [pop-func-return-signature, pop-func-parameter-list]
-    - include: pop-before-nonblank
-
-  pop-func-return-signature:
-    - include: pop-on-terminator
-    - match: (?=\()
-      set: pop-func-parameter-list
-    - match: (?=\S)
-      set: pop-type
-
+  # The current implementation is imperfect: when a group of comma-separated
+  # parameters spans multiple lines, we incorrectly assume "unnamed" mode.
+  # However, a "perfect" implementation requires multiline lookahead or
+  # branching. The current approach works for most real code.
   pop-func-parameter-list:
     - match: \(
       scope: punctuation.section.parens.begin.go
@@ -955,15 +1058,15 @@ contexts:
     - include: pop-before-nonblank
 
   pop-parameter-list-named:
-    - match: \)
-      scope: punctuation.section.parens.end.go
-      pop: true
+    - include: pop-on-paren-end
     - include: match-keywords
     - include: match-comma
     - include: match-ellipsis
-    - match: \b_\b
+
+    - match: '{{ident_anon}}'
       scope: variable.language.anonymous.go
       push: pop-parameter-type
+
     - match: '{{ident}}'
       scope: variable.parameter.go
       push: pop-parameter-type
@@ -975,168 +1078,269 @@ contexts:
     - include: pop-type
 
   pop-parameter-list-unnamed:
-    - match: \)
-      scope: punctuation.section.parens.end.go
-      pop: true
-    - include: match-keywords
+    - include: pop-on-paren-end
     - include: match-comma
     - include: match-ellipsis
+    - include: match-keywords
     - match: (?=\S)
       push: pop-type
+
+  # At the time of writing, this is the only part of Go that uses "untyped"
+  # syntax for parameters, similar to function definitions in dynamic languages
+  # or closure definitions in typed languages such as Java lambdas.
+  #
+  # Note: this should not be confused with `pop-type-parameter-list` that
+  # uses "typed" syntax.
+  pop-type-parameter-list-simple:
+    - match: \[
+      scope: punctuation.section.brackets.begin.go
+      set: pop-type-parameter-list-simple-inner
+    - include: pop-before-nonblank
+
+  pop-type-parameter-list-simple-inner:
+    - include: pop-on-bracket-end
+    - include: match-identifier-anon
+    - match: '{{ident}}'
+      scope: variable.parameter.type.go
+    - include: match-any
+
+  # Note: this should not be confused with `pop-type-parameter-list-simple` or
+  # `pop-type-argument-list`.
+  pop-type-parameter-list:
+    - match: \[
+      scope: punctuation.section.brackets.begin.go
+      set: pop-type-parameter-list-inner
+    - include: pop-before-nonblank
+
+  # Unlike value parameter lists that have both named and anonymous modes,
+  # type parameter lists have only the named mode. Parameter names must exist.
+  pop-type-parameter-list-inner:
+    - include: pop-on-bracket-end
+    - match: '{{ident_anon}}(?={{noise}},)'
+      scope: variable.language.anonymous.go
+    - match: '{{ident}}(?={{noise}},)'
+      scope: variable.parameter.type.go
+    - match: '{{ident_anon}}'
+      scope: variable.language.anonymous.go
+      push: pop-type
+    - match: '{{ident}}'
+      scope: variable.parameter.type.go
+      push: pop-type
+    - include: match-any
+
+  # Note: this should not be confused with `pop-type-parameter-list`.
+  pop-type-argument-list:
+    - include: pop-before-terminator
+    - match: \[
+      scope: punctuation.section.brackets.begin.go
+      set: pop-type-argument-list-inner
+    - include: pop-before-nonblank
+
+  pop-type-argument-list-inner:
+    - include: pop-on-bracket-end
+    - include: match-identifier-anon
+    - match: '{{ident}}'
+      scope: variable.other.type.go
+    - include: match-any
+
+  pop-now:
+    - match: ''
+      pop: true
 
   pop-before-nonblank:
     - match: (?=\S)
       pop: true
 
-  pop-on-semicolon:
-    - match: ;
-      scope: punctuation.terminator.go
+  pop-before-semicolon:
+    - match: (?=;)
       pop: true
 
-  pop-on-terminator:
-    - include: pop-on-semicolon
-    - match: $
+  pop-before-newline:
+    - match: (?=$)
       pop: true
+
+  pop-before-terminator:
+    - include: pop-before-semicolon
+    - include: pop-before-newline
+
+  pop-before-paren-end:
+    - match: (?=\))
+      pop: true
+
+  pop-on-paren-end:
+    - match: \)
+      scope: punctuation.section.parens.end.go
+      pop: true
+
+  pop-before-bracket-end:
+    - match: (?=\])
+      pop: true
+
+  pop-on-bracket-end:
+    - match: \]
+      scope: punctuation.section.brackets.end.go
+      pop: true
+
+  pop-on-brace-end:
+    - match: \}
+      scope: punctuation.section.braces.end.go
+      pop: true
+
+  pop-before-brace-end:
+    - match: (?=\})
+      pop: true
+
+  match-type:
+    - match: (?=\S)
+      push: pop-type
 
   pop-type:
-    - include: pop-on-semicolon
+    - match: (?=\S)
+      set: [pop-after-type, pop-type-single]
+
+  pop-type-single:
+    - include: pop-before-semicolon
 
     # Note: Go allows wrapping types in an arbitrary number of parens.
     - match: \(
       scope: punctuation.section.parens.begin.go
       push: [pop-type-nested-in-parens, pop-type]
 
-    - match: \[
-      scope: punctuation.section.brackets.begin.go
-      set:
-        - match: \]
-          scope: punctuation.section.brackets.end.go
-          # BUG:
-          #   _ = blah[0] * blah
-          # This currently parses as an array type of `[0]*blah`.
-          # Can we fix this false positive?
-          set: pop-type
-        - include: match-any
-
+    - include: match-type-operators
     - include: match-operators
 
     - match: (?=\bchan\b)
       set: pop-chan
+
     - match: (?=\binterface\b)
       set: pop-interface
+
     - match: (?=\bmap\b)
       set: pop-map
+
     - match: (?=\bstruct\b)
       set: pop-struct
+
     - match: \bfunc\b
       scope: keyword.declaration.function.go
       set: pop-func-parameter-and-return-lists
+
     - match: (?={{ident}})
-      set: pop-named-type
+      set: pop-type-identifier
+
+    - match: \[
+      scope: punctuation.section.brackets.begin.go
+      set: [pop-after-brackets, pop-brackets-inner]
 
     - include: pop-before-nonblank
 
+  pop-after-type:
+    - match: \|{{operator_break}}
+      scope: keyword.operator.go
+      set: pop-type
+    - include: pop-before-newline
+    - include: pop-before-nonblank
+
   pop-type-nested-in-parens:
-    - match: \)
-      scope: punctuation.section.parens.end.go
-      pop: true
+    - include: pop-on-paren-end
     - include: pop-type
 
   pop-struct:
     - match: \bstruct\b
       scope: keyword.declaration.struct.go
-      set:
-        - match: \{
-          scope: punctuation.section.braces.begin.go
-          set:
-            - meta_scope: meta.type.go
+      set: pop-struct-block
 
-            - match: \}
-              scope: punctuation.section.braces.end.go
-              pop: true
+  pop-struct-block:
+    - match: \{
+      scope: punctuation.section.braces.begin.go
+      set: [meta-type, pop-struct-block-inner]
+    - include: pop-before-nonblank
 
-            - include: match-keywords
-            - include: match-star
+  pop-struct-block-inner:
+    - include: pop-on-brace-end
+    - include: match-keywords
+    - include: match-type-operators
+    - include: match-namespace
 
-            - match: '{{ident}}(?={{noise}}\.)'
-              scope: variable.other.go
-            - match: \.
-              scope: punctuation.accessor.dot.go
-            - match: '{{predeclared_type}}(?={{noise}}(?:"|`|//|;|\}|$))'
-              scope: entity.other.inherited-class.go support.type.builtin.go
-            - match: '{{ident}}(?={{noise}}(?:"|`|//|;|\}|$))'
-              scope: entity.other.inherited-class.go
+    - match: '{{ident_anon}}(?={{noise}}{{struct_embed_argument_list}})'
+      scope: variable.language.anonymous.go
+      push: pop-type-argument-list
 
-            - match: \b_\b
-              scope: variable.language.anonymous.go
-            - match: '{{ident}}'
-              scope: variable.other.member.declaration.go
-              push:
-                - match: (?=\})
-                  pop: true
-                - include: pop-on-terminator
-                - include: pop-type
-                - include: match-any
+    - match: '{{ident}}(?={{noise}}{{struct_embed_argument_list}})'
+      scope: entity.other.inherited-class.go
+      push: pop-type-argument-list
 
-            - include: match-any
+    - match: '{{predeclared_type}}(?={{noise}}{{struct_entry_delim}})'
+      scope: entity.other.inherited-class.go support.type.builtin.go
 
-        - include: pop-before-nonblank
+    - include: match-identifier-anon
+
+    - match: '{{ident}}(?={{noise}}{{struct_entry_delim}})'
+      scope: entity.other.inherited-class.go
+
+    - match: '{{ident}}'
+      scope: variable.other.member.declaration.go
+      push: pop-struct-field-meta
+
+    - include: match-any
+
+  pop-struct-field-meta:
+    - include: pop-before-brace-end
+    - include: pop-before-terminator
+    - include: pop-type
+    - include: match-any
 
   pop-interface:
     - match: \binterface\b
       scope: keyword.declaration.interface.go
-      set:
-        - match: \{
-          scope: punctuation.section.braces.begin.go
-          set:
-            - meta_scope: meta.type.go
-            - match: \}
-              scope: punctuation.section.braces.end.go
-              pop: true
+      set: [meta-type, pop-interface-block]
 
-            - include: match-keywords
-            - include: match-star
+  pop-interface-block:
+    - match: \{
+      scope: punctuation.section.braces.begin.go
+      set: pop-interface-inner
+    - include: pop-before-nonblank
 
-            - match: '{{ident}}(?={{noise}}\.)'
-              scope: variable.other.go
-            - match: \.
-              scope: punctuation.accessor.dot.go
-            - match: '{{predeclared_type}}(?={{noise}}(?://|;|\}|$))'
-              scope: entity.other.inherited-class.go support.type.builtin.go
-            - match: '{{ident}}(?={{noise}}(?://|;|\}|$))'
-              scope: entity.other.inherited-class.go
+  # Ideally we would scope embedded interfaces as `entity.other.inherited-class`
+  # rather than `storage.type` Prior to Go 1.18 and type unions, it was
+  # possible to detect embedding unambiguously. With the advent of unions,
+  # embeddings are syntactically indistinguishable from single-element unions.
+  pop-interface-inner:
+    - include: pop-on-brace-end
+    - include: match-keywords
+    - include: match-namespace
+    - include: match-type-operators
 
-            - match: '{{ident}}(?={{noise}}\()'
-              scope: entity.name.function.go
-              push:
-                - match: (?=\})
-                  pop: true
-                - include: pop-func-parameter-and-return-lists
+    - match: '{{ident}}(?={{noise}}\()'
+      scope: entity.name.function.go
+      push: pop-func-parameter-and-return-lists
 
-            - include: match-any
-        - include: pop-before-nonblank
+    - match: '{{predeclared_type}}'
+      scope: storage.type.go support.type.builtin.go
+
+    - match: '{{ident}}'
+      scope: storage.type.go
+
+    - include: match-any
 
   pop-map:
     # Note: newlines between `map` and `[` are ok, but newlines after `]`
     # terminate the type.
     - match: \bmap\b
       scope: keyword.declaration.map.go
-      set:
-        - include: pop-on-semicolon
-        - match: \[
-          scope: punctuation.section.brackets.begin.go
-          set:
-            - match: \]
-              scope: punctuation.section.brackets.end.go
-              set:
-                - include: pop-on-terminator
-                - include: pop-type
-            - match: (?=\S)
-              push:
-                - match: (?=\])
-                  pop: true
-                - include: pop-type
-        - include: pop-type
+      set: [meta-type, pop-map-brackets]
+
+  pop-map-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.go
+      set: pop-map-brackets-inner
+    - include: pop-before-nonblank
+
+  pop-map-brackets-inner:
+    - match: \]
+      scope: punctuation.section.brackets.end.go
+      set: pop-type
+    - include: match-type
 
   # Note: newlines between `chan`, subsequent arrow, and subsequent type, are
   # perfectly ok.
@@ -1145,30 +1349,21 @@ contexts:
       scope: keyword.declaration.chan.go
       set: pop-type
 
-  pop-named-type:
-    - match: \b_\b
-      scope: variable.language.anonymous.go
-      pop: true
-    - match: '{{ident}}(?={{noise}}\.)'
-      scope: variable.other.go
-    - match: \.
-      scope: punctuation.accessor.dot.go
-    - match: \b_\b
-      scope: variable.language.anonymous.go
-      pop: true
-    - include: pop-type-identifier
-    - include: pop-before-nonblank
-
   pop-type-identifier:
+    - include: match-namespace
+    - match: '{{ident_anon}}'
+      scope: variable.language.anonymous.go
+      set: pop-type-argument-list
     - match: '{{predeclared_type}}'
       scope: storage.type.go support.type.builtin.go
-      pop: true
+      set: pop-type-argument-list
     - match: '{{ident}}'
       scope: storage.type.go
-      pop: true
+      set: pop-type-argument-list
+    - include: pop-before-nonblank
 
-  pop-type-alias-or-typedef:
-    - include: pop-on-terminator
+  pop-type-spec:
+    - include: pop-before-terminator
     # Newlines after `=` are ok.
     - match: =
       scope: keyword.operator.assignment.go
@@ -1177,7 +1372,7 @@ contexts:
       set: pop-type
 
   pop-const-type-and-or-assignment:
-    - include: pop-on-terminator
+    - include: pop-before-terminator
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-const-expressions
@@ -1185,7 +1380,7 @@ contexts:
       set: [pop-const-assignment-or-terminate, pop-type]
 
   pop-const-assignment-or-terminate:
-    - include: pop-on-terminator
+    - include: pop-before-terminator
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-const-expressions
@@ -1199,16 +1394,16 @@ contexts:
   # redefine it. Doing so in the root scope makes the magic constant unavailable
   # for the entire package.
   pop-const-expressions:
-    - include: pop-on-semicolon
+    - include: pop-before-semicolon
     - match: (?=\S)
       set:
-        - include: pop-on-terminator
+        - include: pop-before-terminator
         - match: \biota\b
           scope: constant.language.go
         - include: match-any
 
   pop-var-type-and-or-assignment:
-    - include: pop-on-terminator
+    - include: pop-before-terminator
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-var-expressions
@@ -1216,7 +1411,7 @@ contexts:
       set: [pop-var-assignment-or-terminate, pop-type]
 
   pop-var-assignment-or-terminate:
-    - include: pop-on-terminator
+    - include: pop-before-terminator
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-var-expressions
@@ -1224,25 +1419,17 @@ contexts:
 
   # Note: this doesn't support multiline expressions.
   pop-var-expressions:
-    - include: pop-on-semicolon
+    - include: pop-before-semicolon
     - match: (?=\S)
       set:
-        - include: pop-on-terminator
+        - include: pop-before-terminator
         - include: match-any
 
-  pop-type-assertion:
-    - match: \(
-      scope: punctuation.section.parens.begin.go
-      set:
-        - match: \)
-          scope: punctuation.section.parens.end.go
-          pop: true
-        - include: pop-type
-
   pop-member:
-    - match: \b_\b
+    - match: '{{ident_anon}}'
       scope: variable.language.anonymous.go
       pop: true
+
     - match: '{{ident}}'
       scope: variable.other.member.go
       pop: true
@@ -1250,17 +1437,9 @@ contexts:
   pop-arguments-starting-with-type:
     # Go allows functions and types to be wrapped in an arbitrary number of
     # parens. These are not part of the call.
-    - match: \)
-      scope: punctuation.section.parens.end.go
     - match: \(
       scope: punctuation.section.parens.begin.go
-      set:
-        - match: \)
-          scope: punctuation.section.parens.end.go
-          pop: true
-        - match: (?=\S)
-          set: pop-type
-    - include: pop-on-terminator
+      set: [pop-inside-parens, pop-type]
     - include: pop-before-nonblank
 
   # Including the newline allows the scope to visually stretch to the right,
@@ -1270,3 +1449,29 @@ contexts:
   pop-on-eol:
     - match: $\n?
       pop: true
+
+  pop-inside-parens:
+    - include: pop-on-paren-end
+    - include: match-any
+
+  match-namespace:
+    - match: '({{ident}})\s*(\.)'
+      captures:
+        1: variable.other.go
+        2: punctuation.accessor.dot.go
+
+  meta-function-declaration:
+    - meta_scope: meta.function.declaration.go
+    - include: pop-now
+
+  meta-block:
+    - meta_scope: meta.block.go
+    - include: pop-now
+
+  meta-type:
+    - meta_scope: meta.type.go
+    - include: pop-now
+
+  meta-namespace:
+    - meta_scope: meta.namespace.go
+    - include: pop-now
