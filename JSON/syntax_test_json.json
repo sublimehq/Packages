@@ -32,7 +32,7 @@
   "array": [ /**/ ],
 //         ^^^^^^^^ meta.mapping.value.json meta.sequence.json
 //         ^   punctuation.section.sequence.begin.json
-//           ^^^^ comment.block.json
+//           ^^^^ comment.block.empty.json
 //                ^ punctuation.section.sequence.end.json
 
   "dict": {"foo": },
@@ -52,7 +52,7 @@
     "foo": "bar"
     // comment
 // ^ - invalid
-//  ^^^^^^^^^^ comment.line.double-slash.js
+//  ^^^^^^^^^^ comment.line.double-slash.json
     ,
 //  ^ punctuation.separator.sequence.json
     "foo": "bar"
@@ -96,7 +96,7 @@
 // <- - string
 
 /**/: "test",
-// ^ meta.mapping.json comment.block.json
+// ^ meta.mapping.json comment.block.empty.json
 //  ^ punctuation.separator.key-value.json - comment
 //    ^^^^^^ meta.mapping.value.json string.quoted.double.json
 

@@ -57,27 +57,56 @@ contexts:
           scope: invalid.illegal.expected-sequence-separator.json
 
   comments:
-    - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.json
-      push:
-        - meta_scope: comment.block.documentation.json
-        - meta_include_prototype: false
-        - match: \*/
-          pop: 1
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.json
+    - include: line-comments
+    - include: block-comments
+
+  block-comments:
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.json punctuation.definition.comment.json
+    # documentation block comments
+    - match: (/\*)(\*+)
+      captures:
+        1: punctuation.definition.comment.begin.json
+        2: meta.fold.begin.json punctuation.definition.comment.begin.json
+      push: jsdoc-comment-body
+    # normal block comments
     - match: /\*
-      scope: punctuation.definition.comment.json
-      push:
-        - meta_scope: comment.block.json
-        - meta_include_prototype: false
-        - match: \*/
-          pop: 1
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.js
+      scope: meta.fold.begin.json punctuation.definition.comment.begin.json
+      push: block-comment-body
+
+  block-comment-end:
+    - match: (\**)(\*/)
+      captures:
+        1: punctuation.definition.comment.end.json
+        2: meta.fold.end.json punctuation.definition.comment.end.json
+      pop: true
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.json
+    - include: block-comment-end
+
+  jsdoc-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.json
+    - include: block-comment-end
+    - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.json
+
+  line-comments:
+    - match: //+
+      scope: punctuation.definition.comment.json
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.json
+    - match: (//+)?\n
+      captures:
+        1: punctuation.definition.comment.json
+      pop: 1
 
   constant:
     - match: \b(?:false|true)\b
