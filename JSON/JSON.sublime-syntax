@@ -67,8 +67,8 @@ contexts:
     # documentation block comments
     - match: (/\*)(\*+)
       captures:
-        1: punctuation.definition.comment.begin.json
-        2: meta.fold.begin.json punctuation.definition.comment.begin.json
+        1: meta.fold.begin.json punctuation.definition.comment.begin.json
+        2: punctuation.definition.comment.begin.json
       push: jsdoc-comment-body
     # normal block comments
     - match: /\*
