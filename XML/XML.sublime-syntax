@@ -158,7 +158,7 @@ contexts:
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.declaration.cdata.xml
-        3: punctuation.definition.tag.begin.xml
+        3: meta.fold.begin.xml punctuation.definition.tag.begin.xml
       push: cdata-content
 
   cdata-content:
@@ -166,21 +166,21 @@ contexts:
     - meta_scope: meta.tag.sgml.cdata.xml
     - meta_content_scope: meta.string.xml string.unquoted.cdata.xml
     - match: ']]>'
-      scope: punctuation.definition.tag.end.xml
+      scope: meta.fold.end.xml punctuation.definition.tag.end.xml
       pop: 1
 
 ###[ COMMENT ]################################################################
 
   comment:
     - match: <!--
-      scope: punctuation.definition.comment.begin.xml
+      scope: meta.fold.begin.xml punctuation.definition.comment.begin.xml
       push: comment-content
 
   comment-content:
     - meta_include_prototype: false
     - meta_scope: comment.block.xml
     - match: -->
-      scope: punctuation.definition.comment.end.xml
+      scope: meta.fold.end.xml punctuation.definition.comment.end.xml
       pop: 1
     - match: -{2,}
       scope: invalid.illegal.double-hyphen-within-comment.xml
@@ -191,8 +191,8 @@ contexts:
     - match: (<!)(?:(DOCTYPE)|(?i:(DOCTYPE)))\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.declaration.doctype.xml
-        3: invalid.illegal.bad-tag-name.xml
+        2: meta.fold.begin.xml keyword.declaration.doctype.xml
+        3: meta.fold.begin.xml invalid.illegal.bad-tag-name.xml
       push:
         - doctype-meta
         - dtd-subset-brackets
@@ -235,7 +235,7 @@ contexts:
     - match: (<!)(ENTITY)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.declaration.entity.xml
+        2: meta.fold.begin.xml keyword.declaration.entity.xml
       push:
         - dtd-entity-meta
         - dtd-entity-content
@@ -271,7 +271,7 @@ contexts:
     - match: (<!)(ELEMENT)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.declaration.element.xml
+        2: meta.fold.begin.xml keyword.declaration.element.xml
       push:
         - dtd-element-meta
         - dtd-element-content
@@ -292,7 +292,7 @@ contexts:
       scope: constant.other.xml
       pop: 1
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       set: dtd-element-parens
     - include: dtd-constants
     - include: dtd-content-quoted
@@ -300,10 +300,10 @@ contexts:
   dtd-element-parens:
     - meta_scope: meta.group.xml
     - match: \)
-      scope: punctuation.definition.group.end.xml
+      scope: punctuation.section.group.end.xml
       set: dtd-element-operator
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       push: dtd-element-parens
     - match: '[*?+]'
       scope: keyword.operator.xml
@@ -326,7 +326,7 @@ contexts:
     - match: (<!)(ATTLIST)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.declaration.attlist.xml
+        2: meta.fold.begin.xml keyword.declaration.attlist.xml
       push:
         - dtd-attlist-meta
         - dtd-attlist-content
@@ -351,13 +351,13 @@ contexts:
 
   dtd-attlist-parens:
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       push: dtd-attlist-parens-content
 
   dtd-attlist-parens-content:
     - meta_scope: meta.group.enumerated.xml
     - match: \)
-      scope: punctuation.definition.group.end.xml
+      scope: punctuation.section.group.end.xml
       pop: 1
     - match: \|
       scope: punctuation.separator.logical.xml
@@ -372,7 +372,7 @@ contexts:
     - match: (<!)(NOTATION)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.declaration.notation.xml
+        2: meta.fold.begin.xml keyword.declaration.notation.xml
       push:
         - dtd-notation-meta
         - dtd-content-quoted
@@ -393,7 +393,7 @@ contexts:
 
   dtd-subset:
     - match: <!\[
-      scope: punctuation.definition.tag.begin.xml
+      scope: meta.fold.begin.xml punctuation.definition.tag.begin.xml
       push:
         - dtd-subset-meta
         - dtd-subset-brackets
@@ -402,10 +402,10 @@ contexts:
   dtd-subset-meta:
     - meta_scope: meta.tag.sgml.subset.xml
     - match: \]>
-      scope: punctuation.definition.tag.end.xml
+      scope: meta.fold.end.xml punctuation.definition.tag.end.xml
       pop: 1
     - match: '[/\?]?>'
-      scope: invalid.illegal.bad-tag-end.xml
+      scope: meta.fold.end.xml invalid.illegal.bad-tag-end.xml
       pop: 1
     - include: tag-end-missing-pop
 
@@ -434,7 +434,7 @@ contexts:
     - match: (<!)([^?/<>\s]*)
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: invalid.illegal.bad-tag-name.xml
+        2: meta.fold.begin.xml invalid.illegal.bad-tag-name.xml
       push: dtd-unknown-content
 
   dtd-unknown-content:
@@ -489,13 +489,13 @@ contexts:
 
   dtd-end:
     - match: '>'
-      scope: punctuation.definition.tag.end.xml
+      scope: meta.fold.end.xml punctuation.definition.tag.end.xml
       pop: 1
     - match: \s?(?=[<\]])
-      scope: invalid.illegal.missing-tag-end.xml
+      scope: meta.fold.end.xml invalid.illegal.missing-tag-end.xml
       pop: 1
     - match: '[/\?]>'
-      scope: invalid.illegal.bad-tag-end.xml
+      scope: meta.fold.end.xml invalid.illegal.bad-tag-end.xml
       pop: 1
     - match: \S
       scope: invalid.illegal.unexpected.xml
@@ -521,15 +521,15 @@ contexts:
         )
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-        3: invalid.illegal.bad-tag-name.xml
+        2: meta.fold.begin.xml entity.name.tag.xml
+        3: meta.fold.begin.xml invalid.illegal.bad-tag-name.xml
       push: prolog-content
     # Processing instructions like <?...?>
     # meta tag without internal highlighting
     - match: (<\?)({{name}})\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
+        2: meta.fold.begin.xml entity.name.tag.xml
       push: preprocessor-content
 
   prolog-content:
@@ -544,7 +544,7 @@ contexts:
 
   preprocessor-end:
     - match: \?>
-      scope: punctuation.definition.tag.end.xml
+      scope: meta.fold.end.xml punctuation.definition.tag.end.xml
       pop: 1
 
 ###[ XML TAGS ]###############################################################
@@ -553,12 +553,12 @@ contexts:
     # end-tag without attribute support
     - match: (</){{qualified_tag_name}}
       captures:
-        1: punctuation.definition.tag.begin.xml
+        1: meta.fold.end.xml punctuation.definition.tag.begin.xml
         2: entity.name.tag.namespace.xml
         3: invalid.illegal.bad-tag-name.xml
         4: entity.name.tag.xml punctuation.separator.namespace.xml
-        5: entity.name.tag.localname.xml
-        6: invalid.illegal.bad-tag-name.xml
+        5: meta.fold.begin.xml entity.name.tag.localname.xml
+        6: meta.fold.begin.xml invalid.illegal.bad-tag-name.xml
       push: end-tag-content
     # opening maybe self-closing tag with optional attributes
     - match: (<){{qualified_tag_name}}
@@ -567,17 +567,20 @@ contexts:
         2: entity.name.tag.namespace.xml
         3: invalid.illegal.bad-tag-name.xml
         4: entity.name.tag.xml punctuation.separator.namespace.xml
-        5: entity.name.tag.localname.xml
-        6: invalid.illegal.bad-tag-name.xml
+        5: meta.fold.begin.xml entity.name.tag.localname.xml
+        6: meta.fold.begin.xml invalid.illegal.bad-tag-name.xml
       push: begin-tag-content
 
   begin-tag-content:
     - meta_scope: meta.tag.xml
-    - match: /?>
-      scope: punctuation.definition.tag.end.xml
+    - match: '>'
+      scope: meta.fold.end.xml meta.fold.begin.xml punctuation.definition.tag.end.xml
+      pop: 1
+    - match: />
+      scope: meta.fold.end.xml punctuation.definition.tag.end.xml
       pop: 1
     - match: \?>
-      scope: invalid.illegal.bad-tag-end.xml
+      scope: meta.fold.end.xml invalid.illegal.bad-tag-end.xml
       pop: 1
     - include: tag-end-missing-pop
     - include: tag-attribute
@@ -585,11 +588,11 @@ contexts:
   end-tag-content:
     - meta_scope: meta.tag.xml
     - match: '>'
-      scope: punctuation.definition.tag.end.xml
+      scope: meta.fold.end.xml punctuation.definition.tag.end.xml
       pop: 1
     - include: tag-end-missing-pop
     - match: '[/\?]>'
-      scope: invalid.illegal.bad-tag-end.xml
+      scope: meta.fold.end.xml invalid.illegal.bad-tag-end.xml
       pop: 1
     - match: \S
       scope: invalid.illegal.unexpected-attribute.xml
@@ -622,7 +625,7 @@ contexts:
     # pop, if the next opening tag is following, while scoping the
     # preceding space to give a hint about the unclosed tag
     - match: \s?(?=<)
-      scope: invalid.illegal.missing-tag-end.xml
+      scope: meta.fold.end.xml invalid.illegal.missing-tag-end.xml
       pop: 1
 
 ###[ CONSTANTS ]##############################################################

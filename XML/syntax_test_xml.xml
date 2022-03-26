@@ -740,7 +740,7 @@
 ##     ^^^^^^^ keyword.declaration.element
 ##            ^ - keyword - variable
 ##             ^^^^^^^^^ variable.other.element
-##                       ^ punctuation.definition.group.begin
+##                       ^ punctuation.section.group.begin
 ##                        ^^^^^^^ constant.other.placeholder
 ##                               ^ punctuation.separator
 ##                                ^^^ meta.string string.unquoted
@@ -753,7 +753,7 @@
 ##                                          ^^^^^ variable.parameter
 ##                                              ^ punctuation.terminator.parameter
 ##                                               ^ punctuation.separator
-##                                                ^ punctuation.definition.group.begin
+##                                                ^ punctuation.section.group.begin
 ##                                                 ^ punctuation.definition.entity
 ##                                                 ^^^^^ constant.character.entity.named
 ##                                                     ^ punctuation.terminator.entity
@@ -765,9 +765,9 @@
 ##                                                             ^^^ punctuation.definition.entity
 ##                                                             ^^^^^^ constant.character.entity.hexadecimal
 ##                                                                  ^ punctuation.terminator.entity
-##                                                                   ^ punctuation.definition.group.end
+##                                                                   ^ punctuation.section.group.end
 ##                                                                    ^ keyword.operator
-##                                                                     ^ punctuation.definition.group.end
+##                                                                     ^ punctuation.section.group.end
 ##                                                                      ^ keyword.operator
 ##                                                                       ^ punctuation.definition.tag.end
 
