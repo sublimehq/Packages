@@ -527,7 +527,6 @@ contexts:
 
   cmd-exec-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate
     - match: ([-+])[cl]*[a]{{opt_break}}
       scope: meta.parameter.option.shell variable.parameter.option.shell
       captures:
@@ -543,6 +542,8 @@ contexts:
         1: keyword.operator.end-of-options.shell
       pop: 1
     - include: cmd-args-illegal-options
+    - include: redirections
+    - include: eoc-pop
     - include: else-pop
 
 ###[ EXPORT BUILTINS ]#########################################################
