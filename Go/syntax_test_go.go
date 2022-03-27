@@ -34,19 +34,23 @@ You may have to disable Go-specific linters when working on this file.
 //                            ^^^^^^^^^^^ comment.line.go
 
     /*
-//  ^^ comment.block.go punctuation.definition.comment.begin.go
 // ^ -comment
+//  ^^ comment.block.go punctuation.definition.comment.begin.go
+//    ^^ comment.block.go - punctuation
 //  ^^^^ comment.block.go
     comment
 //  ^^^^^^^^ comment.block.go
     */
+//^^ comment.block.go - punctuation
 //  ^^ comment.block.go punctuation.definition.comment.end.go
 //    ^ -comment
 
     /* * */
 // ^ -comment
-//     ^ -punctuation.definition.comment.go
 //  ^^^^^^^ comment.block.go
+//  ^^ punctuation.definition.comment.begin.go
+//    ^^^ -punctuation.definition.comment.go
+//       ^^ punctuation.definition.comment.end.go
 //         ^ -comment
 
     /*
