@@ -4385,6 +4385,10 @@ if !cmd
 # <- support.function.test.begin.shell
 # ^ support.function.test.end.shell
 
+[
+]
+# <- meta.conditional.shell support.function.test.end.shell
+
 ! [ ]
 # <- keyword.operator.logical.shell
 # ^ support.function.test.begin.shell
@@ -4399,6 +4403,11 @@ if !cmd
 # <- support.function.test.begin.shell
 #^ support.function.test.begin.shell
 #  ^^ support.function.test.end.shell
+
+[[
+]]
+# <- meta.conditional.shell support.function.test.end.shell
+#^ meta.conditional.shell support.function.test.end.shell
 
 ! [[ ]]
 # <- keyword.operator.logical.shell
