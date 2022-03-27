@@ -907,11 +907,11 @@ coproc foobar {
 #   ^ punctuation.section.parameters.end.shell
 #    ^ - punctuation
 #     ^ punctuation.section.compound.begin.shell
-#       ^^ support.function.double-brace.begin
+#       ^^ support.function.test.begin
 #          ^ punctuation.definition.variable
 #           ^ variable.language
 #             ^^ keyword.operator.comparison
-#                  ^^ support.function.double-brace.end
+#                  ^^ support.function.test.end
 #                     ^^ keyword.operator.logical
 
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
@@ -930,11 +930,11 @@ coproc foobar {
 #        ^ punctuation.section.parameters.end.shell
 #         ^ - punctuation
 #          ^ punctuation.section.compound.begin.shell
-#            ^^ support.function.double-brace.begin.shell
+#            ^^ support.function.test.begin.shell
 #               ^ punctuation.definition.variable.shell
 #               ^^ variable.language.shell
 #                  ^^ keyword.operator.comparison.shell
-#                       ^^ support.function.double-brace.end.shell
+#                       ^^ support.function.test.end.shell
 #                          ^^ keyword.operator.logical.shell
 
 logExit ( ) {
@@ -951,22 +951,22 @@ logExit ( ) {
 #         ^ punctuation.section.parameters.end.shell
 #           ^ punctuation.section.compound.begin.shell
   [[ $1 == '0' ]] && tput setaf 2  || tput setaf 1;
-  #<- meta.conditional.shell support.function.double-brace.begin.shell
-  #^ meta.conditional.shell support.function.double-brace.begin.shell
-  #            ^^ meta.conditional.shell support.function.double-brace.end.shell
+  #<- meta.conditional.shell support.function.test.begin.shell
+  #^ meta.conditional.shell support.function.test.begin.shell
+  #            ^^ meta.conditional.shell support.function.test.end.shell
   [[ $1 == '0' ]] && echo -e "$2 PASSED" || echo -e "$2 FAILED";
-  #<- meta.conditional.shell support.function.double-brace.begin.shell
-  #^ meta.conditional.shell support.function.double-brace.begin.shell
-  #            ^^ meta.conditional.shell support.function.double-brace.end.shell
+  #<- meta.conditional.shell support.function.test.begin.shell
+  #^ meta.conditional.shell support.function.test.begin.shell
+  #            ^^ meta.conditional.shell support.function.test.end.shell
   #               ^^ keyword.operator.logical.shell
   #                  ^^^^ meta.function-call.identifier.shell support.function.echo.shell
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
   #            ^ meta.function punctuation.terminator.statement
   [[ $1 == '0' ]] || exit -1
-  #<- meta.conditional.shell support.function.double-brace.begin.shell
-  #^ meta.conditional.shell support.function.double-brace.begin.shell
-  #            ^^ meta.conditional.shell support.function.double-brace.end.shell
+  #<- meta.conditional.shell support.function.test.begin.shell
+  #^ meta.conditional.shell support.function.test.begin.shell
+  #            ^^ meta.conditional.shell support.function.test.end.shell
   #               ^^ keyword.operator.logical.shell
   #                  ^^^^  keyword.control.flow.exit.shell
   #                       ^ keyword.operator.arithmetic.shell
@@ -3825,8 +3825,8 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                          ^ meta.conditional.shell meta.group.shell - meta.pattern
 #                           ^^^ meta.conditional.shell - meta.group
 #                              ^ - meta.conditional - meta.group
-# <- support.function.double-brace.begin.shell
-#^ support.function.double-brace.begin.shell
+# <- support.function.test.begin.shell
+#^ support.function.test.begin.shell
 #  ^ keyword.operator.logical.shell
 #    ^ punctuation.section.group.begin.shell
 #     ^^^^^ variable.other.readwrite.shell
@@ -3840,7 +3840,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                       ^ keyword.operator.quantifier.regexp.shell
 #                        ^ punctuation.definition.group.end.regexp.shell
 #                          ^ punctuation.section.group.end.shell
-#                            ^^ support.function.double-brace.end.shell
+#                            ^^ support.function.test.end.shell
 
 [[ ' foobar' == [\ ]foo* ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
@@ -4396,52 +4396,52 @@ if !cmd
 #  ^ support.function.test.end.shell
 
 [[ ]]
-# <- support.function.double-brace.begin.shell
-#^ support.function.double-brace.begin.shell
-#  ^^ support.function.double-brace.end.shell
+# <- support.function.test.begin.shell
+#^ support.function.test.begin.shell
+#  ^^ support.function.test.end.shell
 
 ! [[ ]]
 # <- keyword.operator.logical.shell
-# ^^ support.function.double-brace.begin.shell
-#    ^^ support.function.double-brace.end.shell
+# ^^ support.function.test.begin.shell
+#    ^^ support.function.test.end.shell
 
 ![[ ]]
 # <- punctuation.definition.history.shell
 #^^^^^ meta.conditional.shell
-#^^ support.function.double-brace.begin.shell
-#   ^^ support.function.double-brace.end.shell
+#^^ support.function.test.begin.shell
+#   ^^ support.function.test.end.shell
 
 if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^ meta.conditional.shell
-#  ^^ support.function.double-brace.begin.shell
-#          ^^ support.function.double-brace.end.shell
+#  ^^ support.function.test.begin.shell
+#          ^^ support.function.test.end.shell
 #             ^^ keyword.operator.logical.shell
 #                ^^^^^^^^^^ meta.conditional.shell
-#                ^^ support.function.double-brace.begin.shell
-#                        ^^ support.function.double-brace.end.shell
+#                ^^ support.function.test.begin.shell
+#                        ^^ support.function.test.end.shell
 #                           ^^ keyword.operator.logical.shell
 #                              ^^^^^^^^^^ meta.conditional.shell
-#                              ^^ support.function.double-brace.begin.shell
-#                                      ^^ support.function.double-brace.end.shell
+#                              ^^ support.function.test.begin.shell
+#                                      ^^ support.function.test.end.shell
 #                                         ^ punctuation.terminator.statement.shell
 
 if [[ expr && expr || expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#  ^^ support.function.double-brace.begin.shell
+#  ^^ support.function.test.begin.shell
 #          ^^ keyword.operator.logical.shell
 #                  ^^ keyword.operator.logical.shell
-#                          ^^ support.function.double-brace.end.shell
+#                          ^^ support.function.test.end.shell
 #                             ^ punctuation.terminator.statement.shell
 
 if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #             ^^^^^^^^^^^^^^^^ meta.group.shell
-#  ^^ support.function.double-brace.begin.shell
+#  ^^ support.function.test.begin.shell
 #          ^^ keyword.operator.logical.shell
 #             ^ punctuation.section.group.begin.shell
 #                    ^^ keyword.operator.logical.shell
 #                            ^ punctuation.section.group.end.shell
-#                              ^^ support.function.double-brace.end.shell
+#                              ^^ support.function.test.end.shell
 #                                 ^ punctuation.terminator.statement.shell
 
 if [[ $- != *i* ]] ; then echo shell is not interactive; fi
@@ -4452,13 +4452,13 @@ if [[ $- != *i* ]] ; then echo shell is not interactive; fi
 #              ^^^ - meta.pattern
 #                         ^^^^ meta.function-call.identifier.shell
 #                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#  ^^ support.function.double-brace.begin.shell
+#  ^^ support.function.test.begin.shell
 #     ^^ meta.interpolation.parameter.shell variable.language.shell
 #     ^ punctuation.definition.variable.shell
 #        ^^ keyword.operator.comparison.shell
 #           ^ keyword.operator.quantifier.regexp.shell
 #             ^ keyword.operator.quantifier.regexp.shell
-#               ^^ support.function.double-brace.end.shell
+#               ^^ support.function.test.end.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^^^ keyword.control.conditional.then.shell
 #                         ^^^^ support.function.echo.shell
@@ -4975,9 +4975,9 @@ while ! { [[ true ]]; }; do echo bar; done
 # <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
-#         ^^ support.function.double-brace.begin.shell
+#         ^^ support.function.test.begin.shell
 #            ^^^^ constant.language.boolean.shell
-#                 ^^ support.function.double-brace.end.shell
+#                 ^^ support.function.test.end.shell
 #                   ^ punctuation.terminator.statement.shell
 #                     ^ punctuation.section.compound.end.shell
 #                      ^ punctuation.terminator.statement.shell
@@ -4988,9 +4988,9 @@ while ! ( [[ true ]] ); do echo bar; done
 # <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
-#         ^^ support.function.double-brace.begin.shell
+#         ^^ support.function.test.begin.shell
 #            ^^^^ constant.language.boolean.shell
-#                 ^^ support.function.double-brace.end.shell
+#                 ^^ support.function.test.end.shell
 #                    ^ punctuation.section.compound.end.shell
 #                     ^ punctuation.terminator.statement.shell
 #                       ^^ keyword.control.loop.do.shell
@@ -5030,9 +5030,9 @@ do echo bar; until ! { [[ true ]]; }
 #            ^^^^^ keyword.control.loop.until.shell
 #                  ^ keyword.operator.logical.shell
 #                    ^ punctuation.section.compound.begin.shell
-#                      ^^ support.function.double-brace.begin.shell
+#                      ^^ support.function.test.begin.shell
 #                         ^^^^ constant.language.boolean.shell
-#                              ^^ support.function.double-brace.end.shell
+#                              ^^ support.function.test.end.shell
 #                                ^ punctuation.terminator.statement.shell
 #                                  ^ punctuation.section.compound.end.shell
 
@@ -5502,8 +5502,8 @@ function clk {
     #           ^ keyword.operator.assignment.shell
     #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
     [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
-    # <- support.function.double-brace.begin.shell
-    #                                                                  ^^ support.function.double-brace.end.shell
+    # <- support.function.test.begin.shell
+    #                                                                  ^^ support.function.test.end.shell
     case $1 in
         low|high|default)
             printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "old profile: $(<${base}/power_profile)"

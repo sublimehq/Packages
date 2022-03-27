@@ -679,12 +679,12 @@ contexts:
 
   cmd-test:
     - match: \[\[(?=\s)
-      scope: support.function.double-brace.begin.shell
+      scope: support.function.test.begin.shell
       push:
         - meta_scope: meta.conditional.shell
         - match: \s+(\]\])
           captures:
-            1: support.function.double-brace.end.shell
+            1: support.function.test.end.shell
           pop: 1
         - include: test-expression-body
     - match: \[(?=\s)
