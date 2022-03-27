@@ -215,15 +215,6 @@ contexts:
         4: meta.punctuation.separator.space.go
         5: meta.annotation.parameters.go
 
-  pop-comment-line-annotation:
-    - meta_scope: meta.annotation.go comment.line.go
-    - match: \S+
-      scope: meta.variable.parameter.go
-    # End the annotation scope at EOL, but stretch the comment scope
-    # indefinitely to the right.
-    - match: $
-      set: pop-comment-line-normal
-
   pop-line-annotation:
     - meta_scope: comment.line.go
     - meta_content_scope: meta.annotation.parameters.go
