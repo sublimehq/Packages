@@ -1211,8 +1211,9 @@ contexts:
     - include: pop-before-nonblank
 
   pop-type-nested-in-parens:
-    - include: pop-on-paren-end
-    - include: pop-type
+    # The implementation is fairly similar. Parameter lists allow some
+    # additional tokens, which shouldn't occur here.
+    - include: pop-parameter-list-unnamed
 
   pop-struct:
     - match: \bstruct\b
