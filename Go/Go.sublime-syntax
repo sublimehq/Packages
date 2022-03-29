@@ -80,7 +80,7 @@ variables:
 
   # Note: this matches ALL valid identifiers, including predeclared constants,
   # functions and types.
-  ident: \b(?!{{keyword}})[[:alpha:]_][[:alnum:]_]*\b
+  ident: (?!{{keyword}}){{keyword_or_ident}}
 
   keyword_or_ident: \b[[:alpha:]_][[:alnum:]_]*\b
 
@@ -348,25 +348,6 @@ contexts:
     - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go
 
-  # See notes on `match-call-or-type-conversion`.
-  pop-call-or-type-conversion:
-    - include: pop-identifier-anon
-    - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
-      scope: variable.function.go support.function.builtin.go
-      set: pop-arguments-starting-with-type
-    - match: '{{predeclared_type}}(?=(?:{{noise}}\))*{{noise}}\()'
-      scope: variable.function.go support.type.builtin.go
-      pop: true
-    - match: '{{predeclared_func}}(?=(?:{{noise}}\))*{{noise}}\()'
-      scope: variable.function.go support.function.builtin.go
-      pop: true
-    - match: '{{ident}}(?=(?:{{noise}}\))*(?:{{noise}}{{type_argument_list}})?{{noise}}\()'
-      scope: variable.function.go
-      set: pop-type-argument-list
-    - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
-      scope: variable.function.go
-      pop: true
-
   # Note: this currently doesn't work across multiple lines.
   match-short-variable-declarations:
     - match: (?={{ident}}(?:{{noise}},{{noise}}{{ident}})*{{noise}}:=)
@@ -471,8 +452,7 @@ contexts:
 
   pop-type-assertion:
     - include: pop-on-paren-end
-    - match: (?=\S)
-      push: pop-type
+    - include: match-type
 
   match-parens:
     - match: \(
@@ -999,8 +979,7 @@ contexts:
     - include: pop-before-terminator
     - match: (?=\()
       set: pop-func-parameter-list
-    - match: (?=\S)
-      set: pop-type
+    - include: pop-type
 
   # https://golang.org/ref/spec#Function_types
   #
@@ -1073,8 +1052,7 @@ contexts:
     - include: match-comma
     - include: match-ellipsis
     - include: match-keywords
-    - match: (?=\S)
-      push: pop-type
+    - include: match-type
 
   # At the time of writing, this is the only part of Go that uses "untyped"
   # syntax for parameters, similar to function definitions in dynamic languages
@@ -1183,7 +1161,7 @@ contexts:
 
   match-type:
     - match: (?=\S)
-      push: pop-type
+      push: [pop-after-type, pop-type-single]
 
   pop-type:
     - match: (?=\S)
@@ -1279,7 +1257,6 @@ contexts:
     - include: pop-before-brace-end
     - include: pop-before-terminator
     - include: pop-type
-    - include: match-any
 
   pop-interface:
     - match: \binterface\b
@@ -1359,8 +1336,7 @@ contexts:
     - match: =
       scope: keyword.operator.assignment.go
       set: pop-type
-    - match: (?=\S)
-      set: pop-type
+    - include: pop-type
 
   pop-const-type-and-or-assignment:
     - include: pop-before-terminator
