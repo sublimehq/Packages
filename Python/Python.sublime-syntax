@@ -1134,6 +1134,8 @@ contexts:
             - meta_scope: meta.function.parameters.annotation.python
             - match: '(?=[,)=])'
               set: function-parameters
+            - match: \bNone\b
+              scope: constant.language.null.python
             - include: illegal-assignment-expression
             - include: expression-in-a-group
     - include: function-parameters-tuple
