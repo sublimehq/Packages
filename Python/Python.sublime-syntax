@@ -1585,10 +1585,10 @@ contexts:
 
   maybe-inside-set:
     - meta_scope: meta.set.python
-    - match: ':|\*\*'
-      fail: dictionaries-and-sets
-    - match: (?=,)
+    - match: (?=,|:=)
       set: inside-set
+    - match: (?=:|\*\*)
+      fail: dictionaries-and-sets
     - include: inside-set
 
   inside-set:
@@ -1596,9 +1596,6 @@ contexts:
     - match: \}
       scope: punctuation.section.set.end.python
       set: after-expression
-    - include: illegal-assignment-expression
-    - match: ':'
-      scope: invalid.illegal.colon-inside-set.python
     - match: ','
       scope: punctuation.separator.set.python
     - match: \*
@@ -1611,6 +1608,8 @@ contexts:
         - include: expression-in-a-group
     - include: inline-for
     - include: expression-in-a-group
+    - match: ':'
+      scope: invalid.illegal.colon-inside-set.python
 
   empty-dictionaries:
     - match: (\{)\s*(\})
