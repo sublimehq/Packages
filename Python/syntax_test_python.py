@@ -1487,6 +1487,15 @@ def type_annotations_line_continuation() \
 #     ^ meta.function.python punctuation.section.function.begin.python
     pass
 
+def type_annotation_with_defaults(foo: str | None = None)
+#                                    ^^^^^^^^^^^^^ meta.function.parameters.annotation.python - meta.function.parameters.default-value
+#                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.annotation
+#                                      ^^^ support.type.python
+#                                          ^ keyword.operator.arithmetic.python
+#                                            ^^^^ constant.language.null.python
+#                                                 ^ keyword.operator.assignment.python
+#                                                   ^^^^ constant.language.null.python
+
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                  ^^^^^^^^ meta.function.parameters - meta.function meta.function
