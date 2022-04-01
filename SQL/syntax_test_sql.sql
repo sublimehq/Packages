@@ -96,9 +96,13 @@ create table fancy_table (
     fancy_column character  varying(42) DEFAULT 'nice'::character varying,
 --               ^^^^^^^^^^^^^^^^^^ storage.type.sql
     mytime timestamp(3) without time zone DEFAULT now(),
---                      ^^^^^^^^^^^^^^^^^ storage.type.sql
+--                      ^^^^^^^ storage.type.sql
+--                              ^^^^ storage.type.sql
+--                                   ^^^^ storage.type.sql
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone,
---                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
+--                       ^^^^^^^ storage.type.sql
+--                                ^^^^ storage.type.sql
+--                                      ^^^^ storage.type.sql
     primary key (id),
 --  ^^^^^^^^^^^ storage.modifier.sql
     UNIQUE (foreign_id),
