@@ -30,25 +30,25 @@ contexts:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: create-condition
-    - match: (?i:(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\b)
+    - match: (?i:(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))\b
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: drop-condition
-    - match: (?i:(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
+    - match: (?i:(drop)\s+(table)\s+(\w+)(\s+cascade)?)\b
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.table.sql
         3: entity.name.function.sql
         4: keyword.other.cascade.sql
-    - match: (?i:(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\b)
+    - match: (?i:(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))\b
       scope: meta.alter.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.table.sql
-    - match: (?i:(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key))\b)
+    - match: (?i:(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))\b
       scope: meta.add.sql
       captures:
         1: keyword.other.add.sql
@@ -91,18 +91,18 @@ contexts:
         13: storage.type.sql
         14: constant.numeric.sql
         15: storage.type.sql
-    - match: (?i:(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
+    - match: (?i:((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b
       scope: storage.modifier.sql
     - match: \d+
       scope: constant.numeric.sql
-    - match: (?i:(true|false)\b)
+    - match: (?i:true|false)\b
       scope: constant.language.boolean.sql
-    - match: (?i:(null)\b)
+    - match: (?i:null)\b
       scope: constant.language.null.sql
-    - match: (?i:(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\s+by|with|case|when|then|else|end|union(\s+all)?|using|order\s+by|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+    - match: (?i:select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\s+by|with|case|when|then|else|end|union(\s+all)?|using|order\s+by|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b
       scope: keyword.other.DML.sql
     - include: logical-operators
-    - match: (?i:like\b)
+    - match: (?i:like)\b
       scope: keyword.operator.logical.sql
       branch_point: like-strings-branch
       branch:
@@ -110,17 +110,17 @@ contexts:
         - like-string-followed-by-escape-slash
         - like-string-followed-by-escape-caret
         - like-string-followed-by-unknown-escape
-    - match: (?i:values\b)
+    - match: (?i:values)\b
       scope: keyword.other.DML.II.sql
-    - match: (?i:(begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b)
+    - match: (?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
       scope: keyword.other.LUW.sql
-    - match: (?i:(grant(\swith\sgrant\soption)?|revoke)\b)
+    - match: (?i:grant(\swith\sgrant\soption)?|revoke)\b
       scope: keyword.other.authorization.sql
-    - match: (?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\b)
+    - match: (?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))\b
       scope: keyword.other.object-comments.sql
-    - match: (?i)as\b
+    - match: (?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-    - match: (?i)(asc|desc)\b
+    - match: (?i:asc|desc)\b
       scope: keyword.other.order.sql
     - match: \*
       scope: variable.language.wildcard.asterisk.sql
@@ -130,13 +130,13 @@ contexts:
       scope: keyword.operator.arithmetic.sql
     - match: \|\|
       scope: keyword.operator.concatenation.sql
-    - match: (?i)(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
+    - match: (?i:CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
       comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.scalar.sql
-    - match: (?i)(AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
+    - match: (?i:AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
       comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.aggregate.sql
-    - match: (?i)(CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+    - match: (?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
     - match: (\w+?)\.(\w+)\b
       captures:
@@ -150,7 +150,7 @@ contexts:
       captures:
         1: punctuation.section.scope.begin.sql
         2: punctuation.section.scope.end.sql
-    - match: (?i)on\b
+    - match: (?i:on)\b
       scope: keyword.operator.word.sql
     - match: ','
       scope: punctuation.separator.sequence.sql
@@ -286,11 +286,11 @@ contexts:
     - match: (?=\S)
       pop: true
   dml-condition:
-    - match: (?i:(if)\b)
+    - match: (?i:if)\b
       scope: keyword.control.flow.sql
     - include: logical-operators
   logical-operators:
-    - match: (?i:(and|or|having|exists|between|in|not|is)\b)
+    - match: (?i:and|or|having|exists|between|in|not|is)\b
       scope: keyword.operator.logical.sql
   like-string-not-followed-by-escape:
     - match: \'
@@ -349,12 +349,12 @@ contexts:
     - match: '[%_]'
       scope: keyword.operator.wildcard.sql
   like-escape-fail:
-    - match: (?i:escape\b)
+    - match: (?i:escape)\b
       fail: like-strings-branch
     - match: (?=\S)
       pop: true
   like-escape-pop:
-    - match: (?i:escape\b)
+    - match: (?i:escape)\b
       scope: keyword.operator.word.sql
       pop: true
     - match: (?=\S)
