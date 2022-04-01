@@ -283,8 +283,7 @@ contexts:
       set: identifier-create
   drop-condition:
     - include: dml-condition
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   dml-condition:
     - match: (?i:if)\b
       scope: keyword.control.flow.sql
@@ -296,26 +295,22 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-fail, inside-like-single-quoted-string]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-string-followed-by-escape-slash:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-slash, like-escape-pop, inside-like-single-quoted-string-slash-escape]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-string-followed-by-escape-caret:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-caret, like-escape-pop, inside-like-single-quoted-string-caret-escape]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-string-followed-by-unknown-escape:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-any, like-escape-pop, inside-like-single-quoted-string]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   inside-like-single-quoted-string-slash-escape:
     - meta_include_prototype: false
     - meta_scope: meta.string.like.sql string.quoted.single.sql
@@ -351,14 +346,12 @@ contexts:
   like-escape-fail:
     - match: (?i:escape)\b
       fail: like-strings-branch
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-escape-pop:
     - match: (?i:escape)\b
       scope: keyword.operator.word.sql
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-escape-character-any:
     - match: (\')([^'])(\')
       captures:
@@ -367,8 +360,7 @@ contexts:
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-escape-character-caret:
     - match: (\')(\^)(\')
       captures:
@@ -389,3 +381,6 @@ contexts:
       pop: true
     - match: (?=\S)
       fail: like-strings-branch
+  if-non-space-pop:
+    - match: (?=\S)
+      pop: true
