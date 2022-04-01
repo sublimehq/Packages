@@ -116,7 +116,7 @@ contexts:
       scope: keyword.other.LUW.sql
     - match: (?i:grant(\s+with\s+grant\s+option)?|revoke)\b
       scope: keyword.other.authorization.sql
-    - match: (?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))\b
+    - match: (?i:comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\b
       scope: keyword.other.object-comments.sql
     - match: (?i:as)\b
       scope: keyword.operator.assignment.alias.sql
