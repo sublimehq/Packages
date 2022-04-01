@@ -36,7 +36,7 @@ contexts:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: drop-condition
-    - match: (?i:(drop)\s+(table)\s+(\w+)(\s+cascade)?)\b
+    - match: (?i:(drop)\s+(table)\s+((?!\d)\w+)(\s+cascade)?)\b
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
@@ -138,7 +138,7 @@ contexts:
       scope: support.function.aggregate.sql
     - match: (?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
-    - match: (\w+?)\.(\w+)\b
+    - match: ((?!\d)\w+?)\s*\.\s*((?!\d)\w+)\b
       captures:
         1: constant.other.database-name.sql
         2: constant.other.table-name.sql
@@ -262,7 +262,7 @@ contexts:
         - include: string-interpolation
   identifier-create:
     - meta_content_scope: meta.toc-list.full-identifier.sql
-    - match: '(?:(\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}'
+    - match: '(?:((?!\d)\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}'
       scope: meta.toc-list.full-identifier.sql
       captures:
         1: entity.name.function.sql
@@ -271,7 +271,7 @@ contexts:
         4: entity.name.function.sql
       pop: true
       # Schema identifiers
-    - match: (?:\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
+    - match: (?:(?!\d)\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
       captures:
         1: punctuation.accessor.dot.sql
       # Handle situations where the schema and .
