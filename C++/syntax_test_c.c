@@ -10,6 +10,10 @@ int main(){
 }
 
 enum Foo { kFoo, kBar };
+/* <- keyword.declaration */
+/*   ^ entity.name.enum */
+/*         ^ entity.name.enum.constants */
+/*               ^ entity.name.enum.constants */
 #define FOO Foo
 enum FOO do_the_foo(void);
 /*       ^ entity.name.function */
