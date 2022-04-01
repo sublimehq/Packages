@@ -24,31 +24,31 @@ contexts:
         (?xi)
         (create(?:\s+or\s+replace)?)\s+
         (aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
-        \b\s*
+        \b
       scope: meta.create.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: create-condition
-    - match: (?i:\s*(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
+    - match: (?i:(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\b)
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: drop-condition
-    - match: (?i:\s*(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
+    - match: (?i:(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.table.sql
         3: entity.name.function.sql
         4: keyword.other.cascade.sql
-    - match: (?i:\s*(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
+    - match: (?i:(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\b)
       scope: meta.alter.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.table.sql
-    - match: (?i:\s*(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))
+    - match: (?i:(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key))\b)
       scope: meta.add.sql
       captures:
         1: keyword.other.add.sql
@@ -116,7 +116,7 @@ contexts:
       scope: keyword.other.LUW.sql
     - match: (?i:(grant(\swith\sgrant\soption)?|revoke)\b)
       scope: keyword.other.authorization.sql
-    - match: (?i:\s*(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
+    - match: (?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\b)
       scope: keyword.other.object-comments.sql
     - match: (?i)as\b
       scope: keyword.operator.assignment.alias.sql
