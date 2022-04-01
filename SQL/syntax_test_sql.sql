@@ -136,7 +136,7 @@ ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
 --                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
--- <- meta.drop.sql keyword.other.create.sql
+-- <- meta.drop.sql keyword.other.drop.sql
 --            ^^^^^^ keyword.operator.logical.sql
 
 select *

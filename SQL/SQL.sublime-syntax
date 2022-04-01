@@ -33,20 +33,20 @@ contexts:
     - match: (?i:(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator\s+class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))\b
       scope: meta.drop.sql
       captures:
-        1: keyword.other.create.sql
+        1: keyword.other.drop.sql
         2: keyword.other.sql
       push: drop-condition
     - match: (?i:(drop)\s+(table)\s+((?!\d)\w+)(\s+cascade)?)\b
       scope: meta.drop.sql
       captures:
-        1: keyword.other.create.sql
+        1: keyword.other.drop.sql
         2: keyword.other.table.sql
         3: entity.name.function.sql
         4: keyword.other.cascade.sql
     - match: (?i:(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator\s+class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))\b
       scope: meta.alter.sql
       captures:
-        1: keyword.other.create.sql
+        1: keyword.other.alter.sql
         2: keyword.other.table.sql
     - match: (?i:(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))\b
       scope: meta.add.sql
@@ -271,9 +271,10 @@ contexts:
         4: entity.name.function.sql
       pop: true
       # Schema identifiers
-    - match: (?:(?!\d)\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
+    - match: (?x)((?!\d)\w+ | '[^']+' | "[^"]+" | `[^`]+`) \s* (\.)
       captures:
-        1: punctuation.accessor.dot.sql
+        1: variable.other.schema.sql
+        2: punctuation.accessor.dot.sql
       # Handle situations where the schema and .
     - match: '{{end_identifier}}'
       pop: true
