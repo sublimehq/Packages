@@ -634,7 +634,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.c meta.block.c punctuation.section.block.end.c
           pop: true
-        - include: data-structures-body
+        - include: data-structures-body-enum
 
   data-structures-union-definition:
     - meta_scope: meta.union.c
@@ -685,6 +685,14 @@ contexts:
     - include: preprocessor-data-structures
     - match: '(?={{before_tag}})'
       push: data-structures
+    - include: expressions
+
+  data-structures-body-enum:
+    - include: preprocessor-data-structures
+    - match: '(?={{before_tag}})'
+      push: data-structures
+    - match: '{{identifier}}'
+      scope: entity.name.enum.constants
     - include: expressions
 
   block:
