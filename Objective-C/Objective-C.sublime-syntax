@@ -783,7 +783,7 @@ contexts:
       push: data-structures
     - include: expressions
 
-    data-structures-body-enum:
+  data-structures-body-enum:
     - include: preprocessor-data-structures
     - match: '(?={{before_tag}})'
       push: data-structures
