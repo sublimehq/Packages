@@ -817,8 +817,14 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                ^ - comment
 
 enum Suit {
-// ^ keyword.declaration.enum
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^ meta.enum.php - meta.block
+//        ^^ meta.enum.php meta.block.php
+//^^ keyword.declaration.enum
+//  ^ - keyword - entity
 //   ^^^^ entity.name.enum
+//       ^ - entity - punctuation
     case Hearts;
 //  ^^^^ keyword.control
 //       ^^^^^^ entity.name.constant
@@ -828,9 +834,17 @@ enum Suit {
 }
 
 enum Suit: string extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                 ^^ meta.enum.php meta.block.php
 //                ^^^^^^^ invalid
 
 enum Suit: string implements Colorful {
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                    ^^ meta.enum.php meta.block.php
 // ^ keyword.declaration.enum
 //   ^^^^ entity.name.enum
 //       ^ punctuation.separator
