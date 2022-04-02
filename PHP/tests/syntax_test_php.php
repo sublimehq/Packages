@@ -828,7 +828,11 @@ enum Suit {
     case Hearts;
 //  ^^^^ keyword.control
 //       ^^^^^^ entity.name.constant
-    case Diamonds;
+//             ^ punctuation.terminator.expression.php
+    CASE Diamonds;
+//  ^^^^ keyword.control.php
+//       ^^^^^^^^ entity.name.constant.php
+//               ^ punctuation.terminator.expression.php
     case Clubs;
     case Spades;
 }

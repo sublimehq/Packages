@@ -705,7 +705,7 @@ contexts:
 
   enum-body:
     - meta_scope: meta.enum.php meta.block.php
-    - match: \bcase\b
+    - match: \b(?i:case)\b
       scope: keyword.control.php
       push: constant-name
     - include: class-body
