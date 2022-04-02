@@ -699,6 +699,7 @@ contexts:
 
   class:
     - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
+      scope: meta.class.php
       captures:
         1: storage.modifier.abstract.php
         2: keyword.declaration.class.php
@@ -706,9 +707,10 @@ contexts:
       push: class-definition
 
   class-definition:
+    - meta_content_scope: meta.class.php
     - include: expression-end-pop
     - match: \{
-      scope: meta.block.php punctuation.section.block.begin.php
+      scope: punctuation.section.block.begin.php
       set: class-body
     - include: attributes
     - include: comments

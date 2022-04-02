@@ -860,6 +860,10 @@ enum Suit: string implements Colorful {
 }
 
     class Test1 extends stdClass implements Countable {}
+// ^ - meta.class
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                    ^^ meta.class.php meta.block.php
 //  ^ keyword.declaration.class
 //        ^ entity.name.class.php
 //              ^ storage.modifier.extends.php
@@ -870,6 +874,10 @@ enum Suit: string implements Colorful {
 //                                           ^ entity.other.inherited-class.php
 
 class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
+// <- meta.class.php keyword.declaration.class.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                                         ^^ meta.class.php meta.block.php
 //    ^ entity.name.class
 //              ^ storage.modifier
 //                      ^ comment.block
@@ -884,6 +892,8 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                                    ^ punctuation.separator.namespace
 
     public function __construct(private \MyNamespace\Foo $val = DEFAULT_VALUE) {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.block meta.block
+//                                                                             ^^ meta.class.php meta.block.php meta.block.php
 //                  ^^^^^^^^^^^ entity.name.function support.function.magic
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //                              ^^^^^^^ storage.modifier
