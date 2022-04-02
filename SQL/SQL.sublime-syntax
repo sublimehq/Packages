@@ -22,15 +22,24 @@ contexts:
   main:
     - match: |-
         (?xi)
-        (create(?:\s+or\s+replace)?)\s+
-        (aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator\s+class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
-        \b
+        (create (?:\s+ or \s+ replace)?) \s+ (
+          aggregate | conversion | database | domain | function | group
+        | ((?:fulltext | spatial | unique) \s+)? index | language
+        | operator \s+ class | operator | procedure | rule | schema | sequence
+        | table(?:space)? | trigger | type | user | view
+        )\b
       scope: meta.create.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: create-condition
-    - match: (?i:(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator\s+class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))\b
+    - match: |-
+        (?xi)
+        (drop) \s+ (
+          aggregate | conversion | database | domain | function | group | index
+        | language | operator \s+ class | operator | procedure | rule | schema
+        | sequence | table| tablespace | trigger | type | user | view
+        )\b
       scope: meta.drop.sql
       captures:
         1: keyword.other.drop.sql
@@ -43,38 +52,50 @@ contexts:
         2: keyword.other.table.sql
         3: entity.name.function.sql
         4: keyword.other.cascade.sql
-    - match: (?i:(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator\s+class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))\b
+    - match: |-
+        (?xi)
+        (alter) \s+ (
+          aggregate | conversion | database | domain | function | group | index
+        | language | operator \s+ class | operator | procedure | rule | schema
+        | sequence | table | tablespace | trigger | type | user | view
+        )\b
       scope: meta.alter.sql
       captures:
         1: keyword.other.alter.sql
         2: keyword.other.table.sql
-    - match: (?i:(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))\b
+    - match: |-
+        (?xi)
+        (add) \s+ (
+          column | constraint | fulltext \s+ (index | key) | index
+        | spatial \s+ (index | key)
+        )\b
       scope: meta.add.sql
       captures:
         1: keyword.other.add.sql
         2: keyword.other.sql
     - match: |-
-        (?xi)
-
-                # normal stuff, capture 1
-                (bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
-
-                # numeric suffix, capture 2 + 3i
-                |(bit\s+varying|character(?:\s+varying)?|tinyint|var\s+char|float|interval)\((\d+)\)
-
-                # optional numeric suffix, capture 4 + 5i
-                |(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
-
-                # special case, capture 6 + 7i + 8i
-                |(numeric|decimal)\b(?:\((\d+),(\d+)\))?
-
-                # special case, captures 9, 10i, 11
-                |(times?)\b(?:\((\d+)\))?(\s+with(?:out)?\s+time\s+zone\b)?
-
-                # special case, captures 12, 13, 14i, 15
-                |(timestamp(?:s|tz)?)\b(?:\((\d+)\))?(?:\s+(with|without)\s+(time)\s+(zone)\b)?
-
-
+        (?xi)(
+        # normal stuff, capture 1
+          bigint | bigserial | bit | bool | boolean | box | bytea | cidr
+        | circle | date | datetime | double \s+ precision | enum | inet | int
+        | integer | line | longtext | lseg | macaddr | money | ntext | oid
+        | path | point | polygon | real | serial | smallint | sysdate | sysname
+        | text | tinytext
+        )\b
+        # numeric suffix, capture 2 + 3i
+        | (
+          bit \s+ varying | character (?:\s+ varying)? | tinyint | var \s+ char
+        | float | interval
+        ) \( (\d+) \)
+        # optional numeric suffix, capture 4 + 5i
+        | (char | number | nvarchar | varbinary | varchar\d?)\b (?:\( (\d+) \))?
+        # special case, capture 6 + 7i + 8i
+        | (numeric | decimal)\b (?:\( (\d+) , (\d+) \))?
+        # special case, captures 9, 10i, 11
+        | (times?)\b (?:\( (\d+) \))? (\s+ with(?:out)? \s+ time \s+ zone\b)?
+        # special case, captures 12, 13, 14i, 15
+        | (timestamp(?:s|tz)?)\b (?:\( (\d+) \))?
+          (?:\s+(with | without) \s+ (time) \s+ (zone)\b)?
       captures:
         1: storage.type.sql
         2: storage.type.sql
@@ -92,7 +113,12 @@ contexts:
         14: storage.type.sql
         15: storage.type.sql
         16: storage.type.sql
-    - match: (?i:((?:foreign|fulltext|primary|unique)\s+)?key|references|on\s+delete(\s+cascade)?|on\s+update(\s+cascade)?|check|constraint|default)\b
+    - match: |-
+        (?xi)(
+          ((?:foreign | fulltext | primary | unique)\s+)? key | references
+        | on \s+ delete (\s+ cascade)? | on \s+ update (\s+ cascade)?
+        | check | constraint | default
+        )\b
       scope: storage.modifier.sql
     - match:
         (?x)
@@ -107,7 +133,16 @@ contexts:
       scope: constant.language.boolean.sql
     - match: (?i:null)\b
       scope: constant.language.null.sql
-    - match: (?i:select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\s+by|with|case|when|then|else|end|union(\s+all)?|using|order\s+by|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b
+    - match: |-
+        (?xi)(
+          select (\s+ (distinct | top))?
+        | insert (\s+ (ignore \s+)? into)?
+        | update | delete | truncate | from | set | where | group \s+ by | with
+        | case | when | then | else | end | union (\s+ all)? | using | order \s+ by
+        | limit | (inner | cross) \s+ join | join | straight_join
+        | (left | right) (\s+ outer)? \s+ join
+        | natural (\s+ (left | right) (\s+ outer)?)? \s+ join
+        )\b
       scope: keyword.other.DML.sql
     - include: logical-operators
     - match: (?i:like)\b
@@ -124,7 +159,13 @@ contexts:
       scope: keyword.other.LUW.sql
     - match: (?i:grant(\s+with\s+grant\s+option)?|revoke)\b
       scope: keyword.other.authorization.sql
-    - match: (?i:comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\b
+    - match: |-
+        (?xi)
+        comment \s+ on \s+ (
+          table | column | aggregate | constraint | database | domain
+        | function | index | operator | rule | schema | sequence | trigger
+        | type | view
+        )\b
       scope: keyword.other.object-comments.sql
     - match: (?i:as)\b
       scope: keyword.operator.assignment.alias.sql
@@ -178,16 +219,16 @@ contexts:
         2: punctuation.section.scope.end.sql
     - match: (?i:on)\b
       scope: keyword.operator.word.sql
-    - match: ','
+    - match: \,
       scope: punctuation.separator.sequence.sql
-    - match: ';'
+    - match: ;
       scope: punctuation.terminator.statement.sql
   comments:
     - meta_include_prototype: false
-    - match: '--'
+    - match: --
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
-    - match: '#'
+    - match: \#
       scope: punctuation.definition.comment.sql
       push: inside-number-sign-comment
     - match: /\*
@@ -224,13 +265,13 @@ contexts:
         - include: string-interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
-    - match: '%r\{'
+    - match: \%r{
       comment: We should probably handle nested bracket pairs!?! -- Allan
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.regexp.modr.sql
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.string.end.sql
           pop: 1
         - include: string-interpolation
@@ -240,55 +281,55 @@ contexts:
       scope: constant.character.escape.sql
   string-interpolation:
     - meta_include_prototype: false
-    - match: '(#\{)([^\}]*)(\})'
+    - match: (#{)([^}]*)(})
       scope: string.interpolated.sql
       captures:
         1: punctuation.definition.string.begin.sql
         3: punctuation.definition.string.end.sql
   strings:
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.sql
         - match: "''"
           scope: constant.character.escape.sql
-        - match: "'"
+        - match: \'
           scope: punctuation.definition.string.end.sql
           pop: 1
         - include: string-escape
-    - match: "`"
+    - match: \`
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.other.backtick.sql
-        - match: "`"
+        - match: \`
           scope: punctuation.definition.string.end.sql
           pop: 1
         - include: string-escape
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.sql
         - match: '""'
           scope: constant.character.escape.sql
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.sql
           pop: 1
         - include: string-interpolation
-    - match: '%\{'
+    - match: \%{
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.other.quoted.brackets.sql
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.string.end.sql
           pop: 1
         - include: string-interpolation
   identifier-create:
     - meta_content_scope: meta.toc-list.full-identifier.sql
-    - match: '(?:((?!\d)\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}'
+    - match: (?:((?!\d)\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}
       scope: meta.toc-list.full-identifier.sql
       captures:
         1: entity.name.function.sql
