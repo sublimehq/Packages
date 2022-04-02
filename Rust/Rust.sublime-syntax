@@ -835,7 +835,7 @@ contexts:
       scope: punctuation.section.block.end.rust
       pop: true
     - match: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
-      scope: constant.other.rust
+      scope: entity.name.constant.rust
       push: enum-variant-type
     - match: '{{camel_ident}}'
       scope: storage.type.source.rust
