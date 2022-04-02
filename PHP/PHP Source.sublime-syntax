@@ -1299,6 +1299,8 @@ contexts:
         - match: '{{identifier}}'
           scope: constant.other.php
 
+###[ FUNCTION CALLS ]#########################################################
+
   function-call:
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
@@ -1361,6 +1363,8 @@ contexts:
         - include: nested-expressions
         - match: ''
           pop: 1
+
+###[ HEREDOCS ]###############################################################
 
   heredoc:
     - match: (?=<<<\s*'?({{identifier}})'?\s*$)
