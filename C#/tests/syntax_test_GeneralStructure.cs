@@ -177,7 +177,7 @@ namespace YourNamespace
 /// ^ meta.block punctuation.section.block.begin
 /// ^ - meta.enum meta.enum
         A, B
-///     ^ constant.other.enum
+///     ^ entity.name.constant
     };
 ///^^ meta.enum meta.block
 /// ^ punctuation.section.block.end
@@ -188,7 +188,7 @@ namespace YourNamespace
         [Stuff("1")]
 ///     ^^^^^^^^^^^^ meta.annotation
         Item1,
-///     ^ constant.other.enum
+///     ^ entity.name.constant
         Item2,
         [Stuff]
 ///     ^^^^^^^ meta.annotation
@@ -1360,7 +1360,7 @@ public class AfterTopLevelMethod {
     {
         return new AfterTopLevelMethod(some_ints);
     }
-    
+
     Action<float> actionDelegate = delegate { };
 ///                              ^ keyword.operator.assignment.variable
 ///                                ^^^^^^^^ keyword.other
