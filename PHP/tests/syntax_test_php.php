@@ -821,7 +821,7 @@ enum Suit {
 //   ^^^^ entity.name.enum
     case Hearts;
 //  ^^^^ keyword.control
-//       ^^^^^^ constant.other
+//       ^^^^^^ entity.name.constant
     case Diamonds;
     case Clubs;
     case Spades;
@@ -839,7 +839,7 @@ enum Suit: string implements Colorful {
 //                           ^^^^^^^^ entity.other.inherited-class
     case Hearts = 'H';
 //  ^^^^ keyword.control
-//       ^^^^^^ constant.other
+//       ^^^^^^ entity.name.constant
 //              ^ keyword.operator.assignment
 //                ^^^ string.quoted.single
     case Diamonds = 'D';

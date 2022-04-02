@@ -670,7 +670,7 @@ contexts:
           pop: 1
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
-      set: class-body
+      set: enum-body
     - include: attributes
     - include: comments
     - match: (?i)(extends)\b
@@ -696,6 +696,19 @@ contexts:
           scope: punctuation.separator.comma.php
         - match: (?=\S)
           pop: 1
+
+  enum-body:
+    - match: \bcase\b
+      scope: keyword.control.php
+      push: enum-constant-name
+    - include: class-body
+
+  enum-constant-name:
+    - match: '{{identifier}}'
+      scope: entity.name.constant.php
+      pop: true
+    - match: (?=\S)
+      pop: true
 
   class:
     - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
