@@ -328,7 +328,7 @@ contexts:
           pop: 1
         - include: class-name
         - include: variables
-    - include: instantiation
+    - include: instantiations
     - match: '(?i)(goto)\s+({{identifier}})'
       captures:
         1: keyword.control.goto.php
@@ -1298,6 +1298,7 @@ contexts:
         # is generated and the constant is assumed to have the value of its name.
         - match: '{{identifier}}'
           scope: constant.other.php
+
   function-call:
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
@@ -1323,6 +1324,7 @@ contexts:
         - include: support
         - match: '{{identifier}}'
           scope: variable.function.php
+
   function-call-static:
     - match: (::)(?={{identifier}}\s*\()
       captures:
@@ -1333,18 +1335,22 @@ contexts:
           set: function-call-parameters
         - match: '{{identifier}}'
           scope: variable.function.php
+
   function-call-parameters:
     - match: \(
       scope: punctuation.section.group.begin.php
-      set:
-        - meta_scope: meta.function-call.php meta.group.php
-        - match: \)
-          scope: punctuation.section.group.end.php
-          set: after-function-call
-        - match: ','
-          scope: punctuation.separator.comma.php
-        - include: function-call-named-parameters
-        - include: nested-expressions
+      set: function-call-parameters-body
+
+  function-call-parameters-body:
+    - meta_scope: meta.function-call.arguments.php meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      set: after-function-call
+    - match: ','
+      scope: punctuation.separator.comma.php
+    - include: function-call-named-parameters
+    - include: nested-expressions
+
   function-call-named-parameters:
     # https://wiki.php.net/rfc/named_params
     - match: ({{identifier}})\s*(:)(?!:)
@@ -1355,6 +1361,7 @@ contexts:
         - include: nested-expressions
         - match: ''
           pop: 1
+
   heredoc:
     - match: (?=<<<\s*'?({{identifier}})'?\s*$)
       push:
@@ -1539,27 +1546,56 @@ contexts:
       push: scope:source.yaml
       with_prototype:
         - include: interpolation
-  instantiation:
+
+###[ INSTANTIATIONS ]#########################################################
+
+  instantiations:
+    - match: \b(?i:new)\b
+      scope: keyword.other.new.php
+      push:
+        - instantiation-meta
+        - instantiation-body
+
+  instantiation-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.instantiation.php
+    - include: immediately-pop
+
+  instantiation-body:
+    - include: attributes
+    - include: comments
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
-    - match: '(?i)(new)\s+(class)\b\s*'
-      captures:
-        1: keyword.other.new.php
-        2: keyword.declaration.class.php
-      push:
-        - match: (?=\()
-          push: function-call-parameters
-        - match: ''
-          set: class-definition
-    - match: (?i)(new)\s+
-      captures:
-        1: keyword.other.new.php
-      push:
-        - match: '(?=[^[:alnum:]$_\\])'
-          pop: 1
-        - match: '(parent|static|self)\b'
-          scope: variable.language.php
-        - include: class-name
-        - include: variables
+    - match: \b(?i:class)\b
+      scope: meta.class.php keyword.declaration.class.php
+      set:
+        - class-definition
+        - instantiation-arguments
+    - match: (?=\S)
+      set:
+        - instantiation-arguments
+        - instantiation-class
+
+  instantiation-class:
+    - match: (?=[^[:alnum:]$_\\])
+      pop: 1
+    - match: (parent|static|self)\b
+      scope: variable.language.php
+      pop: 1
+    - include: class-name
+    - include: variables
+
+  instantiation-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: instantiation-arguments-body
+    - include: else-pop
+
+  instantiation-arguments-body:
+    - meta_scope: meta.group.php
+    - include: function-call-parameters-body
+
+###[ INTERPOLATION ]##########################################################
+
   interpolation:
     - match: '\\[0-7]{1,3}'
       scope: constant.character.escape.octal.php
@@ -1713,7 +1749,7 @@ contexts:
       scope: keyword.operator.assignment.php
     - match: '&(?=\s*\$)'
       scope: storage.modifier.reference.php
-    - include: instantiation
+    - include: instantiations
     - match: \s*(?={{path}}(::)({{identifier}})?)
       push:
         - match: '(::)({{identifier}})?'
