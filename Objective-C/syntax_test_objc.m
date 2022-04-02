@@ -12,8 +12,8 @@ int main(){
 enum Foo { kFoo, kBar };
 /* <- keyword.declaration */
 /*   ^ entity.name.enum */
-/*         ^ entity.name.enum.constants */
-/*               ^ entity.name.enum.constants */
+/*         ^ entity.name.constant.objc */
+/*               ^ entity.name.constant.objc */
 #define FOO Foo
 enum FOO do_the_foo(void);
 /*       ^ entity.name.function */
@@ -27,14 +27,14 @@ static enum APIC_CAPABILITY apic_capabilities(void) { return kFoo; };
 
 enum { kFoo, kBar };
 /* <- keyword.declaration */
-/*     ^ entity.name.enum.constants */
-/*           ^ entity.name.enum.constants */
+/*     ^ entity.name.constant.objc */
+/*           ^ entity.name.constant.objc */
 
 typedef enum state { DEAD, ALIVE } State;
 /* <- keyword.declaration
 /*           ^ entity.name.enum */
-/*                   ^ entity.name.enum.constants */
-/*                         ^ entity.name.enum.constants */
+/*                   ^ entity.name.constant.objc */
+/*                         ^ entity.name.constant.objc */
 
 struct __declspec(dllimport) X {};
 /*     ^ storage.modifier */
