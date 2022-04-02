@@ -272,6 +272,56 @@ bool foo (bool run=true) {}
 /*   ^ entity.name.function */
 };
 
+struct UI_BoundingBox position;
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+
+struct UI_BoundingBox *position_p;
+/*     ^ - entity.name */
+/*                     ^ - entity.name */
+
+struct UI_BoundingBox * position_p2;
+/*     ^ - entity.name */
+/*                      ^ - entity.name */
+
+struct UI_BoundingBox **position_p2;
+/*     ^ - entity.name */
+/*                      ^ - entity.name */
+
+struct UI_BoundingBox ** position_p2;
+/*     ^ - entity.name */
+/*                       ^ - entity.name */
+
+struct UI_MenuBoxData
+/* <- keyword.declaration.struct.type.c++ */
+/*     ^ entity.name.struct */
+{
+    struct UI_BoundingBox position;
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+    struct UI_BoundingBox *position_p;
+/*         ^ - entity.name */
+/*                         ^ - entity.name */
+    struct UI_BoundingBox * position_p1;
+/*         ^ - entity.name */
+/*                          ^ - entity.name */
+    struct UI_BoundingBox **position_p2;
+/*         ^ - entity.name */
+/*                          ^ - entity.name */
+    struct UI_BoundingBox ** position_p3;
+/*         ^ - entity.name */
+/*                           ^ - entity.name */
+    enum UI_BoxCharType borderType;
+/*       ^ - entity.name */
+/*                      ^ - entity.name */
+    unsigned int paddingX;
+    unsigned int paddingY;
+    struct UI_ScrollBoxText boxContents[];
+/*         ^ - entity.name */
+/*                          ^ - entity.name */
+};
+
+
 /////////////////////////////////////////////
 // Strings
 /////////////////////////////////////////////

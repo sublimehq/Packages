@@ -37,20 +37,26 @@ variables:
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
+  attr_macro_identifier: \b__[[:alnum:]_]{2,}\b # __aligned, __pci_driver
+  common_identifier: '\b[[:lower:]]{1,4}\b|\bstate\b' # host, dev, i, port, attr, buf, args
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
-  before_tag: 'struct|union|enum'
   microsoft_types: '__int8|__int16|__int32|__int64'
   windows_types: 'APIENTRY|ATOM|BOOL|BOOLEAN|BYTE|CALLBACK|CCHAR|CHAR|COLORREF|CONST|DWORD|DWORDLONG|DWORD_PTR|DWORD32|DWORD64|FLOAT|HACCEL|HALF_PTR|HANDLE|HBITMAP|HBRUSH|HCOLORSPACE|HCONV|HCONVLIST|HCURSOR|HDC|HDDEDATA|HDESK|HDROP|HDWP|HENHMETAFILE|HFILE|HFONT|HGDIOBJ|HGLOBAL|HHOOK|HICON|HINSTANCE|HKEY|HKL|HLOCAL|HMENU|HMETAFILE|HMODULE|HMONITOR|HPALETTE|HPEN|HRESULT|HRGN|HRSRC|HSZ|HWINSTA|HWND|INT|INT_PTR|INT8|INT16|INT32|INT64|LANGID|LCID|LCTYPE|LGRPID|LONG|LONGLONG|LONG_PTR|LONG32|LONG64|LPARAM|LPBOOL|LPBYTE|LPCOLORREF|LPCSTR|LPCTSTR|LPCVOID|LPCWSTR|LPDWORD|LPHANDLE|LPINT|LPLONG|LPSTR|LPTSTR|LPVOID|LPWORD|LPWSTR|LRESULT|PBOOL|PBOOLEAN|PBYTE|PCHAR|PCSTR|PCTSTR|PCWSTR|PDWORD|PDWORDLONG|PDWORD_PTR|PDWORD32|PDWORD64|PFLOAT|PHALF_PTR|PHANDLE|PHKEY|PINT|PINT_PTR|PINT8|PINT16|PINT32|PINT64|PLCID|PLONG|PLONGLONG|PLONG_PTR|PLONG32|PLONG64|POINTER_32|POINTER_64|POINTER_SIGNED|POINTER_UNSIGNED|PSHORT|PSIZE_T|PSSIZE_T|PSTR|PTBYTE|PTCHAR|PTSTR|PUCHAR|PUHALF_PTR|PUINT|PUINT_PTR|PUINT8|PUINT16|PUINT32|PUINT64|PULONG|PULONGLONG|PULONG_PTR|PULONG32|PULONG64|PUSHORT|PVOID|PWCHAR|PWORD|PWSTR|QWORD|SC_HANDLE|SC_LOCK|SERVICE_STATUS_HANDLE|SHORT|SIZE_T|SSIZE_T|TBYTE|TCHAR|UCHAR|UHALF_PTR|UINT|UINT_PTR|UINT8|UINT16|UINT32|UINT64|ULONG|ULONGLONG|ULONG_PTR|ULONG32|ULONG64|UNICODE_STRING|USHORT|USN|VOID|WCHAR|WINAPI|WORD|WPARAM'
   stdint: 'int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
-  storage_classes: 'static|extern|register|{{declspec}}'
+  storage_classes: 'static|extern|register'
   type_qualifier: 'const|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
 
 contexts:
+  or_pop:
+    # Pop if nothing matched (whitespace is ignored).
+    - match: '(?=\S)'
+      pop: true
+
   main:
     - include: preprocessor-global
     - include: global
@@ -157,6 +163,39 @@ contexts:
     - match: \b({{modifiers}})\b
       scope: storage.modifier.c
 
+  modifiers-macros:
+    # Preprocessor Attributes with parameters.
+    # We only support a very limited definition so it doesn't gobble up
+    # actual function definitions.
+    - match: |-
+        (?x:
+          (?:{{macro_identifier}}|{{attr_macro_identifier}})
+          (?=
+            \(
+            \s*
+            (?:
+              (?:
+                0[xX][[:xdigit:]]+ |
+                \d+ |
+                sizeof\([^\)]*\) |
+                {{macro_identifier}}
+              )
+              \s*
+              (?:,\s*|(?=\)))
+            )+
+            \)
+          )
+        )
+      scope: constant.other.macro.c
+      push:
+        - meta_scope: meta.function-call.c
+        - include: function-call-params
+    # Preprocessor Attributes
+    - match: '{{attr_macro_identifier}}(?!\s*\()'
+      scope: constant.other.macro.c
+    - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*|\)|\s*\n)'
+      scope: constant.other.macro.c
+
   variables:
     - match: '\bg[A-Z]\w*\b'
       scope: variable.other.readwrite.global.mac-classic.c
@@ -179,8 +218,7 @@ contexts:
       scope: support.function.C99.c
 
   types:
-    - match: \b({{before_tag}})\b
-      scope: keyword.declaration.c
+    - include: data-structures
     - match: \b({{basic_types}})\b
       scope: storage.type.c
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t|ptrdiff_t)\b
@@ -311,12 +349,16 @@ contexts:
       scope: invalid.illegal.syntax.c
 
   access:
-    - match: '(\.)({{identifier}})(?!\s*\()'
+    - match: '(\.|->)({{common_identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.c
         2: variable.other.member.c
+    - match: '(\.|->)({{identifier}})(?!\s*\()'
+      captures:
+        1: punctuation.accessor.c
+        2: variable.other.member.indexed.c
     - include: access-illegal
-    - match: \.(?!\.)
+    - match: \.(?!\.|\d)
       scope: punctuation.accessor.c
 
   label:
@@ -395,8 +437,15 @@ contexts:
 
   global:
     - include: early-expressions
-    - match: '^\s*(?=\w+)'
-      push: global-modifier
+    - match: '(?=\w+)'
+      push:
+        - include: comments
+        - include: modifiers-parens
+        - include: modifiers
+        # We don't include modifiers-macros because these could be types
+        # We only want to include the modifiers that don't identify a type.
+        - include: global-function-call
+        - include: global-declaration
     - include: late-expressions
 
   statements:
@@ -404,14 +453,27 @@ contexts:
     - include: label
     - include: expressions
 
+  # We can't merge this with the variables scope because it will break the C++
+  # syntax.
+  variables-c:
+    # There are a lot of common variable names 4 characters or under.
+    # They cause a lot of noise when indexed. So we skip them.
+    - match: '{{common_identifier}}'
+      scope: variable.other.c
+    - match: '{{identifier}}'
+      scope: variable.other.indexed.c
+
   expressions:
     - include: early-expressions
     - include: late-expressions
+    - include: macro-identifiers
+    - include: variables-c
 
   early-expressions:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
+    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -423,7 +485,6 @@ contexts:
     - include: block
     - include: variables
     - include: constants
-    - include: access
     - match: ','
       scope: punctuation.separator.c
     - match: '\)|\}'
@@ -433,104 +494,92 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     - include: types
-    - include: function-call
+    - include: function-call-c
     - match: ';'
       scope: punctuation.terminator.c
 
   ## C-specific contexts
 
-  global-modifier:
-    - include: comments
-    - include: modifiers-parens
-    - include: modifiers
-    - match: '(?=\S)'
-      set: global-type
-
-  global-type:
-    - include: comments
-    - match: \*
-      scope: keyword.operator.c
-    - match: |-
-        (?x:
-          ({{before_tag}})
-          \s+
-          (?=
-            {{identifier}}
-            (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
-          )
-        )
-      captures:
-        1: keyword.declaration.c
-      set: global-maybe-function
-    # The previous match handles return types of struct/enum/etc from a func,
-    # there this one exits the context to allow matching an actual struct/union
-    - match: '(?=\b({{before_tag}})\b)'
-      set: data-structures
-    - match: '(?=\b({{control_keywords}})\b)'
-      pop: true
-    - match: '(?=\s)'
-      set: global-maybe-function
-    # Allow a macro call
-    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
-      captures:
-        1: variable.function.c
-        2: meta.group.c punctuation.section.group.begin.c
-      push:
-        - meta_scope: meta.function-call.c
-        - meta_content_scope: meta.group.c
-        - match: '\)'
-          scope: meta.group.c punctuation.section.group.end.c
-          pop: true
-        - include: expressions
-    - match: (?={{identifier}}\s*\()
+  global-function-call:
+    - match: (?={{identifier}}\s*\((?!\s*\*))
       set:
-        - include: function-call
-        - match: ''
-          pop: true
-    - include: types
-    - match: '{{identifier}}'
-    - match: (?=\W)
-      pop: true
+        - - include: comments
+          - match: ';'
+            scope: punctuation.terminator.c
+            pop: true
+          - match: \n
+            comments: Macro invocations sometimes don't require a ; to terminate
+                      so we need to treat a new line as a terminiator so we
+                      don't confuse two macro invocations one after another as
+                      a macro invocation followed by a function definition.
+            pop: true
+          - match: '(?=\S)'
+            set: global-declaration
+        - - include: function-call-params
+        - - meta_scope: meta.function-call.c
+          - match: '{{identifier}}'
+            scope: constant.other.macro.c
+            pop: true
 
-  global-maybe-function:
-    - include: comments
-    # Consume pointer info, macros and any type info that was offset by macros
-    - match: \*
-      scope: keyword.operator.c
-    - include: types
-    - include: modifiers-parens
-    - include: modifiers
-    # All uppercase identifier just before a newline is most likely a macro
-    - match: '[[:upper:][:digit:]_]+\s*$'
-    # Identifier that is not the function name - likely a macro
-    - match: '{{identifier}}(?!\s*(\(|$))'
-    # Real function definition
-    - match: '{{identifier}}(?=\s*(\(|$))'
-      scope: meta.function.c entity.name.function.c
-      set: function-definition-params
+  global-declaration:
     - match: '(?=\S)'
-      pop: true
+      set:
+        - variable-identifier-list
+        - type-declaration
 
   function-definition-params:
     - meta_content_scope: meta.function.c
     - include: comments
     - match: '(?=\()'
       set:
-        - match: \(
-          scope: meta.function.parameters.c meta.group.c punctuation.section.group.begin.c
-          set:
-            - meta_content_scope: meta.function.parameters.c meta.group.c
-            - match : \)
-              scope: punctuation.section.group.end.c
-              set: function-definition-continue
-            - match: '\bvoid\b'
-              scope: storage.type.c
-            - match: '{{identifier}}(?=\s*(\[|,|\)))'
-              scope: variable.parameter.c
-            - include: expressions
-            - include: preprocessor-line-continuation
+        - include: function-definition-params-group
+        - include: function-definition-continue
     - match: (?=\S)
       pop: true
+  function-definition-params-group:
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.function.parameters.c meta.group.c
+        - include: comments
+        - match : \)
+          scope: punctuation.section.group.end.c
+          pop: true
+        - match: ','
+          scope: punctuation.separator.c
+        - include: preprocessor-line-continuation
+        - match: '(?=\S)'
+          push:
+            - parameter-identifier
+            - type-declaration
+
+  parameter-identifier:
+    - include: comments
+    - include: modifiers
+    - include: modifiers-parens
+    - include: modifiers-macros
+    - match: \*
+      scope: storage.modifier.c
+    # Function pointer declaration
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.group.c
+        - match: \)
+          scope: punctuation.section.parens.end.c
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: variable.parameter.c
+    - match: '{{identifier}}'
+      scope: variable.parameter.c
+      push:
+        - include: declaration-brackets
+        - include: or_pop
+    - include: or_pop
 
   function-definition-continue:
     - meta_content_scope: meta.function.c
@@ -539,153 +588,297 @@ contexts:
       pop: true
     - match: \b(const|final|noexcept|override)\b
       scope: storage.modifier.c
-    - match: '(?=\{)'
-      set: function-definition-body
+    - include: function-definition-body
     - match: '(?=\S)'
       pop: true
 
   function-definition-body:
-    - meta_content_scope: meta.function.c
     - match: '\{'
-      scope: meta.block.c punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c
       set:
-        - meta_content_scope: meta.function.c meta.block.c
+        - meta_scope: meta.function.c meta.block.c
         - match: '\}'
-          scope: meta.function.c meta.block.c punctuation.section.block.end.c
+          scope: punctuation.section.block.end.c
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
-        - match: '(?=({{before_tag}})([^(;]+$|.*\{))'
-          push: data-structures
         - include: statements
 
   data-structures:
-    # Detect variable type definitions using struct/enum/union followed by a tag
-    - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: keyword.declaration.c
+    - include: struct-keyword
+    - include: union-keyword
+    - include: enum-keyword
+
+  macro-identifiers:
+    - match: '{{macro_identifier}}'
+      scope: constant.other.macro.c
+
+  parameter-variable-identifier:
+    - match: \*
+      scope: storage.modifier.c
+    # Function pointer declaration as variable
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.parens.c
+        - match: \)
+          scope: punctuation.section.parens.end.c
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: variable.parameter.c
+    - match: '{{identifier}}'
+      scope: variable.parameter.c
+
+  variable-identifier-list:
+    - include: comments
+    - include: modifiers
+    - include: modifiers-parens
+    - include: modifiers-macros
+    - match: \*
+      scope: storage.modifier.c
+    - match: '{{identifier}}(?=\s*\(|\s*\n)'
+      scope: meta.function.c entity.name.function.c
+      set:
+        - - include: comments
+          - include: function-definition-body
+          - match: '(?=\S)'
+            set: variable-identifier-list
+        - - include: comments
+          - include: modifiers-parens
+          # Macro invocations
+          - include: function-call-c
+          - match: '{{identifier}}'
+            scope: constant.other.macro.c
+          - include: or_pop
+        - - include: comments
+          - include: function-definition-params-group
+          - include: or_pop
+    # Function pointer declaration
+    - match: \((?=\s*\*)
+      scope: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.parens.c
+        - match: \)
+          scope: punctuation.section.parens.end.c
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: entity.name.variable.indexed.c
+    - match: '{{identifier}}'
+      scope: entity.name.variable.indexed.c
+      push:
+        - include: declaration-brackets
+        - match: \=
+          scope: keyword.operator.assignment.c
+          set:
+            - match: '(?=,|;)'
+              pop: true
+            - include: expressions
+            - include: or_pop
+        - include: or_pop
+    - match: ','
+      scope: punctuation.separator.c
+    - match: ';'
+      scope: punctuation.terminator.c
+      pop: true
+    - include: or_pop
+
+  member-variable-identifier-list:
+    - include: comments
+    - include: modifiers
+    - include: modifiers-parens
+    - include: modifiers-macros
+    - match: \*
+      scope: storage.modifier.c
+    # Function pointer declaration
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.parens.c
+        - match: \)
+          scope: punctuation.section.parens.end.c
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: entity.name.member.indexed.c
+    # There are a lot of common variable names 4 characters or under.
+    # We want to make sure to not index those.
+    - match: '{{common_identifier}}'
+      scope: entity.name.member.c
+      push:
+        - include: declaration-brackets
+        - include: or_pop
+    - match: '{{identifier}}'
+      scope: entity.name.member.indexed.c
+      push:
+        - include: declaration-brackets
+        - include: or_pop
+    - match: ','
+      scope: punctuation.separator.c
+    - match: ';'
+      scope: punctuation.terminator.c
+      pop: true
+    - include: or_pop
+
+  struct-keyword:
     - match: '\bstruct\b'
       scope: keyword.declaration.struct.c
-      set: data-structures-struct-definition
-    - match: '\benum\b'
-      scope: keyword.declaration.enum.c
-      set: data-structures-enum-definition
-    - match: '\bunion\b'
-      scope: keyword.declaration.union.c
-      set: data-structures-union-definition
-    - match: '(?=\S)'
-      pop: true
-
-  data-structures-struct-definition:
-    - meta_scope: meta.struct.c
-    - include: data-structures-definition-common-begin
-    - include: data-structures-definition-common-macro
-    - match: '{{identifier}}(?=\s*;)'
-      scope: entity.name.struct.forward-decl.c
-    - match: '{{identifier}}'
-      scope: entity.name.struct.c
-      set: data-structures-struct-definition-after-name
-    - include: data-structures-struct-definition-block-start
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-struct-definition-after-name:
-    - meta_scope: meta.struct.c
-    - include: data-structures-definition-common-begin
-    - match: '(?=;)'
-      pop: true
-    - include: data-structures-struct-definition-block-start
-
-  data-structures-struct-definition-block-start:
+      push:
+        - meta_scope: meta.struct.c
+        - include: data-structures-definition-common-begin
+        # function name
+        - match: '(?={{identifier}}\s*\()'
+          pop: true
+        # struct definition
+        - match: '{{identifier}}(?=\s*{|\s*\n)'
+          scope: entity.name.struct.c
+          set: struct-body
+        # struct declaration
+        - match: '{{identifier}}'
+          scope: support.type.c
+          pop: true
+        # Anonymous struct definition
+        - match: '(?={)'
+          set: struct-body
+        - include: or_pop
+  struct-body:
+    - include: comments
     - match: '\{'
-      scope: meta.block.c punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c
       set:
-        - meta_content_scope: meta.struct.c meta.block.c
+        - meta_scope: meta.struct.body.c meta.block.c
+        - include: comments
         - match: '\}'
-          scope: meta.struct.c meta.block.c punctuation.section.block.end.c
+          scope: punctuation.section.block.end.c
           pop: true
         - include: data-structures-body
+    - include: or_pop
 
-  data-structures-enum-definition:
-    - meta_scope: meta.enum.c
-    - include: data-structures-definition-common-begin
-    - include: data-structures-definition-common-macro
-    - match: '{{identifier}}(?=\s*;)'
-      scope: entity.name.enum.forward-decl.c
-    - match: '{{identifier}}'
-      scope: entity.name.enum.c
-      set: data-structures-enum-definition-after-name
-    - include: data-structures-enum-definition-block-start
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-enum-definition-after-name:
-    - meta_scope: meta.enum.c
-    - include: data-structures-definition-common-begin
-    - match: '(?=;)'
-      pop: true
-    - include: data-structures-enum-definition-block-start
-
-  data-structures-enum-definition-block-start:
+  enum-keyword:
+    - match: '\benum\b'
+      scope: keyword.declaration.enum.c
+      push:
+        - meta_scope: meta.enum.c
+        - include: data-structures-definition-common-begin
+        # function name
+        - match: '(?={{identifier}}\s*\()'
+          pop: true
+        # enum definition
+        - match: '{{identifier}}(?=\s*{|\s*\n)'
+          scope: entity.name.enum.c
+          set: enum-body
+        # enum declaration
+        - match: '{{identifier}}'
+          scope: support.type.c
+          pop: true
+        # Anonymous enum definition
+        - match: '(?={)'
+          set: enum-body
+        - include: or_pop
+  enum-body:
+    - include: comments
     - match: '\{'
-      scope: meta.block.c punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c
       set:
-        - meta_content_scope: meta.enum.c meta.block.c
-        # Enums don't support methods so we have a simplified body
+        - meta_scope: meta.enum.c meta.block.c
+        - include: comments
         - match: '\}'
           scope: meta.enum.c meta.block.c punctuation.section.block.end.c
           pop: true
-        - include: data-structures-body
+        - include: preprocessor-expressions
+        - match: '{{identifier}}'
+          scope: entity.name.constant.enum.c
+          push:
+            - include: comments
+            - match: '='
+              scope: keyword.operator.assignment.c
+              set:
+                - include: comments
+                # expressions gobbles up the , and } (which it shouldn't)
+                # so we need to match before so we break out of the scope
+                # correctly. We need to fix expressions.
+                - match: '(?=,|})'
+                  pop: true
+                - include: expressions
+                - include: or_pop
+            # No equals
+            - include: or_pop
+        - match: ','
+          scope: punctuation.separator.c
+    - include: or_pop
 
-  data-structures-union-definition:
-    - meta_scope: meta.union.c
-    - include: data-structures-definition-common-begin
-    - include: data-structures-definition-common-macro
-    - match: '{{identifier}}(?=\s*;)'
-      scope: entity.name.union.forward-decl.c
-    - match: '{{identifier}}'
-      scope: entity.name.union.c
-      set: data-structures-union-definition-after-name
-    - include: data-structures-union-definition-block-start
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-union-definition-after-name:
-    - meta_scope: meta.union.c
-    - include: data-structures-definition-common-begin
-    - match: '(?=;)'
-      pop: true
-    - include: data-structures-union-definition-block-start
-
-  data-structures-union-definition-block-start:
+  union-keyword:
+    - match: '\bunion\b'
+      scope: keyword.declaration.union.c
+      push:
+        - meta_scope: meta.union.c
+        - include: data-structures-definition-common-begin
+        # function name
+        - match: '(?={{identifier}}\s*\()'
+          pop: true
+        # union definition
+        - match: '{{identifier}}(?=\s*{|\s*\n)'
+          scope: entity.name.union.c
+          set: union-body
+        # union declaration
+        - match: '{{identifier}}'
+          scope: support.type.c
+          pop: true
+        # Anonymous union definition
+        - match: '(?={)'
+          set: union-body
+        - include: or_pop
+  union-body:
+    - include: comments
     - match: '\{'
-      scope: meta.block.c punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c
       set:
-        - meta_content_scope: meta.union.c meta.block.c
+        - meta_scope: meta.union.body.c meta.block.c
+        - include: comments
         - match: '\}'
-          scope: meta.union.c meta.block.c punctuation.section.block.end.c
+          scope: punctuation.section.block.end.c
           pop: true
         - include: data-structures-body
+    - include: or_pop
 
   data-structures-definition-common-begin:
     - include: comments
-    - match: '(?=\b(?:{{before_tag}}|{{control_keywords}})\b)'
-      pop: true
     - include: modifiers-parens
     - include: modifiers
-
-  data-structures-definition-common-macro:
-    # Handle macros so they aren't matched as the class name
-    - match: '\b[[:upper:][:digit:]_]+\b(?!\s*($|\{))'
-
-  data-structures-definition-common-end:
-    - match: '(?=;)'
-      pop: true
+    - include: modifiers-macros
 
   data-structures-body:
     - include: preprocessor-data-structures
-    - match: '(?={{before_tag}})'
-      push: data-structures
-    - include: expressions
+    - include: preprocessor-expressions
+    - include: modifiers
+    - include: modifiers-parens
+    - include: data-structures-body-function-call
+    - include: data-structures-body-declaration
+
+  data-structures-body-declaration:
+    - match: '(?=\S)'
+      push:
+        - member-variable-identifier-list
+        - type-declaration
+
+  data-structures-body-function-call:
+    - match: (?={{identifier}}\s*\((?!\s*\*))
+      push:
+        - - include: function-call-params
+        - - meta_scope: meta.function-call.c
+          - match: '{{identifier}}'
+            scope: constant.other.macro.c
+            pop: true
 
   block:
     - match: '\{'
@@ -710,6 +903,16 @@ contexts:
         - include: expressions
 
   brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.c
+      push:
+        - meta_scope: meta.brackets.c
+        - match: \]
+          scope: punctuation.section.brackets.end.c
+          pop: true
+        - include: expressions
+
+  declaration-brackets:
     - match: \[
       scope: punctuation.section.brackets.begin.c
       push:
@@ -786,14 +989,88 @@ contexts:
     - match: \btypedef\b
       scope: keyword.declaration.type.c
       push:
-        - match: ({{identifier}})?\s*(?=;)
-          captures:
-            1: entity.name.type.typedef.c
-          pop: true
-        - match: '(?=\b({{before_tag}})\b)'
-          push: data-structures
-        - include: expressions
+        - typedef-identifier-list
+        - type-declaration
+  type-declaration:
+    - include: comments
+    - include: modifiers
+    # Used for typedefing things defined in types.
+    - match: (?={{identifier}};)
+      pop: true
+    - include: modifiers-macros
+    - include: modifiers-parens
+    # There could be modifiers before typedef
+    - match: \btypedef\b
+      scope: storage.type.c
+      set:
+        - typedef-identifier-list
+        - type-declaration
+    # Make sure to pop when a data structure keyword is found
+    - match: (?=\bstruct\b)
+      set:
+        - include: struct-keyword
+        - include: or_pop
+    - match: (?=\benum\b)
+      set:
+        - include: enum-keyword
+        - include: or_pop
+    - match: (?=\bunion\b)
+      set:
+        - include: union-keyword
+        - include: or_pop
+    - include: types
+    - match: ({{identifier}})\s*(?={{identifier}}|\(\*|\n|\*)
+      captures:
+        1: support.type.c
+    - include: or_pop
+  typedef-identifier-list:
+    - include: comments
+    - match: \*
+      scope: storage.modifier.c
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.type.typedef.c
+      pop: true
+    - match: '{{identifier}}(?=\s*,)'
+      scope: entity.name.type.typedef.c
+    - match: '{{identifier}}(?=\s*\[)'
+      scope: entity.name.type.typedef.c
+      push:
+        - include: declaration-brackets
+        - include: or_pop
+    # Function pointers
+    - match: '\((?=\s*\*)'
+      scope: punctuation.section.group.begin.c
+      set:
+        - meta_scope: meta.parens.c
+        - match: \)
+          scope: punctuation.section.parens.end.c
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: entity.name.type.c
+        - include: or_pop
+    - match: \,
+      scope: punctuation.separator.c
+    - match: \;
+      scope: punctuation.terminator.c
+      pop: true
+    - include: or_pop
 
+  # Scope used only by the c syntax
+  function-call-c:
+    - match: (?=(?:{{macro_identifier}}|{{attr_macro_identifier}})\s*\()
+      push:
+        - meta_content_scope: meta.function-call.c
+        - include: c99
+        - match: '{{identifier}}'
+          scope: constant.other.macro.c
+        - include: function-call-params
+    - include: function-call
+
+  # This is used by other syntaxes
   function-call:
     - match: (?={{identifier}}\s*\()
       push:
@@ -801,14 +1078,22 @@ contexts:
         - include: c99
         - match: '{{identifier}}'
           scope: variable.function.c
-        - match: '\('
-          scope: meta.group.c punctuation.section.group.begin.c
-          set:
-            - meta_content_scope: meta.function-call.c meta.group.c
-            - match : \)
-              scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
-              pop: true
-            - include: expressions
+        - include: function-call-params
+  function-call-params:
+    - match: '\('
+      scope: punctuation.section.group.begin.c
+      set:
+        - meta_scope: meta.function-call.parameters.c meta.group.c
+        - match : \)
+          scope: punctuation.section.group.end.c
+          pop: true
+        # - include: macro-identifiers
+        - match: '{{macro_identifier}}(?!\()'
+          scope: constant.other.macro.c
+        - include: expressions
+        # Inside macro params, the identifiers can start with numbers
+        - match: '\b\w+\b'
+          scope: variable.other.c
 
   ## Preprocessor for data-structures
 
@@ -942,6 +1227,7 @@ contexts:
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
+        - include: macro-identifiers
         # Enter a new scope where all elif/else branches have their
         # contexts popped by a subsequent elif/else/endif. This ensures that
         # preprocessor branches don't push multiple meta.block scopes on
@@ -1276,11 +1562,13 @@ contexts:
         1: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
+        - meta_include_prototype: false
         - include: preprocessor-line-continuation
         - include: preprocessor-line-ending
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
+        - include: macro-identifiers
     - match: ^\s*(#\s*endif)\b
       captures:
         1: meta.preprocessor.c keyword.control.import.c
@@ -1317,4 +1605,3 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
-    - include: preprocessor-practical-workarounds
