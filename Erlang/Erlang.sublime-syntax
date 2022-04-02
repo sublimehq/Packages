@@ -11,7 +11,7 @@ file_extensions:
   - hrl
   - escript
 
-hidden_extensions:
+hidden_file_extensions:
   - Emakefile
 
 first_line_match: |-
