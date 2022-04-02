@@ -1968,8 +1968,14 @@ private:
 /*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
 /*      ^ entity.name.constant.objc++ */
-        B = 20 / 5
+/*           ^ punctuation.separator.objc++ */
+        B = 20 / 5,
 /*      ^ entity.name.constant.objc++ */
+/*                ^ punctuation.separator.objc++ */
+        C = FOO
+/*      ^ entity.name.constant.objc++ */
+/*        ^ keyword.operator.assignment.c */
+/*          ^^^^ - entity.name */
     }
 /*  ^ meta.enum punctuation.section.block.end */
 /*   ^ - meta.enum */
