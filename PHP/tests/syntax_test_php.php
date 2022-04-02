@@ -455,7 +455,7 @@ $object = new #[ExampleAttribute] class () { };
 //            ^^ punctuation.definition.attribute.begin
 //              ^^^^^^^^^^^^^^^^ meta.path
 //                              ^ punctuation.definition.attribute.end
-//                                ^^^^^ storage.type
+//                                ^^^^^ keyword.declaration.class.php
 
 $f2 = #[ExampleAttribute] function () { };
 //    ^^^^^^^^^^^^^^^^^^^ meta.attribute

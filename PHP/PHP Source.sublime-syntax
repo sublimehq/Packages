@@ -255,13 +255,13 @@ contexts:
     - include: variables
     - include: strings
     - include: arrays
+    - include: keywords
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
     - match: |-
         \b(?xi:
-          array | bool | boolean | class | clone | double | float | function |
-          int | integer | interface | object | real | string
+          array | bool | boolean | clone | double | float | int | integer | object | real | string
         )\b
       scope: storage.type.php
     - match: (?i)\b(parent|self)\b
@@ -342,6 +342,17 @@ contexts:
           scope: punctuation.section.group.end.php
           pop: 1
         - include: nested-expressions
+
+  keywords:
+    # fallback patterns incase no other expression matches
+    - match: \b(?i:class)\b
+      scope: keyword.declaration.class.php
+    - match: \b(?i:enum)\b
+      scope: keyword.declaration.enum.php
+    - match: \b(?i:interface)\b
+      scope: keyword.declaration.interface.php
+    - match: \b(?i:function)\b
+      scope: keyword.declaration.function.php
 
   arrays:
     - match: (array)(\()(\))
