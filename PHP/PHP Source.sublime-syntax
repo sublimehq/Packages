@@ -266,9 +266,12 @@ contexts:
       scope: storage.type.php
     - match: (?i)\b(parent|self)\b
       scope: variable.language.php
+    - match: \b(?i:const)\b
+      scope: storage.modifier.php
+      push: constant-name
     - match: |-
         {{visibility_modifier}}|\b(?xi:
-          abstract | const | extends | final | global | implements | static | readonly
+          abstract | extends | final | global | implements | static | readonly
         )\b
       scope: storage.modifier.php
     - include: object
@@ -645,14 +648,17 @@ contexts:
         - include: identifier-constant-pop
     - include: use-statement-common
     - include: identifier-constant-pop
+
   enum:
     - match: (?i)\b(enum)\s+({{identifier}})\s*
+      scope: meta.enum.php
       captures:
         1: keyword.declaration.enum.php
         2: entity.name.enum.php
       push: enum-definition
 
   enum-definition:
+    - meta_content_scope: meta.enum.php
     - match: (?=;)
       pop: 1
     - match: ':'
@@ -669,8 +675,8 @@ contexts:
         - match: (?=\S)
           pop: 1
     - match: \{
-      scope: meta.block.php punctuation.section.block.begin.php
-      set: class-body
+      scope: punctuation.section.block.begin.php
+      set: enum-body
     - include: attributes
     - include: comments
     - match: (?i)(extends)\b
@@ -696,6 +702,22 @@ contexts:
           scope: punctuation.separator.comma.php
         - match: (?=\S)
           pop: 1
+
+  enum-body:
+    - meta_scope: meta.enum.php meta.block.php
+    - match: \b(?i:case)\b
+      scope: keyword.control.php
+      push: constant-name
+    - include: class-body
+
+  constant-name:
+    - include: attributes
+    - include: comments
+    - match: '{{identifier}}'
+      scope: entity.name.constant.php
+      pop: true
+    - match: (?=\S)
+      pop: true
 
   class:
     - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'

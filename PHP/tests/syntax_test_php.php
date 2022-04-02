@@ -817,20 +817,38 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                ^ - comment
 
 enum Suit {
-// ^ keyword.declaration.enum
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^ meta.enum.php - meta.block
+//        ^^ meta.enum.php meta.block.php
+//^^ keyword.declaration.enum
+//  ^ - keyword - entity
 //   ^^^^ entity.name.enum
+//       ^ - entity - punctuation
     case Hearts;
 //  ^^^^ keyword.control
-//       ^^^^^^ constant.other
-    case Diamonds;
+//       ^^^^^^ entity.name.constant
+//             ^ punctuation.terminator.expression.php
+    CASE Diamonds;
+//  ^^^^ keyword.control.php
+//       ^^^^^^^^ entity.name.constant.php
+//               ^ punctuation.terminator.expression.php
     case Clubs;
     case Spades;
 }
 
 enum Suit: string extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                 ^^ meta.enum.php meta.block.php
 //                ^^^^^^^ invalid
 
 enum Suit: string implements Colorful {
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                    ^^ meta.enum.php meta.block.php
 // ^ keyword.declaration.enum
 //   ^^^^ entity.name.enum
 //       ^ punctuation.separator
@@ -839,7 +857,7 @@ enum Suit: string implements Colorful {
 //                           ^^^^^^^^ entity.other.inherited-class
     case Hearts = 'H';
 //  ^^^^ keyword.control
-//       ^^^^^^ constant.other
+//       ^^^^^^ entity.name.constant
 //              ^ keyword.operator.assignment
 //                ^^^ string.quoted.single
     case Diamonds = 'D';
@@ -1326,13 +1344,21 @@ class B
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^ storage.modifier
-//               ^^^^^ constant
+//               ^^^^^ entity.name.constant.php
 //                     ^ keyword.operator.assignment
 
     const STR_2 = '';
 //  ^^^^^ storage.modifier
-//        ^^^^^ constant
+//        ^^^^^ entity.name.constant.php
 //              ^ keyword.operator.assignment
+
+    CONST #[attr] /**/ STR_3 = array();
+//  ^^^^^ storage.modifier
+//        ^^^^^^^ meta.attribute.php
+//                ^^^^ comment.block.php
+//                     ^^^^^ entity.name.constant.php
+//                           ^ keyword.operator.assignment
+//                             ^^^^^ support.function.construct.php
 
     public function abc(
 //         ^ keyword.declaration.function
