@@ -788,7 +788,7 @@ contexts:
     - match: '(?={{before_tag}})'
       push: data-structures
     - match: '{{identifier}}'
-      scope: entity.name.enum.constants
+      scope: entity.name.constant.objc
     - include: expressions
 
   block:

@@ -121,7 +121,7 @@ contexts:
     - include: preprocessor-statements
     - include: scope:source.c#label
     - match: '{{identifier}}'
-      scope: entity.name.enum.constants.objc++
+      scope: entity.name.constant.objc++
     - include: expressions
 
   expressions:

@@ -337,7 +337,7 @@ contexts:
     - include: preprocessor-statements
     - include: scope:source.c#label
     - match: '{{identifier}}'
-      scope: entity.name.enum.constants.c++
+      scope: entity.name.constant.c++
     - include: expressions
 
   expressions:
