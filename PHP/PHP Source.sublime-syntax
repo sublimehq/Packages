@@ -698,7 +698,7 @@ contexts:
           pop: 1
 
   class:
-    - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
+    - match: (?i)\b((?:abstract|final)\s+)?(class)\s+({{identifier}})
       scope: meta.class.php
       captures:
         1: storage.modifier.abstract.php
@@ -709,101 +709,93 @@ contexts:
   class-definition:
     - meta_content_scope: meta.class.php
     - include: expression-end-pop
+    - include: attributes
+    - include: comments
     - match: \{
       scope: punctuation.section.block.begin.php
       set: class-body
+    - match: (?i:extends)\b
+      scope: storage.modifier.extends.php
+      push: class-extends
+    - match: (?i:implements)\b
+      scope: storage.modifier.implements.php
+      push: class-implements
+
+  class-extends:
+    - include: expression-end-pop
     - include: attributes
     - include: comments
-    - match: (?i)(extends)\b\s*
-      captures:
-        1: storage.modifier.extends.php
-      push:
-        - match: '(?=implements)'
-          pop: 1
-        - include: attributes
-        - include: comments
-        - match: '(?={{path}})'
-          set: inherited
-        - match: '(?=\S)'
-          pop: 1
-    - match: (?i)(implements)\b\s*
-      captures:
-        1: storage.modifier.implements.php
-      push:
-        - include: attributes
-        - include: comments
-        - match: '(?={{path}})'
-          push: inherited
-        - match: ','
-          scope: punctuation.separator.comma.php
-        - match: '(?=\S)'
-          pop: 1
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - match: (?={{path}})
+      set: inherited
+    - include: else-pop
+
+  class-implements:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - match: (?={{path}})
+      push: inherited
+    - match: ','
+      scope: punctuation.separator.comma.php
+    - include: else-pop
 
   inherited:
-    - meta_scope: meta.path.php
-    - meta_content_scope: entity.other.inherited-class.php
+    - meta_content_scope: meta.path.php entity.other.inherited-class.php
     - include: class-builtin
     - include: identifier-parts
-    - match: '(\\)?{{identifier}}(?!\\)'
+    - match: (\\)?{{identifier}}
       captures:
         1: punctuation.separator.namespace.php
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   class-body:
     - meta_scope: meta.class.php meta.block.php
-    - include: attributes
-    - include: comments
     - match: \}
       scope: punctuation.section.block.end.php
       pop: 1
-    - match: (?i)\b(use)\b\s*
-      captures:
-        1: keyword.other.use.php
-      push:
-        - meta_scope: meta.use.php
-        - match: (?=;|(?:^\s*$))
-          pop: 1
-        - match: \{
-          scope: punctuation.section.block.begin.php
-          set:
-            - meta_scope: meta.use.php meta.block.php
-            - match: \}
-              scope: punctuation.section.block.end.php
-              pop: 1
-            - include: attributes
-            - include: comments
-            - match: \b(as)\b
-              scope: keyword.other.use-as.php
-            - match: \b(insteadof)\b
-              scope: keyword.other.insteadof.php
-            - include: class-builtin
-            - match: '::'
-              scope: punctuation.accessor.double-colon.php
-            - match: (?={{path}})
-              push:
-                - meta_scope: meta.path.php
-                - include: identifier-parts
-                - match: '(\\)?{{identifier}}(?!\\)'
-                  captures:
-                    1: punctuation.separator.namespace.php
-                - match: ''
-                  pop: 1
-        - include: attributes
-        - include: comments
-        - include: class-builtin
-        - match: (?={{path}})
-          push:
-            - meta_scope: meta.path.php entity.other.inherited-class.php
-            - include: identifier-parts
-            - match: '(\\)?({{identifier}})(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+    - match: \b(?i:use)\b
+      scope: meta.use.php keyword.other.use.php
+      push: class-use-body
+    - include: attributes
+    - include: comments
     - include: statements
+
+  class-use-body:
+    - meta_content_scope: meta.use.php
+    - match: (?=;|^\s*$)
+      pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: class-use-block-body
+    - match: ','
+      scope: punctuation.separator.comma.php
+    - include: attributes
+    - include: comments
+    - match: (?={{path}})
+      push: inherited
+
+  class-use-block-body:
+    - meta_scope: meta.use.php meta.block.php
+    - match: \}
+      scope: punctuation.section.block.end.php
+      pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.other.use-as.php
+    - match: \b(?i:insteadof)\b
+      scope: keyword.other.insteadof.php
+    - match: '::'
+      scope: punctuation.accessor.double-colon.php
+    - match: ;
+      scope: punctuation.terminator.expression.php
+    - include: attributes
+    - include: comments
+    - include: class-builtin
+    - include: identifier-parts-as-path
+    - include: identifier-as-path
 
   typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
@@ -2771,6 +2763,12 @@ contexts:
         2: support.other.namespace.php
         3: punctuation.separator.namespace.php
 
+  identifier-as-path:
+    - match: (\\)?{{identifier}}
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+
   identifier-constant-pop:
     - match: '(?={{path}})'
       push:
@@ -2786,6 +2784,14 @@ contexts:
 
 ###[ PROTOTYPES ]#############################################################
 
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
   expression-end-pop:
     - match: '{{expression_end}}'
+      pop: 1
+
+  immediately-pop:
+    - match: ''
       pop: 1
