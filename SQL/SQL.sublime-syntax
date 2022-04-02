@@ -132,9 +132,9 @@ contexts:
       scope: keyword.other.order.sql
     - match: \*
       scope: variable.language.wildcard.asterisk.sql
-    - match: "<=>|[!<>]?=|<>|<|>"
+    - match: <=?>|[!<>]?=|[<>]
       scope: keyword.operator.comparison.sql
-    - match: '-|\+|/'
+    - match: '[-+/]'
       scope: keyword.operator.arithmetic.sql
     - match: \|\|
       scope: keyword.operator.concatenation.sql
