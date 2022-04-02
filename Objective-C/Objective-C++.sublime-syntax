@@ -117,6 +117,13 @@ contexts:
     - include: scope:source.c#label
     - include: expressions
 
+  statements-enum:
+    - include: preprocessor-statements
+    - include: scope:source.c#label
+    - match: '{{identifier}}'
+      scope: entity.name.constant.objc++
+    - include: expressions
+
   expressions:
     - include: early-expressions
     - include: late-expressions
@@ -1270,7 +1277,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
-        - include: statements
+        - include: statements-enum
 
   data-structures-union-definition:
     - meta_scope: meta.union.objc++

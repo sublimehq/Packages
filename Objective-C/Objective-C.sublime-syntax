@@ -730,7 +730,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.objc meta.block.objc punctuation.section.block.end.objc
           pop: true
-        - include: data-structures-body
+        - include: data-structures-body-enum
 
   data-structures-union-definition:
     - meta_scope: meta.union.objc
@@ -781,6 +781,14 @@ contexts:
     - include: preprocessor-data-structures
     - match: '(?={{before_tag}})'
       push: data-structures
+    - include: expressions
+
+  data-structures-body-enum:
+    - include: preprocessor-data-structures
+    - match: '(?={{before_tag}})'
+      push: data-structures
+    - match: '{{identifier}}'
+      scope: entity.name.constant.objc
     - include: expressions
 
   block:

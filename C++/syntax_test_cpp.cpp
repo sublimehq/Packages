@@ -2015,7 +2015,9 @@ private:
     {
 /*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
+/*      ^ entity.name.constant.c++ */
         B = 20 / 5
+/*      ^ entity.name.constant.c++ */
     }
 /*  ^ meta.enum punctuation.section.block.end */
 /*   ^ - meta.enum */
@@ -2211,6 +2213,7 @@ enum baz {
 /*   ^^^ entity.name.enum */
 /*       ^ meta.block punctuation.section.block.begin */
     FOO = 1,
+/*  ^^^ entity.name.constant.c++ */
 /*      ^ keyword.operator.assignment */
 /*        ^ meta.number */
     BAR = 2,
@@ -2267,12 +2270,34 @@ enum class qux : std::uint8_t
 /* <- meta.block punctuation.section.block.begin */
     FOO = 1,
     BAR = 2,
+/*  ^^^ entity.name.constant.c++ */
 /*      ^ keyword.operator.assignment */
 /*        ^ meta.number */
     BAZ = 3
 }
 /* <- meta.enum meta.block punctuation.section.block.end */
  /* <- - meta.enum meta.block */
+
+typedef enum class funky
+/*^^^^^ keyword.declaration */
+/*                 ^^^^^ entity.name.enum */
+{
+    BAZ = 3
+/*  ^^^ entity.name.constant.c++ */
+/*      ^ keyword.operator.assignment */
+/*        ^ meta.number */
+} Funky;
+
+typedef enum
+/*^^^^^ keyword.declaration */
+{
+    FOO = 1,
+    BAR = 2,
+    BAZ = 3
+/*  ^^^ entity.name.constant.c++ */
+/*      ^ keyword.operator.assignment */
+/*        ^ meta.number */
+} Fun;
 
 enum LineEnding : uint32_t;
 /*^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
@@ -2365,6 +2390,8 @@ enum class Namespace::MyEnum
 /*                    ^^^^^^ entity.name.enum */
 /*                  ^^ punctuation.accessor */
 {
+    BAR = 1,
+/*  ^^^ entity.name.constant.c++ */
 };
 
 class Namespace::
