@@ -1631,6 +1631,56 @@ exec git diff-index --check --cached $against --
 #                           ^^^^^^^^ variable.parameter.option.shell
 #                                             ^^ keyword.operator.end-of-options.shell
 
+exec "$cmd" \
+#^^^ meta.function-call.identifier.shell
+#   ^ meta.function-call.arguments.shell
+#    ^^^^^^ meta.function-call.identifier.shell meta.string.shell
+#          ^^^ meta.function-call.arguments.shell
+#           ^^ punctuation.separator.continuation.line.shell
+
+exec "$cmd" \
+  $opts \
+#^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ punctuation.separator.continuation.line.shell
+
+exec "$cmd" \
+  $opts \
+  --cmd-flag
+#^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+
+exec \
+  -la name \
+#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^^^^ meta.string.shell string.unquoted.shell
+#          ^^ punctuation.separator.continuation.line.shell
+
+exec \
+  -la name \
+  "$cmd" \
+#^ meta.function-call.arguments.shell
+# ^^^^^^ meta.function-call.identifier.shell meta.string.shell
+#       ^^^ meta.function-call.arguments.shell
+#        ^^ punctuation.separator.continuation.line.shell
+
+exec \
+  -la name \
+  "$cmd" \
+  $opts \
+#^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ punctuation.separator.continuation.line.shell
+
+exec \
+  -la name \
+  "$cmd" \
+  $opts \
+  --cmd-flag
+#^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+
 
 ####################################################################
 # export builtin                                                   #
