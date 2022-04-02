@@ -69,7 +69,7 @@ variables:
   cmd_char: '[^{{metachar}}]'
 
   # Command options are identifiers, which may start with interpolation.
-  opt_punctuation: (?:\s+|^)(--|[-+]){{nonposix_begin}}
+  opt_punctuation: '{{wspace}}(--|[-+]){{nonposix_begin}}'
   opt_literal_char: '[^{{metachar}}=%$\\""''`]'
   opt_break: '{{nonposix_break}}'
 
@@ -84,6 +84,7 @@ variables:
 
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   varassign: '[-+]?='
+  wspace: (?:\s+|^)
 
   no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
 
@@ -536,7 +537,7 @@ contexts:
       scope: meta.parameter.option.shell variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: (?:\s+|^)(--){{cmd_break}}
+    - match: '{{wspace}}(--){{cmd_break}}'
       captures:
         0: meta.function-call.arguments.shell
         1: keyword.operator.end-of-options.shell
@@ -680,19 +681,19 @@ contexts:
 
   cmd-test:
     - match: \[\[(?=\s)
-      scope: support.function.double-brace.begin.shell
+      scope: support.function.test.begin.shell
       push:
         - meta_scope: meta.conditional.shell
-        - match: \s+(\]\])
+        - match: '{{wspace}}(\]\])'
           captures:
-            1: support.function.double-brace.end.shell
+            1: support.function.test.end.shell
           pop: 1
         - include: test-expression-body
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
       push:
         - meta_scope: meta.conditional.shell
-        - match: \s+(\])
+        - match: '{{wspace}}(\])'
           captures:
             1: support.function.test.end.shell
           pop: 1
@@ -939,7 +940,7 @@ contexts:
 
   cmd-args-option-maybe-value:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - match: \s+(?=[^-\]}{{metachar}}]|\\\n)
+    - match: '{{wspace}}(?=[^-\]}{{metachar}}]|\\\n)'
       set: variable-value
     - include: number
     - include: line-continuations
@@ -958,7 +959,7 @@ contexts:
     - include: cmd-args-end-of-options-then-ambigious
 
   cmd-args-end-of-options-then-ambigious:
-    - match: (?:\s+|^)(--){{cmd_break}}
+    - match: '{{wspace}}(--){{cmd_break}}'
       captures:
         1: keyword.operator.end-of-options.shell
       push: cmd-args-ambigious
