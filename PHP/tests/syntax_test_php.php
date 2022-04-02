@@ -1340,13 +1340,19 @@ class B
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^ storage.modifier
-//               ^^^^^ constant
+//               ^^^^^ entity.name.constant.php
 //                     ^ keyword.operator.assignment
 
     const STR_2 = '';
 //  ^^^^^ storage.modifier
-//        ^^^^^ constant
+//        ^^^^^ entity.name.constant.php
 //              ^ keyword.operator.assignment
+
+    CONST STR_3 = array();
+//  ^^^^^ storage.modifier
+//        ^^^^^ entity.name.constant.php
+//              ^ keyword.operator.assignment
+//                ^^^^^ support.function.construct.php
 
     public function abc(
 //         ^ keyword.declaration.function
