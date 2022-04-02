@@ -711,6 +711,8 @@ contexts:
     - include: class-body
 
   constant-name:
+    - include: attributes
+    - include: comments
     - match: '{{identifier}}'
       scope: entity.name.constant.php
       pop: true

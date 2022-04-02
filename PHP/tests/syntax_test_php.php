@@ -1352,11 +1352,13 @@ class B
 //        ^^^^^ entity.name.constant.php
 //              ^ keyword.operator.assignment
 
-    CONST STR_3 = array();
+    CONST #[attr] /**/ STR_3 = array();
 //  ^^^^^ storage.modifier
-//        ^^^^^ entity.name.constant.php
-//              ^ keyword.operator.assignment
-//                ^^^^^ support.function.construct.php
+//        ^^^^^^^ meta.attribute.php
+//                ^^^^ comment.block.php
+//                     ^^^^^ entity.name.constant.php
+//                           ^ keyword.operator.assignment
+//                             ^^^^^ support.function.construct.php
 
     public function abc(
 //         ^ keyword.declaration.function
