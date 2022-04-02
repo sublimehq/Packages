@@ -461,7 +461,7 @@ contexts:
               pop: 1
             - match: ','
               scope: punctuation.separator.comma.php
-            - include: function-call-named-parameters
+            - include: function-call-named-arguments
             - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
@@ -1308,7 +1308,7 @@ contexts:
         - include: identifier-parts
         - match: '{{identifier}}(?=\s*\()'
           scope: variable.function.php
-          set: function-call-parameters
+          set: function-call-arguments
     - match: (?i)\b(print|echo)\b
       scope: support.function.construct.php
     # Root namespace function calls may be a built-in or user
@@ -1318,7 +1318,7 @@ contexts:
       push:
         - meta_scope: meta.function-call.php
         - match: (?=\s*\()
-          set: function-call-parameters
+          set: function-call-arguments
         - match: (?i)\b(isset|unset|e(val|mpty)|list)\b
           scope: support.function.construct.php
         - include: support
@@ -1332,26 +1332,26 @@ contexts:
       push:
         - meta_scope: meta.function-call.static.php
         - match: (?=\s*\()
-          set: function-call-parameters
+          set: function-call-arguments
         - match: '{{identifier}}'
           scope: variable.function.php
 
-  function-call-parameters:
+  function-call-arguments:
     - match: \(
       scope: punctuation.section.group.begin.php
-      set: function-call-parameters-body
+      set: function-call-arguments-body
 
-  function-call-parameters-body:
+  function-call-arguments-body:
     - meta_scope: meta.function-call.arguments.php meta.group.php
     - match: \)
       scope: punctuation.section.group.end.php
       set: after-function-call
     - match: ','
       scope: punctuation.separator.comma.php
-    - include: function-call-named-parameters
+    - include: function-call-named-arguments
     - include: nested-expressions
 
-  function-call-named-parameters:
+  function-call-named-arguments:
     # https://wiki.php.net/rfc/named_params
     - match: ({{identifier}})\s*(:)(?!:)
       captures:
@@ -1592,7 +1592,7 @@ contexts:
 
   instantiation-arguments-body:
     - meta_scope: meta.group.php
-    - include: function-call-parameters-body
+    - include: function-call-arguments-body
 
 ###[ INTERPOLATION ]##########################################################
 
@@ -1668,7 +1668,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
         2: variable.other.php
-      push: function-call-parameters
+      push: function-call-arguments
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
@@ -1724,7 +1724,7 @@ contexts:
         1: punctuation.accessor.nullsafe.php
         2: punctuation.accessor.arrow.php
         3: variable.function.php
-      push: function-call-parameters
+      push: function-call-arguments
     - include: function-call-static
     - match: (\??)(->)((\$+)?{{identifier}})?
       captures:
