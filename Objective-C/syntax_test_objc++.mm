@@ -73,12 +73,12 @@ int g(int x = 5 \
 #define MACRO_WITH_CURLY_BRACE {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /* <- keyword.control.import.define */
-/*      ^ entity.name.constant.objc++ */
+/*      ^ entity.name.constant */
 
 #define MACRO_WITH_CURLY_BRACE_2 }
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /* <- keyword.control.import.define */
-/*      ^ entity.name.constant.objc++ */
+/*      ^ entity.name.constant */
 
 FOOBAR
 hello() {
