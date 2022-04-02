@@ -172,18 +172,18 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-dash.sql
     - match: \n
-      pop: true
+      pop: 1
   inside-number-sign-comment:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
     - match: \n
-      pop: true
+      pop: 1
   inside-comment-block:
     - meta_include_prototype: false
     - meta_scope: comment.block.sql
     - match: \*/
       scope: punctuation.definition.comment.end.sql
-      pop: true
+      pop: 1
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.sql
@@ -195,7 +195,7 @@ contexts:
         - meta_scope: string.regexp.sql
         - match: /
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
@@ -207,7 +207,7 @@ contexts:
         - meta_scope: string.regexp.modr.sql
         - match: '\}'
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
   string-escape:
     - meta_include_prototype: false
@@ -230,7 +230,7 @@ contexts:
           scope: constant.character.escape.sql
         - match: "'"
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-escape
     - match: "`"
       scope: punctuation.definition.string.begin.sql
@@ -239,7 +239,7 @@ contexts:
         - meta_scope: string.quoted.other.backtick.sql
         - match: "`"
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-escape
     - match: '"'
       scope: punctuation.definition.string.begin.sql
@@ -250,7 +250,7 @@ contexts:
           scope: constant.character.escape.sql
         - match: '"'
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
     - match: '%\{'
       scope: punctuation.definition.string.begin.sql
@@ -259,7 +259,7 @@ contexts:
         - meta_scope: string.other.quoted.brackets.sql
         - match: '\}'
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
   identifier-create:
     - meta_content_scope: meta.toc-list.full-identifier.sql
@@ -270,7 +270,7 @@ contexts:
         2: entity.name.function.sql
         3: entity.name.function.sql
         4: entity.name.function.sql
-      pop: true
+      pop: 1
       # Schema identifiers
     - match: (?x)((?!\d)\w+ | '[^']+' | "[^"]+" | `[^`]+`) \s* (\.)
       captures:
@@ -278,7 +278,7 @@ contexts:
         2: punctuation.accessor.dot.sql
       # Handle situations where the schema and .
     - match: '{{end_identifier}}'
-      pop: true
+      pop: 1
   create-condition:
     - include: dml-condition
     - match: (?=\S)
@@ -330,7 +330,7 @@ contexts:
     - meta_scope: meta.string.like.sql string.quoted.single.sql
     - match: \'
       scope: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: |-
         (?x)
         (\[)(\^)?
@@ -352,7 +352,7 @@ contexts:
   like-escape-pop:
     - match: (?i:escape)\b
       scope: keyword.operator.word.sql
-      pop: true
+      pop: 1
     - include: if-non-space-pop
   like-escape-character-any:
     - match: (\')([^'])(\')
@@ -361,7 +361,7 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - include: if-non-space-pop
   like-escape-character-caret:
     - match: (\')(\^)(\')
@@ -370,7 +370,7 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: like-strings-branch
   like-escape-character-slash:
@@ -380,9 +380,9 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: like-strings-branch
   if-non-space-pop:
     - match: (?=\S)
-      pop: true
+      pop: 1
