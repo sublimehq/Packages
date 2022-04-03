@@ -94,6 +94,13 @@ contexts:
         16: storage.type.sql
     - match: (?i:((?:foreign|fulltext|primary|unique)\s+)?key|references|on\s+delete(\s+cascade)?|on\s+update(\s+cascade)?|check|constraint|default)\b
       scope: storage.modifier.sql
+    - match:
+        (?x)
+        (\d+ (\.)? (?:\d* (?:[eE][-+]? \d+)?)? | (\.) \d+ (?:[eE][-+]? \d+)?)
+      captures:
+        1: constant.numeric.sql
+        2: punctuation.separator.decimal.sql
+        3: punctuation.separator.decimal.sql
     - match: \d+
       scope: constant.numeric.sql
     - match: (?i:true|false)\b
@@ -139,10 +146,28 @@ contexts:
       scope: support.function.aggregate.sql
     - match: (?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
-    - match: ((?!\d)\w+?)\s*\.\s*((?!\d)\w+)\b
+    - match: \$\d+
+      comment: Prepared statement parameter
+      scope: constant.other.parameter.sql
+    - match: (?!\d)\w+(?=\()
+      scope: variable.function.sql
+    - match: |-
+        (?x)
+        # database identifier
+          ((?!\d)\w+) (?=(?:\s*\.\s*(?!\d)\w+){2})
+        # table and member identifier
+        | ((?!\d)\w+) (\s*\.\s*) (\s*(?!\d)\w+ | (?=\s*"))
+        # normal variable
+        | ((?!\d)\w+)
+        # accessor punctuation
+        | (\.(?!\d))
       captures:
         1: constant.other.database-name.sql
         2: constant.other.table-name.sql
+        3: punctuation.accessor.dot.sql
+        4: variable.other.member.sql
+        5: variable.other.sql
+        6: punctuation.accessor.dot.sql
     - include: strings
     - include: regexps
     - match: (\()(\))
