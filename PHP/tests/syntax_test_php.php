@@ -816,6 +816,33 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //              ^^ punctuation.definition.comment.end
 //                ^ - comment
 
+enum
+// <- constant.other.php
+//^^ constant.other.php
+//  ^ - constant
+
+enum Suit ;
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^ - meta.enum meta.enum
+//        ^ - meta.enum
+//^^ keyword.declaration.enum.php
+//  ^ - keyword - entity
+//   ^^^^ entity.name.enum.php
+//       ^ - entity - punctuation
+//        ^ punctuation.terminator.expression.php
+
+enum Suit : ;
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^ - meta.enum meta.enum
+//          ^ - meta.enum
+//^^ keyword.declaration.enum.php
+//  ^ - keyword - entity
+//   ^^^^ entity.name.enum.php
+//       ^ - entity - punctuation
+//        ^ punctuation.separator.colon.php
+//         ^ - punctuation
+//          ^ punctuation.terminator.expression.php
+
 enum Suit {
 // <- meta.enum.php keyword.declaration.enum.php
 //^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
@@ -837,24 +864,55 @@ enum Suit {
     case Spades;
 }
 
+enum Suit: extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                          ^^ meta.enum.php meta.block.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^^ invalid.illegal.disallowed.php
+//                 ^^^^^^^^ - entity
+//                          ^ punctuation.section.block.begin.php
+//                           ^ punctuation.section.block.end.php
+
 enum Suit: string extends Colorful {}
 // <- meta.enum.php keyword.declaration.enum.php
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
 //                                 ^^ meta.enum.php meta.block.php
-//                ^^^^^^^ invalid
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^ storage.type.php
+//                ^^^^^^^ invalid.illegal.disallowed.php
+//                        ^^^^^^^^ - entity
+//                                 ^ punctuation.section.block.begin.php
+//                                  ^ punctuation.section.block.end.php
+
+enum Suit: string | mixed extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                         ^^ meta.enum.php meta.block.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^ storage.type.php
+//                ^ punctuation.separator.type.union.php
+//                  ^^^^^ storage.type.php
+//                        ^^^^^^^ invalid.illegal.disallowed.php
+//                                ^^^^^^^^ - entity
+//                                         ^ punctuation.section.block.begin.php
+//                                          ^ punctuation.section.block.end.php
 
 enum Suit: string implements Colorful {
 // <- meta.enum.php keyword.declaration.enum.php
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
 //                                    ^^ meta.enum.php meta.block.php
-// ^ keyword.declaration.enum
-//   ^^^^ entity.name.enum
-//       ^ punctuation.separator
-//         ^^^^^^ storage.type
-//                ^^^^^^^^^^ storage.modifier.implements
-//                           ^^^^^^^^ entity.other.inherited-class
+// ^ keyword.declaration.enum.php
+//   ^^^^ entity.name.enum.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^ storage.type.php
+//                ^^^^^^^^^^ storage.modifier.implements.php
+//                           ^^^^^^^^ entity.other.inherited-class.php
+//                                    ^ punctuation.section.block.begin.php
     case Hearts = 'H';
 //  ^^^^ keyword.control
 //       ^^^^^^ entity.name.constant
@@ -876,6 +934,24 @@ enum Suit: string implements Colorful {
         };
     }
 }
+
+enum Test1 extends Foo, Bar implements Foo, Bar {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                              ^^ meta.enum.php meta.block.php
+//^^ keyword.declaration.enum.php
+//   ^^^^^ entity.name.enum.php
+//         ^^^^^^^ invalid.illegal.disallowed.php
+//                 ^^^ - entity
+//                    ^ - punctuation
+//                      ^^^ - entity
+//                          ^^^^^^^^^^ storage.modifier.implements.php
+//                                     ^^^ entity.other.inherited-class.php
+//                                        ^ punctuation.separator.comma.php
+//                                          ^^^ entity.other.inherited-class.php
+//                                              ^ punctuation.section.block.begin.php
+//                                               ^ punctuation.section.block.end.php
 
     class
 
