@@ -347,8 +347,6 @@ contexts:
     # fallback patterns incase no other expression matches
     - match: \b(?i:class)\b
       scope: keyword.declaration.class.php
-    - match: \b(?i:enum)\b
-      scope: keyword.declaration.enum.php
     - match: \b(?i:interface)\b
       scope: keyword.declaration.interface.php
     - match: \b(?i:function)\b
