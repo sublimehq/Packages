@@ -338,6 +338,12 @@ contexts:
     - include: scope:source.c#label
     - match: '{{identifier}}'
       scope: entity.name.constant.c++
+      push: constant-value
+    - include: expressions
+
+  constant-value:
+    - match: (?=[,;}])
+      pop: true
     - include: expressions
 
   expressions:

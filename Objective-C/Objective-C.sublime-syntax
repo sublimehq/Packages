@@ -789,6 +789,12 @@ contexts:
       push: data-structures
     - match: '{{identifier}}'
       scope: entity.name.constant.objc
+      push: constant-value
+    - include: expressions
+
+  constant-value:
+    - match: (?=[,;}])
+      pop: true
     - include: expressions
 
   block:

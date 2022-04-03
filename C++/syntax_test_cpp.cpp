@@ -2016,8 +2016,14 @@ private:
 /*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
 /*      ^ entity.name.constant.c++ */
-        B = 20 / 5
+/*           ^ punctuation.separator.c++ */
+        B = 20 / 5,
 /*      ^ entity.name.constant.c++ */
+/*                ^ punctuation.separator.c++ */
+        C = FOO
+/*      ^ entity.name.constant.c++ */
+/*        ^ keyword.operator.assignment.c */
+/*          ^^^^ - entity.name */
     }
 /*  ^ meta.enum punctuation.section.block.end */
 /*   ^ - meta.enum */
