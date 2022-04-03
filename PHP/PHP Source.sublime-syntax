@@ -398,38 +398,65 @@ contexts:
           pop: 1
         - include: nested-expressions
 
+###[ TYPE HINTS ]#############################################################
+
+  type-hints:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: (?=(?:\?\s*)?{{path}})
+      push:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: '(?=(?:\?\s*)?{{path}})'
+    - match: (?=(?:\?\s*)?{{path}})
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
+  type-hint-body:
+    - meta_scope: meta.type.php
+    - match: \|(?!\s*\$)
+      scope: punctuation.separator.type.union.php
       push:
-        - match: (?=(?i:implements|extends)\b)
-          pop: 1
-        - match: \?
-          scope: storage.type.nullable.php
-        - match: \|
-          scope: punctuation.separator.type.union.php
-        - match: '&(?!\s*\$)'
-          scope: punctuation.separator.type.intersection.php
-        # note that
-        #   - "callable", "never" and "void" are not allowed in property type
-        #   - "false" and "null" are only working in unioned type
-        # but we allow them as general types for simplifying syntax definition
-        - match: |-
-            \b(?xi:
-              array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self | static |
-              mixed | never
-            )\b
-          scope: storage.type.php
-        - include: class-builtin
-        - include: identifier-parts-as-path
-        - match: '(\\)?({{identifier}})(?!\\)'
-          scope: meta.path.php
-          captures:
-            1: punctuation.separator.namespace.php
-            2: support.class.php
-        - match: (?=\S)
-          pop: 1
+        - type-hint-simple-type
+        - type-hint-nullable
+    - match: '&(?!\s*\$)'
+      scope: punctuation.separator.type.intersection.php
+      push:
+        - type-hint-nullable
+        - type-hint-simple-type
+    - include: else-pop
+
+  type-hint-nullable:
+    - match: \?
+      scope: storage.type.nullable.php
+      set: else-pop
+    - include: else-pop
+
+  type-hint-simple-type:
+    # note that
+    #   - "callable", "never" and "void" are not allowed in property type
+    #   - "false" and "null" are only working in unioned type
+    # but we allow them as general types for simplifying syntax definition
+    - match: |-
+        \b(?xi:
+          array | bool | callable | double | float | int | iterable | object
+        | string | false | null | void | parent | self | static | mixed | never
+        )\b
+      scope: storage.type.php
+      pop: 1
+    - include: class-builtin
+    - include: identifier-parts-as-path
+    - match: (\\)?({{identifier}})
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.php
+      pop: 1
+    - include: immediately-pop
 
   attributes:
     # https://wiki.php.net/rfc/attributes_v2
@@ -827,7 +854,7 @@ contexts:
           pop: 1
         - match: \b(?:{{visibility_modifier}}|static|readonly)\b
           scope: storage.modifier.php
-        - include: type-hint
+        - include: type-hints
         # Exit on unexpected content
         - match: (?=\S)
           pop: 1
@@ -947,7 +974,7 @@ contexts:
     - include: attributes
     - include: comments
     # Class name type hint
-    - include: type-hint
+    - include: type-hints
     - match: '\.\.\.'
       scope: keyword.operator.spread.php
     - match: '&'
@@ -998,7 +1025,7 @@ contexts:
       set: function-body
     - match: ':'
       scope: punctuation.separator.colon.php
-    - include: type-hint
+    - include: type-hints
     # Exit on unexpected content
     - match: (?=\S)
       pop: 1
