@@ -50,6 +50,58 @@ variables:
   #     It's a false positive as long as (1.) is respected.
   no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
 
+  builtin_classes: |-
+    (?xi:
+      AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError
+    | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute
+    | BackedEnum | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator
+    | CompileError | Countable | CURLFile | CURLStringFile | DateInterval | DatePeriod | DateTime
+    | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator
+    | DivisionByZeroError | DOMAttr | DOMAttribute | DOMCharacterData | DOMComment | DOMDocument
+    | DOMDocumentFragment | DOMDocumentType | DOMElement | DOMEntityReference | DOMImplementation
+    | DOMNamedNodeMap | DOMNode | DOMNodelist | DOMProcessingInstruction | DOMText | DOMXPath
+    | DOMXsltStylesheet | DomainException | EmptyIterator | Error | ErrorException | Exception
+    | Fiber | FiberError | FiberExit | FilesystemIterator | FilterIterator | GlobIterator | Gmagick
+    | GmagickDraw | GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder
+    | HaruFont | HaruImage | HaruOutline | HaruPage | HttpDeflateStream | HttpInflateStream
+    | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse | Imagick
+    | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | InternalIterator
+    | IntlDateFormatter | InvalidArgumentException | Iterator | IteratorAggregate
+    | IteratorIterator | JsonException | JsonSerializable | KTaglib_ID3v2_AttachedPictureFrame
+    | KTaglib_ID3v2_Frame | KTaglib_ID3v2_Tag | KTaglib_MPEG_AudioProperties | KTaglib_MPEG_File
+    | KTaglib_Tag | LengthException | LimitIterator | Locale | LogicException | Memcache
+    | Memcached | MessageFormatter | Mongo | MongoBinData | MongoCode | MongoCollection
+    | MongoCursor | MongoDB | MongoDBRef | MongoDate | MongoGridFS | MongoGridFSCursor
+    | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 | MongoRegex
+    | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter
+    | OCI-Collection | OCI-Lob | OutOfBoundsException | OutOfRangeException | OuterIterator
+    | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar | PharData
+    | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater
+    | RangeException | RecursiveArrayIterator | RecursiveCachingIterator
+    | RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator
+    | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection
+    | ReflectionClass | ReflectionEnum | ReflectionEnumBackedCase | ReflectionEnumUnitCase
+    | ReflectionExtension | ReflectionFiber | ReflectionFunction | ReflectionFunctionAbstract
+    | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector
+    | RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA
+    | SCA_LocalProxy | SCA_SoapProxy | SDO_DAS_ChangeSummary | SDO_DAS_DataFactory
+    | SDO_DAS_DataObject | SDO_DAS_Relational | SDO_DAS_Setting | SDO_DAS_XML
+    | SDO_DAS_XML_Document | SDO_DataFactory | SDO_DataObject | SDO_Exception | SDO_List
+    | SDO_Model_Property | SDO_Model_ReflectionDataObject | SDO_Model_Type | SDO_Sequence | SNMP
+    | SQLite3 | SQLite3Result | SQLite3Stmt | SQLiteDatabase | SQLiteResult | SQLiteUnbuffered
+    | SVM | SVMModel | SeekableIterator | Serializable | SimpleXMLElement | SimpleXMLIterator
+    | SoapClient | SoapFault | SoapHeader | SoapParam | SoapServer | SoapVar | SphinxClient
+    | SplBool | SplDoublyLinkedList | SplEnum | SplFileInfo | SplFileObject | SplFixedArray
+    | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver
+    | SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject
+    | Stringable | Swish | SwishResult | SwishResults | SwishSearch | TokyoTyrant
+    | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError
+    | UnderflowException | UnexpectedValueException | UnhandledMatchError | UnitEnum | V8Js
+    | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor
+    | ZipArchive | finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning
+    | stdClass | streamWrapper | tidy | tidyNode
+    )\b
+
 contexts:
 
   main:
@@ -245,7 +297,7 @@ contexts:
           set: after-identifier
         - match: (self|static|parent)\b
           scope: variable.language.php
-        - include: class-name
+        - include: class-names
         - include: variables
     - include: variables
     - include: strings
@@ -381,7 +433,7 @@ contexts:
   type-hint-nullable:
     - match: \?
       scope: storage.type.nullable.php
-      set: else-pop
+      pop: 1
     - include: else-pop
 
   type-hint-simple-type:
@@ -398,55 +450,10 @@ contexts:
       pop: 1
     - match: (?=(?i:extends|implements)\b)
       pop: 1
-    - include: expression-end-pop
-    - include: class-builtin
-    - include: identifier-parts-as-path
-    - match: (\\)?({{identifier}})
-      scope: meta.path.php
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.class.php
-      pop: 1
-    - include: immediately-pop
+    - include: class-name
+    - include: else-pop
 
-  class-builtin:
-    - match: |-
-        (?xi)(\\)?\b(
-          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError |
-          ArrayAccess | ArrayIterator | ArrayObject | AssertionError | Attribute | BackedEnum | BadFunctionCallException |
-          BadMethodCallException | CachingIterator | Collator | CompileError | Countable | CURLFile | CURLStringFile |
-          DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
-          DivisionByZeroError | DOMAttr | DOMAttribute | DOMCharacterData | DOMComment | DOMDocument |
-          DOMDocumentFragment | DOMDocumentType | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap |
-          DOMNode | DOMNodelist | DOMProcessingInstruction | DOMText | DOMXPath | DOMXsltStylesheet | DomainException |
-          EmptyIterator | Error | ErrorException | Exception | Fiber | FiberError | FiberExit | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
-          GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
-          HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
-          Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | InternalIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
-          IteratorAggregate | IteratorIterator | JsonException | JsonSerializable | KTaglib_ID3v2_AttachedPictureFrame | KTaglib_ID3v2_Frame | KTaglib_ID3v2_Tag | KTaglib_MPEG_AudioProperties |
-          KTaglib_MPEG_File | KTaglib_Tag | LengthException | LimitIterator | Locale | LogicException | Memcache | Memcached |
-          MessageFormatter | Mongo | MongoBinData | MongoCode | MongoCollection | MongoCursor | MongoDB | MongoDBRef |
-          MongoDate | MongoGridFS | MongoGridFSCursor | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 |
-          MongoRegex | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter | OCI-Collection | OCI-Lob |
-          OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar |
-          PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
-          RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
-          ReflectionEnum | ReflectionEnumBackedCase | ReflectionEnumUnitCase | ReflectionExtension | ReflectionFiber | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject |
-          ReflectionParameter | ReflectionProperty | Reflector | RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
-          SDO_DAS_ChangeSummary | SDO_DAS_DataFactory | SDO_DAS_DataObject | SDO_DAS_Relational | SDO_DAS_Setting | SDO_DAS_XML | SDO_DAS_XML_Document | SDO_DataFactory |
-          SDO_DataObject | SDO_Exception | SDO_List | SDO_Model_Property | SDO_Model_ReflectionDataObject | SDO_Model_Type | SDO_Sequence | SNMP |
-          SQLite3 | SQLite3Result | SQLite3Stmt | SQLiteDatabase | SQLiteResult | SQLiteUnbuffered | SVM | SVMModel |
-          SeekableIterator | Serializable | SimpleXMLElement | SimpleXMLIterator | SoapClient | SoapFault | SoapHeader | SoapParam |
-          SoapServer | SoapVar | SphinxClient | SplBool | SplDoublyLinkedList | SplEnum | SplFileInfo | SplFileObject |
-          SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
-          SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Stringable | Swish | SwishResult |
-          SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError | UnderflowException |
-          UnexpectedValueException | UnhandledMatchError | UnitEnum | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
-          finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy | tidyNode
-        )\b
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.class.builtin.php
+###[ FOR STATEMENTS ]#########################################################
 
   for-statements:
     - match: \b(?i:for)\b
@@ -646,12 +653,15 @@ contexts:
     - include: else-pop
 
   inherited:
-    - meta_content_scope: meta.path.php entity.other.inherited-class.php
-    - include: class-builtin
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
     - include: identifier-parts
-    - match: (\\)?{{identifier}}
+    - match: (\\)?(?:({{builtin_classes}})|({{identifier}}))
       captures:
         1: punctuation.separator.namespace.php
+        2: entity.other.inherited-class.php support.class.builtin.php
+        3: entity.other.inherited-class.php
+      pop: 1
     - include: immediately-pop
 
   class-body:
@@ -937,19 +947,6 @@ contexts:
       scope: punctuation.section.block.begin.php
       push: block
     - include: statements
-
-  class-name:
-    - match: '(?={{path}})'
-      push:
-        - meta_scope: meta.path.php
-        - include: class-builtin
-        - include: identifier-parts
-        - match: '(\\)?({{identifier}})(?!\\)'
-          captures:
-            1: punctuation.separator.namespace.php
-            2: support.class.php
-          pop: 1
-        - include: immediately-pop
 
   comments:
     # This only highlights a docblock if the first line contains only /** or
@@ -1499,13 +1496,13 @@ contexts:
         - instantiation-class
 
   instantiation-class:
-    - match: (?=[^[:alnum:]$_\\])
-      pop: 1
+    - meta_include_prototype: false
     - match: (parent|static|self)\b
       scope: variable.language.php
       pop: 1
     - include: class-name
     - include: variables
+    - include: immediately-pop
 
   instantiation-arguments:
     - match: \(
@@ -1673,13 +1670,41 @@ contexts:
       scope: punctuation.section.group.begin.php
       push: attribute-arguments-body
     - include: punctuation-separators
-    - include: class-name
+    - include: class-names
     - include: expression-end-pop
 
   attribute-arguments-body:
     - clear_scopes: 1
     - meta_scope: meta.attribute.arguments.php meta.group.php
     - include: function-call-arguments-body
+
+###[ CLASSES ]################################################################
+
+  class-names:
+    - match: (?={{path}})
+      push: class-name-content
+
+  class-name:
+    - match: (?={{path}})
+      set: class-name-content
+
+  class-name-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
+    - include: identifier-parts
+    - match: (\\)?(?:({{builtin_classes}})|({{identifier}}))
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.builtin.php
+        3: support.class.php
+      pop: 1
+    - include: immediately-pop
+
+  class-builtin:
+    - match: (\\)?({{builtin_classes}})
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.builtin.php
 
 ###[ LITERALS ]###############################################################
 
@@ -1773,7 +1798,7 @@ contexts:
             1: punctuation.accessor.double-colon.php
             2: constant.other.class.php
           pop: 1
-        - include: class-name
+        - include: class-names
     - include: constants
 
   php-doc:
@@ -2792,6 +2817,8 @@ contexts:
         )\b
       scope: support.function.alias.php
 
+###[ VARIABLES ]##############################################################
+
   variables:
     - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b
       scope: variable.other.global.php
@@ -2834,6 +2861,8 @@ contexts:
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
+
+###[ IDENTIFIERS ]############################################################
 
   identifier-parts:
     - match: (\\)?({{identifier}})(\\)

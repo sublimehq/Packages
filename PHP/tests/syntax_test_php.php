@@ -1057,27 +1057,34 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //  ^^^^^ keyword.declaration.class.php
 //        ^^^^^ entity.name.class.php
 //              ^^^^^^^ storage.modifier.extends.php
-//                      ^^^^^ entity.other.inherited-class.php
+//                      ^ punctuation.separator.namespace.php
+//                       ^^^ support.other.namespace.php
+//                          ^ punctuation.separator.namespace.php
 //                            ^^^^^^^^^^ storage.modifier.implements.php
-//                                       ^^^^^ entity.other.inherited-class.php
+//                                       ^ punctuation.separator.namespace.php
+//                                        ^^^ support.other.namespace.php
+//                                           ^ punctuation.separator.namespace.php
 
 class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 // <- meta.class.php keyword.declaration.class.php
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
 //                                                                         ^^ meta.class.php meta.block.php
-//    ^ entity.name.class
-//              ^ storage.modifier
-//                      ^ comment.block
-//                            ^^^^^^^^^^^^^^^^ meta.path
-//                            ^^^^^^^^^^^^^^^^ entity.other.inherited-class
-//                            ^ punctuation.separator.namespace
-//                                        ^ punctuation.separator.namespace
-//                                             ^ storage.modifier
-//                                                        ^^^^^^^^^^^^^^^^ meta.path
-//                                                        ^^^^^^^^^^^^^^^^ entity.other.inherited-class
-//                                                        ^ punctuation.separator.namespace
-//                                                                    ^ punctuation.separator.namespace
+//^^^ keyword.declaration.class.php
+//    ^^^^^^^^^ entity.name.class.php
+//              ^^^^^^^ storage.modifier.extends.php
+//                      ^^^^^ comment.block.php
+//                            ^^^^^^^^^^^^^^^^ meta.path.php
+//                            ^ punctuation.separator.namespace.php
+//                             ^^^^^^^^^^^ support.other.namespace.php
+//                                        ^ punctuation.separator.namespace.php
+//                                         ^^^ entity.other.inherited-class.php
+//                                             ^^^^^^^^^^ storage.modifier.implements.php
+//                                                        ^^^^^^^^^^^^^^^^ meta.path.php
+//                                                        ^ punctuation.separator.namespace.php
+//                                                         ^^^^^^^^^^^ support.other.namespace.php
+//                                                                    ^ punctuation.separator.namespace.php
+//                                                                     ^^^ entity.other.inherited-class.php
 
     public function __construct(private \MyNamespace\Foo $val = DEFAULT_VALUE) {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.block meta.block
@@ -1104,15 +1111,16 @@ interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 // <- keyword.declaration.interface
 //        ^ entity.name.interface
 //                 ^ storage.modifier
-//                         ^^^^^^^^^^^^^^^^ meta.path
-//                         ^^^^^^^^^^^^^^^^ entity.other.inherited-class
-//                         ^ punctuation.separator.namespace
-//                                     ^ punctuation.separator.namespace
+//                         ^^^^^^^^^^^^^^^^ meta.path.php
+//                         ^ punctuation.separator.namespace.php
+//                          ^^^^^^^^^^^ support.other.namespace.php
+//                                     ^ punctuation.separator.namespace.php
+//                                      ^^^ entity.other.inherited-class.php
 //                                         ^ punctuation.separator
 //                                           ^ comment.block
-//                                                ^ punctuation.separator.namespace
-//                                                ^^^^^^^^^^^^ meta.path
-//                                                ^^^^^^^^^^^^ entity.other.inherited-class
+//                                                ^^^^^^^^^^^^ meta.path.php
+//                                                ^ punctuation.separator.namespace.php
+//                                                 ^^^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php
 }
 
 if ($foo instanceof \Mynamespace\ClassName) {
@@ -1563,10 +1571,11 @@ class B
 {
     use MyNamespace\Xyz,
 //  ^^^^ meta.class.php meta.block.php meta.use.php - meta.path
-//      ^^^^^^^^^^^^^^^ meta.class.php meta.block.php meta.use.php meta.path.php entity.other.inherited-class.php
+//      ^^^^^^^^^^^^^^^ meta.class.php meta.block.php meta.use.php meta.path.php
 //                     ^^ meta.class.php meta.block.php meta.use.php - meta.path
 //      ^^^^^^^^^^^ support.other.namespace.php
 //                 ^ punctuation.separator.namespace.php
+//                  ^^^ entity.other.inherited-class.php
 //                     ^ punctuation.separator.comma.php
     Y,
 //  ^ meta.use meta.path entity.other.inherited-class
