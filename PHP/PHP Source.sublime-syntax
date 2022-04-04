@@ -72,8 +72,7 @@ contexts:
             - include: comments
             - match: '(?={{path}})'
               push: inherited
-            - match: ','
-              scope: punctuation.separator.comma.php
+            - include: punctuation-separators
             - match: '(?=\S)'
               pop: 1
         - match: '(?=\S)'
@@ -108,8 +107,7 @@ contexts:
     # catch some stray cases
     - match: ':'
       scope: punctuation.separator.colon.php
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
 
   block:
     - match: \}
@@ -318,8 +316,7 @@ contexts:
         - match: ':'
           scope: keyword.operator.ternary.php
           pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -375,8 +372,7 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+        - include: punctuation-separators
         - include: nested-expressions
     - match: \[
       scope: punctuation.section.array.begin.php
@@ -385,8 +381,7 @@ contexts:
         - match: \]
           scope: punctuation.section.array.end.php
           pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+        - include: punctuation-separators
         - include: nested-expressions
 
   after-identifier:
@@ -489,15 +484,13 @@ contexts:
             - match: \)
               scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
               pop: 1
-            - match: ','
-              scope: punctuation.separator.comma.php
+            - include: punctuation-separators
             - include: function-call-named-arguments
             - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+        - include: punctuation-separators
         - include: expression-end-pop
 
   class-builtin:
@@ -582,10 +575,9 @@ contexts:
     - include: expression-end-pop
     - include: attributes
     - include: comments
+    - include: punctuation-separators
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
-    - match: ','
-      scope: punctuation.separator.comma.php
 
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
@@ -734,8 +726,7 @@ contexts:
       pop: 1
     - match: (?={{path}})
       push: inherited
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
     - include: else-pop
 
   inherited:
@@ -766,10 +757,9 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.php
       set: class-use-block-body
-    - match: ','
-      scope: punctuation.separator.comma.php
     - include: attributes
     - include: comments
+    - include: punctuation-separators
     - match: (?={{path}})
       push: inherited
 
@@ -981,8 +971,7 @@ contexts:
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
     - match: '='
       scope: keyword.operator.assignment.php
       push:
@@ -1012,8 +1001,7 @@ contexts:
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
@@ -1365,8 +1353,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.php
       set: after-function-call
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
     - include: function-call-named-arguments
     - include: nested-expressions
 
@@ -2883,6 +2870,12 @@ contexts:
           set: after-identifier
         - match: ''
           pop: 1
+
+###[ OPERATORS ]##############################################################
+
+  punctuation-separators:
+    - match: ','
+      scope: punctuation.separator.comma.php
 
 ###[ PROTOTYPES ]#############################################################
 
