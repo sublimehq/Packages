@@ -203,12 +203,24 @@ if (a < b || c <= d) {}
 //     ^^^^^^^ meta.tag.attributes entity.other.attribute-name
 //            ^ punctuation.definition.tag.end
 
-    <T extends {}>() => {}; // </T>;
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//  ^^^^^^^^^^^^^^ meta.function meta.generic
+    <T extends "s">() => {x}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^^ meta.function meta.generic
 //   ^ variable.parameter.generic
 //     ^^^^^^^ storage.modifier.extends
-//             ^^ meta.function meta.generic meta.mapping
+//             ^^^ meta.function meta.generic
+
+    <T extends="s">() => {x}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//  ^^^^^^^^^^^^^^^ meta.tag
+//   ^ meta.tag.name entity.name.tag
+//     ^^^^^^^ entity.other.attribute-name
+//            ^ punctuation.separator.key-value
+//             ^^^ string.quoted.double
+//                       ^^^ meta.interpolation
+//                               ^^^^ meta.tag
+//                                 ^ meta.tag.name entity.name.tag
+//                                   ^ punctuation.terminator.statement
 
     <T {...}>() => {};</T>;
 //  ^^^^^^^^^^^^^^^^^^^^^^ meta.jsx

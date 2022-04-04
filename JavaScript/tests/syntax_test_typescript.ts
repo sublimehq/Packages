@@ -1243,3 +1243,22 @@ const x = {
 //             ^ variable.other.readwrite
 //              ^ punctuation.section.group.end
 //               ^ punctuation.terminator.statement
+
+    true ? (a) : <T>() => T => {} : null;
+//  ^^^^ constant.language.boolean.true
+//       ^ keyword.operator.ternary
+//         ^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//         ^^^ meta.function.parameters
+//          ^ meta.binding.name variable.parameter.function
+//             ^ punctuation.separator.type
+//               ^^^^^^^^^^  meta.type
+//               ^^^ meta.generic
+//                ^ variable.parameter.generic
+//                  ^^ meta.group
+//                     ^^ keyword.declaration.function
+//                        ^ support.class
+//                          ^^ keyword.declaration.function.arrow
+//                             ^^ meta.block
+//                                ^ keyword.operator.ternary
+//                                  ^^^^ constant.language.null
+//                                      ^ punctuation.terminator.statement

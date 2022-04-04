@@ -57,7 +57,7 @@ contexts:
     - match: 'extends{{jsx_identifier_break}}'
       scope: entity.other.attribute-name.js
       set:
-        - match: (?=>)
+        - match: (?=[>=])
           pop: true
         - match: (?=\S)
           fail: arrow-function
