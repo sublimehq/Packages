@@ -451,11 +451,20 @@ class Foo
 }
 
 $object = new #[ExampleAttribute] class () { };
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php
 //            ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //            ^^ punctuation.definition.attribute.begin
 //              ^^^^^^^^^^^^^^^^ meta.path
 //                              ^ punctuation.definition.attribute.end
-//                                ^^^^^ storage.type
+//                                ^^^^^^ meta.class.php - meta.group - meta.block
+//                                      ^^ meta.class.php meta.group - meta.block
+//                                        ^ meta.class.php - meta.group - meta.block
+//                                         ^^^ meta.class.php meta.block - meta.group
+//                                ^^^^^ keyword.declaration.class.php
+//                                      ^ punctuation.section.group.begin.php
+//                                       ^ punctuation.section.group.end.php
+//                                         ^ punctuation.section.block.begin.php
+//                                           ^ punctuation.section.block.end.php
 
 $f2 = #[ExampleAttribute] function () { };
 //    ^^^^^^^^^^^^^^^^^^^ meta.attribute
@@ -1096,27 +1105,38 @@ array_slice($array, $offset, $length, preserve_keys: true);
 //                                                   ^^^^ constant.language
 
 $test = new Test1;
+//      ^^^^^^^^^ meta.instantiation.php
 //      ^ keyword.other.new.php
 //          ^^^^^ meta.path
 //          ^ support.class.php
 
 $anon = new class{};
+//      ^^^^^^^^^^^ - meta.class meta.class
+//      ^^^^ meta.instantiation.php - meta.class
+//          ^^^^^ meta.instantiation.php meta.class.php - meta.block
+//               ^^ meta.instantiation.php meta.class.php meta.block.php
+//                 ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
 //               ^^ meta.class.php
 //               ^^ meta.block.php
-//               ^ punctuation.section.block.begin.php - meta.class meta.class
+//               ^ punctuation.section.block.begin.php
 //                ^ punctuation.section.block.end.php
 
 $anon = new class};
+//      ^^^^^^^^^^ - meta.class meta.class
+//      ^^^^ meta.instantiation.php - meta.class
+//          ^^^^^ meta.instantiation.php meta.class.php - meta.block
+//               ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
-//               ^ punctuation.section.block.end.php - meta.class - meta.block
+//               ^ punctuation.section.block.end.php
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
-//               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
+//               ^^^^^^^^^^^^^^^^^^ meta.group.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
 //                       ^ punctuation.separator.comma
@@ -1131,8 +1151,73 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                                     ^^ meta.class.php
 //                                                                     ^^ meta.block.php
 
+$anon = new /* comment */ #[anno] class($param1, $param2) extends Test1 implements Countable {};
+//      ^^^ keyword.other.new.php
+//          ^^^^^^^^^^^^^ comment.block.php
+//                        ^^^^^^^ meta.attribute.php
+//                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
+//                                ^^^^^ keyword.declaration.class
+//                                     ^^^^^^^^^^^^^^^^^^ meta.group.php
+//                                     ^ punctuation.section.group.begin.php
+//                                      ^ variable.other.php
+//                                             ^ punctuation.separator.comma
+//                                               ^ variable.other.php
+//                                                      ^ punctuation.section.group.end.php
+//                                                        ^ storage.modifier.extends.php
+//                                                                ^^^^^ meta.path
+//                                                                 ^ entity.other.inherited-class.php
+//                                                                      ^ storage.modifier.implements.php
+//                                                                                 ^^^^^^^^^ meta.path
+//                                                                                 ^ entity.other.inherited-class.php
+//                                                                                           ^^ meta.class.php
+//                                                                                           ^^ meta.block.php
+
 $user_1 = new User("John", "a@b.com");
+//        ^^^^^^^^ meta.instantiation.php - meta.group
+//                ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
+//                                   ^ - meta.instantiation - meta.group
+//        ^^^ keyword.other.new.php
+//            ^^^^ support.class.php
+//                ^ punctuation.section.group.begin.php
+//                 ^^^^^^ meta.string.php string.quoted.double.php
 //                       ^ punctuation.separator.comma
+//                         ^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                  ^ punctuation.section.group.end.php
+//                                   ^ punctuation.terminator.expression.php
+
+$user_1 = new /* comment */ #[anno] User("John", "a@b.com");
+//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
+//                          ^^^^^^^ meta.instantiation.php meta.attribute.php
+//                                 ^^^^^  meta.instantiation.php - meta.attribute - meta.group
+//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
+//                                                         ^ - meta.instantiation - meta.group
+//        ^^^ keyword.other.new.php
+//            ^^^^^^^^^^^^^ comment.block.php
+//                          ^^^^^^^ meta.attribute.php
+//                                  ^^^^ support.class.php
+//                                      ^ punctuation.section.group.begin.php
+//                                       ^^^^^^ meta.string.php string.quoted.double.php
+//                                             ^ punctuation.separator.comma
+//                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                                        ^ punctuation.section.group.end.php
+//                                                         ^ punctuation.terminator.expression.php
+
+$user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
+//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
+//                          ^^^^^^^ meta.instantiation.php meta.attribute.php
+//                                 ^^^^^  meta.instantiation.php - meta.attribute - meta.group
+//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
+//                                                         ^ - meta.instantiation - meta.group
+//        ^^^ keyword.other.new.php
+//            ^^^^^^^^^^^^^ comment.block.php
+//                          ^^^^^^^ meta.attribute.php
+//                                  ^^^^ variable.other.php
+//                                      ^ punctuation.section.group.begin.php
+//                                       ^^^^^^ meta.string.php string.quoted.double.php
+//                                             ^ punctuation.separator.comma
+//                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                                        ^ punctuation.section.group.end.php
+//                                                         ^ punctuation.terminator.expression.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
