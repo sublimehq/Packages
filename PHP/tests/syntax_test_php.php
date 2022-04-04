@@ -163,14 +163,14 @@ function a($a = array(),             $b = "hi") {};
 //                                            ^ punctuation.section.group.end
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
-//                    ^ meta.array.empty
-//                          ^ punctuation.section.array.end
+//                    ^ meta.sequence.array.empty
+//                          ^ punctuation.section.sequence.end
 function d(array $a = [],            $b = "hi") {};
-//                    ^ punctuation.section.array.begin
-//                     ^ punctuation.section.array.end
+//                    ^ punctuation.section.sequence.begin
+//                     ^ punctuation.section.sequence.end
 function e(array $a = [1, 2, 3, 4],  $b = "hi") {};
-//                    ^ punctuation.section.array.begin
-//                               ^ punctuation.section.array.end
+//                    ^ punctuation.section.sequence.begin
+//                               ^ punctuation.section.sequence.end
 function f(array $a = null,          $b = "hi") {};
 function i(
     $a,
@@ -221,7 +221,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //              ^^^^^ storage.type
 //                    ^^^ variable.parameter
 //                       ^ keyword.operator.assignment
-//                        ^^^^^^^ meta.array.empty
+//                        ^^^^^^^ meta.sequence.array.empty
 //                               ^ punctuation.separator
 //                                 ^^^^^^^^^ meta.path
 //                                 ^^^^^^^^^ support.class
@@ -261,39 +261,42 @@ $a = $b ? : $c::MY_CONST;
 
 $arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
 //      ^^^^^ support.function.construct
-//           ^ punctuation.section.array.begin
+//           ^ punctuation.section.sequence.begin
 //                 ^^^ keyword.operator.spread
 //                    ^^^^^ variable.other
 //                                ^^^ keyword.operator.spread
 //                                             ^ punctuation.separator.comma
-//                                              ^ punctuation.section.array.end
+//                                              ^ punctuation.section.sequence.end
 
 $arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c',];
-//      ^ punctuation.section.array.begin
+//      ^ punctuation.section.sequence.begin
 //          ^ punctuation.separator.comma
 //            ^^^ keyword.operator.spread
 //               ^^^^^ variable.other
 //                           ^^^ keyword.operator.spread
 //                                        ^ punctuation.separator.comma
-//                                         ^ punctuation.section.array.end
+//                                         ^ punctuation.section.sequence.end
 
 $array = [   ];
-//       ^ meta.array.empty.php punctuation.section.array.begin.php
-//           ^ meta.array.empty.php punctuation.section.array.end.php
+//       ^ meta.sequence.array.empty.php punctuation.section.sequence.begin.php
+//           ^ meta.sequence.array.empty.php punctuation.section.sequence.end.php
    [];
-// ^ meta.array.empty.php punctuation.section.array.begin.php
-//  ^ meta.array.empty.php punctuation.section.array.end.php
+// ^ meta.sequence.array.empty.php punctuation.section.sequence.begin.php
+//  ^ meta.sequence.array.empty.php punctuation.section.sequence.end.php
 
 $array = [
-//       ^ meta.array.php punctuation.section.array.begin.php
+//       ^ meta.sequence.array.php punctuation.section.sequence.begin.php
     'abc'   => $arr['key']['key2']
-//                 ^ meta.item-access punctuation.section.brackets.begin.php
-//                  ^^^^^ meta.item-access.arguments
-//                       ^ meta.item-access punctuation.section.brackets.end.php
-//                        ^ meta.item-access.php punctuation.section.brackets.begin.php
-//                         ^^^^^^ meta.item-access.arguments
-//                               ^ meta.item-access punctuation.section.brackets.end.php
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.array.php
+//                 ^^^^^^^^^^^^^^^ meta.item-access.php
+//                 ^ punctuation.section.brackets.begin.php
+//                  ^^^^^ string.quoted.single.php
+//                       ^ punctuation.section.brackets.end.php
+//                        ^ punctuation.section.brackets.begin.php
+//                         ^^^^^^ string.quoted.single.php
+//                               ^ punctuation.section.brackets.end.php
 ];
+// <- meta.sequence.array.php punctuation.section.sequence.end.php
 
 $array[  ];
 //    ^^^^ meta.item-access
@@ -414,11 +417,11 @@ class Foo
 //  ^^ punctuation.definition.attribute.begin
 //    ^^^^^^^^^^^^ meta.path
 //                ^ punctuation.section.group.begin
-//                 ^ punctuation.section.array.begin
+//                 ^ punctuation.section.sequence.begin
 //                  ^^^^^^^^^ string.quoted.double
 //                            ^^ keyword.operator.key
 //                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-//                                                                              ^ punctuation.section.array.end
+//                                                                              ^ punctuation.section.sequence.end
 //                                                                               ^ punctuation.section.group.end
 //                                                                                ^ punctuation.definition.attribute.end
     public $x;

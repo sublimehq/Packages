@@ -346,59 +346,6 @@ contexts:
     - match: \b(?i:function)\b
       scope: keyword.declaration.function.php
 
-  arrays:
-    - match: (array)(\()(\))
-      scope: meta.array.empty.php
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-        3: punctuation.section.array.end.php
-    - match: (\[)\s*(\])
-      scope: meta.array.empty.php
-      captures:
-        1: punctuation.section.array.begin.php
-        2: punctuation.section.array.end.php
-    - match: (array)(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \)
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: punctuation-separators
-        - include: nested-expressions
-    - match: \[
-      scope: punctuation.section.array.begin.php
-      push:
-        - meta_scope: meta.array.php
-        - match: \]
-          scope: punctuation.section.array.end.php
-          pop: 1
-        - include: punctuation-separators
-        - include: nested-expressions
-
-  after-identifier:
-    - include: item-access
-    - match: '(?=\S)'
-      pop: 1
-
-  after-function-call:
-    - include: item-access
-    - match: '(?=\S)'
-      pop: 1
-
-  item-access:
-    - match: '\['
-      scope: meta.item-access.php punctuation.section.brackets.begin.php
-      push:
-        - meta_content_scope: meta.item-access.arguments.php
-        - match: '\]'
-          scope: meta.item-access.php punctuation.section.brackets.end.php
-          pop: 1
-        - include: nested-expressions
-
 ###[ TYPE HINTS ]#############################################################
 
   type-hints:
@@ -1650,11 +1597,11 @@ contexts:
             2: punctuation.accessor.arrow.php
             3: variable.other.member.php
           pop: 1
-        - match: '\['
+        - match: \[
           scope: punctuation.section.brackets.begin.php
           set:
-            - meta_scope: meta.item-access.arguments.php
-            - match: '\]'
+            - meta_scope: meta.item-access.php
+            - match: \]
               scope: punctuation.section.brackets.end.php
               pop: 1
             - include: expression-end-pop
@@ -1672,6 +1619,65 @@ contexts:
         1: punctuation.definition.variable.php
         2: variable.other.php
       push: function-call-arguments
+
+###[ ARRAYS ]#################################################################
+
+  arrays:
+    - match: ((?i:array))(\()(\))
+      scope: meta.sequence.array.empty.php
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.sequence.begin.php
+        3: punctuation.section.sequence.end.php
+    - match: ((?i:array))(\()
+      captures:
+        1: support.function.construct.php
+        2: punctuation.section.sequence.begin.php
+      push: array-function-arguments
+    - match: (\[)\s*(\])
+      scope: meta.sequence.array.empty.php
+      captures:
+        1: punctuation.section.sequence.begin.php
+        2: punctuation.section.sequence.end.php
+    - match: \[
+      scope: punctuation.section.sequence.begin.php
+      push: array-body
+
+  array-function-arguments:
+    - meta_scope: meta.sequence.array.php
+    - match: \)
+      scope: punctuation.section.sequence.end.php
+      pop: 1
+    - include: punctuation-separators
+    - include: nested-expressions
+
+  array-body:
+    - meta_scope: meta.sequence.array.php
+    - match: \]
+      scope: punctuation.section.sequence.end.php
+      pop: 1
+    - include: punctuation-separators
+    - include: nested-expressions
+
+  after-identifier:
+    - include: item-access
+    - include: else-pop
+
+  after-function-call:
+    - include: item-access
+    - include: else-pop
+
+  item-access:
+    - match: \[
+      scope: punctuation.section.brackets.begin.php
+      push: item-access-body
+
+  item-access-body:
+    - meta_scope: meta.item-access.php
+    - match: \]
+      scope: punctuation.section.brackets.end.php
+      pop: 1
+    - include: nested-expressions
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
