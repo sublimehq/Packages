@@ -424,7 +424,7 @@ contexts:
     - include: enums
     - include: interfaces
     - include: namespaces
-    - include: use-statement
+    - include: use-statements
     - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
       captures:
         1: keyword.declaration.trait.php
@@ -761,135 +761,6 @@ contexts:
       pop: 1
     - include: expressions
 
-  use-statement:
-    - match: (?i)\b(use)\b\s*
-      captures:
-        1: keyword.other.use.php
-      push:
-        - meta_scope: meta.use.php
-        - match: \bfunction\b
-          scope: storage.type.php
-          set: use-statement-function
-        - match: \bconst\b
-          scope: storage.type.php
-          set: use-statement-const
-        - match: '(?=\S)'
-          set: use-statement-ns-class
-        # Escape during typing
-        - match: '(?=\n)'
-          pop: 1
-
-  use-statement-common:
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
-    - include: punctuation-separators
-    - match: (?i)\bas\b
-      scope: keyword.other.use-as.php
-
-  use-statement-identifier-class-def:
-    - match: '(?={{path}})'
-      push:
-        - include: attributes
-        - include: comments
-        # We are going to assume the alias is for a class so that the identifier
-        # gets put into the index. This will be incorrect sometimes (because it
-        # will sometimes be a namespace identifier), but the distinction
-        # shouldn't be a huge deal.
-        - match: '(?i)\b(as)\b'
-          scope: keyword.other.use-as.php
-          push:
-            - include: attributes
-            - include: comments
-            - match: '{{identifier}}'
-              scope: entity.name.class.php
-              pop: 1
-            - match: '(?=\S|$\n)'
-              pop: 1
-        - include: identifier-parts-as-path
-        # We don't mark this as entity.name.class since the name is pulled
-        # verbatim and the indexer should find the name in the original source
-        # file.
-        - match: '(\\)?({{identifier}})(?!\\)'
-          scope: meta.path.php
-          captures:
-            1: punctuation.separator.namespace.php
-            2: support.class.php
-        - match: '(?=\S|$\n)'
-          pop: 1
-
-  use-statement-ns-class:
-    - meta_content_scope: meta.use.php
-    - match: (?=;|$\n)
-      pop: 1
-    - match: \{
-      scope: punctuation.section.block.begin.php
-      push:
-        - match: \}
-          scope: punctuation.section.block.end.php
-          pop: 1
-        - include: use-statement-common
-        - include: use-statement-identifier-class-def
-    - include: use-statement-common
-    - include: use-statement-identifier-class-def
-
-  use-statement-identifier-function-def:
-    - match: '(?={{path}})'
-      push:
-        - include: attributes
-        - include: comments
-        - match: '(?i)\b(as)\b'
-          scope: keyword.other.use-as.php
-          push:
-            - include: attributes
-            - include: comments
-            - match: '{{identifier}}'
-              scope: entity.name.function.php
-              pop: 1
-            - match: '(?=\S|$\n)'
-              pop: 1
-        - include: identifier-parts-as-path
-        # We don't mark this as entity.name.function since the name is pulled
-        # verbatim and the indexer should find the name in the original source
-        # file.
-        - match: '(\\)?({{identifier}})(?!\\)'
-          scope: meta.path.php
-          captures:
-            1: punctuation.separator.namespace.php
-            2: support.function.php
-        - match: '(?=\S|$\n)'
-          pop: 1
-
-  use-statement-function:
-    - meta_content_scope: meta.use.php
-    - match: (?=;|$\n)
-      pop: 1
-    - match: \{
-      scope: punctuation.section.block.begin.php
-      push:
-        - match: \}
-          scope: punctuation.section.block.end.php
-          pop: 1
-        - include: use-statement-common
-        - include: use-statement-identifier-function-def
-    - include: use-statement-common
-    - include: use-statement-identifier-function-def
-
-  use-statement-const:
-    - meta_content_scope: meta.use.php
-    - match: (?=;|$\n)
-      pop: 1
-    - match: \{
-      scope: punctuation.section.block.begin.php
-      push:
-        - match: \}
-          scope: punctuation.section.block.end.php
-          pop: 1
-        - include: use-statement-common
-        - include: constants
-    - include: use-statement-common
-    - include: constants
-
 ###[ CLASS DECLARATIONS ]#####################################################
 
   classes:
@@ -936,6 +807,7 @@ contexts:
     - include: else-pop
 
   class-body:
+    # https://www.php.net/manual/en/language.oop5.traits.php
     - meta_scope: meta.class.php meta.block.php
     - match: \}
       scope: punctuation.section.block.end.php
@@ -949,11 +821,10 @@ contexts:
 
   class-use-body:
     - meta_content_scope: meta.use.php
-    - match: (?=;|^\s*$)
-      pop: 1
     - match: \{
       scope: punctuation.section.block.begin.php
       set: class-use-block-body
+    - include: expression-end-pop
     - include: attributes
     - include: comments
     - include: punctuation-separators
@@ -966,17 +837,18 @@ contexts:
       pop: 1
     - match: \b(?i:as)\b
       scope: keyword.other.use-as.php
+      push: use-statement-function-alias
     - match: \b(?i:insteadof)\b
       scope: keyword.other.insteadof.php
-    - match: '::'
-      scope: punctuation.accessor.double-colon.php
+    - match: (::)((?!insteadof|as){{identifier}})?
+      captures:
+        1: punctuation.accessor.double-colon.php
+        2: variable.function.php
     - match: ;
       scope: punctuation.terminator.expression.php
     - include: attributes
     - include: comments
-    - include: class-builtin
-    - include: identifier-parts-as-path
-    - include: identifier-as-path
+    - include: class-names
 
 ###[ ENUM DECLARATIONS ]######################################################
 
@@ -1273,6 +1145,135 @@ contexts:
       push: block
     - include: statements
 
+###[ USE STATEMENTS ]#########################################################
+
+  use-statements:
+    - match: \b(?i:use)\b
+      scope: keyword.other.use.php
+      push: use-statement-body
+
+  use-statement-body:
+    - meta_scope: meta.use.php
+    - include: comments
+    - match: (?i:const)\b
+      scope: storage.modifier.php
+      set: use-statement-const
+    - match: (?i:function)\b
+      scope: keyword.declaration.function.php
+      set: use-statement-function
+    - match: (?=\S)
+      set: use-statement-ns-class
+
+
+  use-statement-const:
+    - meta_content_scope: meta.use.php
+    - match: \{
+      scope: punctuation.section.sequence.begin.php
+      push: use-statement-const-body
+    - include: use-statement-const-common
+
+  use-statement-const-body:
+    - meta_scope: meta.sequence.list.php
+    - match: \}
+      scope: punctuation.section.sequence.end.php
+      pop: 1
+    - include: use-statement-const-common
+
+  use-statement-const-common:
+    - match: \b(?i:as)\b
+      scope: keyword.other.use-as.php
+      push: use-statement-const-alias
+    - include: use-statement-common
+    - include: punctuation-separators
+    # Don't mark this as entity.name.constant since the name is pulled verbatim
+    # and the indexer should find the name in the original source file.
+    - include: constants
+
+  use-statement-const-alias:
+    - include: use-statement-common
+    - match: '{{identifier}}'
+      scope: entity.name.constant.php
+      pop: 1
+    - include: else-pop
+
+
+  use-statement-function:
+    - meta_content_scope: meta.use.php
+    - match: \{
+      scope: punctuation.section.sequence.begin.php
+      push: use-statement-function-body
+    - include: use-statement-function-common
+
+  use-statement-function-body:
+    - meta_scope: meta.sequence.list.php
+    - match: \}
+      scope: punctuation.section.sequence.end.php
+      pop: 1
+    - include: use-statement-function-common
+
+  use-statement-function-common:
+    - match: \b(?i:as)\b
+      scope: keyword.other.use-as.php
+      push: use-statement-function-alias
+    - include: use-statement-common
+    - include: punctuation-separators
+    - include: identifier-parts-as-path
+    # Don't mark this as entity.name.function since the name is pulled verbatim
+    # and the indexer should find the name in the original source file.
+    - match: (\\)?({{identifier}})
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.function.php
+
+  use-statement-function-alias:
+    - include: use-statement-common
+    - match: '{{identifier}}'
+      scope: entity.name.function.php
+      pop: 1
+    - include: else-pop
+
+
+  use-statement-ns-class:
+    - meta_content_scope: meta.use.php
+    - match: \{
+      scope: punctuation.section.sequence.begin.php
+      push: use-statement-ns-class-body
+    - include: use-statement-ns-class-common
+
+  use-statement-ns-class-body:
+    - meta_scope: meta.sequence.list.php
+    - match: \}
+      scope: punctuation.section.sequence.end.php
+      pop: 1
+    - include: use-statement-ns-class-common
+
+  use-statement-ns-class-common:
+    # We are going to assume the alias is for a class so that the identifier
+    # gets put into the index. This will be incorrect sometimes (because it
+    # will sometimes be a namespace identifier), but the distinction
+    # shouldn't be a huge deal.
+    - match: \b(?i:as)\b
+      scope: keyword.other.use-as.php
+      push: use-statement-ns-class-alias
+    - include: use-statement-common
+    - include: punctuation-separators
+    - include: class-names
+
+  use-statement-ns-class-alias:
+    - include: use-statement-common
+    - match: '{{identifier}}'
+      scope: entity.name.class.php
+      pop: 1
+    - include: else-pop
+
+  use-statement-common:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+
+###[ COMMENTS ]###############################################################
+
   comments:
     # This only highlights a docblock if the first line contains only /** or
     # /**#@+ (which is used for docblock templates). Otherwise block-level
@@ -1497,8 +1498,7 @@ contexts:
             - include: expression-end-pop
             - include: numbers
             - include: variables
-            - match: '{{identifier}}'
-              scope: constant.other.php
+            - include: constants
         - include: variables-no-item-access
     - include: variables
 
@@ -1598,12 +1598,6 @@ contexts:
     - include: function-call-arguments-body
 
 ###[ CLASSES ]################################################################
-
-  class-builtin:
-    - match: (\\)?({{builtin_classes}})
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.class.builtin.php
 
   class-names:
     - match: \\|(?={{identifier}}\\)
@@ -3068,12 +3062,6 @@ contexts:
         2: support.other.namespace.php
         3: punctuation.separator.namespace.php
 
-  identifier-as-path:
-    - match: (\\)?{{identifier}}
-      scope: meta.path.php
-      captures:
-        1: punctuation.separator.namespace.php
-
   qualifiers:
     - match: ({{identifier}})(\\)
       captures:
@@ -3090,6 +3078,10 @@ contexts:
 
   else-pop:
     - match: (?=\S)
+      pop: 1
+
+  eol-pop:
+    - match: $
       pop: 1
 
   expression-end-pop:
