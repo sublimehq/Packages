@@ -316,68 +316,105 @@ $var?->meth()[10];
 //^^^^^^^^^^^^^^^^^^^ comment
 
   #[WithoutArgument]
-//^^^^^^^^^^^^^^^^^^ meta.attribute - comment
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^^ meta.path
-//                 ^ punctuation.definition.attribute.end
+//^^^^^^^^^^^^^^^^^^ meta.attribute.php - comment
+//                  ^ - meta.attribute
+//^^ punctuation.definition.attribute.begin.php
+//  ^^^^^^^^^^^^^^^ meta.path.php support.class.php
+//                 ^ punctuation.definition.attribute.end.php
   #[WithoutArgument()]
-//^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^^ meta.path
-//                 ^^ meta.function-call
+//^^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
+//                 ^^ meta.attribute.arguments.php meta.group.php
+//                   ^ meta.attribute.php - meta.group
+//                    ^ - meta.attribute
+//^^ punctuation.definition.attribute.begin.php
+//  ^^^^^^^^^^^^^^^ meta.path.php support.class.php
+//                 ^ punctuation.section.group.begin.php
+//                  ^ punctuation.section.group.end.php
 //                   ^ punctuation.definition.attribute.end
   #[SingleArgument(0)]
-//^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^ meta.path
-//                ^ punctuation.section.group.begin
-//                 ^ constant.numeric
-//                  ^ punctuation.section.group.end
+//^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
+//                ^^^ meta.attribute.arguments.php meta.group.php
+//                   ^ meta.attribute.php - meta.group
+//                    ^ - meta.attribute
+//^^ punctuation.definition.attribute.begin.php
+//  ^^^^^^^^^^^^^^ meta.path.php support.class.php
+//                ^ punctuation.section.group.begin.php
+//                 ^ constant.numeric.value.php
+//                  ^ punctuation.section.group.end.php
 //                   ^ punctuation.definition.attribute.end
   #[FewArguments('Hello', 'World')]
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^ meta.path
-//              ^ punctuation.section.group.begin
-//               ^^^^^^^ string.quoted
-//                      ^ punctuation.separator
-//                        ^^^^^^^ string.quoted
-//                               ^ punctuation.section.group.end
-//                                ^ punctuation.definition.attribute.end
+//^^^^^^^^^^^^^^ meta.attribute.php - meta.group
+//              ^^^^^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php
+//                                ^ meta.attribute.php - meta.group
+//                                 ^ - meta.attribute
+//^^ punctuation.definition.attribute.begin.php
+//  ^^^^^^^^^^^^ meta.path.php support.class.php
+//              ^ punctuation.section.group.begin.php
+//               ^^^^^^^ string.quoted.single.php
+//                      ^ punctuation.separator.comma.php
+//                        ^^^^^^^ string.quoted.single.php
+//                               ^ punctuation.section.group.end.php
+//                                ^ punctuation.definition.attribute.end.php
   #[FewArguments(PDO::class, PHP_VERSION_ID), SecondOne(0)]
+//^^^^^^^^^^^^^^ meta.attribute.php - meta.group
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php
+//                                          ^^^^^^^^^^^ meta.attribute.php - meta.group
+//                                                     ^^^ meta.attribute.arguments.php meta.group.php
+//                                                        ^ meta.attribute.php - meta.group
+//                                                         ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^ meta.path
-//              ^ punctuation.section.group.begin
-//               ^^^ support.class
-//                  ^^ punctuation.accessor
-//                         ^ punctuation.separator
-//                           ^^^^^^^^^^^^^^ support.constant
-//                                         ^ punctuation.section.group.end
-//                                             ^^^^^^^^ support.class
-//                                                     ^ punctuation.section.group.begin
-//                                                      ^ constant.numeric
-//                                                       ^ punctuation.section.group.end
-//                                                        ^ punctuation.definition.attribute.end
+//  ^^^^^^^^^^^^ meta.path.php support.class.php
+//              ^ punctuation.section.group.begin.php
+//               ^^^ support.class.builtin.php
+//                  ^^ punctuation.accessor.double-colon.php
+//                    ^^^^^ constant.class.php
+//                         ^ punctuation.separator.comma.php
+//                           ^^^^^^^^^^^^^^ support.constant.core.php
+//                                         ^ punctuation.section.group.end.php
+//                                          ^ punctuation.separator.comma.php
+//                                            ^^^^^^^^^ support.class.php
+//                                                     ^ punctuation.section.group.begin.php
+//                                                      ^ constant.numeric.value.php
+//                                                       ^ punctuation.section.group.end.php
+//                                                        ^ punctuation.definition.attribute.end.php
   #[\My\Attributes\FewArguments("foo", "bar")]
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ meta.attribute.php - meta.path - meta.group
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.php meta.path.php - meta.group
+//                             ^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php - meta.path
+//                                           ^ meta.attribute.php - meta.group
+//                                            ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path
-//                             ^ punctuation.section.group.begin
-//                              ^^^^^ string.quoted
-//                                   ^ punctuation.separator
-//                                     ^^^^^ string.quoted
-//                                          ^ punctuation.section.group.end
-//                                           ^ punctuation.definition.attribute.end
+//  ^ punctuation.separator.namespace.php
+//   ^^ support.other.namespace.php
+//     ^ punctuation.separator.namespace.php
+//      ^^^^^^^^^^ support.other.namespace.php
+//                ^ punctuation.separator.namespace.php
+//                 ^^^^^^^^^^^^ support.class.php
+//                             ^ punctuation.section.group.begin.php
+//                              ^^^^^ string.quoted.double.php
+//                                   ^ punctuation.separator.comma.php
+//                                     ^^^^^ string.quoted.double.php
+//                                          ^ punctuation.section.group.end.php
+//                                           ^ punctuation.definition.attribute.end.php
 /** docblock */
 // <- comment.block
   #[BitShiftExample(4 >> 1, 4 << 1)]
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
+//                 ^^^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php
+//                                 ^ meta.attribute.php - meta.group
+//                                  ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin
-//                    ^^ keyword.operator.bitwise
-//                            ^^ keyword.operator.bitwise
-//                                 ^ punctuation.definition.attribute.end
+//  ^^^^^^^^^^^^^^^ support.class.php
+//                 ^ punctuation.section.group.begin.php
+//                  ^ constant.numeric.value.php
+//                    ^^ keyword.operator.bitwise.php
+//                       ^ constant.numeric.value.php
+//                        ^ punctuation.separator.comma.php
+//                          ^ constant.numeric.value.php
+//                            ^^ keyword.operator.bitwise.php
+//                               ^ constant.numeric.value.php
+//                                ^ punctuation.section.group.end.php
+//                                 ^ punctuation.definition.attribute.end.php
 function foo() {}
 // <- keyword.declaration.function
 

@@ -409,32 +409,6 @@ contexts:
       pop: 1
     - include: immediately-pop
 
-  attributes:
-    # https://wiki.php.net/rfc/attributes_v2
-    # https://wiki.php.net/rfc/attribute_amendments
-    # https://wiki.php.net/rfc/shorter_attribute_syntax
-    # https://wiki.php.net/rfc/shorter_attribute_syntax_change
-    - match: '#\['
-      scope: punctuation.definition.attribute.begin.php
-      push:
-        - meta_scope: meta.attribute.php
-        - include: class-name
-        - match: \(
-          scope: punctuation.section.group.begin.php
-          push:
-            - meta_scope: meta.attribute.php meta.function-call.php meta.group.php
-            - match: \)
-              scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
-              pop: 1
-            - include: punctuation-separators
-            - include: function-call-named-arguments
-            - include: nested-expressions
-        - match: \]
-          scope: punctuation.definition.attribute.end.php
-          pop: 1
-        - include: punctuation-separators
-        - include: expression-end-pop
-
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
@@ -1678,6 +1652,36 @@ contexts:
       scope: punctuation.section.brackets.end.php
       pop: 1
     - include: nested-expressions
+
+###[ ATTRIBUTES ]#############################################################
+
+  attributes:
+    # https://wiki.php.net/rfc/attributes_v2
+    # https://wiki.php.net/rfc/attribute_amendments
+    # https://wiki.php.net/rfc/shorter_attribute_syntax
+    # https://wiki.php.net/rfc/shorter_attribute_syntax_change
+    - match: \#\[
+      scope: punctuation.definition.attribute.begin.php
+      push: attribute-body
+
+  attribute-body:
+    - meta_scope: meta.attribute.php
+    - match: \]
+      scope: punctuation.definition.attribute.end.php
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      push: attribute-arguments-body
+    - include: punctuation-separators
+    - include: class-name
+    - include: expression-end-pop
+
+  attribute-arguments-body:
+    - clear_scopes: 1
+    - meta_scope: meta.attribute.arguments.php meta.group.php
+    - include: function-call-arguments-body
+
+###[ LITERALS ]###############################################################
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
