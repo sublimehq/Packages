@@ -1063,6 +1063,15 @@ let x: ( ... foo : any ) => any;
 //               ^ punctuation.separator.type
 //                 ^^^ support.type.any
 
+let x: < T > ( ... foo : any ) => any;
+//     ^^^^^ meta.generic
+//       ^ variable.parameter.generic
+//           ^^^^^^^^^^^^^^^^^ meta.group
+//             ^^^ keyword.operator.spread
+//                 ^^^ variable.parameter
+//                     ^ punctuation.separator.type
+//                       ^^^ support.type.any
+
 let x: () => T
     U
 //  ^ variable.other.constant - meta.type

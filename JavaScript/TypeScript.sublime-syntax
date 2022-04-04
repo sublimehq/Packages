@@ -822,8 +822,6 @@ contexts:
             - ts-type-expression-begin
 
   ts-type-expression-begin:
-    - match: (?=<)
-      pop: 3
     - match: keyof{{identifier_break}}
       scope: keyword.operator.type.js
     - match: typeof{{identifier_break}}
@@ -861,6 +859,11 @@ contexts:
     - include: ts-type-special
     - include: ts-type-primitive
     - include: ts-type-basic
+
+    - match: (?=\<)
+      set:
+        - ts-type-function
+        - ts-type-parameter-list
 
     - match: (?=\()
       pop: true
