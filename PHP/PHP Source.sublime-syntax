@@ -54,8 +54,8 @@ contexts:
     - include: statements
 
   statements:
-    - include: class
-    - include: enum
+    - include: classes
+    - include: enums
     - include: use-statement
     - match: '(?i)^\s*(interface)\s+({{identifier}})\s*'
       captures:
@@ -407,38 +407,68 @@ contexts:
           pop: 1
         - include: nested-expressions
 
+###[ TYPE HINTS ]#############################################################
+
+  type-hints:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: (?=(?:\?\s*)?{{path}})
+      push:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: '(?=(?:\?\s*)?{{path}})'
+    - match: (?=(?:\?\s*)?{{path}})
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
+  type-hint-body:
+    - meta_scope: meta.type.php
+    - match: \|(?!\s*\$)
+      scope: punctuation.separator.type.union.php
       push:
-        - match: (?=(?i:implements|extends)\b)
-          pop: 1
-        - match: \?
-          scope: storage.type.nullable.php
-        - match: \|
-          scope: punctuation.separator.type.union.php
-        - match: '&(?!\s*\$)'
-          scope: punctuation.separator.type.intersection.php
-        # note that
-        #   - "callable", "never" and "void" are not allowed in property type
-        #   - "false" and "null" are only working in unioned type
-        # but we allow them as general types for simplifying syntax definition
-        - match: |-
-            \b(?xi:
-              array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self | static |
-              mixed | never
-            )\b
-          scope: storage.type.php
-        - include: class-builtin
-        - include: identifier-parts-as-path
-        - match: '(\\)?({{identifier}})(?!\\)'
-          scope: meta.path.php
-          captures:
-            1: punctuation.separator.namespace.php
-            2: support.class.php
-        - match: (?=\S)
-          pop: 1
+        - type-hint-simple-type
+        - type-hint-nullable
+    - match: '&(?!\s*\$)'
+      scope: punctuation.separator.type.intersection.php
+      push:
+        - type-hint-nullable
+        - type-hint-simple-type
+    - include: else-pop
+
+  type-hint-nullable:
+    - match: \?
+      scope: storage.type.nullable.php
+      set: else-pop
+    - include: else-pop
+
+  type-hint-simple-type:
+    # note that
+    #   - "callable", "never" and "void" are not allowed in property type
+    #   - "false" and "null" are only working in unioned type
+    # but we allow them as general types for simplifying syntax definition
+    - match: |-
+        \b(?xi:
+          array | bool | callable | double | float | int | iterable | object
+        | string | false | null | void | parent | self | static | mixed | never
+        )\b
+      scope: storage.type.php
+      pop: 1
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - include: expression-end-pop
+    - include: class-builtin
+    - include: identifier-parts-as-path
+    - match: (\\)?({{identifier}})
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.php
+      pop: 1
+    - include: immediately-pop
 
   attributes:
     # https://wiki.php.net/rfc/attributes_v2
@@ -658,77 +688,9 @@ contexts:
     - include: use-statement-common
     - include: identifier-constant-pop
 
-  enum:
-    - match: (?i)\b(enum)\s+({{identifier}})\s*
-      scope: meta.enum.php
-      captures:
-        1: keyword.declaration.enum.php
-        2: entity.name.enum.php
-      push: enum-definition
+###[ CLASS DECLARATIONS ]#####################################################
 
-  enum-definition:
-    - meta_content_scope: meta.enum.php
-    - match: (?=;)
-      pop: 1
-    - match: ':'
-      scope: punctuation.separator.colon.php
-      push:
-        - match: (?={{path}})
-          set:
-            - meta_scope: meta.path.php
-            - match: (?=(?i:implements|extends)\b)
-              pop: 1
-            - include: type-hint
-            - match: (?=\S)
-              pop: 1
-        - match: (?=\S)
-          pop: 1
-    - match: \{
-      scope: punctuation.section.block.begin.php
-      set: enum-body
-    - include: attributes
-    - include: comments
-    - match: (?i)(extends)\b
-      scope: invalid.illegal.disallowed.php
-    - match: (?i)(implements)\b\s*
-      captures:
-        1: storage.modifier.implements.php
-      push:
-        - include: attributes
-        - include: comments
-        - match: (?={{path}})
-          push:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: (\\)?{{identifier}}(?!\\)
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: (?=\S)
-              pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
-        - match: (?=\S)
-          pop: 1
-
-  enum-body:
-    - meta_scope: meta.enum.php meta.block.php
-    - match: \b(?i:case)\b
-      scope: keyword.control.php
-      push: constant-name
-    - include: class-body
-
-  constant-name:
-    - include: attributes
-    - include: comments
-    - match: '{{identifier}}'
-      scope: entity.name.constant.php
-      pop: true
-    - match: (?=\S)
-      pop: true
-
-  class:
+  classes:
     - match: (?i)\b((?:abstract|final)\s+)?(class)\s+({{identifier}})
       scope: meta.class.php
       captures:
@@ -828,6 +790,58 @@ contexts:
     - include: identifier-parts-as-path
     - include: identifier-as-path
 
+###[ ENUM DECLARATIONS ]######################################################
+
+  enums:
+    - match: (?i)\b(enum)\s+({{identifier}})
+      scope: meta.enum.php
+      captures:
+        1: keyword.declaration.enum.php
+        2: entity.name.enum.php
+      push:
+        - enum-definition
+        - enum-type-hint
+
+  enum-type-hint:
+    - match: ':'
+      scope: punctuation.separator.colon.php
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+    - include: else-pop
+
+  enum-definition:
+    - meta_content_scope: meta.enum.php
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: enum-body
+    - match: (?i:extends)\b
+      scope: invalid.illegal.disallowed.php
+    - match: (?i:implements)\b
+      scope: storage.modifier.implements.php
+      push: class-implements
+
+  enum-body:
+    - meta_scope: meta.enum.php meta.block.php
+    - match: (?i:case)\b
+      scope: keyword.control.php
+      push: constant-name
+    - include: class-body
+
+  constant-name:
+    - include: attributes
+    - include: comments
+    - match: '{{identifier}}'
+      scope: entity.name.constant.php
+      set: nested-expressions
+    - include: else-pop
+
+###[ TYPED PROPERTIES ]#######################################################
+
   typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
     - match: (?=\b(?:{{visibility_modifier}}|static|readonly)\b)
@@ -836,7 +850,7 @@ contexts:
           pop: 1
         - match: \b(?:{{visibility_modifier}}|static|readonly)\b
           scope: storage.modifier.php
-        - include: type-hint
+        - include: type-hints
         # Exit on unexpected content
         - match: (?=\S)
           pop: 1
@@ -956,7 +970,7 @@ contexts:
     - include: attributes
     - include: comments
     # Class name type hint
-    - include: type-hint
+    - include: type-hints
     - match: '\.\.\.'
       scope: keyword.operator.spread.php
     - match: '&'
@@ -1007,7 +1021,7 @@ contexts:
       set: function-body
     - match: ':'
       scope: punctuation.separator.colon.php
-    - include: type-hint
+    - include: type-hints
     # Exit on unexpected content
     - match: (?=\S)
       pop: 1
