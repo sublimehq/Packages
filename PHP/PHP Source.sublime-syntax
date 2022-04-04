@@ -12,6 +12,7 @@ variables:
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
 
+  function_modifier: (?i:abstract|final|static|{{visibility_modifier}})\b
   property_modifier: (?i:readonly|static|{{visibility_modifier}})\b
   visibility_modifier: (?i:var|public|private|protected)\b
 
@@ -452,7 +453,7 @@ contexts:
     - include: interfaces
     - include: namespaces
     - include: traits
-    - include: function
+    - include: functions
     - include: properties
     - include: use-statements
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
@@ -571,8 +572,8 @@ contexts:
             2: punctuation.definition.variable.php
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
-    - include: arrow-function
-    - include: closure
+    - include: arrow-functions
+    - include: closures
     - include: invoke-function-calls
     - match: |-
         (?x)\s*(?=
@@ -645,8 +646,7 @@ contexts:
     - include: function-calls
     - match: \?\?
       scope: keyword.operator.null-coalescing.php
-    - match: \.\.\.
-      scope: keyword.operator.spread.php
+    - include: spread-operators
     - match: \.
       scope: keyword.operator.string.php
     - match: \?
@@ -686,8 +686,6 @@ contexts:
     # fallback patterns incase no other expression matches
     - match: \b(?i:class)\b
       scope: keyword.declaration.class.php
-    - match: \b(?i:function)\b
-      scope: keyword.declaration.function.php
 
 ###[ COMMENTS ]###############################################################
 
@@ -1091,183 +1089,204 @@ contexts:
     - include: type-hint
     - include: else-pop
 
-###[ FUNCTION DECLARATIONS ]##################################################
-
-  function:
-    - match: (?i)(?=(?:\b(?:final|abstract|{{visibility_modifier}}|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
-      push:
-        - meta_content_scope: meta.function.php
-        - include: attributes
-        - include: comments
-        - match: '(?i)\b(final|abstract|{{visibility_modifier}}|static)\b'
-          scope: storage.modifier.php
-        - match: (?i)\bfunction\b
-          scope: keyword.declaration.function.php
-        - match: '&'
-          scope: storage.modifier.reference.php
-        # https://wiki.php.net/rfc/constructor_promotion
-        - match: __construct\b
-          scope: entity.name.function.php support.function.magic.php
-          push:
-            - match: (?=\()
-              set:
-                - match: \(
-                  scope: punctuation.section.group.begin.php
-                  set:
-                    - meta_scope: meta.function.parameters.php meta.group.php
-                    - match: '(?i){{visibility_modifier}}|\breadonly\b'
-                      scope: storage.modifier.php
-                    - include: function-parameters
-            # Exit on unexpected content
-            - match: (?=\S)
-              pop: 1
-        - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))\b'
-          scope: entity.name.function.php support.function.magic.php
-        - match: '{{identifier}}'
-          scope: entity.name.function.php
-        # Lookahead is used here to prevent doubling up of meta.function and meta.function.parameters
-        - match: (?=\()
-          set:
-            - match: \(
-              scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
-              set: function-parameters
-        # Exit on unexpected content
-        - include: else-pop
+###[ ARROW FUNCTION DECLARATIONS ]############################################
 
   # https://wiki.php.net/rfc/arrow_functions_v2
-  arrow-function:
+  arrow-functions:
     # "fn" can be a function name before PHP 7.4
     # Since PHP 7.4, "fn" is a reserved word
-    - match: (?i)(?=\bfn\b\s*&?\s*\()
+    - match: (?=\b(?i:fn)\s*(?:&\s*)?\()
       branch_point: arrow-function-branch
       branch:
         # Anonymous function definition: fn($a) => $a * 2;
-        - is-arrow-function
+        - maybe-arrow-function
         # Function call, where "fn" is the function name: fn($a);
         - fn-function-call
 
-  is-arrow-function:
-    - match: (?i)\b(fn)\b\s*(&)?\s*(?=\()
-      scope: meta.function.arrow-function.php
+  maybe-arrow-function:
+    - match: ((?i:fn))\s*(?:(&)\s*)?
       captures:
         1: keyword.declaration.function.php
         2: storage.modifier.reference.php
-      push:
-        - match: \(
-          scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
-          push: function-parameters
-        - match: '=>'
-          scope: punctuation.definition.arrow-function.php
-          set:
-            - match: '(?=;|,|\)|\s*\?>)'
-              pop: 2
-            - include: expressions
-        - include: attributes
-        - include: comments
-        - match: (?=\S)
-          fail: arrow-function-branch
+      set:
+        - arrow-function-body
+        - arrow-function-or-fail
+        - arrow-function-parameters
+
+  arrow-function-parameters:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: arrow-function-parameters-body
+    - include: else-pop
+
+  arrow-function-parameters-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.anonymous.parameters.php meta.group.php
+    - include: function-parameters-body
+
+  arrow-function-or-fail:
+    - include: comments
+    - match: =>
+      scope: keyword.declaration.function.arrow.php
+      pop: 1
+    - match: (?=\S)
+      fail: arrow-function-branch
+
+  arrow-function-body:
+    - meta_scope: meta.function.anonymous.php
+    - match: (?=;|,|\)|\s*\?>)
+      pop: 1
+    - include: expressions
 
   fn-function-call:
     - include: function-calls
     - include: immediately-pop
 
-  closure:
-    - match: (?i)\b(function)\s*(&)?\s*(?=\()
-      scope: meta.function.closure.php
+  closures:
+    - match: \b((?i:function))\s*(?:(&)\s*)?(?=\()
+      scope: meta.function.php
       captures:
         1: keyword.declaration.function.php
         2: storage.modifier.reference.php
       push:
-        - match: \(
-          scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
-          set: function-parameters
+        - function-block
+        - function-return-type
+        - function-use
+        - function-parameters
+    - match: \b(?i:function)\b
+      scope: keyword.declaration.function.php
 
-  function-parameters:
-    - meta_scope: meta.function.parameters.php meta.group.php
-    - include: expression-end-pop
-    - match: \)
-      scope: punctuation.section.group.end.php
-      set:
-        - meta_scope: meta.function.php
-        - match: '\b(use)\b\s*(\()'
-          scope: meta.function.closure.use.php
-          captures:
-            1: keyword.other.function.use.php
-            2: punctuation.section.group.begin.php
-          set: function-use
-        - match: (?=:)
-          set: function-return-type
-        - match: \{
-          scope: meta.block.php punctuation.section.block.begin.php
-          set: function-body
-        # Exit on unexpected content
-        - include: else-pop
+###[ FUNCTION DECLARATIONS ]##################################################
+
+  functions:
+    - match: (?=\b(?:{{function_modifier}}\s+)*(?i:function)\s*(?:&\s*|\b){{identifier_start}})
+      push:
+        - function-block
+        - function-return-type
+        - function-use
+        - function-decl-name
+        - function-modifier
+
+  function-modifier:
+    - match: '{{function_modifier}}'
+      scope: storage.modifier.php
+    - match: (?i:function)\b
+      scope: keyword.declaration.function.php
+      pop: 1
     - include: attributes
     - include: comments
-    # Class name type hint
+    - include: else-pop
+
+  function-decl-name:
+    - include: reference-modifiers
+    # https://wiki.php.net/rfc/constructor_promotion
+    - match: __construct\b
+      scope: entity.name.function.constructor.php support.function.magic.php
+      set: constructor-parameters
+    - match: __destruct\b
+      scope: entity.name.function.destructor.php support.function.magic.php
+      set: function-parameters
+    - match: __(?:callStatic|call|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo)\b
+      scope: entity.name.function.php support.function.magic.php
+      set: function-parameters
+    - match: '{{identifier}}'
+      scope: entity.name.function.php
+      set: function-parameters
+    # fail gracefully if function name is missing
+    - match: (?=\S)
+      set: function-parameters
+
+  constructor-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: constructor-parameters-body
+    - include: else-pop
+
+  constructor-parameters-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.php meta.group.php
+    - match: (?i){{visibility_modifier}}|readonly\b
+      scope: storage.modifier.php
+    - include: function-parameters-body
+
+  function-parameters:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: function-parameters-body
+    - include: else-pop
+
+  function-parameters-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.php meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - match: =
+      scope: keyword.operator.assignment.php
+      push: function-call-argument-value
+    - include: function-parameters-common
+    - include: spread-operators
     - include: type-hints
-    - match: '\.\.\.'
-      scope: keyword.operator.spread.php
-    - match: '&'
-      scope: storage.modifier.reference.php
+
+  function-use:
+    - match: (?i:use)(?=\s*\()
+      scope: meta.function.use.php keyword.other.function.use.php
+      set: function-use-group
+    - include: else-pop
+
+  function-use-group:
+    - clear_scopes: 1
+    - meta_content_scope: meta.function.use.php
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: function-use-group-body
+    - include: else-pop
+
+  function-use-group-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.use.php meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - include: function-parameters-common
+
+  function-parameters-common:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - include: punctuation-separators
+    - include: reference-modifiers
     - match: (\$+){{identifier}}
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
-    - include: punctuation-separators
-    - match: '='
-      scope: keyword.operator.assignment.php
-      push:
-        - match: (?=,|\))
-          pop: 1
-        - include: nested-expressions
-
-  function-use:
-    - meta_scope: meta.function.closure.use.php
-    - include: attributes
-    - include: comments
-    - match: \)
-      scope: punctuation.section.group.end.php
-      set:
-        - meta_scope: meta.function.php
-        - match: '(?=:)'
-          set: function-return-type
-        - match: \{
-          scope: meta.block.php punctuation.section.block.begin.php
-          set: function-body
-        # Exit on unexpected content
-        - include: else-pop
-    - match: '&'
-      scope: storage.modifier.reference.php
-    - match: '(\$+){{identifier}}'
-      scope: variable.parameter.php
-      captures:
-        1: punctuation.definition.variable.php
-    - include: punctuation-separators
 
   function-return-type:
-    - meta_scope: meta.function.return-type.php
-    - include: expression-end-pop
-    - match: \{
-      scope: meta.block.php punctuation.section.block.begin.php
-      set: function-body
     - match: ':'
       scope: punctuation.separator.colon.php
-    - include: type-hints
-    # Exit on unexpected content
-    - match: (?=\S)
-      pop: 1
+      set:
+        - function-return-type-body
+        - type-hint-simple-type
+        - type-hint-nullable
+    - include: else-pop
 
-  function-body:
-    - meta_scope: meta.function.php meta.block.php
-    - match: \}
-      scope: punctuation.section.block.end.php
-      pop: 1
-    - include: embedded-html
+  function-return-type-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.return-type.php
+    - include: type-hint-body
+
+  function-block:
+    - meta_content_scope: meta.function.php
     - match: \{
       scope: punctuation.section.block.begin.php
-      push: block
-    - include: statements
+      set: function-block-body
+    - include: else-pop
+
+  function-block-body:
+    - meta_scope: meta.function.php meta.block.php
+    - include: block
 
 ###[ FOR STATEMENTS ]#########################################################
 
@@ -3141,9 +3160,17 @@ contexts:
 
 ###[ OPERATORS ]##############################################################
 
+  spread-operators:
+    - match: \.\.\.
+      scope: keyword.operator.spread.php
+
   punctuation-separators:
     - match: ','
       scope: punctuation.separator.comma.php
+
+  reference-modifiers:
+    - match: '&'
+      scope: storage.modifier.reference.php
 
 ###[ PROTOTYPES ]#############################################################
 

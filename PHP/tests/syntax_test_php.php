@@ -253,23 +253,55 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                                                   ^ punctuation.section.sequence.end.php
 //                                                    ^ punctuation.terminator.expression.php
 
+/**
+ * Function Definition Tests
+ */
+
+function
+// <- keyword.declaration.function.php
+
+function a
+// <- meta.function.php keyword.declaration.function.php
+//^^^^^^^^^ meta.function.php
+//^^^^^^ keyword.declaration.function.php
+//       ^ entity.name.function.php
 
 function a($a = array(),             $b = "hi") {};
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//       ^ entity.name.function
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group
-//        ^ punctuation.section.group.begin
-//                                            ^ punctuation.section.group.end
+//^^^^^^^^ meta.function.php
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.php meta.group.php
+//                                             ^ meta.function.php - meta.block - meta.group
+//                                              ^^ meta.function.php meta.block.php
+//^^^^^^ keyword.declaration.function.php
+//       ^ entity.name.function.php
+//        ^ punctuation.section.group.begin.php
+//         ^^ variable.parameter.php
+//            ^ keyword.operator.assignment.php
+//              ^^^^^^^ meta.sequence.array.empty.php
+//              ^^^^^ support.function.construct.php
+//                   ^ punctuation.section.sequence.begin.php
+//                    ^ punctuation.section.sequence.end.php
+//                     ^ punctuation.separator.comma.php
+//                                   ^^ variable.parameter.php
+//                                      ^ keyword.operator.assignment.php
+//                                        ^^^^ meta.string.php string.quoted.double.php
+//                                            ^ punctuation.section.group.end.php
+//                                              ^ punctuation.section.block.begin.php
+//                                               ^ punctuation.section.block.end.php
+//                                                ^ punctuation.terminator.expression.php
+
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
 //                    ^ meta.sequence.array.empty
 //                          ^ punctuation.section.sequence.end
+
 function d(array $a = [],            $b = "hi") {};
 //                    ^ punctuation.section.sequence.begin
 //                     ^ punctuation.section.sequence.end
+
 function e(array $a = [1, 2, 3, 4],  $b = "hi") {};
 //                    ^ punctuation.section.sequence.begin
 //                               ^ punctuation.section.sequence.end
+
 function f(array $a = null,          $b = "hi") {};
 function i(
     $a,
@@ -282,59 +314,118 @@ function i(
 
 function array_values_from_keys($arr, $keys) {
     return array_map(fn($x) => $arr[$x], $keys, fn($x) => $arr[$x]);
-//                   ^^ meta.function.arrow-function keyword.declaration.function
-//                     ^ punctuation.section.group.begin
-//                      ^^ variable.parameter
-//                        ^ punctuation.section.group.end
-//                          ^^ punctuation.definition.arrow-function.php
+//         ^^^^^^^^^ meta.function-call.php
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//                   ^^ meta.function.anonymous.php
+//                     ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//                         ^^^^^^^^^^^^ meta.function.anonymous.php
+//                                     ^^^^^^^^^ - meta.function.anonymous
+//                                              ^^ meta.function.anonymous.php
+//                                                ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//                                                    ^^^^^^^^^^^^ meta.function.anonymous.php
+//                                                                ^ - meta.function.anonymous
+//                                                                 ^ - meta.function-call
+//                   ^^ keyword.declaration.function.php
+//                     ^ punctuation.section.group.begin.php
+//                      ^^ variable.parameter.php
+//                        ^ punctuation.section.group.end.php
+//                          ^^ keyword.declaration.function.arrow.php
+//                                     ^ punctuation.separator.comma.php
+//                                              ^^ keyword.declaration.function.php
+//                                                ^ punctuation.section.group.begin.php
+//                                                 ^^ variable.parameter.php
+//                                                   ^ punctuation.section.group.end.php
+//                                                     ^^ keyword.declaration.function.arrow.php
+//                                                                ^ punctuation.section.group.end.php
+//                                                                 ^ punctuation.terminator.expression.php
 }
 
 $fn = fn($x) => fn($y) => $x * $y + $z;
-//    ^^ meta.function.arrow-function keyword.declaration.function
-//      ^ punctuation.section.group.begin
-//       ^^ variable.parameter
-//         ^ punctuation.section.group.end
-//           ^^ punctuation.definition.arrow-function.php
-//              ^^ meta.function.arrow-function keyword.declaration.function
-//                ^ punctuation.section.group.begin
-//                 ^^ variable.parameter
-//                   ^ punctuation.section.group.end
-//                     ^^ punctuation.definition.arrow-function.php
+//    ^^^^^^^^^^ - meta.function meta.function
+//    ^^ meta.function.anonymous.php
+//      ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//          ^^^^ meta.function.anonymous.php
+//              ^^ meta.function.anonymous.php meta.function.anonymous.php
+//              ^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function meta.function
+//                ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//                    ^^^^^^^^^^^^^^^^ meta.function.anonymous.php meta.function.anonymous.php
+//                                    ^ - meta.function
+//    ^^ keyword.declaration.function.php
+//      ^ punctuation.section.group.begin.php
+//       ^^ variable.parameter.php
+//         ^ punctuation.section.group.end.php
+//           ^^ keyword.declaration.function.arrow.php
+//              ^^ keyword.declaration.function.php
+//                ^ punctuation.section.group.begin.php
+//                 ^^ variable.parameter.php
+//                   ^ punctuation.section.group.end.php
+//                     ^^ keyword.declaration.function.arrow.php
+//                                    ^ punctuation.terminator.expression.php
 
 $var = fn($x)
-//     ^^ meta.function.arrow-function.php - meta.function-call
-//     ^^ keyword.declaration.function
+//     ^^ meta.function.anonymous.php
+//       ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//           ^ meta.function.anonymous.php
+//     ^^ keyword.declaration.function.php
+//       ^ punctuation.section.group.begin.php
+//        ^^ variable.parameter.php
+//          ^ punctuation.section.group.end.php
    => $x * 2;
-// ^^ punctuation.definition.arrow-function
+//^^^^^^^^^^ meta.function.anonymous.php
+//          ^ - meta.function
+// ^^ keyword.declaration.function.arrow
+//          ^ punctuation.terminator.expression.php
 
 $var = fn($x)
-//     ^^ meta.function-call - meta.function.arrow-function.php
-//     ^^ - keyword.declaration.function
+//     ^^ meta.function-call.php - meta.function.anonymous
+//     ^^ variable.function.php - keyword.declaration.function
 ;
 
 $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//     ^^^^^^^^ meta.function.closure
-//             ^^ meta.function.parameters meta.group
-//             ^ punctuation.section.group.begin
-//              ^^^^^ storage.type
-//                    ^^^ variable.parameter
-//                       ^ keyword.operator.assignment
-//                        ^^^^^^^ meta.sequence.array.empty
-//                               ^ punctuation.separator
-//                                 ^^^^^^^^^ support.class - meta.path
-//                                           ^^^^ variable.parameter
-//                                               ^ punctuation.section.group.end
-//                                                 ^^^^^^^^^^^^^^^^^^ meta.function.closure.use
-//                                                                    ^ meta.block punctuation.section.block.begin
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+//     ^^^^^^^^ meta.function.php - meta.group
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.php meta.group.php
+//                                                ^ meta.function.php
+//                                                 ^^^^ meta.function.use.php - meta.group
+//                                                     ^^^^^^^^^^^^^^ meta.function.use.php meta.group.php
+//                                                                   ^ meta.function.php - meta.block
+//                                                                    ^^ meta.function.php meta.block.php
+//     ^^^^^^^^ keyword.declaration.function.php
+//             ^ meta.group.php punctuation.section.group.begin.php
+//              ^^^^^ storage.type.php
+//                    ^^^ variable.parameter.php
+//                       ^ keyword.operator.assignment.php
+//                        ^^^^^ support.function.construct.php
+//                             ^ punctuation.section.sequence.begin.php
+//                              ^ punctuation.section.sequence.end.php
+//                               ^ punctuation.separator.comma.php
+//                                 ^^^^^^^^^ support.class.php
+//                                           ^^^^ variable.parameter.php
+//                                               ^ punctuation.section.group.end.php
+//                                                 ^^^ keyword.other.function.use.php
+//                                                     ^ punctuation.section.group.begin.php
+//                                                      ^^^^^ variable.parameter.php
+//                                                           ^ punctuation.separator.comma.php
+//                                                             ^^^^^ variable.parameter.php
+//                                                                  ^ punctuation.section.group.end.php
+//                                                                    ^ punctuation.section.block.begin.php
 
 };
-// <- meta.function meta.block punctuation.section.block.end
+// <- meta.function.php meta.block.php punctuation.section.block.end.php
 
 function bye(): never {
-//              ^^^^^ storage.type
+//^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+// <- meta.function.php keyword.declaration.function.php
+//^^^^^^^^^^ meta.function.php
+//          ^^ meta.function.parameters.php meta.group.php
+//            ^^^^^^^^ meta.function.return-type.php
+//                    ^^ meta.function.php meta.block.php
+//            ^ punctuation.separator.colon.php
+//              ^^^^^ storage.type.php
+//                    ^ punctuation.section.block.begin.php
   exit();
 }
+// <- meta.function.php meta.block.php punctuation.section.block.end.php
 
 function foo(?stinrg ...$args) {}
 //           ^ storage.type.nullable
@@ -617,7 +708,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //      ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                      ^ punctuation.definition.attribute.end
 //                        ^^ keyword.declaration.function
-//                              ^^ punctuation.definition.arrow-function
+//                              ^^ keyword.declaration.function.arrow
 
 /**
    No longer a phpdoc comment since no leading *
@@ -1187,7 +1278,7 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
     public function __construct(private \MyNamespace\Foo $val = DEFAULT_VALUE) {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.block meta.block
 //                                                                             ^^ meta.class.php meta.block.php meta.block.php
-//                  ^^^^^^^^^^^ entity.name.function support.function.magic
+//                  ^^^^^^^^^^^ entity.name.function.constructor.php
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //                              ^^^^^^^ storage.modifier
 //                                      ^^^^^^^^^^^^^^^^ meta.path
@@ -2658,7 +2749,7 @@ class D {
 //          ^^^^^^^^ storage.modifier
 
     public function __construct($val) {
-//                  ^^^^^^^^^^^ entity.name.function.php support.function.magic.php
+//                  ^^^^^^^^^^^ entity.name.function.constructor.php support.function.magic.php
         $this->prop = $val;
     }
 
@@ -2677,14 +2768,14 @@ class D {
     }
 
     public function __toStringTest()
-//                  ^^^^^^^^^^^^^^ entity.name.function.php - support.function.magic.php
-//                                ^^ - entity.name.function.php - support.function.magic.php
+//                  ^^^^^^^^^^^^^^ entity.name.function.php
+//                                ^^ - entity.name.function.php
     {
         return $this->prop;
     }
 
     public function __test()
-//                  ^^^^^^ entity.name.function.php - support.function.magic.php
+//                  ^^^^^^ entity.name.function.php
     {
     }
 }
