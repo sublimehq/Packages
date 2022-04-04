@@ -1851,6 +1851,30 @@ myset = {"key", True, key2, [-1], {}:1}
 #                                   ^ invalid.illegal.colon-inside-set.python
 #                                     ^ punctuation.section.set.end.python
 
+myset = {a := 1, b := 2}
+#       ^^^^^^^^^^^^^^^^ meta.set.python
+#       ^ punctuation.section.set.begin.python
+#          ^^ keyword.operator.assignment.inline.python
+#             ^ constant.numeric.value.python
+#              ^ punctuation.separator.set.python
+#                  ^^ keyword.operator.assignment.inline.python
+#                     ^ constant.numeric.value.python
+#                      ^ punctuation.section.set.end.python
+
+{a := 1: 2}
+# <- meta.set.python punctuation.section.set.begin.python
+#^^^^^^^^^^ meta.set.python
+#  ^^ keyword.operator.assignment.inline.python
+#      ^ invalid.illegal.colon-inside-set.python
+#         ^ punctuation.section.set.end.python
+
+{1, b := 2}
+# <- meta.set.python punctuation.section.set.begin.python
+#^^^^^^^^^^ meta.set.python
+# ^ punctuation.separator.set.python
+#     ^^ keyword.operator.assignment.inline.python
+#         ^ punctuation.section.set.end.python
+
 mapping_or_set = {
 #                ^ meta.mapping.python punctuation.section.mapping.begin.python
     1: True
@@ -2420,10 +2444,6 @@ def foo(x: y:=f(x)) -> a:=None: pass
 foo(x = y := f(x), y=x:=2)
 #         ^^ invalid.illegal.not-allowed-here.python
 #                     ^^ invalid.illegal.not-allowed-here.python
-{a := 1: 2}
-#  ^^ invalid.illegal.not-allowed-here.python
-{1, b := 2}
-#     ^^ invalid.illegal.not-allowed-here.python
 [1][x:=0]
 #    ^^ invalid.illegal.not-allowed-here.python
 def foo(answer = p := 42):  pass
