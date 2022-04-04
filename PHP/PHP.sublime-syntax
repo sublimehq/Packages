@@ -4,6 +4,8 @@ name: PHP
 scope: embedding.php
 version: 2
 
+extends: Packages/HTML/HTML.sublime-syntax
+
 file_extensions:
   - php
   - php3
@@ -22,11 +24,29 @@ first_line_match: |-
   | ^ \s* <\?php\b                          # php tag
   )
 
+##############################################################################
+
 contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: php-embedded
+
   main:
     - meta_include_prototype: false
     - match: ''
-      push: [content, shebang]
+      push: [php, shebang]
+
+  php:
+    # This is the main php context.
+    # It includes `php-tags` which are allowed to be closed by php tags at any
+    # level of code-block on stack resuming with the next top-level php tag.
+    - meta_include_prototype: false
+    - meta_scope: text.html.php
+    - include: php-tags
+    - include: html
+
+###[ SHEBANG ]################################################################
 
   shebang:
     - meta_include_prototype: false
@@ -44,39 +64,173 @@ contexts:
     - match: \n
       pop: 1
 
-  content:
-    - match: ''
-      set: scope:text.html.basic
-      with_prototype:
-        - include: php-incomplete-tags
-        - match: <\?(?i:php\b|=)?(?![^?]*\?>)
-          scope: punctuation.section.embedded.begin.php
-          push: php-embedded-block
-        - match: <\?(?i:php\b|=)?
-          scope: punctuation.section.embedded.begin.php
-          push: php-embedded-line
+###[ HTML CONTENT ]###########################################################
 
-  php-embedded-block:
-    - meta_scope: meta.embedded.block.php
-    - meta_content_scope: source.php
-    - include: php-end-tag-pop
-    - include: scope:source.php
-      apply_prototype: true
+  html:
+    # This context is a copy of `HTML (Plain).sublime-syntax#main` with
+    # php tags being embedded via prototype in included contexts. The context
+    # itself doesn't include php tags as those are to be added by including
+    # contexts. All nested php tags are forced to be closed within the context
+    # they are opened at.
+    #
+    # A php tag beginning within...
+    # a) a HTML tag is finished before the tag end punctuation appears
+    # b) a string causes the string to be terminated not before the php tag is.
+    #
+    # This context is included within PHP's nested code-blocks in order to
+    # maintain code structure as good as possible.
+    - include: preprocessor
+    - include: doctype
+    - include: comment
+    - include: cdata
+    - include: tag
+    - include: entities
 
-  php-embedded-line:
-    - meta_scope: meta.embedded.line.php
-    - meta_content_scope: source.php
-    - include: php-end-tag-pop
-    - include: scope:source.php
-      apply_prototype: true
+  cdata-content:
+    - meta_prepend: true
+    - meta_include_prototype: false
+    - include: php-interpolations
 
-  php-end-tag-pop:
+  script-javascript-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.php
+      embed_scope: meta.tag.sgml.cdata.html source.js.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.php
+      embed_scope: source.js.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  style-css-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.php
+      embed_scope: meta.tag.sgml.cdata.html source.css.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.php
+      embed_scope: source.css.embedded.html
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  tag-event-attribute-value:
+    - match: \"
+      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
+      embed: scope:source.js.php
+      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
+    - match: \'
+      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
+      embed: scope:source.js.php
+      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-style-attribute-value:
+    - match: \"
+      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
+      embed: scope:source.css.php#rule-list-body
+      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
+    - match: \'
+      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
+      embed: scope:source.css.php#rule-list-body
+      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: php-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: php-interpolations
+
+###[ PHP TAGS ]###############################################################
+
+  php-tags:
+    - include: php-tag-incomplete
+    - match: <\?(?i:php\b|=)?
+      scope: punctuation.section.embedded.begin.php
+      push: php-tag-content
+
+  php-tag-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.embedded.php
+    - meta_content_scope: source.php.embedded.html
     - match: (\?>)(\s*\n)?
       captures:
         1: punctuation.section.embedded.end.php
-        2: meta.html-newline-after-php.php
+        2: meta.html-newline-after-php.php  # used by indentation rules
       pop: 1
+    - include: Packages/PHP/Embeddings/PHP Source (for PHP).sublime-syntax
+      apply_prototype: true
 
-  php-incomplete-tags:
+  php-tag-incomplete:
     - match: <\?(?i:(?!php)ph?)
-      scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+
+  php-interpolations:
+    - meta_include_prototype: false
+    - match: (?=<\?)
+      push: php-interpolation-body
+
+  php-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: php-embedded
+    - include: immediately-pop
+
+  php-embedded:
+    - meta_include_prototype: false
+    - include: php-tag-incomplete
+    - match: <\?(?i:php\b|=)?
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+      embed: Packages/PHP/PHP Source.sublime-syntax
+      embed_scope: meta.embedded.php source.php.embedded.html
+      escape: (\?>)(\s*\n)?
+      escape_captures:
+        0: meta.embedded.php
+        1: punctuation.section.embedded.end.php
+        2: meta.html-newline-after-php.php

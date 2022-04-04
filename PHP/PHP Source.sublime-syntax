@@ -1152,36 +1152,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.php
       push: block-body
-    - match: (\?>)(\s*\n)?
-      scope: meta.embedded.block.php
-      captures:
-        1: punctuation.section.embedded.end.php
-        2: meta.html-newline-after-php.php
-      push: embedding-syntax
     - include: statements
-
-  embedding-syntax:
-    - clear_scopes: true
-    - meta_scope: embedding.php text.html.basic
-    - include: PHP.sublime-syntax#php-incomplete-tags
-    - match: <\?(?i:php\b)?
-      scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-      pop: 1
-    - match: ''
-      push: scope:text.html.basic
-      with_prototype:
-        - include: PHP.sublime-syntax#php-incomplete-tags
-        - match: (?:<\?=|<\?(?i:php\b)?(?=.*\?>))
-          scope: punctuation.section.embedded.begin.php
-          push: PHP.sublime-syntax#php-embedded-line
-        - match: (?=<\?)
-          pop: 1
-
-  php-embedded-line:
-    - meta_scope: meta.embedded.line.php
-    - meta_content_scope: source.php
-    - include: PHP.sublime-syntax#php-end-tag-pop
-    - include: interpolation-statements
 
 ###[ CONTROL FLOW STATEMENTS ]################################################
 
@@ -2032,8 +2003,8 @@ contexts:
       captures:
         1: keyword.operator.heredoc.php
         2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: heredoc-html
-      embed_scope: meta.embedded.html
+      embed: scope:text.html.interpolated.php
+      embed_scope: meta.embedded.html text.html.embedded.php
       escape: '{{heredoc_unquoted_end}}'
     - match: (<<<)\s*((')(?i:(HTML))('))\s*$\n?
       captures:
@@ -2043,14 +2014,14 @@ contexts:
         4: entity.name.tag.heredoc.php
         5: punctuation.definition.tag.end.php
       embed: scope:text.html.basic
-      embed_scope: meta.embedded.html text.html
+      embed_scope: meta.embedded.html text.html.embedded.php
       escape: '{{heredoc_quoted_end}}'
     - match: (<<<)\s*(?i:(XML))\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
         2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: heredoc-xml
-      embed_scope: meta.embedded.xml
+      embed: scope:text.xml.interpolated.php
+      embed_scope: meta.embedded.xml text.xml.embedded.php
       escape: '{{heredoc_unquoted_end}}'
     - match: (<<<)\s*((')(?i:(XML))('))\s*$\n?
       captures:
@@ -2060,7 +2031,7 @@ contexts:
         4: entity.name.tag.heredoc.php
         5: punctuation.definition.tag.end.php
       embed: scope:text.xml
-      embed_scope: meta.embedded.xml text.xml
+      embed_scope: meta.embedded.xml text.xml.embedded.php
       escape: '{{heredoc_quoted_end}}'
     - match: (<<<)\s*(?i:(SQL))\s*$\n?
       captures:
@@ -2083,8 +2054,8 @@ contexts:
       captures:
         1: keyword.operator.heredoc.php
         2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: heredoc-javascript
-      embed_scope: meta.embedded.js
+      embed: scope:source.js.interpolated.php
+      embed_scope: meta.embedded.js source.js.embedded.php
       escape: '{{heredoc_unquoted_end}}'
     - match: (<<<)\s*((')(?i:(JAVASCRIPT|JS))('))\s*$\n?
       captures:
@@ -2094,14 +2065,14 @@ contexts:
         4: entity.name.tag.heredoc.php
         5: punctuation.definition.tag.end.php
       embed: scope:source.js
-      embed_scope: meta.embedded.js source.js
+      embed_scope: meta.embedded.js source.js.embedded.php
       escape: '{{heredoc_quoted_end}}'
     - match: (<<<)\s*(?i:(JSON))\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
         2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: heredoc-json
-      embed_scope: meta.embedded.json
+      embed: scope:source.json.interpolated.php
+      embed_scope: meta.embedded.json source.json.embedded.php
       escape: '{{heredoc_unquoted_end}}'
     - match: (<<<)\s*((')(?i:(JSON))('))\s*$\n?
       captures:
@@ -2111,14 +2082,14 @@ contexts:
         4: entity.name.tag.heredoc.php
         5: punctuation.definition.tag.end.php
       embed: scope:source.json
-      embed_scope: meta.embedded.json source.json
+      embed_scope: meta.embedded.json source.json.embedded.php
       escape: '{{heredoc_quoted_end}}'
     - match: (<<<)\s*(?i:(CSS))\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
         2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: heredoc-css
-      embed_scope: meta.embedded.css
+      embed: scope:source.css.interpolated.php
+      embed_scope: meta.embedded.css source.css.embedded.php
       escape: '{{heredoc_unquoted_end}}'
     - match: (<<<)\s*((')(?i:(CSS))('))\s*$\n?
       captures:
@@ -2128,14 +2099,14 @@ contexts:
         4: entity.name.tag.heredoc.php
         5: punctuation.definition.tag.end.php
       embed: scope:source.css
-      embed_scope: meta.embedded.css source.css
+      embed_scope: meta.embedded.css source.css.embedded.php
       escape: '{{heredoc_quoted_end}}'
     - match: (<<<)\s*(?i:(YA?ML))\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
         2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: heredoc-yaml
-      embed_scope: meta.embedded.yaml
+      embed: scope:source.yaml.interpolated.php
+      embed_scope: meta.embedded.yaml source.yaml.embedded.php
       escape: '{{heredoc_unquoted_end}}'
     - match: (<<<)\s*((')(?i:(YA?ML))('))\s*$\n?
       captures:
@@ -2145,7 +2116,7 @@ contexts:
         4: entity.name.tag.heredoc.php
         5: punctuation.definition.tag.end.php
       embed: scope:source.yaml
-      embed_scope: meta.embedded.yaml source.yaml
+      embed_scope: meta.embedded.yaml source.yaml.embedded.php
       escape: '{{heredoc_quoted_end}}'
     - match: (<<<)\s*({{identifier}})\s*$\n?
       captures:
@@ -2171,48 +2142,6 @@ contexts:
     - meta_scope: meta.string.php string.unquoted.heredoc.php
     - match: '{{heredoc_quoted_end}}'
       pop: 1
-
-  heredoc-css:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:source.css
-      with_prototype:
-        - include: interpolations
-
-  heredoc-html:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:text.html.basic
-      with_prototype:
-        - include: interpolations
-
-  heredoc-javascript:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:source.js
-      with_prototype:
-        - include: interpolations
-
-  heredoc-json:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:source.json
-      with_prototype:
-        - include: interpolations
-
-  heredoc-xml:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:text.xml
-      with_prototype:
-        - include: interpolations
-
-  heredoc-yaml:
-    - meta_include_prototype: false
-    - match: ''
-      push: scope:source.yaml
-      with_prototype:
-        - include: interpolations
 
 ###[ STRINGS ]################################################################
 

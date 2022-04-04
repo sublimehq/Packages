@@ -719,7 +719,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 
 /**
     *
-//  ^ text.html.basic meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
+//  ^ comment.block.documentation.phpdoc.php punctuation.definition.comment.php
 */
 
 /** @var Properties: class properties. */
@@ -2938,9 +2938,9 @@ one: two
 three: "$four"
 //^^^^^^^^^^^^ meta.embedded.yaml source.yaml
 //^^^ meta.mapping.key string
-//   ^       punctuation.separator.key-value.mapping
-//     ^^^^^^^ string.quoted.double
-//      ^^^^^ variable.other.php
+//   ^ punctuation.separator.key-value
+//     ^ meta.string.yaml string.quoted.double.yaml punctuation.definition.string.begin.yaml
+//      ^^^^^ meta.string.yaml meta.interpolation.php variable.other.php - string
 Yml;
 // <- meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
 //^^ meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
@@ -2992,41 +2992,41 @@ class OutputsHtml {
         else {
 //           ^ meta.function meta.block punctuation.section.block.begin
             ?>
-//          ^^ meta.embedded.block punctuation.section.embedded.end - source.php
-//            ^ meta.embedded.block meta.html-newline-after-php - punctuation.section.embedded - source.php
+//          ^^ meta.embedded punctuation.section.embedded.end - source.php
+//            ^ meta.embedded meta.html-newline-after-php - punctuation.section.embedded - source.php
             <span></span>
 //          ^^^^^^ meta.tag - source.php
             <?
-//          ^^ meta.embedded.block punctuation.section.embedded.begin
+//          ^^ meta.embedded punctuation.section.embedded.begin
         }
 //      ^ meta.function meta.block punctuation.section.block.end
         ?>
-//      ^^ meta.embedded.block punctuation.section.embedded.end - source.php
-//        ^ meta.embedded.block meta.html-newline-after-php - punctuation.section.embedded - source.php
+//      ^^ meta.embedded punctuation.section.embedded.end - source.php
+//        ^ meta.embedded meta.html-newline-after-php - punctuation.section.embedded - source.php
 
         <div class="acf-gallery-side-info acf-cf<?php if (true) { echo ' class-name'; } ?>" id="myid"></div>
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //           ^^^^^ meta.attribute-with-value
-//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.php
 //                                                                                        ^^^^^^^^^^^^^^^^^^ - source.php
 //                                              ^^^^^ punctuation.section.embedded.begin - source.php
 //                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
 //                                                                                      ^^ punctuation.section.embedded.end - source.php
 //                                                                                          ^^^^^^^^^ meta.attribute-with-value
 //                 ^ punctuation.definition.string.begin.html
-//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
 //                                                                                        ^ punctuation.definition.string.end.html
         <?= var_dump($foo)
-//      ^^^^^^^^^^^^^^^^^^ meta.embedded.line
+//      ^^^^^^^^^^^^^^^^^^ meta.embedded
 //      ^^^ punctuation.section.embedded.begin - source.php
 //         ^^^^^^^^^^^^^^^ source.php
         ?>
-//      ^^ meta.embedded.line punctuation.section.embedded.end - source.php
-//        ^ meta.embedded.line meta.html-newline-after-php - punctuation.section.embedded - source.php
+//      ^^ meta.embedded punctuation.section.embedded.end - source.php
+//        ^ meta.embedded meta.html-newline-after-php - punctuation.section.embedded - source.php
 
         <?php
-//      ^^^^^ meta.embedded.block punctuation.section.embedded.begin - source.php
+//      ^^^^^ meta.embedded punctuation.section.embedded.begin - source.php
     }
 }
 
@@ -3038,8 +3038,8 @@ function embedHtml() {
     else {
 //       ^ meta.function meta.block punctuation.section.block.begin
         ?>
-//      ^^ meta.embedded.block.php punctuation.section.embedded.end - source.php
-//        ^ meta.embedded.block.php meta.html-newline-after-php - punctuation.section.embedded.end
+//      ^^ meta.embedded.php punctuation.section.embedded.end - source.php
+//        ^ meta.embedded.php meta.html-newline-after-php - punctuation.section.embedded.end
         <span></span>
 //      ^^^^^^ meta.tag - source.php
         <?
@@ -3050,8 +3050,8 @@ function embedHtml() {
     $myClass = new class {
         function foo() {
             ?>
-//          ^^ meta.embedded.block.php punctuation.section.embedded.end - source.php
-//            ^ meta.embedded.block.php meta.html-newline-after-php - punctuation.section.embedded.end
+//          ^^ meta.embedded.php punctuation.section.embedded.end - source.php
+//            ^ meta.embedded.php meta.html-newline-after-php - punctuation.section.embedded.end
             <div></div>
 //          ^^^^^^^^^^^ meta.tag - source.php
             <?
@@ -3075,17 +3075,16 @@ function embedHtml() {
 
                     <div class="acf-gallery-side-info acf-cf<?php if (true) { echo ' class-name'; } ?>" id="myid"></div>
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
-//                       ^^^^^ meta.attribute-with-value
-//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.php
-//                                                                                                    ^^^^^^^^^^^^^^^^^^ - source.php
-//                                                          ^^^^^ punctuation.section.embedded.begin
-//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
-//                                                                                                  ^^ punctuation.section.embedded.end
-//                                                                                                      ^^^^^^^^^ meta.attribute-with-value
+//                       ^^^^^^ meta.attribute-with-value - meta.string
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value meta.string.html string.quoted.double.html - meta.embedded - meta.interpolation - source.php
 //                             ^ punctuation.definition.string.begin.html
-//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
-//                                                                                                    ^ punctuation.definition.string.end.html
+//                                                          ^^^^^ meta.attribute-with-value meta.string.html meta.embedded.php punctuation.section.embedded.begin.php - source.php - string.quoted.double
+//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value meta.string.html meta.embedded.php source.php - string.quoted.double
+//                                                                                                  ^^ meta.attribute-with-value meta.string.html meta.embedded.php punctuation.section.embedded.end.php - source.php - string.quoted.double
+//                                                                                                    ^ meta.attribute-with-value meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.embedded - meta.interpolation - source.php
+//                                                                                                     ^ - meta.attribute-with-value
+//                                                                                                      ^^^^^^^^^ meta.attribute-with-value
+//                                                                                                               ^ - meta.attribute-with-value
                     <?php
 //                  ^^^^^ punctuation.section.embedded.begin
 //                       ^ source.php
@@ -3182,9 +3181,9 @@ $array = array_reduce(
 
 // don't break php termination highlighting after incomplete item-access expression
 <?php  { ?> <div> <? $var[9 + ?> </div>
-//^^^^^^^^^ meta.embedded.line.php
+//^^^^^^^^^ meta.embedded.php
 //         ^^^^^^^ - meta.embedded
-//                ^^^^^^^^^^^^^^ meta.embedded.line.php
+//                ^^^^^^^^^^^^^^ meta.embedded.php
 //                              ^^^^^^^^ - meta.embedded
 //     ^ punctuation.section.block.begin.php
 //       ^^ punctuation.section.embedded.end.php
@@ -3198,9 +3197,9 @@ $array = array_reduce(
 
 // don't break block termination highlighting after incomplete item-access expression
 <?php  { ?> <div> <? $var[9 + } ?> </div>
-//^^^^^^^^^ meta.embedded.line.php
+//^^^^^^^^^ meta.embedded.php
 //         ^^^^^^^ - meta.embedded
-//                ^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                ^^^^^^^^^^^^^^^^ meta.embedded.php
 //                                ^^^^^^^^ - meta.embedded
 //     ^ punctuation.section.block.begin.php
 //       ^^ punctuation.section.embedded.end.php
@@ -3214,9 +3213,9 @@ $array = array_reduce(
 
 // don't break block termination highlighting after incomplete item-access expression
 <?php  { ?> <div> <? $var[9 + ; ?> </div>
-//^^^^^^^^^ meta.embedded.line.php
+//^^^^^^^^^ meta.embedded.php
 //         ^^^^^^^ - meta.embedded
-//                ^^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                ^^^^^^^^^^^^^^^^ meta.embedded.php
 //                                ^^^^^^^^ - meta.embedded
 //     ^ punctuation.section.block.begin.php
 //       ^^ punctuation.section.embedded.end.php
@@ -3230,9 +3229,9 @@ $array = array_reduce(
 
 // don't break highlighting after incomplete catch parameter list
 <?php try { ?> <div> <? } catch(  ?> </div>
-//^^^^^^^^^^^^ meta.embedded.line.php
+//^^^^^^^^^^^^ meta.embedded.php
 //            ^^^^^^^ - meta.embedded
-//                   ^^^^^^^^^^^^^^^ meta.embedded.line.php
+//                   ^^^^^^^^^^^^^^^ meta.embedded.php
 //                                  ^^^^^^^^ - meta.embedded
 //    ^^^ keyword.control.exception.try.php
 //        ^ punctuation.section.block.begin.php
@@ -3249,7 +3248,9 @@ $array = array_reduce(
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
 //        ^^^ punctuation.section.embedded.begin
 //                 ^^ punctuation.section.embedded.end
-//                         ^^^^^^^^^^^^^^^^ string.unquoted
+//                         ^^ meta.string.html string.unquoted.html - meta.embedded
+//                           ^^^^^^^^^^ meta.string.html meta.embedded.php - string
+//                                     ^^^^ meta.string.html string.unquoted.html - meta.embedded
 //                           ^^ punctuation.section.embedded.begin.php
 //                                   ^^ punctuation.section.embedded.end.php
 
@@ -3264,15 +3265,15 @@ $array = array_reduce(
 //^ punctuation.definition.tag.begin.html
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
 //     ^^^^^ punctuation.section.embedded.begin.php
-//     ^^^^^^^^^^^^^ meta.embedded.line.php
+//     ^^^^^^^^^^^^^ meta.embedded.php
 //                ^^ punctuation.section.embedded.end
 //                    ^^^^^ punctuation.section.embedded.begin.php
-//                    ^^^^^^^^^^^^^ meta.embedded.line.php
+//                    ^^^^^^^^^^^^^ meta.embedded.php
 //                               ^^ punctuation.section.embedded.end
 //                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
 //                                    ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
 //                                       ^^^^^ punctuation.section.embedded.begin.php
-//                                       ^^^^^^^^^^^^^ meta.embedded.line.php
+//                                       ^^^^^^^^^^^^^ meta.embedded.php
 //                                                  ^^ punctuation.section.embedded.end
 //                                                              ^^ punctuation.definition.tag.end.html
 
@@ -3281,15 +3282,15 @@ $array = array_reduce(
 //^ punctuation.definition.tag.begin.html
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
 //    ^^^^^ punctuation.section.embedded.begin.php
-//    ^^^^^^^^^^^^^ meta.embedded.line.php
+//    ^^^^^^^^^^^^^ meta.embedded.php
 //               ^^ punctuation.section.embedded.end
 //                   ^^^^^ punctuation.section.embedded.begin.php
-//                   ^^^^^^^^^^^^^ meta.embedded.line.php
+//                   ^^^^^^^^^^^^^ meta.embedded.php
 //                              ^^ punctuation.section.embedded.end
 //                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
 //                                   ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
 //                                      ^^^^^ punctuation.section.embedded.begin.php
-//                                      ^^^^^^^^^^^^^ meta.embedded.line.php
+//                                      ^^^^^^^^^^^^^ meta.embedded.php
 //                                                 ^^ punctuation.section.embedded.end
 //                                                             ^^ punctuation.definition.tag.end.html
 
@@ -3297,13 +3298,14 @@ $array = array_reduce(
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
 //         ^ punctuation.definition.string.begin.html
-//         ^^^^^^^^^^^^^^^^^^ string.quoted.double.html
-//                          ^ punctuation.definition.string.end.html
-//               ^^^^^^^^^^^ meta.embedded.line
+//         ^^^^^^ meta.string.html - meta.embedded
+//               ^^^^^^^^^^^ meta.string.html meta.embedded.php
+//                          ^ meta.string.html string.quoted.double.html - meta.embedded
 //               ^^^ punctuation.section.embedded.begin - source.php
 //                  ^^^^^^ source.php
 //                   ^^^^ variable.other
 //                        ^^ punctuation.section.embedded.end - source.php
+//                          ^ punctuation.definition.string.end.html
 //                           ^ punctuation.definition.tag.end.html
 
 <script>
@@ -3324,14 +3326,14 @@ $array = array_reduce(
     } else {
 //  ^^^^^^^^ source.php
         ?>
-//      ^^ meta.embedded.block.php - source.php
+//      ^^ meta.embedded.php - source.php
         foo *= 2;
 //      ^^^^^^^^^ source.js.embedded
 //      ^^^ variable.other.readwrite
 //          ^^ keyword.operator
 //             ^ constant.numeric
         <?
-//      ^^ meta.embedded.block.php - source.php
+//      ^^ meta.embedded.php - source.php
     }
     ?>
 </script>
@@ -3341,17 +3343,17 @@ h1 {
 //  ^^^^^^^^^^^ support.type.property-name
 //               ^^^^^ string.unquoted
     <? if ($minimal_increase) { ?>
-//  ^^ meta.embedded.line.php - source.php
+//  ^^ meta.embedded.php - source.php
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
-//                              ^^ meta.embedded.line.php - source.php
+//                              ^^ meta.embedded.php - source.php
         font-size: 2em;
 //      ^^^^^^^^^ support.type.property-name
 //                 ^ constant.numeric
     <? } else { ?>
-//  ^^ meta.embedded.line.php - source.php
+//  ^^ meta.embedded.php - source.php
 //    ^^^^^^^^^^ source.php
 //       ^^^^ keyword.control
-//              ^^ meta.embedded.line.php - source.php
+//              ^^ meta.embedded.php - source.php
         font-size: 3em;
 //      ^^^^^^^^^ support.type.property-name
 //                 ^ constant.numeric
