@@ -1099,26 +1099,43 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 }
 
 interface
-// <- keyword.declaration.interface.php - meta.interface
-//^^^^^^^ keyword.declaration.interface.php - meta.interface
+// <- meta.interface.php keyword.declaration.interface.php
+//^^^^^^^^ meta.interface.php - meta.block
 
 interface MyInter {}
-// <- keyword.declaration.interface
-//        ^ entity.name.interface
+// <- meta.interface.php keyword.declaration.interface.php
+//^^^^^^^^^^^^^^^^ meta.interface.php - meta.block
+//                ^^ meta.interface.php meta.block.php
+//        ^^^^^^^ entity.name.interface.php
+//                ^ punctuation.section.block.begin.php
+//                 ^ punctuation.section.block.end.php
+
+interface MyInter implements Foo {}
+// <- meta.interface.php keyword.declaration.interface.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.php - meta.block
+//                               ^^ meta.interface.php meta.block.php
+//        ^^^^^^^ entity.name.interface.php
+//                ^^^^^^^^^^ invalid.illegal.disallowed.php
+//                           ^^^ - entity - support
+//                               ^ punctuation.section.block.begin.php
+//                                ^ punctuation.section.block.end.php
 
 interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
-// <- keyword.declaration.interface
-//        ^ entity.name.interface
-//                 ^ storage.modifier
+// <- meta.interface.php keyword.declaration.interface.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.php - meta.block
+//                                                             ^^ meta.interface.php meta.block.php
+//^^^^^^^ keyword.declaration.interface.php
+//        ^^^^^^^^ entity.name.interface.php
+//                 ^^^^^^^ storage.modifier.extends.php
 //                         ^^^^^^^^^^^^^^^^ meta.path.php
-//                         ^ punctuation.separator.namespace.php
+//                         ^ punctuation.separator.namespace.php - entity - support
 //                          ^^^^^^^^^^^ support.other.namespace.php
-//                                     ^ punctuation.separator.namespace.php
+//                                     ^ punctuation.separator.namespace.php - entity - support
 //                                      ^^^ entity.other.inherited-class.php
-//                                         ^ punctuation.separator
-//                                           ^ comment.block
+//                                         ^ punctuation.separator.comma.php
+//                                           ^^^^ comment.block.php
 //                                                ^^^^^^^^^^^^ meta.path.php
-//                                                ^ punctuation.separator.namespace.php
+//                                                ^ punctuation.separator.namespace.php - entity - support
 //                                                 ^^^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php
 }
 

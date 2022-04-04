@@ -422,22 +422,8 @@ contexts:
   statements:
     - include: classes
     - include: enums
+    - include: interfaces
     - include: use-statement
-    - match: '(?i)^\s*(interface)\s+({{identifier}})\s*'
-      captures:
-        1: keyword.declaration.interface.php
-        2: entity.name.interface.php
-      push:
-        - meta_scope: meta.interface.php
-        - match: \b(extends)\b\s*
-          scope: storage.modifier.extends.php
-          push:
-            - include: attributes
-            - include: comments
-            - include: inherited-class-names
-            - include: punctuation-separators
-            - include: else-pop
-        - include: else-pop
     - match: '(?i)^\s*(namespace)\b\s*'
       captures:
         1: keyword.other.namespace.php
@@ -704,8 +690,6 @@ contexts:
     # fallback patterns incase no other expression matches
     - match: \b(?i:class)\b
       scope: keyword.declaration.class.php
-    - match: \b(?i:interface)\b
-      scope: keyword.declaration.interface.php
     - match: \b(?i:function)\b
       scope: keyword.declaration.function.php
 
@@ -1053,6 +1037,42 @@ contexts:
       scope: entity.name.constant.php
       set: nested-expressions
     - include: else-pop
+
+###[ INTERFACE DECLARATIONS ]#################################################
+
+  interfaces:
+    - match: \b(?:interface)\b
+      scope: meta.interface.php keyword.declaration.interface.php
+      push:
+        - interface-definition
+        - interface-definition-name
+
+  interface-definition-name:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: '{{identifier}}'
+      scope: entity.name.interface.php
+      pop: 1
+    - include: else-pop
+
+  interface-definition:
+    - meta_content_scope: meta.interface.php
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: interface-body
+    - match: (?i:extends)\b
+      scope: storage.modifier.extends.php
+      push: class-implements  # interfaces support multiple inherited classes
+    - match: (?i:implements)\b
+      scope: invalid.illegal.disallowed.php
+
+  interface-body:
+    - meta_scope: meta.interface.php meta.block.php
+    - include: class-body
 
 ###[ TYPED PROPERTIES ]#######################################################
 
