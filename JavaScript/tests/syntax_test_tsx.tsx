@@ -234,3 +234,14 @@ if (a < b || c <= d) {}
 //                ^ punctuation.definition.tag.end
 //                 ^ meta.tag punctuation.definition.tag.end
 //                  ^ punctuation.terminator.statement
+
+    true ? (a) : <foo />;
+//  ^^^^ constant.language.boolean.true
+//       ^ keyword.operator.ternary
+//         ^^^ meta.group
+//             ^ keyword.operator.ternary
+//               ^^^^^^^ meta.jsx meta.tag
+//               ^ punctuation.definition.tag.begin
+//                ^^^ meta.tag.name entity.name.tag
+//                    ^^ punctuation.definition.tag.end
+//                      ^ punctuation.terminator.statement

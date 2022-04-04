@@ -540,6 +540,7 @@ contexts:
             - ts-type-parameter-default
             - ts-type-parameter-constraint
         - include: comma-separator
+        - include: else-pop
     - include: else-pop
 
   ts-type-parameter-constraint:
@@ -863,6 +864,7 @@ contexts:
     - match: (?=\<)
       set:
         - ts-type-function
+        - ts-generic-function-type-check
         - ts-type-parameter-list
 
     - match: (?=\()
@@ -880,6 +882,12 @@ contexts:
       scope: keyword.operator.arithmetic.js
 
     - include: else-pop
+
+  ts-generic-function-type-check:
+    - match: (?=\()
+      pop: true
+    - match: (?=\S)
+      pop: 2
 
   ts-type-tuple:
     - match: \[
