@@ -87,8 +87,7 @@ contexts:
         - match: '(\\)?({{identifier}})(?!\\)'
           captures:
             1: punctuation.separator.namespace.php
-        - match: ''
-          pop: 1
+        - include: immediately-pop
     - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
       captures:
         1: keyword.declaration.trait.php
@@ -230,8 +229,7 @@ contexts:
         - match: (?=::{{identifier}}\s*\()
           set:
             - include: function-call-static
-            - match: ''
-              pop: 1
+            - include: immediately-pop
         - match: |-
             (?x)(::)
             (?:
@@ -924,8 +922,7 @@ contexts:
 
   fn-function-call:
     - include: function-call
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   closure:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
@@ -1038,8 +1035,7 @@ contexts:
             1: punctuation.separator.namespace.php
             2: support.class.php
           pop: 1
-        - match: ''
-          pop: 1
+        - include: immediately-pop
 
   comments:
     # This only highlights a docblock if the first line contains only /** or
@@ -1365,8 +1361,7 @@ contexts:
         2: punctuation.definition.variable.php
       push:
         - include: nested-expressions
-        - match: ''
-          pop: 1
+        - include: immediately-pop
 
 ###[ HEREDOCS ]###############################################################
 
@@ -1824,8 +1819,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
       pop: 1
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
 ###[ STRINGS ]################################################################
 
@@ -2868,8 +2862,7 @@ contexts:
             1: punctuation.separator.namespace.php
             2: constant.other.php
           set: after-identifier
-        - match: ''
-          pop: 1
+        - include: immediately-pop
 
 ###[ OPERATORS ]##############################################################
 
