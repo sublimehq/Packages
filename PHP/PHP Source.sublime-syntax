@@ -73,10 +73,8 @@ contexts:
             - match: '(?={{path}})'
               push: inherited
             - include: punctuation-separators
-            - match: '(?=\S)'
-              pop: 1
-        - match: '(?=\S)'
-          pop: 1
+            - include: else-pop
+        - include: else-pop
     - match: '(?i)^\s*(namespace)\b\s*'
       captures:
         1: keyword.other.namespace.php
@@ -176,8 +174,7 @@ contexts:
         - match: \bfrom\b
           scope: keyword.control.php
           pop: 1
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
     - include: for-statements
     - match: |-
         \b(?xi:
@@ -842,8 +839,7 @@ contexts:
           scope: storage.modifier.php
         - include: type-hints
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
 
   function:
     - match: (?i)(?=(?:\b(?:final|abstract|{{visibility_modifier}}|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
@@ -884,8 +880,7 @@ contexts:
               scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
               set: function-parameters
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
 
   # https://wiki.php.net/rfc/arrow_functions_v2
   arrow-function:
@@ -954,8 +949,7 @@ contexts:
           scope: meta.block.php punctuation.section.block.begin.php
           set: function-body
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
     - include: attributes
     - include: comments
     # Class name type hint
@@ -990,8 +984,7 @@ contexts:
           scope: meta.block.php punctuation.section.block.begin.php
           set: function-body
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
     - match: '&'
       scope: storage.modifier.reference.php
     - match: '(\$+){{identifier}}'
