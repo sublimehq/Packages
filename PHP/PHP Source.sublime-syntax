@@ -1,9 +1,10 @@
 %YAML 1.2
 ---
 name: PHP Source
+scope: source.php
 hidden: true
 version: 2
-scope: source.php
+
 variables:
   identifier_start: '[[:alpha:]_]'
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
@@ -50,6 +51,7 @@ variables:
   no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
 
 contexts:
+
   main:
     - include: statements
 
@@ -1050,6 +1052,7 @@ contexts:
           pop: 1
         - match: ''
           pop: 1
+
   comments:
     # This only highlights a docblock if the first line contains only /** or
     # /**#@+ (which is used for docblock templates). Otherwise block-level
@@ -1093,11 +1096,13 @@ contexts:
         # Consume the newline so that completions aren't shown at the end of the line
         - match: \n
           pop: 1
+
   comments-documentation-end:
     - meta_scope: comment.block.documentation.phpdoc.php
     - match: \*/
       scope: punctuation.definition.comment.end.php
       pop: 1
+
   constants:
     - match: |-
         \b(?xi:
@@ -1526,36 +1531,42 @@ contexts:
             - meta_scope: string.unquoted.heredoc.php
             - match: '{{heredoc_quoted_end}}'
               pop: 1
+
   heredoc-html:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.html.basic
       with_prototype:
         - include: interpolation
+
   heredoc-xml:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.xml
       with_prototype:
         - include: interpolation
+
   heredoc-javascript:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.js
       with_prototype:
         - include: interpolation
+
   heredoc-json:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.json
       with_prototype:
         - include: interpolation
+
   heredoc-css:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.css
       with_prototype:
         - include: interpolation
+
   heredoc-yaml:
     - meta_include_prototype: false
     - match: ''
@@ -1678,6 +1689,7 @@ contexts:
               scope: constant.other.php
         - include: variables-no-item-access
     - include: variables
+
   invoke-call:
     - match: '(\$+)({{identifier}})(?=\s*\()'
       scope: meta.function-call.invoke.php
@@ -1685,6 +1697,7 @@ contexts:
         1: punctuation.definition.variable.php
         2: variable.other.php
       push: function-call-arguments
+
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
@@ -1722,6 +1735,7 @@ contexts:
         2: punctuation.separator.decimal.php
     - match: \b(?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
+
   object:
     - match: (\??)(->)(\$?\{)
       captures:
@@ -1754,6 +1768,7 @@ contexts:
         1: punctuation.accessor.double-colon.php
         2: constant.other.class.php
       push: after-identifier
+
   parameter-default-types:
     - include: strings
     - include: arrays
@@ -1775,6 +1790,7 @@ contexts:
           pop: 1
         - include: class-name
     - include: constants
+
   php-doc:
     # If the next line doesn't start with whitespace then an asterisk, the use
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
@@ -1792,6 +1808,7 @@ contexts:
       push: php-doc-tags
     - match: ((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]
       scope: markup.underline.link.php
+
   php-doc-tags:
     - match: (@access)\s+(({{visibility_modifier}})|(.+))\s*$
       captures:
