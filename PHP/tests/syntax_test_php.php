@@ -1,8 +1,12 @@
 // SYNTAX TEST "Packages/PHP/PHP.sublime-syntax"
 <?php
 namespace MyNamespace;
-// <- keyword.other.namespace
-//        ^^^^^^^^^^^ entity.name.namespace
+// <- meta.namespace.php keyword.other.namespace.php
+//^^^^^^^^ meta.namespace.php - meta.path
+//        ^^^^^^^^^^^ meta.namespace.php meta.path.php
+//                   ^ - meta.namespace
+//^^^^^^^ keyword.other.namespace.php
+//        ^^^^^^^^^^^ entity.name.namespace.php
 //                   ^ punctuation.terminator.expression.php - entity.name.namespace
 
 use MyNamespace\Foo;
