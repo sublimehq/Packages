@@ -530,17 +530,24 @@ contexts:
     - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
-        - meta_scope: meta.generic.js
-        - match: \>
-          scope: punctuation.definition.generic.end.js
-          pop: true
-        - match: '{{identifier_name}}'
-          scope: variable.parameter.generic.js
-          push:
-            - ts-type-parameter-default
-            - ts-type-parameter-constraint
-        - include: comma-separator
-        - include: else-pop
+        - - meta_scope: meta.generic.js
+          - match: \>
+            scope: punctuation.definition.generic.end.js
+            pop: true
+
+          - match: ','
+            scope: punctuation.separator.comma
+            push: ts-type-parameter-list-item
+          - include: else-pop
+        - ts-type-parameter-list-item
+    - include: else-pop
+
+  ts-type-parameter-list-item:
+    - match: '{{identifier_name}}'
+      scope: variable.parameter.generic.js
+      set:
+        - ts-type-parameter-default
+        - ts-type-parameter-constraint
     - include: else-pop
 
   ts-type-parameter-constraint:

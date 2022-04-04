@@ -1244,21 +1244,26 @@ const x = {
 //              ^ punctuation.section.group.end
 //               ^ punctuation.terminator.statement
 
-    true ? (a) : <T>() => T => {} : null;
+    true ? (a) : <T,foo="a">() => {} => {} : null; // </T>;
 //  ^^^^ constant.language.boolean.true
 //       ^ keyword.operator.ternary
-//         ^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //         ^^^ meta.function.parameters
 //          ^ meta.binding.name variable.parameter.function
 //             ^ punctuation.separator.type
-//               ^^^^^^^^^^  meta.type
-//               ^^^ meta.generic
+//              ^^^^^^^^^^^^^^^^^^^^^ meta.type
+//               ^^^^^^^^^^^ meta.generic
 //                ^ variable.parameter.generic
-//                  ^^ meta.group
-//                     ^^ keyword.declaration.function
-//                        ^ support.class
-//                          ^^ keyword.declaration.function.arrow
-//                             ^^ meta.block
-//                                ^ keyword.operator.ternary
-//                                  ^^^^ constant.language.null
-//                                      ^ punctuation.terminator.statement
+//                 ^ punctuation.separator.comma
+//                  ^^^ variable.parameter.generic
+//                     ^ keyword.operator.assignment
+//                      ^^^ meta.string string.quoted.double
+//                          ^^ meta.group
+//                             ^^ keyword.declaration.function
+//                                ^^ meta.mapping
+//                                   ^^ keyword.declaration.function.arrow
+//                                      ^^ meta.block
+//                                         ^ keyword.operator.ternary
+//                                           ^^^^ constant.language.null
+//                                               ^ punctuation.terminator.statement
+//                                                 ^^^^^^^^ comment.line.double-slash

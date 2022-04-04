@@ -257,3 +257,20 @@ if (a < b || c <= d) {}
 //                ^^^ meta.tag.name entity.name.tag
 //                    ^^ punctuation.definition.tag.end
 //                      ^ punctuation.terminator.statement
+
+    true ? (a) : <T foo="a">() => {} => {} : null; // </T>;
+//  ^^^^ constant.language.boolean.true
+//       ^ keyword.operator.ternary
+//         ^^^ meta.group
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.ternary
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//                ^ meta.tag.name entity.name.tag
+//                  ^^^ entity.other.attribute-name
+//                     ^ punctuation.separator.key-value
+//                      ^^^ string.quoted.double
+//                                ^^ meta.interpolation
+//                                      ^^ meta.interpolation
+//                                                    ^^^^ meta.tag
+//                                                      ^ meta.tag.name entity.name.tag
+//                                                        ^ punctuation.terminator.statement
