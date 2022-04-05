@@ -20,7 +20,7 @@ def splitlines_keep_ends(text):
 
 
 def read_file_lines(fname):
-    with open(fname, mode="rt", encoding="utf-8") as f:
+    with open(fname, mode='rt', encoding='utf-8') as f:
         lines = splitlines_keep_ends(f.read())
 
     # as `difflib` doesn't work properly when the file does not end
@@ -55,7 +55,7 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
         bdate = time.ctime(os.stat(files[0]).st_mtime)
 
         diff = difflib.unified_diff(a, b, files[1], files[0], adate, bdate)
-        show_diff_output(diff, None, self, os.path.basename(files[1]) + " -> " + os.path.basename(files[0]))
+        show_diff_output(diff, None, self.window, f"{os.path.basename(files[1])} -> {os.path.basename(files[0])}", 'diff_files')
 
     def is_visible(self, files):
         return len(files) == 2
@@ -85,45 +85,36 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
         bdate = time.ctime()
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
-        show_diff_output(diff, self.view, self.view.window(), os.path.basename(self.view.file_name()))
+        show_diff_output(diff, self.view, self.view.window(), "Unsaved Changes: " + os.path.basename(self.view.file_name()), 'unsaved_changes')
 
     def is_enabled(self):
         return self.view.is_dirty() and self.view.file_name() is not None
 
 
-def show_diff_output(diff, view, win, name):
+def show_diff_output(diff, view, win, name, panel_name):
     difftxt = u"".join(line for line in diff)
 
     if difftxt == "":
         sublime.status_message("No changes")
         return
 
-    use_buffer = view and view.settings().get('diff_changes_to_buffer')
+    use_buffer = not view or view.settings().get('diff_changes_to_buffer')
 
     if use_buffer:
-        v = view.window().new_file()
-        v.set_name("Unsaved Changes: " + name)
+        v = win.new_file()
+        v.set_name(name)
         v.set_scratch(True)
         v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
     else:
-        v = win.create_output_panel('unsaved_changes')
+        v = win.create_output_panel(panel_name)
         v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
-        v.settings().set('word_wrap', view.settings().get('word_wrap'))
+        if view:
+            v.settings().set('word_wrap', view.settings().get('word_wrap'))
 
     v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
 
     if not use_buffer:
-        win.run_command("show_panel", {"panel": "output.unsaved_changes"})
-
-
-def get_common_prefix_length(str1, str2):
-    seqMatcher = difflib.SequenceMatcher(None, str1, str2)
-    matches = seqMatcher.get_matching_blocks()
-    if not matches:
-        return 0
-    if not matches[0].a == 0 or not matches[0].b == 0:
-        return 0
-    return matches[0].size
+        win.run_command('show_panel', {'panel': f'output.{panel_name}'})
 
 
 def get_view_from_tab_context(active_view, **kwargs):
@@ -161,16 +152,24 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             get_name_for_view(views[1], 'to_file')
         )
 
+        from_lines = get_lines_for_view(views[0])
+        to_lines = get_lines_for_view(views[1])
+        add_no_eol_warning_if_applicable(from_lines)
+        add_no_eol_warning_if_applicable(to_lines)
+
         diff = difflib.unified_diff(
-            get_lines_for_view(views[0]),
-            get_lines_for_view(views[1]),
+            from_lines,
+            to_lines,
             fromfile=view_names[0],
             tofile  =view_names[1]
         )
 
-        common_prefix_length = get_common_prefix_length(*view_names)
-        view_names = list(map(lambda name: name[common_prefix_length:], view_names))
-        show_diff_output(diff, views[0], views[0].window(), f'{view_names[0]} -> {view_names[1]}')
+        try:
+            common_path_length = len(os.path.commonpath(view_names))
+        except ValueError:
+            common_path_length = 0
+        view_names = list(map(lambda name: name[common_path_length:], view_names))
+        show_diff_output(diff, views[0], views[0].window(), f'{view_names[0]} -> {view_names[1]}', 'diff_views')
 
     def is_enabled(self, **kwargs):
         return self.is_visible(**kwargs)
