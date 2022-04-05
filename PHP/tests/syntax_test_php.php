@@ -134,9 +134,9 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                                                 ^ punctuation.terminator.expression.php - meta.use
 
 
-use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
+use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^ storage.type.php
 //        ^^^^^^^^^^^^ meta.path
 //        ^^^^ support.other.namespace
@@ -150,9 +150,9 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //                                    ^^ keyword.other.use-as
 //                                       ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                                             ^ punctuation.separator
-//                                               ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                                     ^ punctuation.section.block.end
-//                                                      ^ punctuation.terminator.expression.php - meta.use
+//                                               ^^^^ constant.language.boolean - support.function.php - entity.name - support.class.php - support.other.namespace
+//                                                   ^ punctuation.section.block.end
+//                                                    ^ punctuation.terminator.expression.php - meta.use
 
 
 function a($a = array(),             $b = "hi") {};
@@ -1900,21 +1900,24 @@ $object = new ArRaYoBjEcT();
 
 // constant name should be case-sensitive
 $const = E_aLL;
-//       ^^^^^ - support.constant.core
+//       ^^^^^ - support.constant.core - meta.path.php
 
 // function name should be case-sensitive
 $random = ArRaY_RaNd($array);
 //        ^^^^^^^^^^ support.function.array
 
 // test for constants for each group in the syntax definition
+$const = \PHP_VERSION_ID;
+//       ^ meta.path.php punctuation.separator.namespace.php
+//        ^^^^^^^^^^^^^^ meta.path.php support.constant.core.php - punctuation
 $const = E_ALL;
-//       ^^^^^ support.constant.core
+//       ^^^^^ support.constant.core.php - punctuation
 $const = CASE_LOWER;
-//       ^^^^^^^^^^ support.constant.std
+//       ^^^^^^^^^^ support.constant.std - meta.path.php
 $const = CURLAUTH_BASIC;
-//       ^^^^^^^^^^^^^^ support.constant.ext
+//       ^^^^^^^^^^^^^^ support.constant.ext - meta.path.php
 $const = T_ABSTRACT;
-//       ^^^^^^^^^^ support.constant.parser-token
+//       ^^^^^^^^^^ support.constant.parser-token - meta.path.php
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
