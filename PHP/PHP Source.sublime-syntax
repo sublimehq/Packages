@@ -1762,28 +1762,6 @@ contexts:
         2: constant.other.class.php
       push: after-identifier
 
-  parameter-default-types:
-    - include: strings
-    - include: arrays
-    - include: numbers
-    - include: variables
-    - match: "=>"
-      scope: keyword.operator.key.php
-    - match: "="
-      scope: keyword.operator.assignment.php
-    - match: '&(?=\s*\$)'
-      scope: storage.modifier.reference.php
-    - include: instantiations
-    - match: \s*(?={{path}}(::)({{identifier}})?)
-      push:
-        - match: '(::)({{identifier}})?'
-          captures:
-            1: punctuation.accessor.double-colon.php
-            2: constant.other.class.php
-          pop: 1
-        - include: class-names
-    - include: constants
-
   php-doc:
     # If the next line doesn't start with whitespace then an asterisk, the use
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
