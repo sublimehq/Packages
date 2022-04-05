@@ -152,19 +152,22 @@ variables:
   prelude_classes: |-
     (?x:
     # 9 Standard Prelude
-      Applicative | Bounded | Enum | Eq | Floating | Foldableble | Fractional
-    | Functor | Integral | Monad | Monadoid | Num | Ord | Rational | Read
-    | Real | RealFloat | RealFrac | Show | Traversable
+      Applicative | Bifoldable | Bifunctor | Bitraversable | Bits | Bounded
+    | Coercible | Enum | Eq | Floating | Foldable | Fractional | Functor | Integral
+    | IsString | Ix | Monad | Monoid | Num | Ord | Read | Real | RealFloat
+    | RealFrac | Semigroup | Show | Traversable | Typeable
     ){{break}}
 
   prelude_constants: |-
-    (?x: otherwise | Nothing | True | False | LT | EQ | GT ){{break}}
+    (?x: Just | Left | Nothing | Right | True | False | LT | EQ | GT ){{break}}
 
   prelude_types: |-
     (?x:
     # 9 Standard Prelude
-      Bool | Char | Double | Either | FilePath | Float | Integer | IO | IOError
-    | Maybe | Just | Left | Ordering | ReadS | Right | ShowS | String
+    # https://hackage.haskell.org/package/base-4.16.0.0
+      Bool | Char | Complex | Constraint | Double | Dynamic  | Either | FilePath
+    | Float | Integer | IO | IOError | IOException | IORef | Maybe | Ordering | Proxy
+    | Ratio | Rational | ReadS | ShowS | STRef | String | Type | Unique | Version | Void
     # 24 Foreign
     # https://www.haskell.org/onlinereport/haskell2010/haskellch24.html#x32-26200024
     | Int | Int8 | Int16 | Int32 | Int64 | Word | Word8 | Word16 | Word32 | Word64
@@ -257,6 +260,7 @@ contexts:
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-builtin-functions
+    - include: ident-builtin-constants
     - include: ident-types
     - include: ident-variables
 
@@ -636,14 +640,16 @@ contexts:
       scope:
         meta.declaration.class.haskell
         punctuation.separator.type.context.haskell
-      set: class-signature
-    - include: type-expressions
+      set:
+        - class-maybe-args
+        - class-name
+    - include: expressions
 
   class-signature:
     - meta_include_prototype: false
     - match: ''
       set:
-        - class-args
+        - class-expect-args
         - class-name
 
   class-name:
@@ -655,18 +661,21 @@ contexts:
       pop: 1
     - include: else-pop
 
-  class-args:
+  class-expect-args:
     - meta_content_scope: meta.declaration.class.haskell
     - match: (?={{operator_big_arrow}})
       fail: class-declaration
+    - include: class-type
+
+  class-maybe-args:
+    - meta_content_scope: meta.declaration.class.haskell
     - include: class-type
 
   class-type:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       set: class-block
-    - include: type-expressions
-    - include: else-pop
+    - include: declaration-type
 
   class-block:
     - match: \{
@@ -701,20 +710,17 @@ contexts:
       scope:
         meta.declaration.instance.haskell
         punctuation.separator.type.context.haskell
-      set: instance-signature
-    - include: type-expressions
+      set: instance-maybe-type
+    - include: expressions
 
   instance-signature:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - instance-args
-        - class-name
-
-  instance-args:
     - meta_content_scope: meta.declaration.instance.haskell
     - match: (?={{operator_big_arrow}})
       fail: instance-declaration
+    - include: class-type
+
+  instance-maybe-type:
+    - meta_content_scope: meta.declaration.instance.haskell
     - include: class-type
 
 ###[ DATA DECLARATIONS ]#######################################################
@@ -733,27 +739,88 @@ contexts:
         - data-context
 
   data-context:
+    # A data declaration with optional `context` expression being present.
     - meta_content_scope: meta.declaration.data.context.haskell
     - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.data.haskell
-        punctuation.separator.type.context.haskell
-      set: data-signature
-    - include: type-expressions
+      scope: punctuation.separator.type.context.haskell
+      set:
+        - data-maybe-constructors
+        - type-name
+    - include: expressions
 
   data-signature:
+    # A data declaration without optional `context` expression being present.
+    # That's the more common use case and thus matched first.
     - meta_include_prototype: false
     - match: ''
       set:
-        - data-args
+        - data-expect-constructors
         - type-name
 
-  data-args:
-    - meta_content_scope: meta.declaration.data.haskell
+  data-expect-constructors:
+    - meta_scope: meta.declaration.data.haskell
     - match: (?={{operator_big_arrow}})
       fail: data-declaration
-    - include: type-expressions
+    - include: data-maybe-constructors
+
+  data-maybe-constructors:
+    - meta_scope: meta.declaration.data.haskell
+    - match: =
+      scope: keyword.operator.haskell
+      set:
+        - constructors
+        - constructor-or-type
+    - include: declaration-type
+
+###[ CONSTRUCTOR DECLARATIONS ]################################################
+
+  constructors:
+    - meta_content_scope: meta.declaration.data.haskell
+    - match: \|
+      scope: punctuation.separator.sequence.haskell
+      push: constructor-or-type
+    - include: declaration-type
+
+  constructor-or-type:
+    - match: (?={{con_id}})
+      pop: 1
+      branch_point: constructor-or-type
+      branch:
+        - constructor
+        - ident-type
     - include: else-pop
+
+  constructor:
+    # Data constructors without arguments are also called constants.
+    # Thus all data constructors are scoped as constant.
+    - match: '{{con_id}}'
+      scope: entity.name.constant.haskell
+      set: constructor-parameters
+
+  constructor-parameters:
+    - match: \{
+      scope: punctuation.section.block.begin.haskell
+      set: record-body
+    - match: (?=\S)
+      set: constructor-body
+
+  constructor-body:
+    - include: type-lists
+    - include: type-parens
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-variables
+    - match: \!
+      scope: keyword.operator.haskell
+    # terminated by
+    # - statement terminator
+    # - constructor separator
+    # - record block
+    # - any (key)word
+    - match: (?=[;|{\w])
+      pop: 1
+    - match: (?=\S)
+      fail: constructor-or-type
 
 ###[ DEFAULT DECLARATIONS ]####################################################
 
@@ -769,7 +836,7 @@ contexts:
   default-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.default.haskell
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   default-body:
     - match: \(
@@ -786,17 +853,21 @@ contexts:
       scope: storage.modifier.haskell
       push:
         - deriving-meta
-        - deriving-body
+        - deriving-begin
 
   deriving-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.deriving.haskell
-    - include: immediatelly-pop
+    - include: immediately-pop
 
-  deriving-body:
+  deriving-begin:
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
       set: deriving-tuple-body
+    - match: (?=\S)
+      set: deriving-body
+
+  deriving-body:
     - include: ident-namespaces
     - include: ident-type
     - include: else-pop
@@ -838,9 +909,6 @@ contexts:
         2: keyword.operator.haskell
         3: punctuation.definition.prefix.end.haskell
       push: variable-name-end
-    - match: '{{prelude_constants}}'
-      scope: support.constant.prelude.haskell
-      push: variable-name-end
     - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
       push: variable-name-end
@@ -880,25 +948,28 @@ contexts:
   newtype-context:
     - meta_content_scope: meta.declaration.newtype.context.haskell
     - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.newtype.haskell
-        punctuation.separator.type.context.haskell
-      set: newtype-signature
-    - include: type-expressions
+      scope: punctuation.separator.type.context.haskell
+      set:
+        - newtype-maybe-args
+        - type-name
+    - include: expressions
 
   newtype-signature:
     - meta_include_prototype: false
     - match: ''
       set:
-        - newtype-args
+        - newtype-expect-args
         - type-name
 
-  newtype-args:
-    - meta_content_scope: meta.declaration.newtype.haskell
+  newtype-expect-args:
+    - meta_scope: meta.declaration.newtype.haskell
     - match: (?={{operator_big_arrow}})
       fail: newtype-declaration
-    - include: type-expressions
-    - include: else-pop
+    - include: declaration-type
+
+  newtype-maybe-args:
+    - meta_scope: meta.declaration.newtype.haskell
+    - include: declaration-type
 
 ###[ TYPE DECLARATIONS ]#######################################################
 
@@ -917,17 +988,17 @@ contexts:
   type-context:
     - meta_content_scope: meta.declaration.type.context.haskell
     - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.type.haskell
-        punctuation.separator.type.context.haskell
-      set: type-signature
-    - include: type-expressions
+      scope: punctuation.separator.type.context.haskell
+      set:
+        - type-maybe-args
+        - type-name
+    - include: expressions
 
   type-signature:
     - meta_include_prototype: false
     - match: ''
       set:
-        - type-args
+        - type-expect-args
         - type-name
 
   type-name:
@@ -939,11 +1010,50 @@ contexts:
       pop: 1
     - include: else-pop
 
-  type-args:
-    - meta_content_scope: meta.declaration.type.haskell
+  type-expect-args:
+    - meta_scope: meta.declaration.type.haskell
     - match: (?={{operator_big_arrow}})
       fail: type-declaration
-    - include: type-expressions
+    - include: declaration-type
+
+  type-maybe-args:
+    - meta_scope: meta.declaration.type.haskell
+    - include: declaration-type
+
+###[ DECLARATION TYPE EXPRESSIONS ]############################################
+
+  declaration-type:
+    - match: (?=;|=(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}}|{{reserved_id}})
+      pop: 1
+    # pop context if beginning of a line looks like a function declaration or assignment expression
+    - match: ^\s*(?={{var_id}})
+      branch_point: declaration-type-end
+      branch:
+        - declaration-type-variable
+        - immediately-pop2
+    - include: right-arrow-operators
+    - include: infix-quoted-operators
+    - include: infix-operators
+    - include: type-lists
+    - include: type-parens
+    - include: type-forall
+    - include: ident-anonymous
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-variables
+    - match: \S
+      scope: invalid.illegal.haskell
+
+  declaration-type-variable:
+    - match: '{{var_id}}'
+      scope: variable.other.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      set: declaration-type-variable-after
+
+  declaration-type-variable-after:
+    - match: (?==(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}})
+      fail: declaration-type-end
     - include: else-pop
 
 ###[ TYPE EXPRESSIONS ]########################################################
@@ -1249,23 +1359,11 @@ contexts:
       captures:
         1: storage.modifier.unboxed.haskell
 
-  ident-builtin-classes:
-    # Prelude Class Types
-    - match: '{{prelude_classes}}'
-      scope: support.class.prelude.haskell
-
-  ident-builtin-types:
-    # Prelude Data Types of special meaning
+  ident-builtin-constants:
+    # Data constructors without arguments are also called constants.
+    # Thus all data constructors are scoped as constant.
     - match: '{{prelude_constants}}'
       scope: support.constant.prelude.haskell
-    # Prelude Data Types
-    - match: '{{prelude_types}}'
-      scope: support.type.prelude.haskell
-    # Unboxed Data Types
-    - match: '{{unboxed_types}}'
-      scope: support.type.unboxed.haskell
-      captures:
-        1: storage.modifier.unboxed.haskell
 
   ident-builtin-functions:
     - match: '{{prelude_functions}}'
@@ -1286,25 +1384,49 @@ contexts:
       pop: 1
 
   ident-types:
-    - include: ident-builtin-classes
     - include: ident-builtin-types
+    - include: ident-user-types
+
+  ident-builtin-types:
+    # Prelude Class Types
+    - match: '{{prelude_classes}}'
+      scope: support.class.prelude.haskell
+    # Prelude Data Types
+    - match: '{{prelude_types}}'
+      scope: support.type.prelude.haskell
+    # Unboxed Data Types
+    - match: '{{unboxed_types}}'
+      scope: support.type.unboxed.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+
+  ident-user-types:
     - match: '{{con_id}}'
       scope: storage.type.haskell
       captures:
         1: storage.modifier.unboxed.haskell
 
   ident-type:
+    - include: ident-builtin-type
+    - include: ident-user-type
+
+  ident-builtin-type:
+    # Prelude Class Types
     - match: '{{prelude_classes}}'
       scope: support.class.prelude.haskell
       pop: 1
+    # Prelude Data Types
     - match: '{{prelude_types}}'
       scope: support.type.prelude.haskell
       pop: 1
+    # Unboxed Data Types
     - match: '{{unboxed_types}}'
       scope: support.type.unboxed.haskell
-      pop: 1
       captures:
         1: storage.modifier.unboxed.haskell
+      pop: 1
+
+  ident-user-type:
     - match: '{{con_id}}'
       scope: storage.type.haskell
       captures:
@@ -1450,14 +1572,7 @@ contexts:
     - include: right-arrow-operators
     - include: prefix-parens-operators
     - include: infix-quoted-operators
-    # Match all not otherwise matched single quotes as promoition operator
-    # Note: Found in real world code but not in specs so far.
-    - match: \'
-      scope: keyword.operator.haskell
-    - match: '{{operator_double_colon}}'
-      scope: punctuation.separator.type.haskell
-    - match: '{{operator_symbol}}'
-      scope: keyword.operator.haskell
+    - include: infix-operators
 
   big-arrow-operators:
     - match: '{{operator_big_arrow}}'
@@ -1479,12 +1594,22 @@ contexts:
         2: keyword.operator.haskell
         3: punctuation.definition.prefix.end.haskell
 
+  infix-operators:
+    # Match all not otherwise matched single quotes as promoition operator
+    # Note: Found in real world code but not in specs so far.
+    - match: \'
+      scope: keyword.operator.haskell
+    - match: '{{operator_double_colon}}'
+      scope: punctuation.separator.type.haskell
+    - match: '{{operator_symbol}}'
+      scope: keyword.operator.haskell
+
   infix-quoted-operators:
     - match: (?=\`)
       branch_point: infix-quoted-operators
       branch:
         - infix-quoded-operators-begin
-        - immediatelly-pop
+        - immediately-pop
 
   infix-quoded-operators-begin:
     - match: (\`)\s*
@@ -1522,6 +1647,11 @@ contexts:
     - match: (?=\S)
       pop: 1
 
-  immediatelly-pop:
+  immediately-pop:
     - match: ''
       pop: 1
+
+  immediately-pop2:
+    - match: ''
+      pop: 2
+
