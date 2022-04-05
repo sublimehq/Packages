@@ -238,7 +238,7 @@ contexts:
     - meta_scope: comment.block.go
     - match: \*/
       scope: punctuation.definition.comment.end.go
-      pop: true
+      pop: 1
     # Indentation, followed by exactly one space, followed by *.
     # This enables support for javadoc comments, while avoiding false
     # positives in non-javadoc comments that use "*" as simple list bullets.
@@ -365,7 +365,7 @@ contexts:
   pop-identifier-anon:
     - match: '{{ident_anon}}'
       scope: variable.language.anonymous.go
-      pop: true
+      pop: 1
 
   # https://golang.org/ref/spec#Operators_and_punctuation
   #
@@ -441,10 +441,10 @@ contexts:
   pop-selector:
     - match: '{{ident_anon}}(?!{{noise}}\()'
       scope: variable.language.anonymous.go
-      pop: true
+      pop: 1
     - match: '{{ident}}(?!{{noise}}\()'
       scope: variable.other.member.go
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.go
       set: pop-type-assertion
@@ -474,7 +474,7 @@ contexts:
 
   pop-brackets-inner:
     - match: ''
-      pop: true
+      pop: 1
       branch_point: point-brackets-inner
       branch:
         - pop-brackets-inner-type-parameter-list
@@ -644,7 +644,7 @@ contexts:
         - meta_scope: string.quoted.other.go
         - match: '`'
           scope: punctuation.definition.string.end.go
-          pop: true
+          pop: 1
         - include: match-template-string
         - match: \%%
           scope: constant.character.escape.go
@@ -658,7 +658,7 @@ contexts:
         - meta_scope: string.quoted.double.go
         - match: '"'
           scope: punctuation.definition.string.end.go
-          pop: true
+          pop: 1
         - include: match-template-string
         - match: '{{char_escape}}'
           scope: constant.character.escape.go
@@ -674,7 +674,7 @@ contexts:
        - clear_scopes: 1
        - match: "}}"
          scope: punctuation.section.interpolation.end.go
-         pop: true
+         pop: 1
        - match: "\\s-"
          scope: keyword.operator.template.right.trim.go
        - match: "-\\s"
@@ -837,7 +837,7 @@ contexts:
   pop-package-name:
     - match: '{{ident}}'
       scope: entity.name.namespace.go
-      pop: true
+      pop: 1
     - include: pop-before-nonblank
 
   match-keyword-range:
@@ -962,11 +962,11 @@ contexts:
   pop-func-name:
     - match: '{{ident_anon}}'
       scope: variable.language.anonymous.go
-      pop: true
+      pop: 1
 
     - match: '{{ident}}'
       scope: entity.name.function.go
-      pop: true
+      pop: 1
 
     - include: pop-before-nonblank
 
@@ -1043,7 +1043,7 @@ contexts:
 
   pop-parameter-type:
     - match: (?=\)|,)
-      pop: true
+      pop: 1
     - include: match-ellipsis
     - include: pop-type
 
@@ -1114,19 +1114,19 @@ contexts:
 
   pop-now:
     - match: ''
-      pop: true
+      pop: 1
 
   pop-before-nonblank:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   pop-before-semicolon:
     - match: (?=;)
-      pop: true
+      pop: 1
 
   pop-before-newline:
     - match: (?=$)
-      pop: true
+      pop: 1
 
   pop-before-terminator:
     - include: pop-before-semicolon
@@ -1134,30 +1134,30 @@ contexts:
 
   pop-before-paren-end:
     - match: (?=\))
-      pop: true
+      pop: 1
 
   pop-on-paren-end:
     - match: \)
       scope: punctuation.section.parens.end.go
-      pop: true
+      pop: 1
 
   pop-before-bracket-end:
     - match: (?=\])
-      pop: true
+      pop: 1
 
   pop-on-bracket-end:
     - match: \]
       scope: punctuation.section.brackets.end.go
-      pop: true
+      pop: 1
 
   pop-on-brace-end:
     - match: \}
       scope: punctuation.section.braces.end.go
-      pop: true
+      pop: 1
 
   pop-before-brace-end:
     - match: (?=\})
-      pop: true
+      pop: 1
 
   match-type:
     - match: (?=\S)
@@ -1396,11 +1396,11 @@ contexts:
   pop-member:
     - match: '{{ident_anon}}'
       scope: variable.language.anonymous.go
-      pop: true
+      pop: 1
 
     - match: '{{ident}}'
       scope: variable.other.member.go
-      pop: true
+      pop: 1
 
   pop-arguments-starting-with-type:
     # Go allows functions and types to be wrapped in an arbitrary number of
@@ -1416,7 +1416,7 @@ contexts:
   # should also match \r\n due to Sublime's internal normalization.
   pop-on-eol:
     - match: $\n?
-      pop: true
+      pop: 1
 
   pop-inside-parens:
     - include: pop-on-paren-end
