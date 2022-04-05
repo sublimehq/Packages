@@ -203,12 +203,25 @@ if (a < b || c <= d) {}
 //     ^^^^^^^ meta.tag.attributes entity.other.attribute-name
 //            ^ punctuation.definition.tag.end
 
-    <T extends {}>() => {}; // </T>;
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//  ^^^^^^^^^^^^^^ meta.function meta.generic
+    <T extends "s">() => {x}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^^ meta.function meta.generic
 //   ^ variable.parameter.generic
 //     ^^^^^^^ storage.modifier.extends
-//             ^^ meta.function meta.generic meta.mapping
+//             ^^^ meta.function meta.generic
+
+    <T extends="s">() => {x}; // </T>;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//  ^^^^^^^^^^^^^^^ meta.tag
+//   ^ meta.tag.name entity.name.tag
+//     ^^^^^^^ entity.other.attribute-name
+//            ^ punctuation.separator.key-value
+//             ^^^ string.quoted.double
+//                 ^^^^^^^^^ - meta.function
+//                       ^^^ meta.interpolation
+//                               ^^^^ meta.tag
+//                                 ^ meta.tag.name entity.name.tag
+//                                   ^ punctuation.terminator.statement
 
     <T {...}>() => {};</T>;
 //  ^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
@@ -234,3 +247,31 @@ if (a < b || c <= d) {}
 //                ^ punctuation.definition.tag.end
 //                 ^ meta.tag punctuation.definition.tag.end
 //                  ^ punctuation.terminator.statement
+
+    true ? (a) : <foo />;
+//  ^^^^ constant.language.boolean.true
+//       ^ keyword.operator.ternary
+//         ^^^ meta.group
+//             ^ keyword.operator.ternary
+//               ^^^^^^^ meta.jsx meta.tag
+//               ^ punctuation.definition.tag.begin
+//                ^^^ meta.tag.name entity.name.tag
+//                    ^^ punctuation.definition.tag.end
+//                      ^ punctuation.terminator.statement
+
+    true ? (a) : <T foo="a">() => {} => {} : null; // </T>;
+//  ^^^^ constant.language.boolean.true
+//       ^ keyword.operator.ternary
+//         ^^^ meta.group
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.ternary
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
+//                ^ meta.tag.name entity.name.tag
+//                  ^^^ entity.other.attribute-name
+//                     ^ punctuation.separator.key-value
+//                      ^^^ string.quoted.double
+//                                ^^ meta.interpolation
+//                                      ^^ meta.interpolation
+//                                                    ^^^^ meta.tag
+//                                                      ^ meta.tag.name entity.name.tag
+//                                                        ^ punctuation.terminator.statement

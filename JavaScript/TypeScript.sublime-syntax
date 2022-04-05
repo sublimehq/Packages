@@ -530,16 +530,27 @@ contexts:
     - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
-        - meta_scope: meta.generic.js
-        - match: \>
-          scope: punctuation.definition.generic.end.js
-          pop: true
-        - match: '{{identifier_name}}'
-          scope: variable.parameter.generic.js
-          push:
-            - ts-type-parameter-default
-            - ts-type-parameter-constraint
-        - include: comma-separator
+        - ts-type-parameter-list-tail
+        - ts-type-parameter-list-head
+    - include: else-pop
+
+  ts-type-parameter-list-tail:
+    - meta_scope: meta.generic.js
+    - match: \>
+      scope: punctuation.definition.generic.end.js
+      pop: true
+
+    - match: ','
+      scope: punctuation.separator.comma
+      push: ts-type-parameter-list-head
+    - include: else-pop
+
+  ts-type-parameter-list-head:
+    - match: '{{identifier_name}}'
+      scope: variable.parameter.generic.js
+      set:
+        - ts-type-parameter-default
+        - ts-type-parameter-constraint
     - include: else-pop
 
   ts-type-parameter-constraint:
@@ -822,8 +833,6 @@ contexts:
             - ts-type-expression-begin
 
   ts-type-expression-begin:
-    - match: (?=<)
-      pop: 3
     - match: keyof{{identifier_break}}
       scope: keyword.operator.type.js
     - match: typeof{{identifier_break}}
@@ -862,6 +871,12 @@ contexts:
     - include: ts-type-primitive
     - include: ts-type-basic
 
+    - match: (?=\<)
+      set:
+        - ts-type-function
+        - ts-generic-function-type-check
+        - ts-type-parameter-list
+
     - match: (?=\()
       pop: true
       branch_point: ts-function-type
@@ -877,6 +892,12 @@ contexts:
       scope: keyword.operator.arithmetic.js
 
     - include: else-pop
+
+  ts-generic-function-type-check:
+    - match: (?=\()
+      pop: true
+    - match: (?=\S)
+      pop: 2
 
   ts-type-tuple:
     - match: \[
