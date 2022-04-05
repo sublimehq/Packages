@@ -963,6 +963,7 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //                                               ^ punctuation.section.block.end.php
 
     class
+//  ^^^^^ keyword.declaration.class.php - meta.class
 
     class Test1
 // ^ - meta.class
@@ -1050,6 +1051,10 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                              ^^^^^^^^^^^^^ constant.other
     }
 }
+
+interface
+// <- keyword.declaration.interface.php - meta.interface
+//^^^^^^^ keyword.declaration.interface.php - meta.interface
 
 interface MyInter {}
 // <- keyword.declaration.interface
