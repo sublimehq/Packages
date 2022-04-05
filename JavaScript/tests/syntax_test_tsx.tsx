@@ -217,6 +217,7 @@ if (a < b || c <= d) {}
 //     ^^^^^^^ entity.other.attribute-name
 //            ^ punctuation.separator.key-value
 //             ^^^ string.quoted.double
+//                 ^^^^^^^^^ - meta.function
 //                       ^^^ meta.interpolation
 //                               ^^^^ meta.tag
 //                                 ^ meta.tag.name entity.name.tag
