@@ -2014,6 +2014,7 @@ contexts:
       escape_captures:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
     - include: nested-expressions
+    - include: else-pop
 
 ###[ BUILTINS ]###############################################################
 

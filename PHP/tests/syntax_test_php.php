@@ -1944,6 +1944,10 @@ $statement = match ($this->lexer->lookahead['type']) {
     default => $this->syntaxError('UPDATE or DELETE'),
 //  ^^^^^^^ keyword.control
 //          ^^ keyword.operator.key
+//                               ^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//                               ^ punctuation.section.group.begin.php
+//                                ^^^^^^^^^^^^^^^^^^ meta.string.php
+//                                                  ^ punctuation.section.group.end.php
 };
 
 $non_sql = "NO SELECT HIGHLIGHTING!";
