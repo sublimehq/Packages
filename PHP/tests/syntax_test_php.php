@@ -223,8 +223,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                       ^ keyword.operator.assignment
 //                        ^^^^^^^ meta.sequence.array.empty
 //                               ^ punctuation.separator
-//                                 ^^^^^^^^^ meta.path
-//                                 ^^^^^^^^^ support.class
+//                                 ^^^^^^^^^ support.class - meta.path
 //                                           ^^^^ variable.parameter
 //                                               ^ punctuation.section.group.end
 //                                                 ^^^^^^^^^^^^^^^^^^ meta.function.closure.use
@@ -319,7 +318,7 @@ $var?->meth()[10];
 //^^^^^^^^^^^^^^^^^^ meta.attribute.php - comment
 //                  ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^^^^ meta.path.php support.class.php
+//  ^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                 ^ punctuation.definition.attribute.end.php
   #[WithoutArgument()]
 //^^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
@@ -327,7 +326,7 @@ $var?->meth()[10];
 //                   ^ meta.attribute.php - meta.group
 //                    ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^^^^ meta.path.php support.class.php
+//  ^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                 ^ punctuation.section.group.begin.php
 //                  ^ punctuation.section.group.end.php
 //                   ^ punctuation.definition.attribute.end
@@ -337,7 +336,7 @@ $var?->meth()[10];
 //                   ^ meta.attribute.php - meta.group
 //                    ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^^^ meta.path.php support.class.php
+//  ^^^^^^^^^^^^^^ support.class.php - meta.path
 //                ^ punctuation.section.group.begin.php
 //                 ^ constant.numeric.value.php
 //                  ^ punctuation.section.group.end.php
@@ -348,7 +347,7 @@ $var?->meth()[10];
 //                                ^ meta.attribute.php - meta.group
 //                                 ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^ meta.path.php support.class.php
+//  ^^^^^^^^^^^^ support.class.php - meta.path
 //              ^ punctuation.section.group.begin.php
 //               ^^^^^^^ string.quoted.single.php
 //                      ^ punctuation.separator.comma.php
@@ -363,7 +362,7 @@ $var?->meth()[10];
 //                                                        ^ meta.attribute.php - meta.group
 //                                                         ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^ meta.path.php support.class.php
+//  ^^^^^^^^^^^^ support.class.php - meta.path
 //              ^ punctuation.section.group.begin.php
 //               ^^^ support.class.builtin.php
 //                  ^^ punctuation.accessor.double-colon.php
@@ -421,21 +420,21 @@ function foo() {}
   #[ExampleAttribute]
 //^^^^^^^^^^^^^^^^^^^ meta.attribute
 //^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^^^ meta.path
+//  ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                  ^ punctuation.definition.attribute.end
 class Foo
 {
     #[ExampleAttribute]
 //  ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //  ^^ punctuation.definition.attribute.begin
-//    ^^^^^^^^^^^^^^^^ meta.path
+//    ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                    ^ punctuation.definition.attribute.end
     public const FOO = 'foo';
 
     #[ExampleAttribute]
 //  ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //  ^^ punctuation.definition.attribute.begin
-//    ^^^^^^^^^^^^^^^^ meta.path
+//    ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                    ^ punctuation.definition.attribute.end
     #[ORM\Column("string", ORM\Column::UNIQUE)]
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
@@ -466,13 +465,13 @@ class Foo
     #[ExampleAttribute] // comment
 //  ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //  ^^ punctuation.definition.attribute.begin
-//    ^^^^^^^^^^^^^^^^ meta.path
+//    ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                    ^ punctuation.definition.attribute.end
 //                      ^^^^^^^^^^ comment
     public function foo(#[ExampleAttribute] \Foo\Bar $bar) { }
 //                      ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //                      ^^ punctuation.definition.attribute.begin
-//                        ^^^^^^^^^^^^^^^^ meta.path
+//                        ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                                        ^ punctuation.definition.attribute.end
 //                                          ^^^^^^^^ meta.path
 //                                                   ^^^^ variable.parameter
@@ -480,7 +479,7 @@ class Foo
     #[Route("/api/posts/{id}", methods: ["GET", "HEAD"])]
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
 //  ^^ punctuation.definition.attribute.begin
-//    ^^^^^ meta.path
+//    ^^^^^ support.class.php - meta.path
 //         ^ punctuation.section.group.begin
 //                           ^ punctuation.separator
 //                             ^^^^^^^ variable.parameter.named
@@ -494,7 +493,7 @@ $object = new #[ExampleAttribute] class () { };
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php
 //            ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //            ^^ punctuation.definition.attribute.begin
-//              ^^^^^^^^^^^^^^^^ meta.path
+//              ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                              ^ punctuation.definition.attribute.end
 //                                ^^^^^^ meta.class.php - meta.group - meta.block
 //                                      ^^ meta.class.php meta.group - meta.block
@@ -509,14 +508,14 @@ $object = new #[ExampleAttribute] class () { };
 $f2 = #[ExampleAttribute] function () { };
 //    ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //    ^^ punctuation.definition.attribute.begin
-//      ^^^^^^^^^^^^^^^^ meta.path
+//      ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                      ^ punctuation.definition.attribute.end
 //                        ^^^^^^^^ keyword.declaration.function
 
 $f3 = #[ExampleAttribute] fn () => 1;
 //    ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //    ^^ punctuation.definition.attribute.begin
-//      ^^^^^^^^^^^^^^^^ meta.path
+//      ^^^^^^^^^^^^^^^^ support.class.php - meta.path
 //                      ^ punctuation.definition.attribute.end
 //                        ^^ keyword.declaration.function
 //                              ^^ punctuation.definition.arrow-function
@@ -1028,9 +1027,9 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //  ^^^^^ keyword.declaration.class.php
 //        ^^^^^ entity.name.class.php
 //              ^^^^^^^ storage.modifier.extends.php
-//                      ^^^^^^^^ meta.path.php entity.other.inherited-class.php support.class.builtin.php
+//                      ^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
 //                               ^^^^^^^^^^ storage.modifier.implements.php
-//                                          ^^^^^^^^^ meta.path.php entity.other.inherited-class.php support.class.builtin.php
+//                                          ^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
 
     class Test1 extends Foo, Bar implements Foo, Bar {}
 // ^ - meta.class
@@ -1236,7 +1235,7 @@ array_slice($array, $offset, $length, preserve_keys: true);
 $test = new Test1;
 //      ^^^^^^^^^ meta.instantiation.php
 //      ^ keyword.other.new.php
-//          ^^^^^ meta.path
+//          ^^^^^ support.class.php - meta.path
 //          ^ support.class.php
 
 $anon = new class{};
@@ -1272,11 +1271,9 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                         ^ variable.other.php
 //                                ^ punctuation.section.group.end.php
 //                                  ^ storage.modifier.extends.php
-//                                          ^^^^^ meta.path
-//                                           ^ entity.other.inherited-class.php
+//                                          ^^^^^ entity.other.inherited-class.php - meta.path
 //                                                ^ storage.modifier.implements.php
-//                                                           ^^^^^^^^^ meta.path
-//                                                           ^ entity.other.inherited-class.php
+//                                                           ^^^^^^^^^ entity.other.inherited-class.php - meta.path
 //                                                                     ^^ meta.class.php
 //                                                                     ^^ meta.block.php
 
@@ -1293,11 +1290,9 @@ $anon = new /* comment */ #[anno] class($param1, $param2) extends Test1 implemen
 //                                               ^ variable.other.php
 //                                                      ^ punctuation.section.group.end.php
 //                                                        ^ storage.modifier.extends.php
-//                                                                ^^^^^ meta.path
-//                                                                 ^ entity.other.inherited-class.php
+//                                                                ^^^^^ entity.other.inherited-class.php - meta.path
 //                                                                      ^ storage.modifier.implements.php
-//                                                                                 ^^^^^^^^^ meta.path
-//                                                                                 ^ entity.other.inherited-class.php
+//                                                                                 ^^^^^^^^^ entity.other.inherited-class.php - meta.path
 //                                                                                           ^^ meta.class.php
 //                                                                                           ^^ meta.block.php
 
@@ -1578,10 +1573,10 @@ class B
 //                  ^^^ entity.other.inherited-class.php
 //                     ^ punctuation.separator.comma.php
     Y,
-//  ^ meta.use meta.path entity.other.inherited-class
+//  ^ meta.use entity.other.inherited-class - meta.path
     Z {
 // ^^^ meta.class.php meta.block.php meta.use.php - meta.block meta.block
-//  ^ meta.path.php entity.other.inherited-class.php
+//  ^ entity.other.inherited-class.php - meta.path.php
 //    ^^ meta.class.php meta.block.php meta.use.php meta.block.php
 //    ^ punctuation.section.block.begin.php
         X::method1 as another1;
@@ -2548,7 +2543,7 @@ class E {
 }
 
 var_dump(new C(42));
-//           ^ meta.path support.class
+//           ^ support.class - meta.path
 
 // test for https://github.com/sublimehq/Packages/issues/3134
 $array = array_reduce(

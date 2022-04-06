@@ -1664,49 +1664,69 @@ contexts:
 
 ###[ CLASSES ]################################################################
 
-  class-names:
-    - match: (?={{path}})
-      push: class-name-content
-
-  class-name:
-    - match: (?={{path}})
-      set: class-name-content
-
-  class-name-content:
-    - meta_include_prototype: false
-    - meta_scope: meta.path.php
-    - include: identifier-parts
-    - match: (\\)?(?:({{builtin_classes}})|({{identifier}}))
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.class.builtin.php
-        3: support.class.php
-      pop: 1
-    - include: immediately-pop
-
   class-builtin:
     - match: (\\)?({{builtin_classes}})
       captures:
         1: punctuation.separator.namespace.php
         2: support.class.builtin.php
 
-  inherited-class-names:
-    - match: (?={{path}})
-      push: inherited-class-name-content
+  class-names:
+    - match: \\|(?={{identifier}}\\)
+      scope: punctuation.separator.namespace.php
+      push: qualified-class-name
+    - match: (?={{identifier_start}})
+      push: unqualified-class-name
 
-  inherited-class-name:
-    - match: (?={{path}})
-      set: inherited-class-name-content
+  class-name:
+    - match: \\|(?={{identifier}}\\)
+      scope: punctuation.separator.namespace.php
+      set: qualified-class-name
+    - match: (?={{identifier_start}})
+      set: unqualified-class-name
 
-  inherited-class-name-content:
+  qualified-class-name:
     - meta_include_prototype: false
     - meta_scope: meta.path.php
-    - include: identifier-parts
-    - match: (\\)?(?:({{builtin_classes}})|({{identifier}}))
-      captures:
-        1: punctuation.separator.namespace.php
-        2: entity.other.inherited-class.php support.class.builtin.php
-        3: entity.other.inherited-class.php
+    - include: qualifiers
+    - include: unqualified-class-name
+
+  unqualified-class-name:
+    - meta_include_prototype: false
+    - match: '{{builtin_classes}}'
+      scope: support.class.builtin.php
+      pop: 1
+    - match: '{{identifier}}'
+      scope: support.class.php
+      pop: 1
+    - include: immediately-pop
+
+  inherited-class-names:
+    - match: \\|(?={{identifier}}\\)
+      scope: punctuation.separator.namespace.php
+      push: qualified-inherited-class-name
+    - match: (?={{identifier_start}})
+      push: unqualified-inherited-class-name
+
+  inherited-class-name:
+    - match: \\|(?={{identifier}}\\)
+      scope: punctuation.separator.namespace.php
+      set: qualified-inherited-class-name
+    - match: (?={{identifier_start}})
+      set: unqualified-inherited-class-name
+
+  qualified-inherited-class-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
+    - include: qualifiers
+    - include: unqualified-inherited-class-name
+
+  unqualified-inherited-class-name:
+    - meta_include_prototype: false
+    - match: '{{builtin_classes}}'
+      scope: entity.other.inherited-class.php support.class.builtin.php
+      pop: 1
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.php
       pop: 1
     - include: immediately-pop
 
@@ -2900,6 +2920,12 @@ contexts:
             2: constant.other.php
           set: after-identifier
         - include: immediately-pop
+
+  qualifiers:
+    - match: ({{identifier}})(\\)
+      captures:
+        1: support.other.namespace.php
+        2: punctuation.separator.namespace.php
 
 ###[ OPERATORS ]##############################################################
 
