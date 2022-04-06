@@ -122,8 +122,7 @@ contexts:
           push:
             - include: attributes
             - include: comments
-            - match: '(?={{path}})'
-              push: inherited
+            - include: inherited-class-names
             - include: punctuation-separators
             - include: else-pop
         - include: else-pop
@@ -637,8 +636,7 @@ contexts:
     - include: comments
     - match: (?=(?i:extends|implements)\b)
       pop: 1
-    - match: (?={{path}})
-      set: inherited
+    - include: inherited-class-name
     - include: else-pop
 
   class-implements:
@@ -647,22 +645,9 @@ contexts:
     - include: comments
     - match: (?=(?i:extends|implements)\b)
       pop: 1
-    - match: (?={{path}})
-      push: inherited
+    - include: inherited-class-names
     - include: punctuation-separators
     - include: else-pop
-
-  inherited:
-    - meta_include_prototype: false
-    - meta_scope: meta.path.php
-    - include: identifier-parts
-    - match: (\\)?(?:({{builtin_classes}})|({{identifier}}))
-      captures:
-        1: punctuation.separator.namespace.php
-        2: entity.other.inherited-class.php support.class.builtin.php
-        3: entity.other.inherited-class.php
-      pop: 1
-    - include: immediately-pop
 
   class-body:
     - meta_scope: meta.class.php meta.block.php
@@ -686,8 +671,7 @@ contexts:
     - include: attributes
     - include: comments
     - include: punctuation-separators
-    - match: (?={{path}})
-      push: inherited
+    - include: inherited-class-names
 
   class-use-block-body:
     - meta_scope: meta.use.php meta.block.php
@@ -1705,6 +1689,26 @@ contexts:
       captures:
         1: punctuation.separator.namespace.php
         2: support.class.builtin.php
+
+  inherited-class-names:
+    - match: (?={{path}})
+      push: inherited-class-name-content
+
+  inherited-class-name:
+    - match: (?={{path}})
+      set: inherited-class-name-content
+
+  inherited-class-name-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
+    - include: identifier-parts
+    - match: (\\)?(?:({{builtin_classes}})|({{identifier}}))
+      captures:
+        1: punctuation.separator.namespace.php
+        2: entity.other.inherited-class.php support.class.builtin.php
+        3: entity.other.inherited-class.php
+      pop: 1
+    - include: immediately-pop
 
 ###[ LITERALS ]###############################################################
 
