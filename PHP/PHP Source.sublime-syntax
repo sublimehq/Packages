@@ -452,7 +452,7 @@ contexts:
     - include: interfaces
     - include: namespaces
     - include: traits
-    - include: functions
+    - include: function
     - include: properties
     - include: use-statements
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
@@ -573,7 +573,7 @@ contexts:
       scope: keyword.control.exception.php
     - include: arrow-function
     - include: closure
-    - include: invoke-call
+    - include: invoke-function-calls
     - match: |-
         (?x)\s*(?=
             [[:alnum:]_$\\]+(::)
@@ -586,10 +586,7 @@ contexts:
             )?
         )
       push:
-        - match: (?=::{{identifier}}\s*\()
-          set:
-            - include: function-call-static
-            - include: immediately-pop
+        - include: static-function-call
         - match: |-
             (?x)(::)
             (?:
@@ -660,7 +657,7 @@ contexts:
       scope: keyword.operator.comparison.php
     - match: (?i)(!)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
-    - include: function-call
+    - include: function-calls
     - match: \?\?
       scope: keyword.operator.null-coalescing.php
     - match: \.\.\.
@@ -1186,7 +1183,7 @@ contexts:
           fail: arrow-function-branch
 
   fn-function-call:
-    - include: function-call
+    - include: function-calls
     - include: immediately-pop
 
   closure:
@@ -1438,42 +1435,62 @@ contexts:
 
 ###[ FUNCTION CALLS ]#########################################################
 
-  function-call:
+  function-calls:
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
-    - match: '(?={{path}}\\{{identifier}}\s*\()'
-      push:
-        - meta_scope: meta.function-call.php meta.path.php
-        - include: identifier-parts
-        - match: '{{identifier}}(?=\s*\()'
-          scope: variable.function.php
-          set: function-call-arguments
-    - match: (?i)\b(print|echo)\b
-      scope: support.function.construct.php
+    - match: \\?(?=(?:{{identifier}}\\)+{{identifier}}\s*\()
+      scope: punctuation.separator.namespace.php
+      push: qualified-function-name
     # Root namespace function calls may be a built-in or user
-    - match: '(\\)?(?={{identifier}}\s*\()'
-      captures:
-        1: punctuation.separator.namespace.php
-      push:
-        - meta_scope: meta.function-call.php
-        - match: (?=\s*\()
-          set: function-call-arguments
-        - match: (?i)\b(isset|unset|e(val|mpty)|list)\b
-          scope: support.function.construct.php
-        - include: support
-        - match: '{{identifier}}'
-          scope: variable.function.php
+    - match: \\?(?={{identifier}}\s*\()
+      scope: punctuation.separator.namespace.php
+      push: unqualified-function-name
+    # echo/print as reserved words not followed by arguments list
+    - match: \b(?i:echo|print)\b
+      scope: support.function.string.php
 
-  function-call-static:
-    - match: (::)(?={{identifier}}\s*\()
+  invoke-function-calls:
+    - match: ((\$+){{identifier}})\s*(?=\()
+      scope: meta.function-call.invoke.php
+      captures:
+        1: variable.other.php
+        2: punctuation.definition.variable.php
+      push: function-call-arguments
+
+  static-function-calls:
+    - match: (::)({{identifier}})\s*(?=\()
+      scope: meta.function-call.static.php
       captures:
         1: punctuation.accessor.double-colon.php
-      push:
-        - meta_scope: meta.function-call.static.php
-        - match: (?=\s*\()
-          set: function-call-arguments
-        - match: '{{identifier}}'
-          scope: variable.function.php
+        2: variable.function.php
+      push: function-call-arguments
+
+  static-function-call:
+    - match: (::)({{identifier}})\s*(?=\()
+      scope: meta.function-call.static.php
+      captures:
+        1: punctuation.accessor.double-colon.php
+        2: variable.function.php
+      set: function-call-arguments
+
+  qualified-function-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.php
+    - meta_content_scope: meta.path.php
+    - include: qualifiers
+    - include: function-name
+
+  unqualified-function-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.php
+    - include: support
+    - include: function-name
+
+  function-name:
+    - match: '{{identifier}}'
+      scope: variable.function.php
+    - match: \s* # receives `meta.function-call` but no `meta.path`
+      set: function-call-arguments
 
   function-call-arguments:
     - match: \(
@@ -1495,9 +1512,12 @@ contexts:
       captures:
         1: variable.parameter.named.php
         2: punctuation.definition.variable.php
-      push:
-        - include: nested-expressions
-        - include: immediately-pop
+      push: function-call-argument-value
+
+  function-call-argument-value:
+    - match: (?=[,)])
+      pop: 1
+    - include: nested-expressions
 
 ###[ INSTANTIATIONS ]#########################################################
 
@@ -1613,14 +1633,6 @@ contexts:
             - include: constants
         - include: variables-no-item-access
     - include: variables
-
-  invoke-call:
-    - match: '(\$+)({{identifier}})(?=\s*\()'
-      scope: meta.function-call.invoke.php
-      captures:
-        1: punctuation.definition.variable.php
-        2: variable.other.php
-      push: function-call-arguments
 
 ###[ ARRAYS ]#################################################################
 
@@ -1883,7 +1895,6 @@ contexts:
         2: punctuation.accessor.arrow.php
         3: variable.function.php
       push: function-call-arguments
-    - include: function-call-static
     - match: (\??)(->)((\$+)?{{identifier}})?
       captures:
         1: punctuation.accessor.nullsafe.php
@@ -1891,6 +1902,7 @@ contexts:
         3: variable.other.member.php
         4: punctuation.definition.variable.php
       push: after-identifier
+    - include: static-function-calls
     - match: '(::)({{identifier}})?'
       captures:
         1: punctuation.accessor.double-colon.php
@@ -2301,15 +2313,17 @@ contexts:
 ###[ BUILTINS ]###############################################################
 
   support:
+    - match: (?:print|echo|isset|unset|e(val|mpty)|list)\b
+      scope: support.function.construct.php
     - match: |-
-        \b(?xi:
+        (?xi:
           apc_add | apc_bin_dump | apc_bin_dumpfile | apc_bin_load | apc_bin_loadfile | apc_cache_info | apc_cas | apc_clear_cache |
           apc_compile_file | apc_dec | apc_define_constants | apc_delete | apc_delete_file | apc_exists | apc_fetch | apc_inc |
           apc_load_constants | apc_sma_info | apc_store
         )\b
       scope: support.function.apc.php
     - match: |-
-        \b(?xi:
+        (?xi:
           array | array_change_key_case | array_chunk | array_column | array_combine | array_count_values | array_diff | array_diff_assoc |
           array_diff_key | array_diff_uassoc | array_diff_ukey | array_fill | array_fill_keys | array_filter | array_flip | array_intersect |
           array_intersect_assoc | array_intersect_key | array_intersect_uassoc | array_intersect_ukey | array_key_exists | array_keys | array_map | array_merge |
@@ -2323,7 +2337,7 @@ contexts:
         )\b
       scope: support.function.array.php
     - match: |-
-        \b(?xi:
+        (?xi:
           __halt_compiler | connection_aborted | connection_status | connection_timeout | constant | define | defined | die |
           eval | exit | get_browser | highlight_file | highlight_string | ignore_user_abort | pack | php_check_syntax |
           php_strip_whitespace | show_source | sleep | sys_getloadavg | time_nanosleep | time_sleep_until | uniqid | unpack |
@@ -2331,33 +2345,33 @@ contexts:
         )\b
       scope: support.function.basic_functions.php
     - match: |-
-        \b(?xi:
+        (?xi:
           bcadd | bccomp | bcdiv | bcmod | bcmul | bcpow | bcpowmod | bcscale |
           bcsqrt | bcsub
         )\b
       scope: support.function.bcmath.php
     - match: |-
-        \b(?xi:
+        (?xi:
           bzclose | bzcompress | bzdecompress | bzerrno | bzerror | bzerrstr | bzflush | bzopen |
           bzread | bzwrite
         )\b
       scope: support.function.bz2.php
     - match: |-
-        \b(?xi:
+        (?xi:
           FrenchToJD | GregorianToJD | JDDayOfWeek | JDMonthName | JDToFrench | JDToGregorian | JDToJulian | JewishToJD |
           JulianToJD | cal_days_in_month | cal_from_jd | cal_info | cal_to_jd | easter_date | easter_days | jdtojewish |
           jdtounix | unixtojd
         )\b
       scope: support.function.calendar.php
     - match: |-
-        \b(?xi:
+        (?xi:
           call_user_method | call_user_method_array | class_alias | class_exists | get_called_class | get_class | get_class_methods | get_class_vars |
           get_declared_classes | get_declared_interfaces | get_object_vars | get_parent_class | interface_exists | is_a | is_subclass_of | method_exists |
           property_exists
         )\b
       scope: support.function.classobj.php
     - match: |-
-        \b(?xi:
+        (?xi:
           com_addref | com_create_guid | com_event_sink | com_get | com_get_active_object | com_invoke | com_isenum | com_load |
           com_load_typelib | com_message_pump | com_print_typeinfo | com_propget | com_propput | com_propset | com_release | com_set |
           variant_abs | variant_add | variant_and | variant_cast | variant_cat | variant_cmp | variant_date_from_timestamp | variant_date_to_timestamp |
@@ -2367,25 +2381,25 @@ contexts:
         )\b
       scope: support.function.com.php
     - match: |-
-        \b(?xi:
+        (?xi:
           random_bytes | random_int
         )\b
       scope: support.function.csprng.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ctype_alnum | ctype_alpha | ctype_cntrl | ctype_digit | ctype_graph | ctype_lower | ctype_print | ctype_punct |
           ctype_space | ctype_upper | ctype_xdigit
         )\b
       scope: support.function.ctype.php
     - match: |-
-        \b(?xi:
+        (?xi:
           curl_close | curl_copy_handle | curl_errno | curl_error | curl_exec | curl_getinfo | curl_init | curl_multi_add_handle |
           curl_multi_close | curl_multi_exec | curl_multi_getcontent | curl_multi_info_read | curl_multi_init | curl_multi_remove_handle | curl_multi_select | curl_setopt |
           curl_setopt_array | curl_version
         )\b
       scope: support.function.curl.php
     - match: |-
-        \b(?xi:
+        (?xi:
           checkdate | date | date_add | date_create | date_create_from_format | date_date_set | date_default_timezone_get | date_default_timezone_set |
           date_diff | date_format | date_get_last_errors | date_interval_create_from_date_string | date_interval_format | date_isodate_set | date_modify | date_offset_get |
           date_parse | date_parse_from_format | date_sub | date_sun_info | date_sunrise | date_sunset | date_time_set | date_timestamp_get |
@@ -2396,64 +2410,64 @@ contexts:
         )\b
       scope: support.function.datetime.php
     - match: |-
-        \b(?xi:
+        (?xi:
           dba_close | dba_delete | dba_exists | dba_fetch | dba_firstkey | dba_handlers | dba_insert | dba_key_split |
           dba_list | dba_nextkey | dba_open | dba_optimize | dba_popen | dba_replace | dba_sync
         )\b
       scope: support.function.dba.php
     - match: |-
-        \b(?xi:
+        (?xi:
           dbx_close | dbx_compare | dbx_connect | dbx_error | dbx_escape_string | dbx_fetch_row | dbx_query | dbx_sort
         )\b
       scope: support.function.dbx.php
     - match: |-
-        \b(?xi:
+        (?xi:
           chdir | chroot | closedir | dir | getcwd | opendir | readdir | rewinddir |
           scandir
         )\b
       scope: support.function.dir.php
     - match: |-
-        \b(?xi:
+        (?xi:
           domxml_new_doc | domxml_open_file | domxml_open_mem | domxml_version | domxml_xmltree | domxml_xslt_stylesheet | domxml_xslt_stylesheet_doc | domxml_xslt_stylesheet_file |
           domxml_xslt_version | xpath_eval | xpath_eval_expression | xpath_new_context | xpath_register_ns | xpath_register_ns_auto | xptr_eval | xptr_new_context
         )\b
       scope: support.function.domxml.php
     - match: |-
-        \b(?xi:
+        (?xi:
           dotnet_load
         )\b
       scope: support.function.dotnet.php
     - match: |-
-        \b(?xi:
+        (?xi:
           enchant_broker_describe | enchant_broker_dict_exists | enchant_broker_free | enchant_broker_free_dict | enchant_broker_get_error | enchant_broker_init | enchant_broker_list_dicts | enchant_broker_request_dict |
           enchant_broker_request_pwl_dict | enchant_broker_set_ordering | enchant_dict_add_to_personal | enchant_dict_add_to_session | enchant_dict_check | enchant_dict_describe | enchant_dict_get_error | enchant_dict_is_in_session |
           enchant_dict_quick_check | enchant_dict_store_replacement | enchant_dict_suggest
         )\b
       scope: support.function.enchant.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ereg | ereg_replace | eregi | eregi_replace | split | spliti | sql_regcase
         )\b
       scope: support.function.ereg.php
     - match: |-
-        \b(?xi:
+        (?xi:
           debug_backtrace | debug_print_backtrace | error_clear_last | error_get_last | error_log | error_reporting | restore_error_handler | restore_exception_handler |
           set_error_handler | set_exception_handler | trigger_error | user_error
         )\b
       scope: support.function.errorfunc.php
     - match: |-
-        \b(?xi:
+        (?xi:
           escapeshellarg | escapeshellcmd | exec | passthru | proc_close | proc_get_status | proc_nice | proc_open |
           proc_terminate | shell_exec | system
         )\b
       scope: support.function.exec.php
     - match: |-
-        \b(?xi:
+        (?xi:
           exif_imagetype | exif_read_data | exif_tagname | exif_thumbnail | read_exif_data
         )\b
       scope: support.function.exif.php
     - match: |-
-        \b(?xi:
+        (?xi:
           basename | chgrp | chmod | chown | clearstatcache | copy | delete | dirname |
           disk_free_space | disk_total_space | diskfreespace | fclose | fdatasync | feof | fflush | fgetc | fgetcsv |
           fgets | fgetss | file | file_exists | file_get_contents | file_put_contents | fileatime | filectime |
@@ -2468,29 +2482,29 @@ contexts:
         )\b
       scope: support.function.file.php
     - match: |-
-        \b(?xi:
+        (?xi:
           finfo_buffer | finfo_close | finfo_file | finfo_open | finfo_set_flags | mime_content_type
         )\b
       scope: support.function.fileinfo.php
     - match: |-
-        \b(?xi:
+        (?xi:
           filter_has_var | filter_id | filter_input | filter_input_array | filter_list | filter_var | filter_var_array
         )\b
       scope: support.function.filter.php
     - match: |-
-        \b(?xi:
+        (?xi:
           call_user_func | call_user_func_array | create_function | forward_static_call | forward_static_call_array | func_get_arg | func_get_args | func_num_args |
           function_exists | get_defined_functions | register_shutdown_function | register_tick_function | unregister_tick_function
         )\b
       scope: support.function.funchand.php
     - match: |-
-        \b(?xi:
+        (?xi:
           bind_textdomain_codeset | bindtextdomain | dcgettext | dcngettext | dgettext | dngettext | gettext | ngettext |
           textdomain
         )\b
       scope: support.function.gettext.php
     - match: |-
-        \b(?xi:
+        (?xi:
           gmp_abs | gmp_add | gmp_and | gmp_binomial | gmp_clrbit | gmp_cmp | gmp_com | gmp_div |
           gmp_fact | gmp_gcd | gmp_gcdext | gmp_hamdist | gmp_init | gmp_intval | gmp_invert | gmp_jacobi |
           gmp_kronecker | gmp_kronecker_q | gmp_kronecker_qr | gmp_kronecker_r | gmp_kroneckerexact | gmp_lcm | gmp_legendre | gmp_mod |
@@ -2500,13 +2514,13 @@ contexts:
         )\b
       scope: support.function.gmp.php
     - match: |-
-        \b(?xi:
+        (?xi:
           hash | hash_algos | hash_copy | hash_file | hash_final | hash_hkdf | hash_hmac | hash_hmac_file |
           hash_init | hash_update | hash_update_file | hash_update_stream
         )\b
       scope: support.function.hash.php
     - match: |-
-        \b(?xi:
+        (?xi:
           http_build_cookie | http_build_str | http_build_url | http_cache_etag | http_cache_last_modified | http_chunked_decode | http_date | http_deflate |
           http_get | http_get_request_body | http_get_request_body_stream | http_get_request_headers | http_head | http_inflate | http_match_etag | http_match_modified |
           http_match_request_header | http_negotiate_charset | http_negotiate_content_type | http_negotiate_language | http_parse_cookie | http_parse_headers | http_parse_message | http_parse_params |
@@ -2517,19 +2531,19 @@ contexts:
         )\b
       scope: support.function.http.php
     - match: |-
-        \b(?xi:
+        (?xi:
           iconv | iconv_get_encoding | iconv_mime_decode | iconv_mime_decode_headers | iconv_mime_encode | iconv_set_encoding | iconv_strlen | iconv_strpos |
           iconv_strrpos | iconv_substr | ob_iconv_handler
         )\b
       scope: support.function.iconv.php
     - match: |-
-        \b(?xi:
+        (?xi:
           iis_add_server | iis_get_dir_security | iis_get_script_map | iis_get_server_by_comment | iis_get_server_by_path | iis_get_server_rights | iis_get_service_state | iis_remove_server |
           iis_set_app_settings | iis_set_dir_security | iis_set_script_map | iis_set_server_rights | iis_start_server | iis_start_service | iis_stop_server | iis_stop_service
         )\b
       scope: support.function.iisfunc.php
     - match: |-
-        \b(?xi:
+        (?xi:
           gd_info | getimagesize | image2wbmp | image_type_to_extension | image_type_to_mime_type | imagealphablending | imageantialias | imagearc |
           imagechar | imagecharup | imagecolorallocate | imagecolorallocatealpha | imagecolorat | imagecolorclosest | imagecolorclosestalpha | imagecolorclosesthwb |
           imagecolordeallocate | imagecolorexact | imagecolorexactalpha | imagecolormatch | imagecolorresolve | imagecolorresolvealpha | imagecolorset | imagecolorsforindex |
@@ -2546,7 +2560,7 @@ contexts:
         )\b
       scope: support.function.image.php
     - match: |-
-        \b(?xi:
+        (?xi:
           assert | assert_options | dl | extension_loaded | gc_collect_cycles | gc_disable | gc_enable | gc_enabled |
           get_cfg_var | get_current_user | get_defined_constants | get_extension_funcs | get_include_path | get_included_files | get_loaded_extensions | get_magic_quotes_gpc |
           get_magic_quotes_runtime | get_required_files | getenv | getlastmod | getmygid | getmyinode | getmypid | getmyuid |
@@ -2557,7 +2571,7 @@ contexts:
         )\b
       scope: support.function.info.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ibase_add_user | ibase_affected_rows | ibase_backup | ibase_blob_add | ibase_blob_cancel | ibase_blob_close | ibase_blob_create | ibase_blob_echo |
           ibase_blob_get | ibase_blob_import | ibase_blob_info | ibase_blob_open | ibase_close | ibase_commit | ibase_commit_ret | ibase_connect |
           ibase_db_info | ibase_delete_user | ibase_drop_db | ibase_errcode | ibase_errmsg | ibase_execute | ibase_fetch_assoc | ibase_fetch_object |
@@ -2568,7 +2582,7 @@ contexts:
         )\b
       scope: support.function.interbase.php
     - match: |-
-        \b(?xi:
+        (?xi:
           collator_asort | collator_compare | collator_create | collator_get_attribute | collator_get_error_code | collator_get_error_message | collator_get_locale | collator_get_sort_key |
           collator_get_strength | collator_set_attribute | collator_set_strength | collator_sort | collator_sort_with_sort_keys | datefmt_create | datefmt_format | datefmt_get_calendar |
           datefmt_get_datetype | datefmt_get_error_code | datefmt_get_error_message | datefmt_get_locale | datefmt_get_pattern | datefmt_get_timetype | datefmt_get_timezone_id | datefmt_is_lenient |
@@ -2585,12 +2599,12 @@ contexts:
         )\b
       scope: support.function.intl.php
     - match: |-
-        \b(?xi:
+        (?xi:
           json_decode | json_encode | json_last_error
         )\b
       scope: support.function.json.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ldap_8859_to_t61 | ldap_add | ldap_bind | ldap_close | ldap_compare | ldap_connect | ldap_count_entries | ldap_delete |
           ldap_dn2ufn | ldap_err2str | ldap_errno | ldap_error | ldap_explode_dn | ldap_first_attribute | ldap_first_entry | ldap_first_reference |
           ldap_free_result | ldap_get_attributes | ldap_get_dn | ldap_get_entries | ldap_get_option | ldap_get_values | ldap_get_values_len | ldap_list |
@@ -2600,17 +2614,17 @@ contexts:
         )\b
       scope: support.function.ldap.php
     - match: |-
-        \b(?xi:
+        (?xi:
           libxml_clear_errors | libxml_disable_entity_loader | libxml_get_errors | libxml_get_last_error | libxml_set_streams_context | libxml_use_internal_errors
         )\b
       scope: support.function.libxml.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ezmlm_hash | mail
         )\b
       scope: support.function.mail.php
     - match: |-
-        \b(?xi:
+        (?xi:
           abs | acos | acosh | asin | asinh | atan | atan2 | atanh |
           base_convert | bindec | ceil | cos | cosh | decbin | dechex | decoct |
           deg2rad | exp | expm1 | fdiv | floor | fmod | getrandmax | hexdec | hypot |
@@ -2621,7 +2635,7 @@ contexts:
         )\b
       scope: support.function.math.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mb_check_encoding | mb_convert_case | mb_convert_encoding | mb_convert_kana | mb_convert_variables | mb_decode_mimeheader | mb_decode_numericentity | mb_detect_encoding |
           mb_detect_order | mb_encode_mimeheader | mb_encode_numericentity | mb_encoding_aliases | mb_ereg | mb_ereg_match | mb_ereg_replace | mb_ereg_search |
           mb_ereg_search_getpos | mb_ereg_search_getregs | mb_ereg_search_init | mb_ereg_search_pos | mb_ereg_search_regs | mb_ereg_search_setpos | mb_eregi | mb_eregi_replace |
@@ -2632,7 +2646,7 @@ contexts:
         )\b
       scope: support.function.mbstring.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mcrypt_cbc | mcrypt_cfb | mcrypt_create_iv | mcrypt_decrypt | mcrypt_ecb | mcrypt_enc_get_algorithms_name | mcrypt_enc_get_block_size | mcrypt_enc_get_iv_size |
           mcrypt_enc_get_key_size | mcrypt_enc_get_modes_name | mcrypt_enc_get_supported_key_sizes | mcrypt_enc_is_block_algorithm | mcrypt_enc_is_block_algorithm_mode | mcrypt_enc_is_block_mode | mcrypt_enc_self_test | mcrypt_encrypt |
           mcrypt_generic | mcrypt_generic_deinit | mcrypt_generic_end | mcrypt_generic_init | mcrypt_get_block_size | mcrypt_get_cipher_name | mcrypt_get_iv_size | mcrypt_get_key_size |
@@ -2641,22 +2655,22 @@ contexts:
         )\b
       scope: support.function.mcrypt.php
     - match: |-
-        \b(?xi:
+        (?xi:
           memcache_debug
         )\b
       scope: support.function.memcache.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mhash | mhash_count | mhash_get_block_size | mhash_get_hash_name | mhash_keygen_s2k
         )\b
       scope: support.function.mhash.php
     - match: |-
-        \b(?xi:
+        (?xi:
           bson_decode | bson_encode
         )\b
       scope: support.function.mongo.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mysql_affected_rows | mysql_client_encoding | mysql_close | mysql_connect | mysql_create_db | mysql_data_seek | mysql_db_name | mysql_db_query |
           mysql_drop_db | mysql_errno | mysql_error | mysql_escape_string | mysql_fetch_array | mysql_fetch_assoc | mysql_fetch_field | mysql_fetch_lengths |
           mysql_fetch_object | mysql_fetch_row | mysql_field_flags | mysql_field_len | mysql_field_name | mysql_field_seek | mysql_field_table | mysql_field_type |
@@ -2666,7 +2680,7 @@ contexts:
         )\b
       scope: support.function.mysql.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mysqli_affected_rows | mysqli_autocommit | mysqli_bind_param | mysqli_bind_result | mysqli_change_user | mysqli_character_set_name | mysqli_client_encoding | mysqli_close |
           mysqli_commit | mysqli_connect | mysqli_connect_errno | mysqli_connect_error | mysqli_data_seek | mysqli_debug | mysqli_disable_reads_from_master | mysqli_disable_rpl_parse |
           mysqli_dump_debug_info | mysqli_embedded_server_end | mysqli_embedded_server_start | mysqli_enable_reads_from_master | mysqli_enable_rpl_parse | mysqli_errno | mysqli_error | mysqli_escape_string |
@@ -2685,17 +2699,17 @@ contexts:
         )\b
       scope: support.function.mysqli.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mysqlnd_ms_get_stats | mysqlnd_ms_query_is_select | mysqlnd_ms_set_user_pick_server
         )\b
       scope: support.function.mysqlnd-ms.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mysqlnd_qc_change_handler | mysqlnd_qc_clear_cache | mysqlnd_qc_get_cache_info | mysqlnd_qc_get_core_stats | mysqlnd_qc_get_handler | mysqlnd_qc_get_query_trace_log | mysqlnd_qc_set_user_handlers
         )\b
       scope: support.function.mysqlnd-qc.php
     - match: |-
-        \b(?xi:
+        (?xi:
           checkdnsrr | closelog | define_syslog_variables | dns_check_record | dns_get_mx | dns_get_record | fsockopen | gethostbyaddr |
           gethostbyname | gethostbynamel | gethostname | getmxrr | getprotobyname | getprotobynumber | getservbyname | getservbyport |
           header | header_remove | headers_list | headers_sent | inet_ntop | inet_pton | ip2long | long2ip |
@@ -2703,18 +2717,18 @@ contexts:
         )\b
       scope: support.function.network.php
     - match: |-
-        \b(?xi:
+        (?xi:
           nsapi_request_headers | nsapi_response_headers | nsapi_virtual
         )\b
       scope: support.function.nsapi.php
     - match: |-
-        \b(?xi:
+        (?xi:
           aggregate | aggregate_info | aggregate_methods | aggregate_methods_by_list | aggregate_methods_by_regexp | aggregate_properties | aggregate_properties_by_list | aggregate_properties_by_regexp |
           aggregation_info | deaggregate
         )\b
       scope: support.function.objaggregation.php
     - match: |-
-        \b(?xi:
+        (?xi:
           oci_bind_array_by_name | oci_bind_by_name | oci_cancel | oci_client_version | oci_close | oci_commit | oci_connect | oci_define_by_name |
           oci_error | oci_execute | oci_fetch | oci_fetch_all | oci_fetch_array | oci_fetch_assoc | oci_fetch_object | oci_fetch_row |
           oci_field_is_null | oci_field_name | oci_field_precision | oci_field_scale | oci_field_size | oci_field_type | oci_field_type_raw | oci_free_statement |
@@ -2731,7 +2745,7 @@ contexts:
         )\b
       scope: support.function.oci8.php
     - match: |-
-        \b(?xi:
+        (?xi:
           openssl_cipher_iv_length | openssl_csr_export | openssl_csr_export_to_file | openssl_csr_get_public_key | openssl_csr_get_subject | openssl_csr_new | openssl_csr_sign | openssl_decrypt |
           openssl_dh_compute_key | openssl_digest | openssl_encrypt | openssl_error_string | openssl_free_key | openssl_get_cipher_methods | openssl_get_md_methods | openssl_get_privatekey |
           openssl_get_publickey | openssl_open | openssl_pkcs12_export | openssl_pkcs12_export_to_file | openssl_pkcs12_read | openssl_pkcs7_decrypt | openssl_pkcs7_encrypt | openssl_pkcs7_sign |
@@ -2741,26 +2755,26 @@ contexts:
         )\b
       scope: support.function.openssl.php
     - match: |-
-        \b(?xi:
+        (?xi:
           flush | ob_clean | ob_end_clean | ob_end_flush | ob_flush | ob_get_clean | ob_get_contents | ob_get_flush |
           ob_get_length | ob_get_level | ob_get_status | ob_gzhandler | ob_implicit_flush | ob_list_handlers | ob_start | output_add_rewrite_var |
           output_reset_rewrite_vars
         )\b
       scope: support.function.output.php
     - match: |-
-        \b(?xi:
+        (?xi:
           overload
         )\b
       scope: support.function.overload.php
     - match: |-
-        \b(?xi:
+        (?xi:
           pcntl_alarm | pcntl_async_signals | pcntl_exec | pcntl_fork | pcntl_getpriority | pcntl_setpriority | pcntl_signal | pcntl_signal_dispatch | pcntl_sigprocmask |
           pcntl_sigtimedwait | pcntl_sigwaitinfo | pcntl_wait | pcntl_waitpid | pcntl_wexitstatus | pcntl_wifexited | pcntl_wifsignaled | pcntl_wifstopped |
           pcntl_wstopsig | pcntl_wtermsig
         )\b
       scope: support.function.pcntl.php
     - match: |-
-        \b(?xi:
+        (?xi:
           pg_affected_rows | pg_cancel_query | pg_client_encoding | pg_close | pg_connect | pg_connection_busy | pg_connection_reset | pg_connection_status |
           pg_convert | pg_copy_from | pg_copy_to | pg_dbname | pg_delete | pg_end_copy | pg_escape_bytea | pg_escape_string |
           pg_execute | pg_fetch_all | pg_fetch_all_columns | pg_fetch_array | pg_fetch_assoc | pg_fetch_object | pg_fetch_result | pg_fetch_row |
@@ -2775,18 +2789,18 @@ contexts:
         )\b
       scope: support.function.pgsql.php
     - match: |-
-        \b(?xi:
+        (?xi:
           apache_child_terminate | apache_get_modules | apache_get_version | apache_getenv | apache_lookup_uri | apache_note | apache_request_headers | apache_reset_timeout |
           apache_response_headers | apache_setenv | getallheaders | virtual
         )\b
       scope: support.function.php_apache.php
     - match: |-
-        \b(?xi:
+        (?xi:
           dom_import_simplexml
         )\b
       scope: support.function.php_dom.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ftp_alloc | ftp_cdup | ftp_chdir | ftp_chmod | ftp_close | ftp_connect | ftp_delete | ftp_exec |
           ftp_fget | ftp_fput | ftp_get | ftp_get_option | ftp_login | ftp_mdtm | ftp_mkdir | ftp_nb_continue |
           ftp_nb_fget | ftp_nb_fput | ftp_nb_get | ftp_nb_put | ftp_nlist | ftp_pasv | ftp_put | ftp_pwd |
@@ -2795,7 +2809,7 @@ contexts:
         )\b
       scope: support.function.php_ftp.php
     - match: |-
-        \b(?xi:
+        (?xi:
           imap_8bit | imap_alerts | imap_append | imap_base64 | imap_binary | imap_body | imap_bodystruct | imap_check |
           imap_clearflag_full | imap_close | imap_create | imap_createmailbox | imap_delete | imap_deletemailbox | imap_errors | imap_expunge |
           imap_fetch_overview | imap_fetchbody | imap_fetchheader | imap_fetchmime | imap_fetchstructure | imap_fetchtext | imap_gc | imap_get_quota |
@@ -2809,7 +2823,7 @@ contexts:
         )\b
       scope: support.function.php_imap.php
     - match: |-
-        \b(?xi:
+        (?xi:
           mssql_bind | mssql_close | mssql_connect | mssql_data_seek | mssql_execute | mssql_fetch_array | mssql_fetch_assoc | mssql_fetch_batch |
           mssql_fetch_field | mssql_fetch_object | mssql_fetch_row | mssql_field_length | mssql_field_name | mssql_field_seek | mssql_field_type | mssql_free_result |
           mssql_free_statement | mssql_get_last_message | mssql_guid_string | mssql_init | mssql_min_error_severity | mssql_min_message_severity | mssql_next_result | mssql_num_fields |
@@ -2817,7 +2831,7 @@ contexts:
         )\b
       scope: support.function.php_mssql.php
     - match: |-
-        \b(?xi:
+        (?xi:
           odbc_autocommit | odbc_binmode | odbc_close | odbc_close_all | odbc_columnprivileges | odbc_columns | odbc_commit | odbc_connect |
           odbc_cursor | odbc_data_source | odbc_do | odbc_error | odbc_errormsg | odbc_exec | odbc_execute | odbc_fetch_array |
           odbc_fetch_into | odbc_fetch_object | odbc_fetch_row | odbc_field_len | odbc_field_name | odbc_field_num | odbc_field_precision | odbc_field_scale |
@@ -2827,25 +2841,25 @@ contexts:
         )\b
       scope: support.function.php_odbc.php
     - match: |-
-        \b(?xi:
+        (?xi:
           preg_filter | preg_grep | preg_last_error | preg_match | preg_match_all | preg_quote | preg_replace | preg_replace_callback |
           preg_replace_callback_array | preg_split
         )\b
       scope: support.function.php_pcre.php
     - match: |-
-        \b(?xi:
+        (?xi:
           class_implements | class_parents | class_uses | iterator_apply | iterator_count | iterator_to_array | spl_autoload | spl_autoload_call | spl_autoload_extensions |
           spl_autoload_functions | spl_autoload_register | spl_autoload_unregister | spl_classes | spl_object_hash | spl_object_id
         )\b
       scope: support.function.php_spl.php
     - match: |-
-        \b(?xi:
+        (?xi:
           zip_close | zip_entry_close | zip_entry_compressedsize | zip_entry_compressionmethod | zip_entry_filesize | zip_entry_name | zip_entry_open | zip_entry_read |
           zip_open | zip_read
         )\b
       scope: support.function.php_zip.php
     - match: |-
-        \b(?xi:
+        (?xi:
           posix_access | posix_ctermid | posix_errno | posix_get_last_error | posix_getcwd | posix_getegid | posix_geteuid | posix_getgid |
           posix_getgrgid | posix_getgrnam | posix_getgroups | posix_getlogin | posix_getpgid | posix_getpgrp | posix_getpid | posix_getppid |
           posix_getpwnam | posix_getpwuid | posix_getrlimit | posix_getsid | posix_getuid | posix_initgroups | posix_isatty | posix_kill |
@@ -2854,72 +2868,72 @@ contexts:
         )\b
       scope: support.function.posix.php
     - match: |-
-        \b(?xi:
+        (?xi:
           setproctitle | setthreadtitle
         )\b
       scope: support.function.proctitle.php
     - match: |-
-        \b(?xi:
+        (?xi:
           pspell_add_to_personal | pspell_add_to_session | pspell_check | pspell_clear_session | pspell_config_create | pspell_config_data_dir | pspell_config_dict_dir | pspell_config_ignore |
           pspell_config_mode | pspell_config_personal | pspell_config_repl | pspell_config_runtogether | pspell_config_save_repl | pspell_new | pspell_new_config | pspell_new_personal |
           pspell_save_wordlist | pspell_store_replacement | pspell_suggest
         )\b
       scope: support.function.pspell.php
     - match: |-
-        \b(?xi:
+        (?xi:
           readline | readline_add_history | readline_callback_handler_install | readline_callback_handler_remove | readline_callback_read_char | readline_clear_history | readline_completion_function | readline_info |
           readline_list_history | readline_on_new_line | readline_read_history | readline_redisplay | readline_write_history
         )\b
       scope: support.function.readline.php
     - match: |-
-        \b(?xi:
+        (?xi:
           recode | recode_file | recode_string
         )\b
       scope: support.function.recode.php
     - match: |-
-        \b(?xi:
+        (?xi:
           rrd_create | rrd_error | rrd_fetch | rrd_first | rrd_graph | rrd_info | rrd_last | rrd_lastupdate |
           rrd_restore | rrd_tune | rrd_update | rrd_xport
         )\b
       scope: support.function.rrd.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ftok | msg_get_queue | msg_queue_exists | msg_receive | msg_remove_queue | msg_send | msg_set_queue | msg_stat_queue |
           sem_acquire | sem_get | sem_release | sem_remove | shm_attach | shm_detach | shm_get_var | shm_has_var |
           shm_put_var | shm_remove | shm_remove_var
         )\b
       scope: support.function.sem.php
     - match: |-
-        \b(?xi:
+        (?xi:
           session_cache_expire | session_cache_limiter | session_commit | session_decode | session_destroy | session_encode | session_get_cookie_params | session_id |
           session_is_registered | session_module_name | session_name | session_regenerate_id | session_register | session_save_path | session_set_cookie_params | session_set_save_handler |
           session_start | session_unregister | session_unset | session_write_close
         )\b
       scope: support.function.session.php
     - match: |-
-        \b(?xi:
+        (?xi:
           shmop_close | shmop_delete | shmop_open | shmop_read | shmop_size | shmop_write
         )\b
       scope: support.function.shmop.php
     - match: |-
-        \b(?xi:
+        (?xi:
           simplexml_import_dom | simplexml_load_file | simplexml_load_string
         )\b
       scope: support.function.simplexml.php
     - match: |-
-        \b(?xi:
+        (?xi:
           snmp2_get | snmp2_getnext | snmp2_real_walk | snmp2_set | snmp2_walk | snmp3_get | snmp3_getnext | snmp3_real_walk |
           snmp3_set | snmp3_walk | snmp_get_quick_print | snmp_get_valueretrieval | snmp_read_mib | snmp_set_enum_print | snmp_set_oid_numeric_print | snmp_set_oid_output_format |
           snmp_set_quick_print | snmp_set_valueretrieval | snmpget | snmpgetnext | snmprealwalk | snmpset | snmpwalk | snmpwalkoid
         )\b
       scope: support.function.snmp.php
     - match: |-
-        \b(?xi:
+        (?xi:
           is_soap_fault | use_soap_error_handler
         )\b
       scope: support.function.soap.php
     - match: |-
-        \b(?xi:
+        (?xi:
           socket_accept | socket_bind | socket_clear_error | socket_close | socket_connect | socket_create | socket_create_listen | socket_create_pair |
           socket_export_stream | socket_get_option | socket_getpeername | socket_getsockname | socket_last_error | socket_listen | socket_read | socket_recv |
           socket_recvfrom | socket_select | socket_send | socket_sendto | socket_set_block | socket_set_nonblock | socket_set_option | socket_shutdown |
@@ -2927,7 +2941,7 @@ contexts:
         )\b
       scope: support.function.sockets.php
     - match: |-
-        \b(?xi:
+        (?xi:
           sqlite_array_query | sqlite_busy_timeout | sqlite_changes | sqlite_close | sqlite_column | sqlite_create_aggregate | sqlite_create_function | sqlite_current |
           sqlite_error_string | sqlite_escape_string | sqlite_exec | sqlite_factory | sqlite_fetch_all | sqlite_fetch_array | sqlite_fetch_column_types | sqlite_fetch_object |
           sqlite_fetch_single | sqlite_fetch_string | sqlite_field_name | sqlite_has_more | sqlite_has_prev | sqlite_key | sqlite_last_error | sqlite_last_insert_rowid |
@@ -2936,7 +2950,7 @@ contexts:
         )\b
       scope: support.function.sqlite.php
     - match: |-
-        \b(?xi:
+        (?xi:
           stats_absolute_deviation | stats_cdf_beta | stats_cdf_binomial | stats_cdf_cauchy | stats_cdf_chisquare | stats_cdf_exponential | stats_cdf_f | stats_cdf_gamma |
           stats_cdf_laplace | stats_cdf_logistic | stats_cdf_negative_binomial | stats_cdf_noncentral_chisquare | stats_cdf_noncentral_f | stats_cdf_poisson | stats_cdf_t | stats_cdf_uniform |
           stats_cdf_weibull | stats_covariance | stats_den_uniform | stats_dens_beta | stats_dens_cauchy | stats_dens_chisquare | stats_dens_exponential | stats_dens_f |
@@ -2949,7 +2963,7 @@ contexts:
         )\b
       scope: support.function.stats.php
     - match: |-
-        \b(?xi:
+        (?xi:
           set_socket_blocking | stream_bucket_append | stream_bucket_make_writeable | stream_bucket_new | stream_bucket_prepend | stream_context_create | stream_context_get_default | stream_context_get_options |
           stream_context_get_params | stream_context_set_default | stream_context_set_option | stream_context_set_params | stream_copy_to_stream | stream_encoding | stream_filter_append | stream_filter_prepend |
           stream_filter_register | stream_filter_remove | stream_get_contents | stream_get_filters | stream_get_line | stream_get_meta_data | stream_get_transports | stream_get_wrappers |
@@ -2959,7 +2973,7 @@ contexts:
         )\b
       scope: support.function.streamsfuncs.php
     - match: |-
-        \b(?xi:
+        (?xi:
           addcslashes | addslashes | bin2hex | chop | chr | chunk_split | convert_cyr_string | convert_uudecode |
           convert_uuencode | count_chars | crc32 | crypt | echo | explode | fprintf | get_html_translation_table |
           hebrev | hebrevc | html_entity_decode | htmlentities | htmlspecialchars | htmlspecialchars_decode | implode | join |
@@ -2976,7 +2990,7 @@ contexts:
         )\b
       scope: support.function.string.php
     - match: |-
-        \b(?xi:
+        (?xi:
           sybase_affected_rows | sybase_close | sybase_connect | sybase_data_seek | sybase_deadlock_retry_count | sybase_fetch_array | sybase_fetch_assoc | sybase_fetch_field |
           sybase_fetch_object | sybase_fetch_row | sybase_field_seek | sybase_free_result | sybase_get_last_message | sybase_min_client_severity | sybase_min_error_severity | sybase_min_message_severity |
           sybase_min_server_severity | sybase_num_fields | sybase_num_rows | sybase_pconnect | sybase_query | sybase_result | sybase_select_db | sybase_set_message_handler |
@@ -2984,7 +2998,7 @@ contexts:
         )\b
       scope: support.function.sybase.php
     - match: |-
-        \b(?xi:
+        (?xi:
           ob_tidyhandler | tidy_access_count | tidy_clean_repair | tidy_config_count | tidy_diagnose | tidy_error_count | tidy_get_body | tidy_get_config |
           tidy_get_error_buffer | tidy_get_head | tidy_get_html | tidy_get_html_ver | tidy_get_opt_doc | tidy_get_output | tidy_get_release | tidy_get_root |
           tidy_get_status | tidy_getopt | tidy_is_xhtml | tidy_is_xml | tidy_load_config | tidy_parse_file | tidy_parse_string | tidy_repair_file |
@@ -2992,18 +3006,18 @@ contexts:
         )\b
       scope: support.function.tidy.php
     - match: |-
-        \b(?xi:
+        (?xi:
           token_get_all | token_name
         )\b
       scope: support.function.tokenizer.php
     - match: |-
-        \b(?xi:
+        (?xi:
           base64_decode | base64_encode | get_headers | get_meta_tags | http_build_query | parse_url | rawurldecode | rawurlencode |
           urldecode | urlencode
         )\b
       scope: support.function.url.php
     - match: |-
-        \b(?xi:
+        (?xi:
           boolval | debug_zval_dump | doubleval | empty | floatval | get_debug_type | get_defined_vars | get_resource_id | get_resource_type | gettype |
           import_request_variables | intval | is_array | is_bool | is_callable | is_countable | is_double | is_float |
           is_int | is_integer | is_iterable | is_long | is_null | is_numeric | is_object | is_real |
@@ -3012,30 +3026,30 @@ contexts:
         )\b
       scope: support.function.var.php
     - match: |-
-        \b(?xi:
+        (?xi:
           wddx_add_vars | wddx_deserialize | wddx_packet_end | wddx_packet_start | wddx_serialize_value | wddx_serialize_vars
         )\b
       scope: support.function.wddx.php
     - match: |-
-        \b(?xi:
+        (?xi:
           xhprof_disable | xhprof_enable | xhprof_sample_disable | xhprof_sample_enable
         )\b
       scope: support.function.xhprof.php
     - match: |-
-        \b(?xi:
+        (?xi:
           utf8_decode | utf8_encode | xml_error_string | xml_get_current_byte_index | xml_get_current_column_number | xml_get_current_line_number | xml_get_error_code | xml_parse |
           xml_parse_into_struct | xml_parser_create | xml_parser_create_ns | xml_parser_free | xml_parser_get_option | xml_parser_set_option | xml_set_character_data_handler | xml_set_default_handler |
           xml_set_element_handler | xml_set_end_namespace_decl_handler | xml_set_external_entity_ref_handler | xml_set_notation_decl_handler | xml_set_object | xml_set_processing_instruction_handler | xml_set_start_namespace_decl_handler | xml_set_unparsed_entity_decl_handler
         )\b
       scope: support.function.xml.php
     - match: |-
-        \b(?xi:
+        (?xi:
           xmlrpc_decode | xmlrpc_decode_request | xmlrpc_encode | xmlrpc_encode_request | xmlrpc_get_type | xmlrpc_is_fault | xmlrpc_parse_method_descriptions | xmlrpc_server_add_introspection_data |
           xmlrpc_server_call_method | xmlrpc_server_create | xmlrpc_server_destroy | xmlrpc_server_register_introspection_callback | xmlrpc_server_register_method | xmlrpc_set_type
         )\b
       scope: support.function.xmlrpc.php
     - match: |-
-        \b(?xi:
+        (?xi:
           xmlwriter_end_attribute | xmlwriter_end_cdata | xmlwriter_end_comment | xmlwriter_end_document | xmlwriter_end_dtd | xmlwriter_end_dtd_attlist | xmlwriter_end_dtd_element | xmlwriter_end_dtd_entity |
           xmlwriter_end_element | xmlwriter_end_pi | xmlwriter_flush | xmlwriter_full_end_element | xmlwriter_open_memory | xmlwriter_open_uri | xmlwriter_output_memory | xmlwriter_set_indent |
           xmlwriter_set_indent_string | xmlwriter_start_attribute | xmlwriter_start_attribute_ns | xmlwriter_start_cdata | xmlwriter_start_comment | xmlwriter_start_document | xmlwriter_start_dtd | xmlwriter_start_dtd_attlist |
@@ -3045,21 +3059,21 @@ contexts:
         )\b
       scope: support.function.xmlwriter.php
     - match: |-
-        \b(?xi:
+        (?xi:
           xslt_backend_info | xslt_backend_name | xslt_backend_version | xslt_create | xslt_errno | xslt_error | xslt_free | xslt_getopt |
           xslt_process | xslt_set_base | xslt_set_encoding | xslt_set_error_handler | xslt_set_log | xslt_set_object | xslt_set_sax_handler | xslt_set_sax_handlers |
           xslt_set_scheme_handler | xslt_set_scheme_handlers | xslt_setopt
         )\b
       scope: support.function.xslt.php
     - match: |-
-        \b(?xi:
+        (?xi:
           gzclose | gzcompress | gzdecode | gzdeflate | gzencode | gzeof | gzfile | gzgetc |
           gzgets | gzgetss | gzinflate | gzopen | gzpassthru | gzputs | gzread | gzrewind |
           gzseek | gztell | gzuncompress | gzwrite | readgzfile | zlib_get_coding_type
         )\b
       scope: support.function.zlib.php
     - match: |-
-        \b(?xi:
+        (?xi:
           is_int | is_integer
         )\b
       scope: support.function.alias.php
@@ -3110,13 +3124,6 @@ contexts:
         1: punctuation.definition.variable.php
 
 ###[ IDENTIFIERS ]############################################################
-
-  identifier-parts:
-    - match: (\\)?({{identifier}})(\\)
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.other.namespace.php
-        3: punctuation.separator.namespace.php
 
   identifier-parts-as-path:
     - match: (\\)?({{identifier}})(\\)

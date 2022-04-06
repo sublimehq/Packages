@@ -1279,16 +1279,17 @@ $var = new \MyNamespce\ClassName();
 //                   ^ punctuation.section.group.begin
 //                    ^ punctuation.section.group.end
 
-\MyNamespace\Foo();
-//^^^^^^^^^^^^^^^^ meta.function-call
+\MyNamespace\Foo ();
+//^^^^^^^^^^^^^^ meta.function-call.php meta.path.php - meta.function-call meta.function-call
+//              ^ meta.function-call.php - meta.path.php - meta.function-call meta.function-call
+//               ^^ meta.function-call.arguments.php - meta.function-call meta.function-call
 // <- punctuation.separator.namespace
  // <- support.other.namespace
-//^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ variable.function
-//              ^^ meta.group
-//              ^ punctuation.section.group.begin
-//               ^ punctuation.section.group.end
+//               ^^ meta.group
+//               ^ punctuation.section.group.begin
+//                ^ punctuation.section.group.end
 
 \MyNamespace\Foo;
 // <- punctuation.separator.namespace
@@ -1840,21 +1841,26 @@ class B
 //                       ^^^^^^ storage.type
     {
         echo B::class;
-//              ^ constant.class
+//      ^^^^ support.function.string.php
+//           ^ support.class.php
+//            ^^ punctuation.accessor.double-colon.php
+//              ^^^^^ constant.class
 
         echo $this->pro1::FOO;
+//      ^^^^ support.function.string.php
 //           ^^^^^ variable.language
 //                ^^ punctuation.accessor
 //                  ^^^^ variable.other.member
 //                      ^^ punctuation.accessor
 //                        ^^^ constant.other.class
 
-        echo $this->pro1::bar();
-//           ^^^^^ variable.language
-//                ^^ punctuation.accessor
-//                  ^^^^ variable.other.member
-//                      ^^ punctuation.accessor
-//                        ^^^ variable.function
+        print $this->pro1::bar();
+//      ^^^^ support.function.string.php
+//            ^^^^^ variable.language
+//                 ^^ punctuation.accessor
+//                   ^^^^ variable.other.member
+//                       ^^ punctuation.accessor
+//                         ^^^ variable.function
 
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language
