@@ -424,11 +424,8 @@ contexts:
     - include: enums
     - include: interfaces
     - include: namespaces
+    - include: traits
     - include: use-statements
-    - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
-      captures:
-        1: keyword.declaration.trait.php
-        2: entity.name.trait.php
     - include: typed-property
     - include: function
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
@@ -954,6 +951,36 @@ contexts:
         2: entity.name.namespace.php
       pop: 1
     - include: immediately-pop
+
+###[ TRAIT DECLARATIONS ]#####################################################
+
+  traits:
+    - match: \b(?i:trait)\b
+      scope: meta.trait.php keyword.declaration.trait.php
+      push:
+        - trait-definition
+        - trait-definition-name
+
+  trait-definition-name:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: '{{identifier}}'
+      scope: entity.name.trait.php
+      pop: 1
+    - include: else-pop
+
+  trait-definition:
+    - meta_content_scope: meta.trait.php
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: trait-body
+    - include: comments
+    - include: else-pop
+
+  trait-body:
+    - meta_scope: meta.trait.php meta.block.php
+    - include: class-body
 
 ###[ TYPED PROPERTIES ]#######################################################
 

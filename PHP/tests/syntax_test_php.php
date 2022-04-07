@@ -1662,18 +1662,28 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                                                                              ^ keyword.operator
 //                                                                                                ^ constant.other
 
+trait
+// <- meta.trait.php keyword.declaration.trait.php
+//^^^ meta.trait.php keyword.declaration.trait.php
+//   ^ meta.trait.php - keyword
+
 trait A
-// ^ keyword.declaration.trait
-//    ^ entity.name.trait
+// <- meta.trait.php keyword.declaration.trait.php
+//^^^^^^ meta.trait.php
+//^^^ keyword.declaration.trait.php
+//    ^ entity.name.trait.php
 {
+// <- meta.trait.php meta.block.php punctuation.section.block.begin.php
     public static ?Foo $str = '';
-//  ^^^^^^ storage.modifier
-//         ^^^^^^ storage.modifier
-//                ^ storage.type.nullable
-//                 ^^^ support.class
-//                     ^ punctuation.definition.variable
-//                      ^^^ variable.other
-//                          ^ keyword.operator.assignment
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait.php meta.block.php
+//  ^^^^^^ storage.modifier.php
+//         ^^^^^^ storage.modifier.php
+//                ^ storage.type.nullable.php
+//                 ^^^ support.class.php
+//                     ^ variable.other.php punctuation.definition.variable.php
+//                      ^^^ variable.other.php - punctuation
+//                          ^ keyword.operator.assignment.php
+//                            ^^ string.quoted.single.php
 }
 
 class B
