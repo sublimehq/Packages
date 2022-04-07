@@ -1313,7 +1313,7 @@ func_call(true, 1, "string");
 //                 ^^^^^^^^ string.quoted.double
 
 $object->method(func_call());
-//     ^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+//       ^^^^^^^^^^^^^^^^^^^ meta.function-call
 //       ^^^^^^ variable.function
 //             ^^^^^^^^^^^^^ meta.group
 //              ^^^^^^^^^^^ meta.function-call meta.function-call

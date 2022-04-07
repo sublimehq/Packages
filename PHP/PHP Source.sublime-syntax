@@ -613,7 +613,7 @@ contexts:
           abstract | extends | final | global | implements | static | readonly
         )\b
       scope: storage.modifier.php
-    - include: object
+    - include: object-members
     - include: static-members
     - match: ;
       scope: punctuation.terminator.expression.php
@@ -1845,32 +1845,37 @@ contexts:
     - match: \b(?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
 
-  object:
-    - match: (\??)(->)(\$?\{)
+###[ OBJECT MEMBERS ]#########################################################
+
+  object-members:
+    - match: (\??)(->)
       captures:
         1: punctuation.accessor.nullsafe.php
         2: punctuation.accessor.arrow.php
-        3: punctuation.definition.variable.php
-      push:
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.variable.php
-          set: after-identifier
-        - include: expressions
-    - match: (\??)(->)({{identifier}})(?=\s*\()
+      push: object-member-body
+
+  object-member-body:
+    - meta_include_prototype: false
+    - match: \$?\{
+      scope: punctuation.definition.variable.php
+      set: object-expression-body
+    - match: ({{identifier}})(?=\s*\()
       scope: meta.function-call.method.php
       captures:
-        1: punctuation.accessor.nullsafe.php
-        2: punctuation.accessor.arrow.php
-        3: variable.function.php
-      push: function-call-arguments
-    - match: (\??)(->)((\$+)?{{identifier}})?
+        1: variable.function.php
+      set: function-call-arguments
+    - match: (\$+)?{{identifier}}
+      scope: variable.other.member.php
       captures:
-        1: punctuation.accessor.nullsafe.php
-        2: punctuation.accessor.arrow.php
-        3: variable.other.member.php
-        4: punctuation.definition.variable.php
-      push: after-identifier
+        1: punctuation.definition.variable.php
+      set: after-identifier
+    - include: immediately-pop
+
+  object-expression-body:
+    - match: \}
+      scope: punctuation.definition.variable.php
+      set: after-identifier
+    - include: nested-expressions
 
 ###[ STATIC MEMBERS ]#########################################################
 
