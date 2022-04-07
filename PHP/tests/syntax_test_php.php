@@ -346,7 +346,7 @@ $a = $b ? $c::MY_CONST : $d * 5;
 //      ^ keyword.operator.ternary
 //        ^^ variable.other
 //          ^^ punctuation.accessor.double-colon
-//            ^^^^^^^^ constant.other.class
+//            ^^^^^^^^ constant.other
 //                     ^ keyword.operator.ternary
 //                          ^ keyword.operator.arithmetic
 
@@ -355,7 +355,7 @@ $a = $b ? : $c::MY_CONST;
 //        ^ keyword.operator.ternary
 //          ^^ variable.other
 //            ^^ punctuation.accessor.double-colon
-//              ^^^^^^^^ constant.other.class
+//              ^^^^^^^^ constant.other
 
 $arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
 //      ^^^^^ support.function.construct
@@ -544,7 +544,7 @@ class Foo
 //                       ^ punctuation.separator
 //                         ^^^^^^^^^^ meta.path
 //                                   ^^ punctuation.accessor.double-colon
-//                                     ^^^^^^ constant.other.class
+//                                     ^^^^^^ constant.other
 //                                           ^ punctuation.section.group.end
 //                                            ^ punctuation.definition.attribute.end
     #[Assert\Email(["message" => "The email '{{ value }}' is not a valid email."])]
@@ -1852,7 +1852,7 @@ class B
 //                ^^ punctuation.accessor
 //                  ^^^^ variable.other.member
 //                      ^^ punctuation.accessor
-//                        ^^^ constant.other.class
+//                        ^^^ constant.other
 
         print $this->pro1::bar();
 //      ^^^^ support.function.string.php
@@ -2132,7 +2132,7 @@ $statement = match ($this->lexer->lookahead['type']) {
     Lexer::T_UPDATE => $this->UpdateStatement(),
 //  ^^^^^ support.class
 //       ^^ punctuation.accessor.double-colon
-//         ^^^^^^^^ constant.other.class
+//         ^^^^^^^^ constant.other
 //                  ^^ keyword.operator.key
 //                     ^^^^^ variable.language
 //                          ^^ punctuation.accessor.arrow

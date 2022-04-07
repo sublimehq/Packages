@@ -586,25 +586,9 @@ contexts:
             )?
         )
       push:
-        - include: static-function-call
-        - match: |-
-            (?x)(::)
-            (?:
-                (class)\b
-                |
-                ((\$+){{identifier}})
-                |
-                ({{identifier}})
-            )?
-          captures:
-            1: punctuation.accessor.double-colon.php
-            2: constant.class.php
-            3: variable.other.class.php
-            4: punctuation.definition.variable.php
-            5: constant.other.class.php
-          set: after-identifier
         - match: (self|static|parent)\b
           scope: variable.language.php
+        - include: static-member
         - include: class-names
         - include: variables
     - include: variables
@@ -630,6 +614,7 @@ contexts:
         )\b
       scope: storage.modifier.php
     - include: object
+    - include: static-members
     - match: ;
       scope: punctuation.terminator.expression.php
     - include: heredocs
@@ -1457,22 +1442,6 @@ contexts:
         2: punctuation.definition.variable.php
       push: function-call-arguments
 
-  static-function-calls:
-    - match: (::)({{identifier}})\s*(?=\()
-      scope: meta.function-call.static.php
-      captures:
-        1: punctuation.accessor.double-colon.php
-        2: variable.function.php
-      push: function-call-arguments
-
-  static-function-call:
-    - match: (::)({{identifier}})\s*(?=\()
-      scope: meta.function-call.static.php
-      captures:
-        1: punctuation.accessor.double-colon.php
-        2: variable.function.php
-      set: function-call-arguments
-
   qualified-function-name:
     - meta_include_prototype: false
     - meta_scope: meta.function-call.php
@@ -1902,12 +1871,38 @@ contexts:
         3: variable.other.member.php
         4: punctuation.definition.variable.php
       push: after-identifier
-    - include: static-function-calls
-    - match: '(::)({{identifier}})?'
+
+###[ STATIC MEMBERS ]#########################################################
+
+  static-members:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.php
+      push: static-member-body
+
+  static-member:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.php
+      set: static-member-body
+
+  static-member-body:
+    - meta_include_prototype: false
+    - match: ({{identifier}})\s*(?=\()
+      scope: meta.function-call.static.php
       captures:
-        1: punctuation.accessor.double-colon.php
-        2: constant.other.class.php
-      push: after-identifier
+        1: variable.function.php
+      set: function-call-arguments
+    - match: (\$+){{identifier}}
+      scope: variable.other.php
+      captures:
+        1: punctuation.definition.variable.php
+      set: after-identifier
+    - match: (?i:class)\b
+      scope: constant.class.php
+      pop: 1
+    - match: '{{identifier}}'
+      scope: constant.other.php
+      set: after-identifier
+    - include: immediately-pop
 
 ###[ HEREDOCS ]###############################################################
 
