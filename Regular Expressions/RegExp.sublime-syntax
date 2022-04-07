@@ -10,6 +10,9 @@ extends: RegExp (Basic).sublime-syntax
 file_extensions:
   - re
 
+variables:
+  capture_group_name: (?:[\w-]+)
+
 contexts:
   backtracking-control-verb:
     - match: \(\*(PRUNE|SKIP|THEN|COMMIT|FAIL|F|ACCEPT)\)
@@ -31,13 +34,13 @@ contexts:
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.section.group.end.regexp
       pop: 3
-    - match: (\?&([\w-]+))(\))
+    - match: (\?&({{capture_group_name}}))(\))
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.section.group.end.regexp
       pop: 3
-    - match: \?(?:(<)([^>]+)(>)|(')([^']+)('))
+    - match: \?(?:(<)({{capture_group_name}})(>)|(')([^']+)('))
       scope: keyword.other.named-capture-group.regexp
       captures:
         1: punctuation.definition.capture-group-name.begin.regexp
@@ -47,7 +50,7 @@ contexts:
         5: entity.name.capture-group.regexp
         6: punctuation.definition.capture-group-name.end.regexp
       pop: 1
-    - match: \?\((?:(<)([^>]+)(>)|(')([^']+)(')|(\d+)|R(\d*)|R&(\w+))\)
+    - match: \?\((?:(<)({{capture_group_name}})(>)|(')([^']+)(')|(\d+)|R(\d*)|R&({{capture_group_name}}))\)
       scope: keyword.other.backref-and-recursion.conditional.regexp
       captures:
         1: punctuation.definition.capture-group-name.begin.regexp
@@ -83,7 +86,7 @@ contexts:
 
   backrefs:
     - meta_prepend: true
-    - match: \\[kg](?:(<)([^>]+)(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
+    - match: \\[kg](?:(<)({{capture_group_name}})(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
       scope: keyword.other.backref-and-recursion.regexp
       captures:
         1: punctuation.definition.capture-group-name.begin.regexp
