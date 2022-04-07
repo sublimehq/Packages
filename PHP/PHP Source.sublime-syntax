@@ -737,29 +737,6 @@ contexts:
     - include: class-name
     - include: else-pop
 
-###[ FOR STATEMENTS ]#########################################################
-
-  for-statements:
-    - match: \b(?i:for)\b
-      scope: keyword.control.loop.for.php
-      push: for-statement-group
-
-  for-statement-group:
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: for-statement-group-body
-    - match: (?=\S)
-      pop: 1
-
-  for-statement-group-body:
-    - meta_scope: meta.group.php
-    - match: \)
-      scope: punctuation.section.group.end.php
-      pop: 1
-    - match: (?=}|\s*\?>|{{keywords}})
-      pop: 1
-    - include: expressions
-
 ###[ CLASS DECLARATIONS ]#####################################################
 
   classes:
@@ -1178,6 +1155,28 @@ contexts:
       scope: punctuation.section.block.begin.php
       push: block
     - include: statements
+
+###[ FOR STATEMENTS ]#########################################################
+
+  for-statements:
+    - match: \b(?i:for)\b
+      scope: keyword.control.loop.for.php
+      push: for-statement-group
+
+  for-statement-group:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: for-statement-group-body
+    - include: else-pop
+
+  for-statement-group-body:
+    - meta_scope: meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - match: (?=}|\s*\?>|{{keywords}})
+      pop: 1
+    - include: expressions
 
 ###[ USE STATEMENTS ]#########################################################
 
