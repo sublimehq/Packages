@@ -474,7 +474,7 @@ contexts:
         - include: method_declaration
         - include: stray_close_bracket
     - match: \(
-      scope: punctuation.section.group.begin.cs
+      scope: punctuation.section.parameters.begin.cs
       set: [data_type_signature, method_params]
     - match: ';'
       scope: punctuation.terminator.cs
