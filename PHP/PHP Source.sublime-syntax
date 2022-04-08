@@ -11,7 +11,9 @@ variables:
   path: '\\?({{identifier}}\\)*{{identifier}}'
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
-  visibility_modifier: '\b(?:var|public|private|protected)\b'
+
+  property_modifier: (?i:readonly|static|{{visibility_modifier}})\b
+  visibility_modifier: (?i:var|public|private|protected)\b
 
   # A pattern which terminates an incomplete expression at any point.
   # `\s*\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
@@ -425,9 +427,9 @@ contexts:
     - include: interfaces
     - include: namespaces
     - include: traits
+    - include: functions
+    - include: properties
     - include: use-statements
-    - include: typed-property
-    - include: function
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
@@ -982,19 +984,24 @@ contexts:
     - meta_scope: meta.trait.php meta.block.php
     - include: class-body
 
-###[ TYPED PROPERTIES ]#######################################################
+###[ PROPERTY DECLARATIONS ]##################################################
 
-  typed-property:
+  properties:
+    # https://www.php.net/manual/en/language.oop5.properties.php
     # https://wiki.php.net/rfc/typed_properties_v2
-    - match: (?=\b(?:{{visibility_modifier}}|static|readonly)\b)
-      push:
-        - match: (?=\b(?:const|function)\b)
-          pop: 1
-        - match: \b(?:{{visibility_modifier}}|static|readonly)\b
-          scope: storage.modifier.php
-        - include: type-hints
-        # Exit on unexpected content
-        - include: else-pop
+    - match: '{{property_modifier}}'
+      scope: storage.modifier.php
+      push: property-type-hint
+
+  property-type-hint:
+    - match: (?=(?i:const|function)\b)
+      pop: 1
+    - match: '{{property_modifier}}'
+      scope: storage.modifier.php
+    - include: type-hint
+    - include: else-pop
+
+###[ FUNCTION DECLARATIONS ]##################################################
 
   function:
     - match: (?i)(?=(?:\b(?:final|abstract|{{visibility_modifier}}|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
