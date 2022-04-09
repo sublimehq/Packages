@@ -561,23 +561,7 @@ contexts:
     - include: arrow-functions
     - include: closures
     - include: function-calls
-    - match: |-
-        (?x)\s*(?=
-            [[:alnum:]_$\\]+(::)
-            (?:
-                ({{identifier}})\s*\(
-                |
-                ((\$+){{identifier}})
-                |
-                ({{identifier}})
-            )?
-        )
-      push:
-        - match: (self|static|parent)\b
-          scope: variable.language.php
-        - include: static-member
-        - include: class-names
-        - include: variables
+    - include: static-classes
     - include: variables
     - include: strings
     - include: arrays
@@ -601,7 +585,6 @@ contexts:
         )\b
       scope: storage.modifier.php
     - include: object-members
-    - include: static-members
     - include: punctuation-terminators
     - include: heredocs
     - include: numbers
@@ -1848,17 +1831,24 @@ contexts:
       set: after-identifier
     - include: nested-expressions
 
-###[ STATIC MEMBERS ]#########################################################
+###[ STATIC CLASS MEMBERS ]###################################################
+
+  static-classes:
+    - match: (?=[[:alnum:]_$\\]+::)
+      push: static-class-name
+    - include: static-members
+
+  static-class-name:
+    - match: (?i:parent|self|static)\b
+      scope: variable.language.php
+    - include: class-name
+    - include: variables
+    - include: immediately-pop
 
   static-members:
     - match: '::'
       scope: punctuation.accessor.double-colon.php
       push: static-member-body
-
-  static-member:
-    - match: '::'
-      scope: punctuation.accessor.double-colon.php
-      set: static-member-body
 
   static-member-body:
     - meta_include_prototype: false
