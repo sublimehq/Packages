@@ -12,14 +12,20 @@ variables:
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
 
-
-  function_modifier: (?i:abstract|final|static|{{visibility_modifier}})\b
-  property_modifier: (?i:readonly|static|{{visibility_modifier}})\b
-  visibility_modifier: (?i:var|public|private|protected)\b
-
   # A pattern which terminates an incomplete expression at any point.
   # `\s*\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
   expression_end: (?=;|}|\s*\?>|{{keywords}})
+
+  heredoc_quoted_end: (?=^\s*\4\b)
+  heredoc_unquoted_end: (?=^\s*\2\b)
+
+  # no odd number of backslashes behind (`\` or `\\\`)
+  # note:
+  #  1. For use in `escape` commands only !!
+  #  2. ST's Regex Compatibility Check marks it as incompatible
+  #     as the real usage of the variable is not checked.
+  #     It's a false positive as long as (1.) is respected.
+  no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
 
   keywords: |-
     (?x:
@@ -43,20 +49,22 @@ variables:
   keywords_flow: |-
     (?x: break | continue | exit | finally | return | throw | yield )\b
 
+  # Storage Modifiers
+  storage_modifiers: |-
+    (?xi: abstract | extends | final | global | implements | readonly | static )\b
+  constructor_modifier: |-
+    (?xi: readonly | {{visibility_modifier}} )\b
+  function_modifier: |-
+    (?xi: abstract | final | static | {{visibility_modifier}} )\b
+  property_modifier: |-
+    (?xi: readonly | static | var | {{visibility_modifier}} )\b
+  visibility_modifier: |-
+    (?xi: public | private | protected )\b
+
   # Storage Types
   storage_types: |-
-    (?xi: array | bool(?:ean)? | double | float | real | int(?:eger)? | object | string )\b
-
-  heredoc_quoted_end: (?=^\s*\4\b)
-  heredoc_unquoted_end: (?=^\s*\2\b)
-
-  # no odd number of backslashes behind (`\` or `\\\`)
-  # note:
-  #  1. For use in `escape` commands only !!
-  #  2. ST's Regex Compatibility Check marks it as incompatible
-  #     as the real usage of the variable is not checked.
-  #     It's a false positive as long as (1.) is respected.
-  no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
+    (?xi: array | bool(?:ean)? | callable | double | float | real | int(?:eger)?
+    | object | string )\b
 
   builtin_classes: |-
     (?xi:
@@ -532,36 +540,15 @@ contexts:
     - include: variables
     - include: strings
     - include: arrays
-    - include: keywords
-    - match: |-
-        \b(?xi:
-          array | bool | boolean | clone | double | float | int | integer | object | real | string
-        )\b
-      scope: storage.type.php
-    - match: (?i)\b(parent|self)\b
-      scope: variable.language.php
-    - match: \b(?i:const)\b
-      scope: storage.modifier.php
-      push: decl-constant
-    - match: |-
-        {{visibility_modifier}}|\b(?xi:
-          abstract | extends | final | global | implements | static | readonly
-        )\b
-      scope: storage.modifier.php
     - include: object-members
     - include: punctuation-terminators
     - include: heredocs
     - include: numbers
     - include: operators
     - include: instantiations
+    - include: keywords
+    - include: types
     - include: constants
-
-  keywords:
-    # fallback patterns incase no other expression matches
-    - match: \b(?i:class)\b
-      scope: keyword.declaration.class.php
-    - match: \b(?i:declare|enddeclare)\b
-      scope: keyword.declaration.php
 
 ###[ COMMENTS ]###############################################################
 
@@ -713,14 +700,13 @@ contexts:
     #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
     - match: |-
-        \b(?xi:
-          array | bool | callable | double | float | int | iterable | object
-        | string | false | null | void | parent | self | static | mixed | never
-        )\b
+        (?xi: iterable | false | mixed | never | null | void
+        | parent | self | static | {{storage_types}} )\b
       scope: storage.type.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
       pop: 1
+    - include: expression-end-pop
     - include: class-name
     - include: else-pop
 
@@ -851,10 +837,10 @@ contexts:
     - meta_scope: meta.enum.php meta.block.php
     - match: (?i:case)\b
       scope: keyword.control.php
-      push: decl-constant
+      push: constant-definition-name
     - include: class-body
 
-  decl-constant:
+  constant-definition-name:
     - include: attributes
     - include: comments
     - match: '{{identifier}}'
@@ -1089,7 +1075,7 @@ contexts:
   constructor-parameters-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.php meta.group.php
-    - match: (?i){{visibility_modifier}}|readonly\b
+    - match: '{{constructor_modifier}}'
       scope: storage.modifier.php
     - include: function-parameters-body
 
@@ -1845,6 +1831,15 @@ contexts:
 
 ###[ LITERALS ]###############################################################
 
+  keywords:
+    # fallback patterns incase no other expression matches
+    - match: \b(?i:class)\b
+      scope: keyword.declaration.class.php
+    - match: \b(?i:declare|enddeclare)\b
+      scope: keyword.declaration.php
+    - match: \b(?i:parent|self)\b
+      scope: variable.language.php
+
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
@@ -1882,6 +1877,17 @@ contexts:
         2: punctuation.separator.decimal.php
     - match: \b(?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
+
+  types:
+    - match: \b(?i:const)\b
+      scope: storage.modifier.php
+      push: constant-definition-name
+    - match: '{{storage_modifiers}}'
+      scope: storage.modifier.php
+    - match: '{{visibility_modifier}}'
+      scope: storage.modifier.php
+    - match: '{{storage_types}}'
+      scope: storage.type.php
 
 ###[ OBJECT MEMBERS ]#########################################################
 
