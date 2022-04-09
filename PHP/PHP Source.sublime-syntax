@@ -516,14 +516,7 @@ contexts:
   expressions:
     - include: attributes
     - include: comments
-    - match: (?i)\b((?:require|include)(?:_once)?)\b\s*
-      captures:
-        1: keyword.control.import.include.php
-      push:
-        - meta_scope: meta.include.php
-        - match: (?=\)|\])
-          pop: 1
-        - include: nested-expressions
+    - include: includes
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
     - match: \byield\b
       scope: keyword.control.php
@@ -1454,6 +1447,19 @@ contexts:
 
   function-call-argument-value:
     - match: (?=[,)])
+      pop: 1
+    - include: nested-expressions
+
+###[ INCLUDES ]###############################################################
+
+  includes:
+    - match: \b(?i:require|include)(?i:_once)?\b
+      scope: keyword.control.import.include.php
+      push: include-expression
+
+  include-expression:
+    - meta_scope: meta.include.php
+    - match: (?=[])])
       pop: 1
     - include: nested-expressions
 
