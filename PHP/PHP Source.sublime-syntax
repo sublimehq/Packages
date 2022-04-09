@@ -516,6 +516,7 @@ contexts:
   expressions:
     - include: attributes
     - include: comments
+    - include: groups
     - include: exception-statements
     - include: includes
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
@@ -571,14 +572,6 @@ contexts:
         1: keyword.control.goto.php
         2: support.other.php
     - include: constants
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      push:
-        - meta_scope: meta.group.php
-        - match: \)
-          scope: punctuation.section.group.end.php
-          pop: 1
-        - include: nested-expressions
 
   keywords:
     # fallback patterns incase no other expression matches
@@ -1375,6 +1368,23 @@ contexts:
     - include: expression-end-pop
     - include: attributes
     - include: comments
+
+###[ EXPRESSION GROUPS ]######################################################
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      push: group-body
+
+  group-body:
+    - meta_scope: meta.group.php
+    - include: group-end
+    - include: nested-expressions
+
+  group-end:
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
 
 ###[ FUNCTION CALLS ]#########################################################
 
