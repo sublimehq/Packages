@@ -2350,6 +2350,51 @@ contexts:
     - match: '&'
       scope: storage.modifier.reference.php
 
+###[ VARIABLES ]##############################################################
+
+  variables:
+    - match: (\$)(?:_COOKIE|_FILES|_GET|_POST|_REQUEST|argc|argv)\b
+      scope: variable.other.global.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+    - match: (\$)(GLOBALS|_ENV|_SERVER|_SESSION)\b
+      scope: variable.other.global.safer.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+    - match: (\$)this\b
+      scope: variable.language.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+    - match: (\$+){{identifier}}
+      scope: variable.other.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+    # resolves https://github.com/sublimehq/Packages/issues/2585
+    - match: \$+
+      scope: punctuation.definition.variable.php
+
+  variables-no-item-access:
+    - match: (\$)(?:_COOKIE|_FILES|_GET|_POST|_REQUEST|argc|argv)\b
+      scope: variable.other.global.php
+      captures:
+        1: punctuation.definition.variable.php
+    - match: (\$)(GLOBALS|_ENV|_SERVER|_SESSION)\b
+      scope: variable.other.global.safer.php
+      captures:
+        1: punctuation.definition.variable.php
+    - match: (\$)this\b
+      scope: variable.language.php
+      captures:
+        1: punctuation.definition.variable.php
+    - match: (\$+){{identifier}}
+      scope: variable.other.php
+      captures:
+        1: punctuation.definition.variable.php
+
 ###[ BUILTINS ]###############################################################
 
   support:
@@ -3115,51 +3160,6 @@ contexts:
           is_int | is_integer
         )\b
       scope: support.function.alias.php
-
-###[ VARIABLES ]##############################################################
-
-  variables:
-    - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b
-      scope: variable.other.global.php
-      captures:
-        1: punctuation.definition.variable.php
-      push: after-identifier
-    - match: (\$)((GLOBALS|_(ENV|SERVER|SESSION)))
-      scope: variable.other.global.safer.php
-      captures:
-        1: punctuation.definition.variable.php
-      push: after-identifier
-    - match: '(\$)this\b'
-      scope: variable.language.php
-      captures:
-        1: punctuation.definition.variable.php
-      push: after-identifier
-    - match: (\$+){{identifier}}
-      scope: variable.other.php
-      captures:
-        1: punctuation.definition.variable.php
-      push: after-identifier
-    # resolves https://github.com/sublimehq/Packages/issues/2585
-    - match: \$+
-      scope: punctuation.definition.variable.php
-
-  variables-no-item-access:
-    - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b
-      scope: variable.other.global.php
-      captures:
-        1: punctuation.definition.variable.php
-    - match: (\$)((GLOBALS|_(ENV|SERVER|SESSION)))
-      scope: variable.other.global.safer.php
-      captures:
-        1: punctuation.definition.variable.php
-    - match: '(\$)this\b'
-      scope: variable.language.php
-      captures:
-        1: punctuation.definition.variable.php
-    - match: (\$+){{identifier}}
-      scope: variable.other.php
-      captures:
-        1: punctuation.definition.variable.php
 
 ###[ PROTOTYPES ]#############################################################
 
