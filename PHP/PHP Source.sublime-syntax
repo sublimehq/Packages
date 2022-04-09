@@ -517,24 +517,8 @@ contexts:
     - include: attributes
     - include: comments
     - include: groups
-    - include: exception-statements
+    - include: control-statements
     - include: includes
-    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
-    - match: \byield\b
-      scope: keyword.control.php
-      push:
-        - match: \bfrom\b
-          scope: keyword.control.php
-          pop: 1
-        - include: else-pop
-    - include: for-statements
-    - match: |-
-        \b(?xi:
-          break | case | continue | declare | default | die | do | else |
-          elseif | enddeclare | endfor | endforeach | endif | endswitch | endwhile | exit |
-          foreach | if | match | return | switch | use | while
-        )\b
-      scope: keyword.control.php
     - include: arrow-functions
     - include: closures
     - include: function-calls
@@ -567,18 +551,14 @@ contexts:
     - include: numbers
     - include: operators
     - include: instantiations
-    - match: '(?i)(goto)\s+({{identifier}})'
-      captures:
-        1: keyword.control.goto.php
-        2: support.other.php
     - include: constants
 
   keywords:
     # fallback patterns incase no other expression matches
     - match: \b(?i:class)\b
       scope: keyword.declaration.class.php
-    - match: \b(?i:throw)\b
-      scope: keyword.control.flow.throw.php
+    - match: \b(?i:declare|enddeclare)\b
+      scope: keyword.declaration.php
 
 ###[ COMMENTS ]###############################################################
 
@@ -1187,6 +1167,76 @@ contexts:
   function-block-body:
     - meta_scope: meta.function.php meta.block.php
     - include: block
+
+###[ CONTROL FLOW STATEMENTS ]################################################
+
+  control-statements:
+    # Note: Only keywords are matched here, but each of them starts a statement.
+    - include: conditional-statements
+    - include: exception-statements
+    - include: loop-statements
+    - include: flow-statements
+
+  conditional-statements:
+    - match: \b(?i:if)\b
+      scope: keyword.control.conditional.if.php
+    - match: \b(?i:elseif)\b
+      scope: keyword.control.conditional.elseif.php
+    - match: \b(?i:else)\b
+      scope: keyword.control.conditional.else.php
+    - match: \b(?i:case)\b
+      scope: keyword.control.conditional.case.php
+    - match: \b(?i:default)\b
+      scope: keyword.control.conditional.default.php
+    - match: \b(?i:match)\b
+      scope: keyword.control.conditional.match.php
+    - match: \b(?i:switch)\b
+      scope: keyword.control.conditional.switch.php
+    - match: \b(?i:end(?:if|switch))\b
+      scope: keyword.control.conditional.end.php
+
+  loop-statements:
+    - include: for-statements
+    - match: \b(?i:do)\b
+      scope: keyword.control.loop.do-while.php
+    - match: \b(?i:foreach)\b
+      scope: keyword.control.loop.for.php
+    - match: \b(?i:while)\b
+      scope: keyword.control.loop.while.php
+    - match: \b(?i:end(?:for(?:each)?|while))\b
+      scope: keyword.control.loop.end.php
+
+  flow-statements:
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.php
+    - match: \b(?i:break)\b
+      scope: keyword.control.flow.break.php
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.php
+      push: goto-label
+    - match: \b(?i:die|exit)\b
+      scope: keyword.control.flow.panic.php
+    - match: \b(?i:return)\b
+      scope: keyword.control.flow.return.php
+    - match: \b(?i:throw)\b
+      scope: keyword.control.flow.throw.php
+    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
+    - match: \b(?i:yield)\b
+      scope: keyword.control.flow.yield.php
+      push: yield-from
+
+  goto-label:
+    - match: '{{identifier}}'
+      scope: variable.label.php
+    - include: comments
+    - include: else-pop
+
+  yield-from:
+    - match: \b(?i:from)\b
+      scope: keyword.control.flow.yield.php
+      pop: 1
+    - include: comments
+    - include: else-pop
 
 ###[ EXCEPTION STATEMENTS ]###################################################
 

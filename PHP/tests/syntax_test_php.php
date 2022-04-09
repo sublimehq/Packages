@@ -2218,16 +2218,43 @@ $const = T_ABSTRACT;
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
 if ((include 'vars.php') == TRUE) {
+// <- keyword.control.conditional.if.php
+// ^ meta.group.php - meta.group meta.group - meta.include
+//  ^ meta.group.php meta.group.php - meta.include
+//   ^^^^^^^^^^^^^^^^^^ meta.group.php meta.group.php meta.include.php
+//                     ^ meta.group.php meta.group.php - meta.include
+//                      ^^^^^^^^^ meta.group.php - meta.group meta.group - meta.include
+// ^^ punctuation.section.group.begin.php
 //   ^^^^^^^ keyword.control.import.include.php
-//   ^^^^^^^^^^^^^^^^^^ meta.include.php
-//                     ^ - meta.include.php
+//           ^^^^^^^^^^ meta.string.php string.quoted.single.php
+//                     ^ punctuation.section.group.end.php
+//                       ^^ keyword.operator.comparison.php
+//                          ^^^^ constant.language.boolean.php
+//                              ^ punctuation.section.group.end.php
+//                                ^ punctuation.section.block.begin.php
 }
+// <- punctuation.section.block.end.php
 
 // evaluated as include(('vars.php') == TRUE), i.e. include('')
 if (include('vars.php') == TRUE) {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.php
-//                             ^ - meta.include.php
+// <- keyword.control.conditional.if.php
+// ^ meta.group.php - meta.include
+//  ^^^^^^^ meta.group.php meta.include.php - meta.group meta.group
+//         ^^^^^^^^^^^^ meta.group.php meta.include.php meta.group.php
+//                     ^^^^^^^^ meta.group.php meta.include.php - meta.group meta.group
+//                             ^ meta.group.php - meta.include
+//                              ^ - meta.group - meta.include.php
+// ^ punctuation.section.group.begin.php
+//  ^^^^^^^ keyword.control.import.include.php
+//         ^ punctuation.section.group.begin.php
+//          ^^^^^^^^^^ meta.string.php string.quoted.single.php
+//                    ^ punctuation.section.group.end.php
+//                      ^^ keyword.operator.comparison.php
+//                         ^^^^ constant.language.boolean.php
+//                             ^ punctuation.section.group.end.php
+//                               ^ punctuation.section.block.begin.php
 }
+// <- punctuation.section.block.end.php
 
 $
 # <- punctuation.definition.variable
@@ -2262,16 +2289,20 @@ else:
 endif;
 
 switch (1) {
-//^ keyword.control
+// <- keyword.control.conditional.switch.php
+//^^^^ keyword.control.conditional.switch.php
     case 1:
-  //^^^^ keyword.control.php - entity.name.label.php
-  //      ^ punctuation.separator.colon
+  //^^^^ keyword.control.conditional.case.php
+  //     ^ constant.numeric.value.php
+  //      ^ punctuation.separator.colon.php
     default:
-  //^^^^^^^ keyword.control.php - entity.name.label.php
+  //^^^^^^^ keyword.control.conditional.default.php
+  //       ^ punctuation.separator.colon.php
 }
+// <- punctuation.section.block.end.php
 
 $statement = match ($this->lexer->lookahead['type']) {
-//           ^^^^^ keyword.control
+//           ^^^^^ keyword.control.conditional.match.php
     Lexer::T_UPDATE => $this->UpdateStatement(),
 //  ^^^^^ support.class
 //       ^^ punctuation.accessor.double-colon
@@ -2284,7 +2315,7 @@ $statement = match ($this->lexer->lookahead['type']) {
     Lexer::T_DELETE => $this->DeleteStatement(),
 //                  ^^ keyword.operator.key
     default => $this->syntaxError('UPDATE or DELETE'),
-//  ^^^^^^^ keyword.control
+//  ^^^^^^^ keyword.control.conditional.default.php
 //          ^^ keyword.operator.key
 //                               ^^^^^^^^^^^^^^^^^^^^ meta.group.php
 //                               ^ punctuation.section.group.begin.php
