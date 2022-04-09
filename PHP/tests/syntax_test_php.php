@@ -2571,7 +2571,7 @@ $sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'G
 //                                                                                       ^ punctuation.terminator.expression.php
 
 preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
 //            ^ punctuation.definition.string.regex-delimiter.begin
 //             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
 //             ^ punctuation.definition.character-class.begin.regexp
@@ -2588,7 +2588,9 @@ preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //                                                      ^ string.quoted.single
 
 preg_replace("/[a-zSOME_CHAR]*+\'\n  $vairble  \1  \\1/m");
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                   ^^^^^^^^ meta.string.php meta.interpolation.php - string
+//                                           ^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
 //            ^ punctuation.definition.string.regex-delimiter.begin
 //             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
 //             ^ punctuation.definition.character-class.begin.regexp
@@ -2640,6 +2642,10 @@ preg_replace("/a{,6}b{3,}c{3,6}/");
 //                   ^^^^ keyword.operator.quantifier.regexp
 //                        ^^^^^ keyword.operator.quantifier.regexp
 
+preg_replace("/test$,bar$/");
+//                 ^ keyword.control.anchor.regexp
+//                      ^ keyword.control.anchor.regexp
+
 $regex = '/
     a{,6}
 //   ^^^^ keyword.operator.quantifier.regexp
@@ -2668,8 +2674,9 @@ echo <<<EOT
 //      ^^^ meta.string.heredoc meta.tag.heredoc
 //      ^^^ entity.name.tag.heredoc
 This is a test! $var
-//^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
-//              ^^^^ variable.other
+//^^^^^^^^^^^^^^ meta.string.php string.unquoted.heredoc - meta.interpolation
+//              ^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                  ^ meta.string.php string.unquoted.heredoc.php - meta.interpolation
 EOT;
 // <- entity.name.tag.heredoc
 
@@ -2680,8 +2687,10 @@ echo <<<EOT
 //      ^^^ meta.string.heredoc meta.tag.heredoc
 //      ^^^ entity.name.tag.heredoc
     This is a test! $var
-//  ^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
-//                  ^^^^ variable.other
+//  ^^^^^^^^^^^^^^^^ meta.string.php string.unquoted.heredoc - meta.interpolation
+//                  ^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                      ^ meta.string.php string.unquoted.heredoc.php - meta.interpolation
+    $var2
     EOT;
 //  ^^^ entity.name.tag.heredoc
 //     ^ punctuation.terminator.expression

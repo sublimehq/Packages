@@ -1553,75 +1553,55 @@ contexts:
     - meta_scope: meta.group.php
     - include: function-call-arguments-body
 
-###[ INTERPOLATION ]##########################################################
+###[ INTERPOLATIONS ]#########################################################
 
-  interpolation:
-    - match: '\\[0-7]{1,3}'
-      scope: constant.character.escape.octal.php
-    - match: '\\x[0-9A-Fa-f]{1,2}'
-      scope: constant.character.escape.hex.php
-    - match: '\\u\{[0-9A-Fa-f]+\}'
-      scope: constant.character.escape.unicodepoint.php
-    - match: '\\[nrt\\\$\"]'
-      scope: constant.character.escape.php
-    - match: '(\{)(?=\$.*?\})'
-      captures:
-        1: punctuation.definition.expression.php
+  interpolations:
+    - include: string-escapes
+    - match: (?=(?:\$\{|\{\$)[^}]*\})
       push:
-        - match: \}
-          scope: punctuation.definition.expression.php
-          pop: 1
-        - include: interpolation-statements
+        - interpolation-meta
+        - interpolation-content
+    - match: (?=\${{identifier_start}})
+      push:
+        - interpolation-meta
+        - interpolation-literal-variable
+
+  interpolation-meta:
+    # PHP variable/expressions interpolated into foreign
+    # source code without clearing any string scopes.
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.php
+    - include: immediately-pop
+
+  interpolation-content:
+    - match: \{
+      scope: punctuation.definition.expression.begin.php
+      set: interpolation-braced-expression
     # Handles: "foo${bar}baz"
-    - match: '(\$\{){{identifier}}(\})'
+    - match: (\$\{){{identifier}}(\})
       scope: variable.other.php
       captures:
-        1: punctuation.definition.variable.php
-        2: punctuation.definition.variable.php
-    - match: '(\$\{)(?=.*?\})'
-      captures:
-        1: punctuation.definition.variable.php
-      push:
-        - match: \}
-          scope: punctuation.definition.variable.php
-          pop: 1
-        - include: interpolation-statements
+        1: punctuation.definition.variable.begin.php
+        2: punctuation.definition.variable.end.php
     # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
-    - match: |-
-        (?x:
-          (?=
-            \${{identifier}}
-            (?:
-                \??->{{identifier}}
-                |
-                \[ ( \d+ | \$?{{identifier}} ) \]
-            )
-          )
-        )
-      push:
-        - match: (\??)(->)({{identifier}})
-          captures:
-            1: punctuation.accessor.nullsafe.php
-            2: punctuation.accessor.arrow.php
-            3: variable.other.member.php
-          pop: 1
-        - match: \[
-          scope: punctuation.section.brackets.begin.php
-          set:
-            - meta_scope: meta.item-access.php
-            - match: \]
-              scope: punctuation.section.brackets.end.php
-              pop: 1
-            - include: expression-end-pop
-            - include: numbers
-            - include: variables
-            - include: constants
-        - include: variables-no-item-access
-    - include: variables
+    - match: \$\{
+      scope: punctuation.definition.variable.begin.php
+      set: interpolation-braced-variable
+    - include: immediately-pop
+
+  interpolation-braced-expression:
+    - match: \}
+      scope: punctuation.definition.expression.end.php
+      pop: 1
+    - include: interpolation-statements
+
+  interpolation-braced-variable:
+    - match: \}
+      scope: punctuation.definition.variable.end.php
+      pop: 1
+    - include: interpolation-statements
 
   interpolation-statements:
-    # This context is used in interpolations and variable expansions.
-    # Hence no PHP tags are expected inside.
     - match: \{
       scope: punctuation.section.block.begin.php
       push: interpolation-block-body
@@ -1633,6 +1613,29 @@ contexts:
       scope: punctuation.section.block.end.php
       pop: 1
     - include: interpolation-statements
+
+  interpolation-literal-variable:
+    - include: variables-no-item-access
+    - match: (\??)(->)({{identifier}})
+      captures:
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: variable.other.member.php
+      pop: 1
+    - match: \[
+      scope: punctuation.section.brackets.begin.php
+      push: interpolation-item-access
+    - include: immediately-pop
+
+  interpolation-item-access:
+    - meta_scope: meta.item-access.arguments.php
+    - match: \]
+      scope: punctuation.section.brackets.end.php
+      pop: 1
+    - include: expression-end-pop
+    - include: numbers
+    - include: variables
+    - include: constants
 
 ###[ ARRAYS ]#################################################################
 
@@ -2121,13 +2124,13 @@ contexts:
       push: heredoc-plain-content
 
   heredoc-plain-interpolated-content:
-    - meta_scope: string.unquoted.heredoc.php
+    - meta_scope: meta.string.php string.unquoted.heredoc.php
     - match: '{{heredoc_unquoted_end}}'
       pop: 1
-    - include: interpolation
+    - include: string-interpolations
 
   heredoc-plain-content:
-    - meta_scope: string.unquoted.heredoc.php
+    - meta_scope: meta.string.php string.unquoted.heredoc.php
     - match: '{{heredoc_quoted_end}}'
       pop: 1
 
@@ -2136,42 +2139,42 @@ contexts:
     - match: ''
       push: scope:source.css
       with_prototype:
-        - include: interpolation
+        - include: interpolations
 
   heredoc-html:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.html.basic
       with_prototype:
-        - include: interpolation
+        - include: interpolations
 
   heredoc-javascript:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.js
       with_prototype:
-        - include: interpolation
+        - include: interpolations
 
   heredoc-json:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.json
       with_prototype:
-        - include: interpolation
+        - include: interpolations
 
   heredoc-xml:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.xml
       with_prototype:
-        - include: interpolation
+        - include: interpolations
 
   heredoc-yaml:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.yaml
       with_prototype:
-        - include: interpolation
+        - include: interpolations
 
 ###[ STRINGS ]################################################################
 
@@ -2193,7 +2196,7 @@ contexts:
       pop: 1
     - match: \\.
       scope: constant.character.escape.php
-    - include: interpolation
+    - include: interpolations
 
 
   strings-double-quoted:
@@ -2244,11 +2247,7 @@ contexts:
       with_prototype:
         - match: (?=/{{regex_modifier}}"|")
           pop: 1
-        # workaround for greedy scope "$" as punctuation.definition.variable
-        # dangling "$" in regex means EOL, but not variable definition...
-        - match: \$+(?!{{identifier}})
-          scope: keyword.control.anchor.regexp
-        - include: interpolation
+        - include: regexp-interpolations
         - match: \\"
           scope: constant.character.escape
         - match: \s(#)([^"]*)$
@@ -2266,7 +2265,7 @@ contexts:
     - meta_scope: meta.string.php
     - meta_content_scope: string.quoted.double.php
     - include: string-double-quoted-end
-    - include: interpolation
+    - include: string-interpolations
 
   string-double-quoted-sql-content:
     - match: ''
@@ -2374,6 +2373,56 @@ contexts:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
     - include: nested-expressions
     - include: else-pop
+
+  string-escapes:
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.octal.php
+    - match: \\x[0-9A-Fa-f]{1,2}
+      scope: constant.character.escape.hex.php
+    - match: \\u\{[0-9A-Fa-f]+\}
+      scope: constant.character.escape.unicodepoint.php
+    - match: \\[nrt\\\$\"]
+      scope: constant.character.escape.php
+
+  string-interpolations:
+    - include: string-escapes
+    - match: (?=(?:\$\{|\{\$)[^}]*\})
+      push:
+        - string-interpolation-meta
+        - interpolation-content
+    - match: (?=\${{identifier_start}})
+      push:
+        - string-interpolation-meta
+        - interpolation-literal-variable
+
+  string-interpolation-meta:
+    # PHP variable/expressions interpolated into string contexts
+    # by clearing the last scope on stack (hopefully the string scope).
+    # Can be PHP's or embedded source code's strings.
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.php
+    - include: immediately-pop
+
+  regexp-interpolations:
+    - include: string-escapes
+    - match: (?=(?:\$\{|\{\$)[^}]*\})
+      push:
+        - regexp-interpolation-meta
+        - interpolation-content
+    - match: (?=\${{identifier_start}})
+      push:
+        - regexp-interpolation-meta
+        - interpolation-literal-variable
+
+  regexp-interpolation-meta:
+    # PHP variable/expressions interpolated into regular expression contexts
+    # by clearing the last two scopes on stack (string and source.regexp scope).
+    # To clear string scope source.regexp scope needs to be removed, too.
+    - clear_scopes: 2
+    - meta_include_prototype: false
+    - meta_scope: source.regexp.php meta.interpolation.php
+    - include: immediately-pop
 
 ###[ OPERATORS ]##############################################################
 
