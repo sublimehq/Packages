@@ -1331,12 +1331,12 @@ interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 
 if ($foo instanceof \Mynamespace\ClassName) {
 //  ^ variable.other
-//       ^ keyword.operator
-//                  ^^^^^^^^^^^^^^^^^^^^^^ meta.path
-//                  ^ punctuation.separator.namespace
-//                   ^ support.other.namespace
-//                              ^ punctuation.separator.namespace
-//                               ^^^^^^^^^ support.class
+//       ^^^^^^^^^^ keyword.other.storage.instanceof.php
+//                  ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
+//                  ^ punctuation.separator.namespace.php
+//                   ^ support.other.namespace.php
+//                              ^ punctuation.separator.namespace.php
+//                               ^^^^^^^^^ support.class.php
 }
 
 $var = new \MyNamespce\ClassName();

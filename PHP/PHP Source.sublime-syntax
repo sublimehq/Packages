@@ -462,10 +462,6 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.php
     - include: expressions
-    # catch some stray cases
-    - match: ':'
-      scope: punctuation.separator.colon.php
-    - include: punctuation-separators
 
   block:
     - match: \}
@@ -613,56 +609,10 @@ contexts:
       scope: storage.modifier.php
     - include: object-members
     - include: static-members
-    - match: ;
-      scope: punctuation.terminator.expression.php
+    - include: punctuation-terminators
     - include: heredocs
     - include: numbers
-    - match: (\+|-|\*|/|%|&|\||\^|>>|<<|\.|\?\?)=
-      scope: keyword.operator.assignment.augmented.php
-    - match: "=>"
-      scope: keyword.operator.key.php
-    - match: '(?:(\=)(&))|(&(?=[[:alpha:]$_]))'
-      captures:
-        1: keyword.operator.assignment.php
-        2: storage.modifier.reference.php
-        3: storage.modifier.reference.php
-    - match: (@)
-      scope: keyword.operator.error-control.php
-    - match: (\-\-|\+\+)
-      scope: keyword.operator.increment-decrement.php
-    - match: (\-|\+|\*|/|%)
-      scope: keyword.operator.arithmetic.php
-    - match: '&&|\|\|'
-      scope: keyword.operator.logical.php
-    - match: '<<|>>|~|\^|&|\|'
-      scope: keyword.operator.bitwise.php
-    - match: (===|!==|<=>|==|!=|<=|>=|<>|<|>)
-      scope: keyword.operator.comparison.php
-    - match: (?i)(!)|\b(and|or|xor|as)\b
-      scope: keyword.operator.logical.php
-    - match: \?\?
-      scope: keyword.operator.null-coalescing.php
-    - include: spread-operators
-    - match: \.
-      scope: keyword.operator.string.php
-    - match: \?
-      scope: keyword.operator.ternary.php
-      push:
-        - include: nested-expressions
-        - match: ':'
-          scope: keyword.operator.ternary.php
-          pop: 1
-    - include: punctuation-separators
-    - match: "="
-      scope: keyword.operator.assignment.php
-    - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
-      captures:
-        1: keyword.operator.type.php
-      push:
-        - match: '(?=[^[:alnum:]_\\$])'
-          pop: 1
-        - include: class-name
-        - include: variables
+    - include: operators
     - include: instantiations
     - match: '(?i)(goto)\s+({{identifier}})'
       captures:
@@ -927,8 +877,7 @@ contexts:
       captures:
         1: punctuation.accessor.double-colon.php
         2: variable.function.php
-    - match: ;
-      scope: punctuation.terminator.expression.php
+    - include: punctuation-terminators
     - include: attributes
     - include: comments
     - include: class-names
@@ -1492,13 +1441,12 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.php
       set: after-function-call
-    - include: punctuation-separators
     - include: function-call-named-arguments
     - include: nested-expressions
 
   function-call-named-arguments:
     # https://wiki.php.net/rfc/named_params
-    - match: ({{identifier}})\s*(:)(?!:)
+    - match: ({{identifier}})\s*(:(?!:))
       captures:
         1: variable.parameter.named.php
         2: punctuation.definition.variable.php
@@ -1641,7 +1589,6 @@ contexts:
     - match: \]
       scope: punctuation.section.sequence.end.php
       pop: 1
-    - include: punctuation-separators
     - include: nested-expressions
 
   after-identifier:
@@ -2327,6 +2274,81 @@ contexts:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
     - include: nested-expressions
     - include: else-pop
+
+###[ OPERATORS ]##############################################################
+
+  operators:
+    - include: spread-operators
+    - match: (?:\+|-|\*|/|%|&|\||\^|>>|<<|\.|\?\?)=
+      scope: keyword.operator.assignment.augmented.php
+    - match: (?:(=)(&))|(&(?=[[:alpha:]$_]))
+      captures:
+        1: keyword.operator.assignment.php
+        2: storage.modifier.reference.php
+        3: storage.modifier.reference.php
+    - match: =>
+      scope: keyword.operator.key.php
+    - match: \-\-|\+\+
+      scope: keyword.operator.increment-decrement.php
+    - match: \|\||&&
+      scope: keyword.operator.logical.php
+    - match: <<|>>|~|\^|&|\|
+      scope: keyword.operator.bitwise.php
+    - match: ===|!==|<=>|==|!=|<=|>=|<>|<|>
+      scope: keyword.operator.comparison.php
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.php
+    # single char operators
+    - match: '[-+*/%]'
+      scope: keyword.operator.arithmetic.php
+    - match: =
+      scope: keyword.operator.assignment.php
+    - match: \@
+      scope: keyword.operator.error-control.php
+    - match: \!
+      scope: keyword.operator.logical.php
+    - match: \.
+      scope: keyword.operator.string.php
+    - match: \?(?!>)
+      scope: keyword.operator.ternary.php
+      push: ternary-expression
+    - match: ':(?!:)'
+      scope: punctuation.separator.colon.php
+    - include: punctuation-separators
+    # word-like operators
+    - match: \b(?i:and|or|xor|as)\b
+      scope: keyword.operator.logical.php
+    - match: \b(?i:instanceof)\b
+      scope: keyword.other.storage.instanceof.php
+      push: instanceof-operand
+
+  instanceof-operand:
+    - include: attributes
+    - include: comments
+    - include: class-name
+    - include: else-pop
+
+  ternary-expression:
+    - match: ':(?!:)'
+      scope: keyword.operator.ternary.php
+      pop: 1
+    - include: nested-expressions
+
+  spread-operators:
+    - match: \.\.\.
+      scope: keyword.operator.spread.php
+
+  punctuation-separators:
+    - match: ','
+      scope: punctuation.separator.comma.php
+
+  punctuation-terminators:
+    - match: ;
+      scope: punctuation.terminator.expression.php
+
+  reference-modifiers:
+    - match: '&'
+      scope: storage.modifier.reference.php
 
 ###[ BUILTINS ]###############################################################
 
@@ -3138,20 +3160,6 @@ contexts:
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
-
-###[ OPERATORS ]##############################################################
-
-  spread-operators:
-    - match: \.\.\.
-      scope: keyword.operator.spread.php
-
-  punctuation-separators:
-    - match: ','
-      scope: punctuation.separator.comma.php
-
-  reference-modifiers:
-    - match: '&'
-      scope: storage.modifier.reference.php
 
 ###[ PROTOTYPES ]#############################################################
 
