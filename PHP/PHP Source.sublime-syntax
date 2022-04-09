@@ -1807,6 +1807,22 @@ contexts:
       scope: constant.other.php
       pop: 1
 
+###[ IDENTIFIERS ]############################################################
+
+  identifier-parts-as-path:
+    - match: (\\)?({{identifier}})(\\)
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.other.namespace.php
+        3: punctuation.separator.namespace.php
+
+  qualifiers:
+    - match: ({{identifier}})(\\)
+      captures:
+        1: support.other.namespace.php
+        2: punctuation.separator.namespace.php
+
 ###[ LITERALS ]###############################################################
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
@@ -3122,22 +3138,6 @@ contexts:
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
-
-###[ IDENTIFIERS ]############################################################
-
-  identifier-parts-as-path:
-    - match: (\\)?({{identifier}})(\\)
-      scope: meta.path.php
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.other.namespace.php
-        3: punctuation.separator.namespace.php
-
-  qualifiers:
-    - match: ({{identifier}})(\\)
-      captures:
-        1: support.other.namespace.php
-        2: punctuation.separator.namespace.php
 
 ###[ OPERATORS ]##############################################################
 
