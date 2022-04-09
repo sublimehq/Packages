@@ -47,7 +47,7 @@ variables:
     )\b
 
   keywords_flow: |-
-    (?x: break | continue | exit | finally | return | throw | yield )\b
+    (?x: break | continue | die | exit | finally | return | throw | yield )\b
 
   # Storage Modifiers
   storage_modifiers: |-
@@ -468,15 +468,14 @@ contexts:
     - include: traits
     - include: functions
     - include: properties
-    - include: use-statements
-    - include: labels
+    - include: common-statements
     - match: \{
       scope: punctuation.section.block.begin.php
     - match: \}
       scope: punctuation.section.block.end.php
-    - include: expressions
 
   block:
+    - meta_scope: meta.block.php
     - match: \}
       scope: punctuation.section.block.end.php
       pop: 1
@@ -522,6 +521,13 @@ contexts:
           pop: 1
         - include: statements
 
+  common-statements:
+    - include: control-statements
+    - include: use-statements
+    - include: labels
+    - include: expressions
+    - include: punctuation-terminators
+
   nested-expressions:
     - include: expression-end-pop
     - include: expressions
@@ -531,22 +537,20 @@ contexts:
     - include: comments
     - include: type-casts
     - include: groups
-    - include: control-statements
+    - include: arrays
     - include: includes
+    - include: instantiations
     - include: arrow-functions
     - include: closures
-    - include: function-calls
-    - include: static-classes
-    - include: variables
-    - include: strings
-    - include: arrays
-    - include: object-members
-    - include: punctuation-terminators
-    - include: heredocs
-    - include: numbers
-    - include: operators
-    - include: instantiations
     - include: keywords
+    - include: function-calls
+    - include: numbers
+    - include: heredocs
+    - include: strings
+    - include: variables
+    - include: object-members
+    - include: static-classes
+    - include: operators
     - include: types
     - include: constants
 
@@ -1280,6 +1284,7 @@ contexts:
     - match: (?=}|\s*\?>|{{keywords}})
       pop: 1
     - include: expressions
+    - include: punctuation-terminators
 
 ###[ USE STATEMENTS ]#########################################################
 
@@ -1567,11 +1572,10 @@ contexts:
       captures:
         1: punctuation.definition.expression.php
       push:
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.expression.php
+        - match: \}
+          scope: punctuation.definition.expression.php
           pop: 1
-        - include: nested-expressions
+        - include: interpolation-statements
     # Handles: "foo${bar}baz"
     - match: '(\$\{){{identifier}}(\})'
       scope: variable.other.php
@@ -1582,11 +1586,10 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
       push:
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.variable.php
+        - match: \}
+          scope: punctuation.definition.variable.php
           pop: 1
-        - include: nested-expressions
+        - include: interpolation-statements
     # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
     - match: |-
         (?x:
@@ -1619,6 +1622,21 @@ contexts:
             - include: constants
         - include: variables-no-item-access
     - include: variables
+
+  interpolation-statements:
+    # This context is used in interpolations and variable expansions.
+    # Hence no PHP tags are expected inside.
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      push: interpolation-block-body
+    - include: common-statements
+
+  interpolation-block-body:
+    - meta_scope: meta.block.php
+    - match: \}
+      scope: punctuation.section.block.end.php
+      pop: 1
+    - include: interpolation-statements
 
 ###[ ARRAYS ]#################################################################
 
@@ -1919,7 +1937,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.variable.php
       set: after-identifier
-    - include: nested-expressions
+    - include: interpolation-statements
 
 ###[ STATIC CLASS MEMBERS ]###################################################
 
