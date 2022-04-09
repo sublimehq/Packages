@@ -456,10 +456,7 @@ contexts:
     - include: functions
     - include: properties
     - include: use-statements
-    - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
-      captures:
-        1: entity.name.label.php
-        2: punctuation.separator.colon.php
+    - include: labels
     - match: \{
       scope: punctuation.section.block.begin.php
     - match: \}
@@ -1021,6 +1018,14 @@ contexts:
   interface-body:
     - meta_scope: meta.interface.php meta.block.php
     - include: class-body
+
+###[ LABEL DECLARATIONS ]#####################################################
+
+  labels:
+    - match: ^\s*((?!{{keywords}}){{identifier}})\s*(:(?!:))
+      captures:
+        1: entity.name.label.php
+        2: punctuation.separator.colon.php
 
 ###[ NAMESPACE DECLARATIONS ]#################################################
 
