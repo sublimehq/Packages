@@ -574,7 +574,7 @@ contexts:
       scope: keyword.control.exception.php
     - include: arrow-functions
     - include: closures
-    - include: invoke-function-calls
+    - include: function-calls
     - match: |-
         (?x)\s*(?=
             [[:alnum:]_$\\]+(::)
@@ -643,7 +643,6 @@ contexts:
       scope: keyword.operator.comparison.php
     - match: (?i)(!)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
-    - include: function-calls
     - match: \?\?
       scope: keyword.operator.null-coalescing.php
     - include: spread-operators
@@ -1452,10 +1451,8 @@ contexts:
     # echo/print as reserved words not followed by arguments list
     - match: \b(?i:echo|print)\b
       scope: support.function.string.php
-
-  invoke-function-calls:
     - match: ((\$+){{identifier}})\s*(?=\()
-      scope: meta.function-call.invoke.php
+      scope: meta.function-call.php
       captures:
         1: variable.other.php
         2: punctuation.definition.variable.php
@@ -1625,17 +1622,6 @@ contexts:
 ###[ ARRAYS ]#################################################################
 
   arrays:
-    - match: ((?i:array))(\()(\))
-      scope: meta.sequence.array.empty.php
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.sequence.begin.php
-        3: punctuation.section.sequence.end.php
-    - match: ((?i:array))(\()
-      captures:
-        1: support.function.construct.php
-        2: punctuation.section.sequence.begin.php
-      push: array-function-arguments
     - match: (\[)\s*(\])
       scope: meta.sequence.array.empty.php
       captures:
@@ -1644,14 +1630,6 @@ contexts:
     - match: \[
       scope: punctuation.section.sequence.begin.php
       push: array-body
-
-  array-function-arguments:
-    - meta_scope: meta.sequence.array.php
-    - match: \)
-      scope: punctuation.section.sequence.end.php
-      pop: 1
-    - include: punctuation-separators
-    - include: nested-expressions
 
   array-body:
     - meta_scope: meta.sequence.array.php
@@ -2332,8 +2310,6 @@ contexts:
 ###[ BUILTINS ]###############################################################
 
   support:
-    - match: (?:print|echo|isset|unset|e(val|mpty)|list)\b
-      scope: support.function.construct.php
     - match: |-
         (?xi:
           apc_add | apc_bin_dump | apc_bin_dumpfile | apc_bin_load | apc_bin_loadfile | apc_cache_info | apc_cas | apc_clear_cache |

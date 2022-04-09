@@ -276,10 +276,9 @@ function a($a = array(),             $b = "hi") {};
 //        ^ punctuation.section.group.begin.php
 //         ^^ variable.parameter.php
 //            ^ keyword.operator.assignment.php
-//              ^^^^^^^ meta.sequence.array.empty.php
-//              ^^^^^ support.function.construct.php
-//                   ^ punctuation.section.sequence.begin.php
-//                    ^ punctuation.section.sequence.end.php
+//              ^^^^^ support.function.array.php
+//                   ^ punctuation.section.group.begin.php
+//                    ^ punctuation.section.group.end.php
 //                     ^ punctuation.separator.comma.php
 //                                   ^^ variable.parameter.php
 //                                      ^ keyword.operator.assignment.php
@@ -291,8 +290,9 @@ function a($a = array(),             $b = "hi") {};
 
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
-//                    ^ meta.sequence.array.empty
-//                          ^ punctuation.section.sequence.end
+//                    ^^^^^ meta.function-call.php support.function.array.php
+//                         ^ meta.function-call.arguments.php punctuation.section.group.begin.php
+//                          ^ meta.function-call.arguments.php punctuation.section.group.end.php
 
 function d(array $a = [],            $b = "hi") {};
 //                    ^ punctuation.section.sequence.begin
@@ -395,9 +395,9 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //              ^^^^^ storage.type.php
 //                    ^^^ variable.parameter.php
 //                       ^ keyword.operator.assignment.php
-//                        ^^^^^ support.function.construct.php
-//                             ^ punctuation.section.sequence.begin.php
-//                              ^ punctuation.section.sequence.end.php
+//                        ^^^^^ support.function.array.php
+//                             ^ punctuation.section.group.begin.php
+//                              ^ punctuation.section.group.end.php
 //                               ^ punctuation.separator.comma.php
 //                                 ^^^^^^^^^ support.class.php
 //                                           ^^^^ variable.parameter.php
@@ -449,13 +449,13 @@ $a = $b ? : $c::MY_CONST;
 //              ^^^^^^^^ constant.other
 
 $arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
-//      ^^^^^ support.function.construct
-//           ^ punctuation.section.sequence.begin
+//      ^^^^^ support.function.array
+//           ^ punctuation.section.group.begin
 //                 ^^^ keyword.operator.spread
 //                    ^^^^^ variable.other
 //                                ^^^ keyword.operator.spread
 //                                             ^ punctuation.separator.comma
-//                                              ^ punctuation.section.sequence.end
+//                                              ^ punctuation.section.group.end
 
 $arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c',];
 //      ^ punctuation.section.sequence.begin
@@ -1878,7 +1878,7 @@ class B
 //                ^^^^ comment.block.php
 //                     ^^^^^ entity.name.constant.php
 //                           ^ keyword.operator.assignment
-//                             ^^^^^ support.function.construct.php
+//                             ^^^^^ support.function.array.php
 
     public function abc(
 //         ^ keyword.declaration.function
