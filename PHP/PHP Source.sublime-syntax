@@ -516,6 +516,7 @@ contexts:
   expressions:
     - include: attributes
     - include: comments
+    - include: exception-statements
     - include: includes
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
     - match: \byield\b
@@ -533,31 +534,6 @@ contexts:
           foreach | if | match | return | switch | use | while
         )\b
       scope: keyword.control.php
-    - match: \b(catch)\b\s*(\()
-      captures:
-        1: keyword.control.exception.catch.php
-        2: punctuation.section.group.begin.php
-      push:
-        - meta_scope: meta.catch.php
-        - include: expression-end-pop
-        - include: attributes
-        - include: comments
-        - include: identifier-parts-as-path
-        - match: \)
-          scope: punctuation.section.group.end.php
-          pop: 1
-        - match: \|
-          scope: punctuation.separator.type.union.php
-        - match: \\
-          scope: meta.path.php punctuation.separator.namespace.php
-        - match: '{{identifier}}'
-          scope: meta.path.php support.class.exception.php
-        - match: '((\$){{identifier}})'
-          captures:
-            1: variable.other.php
-            2: punctuation.definition.variable.php
-    - match: \b(catch|try|throw|finally)\b
-      scope: keyword.control.exception.php
     - include: arrow-functions
     - include: closures
     - include: function-calls
@@ -608,6 +584,8 @@ contexts:
     # fallback patterns incase no other expression matches
     - match: \b(?i:class)\b
       scope: keyword.declaration.class.php
+    - match: \b(?i:throw)\b
+      scope: keyword.control.flow.throw.php
 
 ###[ COMMENTS ]###############################################################
 
@@ -1216,6 +1194,38 @@ contexts:
   function-block-body:
     - meta_scope: meta.function.php meta.block.php
     - include: block
+
+###[ EXCEPTION STATEMENTS ]###################################################
+
+  exception-statements:
+    - match: \b(?i:catch)\b
+      scope: meta.catch.php keyword.control.exception.catch.php
+      push: catch-arguments
+    - match: \b(?i:finally)\b
+      scope: keyword.control.exception.finally.php
+    - match: \b(?i:try)\b
+      scope: keyword.control.exception.try.php
+
+  catch-arguments:
+    - meta_content_scope: meta.catch.php
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: catch-arguments-body
+    - include: else-pop
+
+  catch-arguments-body:
+    - meta_scope: meta.catch.arguments.php meta.group.php
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - include: type-hints
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - match: (\$){{identifier}}
+      scope: variable.other.php
+      captures:
+        1: punctuation.definition.variable.php
 
 ###[ FOR STATEMENTS ]#########################################################
 

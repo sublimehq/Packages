@@ -1981,77 +1981,129 @@ try {
 // <- keyword.control.exception
     echo inverse(5) . "\n";
     throw new \Exception('Error!');
-//  ^ keyword.control.exception
+//  ^^^^^ keyword.control.flow.throw.php
 //            ^^^^^^^^^^ meta.path.php
 //            ^ punctuation.separator.namespace.php - support.class
-//             ^^^^^^^^^ support.class
+//             ^^^^^^^^^ support.class.builtin.php
     throw new \Custom\Exception('Error!');
-//  ^ keyword.control.exception
+//  ^^^^^ keyword.control.flow.throw.php
 //            ^^^^^^^^^^^^^^^^^ meta.path.php
 //            ^ punctuation.separator.namespace.php
 //             ^^^^^^ support.other.namespace.php
 //                   ^ punctuation.separator.namespace.php
-//                    ^^^^^^^^^ support.class
+//                    ^^^^^^^^^ support.class.builtin.php
 } catch (/* comment */ ExceptionExample $e) {
-//       ^^^^^^^^^^^^^ comment.block
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
+//       ^^^^^^^^^^^^^ comment.block.php
+//                     ^^^^^^^^^^^^^^^^ support.class.php
+//                                      ^^ variable.other.php
+//                                        ^ punctuation.section.group.end.php
+//                                          ^ punctuation.section.block.begin.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (Exception) {
-//^ keyword.control.exception
-//       ^^^^^^^^^ meta.path.php
-//       ^^^^^^^^^ support.class.exception.php
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^^^^^^^^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
+//       ^^^^^^^^^ support.class.builtin.php
+//                ^ punctuation.section.group.end.php
+//                  ^ punctuation.section.block.begin.php
 } catch (Exception $e) {
-//^ keyword.control.exception
-//       ^^^^^^^^^ meta.path.php
-//       ^^^^^^^^^ support.class.exception.php
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
+//       ^^^^^^^^^ support.class.builtin.php
 //                 ^^ variable.other.php
+//                   ^ punctuation.section.group.end.php
+//                     ^ punctuation.section.block.begin.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (\Exception $e) {
-//^ keyword.control.exception
-//       ^^^^^^^^^^ meta.path.php
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^ meta.catch.arguments.php meta.group.php - meta.path
+//       ^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.type.php meta.path.php
+//                 ^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
 //       ^ punctuation.separator.namespace.php
-//        ^^^^^^^^^ support.class.exception.php
+//        ^^^^^^^^^ support.class.builtin.php
 //                  ^^ variable.other.php
+//                    ^ punctuation.section.group.end.php
+//                      ^ punctuation.section.block.begin.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (\Custom\Exception $e) {
-//^ keyword.control.exception
-//       ^^^^^^^^^^^^^^^^^ meta.path.php
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^ meta.catch.arguments.php meta.group.php - meta.path
+//       ^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.type.php meta.path.php
+//                        ^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
 //       ^ punctuation.separator.namespace.php
 //        ^^^^^^ support.other.namespace.php
 //              ^ punctuation.separator.namespace.php
-//               ^^^^^^^^^ support.class.exception.php
+//               ^^^^^^^^^ support.class.builtin.php
 //                         ^^ variable.other.php
+//                           ^ punctuation.section.group.end.php
+//                             ^ punctuation.section.block.begin.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (\Custom\Exception1 | \Custom\Exception2 $e) {
-//^ keyword.control.exception
-//       ^^^^^^^^^^^^^^^^^ meta.path.php
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^ meta.catch.arguments.php meta.group.php - meta.path
+//       ^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.type.php meta.path.php
+//                         ^^^ meta.catch.arguments.php meta.group.php - meta.path
+//                            ^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.type.php meta.path.php
+//                                              ^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//                                                  ^^^ - meta.catch
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
 //       ^ punctuation.separator.namespace.php
 //        ^^^^^^ support.other.namespace.php
 //              ^ punctuation.separator.namespace.php
-//               ^^^^^^^^^^ support.class.exception.php
+//               ^^^^^^^^^^ support.class.php
 //                          ^ punctuation.separator.type.union.php
-//                            ^^^^^^^^^^^^^^^^^ meta.path.php
 //                            ^ punctuation.separator.namespace.php
 //                             ^^^^^^ support.other.namespace.php
 //                                   ^ punctuation.separator.namespace.php
-//                                    ^^^^^^^^^^ support.class.exception.php
+//                                    ^^^^^^^^^^ support.class.php
 //                                               ^^ variable.other.php
+//                                                 ^ punctuation.section.group.end.php
+//                                                   ^ punctuation.section.block.begin.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (
-//^ keyword.control.exception
+// <- punctuation.section.block.end.php
+//^^^^^^ meta.catch.php
+//      ^^ meta.catch.arguments.php meta.group.php
+//^^^^^ keyword.control.exception.catch.php
+//      ^ punctuation.section.group.begin.php
     \Custom\Exception1 |
-//  ^^^^^^^^^^^^^^^^^ meta.path.php
+// ^ meta.catch.arguments.php meta.group.php - meta.path
+//  ^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.path.php
+//                    ^^^ meta.catch.arguments.php meta.group.php - meta.path
 //  ^ punctuation.separator.namespace.php
 //   ^^^^^^ support.other.namespace.php
 //         ^ punctuation.separator.namespace.php
-//          ^^^^^^^^^^ support.class.exception.php
+//          ^^^^^^^^^^ support.class.php
 //                     ^ punctuation.separator.type.union.php
     \Custom\Exception2 $e
+// ^ meta.catch.arguments.php meta.group.php - meta.path
+//  ^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.path.php
+//                    ^^^^ meta.catch.arguments.php meta.group.php - meta.path
 //  ^ punctuation.separator.namespace.php
 //   ^^^^^^ support.other.namespace.php
 //         ^ punctuation.separator.namespace.php
-//          ^^^^^^^^^^ support.class.exception.php
+//          ^^^^^^^^^^ support.class.php
 //                     ^^ variable.other.php
 ) {
+// <- meta.catch.arguments.php meta.group.php punctuation.section.group.end.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } finally {
 //^ keyword.control.exception
@@ -2737,12 +2789,18 @@ function embedHtml() {
             }
         }
     } catch (Exception $e) {
-//    ^^^^^^^^^^^^^^^^^^^^ meta.catch.php
-//           ^^^^^^^^^ meta.path
+//    ^^^^^^ meta.catch.php
+//          ^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php
 //    ^^^^^ keyword.control.exception.catch.php
-
+//          ^ punctuation.section.group.begin.php
+//           ^^^^^^^^^ support.class.builtin.php
+//                     ^^ variable.other.php
+//                       ^ punctuation.section.group.end.php
+//                         ^ punctuation.section.block.begin.php
     }
+//  ^ punctuation.section.block.end.php
 }
+// <- punctuation.section.block.end.php
 
 class D {
     private readonly $prop;
@@ -2860,7 +2918,7 @@ $array = array_reduce(
 //            ^^^^^^^ - meta.embedded
 //                   ^^^^^^^^^^^^^^^ meta.embedded.line.php
 //                                  ^^^^^^^^ - meta.embedded
-//    ^^^ keyword.control.exception.php
+//    ^^^ keyword.control.exception.try.php
 //        ^ punctuation.section.block.begin.php
 //          ^^ punctuation.section.embedded.end.php
 //             ^^^^^ meta.tag
