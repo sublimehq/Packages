@@ -2323,6 +2323,114 @@ $statement = match ($this->lexer->lookahead['type']) {
 //                                                  ^ punctuation.section.group.end.php
 };
 
+
+/**
+ * Type Cast Tests
+ */
+function testTypeCasts()
+{
+$foo = (array) $bar;
+//     ^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^ storage.type.php
+//           ^ punctuation.section.cast.end.php
+        array
+//      ^^^^^ storage.type.php
+
+$foo = (binary) $bar;
+//     ^^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^^ storage.type.php
+//            ^ punctuation.section.cast.end.php
+        binary
+//      ^^^^^^ constant.other.php
+
+$foo = (bool) $bar;
+//     ^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^ storage.type.php
+//          ^ punctuation.section.cast.end.php
+        bool
+//      ^^^^ storage.type.php
+
+$foo = (boolean) $bar;
+//     ^^^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^^^ storage.type.php
+//             ^ punctuation.section.cast.end.php
+        boolean
+//      ^^^^^^^ storage.type.php
+
+$foo = (double) $bar;
+//     ^^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^^ storage.type.php
+//            ^ punctuation.section.cast.end.php
+        double
+//      ^^^^^^ storage.type.php
+
+$foo = (float) $bar;
+//     ^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^ storage.type.php
+//           ^ punctuation.section.cast.end.php
+        float
+//      ^^^^^ storage.type.php
+
+$foo = (int) $bar;
+//     ^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^ storage.type.php
+//         ^ punctuation.section.cast.end.php
+        int
+//      ^^^ storage.type.php
+
+$foo = (integer) $bar;
+//     ^^^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^^^ storage.type.php
+//             ^ punctuation.section.cast.end.php
+        integer
+//      ^^^^^^^ storage.type.php
+
+$foo = (object) $bar;
+//     ^^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^^ storage.type.php
+//            ^ punctuation.section.cast.end.php
+        object
+//      ^^^^^^ storage.type.php
+
+$foo = (real) $bar;
+//     ^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^ storage.type.php
+//          ^ punctuation.section.cast.end.php
+        real
+//      ^^^^ storage.type.php
+
+$foo = (string) $bar;
+//     ^^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^^ storage.type.php
+//            ^ punctuation.section.cast.end.php
+        string
+//      ^^^^^^ storage.type.php
+
+$foo = (unset) $bar;
+//     ^^^^^^^ meta.cast.php
+//     ^ punctuation.section.cast.begin.php
+//      ^^^^^ storage.type.php
+//           ^ punctuation.section.cast.end.php
+        unset
+//      ^^^^^ constant.other.php
+}
+
+
+/**
+ * SQL String Tests
+ */
+
 $non_sql = "NO SELECT HIGHLIGHTING!";
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation - string string
 //         ^ punctuation.definition.string.begin

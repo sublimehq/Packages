@@ -12,6 +12,7 @@ variables:
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
 
+
   function_modifier: (?i:abstract|final|static|{{visibility_modifier}})\b
   property_modifier: (?i:readonly|static|{{visibility_modifier}})\b
   visibility_modifier: (?i:var|public|private|protected)\b
@@ -41,6 +42,10 @@ variables:
 
   keywords_flow: |-
     (?x: break | continue | exit | finally | return | throw | yield )\b
+
+  # Storage Types
+  storage_types: |-
+    (?xi: array | bool(?:ean)? | double | float | real | int(?:eger)? | object | string )\b
 
   heredoc_quoted_end: (?=^\s*\4\b)
   heredoc_unquoted_end: (?=^\s*\2\b)
@@ -516,6 +521,7 @@ contexts:
   expressions:
     - include: attributes
     - include: comments
+    - include: type-casts
     - include: groups
     - include: control-statements
     - include: includes
@@ -527,9 +533,6 @@ contexts:
     - include: strings
     - include: arrays
     - include: keywords
-    - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
-      captures:
-        1: storage.type.php
     - match: |-
         \b(?xi:
           array | bool | boolean | clone | double | float | int | integer | object | real | string
@@ -1697,6 +1700,17 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.attribute.arguments.php meta.group.php
     - include: function-call-arguments-body
+
+###[ TYPE CASTS ]#############################################################
+
+  type-casts:
+    # https://www.php.net/manual/en/language.types.type-juggling.php
+    - match: (\()\s*((?i:{{storage_types}}|binary|unset))\s*(\))
+      scope: meta.cast.php
+      captures:
+        1: punctuation.section.cast.begin.php
+        2: storage.type.php
+        3: punctuation.section.cast.end.php
 
 ###[ CLASSES ]################################################################
 
