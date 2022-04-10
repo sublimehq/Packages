@@ -470,53 +470,6 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.php
 
-  block:
-    - meta_scope: meta.block.php
-    - match: \}
-      scope: punctuation.section.block.end.php
-      pop: 1
-    - match: \{
-      scope: punctuation.section.block.begin.php
-      push: block
-    - include: embedded-html
-    - include: statements
-
-  embedded-html:
-    - match: (\?>)(\s*\n)?
-      scope: meta.embedded.block.php
-      captures:
-        1: punctuation.section.embedded.end.php
-        2: meta.html-newline-after-php.php
-      push:
-        - meta_scope: embedding.php text.html.basic
-        - clear_scopes: true
-        - match: <\?(?i:(?!php)ph?)
-          scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-        - match: <\?(?i:php\b)?
-          scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-          pop: 1
-        - match: ''
-          with_prototype:
-            - include: single-line-php-tag
-            - match: (?=<\?(?i:php\b)?)
-              pop: 1
-          push: scope:text.html.basic
-
-  single-line-php-tag:
-    - match: <\?(?i:(?!php)ph?)
-      scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-    - match: (?:<\?=|<\?(?i:php\b)?(?=.*\?>))
-      scope: punctuation.section.embedded.begin.php
-      push:
-        - meta_scope: meta.embedded.line.nested.php
-        - meta_content_scope: source.php
-        - match: (\?>)(\s*\n)?
-          captures:
-            1: punctuation.section.embedded.end.php
-            2: meta.html-newline-after-php.php
-          pop: 1
-        - include: statements
-
   common-statements:
     - include: control-statements
     - include: use-statements
@@ -1155,7 +1108,48 @@ contexts:
 
   function-block-body:
     - meta_scope: meta.function.php meta.block.php
-    - include: block
+    - include: block-body
+
+###[ CODE BLOCKS ]############################################################
+
+  block-body:
+    - meta_scope: meta.block.php
+    - match: \}
+      scope: punctuation.section.block.end.php
+      pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      push: block-body
+    - match: (\?>)(\s*\n)?
+      scope: meta.embedded.block.php
+      captures:
+        1: punctuation.section.embedded.end.php
+        2: meta.html-newline-after-php.php
+      push: embedding-syntax
+    - include: statements
+
+  embedding-syntax:
+    - clear_scopes: true
+    - meta_scope: embedding.php text.html.basic
+    - include: PHP.sublime-syntax#php-incomplete-tags
+    - match: <\?(?i:php\b)?
+      scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+      pop: 1
+    - match: ''
+      push: scope:text.html.basic
+      with_prototype:
+        - include: PHP.sublime-syntax#php-incomplete-tags
+        - match: (?:<\?=|<\?(?i:php\b)?(?=.*\?>))
+          scope: punctuation.section.embedded.begin.php
+          push: PHP.sublime-syntax#php-embedded-line
+        - match: (?=<\?)
+          pop: 1
+
+  php-embedded-line:
+    - meta_scope: meta.embedded.line.php
+    - meta_content_scope: source.php
+    - include: PHP.sublime-syntax#php-end-tag-pop
+    - include: interpolation-statements
 
 ###[ CONTROL FLOW STATEMENTS ]################################################
 

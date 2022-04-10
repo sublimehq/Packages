@@ -2840,7 +2840,7 @@ class OutputsHtml {
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //           ^^^^^ meta.attribute-with-value
-//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.php
 //                                                                                        ^^^^^^^^^^^^^^^^^^ - source.php
 //                                              ^^^^^ punctuation.section.embedded.begin - source.php
 //                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
@@ -2850,12 +2850,12 @@ class OutputsHtml {
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
 //                                                                                        ^ punctuation.definition.string.end.html
         <?= var_dump($foo)
-//      ^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested
+//      ^^^^^^^^^^^^^^^^^^ meta.embedded.line
 //      ^^^ punctuation.section.embedded.begin - source.php
 //         ^^^^^^^^^^^^^^^ source.php
         ?>
-//      ^^ meta.embedded.line.nested punctuation.section.embedded.end - source.php
-//        ^ meta.embedded.line.nested meta.html-newline-after-php - punctuation.section.embedded - source.php
+//      ^^ meta.embedded.line punctuation.section.embedded.end - source.php
+//        ^ meta.embedded.line meta.html-newline-after-php - punctuation.section.embedded - source.php
 
         <?php
 //      ^^^^^ meta.embedded.block punctuation.section.embedded.begin - source.php
@@ -2909,7 +2909,7 @@ function embedHtml() {
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //                       ^^^^^ meta.attribute-with-value
-//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.php
 //                                                                                                    ^^^^^^^^^^^^^^^^^^ - source.php
 //                                                          ^^^^^ punctuation.section.embedded.begin
 //                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
