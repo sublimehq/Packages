@@ -36,18 +36,14 @@ variables:
     )
 
   keywords_declaration: |-
-    (?x:
-      class | declare | enddeclare | global | interface | namespace | use
-    )\b
+    (?xi: class | declare | enddeclare | global | interface | namespace | use )\b
 
   keywords_control: |-
-    (?x:
-      case | catch | default | (?: end )? (?: for | foreach | if | while )
-    | else | elseif | finally | switch | try
-    )\b
+    (?xi: case | catch | default | (?: end )? (?: for | foreach | if | while )
+    | else | elseif | finally | switch | try )\b
 
   keywords_flow: |-
-    (?x: break | continue | die | exit | finally | return | throw | yield )\b
+    (?xi: break | continue | die | exit | finally | return | throw | yield )\b
 
   # Storage Modifiers
   storage_modifiers: |-
