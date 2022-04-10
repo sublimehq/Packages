@@ -6,9 +6,11 @@ hidden: true
 version: 2
 
 variables:
+  guarded_identifier: (?!{{reserved}}){{identifier}}
+  identifier: '{{identifier_start}}[[:alnum:]_]*\b'
   identifier_start: '[[:alpha:]_]'
-  identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
+
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
 
@@ -27,23 +29,48 @@ variables:
   #     It's a false positive as long as (1.) is respected.
   no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
 
+  reserved: |-
+    (?xi:
+      {{keywords}}
+    | {{builtin_functions}}
+    | {{include_directives}}
+    | {{logical_operators}}
+    | {{storage_keywords}}
+    | {{storage_modifiers}}
+    | {{storage_types}}
+    | {{builtin_variables}}
+    | function
+    )\b
+
   keywords: |-
-    (?x:
-      {{keywords_control}}
-    | {{keywords_flow}}
-    | {{keywords_declaration}}
+    (?xi:
+      {{control_keywords}}
+    | {{flow_keywords}}
+    | {{declaration_keywords}}
     | {{visibility_modifier}}
     )
 
-  keywords_declaration: |-
-    (?xi: class | declare | enddeclare | global | interface | namespace | use )\b
-
-  keywords_control: |-
-    (?xi: case | catch | default | (?: end )? (?: for | foreach | if | while )
+  # Statement Level Keywords
+  declaration_keywords: |-
+    (?xi: class | const | declare | enddeclare | global | interface | namespace
+    | trait | use | var )\b
+  control_keywords: |-
+    (?xi: case | catch | default | do | (?: end )? (?: for(?:each)? | if | switch | while )
     | else | elseif | finally | switch | try )\b
+  flow_keywords: |-
+    (?xi: break | continue | die | exit | finally | goto | return | throw | yield )\b
 
-  keywords_flow: |-
-    (?xi: break | continue | die | exit | finally | return | throw | yield )\b
+  # Expression Level Keywords
+  builtin_functions: |-
+    (?xi: echo | print | empty | eval | isset | list | unset )\b
+  builtin_variables: |-
+    (?xi: parent | self )\b
+  include_directives: |-
+    (?xi: (?: include | require )(?: _once )? )\b
+  logical_operators: |-
+    (?xi: and | or | xor | as )\b
+  storage_keywords: |-
+    (?xi: clone | new | instanceof | insteadof )\b
 
   # Storage Modifiers
   storage_modifiers: |-
@@ -653,8 +680,8 @@ contexts:
     #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
     - match: |-
-        (?xi: iterable | false | mixed | never | null | void
-        | parent | self | static | {{storage_types}} )\b
+        (?xi: iterable | false | mixed | never | null | void | static
+        | {{builtin_variables}} | {{storage_types}} )\b
       scope: storage.type.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
@@ -676,9 +703,6 @@ contexts:
 
   class-definition:
     - meta_content_scope: meta.class.php
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
     - match: \{
       scope: punctuation.section.block.begin.php
       set: class-body
@@ -688,6 +712,9 @@ contexts:
     - match: (?i:implements)\b
       scope: storage.modifier.implements.php
       push: class-implements
+    - include: attributes
+    - include: comments
+    - include: expression-end-pop
 
   class-extends:
     - include: expression-end-pop
@@ -717,8 +744,6 @@ contexts:
     - match: \b(?i:use)\b
       scope: meta.use.php keyword.other.use.php
       push: class-use-body
-    - include: attributes
-    - include: comments
     - include: statements
 
   class-use-body:
@@ -742,7 +767,7 @@ contexts:
       push: use-statement-function-alias
     - match: \b(?i:insteadof)\b
       scope: keyword.other.insteadof.php
-    - match: (::)((?!insteadof|as){{identifier}})?
+    - match: (::)({{guarded_identifier}})?
       captures:
         1: punctuation.accessor.double-colon.php
         2: variable.function.php
@@ -774,9 +799,6 @@ contexts:
 
   enum-definition:
     - meta_content_scope: meta.enum.php
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
     - match: \{
       scope: punctuation.section.block.begin.php
       set: enum-body
@@ -785,6 +807,9 @@ contexts:
     - match: (?i:implements)\b
       scope: storage.modifier.implements.php
       push: class-implements
+    - include: attributes
+    - include: comments
+    - include: expression-end-pop
 
   enum-body:
     - meta_scope: meta.enum.php meta.block.php
@@ -794,11 +819,11 @@ contexts:
     - include: class-body
 
   constant-definition-name:
-    - include: attributes
-    - include: comments
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: entity.name.constant.php
       set: nested-expressions
+    - include: attributes
+    - include: comments
     - include: else-pop
 
 ###[ INTERFACE DECLARATIONS ]#################################################
@@ -811,19 +836,15 @@ contexts:
         - interface-definition-name
 
   interface-definition-name:
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: entity.name.interface.php
       pop: 1
+    - include: attributes
+    - include: comments
     - include: else-pop
 
   interface-definition:
     - meta_content_scope: meta.interface.php
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
     - match: \{
       scope: punctuation.section.block.begin.php
       set: interface-body
@@ -832,6 +853,9 @@ contexts:
       push: class-implements  # interfaces support multiple inherited classes
     - match: (?i:implements)\b
       scope: invalid.illegal.disallowed.php
+    - include: attributes
+    - include: comments
+    - include: expression-end-pop
 
   interface-body:
     - meta_scope: meta.interface.php meta.block.php
@@ -840,7 +864,7 @@ contexts:
 ###[ LABEL DECLARATIONS ]#####################################################
 
   labels:
-    - match: ^\s*((?!{{keywords}}){{identifier}})\s*(:(?!:))
+    - match: ^\s*({{guarded_identifier}})\s*(:(?!:))
       captures:
         1: entity.name.label.php
         2: punctuation.separator.colon.php
@@ -874,12 +898,11 @@ contexts:
         - trait-definition-name
 
   trait-definition-name:
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: entity.name.trait.php
       pop: 1
+    - include: attributes
+    - include: comments
     - include: else-pop
 
   trait-definition:
@@ -887,6 +910,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.php
       set: trait-body
+    - include: attributes
     - include: comments
     - include: else-pop
 
@@ -1159,6 +1183,8 @@ contexts:
     - include: exception-statements
     - include: loop-statements
     - include: flow-statements
+    - match: \b(?i:declare|enddeclare)\b
+      scope: keyword.declaration.php
 
   conditional-statements:
     - match: \b(?i:if)\b
@@ -1209,7 +1235,7 @@ contexts:
       push: yield-from
 
   goto-label:
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: variable.label.php
     - include: comments
     - include: else-pop
@@ -1321,10 +1347,11 @@ contexts:
     - include: constants
 
   use-statement-const-alias:
-    - include: use-statement-common
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: entity.name.constant.php
       pop: 1
+    - include: attributes
+    - include: comments
     - include: else-pop
 
 
@@ -1358,10 +1385,11 @@ contexts:
         2: support.function.php
 
   use-statement-function-alias:
-    - include: use-statement-common
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: entity.name.function.php
       pop: 1
+    - include: attributes
+    - include: comments
     - include: else-pop
 
 
@@ -1392,10 +1420,11 @@ contexts:
     - include: class-names
 
   use-statement-ns-class-alias:
-    - include: use-statement-common
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: entity.name.class.php
       pop: 1
+    - include: attributes
+    - include: comments
     - include: else-pop
 
   use-statement-common:
@@ -1423,6 +1452,14 @@ contexts:
 ###[ FUNCTION CALLS ]#########################################################
 
   function-calls:
+    # Built-in functions which belong to reserved words are matched
+    # even if not followed by arguments list.
+    - match: (\\?)({{builtin_functions}})\s*
+      scope: meta.function-call.php
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.function.builtin.php
+      push: function-call-arguments
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
     - match: \\?(?=(?:{{identifier}}\\)+{{identifier}}\s*\()
@@ -1432,9 +1469,6 @@ contexts:
     - match: \\?(?={{identifier}}\s*\()
       scope: punctuation.separator.namespace.php
       push: unqualified-function-name
-    # echo/print as reserved words not followed by arguments list
-    - match: \b(?i:echo|print)\b
-      scope: support.function.string.php
     - match: ((\$+){{identifier}})\s*(?=\()
       scope: meta.function-call.php
       captures:
@@ -1465,6 +1499,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       set: function-call-arguments-body
+    - include: immediately-pop
 
   function-call-arguments-body:
     - meta_scope: meta.function-call.arguments.php meta.group.php
@@ -1490,7 +1525,7 @@ contexts:
 ###[ INCLUDES ]###############################################################
 
   includes:
-    - match: \b(?i:require|include)(?i:_once)?\b
+    - match: '{{include_directives}}'
       scope: keyword.control.import.include.php
       push: include-expression
 
@@ -1530,7 +1565,7 @@ contexts:
 
   instantiation-class:
     - meta_include_prototype: false
-    - match: (parent|static|self)\b
+    - match: (?i:static|{{builtin_variables}})\b
       scope: variable.language.php
       pop: 1
     - include: class-name
@@ -1541,6 +1576,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       set: instantiation-arguments-body
+    - include: comments
     - include: else-pop
 
   instantiation-arguments-body:
@@ -1846,9 +1882,11 @@ contexts:
     # fallback patterns incase no other expression matches
     - match: \b(?i:class)\b
       scope: keyword.declaration.class.php
-    - match: \b(?i:declare|enddeclare)\b
-      scope: keyword.declaration.php
-    - match: \b(?i:parent|self)\b
+    - match: \b(?i:clone)\b
+      scope: keyword.other.clone.php
+    - match: \b(?i:insteadof)\b
+      scope: keyword.other.insteadof.php
+    - match: '{{builtin_variables}}'
       scope: variable.language.php
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
@@ -1966,7 +2004,7 @@ contexts:
     - match: (?i:class)\b
       scope: constant.class.php
       pop: 1
-    - match: '{{identifier}}'
+    - match: '{{guarded_identifier}}'
       scope: constant.other.php
       set: after-identifier
     - include: immediately-pop
@@ -2459,7 +2497,7 @@ contexts:
       scope: punctuation.separator.colon.php
     - include: punctuation-separators
     # word-like operators
-    - match: \b(?i:and|or|xor|as)\b
+    - match: '{{logical_operators}}'
       scope: keyword.operator.logical.php
     - match: \b(?i:instanceof)\b
       scope: keyword.other.storage.instanceof.php

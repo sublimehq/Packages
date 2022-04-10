@@ -1329,6 +1329,174 @@ interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 //                                                 ^^^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php
 }
 
+
+/**
+ * Label Tests
+ */
+function testLabels() {
+
+label1:
+// <- entity.name.label.php
+//^^^^ entity.name.label.php
+//    ^ punctuation.separator.colon.php
+goto label1;
+// <- keyword.control.flow.goto.php
+//   ^^^^^^ variable.label.php
+
+Label2:
+// <- entity.name.label.php
+//^^^^ entity.name.label.php
+//    ^ punctuation.separator.colon.php
+goto Label2;
+// <- keyword.control.flow.goto.php
+//   ^^^^^^ variable.label.php
+
+// reserved words must not be used as label
+
+    abstract: ;
+//  ^^^^^^^^ storage.modifier.php  - entity.name
+    and: ;
+//  ^^^ keyword.operator.logical.php - entity.name
+    array: ;
+//  ^^^^^ storage.type.php - entity.name
+    as: ;
+//  ^^ keyword.operator.logical.php - entity.name
+    break: ;
+//  ^^^^^ keyword.control.flow.break.php - entity.name
+    callable: ;
+//  ^^^^^^^^ storage.type.php  - entity.name
+    case: ;
+//  ^^^^ keyword.control.conditional.case.php - entity.name
+    catch: ;
+//  ^^^^^ keyword.control.exception.catch.php - entity.name
+    class: ;
+//  ^^^^^ keyword.declaration.class.php - entity.name
+    clone: ;
+//  ^^^^^ keyword.other.clone.php - entity.name
+    const: ;
+//  ^^^^^ storage.modifier.php - entity.name
+    continue: ;
+//  ^^^^^^^^ keyword.control.flow.continue.php - entity.name
+    declare: ;
+//  ^^^^^^^ keyword.declaration.php - entity.name
+    default: ;
+//  ^^^^^^^ keyword.control.conditional.default.php - entity.name
+    die: ;
+//  ^^^ keyword.control.flow.panic.php - entity.name
+    do: ;
+//  ^^ keyword.control.loop.do-while.php - entity.name
+    echo: ;
+//  ^^^^ support.function.builtin.php - entity.name
+    else: ;
+//  ^^^^ keyword.control.conditional.else.php - entity.name
+    elseif: ;
+//  ^^^^^^ keyword.control.conditional.elseif.php - entity.name
+    empty: ;
+//  ^^^^^ support.function.builtin.php  - entity.name
+    enddeclare: ;
+//  ^^^^^^^^^^ keyword.declaration.php - entity.name
+    endfor: ;
+//  ^^^^^^ keyword.control.loop.end.php - entity.name
+    endforeach: ;
+//  ^^^^^^^^^^ keyword.control.loop.end.php - entity.name
+    endif: ;
+//  ^^^^^ keyword.control.conditional.end.php - entity.name
+    endswitch: ;
+//  ^^^^^^^^^ keyword.control.conditional.end.php - entity.name
+    endwhile: ;
+//  ^^^^^^^^ keyword.control.loop.end.php - entity.name
+    eval:  ;
+//  ^^^^ support.function.builtin.php - entity.name
+    exit: ;
+//  ^^^^ keyword.control.flow.panic.php - entity.name
+    extends: ;
+//  ^^^^^^^ storage.modifier.php - entity.name
+    final: ;
+//  ^^^^^ storage.modifier.php - entity.name
+    finally: ;
+//  ^^^^^^^ keyword.control.exception.finally.php - entity.name
+    fn: ;    // allow as label for compatibility with (PHP < 7.4)
+//  ^^ entity.name.label.php
+    for: ;
+//  ^^^ keyword.control.loop.for.php - entity.name
+    foreach: ;
+//  ^^^^^^^ keyword.control.loop.for.php - entity.name
+    function: ;
+//  ^^^^^^^^ keyword.declaration.function.php - entity.name
+    global: ;
+//  ^^^^^^ storage.modifier.php - entity.name
+    goto: ;
+//  ^^^^ keyword.control.flow.goto.php - entity.name
+    if: ;
+//  ^^ keyword.control.conditional.if.php - entity.name
+    implements: ;
+//  ^^^^^^^^^^ storage.modifier.php - entity.name
+    include: ;
+//  ^^^^^^^ keyword.control.import.include.php - entity.name
+    include_once: ;
+//  ^^^^^^^^^^^^ keyword.control.import.include.php - entity.name
+    instanceof: ;
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.php - entity.name
+    insteadof: ;
+//  ^^^^^^^^^ keyword.other.insteadof.php - entity.name
+    interface: ;
+//  ^^^^^^^^^ keyword.declaration.interface.php - entity.name
+    isset: ;
+//  ^^^^^ support.function.builtin.php - entity.name
+    list: ;
+//  ^ - entity.name
+    match:  ;  // allow as label for compatibility with (PHP < 8.0)
+//  ^^^^^ entity.name.label.php
+    namespace: ;
+//  ^^^^^^^^^ keyword.other.namespace.php - entity.name
+    new: ;
+//  ^^^ keyword.other.new.php - entity.name
+    or: ;
+//  ^^ keyword.operator.logical.php - entity.name
+    print: ;
+//  ^^^^^ support.function.builtin.php - entity.name
+    private: ;
+//  ^^^^^^^ storage.modifier.php - entity.name
+    protected: ;
+//  ^^^^^^^^^ storage.modifier.php - entity.name
+    public: ;
+//  ^^^^^^ storage.modifier.php - entity.name
+    readonly: ;
+//  ^^^^^^^^ storage.modifier.php - entity.name
+    require: ;
+//  ^^^^^^^ keyword.control.import.include.php - entity.name
+    require_once: ;
+//  ^^^^^^^^^^^^ keyword.control.import.include.php - entity.name
+    return: ;
+//  ^^^^^^ keyword.control.flow.return.php - entity.name
+    static: ;
+//  ^^^^^^ storage.modifier.php - entity.name
+    switch: ;
+//  ^^^^^^ keyword.control.conditional.switch.php - entity.name
+    throw: ;
+//  ^^^^^ keyword.control.flow.throw.php - entity.name
+    trait: ;
+//  ^^^^^ keyword.declaration.trait.php - entity.name
+    try: ;
+//  ^^^ keyword.control.exception.try.php - entity.name
+    unset: ;
+//  ^^^^^ support.function.builtin.php - entity.name
+    use: ;
+//  ^^^ keyword.other.use.php - entity.name
+    var: ;
+//  ^^^ storage.modifier.php - entity.name
+    while: ;
+//  ^^^^^ keyword.control.loop.while.php - entity.name
+    xor: ;
+//  ^^^ keyword.operator.logical.php - entity.name
+    yield: ;
+//  ^^^^^ keyword.control.flow.yield.php - entity.name
+    yield from: ;
+//  ^^^^^ keyword.control.flow.yield.php - entity.name
+//        ^^^^ keyword.control.flow.yield.php - entity.name
+}
+
+
 if ($foo instanceof \Mynamespace\ClassName) {
 //  ^ variable.other
 //       ^^^^^^^^^^ keyword.other.storage.instanceof.php
@@ -1932,13 +2100,13 @@ class B
 //                       ^^^^^^ storage.type
     {
         echo B::class;
-//      ^^^^ support.function.string.php
+//      ^^^^ support.function.builtin.php
 //           ^ support.class.php
 //            ^^ punctuation.accessor.double-colon.php
 //              ^^^^^ constant.class
 
         echo $this->pro1::FOO;
-//      ^^^^ support.function.string.php
+//      ^^^^ support.function.builtin.php
 //           ^^^^^ variable.language
 //                ^^ punctuation.accessor
 //                  ^^^^ variable.other.member
@@ -1946,7 +2114,7 @@ class B
 //                        ^^^ constant.other
 
         print $this->pro1::bar();
-//      ^^^^ support.function.string.php
+//      ^^^^ support.function.builtin.php
 //            ^^^^^ variable.language
 //                 ^^ punctuation.accessor
 //                   ^^^^ variable.other.member
@@ -2423,7 +2591,7 @@ $foo = (unset) $bar;
 //      ^^^^^ storage.type.php
 //           ^ punctuation.section.cast.end.php
         unset
-//      ^^^^^ constant.other.php
+//      ^^^^^ support.function.builtin.php
 }
 
 
