@@ -692,13 +692,22 @@ contexts:
 ###[ CLASS DECLARATIONS ]#####################################################
 
   classes:
-    - match: (?i)\b((?:abstract|final)\s+)?(class)\s+({{identifier}})
+    - match: (?i:(abstract|final)\s+)?((?:class))\b
       scope: meta.class.php
       captures:
         1: storage.modifier.abstract.php
         2: keyword.declaration.class.php
-        3: entity.name.class.php
-      push: class-definition
+      push:
+        - class-definition
+        - class-definition-name
+
+  class-definition-name:
+    - match: '{{guarded_identifier}}'
+      scope: entity.name.class.php
+      pop: 1
+    - include: attributes
+    - include: comments
+    - include: else-pop
 
   class-definition:
     - meta_content_scope: meta.class.php
@@ -1879,8 +1888,6 @@ contexts:
 
   keywords:
     # fallback patterns incase no other expression matches
-    - match: (?i:class)\b
-      scope: keyword.declaration.class.php
     - match: (?i:clone)\b
       scope: keyword.other.clone.php
     - match: (?i:insteadof)\b

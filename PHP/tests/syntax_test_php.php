@@ -1192,10 +1192,10 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //                                               ^ punctuation.section.block.end.php
 
     class
-//  ^^^^^ keyword.declaration.class.php - meta.class
+//  ^^^^^ meta.class.php keyword.declaration.class.php
+//       ^ meta.class.php - keyword
 
     class Test1
-// ^ - meta.class
 //  ^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
 //  ^^^^^ keyword.declaration.class.php
 //        ^^^^^ entity.name.class.php
