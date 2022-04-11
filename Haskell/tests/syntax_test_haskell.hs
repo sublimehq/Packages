@@ -1551,6 +1551,19 @@
 --       ^^ punctuation.separator.type.haskell
 --          ^^^^ support.type.prelude.haskell
 
+    -- make sure not to break following function definitions
+    data Type a = Type1 :$ Type2
+    foo, bar, baz :: Type
+--  ^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^^^^^^^^^^^^ meta.function.identifier.haskell
+--  ^^^ entity.name.function.haskell
+--     ^ punctuation.separator.sequence.haskell
+--       ^^^ entity.name.function.haskell
+--          ^ punctuation.separator.sequence.haskell
+--            ^^^ entity.name.function.haskell
+--                ^^ punctuation.separator.type.haskell
+--                   ^^^^ support.type.prelude.haskell
+
     -- make sure not to break assignment expression
     data Type a = Con Type1 !Type2 a
     var = Con
@@ -1577,12 +1590,75 @@
 
     -- make sure not to break assignment expression
     data Type a = Type1 :$ Type2
+    foo bar baz = Con
+--  ^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^ variable.other.haskell
+--      ^^^ variable.other.haskell
+--          ^^^ variable.other.haskell
+--              ^ keyword.operator.haskell
+--                ^^^ storage.type.haskell
+
+    -- make sure not to break assignment expression
+    data Type a = Type1 :$ Type2
     var <- True = Con
 --  ^^^^^^^^^^^^^^^^^ - meta.declaration.data
 --  ^^^ variable.other.haskell
 --      ^^ keyword.operator.arrow.haskell
 --              ^ keyword.operator.haskell
 --                ^^^ storage.type.haskell
+
+    -- make sure not to break assignment expression
+    data Type a = Type1 :$ Type2
+    foo bar baz <- True = Con
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^ variable.other.haskell
+--      ^^^ variable.other.haskell
+--          ^^^ variable.other.haskell
+--              ^^ keyword.operator.arrow.haskell
+--                 ^^^^ support.constant.prelude.haskell
+--                      ^ keyword.operator.haskell
+--                        ^^^ storage.type.haskell
+
+    -- make sure not to break constructor by following function definition
+    data Type
+        = Foo                    -- comment
+        | Bar Bool {- comment -} -- comment
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^ entity.name.constant.haskell
+--            ^^^^ support.type.prelude.haskell
+--                 ^^^^^^^^^^^^^ comment.block.haskell
+--                               ^^^^^^^^^^^ comment.line.double-dash.haskell
+    foo, bar, baz :: Mode
+--  ^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^^^^^^^^^^^^ meta.function.identifier.haskell
+--  ^^^ entity.name.function.haskell
+--     ^ punctuation.separator.sequence.haskell
+--       ^^^ entity.name.function.haskell
+--          ^ punctuation.separator.sequence.haskell
+--            ^^^ entity.name.function.haskell
+--                ^^ punctuation.separator.type.haskell
+--                   ^^^^ storage.type.haskell
+
+    -- make sure not to break constructor by following assignment expression
+    data Type
+        = Foo                    -- comment
+        | Bar Bool {- comment -} -- comment
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^ entity.name.constant.haskell
+--            ^^^^ support.type.prelude.haskell
+--                 ^^^^^^^^^^^^^ comment.block.haskell
+--                               ^^^^^^^^^^^ comment.line.double-dash.haskell
+    foo bar baz <- True = Con
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^ variable.other.haskell
+--      ^^^ variable.other.haskell
+--          ^^^ variable.other.haskell
+--              ^^ keyword.operator.arrow.haskell
+--                 ^^^^ support.constant.prelude.haskell
+--                      ^ keyword.operator.haskell
+--                        ^^^ storage.type.haskell
 
 -- [ DEFAULT DECLARATIONS ] ---------------------------------------------------
 
