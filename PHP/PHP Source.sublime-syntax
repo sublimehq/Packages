@@ -740,7 +740,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.php
       pop: 1
-    - match: \b(?i:use)\b
+    - match: (?i:use)\b
       scope: meta.use.php keyword.other.use.php
       push: class-use-body
     - include: statements
@@ -761,10 +761,10 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.php
       pop: 1
-    - match: \b(?i:as)\b
+    - match: (?i:as)\b
       scope: keyword.other.use-as.php
       push: use-statement-function-alias
-    - match: \b(?i:insteadof)\b
+    - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
     - match: (::)({{guarded_identifier}})?
       captures:
@@ -778,7 +778,7 @@ contexts:
 ###[ ENUM DECLARATIONS ]######################################################
 
   enums:
-    - match: \b((?i:enum))\s+({{identifier}})
+    - match: ((?i:enum))\s+({{identifier}})
       scope: meta.enum.php
       captures:
         1: keyword.declaration.enum.php
@@ -828,7 +828,7 @@ contexts:
 ###[ INTERFACE DECLARATIONS ]#################################################
 
   interfaces:
-    - match: \b(?:interface)\b
+    - match: (?:interface)\b
       scope: meta.interface.php keyword.declaration.interface.php
       push:
         - interface-definition
@@ -871,7 +871,7 @@ contexts:
 ###[ NAMESPACE DECLARATIONS ]#################################################
 
   namespaces:
-    - match: \b((?i:namespace))\b\s*
+    - match: ((?i:namespace))\b\s*
       captures:
         1: keyword.other.namespace.php
       push: namespace-name
@@ -890,7 +890,7 @@ contexts:
 ###[ TRAIT DECLARATIONS ]#####################################################
 
   traits:
-    - match: \b(?i:trait)\b
+    - match: (?i:trait)\b
       scope: meta.trait.php keyword.declaration.trait.php
       push:
         - trait-definition
@@ -940,7 +940,7 @@ contexts:
   arrow-functions:
     # "fn" can be a function name before PHP 7.4
     # Since PHP 7.4, "fn" is a reserved word
-    - match: (?=\b(?i:fn)\s*(?:&\s*)?\()
+    - match: (?=(?i:fn)\s*(?:&\s*)?\()
       branch_point: arrow-function-branch
       branch:
         # Anonymous function definition: fn($a) => $a * 2;
@@ -989,7 +989,7 @@ contexts:
     - include: immediately-pop
 
   closures:
-    - match: \b((?i:function))\s*(?:(&)\s*)?(?=\()
+    - match: ((?i:function))\s*(?:(&)\s*)?(?=\()
       scope: meta.function.php
       captures:
         1: keyword.declaration.function.php
@@ -999,13 +999,13 @@ contexts:
         - function-return-type
         - function-use
         - function-parameters
-    - match: \b(?i:function)\b
+    - match: (?i:function)\b
       scope: keyword.declaration.function.php
 
 ###[ FUNCTION DECLARATIONS ]##################################################
 
   functions:
-    - match: (?=\b(?:{{function_modifier}}\s+)*(?i:function)\s*(?:&\s*|\b){{identifier_start}})
+    - match: (?=(?:{{function_modifier}}\s+)*(?i:function)\s*(?:&\s*|\b){{identifier_start}})
       push:
         - function-block
         - function-return-type
@@ -1182,54 +1182,54 @@ contexts:
     - include: exception-statements
     - include: loop-statements
     - include: flow-statements
-    - match: \b(?i:declare|enddeclare)\b
+    - match: (?i:declare|enddeclare)\b
       scope: keyword.declaration.php
 
   conditional-statements:
-    - match: \b(?i:if)\b
+    - match: (?i:if)\b
       scope: keyword.control.conditional.if.php
-    - match: \b(?i:elseif)\b
+    - match: (?i:elseif)\b
       scope: keyword.control.conditional.elseif.php
-    - match: \b(?i:else)\b
+    - match: (?i:else)\b
       scope: keyword.control.conditional.else.php
-    - match: \b(?i:case)\b
+    - match: (?i:case)\b
       scope: keyword.control.conditional.case.php
-    - match: \b(?i:default)\b
+    - match: (?i:default)\b
       scope: keyword.control.conditional.default.php
-    - match: \b(?i:match)\b
+    - match: (?i:match)\b
       scope: keyword.control.conditional.match.php
-    - match: \b(?i:switch)\b
+    - match: (?i:switch)\b
       scope: keyword.control.conditional.switch.php
-    - match: \b(?i:end(?:if|switch))\b
+    - match: (?i:end(?:if|switch))\b
       scope: keyword.control.conditional.end.php
 
   loop-statements:
     - include: for-statements
-    - match: \b(?i:do)\b
+    - match: (?i:do)\b
       scope: keyword.control.loop.do-while.php
-    - match: \b(?i:foreach)\b
+    - match: (?i:foreach)\b
       scope: keyword.control.loop.for.php
-    - match: \b(?i:while)\b
+    - match: (?i:while)\b
       scope: keyword.control.loop.while.php
-    - match: \b(?i:end(?:for(?:each)?|while))\b
+    - match: (?i:end(?:for(?:each)?|while))\b
       scope: keyword.control.loop.end.php
 
   flow-statements:
-    - match: \b(?i:continue)\b
+    - match: (?i:continue)\b
       scope: keyword.control.flow.continue.php
-    - match: \b(?i:break)\b
+    - match: (?i:break)\b
       scope: keyword.control.flow.break.php
-    - match: \b(?i:goto)\b
+    - match: (?i:goto)\b
       scope: keyword.control.flow.goto.php
       push: goto-label
-    - match: \b(?i:die|exit)\b
+    - match: (?i:die|exit)\b
       scope: keyword.control.flow.panic.php
-    - match: \b(?i:return)\b
+    - match: (?i:return)\b
       scope: keyword.control.flow.return.php
-    - match: \b(?i:throw)\b
+    - match: (?i:throw)\b
       scope: keyword.control.flow.throw.php
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
-    - match: \b(?i:yield)\b
+    - match: (?i:yield)\b
       scope: keyword.control.flow.yield.php
       push: yield-from
 
@@ -1240,7 +1240,7 @@ contexts:
     - include: else-pop
 
   yield-from:
-    - match: \b(?i:from)\b
+    - match: (?i:from)\b
       scope: keyword.control.flow.yield.php
       pop: 1
     - include: comments
@@ -1249,12 +1249,12 @@ contexts:
 ###[ EXCEPTION STATEMENTS ]###################################################
 
   exception-statements:
-    - match: \b(?i:catch)\b
+    - match: (?i:catch)\b
       scope: meta.catch.php keyword.control.exception.catch.php
       push: catch-arguments
-    - match: \b(?i:finally)\b
+    - match: (?i:finally)\b
       scope: keyword.control.exception.finally.php
-    - match: \b(?i:try)\b
+    - match: (?i:try)\b
       scope: keyword.control.exception.try.php
 
   catch-arguments:
@@ -1281,7 +1281,7 @@ contexts:
 ###[ FOR STATEMENTS ]#########################################################
 
   for-statements:
-    - match: \b(?i:for)\b
+    - match: (?i:for)\b
       scope: keyword.control.loop.for.php
       push: for-statement-group
 
@@ -1304,7 +1304,7 @@ contexts:
 ###[ USE STATEMENTS ]#########################################################
 
   use-statements:
-    - match: \b(?i:use)\b
+    - match: (?i:use)\b
       scope: keyword.other.use.php
       push: use-statement-body
 
@@ -1336,7 +1336,7 @@ contexts:
     - include: use-statement-const-common
 
   use-statement-const-common:
-    - match: \b(?i:as)\b
+    - match: (?i:as)\b
       scope: keyword.other.use-as.php
       push: use-statement-const-alias
     - include: use-statement-common
@@ -1369,7 +1369,7 @@ contexts:
     - include: use-statement-function-common
 
   use-statement-function-common:
-    - match: \b(?i:as)\b
+    - match: (?i:as)\b
       scope: keyword.other.use-as.php
       push: use-statement-function-alias
     - include: use-statement-common
@@ -1411,7 +1411,7 @@ contexts:
     # gets put into the index. This will be incorrect sometimes (because it
     # will sometimes be a namespace identifier), but the distinction
     # shouldn't be a huge deal.
-    - match: \b(?i:as)\b
+    - match: (?i:as)\b
       scope: keyword.other.use-as.php
       push: use-statement-ns-class-alias
     - include: use-statement-common
@@ -1537,7 +1537,7 @@ contexts:
 ###[ INSTANTIATIONS ]#########################################################
 
   instantiations:
-    - match: \b(?i:new)\b
+    - match: (?i:new)\b
       scope: keyword.other.new.php
       push:
         - instantiation-meta
@@ -1552,7 +1552,7 @@ contexts:
     - include: attributes
     - include: comments
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
-    - match: \b(?i:class)\b
+    - match: (?i:class)\b
       scope: meta.class.php keyword.declaration.class.php
       set:
         - class-definition
@@ -1809,11 +1809,11 @@ contexts:
 ###[ CONSTANTS ]##############################################################
 
   constants:
-    - match: \b(?i:TRUE|FALSE)\b
+    - match: (?i:TRUE|FALSE)\b
       scope: constant.language.boolean.php
-    - match: \b(?i:NULL)\b
+    - match: (?i:NULL)\b
       scope: constant.language.null.php
-    - match: \b(?i:__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__)\b
+    - match: (?i:__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__)\b
       scope: constant.language.builtin.php
     - match: \\|(?={{identifier}}\\)
       scope: punctuation.separator.namespace.php
@@ -1879,11 +1879,11 @@ contexts:
 
   keywords:
     # fallback patterns incase no other expression matches
-    - match: \b(?i:class)\b
+    - match: (?i:class)\b
       scope: keyword.declaration.class.php
-    - match: \b(?i:clone)\b
+    - match: (?i:clone)\b
       scope: keyword.other.clone.php
-    - match: \b(?i:insteadof)\b
+    - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
     - match: '{{builtin_variables}}'
       scope: variable.language.php
@@ -1891,17 +1891,17 @@ contexts:
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
-    - match: \b(0[bB])((?!_)(?:[01]|_(?!_))*)\b
+    - match: (0[bB])((?!_)(?:[01]|_(?!_))*)\b
       scope: meta.number.integer.binary.php
       captures:
         1: constant.numeric.base.php
         2: constant.numeric.value.php
-    - match: \b(0[oO])((?!_)(?:\h|_(?!_))*)\b
+    - match: (0[oO])((?!_)(?:\h|_(?!_))*)\b
       scope: meta.number.integer.octal.php
       captures:
         1: constant.numeric.base.php
         2: constant.numeric.value.php
-    - match: \b(0[xX])((?!_)(?:\h|_(?!_))*)\b
+    - match: (0[xX])((?!_)(?:\h|_(?!_))*)\b
       scope: meta.number.integer.hexadecimal.php
       captures:
         1: constant.numeric.base.php
@@ -1923,11 +1923,11 @@ contexts:
       captures:
         1: punctuation.separator.decimal.php
         2: punctuation.separator.decimal.php
-    - match: \b(?!_)(?:\d|_(?!_))+\b
+    - match: (?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
 
   types:
-    - match: \b(?i:const)\b
+    - match: (?i:const)\b
       scope: storage.modifier.php
       push: constant-definition-name
     - match: '{{storage_modifiers}}'
@@ -2498,7 +2498,7 @@ contexts:
     # word-like operators
     - match: '{{logical_operators}}'
       scope: keyword.operator.logical.php
-    - match: \b(?i:instanceof)\b
+    - match: (?i:instanceof)\b
       scope: keyword.other.storage.instanceof.php
       push: instanceof-operand
 
