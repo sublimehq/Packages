@@ -38,13 +38,15 @@ jobs:
         include:
 
           # latest stable build
+          # https://www.sublimetext.com/download
           - sublime-channel: stable
             sublime-build: 4126
             optional: true
 
           # latest dev build
+          # https://www.sublimetext.com/dev
           - sublime-channel: dev
-            sublime-build: 4127
+            sublime-build: 4131
             optional: false
 
     steps:
