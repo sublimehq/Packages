@@ -9,7 +9,6 @@ variables:
   guarded_identifier: (?!{{reserved}}){{identifier}}
   identifier: '{{identifier_start}}[[:alnum:]_]*\b'
   identifier_start: '[[:alpha:]_]'
-  path: '\\?({{identifier}}\\)*{{identifier}}'
 
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
@@ -640,7 +639,7 @@ contexts:
 
   type-hints:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?{{path}})
+    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
       push:
         - type-hint-body
         - type-hint-simple-type
@@ -648,7 +647,7 @@ contexts:
 
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?{{path}})
+    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
       set:
         - type-hint-body
         - type-hint-simple-type
