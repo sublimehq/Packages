@@ -133,8 +133,8 @@ def get_views_from_tab_context(active_view, **kwargs):
     return selected_views
 
 
-def get_name_for_view(view, fallback_name):
-    return view.file_name() or view.name() or fallback_name
+def get_name_for_view(view):
+    return view.file_name() or view.name() or "Unsaved view ({})".format(view.id())
 
 
 def get_lines_for_view(view):
@@ -148,8 +148,8 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             return
 
         view_names = (
-            get_name_for_view(views[0], 'from_file'),
-            get_name_for_view(views[1], 'to_file')
+            get_name_for_view(views[0]),
+            get_name_for_view(views[1])
         )
 
         from_lines = get_lines_for_view(views[0])
@@ -166,6 +166,10 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
 
         try:
             common_path_length = len(os.path.commonpath(view_names))
+            if common_path_length <= 1:
+                common_path_length = 0
+            else:
+                common_path_length += 1
         except ValueError:
             common_path_length = 0
         view_names = list(map(lambda name: name[common_path_length:], view_names))
