@@ -1,4 +1,4 @@
--- SYNTAX TEST "Packages/SQL/PostgresSQL.sublime-syntax"
+-- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
 
 CREATE TABLE test1 (a character(4));
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
