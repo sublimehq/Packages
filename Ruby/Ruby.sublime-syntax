@@ -56,7 +56,6 @@ hidden_file_extensions:
   - Podfile
   - Rakefile
   - Rantfile
-  - ruby.rail
   - Scanfile
   - simplecov
   - Snapfile
