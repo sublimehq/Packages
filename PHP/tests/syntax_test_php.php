@@ -2839,12 +2839,13 @@ $not_regex = '/foo?/uTx';
 
 echo <<<EOT
 //   ^^^ keyword.operator.heredoc
-//      ^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^ meta.string.heredoc meta.tag.heredoc - meta.string meta.string
 //      ^^^ entity.name.tag.heredoc
 This is a test! $var
-//^^^^^^^^^^^^^^ meta.string.php string.unquoted.heredoc - meta.interpolation
-//              ^^^^ meta.string.php meta.interpolation.php variable.other.php - string
-//                  ^ meta.string.php string.unquoted.heredoc.php - meta.interpolation
+//^^^^^^^^^^^^^^^^^^^ - meta.string meta.string
+//^^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc - meta.interpolation
+//              ^^^^ meta.string.heredoc.php meta.interpolation.php variable.other.php - string
+//                  ^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
 EOT;
 // <- entity.name.tag.heredoc
 
@@ -2852,12 +2853,13 @@ EOT;
 // see https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes
 echo <<<EOT
 //   ^^^ keyword.operator.heredoc
-//      ^^^ meta.string.heredoc meta.tag.heredoc
+//      ^^^ meta.string.heredoc meta.tag.heredoc - meta.string meta.string
 //      ^^^ entity.name.tag.heredoc
     This is a test! $var
-//  ^^^^^^^^^^^^^^^^ meta.string.php string.unquoted.heredoc - meta.interpolation
-//                  ^^^^ meta.string.php meta.interpolation.php variable.other.php - string
-//                      ^ meta.string.php string.unquoted.heredoc.php - meta.interpolation
+// ^^^^^^^^^^^^^^^^^ - meta.string meta.string
+//  ^^^^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc - meta.interpolation
+//                  ^^^^ meta.string.heredoc.php meta.interpolation.php variable.other.php - string
+//                      ^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
     $var2
     EOT;
 //  ^^^ entity.name.tag.heredoc
@@ -2870,7 +2872,7 @@ echo <<<'EOT'
 //      ^^^^^ meta.string.heredoc meta.tag.heredoc
 //       ^^^ entity.name.tag.heredoc
 This is a test! $var
-//^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
+//^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc - meta.string meta.string
 //              ^^^^ - variable.other
 EOT;
 // <- entity.name.tag.heredoc

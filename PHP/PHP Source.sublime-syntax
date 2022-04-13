@@ -2133,13 +2133,13 @@ contexts:
       push: heredoc-plain-content
 
   heredoc-plain-interpolated-content:
-    - meta_scope: meta.string.php string.unquoted.heredoc.php
+    - meta_content_scope: meta.string.heredoc.php string.unquoted.heredoc.php
     - match: '{{heredoc_unquoted_end}}'
       pop: 1
     - include: string-interpolations
 
   heredoc-plain-content:
-    - meta_scope: meta.string.php string.unquoted.heredoc.php
+    - meta_content_scope: meta.string.heredoc.php string.unquoted.heredoc.php
     - match: '{{heredoc_quoted_end}}'
       pop: 1
 
