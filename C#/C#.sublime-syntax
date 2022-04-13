@@ -1854,12 +1854,9 @@ contexts:
         - match: \}
           scope: punctuation.section.block.end.cs
           pop: true
-        - include: main
+        - include: code_block_in
     - match: (?=\S)
-      set:
-        - match: \s*$
-          pop: true
-        - include: main
+      pop: true
 
   catch_expr:
     - match: '(catch)\s*(\()'
@@ -1972,7 +1969,7 @@ contexts:
         - match: \}
           scope: meta.block.cs punctuation.section.block.end.cs
           pop: true
-        - include: main
+        - include: code_block_in
     - match: (?=\S)
       set:
         - match: (?=else\b)
@@ -1995,10 +1992,9 @@ contexts:
             - match: \}
               scope: meta.block.cs punctuation.section.block.end.cs
               pop: true
-            - include: main
+            - include: code_block_in
         - match: (?=\S)
-          set:
-            - include: line_of_code
+          set: line_of_code
     - match: (?=\S)
       pop: true
 
