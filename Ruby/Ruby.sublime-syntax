@@ -30,11 +30,24 @@ scope: source.ruby
 file_extensions:
   - rb
   - rbi
+  - rbx
+  - rjs
+  - rabl
+  - rake
+  - capfile
+  - jbuilder
+  - gemspec
+  - podspec
+  - irbrc
+  - pryrc
+  - prawn
+  - thor
+
+hidden_file_extensions:
   - Appfile
   - Appraisals
   - Berksfile
   - Brewfile
-  - capfile
   - cgi
   - Cheffile
   - config.ru
@@ -42,25 +55,14 @@ file_extensions:
   - Fastfile
   - fcgi
   - Gemfile
-  - gemspec
   - Guardfile
-  - irbrc
-  - jbuilder
   - Podfile
-  - podspec
-  - prawn
-  - pryrc
-  - rabl
-  - rake
   - Rakefile
   - Rantfile
-  - rbx
-  - rjs
   - ruby.rail
   - Scanfile
   - simplecov
   - Snapfile
-  - thor
   - Thorfile
   - Vagrantfile
 
