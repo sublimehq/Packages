@@ -673,7 +673,7 @@ class Foo
 //         ^ punctuation.section.group.begin
 //                           ^ punctuation.separator
 //                             ^^^^^^^ variable.parameter.named
-//                                    ^ punctuation.definition.variable
+//                                    ^ keyword.operator.assignment.php
 //                                                     ^ punctuation.section.group.end
 //                                                      ^ punctuation.definition.attribute.end
     public function show(int $id) { }
@@ -1605,7 +1605,7 @@ strval($foo);
 
 array_slice($array, $offset, $length, preserve_keys: true);
 //                                    ^^^^^^^^^^^^^ variable.parameter.named
-//                                                 ^ punctuation.definition.variable
+//                                                 ^ keyword.operator.assignment.php
 //                                                   ^^^^ constant.language
 
 $test = new Test1;

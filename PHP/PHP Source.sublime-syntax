@@ -1493,7 +1493,7 @@ contexts:
     - match: ({{identifier}})\s*(:(?!:))
       captures:
         1: variable.parameter.named.php
-        2: punctuation.definition.variable.php
+        2: keyword.operator.assignment.php
       push: function-call-argument-value
 
   function-call-argument-value:
