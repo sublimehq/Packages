@@ -11,9 +11,9 @@
 		<array>
 			<dict>
 				<key>begin</key>
-				<string>meta.fold.begin</string>
+				<string>punctuation.definition.comment.begin</string>
 				<key>end</key>
-				<string>meta.fold.end</string>
+				<string>punctuation.definition.comment.end</string>
 			</dict>
 			<dict>
 				<key>begin</key>
