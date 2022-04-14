@@ -290,7 +290,7 @@ function a($a = array(),             $b = "hi") {};
 
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
-//                    ^^^^^ meta.function-call.php support.function.array.php
+//                    ^^^^^ meta.function-call.identifier.php support.function.array.php
 //                         ^ meta.function-call.arguments.php punctuation.section.group.begin.php
 //                          ^ meta.function-call.arguments.php punctuation.section.group.end.php
 
@@ -314,7 +314,7 @@ function i(
 
 function array_values_from_keys($arr, $keys) {
     return array_map(fn($x) => $arr[$x], $keys, fn($x) => $arr[$x]);
-//         ^^^^^^^^^ meta.function-call.php
+//         ^^^^^^^^^ meta.function-call.identifier.php
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //                   ^^ meta.function.anonymous.php
 //                     ^^^^ meta.function.anonymous.parameters.php meta.group.php
@@ -377,7 +377,7 @@ $var = fn($x)
 //          ^ punctuation.terminator.statement.php
 
 $var = fn($x)
-//     ^^ meta.function-call.php - meta.function.anonymous
+//     ^^ meta.function-call.identifier.php - meta.function.anonymous
 //     ^^ variable.function.php - keyword.declaration.function
 ;
 
@@ -1539,8 +1539,8 @@ $var = new \MyNamespce\ClassName();
 //                    ^ punctuation.section.group.end
 
 \MyNamespace\Foo ();
-//^^^^^^^^^^^^^^ meta.function-call.php meta.path.php - meta.function-call meta.function-call
-//              ^ meta.function-call.php - meta.path.php - meta.function-call meta.function-call
+//^^^^^^^^^^^^^^ meta.function-call.identifier.php meta.path.php - meta.function-call meta.function-call
+//              ^ meta.function-call.identifier.php - meta.path.php - meta.function-call meta.function-call
 //               ^^ meta.function-call.arguments.php - meta.function-call meta.function-call
 // <- punctuation.separator.namespace
  // <- support.other.namespace
@@ -1583,7 +1583,7 @@ $object?->property::method();
 //     ^ punctuation.accessor.nullsafe
 //      ^^ punctuation.accessor.arrow
 //                ^^ punctuation.accessor.double-colon
-//                  ^^^^^^ meta.function-call.static variable.function
+//                  ^^^^^^ meta.function-call.identifier variable.function
 //                        ^^ meta.group
 
 $country = $session?->user?->getAddress()?->country;

@@ -1434,7 +1434,7 @@ contexts:
     # Built-in functions which belong to reserved words are matched
     # even if not followed by arguments list.
     - match: (\\?)({{builtin_functions}})\s*
-      scope: meta.function-call.php
+      scope: meta.function-call.identifier.php
       captures:
         1: punctuation.separator.namespace.php
         2: support.function.builtin.php
@@ -1449,7 +1449,7 @@ contexts:
       scope: punctuation.separator.namespace.php
       push: unqualified-function-name
     - match: ((\$+){{identifier}})\s*(?=\()
-      scope: meta.function-call.php
+      scope: meta.function-call.identifier.php
       captures:
         1: variable.other.php
         2: punctuation.definition.variable.php
@@ -1457,14 +1457,14 @@ contexts:
 
   qualified-function-name:
     - meta_include_prototype: false
-    - meta_scope: meta.function-call.php
+    - meta_scope: meta.function-call.identifier.php
     - meta_content_scope: meta.path.php
     - include: qualifiers
     - include: function-name
 
   unqualified-function-name:
     - meta_include_prototype: false
-    - meta_scope: meta.function-call.php
+    - meta_scope: meta.function-call.identifier.php
     - include: support
     - include: function-name
 
@@ -1930,7 +1930,7 @@ contexts:
       scope: punctuation.definition.variable.php
       set: object-expression-body
     - match: ({{identifier}})(?=\s*\()
-      scope: meta.function-call.method.php
+      scope: meta.function-call.identifier.php
       captures:
         1: variable.function.php
       set: function-call-arguments
@@ -1969,7 +1969,7 @@ contexts:
   static-member-body:
     - meta_include_prototype: false
     - match: ({{identifier}})\s*(?=\()
-      scope: meta.function-call.static.php
+      scope: meta.function-call.identifier.php
       captures:
         1: variable.function.php
       set: function-call-arguments
