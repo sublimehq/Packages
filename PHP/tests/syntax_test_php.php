@@ -7,7 +7,7 @@ namespace MyNamespace;
 //                   ^ - meta.namespace
 //^^^^^^^ keyword.other.namespace.php
 //        ^^^^^^^^^^^ entity.name.namespace.php
-//                   ^ punctuation.terminator.expression.php - entity.name.namespace
+//                   ^ punctuation.terminator.statement.php - entity.name.namespace
 
 use
 // <- meta.use.php keyword.other.use.php
@@ -49,7 +49,7 @@ use MyNamespace\Foo ;
 //  ^^^^^^^^^^^ support.other.namespace.php
 //             ^ punctuation.separator.namespace.php
 //              ^^^ support.class.php - constant - entity - support.function - support.other
-//                  ^ punctuation.terminator.expression.php
+//                  ^ punctuation.terminator.statement.php
 
 use /* Comment */ \MyNamespace\Bar;
 // <- meta.use.php keyword.other.use.php
@@ -62,7 +62,7 @@ use /* Comment */ \MyNamespace\Bar;
 //                 ^^^^^^^^^^^ support.other.namespace.php
 //                            ^ punctuation.separator.namespace.php
 //                             ^^^ support.class.php - constant - entity - support.function - support.other
-//                                ^ punctuation.terminator.expression.php
+//                                ^ punctuation.terminator.statement.php
 
 use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 // <- meta.use.php keyword.other.use.php
@@ -90,7 +90,7 @@ use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 //   ^^^^ support.other.namespace.php
 //       ^ punctuation.separator.namespace.php
 //        ^^^^^^ support.class.php - constant - entity - support.function - support.other
-//              ^ punctuation.terminator.expression.php
+//              ^ punctuation.terminator.statement.php
 
 use function /**/ some\nspace\fn_a;
 // <- meta.use.php keyword.other.use.php
@@ -105,7 +105,7 @@ use function /**/ some\nspace\fn_a;
 //                      ^^^^^ support.other.namespace.php
 //                           ^ punctuation.separator.namespace.php
 //                            ^^^^ support.function.php - constant - entity support.class - support.other
-//                                ^ punctuation.terminator.expression.php
+//                                ^ punctuation.terminator.statement.php
 
 use
     function /**/ some\nspace\fn_a;
@@ -119,7 +119,7 @@ use
 //                      ^^^^^ support.other.namespace.php
 //                           ^ punctuation.separator.namespace.php
 //                            ^^^^ support.function.php - constant - entity support.class - support.other
-//                                ^ punctuation.terminator.expression.php
+//                                ^ punctuation.terminator.statement.php
 
 use /**/ function /**/ some\nspace\fn_a /**/ as /**/ fn_b;
 // <- meta.use.php keyword.other.use.php
@@ -140,7 +140,7 @@ use /**/ function /**/ some\nspace\fn_a /**/ as /**/ fn_b;
 //                                           ^^ keyword.other.use-as.php
 //                                              ^^^^ comment.block.php
 //                                                   ^^^^ entity.name.function.php
-//                                                       ^ punctuation.terminator.expression.php
+//                                                       ^ punctuation.terminator.statement.php
 
 use const /**/ some\nspace\ConstValue /**/ as /**/ Foo;
 // <- meta.use.php keyword.other.use.php
@@ -161,7 +161,7 @@ use const /**/ some\nspace\ConstValue /**/ as /**/ Foo;
 //                                         ^^ keyword.other.use-as.php
 //                                            ^^^^ comment.block.php
 //                                                 ^^^ entity.name.constant.php
-//                                                    ^ punctuation.terminator.expression.php
+//                                                    ^ punctuation.terminator.statement.php
 
 use
     const /**/ some\nspace\ConstValue /**/
@@ -183,7 +183,7 @@ use
 //  ^^ keyword.other.use-as.php
 //     ^^^^ comment.block.php
 //          ^^^ entity.name.constant.php
-//             ^ punctuation.terminator.expression.php
+//             ^ punctuation.terminator.statement.php
 
 // Unfortunately we don't know if these identifiers are namespaces or classes
 // so we can't disambiguate. Generally we are just going to assume an "as" is
@@ -207,7 +207,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                                      ^^ keyword.other.use-as.php
 //                                         ^ entity.name.class.php
 //                                          ^ punctuation.section.sequence.end.php
-//                                           ^ punctuation.terminator.expression.php
+//                                           ^ punctuation.terminator.statement.php
 
 use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 // <- meta.use.php keyword.other.use.php
@@ -229,7 +229,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                                         ^^ keyword.other.use-as.php
 //                                            ^^^^ entity.name.function.php
 //                                                ^ punctuation.section.sequence.end.php
-//                                                 ^ punctuation.terminator.expression.php
+//                                                 ^ punctuation.terminator.statement.php
 
 use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 // <- meta.use.php keyword.other.use.php
@@ -251,7 +251,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                                             ^ punctuation.separator.comma.php
 //                                               ^^^^ constant.language.boolean - entity - support.class - support.function - support.other
 //                                                   ^ punctuation.section.sequence.end.php
-//                                                    ^ punctuation.terminator.expression.php
+//                                                    ^ punctuation.terminator.statement.php
 
 /**
  * Function Definition Tests
@@ -286,7 +286,7 @@ function a($a = array(),             $b = "hi") {};
 //                                            ^ punctuation.section.group.end.php
 //                                              ^ punctuation.section.block.begin.php
 //                                               ^ punctuation.section.block.end.php
-//                                                ^ punctuation.terminator.expression.php
+//                                                ^ punctuation.terminator.statement.php
 
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
@@ -337,7 +337,7 @@ function array_values_from_keys($arr, $keys) {
 //                                                   ^ punctuation.section.group.end.php
 //                                                     ^^ keyword.declaration.function.arrow.php
 //                                                                ^ punctuation.section.group.end.php
-//                                                                 ^ punctuation.terminator.expression.php
+//                                                                 ^ punctuation.terminator.statement.php
 }
 
 $fn = fn($x) => fn($y) => $x * $y + $z;
@@ -360,7 +360,7 @@ $fn = fn($x) => fn($y) => $x * $y + $z;
 //                 ^^ variable.parameter.php
 //                   ^ punctuation.section.group.end.php
 //                     ^^ keyword.declaration.function.arrow.php
-//                                    ^ punctuation.terminator.expression.php
+//                                    ^ punctuation.terminator.statement.php
 
 $var = fn($x)
 //     ^^ meta.function.anonymous.php
@@ -374,7 +374,7 @@ $var = fn($x)
 //^^^^^^^^^^ meta.function.anonymous.php
 //          ^ - meta.function
 // ^^ keyword.declaration.function.arrow
-//          ^ punctuation.terminator.expression.php
+//          ^ punctuation.terminator.statement.php
 
 $var = fn($x)
 //     ^^ meta.function-call.php - meta.function.anonymous
@@ -1067,7 +1067,7 @@ enum Suit ;
 //  ^ - keyword - entity
 //   ^^^^ entity.name.enum.php
 //       ^ - entity - punctuation
-//        ^ punctuation.terminator.expression.php
+//        ^ punctuation.terminator.statement.php
 
 enum Suit : ;
 // <- meta.enum.php keyword.declaration.enum.php
@@ -1079,7 +1079,7 @@ enum Suit : ;
 //       ^ - entity - punctuation
 //        ^ punctuation.separator.colon.php
 //         ^ - punctuation
-//          ^ punctuation.terminator.expression.php
+//          ^ punctuation.terminator.statement.php
 
 enum Suit {
 // <- meta.enum.php keyword.declaration.enum.php
@@ -1093,11 +1093,11 @@ enum Suit {
     case Hearts;
 //  ^^^^ keyword.control
 //       ^^^^^^ entity.name.constant
-//             ^ punctuation.terminator.expression.php
+//             ^ punctuation.terminator.statement.php
     CASE Diamonds;
 //  ^^^^ keyword.control.php
 //       ^^^^^^^^ entity.name.constant.php
-//               ^ punctuation.terminator.expression.php
+//               ^ punctuation.terminator.statement.php
     case Clubs;
     case Spades;
 }
@@ -1683,7 +1683,7 @@ $user_1 = new User("John", "a@b.com");
 //                       ^ punctuation.separator.comma
 //                         ^^^^^^^^^ meta.string.php string.quoted.double.php
 //                                  ^ punctuation.section.group.end.php
-//                                   ^ punctuation.terminator.expression.php
+//                                   ^ punctuation.terminator.statement.php
 
 $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
 //        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
@@ -1700,7 +1700,7 @@ $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
 //                                             ^ punctuation.separator.comma
 //                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
 //                                                        ^ punctuation.section.group.end.php
-//                                                         ^ punctuation.terminator.expression.php
+//                                                         ^ punctuation.terminator.statement.php
 
 $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
@@ -1717,7 +1717,7 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //                                             ^ punctuation.separator.comma
 //                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
 //                                                        ^ punctuation.section.group.end.php
-//                                                         ^ punctuation.terminator.expression.php
+//                                                         ^ punctuation.terminator.statement.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
@@ -1973,7 +1973,7 @@ class B
 //         ^^^^^^^ variable.function.php
 //                 ^^ keyword.other.use-as.php
 //                    ^^^^^^^^ entity.name.function.php
-//                            ^ punctuation.terminator.expression.php
+//                            ^ punctuation.terminator.statement.php
         Y::method2 insteadof X;
 //      ^^^^^^^^^^ meta.use.php meta.block.php - meta.path
 //                ^^^^^^^^^^^ meta.use.php meta.block.php - meta.path
@@ -1984,7 +1984,7 @@ class B
 //         ^^^^^^^ variable.function.php
 //                 ^^^^^^^^^ keyword.other.insteadof
 //                           ^ support.class.php
-//                            ^ punctuation.terminator.expression.php
+//                            ^ punctuation.terminator.statement.php
         X::method2 as another2;
 //      ^^^^^^^^^^ meta.use.php meta.block.php - meta.path
 //                ^^^^^^^^^^^^^^ meta.use.php meta.block.php - meta.path
@@ -1993,7 +1993,7 @@ class B
 //         ^^^^^^^ - support.class
 //                 ^^ keyword.other.use-as
 //                    ^^^^^^^^ entity.name.function.php
-//                            ^ punctuation.terminator.expression.php
+//                            ^ punctuation.terminator.statement.php
         \Foo\Bar\X::method as another3;
 //      ^^^^^^^^^^ meta.use.php meta.block.php meta.path.php
 //                ^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.block.php - meta.path
@@ -2007,7 +2007,7 @@ class B
 //                  ^^^^^^ variable.function.php
 //                         ^^ keyword.other.use-as.php
 //                            ^^^^^^^^ entity.name.function.php
-//                                    ^ punctuation.terminator.expression.php
+//                                    ^ punctuation.terminator.statement.php
     } protected $pro1;
 //  ^ meta.class.php meta.block.php meta.use.php meta.block.php punctuation.section.block.end.php
 //   ^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.use
@@ -2680,9 +2680,9 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //                                                                   ^ keyword.operator.string.php
 //                                                                     ^ string.quoted.double.php punctuation.definition.string.begin.php
 //                                                                       ^ string.quoted.double.php punctuation.definition.string.end.php
-//                                                                         ^ punctuation.terminator.expression.php
+//                                                                         ^ punctuation.terminator.statement.php
 //                                                                           ^ keyword.operator.string.php
-//                                                                                        ^ punctuation.terminator.expression.php
+//                                                                                        ^ punctuation.terminator.statement.php
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string
@@ -2734,9 +2734,9 @@ $sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'G
 //                                                                  ^ keyword.operator.string.php
 //                                                                    ^ string.quoted.single.php punctuation.definition.string.begin.php
 //                                                                      ^ string.quoted.single.php punctuation.definition.string.end.php
-//                                                                        ^ punctuation.terminator.expression.php
+//                                                                        ^ punctuation.terminator.statement.php
 //                                                                          ^ keyword.operator.string.php
-//                                                                                       ^ punctuation.terminator.expression.php
+//                                                                                       ^ punctuation.terminator.statement.php
 
 preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
@@ -2863,7 +2863,7 @@ echo <<<EOT
     $var2
     EOT;
 //  ^^^ entity.name.tag.heredoc
-//     ^ punctuation.terminator.expression
+//     ^ punctuation.terminator.statement
 //      ^ meta.heredoc-end
 
 echo <<<'EOT'
@@ -2890,7 +2890,7 @@ This is a test!
 //         ^^^^^^^^^ string.quoted.double
 HTML;
 // <- entity.name.tag.heredoc
-//  ^ punctuation.terminator.expression
+//  ^ punctuation.terminator.statement
 //   ^ meta.heredoc-end
 
 echo <<< JAVASCRIPT
@@ -2909,7 +2909,7 @@ $var
 //   ^^^^ variable.other.php
 JAVASCRIPT;
 // <- entity.name.tag.heredoc
-//        ^ punctuation.terminator.expression
+//        ^ punctuation.terminator.statement
 //         ^ meta.heredoc-end
 
 echo <<<CSS
@@ -2925,7 +2925,7 @@ h3 {font-size: "$h3_size";}
 //              ^^^^^^^^ variable.other.php
 CSS;
 // <- entity.name.tag.heredoc
-// ^ punctuation.terminator.expression
+// ^ punctuation.terminator.statement
 //  ^ meta.heredoc-end
 
 echo <<< yml
@@ -2948,7 +2948,7 @@ Yml;
 //^^ meta.embedded.yaml source.yaml string.unquoted.plain.out.yaml
 yml;
 // <- entity.name.tag.heredoc
-// ^ punctuation.terminator.expression
+// ^ punctuation.terminator.statement
 //  ^ meta.heredoc-end
 
 echo <<<sql
@@ -2963,7 +2963,7 @@ SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //                                                  ^^^^^^ variable.other.php
 sql;
 // <- entity.name.tag.heredoc
-// ^ punctuation.terminator.expression
+// ^ punctuation.terminator.statement
 //  ^ meta.heredoc-end
 
 
@@ -2980,7 +2980,7 @@ SELECT * FROM users WHERE first_name = 'John'\n
 //                                           ^^ - constant.character.escape.php
 SQL;
 // <- entity.name.tag.heredoc
-// ^ punctuation.terminator.expression
+// ^ punctuation.terminator.statement
 //  ^ meta.heredoc-end
 
 
@@ -3224,7 +3224,7 @@ $array = array_reduce(
 //                ^^ punctuation.section.embedded.begin.php
 //                   ^^^^ variable.other.php
 //                       ^^^^^ meta.item-access
-//                            ^ punctuation.terminator.expression.php
+//                            ^ punctuation.terminator.statement.php
 //                              ^^ punctuation.section.embedded.end.php
 //                                 ^^^^^^ meta.tag
 
@@ -3367,8 +3367,8 @@ h1 {
 //  ^^^ keyword.control.loop.for.php
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
 //      ^ punctuation.section.group.begin.php
-//             ^ punctuation.terminator.expression.php
-//                      ^ punctuation.terminator.expression.php
+//             ^ punctuation.terminator.statement.php
+//                      ^ punctuation.terminator.statement.php
 //                            ^ punctuation.section.group.end.php
 //                              ^ punctuation.section.block.begin.php
 //                                         ^ punctuation.section.block.end.php
@@ -3377,8 +3377,8 @@ h1 {
 //  ^^^ keyword.control.loop.for.php
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
 //      ^ punctuation.section.group.begin.php
-//             ^ punctuation.terminator.expression.php
-//                      ^ punctuation.terminator.expression.php
+//             ^ punctuation.terminator.statement.php
+//                      ^ punctuation.terminator.statement.php
 //                            ^ punctuation.section.group.end.php
 //                              ^ punctuation.section.block.begin.php
 //                                         ^ punctuation.section.block.end.php

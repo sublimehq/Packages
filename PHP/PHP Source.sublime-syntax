@@ -1996,7 +1996,7 @@ contexts:
     - match: ^\s*(\1)\b(?:(;)(\s*$\n?))?
       captures:
         1: meta.tag.heredoc.php entity.name.tag.heredoc.php
-        2: punctuation.terminator.expression.php
+        2: punctuation.terminator.statement.php
         3: meta.heredoc-end.php
       pop: 1
     - match: (<<<)\s*(?i:(HTML))\s*$\n?
@@ -2462,7 +2462,7 @@ contexts:
 
   punctuation-terminators:
     - match: ;
-      scope: punctuation.terminator.expression.php
+      scope: punctuation.terminator.statement.php
 
   reference-modifiers:
     - match: '&'
