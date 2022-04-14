@@ -1,11 +1,11 @@
 // SYNTAX TEST "Packages/PHP/PHP.sublime-syntax"
 <?php
 namespace MyNamespace;
-// <- meta.namespace.php keyword.other.namespace.php
+// <- meta.namespace.php keyword.declaration.namespace.php
 //^^^^^^^^ meta.namespace.php - meta.path
 //        ^^^^^^^^^^^ meta.namespace.php meta.path.php
 //                   ^ - meta.namespace
-//^^^^^^^ keyword.other.namespace.php
+//^^^^^^^ keyword.declaration.namespace.php
 //        ^^^^^^^^^^^ entity.name.namespace.php
 //                   ^ punctuation.terminator.statement.php - entity.name.namespace
 
@@ -1448,7 +1448,7 @@ goto Label2;
     match:  ;  // allow as label for compatibility with (PHP < 8.0)
 //  ^^^^^ entity.name.label.php
     namespace: ;
-//  ^^^^^^^^^ keyword.other.namespace.php - entity.name
+//  ^^^^^^^^^ keyword.declaration.namespace.php - entity.name
     new: ;
 //  ^^^ keyword.other.new.php - entity.name
     or: ;

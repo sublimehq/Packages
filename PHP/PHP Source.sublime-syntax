@@ -882,7 +882,7 @@ contexts:
   namespaces:
     - match: ((?i:namespace))\b\s*
       captures:
-        1: keyword.other.namespace.php
+        1: keyword.declaration.namespace.php
       push: namespace-name
 
   namespace-name:
