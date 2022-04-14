@@ -3387,5 +3387,10 @@ h1 {
   <?phpzzzz
 //^^ punctuation.section.embedded.begin.php
 //  ^^^^^^^ constant.other.php
+
   ?>
 //^^ punctuation.section.embedded.end.php
+
+  <?php
+  <?php
+//^^^^^ punctuation.section.embedded.begin.php

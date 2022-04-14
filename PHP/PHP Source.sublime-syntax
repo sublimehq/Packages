@@ -2395,6 +2395,8 @@ contexts:
 
   operators:
     - include: spread-operators
+    - match: <\?(?i:php\b|(?!php)ph?|=)?
+      scope: punctuation.section.embedded.begin.php
     - match: (?:\+|-|\*|/|%|&|\||\^|>>|<<|\.|\?\?)=
       scope: keyword.operator.assignment.augmented.php
     - match: (?:(=)(&))|(&(?=[[:alpha:]$_]))
