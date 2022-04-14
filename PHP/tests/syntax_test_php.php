@@ -3192,8 +3192,7 @@ $array = array_reduce(
 //          ^^^^^ meta.tag
 //                ^^ punctuation.section.embedded.begin.php
 //                   ^^^^ variable.other.php
-//                       ^^^^ meta.item-access
-//                           ^ - meta.item-access
+//                       ^^^^^ meta.item-access
 //                            ^^ punctuation.section.embedded.end.php
 //                               ^^^^^^ meta.tag
 

@@ -7,15 +7,15 @@ version: 2
 
 variables:
   guarded_identifier: (?!{{reserved}}){{identifier}}
-  identifier: '{{identifier_start}}[[:alnum:]_]*\b'
+  identifier: '{{identifier_start}}[[:alnum:]_]*'
   identifier_start: '[[:alpha:]_]'
 
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
 
   # A pattern which terminates an incomplete expression at any point.
-  # `\s*\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
-  expression_end: (?=;|}|\s*\?>|{{keywords}})
+  # `\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
+  expression_end: (?=;|}|\?>|{{keywords}})
 
   heredoc_quoted_end: (?=^\s*\4\b)
   heredoc_unquoted_end: (?=^\s*\2\b)
@@ -1014,7 +1014,7 @@ contexts:
 ###[ FUNCTION DECLARATIONS ]##################################################
 
   functions:
-    - match: (?=(?:{{function_modifier}}\s+)*(?i:function)\s*(?:&\s*|\b){{identifier_start}})
+    - match: (?=(?:{{function_modifier}}\s+)*(?i:function)\b\s*(?:&\s*)?{{identifier_start}})
       push:
         - function-block
         - function-return-type
