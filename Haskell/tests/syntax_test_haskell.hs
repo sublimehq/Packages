@@ -3097,6 +3097,87 @@ main = do
 --      ^^^ punctuation.section.quoted.begin.haskell
 --                      ^^^ punctuation.section.quoted.end.haskell
 
+    {- HSX Tests -}
+    html = [hsx|
+--         ^^^^^^ meta.quoted.quasi.haskell
+--         ^ punctuation.section.quoted.begin.haskell
+--          ^^^ variable.function.quasi-quoter.haskell
+--             ^ punctuation.section.quoted.haskell
+--              ^ text.html.embedded.haskell
+        <html>
+        <head>
+        <style data-id={
+--      ^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--      ^^^^^^^ meta.tag - meta.attribute-with-value
+--             ^^^^^^^^ meta.tag meta.attribute-with-value.html - meta.string - meta.interpolation
+--                     ^^ meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--      ^ punctuation.definition.tag.begin.html
+--       ^^^^^ entity.name.tag.style.html
+--             ^^^^^^^ entity.other.attribute-name.html
+--                    ^ punctuation.separator.key-value.html
+--                     ^ punctuation.section.interpolation.begin.haskell
+            -- This is Haskell
+            show "my-id"
+--      ^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell source.haskell.embedded.html
+--          ^^^^ support.function.prelude.haskell
+--               ^^^^^^^ meta.string.haskell string.quoted.double.haskell
+        }>
+--     ^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag
+--        ^ meta.quoted.quasi.haskell text.html.embedded.haskell - meta.tag
+--     ^^ meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--      ^ punctuation.section.interpolation.end.haskell
+--       ^ punctuation.definition.tag.end.html
+
+            p {
+--            ^^ source.css.embedded.html meta.property-list.css meta.block.css
+--            ^ punctuation.section.block.begin.css
+                font-family: Helvetica;
+--              ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css
+            }
+--          ^ source.css.embedded.html meta.property-list.css meta.block.css punctuation.section.block.end.css
+        </style>
+--      ^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag
+
+        <script data-id={
+--      ^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--      ^^^^^^^^ meta.tag - meta.attribute-with-value
+--              ^^^^^^^^ meta.tag meta.attribute-with-value.html - meta.string - meta.interpolation
+--                      ^^ meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--      ^ punctuation.definition.tag.begin.html
+--       ^^^^^^ entity.name.tag.script.html
+--              ^^^^^^^ entity.other.attribute-name.html
+--                     ^ punctuation.separator.key-value.html
+--                      ^ punctuation.section.interpolation.begin.haskell
+            -- This is Haskell
+            show "my-id"
+--      ^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell source.haskell.embedded.html
+--          ^^^^ support.function.prelude.haskell
+--               ^^^^^^^ meta.string.haskell string.quoted.double.haskell
+        }>
+            function test() { console.log("js"); }
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell source.js.embedded.html
+--          ^^^^^^^^ keyword.declaration.function.js
+--                   ^^^^ entity.name.function.js
+--                          ^^^^^^^^^^^^^^^^^^^^^^ meta.function.js meta.block.js
+--                          ^ punctuation.section.block.begin.js
+--                                               ^ punctuation.section.block.end.js
+        </script>
+--      ^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag
+
+        <p><a href="{pathTo NewPostAction}">title</a></p>
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline meta.attribute-with-value.href.html meta.string.html
+--                 ^ string.quoted.double.html punctuation.definition.string.begin.html
+--                  ^ meta.interpolation.haskell punctuation.section.interpolation.begin.haskell
+--                   ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.haskell source.haskell.embedded.html
+--                                       ^ meta.interpolation.haskell punctuation.section.interpolation.end.haskell
+--                                        ^ string.quoted.double.html punctuation.definition.string.end.html
+    |]
+-- ^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--  ^^ meta.quoted.quasi.haskell punctuation.section.quoted.end.haskell - text.html
+--    ^ - meta.quote
+
+
 -- [ IDENTS ] -----------------------------------------------------------------
 
     _

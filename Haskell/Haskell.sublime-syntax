@@ -1183,6 +1183,7 @@ contexts:
 ###[ BRACKETS ]################################################################
 
   brackets:
+    - include: hsx-quotes
     - include: typed-quotes
     - include: overloaded-quotes
     - include: empty-lists
@@ -1253,6 +1254,19 @@ contexts:
     - match: \|\]
       scope: meta.quoted.quasi.haskell punctuation.section.quoted.end.haskell
       pop: 1
+
+  hsx-quotes:
+    - match: (\[)(hsx)(\|)
+      scope: meta.quoted.quasi.haskell
+      captures:
+        1: punctuation.section.quoted.begin.haskell
+        2: variable.function.quasi-quoter.haskell
+        3: punctuation.section.quoted.haskell
+      embed: scope:text.html.embedded.haskell
+      embed_scope: meta.quoted.quasi.haskell text.html.embedded.haskell
+      escape: \|\]
+      escape_captures:
+        0: meta.quoted.quasi.haskell punctuation.section.quoted.end.haskell
 
   overloaded-quotes:
     # https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0246-overloaded-bracket.rst
