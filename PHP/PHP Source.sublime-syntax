@@ -1019,7 +1019,7 @@ contexts:
         - function-block
         - function-return-type
         - function-use
-        - function-decl-name
+        - function-definition-name
         - function-modifier
 
   function-modifier:
@@ -1032,7 +1032,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  function-decl-name:
+  function-definition-name:
     - include: reference-modifiers
     # https://wiki.php.net/rfc/constructor_promotion
     - match: __construct\b
