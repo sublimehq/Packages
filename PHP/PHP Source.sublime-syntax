@@ -73,13 +73,13 @@ variables:
 
   # Storage Modifiers
   storage_modifiers: |-
-    (?xi: abstract | extends | final | global | implements | readonly | static )\b
+    (?xi: abstract | extends | final | global | implements | readonly | static(?!::) )\b
   constructor_modifier: |-
     (?xi: readonly | {{visibility_modifier}} )\b
   function_modifier: |-
-    (?xi: abstract | final | static | {{visibility_modifier}} )\b
+    (?xi: abstract | final | static(?!::) | {{visibility_modifier}} )\b
   property_modifier: |-
-    (?xi: readonly | static | var | {{visibility_modifier}} )\b
+    (?xi: readonly | static(?!::) | var | {{visibility_modifier}} )\b
   visibility_modifier: |-
     (?xi: public | private | protected )\b
 
@@ -517,6 +517,7 @@ contexts:
     - include: instantiations
     - include: arrow-functions
     - include: closures
+    - include: bindings
     - include: keywords
     - include: function-calls
     - include: numbers
@@ -678,14 +679,13 @@ contexts:
     #   - "callable", "never" and "void" are not allowed in property type
     #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
-    - match: |-
-        (?xi: iterable | false | mixed | never | null | void | static
-        | {{builtin_variables}} | {{storage_types}} )\b
+    - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
       scope: storage.type.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
       pop: 1
     - include: expression-end-pop
+    - include: binding
     - include: class-name
     - include: else-pop
 
@@ -1544,9 +1544,7 @@ contexts:
 
   instantiation-class:
     - meta_include_prototype: false
-    - match: (?i:static|{{builtin_variables}})\b
-      scope: variable.language.php
-      pop: 1
+    - include: binding
     - include: class-name
     - include: variables
     - include: immediately-pop
@@ -1857,14 +1855,32 @@ contexts:
 
 ###[ LITERALS ]###############################################################
 
+  bindings:
+    # Note: `static` is skipped as this context is included in global
+    # `expressions` which the keyword is to be scoped `storage.modifier` in.
+    # https://www.php.net/manual/en/language.oop5.late-static-bindings.php
+    - match: (?i:parent)\b
+      scope: variable.language.super.php
+    - match: (?i:self)\b
+      scope: variable.language.this.php
+
+  binding:
+    - match: (?i:parent)\b
+      scope: variable.language.super.php
+      pop: 1
+    - match: (?i:self)\b
+      scope: variable.language.this.php
+      pop: 1
+    - match: (?i:static)\b
+      scope: variable.language.static.php
+      pop: 1
+
   keywords:
     # fallback patterns incase no other expression matches
     - match: (?i:clone)\b
       scope: keyword.other.clone.php
     - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
-    - match: '{{builtin_variables}}'
-      scope: variable.language.php
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
@@ -1955,8 +1971,8 @@ contexts:
     - include: static-members
 
   static-class-name:
-    - match: (?i:parent|self|static)\b
-      scope: variable.language.php
+    - meta_include_prototype: false
+    - include: binding
     - include: class-name
     - include: variables
     - include: immediately-pop
@@ -2441,9 +2457,10 @@ contexts:
       push: instanceof-operand
 
   instanceof-operand:
+    - include: binding
+    - include: class-name
     - include: attributes
     - include: comments
-    - include: class-name
     - include: else-pop
 
   ternary-expression:
@@ -2482,7 +2499,7 @@ contexts:
         1: punctuation.definition.variable.php
       push: after-identifier
     - match: (\$)this\b
-      scope: variable.language.php
+      scope: variable.language.this.php
       captures:
         1: punctuation.definition.variable.php
       push: after-identifier
@@ -2505,7 +2522,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
     - match: (\$)this\b
-      scope: variable.language.php
+      scope: variable.language.this.php
       captures:
         1: punctuation.definition.variable.php
     - match: (\$+){{identifier}}

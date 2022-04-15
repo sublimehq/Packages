@@ -1828,7 +1828,7 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //                  ^ storage.type.nullable
 //                   ^^^ storage.type
 //                      ^ punctuation.separator.type
-//                       ^^^^^^ storage.type
+//                       ^^^^^^ variable.language.static.php
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
@@ -2086,7 +2086,7 @@ class B
         $param4
 //      ^ punctuation.definition.variable
 //       ^^^^^^ variable.parameter
-    ): Foo|\Foo\Bar|?int|static {}
+    ): Foo|\Foo\Bar|?int|parent|self|static {}
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.separator.namespace
@@ -2097,7 +2097,11 @@ class B
 //                  ^ storage.type.nullable
 //                   ^^^ storage.type
 //                      ^ punctuation.separator.type
-//                       ^^^^^^ storage.type
+//                       ^^^^^^ variable.language.super.php
+//                             ^ punctuation.separator.type.union.php
+//                              ^^^^ variable.language.this.php
+//                                  ^ punctuation.separator.type.union.php
+//                                   ^^^^^^ variable.language.static.php
     {
         echo B::class;
 //      ^^^^ support.function.builtin.php
@@ -2107,7 +2111,7 @@ class B
 
         echo $this->pro1::FOO;
 //      ^^^^ support.function.builtin.php
-//           ^^^^^ variable.language
+//           ^^^^^ variable.language.this.php
 //                ^^ punctuation.accessor
 //                  ^^^^ variable.other.member
 //                      ^^ punctuation.accessor
@@ -2115,18 +2119,32 @@ class B
 
         print $this->pro1::bar();
 //      ^^^^ support.function.builtin.php
-//            ^^^^^ variable.language
+//            ^^^^^ variable.language.this.php
 //                 ^^ punctuation.accessor
 //                   ^^^^ variable.other.member
 //                       ^^ punctuation.accessor
 //                         ^^^ variable.function
 
+        parent
+//      ^^^^^^ variable.language.super.php
         parent::abc($var, $var2, $var3);
-//      ^^^^^^ variable.language
+//      ^^^^^^ variable.language.super.php
+//            ^^ punctuation.accessor
+
+        self
+//      ^^^^ variable.language.this.php
+        self::abc($var, $var2, $var3);
+//      ^^^^ variable.language.this.php
+//          ^^ punctuation.accessor
+
+        static
+//      ^^^^^^ storage.modifier.php
+        static::abc($var, $var2, $var3);
+//      ^^^^^^ variable.language.static.php
 //            ^^ punctuation.accessor
 
         $this->undo();
-//      ^^^^^ variable.language
+//      ^^^^^ variable.language.this.php
 //      ^ punctuation.definition.variable
 
         $var2 = 'test';
@@ -2140,7 +2158,7 @@ class B
         //                    ^^ keyword.operator.key.php
 
         return new self();
-//                 ^^^^ variable.language
+//                 ^^^^ variable.language.this.php
     }
 }
 
