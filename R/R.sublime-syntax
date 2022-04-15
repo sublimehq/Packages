@@ -6,7 +6,12 @@ scope: source.r
 
 file_extensions:
   - R
-  - Rprofile
+
+hidden_file_extensions:
+  - .Renviron
+  - .Rprofile
+  - Renviron.site
+  - Rprofile.site
 
 first_line_match: |-
   (?xi:
