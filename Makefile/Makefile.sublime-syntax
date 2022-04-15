@@ -12,14 +12,16 @@ name: Makefile
 scope: source.makefile
 
 file_extensions:
+  - mk
+  - mak
   - make
+
+hidden_file_extensions:
   - GNUmakefile
   - Makefile
   - Makefile.am
   - Makefile.in
   - OCamlMakefile
-  - mak
-  - mk
 
 first_line_match: |-
   (?xi:
