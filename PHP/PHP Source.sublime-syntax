@@ -480,9 +480,13 @@ variables:
 contexts:
 
   main:
+    - include: declarations
     - include: statements
+    - include: expressions
+    - match: \}
+      scope: punctuation.section.block.end.php
 
-  statements:
+  declarations:
     - include: classes
     - include: enums
     - include: interfaces
@@ -490,22 +494,13 @@ contexts:
     - include: traits
     - include: functions
     - include: properties
-    - include: common-statements
-    - match: \{
-      scope: punctuation.section.block.begin.php
-    - match: \}
-      scope: punctuation.section.block.end.php
 
-  common-statements:
+  statements:
+    - include: blocks
     - include: control-statements
     - include: use-statements
     - include: labels
-    - include: expressions
     - include: punctuation-terminators
-
-  nested-expressions:
-    - include: expression-end-pop
-    - include: expressions
 
   expressions:
     - include: attributes
@@ -529,6 +524,14 @@ contexts:
     - include: operators
     - include: types
     - include: constants
+    - match: \]
+      scope: punctuation.section.brackets.end.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+
+  nested-expressions:
+    - include: expression-end-pop
+    - include: expressions
 
 ###[ COMMENTS ]###############################################################
 
@@ -746,13 +749,10 @@ contexts:
   class-body:
     # https://www.php.net/manual/en/language.oop5.traits.php
     - meta_scope: meta.class.php meta.block.php
-    - match: \}
-      scope: punctuation.section.block.end.php
-      pop: 1
     - match: (?i:use)\b
       scope: meta.use.php keyword.other.use.php
       push: class-use-body
-    - include: statements
+    - include: block-body
 
   class-use-body:
     - meta_content_scope: meta.use.php
@@ -1144,15 +1144,22 @@ contexts:
 
 ###[ CODE BLOCKS ]############################################################
 
-  block-body:
-    - meta_scope: meta.block.php
-    - match: \}
-      scope: punctuation.section.block.end.php
-      pop: 1
+  blocks:
     - match: \{
       scope: punctuation.section.block.begin.php
       push: block-body
+
+  block-body:
+    - meta_scope: meta.block.php
+    - include: block-end
+    - include: declarations
     - include: statements
+    - include: expressions
+
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.php
+      pop: 1
 
 ###[ CONTROL FLOW STATEMENTS ]################################################
 
@@ -1600,26 +1607,15 @@ contexts:
     - match: \}
       scope: punctuation.definition.expression.end.php
       pop: 1
-    - include: interpolation-statements
+    - include: statements
+    - include: expressions
 
   interpolation-braced-variable:
     - match: \}
       scope: punctuation.definition.variable.end.php
       pop: 1
-    - include: interpolation-statements
-
-  interpolation-statements:
-    - match: \{
-      scope: punctuation.section.block.begin.php
-      push: interpolation-block-body
-    - include: common-statements
-
-  interpolation-block-body:
-    - meta_scope: meta.block.php
-    - match: \}
-      scope: punctuation.section.block.end.php
-      pop: 1
-    - include: interpolation-statements
+    - include: statements
+    - include: expressions
 
   interpolation-literal-variable:
     - include: variables-no-item-access
@@ -1961,7 +1957,8 @@ contexts:
     - match: \}
       scope: punctuation.definition.variable.php
       set: after-identifier
-    - include: interpolation-statements
+    - include: statements
+    - include: expressions
 
 ###[ STATIC CLASS MEMBERS ]###################################################
 

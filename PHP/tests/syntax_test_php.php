@@ -3200,11 +3200,19 @@ $array = array_reduce(
 //                             ^^ punctuation.section.embedded.end.php
 
 // don't break php termination highlighting after incomplete item-access expression
-<?php  { ?> <div> <? $var[9 + ?> </div>
+<?php  { ?> <div> <? $var[9 + ?> </div> <? } ?>
 //^^^^^^^^^ meta.embedded.php
 //         ^^^^^^^ - meta.embedded
 //                ^^^^^^^^^^^^^^ meta.embedded.php
 //                              ^^^^^^^^ - meta.embedded
+//                                      ^^^^^^^ meta.embedded.php
+//^^^^^ - meta.block
+//     ^^ meta.block.php - meta.block meta.block
+//       ^^^^^^^^^^^ - meta.block
+//                  ^^^^^^^^^^ meta.block.php - meta.block meta.block
+//                            ^^^^^^^^^^^^ - meta.block
+//                                        ^^ meta.block.php - meta.block meta.block
+//                                          ^^^^ - meta.block
 //     ^ punctuation.section.block.begin.php
 //       ^^ punctuation.section.embedded.end.php
 //          ^^^^^ meta.tag
@@ -3213,6 +3221,9 @@ $array = array_reduce(
 //                       ^^^^^ meta.item-access
 //                            ^^ punctuation.section.embedded.end.php
 //                               ^^^^^^ meta.tag
+//                                      ^^ punctuation.section.embedded.begin.php
+//                                         ^ punctuation.section.block.end.php
+//                                           ^^ punctuation.section.embedded.end.php
 
 // don't break block termination highlighting after incomplete item-access expression
 <?php  { ?> <div> <? $var[9 + } ?> </div>
@@ -3220,6 +3231,11 @@ $array = array_reduce(
 //         ^^^^^^^ - meta.embedded
 //                ^^^^^^^^^^^^^^^^ meta.embedded.php
 //                                ^^^^^^^^ - meta.embedded
+//^^^^^ - meta.block
+//     ^^ meta.block.php - meta.block meta.block
+//       ^^^^^^^^^^^ - meta.block
+//                  ^^^^^^^^^^^ meta.block.php - meta.block meta.block
+//                             ^^^^^^^^^^^ - meta.block
 //     ^ punctuation.section.block.begin.php
 //       ^^ punctuation.section.embedded.end.php
 //          ^^^^^ meta.tag
@@ -3231,11 +3247,19 @@ $array = array_reduce(
 //                                 ^^^^^^ meta.tag
 
 // don't break block termination highlighting after incomplete item-access expression
-<?php  { ?> <div> <? $var[9 + ; ?> </div>
+<?php  { ?> <div> <? $var[9 + ; ?> </div> <? } ?>
 //^^^^^^^^^ meta.embedded.php
 //         ^^^^^^^ - meta.embedded
 //                ^^^^^^^^^^^^^^^^ meta.embedded.php
 //                                ^^^^^^^^ - meta.embedded
+//                                        ^^^^^^^ meta.embedded.php
+//^^^^^ - meta.block
+//     ^^ meta.block.php - meta.block meta.block
+//       ^^^^^^^^^^^ - meta.block
+//                  ^^^^^^^^^^^^ meta.block.php - meta.block meta.block
+//                              ^^^^^^^^^^^^ - meta.block
+//                                          ^^ meta.block.php - meta.block meta.block
+//                                            ^^^^ - meta.block
 //     ^ punctuation.section.block.begin.php
 //       ^^ punctuation.section.embedded.end.php
 //          ^^^^^ meta.tag
@@ -3245,6 +3269,9 @@ $array = array_reduce(
 //                            ^ punctuation.terminator.statement.php
 //                              ^^ punctuation.section.embedded.end.php
 //                                 ^^^^^^ meta.tag
+//                                        ^^ punctuation.section.embedded.begin.php
+//                                           ^ punctuation.section.block.end.php
+//                                             ^^ punctuation.section.embedded.end.php
 
 // don't break highlighting after incomplete catch parameter list
 <?php try { ?> <div> <? } catch(  ?> </div>
@@ -3252,6 +3279,13 @@ $array = array_reduce(
 //            ^^^^^^^ - meta.embedded
 //                   ^^^^^^^^^^^^^^^ meta.embedded.php
 //                                  ^^^^^^^^ - meta.embedded
+//^^^^^^^^ - meta.block
+//        ^^ meta.block.php - meta.block meta.block
+//          ^^^^^^^^^^^ - meta.block
+//                     ^^ meta.block.php - meta.block meta.block
+//                       ^^^^^^ - meta.block - meta.group
+//                             ^^^ meta.group - meta.block
+//                                ^^^^^^^^^^ - meta.block - meta.group
 //    ^^^ keyword.control.exception.try.php
 //        ^ punctuation.section.block.begin.php
 //          ^^ punctuation.section.embedded.end.php
