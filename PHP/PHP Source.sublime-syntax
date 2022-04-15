@@ -989,7 +989,7 @@ contexts:
 
   arrow-function-body:
     - meta_scope: meta.function.anonymous.php
-    - match: (?=;|,|\)|\s*\?>)
+    - match: (?=;|,|\)|\?>)
       pop: 1
     - include: expressions
 
@@ -1085,7 +1085,7 @@ contexts:
     - include: type-hints
 
   function-use:
-    - match: (?i:use)(?=\s*\()
+    - match: (?i:use)\b
       scope: meta.function.use.php keyword.other.function.use.php
       set: function-use-group
     - include: else-pop
