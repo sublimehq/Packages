@@ -8,6 +8,8 @@ file_extensions:
   - groovy
   - gvy
   - gradle
+
+hidden_file_extensions:
   - Jenkinsfile
 
 first_line_match: |-
