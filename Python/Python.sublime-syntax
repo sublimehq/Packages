@@ -16,16 +16,18 @@ file_extensions:
   - pxi.in
   - rpy
   - cpy
-  - SConstruct
-  - SConscript
   - gyp
   - gypi
-  - Snakefile
-  - smk
   - vpy
+  - smk
   - wscript
   - bazel
   - bzl
+
+hidden_file_extensions:
+  - SConstruct
+  - SConscript
+  - Snakefile
 
 first_line_match: |-
   (?xi:
