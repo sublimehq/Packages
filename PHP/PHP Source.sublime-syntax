@@ -2404,6 +2404,8 @@ contexts:
     - include: spread-operators
     - match: <\?(?i:php\b|(?!php)ph?|=)?
       scope: punctuation.section.embedded.begin.php
+    - match: =>
+      scope: punctuation.separator.key-value.php
     - match: (?:\+|-|\*|/|%|&|\||\^|>>|<<|\.|\?\?)=
       scope: keyword.operator.assignment.augmented.php
     - match: (?:(=)(&))|(&(?=[[:alpha:]$_]))
@@ -2411,8 +2413,6 @@ contexts:
         1: keyword.operator.assignment.php
         2: storage.modifier.reference.php
         3: storage.modifier.reference.php
-    - match: =>
-      scope: keyword.operator.key.php
     - match: \-\-|\+\+
       scope: keyword.operator.increment-decrement.php
     - match: \|\||&&

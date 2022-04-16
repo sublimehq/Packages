@@ -645,7 +645,7 @@ class Foo
 //                ^ punctuation.section.group.begin
 //                 ^ punctuation.section.sequence.begin
 //                  ^^^^^^^^^ string.quoted.double
-//                            ^^ keyword.operator.key
+//                            ^^ punctuation.separator.key-value.php
 //                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                                                                              ^ punctuation.section.sequence.end
 //                                                                               ^ punctuation.section.group.end
@@ -2194,7 +2194,7 @@ class B
         //        ^^ punctuation.accessor
         //          ^ variable.function
         //              ^^ keyword.operator.logical.php
-        //                    ^^ keyword.operator.key.php
+        //                    ^^ punctuation.separator.key-value.php
 
         return new self();
 //                 ^^^^ variable.language.this.php
@@ -2532,16 +2532,16 @@ $statement = match ($this->lexer->lookahead['type']) {
 //  ^^^^^ support.class
 //       ^^ punctuation.accessor.double-colon
 //         ^^^^^^^^ constant.other
-//                  ^^ keyword.operator.key
+//                  ^^ punctuation.separator.key-value.php
 //                     ^^^^^ variable.language
 //                          ^^ punctuation.accessor.arrow
 //                            ^^^^^^^^^^^^^^^ variable.function
 //                                           ^^ meta.group
     Lexer::T_DELETE => $this->DeleteStatement(),
-//                  ^^ keyword.operator.key
+//                  ^^ punctuation.separator.key-value.php
     default => $this->syntaxError('UPDATE or DELETE'),
 //  ^^^^^^^ keyword.control.conditional.default.php
-//          ^^ keyword.operator.key
+//          ^^ punctuation.separator.key-value.php
 //                               ^^^^^^^^^^^^^^^^^^^^ meta.group.php
 //                               ^ punctuation.section.group.begin.php
 //                                ^^^^^^^^^^^^^^^^^^ meta.string.php
