@@ -2160,19 +2160,27 @@ class B
 //      ^^^^^^ variable.language.super.php
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language.super.php
-//            ^^ punctuation.accessor
+//            ^^ punctuation.accessor.double-colon.php
+//              ^^^ variable.function.php
 
         self
 //      ^^^^ variable.language.this.php
         self::abc($var, $var2, $var3);
 //      ^^^^ variable.language.this.php
-//          ^^ punctuation.accessor
+//          ^^ punctuation.accessor.double-colon.php
+//            ^^^ variable.function.php
 
         static
 //      ^^^^^^ storage.modifier.php
         static::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language.static.php
-//            ^^ punctuation.accessor
+//            ^^ punctuation.accessor.double-colon.php
+//              ^^^ variable.function.php
+
+        $ClassName::abc($var, $var2, $var3);
+//      ^^^^^^^^^^ variable.other.php
+//                ^^ punctuation.accessor.double-colon.php
+//                  ^^^ variable.function.php
 
         $this->undo();
 //      ^^^^^ variable.language.this.php

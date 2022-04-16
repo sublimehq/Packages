@@ -1963,7 +1963,7 @@ contexts:
 ###[ STATIC CLASS MEMBERS ]###################################################
 
   static-classes:
-    - match: (?=[[:alnum:]_$\\]+::)
+    - match: (?=[[:alnum:]_\\]+::)
       push: static-class-name
     - include: static-members
 
@@ -1971,7 +1971,6 @@ contexts:
     - meta_include_prototype: false
     - include: binding
     - include: class-name
-    - include: variables
     - include: immediately-pop
 
   static-members:
