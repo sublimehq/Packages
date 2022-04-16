@@ -15,7 +15,7 @@ global using static Console.WriteLine;
 ///                                  ^ punctuation.terminator
 
 namespace Example;
-///^^^^^^ meta.namespace storage.type.namespace
+///^^^^^^ meta.namespace keyword.declaration.namespace
 ///       ^^^^^^^ meta.namespace entity.name.namespace
 ///              ^ punctuation.terminator.statement
 

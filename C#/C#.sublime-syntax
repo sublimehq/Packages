@@ -265,7 +265,7 @@ contexts:
   namespace_declaration:
     # package declaration
     - match: '\b(namespace)\b'
-      scope: storage.type.namespace.cs
+      scope: keyword.declaration.namespace.cs
       push:
         - meta_scope: meta.namespace.cs
         - match: '(?={{name}})'

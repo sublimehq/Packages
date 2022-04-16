@@ -4,7 +4,7 @@
 using System;
 
 namespace YourNamespace
-///<- storage.type.namespace
+///<- keyword.declaration.namespace
 ///        ^ entity.name.namespace
 {
 ///<- punctuation.section.block.begin
@@ -197,7 +197,7 @@ namespace YourNamespace
 
     namespace YourNestedNamespace
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace meta.namespace
-///     ^ storage.type.namespace
+///     ^ keyword.declaration.namespace
 ///             ^ entity.name.namespace
     {
 ///^^ meta.namespace
