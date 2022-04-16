@@ -435,7 +435,7 @@ namespace TestNamespace.Test
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
             catch (FaultException<ServiceFault>)
-///         ^^^^^ keyword.control.trycatch.catch
+///         ^^^^^ keyword.control.exception.catch
 ///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///               ^ punctuation.section.group.begin
 ///                ^^^^^^^^^^^^^^ support.type
@@ -446,11 +446,11 @@ namespace TestNamespace.Test
             {
 ///         ^ punctuation.section.block.begin
                 throw;
-///             ^^^^^ keyword.control.trycatch.throw
+///             ^^^^^ keyword.control.flow.throw
 ///                  ^ punctuation
             }
             catch (FaultException<ServiceFault> e)
-///         ^^^^^ keyword.control.trycatch.catch
+///         ^^^^^ keyword.control.exception.catch
 ///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///               ^ punctuation.section.group.begin
 ///                ^^^^^^^^^^^^^^ support.type
@@ -463,7 +463,7 @@ namespace TestNamespace.Test
             {
 ///         ^ punctuation.section.block.begin
                 throw;
-///             ^^^^^ keyword.control.trycatch.throw
+///             ^^^^^ keyword.control.flow.throw
 ///                  ^ punctuation
             }
 ///         ^ punctuation.section.block.end
@@ -1030,17 +1030,17 @@ namespace TestNamespace.Test
 ///                   ^ punctuation.terminator.statement - meta.function.anonymous
 
         try
-///     ^^^ keyword.control.trycatch.try
+///     ^^^ keyword.control.exception.try
         {
 
         }
         catch (InvalidOperationException ex)
-///     ^^^^^ keyword.control.trycatch.catch
+///     ^^^^^ keyword.control.exception.catch
         {
 
         }
         finally
-///     ^^^^^^^ keyword.control.trycatch.finally
+///     ^^^^^^^ keyword.control.exception.finally
         {
 
         }
@@ -1052,17 +1052,17 @@ namespace TestNamespace.Test
 ///                               ^ punctuation.terminator.statement - meta.function.anonymous
 
         try
-///     ^^^ keyword.control.trycatch.try
+///     ^^^ keyword.control.exception.try
         {
 
         }
         catch (InvalidOperationException ex)
-///     ^^^^^ keyword.control.trycatch.catch
+///     ^^^^^ keyword.control.exception.catch
         {
 
         }
         finally
-///     ^^^^^^^ keyword.control.trycatch.finally
+///     ^^^^^^^ keyword.control.exception.finally
         {
         }
 
@@ -1076,18 +1076,18 @@ namespace TestNamespace.Test
 ///                                    ^ punctuation.terminator.statement - meta.function.anonymous
 
         try
-///     ^^^ keyword.control.trycatch.try
+///     ^^^ keyword.control.exception.try
         {
 
         }
         catch (InvalidOperationException)
-///     ^^^^^ keyword.control.trycatch.catch
+///     ^^^^^ keyword.control.exception.catch
 ///            ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type
         {
 
         }
         finally
-///     ^^^^^^^ keyword.control.trycatch.finally
+///     ^^^^^^^ keyword.control.exception.finally
         {
         }
 
