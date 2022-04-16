@@ -2052,91 +2052,16 @@ contexts:
         2: punctuation.terminator.statement.php
         3: meta.heredoc-end.php
       pop: 1
-    - match: (<<<)\s*(?i:(HTML))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: scope:text.html.interpolated.php
-      embed_scope: meta.embedded.html text.html.embedded.php
-      escape: '{{heredoc_unquoted_end}}'
-    - match: (<<<)\s*((')(?i:(HTML))('))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php
-        3: punctuation.definition.tag.begin.php
-        4: entity.name.tag.heredoc.php
-        5: punctuation.definition.tag.end.php
-      embed: scope:text.html.basic
-      embed_scope: meta.embedded.html text.html.embedded.php
-      escape: '{{heredoc_quoted_end}}'
-    - match: (<<<)\s*(?i:(XML))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: scope:text.xml.interpolated.php
-      embed_scope: meta.embedded.xml text.xml.embedded.php
-      escape: '{{heredoc_unquoted_end}}'
-    - match: (<<<)\s*((')(?i:(XML))('))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php
-        3: punctuation.definition.tag.begin.php
-        4: entity.name.tag.heredoc.php
-        5: punctuation.definition.tag.end.php
-      embed: scope:text.xml
-      embed_scope: meta.embedded.xml text.xml.embedded.php
-      escape: '{{heredoc_quoted_end}}'
-    - match: (<<<)\s*(?i:(SQL))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: scope:source.sql.interpolated.php
-      embed_scope: meta.embedded.sql source.sql.embedded.php
-      escape: '{{heredoc_unquoted_end}}'
-    - match: (<<<)\s*((')(?i:(SQL))('))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php
-        3: punctuation.definition.tag.begin.php
-        4: entity.name.tag.heredoc.php
-        5: punctuation.definition.tag.end.php
-      embed: scope:source.sql
-      embed_scope: meta.embedded.sql source.sql.embedded.php
-      escape: '{{heredoc_quoted_end}}'
-    - match: (<<<)\s*(?i:(JAVASCRIPT|JS))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: scope:source.js.interpolated.php
-      embed_scope: meta.embedded.js source.js.embedded.php
-      escape: '{{heredoc_unquoted_end}}'
-    - match: (<<<)\s*((')(?i:(JAVASCRIPT|JS))('))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php
-        3: punctuation.definition.tag.begin.php
-        4: entity.name.tag.heredoc.php
-        5: punctuation.definition.tag.end.php
-      embed: scope:source.js
-      embed_scope: meta.embedded.js source.js.embedded.php
-      escape: '{{heredoc_quoted_end}}'
-    - match: (<<<)\s*(?i:(JSON))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
-      embed: scope:source.json.interpolated.php
-      embed_scope: meta.embedded.json source.json.embedded.php
-      escape: '{{heredoc_unquoted_end}}'
-    - match: (<<<)\s*((')(?i:(JSON))('))\s*$\n?
-      captures:
-        1: keyword.operator.heredoc.php
-        2: meta.string.heredoc.php meta.tag.heredoc.php
-        3: punctuation.definition.tag.begin.php
-        4: entity.name.tag.heredoc.php
-        5: punctuation.definition.tag.end.php
-      embed: scope:source.json
-      embed_scope: meta.embedded.json source.json.embedded.php
-      escape: '{{heredoc_quoted_end}}'
+    - include: heredoc-css
+    - include: heredoc-html
+    - include: heredoc-javascript
+    - include: heredoc-json
+    - include: heredoc-sql
+    - include: heredoc-xml
+    - include: heredoc-yaml
+    - include: heredoc-plain
+
+  heredoc-css:
     - match: (<<<)\s*(?i:(CSS))\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
@@ -2154,6 +2079,84 @@ contexts:
       embed: scope:source.css
       embed_scope: meta.embedded.css source.css.embedded.php
       escape: '{{heredoc_quoted_end}}'
+
+  heredoc-html:
+    - match: (<<<)\s*(?i:(HTML))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+      embed: scope:text.html.interpolated.php
+      embed_scope: meta.embedded.html text.html.embedded.php
+      escape: '{{heredoc_unquoted_end}}'
+    - match: (<<<)\s*((')(?i:(HTML))('))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php
+        3: punctuation.definition.tag.begin.php
+        4: entity.name.tag.heredoc.php
+        5: punctuation.definition.tag.end.php
+      embed: scope:text.html.basic
+      embed_scope: meta.embedded.html text.html.embedded.php
+      escape: '{{heredoc_quoted_end}}'
+
+  heredoc-javascript:
+    - match: (<<<)\s*(?i:(JAVASCRIPT|JS))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+      embed: scope:source.js.interpolated.php
+      embed_scope: meta.embedded.js source.js.embedded.php
+      escape: '{{heredoc_unquoted_end}}'
+    - match: (<<<)\s*((')(?i:(JAVASCRIPT|JS))('))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php
+        3: punctuation.definition.tag.begin.php
+        4: entity.name.tag.heredoc.php
+        5: punctuation.definition.tag.end.php
+      embed: scope:source.js
+      embed_scope: meta.embedded.js source.js.embedded.php
+      escape: '{{heredoc_quoted_end}}'
+
+  heredoc-json:
+    - match: (<<<)\s*(?i:(JSON))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+      embed: scope:source.json.interpolated.php
+      embed_scope: meta.embedded.json source.json.embedded.php
+      escape: '{{heredoc_unquoted_end}}'
+    - match: (<<<)\s*((')(?i:(JSON))('))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php
+        3: punctuation.definition.tag.begin.php
+        4: entity.name.tag.heredoc.php
+        5: punctuation.definition.tag.end.php
+      embed: scope:source.json
+      embed_scope: meta.embedded.json source.json.embedded.php
+      escape: '{{heredoc_quoted_end}}'
+
+  heredoc-sql:
+    - match: (<<<)\s*(?i:(SQL))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+      embed: scope:source.sql.interpolated.php
+      embed_scope: meta.embedded.sql source.sql.embedded.php
+      escape: '{{heredoc_unquoted_end}}'
+    - match: (<<<)\s*((')(?i:(SQL))('))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php
+        3: punctuation.definition.tag.begin.php
+        4: entity.name.tag.heredoc.php
+        5: punctuation.definition.tag.end.php
+      embed: scope:source.sql
+      embed_scope: meta.embedded.sql source.sql.embedded.php
+      escape: '{{heredoc_quoted_end}}'
+
+  heredoc-yaml:
     - match: (<<<)\s*(?i:(YA?ML))\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
@@ -2171,6 +2174,27 @@ contexts:
       embed: scope:source.yaml
       embed_scope: meta.embedded.yaml source.yaml.embedded.php
       escape: '{{heredoc_quoted_end}}'
+
+  heredoc-xml:
+    - match: (<<<)\s*(?i:(XML))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php entity.name.tag.heredoc.php
+      embed: scope:text.xml.interpolated.php
+      embed_scope: meta.embedded.xml text.xml.embedded.php
+      escape: '{{heredoc_unquoted_end}}'
+    - match: (<<<)\s*((')(?i:(XML))('))\s*$\n?
+      captures:
+        1: keyword.operator.heredoc.php
+        2: meta.string.heredoc.php meta.tag.heredoc.php
+        3: punctuation.definition.tag.begin.php
+        4: entity.name.tag.heredoc.php
+        5: punctuation.definition.tag.end.php
+      embed: scope:text.xml
+      embed_scope: meta.embedded.xml text.xml.embedded.php
+      escape: '{{heredoc_quoted_end}}'
+
+  heredoc-plain:
     - match: (<<<)\s*({{identifier}})\s*$\n?
       captures:
         1: keyword.operator.heredoc.php
