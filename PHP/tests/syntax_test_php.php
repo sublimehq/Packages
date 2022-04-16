@@ -556,7 +556,7 @@ $var?->meth()[10];
 //              ^ punctuation.section.group.begin.php
 //               ^^^ support.class.builtin.php
 //                  ^^ punctuation.accessor.double-colon.php
-//                    ^^^^^ constant.class.php
+//                    ^^^^^ variable.language.class.java
 //                         ^ punctuation.separator.comma.php
 //                           ^^^^^^^^^^^^^^ support.constant.core.php
 //                                         ^ punctuation.section.group.end.php
@@ -1525,6 +1525,37 @@ $var = new \MyNamespce\ClassName();
 //              ^^ punctuation.accessor
 //                ^^^ constant.other
 
+\MyNamespace\Foo::$Bar
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
+//          ^ punctuation.separator.namespace
+//           ^^^ support.class
+//              ^^ punctuation.accessor
+//                ^^^^ variable.other.php
+
+\MyNamespace\Foo::class
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
+//          ^ punctuation.separator.namespace
+//           ^^^ support.class
+//              ^^ punctuation.accessor
+//                ^^^^^ variable.language.class.java
+
+\MyNamespace\Foo::class();
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
+//          ^ punctuation.separator.namespace
+//           ^^^ support.class
+//              ^^ punctuation.accessor
+//                ^^^^^^^ - meta.function-call
+//                ^^^^^ variable.language.class.java
+//                     ^^ meta.group
+//                     ^ punctuation.section.group.begin
+//                      ^ punctuation.section.group.end
+
 \MyNamespace\Foo::bar();
 // <- punctuation.separator.namespace
  // <- support.other.namespace
@@ -2107,15 +2138,15 @@ class B
 //      ^^^^ support.function.builtin.php
 //           ^ support.class.php
 //            ^^ punctuation.accessor.double-colon.php
-//              ^^^^^ constant.class
+//              ^^^^^ variable.language.class.java
 
         echo $this->pro1::FOO;
 //      ^^^^ support.function.builtin.php
 //           ^^^^^ variable.language.this.php
 //                ^^ punctuation.accessor
 //                  ^^^^ variable.other.member
-//                      ^^ punctuation.accessor
-//                        ^^^ constant.other
+//                      ^^ punctuation.accessor.double-colon.php
+//                        ^^^ constant.other.member.php
 
         print $this->pro1::bar();
 //      ^^^^ support.function.builtin.php

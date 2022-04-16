@@ -1981,21 +1981,16 @@ contexts:
 
   static-member-body:
     - meta_include_prototype: false
-    - match: ({{identifier}})\s*(?=\()
+    - match: (?i:class)\b
+      scope: variable.language.class.java
+      pop: 1
+    - match: ({{guarded_identifier}})\s*(?=\()
       scope: meta.function-call.identifier.php
       captures:
         1: variable.function.php
       set: function-call-arguments
-    - match: (\$+){{identifier}}
-      scope: variable.other.php
-      captures:
-        1: punctuation.definition.variable.php
-      set: after-identifier
-    - match: (?i:class)\b
-      scope: constant.class.php
-      pop: 1
     - match: '{{guarded_identifier}}'
-      scope: constant.other.php
+      scope: constant.other.member.php
       set: after-identifier
     - include: immediately-pop
 
