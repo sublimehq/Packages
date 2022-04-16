@@ -9,7 +9,7 @@ namespace YourNamespace
 {
 ///<- punctuation.section.block.begin
     class YourClass
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///        ^ entity.name.class
     {
         Int x;
@@ -126,7 +126,7 @@ namespace YourNamespace
 
     struct YourStruct
 /// ^^^^^^^^^^^^^^^^^ meta.struct
-/// ^ storage.type.struct
+/// ^ keyword.declaration.struct
 ///         ^ entity.name.struct
     {
 ///^^ meta.struct
@@ -137,7 +137,7 @@ namespace YourNamespace
 
     interface IYourInterface
 /// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
-/// ^ storage.type.interface
+/// ^ keyword.declaration.interface
 ///           ^ entity.name.interface
     {
 ///^^ meta.interface
@@ -170,7 +170,7 @@ namespace YourNamespace
 
     enum YourEnum
 /// ^^^^^^^^^^^^^ meta.enum
-/// ^ storage.type.enum
+/// ^ keyword.declaration.enum
 ///        ^ entity.name.enum
     {
 ///^^ meta.enum
@@ -205,7 +205,7 @@ namespace YourNamespace
         struct YourStruct
 /// ^^^^^^^^^^^^^^^^^^^^^ meta.namespace
 ///     ^^^^^^^^^^^^^^^^^ meta.struct
-///      ^ storage.type.struct
+///      ^ keyword.declaration.struct
 ///              ^ entity.name.struct
         {
 ///     ^ meta.struct meta.block punctuation.section.block.begin
@@ -216,7 +216,7 @@ namespace YourNamespace
 
     class InheritingSomething: IYourInterface
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///       ^ entity.name.class
 ///                          ^ punctuation.separator
 ///                            ^ entity.other.inherited-class
@@ -547,7 +547,7 @@ namespace TestNamespace.Test
 
     class YourMainClass
 /// ^^^^^^^^^^^^^^^^^^^ meta.class
-///   ^ storage.type.class
+///   ^ keyword.declaration.class
 ///          ^ entity.name.class
     {
 /// ^ meta.class meta.block punctuation.section.block.begin
@@ -1307,7 +1307,7 @@ void Main () { // method outside a class, i.e. a LINQPad script
 
 public class AfterTopLevelMethod {
 ///^^^ storage.modifier.access
-///    ^^^^^ storage.type.class
+///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors

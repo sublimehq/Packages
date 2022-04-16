@@ -294,27 +294,27 @@ contexts:
       scope: storage.modifier.access.cs
     - match: \b(class)\s+({{name}})
       captures:
-        1: storage.type.class.cs
+        1: keyword.declaration.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
     - match: (?:\b(readonly)\s+)?\b(record)\s+(?:(struct)\s+)?({{name}})
       captures:
         1: storage.modifier.cs
-        2: storage.type.class.record.cs
-        3: storage.type.struct.record.cs
+        2: keyword.declaration.class.record.cs
+        3: keyword.declaration.struct.record.cs
         4: entity.name.class.cs
       push: [record_signature, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
         2: storage.modifier.cs
-        3: storage.type.struct.cs
+        3: keyword.declaration.struct.cs
         4: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs
       captures:
-        1: storage.type.enum.cs
+        1: keyword.declaration.enum.cs
         2: entity.name.enum.cs
         3: punctuation.separator.key-value.type.cs
         4: storage.type.cs
@@ -346,7 +346,7 @@ contexts:
   interface_declaration:
     - match: '(interface)\s+({{name}})'
       captures:
-        1: storage.type.interface.cs
+        1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
       push: [interface_signature, data_type_signature]
 

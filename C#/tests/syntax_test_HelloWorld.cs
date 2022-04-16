@@ -14,7 +14,7 @@ namespace HelloWorld
 {
 ///<- meta.namespace meta.block punctuation.section.block.begin
     class Hello
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///       ^ entity.name.class
     {
 /// ^ punctuation.section.block.begin
