@@ -3012,11 +3012,57 @@ echo <<<EOT
 //   ^^^ keyword.operator.heredoc
 //      ^^^ meta.string.heredoc meta.tag.heredoc - meta.string meta.string
 //      ^^^ entity.name.tag.heredoc
-This is a test! $var
-//^^^^^^^^^^^^^^^^^^^ - meta.string meta.string
-//^^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc - meta.interpolation
-//              ^^^^ meta.string.heredoc.php meta.interpolation.php variable.other.php - string
-//                  ^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+
+This is a $var
+//^^^^^^^^^^^^^ - meta.string meta.string
+//^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc - meta.interpolation
+//        ^^^^ meta.string.heredoc.php meta.interpolation.php variable.other.php - string
+//            ^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+
+This is an $array[0][ 1 ]->item[ get_index ( 1 + $idx [0] ) ]
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.php - string
+//               ^^^^^^^^ meta.item-access.php
+//                             ^^^^^^^^^^^^ meta.item-access.php - meta.function-call - meta.group
+//                                         ^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//                                               ^^^^ meta.string.heredoc.php meta.interpolation.php variable.other.php - string
+//                                                   ^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//         ^^^^^^ variable.other.php
+//               ^ punctuation.section.brackets.begin.php
+//                ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                 ^ punctuation.section.brackets.end.php
+//                  ^ punctuation.section.brackets.begin.php
+//                    ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                      ^ punctuation.section.brackets.end.php
+//                       ^^ punctuation.accessor.arrow.php
+//                         ^^^^ variable.other.member.php
+//                             ^ punctuation.section.brackets.begin.php
+//                               ^^^^^^^^^ constant.other.php - variable.function
+//                                         ^ - punctuation.section.group
+//                                           ^ - constant.numeric
+//                                             ^ - keyword.operator
+//                                               ^^^^ variable.other.php
+
+This is an $array [0][ 1 ]->item[ 1 + $var ]
+//^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//         ^^^^^^ meta.interpolation.php variable.other.php - string
+//               ^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//                                    ^^^^ meta.interpolation.php variable.other.php - string
+//                                        ^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+
+This is an $array[0][ 1 ] ->item[ 1 + $var ]
+//^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//         ^^^^^^^^^^^^^^ meta.interpolation.php - string
+//                       ^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//                                    ^^^^ meta.interpolation.php variable.other.php - string
+//                                        ^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+
+This is not an $obj->no_method() call.
+//^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
+//             ^^^^^^^^^^^^^^^ meta.string.heredoc.php meta.interpolation.php
+//             ^^^^ variable.other.php
+//                 ^^ punctuation.accessor.arrow.php
+//                   ^^^^^^^^^ variable.other.member.php
+//                            ^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
 EOT;
 // <- entity.name.tag.heredoc
 
@@ -3026,12 +3072,7 @@ echo <<<EOT
 //   ^^^ keyword.operator.heredoc
 //      ^^^ meta.string.heredoc meta.tag.heredoc - meta.string meta.string
 //      ^^^ entity.name.tag.heredoc
-    This is a test! $var
-// ^^^^^^^^^^^^^^^^^ - meta.string meta.string
-//  ^^^^^^^^^^^^^^^^ meta.string.heredoc.php string.unquoted.heredoc - meta.interpolation
-//                  ^^^^ meta.string.heredoc.php meta.interpolation.php variable.other.php - string
-//                      ^ meta.string.heredoc.php string.unquoted.heredoc.php - meta.interpolation
-    $var2
+    $var
     EOT;
 //  ^^^ entity.name.tag.heredoc
 //     ^ punctuation.terminator.statement

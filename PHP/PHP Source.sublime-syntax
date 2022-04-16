@@ -1604,21 +1604,20 @@ contexts:
         1: punctuation.accessor.nullsafe.php
         2: punctuation.accessor.arrow.php
         3: variable.other.member.php
-      pop: 1
     - match: \[
       scope: punctuation.section.brackets.begin.php
       push: interpolation-item-access
     - include: immediately-pop
 
   interpolation-item-access:
-    - meta_scope: meta.item-access.arguments.php
+    - meta_scope: meta.item-access.php
     - match: \]
       scope: punctuation.section.brackets.end.php
       pop: 1
-    - include: expression-end-pop
     - include: numbers
     - include: variables
     - include: constants
+    - include: else-pop
 
 ###[ ARRAYS ]#################################################################
 
