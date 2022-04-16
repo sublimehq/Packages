@@ -36,6 +36,14 @@ using sys = global::System;
 ///               ^^ punctuation.accessor.double-colon.namespace
 ///                 ^^^^^^ meta.path
 ///                       ^ punctuation.terminator
+using sys = custom::System;
+///^^ keyword.control.import
+///   ^^^ meta.path
+///       ^ keyword.operator.assignment
+///         ^^^^^^ variable.namespace.cs
+///               ^^ punctuation.accessor.double-colon.namespace
+///                 ^^^^^^ meta.path
+///                       ^ punctuation.terminator
 using abc = global:test;
 ///   ^^^ meta.path
 ///       ^ keyword.operator.assignment
@@ -120,9 +128,9 @@ class Foo {
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 ///  ^ support.namespace
 ///    ^^ punctuation.accessor.double-colon
-///      ^^^^^^ variable.other.namespace
+///      ^^^^^^ variable.namespace
 ///            ^ punctuation.accessor.dot.namespace
-///             ^^^^^^^ variable.other.namespace
+///             ^^^^^^^ variable.namespace
 internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase {
 ///                                  ^^^ meta.path
 ///                                     ^^ punctuation.accessor.double-colon
