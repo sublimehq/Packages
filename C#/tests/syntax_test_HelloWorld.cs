@@ -9,12 +9,12 @@ using System;
 
 namespace HelloWorld
 ///^^^^^^^^^^^^^^^^^ meta.namespace
-///<- storage.type.namespace
+///<- keyword.declaration.namespace
 ///        ^ entity.name.namespace
 {
 ///<- meta.namespace meta.block punctuation.section.block.begin
     class Hello
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///       ^ entity.name.class
     {
 /// ^ punctuation.section.block.begin
