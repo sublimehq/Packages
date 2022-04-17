@@ -1513,7 +1513,7 @@ goto Label2;
     use: ;
 //  ^^^ keyword.other.use.php - entity.name
     var: ;
-//  ^^^ storage.modifier.php - entity.name
+//  ^^^ keyword.declaration.variable.php - entity.name
     while: ;
 //  ^^^^^ keyword.control.loop.while.php - entity.name
     xor: ;

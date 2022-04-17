@@ -83,7 +83,7 @@ variables:
   function_modifier: |-
     (?xi: abstract | final )\b
   property_modifier: |-
-    (?xi: readonly | var )\b
+    (?xi: readonly )\b
   static_modifier: |-
     (?xi: static(?!::) )\b
 
@@ -943,6 +943,10 @@ contexts:
       push: property-type-hint
     - match: '{{static_modifier}}'
       scope: storage.modifier.namespace.php
+      push: property-type-hint
+    # obsolete declaration keyword
+    - match: (?i:var)\b
+      scope: keyword.declaration.variable.php
       push: property-type-hint
 
   property-type-hint:
