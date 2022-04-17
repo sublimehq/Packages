@@ -46,7 +46,7 @@ variables:
       {{control_keywords}}
     | {{flow_keywords}}
     | {{declaration_keywords}}
-    | {{visibility_modifier}}
+    | {{access_modifier}}
     )
 
   # Statement Level Keywords
@@ -72,16 +72,16 @@ variables:
     (?xi: clone | new | instanceof | insteadof )\b
 
   # Storage Modifiers
+  access_modifier: |-
+    (?xi: public | private | protected )\b
   storage_modifiers: |-
     (?xi: abstract | extends | final | global | implements | readonly | static(?!::) )\b
   constructor_modifier: |-
-    (?xi: readonly | {{visibility_modifier}} )\b
+    (?xi: readonly )\b
   function_modifier: |-
-    (?xi: abstract | final | static(?!::) | {{visibility_modifier}} )\b
+    (?xi: abstract | final | static(?!::) )\b
   property_modifier: |-
-    (?xi: readonly | static(?!::) | var | {{visibility_modifier}} )\b
-  visibility_modifier: |-
-    (?xi: public | private | protected )\b
+    (?xi: readonly | static(?!::) | var )\b
 
   # Storage Types
   storage_types: |-
@@ -523,6 +523,7 @@ contexts:
     - include: static-classes
     - include: operators
     - include: types
+    - include: access-modifiers
     - include: constants
     - match: \]
       scope: punctuation.section.brackets.end.php
@@ -593,11 +594,10 @@ contexts:
 
   phpdoc-tag:
     - meta_include_prototype: false
-    - match: (@access)\s+(({{visibility_modifier}})|(.+))\s*$
+    - match: (@access)(?:\s+({{access_modifier}}))?
       captures:
         1: keyword.other.phpdoc.php
-        2: storage.modifier.php
-        3: invalid.illegal.wrong-access-type.phpdoc.php
+        2: storage.modifier.access.php
       pop: 1
     - match: (@xlink)\s+(.+)\s*$
       captures:
@@ -698,7 +698,7 @@ contexts:
     - match: (?i:(abstract|final)\s+)?((?:class))\b
       scope: meta.class.php
       captures:
-        1: storage.modifier.abstract.php
+        1: storage.modifier.php
         2: keyword.declaration.class.php
       push:
         - class-definition
@@ -931,6 +931,9 @@ contexts:
   properties:
     # https://www.php.net/manual/en/language.oop5.properties.php
     # https://wiki.php.net/rfc/typed_properties_v2
+    - match: '{{access_modifier}}'
+      scope: storage.modifier.access.php
+      push: property-type-hint
     - match: '{{property_modifier}}'
       scope: storage.modifier.php
       push: property-type-hint
@@ -940,6 +943,7 @@ contexts:
       pop: 1
     - match: '{{property_modifier}}'
       scope: storage.modifier.php
+    - include: access-modifiers
     - include: type-hint
     - include: else-pop
 
@@ -1014,7 +1018,7 @@ contexts:
 ###[ FUNCTION DECLARATIONS ]##################################################
 
   functions:
-    - match: (?=(?:{{function_modifier}}\s+)*(?i:function)\b\s*(?:&\s*)?{{identifier_start}})
+    - match: (?=(?:(?:{{access_modifier}}|{{function_modifier}})\s+)*(?i:function)\b\s*(?:&\s*)?{{identifier_start}})
       push:
         - function-block
         - function-return-type
@@ -1023,11 +1027,12 @@ contexts:
         - function-modifier
 
   function-modifier:
-    - match: '{{function_modifier}}'
-      scope: storage.modifier.php
     - match: (?i:function)\b
       scope: keyword.declaration.function.php
       pop: 1
+    - match: '{{function_modifier}}'
+      scope: storage.modifier.php
+    - include: access-modifiers
     - include: attributes
     - include: comments
     - include: else-pop
@@ -1062,6 +1067,7 @@ contexts:
     - meta_scope: meta.function.parameters.php meta.group.php
     - match: '{{constructor_modifier}}'
       scope: storage.modifier.php
+    - include: access-modifiers
     - include: function-parameters-body
 
   function-parameters:
@@ -1916,13 +1922,15 @@ contexts:
     - match: (?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
 
+  access-modifiers:
+    - match: '{{access_modifier}}'
+      scope: storage.modifier.access.php
+
   types:
     - match: (?i:const)\b
       scope: storage.modifier.php
       push: constant-definition-name
     - match: '{{storage_modifiers}}'
-      scope: storage.modifier.php
-    - match: '{{visibility_modifier}}'
       scope: storage.modifier.php
     - match: '{{storage_types}}'
       scope: storage.type.php

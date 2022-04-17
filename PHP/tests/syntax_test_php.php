@@ -742,6 +742,35 @@ $f3 = #[ExampleAttribute] fn () => 1;
  */
 
 /**
+ * @access
+// ^^^^^^^ keyword.other.phpdoc.php
+ */
+
+/**
+ * @access public
+// ^^^^^^^ keyword.other.phpdoc.php
+//         ^^^^^^ storage.modifier.access.php
+ */
+
+/**
+ * @access protected
+// ^^^^^^^ keyword.other.phpdoc.php
+//         ^^^^^^^^^ storage.modifier.access.php
+ */
+
+/**
+ * @access private
+// ^^^^^^^ keyword.other.phpdoc.php
+//         ^^^^^^^ storage.modifier.access.php
+ */
+
+/**
+ * @access priv
+// ^^^^^^^ keyword.other.phpdoc.php
+//         ^^^^ - storage
+ */
+
+/**
  * @api Methods: declares that elements are suitable for consumption by third parties.
 //  ^ keyword.other.phpdoc
  */
@@ -1456,11 +1485,11 @@ goto Label2;
     print: ;
 //  ^^^^^ support.function.builtin.php - entity.name
     private: ;
-//  ^^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^^ storage.modifier.access.php - entity.name
     protected: ;
-//  ^^^^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^^^^ storage.modifier.access.php - entity.name
     public: ;
-//  ^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^ storage.modifier.access.php - entity.name
     readonly: ;
 //  ^^^^^^^^ storage.modifier.php - entity.name
     require: ;
@@ -1967,7 +1996,7 @@ trait A
 // <- meta.trait.php meta.block.php punctuation.section.block.begin.php
     public static ?Foo $str = '';
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait.php meta.block.php
-//  ^^^^^^ storage.modifier.php
+//  ^^^^^^ storage.modifier.access.php
 //         ^^^^^^ storage.modifier.php
 //                ^ storage.type.nullable.php
 //                 ^^^ support.class.php
@@ -1975,6 +2004,22 @@ trait A
 //                      ^^^ variable.other.php - punctuation
 //                          ^ keyword.operator.assignment.php
 //                            ^^ string.quoted.single.php
+
+    protected int $int = 0;
+//  ^^^^^^^^^ storage.modifier.access.php
+//            ^^^ storage.type.php
+//                ^^^^ variable.other.php
+//                     ^ keyword.operator.assignment.php
+//                       ^ constant.numeric.value.php
+//                        ^ punctuation.terminator.statement.php
+
+    private bool $bool = TRUE;
+//  ^^^^^^^ storage.modifier.access.php
+//          ^^^^ storage.type.php
+//               ^^^^^ variable.other.php
+//                     ^ keyword.operator.assignment.php
+//                       ^^^^ constant.language.boolean.php
+//                           ^ punctuation.terminator.statement.php
 }
 
 class B
