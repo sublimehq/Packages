@@ -7,6 +7,11 @@
 			"details": "Compiler Pragma"
 		},
 		{
+			"trigger": "OPTIONS",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
 			"trigger": "OPTIONS_GHC",
 			"kind": ["keyword", "#", "pragma"],
 			"details": "Compiler Pragma"
