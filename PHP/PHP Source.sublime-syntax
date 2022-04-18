@@ -47,12 +47,12 @@ variables:
     | {{flow_keywords}}
     | {{declaration_keywords}}
     | {{access_modifier}}
+    | {{namespace_modifier}}
     )
 
   # Statement Level Keywords
   declaration_keywords: |-
-    (?xi: class | const | declare | enddeclare | global | interface | namespace
-    | trait | use | var )\b
+    (?xi: class | const | declare | enddeclare | interface | namespace | trait | use | var )\b
   control_keywords: |-
     (?xi: case | catch | default | do | (?: end )? (?: for(?:each)? | if | switch | while )
     | else | elseif | finally | switch | try )\b
@@ -74,14 +74,18 @@ variables:
   # Storage Modifiers
   access_modifier: |-
     (?xi: public | private | protected )\b
+  namespace_modifier: |-
+    (?xi: global | static(?!::) )\b
   storage_modifiers: |-
-    (?xi: abstract | extends | final | global | implements | readonly | static(?!::) )\b
+    (?xi: abstract | extends | final | implements | readonly )\b
   constructor_modifier: |-
     (?xi: readonly )\b
   function_modifier: |-
-    (?xi: abstract | final | static(?!::) )\b
+    (?xi: abstract | final )\b
   property_modifier: |-
-    (?xi: readonly | static(?!::) | var )\b
+    (?xi: readonly | var )\b
+  static_modifier: |-
+    (?xi: static(?!::) )\b
 
   # Storage Types
   storage_types: |-
@@ -522,8 +526,8 @@ contexts:
     - include: object-members
     - include: static-classes
     - include: operators
+    - include: modifiers
     - include: types
-    - include: access-modifiers
     - include: constants
     - match: \]
       scope: punctuation.section.brackets.end.php
@@ -937,6 +941,9 @@ contexts:
     - match: '{{property_modifier}}'
       scope: storage.modifier.php
       push: property-type-hint
+    - match: '{{static_modifier}}'
+      scope: storage.modifier.namespace.php
+      push: property-type-hint
 
   property-type-hint:
     - match: (?=(?i:const|function)\b)
@@ -944,7 +951,10 @@ contexts:
     - match: '{{property_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
+    - include: static-modifiers
     - include: type-hint
+    - include: attributes
+    - include: comments
     - include: else-pop
 
 ###[ ARROW FUNCTION DECLARATIONS ]############################################
@@ -1018,7 +1028,7 @@ contexts:
 ###[ FUNCTION DECLARATIONS ]##################################################
 
   functions:
-    - match: (?=(?:(?:{{access_modifier}}|{{function_modifier}})\s+)*(?i:function)\b\s*(?:&\s*)?{{identifier_start}})
+    - match: (?=(?:(?i:{{access_modifier}}|{{function_modifier}}|static)\s+)*(?i:function)\b\s*(?:&\s*)?{{identifier_start}})
       push:
         - function-block
         - function-return-type
@@ -1033,6 +1043,7 @@ contexts:
     - match: '{{function_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
+    - include: static-modifiers
     - include: attributes
     - include: comments
     - include: else-pop
@@ -1068,6 +1079,7 @@ contexts:
     - match: '{{constructor_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
+    - include: static-modifiers
     - include: function-parameters-body
 
   function-parameters:
@@ -1922,16 +1934,30 @@ contexts:
     - match: (?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
 
+  modifiers:
+    - include: global-modifiers
+    - include: storage-modifiers
+
   access-modifiers:
     - match: '{{access_modifier}}'
       scope: storage.modifier.access.php
 
-  types:
+  global-modifiers:
+    - match: (?i:global)\b
+      scope: storage.modifier.namespace.php
+
+  static-modifiers:
+    - match: '{{static_modifier}}'
+      scope: storage.modifier.namespace.php
+
+  storage-modifiers:
     - match: (?i:const)\b
       scope: storage.modifier.php
       push: constant-definition-name
     - match: '{{storage_modifiers}}'
       scope: storage.modifier.php
+
+  types:
     - match: '{{storage_types}}'
       scope: storage.type.php
 
@@ -1954,7 +1980,7 @@ contexts:
       captures:
         1: variable.function.php
       set: function-call-arguments
-    - match: (\$+)?{{identifier}}
+    - match: (\$*){{identifier}}
       scope: variable.other.member.php
       captures:
         1: punctuation.definition.variable.php

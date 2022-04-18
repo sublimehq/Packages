@@ -1453,7 +1453,7 @@ goto Label2;
     function: ;
 //  ^^^^^^^^ keyword.declaration.function.php - entity.name
     global: ;
-//  ^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^ storage.modifier.namespace.php - entity.name
     goto: ;
 //  ^^^^ keyword.control.flow.goto.php - entity.name
     if: ;
@@ -1499,7 +1499,7 @@ goto Label2;
     return: ;
 //  ^^^^^^ keyword.control.flow.return.php - entity.name
     static: ;
-//  ^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^ storage.modifier.namespace.php - entity.name
     switch: ;
 //  ^^^^^^ keyword.control.conditional.switch.php - entity.name
     throw: ;
@@ -1888,7 +1888,7 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //                  ^ storage.type.nullable
 //                   ^^^ storage.type
 //                      ^ punctuation.separator.type
-//                       ^^^^^^ variable.language.static.php
+//                       ^^^^^^ storage.modifier.namespace.php
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
@@ -1997,7 +1997,7 @@ trait A
     public static ?Foo $str = '';
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait.php meta.block.php
 //  ^^^^^^ storage.modifier.access.php
-//         ^^^^^^ storage.modifier.php
+//         ^^^^^^ storage.modifier.namespace.php
 //                ^ storage.type.nullable.php
 //                 ^^^ support.class.php
 //                     ^ variable.other.php punctuation.definition.variable.php
@@ -2177,7 +2177,7 @@ class B
 //                             ^ punctuation.separator.type.union.php
 //                              ^^^^ variable.language.this.php
 //                                  ^ punctuation.separator.type.union.php
-//                                   ^^^^^^ variable.language.static.php
+//                                   ^^^^^^ storage.modifier.namespace.php
     {
         echo B::class;
 //      ^^^^ support.function.builtin.php
@@ -2216,7 +2216,7 @@ class B
 //            ^^^ variable.function.php
 
         static
-//      ^^^^^^ storage.modifier.php
+//      ^^^^^^ storage.modifier.namespace.php
         static::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language.static.php
 //            ^^ punctuation.accessor.double-colon.php
