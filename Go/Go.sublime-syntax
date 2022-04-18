@@ -802,8 +802,7 @@ contexts:
     # A proper implementation may involve complicated branching.
     - match: (?=\([^()]*\){{noise}}{{ident}}{{noise}}[\[\(])
       set: [pop-func-signature, pop-func-method-receiver]
-    - match: (?=\S)
-      set: pop-func-signature
+    - include: pop-func-signature
 
   match-keyword-go:
     - match: \bgo\b
@@ -831,7 +830,7 @@ contexts:
 
   match-keyword-package:
     - match: \bpackage\b
-      scope: storage.type.namespace.go keyword.declaration.namespace.go
+      scope: keyword.declaration.namespace.go
       push: [meta-namespace, pop-package-name]
 
   pop-package-name:
@@ -869,8 +868,7 @@ contexts:
     - match: \(
       scope: punctuation.section.parens.begin.go
       set: pop-type-declaration-list
-    - match: (?=\S)
-      set: pop-type-declaration
+    - include: pop-type-declaration
 
   pop-type-declaration-list:
     - include: pop-on-paren-end
@@ -1271,7 +1269,7 @@ contexts:
     - include: pop-before-nonblank
 
   # Ideally we would scope embedded interfaces as `entity.other.inherited-class`
-  # rather than `storage.type` Prior to Go 1.18 and type unions, it was
+  # rather than `storage.type`. Prior to Go 1.18 and type unions, it was
   # possible to detect embedding unambiguously. With the advent of unions,
   # embeddings are syntactically indistinguishable from single-element unions.
   pop-interface-inner:
@@ -1429,17 +1427,21 @@ contexts:
         2: punctuation.accessor.dot.go
 
   meta-function-declaration:
+    - meta_include_prototype: false
     - meta_scope: meta.function.declaration.go
     - include: pop-now
 
   meta-block:
+    - meta_include_prototype: false
     - meta_scope: meta.block.go
     - include: pop-now
 
   meta-type:
+    - meta_include_prototype: false
     - meta_scope: meta.type.go
     - include: pop-now
 
   meta-namespace:
+    - meta_include_prototype: false
     - meta_scope: meta.namespace.go
     - include: pop-now

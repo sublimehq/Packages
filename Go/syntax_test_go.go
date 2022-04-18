@@ -195,7 +195,7 @@ You may have to disable Go-specific linters when working on this file.
 /* # Imports */
 
     package main
-//  ^^^^^^^ storage.type.namespace.go keyword.declaration.namespace.go
+//  ^^^^^^^ keyword.declaration.namespace.go
 //         ^ - keyword - storage
 //          ^^^^ entity.name.namespace.go
 
