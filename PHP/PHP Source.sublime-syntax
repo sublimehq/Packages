@@ -497,6 +497,7 @@ contexts:
     - include: namespaces
     - include: traits
     - include: functions
+    - include: constant-declarations
     - include: properties
 
   statements:
@@ -827,16 +828,8 @@ contexts:
     - meta_scope: meta.enum.php meta.block.php
     - match: (?i:case)\b
       scope: keyword.control.php
-      push: constant-definition-name
+      push: constant-declaration-name
     - include: class-body
-
-  constant-definition-name:
-    - match: '{{guarded_identifier}}'
-      scope: entity.name.constant.php
-      set: nested-expressions
-    - include: attributes
-    - include: comments
-    - include: else-pop
 
 ###[ INTERFACE DECLARATIONS ]#################################################
 
@@ -929,6 +922,21 @@ contexts:
   trait-body:
     - meta_scope: meta.trait.php meta.block.php
     - include: class-body
+
+###[ CONSTANT DECLARATIONS ]##################################################
+
+  constant-declarations:
+    - match: (?i:const)\b
+      scope: keyword.declaration.constant.php
+      push: constant-declaration-name
+
+  constant-declaration-name:
+    - match: '{{guarded_identifier}}'
+      scope: entity.name.constant.php
+      set: nested-expressions
+    - include: attributes
+    - include: comments
+    - include: else-pop
 
 ###[ PROPERTY DECLARATIONS ]##################################################
 
@@ -1321,7 +1329,7 @@ contexts:
     - meta_scope: meta.use.php
     - include: comments
     - match: (?i:const)\b
-      scope: storage.modifier.php
+      scope: keyword.declaration.constant.php
       set: use-statement-const
     - match: (?i:function)\b
       scope: keyword.declaration.function.php
@@ -1955,9 +1963,6 @@ contexts:
       scope: storage.modifier.namespace.php
 
   storage-modifiers:
-    - match: (?i:const)\b
-      scope: storage.modifier.php
-      push: constant-definition-name
     - match: '{{storage_modifiers}}'
       scope: storage.modifier.php
 

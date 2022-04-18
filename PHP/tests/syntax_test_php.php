@@ -149,7 +149,7 @@ use const /**/ some\nspace\ConstValue /**/ as /**/ Foo;
 //                                   ^^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //                                                    ^ - meta.use - meta.path
 //^ keyword.other.use.php
-//  ^^^^^ storage.modifier.php
+//  ^^^^^ keyword.declaration.constant.php
 //        ^^^^ comment.block.php
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
 //             ^^^^ support.other.namespace.php
@@ -168,7 +168,7 @@ use
 //^^^^^^^^^^^^^ meta.use.php - meta.path
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                                   ^^^^^^ meta.use.php - meta.path
-//  ^^^^^ storage.modifier.php
+//  ^^^^^ keyword.declaration.constant.php
 //        ^^^^ comment.block.php
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
 //             ^^^^ support.other.namespace.php
@@ -237,7 +237,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //        ^^^^^^^^^^^^ meta.use.php meta.path.php - meta.sequence
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
 //                                                    ^ - meta.use - meta.path
-//  ^^^^^ storage.modifier.php
+//  ^^^^^ keyword.declaration.constant.php
 //        ^^^^ support.other.namespace.php
 //            ^ punctuation.separator.namespace.php
 //             ^^^^^^ support.other.namespace.php
@@ -1403,7 +1403,7 @@ goto Label2;
     clone: ;
 //  ^^^^^ keyword.other.clone.php - entity.name
     const: ;
-//  ^^^^^ storage.modifier.php - entity.name
+//  ^^^^^ keyword.declaration.constant.php - entity.name
     continue: ;
 //  ^^^^^^^^ keyword.control.flow.continue.php - entity.name
     declare: ;
@@ -2107,17 +2107,17 @@ class B
 
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
-//         ^^^^^ storage.modifier
+//         ^^^^^ keyword.declaration.constant.php
 //               ^^^^^ entity.name.constant.php
 //                     ^ keyword.operator.assignment
 
     const STR_2 = '';
-//  ^^^^^ storage.modifier
+//  ^^^^^ keyword.declaration.constant.php
 //        ^^^^^ entity.name.constant.php
 //              ^ keyword.operator.assignment
 
     CONST #[attr] /**/ STR_3 = array();
-//  ^^^^^ storage.modifier
+//  ^^^^^ keyword.declaration.constant.php
 //        ^^^^^^^ meta.attribute.php
 //                ^^^^ comment.block.php
 //                     ^^^^^ entity.name.constant.php
