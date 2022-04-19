@@ -504,7 +504,6 @@ contexts:
     - include: blocks
     - include: control-statements
     - include: use-statements
-    - include: labels
     - include: punctuation-terminators
 
   expressions:
@@ -866,14 +865,6 @@ contexts:
     - meta_scope: meta.interface.php meta.block.php
     - include: class-body
 
-###[ LABEL DECLARATIONS ]#####################################################
-
-  labels:
-    - match: ^\s*({{guarded_identifier}})\s*(:(?!:))
-      captures:
-        1: entity.name.label.php
-        2: punctuation.separator.colon.php
-
 ###[ NAMESPACE DECLARATIONS ]#################################################
 
   namespace-declarations:
@@ -1232,6 +1223,10 @@ contexts:
       scope: keyword.control.loop.end.php
 
   flow-statements:
+    - match: ^\s*({{guarded_identifier}})\s*(:(?!:))
+      captures:
+        1: entity.name.label.php
+        2: punctuation.separator.colon.php
     - match: (?i:continue)\b
       scope: keyword.control.flow.continue.php
     - match: (?i:break)\b
