@@ -491,14 +491,14 @@ contexts:
       scope: punctuation.section.block.end.php
 
   declarations:
-    - include: classes
-    - include: enums
-    - include: interfaces
-    - include: namespaces
-    - include: traits
-    - include: functions
+    - include: class-declarations
+    - include: enum-declarations
+    - include: interface-declarations
+    - include: namespace-declarations
+    - include: trait-declarations
+    - include: function-declarations
     - include: constant-declarations
-    - include: properties
+    - include: property-declarations
 
   statements:
     - include: blocks
@@ -699,17 +699,17 @@ contexts:
 
 ###[ CLASS DECLARATIONS ]#####################################################
 
-  classes:
+  class-declarations:
     - match: (?i:(abstract|final)\s+)?((?:class))\b
       scope: meta.class.php
       captures:
         1: storage.modifier.php
         2: keyword.declaration.class.php
       push:
-        - class-definition
-        - class-definition-name
+        - class-declaration-body
+        - class-declaration-name
 
-  class-definition-name:
+  class-declaration-name:
     - match: '{{guarded_identifier}}'
       scope: entity.name.class.php
       pop: 1
@@ -717,7 +717,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  class-definition:
+  class-declaration-body:
     - meta_content_scope: meta.class.php
     - match: \{
       scope: punctuation.section.block.begin.php
@@ -791,14 +791,14 @@ contexts:
 
 ###[ ENUM DECLARATIONS ]######################################################
 
-  enums:
+  enum-declarations:
     - match: ((?i:enum))\s+({{identifier}})
       scope: meta.enum.php
       captures:
         1: keyword.declaration.enum.php
         2: entity.name.enum.php
       push:
-        - enum-definition
+        - enum-declaration-body
         - enum-type-hint
 
   enum-type-hint:
@@ -810,7 +810,7 @@ contexts:
         - type-hint-nullable
     - include: else-pop
 
-  enum-definition:
+  enum-declaration-body:
     - meta_content_scope: meta.enum.php
     - match: \{
       scope: punctuation.section.block.begin.php
@@ -833,14 +833,14 @@ contexts:
 
 ###[ INTERFACE DECLARATIONS ]#################################################
 
-  interfaces:
+  interface-declarations:
     - match: (?:interface)\b
       scope: meta.interface.php keyword.declaration.interface.php
       push:
-        - interface-definition
-        - interface-definition-name
+        - interface-declaration-body
+        - interface-declaration-name
 
-  interface-definition-name:
+  interface-declaration-name:
     - match: '{{guarded_identifier}}'
       scope: entity.name.interface.php
       pop: 1
@@ -848,7 +848,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  interface-definition:
+  interface-declaration-body:
     - meta_content_scope: meta.interface.php
     - match: \{
       scope: punctuation.section.block.begin.php
@@ -876,7 +876,7 @@ contexts:
 
 ###[ NAMESPACE DECLARATIONS ]#################################################
 
-  namespaces:
+  namespace-declarations:
     - match: ((?i:namespace))\b\s*
       captures:
         1: keyword.declaration.namespace.php
@@ -895,14 +895,14 @@ contexts:
 
 ###[ TRAIT DECLARATIONS ]#####################################################
 
-  traits:
+  trait-declarations:
     - match: (?i:trait)\b
       scope: meta.trait.php keyword.declaration.trait.php
       push:
-        - trait-definition
-        - trait-definition-name
+        - trait-declaration-body
+        - trait-declaration-name
 
-  trait-definition-name:
+  trait-declaration-name:
     - match: '{{guarded_identifier}}'
       scope: entity.name.trait.php
       pop: 1
@@ -910,7 +910,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  trait-definition:
+  trait-declaration-body:
     - meta_content_scope: meta.trait.php
     - match: \{
       scope: punctuation.section.block.begin.php
@@ -940,7 +940,7 @@ contexts:
 
 ###[ PROPERTY DECLARATIONS ]##################################################
 
-  properties:
+  property-declarations:
     # https://www.php.net/manual/en/language.oop5.properties.php
     # https://wiki.php.net/rfc/typed_properties_v2
     - match: '{{access_modifier}}'
@@ -1039,13 +1039,13 @@ contexts:
 
 ###[ FUNCTION DECLARATIONS ]##################################################
 
-  functions:
+  function-declarations:
     - match: (?=(?:(?i:{{access_modifier}}|{{function_modifier}}|static)\s+)*(?i:function)\b\s*(?:&\s*)?{{identifier_start}})
       push:
         - function-block
         - function-return-type
         - function-use
-        - function-definition-name
+        - function-declaration-name
         - function-modifier
 
   function-modifier:
@@ -1060,7 +1060,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  function-definition-name:
+  function-declaration-name:
     - include: reference-modifiers
     # https://wiki.php.net/rfc/constructor_promotion
     - match: __construct\b
@@ -1572,7 +1572,7 @@ contexts:
     - match: (?i:class)\b
       scope: meta.class.php keyword.declaration.class.php
       set:
-        - class-definition
+        - class-declaration-body
         - instantiation-arguments
     - match: (?=\S)
       set:
