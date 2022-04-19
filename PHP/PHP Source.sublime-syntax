@@ -554,7 +554,7 @@ contexts:
         1: punctuation.definition.comment.begin.php
       push:
         - comment-phpdoc-end
-        - phpdoc-tag
+        - phpdoc-block-tag
     - match: /\*
       scope: punctuation.definition.comment.begin.php
       push: comment-block-body
@@ -574,6 +574,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.block.documentation.phpdoc.php
     - include: comment-phpdoc-end
+    - include: phpdoc-inline-tags
     # If the next line doesn't start with whitespace then an asterisk, the use
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
     # of marking the comment as invalid, we just switch to a normal block-level
@@ -583,7 +584,7 @@ contexts:
     - match: ^\s*(\*)(?!\**/)\s+
       captures:
         1: punctuation.definition.comment.php
-      push: phpdoc-tag
+      push: phpdoc-block-tag
     - match: '{{phpdoc_url}}'
       scope: markup.underline.link.php
 
@@ -596,35 +597,42 @@ contexts:
     - match: (?=\?>)
       pop: 1
 
-  phpdoc-tag:
+  phpdoc-block-tag:
     - meta_include_prototype: false
     - match: (@access)(?:\s+({{access_modifier}}))?
       captures:
         1: entity.name.tag.documentation.phpdoc.php
         2: storage.modifier.access.php
       pop: 1
-    - match: (@xlink)\s+(.+)\s*$
+    - match: (@xlink)(?:\s+(.+))?\s*$
       captures:
         1: entity.name.tag.documentation.phpdoc.php
         2: markup.underline.link.php
       pop: 1
-    - match: \@({{phpdoc_tags}})(?=\s|$)
+    - match: \@{{phpdoc_tags}}(?=\s|$)
       scope: entity.name.tag.documentation.phpdoc.php
-      pop: 1
-    - match: \{(@inheritdoc)\}
-      captures:
-        1: entity.name.tag.documentation.phpdoc.php
       pop: 1
     # Annotations from PHPUnit
     - match: \@{{phpdoc_annotation}}(?=\s|$)
       scope: entity.name.tag.documentation.phpunit.php
       pop: 1
-    - match: \{(@(link)).+?\}
+    - include: immediately-pop
+
+  phpdoc-inline-tags:
+    - match: (\{)(@inheritdoc)(\})
+      captures:
+        1: punctuation.definition.tag.begin.phpdoc.php
+        2: entity.name.tag.documentation.phpdoc.php
+        3: punctuation.definition.tag.end.phpdoc.php
+    # https://docs.phpdoc.org/latest/guide/references/phpdoc/inline-tags/link.html
+    - match: ({)(@link)\s+({{phpdoc_url}})(?:\s+(.+?))?\s*(})
       scope: meta.tag.inline.phpdoc.php
       captures:
-        1: entity.name.tag.documentation.phpdoc.php
-      pop: 1
-    - include: immediately-pop
+        1: punctuation.definition.tag.begin.phpdoc.php
+        2: entity.name.tag.documentation.phpdoc.php
+        3: markup.underline.link.phpdoc.php
+        4: meta.label.phpdoc.php
+        5: punctuation.definition.tag.end.phpdoc.php
 
   comment-line-double-slash-body:
     - meta_include_prototype: false

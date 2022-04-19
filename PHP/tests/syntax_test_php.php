@@ -771,6 +771,42 @@ $f3 = #[ExampleAttribute] fn () => 1;
  */
 
 /**
+ * @xlink
+// ^^^^^^ entity.name.tag.documentation.phpdoc.php
+ */
+
+/**
+ * @xlink https://docs.phpdoc.org/latest/guide/references/phpdoc/inline-tags/link.html
+// ^^^^^^ entity.name.tag.documentation.phpdoc.php
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+ */
+
+/**
+ * @link http://www.compressconsult.com/huffman/  Hinweise zum Algorithmus.
+// ^^^^^ entity.name.tag.documentation.phpdoc.php
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+ */
+
+/**
+ * This is an inline {@link http://inline.com} in a comment.
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.phpdoc
+//                   ^ punctuation.definition.tag.begin.phpdoc
+//                    ^^^^^ entity.name.tag.documentation.phpdoc.php
+//                          ^^^^^^^^^^^^^^^^^ markup.underline.link
+//                                           ^ punctuation.definition.tag.end.phpdoc
+ */
+
+/**
+ * This is an inline {@link http://inline.com description} in a comment.
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.phpdoc
+//                   ^ punctuation.definition.tag.begin.phpdoc
+//                    ^^^^^ entity.name.tag.documentation.phpdoc.php
+//                          ^^^^^^^^^^^^^^^^^ markup.underline.link
+//                                            ^^^^^^^^^^^ meta.label.phpdoc.php
+//                                                       ^ punctuation.definition.tag.end.phpdoc
+ */
+
+/**
  * @api Methods: declares that elements are suitable for consumption by third parties.
 //  ^ entity.name.tag.documentation.phpdoc
  */
