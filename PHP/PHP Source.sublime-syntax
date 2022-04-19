@@ -643,59 +643,6 @@ contexts:
     - match: \n
       pop: 1
 
-###[ TYPE HINTS ]#############################################################
-
-  type-hints:
-    # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
-      push:
-        - type-hint-body
-        - type-hint-simple-type
-        - type-hint-nullable
-
-  type-hint:
-    # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
-      set:
-        - type-hint-body
-        - type-hint-simple-type
-        - type-hint-nullable
-
-  type-hint-body:
-    - meta_scope: meta.type.php
-    - match: \|(?!\s*\$)
-      scope: punctuation.separator.type.union.php
-      push:
-        - type-hint-simple-type
-        - type-hint-nullable
-    - match: '&(?!\s*\$)'
-      scope: punctuation.separator.type.intersection.php
-      push:
-        - type-hint-nullable
-        - type-hint-simple-type
-    - include: else-pop
-
-  type-hint-nullable:
-    - match: \?
-      scope: storage.type.nullable.php
-      pop: 1
-    - include: else-pop
-
-  type-hint-simple-type:
-    # note that
-    #   - "callable", "never" and "void" are not allowed in property type
-    #   - "false" and "null" are only working in unioned type
-    # but we allow them as general types for simplifying syntax definition
-    - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
-      scope: storage.type.php
-      pop: 1
-    - match: (?=(?i:extends|implements)\b)
-      pop: 1
-    - include: expression-end-pop
-    - include: binding
-    - include: class-name
-    - include: else-pop
-
 ###[ CLASS DECLARATIONS ]#####################################################
 
   class-declarations:
@@ -1742,6 +1689,59 @@ contexts:
         1: punctuation.section.cast.begin.php
         2: storage.type.php
         3: punctuation.section.cast.end.php
+
+###[ TYPE HINTS ]#############################################################
+
+  type-hints:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+      push:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
+  type-hint:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
+  type-hint-body:
+    - meta_scope: meta.type.php
+    - match: \|(?!\s*\$)
+      scope: punctuation.separator.type.union.php
+      push:
+        - type-hint-simple-type
+        - type-hint-nullable
+    - match: '&(?!\s*\$)'
+      scope: punctuation.separator.type.intersection.php
+      push:
+        - type-hint-nullable
+        - type-hint-simple-type
+    - include: else-pop
+
+  type-hint-nullable:
+    - match: \?
+      scope: storage.type.nullable.php
+      pop: 1
+    - include: else-pop
+
+  type-hint-simple-type:
+    # note that
+    #   - "callable", "never" and "void" are not allowed in property type
+    #   - "false" and "null" are only working in unioned type
+    # but we allow them as general types for simplifying syntax definition
+    - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
+      scope: storage.type.php
+      pop: 1
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - include: expression-end-pop
+    - include: binding
+    - include: class-name
+    - include: else-pop
 
 ###[ CLASSES ]################################################################
 
