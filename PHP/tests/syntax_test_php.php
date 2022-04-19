@@ -713,7 +713,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 /**
    No longer a phpdoc comment since no leading *
  * @return
-//   ^ comment.block - keyword.other.phpdoc
+//   ^ comment.block - entity.name.tag.documentation.phpdoc
  */
 // ^ source - comment.block
 
@@ -723,352 +723,352 @@ $f3 = #[ExampleAttribute] fn () => 1;
 */
 
 /** @var Properties: class properties. */
-//  ^ keyword.other.phpdoc
-//       ^ - keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
+//       ^ - entity.name.tag.documentation.phpdoc
 
 /** @var @var Properties: class properties. */
-//  ^ keyword.other.phpdoc
-//       ^ - keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
+//       ^ - entity.name.tag.documentation.phpdoc
 
 /**@var Properties: class properties. */
-// ^^^^ - keyword.other.phpdoc
+// ^^^^ - entity.name.tag.documentation.phpdoc
 
 /** @var@var Properties: class properties. */
-//  ^^^^^^^^ - keyword.other.phpdoc
+//  ^^^^^^^^ - entity.name.tag.documentation.phpdoc
 
 /* No phpdoc highlight since there are not two * after the opening /
  * @return
-//   ^ comment.block - keyword.other.phpdoc
+//   ^ comment.block - entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @access
-// ^^^^^^^ keyword.other.phpdoc.php
+// ^^^^^^^ entity.name.tag.documentation.phpdoc.php
  */
 
 /**
  * @access public
-// ^^^^^^^ keyword.other.phpdoc.php
+// ^^^^^^^ entity.name.tag.documentation.phpdoc.php
 //         ^^^^^^ storage.modifier.access.php
  */
 
 /**
  * @access protected
-// ^^^^^^^ keyword.other.phpdoc.php
+// ^^^^^^^ entity.name.tag.documentation.phpdoc.php
 //         ^^^^^^^^^ storage.modifier.access.php
  */
 
 /**
  * @access private
-// ^^^^^^^ keyword.other.phpdoc.php
+// ^^^^^^^ entity.name.tag.documentation.phpdoc.php
 //         ^^^^^^^ storage.modifier.access.php
  */
 
 /**
  * @access priv
-// ^^^^^^^ keyword.other.phpdoc.php
+// ^^^^^^^ entity.name.tag.documentation.phpdoc.php
 //         ^^^^ - storage
  */
 
 /**
  * @api Methods: declares that elements are suitable for consumption by third parties.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @author Any: documents the author of the associated element.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @category File, Class: groups a series of packages together.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @copyright Any: documents the copyright information for the associated element.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @deprecated Any: indicates that the associated element is deprecated and can be removed in a future version.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @example Any: shows the code of a specified example file or, optionally, just a portion of it.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @filesource File: includes the source of the current file for use in the output.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @global Variable: informs phpDocumentor of a global variable or its usage.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @ignore Any: tells phpDocumentor that the associated element is not to be included in the documentation.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @internal Any: denotes that the associated elements is internal to this application or library and hides it by default.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @license File, Class: indicates which license is applicable for the associated element.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @link Any: indicates a relation between the associated element and a page of a website.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @method Class: allows a class to know which ‘magic’ methods are callable.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @package File, Class: categorizes the associated element into a logical grouping or subdivision.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @param Method, Function: documents a single argument of a function or method.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @property Class: allows a class to know which ‘magic’ properties are present.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @property-read Class: allows a class to know which ‘magic’ properties are present that are read-only.
-//  ^^^^^^^^^^^^^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @property-write Class: allows a class to know which ‘magic’ properties are present that are write-only.
-//  ^^^^^^^^^^^^^^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @return Method, Function: documents the return value of functions or methods.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @see Any: indicates a reference from the associated element to a website or other elements.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @since Any: indicates at which version the associated element became available.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @source Any, except File: shows the source code of the associated element.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @subpackage File, Class: categorizes the associated element into a logical grouping or subdivision.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @throws Method, Function: indicates whether the associated element could throw a specific type of exception.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @todo Any: indicates whether any development activity should still be executed on the associated element.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @uses Any: indicates a reference to (and from) a single associated element.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @var Properties: class properties.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @version Any: indicates the current version of Structural Elements.
-//  ^ keyword.other.phpdoc
+//  ^ entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @after
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @afterClass
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @backupGlobals
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @backupStaticAttributes
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @before
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @beforeClass
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @codeCoverageIgnore
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @covers
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @coversDefaultClass
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @coversNothing
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @dataProvider
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @depends
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @doesNotPerformAssertions
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @expectedException
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @expectedExceptionCode
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @expectedExceptionMessage
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @expectedExceptionMessageRegExp
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @group
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @large
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @medium
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @preserveGlobalState
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @requires
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @runTestsInSeparateProcesses
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @runInSeparateProcess
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @small
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @test
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @testdox
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @testWith
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @ticket
-//  ^ keyword.other.phpunit
+//  ^ entity.name.tag.documentation.phpunit
  */
 
 /**
  * @param @param
-// ^^ keyword.other.phpdoc
-//        ^^ - keyword.other.phpdoc
+// ^^ entity.name.tag.documentation.phpdoc
+//        ^^ - entity.name.tag.documentation.phpdoc
  */
 
 /**
  * @param@param
-// ^^^^^^^^^^^^ - keyword.other.phpdoc
+// ^^^^^^^^^^^^ - entity.name.tag.documentation.phpdoc
  */
 
 /**
  *@param
-// ^ - keyword.other.phpdoc
+// ^ - entity.name.tag.documentation.phpdoc
  */
 
 /**

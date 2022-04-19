@@ -600,29 +600,29 @@ contexts:
     - meta_include_prototype: false
     - match: (@access)(?:\s+({{access_modifier}}))?
       captures:
-        1: keyword.other.phpdoc.php
+        1: entity.name.tag.documentation.phpdoc.php
         2: storage.modifier.access.php
       pop: 1
     - match: (@xlink)\s+(.+)\s*$
       captures:
-        1: keyword.other.phpdoc.php
+        1: entity.name.tag.documentation.phpdoc.php
         2: markup.underline.link.php
       pop: 1
     - match: \@({{phpdoc_tags}})(?=\s|$)
-      scope: keyword.other.phpdoc.php
+      scope: entity.name.tag.documentation.phpdoc.php
       pop: 1
     - match: \{(@inheritdoc)\}
       captures:
-        1: keyword.other.phpdoc.php
+        1: entity.name.tag.documentation.phpdoc.php
       pop: 1
     # Annotations from PHPUnit
     - match: \@{{phpdoc_annotation}}(?=\s|$)
-      scope: keyword.other.phpunit.php
+      scope: entity.name.tag.documentation.phpunit.php
       pop: 1
     - match: \{(@(link)).+?\}
       scope: meta.tag.inline.phpdoc.php
       captures:
-        1: keyword.other.phpdoc.php
+        1: entity.name.tag.documentation.phpdoc.php
       pop: 1
     - include: immediately-pop
 
