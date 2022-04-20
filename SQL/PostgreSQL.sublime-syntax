@@ -5,6 +5,9 @@ scope: source.sql.postgresql
 version: 2
 extends: Packages/SQL/MySQL.sublime-syntax
 
+file_extensions:
+  - psql
+
 variables:
   simple_types: |-
     (?xi:
