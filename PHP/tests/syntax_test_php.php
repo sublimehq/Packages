@@ -1229,7 +1229,7 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //  ^^^^^ keyword.declaration.class.php
 //        ^^^^^ entity.name.class.php
 
-    class Test1 extends implements {}
+    class Test2 extends implements {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
 //                                 ^^ meta.class.php meta.block.php
@@ -1238,7 +1238,7 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //              ^^^^^^^ storage.modifier.extends.php
 //                      ^^^^^^^^^^ storage.modifier.implements.php
 
-    class Test1 extends stdClass implements Countable {}
+    class Test3 extends stdClass implements Countable {}
 // ^ - meta.class
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
@@ -1250,7 +1250,7 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //                               ^^^^^^^^^^ storage.modifier.implements.php
 //                                          ^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
 
-    class Test1 extends Foo, Bar implements Foo, Bar {}
+    class Test4 extends Foo, Bar implements Foo, Bar {}
 // ^ - meta.class
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
@@ -1268,7 +1268,7 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //                                                   ^ punctuation.section.block.begin.php
 //                                                    ^ punctuation.section.block.end.php
 
-    class Test1 extends \Foo\ implements \Bar\ {}
+    class Test5 extends \Foo\ implements \Bar\ {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
 //                                             ^^ meta.class.php meta.block.php
@@ -1282,6 +1282,39 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //                                       ^ punctuation.separator.namespace.php
 //                                        ^^^ support.other.namespace.php
 //                                           ^ punctuation.separator.namespace.php
+
+    ABSTRACT CLASS /**/ #[Anno] /**/ Test6 /**/ EXTENDS /**/ #[Anno] /**/ \My\Foo /**/ IMPLEMENTS /**/ #[Anno] /**/ Bar /**/, /**/ Baz /**/ {  }
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php
+//  ^^^^^^^^ storage.modifier.php
+//           ^^^^^ keyword.declaration.class.php
+//                 ^^^^ comment.block.php
+//                      ^^^^^^^ meta.attribute.php
+//                              ^^^^ comment.block.php
+//                                   ^^^^^ entity.name.class.php
+//                                         ^^^^ comment.block.php
+//                                              ^^^^^^^ storage.modifier.extends.php
+//                                                      ^^^^ comment.block.php
+//                                                           ^^^^^^^ meta.attribute.php
+//                                                                   ^^^^ comment.block.php
+//                                                                        ^^^^^^^ meta.path.php
+//                                                                        ^ punctuation.separator.namespace.php
+//                                                                         ^^ support.other.namespace.php
+//                                                                           ^ punctuation.separator.namespace.php
+//                                                                            ^^^ entity.other.inherited-class.php
+//                                                                                ^^^^ comment.block.php
+//                                                                                     ^^^^^^^^^^ storage.modifier.implements.php
+//                                                                                                ^^^^ comment.block.php
+//                                                                                                     ^^^^^^^ meta.attribute.php
+//                                                                                                             ^^^^ comment.block.php
+//                                                                                                                  ^^^ entity.other.inherited-class.php
+//                                                                                                                      ^^^^ comment.block.php
+//                                                                                                                          ^ punctuation.separator.comma.php
+//                                                                                                                            ^^^^ comment.block.php
+//                                                                                                                                 ^^^ entity.other.inherited-class.php
+//                                                                                                                                     ^^^^ comment.block.php
+//                                                                                                                                          ^^^^ meta.block.php
+//                                                                                                                                          ^ punctuation.section.block.begin.php
+//                                                                                                                                             ^ punctuation.section.block.end.php
 
 class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 // <- meta.class.php keyword.declaration.class.php
