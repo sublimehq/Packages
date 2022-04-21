@@ -3021,10 +3021,10 @@ contexts:
     - match: <>
       scope:
         meta.generic.java
-        punctuation.section.generic.diamond.java
+        punctuation.definition.generic.diamond.java
       pop: 1
     - match: <
-      scope: punctuation.section.generic.begin.java
+      scope: punctuation.definition.generic.begin.java
       set:
         - type-argument-body
         - type-argument-reference
@@ -3062,7 +3062,7 @@ contexts:
   type-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
     - match: <
-      scope: punctuation.section.generic.begin.java
+      scope: punctuation.definition.generic.begin.java
       push:
         - type-parameter-body
         - type-parameter-bounds
@@ -3071,7 +3071,7 @@ contexts:
   type-parameter:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
     - match: <
-      scope: punctuation.section.generic.begin.java
+      scope: punctuation.definition.generic.begin.java
       set:
         - type-parameter-body
         - type-parameter-bounds
@@ -3109,7 +3109,7 @@ contexts:
 
   type-parameter-end:
     - match: '>'
-      scope: punctuation.section.generic.end.java
+      scope: punctuation.definition.generic.end.java
       pop: 1
     - match: extends{{break}}
       scope: invalid.illegal.unexpected-keyword.java
