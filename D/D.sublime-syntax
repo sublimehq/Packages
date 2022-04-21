@@ -1108,7 +1108,7 @@ contexts:
     - match: '\b({{name}})\s*(:)'
       captures:
         1: variable.other.d
-        2: punctuation.separator.mapping.key-value.d
+        2: punctuation.separator.key-value.d
       set: value
     - include: value-no-mapping-key
   value-no-mapping-key:
@@ -1518,7 +1518,7 @@ contexts:
       set: [value-array-list-after, value]
   value-array-list-after:
     - match: ':'
-      scope: punctuation.separator.mapping.key-value.d
+      scope: punctuation.separator.key-value.d
       set: [value-array-list-after-value, value]
     - include: value-array-list-after-value
   value-array-list-after-value:

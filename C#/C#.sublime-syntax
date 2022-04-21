@@ -336,7 +336,7 @@ contexts:
                     pop: true
               - include: attribute
               - match: '{{name}}'
-                scope: constant.other.enum.cs
+                scope: entity.name.constant.cs
               - match: '='
                 scope: keyword.operator.assignment.cs
                 push: line_of_code_in
@@ -474,7 +474,7 @@ contexts:
         - include: method_declaration
         - include: stray_close_bracket
     - match: \(
-      scope: punctuation.section.group.begin.cs
+      scope: punctuation.section.parameters.begin.cs
       set: [data_type_signature, method_params]
     - match: ';'
       scope: punctuation.terminator.cs
@@ -1854,12 +1854,9 @@ contexts:
         - match: \}
           scope: punctuation.section.block.end.cs
           pop: true
-        - include: main
+        - include: code_block_in
     - match: (?=\S)
-      set:
-        - match: \s*$
-          pop: true
-        - include: main
+      pop: true
 
   catch_expr:
     - match: '(catch)\s*(\()'
@@ -1972,7 +1969,7 @@ contexts:
         - match: \}
           scope: meta.block.cs punctuation.section.block.end.cs
           pop: true
-        - include: main
+        - include: code_block_in
     - match: (?=\S)
       set:
         - match: (?=else\b)
@@ -1995,10 +1992,9 @@ contexts:
             - match: \}
               scope: meta.block.cs punctuation.section.block.end.cs
               pop: true
-            - include: main
+            - include: code_block_in
         - match: (?=\S)
-          set:
-            - include: line_of_code
+          set: line_of_code
     - match: (?=\S)
       pop: true
 

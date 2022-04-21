@@ -77,7 +77,7 @@ contexts:
             - include: string_content
             - include: integer
         - match: \,
-          scope: punctuation.separator.mapping.pair.bibtex
+          scope: punctuation.separator.sequence.bibtex
     - match: '((@)[a-zA-Z]+)\s*(\()\s*([^\s,]*)'
       captures:
         1: keyword.other.entry-type.bibtex
@@ -104,7 +104,7 @@ contexts:
             - include: string_content
             - include: integer
         - match: \,
-          scope: punctuation.separator.mapping.pair.bibtex
+          scope: punctuation.separator.sequence.bibtex
     - match: '[^@\n]'
       push:
         - meta_scope: comment.block.bibtex

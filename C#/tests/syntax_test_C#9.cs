@@ -210,7 +210,7 @@ public class TollCalculator
 ///                        ^ keyword.operator.assignment
 ///                          ^ constant.numeric.value
 ///                                    ^^ punctuation.separator.case-expression
-            
+
             Car {Passengers: 1}        => 2.0m,
             Car {Passengers: 2}        => 2.0m - 0.50m,
             Car c                      => 2.00m - 1.0m,
@@ -235,7 +235,7 @@ public class TollCalculator
             { }     => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
             null    => throw new ArgumentNullException(nameof(vehicle))
         };
-    
+
     public decimal CalculateToll(object vehicle) =>
         vehicle switch
         {
@@ -303,7 +303,7 @@ public record A(int Num);
 ///    ^^^^^^^^^^^^^^^^^ meta.class
 ///                     ^ punctuation.terminator.statement
 ///           ^ meta.class.record entity.name.class
-///            ^ punctuation.section.group.begin
+///            ^ punctuation.section.parameters.begin
 ///             ^^^^^^^^ meta.method.parameters
 ///             ^^^ storage.type
 ///                 ^^^ variable.parameter
@@ -316,7 +316,7 @@ public record B<T>(T Num);
 ///            ^ punctuation.definition.generic.begin
 ///             ^ support.type
 ///              ^ punctuation.definition.generic.end
-///               ^ punctuation.section.group.begin
+///               ^ punctuation.section.parameters.begin
 ///                ^^^^^ meta.method.parameters
 ///                     ^ punctuation.section.parameters.end
 ///                      ^ punctuation.terminator.statement
@@ -326,7 +326,7 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///            ^ punctuation.definition.generic.begin
 ///             ^^^^ support.type
 ///                 ^ punctuation.definition.generic.end
-///                   ^ punctuation.section.group.begin
+///                   ^ punctuation.section.parameters.begin
 ///                    ^^^^ support.type
 ///                         ^^^ variable.parameter
 ///                            ^ punctuation.section.parameters.end
@@ -341,7 +341,7 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///            ^ punctuation.definition.generic.begin
 ///             ^^^^ support.type
 ///                 ^ punctuation.definition.generic.end
-///                   ^ punctuation.section.group.begin
+///                   ^ punctuation.section.parameters.begin
 ///                    ^^^^ support.type
 ///                         ^^^ variable.parameter
 ///                            ^ punctuation.section.parameters.end
@@ -363,7 +363,7 @@ public record Person(
 ///^^^ storage.modifier.access
 ///    ^^^^^^ meta.class.record storage.type.class.record
 ///           ^^^^^^ meta.class.record entity.name.class
-///                 ^ punctuation.section.group.begin
+///                 ^ punctuation.section.parameters.begin
     [property: JsonPropertyName("firstName")]string FirstName,
 /// ^ punctuation.definition.annotation.begin
 ///                                         ^ punctuation.definition.annotation.end

@@ -451,11 +451,20 @@ class Foo
 }
 
 $object = new #[ExampleAttribute] class () { };
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php
 //            ^^^^^^^^^^^^^^^^^^^ meta.attribute
 //            ^^ punctuation.definition.attribute.begin
 //              ^^^^^^^^^^^^^^^^ meta.path
 //                              ^ punctuation.definition.attribute.end
-//                                ^^^^^ storage.type
+//                                ^^^^^^ meta.class.php - meta.group - meta.block
+//                                      ^^ meta.class.php meta.group - meta.block
+//                                        ^ meta.class.php - meta.group - meta.block
+//                                         ^^^ meta.class.php meta.block - meta.group
+//                                ^^^^^ keyword.declaration.class.php
+//                                      ^ punctuation.section.group.begin.php
+//                                       ^ punctuation.section.group.end.php
+//                                         ^ punctuation.section.block.begin.php
+//                                           ^ punctuation.section.block.end.php
 
 $f2 = #[ExampleAttribute] function () { };
 //    ^^^^^^^^^^^^^^^^^^^ meta.attribute
@@ -816,27 +825,106 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //              ^^ punctuation.definition.comment.end
 //                ^ - comment
 
+enum
+// <- constant.other.php
+//^^ constant.other.php
+//  ^ - constant
+
+enum Suit ;
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^ - meta.enum meta.enum
+//        ^ - meta.enum
+//^^ keyword.declaration.enum.php
+//  ^ - keyword - entity
+//   ^^^^ entity.name.enum.php
+//       ^ - entity - punctuation
+//        ^ punctuation.terminator.expression.php
+
+enum Suit : ;
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^ - meta.enum meta.enum
+//          ^ - meta.enum
+//^^ keyword.declaration.enum.php
+//  ^ - keyword - entity
+//   ^^^^ entity.name.enum.php
+//       ^ - entity - punctuation
+//        ^ punctuation.separator.colon.php
+//         ^ - punctuation
+//          ^ punctuation.terminator.expression.php
+
 enum Suit {
-// ^ keyword.declaration.enum
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^ meta.enum.php - meta.block
+//        ^^ meta.enum.php meta.block.php
+//^^ keyword.declaration.enum
+//  ^ - keyword - entity
 //   ^^^^ entity.name.enum
+//       ^ - entity - punctuation
     case Hearts;
 //  ^^^^ keyword.control
-//       ^^^^^^ constant.other
-    case Diamonds;
+//       ^^^^^^ entity.name.constant
+//             ^ punctuation.terminator.expression.php
+    CASE Diamonds;
+//  ^^^^ keyword.control.php
+//       ^^^^^^^^ entity.name.constant.php
+//               ^ punctuation.terminator.expression.php
     case Clubs;
     case Spades;
 }
 
+enum Suit: extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                          ^^ meta.enum.php meta.block.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^^ invalid.illegal.disallowed.php
+//                 ^^^^^^^^ - entity
+//                          ^ punctuation.section.block.begin.php
+//                           ^ punctuation.section.block.end.php
+
+enum Suit: string extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                 ^^ meta.enum.php meta.block.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^ storage.type.php
+//                ^^^^^^^ invalid.illegal.disallowed.php
+//                        ^^^^^^^^ - entity
+//                                 ^ punctuation.section.block.begin.php
+//                                  ^ punctuation.section.block.end.php
+
+enum Suit: string | mixed extends Colorful {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                         ^^ meta.enum.php meta.block.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^ storage.type.php
+//                ^ punctuation.separator.type.union.php
+//                  ^^^^^ storage.type.php
+//                        ^^^^^^^ invalid.illegal.disallowed.php
+//                                ^^^^^^^^ - entity
+//                                         ^ punctuation.section.block.begin.php
+//                                          ^ punctuation.section.block.end.php
+
 enum Suit: string implements Colorful {
-// ^ keyword.declaration.enum
-//   ^^^^ entity.name.enum
-//       ^ punctuation.separator
-//         ^^^^^^ storage.type
-//                ^^^^^^^^^^ storage.modifier.implements
-//                           ^^^^^^^^ entity.other.inherited-class
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                    ^^ meta.enum.php meta.block.php
+// ^ keyword.declaration.enum.php
+//   ^^^^ entity.name.enum.php
+//       ^ punctuation.separator.colon.php
+//         ^^^^^^ storage.type.php
+//                ^^^^^^^^^^ storage.modifier.implements.php
+//                           ^^^^^^^^ entity.other.inherited-class.php
+//                                    ^ punctuation.section.block.begin.php
     case Hearts = 'H';
 //  ^^^^ keyword.control
-//       ^^^^^^ constant.other
+//       ^^^^^^ entity.name.constant
 //              ^ keyword.operator.assignment
 //                ^^^ string.quoted.single
     case Diamonds = 'D';
@@ -856,17 +944,88 @@ enum Suit: string implements Colorful {
     }
 }
 
+enum Test1 extends Foo, Bar implements Foo, Bar {}
+// <- meta.enum.php keyword.declaration.enum.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.enum meta.enum, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
+//                                              ^^ meta.enum.php meta.block.php
+//^^ keyword.declaration.enum.php
+//   ^^^^^ entity.name.enum.php
+//         ^^^^^^^ invalid.illegal.disallowed.php
+//                 ^^^ - entity
+//                    ^ - punctuation
+//                      ^^^ - entity
+//                          ^^^^^^^^^^ storage.modifier.implements.php
+//                                     ^^^ entity.other.inherited-class.php
+//                                        ^ punctuation.separator.comma.php
+//                                          ^^^ entity.other.inherited-class.php
+//                                              ^ punctuation.section.block.begin.php
+//                                               ^ punctuation.section.block.end.php
+
+    class
+//  ^^^^^ keyword.declaration.class.php - meta.class
+
+    class Test1
+// ^ - meta.class
+//  ^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
+//  ^^^^^ keyword.declaration.class.php
+//        ^^^^^ entity.name.class.php
+
+    class Test1 extends implements {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                 ^^ meta.class.php meta.block.php
+//  ^^^^^ keyword.declaration.class.php
+//        ^^^^^ entity.name.class.php
+//              ^^^^^^^ storage.modifier.extends.php
+//                      ^^^^^^^^^^ storage.modifier.implements.php
+
     class Test1 extends stdClass implements Countable {}
-//  ^ keyword.declaration.class
-//        ^ entity.name.class.php
-//              ^ storage.modifier.extends.php
-//                      ^^^^^^^^ meta.path
-//                       ^ entity.other.inherited-class.php
-//                               ^ storage.modifier.implements.php
-//                                          ^^^^^^^^^ meta.path
-//                                           ^ entity.other.inherited-class.php
+// ^ - meta.class
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                    ^^ meta.class.php meta.block.php
+//  ^^^^^ keyword.declaration.class.php
+//        ^^^^^ entity.name.class.php
+//              ^^^^^^^ storage.modifier.extends.php
+//                      ^^^^^^^^ meta.path.php entity.other.inherited-class.php support.class.builtin.php
+//                               ^^^^^^^^^^ storage.modifier.implements.php
+//                                          ^^^^^^^^^ meta.path.php entity.other.inherited-class.php support.class.builtin.php
+
+    class Test1 extends Foo, Bar implements Foo, Bar {}
+// ^ - meta.class
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                   ^^ meta.class.php meta.block.php
+//  ^^^^^ keyword.declaration.class.php
+//        ^^^^^ entity.name.class.php
+//              ^^^^^^^ storage.modifier.extends.php
+//                      ^^^ entity.other.inherited-class.php
+//                         ^ - punctuation
+//                           ^^^ - entity
+//                               ^^^^^^^^^^ storage.modifier.implements.php
+//                                          ^^^ entity.other.inherited-class.php
+//                                             ^ punctuation.separator.comma.php
+//                                               ^^^ entity.other.inherited-class.php
+//                                                   ^ punctuation.section.block.begin.php
+//                                                    ^ punctuation.section.block.end.php
+
+    class Test1 extends \Foo\ implements \Bar\ {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                             ^^ meta.class.php meta.block.php
+//  ^^^^^ keyword.declaration.class.php
+//        ^^^^^ entity.name.class.php
+//              ^^^^^^^ storage.modifier.extends.php
+//                      ^^^^^ entity.other.inherited-class.php
+//                            ^^^^^^^^^^ storage.modifier.implements.php
+//                                       ^^^^^ entity.other.inherited-class.php
 
 class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
+// <- meta.class.php keyword.declaration.class.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                                         ^^ meta.class.php meta.block.php
 //    ^ entity.name.class
 //              ^ storage.modifier
 //                      ^ comment.block
@@ -881,6 +1040,8 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                                    ^ punctuation.separator.namespace
 
     public function __construct(private \MyNamespace\Foo $val = DEFAULT_VALUE) {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.block meta.block
+//                                                                             ^^ meta.class.php meta.block.php meta.block.php
 //                  ^^^^^^^^^^^ entity.name.function support.function.magic
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //                              ^^^^^^^ storage.modifier
@@ -890,6 +1051,10 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                              ^^^^^^^^^^^^^ constant.other
     }
 }
+
+interface
+// <- keyword.declaration.interface.php - meta.interface
+//^^^^^^^ keyword.declaration.interface.php - meta.interface
 
 interface MyInter {}
 // <- keyword.declaration.interface
@@ -1021,27 +1186,38 @@ array_slice($array, $offset, $length, preserve_keys: true);
 //                                                   ^^^^ constant.language
 
 $test = new Test1;
+//      ^^^^^^^^^ meta.instantiation.php
 //      ^ keyword.other.new.php
 //          ^^^^^ meta.path
 //          ^ support.class.php
 
 $anon = new class{};
+//      ^^^^^^^^^^^ - meta.class meta.class
+//      ^^^^ meta.instantiation.php - meta.class
+//          ^^^^^ meta.instantiation.php meta.class.php - meta.block
+//               ^^ meta.instantiation.php meta.class.php meta.block.php
+//                 ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
 //               ^^ meta.class.php
 //               ^^ meta.block.php
-//               ^ punctuation.section.block.begin.php - meta.class meta.class
+//               ^ punctuation.section.block.begin.php
 //                ^ punctuation.section.block.end.php
 
 $anon = new class};
+//      ^^^^^^^^^^ - meta.class meta.class
+//      ^^^^ meta.instantiation.php - meta.class
+//          ^^^^^ meta.instantiation.php meta.class.php - meta.block
+//               ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
-//               ^ punctuation.section.block.end.php - meta.class - meta.block
+//               ^ punctuation.section.block.end.php
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
-//               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
+//               ^^^^^^^^^^^^^^^^^^ meta.group.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
 //                       ^ punctuation.separator.comma
@@ -1056,8 +1232,73 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                                     ^^ meta.class.php
 //                                                                     ^^ meta.block.php
 
+$anon = new /* comment */ #[anno] class($param1, $param2) extends Test1 implements Countable {};
+//      ^^^ keyword.other.new.php
+//          ^^^^^^^^^^^^^ comment.block.php
+//                        ^^^^^^^ meta.attribute.php
+//                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
+//                                ^^^^^ keyword.declaration.class
+//                                     ^^^^^^^^^^^^^^^^^^ meta.group.php
+//                                     ^ punctuation.section.group.begin.php
+//                                      ^ variable.other.php
+//                                             ^ punctuation.separator.comma
+//                                               ^ variable.other.php
+//                                                      ^ punctuation.section.group.end.php
+//                                                        ^ storage.modifier.extends.php
+//                                                                ^^^^^ meta.path
+//                                                                 ^ entity.other.inherited-class.php
+//                                                                      ^ storage.modifier.implements.php
+//                                                                                 ^^^^^^^^^ meta.path
+//                                                                                 ^ entity.other.inherited-class.php
+//                                                                                           ^^ meta.class.php
+//                                                                                           ^^ meta.block.php
+
 $user_1 = new User("John", "a@b.com");
+//        ^^^^^^^^ meta.instantiation.php - meta.group
+//                ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
+//                                   ^ - meta.instantiation - meta.group
+//        ^^^ keyword.other.new.php
+//            ^^^^ support.class.php
+//                ^ punctuation.section.group.begin.php
+//                 ^^^^^^ meta.string.php string.quoted.double.php
 //                       ^ punctuation.separator.comma
+//                         ^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                  ^ punctuation.section.group.end.php
+//                                   ^ punctuation.terminator.expression.php
+
+$user_1 = new /* comment */ #[anno] User("John", "a@b.com");
+//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
+//                          ^^^^^^^ meta.instantiation.php meta.attribute.php
+//                                 ^^^^^  meta.instantiation.php - meta.attribute - meta.group
+//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
+//                                                         ^ - meta.instantiation - meta.group
+//        ^^^ keyword.other.new.php
+//            ^^^^^^^^^^^^^ comment.block.php
+//                          ^^^^^^^ meta.attribute.php
+//                                  ^^^^ support.class.php
+//                                      ^ punctuation.section.group.begin.php
+//                                       ^^^^^^ meta.string.php string.quoted.double.php
+//                                             ^ punctuation.separator.comma
+//                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                                        ^ punctuation.section.group.end.php
+//                                                         ^ punctuation.terminator.expression.php
+
+$user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
+//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
+//                          ^^^^^^^ meta.instantiation.php meta.attribute.php
+//                                 ^^^^^  meta.instantiation.php - meta.attribute - meta.group
+//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
+//                                                         ^ - meta.instantiation - meta.group
+//        ^^^ keyword.other.new.php
+//            ^^^^^^^^^^^^^ comment.block.php
+//                          ^^^^^^^ meta.attribute.php
+//                                  ^^^^ variable.other.php
+//                                      ^ punctuation.section.group.begin.php
+//                                       ^^^^^^ meta.string.php string.quoted.double.php
+//                                             ^ punctuation.separator.comma
+//                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                                        ^ punctuation.section.group.end.php
+//                                                         ^ punctuation.terminator.expression.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
@@ -1108,7 +1349,7 @@ $user_1 = new User("John", "a@b.com");
 //                                                   ^ storage.type.nullable.php
 //                                                    ^ storage.type.php
 
-    function intersectionTypeFunction(?int $param1): Interface1&Interface2 {}
+    function intersectionTypeFunction(?int $param1): Interface1 & Interface2 {}
 //  ^ keyword.declaration.function
 //           ^ entity.name.function
 //                                   ^ punctuation.section.group.begin
@@ -1116,24 +1357,28 @@ $user_1 = new User("John", "a@b.com");
 //                                     ^ meta.function.parameters
 //                                                ^ punctuation.section.group.end
 //                                                   ^^^^^^^^^^ support.class
-//                                                             ^ punctuation.separator.type.intersection
-//                                                              ^^^^^^^^^^ support.class
+//                                                              ^ punctuation.separator.type.intersection
+//                                                                ^^^^^^^^^^ support.class
 
     function unionTypeFunction(
 //  ^ keyword.declaration.function
 //           ^ entity.name.function.php
-        Foo|\Foo\Bar|?int $param1,
+        int | string $param0,
+//      ^^^ storage.type
+//          ^ punctuation.separator.type
+//            ^^^^^^ storage.type
+        Foo | \Foo\Bar | ?int $param1,
 //      ^^^ support.class
-//         ^ punctuation.separator.type
-//          ^ punctuation.separator.namespace
-//           ^^^ support.other.namespace
-//              ^ punctuation.separator.namespace
-//               ^^^ support.class
-//                  ^ punctuation.separator.type
-//                   ^ storage.type.nullable
-//                    ^^^ storage.type
-//                        ^ punctuation.definition.variable
-//                         ^^^^^^ variable.parameter
+//          ^ punctuation.separator.type
+//            ^ punctuation.separator.namespace
+//             ^^^ support.other.namespace
+//                ^ punctuation.separator.namespace
+//                 ^^^ support.class
+//                     ^ punctuation.separator.type
+//                       ^ storage.type.nullable
+//                        ^^^ storage.type
+//                            ^ punctuation.definition.variable
+//                             ^^^^^^ variable.parameter
         Foo|\Foo\Bar|?int $param2,
 //      ^^^ support.class
 //         ^ punctuation.separator.type
@@ -1277,27 +1522,45 @@ class B
 //    ^ entity.name.class
 {
     use MyNamespace\Xyz,
-//  ^^^^^^^^^^^^^^^^^^^^ meta.use
-//      ^^^^^^^^^^^^^^^ meta.path
-//      ^^^^^^^^^^^^^^^ entity.other.inherited-class
-//                 ^ punctuation.separator.namespace
+//  ^^^^ meta.class.php meta.block.php meta.use.php - meta.path
+//      ^^^^^^^^^^^^^^^ meta.class.php meta.block.php meta.use.php meta.path.php entity.other.inherited-class.php
+//                     ^^ meta.class.php meta.block.php meta.use.php - meta.path
+//      ^^^^^^^^^^^ support.other.namespace.php
+//                 ^ punctuation.separator.namespace.php
+//                     ^ punctuation.separator.comma.php
     Y,
 //  ^ meta.use meta.path entity.other.inherited-class
     Z {
-//  ^^^ meta.use
-//  ^ meta.path
-//    ^ meta.block punctuation.section.block.begin
+// ^^^ meta.class.php meta.block.php meta.use.php - meta.block meta.block
+//  ^ meta.path.php entity.other.inherited-class.php
+//    ^^ meta.class.php meta.block.php meta.use.php meta.block.php
+//    ^ punctuation.section.block.begin.php
         X::method1 as another1;
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
 //       ^^ punctuation.accessor
-//                 ^ keyword.other.use-as
+//                 ^^ keyword.other.use-as
+//                            ^ punctuation.terminator.expression.php
         Y::method2 insteadof X;
-//                 ^ keyword.other.insteadof
+//                 ^^^^^^^^^ keyword.other.insteadof
+//                            ^ punctuation.terminator.expression.php
         X::method2 as another2;
-//                 ^ keyword.other.use-as
+//                 ^^ keyword.other.use-as
+//                            ^ punctuation.terminator.expression.php
+        \Foo\Bar\X::method as another3;
+//      ^^^^^^^^^^ meta.path.php
+//      ^ punctuation.separator.namespace.php
+//       ^^^ support.other.namespace.php
+//          ^ punctuation.separator.namespace.php
+//           ^^^ support.other.namespace.php
+//              ^ punctuation.separator.namespace.php
+//               ^ - support
+//                ^^ punctuation.accessor.double-colon.php
+//                  ^^^^^^ meta.path.php
+//                         ^^ keyword.other.use-as.php
+//                                    ^ punctuation.terminator.expression.php
     } protected $pro1;
-//  ^ meta.use meta.block punctuation.section.block.end
-//   ^ - meta.use
+//  ^ meta.class.php meta.block.php meta.use.php meta.block.php punctuation.section.block.end.php
+//   ^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.use
 //    ^ storage.modifier
 
     public static ?Foo|\My\Bar|int $str = '';
@@ -1319,13 +1582,21 @@ class B
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^ storage.modifier
-//               ^^^^^ constant
+//               ^^^^^ entity.name.constant.php
 //                     ^ keyword.operator.assignment
 
     const STR_2 = '';
 //  ^^^^^ storage.modifier
-//        ^^^^^ constant
+//        ^^^^^ entity.name.constant.php
 //              ^ keyword.operator.assignment
+
+    CONST #[attr] /**/ STR_3 = array();
+//  ^^^^^ storage.modifier
+//        ^^^^^^^ meta.attribute.php
+//                ^^^^ comment.block.php
+//                     ^^^^^ entity.name.constant.php
+//                           ^ keyword.operator.assignment
+//                             ^^^^^ support.function.construct.php
 
     public function abc(
 //         ^ keyword.declaration.function
@@ -1470,7 +1741,7 @@ try {
 //        ^^^^^^ support.other.namespace.php
 //              ^ punctuation.separator.namespace.php
 //               ^^^^^^^^^^ support.class.exception.php
-//                          ^ punctuation.separator.catch.php
+//                          ^ punctuation.separator.type.union.php
 //                            ^^^^^^^^^^^^^^^^^ meta.path.php
 //                            ^ punctuation.separator.namespace.php
 //                             ^^^^^^ support.other.namespace.php
@@ -1486,7 +1757,7 @@ try {
 //   ^^^^^^ support.other.namespace.php
 //         ^ punctuation.separator.namespace.php
 //          ^^^^^^^^^^ support.class.exception.php
-//                     ^ punctuation.separator.catch.php
+//                     ^ punctuation.separator.type.union.php
     \Custom\Exception2 $e
 //  ^ punctuation.separator.namespace.php
 //   ^^^^^^ support.other.namespace.php
@@ -1673,6 +1944,10 @@ $statement = match ($this->lexer->lookahead['type']) {
     default => $this->syntaxError('UPDATE or DELETE'),
 //  ^^^^^^^ keyword.control
 //          ^^ keyword.operator.key
+//                               ^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//                               ^ punctuation.section.group.begin.php
+//                                ^^^^^^^^^^^^^^^^^^ meta.string.php
+//                                                  ^ punctuation.section.group.end.php
 };
 
 $non_sql = "NO SELECT HIGHLIGHTING!";

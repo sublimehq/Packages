@@ -1,9 +1,10 @@
 %YAML 1.2
 ---
 name: PHP Source
+scope: source.php
 hidden: true
 version: 2
-scope: source.php
+
 variables:
   identifier_start: '[[:alpha:]_]'
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
@@ -50,12 +51,13 @@ variables:
   no_escape_behind: (?<![^\\]\\)(?<![^\\][\\]{3})
 
 contexts:
+
   main:
     - include: statements
 
   statements:
-    - include: class
-    - include: enum
+    - include: classes
+    - include: enums
     - include: use-statement
     - match: '(?i)^\s*(interface)\s+({{identifier}})\s*'
       captures:
@@ -70,12 +72,9 @@ contexts:
             - include: comments
             - match: '(?={{path}})'
               push: inherited
-            - match: ','
-              scope: punctuation.separator.comma.php
-            - match: '(?=\S)'
-              pop: 1
-        - match: '(?=\S)'
-          pop: 1
+            - include: punctuation-separators
+            - include: else-pop
+        - include: else-pop
     - match: '(?i)^\s*(namespace)\b\s*'
       captures:
         1: keyword.other.namespace.php
@@ -86,8 +85,7 @@ contexts:
         - match: '(\\)?({{identifier}})(?!\\)'
           captures:
             1: punctuation.separator.namespace.php
-        - match: ''
-          pop: 1
+        - include: immediately-pop
     - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
       captures:
         1: keyword.declaration.trait.php
@@ -106,8 +104,7 @@ contexts:
     # catch some stray cases
     - match: ':'
       scope: punctuation.separator.colon.php
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
 
   block:
     - match: \}
@@ -177,8 +174,7 @@ contexts:
         - match: \bfrom\b
           scope: keyword.control.php
           pop: 1
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
     - include: for-statements
     - match: |-
         \b(?xi:
@@ -201,7 +197,7 @@ contexts:
           scope: punctuation.section.group.end.php
           pop: 1
         - match: \|
-          scope: punctuation.separator.catch.php
+          scope: punctuation.separator.type.union.php
         - match: \\
           scope: meta.path.php punctuation.separator.namespace.php
         - match: '{{identifier}}'
@@ -230,8 +226,7 @@ contexts:
         - match: (?=::{{identifier}}\s*\()
           set:
             - include: function-call-static
-            - match: ''
-              pop: 1
+            - include: immediately-pop
         - match: |-
             (?x)(::)
             (?:
@@ -255,20 +250,23 @@ contexts:
     - include: variables
     - include: strings
     - include: arrays
+    - include: keywords
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
     - match: |-
         \b(?xi:
-          array | bool | boolean | class | clone | double | float | function |
-          int | integer | interface | object | real | string
+          array | bool | boolean | clone | double | float | int | integer | object | real | string
         )\b
       scope: storage.type.php
     - match: (?i)\b(parent|self)\b
       scope: variable.language.php
+    - match: \b(?i:const)\b
+      scope: storage.modifier.php
+      push: constant-name
     - match: |-
         {{visibility_modifier}}|\b(?xi:
-          abstract | const | extends | final | global | implements | static | readonly
+          abstract | extends | final | global | implements | static | readonly
         )\b
       scope: storage.modifier.php
     - include: object
@@ -313,8 +311,7 @@ contexts:
         - match: ':'
           scope: keyword.operator.ternary.php
           pop: 1
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -325,7 +322,7 @@ contexts:
           pop: 1
         - include: class-name
         - include: variables
-    - include: instantiation
+    - include: instantiations
     - match: '(?i)(goto)\s+({{identifier}})'
       captures:
         1: keyword.control.goto.php
@@ -339,6 +336,15 @@ contexts:
           scope: punctuation.section.group.end.php
           pop: 1
         - include: nested-expressions
+
+  keywords:
+    # fallback patterns incase no other expression matches
+    - match: \b(?i:class)\b
+      scope: keyword.declaration.class.php
+    - match: \b(?i:interface)\b
+      scope: keyword.declaration.interface.php
+    - match: \b(?i:function)\b
+      scope: keyword.declaration.function.php
 
   arrays:
     - match: (array)(\()(\))
@@ -361,8 +367,7 @@ contexts:
         - match: \)
           scope: punctuation.section.array.end.php
           pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+        - include: punctuation-separators
         - include: nested-expressions
     - match: \[
       scope: punctuation.section.array.begin.php
@@ -371,8 +376,7 @@ contexts:
         - match: \]
           scope: punctuation.section.array.end.php
           pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+        - include: punctuation-separators
         - include: nested-expressions
 
   after-identifier:
@@ -395,36 +399,68 @@ contexts:
           pop: 1
         - include: nested-expressions
 
+###[ TYPE HINTS ]#############################################################
+
+  type-hints:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: (?=(?:\?\s*)?{{path}})
+      push:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: '(?=(?:\?\s*)?{{path}})'
+    - match: (?=(?:\?\s*)?{{path}})
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+
+  type-hint-body:
+    - meta_scope: meta.type.php
+    - match: \|(?!\s*\$)
+      scope: punctuation.separator.type.union.php
       push:
-        - match: \?
-          scope: storage.type.nullable.php
-        - match: \|
-          scope: punctuation.separator.type.union.php
-        - match: '&(?!\s*\$)'
-          scope: punctuation.separator.type.intersection.php
-        # note that
-        #   - "callable", "never" and "void" are not allowed in property type
-        #   - "false" and "null" are only working in unioned type
-        # but we allow them as general types for simplifying syntax definition
-        - match: |-
-            \b(?xi:
-              array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self | static |
-              mixed | never
-            )\b
-          scope: storage.type.php
-        - include: class-builtin
-        - include: identifier-parts-as-path
-        - match: '(\\)?({{identifier}})(?!\\)'
-          scope: meta.path.php
-          captures:
-            1: punctuation.separator.namespace.php
-            2: support.class.php
-        - match: ''
-          pop: 1
+        - type-hint-simple-type
+        - type-hint-nullable
+    - match: '&(?!\s*\$)'
+      scope: punctuation.separator.type.intersection.php
+      push:
+        - type-hint-nullable
+        - type-hint-simple-type
+    - include: else-pop
+
+  type-hint-nullable:
+    - match: \?
+      scope: storage.type.nullable.php
+      set: else-pop
+    - include: else-pop
+
+  type-hint-simple-type:
+    # note that
+    #   - "callable", "never" and "void" are not allowed in property type
+    #   - "false" and "null" are only working in unioned type
+    # but we allow them as general types for simplifying syntax definition
+    - match: |-
+        \b(?xi:
+          array | bool | callable | double | float | int | iterable | object
+        | string | false | null | void | parent | self | static | mixed | never
+        )\b
+      scope: storage.type.php
+      pop: 1
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - include: expression-end-pop
+    - include: class-builtin
+    - include: identifier-parts-as-path
+    - match: (\\)?({{identifier}})
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.php
+      pop: 1
+    - include: immediately-pop
 
   attributes:
     # https://wiki.php.net/rfc/attributes_v2
@@ -443,15 +479,13 @@ contexts:
             - match: \)
               scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
               pop: 1
-            - match: ','
-              scope: punctuation.separator.comma.php
-            - include: function-call-named-parameters
+            - include: punctuation-separators
+            - include: function-call-named-arguments
             - include: nested-expressions
         - match: \]
           scope: punctuation.definition.attribute.end.php
           pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+        - include: punctuation-separators
         - include: expression-end-pop
 
   class-builtin:
@@ -536,10 +570,9 @@ contexts:
     - include: expression-end-pop
     - include: attributes
     - include: comments
+    - include: punctuation-separators
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
-    - match: ','
-      scope: punctuation.separator.comma.php
 
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
@@ -643,56 +676,12 @@ contexts:
         - include: identifier-constant-pop
     - include: use-statement-common
     - include: identifier-constant-pop
-  enum:
-    - match: (?i)\b(enum)\s+({{identifier}})\s*
-      captures:
-        1: keyword.declaration.enum.php
-        2: entity.name.enum.php
-      push: enum-definition
 
-  enum-definition:
-    - match: (?=;)
-      pop: 1
-    - match: ':'
-      scope: punctuation.separator.colon.php
-      push:
-        - match: (?={{path}})
-          set:
-            - meta_scope: meta.path.php
-            - include: type-hint
-            - match: ''
-              pop: 1
-        - match: (?=\S)
-          pop: 1
-    - match: \{
-      scope: meta.block.php punctuation.section.block.begin.php
-      set: class-body
-    - include: attributes
-    - include: comments
-    - match: (?i)(implements)\b\s*
-      captures:
-        1: storage.modifier.implements.php
-      push:
-        - include: attributes
-        - include: comments
-        - match: (?={{path}})
-          push:
-            - meta_scope: meta.path.php
-            - meta_content_scope: entity.other.inherited-class.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: (\\)?{{identifier}}(?!\\)
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
-        - match: (?=\S)
-          pop: 1
+###[ CLASS DECLARATIONS ]#####################################################
 
-  class:
-    - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
+  classes:
+    - match: (?i)\b((?:abstract|final)\s+)?(class)\s+({{identifier}})
+      scope: meta.class.php
       captures:
         1: storage.modifier.abstract.php
         2: keyword.declaration.class.php
@@ -700,102 +689,145 @@ contexts:
       push: class-definition
 
   class-definition:
+    - meta_content_scope: meta.class.php
     - include: expression-end-pop
-    - match: \{
-      scope: meta.block.php punctuation.section.block.begin.php
-      set: class-body
     - include: attributes
     - include: comments
-    - match: (?i)(extends)\b\s*
-      captures:
-        1: storage.modifier.extends.php
-      push:
-        - match: '(?=implements)'
-          pop: 1
-        - include: attributes
-        - include: comments
-        - match: '(?={{path}})'
-          set: inherited
-        - match: '(?=\S)'
-          pop: 1
-    - match: (?i)(implements)\b\s*
-      captures:
-        1: storage.modifier.implements.php
-      push:
-        - include: attributes
-        - include: comments
-        - match: '(?={{path}})'
-          push: inherited
-        - match: ','
-          scope: punctuation.separator.comma.php
-        - match: '(?=\S)'
-          pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: class-body
+    - match: (?i:extends)\b
+      scope: storage.modifier.extends.php
+      push: class-extends
+    - match: (?i:implements)\b
+      scope: storage.modifier.implements.php
+      push: class-implements
+
+  class-extends:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - match: (?={{path}})
+      set: inherited
+    - include: else-pop
+
+  class-implements:
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: (?=(?i:extends|implements)\b)
+      pop: 1
+    - match: (?={{path}})
+      push: inherited
+    - include: punctuation-separators
+    - include: else-pop
 
   inherited:
-    - meta_scope: meta.path.php
-    - meta_content_scope: entity.other.inherited-class.php
+    - meta_content_scope: meta.path.php entity.other.inherited-class.php
     - include: class-builtin
     - include: identifier-parts
-    - match: '(\\)?{{identifier}}(?!\\)'
+    - match: (\\)?{{identifier}}
       captures:
         1: punctuation.separator.namespace.php
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   class-body:
     - meta_scope: meta.class.php meta.block.php
-    - include: attributes
-    - include: comments
     - match: \}
       scope: punctuation.section.block.end.php
       pop: 1
-    - match: (?i)\b(use)\b\s*
-      captures:
-        1: keyword.other.use.php
-      push:
-        - meta_scope: meta.use.php
-        - match: (?=;|(?:^\s*$))
-          pop: 1
-        - match: \{
-          scope: punctuation.section.block.begin.php
-          set:
-            - meta_scope: meta.use.php meta.block.php
-            - match: \}
-              scope: punctuation.section.block.end.php
-              pop: 1
-            - include: attributes
-            - include: comments
-            - match: \b(as)\b
-              scope: keyword.other.use-as.php
-            - match: \b(insteadof)\b
-              scope: keyword.other.insteadof.php
-            - include: class-builtin
-            - match: '::'
-              scope: punctuation.accessor.double-colon.php
-            - match: (?={{path}})
-              push:
-                - meta_scope: meta.path.php
-                - include: identifier-parts
-                - match: '(\\)?{{identifier}}(?!\\)'
-                  captures:
-                    1: punctuation.separator.namespace.php
-                - match: ''
-                  pop: 1
-        - include: attributes
-        - include: comments
-        - include: class-builtin
-        - match: (?={{path}})
-          push:
-            - meta_scope: meta.path.php entity.other.inherited-class.php
-            - include: identifier-parts
-            - match: '(\\)?({{identifier}})(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-            - match: ''
-              pop: 1
-        - match: ','
-          scope: punctuation.separator.comma.php
+    - match: \b(?i:use)\b
+      scope: meta.use.php keyword.other.use.php
+      push: class-use-body
+    - include: attributes
+    - include: comments
     - include: statements
+
+  class-use-body:
+    - meta_content_scope: meta.use.php
+    - match: (?=;|^\s*$)
+      pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: class-use-block-body
+    - include: attributes
+    - include: comments
+    - include: punctuation-separators
+    - match: (?={{path}})
+      push: inherited
+
+  class-use-block-body:
+    - meta_scope: meta.use.php meta.block.php
+    - match: \}
+      scope: punctuation.section.block.end.php
+      pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.other.use-as.php
+    - match: \b(?i:insteadof)\b
+      scope: keyword.other.insteadof.php
+    - match: '::'
+      scope: punctuation.accessor.double-colon.php
+    - match: ;
+      scope: punctuation.terminator.expression.php
+    - include: attributes
+    - include: comments
+    - include: class-builtin
+    - include: identifier-parts-as-path
+    - include: identifier-as-path
+
+###[ ENUM DECLARATIONS ]######################################################
+
+  enums:
+    - match: (?i)\b(enum)\s+({{identifier}})
+      scope: meta.enum.php
+      captures:
+        1: keyword.declaration.enum.php
+        2: entity.name.enum.php
+      push:
+        - enum-definition
+        - enum-type-hint
+
+  enum-type-hint:
+    - match: ':'
+      scope: punctuation.separator.colon.php
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+        - type-hint-nullable
+    - include: else-pop
+
+  enum-definition:
+    - meta_content_scope: meta.enum.php
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: enum-body
+    - match: (?i:extends)\b
+      scope: invalid.illegal.disallowed.php
+    - match: (?i:implements)\b
+      scope: storage.modifier.implements.php
+      push: class-implements
+
+  enum-body:
+    - meta_scope: meta.enum.php meta.block.php
+    - match: (?i:case)\b
+      scope: keyword.control.php
+      push: constant-name
+    - include: class-body
+
+  constant-name:
+    - include: attributes
+    - include: comments
+    - match: '{{identifier}}'
+      scope: entity.name.constant.php
+      set: nested-expressions
+    - include: else-pop
+
+###[ TYPED PROPERTIES ]#######################################################
 
   typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
@@ -805,10 +837,9 @@ contexts:
           pop: 1
         - match: \b(?:{{visibility_modifier}}|static|readonly)\b
           scope: storage.modifier.php
-        - include: type-hint
+        - include: type-hints
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
 
   function:
     - match: (?i)(?=(?:\b(?:final|abstract|{{visibility_modifier}}|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
@@ -849,8 +880,7 @@ contexts:
               scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
               set: function-parameters
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
 
   # https://wiki.php.net/rfc/arrow_functions_v2
   arrow-function:
@@ -887,8 +917,7 @@ contexts:
 
   fn-function-call:
     - include: function-call
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   closure:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
@@ -920,14 +949,11 @@ contexts:
           scope: meta.block.php punctuation.section.block.begin.php
           set: function-body
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
     - include: attributes
     - include: comments
-    - match: \b(array|callable|int|string|bool|float|object)\b
-      scope: storage.type.php
     # Class name type hint
-    - include: type-hint
+    - include: type-hints
     - match: '\.\.\.'
       scope: keyword.operator.spread.php
     - match: '&'
@@ -936,8 +962,7 @@ contexts:
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
     - match: '='
       scope: keyword.operator.assignment.php
       push:
@@ -959,16 +984,14 @@ contexts:
           scope: meta.block.php punctuation.section.block.begin.php
           set: function-body
         # Exit on unexpected content
-        - match: (?=\S)
-          pop: 1
+        - include: else-pop
     - match: '&'
       scope: storage.modifier.reference.php
     - match: '(\$+){{identifier}}'
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
-    - match: ','
-      scope: punctuation.separator.comma.php
+    - include: punctuation-separators
 
   function-return-type:
     - meta_scope: meta.function.return-type.php
@@ -978,7 +1001,7 @@ contexts:
       set: function-body
     - match: ':'
       scope: punctuation.separator.colon.php
-    - include: type-hint
+    - include: type-hints
     # Exit on unexpected content
     - match: (?=\S)
       pop: 1
@@ -1005,8 +1028,8 @@ contexts:
             1: punctuation.separator.namespace.php
             2: support.class.php
           pop: 1
-        - match: ''
-          pop: 1
+        - include: immediately-pop
+
   comments:
     # This only highlights a docblock if the first line contains only /** or
     # /**#@+ (which is used for docblock templates). Otherwise block-level
@@ -1050,11 +1073,13 @@ contexts:
         # Consume the newline so that completions aren't shown at the end of the line
         - match: \n
           pop: 1
+
   comments-documentation-end:
     - meta_scope: comment.block.documentation.phpdoc.php
     - match: \*/
       scope: punctuation.definition.comment.end.php
       pop: 1
+
   constants:
     - match: |-
         \b(?xi:
@@ -1267,6 +1292,9 @@ contexts:
         # is generated and the constant is assumed to have the value of its name.
         - match: '{{identifier}}'
           scope: constant.other.php
+
+###[ FUNCTION CALLS ]#########################################################
+
   function-call:
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
@@ -1276,7 +1304,7 @@ contexts:
         - include: identifier-parts
         - match: '{{identifier}}(?=\s*\()'
           scope: variable.function.php
-          set: function-call-parameters
+          set: function-call-arguments
     - match: (?i)\b(print|echo)\b
       scope: support.function.construct.php
     # Root namespace function calls may be a built-in or user
@@ -1286,12 +1314,13 @@ contexts:
       push:
         - meta_scope: meta.function-call.php
         - match: (?=\s*\()
-          set: function-call-parameters
+          set: function-call-arguments
         - match: (?i)\b(isset|unset|e(val|mpty)|list)\b
           scope: support.function.construct.php
         - include: support
         - match: '{{identifier}}'
           scope: variable.function.php
+
   function-call-static:
     - match: (::)(?={{identifier}}\s*\()
       captures:
@@ -1299,22 +1328,25 @@ contexts:
       push:
         - meta_scope: meta.function-call.static.php
         - match: (?=\s*\()
-          set: function-call-parameters
+          set: function-call-arguments
         - match: '{{identifier}}'
           scope: variable.function.php
-  function-call-parameters:
+
+  function-call-arguments:
     - match: \(
       scope: punctuation.section.group.begin.php
-      set:
-        - meta_scope: meta.function-call.php meta.group.php
-        - match: \)
-          scope: punctuation.section.group.end.php
-          set: after-function-call
-        - match: ','
-          scope: punctuation.separator.comma.php
-        - include: function-call-named-parameters
-        - include: nested-expressions
-  function-call-named-parameters:
+      set: function-call-arguments-body
+
+  function-call-arguments-body:
+    - meta_scope: meta.function-call.arguments.php meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      set: after-function-call
+    - include: punctuation-separators
+    - include: function-call-named-arguments
+    - include: nested-expressions
+
+  function-call-named-arguments:
     # https://wiki.php.net/rfc/named_params
     - match: ({{identifier}})\s*(:)(?!:)
       captures:
@@ -1322,8 +1354,10 @@ contexts:
         2: punctuation.definition.variable.php
       push:
         - include: nested-expressions
-        - match: ''
-          pop: 1
+        - include: immediately-pop
+
+###[ HEREDOCS ]###############################################################
+
   heredoc:
     - match: (?=<<<\s*'?({{identifier}})'?\s*$)
       push:
@@ -1472,63 +1506,98 @@ contexts:
             - meta_scope: string.unquoted.heredoc.php
             - match: '{{heredoc_quoted_end}}'
               pop: 1
+
   heredoc-html:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.html.basic
       with_prototype:
         - include: interpolation
+
   heredoc-xml:
     - meta_include_prototype: false
     - match: ''
       push: scope:text.xml
       with_prototype:
         - include: interpolation
+
   heredoc-javascript:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.js
       with_prototype:
         - include: interpolation
+
   heredoc-json:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.json
       with_prototype:
         - include: interpolation
+
   heredoc-css:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.css
       with_prototype:
         - include: interpolation
+
   heredoc-yaml:
     - meta_include_prototype: false
     - match: ''
       push: scope:source.yaml
       with_prototype:
         - include: interpolation
-  instantiation:
+
+###[ INSTANTIATIONS ]#########################################################
+
+  instantiations:
+    - match: \b(?i:new)\b
+      scope: keyword.other.new.php
+      push:
+        - instantiation-meta
+        - instantiation-body
+
+  instantiation-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.instantiation.php
+    - include: immediately-pop
+
+  instantiation-body:
+    - include: attributes
+    - include: comments
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
-    - match: '(?i)(new)\s+(class)\b\s*'
-      captures:
-        1: keyword.other.new.php
-        2: keyword.declaration.class.php
-      push:
-        - match: (?=\()
-          push: function-call-parameters
-        - match: ''
-          set: class-definition
-    - match: (?i)(new)\s+
-      captures:
-        1: keyword.other.new.php
-      push:
-        - match: '(?=[^[:alnum:]$_\\])'
-          pop: 1
-        - match: '(parent|static|self)\b'
-          scope: variable.language.php
-        - include: class-name
-        - include: variables
+    - match: \b(?i:class)\b
+      scope: meta.class.php keyword.declaration.class.php
+      set:
+        - class-definition
+        - instantiation-arguments
+    - match: (?=\S)
+      set:
+        - instantiation-arguments
+        - instantiation-class
+
+  instantiation-class:
+    - match: (?=[^[:alnum:]$_\\])
+      pop: 1
+    - match: (parent|static|self)\b
+      scope: variable.language.php
+      pop: 1
+    - include: class-name
+    - include: variables
+
+  instantiation-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: instantiation-arguments-body
+    - include: else-pop
+
+  instantiation-arguments-body:
+    - meta_scope: meta.group.php
+    - include: function-call-arguments-body
+
+###[ INTERPOLATION ]##########################################################
+
   interpolation:
     - match: '\\[0-7]{1,3}'
       scope: constant.character.escape.octal.php
@@ -1595,13 +1664,15 @@ contexts:
               scope: constant.other.php
         - include: variables-no-item-access
     - include: variables
+
   invoke-call:
     - match: '(\$+)({{identifier}})(?=\s*\()'
       scope: meta.function-call.invoke.php
       captures:
         1: punctuation.definition.variable.php
         2: variable.other.php
-      push: function-call-parameters
+      push: function-call-arguments
+
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
@@ -1639,6 +1710,7 @@ contexts:
         2: punctuation.separator.decimal.php
     - match: \b(?!_)(?:\d|_(?!_))+\b
       scope: meta.number.integer.decimal.php constant.numeric.value.php
+
   object:
     - match: (\??)(->)(\$?\{)
       captures:
@@ -1657,7 +1729,7 @@ contexts:
         1: punctuation.accessor.nullsafe.php
         2: punctuation.accessor.arrow.php
         3: variable.function.php
-      push: function-call-parameters
+      push: function-call-arguments
     - include: function-call-static
     - match: (\??)(->)((\$+)?{{identifier}})?
       captures:
@@ -1671,6 +1743,7 @@ contexts:
         1: punctuation.accessor.double-colon.php
         2: constant.other.class.php
       push: after-identifier
+
   parameter-default-types:
     - include: strings
     - include: arrays
@@ -1682,7 +1755,7 @@ contexts:
       scope: keyword.operator.assignment.php
     - match: '&(?=\s*\$)'
       scope: storage.modifier.reference.php
-    - include: instantiation
+    - include: instantiations
     - match: \s*(?={{path}}(::)({{identifier}})?)
       push:
         - match: '(::)({{identifier}})?'
@@ -1692,6 +1765,7 @@ contexts:
           pop: 1
         - include: class-name
     - include: constants
+
   php-doc:
     # If the next line doesn't start with whitespace then an asterisk, the use
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
@@ -1709,6 +1783,7 @@ contexts:
       push: php-doc-tags
     - match: ((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]
       scope: markup.underline.link.php
+
   php-doc-tags:
     - match: (@access)\s+(({{visibility_modifier}})|(.+))\s*$
       captures:
@@ -1737,8 +1812,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
       pop: 1
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
 ###[ STRINGS ]################################################################
 
@@ -1940,6 +2014,7 @@ contexts:
       escape_captures:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
     - include: nested-expressions
+    - include: else-pop
 
 ###[ BUILTINS ]###############################################################
 
@@ -2765,6 +2840,12 @@ contexts:
         2: support.other.namespace.php
         3: punctuation.separator.namespace.php
 
+  identifier-as-path:
+    - match: (\\)?{{identifier}}
+      scope: meta.path.php
+      captures:
+        1: punctuation.separator.namespace.php
+
   identifier-constant-pop:
     - match: '(?={{path}})'
       push:
@@ -2775,11 +2856,24 @@ contexts:
             1: punctuation.separator.namespace.php
             2: constant.other.php
           set: after-identifier
-        - match: ''
-          pop: 1
+        - include: immediately-pop
+
+###[ OPERATORS ]##############################################################
+
+  punctuation-separators:
+    - match: ','
+      scope: punctuation.separator.comma.php
 
 ###[ PROTOTYPES ]#############################################################
 
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
   expression-end-pop:
     - match: '{{expression_end}}'
+      pop: 1
+
+  immediately-pop:
+    - match: ''
       pop: 1

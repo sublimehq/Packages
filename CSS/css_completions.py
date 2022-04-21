@@ -91,24 +91,28 @@ class CSSCompletions(sublime_plugin.EventListener):
         return None
 
     def complete_property_name(self, view, prefix, pt):
-        if match_selector(view, pt, "meta.group"):
-            # don't append semicolon in groups e.g.: `@media screen (prop: |)`
-            suffix = ": $0"
-        else:
-            suffix = ": $0;"
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
             colon, space, value, term = matches.groups()
-            if colon:
-                # don't append anything if the next character is a colon
-                suffix = ""
-            elif value:
-                # only append colon if value already exists
-                suffix = ":" if space else ": "
-            elif term == ";":
-                # ommit semicolon if rule is already terminated
+        else:
+            colon = ""
+            space = ""
+            value = ""
+            term = ""
+
+        # don't append anything if next character is a colon
+        suffix = ""
+        if not colon:
+            # add space after colon if smart typing is enabled
+            if not space and view.settings().get("auto_complete_trailing_spaces"):
                 suffix = ": $0"
+            else:
+                suffix = ":$0"
+
+            # terminate empty value if not within parentheses
+            if not value and not term and not match_selector(view, pt, "meta.group"):
+                suffix += ";"
 
         return (
             sublime.CompletionItem(
@@ -136,10 +140,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if match_selector(view, pt, "meta.group"):
-                    # don't append semicolon in groups e.g.: `@media screen (prop: val)`
-                    suffix = ""
-                elif next_none_whitespace(view, pt) == ";":
+                if match_selector(view, pt, "meta.group") or next_none_whitespace(view, pt) == ";":
                     suffix = ""
                 else:
                     suffix = "$0;"

@@ -34,3 +34,18 @@ let strLength: number = (<string>someValue).length; // </string>
 //    ^ punctuation.definition.generic.end
 //     ^^ meta.function.parameters
 //        ^^ keyword.declaration.function.arrow
+
+    <any>(<any>a);
+//  ^^^^^ meta.assertion
+//  ^ punctuation.definition.assertion.begin
+//   ^^^ support.type.any
+//      ^ punctuation.definition.assertion.end
+//       ^^^^^^^^ meta.group
+//       ^ punctuation.section.group.begin
+//        ^^^^^ meta.assertion
+//        ^ punctuation.definition.assertion.begin
+//         ^^^ support.type.any
+//            ^ punctuation.definition.assertion.end
+//             ^ variable.other.readwrite
+//              ^ punctuation.section.group.end
+//               ^ punctuation.terminator.statement

@@ -25,7 +25,7 @@ public record struct Person(string Name);
 ///    ^^^^^^ storage.type.class.record
 ///           ^^^^^^ storage.type.struct.record
 ///                  ^^^^^^ entity.name.class
-///                        ^ punctuation.section.group.begin
+///                        ^ punctuation.section.parameters.begin
 ///                         ^^^^^^^^^^^^ meta.class.body meta.method.parameters
 ///                         ^^^^^^ storage.type
 ///                                ^^^^ variable.parameter
@@ -39,7 +39,7 @@ public readonly record struct Person(string Name);
 ///             ^^^^^^ storage.type.class.record
 ///                    ^^^^^^ storage.type.struct.record
 ///                           ^^^^^^ entity.name.class
-///                                 ^ punctuation.section.group.begin
+///                                 ^ punctuation.section.parameters.begin
 ///                                  ^^^^^^ storage.type
 ///                                         ^^^^ variable.parameter
 ///                                             ^ punctuation.section.parameters.end

@@ -14,10 +14,6 @@ bool testIfElseIndentationNoBraces(CString v)
     /**
      * comment
      */
-    if (v.isNull() == TRUE) return
-
-    if (v.isNull() == TRUE) return fun(v)
-
     if (v.isNull() == TRUE) return fun(v);
 
     if (v.isNull() == TRUE)
@@ -59,12 +55,6 @@ bool testIfElseIndentationNoBracesWithLineComments(CString v)
      */
 
     // line comment
-    if (v.isNull() == TRUE) return
-
-    // line comment
-    if (v.isNull() == TRUE) return fun(v)
-
-    // line comment
     if (v.isNull() == TRUE) return fun(v);
 
     // line comment
@@ -126,12 +116,28 @@ bool testIfElseIndentationNoBracesWithLineComments(CString v)
     }
 }
 
+bool testIfElseIndentationNoBracesMultiLine(CString v)
+{
+    if (v.isNull() == TRUE
+        || v.endsWith("("))
+        // line comment
+        return FALSE;
+    else if (v.isNull() == TRUE
+        || v.endsWith(")"))
+        return FALSE;
+    else if (v.isNull() == TRUE
+        )
+        return FALSE;
+    else if (
+        v.isNull() == TRUE)
+        return FALSE;
+    // line comment
+    return TRUE;
+}
+
+
 bool testIfElseIndentationNoBracesButComments(CString v)
 {
-    if (v.isNull() == TRUE) return         /**/ // ; "comment" ()
-
-    if (v.isNull() == TRUE) return fun(v)  /**/ // ; "comment" ()
-
     if (v.isNull() == TRUE) return fun(v); /**/ // ; "comment" ()
 
     if (v.isNull() == TRUE)                /**/ // ; "comment" ()
@@ -164,10 +170,6 @@ bool testIfElseIndentationNoBracesButComments(CString v)
 
 bool testIfElseIndentationNoBracesButBlockCommentsPart1(CString v)
 {
-    /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ TRUE /*(*/ ) /*(*/ return /*(*/ // ; "comment" ()
-
-    /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ TRUE /*(*/ ) /*(*/ return /*(*/ fun /*(*/ ( /*(*/ ) /*(*/ // ; "comment" ()
-
     /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ TRUE /*(*/ ) /*(*/ return /*(*/ fun /*(*/ ( /*(*/ ) /*(*/ ; // ; "comment" ()
 
     /*(*/ if /*(*/ ( /*(*/ v /*(*/ . /*(*/ isNull( /*(*/ ) /*(*/ == /*(*/ TRUE /*(*/ ) /*(*/  // ; "comment" ()
@@ -200,10 +202,6 @@ bool testIfElseIndentationNoBracesButBlockCommentsPart1(CString v)
 
 bool testIfElseIndentationNoBracesButBlockCommentsPart2(CString v)
 {
-    /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ TRUE /*)*/ ) /*)*/ return /*)*/ // ; "comment" ()
-
-    /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ TRUE /*)*/ ) /*)*/ return /*)*/ fun /*)*/ ( /*)*/ ) /*)*/ // ; "comment" ()
-
     /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ TRUE /*)*/ ) /*)*/ return /*)*/ fun /*)*/ ( /*)*/ ) /*)*/ ; // ; "comment" ()
 
     /*)*/ if /*)*/ ( /*)*/ v /*)*/ . /*)*/ isNull( /*)*/ ) /*)*/ == /*)*/ TRUE /*)*/ ) /*)*/ // ; "comment" ()
@@ -235,11 +233,6 @@ bool testIfElseIndentationNoBracesButBlockCommentsPart2(CString v)
 }
 
 bool testIfElseIndentationWithBraces(CString v) {
-
-    if (v.isNull() == TRUE) { return }
-
-    if (v.isNull() == TRUE) { return fun(v) }
-
     if (v.isNull() == TRUE) { return fun(v); }
 
     if (v.isNull() == TRUE) {
@@ -329,13 +322,6 @@ bool testIfElseIndentationWithBraces(CString v) {
 }
 
 bool testIfElseIndentationWithBracesAndLineComments(CString v) {
-
-    // comment
-    if (v.isNull() == TRUE) { return }
-
-    // comment
-    if (v.isNull() == TRUE) { return fun(v) }
-
     // comment
     if (v.isNull() == TRUE) { return fun(v); }
 
@@ -475,11 +461,6 @@ bool testIfElseIndentationWithBracesAndLineComments(CString v) {
 }
 
 bool testIfElseIndentationWithBracesAndComment(CString v) {
-
-    if (v.isNull() == TRUE) { return }            /**/ // ; "comment" ()
-
-    if (v.isNull() == TRUE) { return fun(v) }     /**/ // ; "comment" ()
-
     if (v.isNull() == TRUE) { return fun(v); }    /**/ // ; "comment" ()
 
     if (v.isNull() == TRUE) {                     /**/ // ; "comment" ()
@@ -673,7 +654,6 @@ bool testSwitchCaseIndentationWithLineComments(CString s) {
 }                                // comments
 
 bool testForIndentation(int v) {
-
     for (int i = 0; i < 10; i++)
         System.out.println("Row " + i);
 
@@ -705,70 +685,60 @@ bool testForIndentation(int v) {
         int j = 0;
         int k = 0;
     }
-
-    for (
-        int i = 0;
-        i < 10;
-        i++) {
-        int j = 0;
-        int k = 0;
-    }
 }
 
 bool testWhileIndentationNoBraces(int v) {
-    while () v++
     while () v++;
-    while (()) v++
-    while ((())) v++
-    while ((())()) v++
+    while (()) v++;
+    while ((())) v++;
+    while ((())()) v++;
     while ()
-        v++
+        v++;
     while (v == '(')
-        v++
+        v++;
     while (v == ')')
-        v++
+        v++;
     while (v == '\'')
-        v++
+        v++;
     while (v == '\\')
-        v++
+        v++;
     while (v == "(")
-        v++
+        v++;
     while (v == ")")
-        v++
+        v++;
     while (v == "\"")
-        v++
+        v++;
     while (v == "\\\"")
-        v++
+        v++;
     while (v == foo( bar("") + "" ))
-        v++
+        v++;
 }
 
 bool testWhileIndentationNoBracesButComments(int v) {
-    while () v++                      // ; "comment" ()
     while () v++;                     // ; "comment" ()
-    while (()) v++                    // ; "comment" ()
-    while ((())) v++                  // ; "comment" ()
-    while ((())()) v++                // ; "comment" ()
+    while (()) v++;                   // ; "comment" ()
+    while ((())) v++;                 // ; "comment" ()
+    while ((())()) v++;               // ; "comment" ()
     while ()                          // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == '(')                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == ')')                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == '\'')                 // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == '\\')                 // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == "(")                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == ")")                  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == "\"")                 // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == "\\\"")               // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while (v == foo( bar("") + "" ))  // ; "comment" ()
-        v++                           // ; "comment" ()
+        v++;                          // ; "comment" ()
     while () { } // a hack to make tests succeed
 }
 
@@ -832,98 +802,86 @@ bool testWhileIndentationNoBracesButBlockCommentsPart2(int v) {
 
 bool testWhileIndentationWithBraces(int v) {
 
-    while () { v++ }
     while () { v++; }
-    while (()) { v++ }
-    while ((())) { v++ }
-    while ((())()) { v++ }
+    while (()) { v++; }
+    while ((())) { v++; }
+    while ((())()) { v++; }
     while () {
-        v++
+        v++;
     }
     while (v == '(') {
-        v++
+        v++;
     }
     while (v == ')') {
-        v++
+        v++;
     }
     while (v == '\'') {
-        v++
+        v++;
     }
     while (v == '\\') {
-        v++
+        v++;
     }
     while (v == "(") {
-        v++
+        v++;
     }
     while (v == ")") {
-        v++
+        v++;
     }
     while (v == "\"") {
-        v++
+        v++;
     }
     while (v == "\\\"") {
-        v++
+        v++;
     }
     while (v == foo( bar("") + "" )) {
-        v++
+        v++;
     }
     while ()
     {
-        v++
+        v++;
     }
     while (v == '(')
     {
-        v++
+        v++;
     }
     while (v == ')')
     {
-        v++
+        v++;
     }
     while (v == '\'')
     {
-        v++
+        v++;
     }
     while (v == '\\')
     {
-        v++
+        v++;
     }
     while (v == "(")
     {
-        v++
+        v++;
     }
     while (v == ")")
     {
-        v++
+        v++;
     }
     while (v == "\"")
     {
-        v++
+        v++;
     }
     while (v == "\\\"")
     {
-        v++
+        v++;
     }
     while (v == foo( bar("") + "" ))
     {
-        v++
+        v++;
     }
     while (
         v == foo( bar("") + "" )
         )
     {
-        v++
-        v++
-    }
-    while (
-        v == foo( bar("") + "" ) ) {
-        v++
-        v++
-    }
-    while (
-        v == foo( bar("") + "" )
-        ) {
-        v++
-        v++
+        v++;
+        v++;
     }
 }
 

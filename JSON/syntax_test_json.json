@@ -23,11 +23,11 @@
 //                        ^^ meta.mapping.value.json meta.mapping.json
 
 , ,
-// <- punctuation.separator.mapping.pair.json
+// <- punctuation.separator.sequence.json
 //^ invalid.illegal.expected-mapping-key.json
 
   "sep": {},
-//     ^ punctuation.separator.mapping.key-value.json
+//     ^ punctuation.separator.key-value.json
 
   "array": [ /**/ ],
 //         ^^^^^^^^ meta.mapping.value.json meta.sequence.json
@@ -54,14 +54,14 @@
 // ^ - invalid
 //  ^^^^^^^^^^ comment.line.double-slash.js
     ,
-//  ^ punctuation.separator.mapping.pair.json
+//  ^ punctuation.separator.sequence.json
     "foo": "bar"
     /* comment */
 // ^ - invalid
 //  ^^^^^^^^^^^^^ comment.block.json
   },
 //^ punctuation.section.mapping.end.json
-// ^ punctuation.separator.mapping.pair.json
+// ^ punctuation.separator.sequence.json
 
   "string": "string",
 //          ^        punctuation.definition.string.begin.json
@@ -80,7 +80,7 @@
   "E": 20e10,
 //     ^^^^^ meta.number.float.decimal.json constant.numeric.value.json
 //^^^ meta.mapping.key.json string.quoted.double.json
-//   ^ punctuation.separator.mapping.key-value.json - meta.mapping.key
+//   ^ punctuation.separator.key-value.json - meta.mapping.key
 
   "escape": "\n",
 //           ^^ constant.character.escape.json
@@ -97,7 +97,7 @@
 
 /**/: "test",
 // ^ meta.mapping.json comment.block.json
-//  ^ punctuation.separator.mapping.key-value.json - comment
+//  ^ punctuation.separator.key-value.json - comment
 //    ^^^^^^ meta.mapping.value.json string.quoted.double.json
 
   "array2":

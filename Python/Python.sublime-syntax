@@ -601,12 +601,12 @@ contexts:
       scope: punctuation.section.mapping.end.python
       pop: true
     - match: ','
-      scope: punctuation.separator.mapping.pair.python
+      scope: punctuation.separator.sequence.python
     - match: \*\*
       scope: keyword.operator.unpacking.mapping.python
       push: case-pattern-dictionary-patterns
     - match: ':'
-      scope: meta.mapping.python punctuation.separator.mapping.key-value.python
+      scope: meta.mapping.python punctuation.separator.key-value.python
       push:
         - case-pattern-dictionary-value
         - allow-unpack-operators
@@ -872,8 +872,8 @@ contexts:
     - match: \:?=
       scope: invalid.illegal.not-allowed-here.python
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: line-continuation-or-pop
+    - include: else-pop
 
   numbers:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
@@ -1134,6 +1134,8 @@ contexts:
             - meta_scope: meta.function.parameters.annotation.python
             - match: '(?=[,)=])'
               set: function-parameters
+            - match: \bNone\b
+              scope: constant.language.null.python
             - include: illegal-assignment-expression
             - include: expression-in-a-group
     - include: function-parameters-tuple
@@ -1528,7 +1530,7 @@ contexts:
       set: after-expression
     - include: illegal-assignment-expression
     - match: ':'
-      scope: punctuation.separator.mapping.key-value.python
+      scope: punctuation.separator.key-value.python
       set: inside-directory-value
     - match: ','
       scope: invalid.illegal.expected-colon.python
@@ -1538,7 +1540,7 @@ contexts:
         - match: (?=\})
           pop: true
         - match: ','
-          scope: punctuation.separator.mapping.python
+          scope: punctuation.separator.sequence.python
           pop: true
         - include: expression-in-a-group
     - include: comments
@@ -1559,7 +1561,7 @@ contexts:
       set:
         # clear meta scope from this match, because 'inside-directory' has it in meta_scope
         - match: ','
-          scope: punctuation.separator.mapping.python
+          scope: punctuation.separator.sequence.python
           set: inside-dictionary
     - match: (?=(?:async|for)\b)
       push:
@@ -1585,10 +1587,10 @@ contexts:
 
   maybe-inside-set:
     - meta_scope: meta.set.python
-    - match: ':|\*\*'
-      fail: dictionaries-and-sets
-    - match: (?=,)
+    - match: (?=,|:=)
       set: inside-set
+    - match: (?=:|\*\*)
+      fail: dictionaries-and-sets
     - include: inside-set
 
   inside-set:
@@ -1596,9 +1598,6 @@ contexts:
     - match: \}
       scope: punctuation.section.set.end.python
       set: after-expression
-    - include: illegal-assignment-expression
-    - match: ':'
-      scope: invalid.illegal.colon-inside-set.python
     - match: ','
       scope: punctuation.separator.set.python
     - match: \*
@@ -1611,6 +1610,8 @@ contexts:
         - include: expression-in-a-group
     - include: inline-for
     - include: expression-in-a-group
+    - match: ':'
+      scope: invalid.illegal.colon-inside-set.python
 
   empty-dictionaries:
     - match: (\{)\s*(\})
@@ -1774,6 +1775,10 @@ contexts:
   line-continuation-or-pop:
     - include: line-continuation
     - match: (?=\s*($|;|#))
+      pop: true
+
+  else-pop:
+    - match: (?=\S)
       pop: true
 
   magic-function-names:

@@ -2,11 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string><![CDATA[(source.objc | source.objc++) & entity.name.constant]]></string>
+	<string>source.cs entity.name.constant</string>
 	<key>settings</key>
 	<dict>
-		<key>showInIndexedSymbolList</key>
+		<key>showInSymbolList</key>
 		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
 	</dict>
 </dict>
 </plist>

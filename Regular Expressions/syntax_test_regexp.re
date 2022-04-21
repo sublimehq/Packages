@@ -540,6 +540,19 @@ where escape characters are ignored.\).
 #      ^ keyword.operator.quantifier.regexp
 #       ^^ constant.character.escape.regexp - punctuation.definition.set.regexp
 
+(?<=>)[^<>]+(?=<)
+#^^^ constant.other.assertion
+#    ^ punctuation.section.group.end
+#     ^ punctuation.definition.set.begin
+#      ^ keyword.operator.logical
+#         ^ punctuation.definition.set.end
+
+(?<=X)[^<>]+(?=<)
+#^^^ constant.other.assertion
+#    ^ punctuation.section.group.end
+#     ^ punctuation.definition.set.begin
+#      ^ keyword.operator.logical
+#         ^ punctuation.definition.set.end
 
 ###################
 ## Conditionals

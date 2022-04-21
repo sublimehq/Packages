@@ -79,6 +79,9 @@ variables:
   # functions and types.
   ident: \b(?!{{keyword}})[[:alpha:]_][[:alnum:]_]*\b
 
+  # Directive comment key.
+  directive: \b[[:alpha:]_-][[:alnum:]_-]*\b
+
   # Single line only
   inline_comment: /[*](?:[^*]|[*](?!/))*[*]/
 
@@ -118,25 +121,59 @@ contexts:
     #
     # //go:some_directive arg0 arg1 ...
     #
+    # These have been adopted outside the gc compiler for use in linting
+    # directives and pragmas for other compiler suites where they take the
+    # more generalised form of:
+    #
+    # //namespace:some_directive ...
+    #
     # They're not part of the language spec, may not be recognized by some Go
     # compilers, and may stop working in future releases. Therefore,
     # highlighting them as compiler pragmas could be misleading. We scope them
     # as plain comments by default, and add some detailed meta scopes for
     # enterprising users wishing to add more color.
-    - match: (//)(go)(:)({{ident}})?
+    - match: (//)([a-z]+[a-z-]*)(:)({{directive}})([ ]?)
+      scope: meta.annotation.go
       captures:
         1: punctuation.definition.comment.go
         2: meta.keyword.annotation.go
         3: meta.punctuation.accessor.colon.go
         4: meta.variable.function.go
-      push:
-        - meta_scope: meta.annotation.go comment.line.go
-        - match: \S+
-          scope: meta.variable.parameter.go
-        # End the annotation scope at EOL, but stretch the comment scope
-        # indefinitely to the right.
-        - match: $
-          set: pop-line-comment
+        5: meta.punctuation.separator.space.go
+      push: pop-line-annotation
+
+    # Go also has line renumbering; line directives specify the source
+    # position for the character immediately following the comment as
+    # having come from the specified file, line and column. Both single
+    # line and block comment line directives are valid.
+    - match: ((//)(line)( ))([a-zA-Z0-9. :]*(?::[0-9]+){1,2})$\n?
+      scope: comment.line.go
+      captures:
+        1: meta.annotation.go
+        2: punctuation.definition.comment.go
+        3: meta.variable.function.go
+        4: meta.punctuation.separator.space.go
+        5: meta.annotation.parameters.go
+
+    - match: ((/\*)(line)( ))([a-zA-Z0-9. :]*(?::[0-9]+){1,2})(\*/)
+      scope: comment.block.go
+      captures:
+        1: meta.annotation.go
+        2: punctuation.definition.comment.begin.go
+        3: meta.variable.function.go
+        4: meta.punctuation.separator.space.go
+        5: meta.annotation.parameters.go
+        6: meta.annotation.go punctuation.definition.comment.end.go
+
+    # Finally, Cgo and gccgo have directives for exporting functions to C.
+    - match: ((//)(export|extern)( ))({{ident}})$\n?
+      scope: comment.line.go
+      captures:
+        1: meta.annotation.go
+        2: punctuation.definition.comment.go
+        3: meta.variable.function.go
+        4: meta.punctuation.separator.space.go
+        5: meta.annotation.parameters.go
 
     # Line comment
     - match: //
@@ -154,6 +191,12 @@ contexts:
         - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.go
+
+  pop-line-annotation:
+    - meta_scope: comment.line.go
+    - meta_content_scope: meta.annotation.parameters.go
+    - match: $\n?
+      pop: true
 
   pop-line-comment:
     - meta_scope: comment.line.go
