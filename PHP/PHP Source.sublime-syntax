@@ -834,7 +834,7 @@ contexts:
     - match: (\\)?({{identifier}})
       scope: meta.path.php
       captures:
-        1: punctuation.separator.namespace.php
+        1: punctuation.accessor.namespace.php
         2: entity.name.namespace.php
       pop: 1
     - include: immediately-pop
@@ -1347,7 +1347,7 @@ contexts:
     - match: (\\)?({{identifier}})
       scope: meta.path.php
       captures:
-        1: punctuation.separator.namespace.php
+        1: punctuation.accessor.namespace.php
         2: support.function.php
 
   use-statement-function-alias:
@@ -1423,17 +1423,17 @@ contexts:
     - match: (\\?)({{builtin_functions}})\s*
       scope: meta.function-call.identifier.php
       captures:
-        1: punctuation.separator.namespace.php
+        1: punctuation.accessor.namespace.php
         2: support.function.builtin.php
       push: function-call-arguments
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
     - match: \\?(?=(?:{{identifier}}\\)+{{identifier}}\s*\()
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       push: qualified-function-name
     # Root namespace function calls may be a built-in or user
     - match: \\?(?={{identifier}}\s*\()
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       push: unqualified-function-name
     - match: ((\$+){{identifier}})\s*(?=\()
       scope: meta.function-call.identifier.php
@@ -1754,14 +1754,14 @@ contexts:
 
   class-names:
     - match: \\|(?={{identifier}}\\)
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       push: qualified-class-name
     - match: (?={{identifier_start}})
       push: unqualified-class-name
 
   class-name:
     - match: \\|(?={{identifier}}\\)
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       set: qualified-class-name
     - match: (?={{identifier_start}})
       set: unqualified-class-name
@@ -1784,14 +1784,14 @@ contexts:
 
   inherited-class-names:
     - match: \\|(?={{identifier}}\\)
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       push: qualified-inherited-class-name
     - match: (?={{identifier_start}})
       push: unqualified-inherited-class-name
 
   inherited-class-name:
     - match: \\|(?={{identifier}}\\)
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       set: qualified-inherited-class-name
     - match: (?={{identifier_start}})
       set: unqualified-inherited-class-name
@@ -1822,7 +1822,7 @@ contexts:
     - match: (?i:__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__)\b
       scope: constant.language.builtin.php
     - match: \\|(?={{identifier}}\\)
-      scope: punctuation.separator.namespace.php
+      scope: punctuation.accessor.namespace.php
       push:
         - after-identifier
         - qualified-constant
@@ -1871,15 +1871,15 @@ contexts:
     - match: (\\)?({{identifier}})(\\)
       scope: meta.path.php
       captures:
-        1: punctuation.separator.namespace.php
+        1: punctuation.accessor.namespace.php
         2: variable.namespace.php
-        3: punctuation.separator.namespace.php
+        3: punctuation.accessor.namespace.php
 
   qualifiers:
     - match: ({{identifier}})(\\)
       captures:
         1: variable.namespace.php
-        2: punctuation.separator.namespace.php
+        2: punctuation.accessor.namespace.php
 
 ###[ LITERALS ]###############################################################
 
