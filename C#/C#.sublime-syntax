@@ -661,7 +661,7 @@ contexts:
       scope: meta.method.cs
       captures:
         1: entity.other.inherited-class.cs
-        2: meta.generic.cs punctuation.section.generic.begin.cs
+        2: meta.generic.cs punctuation.definition.generic.begin.cs
       push:
         - meta_content_scope: meta.method.cs meta.generic.cs
         - match: '(>)\s*(\.)'
