@@ -274,7 +274,7 @@ contexts:
 
   annotation-qualified-identifier-path:
     - match: '{{identifier}}'
-      scope: variable.annotation.namespace.java
+      scope: variable.namespace.java
       set: annotation-qualified-identifier-accessor
     - include: else-pop2
 

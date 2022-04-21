@@ -955,7 +955,7 @@ class ExtendsTest extends @NonNull /**/ a /**/ . /**/ b /**/ . /**/ @a /**/ . b 
 //                                                           ^ punctuation.accessor.dot.java
 //                                                             ^^^^ comment.block.empty.java punctuation.definition.comment.java
 //                                                                  ^ punctuation.definition.annotation.java
-//                                                                   ^ variable.annotation.namespace.java
+//                                                                   ^ variable.namespace.java
 //                                                                     ^^^^ comment.block.empty.java punctuation.definition.comment.java
 //                                                                          ^ punctuation.accessor.dot.java
 //                                                                            ^ variable.annotation.java
@@ -5034,7 +5034,7 @@ class LocalVariableDeclarationTests {
 //                              ^ storage.type.class.java
 //                               ^ punctuation.definition.generic.end.java
 //                                 ^ punctuation.definition.annotation.java
-//                                  ^^^^ variable.annotation.namespace.java
+//                                  ^^^^ variable.namespace.java
 //                                       ^ punctuation.accessor.dot.java
 //                                         ^^^^ variable.annotation.java
 //                                              ^^ storage.modifier.array.java
@@ -5064,7 +5064,7 @@ class LocalVariableDeclarationTests {
 //                              ^ storage.type.class.java
 //                               ^ punctuation.definition.generic.end.java
 //                                 ^ punctuation.definition.annotation.java
-//                                  ^^^^ variable.annotation.namespace.java
+//                                  ^^^^ variable.namespace.java
 //                                       ^ punctuation.accessor.dot.java
 //                                         ^^^^ variable.annotation.java
 //                                              ^^ storage.modifier.array.java
@@ -9259,7 +9259,7 @@ class LambdasExpressionsTests {
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java - meta.annotation meta.annotation
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java meta.group.java - meta.annotation meta.annotation
-//^^^^^^^^ variable.annotation.namespace.java
+//^^^^^^^^ variable.namespace.java
 //        ^ punctuation.accessor.dot.java
 //         ^^^^^^^^^^^^^^ variable.annotation.java
 //                       ^ punctuation.section.group.begin.java
@@ -9346,19 +9346,19 @@ public class GrafoTest {
 @fully.qualified.Annotation
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
-//^^^^ variable.annotation.namespace.java
+//^^^^ variable.namespace.java
 //    ^ punctuation.accessor.dot.java
-//     ^^^^^^^^^ variable.annotation.namespace.java
+//     ^^^^^^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java
 //                ^^^^^^^^^ variable.annotation.java
 @fully.qualified.ParentClass.InnerAnnotation
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
-//^^^^ variable.annotation.namespace.java
+//^^^^ variable.namespace.java
 //    ^ punctuation.accessor.dot.java
-//     ^^^^^^^^^ variable.annotation.namespace.java
+//     ^^^^^^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java
-//               ^^^^^^^^^^^ variable.annotation.namespace.java
+//               ^^^^^^^^^^^ variable.namespace.java
 //                          ^ punctuation.accessor.dot.java
 //                           ^^^^^^^^^^^^^^^ variable.annotation.java
 @fully.qualified
