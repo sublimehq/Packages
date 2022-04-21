@@ -487,7 +487,7 @@ contexts:
       set: dml-delete
     - match: \b(?i:update)\b
       scope: keyword.other.dml.sql
-      set: dml-update
+      push: dml-update
     - match: \b(?i:(?:insert\s+into|truncate))\b
       scope: keyword.other.dml.sql
       push:

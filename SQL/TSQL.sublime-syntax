@@ -334,6 +334,8 @@ contexts:
         - maybe-table-alias
         - table-name
         - single-identifier-after-whitespace
+    - match: \b(?i:set)\b
+      scope: keyword.other.dml.tsql
 
   ddl-statements:
     - meta_prepend: true
@@ -691,7 +693,6 @@ contexts:
     - match: \b(?i:insert)\b(?=\s*\()
       scope: keyword.other.dml.sql
       push: values-or-expressions
-    - include: dml-statements
     - include: pop-on-top-level-reserved-word
 
   values-or-expressions:
