@@ -688,54 +688,61 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //^^^^^^^^^^^^^^^^^^^ comment
 
   #[WithoutArgument]
-//^^^^^^^^^^^^^^^^^^ meta.attribute.php - comment
-//                  ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                 ^ punctuation.definition.attribute.end.php
+//^^ meta.annotation.php - comment
+//  ^^^^^^^^^^^^^^^ meta.annotation.identifier.php
+//                 ^ meta.annotation.php
+//                  ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin.php
+//  ^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                 ^ punctuation.definition.annotation.end.php
   #[WithoutArgument()]
-//^^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
-//                 ^^ meta.attribute.arguments.php meta.group.php
-//                   ^ meta.attribute.php - meta.group
-//                    ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^^^^ support.class.php - meta.path
+//^^ meta.annotation.php
+//  ^^^^^^^^^^^^^^^ meta.annotation.identifier.php
+//                 ^^ meta.annotation.arguments.php meta.group.php
+//                   ^ meta.annotation.php - meta.group
+//                    ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin.php
+//  ^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
 //                 ^ punctuation.section.group.begin.php
 //                  ^ punctuation.section.group.end.php
-//                   ^ punctuation.definition.attribute.end
+//                   ^ punctuation.definition.annotation.end
   #[SingleArgument(0)]
-//^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
-//                ^^^ meta.attribute.arguments.php meta.group.php
-//                   ^ meta.attribute.php - meta.group
-//                    ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^^^ support.class.php - meta.path
+//^^ meta.annotation.php
+//  ^^^^^^^^^^^^^^ meta.annotation.identifier.php
+//                ^^^ meta.annotation.arguments.php meta.group.php
+//                   ^ meta.annotation.php - meta.group
+//                    ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin.php
+//  ^^^^^^^^^^^^^^ variable.annotation.php - meta.path
 //                ^ punctuation.section.group.begin.php
 //                 ^ constant.numeric.value.php
 //                  ^ punctuation.section.group.end.php
-//                   ^ punctuation.definition.attribute.end
+//                   ^ punctuation.definition.annotation.end
   #[FewArguments('Hello', 'World')]
-//^^^^^^^^^^^^^^ meta.attribute.php - meta.group
-//              ^^^^^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php
-//                                ^ meta.attribute.php - meta.group
-//                                 ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin.php
-//  ^^^^^^^^^^^^ support.class.php - meta.path
+//^^ meta.annotation.php
+//  ^^^^^^^^^^^^ meta.annotation.identifier.php
+//              ^^^^^^^^^^^^^^^^^^ meta.annotation.arguments.php meta.group.php
+//                                ^ meta.annotation.php - meta.group
+//                                 ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin.php
+//  ^^^^^^^^^^^^ variable.annotation.php - meta.path
 //              ^ punctuation.section.group.begin.php
 //               ^^^^^^^ string.quoted.single.php
 //                      ^ punctuation.separator.comma.php
 //                        ^^^^^^^ string.quoted.single.php
 //                               ^ punctuation.section.group.end.php
-//                                ^ punctuation.definition.attribute.end.php
+//                                ^ punctuation.definition.annotation.end.php
   #[FewArguments(PDO::class, PHP_VERSION_ID), SecondOne(0)]
-//^^^^^^^^^^^^^^ meta.attribute.php - meta.group
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php
-//                                          ^^^^^^^^^^^ meta.attribute.php - meta.group
-//                                                     ^^^ meta.attribute.arguments.php meta.group.php
-//                                                        ^ meta.attribute.php - meta.group
-//                                                         ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^ support.class.php - meta.path
+//^^ meta.annotation.php
+//  ^^^^^^^^^^^^ meta.annotation.identifier.php
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.arguments.php meta.group.php
+//                                          ^^ meta.annotation.php - meta.group
+//                                            ^^^^^^^^^ meta.annotation.identifier.php - meta.group
+//                                                     ^^^ meta.annotation.arguments.php meta.group.php
+//                                                        ^ meta.annotation.php - meta.group
+//                                                         ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin
+//  ^^^^^^^^^^^^ variable.annotation.php - meta.path
 //              ^ punctuation.section.group.begin.php
 //               ^^^ support.class.builtin.php
 //                  ^^ punctuation.accessor.double-colon.php
@@ -744,39 +751,40 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                           ^^^^^^^^^^^^^^ support.constant.core.php
 //                                         ^ punctuation.section.group.end.php
 //                                          ^ punctuation.separator.comma.php
-//                                            ^^^^^^^^^ support.class.php
+//                                            ^^^^^^^^^ variable.annotation.php
 //                                                     ^ punctuation.section.group.begin.php
 //                                                      ^ constant.numeric.value.php
 //                                                       ^ punctuation.section.group.end.php
-//                                                        ^ punctuation.definition.attribute.end.php
+//                                                        ^ punctuation.definition.annotation.end.php
   #[\My\Attributes\FewArguments("foo", "bar")]
-//^^ meta.attribute.php - meta.path - meta.group
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.php meta.path.php - meta.group
-//                             ^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php - meta.path
-//                                           ^ meta.attribute.php - meta.group
-//                                            ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin
+//^^ meta.annotation.php - meta.path - meta.group
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.php meta.path.php - meta.group
+//                             ^^^^^^^^^^^^^^ meta.annotation.arguments.php meta.group.php - meta.path
+//                                           ^ meta.annotation.php - meta.group
+//                                            ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin
 //  ^ punctuation.accessor.namespace.php
 //   ^^ variable.namespace.php
 //     ^ punctuation.accessor.namespace.php
 //      ^^^^^^^^^^ variable.namespace.php
 //                ^ punctuation.accessor.namespace.php
-//                 ^^^^^^^^^^^^ support.class.php
+//                 ^^^^^^^^^^^^ variable.annotation.php
 //                             ^ punctuation.section.group.begin.php
 //                              ^^^^^ string.quoted.double.php
 //                                   ^ punctuation.separator.comma.php
 //                                     ^^^^^ string.quoted.double.php
 //                                          ^ punctuation.section.group.end.php
-//                                           ^ punctuation.definition.attribute.end.php
+//                                           ^ punctuation.definition.annotation.end.php
 /** docblock */
 // <- comment.block
   #[BitShiftExample(4 >> 1, 4 << 1)]
-//^^^^^^^^^^^^^^^^^ meta.attribute.php - meta.group
-//                 ^^^^^^^^^^^^^^^^ meta.attribute.arguments.php meta.group.php
-//                                 ^ meta.attribute.php - meta.group
-//                                  ^ - meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^^ support.class.php
+//^^ meta.annotation.php
+//  ^^^^^^^^^^^^^^^ meta.annotation.identifier.php
+//                 ^^^^^^^^^^^^^^^^ meta.annotation.arguments.php meta.group.php
+//                                 ^ meta.annotation.php - meta.group
+//                                  ^ - meta.annotation
+//^^ punctuation.definition.annotation.begin
+//  ^^^^^^^^^^^^^^^ variable.annotation.php
 //                 ^ punctuation.section.group.begin.php
 //                  ^ constant.numeric.value.php
 //                    ^^ keyword.operator.bitwise.php
@@ -786,32 +794,32 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                            ^^ keyword.operator.bitwise.php
 //                               ^ constant.numeric.value.php
 //                                ^ punctuation.section.group.end.php
-//                                 ^ punctuation.definition.attribute.end.php
+//                                 ^ punctuation.definition.annotation.end.php
 function foo() {}
 // <- keyword.declaration.function
 
   #[ExampleAttribute]
-//^^^^^^^^^^^^^^^^^^^ meta.attribute
-//^^ punctuation.definition.attribute.begin
-//  ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                  ^ punctuation.definition.attribute.end
+//^^^^^^^^^^^^^^^^^^^ meta.annotation
+//^^ punctuation.definition.annotation.begin
+//  ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                  ^ punctuation.definition.annotation.end
 class Foo
 {
     #[ExampleAttribute]
-//  ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute.begin
-//    ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                    ^ punctuation.definition.attribute.end
+//  ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^^ punctuation.definition.annotation.begin
+//    ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                    ^ punctuation.definition.annotation.end
     public const FOO = 'foo';
 
     #[ExampleAttribute]
-//  ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute.begin
-//    ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                    ^ punctuation.definition.attribute.end
+//  ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^^ punctuation.definition.annotation.begin
+//    ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                    ^ punctuation.definition.annotation.end
     #[ORM\Column("string", ORM\Column::UNIQUE)]
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^^ punctuation.definition.annotation.begin
 //    ^^^^^^^^^^ meta.path
 //              ^ punctuation.section.group.begin
 //               ^^^^^^^^ string.quoted.double
@@ -820,10 +828,10 @@ class Foo
 //                                   ^^ punctuation.accessor.double-colon
 //                                     ^^^^^^ constant.other
 //                                           ^ punctuation.section.group.end
-//                                            ^ punctuation.definition.attribute.end
+//                                            ^ punctuation.definition.annotation.end
     #[Assert\Email(["message" => "The email '{{ value }}' is not a valid email."])]
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^^ punctuation.definition.annotation.begin
 //    ^^^^^^^^^^^^ meta.path
 //                ^ punctuation.section.group.begin
 //                 ^ punctuation.section.sequence.begin
@@ -832,42 +840,42 @@ class Foo
 //                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                                                                              ^ punctuation.section.sequence.end
 //                                                                               ^ punctuation.section.group.end
-//                                                                                ^ punctuation.definition.attribute.end
+//                                                                                ^ punctuation.definition.annotation.end
     public $x;
 
     #[ExampleAttribute] // comment
-//  ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute.begin
-//    ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                    ^ punctuation.definition.attribute.end
+//  ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^^ punctuation.definition.annotation.begin
+//    ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                    ^ punctuation.definition.annotation.end
 //                      ^^^^^^^^^^ comment
     public function foo(#[ExampleAttribute] \Foo\Bar $bar) { }
-//                      ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//                      ^^ punctuation.definition.attribute.begin
-//                        ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                                        ^ punctuation.definition.attribute.end
+//                      ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                      ^^ punctuation.definition.annotation.begin
+//                        ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                                        ^ punctuation.definition.annotation.end
 //                                          ^^^^^^^^ meta.path
 //                                                   ^^^^ variable.parameter
 
     #[Route("/api/posts/{id}", methods: ["GET", "HEAD"])]
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute.begin
-//    ^^^^^ support.class.php - meta.path
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^^ punctuation.definition.annotation.begin
+//    ^^^^^ variable.annotation.php - meta.path
 //         ^ punctuation.section.group.begin
 //                           ^ punctuation.separator
 //                             ^^^^^^^ variable.parameter.named
 //                                    ^ keyword.operator.assignment.php
 //                                                     ^ punctuation.section.group.end
-//                                                      ^ punctuation.definition.attribute.end
+//                                                      ^ punctuation.definition.annotation.end
     public function show(int $id) { }
 }
 
 $object = new #[ExampleAttribute] class () { };
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php
-//            ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//            ^^ punctuation.definition.attribute.begin
-//              ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                              ^ punctuation.definition.attribute.end
+//            ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//            ^^ punctuation.definition.annotation.begin
+//              ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                              ^ punctuation.definition.annotation.end
 //                                ^^^^^^ meta.class.php - meta.group - meta.block
 //                                      ^^ meta.class.php meta.group - meta.block
 //                                        ^ meta.class.php - meta.group - meta.block
@@ -879,17 +887,17 @@ $object = new #[ExampleAttribute] class () { };
 //                                           ^ punctuation.section.block.end.php
 
 $f2 = #[ExampleAttribute] function () { };
-//    ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//    ^^ punctuation.definition.attribute.begin
-//      ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                      ^ punctuation.definition.attribute.end
+//    ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//    ^^ punctuation.definition.annotation.begin
+//      ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                      ^ punctuation.definition.annotation.end
 //                        ^^^^^^^^ keyword.declaration.function
 
 $f3 = #[ExampleAttribute] fn () => 1;
-//    ^^^^^^^^^^^^^^^^^^^ meta.attribute
-//    ^^ punctuation.definition.attribute.begin
-//      ^^^^^^^^^^^^^^^^ support.class.php - meta.path
-//                      ^ punctuation.definition.attribute.end
+//    ^^^^^^^^^^^^^^^^^^^ meta.annotation
+//    ^^ punctuation.definition.annotation.begin
+//      ^^^^^^^^^^^^^^^^ variable.annotation.php - meta.path
+//                      ^ punctuation.definition.annotation.end
 //                        ^^ keyword.declaration.function
 //                              ^^ keyword.declaration.function.arrow
 
@@ -966,13 +974,13 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //  ^^^^^^^^ storage.modifier.php
 //           ^^^^^ keyword.declaration.class.php
 //                 ^^^^ comment.block.php
-//                      ^^^^^^^ meta.attribute.php
+//                      ^^^^^^^ meta.annotation
 //                              ^^^^ comment.block.php
 //                                   ^^^^^ entity.name.class.php
 //                                         ^^^^ comment.block.php
 //                                              ^^^^^^^ storage.modifier.extends.php
 //                                                      ^^^^ comment.block.php
-//                                                           ^^^^^^^ meta.attribute.php
+//                                                           ^^^^^^^ meta.annotation
 //                                                                   ^^^^ comment.block.php
 //                                                                        ^^^^^^^ meta.path.php
 //                                                                        ^ punctuation.accessor.namespace.php
@@ -982,7 +990,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                                                                                ^^^^ comment.block.php
 //                                                                                     ^^^^^^^^^^ storage.modifier.implements.php
 //                                                                                                ^^^^ comment.block.php
-//                                                                                                     ^^^^^^^ meta.attribute.php
+//                                                                                                     ^^^^^^^ meta.annotation
 //                                                                                                             ^^^^ comment.block.php
 //                                                                                                                  ^^^ entity.other.inherited-class.php
 //                                                                                                                      ^^^^ comment.block.php
@@ -1362,7 +1370,7 @@ class B
 
     CONST #[attr] /**/ STR_3 = array();
 //  ^^^^^ keyword.declaration.constant.php
-//        ^^^^^^^ meta.attribute.php
+//        ^^^^^^^ meta.annotation
 //                ^^^^ comment.block.php
 //                     ^^^^^ entity.name.constant.php
 //                           ^ keyword.operator.assignment
@@ -2453,7 +2461,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 $anon = new /* comment */ #[anno] class($param1, $param2) extends Test1 implements Countable {};
 //      ^^^ keyword.other.new.php
 //          ^^^^^^^^^^^^^ comment.block.php
-//                        ^^^^^^^ meta.attribute.php
+//                        ^^^^^^^ meta.annotation
 //                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
 //                                ^^^^^ keyword.declaration.class
 //                                     ^^^^^^^^^^^^^^^^^^ meta.group.php
@@ -2483,14 +2491,14 @@ $user_1 = new User("John", "a@b.com");
 //                                   ^ punctuation.terminator.statement.php
 
 $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
-//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
-//                          ^^^^^^^ meta.instantiation.php meta.attribute.php
-//                                 ^^^^^  meta.instantiation.php - meta.attribute - meta.group
+//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.annotation
+//                          ^^^^^^^ meta.instantiation.php meta.annotation
+//                                 ^^^^^  meta.instantiation.php - meta.annotation - meta.group
 //                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
 //                                                         ^ - meta.instantiation - meta.group
 //        ^^^ keyword.other.new.php
 //            ^^^^^^^^^^^^^ comment.block.php
-//                          ^^^^^^^ meta.attribute.php
+//                          ^^^^^^^ meta.annotation
 //                                  ^^^^ support.class.php
 //                                      ^ punctuation.section.group.begin.php
 //                                       ^^^^^^ meta.string.php string.quoted.double.php
@@ -2500,14 +2508,14 @@ $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
 //                                                         ^ punctuation.terminator.statement.php
 
 $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
-//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.attribute
-//                          ^^^^^^^ meta.instantiation.php meta.attribute.php
-//                                 ^^^^^  meta.instantiation.php - meta.attribute - meta.group
+//        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.annotation
+//                          ^^^^^^^ meta.instantiation.php meta.annotation
+//                                 ^^^^^  meta.instantiation.php - meta.annotation - meta.group
 //                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
 //                                                         ^ - meta.instantiation - meta.group
 //        ^^^ keyword.other.new.php
 //            ^^^^^^^^^^^^^ comment.block.php
-//                          ^^^^^^^ meta.attribute.php
+//                          ^^^^^^^ meta.annotation
 //                                  ^^^^ variable.other.php
 //                                      ^ punctuation.section.group.begin.php
 //                                       ^^^^^^ meta.string.php string.quoted.double.php

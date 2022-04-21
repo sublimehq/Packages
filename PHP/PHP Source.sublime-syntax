@@ -1666,25 +1666,48 @@ contexts:
     # https://wiki.php.net/rfc/shorter_attribute_syntax
     # https://wiki.php.net/rfc/shorter_attribute_syntax_change
     - match: \#\[
-      scope: punctuation.definition.attribute.begin.php
+      scope: punctuation.definition.annotation.begin.php
       push: attribute-body
 
   attribute-body:
-    - meta_scope: meta.attribute.php
+    - meta_scope: meta.annotation.php
     - match: \]
-      scope: punctuation.definition.attribute.end.php
+      scope: punctuation.definition.annotation.end.php
       pop: 1
     - match: \(
       scope: punctuation.section.group.begin.php
       push: attribute-arguments-body
     - include: punctuation-separators
-    - include: class-names
+    - include: attribute-names
     - include: expression-end-pop
 
   attribute-arguments-body:
     - clear_scopes: 1
-    - meta_scope: meta.attribute.arguments.php meta.group.php
+    - meta_scope: meta.annotation.arguments.php meta.group.php
     - include: function-call-arguments-body
+
+  attribute-names:
+    - match: \\|(?={{identifier}}\\)
+      scope: punctuation.accessor.namespace.php
+      push: qualified-attribute-name
+    - match: (?={{identifier_start}})
+      push: unqualified-attribute-name
+
+  qualified-attribute-name:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.annotation.identifier.php meta.path.php
+    - include: qualifiers
+    - include: unqualified-attribute-name
+
+  unqualified-attribute-name:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.annotation.identifier.php
+    - match: '{{identifier}}'
+      scope: variable.annotation.php
+      pop: 1
+    - include: immediately-pop
 
 ###[ TYPE CASTS ]#############################################################
 
