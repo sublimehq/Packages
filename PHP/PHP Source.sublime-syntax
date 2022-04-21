@@ -1872,13 +1872,13 @@ contexts:
       scope: meta.path.php
       captures:
         1: punctuation.separator.namespace.php
-        2: support.other.namespace.php
+        2: variable.namespace.php
         3: punctuation.separator.namespace.php
 
   qualifiers:
     - match: ({{identifier}})(\\)
       captures:
-        1: support.other.namespace.php
+        1: variable.namespace.php
         2: punctuation.separator.namespace.php
 
 ###[ LITERALS ]###############################################################

@@ -470,7 +470,7 @@ use MyNamespace\Foo ;
 //                 ^ meta.use.php - meta.path
 //                  ^ - meta.use
 //^ keyword.other.use.php
-//  ^^^^^^^^^^^ support.other.namespace.php
+//  ^^^^^^^^^^^ variable.namespace.php
 //             ^ punctuation.separator.namespace.php
 //              ^^^ support.class.php - constant - entity - support.function - support.other
 //                  ^ punctuation.terminator.statement.php
@@ -483,7 +483,7 @@ use /* Comment */ \MyNamespace\Bar;
 //^ keyword.other.use.php
 //  ^^^^^^^^^^^^^ comment.block.php
 //                ^ punctuation.separator.namespace.php
-//                 ^^^^^^^^^^^ support.other.namespace.php
+//                 ^^^^^^^^^^^ variable.namespace.php
 //                            ^ punctuation.separator.namespace.php
 //                             ^^^ support.class.php - constant - entity - support.function - support.other
 //                                ^ punctuation.terminator.statement.php
@@ -495,9 +495,9 @@ use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //^ keyword.other.use.php
 //  ^^^^ comment.block.php
-//       ^^ support.other.namespace.php
+//       ^^ variable.namespace.php
 //         ^ punctuation.separator.namespace.php
-//          ^^^^ support.other.namespace.php
+//          ^^^^ variable.namespace.php
 //              ^ punctuation.separator.namespace.php
 //               ^^^^^^^^^ support.class.php - constant - entity - support.function - support.other
 //                         ^^^^ comment.block.php
@@ -509,9 +509,9 @@ use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 // <- meta.use.php punctuation.separator.comma.php
 //^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //              ^ - meta.use - meta.path
-//^^ support.other.namespace.php
+//^^ variable.namespace.php
 //  ^ punctuation.separator.namespace.php
-//   ^^^^ support.other.namespace.php
+//   ^^^^ variable.namespace.php
 //       ^ punctuation.separator.namespace.php
 //        ^^^^^^ support.class.php - constant - entity - support.function - support.other
 //              ^ punctuation.terminator.statement.php
@@ -524,9 +524,9 @@ use function /**/ some\nspace\fn_a;
 //^ keyword.other.use.php
 //  ^^^^^^^^ keyword.declaration.function.php
 //           ^^^^ comment.block.php
-//                ^^^^ support.other.namespace.php
+//                ^^^^ variable.namespace.php
 //                    ^ punctuation.separator.namespace.php
-//                      ^^^^^ support.other.namespace.php
+//                      ^^^^^ variable.namespace.php
 //                           ^ punctuation.separator.namespace.php
 //                            ^^^^ support.function.php - constant - entity support.class - support.other
 //                                ^ punctuation.terminator.statement.php
@@ -538,9 +538,9 @@ use
 //                                ^ - meta.use - meta.path
 //  ^^^^^^^^ keyword.declaration.function.php
 //           ^^^^ comment.block.php
-//                ^^^^ support.other.namespace.php
+//                ^^^^ variable.namespace.php
 //                    ^ punctuation.separator.namespace.php
-//                      ^^^^^ support.other.namespace.php
+//                      ^^^^^ variable.namespace.php
 //                           ^ punctuation.separator.namespace.php
 //                            ^^^^ support.function.php - constant - entity support.class - support.other
 //                                ^ punctuation.terminator.statement.php
@@ -555,9 +555,9 @@ use /**/ function /**/ some\nspace\fn_a /**/ as /**/ fn_b;
 //  ^^^^ comment.block.php
 //       ^^^^^^^^ keyword.declaration.function.php
 //                ^^^^ comment.block.php
-//                     ^^^^ support.other.namespace.php
+//                     ^^^^ variable.namespace.php
 //                         ^ punctuation.separator.namespace.php
-//                          ^^^^^^ support.other.namespace.php
+//                          ^^^^^^ variable.namespace.php
 //                                ^ punctuation.separator.namespace.php
 //                                 ^^^^ support.function.php - constant - entity support.class - support.other
 //                                      ^^^^ comment.block.php
@@ -576,11 +576,11 @@ use const /**/ some\nspace\ConstValue /**/ as /**/ Foo;
 //  ^^^^^ keyword.declaration.constant.php
 //        ^^^^ comment.block.php
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
-//             ^^^^ support.other.namespace.php
+//             ^^^^ variable.namespace.php
 //                 ^ punctuation.separator.namespace.php
-//                  ^^^^^^ support.other.namespace.php
+//                  ^^^^^^ variable.namespace.php
 //                        ^ punctuation.separator.namespace.php
-//                         ^^^^^^^^^^ constant.other.php - support.function.php - entity.name - support.class.php - support.other.namespace
+//                         ^^^^^^^^^^ constant.other.php - support.function.php - entity.name - support.class.php - variable.namespace
 //                                    ^^^^ comment.block.php
 //                                         ^^ keyword.other.use-as.php
 //                                            ^^^^ comment.block.php
@@ -595,11 +595,11 @@ use
 //  ^^^^^ keyword.declaration.constant.php
 //        ^^^^ comment.block.php
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
-//             ^^^^ support.other.namespace.php
+//             ^^^^ variable.namespace.php
 //                 ^ punctuation.separator.namespace.php
-//                  ^^^^^^ support.other.namespace.php
+//                  ^^^^^^ variable.namespace.php
 //                        ^ punctuation.separator.namespace.php
-//                         ^^^^^^^^^^ constant.other.php - support.function.php - entity.name - support.class.php - support.other.namespace
+//                         ^^^^^^^^^^ constant.other.php - support.function.php - entity.name - support.class.php - variable.namespace
 //                                    ^^^^ comment.block.php
     as /**/ Foo;
 // ^^^^^^^^^^^^ meta.use.php - meta.path
@@ -618,9 +618,9 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //  ^^^^^^^^^^^^ meta.use.php meta.path.php - meta.sequence
 //              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
 //                                           ^ - meta.use - meta.path
-//  ^^^^ support.other.namespace.php
+//  ^^^^ variable.namespace.php
 //      ^ punctuation.separator.namespace.php
-//       ^^^^^^ support.other.namespace.php
+//       ^^^^^^ variable.namespace.php
 //             ^ punctuation.separator.namespace.php
 //              ^ punctuation.section.sequence.begin.php
 //               ^^^^^^ support.class.php - constant - entity - support.function - support.other
@@ -640,9 +640,9 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
 //                                                 ^ - meta.use - meta.path
 //  ^^^^^^^^ keyword.declaration.function.php
-//           ^^^^ support.other.namespace.php
+//           ^^^^ variable.namespace.php
 //               ^ punctuation.separator.namespace.php
-//                ^^^^^^ support.other.namespace.php
+//                ^^^^^^ variable.namespace.php
 //                      ^ punctuation.separator.namespace.php
 //                       ^ punctuation.section.sequence.begin.php
 //                        ^^^^ support.function.php - constant - entity - support.class - support.other
@@ -662,9 +662,9 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
 //                                                    ^ - meta.use - meta.path
 //  ^^^^^ keyword.declaration.constant.php
-//        ^^^^ support.other.namespace.php
+//        ^^^^ variable.namespace.php
 //            ^ punctuation.separator.namespace.php
-//             ^^^^^^ support.other.namespace.php
+//             ^^^^^^ variable.namespace.php
 //                   ^ punctuation.separator.namespace.php
 //                    ^ punctuation.section.sequence.begin.php
 //                     ^^^^^^ constant.other - entity - support.class - support.function - support.other
@@ -757,9 +757,9 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                                            ^ - meta.attribute
 //^^ punctuation.definition.attribute.begin
 //  ^ punctuation.separator.namespace.php
-//   ^^ support.other.namespace.php
+//   ^^ variable.namespace.php
 //     ^ punctuation.separator.namespace.php
-//      ^^^^^^^^^^ support.other.namespace.php
+//      ^^^^^^^^^^ variable.namespace.php
 //                ^ punctuation.separator.namespace.php
 //                 ^^^^^^^^^^^^ support.class.php
 //                             ^ punctuation.section.group.begin.php
@@ -954,11 +954,11 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //        ^^^^^ entity.name.class.php
 //              ^^^^^^^ storage.modifier.extends.php
 //                      ^ punctuation.separator.namespace.php
-//                       ^^^ support.other.namespace.php
+//                       ^^^ variable.namespace.php
 //                          ^ punctuation.separator.namespace.php
 //                            ^^^^^^^^^^ storage.modifier.implements.php
 //                                       ^ punctuation.separator.namespace.php
-//                                        ^^^ support.other.namespace.php
+//                                        ^^^ variable.namespace.php
 //                                           ^ punctuation.separator.namespace.php
 
     ABSTRACT CLASS /**/ #[Anno] /**/ Test6 /**/ EXTENDS /**/ #[Anno] /**/ \My\Foo /**/ IMPLEMENTS /**/ #[Anno] /**/ Bar /**/, /**/ Baz /**/ {  }
@@ -976,7 +976,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                                                                   ^^^^ comment.block.php
 //                                                                        ^^^^^^^ meta.path.php
 //                                                                        ^ punctuation.separator.namespace.php
-//                                                                         ^^ support.other.namespace.php
+//                                                                         ^^ variable.namespace.php
 //                                                                           ^ punctuation.separator.namespace.php
 //                                                                            ^^^ entity.other.inherited-class.php
 //                                                                                ^^^^ comment.block.php
@@ -1005,13 +1005,13 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                      ^^^^^ comment.block.php
 //                            ^^^^^^^^^^^^^^^^ meta.path.php
 //                            ^ punctuation.separator.namespace.php
-//                             ^^^^^^^^^^^ support.other.namespace.php
+//                             ^^^^^^^^^^^ variable.namespace.php
 //                                        ^ punctuation.separator.namespace.php
 //                                         ^^^ entity.other.inherited-class.php
 //                                             ^^^^^^^^^^ storage.modifier.implements.php
 //                                                        ^^^^^^^^^^^^^^^^ meta.path.php
 //                                                        ^ punctuation.separator.namespace.php
-//                                                         ^^^^^^^^^^^ support.other.namespace.php
+//                                                         ^^^^^^^^^^^ variable.namespace.php
 //                                                                    ^ punctuation.separator.namespace.php
 //                                                                     ^^^ entity.other.inherited-class.php
 
@@ -1206,7 +1206,7 @@ interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 //                 ^^^^^^^ storage.modifier.extends.php
 //                         ^^^^^^^^^^^^^^^^ meta.path.php
 //                         ^ punctuation.separator.namespace.php - entity - support
-//                          ^^^^^^^^^^^ support.other.namespace.php
+//                          ^^^^^^^^^^^ variable.namespace.php
 //                                     ^ punctuation.separator.namespace.php - entity - support
 //                                      ^^^ entity.other.inherited-class.php
 //                                         ^ punctuation.separator.comma.php
@@ -1274,7 +1274,7 @@ class B
 //  ^^^^ meta.class.php meta.block.php meta.use.php - meta.path
 //      ^^^^^^^^^^^^^^^ meta.class.php meta.block.php meta.use.php meta.path.php
 //                     ^^ meta.class.php meta.block.php meta.use.php - meta.path
-//      ^^^^^^^^^^^ support.other.namespace.php
+//      ^^^^^^^^^^^ variable.namespace.php
 //                 ^ punctuation.separator.namespace.php
 //                  ^^^ entity.other.inherited-class.php
 //                     ^ punctuation.separator.comma.php
@@ -1318,9 +1318,9 @@ class B
 //      ^^^^^^^^^^ meta.use.php meta.block.php meta.path.php
 //                ^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.block.php - meta.path
 //      ^ punctuation.separator.namespace.php
-//       ^^^ support.other.namespace.php
+//       ^^^ variable.namespace.php
 //          ^ punctuation.separator.namespace.php
-//           ^^^ support.other.namespace.php
+//           ^^^ variable.namespace.php
 //              ^ punctuation.separator.namespace.php
 //               ^ support.class.php
 //                ^^ punctuation.accessor.double-colon.php
@@ -1340,7 +1340,7 @@ class B
 //                 ^^^ support.class
 //                    ^ punctuation.separator.type
 //                     ^ punctuation.separator.namespace
-//                      ^^ support.other.namespace
+//                      ^^ variable.namespace
 //                        ^ punctuation.separator.namespace
 //                         ^^^ support.class
 //                            ^ punctuation.separator.type
@@ -1415,7 +1415,7 @@ class B
 //      ^^^ support.class
 //         ^ punctuation.separator.type
 //          ^ punctuation.separator.namespace
-//           ^^^ support.other.namespace
+//           ^^^ variable.namespace
 //              ^ punctuation.separator.namespace
 //               ^^^ support.class
 //                  ^ punctuation.separator.type
@@ -1427,7 +1427,7 @@ class B
 //      ^^^ support.class
 //         ^ punctuation.separator.type
 //          ^ punctuation.separator.namespace
-//           ^^^ support.other.namespace
+//           ^^^ variable.namespace
 //              ^ punctuation.separator.namespace
 //               ^^^ support.class
 //                  ^ punctuation.separator.type
@@ -1450,7 +1450,7 @@ class B
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.separator.namespace
-//          ^^^ support.other.namespace
+//          ^^^ variable.namespace
 //             ^ punctuation.separator.namespace
 //              ^^^ support.class
 //                 ^ punctuation.separator.type
@@ -1748,7 +1748,7 @@ function foo(?stinrg ...$args) {}
 //                          ^ punctuation.section.group.begin.php
 //                                  ^ punctuation.section.group.end.php
 //                                     ^^^^^^^^^^^^^^^^^ meta.path
-//                                     ^ support.other.namespace.php
+//                                     ^ variable.namespace.php
 //                                                 ^ support.class.php
 
     function nullableReturnType(?int $param1): ?bool {}
@@ -1793,7 +1793,7 @@ function foo(?stinrg ...$args) {}
 //      ^^^ support.class
 //          ^ punctuation.separator.type
 //            ^ punctuation.separator.namespace
-//             ^^^ support.other.namespace
+//             ^^^ variable.namespace
 //                ^ punctuation.separator.namespace
 //                 ^^^ support.class
 //                     ^ punctuation.separator.type
@@ -1805,7 +1805,7 @@ function foo(?stinrg ...$args) {}
 //      ^^^ support.class
 //         ^ punctuation.separator.type
 //          ^ punctuation.separator.namespace
-//           ^^^ support.other.namespace
+//           ^^^ variable.namespace
 //              ^ punctuation.separator.namespace
 //               ^^^ support.class
 //                  ^ punctuation.separator.type
@@ -1824,7 +1824,7 @@ function foo(?stinrg ...$args) {}
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.separator.namespace
-//          ^^^ support.other.namespace
+//          ^^^ variable.namespace
 //             ^ punctuation.separator.namespace
 //              ^^^ support.class
 //                 ^ punctuation.separator.type
@@ -2095,7 +2095,7 @@ try {
 //  ^^^^^ keyword.control.flow.throw.php
 //            ^^^^^^^^^^^^^^^^^ meta.path.php
 //            ^ punctuation.separator.namespace.php
-//             ^^^^^^ support.other.namespace.php
+//             ^^^^^^ variable.namespace.php
 //                   ^ punctuation.separator.namespace.php
 //                    ^^^^^^^^^ support.class.builtin.php
 } catch (/* comment */ ExceptionExample $e) {
@@ -2153,7 +2153,7 @@ try {
 //^^^^^ keyword.control.exception.catch.php
 //      ^ punctuation.section.group.begin.php
 //       ^ punctuation.separator.namespace.php
-//        ^^^^^^ support.other.namespace.php
+//        ^^^^^^ variable.namespace.php
 //              ^ punctuation.separator.namespace.php
 //               ^^^^^^^^^ support.class.builtin.php
 //                         ^^ variable.other.php
@@ -2172,12 +2172,12 @@ try {
 //^^^^^ keyword.control.exception.catch.php
 //      ^ punctuation.section.group.begin.php
 //       ^ punctuation.separator.namespace.php
-//        ^^^^^^ support.other.namespace.php
+//        ^^^^^^ variable.namespace.php
 //              ^ punctuation.separator.namespace.php
 //               ^^^^^^^^^^ support.class.php
 //                          ^ punctuation.separator.type.union.php
 //                            ^ punctuation.separator.namespace.php
-//                             ^^^^^^ support.other.namespace.php
+//                             ^^^^^^ variable.namespace.php
 //                                   ^ punctuation.separator.namespace.php
 //                                    ^^^^^^^^^^ support.class.php
 //                                               ^^ variable.other.php
@@ -2195,7 +2195,7 @@ try {
 //  ^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.path.php
 //                    ^^^ meta.catch.arguments.php meta.group.php - meta.path
 //  ^ punctuation.separator.namespace.php
-//   ^^^^^^ support.other.namespace.php
+//   ^^^^^^ variable.namespace.php
 //         ^ punctuation.separator.namespace.php
 //          ^^^^^^^^^^ support.class.php
 //                     ^ punctuation.separator.type.union.php
@@ -2204,7 +2204,7 @@ try {
 //  ^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php meta.path.php
 //                    ^^^^ meta.catch.arguments.php meta.group.php - meta.path
 //  ^ punctuation.separator.namespace.php
-//   ^^^^^^ support.other.namespace.php
+//   ^^^^^^ variable.namespace.php
 //         ^ punctuation.separator.namespace.php
 //          ^^^^^^^^^^ support.class.php
 //                     ^^ variable.other.php
@@ -2674,7 +2674,7 @@ if ($foo instanceof \Mynamespace\ClassName) {
 //       ^^^^^^^^^^ keyword.other.storage.instanceof.php
 //                  ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
 //                  ^ punctuation.separator.namespace.php
-//                   ^ support.other.namespace.php
+//                   ^ variable.namespace.php
 //                              ^ punctuation.separator.namespace.php
 //                               ^^^^^^^^^ support.class.php
 }
@@ -2684,13 +2684,13 @@ $var = new \MyNamespce\ClassName();
 //     ^ keyword.other
 //         ^^^^^^^^^^^^^^^^^^^^^ meta.path
 //         ^ punctuation.separator.namespace
-//          ^ support.other.namespace
+//          ^ variable.namespace
 //                    ^ punctuation.separator.namespace
 //                     ^ support.class
 
 \MyNamespace\Foo::BAR;
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^ support.class
@@ -2699,7 +2699,7 @@ $var = new \MyNamespce\ClassName();
 
 \MyNamespace\Foo::$Bar
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
@@ -2708,7 +2708,7 @@ $var = new \MyNamespce\ClassName();
 
 \MyNamespace\Foo::class
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
@@ -2717,7 +2717,7 @@ $var = new \MyNamespce\ClassName();
 
 \MyNamespace\Foo::class();
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
@@ -2730,7 +2730,7 @@ $var = new \MyNamespce\ClassName();
 
 \MyNamespace\Foo::bar();
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
@@ -2746,7 +2746,7 @@ $var = new \MyNamespce\ClassName();
 //              ^ meta.function-call.identifier.php - meta.path.php - meta.function-call meta.function-call
 //               ^^ meta.function-call.arguments.php - meta.function-call meta.function-call
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //          ^ punctuation.separator.namespace
 //           ^^^ variable.function
 //               ^^ meta.group
@@ -2755,7 +2755,7 @@ $var = new \MyNamespce\ClassName();
 
 \MyNamespace\Foo;
 // <- punctuation.separator.namespace
- // <- support.other.namespace
+ // <- variable.namespace
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^ constant.other
