@@ -1057,7 +1057,7 @@ contexts:
       scope: keyword.operator.assignment.php
       push: function-call-argument-value
     - include: function-parameters-common
-    - include: spread-operators
+    - include: variadic-operators
     - include: type-hints
 
   function-use:
@@ -2493,7 +2493,7 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
-    - include: spread-operators
+    - include: variadic-operators
     - match: <\?(?i:php\b|(?!php)ph?|=)?
       scope: punctuation.section.embedded.begin.php
     - match: =>
@@ -2552,9 +2552,9 @@ contexts:
       pop: 1
     - include: nested-expressions
 
-  spread-operators:
+  variadic-operators:
     - match: \.\.\.
-      scope: keyword.operator.spread.php
+      scope: keyword.operator.variadic.php
 
   punctuation-separators:
     - match: ','

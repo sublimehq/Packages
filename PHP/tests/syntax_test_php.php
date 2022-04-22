@@ -1726,7 +1726,7 @@ function bye(): never {
 function foo(?stinrg ...$args) {}
 //           ^ storage.type.nullable
 //            ^^^^^^ support.class
-//                   ^^^ keyword.operator.spread
+//                   ^^^ keyword.operator.variadic
 //                      ^^^^^ variable.parameter
 
 
@@ -2232,18 +2232,18 @@ try {
 $arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
 //      ^^^^^ support.function.array
 //           ^ punctuation.section.group.begin
-//                 ^^^ keyword.operator.spread
+//                 ^^^ keyword.operator.variadic
 //                    ^^^^^ variable.other
-//                                ^^^ keyword.operator.spread
+//                                ^^^ keyword.operator.variadic
 //                                             ^ punctuation.separator.comma
 //                                              ^ punctuation.section.group.end
 
 $arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c',];
 //      ^ punctuation.section.sequence.begin
 //          ^ punctuation.separator.comma
-//            ^^^ keyword.operator.spread
+//            ^^^ keyword.operator.variadic
 //               ^^^^^ variable.other
-//                           ^^^ keyword.operator.spread
+//                           ^^^ keyword.operator.variadic
 //                                        ^ punctuation.separator.comma
 //                                         ^ punctuation.section.sequence.end
 
