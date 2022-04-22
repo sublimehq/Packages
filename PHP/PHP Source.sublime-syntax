@@ -2558,7 +2558,7 @@ contexts:
 
   punctuation-separators:
     - match: ','
-      scope: punctuation.separator.comma.php
+      scope: punctuation.separator.sequence.php
 
   punctuation-terminators:
     - match: ;

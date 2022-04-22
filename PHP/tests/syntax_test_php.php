@@ -506,7 +506,7 @@ use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 //                                      ^^^^^^^ entity.name.class.php
 //                                              ^^^^^^^^^^ comment.line.number-sign.php
 , My\Full\NSname;
-// <- meta.use.php punctuation.separator.comma.php
+// <- meta.use.php punctuation.separator.sequence.php
 //^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //              ^ - meta.use - meta.path
 //^^ variable.namespace.php
@@ -624,9 +624,9 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //             ^ punctuation.accessor.namespace.php
 //              ^ punctuation.section.sequence.begin.php
 //               ^^^^^^ support.class.php - constant - entity - support.function - support.other
-//                     ^ punctuation.separator.comma.php
+//                     ^ punctuation.separator.sequence.php
 //                       ^^^^^^ support.class.php - constant - entity - support.function - support.other
-//                             ^ punctuation.separator.comma.php
+//                             ^ punctuation.separator.sequence.php
 //                               ^^^^^^ support.class.php - constant - entity - support.function - support.other
 //                                      ^^ keyword.other.use-as.php
 //                                         ^ entity.name.class.php
@@ -646,9 +646,9 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                      ^ punctuation.accessor.namespace.php
 //                       ^ punctuation.section.sequence.begin.php
 //                        ^^^^ support.function.php - constant - entity - support.class - support.other
-//                            ^ punctuation.separator.comma.php
+//                            ^ punctuation.separator.sequence.php
 //                              ^^^^ support.function.php - constant - entity - support.class - support.other
-//                                  ^ punctuation.separator.comma.php
+//                                  ^ punctuation.separator.sequence.php
 //                                    ^^^^ support.function.php - constant - entity - support.class - support.other
 //                                         ^^ keyword.other.use-as.php
 //                                            ^^^^ entity.name.function.php
@@ -668,11 +668,11 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                   ^ punctuation.accessor.namespace.php
 //                    ^ punctuation.section.sequence.begin.php
 //                     ^^^^^^ constant.other - entity - support.class - support.function - support.other
-//                           ^ punctuation.separator.comma.php
+//                           ^ punctuation.separator.sequence.php
 //                             ^^^^^^ constant.other - entity - support.class - support.function - support.other
 //                                    ^^ keyword.other.use-as.php
 //                                       ^^^^^^ entity.name.constant.php - constant - support.class - support.function - support.other
-//                                             ^ punctuation.separator.comma.php
+//                                             ^ punctuation.separator.sequence.php
 //                                               ^^^^ constant.language.boolean - entity - support.class - support.function - support.other
 //                                                   ^ punctuation.section.sequence.end.php
 //                                                    ^ punctuation.terminator.statement.php
@@ -728,7 +728,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //  ^^^^^^^^^^^^ variable.annotation.php - meta.path
 //              ^ punctuation.section.group.begin.php
 //               ^^^^^^^ string.quoted.single.php
-//                      ^ punctuation.separator.comma.php
+//                      ^ punctuation.separator.sequence.php
 //                        ^^^^^^^ string.quoted.single.php
 //                               ^ punctuation.section.group.end.php
 //                                ^ punctuation.definition.annotation.end.php
@@ -747,10 +747,10 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //               ^^^ support.class.builtin.php
 //                  ^^ punctuation.accessor.double-colon.php
 //                    ^^^^^ variable.language.class.java
-//                         ^ punctuation.separator.comma.php
+//                         ^ punctuation.separator.sequence.php
 //                           ^^^^^^^^^^^^^^ support.constant.core.php
 //                                         ^ punctuation.section.group.end.php
-//                                          ^ punctuation.separator.comma.php
+//                                          ^ punctuation.separator.sequence.php
 //                                            ^^^^^^^^^ variable.annotation.php
 //                                                     ^ punctuation.section.group.begin.php
 //                                                      ^ constant.numeric.value.php
@@ -771,7 +771,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                 ^^^^^^^^^^^^ variable.annotation.php
 //                             ^ punctuation.section.group.begin.php
 //                              ^^^^^ string.quoted.double.php
-//                                   ^ punctuation.separator.comma.php
+//                                   ^ punctuation.separator.sequence.php
 //                                     ^^^^^ string.quoted.double.php
 //                                          ^ punctuation.section.group.end.php
 //                                           ^ punctuation.definition.annotation.end.php
@@ -789,7 +789,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                  ^ constant.numeric.value.php
 //                    ^^ keyword.operator.bitwise.php
 //                       ^ constant.numeric.value.php
-//                        ^ punctuation.separator.comma.php
+//                        ^ punctuation.separator.sequence.php
 //                          ^ constant.numeric.value.php
 //                            ^^ keyword.operator.bitwise.php
 //                               ^ constant.numeric.value.php
@@ -949,7 +949,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                           ^^^ - entity
 //                               ^^^^^^^^^^ storage.modifier.implements.php
 //                                          ^^^ entity.other.inherited-class.php
-//                                             ^ punctuation.separator.comma.php
+//                                             ^ punctuation.separator.sequence.php
 //                                               ^^^ entity.other.inherited-class.php
 //                                                   ^ punctuation.section.block.begin.php
 //                                                    ^ punctuation.section.block.end.php
@@ -994,7 +994,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                                                                                                             ^^^^ comment.block.php
 //                                                                                                                  ^^^ entity.other.inherited-class.php
 //                                                                                                                      ^^^^ comment.block.php
-//                                                                                                                          ^ punctuation.separator.comma.php
+//                                                                                                                          ^ punctuation.separator.sequence.php
 //                                                                                                                            ^^^^ comment.block.php
 //                                                                                                                                 ^^^ entity.other.inherited-class.php
 //                                                                                                                                     ^^^^ comment.block.php
@@ -1173,7 +1173,7 @@ enum Test1 extends Foo, Bar implements Foo, Bar {}
 //                      ^^^ - entity
 //                          ^^^^^^^^^^ storage.modifier.implements.php
 //                                     ^^^ entity.other.inherited-class.php
-//                                        ^ punctuation.separator.comma.php
+//                                        ^ punctuation.separator.sequence.php
 //                                          ^^^ entity.other.inherited-class.php
 //                                              ^ punctuation.section.block.begin.php
 //                                               ^ punctuation.section.block.end.php
@@ -1217,7 +1217,7 @@ interface MyInter2 extends \MyNamespace\Foo, /**/ \ArrayAccess {
 //                          ^^^^^^^^^^^ variable.namespace.php
 //                                     ^ punctuation.accessor.namespace.php - entity - support
 //                                      ^^^ entity.other.inherited-class.php
-//                                         ^ punctuation.separator.comma.php
+//                                         ^ punctuation.separator.sequence.php
 //                                           ^^^^ comment.block.php
 //                                                ^^^^^^^^^^^^ meta.path.php
 //                                                ^ punctuation.accessor.namespace.php - entity - support
@@ -1285,7 +1285,7 @@ class B
 //      ^^^^^^^^^^^ variable.namespace.php
 //                 ^ punctuation.accessor.namespace.php
 //                  ^^^ entity.other.inherited-class.php
-//                     ^ punctuation.separator.comma.php
+//                     ^ punctuation.separator.sequence.php
     Y,
 //  ^ meta.use entity.other.inherited-class - meta.path
     Z {
@@ -1565,7 +1565,7 @@ function a($a = array(),             $b = "hi") {};
 //              ^^^^^ support.function.array.php
 //                   ^ punctuation.section.group.begin.php
 //                    ^ punctuation.section.group.end.php
-//                     ^ punctuation.separator.comma.php
+//                     ^ punctuation.separator.sequence.php
 //                                   ^^ variable.parameter.php
 //                                      ^ keyword.operator.assignment.php
 //                                        ^^^^ meta.string.php string.quoted.double.php
@@ -1616,7 +1616,7 @@ function array_values_from_keys($arr, $keys) {
 //                      ^^ variable.parameter.php
 //                        ^ punctuation.section.group.end.php
 //                          ^^ keyword.declaration.function.arrow.php
-//                                     ^ punctuation.separator.comma.php
+//                                     ^ punctuation.separator.sequence.php
 //                                              ^^ keyword.declaration.function.php
 //                                                ^ punctuation.section.group.begin.php
 //                                                 ^^ variable.parameter.php
@@ -1684,14 +1684,14 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                        ^^^^^ support.function.array.php
 //                             ^ punctuation.section.group.begin.php
 //                              ^ punctuation.section.group.end.php
-//                               ^ punctuation.separator.comma.php
+//                               ^ punctuation.separator.sequence.php
 //                                 ^^^^^^^^^ support.class.php
 //                                           ^^^^ variable.parameter.php
 //                                               ^ punctuation.section.group.end.php
 //                                                 ^^^ keyword.other.function.use.php
 //                                                     ^ punctuation.section.group.begin.php
 //                                                      ^^^^^ variable.parameter.php
-//                                                           ^ punctuation.separator.comma.php
+//                                                           ^ punctuation.separator.sequence.php
 //                                                             ^^^^^ variable.parameter.php
 //                                                                  ^ punctuation.section.group.end.php
 //                                                                    ^ punctuation.section.block.begin.php
@@ -2235,16 +2235,16 @@ $arr3 = array('a', ...$arr1, 'b', ...$arr2, 'c',);
 //                 ^^^ keyword.operator.variadic
 //                    ^^^^^ variable.other
 //                                ^^^ keyword.operator.variadic
-//                                             ^ punctuation.separator.comma
+//                                             ^ punctuation.separator.sequence
 //                                              ^ punctuation.section.group.end
 
 $arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c',];
 //      ^ punctuation.section.sequence.begin
-//          ^ punctuation.separator.comma
+//          ^ punctuation.separator.sequence
 //            ^^^ keyword.operator.variadic
 //               ^^^^^ variable.other
 //                           ^^^ keyword.operator.variadic
-//                                        ^ punctuation.separator.comma
+//                                        ^ punctuation.separator.sequence
 //                                         ^ punctuation.section.sequence.end
 
 $array = [   ];
@@ -2349,9 +2349,9 @@ func_call(true, 1, "string");
 //       ^ punctuation.section.group.begin
 //                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
-//            ^ punctuation.separator.comma
+//            ^ punctuation.separator.sequence
 //              ^ meta.number.integer.decimal constant.numeric.value
-//               ^ punctuation.separator.comma
+//               ^ punctuation.separator.sequence
 //                 ^^^^^^^^ string.quoted.double
 
 $object->method(func_call());
@@ -2448,7 +2448,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //               ^^^^^^^^^^^^^^^^^^ meta.group.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
-//                       ^ punctuation.separator.comma
+//                       ^ punctuation.separator.sequence
 //                         ^ variable.other.php
 //                                ^ punctuation.section.group.end.php
 //                                  ^ storage.modifier.extends.php
@@ -2467,7 +2467,7 @@ $anon = new /* comment */ #[anno] class($param1, $param2) extends Test1 implemen
 //                                     ^^^^^^^^^^^^^^^^^^ meta.group.php
 //                                     ^ punctuation.section.group.begin.php
 //                                      ^ variable.other.php
-//                                             ^ punctuation.separator.comma
+//                                             ^ punctuation.separator.sequence
 //                                               ^ variable.other.php
 //                                                      ^ punctuation.section.group.end.php
 //                                                        ^ storage.modifier.extends.php
@@ -2485,7 +2485,7 @@ $user_1 = new User("John", "a@b.com");
 //            ^^^^ support.class.php
 //                ^ punctuation.section.group.begin.php
 //                 ^^^^^^ meta.string.php string.quoted.double.php
-//                       ^ punctuation.separator.comma
+//                       ^ punctuation.separator.sequence
 //                         ^^^^^^^^^ meta.string.php string.quoted.double.php
 //                                  ^ punctuation.section.group.end.php
 //                                   ^ punctuation.terminator.statement.php
@@ -2502,7 +2502,7 @@ $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
 //                                  ^^^^ support.class.php
 //                                      ^ punctuation.section.group.begin.php
 //                                       ^^^^^^ meta.string.php string.quoted.double.php
-//                                             ^ punctuation.separator.comma
+//                                             ^ punctuation.separator.sequence
 //                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
 //                                                        ^ punctuation.section.group.end.php
 //                                                         ^ punctuation.terminator.statement.php
@@ -2519,7 +2519,7 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //                                  ^^^^ variable.other.php
 //                                      ^ punctuation.section.group.begin.php
 //                                       ^^^^^^ meta.string.php string.quoted.double.php
-//                                             ^ punctuation.separator.comma
+//                                             ^ punctuation.separator.sequence
 //                                               ^^^^^^^^^ meta.string.php string.quoted.double.php
 //                                                        ^ punctuation.section.group.end.php
 //                                                         ^ punctuation.terminator.statement.php
