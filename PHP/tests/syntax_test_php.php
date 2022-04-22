@@ -3137,19 +3137,19 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //     ^ string.quoted.double.php punctuation.definition.string.begin.php
 //      ^^^^^^ keyword.other.DML.sql
 //             ^ string.quoted.double.php punctuation.definition.string.end.php
-//               ^ keyword.operator.string.php
+//               ^ keyword.operator.concatenation.php
 //                 ^^^^ variable.other.php
-//                      ^ keyword.operator.string.php
+//                      ^ keyword.operator.concatenation.php
 //                        ^ string.quoted.double.php punctuation.definition.string.begin.php
 //                              ^^^^^^ variable.other.php
 //                                                         ^ string.quoted.double.php punctuation.definition.string.end.php
-//                                                           ^ keyword.operator.string.php
+//                                                           ^ keyword.operator.concatenation.php
 //                                                             ^^^^^ variable.other.php
-//                                                                   ^ keyword.operator.string.php
+//                                                                   ^ keyword.operator.concatenation.php
 //                                                                     ^ string.quoted.double.php punctuation.definition.string.begin.php
 //                                                                       ^ string.quoted.double.php punctuation.definition.string.end.php
 //                                                                         ^ punctuation.terminator.statement.php
-//                                                                           ^ keyword.operator.string.php
+//                                                                           ^ keyword.operator.concatenation.php
 //                                                                                        ^ punctuation.terminator.statement.php
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
@@ -3192,18 +3192,18 @@ $sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'G
 //     ^ string.quoted.single.php punctuation.definition.string.begin.php
 //      ^^^^^^ keyword.other.DML.sql
 //             ^ string.quoted.single.php punctuation.definition.string.end.php
-//               ^ keyword.operator.string.php
+//               ^ keyword.operator.concatenation.php
 //                 ^^^^ variable.other.php
-//                      ^ keyword.operator.string.php
+//                      ^ keyword.operator.concatenation.php
 //                        ^ string.quoted.single.php punctuation.definition.string.begin.php
 //                                                        ^ string.quoted.single.php punctuation.definition.string.end.php
-//                                                          ^ keyword.operator.string.php
+//                                                          ^ keyword.operator.concatenation.php
 //                                                            ^^^^^ variable.other.php
-//                                                                  ^ keyword.operator.string.php
+//                                                                  ^ keyword.operator.concatenation.php
 //                                                                    ^ string.quoted.single.php punctuation.definition.string.begin.php
 //                                                                      ^ string.quoted.single.php punctuation.definition.string.end.php
 //                                                                        ^ punctuation.terminator.statement.php
-//                                                                          ^ keyword.operator.string.php
+//                                                                          ^ keyword.operator.concatenation.php
 //                                                                                       ^ punctuation.terminator.statement.php
 
 

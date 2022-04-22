@@ -2525,7 +2525,7 @@ contexts:
     - match: \!
       scope: keyword.operator.logical.php
     - match: \.
-      scope: keyword.operator.string.php
+      scope: keyword.operator.concatenation.php
     - match: \?(?!>)
       scope: keyword.operator.ternary.php
       push: ternary-expression
