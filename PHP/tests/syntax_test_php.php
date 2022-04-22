@@ -1241,33 +1241,8 @@ trait A
 //    ^ entity.name.trait.php
 {
 // <- meta.trait.php meta.block.php punctuation.section.block.begin.php
-    public static ?Foo $str = '';
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait.php meta.block.php
-//  ^^^^^^ storage.modifier.access.php
-//         ^^^^^^ storage.modifier.namespace.php
-//                ^ storage.type.nullable.php
-//                 ^^^ support.class.php
-//                     ^ variable.other.php punctuation.definition.variable.php
-//                      ^^^ variable.other.php - punctuation
-//                          ^ keyword.operator.assignment.php
-//                            ^^ string.quoted.single.php
-
-    protected int $int = 0;
-//  ^^^^^^^^^ storage.modifier.access.php
-//            ^^^ storage.type.php
-//                ^^^^ variable.other.php
-//                     ^ keyword.operator.assignment.php
-//                       ^ constant.numeric.value.php
-//                        ^ punctuation.terminator.statement.php
-
-    private bool $bool = TRUE;
-//  ^^^^^^^ storage.modifier.access.php
-//          ^^^^ storage.type.php
-//               ^^^^^ variable.other.php
-//                     ^ keyword.operator.assignment.php
-//                       ^^^^ constant.language.boolean.php
-//                           ^ punctuation.terminator.statement.php
 }
+// <- meta.trait.php meta.block.php punctuation.section.block.end.php
 
 
 /******************************************************************************
@@ -1341,22 +1316,6 @@ class B
 //   ^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.use
 //    ^ storage.modifier
 
-    public static ?Foo|\My\Bar|int $str = '';
-//  ^^^^^^ storage.modifier
-//         ^^^^^^ storage.modifier
-//                ^ storage.type.nullable
-//                 ^^^ support.class
-//                    ^ punctuation.separator.type
-//                     ^ punctuation.accessor.namespace
-//                      ^^ variable.namespace
-//                        ^ punctuation.accessor.namespace
-//                         ^^^ support.class
-//                            ^ punctuation.separator.type
-//                             ^^^ storage.type
-//                                 ^ punctuation.definition.variable
-//                                  ^^^ variable.other
-//                                      ^ keyword.operator.assignment
-
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^ keyword.declaration.constant.php
@@ -1375,9 +1334,6 @@ class B
 //                     ^^^^^ entity.name.constant.php
 //                           ^ keyword.operator.assignment
 //                             ^^^^^ support.function.array.php
-
-    private readonly $prop;
-//          ^^^^^^^^ storage.modifier
 
     public function __construct(
         public readonly int $val = 1
@@ -1536,6 +1492,113 @@ class B
         return new self();
 //                 ^^^^ variable.language.this.php
     }
+}
+
+
+/******************************************************************************
+ * Typed Property Tests
+ * @link https://wiki.php.net/rfc/typed_properties_v2
+ *****************************************************************************/
+
+class TestTypedProperties {
+
+    public static ?Foo $str = '';
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^^^^ storage.modifier.namespace.php
+//                ^ storage.type.nullable.php
+//                 ^^^ support.class.php
+//                     ^ variable.other.php punctuation.definition.variable.php
+//                      ^^^ variable.other.php - punctuation
+//                          ^ keyword.operator.assignment.php
+//                            ^^ string.quoted.single.php
+
+    protected int $int = 0;
+//  ^^^^^^^^^ storage.modifier.access.php
+//            ^^^ storage.type.php
+//                ^^^^ variable.other.php
+//                     ^ keyword.operator.assignment.php
+//                       ^ constant.numeric.value.php
+//                        ^ punctuation.terminator.statement.php
+
+    private bool $bool = TRUE;
+//  ^^^^^^^ storage.modifier.access.php
+//          ^^^^ storage.type.php
+//               ^^^^^ variable.other.php
+//                     ^ keyword.operator.assignment.php
+//                       ^^^^ constant.language.boolean.php
+//                           ^ punctuation.terminator.statement.php
+    private readonly $prop;
+//          ^^^^^^^^ storage.modifier
+
+    // All types with the exception of "void" and "callable" are supported
+    public int $scalarType;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^ storage.type.php
+//             ^^^^^^^^^^^ variable.other.php
+
+    protected ClassName $classType;
+//  ^^^^^^^^^ storage.modifier.access.php
+//            ^^^^^^^^^ support.class.php
+//                      ^^^^^^^^^^ variable.other.php
+
+    private ?ClassName $nullableClassType;
+//  ^^^^^^^ storage.modifier.access.php
+//          ^ storage.type.nullable.php
+//           ^^^^^^^^^ support.class.php
+//                     ^^^^^^^^^^ variable.other.php
+
+    // Types are also legal on static properties
+    public static iterable $staticProp;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^^^^ storage.modifier.namespace.php
+//                ^^^^^^^^ storage.type.php
+//                         ^^^^^^^^^^^ variable.other.php
+
+    // Types can also be used with the "var" notation
+    var bool $flag;
+//  ^^^ keyword.declaration.variable.php
+//      ^^^^ storage.type.php
+//           ^^^^^ variable.other.php
+
+    // Typed properties may have default values
+    public string $str = "foo";
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^^^^ storage.type.php
+//                ^^^^ variable.other.php
+//                     ^ keyword.operator.assignment.php
+//                       ^^^^^ string.quoted.double.php
+
+    public ?string $nullableStr = null;
+//  ^^^^^^ storage.modifier.access.php
+//         ^ storage.type.nullable.php
+//          ^^^^^^ storage.type.php
+//                 ^^^^^^^^^^^^ variable.other.php
+//                              ^ keyword.operator.assignment.php
+//                                ^^^^ constant.language.null.php
+
+    // The type applies to all properties in one declaration
+    public float $x, $y;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^^^ storage.type.php
+//               ^^ variable.other.php
+//                 ^ punctuation.separator.sequence.php
+//                   ^^ variable.other.php
+
+    public static ?Foo|\My\Bar|int $str = '';
+//  ^^^^^^ storage.modifier
+//         ^^^^^^ storage.modifier
+//                ^ storage.type.nullable
+//                 ^^^ support.class
+//                    ^ punctuation.separator.type
+//                     ^ punctuation.accessor.namespace
+//                      ^^ variable.namespace
+//                        ^ punctuation.accessor.namespace
+//                         ^^^ support.class
+//                            ^ punctuation.separator.type
+//                             ^^^ storage.type
+//                                 ^ punctuation.definition.variable
+//                                  ^^^ variable.other
+//                                      ^ keyword.operator.assignment
 }
 
 
