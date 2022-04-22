@@ -236,7 +236,7 @@ contexts:
 
   comments:
     - match: \%+
-      scope: punctuation.definition.comment.percentage.erlang
+      scope: punctuation.definition.comment.erlang
       push: comment-body
 
   comment-body:
