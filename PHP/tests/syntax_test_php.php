@@ -2643,6 +2643,130 @@ $foo = (unset) $bar;
 $
 # <- punctuation.definition.variable
 
+    += -= *= /= %= &= |= ^= >>= <<= .= ??=
+// ^ - keyword
+//  ^^ keyword.operator.assignment.augmented.php
+//    ^ - keyword
+//     ^^ keyword.operator.assignment.augmented.php
+//       ^ - keyword
+//        ^^ keyword.operator.assignment.augmented.php
+//          ^ - keyword
+//           ^^ keyword.operator.assignment.augmented.php
+//             ^ - keyword
+//              ^^ keyword.operator.assignment.augmented.php
+//                ^ - keyword
+//                 ^^ keyword.operator.assignment.augmented.php
+//                   ^ - keyword
+//                    ^^ keyword.operator.assignment.augmented.php
+//                      ^ - keyword
+//                       ^^ keyword.operator.assignment.augmented.php
+//                         ^ - keyword
+//                          ^^^ keyword.operator.assignment.augmented.php
+//                             ^ - keyword
+//                              ^^^ keyword.operator.assignment.augmented.php
+//                                 ^ - keyword
+//                                  ^^ keyword.operator.assignment.augmented.php
+//                                    ^ - keyword
+//                                     ^^^ keyword.operator.assignment.augmented.php
+//                                        ^ - keyword
+
+    = =& &con
+// ^ - keyword
+//  ^ keyword.operator.assignment.php
+//   ^ - keyword
+//    ^ keyword.operator.assignment.php
+//     ^ storage.modifier.reference.php
+//      ^ - keyword
+//       ^ storage.modifier.reference.php
+//        ^^^ constant.other.php
+
+    + - * / %
+// ^ - keyword
+//  ^ keyword.operator.arithmetic.php
+//   ^ - keyword
+//    ^ keyword.operator.arithmetic.php
+//     ^ - keyword
+//      ^ keyword.operator.arithmetic.php
+//       ^ - keyword
+//        ^ keyword.operator.arithmetic.php
+//         ^ - keyword
+//          ^ keyword.operator.arithmetic.php
+//           ^ - keyword
+
+    << >> ~ ^ & |
+// ^ - keyword
+//  ^^ keyword.operator.bitwise.php
+//    ^ - keyword
+//     ^^ keyword.operator.bitwise.php
+//       ^ - keyword
+//        ^ keyword.operator.bitwise.php
+//         ^ - keyword
+//          ^ keyword.operator.bitwise.php
+//           ^ - keyword
+//            ^ keyword.operator.bitwise.php
+//             ^ - keyword
+//              ^ keyword.operator.bitwise.php
+//               ^ - keyword
+
+    === !== <=> == != <= >= <> < > =>
+// ^ - keyword
+//  ^^^ keyword.operator.comparison.php
+//     ^ - keyword
+//      ^^^ keyword.operator.comparison.php
+//         ^ - keyword
+//          ^^^ keyword.operator.comparison.php
+//             ^ - keyword
+//              ^^ keyword.operator.comparison.php
+//                ^ - keyword
+//                 ^^ keyword.operator.comparison.php
+//                   ^ - keyword
+//                    ^^ keyword.operator.comparison.php
+//                      ^ - keyword
+//                       ^^ keyword.operator.comparison.php
+//                         ^ - keyword
+//                          ^^ keyword.operator.comparison.php
+//                            ^ - keyword
+//                             ^ keyword.operator.comparison.php
+//                              ^ - keyword
+//                               ^ keyword.operator.comparison.php
+//                                ^^^^ - keyword
+//                                 ^^ punctuation.separator.key-value.php
+
+    && || !
+// ^ - keyword
+//  ^^ keyword.operator.logical.php
+//    ^ - keyword
+//     ^^ keyword.operator.logical.php
+//       ^ - keyword
+//        ^ keyword.operator.logical.php
+//         ^ - keyword
+
+    and or xor as
+// ^ - keyword
+//  ^^^ keyword.operator.logical.php
+//     ^ - keyword
+//      ^^ keyword.operator.logical.php
+//        ^ - keyword
+//         ^^^ keyword.operator.logical.php
+//            ^ - keyword
+//             ^^ keyword.operator.logical.php
+//               ^ - keyword
+
+    ? ?? : :
+// ^ - keyword
+//  ^ keyword.operator.ternary.php
+//   ^ - keyword
+//    ^^ keyword.operator.null-coalescing.php
+//      ^ - keyword
+//       ^ keyword.operator.ternary.php
+//        ^^^ - keyword
+//         ^ punctuation.separator.colon.php
+
+    . ...
+//  ^ keyword.operator.concatenation.php
+//    ^^^ keyword.operator.variadic.php
+
+
 $a += .5;
 // ^^ keyword.operator.assignment.augmented.php
 //    ^^ constant.numeric
@@ -2656,22 +2780,26 @@ $a ??= 1;
 $a = $b ?? 1;
 //      ^^ keyword.operator.null-coalescing.php
 
-
 $a = $b ? $c::MY_CONST : $d * 5;
-//      ^ keyword.operator.ternary
-//        ^^ variable.other
-//          ^^ punctuation.accessor.double-colon
-//            ^^^^^^^^ constant.other
-//                     ^ keyword.operator.ternary
-//                          ^ keyword.operator.arithmetic
+//      ^ keyword.operator.ternary.php
+//        ^^ variable.other.php
+//          ^^ punctuation.accessor.double-colon.php
+//            ^^^^^^^^ constant.other.member.php
+//                     ^ keyword.operator.ternary.php
+//                          ^ keyword.operator.arithmetic.php
 
 $a = $b ? : $c::MY_CONST;
-//      ^ keyword.operator.ternary
-//        ^ keyword.operator.ternary
-//          ^^ variable.other
-//            ^^ punctuation.accessor.double-colon
-//              ^^^^^^^^ constant.other
+//      ^ keyword.operator.ternary.php
+//        ^ keyword.operator.ternary.php
+//          ^^ variable.other.php
+//            ^^ punctuation.accessor.double-colon.php
+//              ^^^^^^^^ constant.other.member.php
 
+$a = $b ? $c ? foo : bar : baz;
+//      ^ keyword.operator.ternary.php
+//           ^ keyword.operator.ternary.php
+//                 ^ keyword.operator.ternary.php
+//                       ^ keyword.operator.ternary.php
 
 /******************************************************************************
  * Qualified Identifier and Member Access Tests

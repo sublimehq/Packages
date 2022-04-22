@@ -2505,8 +2505,6 @@ contexts:
         1: keyword.operator.assignment.php
         2: storage.modifier.reference.php
         3: storage.modifier.reference.php
-    - match: \-\-|\+\+
-      scope: keyword.operator.increment-decrement.php
     - match: \|\||&&
       scope: keyword.operator.logical.php
     - match: <<|>>|~|\^|&|\|
