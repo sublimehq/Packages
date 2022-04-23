@@ -2070,6 +2070,12 @@
     font: initial;
 /*        ^^^^^^^ support - string */
 
+    font: revert;
+/*        ^^^^^^ support - string */
+
+    font: revert-layer;
+/*        ^^^^^^^^^^^^ support - string */
+
     font: unset;
 /*        ^^^^^ support - string */
 

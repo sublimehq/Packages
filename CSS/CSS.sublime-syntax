@@ -438,12 +438,16 @@ variables:
 
   property_value_constants: |-
     (?x:
-      {{font_display_constants}}
+      {{global_property_constants}}
+    | {{font_display_constants}}
     | {{font_property_constants}}
     | {{font_size_constants}}
     | {{font_style_constants}}
     | {{unsorted_property_constants}}
     )
+
+  global_property_constants:  |-
+    \b(?xi: inherit | initial | revert | revert-layer | unset ){{break}}
 
   unsorted_property_constants: |-
     \b(?xi:
@@ -508,7 +512,7 @@ variables:
     | horizontal(-tb)?
     | hue
     | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
-    | inactive|include-ruby|infinite|inherit|initial
+    | inactive|include-ruby|infinite
     | inline(-block|-box|-flex(box)?|-line-height|-table)?
     | inset|inside
     | inter(-ideograph|-word|sect)
@@ -589,7 +593,7 @@ variables:
     | touch|traditional
     | transform(-origin)?
     | under(-edge|line)?
-    | unicase|unsafe|unset|uppercase|upright
+    | unicase|unsafe|uppercase|upright
     | use-(glyph-orientation|script)
     | verso
     | vertical(-align|-ideographic|-lr|-rl|-text)?
