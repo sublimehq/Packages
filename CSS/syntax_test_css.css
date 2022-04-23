@@ -2082,9 +2082,9 @@
 /*              ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*               ^^^^^^^^^^ meta.property-list.css meta.property-value.css */
 /*                         ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*  ^^^^^^^^^^^^ - entity - support */
+/*  ^^^^^^^^^^^^ support.type.property-name.css */
 /*              ^ punctuation.separator.key-value.css */
-/*                ^^^^^^^^^ constant.other.css - support */
+/*                ^^^^^^^^^ support.constant.property-value.css */
 
     font-family: Red/Black, sans-serif;
 /*                  ^ - string */
@@ -2333,7 +2333,7 @@
 /*                           ^ constant.numeric.value.css */
 /*                            ^ punctuation.section.group.end.css */
 /*                              ^^^^^ meta.number.integer.decimal.css */
-/*                                    ^^^^^ constant.other.css */
+/*                                    ^^^^^ support.constant.property-value.css */
 /*                                         ^ punctuation.section.group.end.css */
 /*                                          ^ punctuation.terminator.rule.css */
 }
