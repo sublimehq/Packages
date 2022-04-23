@@ -1,10 +1,10 @@
 % SYNTAX TEST "Packages/Erlang/Erlang.sublime-syntax"
-% <- comment.line.percentage.erlang punctuation.definition.comment.percentage.erlang
+% <- comment.line.percentage.erlang punctuation.definition.comment.erlang
 % ^ comment.line.percentage.erlang
 %                                                   ^^ comment.line.percentage.erlang
 
 %%%%%%%%%%%%%--%%
-%^^^^^^^^^^^^ comment.line.percentage.erlang punctuation.definition.comment.percentage.erlang
+%^^^^^^^^^^^^ comment.line.percentage.erlang punctuation.definition.comment.erlang
 %            ^^^^^ comment.line.percentage.erlang - punctuation
 
 % Atom tests
@@ -4321,7 +4321,7 @@ func_name(Mod, Name, _, {Enc,Depth}, <<Code:32/little-unsigned>>) ->
 %                 ^ keyword.operator.comparison.erlang
 %                  ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %                    ^^ punctuation.separator.clause-head-body.erlang
-%                        ^ punctuation.definition.comment.percentage.erlang
+%                        ^ punctuation.definition.comment.erlang
 %                        ^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.erlang
         N * fact(N-1);   % first clause body
 %   ^^^^^^^^^^^^^^^^^^ meta.function.erlang
