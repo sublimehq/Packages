@@ -1369,6 +1369,69 @@
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
+.test-counter-properties {
+
+    /* Set "my-counter" to 0 */
+    counter-set: my-counter;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^ entity.other.counter-name.css */
+/*                         ^ punctuation.terminator.rule.css */
+    /* Set "my-counter" to -1 */
+    counter-set: my-counter -1;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^ entity.other.counter-name.css */
+/*                          ^^ meta.number.integer.decimal.css */
+/*                            ^ punctuation.terminator.rule.css */
+
+    /* Set "counter1" to 1, and "counter2" to 4 */
+    counter-set: counter1 1 counter2 4;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^ entity.other.counter-name.css */
+/*                        ^ constant.numeric.value.css */
+/*                          ^^^^^^^^ entity.other.counter-name.css */
+/*                                   ^ constant.numeric.value.css */
+/*                                    ^ punctuation.terminator.rule.css */
+
+    /* Cancel any counter that could have been set in less specific rules */
+    counter-set: none;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^ constant.language.null.css */
+/*                   ^ punctuation.terminator.rule.css */
+
+    /* Global values */
+    counter-set: inherit;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^ support.constant.property-value.css */
+/*                      ^ punctuation.terminator.rule.css */
+
+    counter-set: initial;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^ support.constant.property-value.css */
+/*                      ^ punctuation.terminator.rule.css */
+    counter-set: revert;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^ support.constant.property-value.css */
+/*                     ^ punctuation.terminator.rule.css */
+
+    counter-set: revert-layer;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^^^ support.constant.property-value.css */
+/*                           ^ punctuation.terminator.rule.css */
+    counter-set: unset;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^ support.constant.property-value.css */
+/*                    ^ punctuation.terminator.rule.css */
+}
+
 .test-var-functions {
     --test-var: arial;
 /*  ^^^^^^^^^^ entity.other.custom-property.css */
