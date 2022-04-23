@@ -34,7 +34,7 @@ def get_properties():
             "stretch",
         ],
         "align-tracks": ["normal"],
-        "all": ["revert"],
+        "all": [],
         "alt": [],
         "animation": [
             "<animation-direction>",
@@ -336,7 +336,6 @@ def get_properties():
             "flow",
             "flow-root",
             "grid",
-            "revert",
             "ruby",
             "ruby-base",
             "ruby-text",
@@ -1150,7 +1149,7 @@ def get_properties():
 
     for names, values in properties_dict.items():
         # Values that are allowed for all properties
-        allowed_values = ["inherit", "initial", "unset", ["var()", "var($1)"]]
+        allowed_values = ["inherit", "initial", "revert", "revert-layer", "unset", ["var()", "var($1)"]]
 
         # Determine which values are available for the current property name
         for value in values:
