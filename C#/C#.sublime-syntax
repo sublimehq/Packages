@@ -265,28 +265,55 @@ contexts:
 
   namespace_declaration:
     # package declaration
-    - match: '\b(namespace)\b'
+    - match: \b(namespace)\b
       scope: keyword.declaration.namespace.cs
       push:
-        - meta_scope: meta.namespace.cs
-        - match: '(?={{name}})'
-          push:
-            - meta_content_scope: entity.name.namespace.cs
-            - match: '{{name}}'
-            - match: \.
-              scope: punctuation.separator.namespace.cs
-            - match: ''
-              pop: true
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.namespace.cs meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - include: main
-        - match: (?=\S)
-          pop: true
+        - namespace_declaration_meta
+        - namespace_declaration_block
+        - namespace_declaration_name
+
+  namespace_declaration_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.namespace.cs
+    - match: ''
+      pop: true
+
+  namespace_declaration_name:
+    - match: ({{name}})\s*(\.)
+      captures:
+        1: variable.namespace.cs
+        2: punctuation.accessor.dot.cs
+      set: qualified_namespace_declaration_name
+    - include: unqualified_namespace_declaration_name
+
+  qualified_namespace_declaration_name:
+    - meta_scope: meta.path.cs
+    - match: ({{name}})\s*(\.)
+      captures:
+        1: variable.namespace.cs
+        2: punctuation.accessor.dot.cs
+    - include: unqualified_namespace_declaration_name
+
+  unqualified_namespace_declaration_name:
+    - match: '{{name}}'
+      scope: entity.name.namespace.cs
+      pop: true
+    - match: (?=\S)
+      pop: true
+
+  namespace_declaration_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: namespace_declaration_block_body
+    - match: (?=\S)
+      pop: true
+
+  namespace_declaration_block_body:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - include: main
 
   class_declaration:
     - match: '\b(static|unsafe|abstract|partial|sealed)\b'

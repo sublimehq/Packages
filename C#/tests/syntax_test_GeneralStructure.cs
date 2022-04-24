@@ -4,8 +4,10 @@
 using System;
 
 namespace YourNamespace
+///^^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs - meta.path
 ///<- keyword.declaration.namespace
-///        ^ entity.name.namespace
+///^^^^^^ keyword.declaration.namespace.cs
+///       ^^^^^^^^^^^^^ entity.name.namespace.cs
 {
 ///<- punctuation.section.block.begin
     class YourClass
@@ -241,8 +243,18 @@ namespace YourNamespace
 ///                                                 ^^  support.type
 ///                                                   ^  punctuation.definition.generic.end
 
-namespace TestNamespace.Test
+namespace TestNamespace . Test
+///^^^^^^^ meta.namespace.cs meta.namespace.cs - meta.path
+///       ^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs meta.namespace.cs meta.path.cs
+///                           ^ meta.namespace.cs meta.namespace.cs - meta.path
+///<- keyword.declaration.namespace
+///^^^^^^ keyword.declaration.namespace.cs
+///       ^^^^^^^^^^^^^ variable.namespace.cs
+///                     ^ punctuation.accessor.dot.cs
+///                       ^^^^ entity.name.namespace.cs
 {
+/// <- meta.namespace.cs meta.namespace.cs meta.block.cs punctuation.section.block.begin.cs
+
     using NodeName = SomeNamespace.SomeClass;
 
     public class Derived : Base
