@@ -267,7 +267,17 @@ def get_common_values():
             ["ornaments()", "ornaments($1)"],
             ["annotation()", "annotation($1)"],
         ],
-        "generic-font-name": ["serif", "sans-serif", "cursive", "fantasy", "monospace"],
+        "generic-font-name": [
+            "serif",
+            "sans-serif",
+            "cursive",
+            "fantasy",
+            "monospace" "caption",
+            "icon",
+            "menu",
+            "message-box",
+            "status-bar",
+        ],
         "gradient": [
             ["conic-gradient()", "conic-gradient($1)"],
             ["linear-gradient()", "linear-gradient($1)"],
