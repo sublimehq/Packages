@@ -1356,15 +1356,28 @@ contexts:
       scope: keyword.other.use-as.php
       push: use-statement-function-alias
     - include: use-statement-common
+    - include: use-function-names
     - include: punctuation-separators
-    - include: identifier-parts-as-path
+
+  use-function-names:
     # Don't mark this as entity.name.function since the name is pulled verbatim
     # and the indexer should find the name in the original source file.
-    - match: (\\)?({{identifier}})
-      scope: meta.path.php
+    - match: ({{identifier}})?(\\)
       captures:
-        1: punctuation.accessor.namespace.php
-        2: support.function.php
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
+      push: use-qualified-function-name
+    - match: '{{identifier}}'
+      scope: support.function.php
+
+  use-qualified-function-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
+    - include: qualifiers
+    - match: '{{identifier}}'
+      scope: support.function.php
+      pop: 1
+    - include: immediately-pop
 
   use-statement-function-alias:
     - match: '{{guarded_identifier}}'
@@ -1905,14 +1918,6 @@ contexts:
       pop: 1
 
 ###[ IDENTIFIERS ]############################################################
-
-  identifier-parts-as-path:
-    - match: (\\)?({{identifier}})(\\)
-      scope: meta.path.php
-      captures:
-        1: punctuation.accessor.namespace.php
-        2: variable.namespace.php
-        3: punctuation.accessor.namespace.php
 
   qualifiers:
     - match: ({{identifier}})(\\)
