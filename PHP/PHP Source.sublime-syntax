@@ -1716,8 +1716,10 @@ contexts:
     - include: function-call-arguments-body
 
   attribute-names:
-    - match: \\|(?={{identifier}}\\)
-      scope: punctuation.accessor.namespace.php
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
       push: qualified-attribute-name
     - match: (?={{identifier_start}})
       push: unqualified-attribute-name
@@ -1805,15 +1807,19 @@ contexts:
 ###[ CLASSES ]################################################################
 
   class-names:
-    - match: \\|(?={{identifier}}\\)
-      scope: punctuation.accessor.namespace.php
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
       push: qualified-class-name
     - match: (?={{identifier_start}})
       push: unqualified-class-name
 
   class-name:
-    - match: \\|(?={{identifier}}\\)
-      scope: punctuation.accessor.namespace.php
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
       set: qualified-class-name
     - match: (?={{identifier_start}})
       set: unqualified-class-name
@@ -1835,15 +1841,19 @@ contexts:
     - include: immediately-pop
 
   inherited-class-names:
-    - match: \\|(?={{identifier}}\\)
-      scope: punctuation.accessor.namespace.php
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
       push: qualified-inherited-class-name
     - match: (?={{identifier_start}})
       push: unqualified-inherited-class-name
 
   inherited-class-name:
-    - match: \\|(?={{identifier}}\\)
-      scope: punctuation.accessor.namespace.php
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
       set: qualified-inherited-class-name
     - match: (?={{identifier_start}})
       set: unqualified-inherited-class-name
@@ -1873,8 +1883,10 @@ contexts:
       scope: constant.language.null.php
     - match: (?i:__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__)\b
       scope: constant.language.builtin.php
-    - match: \\|(?={{identifier}}\\)
-      scope: punctuation.accessor.namespace.php
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
       push:
         - after-identifier
         - qualified-constant
