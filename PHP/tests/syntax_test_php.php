@@ -421,12 +421,44 @@
 
 namespace MyNamespace;
 // <- meta.namespace.php keyword.declaration.namespace.php
-//^^^^^^^^ meta.namespace.php - meta.path
-//        ^^^^^^^^^^^ meta.namespace.php meta.path.php
+//^^^^^^^^^^^^^^^^^^^ meta.namespace.php - meta.path
 //                   ^ - meta.namespace
 //^^^^^^^ keyword.declaration.namespace.php
 //        ^^^^^^^^^^^ entity.name.namespace.php
 //                   ^ punctuation.terminator.statement.php - entity.name.namespace
+
+namespace \MyNamespace;
+// <- meta.namespace.php keyword.declaration.namespace.php
+//^^^^^^^^ meta.namespace.php - meta.path
+//        ^^^^^^^^^^^^ meta.namespace.php meta.path.php
+//                    ^ - meta.namespace
+//^^^^^^^ keyword.declaration.namespace.php
+//        ^ punctuation.accessor.namespace.php
+//         ^^^^^^^^^^^ entity.name.namespace.php
+//                    ^ punctuation.terminator.statement.php - entity.name.namespace
+
+namespace ParentNs\MyNamespace;
+// <- meta.namespace.php keyword.declaration.namespace.php
+//^^^^^^^^ meta.namespace.php - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^ meta.namespace.php meta.path.php
+//                            ^ - meta.namespace
+//^^^^^^^ keyword.declaration.namespace.php
+//        ^^^^^^^^ variable.namespace.php
+//                ^ punctuation.accessor.namespace.php
+//                 ^^^^^^^^^^^ entity.name.namespace.php
+//                            ^ punctuation.terminator.statement.php - entity.name.namespace
+
+namespace \ParentNs\MyNamespace;
+// <- meta.namespace.php keyword.declaration.namespace.php
+//^^^^^^^^ meta.namespace.php - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^ meta.namespace.php meta.path.php
+//                             ^ - meta.namespace
+//^^^^^^^ keyword.declaration.namespace.php
+//        ^ punctuation.accessor.namespace.php
+//         ^^^^^^^^ variable.namespace.php
+//                 ^ punctuation.accessor.namespace.php
+//                  ^^^^^^^^^^^ entity.name.namespace.php
+//                             ^ punctuation.terminator.statement.php - entity.name.namespace
 
 
 /******************************************************************************

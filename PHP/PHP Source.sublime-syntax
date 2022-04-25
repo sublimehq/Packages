@@ -823,21 +823,37 @@ contexts:
 ###[ NAMESPACE DECLARATIONS ]#################################################
 
   namespace-declarations:
-    - match: ((?i:namespace))\b\s*
-      captures:
-        1: keyword.declaration.namespace.php
-      push: namespace-name
+    - match: (?i:namespace)\b
+      scope: keyword.declaration.namespace.php
+      push:
+        - namespace-declaration-meta
+        - namespace-declaration-name
 
-  namespace-name:
+  namespace-declaration-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.namespace.php
-    - include: identifier-parts-as-path
-    - match: (\\)?({{identifier}})
-      scope: meta.path.php
-      captures:
-        1: punctuation.accessor.namespace.php
-        2: entity.name.namespace.php
-      pop: 1
     - include: immediately-pop
+
+  namespace-declaration-name:
+    - match: ({{identifier}})?(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
+      set: qualified-namespace-declaration-name
+    - include: unqualified-namespace-declaration-name
+    - include: else-pop
+
+  qualified-namespace-declaration-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
+    - include: qualifiers
+    - include: unqualified-namespace-declaration-name
+    - include: immediately-pop
+
+  unqualified-namespace-declaration-name:
+    - match: '{{identifier}}'
+      scope: entity.name.namespace.php
+      pop: 1
 
 ###[ TRAIT DECLARATIONS ]#####################################################
 
