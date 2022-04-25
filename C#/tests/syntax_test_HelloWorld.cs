@@ -8,7 +8,7 @@ using System;
 ///         ^ punctuation.terminator.cs
 
 namespace HelloWorld
-///^^^^^^^^^^^^^^^^^ meta.namespace
+///^^^^^^^^^^^^^^^^^ meta.namespace - meta.path
 ///<- keyword.declaration.namespace
 ///        ^ entity.name.namespace
 {
