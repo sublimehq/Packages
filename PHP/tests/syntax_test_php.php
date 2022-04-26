@@ -1787,7 +1787,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, &$var2) {
 //                                                     ^ punctuation.section.group.begin.php
 //                                                      ^^^^^ variable.other.php
 //                                                           ^ punctuation.separator.sequence.php
-//                                                             ^ storage.modifier.reference.php
+//                                                             ^ keyword.operator.reference.php
 //                                                              ^^^^^ variable.other.php
 //                                                                   ^ punctuation.section.group.end.php
 //                                                                     ^ punctuation.section.block.begin.php
@@ -2771,9 +2771,9 @@ $
 //  ^ keyword.operator.assignment.php
 //   ^ - keyword
 //    ^ keyword.operator.assignment.php
-//     ^ storage.modifier.reference.php
+//     ^ keyword.operator.reference.php
 //      ^ - keyword
-//       ^ storage.modifier.reference.php
+//       ^ keyword.operator.reference.php
 //        ^^^ constant.other.php
 
     + - * / %

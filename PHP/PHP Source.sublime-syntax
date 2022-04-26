@@ -953,7 +953,7 @@ contexts:
     - match: ((?i:fn))\s*(?:(&)\s*)?
       captures:
         1: keyword.declaration.function.php
-        2: storage.modifier.reference.php
+        2: keyword.operator.reference.php
       set:
         - arrow-function-body
         - arrow-function-or-fail
@@ -994,7 +994,7 @@ contexts:
       scope: meta.function.php
       captures:
         1: keyword.declaration.function.php
-        2: storage.modifier.reference.php
+        2: keyword.operator.reference.php
       push:
         - function-block
         - function-return-type
@@ -2539,8 +2539,8 @@ contexts:
     - match: (?:(=)(&))|(&(?=[[:alpha:]$_]))
       captures:
         1: keyword.operator.assignment.php
-        2: storage.modifier.reference.php
-        3: storage.modifier.reference.php
+        2: keyword.operator.reference.php
+        3: keyword.operator.reference.php
     - match: \|\||&&
       scope: keyword.operator.logical.php
     - match: <<|>>|~|\^|&|\|
@@ -2600,7 +2600,7 @@ contexts:
 
   reference-modifiers:
     - match: '&'
-      scope: storage.modifier.reference.php
+      scope: keyword.operator.reference.php
 
 ###[ VARIABLES ]##############################################################
 
