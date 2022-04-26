@@ -712,7 +712,7 @@ contexts:
     # https://www.php.net/manual/en/language.oop5.traits.php
     - meta_scope: meta.class.php meta.block.php
     - match: (?i:use)\b
-      scope: meta.use.php keyword.other.use.php
+      scope: meta.use.php keyword.declaration.use.php
       push: class-use-body
     - include: block-body
 
@@ -1088,7 +1088,7 @@ contexts:
 
   function-use:
     - match: (?i:use)\b
-      scope: meta.function.use.php keyword.other.use.php
+      scope: meta.function.use.php keyword.declaration.use.php
       set: function-use-group
     - include: else-pop
 
@@ -1284,7 +1284,7 @@ contexts:
 
   use-statements:
     - match: (?i:use)\b
-      scope: keyword.other.use.php
+      scope: keyword.declaration.use.php
       push: use-statement-body
 
   use-statement-body:

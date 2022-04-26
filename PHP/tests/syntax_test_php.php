@@ -466,15 +466,15 @@ namespace \ParentNs\MyNamespace;
  *****************************************************************************/
 
 use
-// <- meta.use.php keyword.other.use.php
-//^ meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
+//^ meta.use.php keyword.declaration.use.php
 
 use \MyClass
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^ meta.use.php - meta.path
 //  ^^^^^^^^ meta.use.php meta.path.php
 //          ^ meta.use.php - meta.path
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^ punctuation.accessor.namespace.php
 //   ^^^^^^^ support.class.php
 
@@ -487,32 +487,32 @@ use
 //   ^^^^^^^ support.class.php
 
 use \FilterIterator
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^ meta.use.php - meta.path
 //  ^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                 ^ meta.use.php - meta.path
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^ punctuation.accessor.namespace.php
 //   ^^^^^^^^^^^^^^ support.class.builtin.php
 
 use MyNamespace\Foo ;
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^ meta.use.php - meta.path
 //  ^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                 ^ meta.use.php - meta.path
 //                  ^ - meta.use
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^^^^^^^^^^^ variable.namespace.php
 //             ^ punctuation.accessor.namespace.php
 //              ^^^ support.class.php - constant - entity - support.function - support.other
 //                  ^ punctuation.terminator.statement.php
 
 use /* Comment */ \MyNamespace\Bar;
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //                ^^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                                ^ - meta.use
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^^^^^^^^^^^^^ comment.block.php
 //                ^ punctuation.accessor.namespace.php
 //                 ^^^^^^^^^^^ variable.namespace.php
@@ -521,11 +521,11 @@ use /* Comment */ \MyNamespace\Bar;
 //                                ^ punctuation.terminator.statement.php
 
 use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^ meta.use.php - meta.path
 //       ^^^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php - meta.path
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^^^^ comment.block.php
 //       ^^ variable.namespace.php
 //         ^ punctuation.accessor.namespace.php
@@ -549,11 +549,11 @@ use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 //              ^ punctuation.terminator.statement.php
 
 use function /**/ some\nspace\fn_a;
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //                ^^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                                ^ - meta.use - meta.path
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^^^^^^^^ keyword.declaration.function.php
 //           ^^^^ comment.block.php
 //                ^^^^ variable.namespace.php
@@ -578,12 +578,12 @@ use
 //                                ^ punctuation.terminator.statement.php
 
 use /**/ function /**/ some\nspace\fn_a /**/ as /**/ fn_b;
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //                     ^^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                                     ^^^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //                                                       ^ - meta.use - meta.path
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^^^^ comment.block.php
 //       ^^^^^^^^ keyword.declaration.function.php
 //                ^^^^ comment.block.php
@@ -599,12 +599,12 @@ use /**/ function /**/ some\nspace\fn_a /**/ as /**/ fn_b;
 //                                                       ^ punctuation.terminator.statement.php
 
 use const /**/ some\nspace\ConstValue /**/ as /**/ Foo;
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^^^^^^^ meta.use.php - meta.path
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.path.php
 //                                   ^^^^^^^^^^^^^^^^^ meta.use.php - meta.path
 //                                                    ^ - meta.use - meta.path
-//^ keyword.other.use.php
+//^ keyword.declaration.use.php
 //  ^^^^^ keyword.declaration.constant.php
 //        ^^^^ comment.block.php
 //             ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
@@ -645,7 +645,7 @@ use
 // so we can't disambiguate. Generally we are just going to assume an "as" is
 // a class name so that the definition of the class can be found via the index.
 use some\nspace\{ClassA, ClassB, ClassC as C};
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^ meta.use.php - meta.path
 //  ^^^^^^^^^^^^ meta.use.php meta.path.php - meta.sequence
 //              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
@@ -666,7 +666,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                                           ^ punctuation.terminator.statement.php
 
 use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^^^^^ meta.use.php - meta.path
 //           ^^^^^^^^^^^^ meta.use.php meta.path.php - meta.sequence
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
@@ -688,7 +688,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                                                 ^ punctuation.terminator.statement.php
 
 use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
-// <- meta.use.php keyword.other.use.php
+// <- meta.use.php keyword.declaration.use.php
 //^^^^^^^^ meta.use.php - meta.path
 //        ^^^^^^^^^^^^ meta.use.php meta.path.php - meta.sequence
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.php meta.sequence.list.php
@@ -1783,7 +1783,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, &$var2) {
 //                                 ^^^^^^^^^ support.class.php
 //                                           ^^^^ variable.parameter.php
 //                                               ^ punctuation.section.group.end.php
-//                                                 ^^^ keyword.other.use.php
+//                                                 ^^^ keyword.declaration.use.php
 //                                                     ^ punctuation.section.group.begin.php
 //                                                      ^^^^^ variable.other.php
 //                                                           ^ punctuation.separator.sequence.php
@@ -2109,7 +2109,7 @@ goto Label2;
     unset: ;
 //  ^^^^^ support.function.builtin.php - entity.name
     use: ;
-//  ^^^ keyword.other.use.php - entity.name
+//  ^^^ keyword.declaration.use.php - entity.name
     var: ;
 //  ^^^ keyword.declaration.variable.php - entity.name
     while: ;
