@@ -533,7 +533,7 @@ use /**/ My\Full\Classname /**/ as /**/ Another # Foo baz
 //              ^ punctuation.accessor.namespace.php
 //               ^^^^^^^^^ support.class.php - constant - entity - support.function - support.other
 //                         ^^^^ comment.block.php
-//                              ^^ keyword.other.use-as.php
+//                              ^^ keyword.other.as.php
 //                                 ^^^^ comment.block.php
 //                                      ^^^^^^^ entity.name.class.php
 //                                              ^^^^^^^^^^ comment.line.number-sign.php
@@ -593,7 +593,7 @@ use /**/ function /**/ some\nspace\fn_a /**/ as /**/ fn_b;
 //                                ^ punctuation.accessor.namespace.php
 //                                 ^^^^ support.function.php - constant - entity support.class - support.other
 //                                      ^^^^ comment.block.php
-//                                           ^^ keyword.other.use-as.php
+//                                           ^^ keyword.other.as.php
 //                                              ^^^^ comment.block.php
 //                                                   ^^^^ entity.name.function.php
 //                                                       ^ punctuation.terminator.statement.php
@@ -614,7 +614,7 @@ use const /**/ some\nspace\ConstValue /**/ as /**/ Foo;
 //                        ^ punctuation.accessor.namespace.php
 //                         ^^^^^^^^^^ constant.other.php - support.function.php - entity.name - support.class.php - variable.namespace
 //                                    ^^^^ comment.block.php
-//                                         ^^ keyword.other.use-as.php
+//                                         ^^ keyword.other.as.php
 //                                            ^^^^ comment.block.php
 //                                                 ^^^ entity.name.constant.php
 //                                                    ^ punctuation.terminator.statement.php
@@ -636,7 +636,7 @@ use
     as /**/ Foo;
 // ^^^^^^^^^^^^ meta.use.php - meta.path
 //             ^ - meta.use - meta.path
-//  ^^ keyword.other.use-as.php
+//  ^^ keyword.other.as.php
 //     ^^^^ comment.block.php
 //          ^^^ entity.name.constant.php
 //             ^ punctuation.terminator.statement.php
@@ -660,7 +660,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                       ^^^^^^ support.class.php - constant - entity - support.function - support.other
 //                             ^ punctuation.separator.sequence.php
 //                               ^^^^^^ support.class.php - constant - entity - support.function - support.other
-//                                      ^^ keyword.other.use-as.php
+//                                      ^^ keyword.other.as.php
 //                                         ^ entity.name.class.php
 //                                          ^ punctuation.section.sequence.end.php
 //                                           ^ punctuation.terminator.statement.php
@@ -682,7 +682,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                              ^^^^ support.function.php - constant - entity - support.class - support.other
 //                                  ^ punctuation.separator.sequence.php
 //                                    ^^^^ support.function.php - constant - entity - support.class - support.other
-//                                         ^^ keyword.other.use-as.php
+//                                         ^^ keyword.other.as.php
 //                                            ^^^^ entity.name.function.php
 //                                                ^ punctuation.section.sequence.end.php
 //                                                 ^ punctuation.terminator.statement.php
@@ -702,7 +702,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, TRUE};
 //                     ^^^^^^ constant.other - entity - support.class - support.function - support.other
 //                           ^ punctuation.separator.sequence.php
 //                             ^^^^^^ constant.other - entity - support.class - support.function - support.other
-//                                    ^^ keyword.other.use-as.php
+//                                    ^^ keyword.other.as.php
 //                                       ^^^^^^ entity.name.constant.php - constant - support.class - support.function - support.other
 //                                             ^ punctuation.separator.sequence.php
 //                                               ^^^^ constant.language.boolean - entity - support.class - support.function - support.other
@@ -1306,7 +1306,7 @@ class B
 //      ^ support.class.php
 //       ^^ punctuation.accessor.double-colon.php
 //         ^^^^^^^ variable.function.php
-//                 ^^ keyword.other.use-as.php
+//                 ^^ keyword.other.as.php
 //                    ^^^^^^^^ entity.name.function.php
 //                            ^ punctuation.terminator.statement.php
         Y::method2 insteadof X;
@@ -1326,7 +1326,7 @@ class B
 //      ^ support.class.php
 //       ^^ punctuation.accessor.double-colon.php
 //         ^^^^^^^ - support.class
-//                 ^^ keyword.other.use-as
+//                 ^^ keyword.other.as
 //                    ^^^^^^^^ entity.name.function.php
 //                            ^ punctuation.terminator.statement.php
         \Foo\Bar\X::method as another3;
@@ -1340,7 +1340,7 @@ class B
 //               ^ support.class.php
 //                ^^ punctuation.accessor.double-colon.php
 //                  ^^^^^^ variable.function.php
-//                         ^^ keyword.other.use-as.php
+//                         ^^ keyword.other.as.php
 //                            ^^^^^^^^ entity.name.function.php
 //                                    ^ punctuation.terminator.statement.php
     } protected $pro1;
@@ -1518,7 +1518,7 @@ class B
         foreach (A::B() as $c => $d) {}
         //        ^^ punctuation.accessor
         //          ^ variable.function
-        //              ^^ keyword.operator.logical.php
+        //              ^^ keyword.other.as.php
         //                    ^^ punctuation.separator.key-value.php
 
         return new self();
@@ -1987,7 +1987,7 @@ goto Label2;
     array: ;
 //  ^^^^^ storage.type.primitive.php - entity.name
     as: ;
-//  ^^ keyword.operator.logical.php - entity.name
+//  ^^ keyword.other.as.php - entity.name
     break: ;
 //  ^^^^^ keyword.control.flow.break.php - entity.name
     callable: ;
@@ -2837,7 +2837,7 @@ $
 //        ^ keyword.operator.logical.php
 //         ^ - keyword
 
-    and or xor as
+    and or xor
 // ^ - keyword
 //  ^^^ keyword.operator.logical.php
 //     ^ - keyword
@@ -2845,8 +2845,6 @@ $
 //        ^ - keyword
 //         ^^^ keyword.operator.logical.php
 //            ^ - keyword
-//             ^^ keyword.operator.logical.php
-//               ^ - keyword
 
     ? ?? : :
 // ^ - keyword

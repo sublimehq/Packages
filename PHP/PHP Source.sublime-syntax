@@ -40,6 +40,7 @@ variables:
     | {{class_modifier}}
     | {{builtin_variables}}
     | function\b
+    | as\b
     )
 
   keywords: |-
@@ -68,7 +69,7 @@ variables:
   include_directives: |-
     (?xi: (?: include | require )(?: _once )? )\b
   logical_operators: |-
-    (?xi: and | or | xor | as )\b
+    (?xi: and | or | xor )\b
   storage_keywords: |-
     (?xi: clone | new | instanceof | insteadof )\b
 
@@ -733,7 +734,7 @@ contexts:
       scope: punctuation.section.block.end.php
       pop: 1
     - match: (?i:as)\b
-      scope: keyword.other.use-as.php
+      scope: keyword.other.as.php
       push: use-statement-function-alias
     - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
@@ -1316,7 +1317,7 @@ contexts:
 
   use-statement-const-common:
     - match: (?i:as)\b
-      scope: keyword.other.use-as.php
+      scope: keyword.other.as.php
       push: use-statement-const-alias
     - include: use-statement-common
     - include: punctuation-separators
@@ -1349,7 +1350,7 @@ contexts:
 
   use-statement-function-common:
     - match: (?i:as)\b
-      scope: keyword.other.use-as.php
+      scope: keyword.other.as.php
       push: use-statement-function-alias
     - include: use-statement-common
     - include: use-function-names
@@ -1404,7 +1405,7 @@ contexts:
     # will sometimes be a namespace identifier), but the distinction
     # shouldn't be a huge deal.
     - match: (?i:as)\b
-      scope: keyword.other.use-as.php
+      scope: keyword.other.as.php
       push: use-statement-ns-class-alias
     - include: use-statement-common
     - include: punctuation-separators
@@ -1957,6 +1958,8 @@ contexts:
 
   keywords:
     # fallback patterns incase no other expression matches
+    - match: (?i:as)\b
+      scope: keyword.other.as.php
     - match: (?i:clone)\b
       scope: keyword.other.clone.php
     - match: (?i:insteadof)\b
