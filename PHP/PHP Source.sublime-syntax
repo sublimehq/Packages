@@ -37,9 +37,10 @@ variables:
     | {{storage_keywords}}
     | {{storage_modifiers}}
     | {{storage_types}}
+    | {{class_modifier}}
     | {{builtin_variables}}
-    | function
-    )\b
+    | function\b
+    )
 
   keywords: |-
     (?xi:
@@ -74,10 +75,12 @@ variables:
   # Storage Modifiers
   access_modifier: |-
     (?xi: public | private | protected )\b
+  class_modifier: |-
+    (?xi: extends | implements )\b
   namespace_modifier: |-
     (?xi: global | static(?!::) )\b
   storage_modifiers: |-
-    (?xi: abstract | extends | final | implements | readonly )\b
+    (?xi: abstract | final | readonly )\b
   constructor_modifier: |-
     (?xi: readonly )\b
   function_modifier: |-
@@ -2021,6 +2024,10 @@ contexts:
       scope: storage.modifier.namespace.php
 
   storage-modifiers:
+    - match: (?i:extends)\b
+      scope: storage.modifier.extends.php
+    - match: (?i:implements)\b
+      scope: storage.modifier.implements.php
     - match: '{{storage_modifiers}}'
       scope: storage.modifier.php
 

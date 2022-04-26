@@ -2036,7 +2036,7 @@ goto Label2;
     exit: ;
 //  ^^^^ keyword.control.flow.panic.php - entity.name
     extends: ;
-//  ^^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^^ storage.modifier.extends.php - entity.name
     final: ;
 //  ^^^^^ storage.modifier.php - entity.name
     finally: ;
@@ -2056,7 +2056,7 @@ goto Label2;
     if: ;
 //  ^^ keyword.control.conditional.if.php - entity.name
     implements: ;
-//  ^^^^^^^^^^ storage.modifier.php - entity.name
+//  ^^^^^^^^^^ storage.modifier.implements.php - entity.name
     include: ;
 //  ^^^^^^^ keyword.control.import.include.php - entity.name
     include_once: ;
