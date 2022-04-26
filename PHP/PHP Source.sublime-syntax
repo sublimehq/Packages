@@ -1748,7 +1748,7 @@ contexts:
       scope: meta.cast.php
       captures:
         1: punctuation.section.cast.begin.php
-        2: storage.type.php
+        2: storage.type.primitive.php
         3: punctuation.section.cast.end.php
 
 ###[ TYPE HINTS ]#############################################################
@@ -1795,7 +1795,7 @@ contexts:
     #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
     - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
-      scope: storage.type.php
+      scope: storage.type.primitive.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
       pop: 1
@@ -2026,7 +2026,7 @@ contexts:
 
   types:
     - match: '{{storage_types}}'
-      scope: storage.type.php
+      scope: storage.type.primitive.php
 
 ###[ OBJECT MEMBERS ]#########################################################
 

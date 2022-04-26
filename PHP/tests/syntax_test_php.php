@@ -1138,7 +1138,7 @@ enum Suit: string extends Colorful {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
 //                                 ^^ meta.enum.php meta.block.php
 //       ^ punctuation.separator.colon.php
-//         ^^^^^^ storage.type.php
+//         ^^^^^^ storage.type.primitive.php
 //                ^^^^^^^ invalid.illegal.disallowed.php
 //                        ^^^^^^^^ - entity
 //                                 ^ punctuation.section.block.begin.php
@@ -1150,9 +1150,9 @@ enum Suit: string | mixed extends Colorful {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.php - meta.block
 //                                         ^^ meta.enum.php meta.block.php
 //       ^ punctuation.separator.colon.php
-//         ^^^^^^ storage.type.php
+//         ^^^^^^ storage.type.primitive.php
 //                ^ punctuation.separator.type.union.php
-//                  ^^^^^ storage.type.php
+//                  ^^^^^ storage.type.primitive.php
 //                        ^^^^^^^ invalid.illegal.disallowed.php
 //                                ^^^^^^^^ - entity
 //                                         ^ punctuation.section.block.begin.php
@@ -1166,7 +1166,7 @@ enum Suit: string implements Colorful {
 // ^ keyword.declaration.enum.php
 //   ^^^^ entity.name.enum.php
 //       ^ punctuation.separator.colon.php
-//         ^^^^^^ storage.type.php
+//         ^^^^^^ storage.type.primitive.php
 //                ^^^^^^^^^^ storage.modifier.implements.php
 //                           ^^^^^^^^ entity.other.inherited-class.php
 //                                    ^ punctuation.section.block.begin.php
@@ -1184,7 +1184,7 @@ enum Suit: string implements Colorful {
 //         ^^^^^^^^ keyword.declaration.function
 //                  ^^^^^ entity.name.function
 //                         ^ punctuation.separator
-//                           ^^^^^^ storage.type.php
+//                           ^^^^^^ storage.type.primitive.php
         return match($this) {
             Suit::Hearts, Suit::Diamonds => 'Red',
             Suit::Clubs, Suit::Spaces => 'Black',
@@ -1546,7 +1546,7 @@ class TestTypedProperties {
 
     protected int $int = 0;
 //  ^^^^^^^^^ storage.modifier.access.php
-//            ^^^ storage.type.php
+//            ^^^ storage.type.primitive.php
 //                ^^^^ variable.other.php
 //                     ^ keyword.operator.assignment.php
 //                       ^ constant.numeric.value.php
@@ -1554,7 +1554,7 @@ class TestTypedProperties {
 
     private bool $bool = TRUE;
 //  ^^^^^^^ storage.modifier.access.php
-//          ^^^^ storage.type.php
+//          ^^^^ storage.type.primitive.php
 //               ^^^^^ variable.other.php
 //                     ^ keyword.operator.assignment.php
 //                       ^^^^ constant.language.boolean.php
@@ -1565,7 +1565,7 @@ class TestTypedProperties {
     // All types with the exception of "void" and "callable" are supported
     public int $scalarType;
 //  ^^^^^^ storage.modifier.access.php
-//         ^^^ storage.type.php
+//         ^^^ storage.type.primitive.php
 //             ^^^^^^^^^^^ variable.other.php
 
     protected ClassName $classType;
@@ -1583,19 +1583,19 @@ class TestTypedProperties {
     public static iterable $staticProp;
 //  ^^^^^^ storage.modifier.access.php
 //         ^^^^^^ storage.modifier.namespace.php
-//                ^^^^^^^^ storage.type.php
+//                ^^^^^^^^ storage.type.primitive.php
 //                         ^^^^^^^^^^^ variable.other.php
 
     // Types can also be used with the "var" notation
     var bool $flag;
 //  ^^^ keyword.declaration.variable.php
-//      ^^^^ storage.type.php
+//      ^^^^ storage.type.primitive.php
 //           ^^^^^ variable.other.php
 
     // Typed properties may have default values
     public string $str = "foo";
 //  ^^^^^^ storage.modifier.access.php
-//         ^^^^^^ storage.type.php
+//         ^^^^^^ storage.type.primitive.php
 //                ^^^^ variable.other.php
 //                     ^ keyword.operator.assignment.php
 //                       ^^^^^ string.quoted.double.php
@@ -1603,7 +1603,7 @@ class TestTypedProperties {
     public ?string $nullableStr = null;
 //  ^^^^^^ storage.modifier.access.php
 //         ^ storage.type.nullable.php
-//          ^^^^^^ storage.type.php
+//          ^^^^^^ storage.type.primitive.php
 //                 ^^^^^^^^^^^^ variable.other.php
 //                              ^ keyword.operator.assignment.php
 //                                ^^^^ constant.language.null.php
@@ -1611,7 +1611,7 @@ class TestTypedProperties {
     // The type applies to all properties in one declaration
     public float $x, $y;
 //  ^^^^^^ storage.modifier.access.php
-//         ^^^^^ storage.type.php
+//         ^^^^^ storage.type.primitive.php
 //               ^^ variable.other.php
 //                 ^ punctuation.separator.sequence.php
 //                   ^^ variable.other.php
@@ -1773,7 +1773,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                                                                    ^^ meta.function.php meta.block.php
 //     ^^^^^^^^ keyword.declaration.function.php
 //             ^ meta.group.php punctuation.section.group.begin.php
-//              ^^^^^ storage.type.php
+//              ^^^^^ storage.type.primitive.php
 //                    ^^^ variable.parameter.php
 //                       ^ keyword.operator.assignment.php
 //                        ^^^^^ support.function.array.php
@@ -1812,7 +1812,7 @@ function bye(): never {
 //            ^^^^^^^^ meta.function.return-type.php
 //                    ^^ meta.function.php meta.block.php
 //            ^ punctuation.separator.colon.php
-//              ^^^^^ storage.type.php
+//              ^^^^^ storage.type.primitive.php
 //                    ^ punctuation.section.block.begin.php
   exit();
 }
@@ -1843,7 +1843,7 @@ function foo(?stinrg ...$args) {}
 //           ^ entity.name.function.php
 //                           ^ punctuation.section.group.begin.php
 //                                   ^ punctuation.section.group.end.php
-//                                      ^ storage.type.php
+//                                      ^ storage.type.primitive.php
 
     function classReturnType($param1): stringSpace\Test1 {}
 //  ^ keyword.declaration.function
@@ -1862,7 +1862,7 @@ function foo(?stinrg ...$args) {}
 //                               ^ meta.function.parameters
 //                                          ^ punctuation.section.group.end.php
 //                                             ^ storage.type.nullable.php
-//                                              ^ storage.type.php
+//                                              ^ storage.type.primitive.php
 
     function nullableObjectReturnType(?int $param1): ?object {}
 //  ^ keyword.declaration.function
@@ -1872,7 +1872,7 @@ function foo(?stinrg ...$args) {}
 //                                     ^ meta.function.parameters
 //                                                ^ punctuation.section.group.end.php
 //                                                   ^ storage.type.nullable.php
-//                                                    ^ storage.type.php
+//                                                    ^ storage.type.primitive.php
 
     function intersectionTypeFunction(?int $param1): Interface1 & Interface2 {}
 //  ^ keyword.declaration.function
@@ -1984,13 +1984,13 @@ goto Label2;
     and: ;
 //  ^^^ keyword.operator.logical.php - entity.name
     array: ;
-//  ^^^^^ storage.type.php - entity.name
+//  ^^^^^ storage.type.primitive.php - entity.name
     as: ;
 //  ^^ keyword.operator.logical.php - entity.name
     break: ;
 //  ^^^^^ keyword.control.flow.break.php - entity.name
     callable: ;
-//  ^^^^^^^^ storage.type.php  - entity.name
+//  ^^^^^^^^ storage.type.primitive.php  - entity.name
     case: ;
 //  ^^^^ keyword.control.conditional.case.php - entity.name
     catch: ;
@@ -2636,15 +2636,15 @@ function testTypeCasts()
 $foo = (array) $bar;
 //     ^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^ storage.type.php
+//      ^^^^^ storage.type.primitive.php
 //           ^ punctuation.section.cast.end.php
         array
-//      ^^^^^ storage.type.php
+//      ^^^^^ storage.type.primitive.php
 
 $foo = (binary) $bar;
 //     ^^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 //            ^ punctuation.section.cast.end.php
         binary
 //      ^^^^^^ constant.other.php
@@ -2652,79 +2652,79 @@ $foo = (binary) $bar;
 $foo = (bool) $bar;
 //     ^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^ storage.type.php
+//      ^^^^ storage.type.primitive.php
 //          ^ punctuation.section.cast.end.php
         bool
-//      ^^^^ storage.type.php
+//      ^^^^ storage.type.primitive.php
 
 $foo = (boolean) $bar;
 //     ^^^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^^^ storage.type.php
+//      ^^^^^^^ storage.type.primitive.php
 //             ^ punctuation.section.cast.end.php
         boolean
-//      ^^^^^^^ storage.type.php
+//      ^^^^^^^ storage.type.primitive.php
 
 $foo = (double) $bar;
 //     ^^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 //            ^ punctuation.section.cast.end.php
         double
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 
 $foo = (float) $bar;
 //     ^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^ storage.type.php
+//      ^^^^^ storage.type.primitive.php
 //           ^ punctuation.section.cast.end.php
         float
-//      ^^^^^ storage.type.php
+//      ^^^^^ storage.type.primitive.php
 
 $foo = (int) $bar;
 //     ^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^ storage.type.php
+//      ^^^ storage.type.primitive.php
 //         ^ punctuation.section.cast.end.php
         int
-//      ^^^ storage.type.php
+//      ^^^ storage.type.primitive.php
 
 $foo = (integer) $bar;
 //     ^^^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^^^ storage.type.php
+//      ^^^^^^^ storage.type.primitive.php
 //             ^ punctuation.section.cast.end.php
         integer
-//      ^^^^^^^ storage.type.php
+//      ^^^^^^^ storage.type.primitive.php
 
 $foo = (object) $bar;
 //     ^^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 //            ^ punctuation.section.cast.end.php
         object
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 
 $foo = (real) $bar;
 //     ^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^ storage.type.php
+//      ^^^^ storage.type.primitive.php
 //          ^ punctuation.section.cast.end.php
         real
-//      ^^^^ storage.type.php
+//      ^^^^ storage.type.primitive.php
 
 $foo = (string) $bar;
 //     ^^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 //            ^ punctuation.section.cast.end.php
         string
-//      ^^^^^^ storage.type.php
+//      ^^^^^^ storage.type.primitive.php
 
 $foo = (unset) $bar;
 //     ^^^^^^^ meta.cast.php
 //     ^ punctuation.section.cast.begin.php
-//      ^^^^^ storage.type.php
+//      ^^^^^ storage.type.primitive.php
 //           ^ punctuation.section.cast.end.php
         unset
 //      ^^^^^ support.function.builtin.php
