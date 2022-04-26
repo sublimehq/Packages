@@ -1009,7 +1009,6 @@ contexts:
       push:
         - function-block
         - function-return-type
-        - function-use
         - function-declaration-name
         - function-modifier
 
@@ -1075,13 +1074,21 @@ contexts:
     - match: =
       scope: keyword.operator.assignment.php
       push: function-call-argument-value
-    - include: function-parameters-common
+    - include: expression-end-pop
+    - include: attributes
+    - include: comments
+    - include: punctuation-separators
+    - include: reference-modifiers
     - include: variadic-operators
     - include: type-hints
+    - match: (\$+){{identifier}}
+      scope: variable.parameter.php
+      captures:
+        1: punctuation.definition.variable.php
 
   function-use:
     - match: (?i:use)\b
-      scope: meta.function.use.php keyword.other.function.use.php
+      scope: meta.function.use.php keyword.other.use.php
       set: function-use-group
     - include: else-pop
 
@@ -1096,21 +1103,7 @@ contexts:
   function-use-group-body:
     - clear_scopes: 1
     - meta_scope: meta.function.use.php meta.group.php
-    - match: \)
-      scope: punctuation.section.group.end.php
-      pop: 1
-    - include: function-parameters-common
-
-  function-parameters-common:
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
-    - include: punctuation-separators
-    - include: reference-modifiers
-    - match: (\$+){{identifier}}
-      scope: variable.parameter.php
-      captures:
-        1: punctuation.definition.variable.php
+    - include: group-body
 
   function-return-type:
     - match: ':'

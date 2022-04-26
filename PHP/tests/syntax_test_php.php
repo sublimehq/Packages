@@ -1762,15 +1762,15 @@ $var = fn($x)
 //     ^^ variable.function.php - keyword.declaration.function
 ;
 
-$var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
+$var = function(array $ar=array(), ClassName $cls) use ($var1, &$var2) {
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //     ^^^^^^^^ meta.function.php - meta.group
 //             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.php meta.group.php
 //                                                ^ meta.function.php
 //                                                 ^^^^ meta.function.use.php - meta.group
-//                                                     ^^^^^^^^^^^^^^ meta.function.use.php meta.group.php
-//                                                                   ^ meta.function.php - meta.block
-//                                                                    ^^ meta.function.php meta.block.php
+//                                                     ^^^^^^^^^^^^^^^ meta.function.use.php meta.group.php
+//                                                                    ^ meta.function.php - meta.block
+//                                                                     ^^ meta.function.php meta.block.php
 //     ^^^^^^^^ keyword.declaration.function.php
 //             ^ meta.group.php punctuation.section.group.begin.php
 //              ^^^^^ storage.type.primitive.php
@@ -1783,13 +1783,14 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                                 ^^^^^^^^^ support.class.php
 //                                           ^^^^ variable.parameter.php
 //                                               ^ punctuation.section.group.end.php
-//                                                 ^^^ keyword.other.function.use.php
+//                                                 ^^^ keyword.other.use.php
 //                                                     ^ punctuation.section.group.begin.php
-//                                                      ^^^^^ variable.parameter.php
+//                                                      ^^^^^ variable.other.php
 //                                                           ^ punctuation.separator.sequence.php
-//                                                             ^^^^^ variable.parameter.php
-//                                                                  ^ punctuation.section.group.end.php
-//                                                                    ^ punctuation.section.block.begin.php
+//                                                             ^ storage.modifier.reference.php
+//                                                              ^^^^^ variable.other.php
+//                                                                   ^ punctuation.section.group.end.php
+//                                                                     ^ punctuation.section.block.begin.php
 
 };
 // <- meta.function.php meta.block.php punctuation.section.block.end.php
