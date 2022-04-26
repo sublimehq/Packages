@@ -2574,7 +2574,7 @@ contexts:
     - match: '{{logical_operators}}'
       scope: keyword.operator.logical.php
     - match: (?i:instanceof)\b
-      scope: keyword.other.storage.instanceof.php
+      scope: keyword.other.instanceof.php
       push: instanceof-operand
 
   instanceof-operand:

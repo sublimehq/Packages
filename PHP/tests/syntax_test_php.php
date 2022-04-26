@@ -2062,7 +2062,7 @@ goto Label2;
     include_once: ;
 //  ^^^^^^^^^^^^ keyword.control.import.include.php - entity.name
     instanceof: ;
-//  ^^^^^^^^^^ keyword.other.storage.instanceof.php - entity.name
+//  ^^^^^^^^^^ keyword.other.instanceof.php - entity.name
     insteadof: ;
 //  ^^^^^^^^^ keyword.other.insteadof.php - entity.name
     interface: ;
@@ -2902,7 +2902,7 @@ $a = $b ? $c ? foo : bar : baz;
 
 if ($foo instanceof \Mynamespace\ClassName) {
 //  ^ variable.other
-//       ^^^^^^^^^^ keyword.other.storage.instanceof.php
+//       ^^^^^^^^^^ keyword.other.instanceof.php
 //                  ^^^^^^^^^^^^^^^^^^^^^^ meta.path.php
 //                  ^ punctuation.accessor.namespace.php
 //                   ^ variable.namespace.php
