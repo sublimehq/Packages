@@ -1453,6 +1453,7 @@ contexts:
       push: define-call-arguments
 
   define-call-arguments:
+    - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.php
       set:
@@ -1524,6 +1525,7 @@ contexts:
       set: function-call-arguments
 
   function-call-arguments:
+    - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.php
       set: function-call-arguments-body
