@@ -522,6 +522,7 @@ contexts:
     - include: closures
     - include: bindings
     - include: keywords
+    - include: define-calls
     - include: function-calls
     - include: numbers
     - include: heredocs
@@ -1440,6 +1441,41 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.php
       pop: 1
+
+###[ DEFINE CALLS ]###########################################################
+
+  define-calls:
+    - match: (\\?)((?i:define))\s*(?=\()
+      scope: meta.function-call.identifier.php
+      captures:
+        1: punctuation.accessor.namespace.php
+        2: support.function.builtin.php
+      push: define-call-arguments
+
+  define-call-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set:
+        - function-call-arguments-body
+        - quoted-constant-declaration-name
+    - include: immediately-pop
+
+  quoted-constant-declaration-name:
+    - match: (")({{identifier}})(")
+      scope: meta.string.php
+      captures:
+        1: string.quoted.double.php punctuation.definition.string.begin.php
+        2: entity.name.constant.php
+        3: string.quoted.double.php punctuation.definition.string.end.php
+    - match: (')({{identifier}})(')
+      scope: meta.string.php
+      captures:
+        1: string.quoted.single.php punctuation.definition.string.begin.php
+        2: entity.name.constant.php
+        3: string.quoted.single.php punctuation.definition.string.end.php
+    - include: attributes
+    - include: comments
+    - include: else-pop
 
 ###[ FUNCTION CALLS ]#########################################################
 

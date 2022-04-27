@@ -2425,6 +2425,32 @@ if (include('vars.php') == TRUE) {
  * Function and Method Call Tests
  *****************************************************************************/
 
+define("MY_CONST", value);
+// <- meta.function-call.identifier.php support.function.builtin.php
+//^^^^ meta.function-call.identifier.php support.function.builtin.php
+//    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//    ^ punctuation.section.group.begin.php
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^^^ meta.string.php entity.name.constant.php - string
+//              ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+//               ^ punctuation.separator.sequence.php
+//                 ^^^^^ constant.other.php
+//                      ^ punctuation.section.group.end.php
+//                       ^ punctuation.terminator.statement.php
+
+\define('MY_CONST', value);
+// <- meta.function-call.identifier.php punctuation.accessor.namespace.php - support
+//^^^^^ meta.function-call.identifier.php support.function.builtin.php
+//     ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//     ^ punctuation.section.group.begin.php
+//      ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
+//       ^^^^^^^^ meta.string.php entity.name.constant.php - string
+//               ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
+//                ^ punctuation.separator.sequence.php
+//                  ^^^^^ constant.other.php
+//                       ^ punctuation.section.group.end.php
+//                        ^ punctuation.terminator.statement.php
+
 array_slice($array, $offset, $length, preserve_keys: true);
 //                                    ^^^^^^^^^^^^^ variable.parameter.named
 //                                                 ^ keyword.operator.assignment.php
