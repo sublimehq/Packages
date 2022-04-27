@@ -2961,6 +2961,7 @@ $var = new \MyNamespce\ClassName();
 //           ^^^ support.class
 //              ^^ punctuation.accessor
 //                ^^^^ variable.other.php
+//                ^ punctuation.definition.variable.php
 
 \MyNamespace\Foo::class
 // <- punctuation.accessor.namespace
@@ -3015,6 +3016,18 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.accessor.namespace
 //           ^ constant.other
+
+self::member;
+// <- variable.language.this.php
+//  ^^ punctuation.accessor.double-colon.php
+//    ^^^^^^ constant.other.member.php
+
+$foo::$member;
+// <- variable.other.php punctuation.definition.variable.php
+//^^ variable.other.php - punctuation
+//  ^^ punctuation.accessor.double-colon.php
+//    ^ variable.other.php punctuation.definition.variable.php
+//     ^^^^^^ variable.other.php - punctuation
 
 
 /******************************************************************************
