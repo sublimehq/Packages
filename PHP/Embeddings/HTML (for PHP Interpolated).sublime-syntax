@@ -14,6 +14,7 @@ contexts:
 
   cdata-content:
     - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
     - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
 
   style-css-content:
@@ -106,8 +107,10 @@ contexts:
 
   tag-attribute-value-content:
     - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
     - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
 
   strings-common-content:
     - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
     - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations

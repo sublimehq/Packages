@@ -2793,9 +2793,6 @@ $foo = (unset) $bar;
  * Operators Tests
  *****************************************************************************/
 
-$
-# <- punctuation.definition.variable
-
     += -= *= /= %= &= |= ^= >>= <<= .= ??=
 // ^ - keyword
 //  ^^ keyword.operator.assignment.augmented.php
@@ -2981,8 +2978,8 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.accessor.namespace
 //           ^ support.class
-//              ^^ punctuation.accessor
-//                ^^^ constant.other
+//              ^^ punctuation.accessor.double-colon.php
+//                ^^^ constant.other.member.php
 
 \MyNamespace\Foo::$Bar
 // <- punctuation.accessor.namespace
@@ -2990,8 +2987,8 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.accessor.namespace
 //           ^^^ support.class
-//              ^^ punctuation.accessor
-//                ^^^^ variable.other.php
+//              ^^ punctuation.accessor.double-colon.php
+//                ^^^^ variable.other.member.php
 //                ^ punctuation.definition.variable.php
 
 \MyNamespace\Foo::class
@@ -3000,7 +2997,7 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.accessor.namespace
 //           ^^^ support.class
-//              ^^ punctuation.accessor
+//              ^^ punctuation.accessor.double-colon.php
 //                ^^^^^ variable.language.class.java
 
 \MyNamespace\Foo::class();
@@ -3009,7 +3006,7 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.accessor.namespace
 //           ^^^ support.class
-//              ^^ punctuation.accessor
+//              ^^ punctuation.accessor.double-colon.php
 //                ^^^^^^^ - meta.function-call
 //                ^^^^^ variable.language.class.java
 //                     ^^ meta.group
@@ -3022,7 +3019,7 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.accessor.namespace
 //           ^^^ support.class
-//              ^^ punctuation.accessor
+//              ^^ punctuation.accessor.double-colon.php
 //                ^^^^^ meta.function-call
 //                ^^^ variable.function
 //                   ^^ meta.group
@@ -3057,8 +3054,137 @@ $foo::$member;
 // <- variable.other.php punctuation.definition.variable.php
 //^^ variable.other.php - punctuation
 //  ^^ punctuation.accessor.double-colon.php
-//    ^ variable.other.php punctuation.definition.variable.php
-//     ^^^^^^ variable.other.php - punctuation
+//    ^ variable.other.member.php punctuation.definition.variable.php
+//     ^^^^^^ variable.other.member.php - punctuation
+
+$foo::${member};
+// <- variable.other.php punctuation.definition.variable.php
+//^^ variable.other.php - punctuation
+//  ^^ punctuation.accessor.double-colon.php
+//    ^^^^^^^^^ meta.variable.php
+//    ^^ punctuation.definition.variable.begin.php
+//      ^^^^^^ constant.other.php
+//            ^ punctuation.definition.variable.end.php
+
+$foo::${member . "name"};
+// <- variable.other.php punctuation.definition.variable.php
+//^^ variable.other.php - punctuation
+//  ^^ punctuation.accessor.double-colon.php
+//    ^^^^^^^^^^^^^^^^^^ meta.variable.php
+//    ^^ punctuation.definition.variable.begin.php
+//      ^^^^^^ constant.other.php
+//             ^ keyword.operator.concatenation.php
+//               ^^^^^^ meta.string.php string.quoted.double.php
+//                     ^ punctuation.definition.variable.end.php
+
+
+/******************************************************************************
+ * Object Member Access Tests
+ *****************************************************************************/
+
+   $obj->foo
+//     ^^ punctuation.accessor.arrow.php
+//       ^^^ variable.other.member.php
+
+   $foo->{bar}
+//     ^^ punctuation.accessor.arrow.php
+//       ^^^^^ meta.variable.php
+//       ^ punctuation.definition.variable.begin.php
+//        ^^^ constant.other.php
+//           ^ punctuation.definition.variable.end.php
+
+   $foo->{"bar"}
+//     ^^ punctuation.accessor.arrow.php
+//       ^^^^^^^ meta.variable.php
+//       ^ punctuation.definition.variable.begin.php
+//        ^^^^^ meta.string.php string.quoted.double.php
+//             ^ punctuation.definition.variable.end.php
+
+   $foo->${bar}
+//     ^^ punctuation.accessor.arrow.php
+//       ^^^^^^ meta.variable.php
+//       ^^ punctuation.definition.variable.begin.php
+//         ^^^ constant.other.php
+//            ^ punctuation.definition.variable.end.php
+
+
+/******************************************************************************
+ * Unqualified Identifier Tests
+ *****************************************************************************/
+
+   $_ENV
+// ^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $_FILES
+// ^^^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $_GET
+// ^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $_POST
+// ^^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $_REQUEST
+// ^^^^^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $_SESSION
+// ^^^^^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $_SERVER['variable']
+// ^^^^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+//         ^^^^^^^^^^^^ meta.item-access.php
+//         ^ punctuation.section.brackets.begin.php
+//          ^^^^^^^^^^ meta.string.php string.quoted.single.php
+//                    ^ punctuation.section.brackets.end.php
+
+   $GLOBALS
+// ^^^^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $argc
+// ^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $argv
+// ^^^^^ variable.language.global.php
+// ^ punctuation.definition.variable.php
+
+   $ $foo $$foo $$$foo
+// ^ punctuation.definition.variable.php
+//   ^ variable.other.php punctuation.definition.variable.php
+//    ^^^ variable.other.php - punctuation
+//        ^ keyword.operator.dereference.php
+//         ^ variable.other.php punctuation.definition.variable.php
+//          ^^^ variable.other.php - punctuation
+//              ^^ keyword.operator.dereference.php
+//                ^ variable.other.php punctuation.definition.variable.php
+//                 ^^^ variable.other.php - punctuation
+
+   ${} ${foo} $${foo} $$${foo}
+// ^^^ meta.variable.php
+// ^^ punctuation.definition.variable.begin.php
+//   ^ punctuation.definition.variable.end.php
+//     ^^^^^^ meta.variable.php
+//     ^^ punctuation.definition.variable.begin.php
+//       ^^^ constant.other.php
+//          ^ punctuation.definition.variable.end.php
+//            ^ keyword.operator.dereference.php - meta.variable - variable
+//             ^^^^^^ meta.variable.php
+//             ^^ punctuation.definition.variable.begin.php
+//               ^^^ constant.other.php
+//                  ^ punctuation.definition.variable.end.php
+//                    ^^ keyword.operator.dereference.php - meta.variable - variable
+//                      ^^^^^^ meta.variable.php
+//                      ^^ punctuation.definition.variable.begin.php
+//                        ^^^ constant.other.php
+//                           ^ punctuation.definition.variable.end.php
 
 
 /******************************************************************************
@@ -3158,102 +3284,499 @@ $var4 = 0b0_1_1_1;
  * Literal String and Interpolation Tests
  *****************************************************************************/
 
-$test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
-//       ^^ constant.character.escape.octal.php
-//          ^^^ constant.character.escape.octal.php
-//              ^^^^ constant.character.escape.octal.php
-//                  ^ - constant.character.escape
-//                    ^^^^ constant.character.escape.hex.php
-//                         ^^^^^ constant.character.escape.unicodepoint.php
-//                               ^^^^^^^^ constant.character.escape.unicodepoint.php
-//
+    '\0 \12 \345g \x0f \u{a} \u{9999} \u{999} \\ \" \' '
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character
+//                                            ^^ constant.character.escape.php
+//                                              ^^^^ - constant.character
+//                                                  ^^ constant.character.escape.php
+//                                                    ^^ - constant.character
 
-"$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}"
- // <- variable.other punctuation.definition.variable
-//^ variable.other
-//       ^^ variable.other
-//       ^ punctuation.definition.variable
-//         ^^ punctuation.accessor
-//           ^ variable.other.member
-//                ^^^^ variable.other
-//                ^^ punctuation.definition.variable
-//                   ^ punctuation.definition.variable
-//                          ^ punctuation.definition.expression
-//                           ^^ variable.other
-//                           ^ punctuation.definition.variable
-//                             ^ punctuation.definition.expression
-//                                    ^^ variable.other
-//                                    ^ punctuation.definition.variable
-//                                      ^ punctuation.section.brackets.begin
-//                                       ^ meta.number.integer.decimal constant.numeric.value
-//                                        ^ punctuation.section.brackets.end
-//                                                      ^^ variable.other
-//                                                      ^ punctuation.definition.variable
-//                                                        ^ punctuation.section.brackets.begin
-//                                                         ^^ variable.other
-//                                                         ^ punctuation.definition.variable
-//                                                           ^ punctuation.section.brackets.end
-//                                                                ^^ variable.other
-//                                                                ^ punctuation.definition.variable
-//                                                                  ^ punctuation.section.brackets.begin
-//                                                                   ^ constant.other
-//                                                                    ^ punctuation.section.brackets.end
-//                                                                                  ^ punctuation.definition.expression
-//                                                                                   ^^ variable.other
-//                                                                                   ^ punctuation.definition.variable
-//                                                                                      ^ keyword.operator
-//                                                                                        ^^ variable.other
-//                                                                                        ^ punctuation.definition.variable
-//                                                                                          ^^ punctuation.accessor
-//                                                                                            ^ variable.other.member
-//                                                                                              ^ keyword.operator
-//                                                                                                ^ constant.other
+    `\0 \12 \345g \x0f \u{a} \u{9999} \u{999} \\ \" \' `
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.other.php
+//   ^^ constant.character.escape.octal.php
+//   ^^ constant.character.escape.octal.php
+//     ^ - constant.character
+//      ^^^ constant.character.escape.octal.php
+//         ^ - constant.character
+//          ^^^^ constant.character.escape.octal.php
+//              ^ - constant.character
+//                ^^^^ constant.character.escape.hex.php
+//                    ^ - constant.character
+//                     ^^^^^ constant.character.escape.unicodepoint.php
+//                          ^ - constant.character
+//                           ^^^^^^^^ constant.character.escape.unicodepoint.php
+//                                   ^ - constant.character
+//                                    ^^^^^^^ constant.character.escape.unicodepoint.php
+//                                           ^ - constant.character
+//                                            ^^ constant.character.escape.php
+//                                              ^ - constant.character
+//                                               ^^ constant.character.escape.php
+//                                                 ^ - constant.character
+//                                                  ^^ constant.character.escape.php
+//                                                    ^^ - constant.character
 
-`$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}`
- // <- variable.other punctuation.definition.variable
-//^ variable.other
-//       ^^ variable.other
-//       ^ punctuation.definition.variable
-//         ^^ punctuation.accessor
-//           ^ variable.other.member
-//                ^^^^ variable.other
-//                ^^ punctuation.definition.variable
-//                   ^ punctuation.definition.variable
-//                          ^ punctuation.definition.expression
-//                           ^^ variable.other
-//                           ^ punctuation.definition.variable
-//                             ^ punctuation.definition.expression
-//                                    ^^ variable.other
-//                                    ^ punctuation.definition.variable
-//                                      ^ punctuation.section.brackets.begin
-//                                       ^ constant.numeric
-//                                        ^ punctuation.section.brackets.end
-//                                                      ^^ variable.other
-//                                                      ^ punctuation.definition.variable
-//                                                        ^ punctuation.section.brackets.begin
-//                                                         ^^ variable.other
-//                                                         ^ punctuation.definition.variable
-//                                                           ^ punctuation.section.brackets.end
-//                                                                ^^ variable.other
-//                                                                ^ punctuation.definition.variable
-//                                                                  ^ punctuation.section.brackets.begin
-//                                                                   ^ constant.other
-//                                                                    ^ punctuation.section.brackets.end
-//                                                                                  ^ punctuation.definition.expression
-//                                                                                   ^^ variable.other
-//                                                                                   ^ punctuation.definition.variable
-//                                                                                      ^ keyword.operator
-//                                                                                        ^^ variable.other
-//                                                                                        ^ punctuation.definition.variable
-//                                                                                          ^^ punctuation.accessor
-//                                                                                            ^ variable.other.member
-//                                                                                              ^ keyword.operator
-//                                                                                                ^ constant.other
+    "\0 \12 \345g \x0f \u{a} \u{9999} \u{999} \\ \" \' "
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//   ^^ constant.character.escape.octal.php
+//     ^ - constant.character
+//      ^^^ constant.character.escape.octal.php
+//         ^ - constant.character
+//          ^^^^ constant.character.escape.octal.php
+//              ^ - constant.character
+//                ^^^^ constant.character.escape.hex.php
+//                    ^ - constant.character
+//                     ^^^^^ constant.character.escape.unicodepoint.php
+//                          ^ - constant.character
+//                           ^^^^^^^^ constant.character.escape.unicodepoint.php
+//                                   ^ - constant.character
+//                                    ^^^^^^^ constant.character.escape.unicodepoint.php
+//                                           ^ - constant.character
+//                                            ^^ constant.character.escape.php
+//                                              ^ - constant.character
+//                                               ^^ constant.character.escape.php
+//                                                 ^^^^^ - constant.character
+
+    '$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}'
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation
+//  ^ punctuation.definition.string.begin.php
+//                                                                                                      ^ punctuation.definition.string.end.php
+
+    `$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}`
+//  ^ meta.string.php string.quoted.other.php - meta.interpolation
+//   ^^ meta.string.php meta.interpolation.php - string
+//      ^^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//           ^^^^^ meta.string.php meta.interpolation.php - string
+//                ^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//                    ^^^^ meta.string.php meta.interpolation.php - string
+//                        ^^^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//                              ^^^^ meta.string.php meta.interpolation.php - string
+//                                  ^^^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//                                        ^^^^^ meta.string.php meta.interpolation.php - string
+//                                             ^^^^^^^^^^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//                                                          ^^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                ^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//                                                                    ^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                         ^^^^^^^^^^^^^ meta.string.php string.quoted.other.php - meta.interpolation
+//                                                                                      ^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                                                      ^ meta.string.php string.quoted.other.php - meta.interpolation
+//                                                                                                       ^ - meta.string - string
+//  ^ punctuation.definition.string.begin.php
+//   ^^ variable.other.php
+//   ^ punctuation.definition.variable.php
+//           ^^ variable.other.php
+//           ^ punctuation.definition.variable.php
+//             ^^ punctuation.accessor.arrow.php
+//               ^ variable.other.member.php
+//                    ^^^^ meta.interpolation.php meta.variable.php
+//                    ^^ punctuation.definition.variable.begin.php
+//                      ^ constant.other.php
+//                       ^ punctuation.definition.variable.end.php
+//                              ^ punctuation.section.interpolation.begin.php
+//                               ^^ variable.other.php
+//                               ^ punctuation.definition.variable.php
+//                                 ^ punctuation.section.interpolation.end.php
+//                                        ^^ variable.other.php
+//                                        ^ punctuation.definition.variable.php
+//                                          ^ punctuation.section.brackets.begin.php
+//                                           ^ meta.number.integer.decimal constant.numeric.value.php
+//                                            ^ punctuation.section.brackets.end.php
+//                                                          ^^ variable.other.php
+//                                                          ^ punctuation.definition.variable.php
+//                                                            ^ punctuation.section.brackets.begin.php
+//                                                             ^^ variable.other.php
+//                                                             ^ punctuation.definition.variable.php
+//                                                               ^ punctuation.section.brackets.end.php
+//                                                                    ^^ variable.other.php
+//                                                                    ^ punctuation.definition.variable.php
+//                                                                      ^ punctuation.section.brackets.begin.php
+//                                                                       ^ constant.other.php
+//                                                                        ^ punctuation.section.brackets.end.php
+//                                                                                      ^ punctuation.section.interpolation.begin.php
+//                                                                                       ^^ variable.other.php
+//                                                                                       ^ punctuation.definition.variable.php
+//                                                                                          ^ keyword.operator.concatenation.php
+//                                                                                            ^^ variable.other.php
+//                                                                                            ^ punctuation.definition.variable.php
+//                                                                                              ^^ punctuation.accessor.arrow.php
+//                                                                                                ^ variable.other.member.php
+//                                                                                                  ^ keyword.operator.concatenation.php
+//                                                                                                    ^ constant.other.php
+//                                                                                                     ^ punctuation.section.interpolation.end.php
+//                                                                                                      ^ punctuation.definition.string.end.php
+
+    "$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}"
+//  ^ meta.string.php string.quoted.double.php - meta.interpolation
+//   ^^ meta.string.php meta.interpolation.php - string
+//      ^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//           ^^^^^ meta.string.php meta.interpolation.php - string
+//                ^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                    ^^^^ meta.string.php meta.interpolation.php - string
+//                        ^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                              ^^^^ meta.string.php meta.interpolation.php - string
+//                                  ^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                        ^^^^^ meta.string.php meta.interpolation.php - string
+//                                             ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                          ^^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                ^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                                    ^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                         ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                                                      ^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                                                      ^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                                                                       ^ - meta.string - string
+//  ^ punctuation.definition.string.begin.php
+//   ^^ variable.other.php
+//   ^ punctuation.definition.variable.php
+//           ^^ variable.other.php
+//           ^ punctuation.definition.variable.php
+//             ^^ punctuation.accessor.arrow.php
+//               ^ variable.other.member.php
+//                    ^^^^ meta.interpolation.php meta.variable.php
+//                    ^^ punctuation.definition.variable.begin.php
+//                      ^ constant.other.php
+//                       ^ punctuation.definition.variable.end.php
+//                              ^ punctuation.section.interpolation.begin.php
+//                               ^^ variable.other.php
+//                               ^ punctuation.definition.variable.php
+//                                 ^ punctuation.section.interpolation.end.php
+//                                        ^^ variable.other.php
+//                                        ^ punctuation.definition.variable.php
+//                                          ^ punctuation.section.brackets.begin.php
+//                                           ^ meta.number.integer.decimal constant.numeric.value.php
+//                                            ^ punctuation.section.brackets.end.php
+//                                                          ^^ variable.other.php
+//                                                          ^ punctuation.definition.variable.php
+//                                                            ^ punctuation.section.brackets.begin.php
+//                                                             ^^ variable.other.php
+//                                                             ^ punctuation.definition.variable.php
+//                                                               ^ punctuation.section.brackets.end.php
+//                                                                    ^^ variable.other.php
+//                                                                    ^ punctuation.definition.variable.php
+//                                                                      ^ punctuation.section.brackets.begin.php
+//                                                                       ^ constant.other.php
+//                                                                        ^ punctuation.section.brackets.end.php
+//                                                                                      ^ punctuation.section.interpolation.begin.php
+//                                                                                       ^^ variable.other.php
+//                                                                                       ^ punctuation.definition.variable.php
+//                                                                                          ^ keyword.operator.concatenation.php
+//                                                                                            ^^ variable.other.php
+//                                                                                            ^ punctuation.definition.variable.php
+//                                                                                              ^^ punctuation.accessor.arrow.php
+//                                                                                                ^ variable.other.member.php
+//                                                                                                  ^ keyword.operator.concatenation.php
+//                                                                                                    ^ constant.other.php
+//                                                                                                     ^ punctuation.section.interpolation.end.php
+//                                                                                                      ^ punctuation.definition.string.end.php
+
+// Won't work, outputs: This is { fantastic}
+$great = 'fantastic';
+echo "This is { $great}";
+//   ^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//              ^^^^^^ meta.string.php meta.interpolation.php
+//                    ^^ meta.string.php string.quoted.double.php
+//              ^^^^^^ variable.other.php
+//              ^ punctuation.definition.variable.php
+//                     ^ punctuation.definition.string.end.php
+//                      ^ punctuation.terminator.statement.php
+
+// Works, outputs: This is fantastic
+echo "This is {$great}";
+//   ^^^^^^^^^ meta.string.php string.quoted.double.php
+//            ^^^^^^^^ meta.string.php meta.interpolation.php
+//                    ^ meta.string.php string.quoted.double.php
+//            ^ punctuation.section.interpolation.begin.php
+//             ^^^^^^ variable.other.php
+//             ^ punctuation.definition.variable.php
+//                   ^ punctuation.section.interpolation.end.php
+//                    ^ punctuation.definition.string.end.php
+//                     ^ punctuation.terminator.statement.php
+
+// Works, outputs: This is fantastic, because constant `nice` is set to `great`
+define('nice', "great");
+echo "This is ${nice}";
+//   ^^^^^^^^^ meta.string.php string.quoted.double.php
+//            ^^^^^^^ meta.string.php meta.interpolation.php meta.variable.php
+//                   ^ meta.string.php string.quoted.double.php
+//            ^^ punctuation.definition.variable.begin.php
+//              ^^^^ constant.other.php
+//                  ^ punctuation.definition.variable.end.php
+//                   ^ punctuation.definition.string.end.php
+//                    ^ punctuation.terminator.statement.php
+
+// Works
+echo "This square is {$square->width}00 centimeters broad.";
+//   ^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                   ^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php
+//                                   ^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                   ^ punctuation.section.interpolation.begin.php
+//                    ^^^^^^^ variable.other.php
+//                           ^^ punctuation.accessor.arrow.php
+//                             ^^^^^ variable.other.member.php
+//                                  ^ punctuation.section.interpolation.end.php
+
+// Works, quoted keys only work using the curly brace syntax
+echo "This works: {$arr['key']}";
+//   ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                ^^^^^^^^^^^^^ meta.string.php meta.interpolation.php
+//                             ^ meta.string.php string.quoted.double.php
+//                ^ punctuation.section.interpolation.begin.php
+//                 ^^^^ variable.other.php
+//                 ^ punctuation.definition.variable.php
+//                     ^^^^^^^ meta.item-access.php
+//                     ^ punctuation.section.brackets.begin.php
+//                      ^^^^^ meta.string.php string.quoted.single.php
+//                      ^ punctuation.definition.string.begin.php
+//                          ^ punctuation.definition.string.end.php
+//                           ^ punctuation.section.brackets.end.php
+//                            ^ punctuation.section.interpolation.end.php
+//                             ^ punctuation.definition.string.end.php
+//                              ^ punctuation.terminator.statement.php
+
+// Works
+echo "This works: {$arr[4][3]}";
+//   ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                ^^^^^^^^^^^^ meta.string.php meta.interpolation.php
+//                            ^ meta.string.php string.quoted.double.php
+//                ^ punctuation.section.interpolation.begin.php
+//                 ^^^^ variable.other.php
+//                 ^ punctuation.definition.variable.php
+//                     ^^^^^^ meta.item-access.php
+//                     ^ punctuation.section.brackets.begin.php
+//                      ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                       ^ punctuation.section.brackets.end.php
+//                        ^ punctuation.section.brackets.begin.php
+//                         ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                          ^ punctuation.section.brackets.end.php
+//                           ^ punctuation.section.interpolation.end.php
+//                            ^ punctuation.definition.string.end.php
+//                             ^ punctuation.terminator.statement.php
+
+// This is wrong for the same reason as $foo[bar] is wrong  outside a string.
+// In other words, it will still work, but only because PHP first looks for a
+// constant named foo; an error of level E_NOTICE (undefined constant) will be
+// thrown.
+echo "This is wrong: {$arr[foo][3]}";
+//   ^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                   ^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php
+//                                 ^ meta.string.php string.quoted.double.php
+//                   ^ punctuation.section.interpolation.begin.php
+//                    ^^^^ variable.other.php
+//                    ^ punctuation.definition.variable.php
+//                        ^^^^^^^^ meta.item-access.php
+//                        ^ punctuation.section.brackets.begin.php
+//                         ^^^ constant.other.php
+//                            ^ punctuation.section.brackets.end.php
+//                             ^ punctuation.section.brackets.begin.php
+//                              ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                               ^ punctuation.section.brackets.end.php
+//                                ^ punctuation.section.interpolation.end.php
+//                                 ^ punctuation.definition.string.end.php
+//                                  ^ punctuation.terminator.statement.php
+
+// Works. When using multi-dimensional arrays, always use braces around arrays
+// when inside of strings
+echo "This works: {$arr['foo'][3]}";
+//   ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                ^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php
+//                                ^ meta.string.php string.quoted.double.php
+//                ^ punctuation.section.interpolation.begin.php
+//                 ^^^^ variable.other.php
+//                 ^ punctuation.definition.variable.php
+//                     ^^^^^^^^^^ meta.item-access.php
+//                     ^ punctuation.section.brackets.begin.php
+//                      ^^^^^ meta.string.php string.quoted.single.php
+//                      ^ punctuation.definition.string.begin.php
+//                          ^ punctuation.definition.string.end.php
+//                           ^ punctuation.section.brackets.end.php
+//                            ^ punctuation.section.brackets.begin.php
+//                             ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                              ^ punctuation.section.brackets.end.php
+//                               ^ punctuation.section.interpolation.end.php
+//                                ^ punctuation.definition.string.end.php
+//                                 ^ punctuation.terminator.statement.php
+
+// Works.
+echo "This works: " . $arr['foo'][3];
+//   ^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                 ^^^^^^^^^^^^^^^^^^^ - string.quoted.double
+//                  ^ keyword.operator.concatenation.php
+//                    ^^^^ variable.other.php
+//                    ^ punctuation.definition.variable.php
+//                        ^^^^^^^^^^ meta.item-access.php
+//                        ^ punctuation.section.brackets.begin.php
+//                         ^^^^^ meta.string.php string.quoted.single.php
+//                         ^ punctuation.definition.string.begin.php
+//                             ^ punctuation.definition.string.end.php
+//                              ^ punctuation.section.brackets.end.php
+//                               ^ punctuation.section.brackets.begin.php
+//                                ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                                 ^ punctuation.section.brackets.end.php
+//                                  ^ punctuation.terminator.statement.php
+
+echo "This works too: {$obj->values[3]->name}";
+//   ^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                    ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php - string
+//                                           ^ meta.string.php string.quoted.double.php
+//                    ^ punctuation.section.interpolation.begin.php
+//                     ^^^^ variable.other.php
+//                     ^ punctuation.definition.variable.php
+//                         ^^ punctuation.accessor.arrow.php
+//                           ^^^^^^ variable.other.member.php
+//                                 ^^^ meta.item-access.php
+//                                 ^ punctuation.section.brackets.begin.php
+//                                  ^ constant.numeric.value.php
+//                                   ^ punctuation.section.brackets.end.php
+//                                    ^^ punctuation.accessor.arrow.php
+//                                      ^^^^ variable.other.member.php
+//                                          ^ punctuation.section.interpolation.end.php
+//                                           ^ punctuation.definition.string.end.php
+//                                            ^ punctuation.terminator.statement.php
+
+echo "This is the value of the var named $name: {${$name}}";
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                       ^^^^^ meta.string.php meta.interpolation.php
+//                                            ^^ meta.string.php string.quoted.double.php
+//                                              ^ meta.string.php meta.interpolation.php
+//                                               ^^^^^^^^ meta.string.php meta.interpolation.php meta.variable.php
+//                                                       ^ meta.string.php meta.interpolation.php
+//                                                        ^ meta.string.php string.quoted.double.php
+//                                       ^^^^^ variable.other.php
+//                                       ^ punctuation.definition.variable.php
+//                                              ^ punctuation.section.interpolation.begin.php
+//                                               ^^ punctuation.definition.variable.begin.php
+//                                                 ^^^^^ variable.other.php
+//                                                 ^ punctuation.definition.variable.php
+//                                                      ^ punctuation.definition.variable.end.php
+//                                                       ^ punctuation.section.interpolation.end.php
+//                                                        ^ punctuation.definition.string.end.php
+//                                                         ^ punctuation.terminator.statement.php
+
+echo "This is the value of the var named by the return value of getName(): {${getName()}}";
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                                                         ^ meta.interpolation.php - meta.variable
+//                                                                          ^^^^^^^^^^^^ meta.string.php meta.interpolation.php meta.variable.php
+//                                                                                      ^ meta.string.php meta.interpolation.php - meta.variable
+//                                                                                       ^ meta.string.php string.quoted.double.php
+//                                                                         ^ punctuation.section.interpolation.begin.php
+//                                                                          ^^ punctuation.definition.variable.begin.php
+//                                                                            ^^^^^^^ variable.function.php
+//                                                                                   ^ punctuation.section.group.begin.php
+//                                                                                    ^ punctuation.section.group.end.php
+//                                                                                     ^ punctuation.definition.variable.end.php
+//                                                                                      ^ punctuation.section.interpolation.end.php
+//                                                                                       ^ punctuation.definition.string.end.php
+//                                                                                        ^ punctuation.terminator.statement.php
+
+echo "This is the value of the var named by the return value of \$object->getName(): {${$object->getName()}}";
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                                                                                   ^ meta.interpolation.php - meta.variable
+//                                                                                    ^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php meta.variable.php
+//                                                                                                         ^ meta.string.php meta.interpolation.php - meta.variable
+//                                                                                                          ^ meta.string.php string.quoted.double.php
+//                                                              ^^ constant.character.escape.php
+//                                                                                   ^ punctuation.section.interpolation.begin.php
+//                                                                                    ^^ punctuation.definition.variable.begin.php
+//                                                                                      ^^^^^^^ variable.other.php
+//                                                                                      ^ punctuation.definition.variable.php
+//                                                                                             ^^ punctuation.accessor.arrow.php
+//                                                                                               ^^^^^^^ variable.function.php
+//                                                                                                      ^ punctuation.section.group.begin.php
+//                                                                                                       ^ punctuation.section.group.end.php
+//                                                                                                        ^ punctuation.definition.variable.end.php
+//                                                                                                         ^ punctuation.section.interpolation.end.php
+//                                                                                                          ^ punctuation.definition.string.end.php
+//                                                                                                           ^ punctuation.terminator.statement.php
+
+// Won't work, outputs: This is the return value of getName(): {getName()}
+echo "This is the return value of getName(): {getName()}";
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+
+// Won't work, outputs: C:\folder\{fantastic}.txt
+echo "C:\folder\{$great}.txt"
+//   ^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//               ^^^^^^ meta.string.php meta.interpolation.php variable.other.php
+//                     ^^^^^^ meta.string.php string.quoted.double.php
+
+// Works, outputs: C:\folder\fantastic.txt
+echo "C:\\folder\\{$great}.txt"
+//   ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php
+//                ^^^^^^^^ meta.string.php meta.interpolation.php
+//                        ^^^^^ meta.string.php string.quoted.double.php
+//              ^^ constant.character.escape.php
+//                ^ punctuation.section.interpolation.begin.php
+//                 ^^^^^^ variable.other.php
+//                 ^ punctuation.definition.variable.php
+//                       ^ punctuation.section.interpolation.end.php
 
 
 /******************************************************************************
  * Regular Expression Tests
  *****************************************************************************/
+
+    "/$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}/"
+//  ^^ meta.string.php string.quoted.double.php - meta.interpolation
+//    ^^ meta.string.php meta.interpolation.php - string
+//       ^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//            ^^^^^ meta.string.php meta.interpolation.php - string
+//                 ^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                     ^^^^ meta.string.php meta.interpolation.php - string
+//                         ^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                               ^^^^ meta.string.php meta.interpolation.php - string
+//                                   ^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                         ^^^^^ meta.string.php meta.interpolation.php - string
+//                                              ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                           ^^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                 ^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                                     ^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                          ^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                                                       ^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php - string
+//                                                                                                       ^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                                                                                         ^ - meta.string - string
+//  ^ punctuation.definition.string.begin.php
+//   ^ punctuation.definition.string.regex-delimiter.begin.php
+//    ^^ variable.other.php
+//    ^ punctuation.definition.variable.php
+//            ^^ variable.other.php
+//            ^ punctuation.definition.variable.php
+//              ^^ punctuation.accessor.arrow.php
+//                ^ variable.other.member.php
+//                     ^^^^ meta.interpolation.php meta.variable.php
+//                     ^^ punctuation.definition.variable.begin.php
+//                       ^ constant.other.php
+//                        ^ punctuation.definition.variable.end.php
+//                               ^ punctuation.section.interpolation.begin.php
+//                                ^^ variable.other.php
+//                                ^ punctuation.definition.variable.php
+//                                  ^ punctuation.section.interpolation.end.php
+//                                         ^^ variable.other.php
+//                                         ^ punctuation.definition.variable.php
+//                                           ^ punctuation.section.brackets.begin.php
+//                                            ^ meta.number.integer.decimal constant.numeric.value.php
+//                                             ^ punctuation.section.brackets.end.php
+//                                                           ^^ variable.other.php
+//                                                           ^ punctuation.definition.variable.php
+//                                                             ^ punctuation.section.brackets.begin.php
+//                                                              ^^ variable.other.php
+//                                                              ^ punctuation.definition.variable.php
+//                                                                ^ punctuation.section.brackets.end.php
+//                                                                     ^^ variable.other.php
+//                                                                     ^ punctuation.definition.variable.php
+//                                                                       ^ punctuation.section.brackets.begin.php
+//                                                                        ^ constant.other.php
+//                                                                         ^ punctuation.section.brackets.end.php
+//                                                                                       ^ punctuation.section.interpolation.begin.php
+//                                                                                        ^^ variable.other.php
+//                                                                                        ^ punctuation.definition.variable.php
+//                                                                                           ^ keyword.operator.concatenation.php
+//                                                                                             ^^ variable.other.php
+//                                                                                             ^ punctuation.definition.variable.php
+//                                                                                               ^^ punctuation.accessor.arrow.php
+//                                                                                                 ^ variable.other.member.php
+//                                                                                                   ^ keyword.operator.concatenation.php
+//                                                                                                     ^ constant.other.php
+//                                                                                                      ^ punctuation.section.interpolation.end.php
+//                                                                                                       ^ punctuation.definition.string.regex-delimiter.end.php
+//                                                                                                        ^ punctuation.definition.string.end.php
 
 preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
@@ -3272,10 +3795,10 @@ preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
 //                                                     ^ meta.regex.modifier
 //                                                      ^ string.quoted.single
 
-preg_replace("/[a-zSOME_CHAR]*+\'\n  $vairble  \1  \\1/m");
+preg_replace("/[a-zSOME_CHAR]*+\'\n  $variable  \1  \\1/m");
 //           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
-//                                   ^^^^^^^^ meta.string.php meta.interpolation.php - string
-//                                           ^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                                   ^^^^^^^^^ meta.string.php meta.interpolation.php - string
+//                                            ^^^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
 //            ^ punctuation.definition.string.regex-delimiter.begin
 //             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
 //             ^ punctuation.definition.character-class.begin.regexp
@@ -3284,12 +3807,13 @@ preg_replace("/[a-zSOME_CHAR]*+\'\n  $vairble  \1  \\1/m");
 //                          ^ punctuation.definition.character-class.end.regexp
 //                           ^^ keyword.operator.quantifier
 //                             ^^^^ constant.character.escape
+//                                   ^^^^^^^^^ variable.other.php
 //                                   ^ punctuation.definition.variable
-//                                             ^^ constant.character.escape
-//                                                 ^^ constant.character.escape
-//                                                    ^ punctuation.definition.string.regex-delimiter.end
-//                                                     ^ meta.regex.modifier
-//                                                      ^ string.quoted.double
+//                                              ^^ constant.character.escape
+//                                                  ^^ constant.character.escape
+//                                                     ^ punctuation.definition.string.regex-delimiter.end
+//                                                      ^ meta.regex.modifier
+//                                                       ^ string.quoted.double
 
 preg_replace("/^(?=foo)|(?>a|b|\s*)|(?im:toggle)(?#comment)$/uxS");
 //            ^ punctuation.definition.string.regex-delimiter.begin
