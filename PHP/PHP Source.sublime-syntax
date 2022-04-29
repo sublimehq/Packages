@@ -851,7 +851,7 @@ contexts:
   qualified-namespace-declaration-name:
     - meta_include_prototype: false
     - meta_scope: meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - include: unqualified-namespace-declaration-name
     - include: immediately-pop
 
@@ -859,6 +859,12 @@ contexts:
     - match: '{{identifier}}'
       scope: entity.name.namespace.php
       pop: 1
+
+  namespace-qualifiers:
+    - match: ({{identifier}})(\\)
+      captures:
+        1: variable.namespace.php
+        2: punctuation.accessor.namespace.php
 
 ###[ TRAIT DECLARATIONS ]#####################################################
 
@@ -1371,7 +1377,7 @@ contexts:
   use-qualified-function-name:
     - meta_include_prototype: false
     - meta_scope: meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - match: '{{identifier}}'
       scope: support.function.php
       pop: 1
@@ -1509,7 +1515,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.function-call.identifier.php
     - meta_content_scope: meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - include: function-name
 
   unqualified-function-name:
@@ -1763,7 +1769,7 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.annotation.identifier.php meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - include: unqualified-attribute-name
 
   unqualified-attribute-name:
@@ -1862,7 +1868,7 @@ contexts:
   qualified-class-name:
     - meta_include_prototype: false
     - meta_scope: meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - include: unqualified-class-name
 
   unqualified-class-name:
@@ -1896,7 +1902,7 @@ contexts:
   qualified-inherited-class-name:
     - meta_include_prototype: false
     - meta_scope: meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - include: unqualified-inherited-class-name
 
   unqualified-inherited-class-name:
@@ -1933,7 +1939,7 @@ contexts:
   qualified-constant:
     - meta_include_prototype: false
     - meta_scope: meta.path.php
-    - include: qualifiers
+    - include: namespace-qualifiers
     - include: unqualified-constant
 
   unqualified-constant:
@@ -1963,14 +1969,6 @@ contexts:
     - match: '{{identifier}}'
       scope: constant.other.php
       pop: 1
-
-###[ IDENTIFIERS ]############################################################
-
-  qualifiers:
-    - match: ({{identifier}})(\\)
-      captures:
-        1: variable.namespace.php
-        2: punctuation.accessor.namespace.php
 
 ###[ LITERALS ]###############################################################
 
