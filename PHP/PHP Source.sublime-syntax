@@ -1249,6 +1249,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       set: catch-arguments-body
+    - include: comments
     - include: else-pop
 
   catch-arguments-body:
@@ -1276,6 +1277,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       set: for-statement-group-body
+    - include: comments
     - include: else-pop
 
   for-statement-group-body:

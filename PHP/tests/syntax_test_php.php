@@ -2182,6 +2182,28 @@ switch (1) {
 //                              ^ punctuation.section.block.begin.php
 //                                         ^ punctuation.section.block.end.php
 
+    for /**/ ( /**/ $i /**/ = /**/ 0 /**/ ; /**/ $i /**/ < /**/ 10 /**/ ; /**/ $i++ /**/ ) /**/ { echo $i; }
+//  ^^^ keyword.control.loop.for.php
+//      ^^^^ comment.block.php
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//           ^ punctuation.section.group.begin.php
+//             ^^^^ comment.block.php
+//                     ^^^^ comment.block.php
+//                            ^^^^ comment.block.php
+//                                   ^^^^ comment.block.php
+//                                        ^ punctuation.terminator.statement.php
+//                                          ^^^^ comment.block.php
+//                                                  ^^^^ comment.block.php
+//                                                         ^^^^ comment.block.php
+//                                                                 ^^^^ comment.block.php
+//                                                                      ^ punctuation.terminator.statement.php
+//                                                                        ^^^^ comment.block.php
+//                                                                                  ^^^^ comment.block.php
+//                                                                                       ^ punctuation.section.group.end.php
+//                                                                                         ^^^^ comment.block.php
+//                                                                                              ^ punctuation.section.block.begin.php
+//                                                                                                         ^ punctuation.section.block.end.php
+
 
 /******************************************************************************
  * Try Catch Statement Tests
@@ -2202,17 +2224,18 @@ try {
 //             ^^^^^^ variable.namespace.php
 //                   ^ punctuation.accessor.namespace.php
 //                    ^^^^^^^^^ support.class.builtin.php
-} catch (/* comment */ ExceptionExample $e) {
+} catch /**/ (/* comment */ ExceptionExample $e) {
 // <- punctuation.section.block.end.php
-//^^^^^^ meta.catch.php
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php - meta.path
+//^^^^^^^^^^^ meta.catch.php
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.arguments.php meta.group.php - meta.path
 //^^^^^ keyword.control.exception.catch.php
-//      ^ punctuation.section.group.begin.php
-//       ^^^^^^^^^^^^^ comment.block.php
-//                     ^^^^^^^^^^^^^^^^ support.class.php
-//                                      ^^ variable.other.php
-//                                        ^ punctuation.section.group.end.php
-//                                          ^ punctuation.section.block.begin.php
+//      ^^^^ comment.block.php
+//           ^ punctuation.section.group.begin.php
+//            ^^^^^^^^^^^^^ comment.block.php
+//                          ^^^^^^^^^^^^^^^^ support.class.php
+//                                           ^^ variable.other.php
+//                                             ^ punctuation.section.group.end.php
+//                                               ^ punctuation.section.block.begin.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (Exception) {
 // <- punctuation.section.block.end.php
