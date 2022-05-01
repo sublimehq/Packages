@@ -1502,22 +1502,30 @@ contexts:
       captures:
         1: punctuation.accessor.namespace.php
         2: support.function.builtin.php
-      push: function-call-arguments
+      push:
+        - maybe-item-access
+        - function-call-arguments
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
     - match: \\?(?=(?:{{identifier}}\\)+{{identifier}}\s*\()
       scope: punctuation.accessor.namespace.php
-      push: qualified-function-name
+      push:
+        - maybe-item-access
+        - qualified-function-name
     # Root namespace function calls may be a built-in or user
     - match: \\?(?={{identifier}}\s*\()
       scope: punctuation.accessor.namespace.php
-      push: unqualified-function-name
+      push:
+        - maybe-item-access
+        - unqualified-function-name
     - match: ((\$+){{identifier}})\s*(?=\()
       scope: meta.function-call.identifier.php
       captures:
         1: variable.other.php
         2: punctuation.definition.variable.php
-      push: function-call-arguments
+      push:
+        - maybe-item-access
+        - function-call-arguments
 
   qualified-function-name:
     - meta_include_prototype: false
@@ -1549,7 +1557,7 @@ contexts:
     - meta_scope: meta.function-call.arguments.php meta.group.php
     - match: \)
       scope: punctuation.section.group.end.php
-      set: after-function-call
+      pop: 1
     - include: function-call-named-arguments
     - include: nested-expressions
 
@@ -1713,18 +1721,11 @@ contexts:
       pop: 1
     - include: nested-expressions
 
-  after-identifier:
-    - include: item-access
-    - include: else-pop
-
-  after-function-call:
-    - include: item-access
-    - include: else-pop
-
-  item-access:
+  maybe-item-access:
     - match: \[
       scope: punctuation.section.brackets.begin.php
       push: item-access-body
+    - include: else-pop
 
   item-access-body:
     - meta_scope: meta.item-access.php
@@ -1944,11 +1945,11 @@ contexts:
         1: variable.namespace.php
         2: punctuation.accessor.namespace.php
       push:
-        - after-identifier
+        - maybe-item-access
         - qualified-constant
     - match: (?={{identifier_start}})
       push:
-        - after-identifier
+        - maybe-item-access
         - unqualified-constant
 
   qualified-constant:
@@ -2089,10 +2090,14 @@ contexts:
       captures:
         1: punctuation.accessor.nullsafe.php
         2: punctuation.accessor.arrow.php
-      push: object-member
+      push:
+        - maybe-item-access
+        - object-member
     - match: '::'
       scope: punctuation.accessor.double-colon.php
-      push: static-member
+      push:
+        - maybe-item-access
+        - static-member
 
   object-member:
     - meta_include_prototype: false
@@ -2113,17 +2118,17 @@ contexts:
   member-constant:
     - match: '{{guarded_identifier}}'
       scope: constant.other.member.php
-      set: after-identifier
+      pop: 1
 
   member-variable:
     - match: \$?\{
       scope: punctuation.definition.variable.begin.php
-      set: [after-identifier, variable-expansion-body]
+      set: variable-expansion-body
     - match: (\$?){{identifier}}
       scope: variable.other.member.php
       captures:
         1: punctuation.definition.variable.php
-      set: after-identifier
+      pop: 1
     - include: dereference-operators
 
   method-call:
@@ -2686,22 +2691,22 @@ contexts:
   variables:
     - match: \$\{
       scope: punctuation.definition.variable.begin.php
-      push: [after-identifier, variable-expansion-body]
+      push: [maybe-item-access, variable-expansion-body]
     - match: (\$){{builtin_global_variables}}
       scope: variable.language.global.php
       captures:
         1: punctuation.definition.variable.php
-      push: after-identifier
+      push: maybe-item-access
     - match: (\$)this\b
       scope: variable.language.this.php
       captures:
         1: punctuation.definition.variable.php
-      push: after-identifier
+      push: maybe-item-access
     - match: (\$){{identifier}}
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
-      push: after-identifier
+      push: maybe-item-access
     - include: dereference-operators
 
   variable-expansion-body:
