@@ -1343,6 +1343,14 @@ class B
 //                         ^^ keyword.other.as.php
 //                            ^^^^^^^^ entity.name.function.php
 //                                    ^ punctuation.terminator.statement.php
+        parent::method as another4;
+//      ^^^^^^ variable.language.super.php
+//            ^^ punctuation.accessor.double-colon.php
+//              ^^^^^^ variable.function.php
+//                     ^^ keyword.other.as.php
+//                        ^^^^^^^^ entity.name.function.php
+//                                ^ punctuation.terminator.statement.php
+
     } protected $pro1;
 //  ^ meta.class.php meta.block.php meta.use.php meta.block.php punctuation.section.block.end.php
 //   ^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.use

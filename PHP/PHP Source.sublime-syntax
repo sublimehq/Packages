@@ -746,6 +746,7 @@ contexts:
     - include: punctuation-terminators
     - include: attributes
     - include: comments
+    - include: bindings
     - include: class-names
 
 ###[ ENUM DECLARATIONS ]######################################################
