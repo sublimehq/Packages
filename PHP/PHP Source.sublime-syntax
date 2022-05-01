@@ -1664,7 +1664,7 @@ contexts:
   interpolation-braced-variable:
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.php meta.variable.php
-    - include: variable-expansion-body
+    - include: variable-body
 
   interpolation-literal-variable:
     - meta_include_prototype: false
@@ -2123,7 +2123,7 @@ contexts:
   member-variable:
     - match: \$?\{
       scope: punctuation.definition.variable.begin.php
-      set: variable-expansion-body
+      set: variable-body
     - match: (\$?){{identifier}}
       scope: variable.other.member.php
       captures:
@@ -2691,7 +2691,7 @@ contexts:
   variables:
     - match: \$\{
       scope: punctuation.definition.variable.begin.php
-      push: [maybe-item-access, variable-expansion-body]
+      push: [maybe-item-access, variable-body]
     - match: (\$){{builtin_global_variables}}
       scope: variable.language.global.php
       captures:
@@ -2709,7 +2709,7 @@ contexts:
       push: maybe-item-access
     - include: dereference-operators
 
-  variable-expansion-body:
+  variable-body:
     - meta_scope: meta.variable.php
     - match: \}
       scope: punctuation.definition.variable.end.php
