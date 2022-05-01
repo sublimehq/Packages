@@ -2478,7 +2478,7 @@ contexts:
             1: comment.regexp.php
             2: punctuation.definition.comment.regexp.php
         - match: \\'
-          scope: constant.character.escape
+          scope: constant.character.escape.php
 
   string-single-quoted-plain:
     - match: \'
