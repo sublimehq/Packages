@@ -1916,13 +1916,19 @@ contexts:
 
   unqualified-class-name:
     - meta_include_prototype: false
+    - include: support-class-name
+    - include: user-class-name
+    - include: immediately-pop
+
+  support-class-name:
     - match: '{{builtin_classes}}'
       scope: support.class.builtin.php
       pop: 1
+
+  user-class-name:
     - match: '{{identifier}}'
       scope: support.class.php
       pop: 1
-    - include: immediately-pop
 
   inherited-class-names:
     - match: ({{identifier}})?(\\)
@@ -1950,13 +1956,19 @@ contexts:
 
   unqualified-inherited-class-name:
     - meta_include_prototype: false
+    - include: inherited-support-class-name
+    - include: inherited-user-class-name
+    - include: immediately-pop
+
+  inherited-support-class-name:
     - match: '{{builtin_classes}}'
       scope: entity.other.inherited-class.php support.class.builtin.php
       pop: 1
+
+  inherited-user-class-name:
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.php
       pop: 1
-    - include: immediately-pop
 
 ###[ CONSTANTS ]##############################################################
 
