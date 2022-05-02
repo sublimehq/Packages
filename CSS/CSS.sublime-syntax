@@ -824,6 +824,7 @@ contexts:
 
   # @import
   # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
   at-import:
     - match: (@)(?i:import){{break}}
       captures:
@@ -836,6 +837,7 @@ contexts:
     - include: quoted-strings
     - include: url-functions
     - include: media-queries
+    - include: at-import-functions
     - include: at-rule-end
 
   # @keyframes
@@ -1883,6 +1885,19 @@ contexts:
             - include: quoted-strings
             - include: generic-font-names
             - include: font-family-names
+
+  at-import-functions:
+    # supports()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
+    - match: \b(?i:supports)(?=\()
+      scope: meta.function-call.identifier.css support.function.supports.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: at-supports-group-content
 
   at-supports-functions:
     # selector()

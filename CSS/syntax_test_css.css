@@ -198,6 +198,40 @@
 /*              ^^^^^ support.constant.media.css */
 /*                   ^ punctuation.terminator.rule.css */
 
+    @import "foo" supports(selector(.bar > a[class="bar"]) and (scale: 20%)) screen;
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
+/*                ^^^^^^^^ meta.function-call.identifier.css */
+/*                        ^ meta.function-call.arguments.css meta.group.css */
+/*                         ^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.function-call.identifier.css */
+/*                                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css */
+/*                                          ^^^^^^^^^^^^^ meta.attribute-selector.css meta.brackets.css */
+/*                                                        ^^^^^ meta.function-call.arguments.css meta.group.css - meta.group meta.group */
+/*                                                             ^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.group.css */
+/*                                                                         ^ meta.function-call.arguments.css meta.group.css - meta.group meta.group */
+/*                                                                          ^^^^^^^ - meta.function-call - meta.group */
+/*                                                                                 ^ - meta.at-rule */
+/*                ^^^^^^^^ support.function.supports.css */
+/*                        ^ punctuation.section.group.begin.css */
+/*                         ^^^^^^^^ support.function.selector.css */
+/*                                 ^ punctuation.section.group.begin.css */
+/*                                  ^^^^ entity.other.attribute-name.class.css */
+/*                                       ^ keyword.operator.combinator.css */
+/*                                         ^ entity.name.tag.html.css */
+/*                                          ^ punctuation.section.brackets.begin.css */
+/*                                           ^^^^^ entity.other.attribute-name.css */
+/*                                                ^ keyword.operator.logical.css */
+/*                                                 ^^^^^ string.quoted.double.css */
+/*                                                      ^ punctuation.section.brackets.end.css */
+/*                                                       ^ punctuation.section.group.end.css */
+/*                                                         ^^^ keyword.operator.logical.css */
+/*                                                             ^ punctuation.section.group.begin.css */
+/*                                                              ^^^^^ support.type.property-name.css */
+/*                                                                   ^ punctuation.separator.key-value.css */
+/*                                                                     ^^^ meta.number.integer.decimal.css */
+/*                                                                        ^^ punctuation.section.group.end.css */
+/*                                                                           ^^^^^^ support.constant.media.css */
+/*                                                                                 ^ punctuation.terminator.rule.css */
+
     @import url( 'landscape.css' ) screen and (orientation:landscape);
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
 /*                                                                   ^ - meta.at-rule */
