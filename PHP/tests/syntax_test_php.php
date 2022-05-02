@@ -2728,6 +2728,22 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //                                                        ^ punctuation.section.group.end.php
 //                                                         ^ punctuation.terminator.statement.php
 
+$object = new \MyNamespce\ClassName();
+// <- variable.other.php punctuation.definition.variable.php
+//        ^^^^ meta.instantiation.php - meta.path
+//            ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.path.php
+//                                 ^^ meta.instantiation.php meta.group.php
+//^^^^^ variable.other.php
+//      ^ keyword.operator.assignment.php
+//        ^^^ keyword.other.new.php
+//            ^ punctuation.accessor.namespace.php
+//             ^^^^^^^^^^ variable.namespace.php
+//                       ^ punctuation.accessor.namespace.php
+//                        ^^^^^^^^^ support.class.php
+//                                 ^ punctuation.section.group.begin.php
+//                                  ^ punctuation.section.group.end.php
+//                                   ^ punctuation.terminator.statement.php
+
 // class name should be case-insensitive
 $object = new ArRaYoBjEcT();
 //            ^^^^^^^^^^^ support.class.builtin
@@ -3013,15 +3029,6 @@ if ($foo instanceof \Mynamespace\ClassName) {
 //                              ^ punctuation.accessor.namespace.php
 //                               ^^^^^^^^^ support.class.php
 }
-
-$var = new \MyNamespce\ClassName();
-// <- variable.other
-//     ^ keyword.other
-//         ^^^^^^^^^^^^^^^^^^^^^ meta.path
-//         ^ punctuation.accessor.namespace
-//          ^ variable.namespace
-//                    ^ punctuation.accessor.namespace
-//                     ^ support.class
 
 \MyNamespace\Foo::BAR;
 // <- punctuation.accessor.namespace
