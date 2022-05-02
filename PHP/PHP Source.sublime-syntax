@@ -1459,11 +1459,13 @@ contexts:
 ###[ DEFINE CALLS ]###########################################################
 
   define-calls:
-    - match: (\\?)((?i:define))\s*(?=\()
+    - match: (?:((\\)((?i:define)))|((?i:define)))\s*(?=\()
       scope: meta.function-call.identifier.php
       captures:
-        1: punctuation.accessor.namespace.php
-        2: support.function.builtin.php
+        1: meta.path.php
+        2: punctuation.accessor.namespace.php
+        3: support.function.builtin.php
+        4: support.function.builtin.php
       push: define-call-arguments
 
   define-call-arguments:
@@ -1495,29 +1497,45 @@ contexts:
 ###[ FUNCTION CALLS ]#########################################################
 
   function-calls:
-    # Built-in functions which belong to reserved words are matched
-    # even if not followed by arguments list.
-    - match: (\\?)({{builtin_functions}})\s*
-      scope: meta.function-call.identifier.php
-      captures:
-        1: punctuation.accessor.namespace.php
-        2: support.function.builtin.php
-      push:
-        - maybe-item-access
-        - function-call-arguments
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
     - match: \\?(?=(?:{{identifier}}\\)+{{identifier}}\s*\()
       scope: punctuation.accessor.namespace.php
       push:
         - maybe-item-access
+        - function-call-arguments
+        - function-call-identifier
         - qualified-function-name
+    # Built-in functions which belong to reserved words are consumed
+    # even if not followed by arguments list.
+    - match: ((\\)({{builtin_functions}}))|({{builtin_functions}})
+      captures:
+        1: meta.path.php
+        2: punctuation.accessor.namespace.php
+        3: support.function.builtin.php
+        4: support.function.builtin.php
+      push:
+        - maybe-item-access
+        - function-call-arguments
+        - function-call-identifier
     # Root namespace function calls may be a built-in or user
-    - match: \\?(?={{identifier}}\s*\()
+    - match: \\(?={{identifier}}\s*\()
       scope: punctuation.accessor.namespace.php
       push:
         - maybe-item-access
+        - function-call-arguments
+        - function-call-identifier
+        - qualified-path-meta
         - unqualified-function-name
+    # Unqualified function calls may be a built-in or user
+    - match: (?={{identifier}}\s*\()
+      scope: punctuation.accessor.namespace.php
+      push:
+        - maybe-item-access
+        - function-call-arguments
+        - function-call-identifier
+        - unqualified-function-name
+    # Function invocation with function name as variable
     - match: ((\$+){{identifier}})\s*(?=\()
       scope: meta.function-call.identifier.php
       captures:
@@ -1527,24 +1545,33 @@ contexts:
         - maybe-item-access
         - function-call-arguments
 
+  qualified-path-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.php
+    - include: immediately-pop
+
   qualified-function-name:
     - meta_include_prototype: false
-    - meta_scope: meta.function-call.identifier.php
-    - meta_content_scope: meta.path.php
+    - meta_scope: meta.path.php
     - include: namespace-qualifiers
-    - include: function-name
+    - include: user-function-name
+    - include: immediately-pop
 
   unqualified-function-name:
     - meta_include_prototype: false
-    - meta_scope: meta.function-call.identifier.php
-    - include: support
-    - include: function-name
+    - include: support-function-name
+    - include: user-function-name
+    - include: immediately-pop
 
-  function-name:
+  user-function-name:
     - match: '{{identifier}}'
       scope: variable.function.php
-    - match: \s* # receives `meta.function-call` but no `meta.path`
-      set: function-call-arguments
+      pop: 1
+
+  function-call-identifier:
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.identifier.php
+    - include: else-pop
 
   function-call-arguments:
     - meta_include_prototype: false
@@ -2718,7 +2745,7 @@ contexts:
 
 ###[ BUILTINS ]###############################################################
 
-  support:
+  support-function-name:
     - match: |-
         (?xi:
           apc_add | apc_bin_dump | apc_bin_dumpfile | apc_bin_load | apc_bin_loadfile | apc_cache_info | apc_cas | apc_clear_cache |

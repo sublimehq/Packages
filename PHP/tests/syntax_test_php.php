@@ -2457,8 +2457,8 @@ if (include('vars.php') == TRUE) {
  *****************************************************************************/
 
 define("MY_CONST", value);
-// <- meta.function-call.identifier.php support.function.builtin.php
-//^^^^ meta.function-call.identifier.php support.function.builtin.php
+// <- meta.function-call.identifier.php support.function.builtin.php - meta.path
+//^^^^ meta.function-call.identifier.php support.function.builtin.php - meta.path
 //    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //    ^ punctuation.section.group.begin.php
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
@@ -2470,8 +2470,8 @@ define("MY_CONST", value);
 //                       ^ punctuation.terminator.statement.php
 
 \define('MY_CONST', value);
-// <- meta.function-call.identifier.php punctuation.accessor.namespace.php - support
-//^^^^^ meta.function-call.identifier.php support.function.builtin.php
+// <- meta.function-call.identifier.php meta.path.php punctuation.accessor.namespace.php - support
+//^^^^^ meta.function-call.identifier.php meta.path.php support.function.builtin.php
 //     ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //     ^ punctuation.section.group.begin.php
 //      ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
@@ -2482,6 +2482,56 @@ define("MY_CONST", value);
 //                       ^ punctuation.section.group.end.php
 //                        ^ punctuation.terminator.statement.php
 
+echo ;
+// <- meta.function-call.identifier.php - meta.path.php
+//^^^ meta.function-call.identifier.php - meta.path.php
+// <- support.function.builtin.php
+//^^ support.function.builtin.php
+//   ^ punctuation.terminator.statement.php
+
+\echo ;
+// <- meta.function-call.identifier.php meta.path.php
+//^^^ meta.function-call.identifier.php meta.path.php
+//   ^ meta.function-call.identifier.php - meta.path
+// <- punctuation.accessor.namespace.php
+//^^^ support.function.builtin.php
+//    ^ punctuation.terminator.statement.php
+
+\echo ();
+// <- meta.function-call.identifier.php meta.path.php
+//^^^ meta.function-call.identifier.php meta.path.php
+//   ^ meta.function-call.identifier.php - meta.path
+//    ^^ meta.function-call.arguments.php meta.group.php
+// <- punctuation.accessor.namespace.php
+//^^^ support.function.builtin.php
+//    ^ punctuation.section.group.begin.php
+//     ^ punctuation.section.group.end.php
+//      ^ punctuation.terminator.statement.php
+
+echo\echo ();
+// <- meta.function-call.identifier.php meta.path.php
+//^^^^^^^ meta.function-call.identifier.php meta.path.php
+//       ^ meta.function-call.identifier.php - meta.path
+//        ^^ meta.function-call.arguments.php meta.group.php
+//^^ variable.namespace.php
+//  ^ punctuation.accessor.namespace.php
+//   ^^^^ variable.function.php
+//        ^ punctuation.section.group.begin.php
+//         ^ punctuation.section.group.end.php
+//          ^ punctuation.terminator.statement.php
+
+\echo\echo ();
+// <- meta.function-call.identifier.php meta.path.php punctuation.accessor.namespace.php
+//^^^^^^^^ meta.function-call.identifier.php meta.path.php
+//        ^ meta.function-call.identifier.php - meta.path
+//         ^^ meta.function-call.arguments.php meta.group.php
+//^^^ variable.namespace.php
+//   ^ punctuation.accessor.namespace.php
+//    ^^^^ variable.function.php
+//         ^ punctuation.section.group.begin.php
+//          ^ punctuation.section.group.end.php
+//           ^ punctuation.terminator.statement.php
+
 array_slice($array, $offset, $length, preserve_keys: true);
 //                                    ^^^^^^^^^^^^^ variable.parameter.named
 //                                                 ^ keyword.operator.assignment.php
@@ -2489,23 +2539,24 @@ array_slice($array, $offset, $length, preserve_keys: true);
 
 // function name should be case-sensitive
 ArRaY_RaNd($array);
-// <- meta.function-call.identifier.php support.function.array.php
-//^^^^^^^^ meta.function-call.identifier.php support.function.array.php
+// <- meta.function-call.identifier.php support.function.array.php - meta.path
+//^^^^^^^^ meta.function-call.identifier.php support.function.array.php - meta.path
 //        ^^^^^^^^ meta.function-call.arguments.php meta.group.php
 
 func_call(true, 1, "string");
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+// <- meta.function-call.identifier.php variable.function.php - meta.path
+//^^^^^^^ meta.function-call.identifier.php - meta.path
+//       ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //                          ^ - meta.function-call
-//^^^^^^^ variable.function
-//       ^^^^^^^^^^^^^^^^^^^ meta.group
-//                          ^ - meta.group
-//       ^ punctuation.section.group.begin
-//                         ^ punctuation.section.group.end
-//        ^^^^ constant.language
-//            ^ punctuation.separator.sequence
-//              ^ meta.number.integer.decimal constant.numeric.value
-//               ^ punctuation.separator.sequence
-//                 ^^^^^^^^ string.quoted.double
+//^^^^^^^ variable.function.php
+//       ^ punctuation.section.group.begin.php
+//        ^^^^ constant.language.boolean.php
+//            ^ punctuation.separator.sequence.php
+//              ^ meta.number.integer.decimal.php constant.numeric.value.php
+//               ^ punctuation.separator.sequence.php
+//                 ^^^^^^^^ string.quoted.double.php
+//                         ^ punctuation.section.group.end.php
+//                          ^ punctuation.terminator.statement.php
 
 $object->method(func_call());
 //       ^^^^^^^^^^^^^^^^^^^ meta.function-call
@@ -3025,18 +3076,6 @@ $var = new \MyNamespce\ClassName();
 //                   ^^ meta.group
 //                   ^ punctuation.section.group.begin
 //                    ^ punctuation.section.group.end
-
-\MyNamespace\Foo ();
-//^^^^^^^^^^^^^^ meta.function-call.identifier.php meta.path.php - meta.function-call meta.function-call
-//              ^ meta.function-call.identifier.php - meta.path.php - meta.function-call meta.function-call
-//               ^^ meta.function-call.arguments.php - meta.function-call meta.function-call
-// <- punctuation.accessor.namespace
- // <- variable.namespace
-//          ^ punctuation.accessor.namespace
-//           ^^^ variable.function
-//               ^^ meta.group
-//               ^ punctuation.section.group.begin
-//                ^ punctuation.section.group.end
 
 \MyNamespace\Foo;
 // <- punctuation.accessor.namespace
