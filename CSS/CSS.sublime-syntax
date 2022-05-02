@@ -1010,6 +1010,7 @@ contexts:
   at-supports-content:
     - meta_scope: meta.at-rule.supports.css
     - include: at-supports-groups
+    - include: at-supports-functions
     - include: at-supports-operators
     - include: at-rule-block
     - include: at-rule-end
@@ -1028,6 +1029,7 @@ contexts:
     - include: group-end
     - include: at-rule-end
     - include: at-supports-groups
+    - include: at-supports-functions
     - include: at-supports-operators
     - include: rule-list-body
 
@@ -1881,6 +1883,22 @@ contexts:
             - include: quoted-strings
             - include: generic-font-names
             - include: font-family-names
+
+  at-supports-functions:
+    # selector()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
+    - match: \b(?i:selector)(?=\()
+      scope: meta.function-call.identifier.css support.function.selector.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - meta_content_scope: meta.selector.css
+            - include: group-end
+            - include: at-rule-end
+            - include: selector-content
 
 ###[ BUILTIN COLOR FUNCTIONS ]#################################################
 

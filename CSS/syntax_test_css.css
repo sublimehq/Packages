@@ -1088,6 +1088,25 @@
 /*                                                    ^ meta.at-rule.supports.css meta.block.css - meta.property-list - meta.block meta.block */
 /*                                                     ^ - meta.at-rule - meta.block */
 
+    @supports selector(A > B);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css */
+/*            ^^^^^^^^ meta.function-call.identifier.css */
+/*                    ^ meta.function-call.arguments.css meta.group.css - meta.selector */
+/*                     ^^^^^ meta.function-call.arguments.css meta.group.css meta.selector.css */
+/*                          ^ meta.function-call.arguments.css meta.group.css - meta.selector */
+/*            ^^^^^^^^ support.function.selector.css */
+/*                    ^ punctuation.section.group.begin.css */
+/*                     ^ entity.name.tag.html.css */
+/*                       ^ keyword.operator.combinator.css */
+/*                         ^ entity.name.tag.html.css */
+/*                          ^ punctuation.section.group.end.css */
+
+    @supports selector( ;
+/*            ^^^^^^^^ meta.function-call.identifier.css */
+/*                    ^ meta.function-call.arguments.css meta.group.css - meta.selector */
+/*                     ^ meta.at-rule.supports.css - meta.function-call */
+/*                      ^ - meta.at-rule - meta.function-call */
+
     @counter-style {}
 /*  ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                 ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
