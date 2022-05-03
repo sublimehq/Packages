@@ -404,7 +404,7 @@ def get_properties():
         "font": [
             "<absolute-weight>",
             "<calc>",
-            "<generic-name>",
+            "<generic-font-name>",
             "<relative-weight>",
             "caption",
             "icon",
@@ -417,7 +417,7 @@ def get_properties():
             "status-bar",
         ],
         "font-display": ["auto", "block", "fallback", "optional", "swap"],
-        "font-family": ["<generic-name>"],
+        "font-family": ["<generic-font-name>"],
         "font-feature-settings": ["normal", "<string>"],
         "font-kerning": ["auto", "normal", "none"],
         "font-language-override": ["normal", "<string>"],
