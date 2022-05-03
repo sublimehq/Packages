@@ -1,0 +1,45 @@
+{
+	"scope": "meta.declaration.foreign.haskell",
+	"completions": [
+		{
+			"trigger": "capi",
+			"kind": ["keyword", "C", "Convention"],
+			"details": "standard C"
+		},
+		{
+			"trigger": "ccall",
+			"kind": ["keyword", "C", "Convention"],
+			"details": "standard C"
+		},
+		{
+			"trigger": "cplusplus",
+			"kind": ["keyword", "C", "Convention"],
+			"details": "standard C++"
+		},
+		{
+			"trigger": "dotnet",
+			"kind": ["keyword", "C", "Convention"],
+			"details": ".NET platform"
+		},
+		{
+			"trigger": "jvm",
+			"kind": ["keyword", "C", "Convention"],
+			"details": "Java Virtual Machine"
+		},
+		{
+			"trigger": "stdcall",
+			"kind": ["keyword", "C", "Convention"],
+			"details": "Win32 API"
+		},
+		{
+			"trigger": "safe",
+			"kind": ["type", "S", "Safety"],
+			"details": "managed function"
+		},
+		{
+			"trigger": "unsafe",
+			"kind": ["type", "S", "Safety"],
+			"details": "unmanaged function"
+		}
+	]
+}
