@@ -927,6 +927,12 @@
     font-family: Gentium Bold;
 /*               ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
 
+    font-family: status-bar;
+/*               ^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font-family: italic;
+/*               ^^^^^^ meta.string.css string.unquoted.css */
+
     font-feature-settings: normal;
 /*  ^^^^^^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
 /*                         ^^^^^^ meta.property-value.css support.constant.property-value.css */
@@ -2062,6 +2068,12 @@
 /*              ^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
 /*                          ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*               ^^^^^^^^^^^ string.unquoted */
+
+    font-family: status-bar;
+/*               ^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font-family: italic;
+/*               ^^^^^^ meta.string.css string.unquoted.css */
 }
 
 .invalid-font-family {
@@ -2075,7 +2087,7 @@
 /*                ^^^^^^^^^ constant.other.css - support */
 
     font-family: Red/Black, sans-serif;
-/*               ^^^^^^^^^ - string */
+/*                  ^ - string */
 /*                        ^ punctuation.separator.sequence.css */
 /*                          ^^^^^^^^^^ support.constant.property-value.css */
 

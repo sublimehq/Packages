@@ -436,16 +436,6 @@ variables:
     | font-smoothing | overflow-scrolling | flex-positive | pitch-range
     ){{break}}
 
-  property_value_constants: |-
-    (?x:
-      {{global_property_constants}}
-    | {{font_display_constants}}
-    | {{font_property_constants}}
-    | {{font_size_constants}}
-    | {{font_style_constants}}
-    | {{unsorted_property_constants}}
-    )
-
   global_property_constants:  |-
     \b(?xi: inherit | initial | revert | revert-layer | unset ){{break}}
 
@@ -609,9 +599,7 @@ variables:
 
   # https://www.w3.org/TR/css-fonts-4/#font-display-desc
   font_display_constants: |-
-    \b(?xi:
-    block | swap | fallback | optional
-    ){{break}}
+    \b(?xi: block | swap | fallback | optional ){{break}}
 
   # Generic Font Families
   font_family_constants: |-
@@ -626,25 +614,34 @@ variables:
     | ui-sans-serif | ui-serif | ui-monospace | ui-rounded
     ){{break}}
 
+  # Generic Font Properties
   # https://www.w3.org/TR/CSS22/fonts.html#font-shorthand
-  font_property_constants: |-
-    \b(?xi:
-      caption | icon | menu | message-box | small-caption | status-bar
-    ){{break}}
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font
+  font_prop_constants: |-
+    \b(?xi: caption | icon | menu | message-box | small-caption | status-bar ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-size-props
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
   font_size_constants: |-
-    \b(?xi:
-      larger | large | medium | small | smaller | x{1,2}-(?: large | small )
-    ){{break}}
+    \b(?xi: larger | large | medium | small | smaller | x{1,2}-(?: large | small ) ){{break}}
+
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
+  font_stretch_constants: |-
+    \b(?xi: (?: normal | (?: extra | semi | ultra ) - )? ( condensed | expanded ) ){{break}}
+
+  # https://www.w3.org/TR/CSS22/fonts.html#font-styling
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
+  font_style_constants: |-
+    \b(?xi: normal | italic | oblique ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-boldness
-  # https://www.w3.org/TR/CSS22/fonts.html#font-styling
-  # https://www.w3.org/TR/CSS22/fonts.html#small-caps
-  font_style_constants: |-
-    \b(?xi:
-      normal | bold | bolder | lighter | italic | oblique | small-caps
-    ){{break}}
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
+  font_weight_constants: |-
+    \b(?xi: normal | bold | bolder | lighter ){{break}}
+
+  # https://developer.mozilla.org/de/docs/Web/CSS/font-variant
+  font_variant_constants: |-
+    \b(?xi: (?: all- )? (?: small | petite ) -caps | unicase | titling-cap ){{break}}
 
 ###############################################################################
 
@@ -821,7 +818,7 @@ contexts:
   at-font-face-property-names:
     - match: \b(?i:font-family){{break}}
       scope: meta.property-name.css support.type.property-name.css
-      push: font-property-value
+      push: font-family-value
     - match: '{{font_face_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
 
@@ -1471,6 +1468,7 @@ contexts:
     - include: vendor-prefixes
     # specific properties with special treatment
     - include: counter-property
+    - include: font-family-property
     - include: font-property
     # common properties
     - include: builtin-property
@@ -1518,7 +1516,8 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
-    - include: common-operators
+    - include: important-operators
+    - include: arithmetic-operators
     - include: builtin-values
     - include: other-functions
     - include: other-constants
@@ -1668,13 +1667,41 @@ contexts:
     - include: counter-speak-as-constants
     - include: counter-style-identifiers
 
+###[ FONT FAMILY PROPERTY ]####################################################
+
+  # Font-Family Property
+  # https://drafts.csswg.org/css-fonts-3/#font-family-prop
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
+  font-family-property:
+    - match: \b(?i:font-family){{break}}
+      scope: support.type.property-name.css
+      set: font-family-value
+
+  font-family-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: font-family-value-content
+    - include: else-pop
+
+  font-family-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: comma-delimiters
+    - include: important-operators
+    - include: var-functions
+    - include: quoted-strings
+    - include: global-constants
+    - include: generic-font-names
+    - include: font-family-names
+
 ###[ FONT PROPERTY ]###########################################################
 
-  # Font and Font-Family Property
-  # https://drafts.csswg.org/css-fonts-3/#font-family-prop
+  # Font Property
   # https://drafts.csswg.org/css-fonts-3/#font-prop
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font
   font-property:
-    - match: \b(?i:font(-family)?){{break}}
+    - match: \b(?i:font){{break}}
       scope: support.type.property-name.css
       set: font-property-value
 
@@ -1689,8 +1716,23 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
-    - include: common-operators
-    - include: builtin-values
+    - include: arithmetic-operators
+    - include: important-operators
+    - include: var-functions
+    - include: calc-functions
+    - include: color-values
+    - include: numeric-constants
+    - include: quoted-strings
+    - include: vendor-prefixes
+    - include: global-constants
+    - include: generic-font-names
+    - include: font-display-constants
+    - include: font-prop-constants
+    - include: font-size-constants
+    - include: font-stretch-constants
+    - include: font-style-constants
+    - include: font-variant-constants
+    - include: font-weight-constants
     - include: font-family-names
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
@@ -2718,7 +2760,19 @@ contexts:
         1: punctuation.definition.constant.css
 
   common-constants:
-    - match: '{{property_value_constants}}'
+    - include: global-constants
+    - include: font-display-constants
+    - include: font-prop-constants
+    - include: font-size-constants
+    - include: font-stretch-constants
+    - include: font-style-constants
+    - include: font-variant-constants
+    - include: font-weight-constants
+    - include: generic-font-names
+    - include: unsorted-constants
+
+  unsorted-constants:
+    - match: '{{unsorted_property_constants}}'
       scope: support.constant.property-value.css
 
   counter-speak-as-constants:
@@ -2731,6 +2785,34 @@ contexts:
 
   direction-constants:
     - match: \b(ltr|rtl){{break}}
+      scope: support.constant.property-value.css
+
+  font-display-constants:
+    - match: '{{font_display_constants}}'
+      scope: support.constant.property-value.css
+
+  font-prop-constants:
+    - match: '{{font_prop_constants}}'
+      scope: support.constant.property-value.css
+
+  font-size-constants:
+    - match: '{{font_size_constants}}'
+      scope: support.constant.property-value.css
+
+  font-stretch-constants:
+    - match: '{{font_stretch_constants}}'
+      scope: support.constant.property-value.css
+
+  font-style-constants:
+    - match: '{{font_style_constants}}'
+      scope: support.constant.property-value.css
+
+  font-weight-constants:
+    - match: '{{font_weight_constants}}'
+      scope: support.constant.property-value.css
+
+  font-variant-constants:
+    - match: '{{font_variant_constants}}'
       scope: support.constant.property-value.css
 
   # Generic Font Families
@@ -3052,11 +3134,13 @@ contexts:
 
 ###[ OPERATORS ]###############################################################
 
-  common-operators:
-    - match: \!\s*(?i:important){{break}}
-      scope: keyword.other.important.css
+  arithmetic-operators:
     - match: /
       scope: keyword.operator.arithmetic.css
+
+  important-operators:
+    - match: \!\s*(?i:important){{break}}
+      scope: keyword.other.important.css
 
   color-adjuster-operators:
     - match: '[-+*](?=\s)'
