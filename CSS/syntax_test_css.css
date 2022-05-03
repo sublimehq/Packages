@@ -198,6 +198,24 @@
 /*              ^^^^^ support.constant.media.css */
 /*                   ^ punctuation.terminator.rule.css */
 
+
+    @import "utilities.css" layer;
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
+/*                          ^^^^^ meta.function-call.identifier.css support.function.layer.css */
+
+    @import 'utilities.css' layer(framework.layout);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
+/*                          ^^^^^ meta.function-call.identifier.css support.function.layer.css */
+/*                               ^ meta.function-call.arguments.css meta.group.css - meta.path */
+/*                                ^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.path.css */
+/*                                                ^ meta.function-call.arguments.css meta.group.css - meta.path */
+/*                               ^ punctuation.section.group.begin.css */
+/*                                ^^^^^^^^^ entity.other.layer.css */
+/*                                         ^ punctuation.accessor.dot.css */
+/*                                          ^^^^^^ entity.other.layer.css */
+/*                                                ^ punctuation.section.group.end.css */
+/*                                                 ^ punctuation.terminator.rule.css */
+
     @import "foo" supports(selector(.bar > a[class="bar"]) and (scale: 20%)) screen;
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
 /*                ^^^^^^^^ meta.function-call.identifier.css */
@@ -1058,6 +1076,68 @@
 /*                           ^ punctuation.terminator.rule.css */
 }
 /* <- meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
+
+    @layer ;
+/*  ^^^^^^^ meta.at-rule.layer.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
+/*        ^ - keyword */
+
+    @layer utilities ;
+/*  ^^^^^^^^^^^^ meta.at-rule.layer.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
+/*        ^ - keyword */
+/*         ^^^^^^^^^ entity.other.layer.css */
+
+    @layer utilities, framework.layout, { .foo { font-family: serif } };
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.layer.css - meta.block */
+/*                                      ^^ meta.at-rule.layer.css meta.block.css - meta.property-list */
+/*                                        ^^^^ meta.at-rule.layer.css meta.block.css meta.selector.css */
+/*                                            ^ meta.at-rule.layer.css meta.block.css - meta.selector - meta.property-list */
+/*                                             ^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.layer.css meta.block.css meta.property-list.css meta.block.css */
+/*                                                                   ^^ meta.at-rule.layer.css meta.block.css - meta.property-list.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
+/*        ^ - keyword */
+/*         ^^^^^^^^^ entity.other.layer.css - meta.path */
+/*                  ^ punctuation.separator.sequence.css */
+/*                    ^^^^^^^^^^^^^^^^ meta.path.css */
+/*                    ^^^^^^^^^ entity.other.layer.css */
+/*                             ^ punctuation.accessor.dot.css */
+/*                              ^^^^^^ entity.other.layer.css */
+/*                                    ^ punctuation.separator.sequence.css */
+/*                                      ^ punctuation.section.block.begin.css */
+/*                                        ^^^^ entity.other.attribute-name.class.css */
+/*                                             ^ punctuation.section.block.begin.css */
+/*                                               ^^^^^^^^^^^ support.type.property-name.css */
+/*                                                          ^ punctuation.separator.key-value.css */
+/*                                                            ^^^^^ support.constant.property-value.css */
+/*                                                                  ^ punctuation.section.block.end.css */
+/*                                                                    ^ punctuation.section.block.end.css */
+/*                                                                     ^ punctuation.terminator.rule.css */
+
+    @layer framework {
+      @layer layout {
+/*    ^^^^^^^^^^^^^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css - meta.block meta.block */
+/*                  ^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css */
+/*    ^^^^^^ keyword.control.directive.css */
+/*           ^^^^^^ entity.other.layer.css */
+/*                  ^ punctuation.section.block.begin.css */
+        .foo {
+            font: status-bar;
+/*         ^^^^^^^^^^^^^^^^^^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css meta.property-list.css meta.block.css */
+/*          ^^^^ support.type.property-name.css */
+/*              ^ punctuation.separator.key-value.css */
+/*                ^^^^^^^^^^ support.constant.property-value.css */
+/*                          ^ punctuation.terminator.rule.css */
+        }
+      }
+/*  ^^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css */
+/*    ^ punctuation.section.block.end.css */
+    }
+/* ^^ meta.at-rule.layer.css meta.block.css */
+/*  ^ punctuation.section.block.end.css */
 
     @supports not ( and ( top: 2px ) ) { }
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css - meta.block */

@@ -688,6 +688,7 @@ contexts:
     - include: at-font-face
     - include: at-import
     - include: at-keyframes
+    - include: at-layer
     - include: at-media
     - include: at-namespace
     - include: at-page
@@ -886,6 +887,42 @@ contexts:
     - match: \b(?i:from|to){{break}}
       scope: keyword.other.selector.css
     - include: selector-end
+
+  # @layer
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@layer
+  at-layer:
+    - match: (@)(?i:layer){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push: at-layer-content
+
+  at-layer-content:
+    - meta_scope: meta.at-rule.layer.css
+    - include: comma-delimiters
+    - include: at-layer-names
+    - include: at-rule-block
+    - include: at-rule-end
+
+  at-layer-names:
+    - match: ({{ident}})(\.)
+      captures:
+        1: entity.other.layer.css
+        2: punctuation.accessor.dot.css
+      push: at-layer-qualified-name
+    - match: '{{ident}}'
+      scope: entity.other.layer.css
+
+  at-layer-qualified-name:
+    - meta_scope: meta.path.css
+    - match: ({{ident}})(\.)
+      captures:
+        1: entity.other.layer.css
+        2: punctuation.accessor.dot.css
+    - match: '{{ident}}'
+      scope: entity.other.layer.css
+      pop: 1
+    - include: immediately-pop
 
   # @media
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
@@ -1887,6 +1924,20 @@ contexts:
             - include: font-family-names
 
   at-import-functions:
+    # layer()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
+    - match: \b(?i:layer){{break}}
+      scope: meta.function-call.identifier.css support.function.layer.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: at-rule-end
+            - include: at-layer-names
+        - include: immediately-pop
     # supports()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
     - match: \b(?i:supports)(?=\()
