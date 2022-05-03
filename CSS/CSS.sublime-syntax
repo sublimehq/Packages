@@ -1570,17 +1570,16 @@ contexts:
   counter-property-value:
     - match: ':'
       scope: punctuation.separator.key-value.css
-      set:
-        - property-value-content
-        - counter-identifier
+      set: counter-property-value-content
     - include: else-pop
 
-  counter-identifier:
+  counter-property-value-content:
+    - include: global-constants
+    - match: (?i:none){{break}}
+      scope: constant.language.null.css
     - match: '{{ident}}'
       scope: entity.other.counter-name.css
-      pop: 1
-    - include: comments
-    - include: else-pop
+    - include: property-value-content
 
 ###[ COUNTER STYLE FALLBACK PROPERTY ]#########################################
 
@@ -1737,11 +1736,7 @@ contexts:
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
-            - - meta_scope: meta.function-call.arguments.css meta.group.css
-              - include: function-arguments-common
-              - include: comma-delimiters
-              - include: counter-style-identifiers
-              - include: quoted-strings
+            - counter-function-arguments-body
             - counter-identifier
 
     # symbols()
@@ -1757,6 +1752,20 @@ contexts:
             - include: function-arguments-common
             - include: comma-delimiters
             - include: counter-symbol-values
+
+  counter-function-arguments-body:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: function-arguments-common
+    - include: comma-delimiters
+    - include: counter-style-identifiers
+    - include: quoted-strings
+
+  counter-identifier:
+    - match: '{{ident}}'
+      scope: entity.other.counter-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   at-document-functions:
     # url-prefix()
@@ -2728,6 +2737,10 @@ contexts:
   # https://drafts.csswg.org/css-fonts-3/#family-name-value
   generic-font-names:
     - match: '{{font_family_constants}}'
+      scope: support.constant.property-value.css
+
+  global-constants:
+    - match: '{{global_property_constants}}'
       scope: support.constant.property-value.css
 
   grid-constants:
