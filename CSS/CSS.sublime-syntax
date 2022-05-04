@@ -296,6 +296,11 @@ variables:
   page_property_names: |-
     \b(?xi: bleed | margin | marks | size ){{break}}
 
+  # @scroll-timeline Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
+  scroll_timeline_property_names: |-
+    \b(?xi: source | orientation | scroll-offsets ){{break}}
+
   global_property_constants:  |-
     \b(?xi: inherit | initial | revert | revert-layer | unset ){{break}}
 
@@ -395,6 +400,7 @@ contexts:
     - include: at-namespace
     - include: at-page
     - include: at-page-margin
+    - include: at-scroll-timeline
     - include: at-supports
     - include: at-other
 
@@ -735,6 +741,46 @@ contexts:
 
   at-page-property-names:
     - match: '{{page_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
+
+  # @scroll-timeline
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
+  at-scroll-timeline:
+    - match: (@)(?i:scroll-timeline){{break}}
+      captures:
+        0: keyword.control.directive.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-scroll-timeline-property-list
+        - at-scroll-timeline-name
+
+  at-scroll-timeline-name:
+    - match: '{{ident}}'
+      scope: entity.other.scroll-timeline.css
+      pop: 1
+    - include: else-pop
+
+  at-scroll-timeline-property-list:
+    - meta_scope: meta.at-rule.scroll-timeline.css
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-scroll-timeline-property-list-content
+    - include: else-pop
+
+  at-scroll-timeline-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-scroll-timeline-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-scroll-timeline-property-names:
+    - match: '{{scroll_timeline_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
     # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'
@@ -1474,6 +1520,7 @@ contexts:
   builtin-functions:
     - include: at-counter-functions
     - include: at-font-functions
+    - include: at-supports-functions
     - include: attr-functions
     - include: calc-functions
     - include: color-adjuster-functions
@@ -1657,6 +1704,7 @@ contexts:
             - meta_content_scope: meta.selector.css
             - include: group-end
             - include: at-rule-end
+            - include: quoted-strings
             - include: selector-content
 
 ###[ BUILTIN COLOR FUNCTIONS ]#################################################
