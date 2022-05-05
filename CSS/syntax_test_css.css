@@ -1513,6 +1513,14 @@
 /*        ^ punctuation.separator.decimal.css */
 /*          ^ punctuation.separator.decimal.css */
 /*            ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+    top: 0.9cap;
+/*       ^^^^^^ meta.number.float.decimal.css */
+/*       ^^^ constant.numeric.value.css */
+/*          ^^^ constant.numeric.suffix.css */
+    top: 0.9rlh;
+/*       ^^^^^^ meta.number.float.decimal.css */
+/*       ^^^ constant.numeric.value.css */
+/*          ^^^ constant.numeric.suffix.css */
 }
 
 .test-properties {
