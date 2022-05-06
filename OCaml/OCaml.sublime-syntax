@@ -516,11 +516,14 @@ contexts:
     - include: variables
     - include: main
   module-signature:
-    - match: '(val)\s+([a-z_][a-zA-Z0-9_'']*)\s*(:)'
+    - match: '(val)\s+(?:([a-z_][a-zA-Z0-9_'']*)|(\()([^\s)]+)(\)))\s*(:)'
       captures:
         1: keyword.other.ocaml
         2: entity.name.type.value-signature.ocaml
-        3: punctuation.separator.type-constraint.ocaml
+        3: punctuation.section.parens.begin.ocaml
+        4: entity.name.type.value-signature.ocaml
+        5: punctuation.section.parens.end.ocaml
+        6: punctuation.separator.type-constraint.ocaml
       push:
         - meta_scope: meta.module.signature.val.ocaml
         - match: (?=\b(type|val|external|class|module|end)\b)|^\s*$

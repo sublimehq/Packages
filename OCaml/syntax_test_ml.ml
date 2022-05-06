@@ -25,6 +25,37 @@
 (*^^^ keyword.other.ocaml *)
 (*    ^^^^ variable.other.constant.ocaml *)
 
+(* Module Signatures *)
+
+  val foo   : 'a -> 'a
+(*^^^^^^^^^^^^^^^^^^^^^ meta.module.signature.val.ocaml *)
+(*^^^ keyword.other.ocaml *)
+(*    ^^^ entity.name.type.value-signature.ocaml *)
+(*          ^ punctuation.separator.type-constraint.ocaml *)
+(*            ^^ storage.type.ocaml *)
+(*               ^^ punctuation.separator.function-return.ocaml *)
+(*                  ^^ storage.type.ocaml *)
+
+  val (<*<) : 'a -> 'a
+(*^^^^^^^^^^^^^^^^^^^^^ meta.module.signature.val.ocaml *)
+(*^^^ keyword.other.ocaml *)
+(*    ^ punctuation.section.parens.begin.ocaml *)
+(*     ^^^ entity.name.type.value-signature.ocaml *)
+(*        ^ punctuation.section.parens.end.ocaml *)
+(*          ^ punctuation.separator.type-constraint.ocaml *)
+(*            ^^ storage.type.ocaml *)
+(*               ^^ punctuation.separator.function-return.ocaml *)
+(*                  ^^ storage.type.ocaml *)
+
+  val bar   : 'a -> 'a
+(*^^^^^^^^^^^^^^^^^^^^^ meta.module.signature.val.ocaml *)
+(*^^^ keyword.other.ocaml *)
+(*    ^^^ entity.name.type.value-signature.ocaml *)
+(*          ^ punctuation.separator.type-constraint.ocaml *)
+(*            ^^ storage.type.ocaml *)
+(*               ^^ punctuation.separator.function-return.ocaml *)
+(*                  ^^ storage.type.ocaml *)
+
 
 (* Integers *)
 
