@@ -1,0 +1,25 @@
+{
+	"scope": "meta.declaration.import.haskell",
+	"completions": [
+		{
+			"trigger": "as",
+			"kind": "keyword",
+			"details": "Module alias to add to scope."
+		},
+		{
+			"trigger": "hiding",
+			"kind": ["type", "m", "Modifier"],
+			"details": "Exclude symbols."
+		},
+		{
+			"trigger": "qualified",
+			"kind": ["type", "m", "Modifier"],
+			"details": "Module not added to scope."
+		},
+		{
+			"trigger": "safe",
+			"kind": ["type", "m", "Modifier"],
+			"details": "Import as safe module."
+		}
+	]
+}

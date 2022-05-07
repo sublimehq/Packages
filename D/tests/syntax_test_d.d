@@ -2352,7 +2352,7 @@ extern(1)
 //             ^ punctuation.section.brackets.begin.d
     1: 2,
   //^ meta.number.integer.decimal.d
-  // ^ punctuation.separator.mapping.key-value.d
+  // ^ punctuation.separator.key-value.d
   //   ^ meta.number.integer.decimal.d
   //    ^ punctuation.separator.sequence.d
     "foo",
@@ -3090,13 +3090,13 @@ extern(1)
 //           ^ meta.number.integer.decimal.d
 //            ^ punctuation.separator.sequence.d
 //              ^ variable.other.d
-//               ^ punctuation.separator.mapping.key-value.d
+//               ^ punctuation.separator.key-value.d
 //                 ^^^^ meta.string.d string.quoted.double.d
 //                     ^ punctuation.separator.sequence.d
     c: 5.sqrt(12) }.foo();
 //  ^^^^^^^^^^^^^^^ meta.block.d
 //  ^ variable.other.d
-//   ^ punctuation.separator.mapping.key-value.d
+//   ^ punctuation.separator.key-value.d
 //     ^ meta.number.integer.decimal.d
 //      ^ meta.path.d punctuation.accessor.dot.d
 //       ^^^^ meta.function-call.d meta.path.d variable.function.d

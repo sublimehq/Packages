@@ -248,3 +248,49 @@ static Quadrant GetQuadrant(Point point) => point switch
 };
 /// <- punctuation.section.block.end
 /// ^ - meta.block
+
+    using var socket = new ClientWebSocket();
+/// ^^^^^ keyword.control.using
+///       ^^^ storage.type.variable
+///           ^^^^^^ variable.other
+///                  ^ keyword.operator.assignment
+///                    ^^^ keyword.operator.new
+///                        ^^^^^^^^^^^^^^^ support.type
+///                                       ^ punctuation.section.group.begin
+///                                        ^ punctuation.section.group.end
+///                                         ^ punctuation.terminator.statement
+    if (true) {
+        using var socket = new ClientWebSocket();
+///     ^^^^^ keyword.control.using
+///           ^^^ storage.type.variable
+///               ^^^^^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^ keyword.operator.new
+///                            ^^^^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.section.group.begin
+///                                            ^ punctuation.section.group.end
+///                                             ^ punctuation.terminator.statement
+    } else {
+        using var socket = new ClientWebSocket();
+///     ^^^^^ keyword.control.using
+///           ^^^ storage.type.variable
+///               ^^^^^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^ keyword.operator.new
+///                            ^^^^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.section.group.begin
+///                                            ^ punctuation.section.group.end
+///                                             ^ punctuation.terminator.statement
+    }
+    try {
+        using var socket = new ClientWebSocket();
+///     ^^^^^ keyword.control.using
+///           ^^^ storage.type.variable
+///               ^^^^^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^ keyword.operator.new
+///                            ^^^^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.section.group.begin
+///                                            ^ punctuation.section.group.end
+///                                             ^ punctuation.terminator.statement
+    }

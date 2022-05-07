@@ -486,28 +486,28 @@ typedef struct Books Book;
 
 template class MyStack<int, 6>;
 /* <- keyword.declaration.template */
-/*                    ^ punctuation.section.generic */
+/*                    ^ punctuation.definition.generic */
 /*                     ^ storage.type */
 /*                          ^ meta.number */
-/*                           ^ punctuation.section.generic */
+/*                           ^ punctuation.definition.generic */
 
 template<class typeId, int N> class tupleTmpl;
 /* <- keyword.declaration.template */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */
-/*      ^ punctuation.section.generic.begin */
+/*      ^ punctuation.definition.generic.begin */
 /*       ^^^^^ keyword.declaration.c++ */
 /*                      ^ storage.type */
-/*                          ^ punctuation.section.generic.end */
+/*                          ^ punctuation.definition.generic.end */
 
 template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /* <- keyword.declaration.template */
-/*      ^ punctuation.section.generic.begin */
+/*      ^ punctuation.definition.generic.begin */
 /*       ^^^^^^^^ keyword.declaration */
-/*                         ^ punctuation.section.generic.begin */
-/*                           ^ punctuation.section.generic.end */
+/*                         ^ punctuation.definition.generic.begin */
+/*                           ^ punctuation.definition.generic.end */
 /*                            ^ punctuation.separator */
 /*                                      ^^^ keyword.operator.variadic */
-/*                                              ^ punctuation.section.generic.end */
+/*                                              ^ punctuation.definition.generic.end */
 
 template<typename T...> void SomeClass<T...>::function();
 /*                                      ^^^ keyword.operator.variadic */
@@ -522,8 +522,8 @@ template<typename Foo> inline struct Foo* baz()
 template<typename A, typename B>
 void classname<A, B>::methodName() {
 /*   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*            ^ punctuation.section.generic.begin */
-/*                 ^ punctuation.section.generic.end */
+/*            ^ punctuation.definition.generic.begin */
+/*                 ^ punctuation.definition.generic.end */
 /*                  ^^ punctuation.accessor */
 /*                    ^^^^^^^^^^ entity.name.function */
 }
@@ -532,8 +532,8 @@ template<typename C>
 void funcName<C>() {
 /*   ^^^^^^^^^^^^^^^ meta.function */
 /*   ^^^^^^^^ entity.name.function */
-/*           ^ punctuation.section.generic.begin */
-/*             ^ punctuation.section.generic.end */
+/*           ^ punctuation.definition.generic.begin */
+/*             ^ punctuation.definition.generic.end */
 }
 bool A::operator<(const A& a) { return false; }
 /* ^ storage.type */
@@ -542,8 +542,8 @@ bool A::operator<(const A& a) { return false; }
 /*               ^ meta.function.parameters punctuation.section.group.begin */
 template <class T> bool A<T>::operator<(const A& a) { return false; }
 /*     ^ keyword.declaration.template */
-/*       ^ punctuation.section.generic.begin */
-/*               ^ punctuation.section.generic.end */
+/*       ^ punctuation.definition.generic.begin */
+/*               ^ punctuation.definition.generic.end */
 /*                      ^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                            ^^^^^^^^^ entity.name.function */
 /*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
@@ -582,10 +582,10 @@ bool A<T>::operator   <=>    (const A& other) { return false; }
 
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
-/*                   ^ punctuation.section.generic.begin */
-/*                               ^ punctuation.section.generic.begin */
-/*                                   ^ punctuation.section.generic.end */
-/*                                     ^ punctuation.section.generic.end */
+/*                   ^ punctuation.definition.generic.begin */
+/*                               ^ punctuation.definition.generic.begin */
+/*                                   ^ punctuation.definition.generic.end */
+/*                                     ^ punctuation.definition.generic.end */
 
 template <typename T = float, int a = 3, bool b = true>
                   /* ^ meta.template keyword.operator                               */
@@ -648,7 +648,7 @@ X<C> xc; // OK in C++14 after CWG 150
 template
 /* <- meta.template keyword.declaration.template */
 <
-/* <- meta.template punctuation.section.generic.begin */
+/* <- meta.template punctuation.definition.generic.begin */
     class T,
     class U = T
 >
@@ -660,14 +660,14 @@ class B
 // template declarations spanning multiple lines
 template
 <
-/* <- meta.template punctuation.section.generic.begin */
+/* <- meta.template punctuation.definition.generic.begin */
     std::size_t Count = f()
 /*     ^^ meta.template punctuation.accessor                             */
 /*                    ^ meta.template keyword.operator                   */
 /*                      ^ meta.template variable.function                */
 /*                       ^^ meta.template meta.function-call punctuation */
 >
-/* <- meta.template punctuation.section.generic.end */
+/* <- meta.template punctuation.definition.generic.end */
 class fixed_array : private std::array<int, Count> {};
 
 template <class T>
@@ -694,13 +694,13 @@ struct C {};
 A<B<C>> f(std::function<A<B<C>>()> g) {
     /*   ^ punctuation.section.group.begin */
     /*       ^^ punctuation.accessor */
-    /*                 ^ punctuation.section.generic.begin */
-    /*                   ^ punctuation.section.generic.begin */
-    /*                     ^ punctuation.section.generic.begin */
-    /*                       ^^ punctuation.section.generic.end */
+    /*                 ^ punctuation.definition.generic.begin */
+    /*                   ^ punctuation.definition.generic.begin */
+    /*                     ^ punctuation.definition.generic.begin */
+    /*                       ^^ punctuation.definition.generic.end */
     /*                         ^ punctuation.section.group.begin */
     /*                          ^ punctuation.section.group.end */
-    /*                           ^ punctuation.section.generic.end */
+    /*                           ^ punctuation.definition.generic.end */
     /*                             ^ variable.parameter */
     /*                              ^ punctuation.section.group.end */
     /*                                ^ punctuation.section.block.begin */
@@ -714,13 +714,13 @@ int main() {
     auto f = [](std::function<A<B<C>>()> g) { return g(); };
     /*         ^ punctuation.section.group.begin */
     /*             ^^ punctuation.accessor */
-    /*                       ^ punctuation.section.generic.begin */
-    /*                         ^ punctuation.section.generic.begin */
-    /*                           ^ punctuation.section.generic.begin */
-    /*                             ^^ punctuation.section.generic.end */
+    /*                       ^ punctuation.definition.generic.begin */
+    /*                         ^ punctuation.definition.generic.begin */
+    /*                           ^ punctuation.definition.generic.begin */
+    /*                             ^^ punctuation.definition.generic.end */
     /*                               ^ punctuation.section.group.begin */
     /*                                ^ punctuation.section.group.end */
-    /*                                 ^ punctuation.section.generic.end */
+    /*                                 ^ punctuation.definition.generic.end */
     /*                                    ^ punctuation.section.group.end */
     /*                                      ^ punctuation.section.block.begin */
     /*                                                    ^ punctuation.section.block.end */
@@ -777,8 +777,8 @@ void f()
     /*     ^ punctuation.accessor */
     /*            ^^^ meta.method-call variable.function */
     /*               ^ meta.method-call - variable.function */
-    /*                ^ meta.method-call punctuation.section.generic.begin */
-    /*                  ^ meta.method-call punctuation.section.generic.end */
+    /*                ^ meta.method-call punctuation.definition.generic.begin */
+    /*                  ^ meta.method-call punctuation.definition.generic.end */
     /*                   ^ meta.method-call - punctuation - comment.block */
     /*                    ^^^^ meta.method-call comment.block */
     /*                        ^ meta.method-call - comment.block - punctuation */
@@ -804,7 +804,7 @@ struct A { int foo; };
 int main() {
     A a, b;
     a.foo = a.foo < 0 ? 1 : 2;
-    /*            ^ - punctuation.section.generic */
+    /*            ^ - punctuation.definition.generic */
     a.operator<(b);
     /*^^^^^^^^^^^^ meta.method-call */
     /*^^^^^^^^^ variable.function.member */
@@ -976,9 +976,9 @@ int x = sizeof(char);
 
 const_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
-/*        ^ punctuation.section.generic.begin */
+/*        ^ punctuation.definition.generic.begin */
 /*         ^ storage.type */
-/*            ^ punctuation.section.generic.end */
+/*            ^ punctuation.definition.generic.end */
 
 dynamic_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
@@ -1638,7 +1638,7 @@ gener<int> func_returning_generic(int a);
 /*         ^ entity.name.function */
 
 std::vector<std::uint8_t> func_returning_path_generic(int a);
-/*         ^ punctuation.section.generic */
+/*         ^ punctuation.definition.generic */
 /*                        ^ entity.name.function */
 
 void f()
@@ -1776,12 +1776,12 @@ public :
 /*                                        ^ punctuation.separator */
 /*                                                          ^ variable.parameter */
 /*                                                           ^ punctuation.section.group.end */
-/*           ^ punctuation.section.generic.begin */
+/*           ^ punctuation.definition.generic.begin */
 /*            ^ storage.type */
-/*                 ^ punctuation.section.generic.end */
-/*                               ^ punctuation.section.generic.begin */
+/*                 ^ punctuation.definition.generic.end */
+/*                               ^ punctuation.definition.generic.begin */
 /*                                ^ storage.type */
-/*                                     ^ punctuation.section.generic.end */
+/*                                     ^ punctuation.definition.generic.end */
 protected:
 /* <- storage.modifier */
 private:
@@ -1820,8 +1820,8 @@ private:
     void func<A>(){}
 /*       ^^^^^^^^^^^ meta.method */
 /*       ^^^^ entity.name.function */
-/*           ^ punctuation.section.generic.begin */
-/*             ^ punctuation.section.generic.end */
+/*           ^ punctuation.definition.generic.begin */
+/*             ^ punctuation.definition.generic.end */
 /*              ^^ meta.method.parameters meta.group */
 /*              ^ punctuation.section.group.begin */
 /*               ^ punctuation.section.group.end */
@@ -1918,11 +1918,11 @@ class DerivedClass : public ::BaseClass // Comment
 template<typename A>
 class class1<A> : class2<A>
 /*    ^^^^^^ entity.name.class */
-/*          ^ punctuation.section.generic */
-/*            ^ punctuation.section.generic */
+/*          ^ punctuation.definition.generic */
+/*            ^ punctuation.definition.generic */
 /*                ^^^^^^ entity.other.inherited-class */
-/*                      ^ punctuation.section.generic */
-/*                        ^ punctuation.section.generic */
+/*                      ^ punctuation.definition.generic */
+/*                        ^ punctuation.definition.generic */
 {}
 
 class FooBar {
@@ -2003,9 +2003,9 @@ private:
     std::shared_future<std::vector<myns::mysubns::MyDataType>>
 /*  ^ - entity.name.function */
 /*     ^^ punctuation.accessor */
-/*                    ^ punctuation.section.generic.begin */
+/*                    ^ punctuation.definition.generic.begin */
 /*                        ^^ punctuation.accessor */
-/*                                ^ punctuation.section.generic.begin */
+/*                                ^ punctuation.definition.generic.begin */
 /*                                     ^^ punctuation.accessor */
     and_now_method_name2();
 /*  ^ entity.name.function */
@@ -2726,23 +2726,23 @@ void sayHi()
     foobaz<int>();
 /*  ^^^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.section.generic.begin */
-/*            ^ punctuation.section.generic.end */
+/*        ^ punctuation.definition.generic.begin */
+/*            ^ punctuation.definition.generic.end */
 /*             ^^ meta.group */
 
     foobaz<>();
 /*  ^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.section.generic.begin */
-/*         ^ punctuation.section.generic.end */
+/*        ^ punctuation.definition.generic.begin */
+/*         ^ punctuation.definition.generic.end */
 /*          ^^ meta.group */
 
     foobaz<0>();
 /*  ^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.section.generic.begin */
+/*        ^ punctuation.definition.generic.begin */
 /*         ^ meta.number */
-/*          ^ punctuation.section.generic.end */
+/*          ^ punctuation.definition.generic.end */
 /*           ^^ meta.group */
 
     ::myns::foo<int>();

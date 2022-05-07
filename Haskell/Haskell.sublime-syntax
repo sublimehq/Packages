@@ -510,29 +510,37 @@ contexts:
       scope: meta.import.haskell keyword.declaration.import.haskell
       push:
         - import-filter
-        - import-module
+        - import-hiding
+        - import-alias
+        - import-name
+        - import-modifier
+        - import-modifier
 
-  import-module:
-    - meta_content_scope: meta.import.module.haskell
-    - match: as{{break}}
-      scope: keyword.declaration.import.as.haskell
-      set: import-alias
-    - match: (?:qualified|hiding|safe){{break}}
+  import-modifier:
+    - match: (?:qualified|safe){{break}}
       scope: storage.modifier.import.haskell
-    - match: ({{con_id}})(\.)?
-      captures:
-        1: variable.namespace.haskell
-        2: storage.modifier.haskell
-        3: punctuation.accessor.dot.haskell
+      pop: 1
+    - include: else-pop
+
+  import-name:
+    - include: ident-namespaces
+    - include: ident-import
     - include: else-pop
 
   import-alias:
+    - meta_content_scope: meta.import.module.haskell
+    - match: as{{break}}
+      scope: keyword.declaration.import.as.haskell
+      set: import-alias-name
+    - include: else-pop
+
+  import-alias-name:
     - meta_scope: meta.import.alias.haskell
-    - include: ident-namespaces
-    - match: '{{con_id}}'
-      scope: entity.name.import.namespace.haskell
-      captures:
-        1: storage.modifier.unboxed.haskell
+    - include: import-name
+
+  import-hiding:
+    - match: hiding{{break}}
+      scope: storage.modifier.import.haskell
       pop: 1
     - include: else-pop
 
@@ -805,6 +813,7 @@ contexts:
       set: constructor-body
 
   constructor-body:
+    - include: declaration-end
     - include: type-lists
     - include: type-parens
     - include: ident-namespaces
@@ -817,7 +826,7 @@ contexts:
     # - constructor separator
     # - record block
     # - any (key)word
-    - match: (?=[;|{\w])
+    - match: (?=[|{\w])
       pop: 1
     - match: (?=\S)
       fail: constructor-or-type
@@ -1023,14 +1032,7 @@ contexts:
 ###[ DECLARATION TYPE EXPRESSIONS ]############################################
 
   declaration-type:
-    - match: (?=;|=(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}}|{{reserved_id}})
-      pop: 1
-    # pop context if beginning of a line looks like a function declaration or assignment expression
-    - match: ^\s*(?={{var_id}})
-      branch_point: declaration-type-end
-      branch:
-        - declaration-type-variable
-        - immediately-pop2
+    - include: declaration-end
     - include: right-arrow-operators
     - include: infix-quoted-operators
     - include: infix-operators
@@ -1044,6 +1046,16 @@ contexts:
     - match: \S
       scope: invalid.illegal.haskell
 
+  declaration-end:
+    - match: (?=;|=(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}}|{{reserved_id}})
+      pop: 1
+    # pop context if beginning of a line looks like a function declaration or assignment expression
+    - match: ^(?=\s*{{var_id}})
+      branch_point: declaration-type-end
+      branch:
+        - declaration-type-variable
+        - immediately-pop2
+
   declaration-type-variable:
     - match: '{{var_id}}'
       scope: variable.other.haskell
@@ -1052,8 +1064,12 @@ contexts:
       set: declaration-type-variable-after
 
   declaration-type-variable-after:
-    - match: (?==(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}})
+    - match: (?=,|=(?!{{symbol}})|{{operator_double_colon}}|{{operator_left_arrow}})
       fail: declaration-type-end
+    - include: ident-anonymous
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-variables
     - include: else-pop
 
 ###[ TYPE EXPRESSIONS ]########################################################
@@ -1379,6 +1395,13 @@ contexts:
   ident-module:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      pop: 1
+
+  ident-import:
+    - match: '{{con_id}}'
+      scope: variable.namespace.haskell
       captures:
         1: storage.modifier.unboxed.haskell
       pop: 1

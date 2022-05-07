@@ -27,7 +27,7 @@ def get_func_args():
         "hsla": ["<calc>"],
         "hue-rotate": ["<calc>"],
         "image": ["<image-tags>", "<url>", "<color>"],
-        "image-set": [["type()", "type($)"], "<url>", "<color>"],
+        "image-set": [["type()", "type($1)"], "<url>", "<color>"],
         "inset": ["<calc>", "round"],
         "invert": ["<calc>"],
         "leader": ["<leader-type>"],

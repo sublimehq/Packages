@@ -3,14 +3,15 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.haskell entity.name.constant,
-		source.haskell entity.name.type,
-		source.haskell meta.function.identifier meta.prefix keyword.operator
+		text.html.markdown markup.raw.code-fence,
+		text.html.markdown meta.toc-list.id
 	</string>
 	<key>settings</key>
 	<dict>
+		<key>showInSymbolList</key>
+		<integer>0</integer>
 		<key>showInIndexedSymbolList</key>
-		<string>1</string>
+		<integer>0</integer>
 	</dict>
 </dict>
 </plist>

@@ -211,7 +211,7 @@
 /*               ^^^^^^^^^^^^^^^ string.quoted.single.css */
 /*                               ^ punctuation.section.group.end.css */
 /*                                 ^^^^^^ support.constant.media.css */
-/*                                        ^^^ keyword.operator.logic.css */
+/*                                        ^^^ keyword.operator.logical.css */
 /*                                            ^ punctuation.section.group.begin.css */
 /*                                             ^^^^^^^^^^^ support.type.property-name.css */
 /*                                                        ^ punctuation.separator.key-value.css */
@@ -516,7 +516,7 @@
 /*                       ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^ keyword.operator.logic.css */
+/*         ^^^^ keyword.operator.logical.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^ punctuation.section.block.begin.css */
 /*                      ^ punctuation.section.block.end.css */
@@ -612,7 +612,7 @@
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                          ^ punctuation.section.group.end.css */
-/*                            ^^^ keyword.operator.logic */
+/*                            ^^^ keyword.operator.logical.css */
 /*                                ^ punctuation.section.group.begin.css */
 /*                                 ^^^^^^^^^ support.type.property-name.css */
 /*                                            ^^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -625,9 +625,9 @@
 /*                                                                            ^^ meta.at-rule.media.css - meta.group */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^ keyword.operator.logic.css */
+/*         ^^^^ keyword.operator.logical.css */
 /*              ^^^^^^ support.constant.media.css */
-/*                     ^^^ keyword.operator.logic.css */
+/*                     ^^^ keyword.operator.logical.css */
 /*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^^^^^^ support.type.vendor-prefix.css */
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
@@ -640,9 +640,9 @@
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.group */
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                                    ^^ meta.at-rule.media.css - meta.group */
-/*  ^^^^ keyword.operator.logic.css */
+/*  ^^^^ keyword.operator.logical.css */
 /*       ^^^^^^ support.constant.media.css */
-/*              ^^^ keyword.operator.logic.css */
+/*              ^^^ keyword.operator.logical.css */
 /*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^ support.type.vendor-prefix.css */
 /*                      ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
@@ -655,9 +655,9 @@
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.group */
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                          ^ meta.at-rule.media.css - meta.group */
-/*  ^^^^ keyword.operator.logic.css */
+/*  ^^^^ keyword.operator.logical.css */
 /*       ^^^^^^ support.constant.media.css */
-/*              ^^^ keyword.operator.logic.css */
+/*              ^^^ keyword.operator.logical.css */
 /*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                                 ^ punctuation.separator.key-value.css */
@@ -677,14 +677,14 @@
 /*                                                            ^ - meta.at-rule */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^ keyword.operator.logic.css */
+/*         ^^^^ keyword.operator.logical.css */
 /*              ^^^^^^ support.constant.media.css */
-/*                     ^^^ keyword.operator.logic.css */
+/*                     ^^^ keyword.operator.logical.css */
 /*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^^^ support.type.property-name.css */
 /*                                ^^ keyword.operator.comparison.css */
 /*                                   ^^^^^ meta.number.integer.decimal.css */
-/*                                         ^^ keyword.operator.logic.css */
+/*                                         ^^ keyword.operator.logical.css */
 /*                                            ^ punctuation.section.group.begin.css */
 /*                                             ^^^^^^ support.type.property-name.css */
 /*                                                    ^ keyword.operator.comparison.css */
@@ -926,6 +926,12 @@
 
     font-family: Gentium Bold;
 /*               ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font-family: status-bar;
+/*               ^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font-family: italic;
+/*               ^^^^^^ meta.string.css string.unquoted.css */
 
     font-feature-settings: normal;
 /*  ^^^^^^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
@@ -1369,6 +1375,69 @@
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
+.test-counter-properties {
+
+    /* Set "my-counter" to 0 */
+    counter-set: my-counter;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^ entity.other.counter-name.css */
+/*                         ^ punctuation.terminator.rule.css */
+    /* Set "my-counter" to -1 */
+    counter-set: my-counter -1;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^ entity.other.counter-name.css */
+/*                          ^^ meta.number.integer.decimal.css */
+/*                            ^ punctuation.terminator.rule.css */
+
+    /* Set "counter1" to 1, and "counter2" to 4 */
+    counter-set: counter1 1 counter2 4;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^ entity.other.counter-name.css */
+/*                        ^ constant.numeric.value.css */
+/*                          ^^^^^^^^ entity.other.counter-name.css */
+/*                                   ^ constant.numeric.value.css */
+/*                                    ^ punctuation.terminator.rule.css */
+
+    /* Cancel any counter that could have been set in less specific rules */
+    counter-set: none;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^ constant.language.null.css */
+/*                   ^ punctuation.terminator.rule.css */
+
+    /* Global values */
+    counter-set: inherit;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^ support.constant.property-value.css */
+/*                      ^ punctuation.terminator.rule.css */
+
+    counter-set: initial;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^ support.constant.property-value.css */
+/*                      ^ punctuation.terminator.rule.css */
+    counter-set: revert;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^ support.constant.property-value.css */
+/*                     ^ punctuation.terminator.rule.css */
+
+    counter-set: revert-layer;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^^^ support.constant.property-value.css */
+/*                           ^ punctuation.terminator.rule.css */
+    counter-set: unset;
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^^ support.constant.property-value.css */
+/*                    ^ punctuation.terminator.rule.css */
+}
+
 .test-var-functions {
     --test-var: arial;
 /*  ^^^^^^^^^^ entity.other.custom-property.css */
@@ -1444,6 +1513,14 @@
 /*        ^ punctuation.separator.decimal.css */
 /*          ^ punctuation.separator.decimal.css */
 /*            ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+    top: 0.9cap;
+/*       ^^^^^^ meta.number.float.decimal.css */
+/*       ^^^ constant.numeric.value.css */
+/*          ^^^ constant.numeric.suffix.css */
+    top: 0.9rlh;
+/*       ^^^^^^ meta.number.float.decimal.css */
+/*       ^^^ constant.numeric.value.css */
+/*          ^^^ constant.numeric.suffix.css */
 }
 
 .test-properties {
@@ -1999,6 +2076,12 @@
 /*              ^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
 /*                          ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*               ^^^^^^^^^^^ string.unquoted */
+
+    font-family: status-bar;
+/*               ^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font-family: italic;
+/*               ^^^^^^ meta.string.css string.unquoted.css */
 }
 
 .invalid-font-family {
@@ -2012,7 +2095,7 @@
 /*                ^^^^^^^^^ constant.other.css - support */
 
     font-family: Red/Black, sans-serif;
-/*               ^^^^^^^^^ - string */
+/*                  ^ - string */
 /*                        ^ punctuation.separator.sequence.css */
 /*                          ^^^^^^^^^^ support.constant.property-value.css */
 
@@ -2069,6 +2152,12 @@
 
     font: initial;
 /*        ^^^^^^^ support - string */
+
+    font: revert;
+/*        ^^^^^^ support - string */
+
+    font: revert-layer;
+/*        ^^^^^^^^^^^^ support - string */
 
     font: unset;
 /*        ^^^^^ support - string */

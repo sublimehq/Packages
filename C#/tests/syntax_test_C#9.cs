@@ -5,7 +5,7 @@
 
 public record Person
 /// ^^ storage.modifier.access
-///    ^^^^^^ storage.type.class
+///    ^^^^^^ keyword.declaration.class
 ///           ^^^^^^ entity.name.class
 {
     private readonly string lastName;
@@ -310,7 +310,7 @@ public record A(int Num);
 ///                    ^ punctuation.section.parameters.end
 public record B<T>(T Num);
 ///    ^^^^^^^^^^^ meta.class.record
-///    ^^^^^^ storage.type.class.record
+///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^^^ meta.generic
 ///            ^ punctuation.definition.generic.begin
@@ -321,7 +321,7 @@ public record B<T>(T Num);
 ///                     ^ punctuation.section.parameters.end
 ///                      ^ punctuation.terminator.statement
 public record C<TNum> (TNum Num) where TNum : class;
-///    ^^^^^^ storage.type.class.record
+///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
 ///             ^^^^ support.type
@@ -336,7 +336,7 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///                                           ^^^^^ storage.type
 ///                                                ^ punctuation.terminator.statement
 public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4; }
-///    ^^^^^^ storage.type.class.record
+///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
 ///             ^^^^ support.type
@@ -361,7 +361,7 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///                                                                              ^ punctuation.section.block.end
 public record Person(
 ///^^^ storage.modifier.access
-///    ^^^^^^ meta.class.record storage.type.class.record
+///    ^^^^^^ meta.class.record keyword.declaration.class.record
 ///           ^^^^^^ meta.class.record entity.name.class
 ///                 ^ punctuation.section.parameters.begin
     [property: JsonPropertyName("firstName")]string FirstName,

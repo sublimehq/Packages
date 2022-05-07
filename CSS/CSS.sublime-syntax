@@ -8,7 +8,6 @@ version: 2
 
 file_extensions:
   - css
-  - css.erb
   - css.liquid
 
 ###############################################################################
@@ -52,6 +51,7 @@ variables:
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/length
   units: |-
     (?x:
       %
@@ -63,8 +63,8 @@ variables:
     | {{resolution_units}}
     | {{viewport_percentage_lengths}}
     )
-  font_relative_lengths: (?i:em|ex|ch|rem)\b
-  viewport_percentage_lengths: (?i:vw|vh|vmin|vmax)\b
+  font_relative_lengths: (?i:cap|ch|em|ex|ic|lh|rem|rlh)\b
+  viewport_percentage_lengths: (?i:vh|vw|vi|vb|vmin|vmax)\b
   absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)\b
   angle_units: (?i:deg|grad|rad|turn)\b
   duration_units: (?i:s|ms)\b
@@ -128,21 +128,21 @@ variables:
 
   html_section_tags: |-
     \b(?xi:
-        address | article | aside | footer | header | h1 | h2 | h3 | h4 | h5 | h6
-      | hgroup | main | nav | section
+      address | article | aside | footer | header | h1 | h2 | h3 | h4 | h5 | h6
+    | hgroup | main | nav | section
     ){{break}}
 
   html_text_tags: |-
     \b(?xi:
-        blockquote | cite | dd | dt | dl | div | figcaption | figure | hr | li
-      | ol | p | pre | ul
+      blockquote | cite | dd | dt | dl | div | figcaption | figure | hr | li
+    | ol | p | pre | ul
     ){{break}}
 
   html_inline_tags: |-
     \b(?xi:
-        a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i | kbd
-      | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
-      | sub | sup | u | var | wbr
+      a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i | kbd
+    | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
+    | sub | sup | u | var | wbr
     ){{break}}
 
   html_media_tags: |-
@@ -164,8 +164,8 @@ variables:
 
   html_forms_tags: |-
     \b(?xi:
-        button | datalist | option | fieldset | label | form | input | legend
-      | meter | optgroup | select | output | progress | textarea
+      button | datalist | option | fieldset | label | form | input | legend
+    | meter | optgroup | select | output | progress | textarea
     ){{break}}
 
   html_interactive_tags: |-
@@ -176,61 +176,61 @@ variables:
 
   html_deprecated_tags: |-
     \b(?xi:
-        acronym | applet | basefont | bgsound | big | blink | center | command
-      | content | dir | element | font | frame | frameset | image | isindex
-      | keygen | listing | marquee | menuitem | multicol | nextid | nobr
-      | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
+      acronym | applet | basefont | bgsound | big | blink | center | command
+    | content | dir | element | font | frame | frameset | image | isindex
+    | keygen | listing | marquee | menuitem | multicol | nextid | nobr
+    | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
     ){{break}}
 
   # SVG tag names
   # maintained from previous CSS.sublime-syntax
   svg_tags: |-
     \b(?xi:
-        circle | clipPath | defs | ellipse | eventsource | filter | foreignObject
-      | g | glyph | glyphRef | line | linearGradient | marker | mask | path
-      | pattern | polygon | polyline | radialGradient | rect | stop | svg
-      | switch | symbol | text | textPath | tref | tspan | use
-      # custom element like tags reserved for SVG/MathML
-      | annotation-xml | color-profile | missing-glyph
-      | font-face(?: -src | -uri | -format | -name )?
+      circle | clipPath | defs | ellipse | eventsource | filter | foreignObject
+    | g | glyph | glyphRef | line | linearGradient | marker | mask | path
+    | pattern | polygon | polyline | radialGradient | rect | stop | svg
+    | switch | symbol | text | textPath | tref | tspan | use
+    # custom element like tags reserved for SVG/MathML
+    | annotation-xml | color-profile | missing-glyph
+    | font-face(?: -src | -uri | -format | -name )?
     ){{break}}
 
   # Predefined Color Values (Standard Set)
   # https://www.w3.org/TR/CSS22/syndata.html#color-units
   standard_colors: |-
     \b(?xi:
-        aqua | black | blue | fuchsia | gray | green | lime | maroon | navy
-      | olive | orange | purple | red | silver | teal | white | yellow
+      aqua | black | blue | fuchsia | gray | green | lime | maroon | navy
+    | olive | orange | purple | red | silver | teal | white | yellow
     ){{break}}
 
   # Predefined Color Values (Extended Set)
   # https://www.w3.org/TR/css3-color/#svg-color
   extended_colors: |-
     \b(?xi:
-        aliceblue | antiquewhite | aquamarine | azure | beige | bisque
-      | blanchedalmond | blueviolet | brown | burlywood | cadetblue | chartreuse
-      | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue
-      | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki
-      | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred
-      | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey
-      | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey
-      | dodgerblue | firebrick | floralwhite | forestgreen | gainsboro
-      | ghostwhite | gold | goldenrod | greenyellow | grey | honeydew | hotpink
-      | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen
-      | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow
-      | lightgray | lightgreen | lightgrey | lightpink | lightsalmon
-      | lightseagreen | lightskyblue | lightslategray | lightslategrey
-      | lightsteelblue | lightyellow | limegreen | linen | magenta
-      | mediumaquamarine | mediumblue | mediumorchid | mediumpurple
-      | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise
-      | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin
-      | navajowhite | oldlace | olivedrab | orangered | orchid | palegoldenrod
-      | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru
-      | pink | plum | powderblue | rebeccapurple | rosybrown | royalblue
-      | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna
-      | skyblue | slateblue | slategray | slategrey | snow | springgreen
-      | steelblue | tan | thistle | tomato | turquoise | violet | wheat
-      | whitesmoke | yellowgreen
+      aliceblue | antiquewhite | aquamarine | azure | beige | bisque
+    | blanchedalmond | blueviolet | brown | burlywood | cadetblue | chartreuse
+    | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue
+    | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki
+    | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred
+    | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey
+    | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey
+    | dodgerblue | firebrick | floralwhite | forestgreen | gainsboro
+    | ghostwhite | gold | goldenrod | greenyellow | grey | honeydew | hotpink
+    | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen
+    | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow
+    | lightgray | lightgreen | lightgrey | lightpink | lightsalmon
+    | lightseagreen | lightskyblue | lightslategray | lightslategrey
+    | lightsteelblue | lightyellow | limegreen | linen | magenta
+    | mediumaquamarine | mediumblue | mediumorchid | mediumpurple
+    | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise
+    | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin
+    | navajowhite | oldlace | olivedrab | orangered | orchid | palegoldenrod
+    | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru
+    | pink | plum | powderblue | rebeccapurple | rosybrown | royalblue
+    | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna
+    | skyblue | slateblue | slategray | slategrey | snow | springgreen
+    | steelblue | tan | thistle | tomato | turquoise | violet | wheat
+    | whitesmoke | yellowgreen
     ){{break}}
 
   # Illegal Counter Style Definition Names
@@ -242,19 +242,19 @@ variables:
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
   counter_style_names: |-
     \b(?xi:
-        none | arabic-indic | armenian | bengali | cambodian | circle
-      | cjk-decimal | cjk-earthly-branch | cjk-heavenly-stem | decimal-leading-zero
-      | decimal | devanagari | disclosure-closed | disclosure-open | disc
-      | ethiopic-numeric | georgian | gujarati | gurmukhi | hebrew
-      | hiragana-iroha | hiragana | japanese-formal | japanese-informal
-      | kannada | katakana-iroha | katakana | khmer
-      | korean-hangul-formal | korean-hanja-formal | korean-hanja-informal | lao
-      | lower-alpha | lower-armenian | lower-greek | lower-latin | lower-roman
-      | malayalam | mongolian | myanmar | oriya | persian
-      | simp-chinese-formal | simp-chinese-informal
-      | square | tamil | telugu | thai | tibetan
-      | trad-chinese-formal | trad-chinese-informal
-      | upper-alpha | upper-armenian | upper-latin | upper-roman
+      none | arabic-indic | armenian | bengali | cambodian | circle
+    | cjk-decimal | cjk-earthly-branch | cjk-heavenly-stem | decimal-leading-zero
+    | decimal | devanagari | disclosure-closed | disclosure-open | disc
+    | ethiopic-numeric | georgian | gujarati | gurmukhi | hebrew
+    | hiragana-iroha | hiragana | japanese-formal | japanese-informal
+    | kannada | katakana-iroha | katakana | khmer
+    | korean-hangul-formal | korean-hanja-formal | korean-hanja-informal | lao
+    | lower-alpha | lower-armenian | lower-greek | lower-latin | lower-roman
+    | malayalam | mongolian | myanmar | oriya | persian
+    | simp-chinese-formal | simp-chinese-informal
+    | square | tamil | telugu | thai | tibetan
+    | trad-chinese-formal | trad-chinese-informal
+    | upper-alpha | upper-armenian | upper-latin | upper-roman
     ){{break}}
 
   # @counter-style Property Names
@@ -288,8 +288,8 @@ variables:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   page_margin_names: |-
     \b(?xi:
-        (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
-      | (?: left | right ) - (?: top | middle | bottom )
+      (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
+    | (?: left | right ) - (?: top | middle | bottom )
     ){{break}}
 
   # @page Property Names
@@ -437,14 +437,8 @@ variables:
     | font-smoothing | overflow-scrolling | flex-positive | pitch-range
     ){{break}}
 
-  property_value_constants: |-
-    (?x:
-      {{font_display_constants}}
-    | {{font_property_constants}}
-    | {{font_size_constants}}
-    | {{font_style_constants}}
-    | {{unsorted_property_constants}}
-    )
+  global_property_constants:  |-
+    \b(?xi: inherit | initial | revert | revert-layer | unset ){{break}}
 
   unsorted_property_constants: |-
     \b(?xi:
@@ -509,7 +503,7 @@ variables:
     | horizontal(-tb)?
     | hue
     | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
-    | inactive|include-ruby|infinite|inherit|initial
+    | inactive|include-ruby|infinite
     | inline(-block|-box|-flex(box)?|-line-height|-table)?
     | inset|inside
     | inter(-ideograph|-word|sect)
@@ -590,7 +584,7 @@ variables:
     | touch|traditional
     | transform(-origin)?
     | under(-edge|line)?
-    | unicase|unsafe|unset|uppercase|upright
+    | unicase|unsafe|uppercase|upright
     | use-(glyph-orientation|script)
     | verso
     | vertical(-align|-ideographic|-lr|-rl|-text)?
@@ -606,9 +600,7 @@ variables:
 
   # https://www.w3.org/TR/css-fonts-4/#font-display-desc
   font_display_constants: |-
-    \b(?xi:
-    block | swap | fallback | optional
-    ){{break}}
+    \b(?xi: block | swap | fallback | optional ){{break}}
 
   # Generic Font Families
   font_family_constants: |-
@@ -623,25 +615,34 @@ variables:
     | ui-sans-serif | ui-serif | ui-monospace | ui-rounded
     ){{break}}
 
+  # Generic Font Properties
   # https://www.w3.org/TR/CSS22/fonts.html#font-shorthand
-  font_property_constants: |-
-    \b(?xi:
-      caption | icon | menu | message-box | small-caption | status-bar
-    ){{break}}
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font
+  font_prop_constants: |-
+    \b(?xi: caption | icon | menu | message-box | small-caption | status-bar ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-size-props
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
   font_size_constants: |-
-    \b(?xi:
-      larger | large | medium | small | smaller | x{1,2}-(?: large | small )
-    ){{break}}
+    \b(?xi: larger | large | medium | small | smaller | x{1,2}-(?: large | small ) ){{break}}
+
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
+  font_stretch_constants: |-
+    \b(?xi: (?: normal | (?: extra | semi | ultra ) - )? ( condensed | expanded ) ){{break}}
+
+  # https://www.w3.org/TR/CSS22/fonts.html#font-styling
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
+  font_style_constants: |-
+    \b(?xi: normal | italic | oblique ){{break}}
 
   # https://www.w3.org/TR/CSS22/fonts.html#font-boldness
-  # https://www.w3.org/TR/CSS22/fonts.html#font-styling
-  # https://www.w3.org/TR/CSS22/fonts.html#small-caps
-  font_style_constants: |-
-    \b(?xi:
-      normal | bold | bolder | lighter | italic | oblique | small-caps
-    ){{break}}
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
+  font_weight_constants: |-
+    \b(?xi: normal | bold | bolder | lighter ){{break}}
+
+  # https://developer.mozilla.org/de/docs/Web/CSS/font-variant
+  font_variant_constants: |-
+    \b(?xi: (?: all- )? (?: small | petite ) -caps | unicase | titling-cap ){{break}}
 
 ###############################################################################
 
@@ -818,7 +819,7 @@ contexts:
   at-font-face-property-names:
     - match: \b(?i:font-family){{break}}
       scope: meta.property-name.css support.type.property-name.css
-      push: font-property-value
+      push: font-family-value
     - match: '{{font_face_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
 
@@ -1080,7 +1081,7 @@ contexts:
     - match: '[<>]=?|='
       scope: keyword.operator.comparison.css
     - match: \b(?i:and|or|not|only){{break}}
-      scope: keyword.operator.logic.css
+      scope: keyword.operator.logical.css
 
   media-query-group-content:
     - meta_scope: meta.group.css
@@ -1468,6 +1469,7 @@ contexts:
     - include: vendor-prefixes
     # specific properties with special treatment
     - include: counter-property
+    - include: font-family-property
     - include: font-property
     # common properties
     - include: builtin-property
@@ -1515,7 +1517,8 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
-    - include: common-operators
+    - include: important-operators
+    - include: arithmetic-operators
     - include: builtin-values
     - include: other-functions
     - include: other-constants
@@ -1567,17 +1570,16 @@ contexts:
   counter-property-value:
     - match: ':'
       scope: punctuation.separator.key-value.css
-      set:
-        - property-value-content
-        - counter-identifier
+      set: counter-property-value-content
     - include: else-pop
 
-  counter-identifier:
+  counter-property-value-content:
+    - include: global-constants
+    - match: (?i:none){{break}}
+      scope: constant.language.null.css
     - match: '{{ident}}'
       scope: entity.other.counter-name.css
-      pop: 1
-    - include: comments
-    - include: else-pop
+    - include: property-value-content
 
 ###[ COUNTER STYLE FALLBACK PROPERTY ]#########################################
 
@@ -1666,13 +1668,41 @@ contexts:
     - include: counter-speak-as-constants
     - include: counter-style-identifiers
 
+###[ FONT FAMILY PROPERTY ]####################################################
+
+  # Font-Family Property
+  # https://drafts.csswg.org/css-fonts-3/#font-family-prop
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
+  font-family-property:
+    - match: \b(?i:font-family){{break}}
+      scope: support.type.property-name.css
+      set: font-family-value
+
+  font-family-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: font-family-value-content
+    - include: else-pop
+
+  font-family-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: comma-delimiters
+    - include: important-operators
+    - include: var-functions
+    - include: quoted-strings
+    - include: global-constants
+    - include: generic-font-names
+    - include: font-family-names
+
 ###[ FONT PROPERTY ]###########################################################
 
-  # Font and Font-Family Property
-  # https://drafts.csswg.org/css-fonts-3/#font-family-prop
+  # Font Property
   # https://drafts.csswg.org/css-fonts-3/#font-prop
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/font
   font-property:
-    - match: \b(?i:font(-family)?){{break}}
+    - match: \b(?i:font){{break}}
       scope: support.type.property-name.css
       set: font-property-value
 
@@ -1687,8 +1717,23 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
-    - include: common-operators
-    - include: builtin-values
+    - include: arithmetic-operators
+    - include: important-operators
+    - include: var-functions
+    - include: calc-functions
+    - include: color-values
+    - include: numeric-constants
+    - include: quoted-strings
+    - include: vendor-prefixes
+    - include: global-constants
+    - include: generic-font-names
+    - include: font-display-constants
+    - include: font-prop-constants
+    - include: font-size-constants
+    - include: font-stretch-constants
+    - include: font-style-constants
+    - include: font-variant-constants
+    - include: font-weight-constants
     - include: font-family-names
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
@@ -1734,11 +1779,7 @@ contexts:
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
-            - - meta_scope: meta.function-call.arguments.css meta.group.css
-              - include: function-arguments-common
-              - include: comma-delimiters
-              - include: counter-style-identifiers
-              - include: quoted-strings
+            - counter-function-arguments-body
             - counter-identifier
 
     # symbols()
@@ -1754,6 +1795,20 @@ contexts:
             - include: function-arguments-common
             - include: comma-delimiters
             - include: counter-symbol-values
+
+  counter-function-arguments-body:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: function-arguments-common
+    - include: comma-delimiters
+    - include: counter-style-identifiers
+    - include: quoted-strings
+
+  counter-identifier:
+    - match: '{{ident}}'
+      scope: entity.other.counter-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   at-document-functions:
     # url-prefix()
@@ -2706,7 +2761,19 @@ contexts:
         1: punctuation.definition.constant.css
 
   common-constants:
-    - match: '{{property_value_constants}}'
+    - include: global-constants
+    - include: font-display-constants
+    - include: font-prop-constants
+    - include: font-size-constants
+    - include: font-stretch-constants
+    - include: font-style-constants
+    - include: font-variant-constants
+    - include: font-weight-constants
+    - include: generic-font-names
+    - include: unsorted-constants
+
+  unsorted-constants:
+    - match: '{{unsorted_property_constants}}'
       scope: support.constant.property-value.css
 
   counter-speak-as-constants:
@@ -2721,10 +2788,42 @@ contexts:
     - match: \b(ltr|rtl){{break}}
       scope: support.constant.property-value.css
 
+  font-display-constants:
+    - match: '{{font_display_constants}}'
+      scope: support.constant.property-value.css
+
+  font-prop-constants:
+    - match: '{{font_prop_constants}}'
+      scope: support.constant.property-value.css
+
+  font-size-constants:
+    - match: '{{font_size_constants}}'
+      scope: support.constant.property-value.css
+
+  font-stretch-constants:
+    - match: '{{font_stretch_constants}}'
+      scope: support.constant.property-value.css
+
+  font-style-constants:
+    - match: '{{font_style_constants}}'
+      scope: support.constant.property-value.css
+
+  font-weight-constants:
+    - match: '{{font_weight_constants}}'
+      scope: support.constant.property-value.css
+
+  font-variant-constants:
+    - match: '{{font_variant_constants}}'
+      scope: support.constant.property-value.css
+
   # Generic Font Families
   # https://drafts.csswg.org/css-fonts-3/#family-name-value
   generic-font-names:
     - match: '{{font_family_constants}}'
+      scope: support.constant.property-value.css
+
+  global-constants:
+    - match: '{{global_property_constants}}'
       scope: support.constant.property-value.css
 
   grid-constants:
@@ -3036,11 +3135,13 @@ contexts:
 
 ###[ OPERATORS ]###############################################################
 
-  common-operators:
-    - match: \!\s*(?i:important){{break}}
-      scope: keyword.other.important.css
+  arithmetic-operators:
     - match: /
       scope: keyword.operator.arithmetic.css
+
+  important-operators:
+    - match: \!\s*(?i:important){{break}}
+      scope: keyword.other.important.css
 
   color-adjuster-operators:
     - match: '[-+*](?=\s)'

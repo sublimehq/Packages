@@ -1,7 +1,7 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 class Foo {
-/// <- meta.class storage.type.class
+/// <- meta.class keyword.declaration.class
  /// <- meta.class
   /// <- meta.class
 ///^^^^^^^^ meta.class
@@ -640,7 +640,7 @@ class Foo {
 public readonly struct S
 /// ^^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
-///             ^^^^^^ storage.type.struct
+///             ^^^^^^ keyword.declaration.struct
 ///                    ^ entity.name.struct
 {
 /// <- meta.struct.body meta.block punctuation.section.block.begin
@@ -717,7 +717,7 @@ public readonly ref struct Span<T>
 ///  ^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^ storage.modifier
-///                 ^^^^^^ storage.type.struct
+///                 ^^^^^^ keyword.declaration.struct
 ///                        ^^^^ entity.name.struct
 {
     private readonly ref T _pointer;

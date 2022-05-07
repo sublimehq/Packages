@@ -1,0 +1,1213 @@
+{
+	"scope": "meta.preprocessor.pragma.value.language.haskell",
+	"completions": [
+		{
+			"trigger": "Haskell98",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Haskell2010",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "AllowAmbiguousTypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "AlternativeLayoutRule",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "AlternativeLayoutRuleTransitional",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Arrows",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "BangPatterns",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "BinaryLiterals",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "CApiFFI",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "CPP",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "CUSKs",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ConstrainedClassMethods",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ConstraintKinds",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DataKinds",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DefaultSignatures",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveAnyClass",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveDataTypeable",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveFoldable",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveFunctor",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveGeneric",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveLift",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DeriveTraversable",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DerivingStrategies",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DerivingVia",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DisambiguateRecordFields",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DoAndIfThenElse",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "BlockArguments",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "DuplicateRecordFields",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "EmptyCase",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "EmptyDataDecls",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "EmptyDataDeriving",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ExistentialQuantification",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ExplicitForAll",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ExplicitNamespaces",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ExtendedDefaultRules",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "FlexibleContexts",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "FlexibleInstances",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ForeignFunctionInterface",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "FunctionalDependencies",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "GADTSyntax",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "GADTs",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "GHCForeignImportPrim",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		// {
+		//     "trigger": "GeneralisedNewtypeDeriving",
+		//     "kind": "variable",
+		//     "details": "Enable language extension"
+		// },
+		{
+			"trigger": "GeneralizedNewtypeDeriving",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ImplicitParams",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ImplicitPrelude",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ImportQualifiedPost",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ImpredicativeTypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TypeFamilyDependencies",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "InstanceSigs",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ApplicativeDo",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "InterruptibleFFI",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "JavaScriptFFI",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "KindSignatures",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "LambdaCase",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "LexicalNegation",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "LiberalTypeSynonyms",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "LinearTypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "MagicHash",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "MonadComprehensions",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "MonoLocalBinds",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "MonomorphismRestriction",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "MultiParamTypeClasses",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "MultiWayIf",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NumericUnderscores",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NPlusKPatterns",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NamedFieldPuns",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NamedWildCards",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NegativeLiterals",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "HexFloatLiterals",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NondecreasingIndentation",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "NumDecimals",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "OverloadedLabels",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "OverloadedLists",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "OverloadedStrings",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PackageImports",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ParallelArrays",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ParallelListComp",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PartialTypeSignatures",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PatternGuards",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PatternSynonyms",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PolyKinds",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PolymorphicComponents",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "QuantifiedConstraints",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "QualifiedDo",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "PostfixOperators",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "QuasiQuotes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Rank2Types",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "RankNTypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "RebindableSyntax",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "RecordWildCards",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "RecursiveDo",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "RelaxedLayout",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "RoleAnnotations",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Safe",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ScopedTypeVariables",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "StandaloneDeriving",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "StarIsType",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "StaticPointers",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Strict",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "StrictData",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TemplateHaskell",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TemplateHaskellQuotes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "StandaloneKindSignatures",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TraditionalRecordSyntax",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TransformListComp",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Trustworthy",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TupleSections",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TypeApplications",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TypeInType",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TypeFamilies",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TypeOperators",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "TypeSynonymInstances",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UnboxedTuples",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UnboxedSums",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UndecidableInstances",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UndecidableSuperClasses",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UnicodeSyntax",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UnliftedFFITypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "UnliftedNewtypes",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "Unsafe",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
+			"trigger": "ViewPatterns",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+
+		// Negated Values
+
+		{
+			"trigger": "NoAllowAmbiguousTypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoAlternativeLayoutRule",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoAlternativeLayoutRuleTransitional",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoArrows",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoBangPatterns",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoBinaryLiterals",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoCApiFFI",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoCPP",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoCUSKs",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoConstrainedClassMethods",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoConstraintKinds",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDataKinds",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDefaultSignatures",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveAnyClass",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveDataTypeable",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveFoldable",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveFunctor",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveGeneric",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveLift",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDeriveTraversable",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDerivingStrategies",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDerivingVia",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDisambiguateRecordFields",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDoAndIfThenElse",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoBlockArguments",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoDuplicateRecordFields",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoEmptyCase",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoEmptyDataDecls",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoEmptyDataDeriving",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoExistentialQuantification",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoExplicitForAll",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoExplicitNamespaces",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoExtendedDefaultRules",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoFlexibleContexts",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoFlexibleInstances",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoForeignFunctionInterface",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoFunctionalDependencies",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoGADTSyntax",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoGADTs",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoGHCForeignImportPrim",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		// {
+		//     "trigger": "NoGeneralisedNewtypeDeriving",
+		//     "kind": "variable",
+		//     "details": "Disable language extension"
+		// },
+		{
+			"trigger": "NoGeneralizedNewtypeDeriving",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoImplicitParams",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoImplicitPrelude",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoImportQualifiedPost",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoImpredicativeTypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTypeFamilyDependencies",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoInstanceSigs",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoApplicativeDo",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoInterruptibleFFI",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoJavaScriptFFI",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoKindSignatures",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoLambdaCase",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoLexicalNegation",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoLiberalTypeSynonyms",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoLinearTypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoMagicHash",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoMonadComprehensions",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoMonoLocalBinds",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoMonomorphismRestriction",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoMultiParamTypeClasses",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoMultiWayIf",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNumericUnderscores",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNPlusKPatterns",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNamedFieldPuns",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNamedWildCards",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNegativeLiterals",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoHexFloatLiterals",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNondecreasingIndentation",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoNumDecimals",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoOverloadedLabels",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoOverloadedLists",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoOverloadedStrings",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPackageImports",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoParallelArrays",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoParallelListComp",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPartialTypeSignatures",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPatternGuards",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPatternSynonyms",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPolyKinds",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPolymorphicComponents",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoQualifiedDo",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoQuantifiedConstraints",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoPostfixOperators",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoQuasiQuotes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRank2Types",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRankNTypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRebindableSyntax",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRecordWildCards",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRecursiveDo",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRelaxedLayout",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoRoleAnnotations",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoScopedTypeVariables",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoStandaloneDeriving",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoStarIsType",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoStaticPointers",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoStrict",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoStrictData",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTemplateHaskell",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTemplateHaskellQuotes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoStandaloneKindSignatures",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTraditionalRecordSyntax",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTransformListComp",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTrustworthy",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTupleSections",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTypeApplications",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTypeInType",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTypeFamilies",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTypeOperators",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoTypeSynonymInstances",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnboxedTuples",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnboxedSums",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUndecidableInstances",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUndecidableSuperClasses",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnicodeSyntax",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnliftedFFITypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnliftedNewtypes",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoUnsafe",
+			"kind": "variable",
+			"details": "Disable language extension"
+		},
+		{
+			"trigger": "NoViewPatterns",
+			"kind": "variable",
+			"details": "Disable language extension"
+		}
+	]
+}

@@ -552,10 +552,10 @@
 --         ^ punctuation.terminator.statement.haskell
 --           ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
 
-    import safe qualified Data.Vector.Mutable as MutableVector
+    import safe qualified Data.Vector.Mutable as My.MutableVector
 --  ^^^^^^ meta.import.haskell
 --        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.module.haskell
---                                            ^^^^^^^^^^^^^^^^ meta.import.alias.haskell
+--                                            ^^^^^^^^^^^^^^^^^^^ meta.import.alias.haskell
 --  ^^^^^^ keyword.declaration.import.haskell
 --         ^^^^ storage.modifier.import.haskell
 --              ^^^^^^^^^ storage.modifier.import.haskell
@@ -565,7 +565,9 @@
 --                                   ^ punctuation.accessor.dot.haskell - variable
 --                                    ^^^^^^^ variable.namespace.haskell - punctuation
 --                                            ^^ keyword.declaration.import.as.haskell
---                                               ^^^^^^^^^^^^^ entity.name.import.namespace.haskell
+--                                               ^^ variable.namespace.haskell
+--                                                 ^ punctuation.accessor.dot.haskell
+--                                                  ^^^^^^^^^^^^^ variable.namespace.haskell
 
     import
 --  ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
@@ -584,8 +586,22 @@
 --  ^^^ meta.import.alias.haskell
 --  ^^ keyword.declaration.import.as.haskell
     MutableVector
---  ^^^^^^^^^^^^^ meta.import.alias.haskell entity.name.import.namespace.haskell
---               ^ - meta.import - entity
+--  ^^^^^^^^^^^^^ meta.import.alias.haskell variable.namespace.haskell
+
+--  escape from imports as early as possible
+    import Data.Vector.Mutable My.MutableVector
+--  ^^^^^^ meta.import.haskell
+--        ^^^^^^^^^^^^^^^^^^^^^ meta.import.module.haskell
+--                             ^^^^^^^^^^^^^^^^^^ - meta.import
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^^^ variable.namespace.haskell - punctuation
+--                    ^ punctuation.accessor.dot.haskell - variable
+--                     ^^^^^^^ variable.namespace.haskell - punctuation
+--                             ^^ variable.namespace.haskell
+--                               ^ punctuation.accessor.dot.haskell
+--                                ^^^^^^^^^^^^^ storage.type.haskell
 
     import Mod1.Mod2.Module (funcName, unboxed#, Type#)
 --  ^^^^^^ meta.import.haskell - meta.sequence
@@ -1535,6 +1551,19 @@
 --       ^^ punctuation.separator.type.haskell
 --          ^^^^ support.type.prelude.haskell
 
+    -- make sure not to break following function definitions
+    data Type a = Type1 :$ Type2
+    foo, bar, baz :: Type
+--  ^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^^^^^^^^^^^^ meta.function.identifier.haskell
+--  ^^^ entity.name.function.haskell
+--     ^ punctuation.separator.sequence.haskell
+--       ^^^ entity.name.function.haskell
+--          ^ punctuation.separator.sequence.haskell
+--            ^^^ entity.name.function.haskell
+--                ^^ punctuation.separator.type.haskell
+--                   ^^^^ support.type.prelude.haskell
+
     -- make sure not to break assignment expression
     data Type a = Con Type1 !Type2 a
     var = Con
@@ -1561,12 +1590,75 @@
 
     -- make sure not to break assignment expression
     data Type a = Type1 :$ Type2
+    foo bar baz = Con
+--  ^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^ variable.other.haskell
+--      ^^^ variable.other.haskell
+--          ^^^ variable.other.haskell
+--              ^ keyword.operator.haskell
+--                ^^^ storage.type.haskell
+
+    -- make sure not to break assignment expression
+    data Type a = Type1 :$ Type2
     var <- True = Con
 --  ^^^^^^^^^^^^^^^^^ - meta.declaration.data
 --  ^^^ variable.other.haskell
 --      ^^ keyword.operator.arrow.haskell
 --              ^ keyword.operator.haskell
 --                ^^^ storage.type.haskell
+
+    -- make sure not to break assignment expression
+    data Type a = Type1 :$ Type2
+    foo bar baz <- True = Con
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^ variable.other.haskell
+--      ^^^ variable.other.haskell
+--          ^^^ variable.other.haskell
+--              ^^ keyword.operator.arrow.haskell
+--                 ^^^^ support.constant.prelude.haskell
+--                      ^ keyword.operator.haskell
+--                        ^^^ storage.type.haskell
+
+    -- make sure not to break constructor by following function definition
+    data Type
+        = Foo                    -- comment
+        | Bar Bool {- comment -} -- comment
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^ entity.name.constant.haskell
+--            ^^^^ support.type.prelude.haskell
+--                 ^^^^^^^^^^^^^ comment.block.haskell
+--                               ^^^^^^^^^^^ comment.line.double-dash.haskell
+    foo, bar, baz :: Mode
+--  ^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^^^^^^^^^^^^ meta.function.identifier.haskell
+--  ^^^ entity.name.function.haskell
+--     ^ punctuation.separator.sequence.haskell
+--       ^^^ entity.name.function.haskell
+--          ^ punctuation.separator.sequence.haskell
+--            ^^^ entity.name.function.haskell
+--                ^^ punctuation.separator.type.haskell
+--                   ^^^^ storage.type.haskell
+
+    -- make sure not to break constructor by following assignment expression
+    data Type
+        = Foo                    -- comment
+        | Bar Bool {- comment -} -- comment
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^ entity.name.constant.haskell
+--            ^^^^ support.type.prelude.haskell
+--                 ^^^^^^^^^^^^^ comment.block.haskell
+--                               ^^^^^^^^^^^ comment.line.double-dash.haskell
+    foo bar baz <- True = Con
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.data
+--  ^^^ variable.other.haskell
+--      ^^^ variable.other.haskell
+--          ^^^ variable.other.haskell
+--              ^^ keyword.operator.arrow.haskell
+--                 ^^^^ support.constant.prelude.haskell
+--                      ^ keyword.operator.haskell
+--                        ^^^ storage.type.haskell
 
 -- [ DEFAULT DECLARATIONS ] ---------------------------------------------------
 
