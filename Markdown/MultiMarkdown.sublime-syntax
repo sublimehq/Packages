@@ -2,8 +2,9 @@
 ---
 name: MultiMarkdown
 scope: text.html.markdown.multimarkdown
+version: 2
 
-extends: Packages/Markdown/Markdown.sublime-syntax
+extends: Markdown.sublime-syntax
 
 first_line_match: (?i:^format:\s*complete\s*$)
 
