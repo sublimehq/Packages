@@ -91,6 +91,9 @@ variables:
 contexts:
 
   main:
+    - include: html
+
+  html:
     - include: preprocessor
     - include: doctype
     - include: comment
