@@ -4014,6 +4014,21 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //                                                                           ^ keyword.operator.concatenation.php
 //                                                                                        ^ punctuation.terminator.statement.php
 
+$sql = "DROP TABLE foo";
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                    ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+
+$sql = "IF NOT EXISTS CREATE TABLE foo";
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                    ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+
+$sql = "WITH RECURSION SELECT *";
+//     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                             ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+
 $non_sql = 'NO SELECT HIGHLIGHTING!';
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string
 //         ^ punctuation.definition.string.begin
@@ -4067,6 +4082,21 @@ $sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'G
 //                                                                        ^ punctuation.terminator.statement.php
 //                                                                          ^ keyword.operator.concatenation.php
 //                                                                                       ^ punctuation.terminator.statement.php
+
+$sql = 'DROP TABLE foo';
+//     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                    ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
+
+$sql = 'IF NOT EXISTS CREATE TABLE foo';
+//     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                    ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
+
+$sql = 'WITH RECURSION SELECT *';
+//     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                             ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
 
 
 /******************************************************************************

@@ -12,7 +12,17 @@ variables:
   identifier_start: '[[:alpha:]_]'
 
   regex_modifier: '[eimsuxADJSUX]*'
-  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)(?=\s)
+  sql_indicator: |-
+    (?x: \s* (?:
+    # dml statements
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE
+    # ddl statements
+    | ADD | ALTER | CREATE | DROP
+    # conditional
+    | IF \s+ (?: NOT \s+ )? EXISTS
+    # declaration
+    | DECLARE | WITH
+    ) \s )
 
   # A pattern which terminates an incomplete expression at any point.
   # `\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
