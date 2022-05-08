@@ -66,26 +66,6 @@ contexts:
 
 ###[ HTML CONTENT ]###########################################################
 
-  html:
-    # This context is a copy of `HTML (Plain).sublime-syntax#main` with
-    # php tags being embedded via prototype in included contexts. The context
-    # itself doesn't include php tags as those are to be added by including
-    # contexts. All nested php tags are forced to be closed within the context
-    # they are opened at.
-    #
-    # A php tag beginning within...
-    # a) a HTML tag is finished before the tag end punctuation appears
-    # b) a string causes the string to be terminated not before the php tag is.
-    #
-    # This context is included within PHP's nested code-blocks in order to
-    # maintain code structure as good as possible.
-    - include: preprocessor
-    - include: doctype
-    - include: comment
-    - include: cdata
-    - include: tag
-    - include: entities
-
   cdata-content:
     - meta_prepend: true
     - meta_include_prototype: false
