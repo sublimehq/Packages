@@ -78,9 +78,9 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         if match_selector(view, pt, "meta.property-value.css meta.function-call.arguments"):
             items = self.complete_function_argument(view, prefix, pt)
-        elif match_selector(view, pt, "meta.property-value.css"):
+        elif view.match_selector(pt - 1, "meta.property-value.css, punctuation.separator.key-value"):
             items = self.complete_property_value(view, prefix, pt)
-        elif match_selector(view, pt, "meta.property-list.css, meta.property-name.css"):
+        elif view.match_selector(pt, "meta.property-name.css, meta.property-list.css - punctuation.section.block.begin"):
             items = self.complete_property_name(view, prefix, pt)
         else:
             # TODO: provide selectors, at-rules
