@@ -1,0 +1,63 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15 # default is 6 hours!
+    steps:
+
+      - name: Git config (global)
+        run: |
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global init.defaultBranch master
+
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: 'Zip packages for ${{ github.ref }}'
+        run: |
+          # remove (some) subdirectories in root directory
+          find . -maxdepth 1 -mindepth 1 -type d -name '.git' -delete
+          find . -maxdepth 1 -mindepth 1 -type d -name '.github' -delete
+
+          # remove (some) files in root directory
+          find . -maxdepth 1 -mindepth 1 -type f -name '.gitignore' -delete
+          find . -maxdepth 1 -mindepth 1 -type f -name 'LICENSE' -delete
+          find . -maxdepth 1 -mindepth 1 -type f -name 'README.md' -delete
+
+          # remove tests
+          find . -type f -name '**/syntax_test_*' -delete
+          find . -type d -name '**/tests' -delete
+
+          # remove empty dirs
+          find . -empty -type d -delete
+
+          # zip packages into root (individually)
+          find . -maxdepth 1 -mindepth 1 -type d -exec zip -r '{}.sublime-package' './{}' -x '**/tests **/syntax_test_*' ';'
+
+          # cleanup, now that packages are zipped
+          find . -maxdepth 1 -mindepth 1 -type d -delete
+
+          # move packages
+          mkdir -p Data/Packages
+          find . -maxdepth 1 -mindepth 1 -type f -exec mv '{}' Data/Packages/ ';'
+
+          # final zip and cleanup
+          zip -r 'Packages ${{ github.ref }}.zip' '.'
+          find . -maxdepth 1 -mindepth 1 -type d -name 'Data' -delete
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          files: 'Packages ${{ github.ref }}.zip'
