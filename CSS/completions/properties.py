@@ -15,6 +15,7 @@ def get_properties():
     """
     common_values = get_common_values()
     properties_dict = {
+        "accent-color": ["auto", "<calc>", "<color>"],
         "additive-symbols": [],
         "align-content": [
             "center",
@@ -233,6 +234,7 @@ def get_properties():
         "clip-path": ["none", "<uri>", "<basic-shape>"],
         "clip-rule": ["nonzero", "evenodd"],
         "color": ["<color>"],
+        "color-interpolation": ["auto", "sRGB", "linearRGB"],
         "color-interpolation-filters": ["auto", "sRGB", "linearRGB"],
         "color-scheme": ["normal", "light", "dark", "only"],
         "column-count": [
