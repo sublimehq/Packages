@@ -1243,7 +1243,7 @@ contexts:
       scope: invalid.illegal.combinator.css
 
   selector-end:
-    - match: (?=\s*[;@(){}])
+    - match: (?=[;@(){}])
       pop: 1
     - include: comments
 
