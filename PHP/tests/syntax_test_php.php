@@ -2682,6 +2682,20 @@ $statement = match ($this->lexer->lookahead['type']) {
 //                                                 ^ punctuation.section.block.end.php
 //                                                   ^ punctuation.section.block.end.php
 
+   ( match( {  } )
+// ^^ meta.group.php - meta.match
+//   ^^^^^ meta.group.php meta.match.php
+//        ^^ meta.group.php meta.match.arguments.php meta.group.php
+//          ^^^^ meta.group.php meta.match.php meta.block.php
+//              ^^ meta.group.php - meta.match
+// ^ punctuation.section.group.begin.php
+//   ^^^^^ keyword.control.conditional.match.php
+//        ^ punctuation.section.group.begin.php
+//          ^ punctuation.section.block.begin.php
+//             ^ punctuation.section.block.end.php
+//               ^ punctuation.section.group.end.php
+
+
 /******************************************************************************
  * Instantiation Tests
  *****************************************************************************/
@@ -2713,6 +2727,19 @@ $anon = new class};
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
 //               ^ punctuation.section.block.end.php
+
+$anon = new class ( {};
+//      ^^^^^^^^^^^^^^ - meta.class meta.class
+//      ^^^^ meta.instantiation.php - meta.class
+//          ^^^^^^ meta.instantiation.php meta.class.php - meta.block - meta.group
+//                ^^ meta.instantiation.php meta.class.php meta.group.php - meta.block
+//                  ^^ meta.instantiation.php meta.class.php meta.block.php
+//                    ^ - meta.instantiation - meta.class - meta.block
+//      ^^^ keyword.other.new.php
+//          ^^^^^ keyword.declaration.class.php
+//                ^ punctuation.section.group.begin.php
+//                  ^ punctuation.section.block.begin.php
+//                   ^ punctuation.section.block.end.php
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
