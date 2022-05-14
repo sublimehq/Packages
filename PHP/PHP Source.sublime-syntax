@@ -508,7 +508,7 @@ contexts:
     - include: statements
     - include: expressions
     - match: \}
-      scope: punctuation.section.block.end.php
+      scope: invalid.illegal.stray.php
 
   declarations:
     - include: class-declarations
@@ -552,10 +552,8 @@ contexts:
     - include: modifiers
     - include: types
     - include: constants
-    - match: \]
-      scope: punctuation.section.brackets.end.php
-    - match: \)
-      scope: punctuation.section.group.end.php
+    - match: '[])]'
+      scope: invalid.illegal.stray.php
 
   nested-expressions:
     # A possible sequence of expressions, which may be terminated by statements.

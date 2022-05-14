@@ -1832,6 +1832,21 @@ nested( static function ( {  } );
 //                             ^ punctuation.section.group.end.php
 //                              ^ punctuation.terminator.statement.php
 
+nested( static function ) { ) ] } ) ] };
+//    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//                       ^^^^^^^^^^ - meta.function-call
+//      ^^^^^^ storage.modifier.namespace.php
+//             ^^^^^^^^ keyword.declaration.function.php
+//                      ^ punctuation.section.group.end.php
+//                        ^ punctuation.section.block.begin.php
+//                          ^ invalid.illegal.stray.php
+//                            ^ invalid.illegal.stray.php
+//                              ^ punctuation.section.block.end.php
+//                                ^ invalid.illegal.stray.php
+//                                  ^ invalid.illegal.stray.php
+//                                    ^ invalid.illegal.stray.php
+//                                     ^ punctuation.terminator.statement.php
+
 nested( static function ($param1) {  } );
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //             ^^^^^^^^^ meta.function.php
@@ -2328,6 +2343,46 @@ switch (1) {
 //        ^ punctuation.section.block.begin.php
 //         ^ punctuation.section.block.end.php
 
+    for ) {}
+//  ^^^ keyword.control.loop.for.php
+//      ^ invalid.illegal.stray.php
+//        ^^ meta.block.php
+//        ^ punctuation.section.block.begin.php
+//         ^ punctuation.section.block.end.php
+
+    for ( ] {}
+//      ^^^^ meta.group.php
+//          ^^ meta.block.php
+//  ^^^ keyword.control.loop.for.php
+//      ^ punctuation.section.group.begin.php
+//        ^ invalid.illegal.stray.php
+//          ^ punctuation.section.block.begin.php
+//           ^ punctuation.section.block.end.php
+
+    for ( ] ) {}
+//      ^^^^^ meta.group.php
+//            ^^ meta.block.php
+//  ^^^ keyword.control.loop.for.php
+//      ^ punctuation.section.group.begin.php
+//        ^ invalid.illegal.stray.php
+//          ^ punctuation.section.group.end.php
+//            ^ punctuation.section.block.begin.php
+//             ^ punctuation.section.block.end.php
+
+    for ( , ; , ; , ) {}
+//      ^^^^^^^^^^^^^ meta.group.php
+//                    ^^ meta.block.php
+//  ^^^ keyword.control.loop.for.php
+//      ^ punctuation.section.group.begin.php
+//        ^ punctuation.separator.sequence.php
+//          ^ punctuation.terminator.statement.php
+//            ^ punctuation.separator.sequence.php
+//              ^ punctuation.terminator.statement.php
+//                ^ punctuation.separator.sequence.php
+//                  ^ punctuation.section.group.end.php
+//                    ^ punctuation.section.block.begin.php
+//                     ^ punctuation.section.block.end.php
+
     for ($i = 0; $i < 10; $i++) { echo $i; }
 //  ^^^ keyword.control.loop.for.php
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
@@ -2539,6 +2594,30 @@ $array = [   ];
 // ^ meta.sequence.array.empty.php punctuation.section.sequence.begin.php
 //  ^ meta.sequence.array.empty.php punctuation.section.sequence.end.php
 
+$array = [ ) ];
+//       ^^^^^ meta.sequence.array.php
+//            ^^ - meta.sequence
+//       ^ punctuation.section.sequence.begin.php
+//         ^ invalid.illegal.stray.php
+//           ^ punctuation.section.sequence.end.php
+//            ^ punctuation.terminator.statement.php
+
+$array = [ ] ];
+//       ^^^ meta.sequence.array.empty.php
+//          ^^^^ - meta.sequence
+//       ^ punctuation.section.sequence.begin.php
+//         ^ punctuation.section.sequence.end.php
+//           ^ invalid.illegal.stray.php
+//            ^ punctuation.terminator.statement.php
+
+$array = [ } ];
+//       ^^ meta.sequence.array.php
+//         ^^^^^ - meta.sequence
+//       ^ punctuation.section.sequence.begin.php
+//         ^ invalid.illegal.stray.php
+//           ^ invalid.illegal.stray.php
+//            ^ punctuation.terminator.statement.php
+
 $array = [
 //       ^ meta.sequence.array.php punctuation.section.sequence.begin.php
     'abc'   => $arr['key']['key2']
@@ -2555,8 +2634,31 @@ $array = [
 
 $array[  ];
 //    ^^^^ meta.item-access
+//        ^^ - meta.item-access
 //    ^ punctuation.section.brackets.begin.php
 //       ^ punctuation.section.brackets.end.php
+
+$array[ ] ];
+//    ^^^ meta.item-access
+//       ^^^^ - meta.item-access
+//    ^ punctuation.section.brackets.begin.php
+//      ^ punctuation.section.brackets.end.php
+//        ^ invalid.illegal.stray.php
+
+$array[ ) ];
+//    ^^^^^ meta.item-access
+//         ^^ - meta.item-access
+//    ^ punctuation.section.brackets.begin.php
+//      ^ invalid.illegal.stray.php
+//        ^ punctuation.section.brackets.end.php
+
+$array[ ) } ];
+//    ^^^^ meta.item-access
+//        ^^^^^ - meta.item-access
+//    ^ punctuation.section.brackets.begin.php
+//      ^ invalid.illegal.stray.php
+//        ^ invalid.illegal.stray.php
+//          ^ invalid.illegal.stray.php
 
 $var?->meth()[10];
 //  ^ punctuation.accessor.nullsafe
@@ -2884,7 +2986,7 @@ $anon = new class};
 //               ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
-//               ^ punctuation.section.block.end.php
+//               ^ invalid.illegal.stray.php
 
 $anon = new class ( {};
 //      ^^^^^^^^^^^^^^ - meta.class meta.class
@@ -4736,7 +4838,7 @@ function embedHtml() {
 //                                 ^^^^^^ meta.tag
 
 // don't break block termination highlighting after incomplete item-access expression
-<?php  { ?> <div> <? $var[9 + ; ?> </div> <? } ?>
+<?php  { ?> <div> <? $var[9 + ; ?> </div> <? } } ?>
 //^^^^^^^^^ meta.embedded.php
 //         ^^^^^^^ - meta.embedded
 //                ^^^^^^^^^^^^^^^^ meta.embedded.php
@@ -4760,7 +4862,8 @@ function embedHtml() {
 //                                 ^^^^^^ meta.tag
 //                                        ^^ punctuation.section.embedded.begin.php
 //                                           ^ punctuation.section.block.end.php
-//                                             ^^ punctuation.section.embedded.end.php
+//                                             ^ invalid.illegal.stray.php
+//                                               ^^ punctuation.section.embedded.end.php
 
 // don't break highlighting after incomplete catch parameter list
 <?php try { ?> <div> <? } catch(  ?> </div>
