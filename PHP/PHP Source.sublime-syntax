@@ -49,6 +49,7 @@ variables:
     | {{storage_modifiers}}
     | {{storage_types}}
     | {{class_modifier}}
+    | {{static_modifier}}
     | {{builtin_variables}}
     | function\b
     | as\b
@@ -60,7 +61,7 @@ variables:
     | {{flow_keywords}}
     | {{declaration_keywords}}
     | {{access_modifier}}
-    | {{namespace_modifier}}
+    | {{global_modifier}}
     )
 
   # Statement Level Keywords
@@ -89,8 +90,8 @@ variables:
     (?xi: public | private | protected )\b
   class_modifier: |-
     (?xi: extends | implements )\b
-  namespace_modifier: |-
-    (?xi: global | static(?!::) )\b
+  global_modifier: |-
+    (?xi: global )\b
   storage_modifiers: |-
     (?xi: abstract | final | readonly )\b
   constructor_modifier: |-
@@ -546,6 +547,7 @@ contexts:
     - include: variables
     - include: members
     - include: static-classes
+    - include: static-modifiers
     - include: operators
     - include: modifiers
     - include: types

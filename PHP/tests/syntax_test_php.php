@@ -1451,6 +1451,7 @@ class B
 //      ^ punctuation.definition.variable
 //       ^^^^^^ variable.parameter
     ): Foo|\Foo\Bar|?int|parent|self|static {}
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.return-type.php
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.accessor.namespace
@@ -1465,7 +1466,7 @@ class B
 //                             ^ punctuation.separator.type.union.php
 //                              ^^^^ variable.language.this.php
 //                                  ^ punctuation.separator.type.union.php
-//                                   ^^^^^^ storage.modifier.namespace.php
+//                                   ^^^^^^ variable.language.static.php
     {
         echo B::class;
 //      ^^^^ support.function.builtin.php
@@ -1813,6 +1814,36 @@ $array = array_reduce(
 );
 // <- punctuation.section.group.end
 
+nested( static function ( {  } );
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//             ^^^^^^^^^ meta.function.php
+//                      ^^ meta.function.parameters.php meta.group.php
+//                        ^^^^ meta.function.php meta.block.php
+//                            ^^ - meta.function
+//      ^^^^^^ storage.modifier.namespace.php
+//             ^^^^^^^^ keyword.declaration.function.php
+//                      ^ punctuation.section.group.begin.php
+//                        ^ punctuation.section.block.begin.php
+//                           ^ punctuation.section.block.end.php
+//                             ^ punctuation.section.group.end.php
+//                              ^ punctuation.terminator.statement.php
+
+nested( static function ($param1) {  } );
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//             ^^^^^^^^^ meta.function.php
+//                      ^^^^^^^^^ meta.function.parameters.php meta.group.php
+//                               ^ meta.function.php
+//                                ^^^^ meta.function.php meta.block.php
+//      ^^^^^^ storage.modifier.namespace.php
+//             ^^^^^^^^ keyword.declaration.function.php
+//                      ^ punctuation.section.group.begin.php
+//                       ^^^^^^^ variable.parameter.php
+//                              ^ punctuation.section.group.end.php
+//                                ^ punctuation.section.block.begin.php
+//                                   ^ punctuation.section.block.end.php
+//                                     ^ punctuation.section.group.end.php
+//                                      ^ punctuation.terminator.statement.php
+
 function bye(): never {
 //^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 // <- meta.function.php keyword.declaration.function.php
@@ -1933,6 +1964,7 @@ function foo(?stinrg ...$args) {}
 //      ^ punctuation.definition.variable
 //       ^^^^^^ variable.parameter
     ): Foo|\Foo\Bar|?int|static {}
+//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.return-type.php
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.accessor.namespace
@@ -1943,7 +1975,7 @@ function foo(?stinrg ...$args) {}
 //                  ^ storage.type.nullable
 //                   ^^^ storage.type
 //                      ^ punctuation.separator.type
-//                       ^^^^^^ storage.modifier.namespace.php
+//                       ^^^^^^ variable.language.static.php
 
 function testGenerator1()
 {
