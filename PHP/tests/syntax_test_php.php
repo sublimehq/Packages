@@ -1964,6 +1964,120 @@ function testGenerator2()
 //                             ^ punctuation.terminator.statement.php
 }
 
+
+/******************************************************************************
+ * First class callable syntax Tests
+ * https://www.php.net/manual/en/functions.first_class_callable_syntax.php
+ *****************************************************************************/
+
+$f1 = strlen(...);
+//    ^^^^^^ meta.function-call.identifier.php
+//          ^^^^^ meta.function-call.arguments.php meta.group.php
+//    ^^^^^^ support.function.string.php
+//          ^ punctuation.section.group.begin.php
+//           ^^^ constant.other.placeholder.php
+//              ^ punctuation.section.group.end.php
+//               ^ punctuation.terminator.statement.php
+
+$f2 = $obj(...);  // invokable object
+//    ^^^^ meta.function-call.identifier.php
+//        ^^^^^ meta.function-call.arguments.php meta.group.php
+//    ^^^^ variable.other.php
+//        ^ punctuation.section.group.begin.php
+//         ^^^ constant.other.placeholder.php
+//            ^ punctuation.section.group.end.php
+//             ^ punctuation.terminator.statement.php
+
+$f3 = $obj->method(...);
+//          ^^^^^^ meta.function-call.identifier.php
+//                ^^^^^ meta.function-call.arguments.php meta.group.php
+//          ^^^^^^ variable.function.php
+//                ^ punctuation.section.group.begin.php
+//                 ^^^ constant.other.placeholder.php
+//                    ^ punctuation.section.group.end.php
+//                     ^ punctuation.terminator.statement.php
+
+$f4 = $obj->$methodStr(...);
+//          ^^^^^^^^^^ meta.function-call.identifier.php
+//                    ^^^^^ meta.function-call.arguments.php meta.group.php
+//          ^^^^^^^^^^ variable.other.member.php
+//                    ^ punctuation.section.group.begin.php
+//                     ^^^ constant.other.placeholder.php
+//                        ^ punctuation.section.group.end.php
+//                         ^ punctuation.terminator.statement.php
+
+$f5 = Foo::staticmethod(...);
+//         ^^^^^^^^^^^^ meta.function-call.identifier.php
+//                     ^^^^^ meta.function-call.arguments.php meta.group.php
+//         ^^^^^^^^^^^^ variable.function.php
+//                     ^ punctuation.section.group.begin.php
+//                      ^^^ constant.other.placeholder.php
+//                         ^ punctuation.section.group.end.php
+//                          ^ punctuation.terminator.statement.php
+
+$f6 = $classStr::$staticmethodStr(...);
+//               ^^^^^^^^^^^^^^^^ meta.function-call.identifier.php
+//                               ^^^^^ meta.function-call.arguments.php meta.group.php
+//               ^^^^^^^^^^^^^^^^ variable.other.member.php
+//                               ^ punctuation.section.group.begin.php
+//                                ^^^ constant.other.placeholder.php
+//                                   ^ punctuation.section.group.end.php
+//                                    ^ punctuation.terminator.statement.php
+
+// traditional callable using string, array
+
+$f7 = 'strlen'(...);
+//    ^^^^^^^^ meta.string.php string.quoted.single.php
+//            ^^^^^ meta.group.php
+//            ^ punctuation.section.group.begin.php
+//             ^^^ constant.other.placeholder.php
+//                ^ punctuation.section.group.end.php
+//                 ^ punctuation.terminator.statement.php
+
+$f8 = [$obj, 'method'](...);
+//    ^^^^^^^^^^^^^^^^ meta.sequence.array.php
+//                    ^^^^^ meta.group.php
+//    ^ punctuation.section.sequence.begin.php
+//     ^^^^ variable.other.php
+//         ^ punctuation.separator.sequence.php
+//           ^^^^^^^^ meta.string.php string.quoted.single.php
+//                   ^ punctuation.section.sequence.end.php
+//                    ^ punctuation.section.group.begin.php
+//                     ^^^ constant.other.placeholder.php
+//                        ^ punctuation.section.group.end.php
+//                         ^ punctuation.terminator.statement.php
+
+$f9 = [Foo::class, 'staticmethod'](...);
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.array.php
+//                                ^^^^^ meta.group.php
+//    ^ punctuation.section.sequence.begin.php
+//     ^^^ support.class.php
+//        ^^ punctuation.accessor.double-colon.php
+//          ^^^^^ variable.language.class.java
+//               ^ punctuation.separator.sequence.php
+//                 ^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
+//                               ^ punctuation.section.sequence.end.php
+//                                ^ punctuation.section.group.begin.php
+//                                 ^^^ constant.other.placeholder.php
+//                                    ^ punctuation.section.group.end.php
+//                                     ^ punctuation.terminator.statement.php
+
+$f10 = (new MyClass)->myMethod(...);
+//     ^^^^^^^^^^^^^ meta.group.php
+//                    ^^^^^^^^ meta.function-call.identifier.php
+//                            ^^^^^ meta.function-call.arguments.php meta.group.php
+//     ^ punctuation.section.group.begin.php
+//      ^^^ keyword.other.new.php
+//          ^^^^^^^ support.class.php
+//                 ^ punctuation.section.group.end.php
+//                  ^^ punctuation.accessor.arrow.php
+//                    ^^^^^^^^ variable.function.php
+//                            ^ punctuation.section.group.begin.php
+//                             ^^^ constant.other.placeholder.php
+//                                ^ punctuation.section.group.end.php
+//                                 ^ punctuation.terminator.statement.php
+
+
 /******************************************************************************
  * Label Declaration Tests
  *****************************************************************************/

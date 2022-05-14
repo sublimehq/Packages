@@ -1451,6 +1451,12 @@ contexts:
 ###[ EXPRESSION GROUPS ]######################################################
 
   groups:
+    - match: (\()\s*(\.\.\.)\s*(\))
+      scope: meta.group.php
+      captures:
+        1: punctuation.section.group.begin.php
+        2: constant.other.placeholder.php
+        3: punctuation.section.group.end.php
     - match: \(
       scope: punctuation.section.group.begin.php
       push: group-body
@@ -1584,6 +1590,13 @@ contexts:
 
   function-call-arguments:
     - meta_include_prototype: false
+    - match: (\()\s*(\.\.\.)\s*(\))
+      scope: meta.function-call.arguments.php meta.group.php
+      captures:
+        1: punctuation.section.group.begin.php
+        2: constant.other.placeholder.php
+        3: punctuation.section.group.end.php
+      pop: 1
     - match: \(
       scope: punctuation.section.group.begin.php
       set: function-call-arguments-body
@@ -2222,6 +2235,12 @@ contexts:
       scope: meta.function-call.identifier.php
       captures:
         1: variable.function.php
+      set: function-call-arguments
+    - match: ((\$+){{identifier}})\s*(?=\()
+      scope: meta.function-call.identifier.php
+      captures:
+        1: variable.other.member.php
+        2: punctuation.definition.variable.php
       set: function-call-arguments
 
 ###[ HEREDOCS ]###############################################################
