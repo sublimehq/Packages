@@ -1517,8 +1517,7 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
-    - include: important-operators
-    - include: arithmetic-operators
+    - include: common-operators
     - include: builtin-values
     - include: other-functions
     - include: other-constants
@@ -3134,6 +3133,10 @@ contexts:
       scope: punctuation.separator.path.css
 
 ###[ OPERATORS ]###############################################################
+
+  common-operators:
+    - include: arithmetic-operators
+    - include: important-operators
 
   arithmetic-operators:
     - match: /
