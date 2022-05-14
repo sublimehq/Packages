@@ -2588,6 +2588,7 @@ null?->foo(bar())->baz();
 
 /******************************************************************************
  * Match Expression Tests
+ * https://www.php.net/manual/de/control-structures.match.php
  *****************************************************************************/
 
 $statement = match ($this->lexer->lookahead['type']) {
@@ -2612,6 +2613,74 @@ $statement = match ($this->lexer->lookahead['type']) {
 //                                                  ^ punctuation.section.group.end.php
 };
 
+   ( match($var) {"true" => true, "false" => false } )
+// ^^ meta.group.php - meta.match
+//   ^^^^^ meta.group.php meta.match.php
+//        ^^^^^^ meta.group.php meta.match.arguments.php meta.group.php
+//              ^ meta.group.php meta.match.php - meta.group meta.group - meta.block
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php meta.match.php meta.block.php
+//                                                  ^^ meta.group.php - meta.match - meta.block
+// ^ punctuation.section.group.begin.php
+//   ^^^^^ keyword.control.conditional.match.php
+//        ^ punctuation.section.group.begin.php
+//         ^^^^ variable.other.php
+//             ^ punctuation.section.group.end.php
+//               ^ punctuation.section.block.begin.php
+//                ^^^^^^ meta.string.php string.quoted.double.php
+//                       ^^ punctuation.separator.key-value.php
+//                          ^^^^ constant.language.boolean.php
+//                              ^ punctuation.separator.sequence.php
+//                                ^^^^^^^ meta.string.php string.quoted.double.php
+//                                        ^^ punctuation.separator.key-value.php
+//                                           ^^^^^ constant.language.boolean.php
+//                                                 ^ punctuation.section.block.end.php
+//                                                   ^ punctuation.section.group.end.php
+
+   [ match($var) {"true" => true, "false" => false } ]
+// ^^ meta.sequence.array.php - meta.match
+//   ^^^^^ meta.sequence.array.php meta.match.php
+//        ^^^^^^ meta.sequence.array.php meta.match.arguments.php meta.group.php
+//              ^ meta.sequence.array.php meta.match.php - meta.group - meta.block
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.array.php meta.match.php meta.block.php
+//                                                  ^^ meta.sequence.array.php - meta.match - meta.block
+// ^ punctuation.section.sequence.begin.php
+//   ^^^^^ keyword.control.conditional.match.php
+//        ^ punctuation.section.group.begin.php
+//         ^^^^ variable.other.php
+//             ^ punctuation.section.group.end.php
+//               ^ punctuation.section.block.begin.php
+//                ^^^^^^ meta.string.php string.quoted.double.php
+//                       ^^ punctuation.separator.key-value.php
+//                          ^^^^ constant.language.boolean.php
+//                              ^ punctuation.separator.sequence.php
+//                                ^^^^^^^ meta.string.php string.quoted.double.php
+//                                        ^^ punctuation.separator.key-value.php
+//                                           ^^^^^ constant.language.boolean.php
+//                                                 ^ punctuation.section.block.end.php
+//                                                   ^ punctuation.section.sequence.end.php
+
+   { match($var) {"true" => true, "false" => false } }
+// ^^ meta.block.php - meta.match
+//   ^^^^^ meta.block.php meta.match.php
+//        ^^^^^^ meta.block.php meta.match.arguments.php meta.group.php
+//              ^ meta.block.php meta.match.php - meta.group - meta.block meta.block
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.php meta.match.php meta.block.php
+//                                                  ^^ meta.block.php - meta.match - meta.block meta.block
+// ^ punctuation.section.block.begin.php
+//   ^^^^^ keyword.control.conditional.match.php
+//        ^ punctuation.section.group.begin.php
+//         ^^^^ variable.other.php
+//             ^ punctuation.section.group.end.php
+//               ^ punctuation.section.block.begin.php
+//                ^^^^^^ meta.string.php string.quoted.double.php
+//                       ^^ punctuation.separator.key-value.php
+//                          ^^^^ constant.language.boolean.php
+//                              ^ punctuation.separator.sequence.php
+//                                ^^^^^^^ meta.string.php string.quoted.double.php
+//                                        ^^ punctuation.separator.key-value.php
+//                                           ^^^^^ constant.language.boolean.php
+//                                                 ^ punctuation.section.block.end.php
+//                                                   ^ punctuation.section.block.end.php
 
 /******************************************************************************
  * Instantiation Tests

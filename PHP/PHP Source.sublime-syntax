@@ -537,6 +537,7 @@ contexts:
     - include: closures
     - include: bindings
     - include: keywords
+    - include: matches
     - include: define-calls
     - include: function-calls
     - include: numbers
@@ -1195,8 +1196,6 @@ contexts:
       scope: keyword.control.conditional.case.php
     - match: (?i:default)\b
       scope: keyword.control.conditional.default.php
-    - match: (?i:match)\b
-      scope: keyword.control.conditional.match.php
     - match: (?i:switch)\b
       scope: keyword.control.conditional.switch.php
     - match: (?i:end(?:if|switch))\b
@@ -1610,6 +1609,43 @@ contexts:
     - match: (?=[,)])
       pop: 1
     - include: nested-expressions
+
+###[ MATCHES ]################################################################
+
+  matches:
+    # https://www.php.net/manual/de/control-structures.match.php
+    - match: (?i:match)\s*(?=\()
+      scope: keyword.control.conditional.match.php
+      push:
+        - match-meta
+        - match-block
+        - match-arguments
+
+  match-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.match.php
+    - include: immediately-pop
+
+  match-arguments:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      set: match-arguments-body
+    - include: immediately-pop
+
+  match-arguments-body:
+    - clear_scopes: 1
+    - meta_scope: meta.match.arguments.php meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - include: nested-expressions
+
+  match-block:
+    - match: \{
+      scope: punctuation.section.block.begin.php
+      set: block-body
+    - include: else-pop
 
 ###[ INCLUDES ]###############################################################
 
