@@ -558,8 +558,16 @@ contexts:
       scope: punctuation.section.group.end.php
 
   nested-expressions:
+    # A possible sequence of expressions, which may be terminated by statements.
     - include: expression-end-pop
     - include: expressions
+
+  single-expression:
+    # A single expression which doesen't consume any stray brackets
+    # and is terminated by sequence separators.
+    - match: (?=[]),])
+      pop: 1
+    - include: nested-expressions
 
 ###[ COMMENTS ]###############################################################
 
@@ -1007,9 +1015,7 @@ contexts:
 
   arrow-function-body:
     - meta_scope: meta.function.anonymous.php
-    - match: (?=;|,|\)|\?>)
-      pop: 1
-    - include: expressions
+    - include: single-expression
 
   fn-function-call:
     - include: function-calls
@@ -1100,7 +1106,7 @@ contexts:
       pop: 1
     - match: =
       scope: keyword.operator.assignment.php
-      push: function-call-argument-value
+      push: single-expression
     - include: expression-end-pop
     - include: attributes
     - include: comments
@@ -1614,12 +1620,7 @@ contexts:
       captures:
         1: variable.parameter.named.php
         2: keyword.operator.assignment.php
-      push: function-call-argument-value
-
-  function-call-argument-value:
-    - match: (?=[,)])
-      pop: 1
-    - include: nested-expressions
+      push: single-expression
 
 ###[ MATCHES ]################################################################
 
@@ -1667,9 +1668,7 @@ contexts:
 
   include-expression:
     - meta_scope: meta.include.php
-    - match: (?=[])])
-      pop: 1
-    - include: nested-expressions
+    - include: single-expression
 
 ###[ INSTANTIATIONS ]#########################################################
 
@@ -2619,8 +2618,7 @@ contexts:
       escape: "{{no_escape_behind}}'"
       escape_captures:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
-    - include: nested-expressions
-    - include: else-pop
+    - include: single-expression
 
   string-escapes:
     - match: \\[0-7]{1,3}

@@ -1771,6 +1771,10 @@ $var = fn($x)
 //     ^^ variable.function.php - keyword.declaration.function
 ;
 
+$var = fn($foo) => return $foo;
+//     ^^^^^^^^^^^^ meta.function.anonymous
+//                 ^^^^^^^^^^^^^ - meta.function
+
 $var = function(array $ar=array(), ClassName $cls) use ($var1, &$var2) {
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //     ^^^^^^^^ meta.function.php - meta.group
