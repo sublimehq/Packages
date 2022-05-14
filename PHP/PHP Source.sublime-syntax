@@ -574,8 +574,9 @@ contexts:
     # /**#@+ (which is used for docblock templates). Otherwise block-level
     # comment would be highlighted as invalid for constructs such as /**** ****/
     # multi-line doc
-    - match: /\*\*(?:\#@\+)?\s*$
-      scope: punctuation.definition.comment.begin.php
+    - match: (/\*\*(?:\#@\+)?)\s*$
+      captures:
+        1: punctuation.definition.comment.begin.php
       push: comment-phpdoc-body
     # inline doc
     - match: (/\*\*)\s+(?=@.*\s\*/\s*$)

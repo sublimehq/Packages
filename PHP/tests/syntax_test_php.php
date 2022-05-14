@@ -6,6 +6,13 @@
  *****************************************************************************/
 
 /**
+//^ comment.block.documentation.phpdoc.php punctuation.definition.comment.begin.php
+// ^ comment.block.documentation.phpdoc.php - punctuation
+   */
+//^ comment.block.php - punctuation
+// ^^ comment.block.php punctuation.definition.comment.end.php
+
+/**
    No longer a phpdoc comment since no leading *
  * @return
 //   ^ comment.block - entity.name.tag.documentation.phpdoc
