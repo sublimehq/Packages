@@ -2284,6 +2284,14 @@ switch (1) {
  * For Loop Statement Tests
  *****************************************************************************/
 
+    for ( {}
+//      ^^ meta.group.php
+//        ^^ meta.block.php
+//  ^^^ keyword.control.loop.for.php
+//      ^ punctuation.section.group.begin.php
+//        ^ punctuation.section.block.begin.php
+//         ^ punctuation.section.block.end.php
+
     for ($i = 0; $i < 10; $i++) { echo $i; }
 //  ^^^ keyword.control.loop.for.php
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
