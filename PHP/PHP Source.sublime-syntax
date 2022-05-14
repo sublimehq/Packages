@@ -1271,13 +1271,11 @@ contexts:
 
   catch-arguments-body:
     - meta_scope: meta.catch.arguments.php meta.group.php
+    - include: group-end
     - include: expression-end-pop
     - include: attributes
     - include: comments
     - include: type-hints
-    - match: \)
-      scope: punctuation.section.group.end.php
-      pop: 1
     - match: (\$){{identifier}}
       scope: variable.other.php
       captures:
