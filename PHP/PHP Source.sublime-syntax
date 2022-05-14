@@ -2521,7 +2521,7 @@ contexts:
     - match: ''
       pop: 1
       embed: scope:source.sql.interpolated.php
-      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      embed_scope: meta.string.php source.sql.embedded.php
       escape: '{{no_escape_behind}}"'
       escape_captures:
         0: meta.string.php string.quoted.double.php punctuation.definition.string.end.php
@@ -2601,7 +2601,7 @@ contexts:
     - match: ''
       pop: 1
       embed: scope:source.sql.embedded.php  # no interpolation
-      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      embed_scope: meta.string.php source.sql.embedded.php
       escape: "{{no_escape_behind}}'"
       escape_captures:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php
@@ -2610,14 +2610,14 @@ contexts:
     - match: \"
       scope: meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
       embed: scope:source.sql.interpolated.php
-      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      embed_scope: meta.string.php source.sql.embedded.php
       escape: '{{no_escape_behind}}"'
       escape_captures:
         0: meta.string.php string.quoted.double.php punctuation.definition.string.end.php
     - match: \'
       scope: meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
       embed: scope:source.sql.embedded.php  # no interpolation
-      embed_scope: meta.string.php meta.interpolation.php source.sql.embedded.php
+      embed_scope: meta.string.php source.sql.embedded.php
       escape: "{{no_escape_behind}}'"
       escape_captures:
         0: meta.string.php string.quoted.single.php punctuation.definition.string.end.php

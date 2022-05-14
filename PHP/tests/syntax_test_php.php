@@ -4147,13 +4147,13 @@ $non_sql = "NO SELECT HIGHLIGHTING!";
 
 $sql = "CREATE TABLE version";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
-//      ^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+//      ^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.double.php
 //                          ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 //      ^^^^^^ keyword.other.create.sql
 
 $sql = "
     CREATE TABLE `version`...
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.double.php
 //  ^^^^^^ keyword.other.create.sql
 ";
 
@@ -4171,7 +4171,7 @@ $sql = "
 
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.double.php
 //      ^ keyword.other.DML
 //                                             ^^^^^^ string.quoted.single.sql
 //                                                   ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
@@ -4179,14 +4179,14 @@ $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 // Ensure we properly exist from SQL when hitting PHP end-of-string
 $sql = "SELECT * FROM users WHERE first_name = 'Eric";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php - meta.interpolation - string string
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.double.php
 //      ^ keyword.other.DML
 //                                             ^^^^^ string.quoted.single.sql
 //                                                  ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
 $sql = "
     SELECT * FROM users WHERE first_name = 'Eric'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.double.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.double.php
 //  ^ keyword.other.DML
 //                                         ^^^^^^ string.quoted.single.sql
 ";
@@ -4194,15 +4194,15 @@ $sql = "
 
 $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "GROUP BY" ;
 //     ^ meta.string.php - meta.interpolation
-//      ^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^ meta.string.php source.sql.embedded.php
 //             ^ meta.string.php - meta.interpolation
 //              ^^^^^^^^^^ - meta.string
 //                        ^ meta.string.php - meta.interpolation
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                                                         ^ meta.string.php - meta.interpolation
 //                                                          ^^^^^^^^^^^ - meta.string
 //                                                                     ^ meta.string.php - meta.interpolation
-//                                                                      ^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                                                      ^ meta.string.php source.sql.embedded.php
 //                                                                       ^ meta.string.php - meta.interpolation
 //                                                                        ^^^^^ - meta.string
 //                                                                             ^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
@@ -4226,17 +4226,17 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 
 $sql = "DROP TABLE foo";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
-//      ^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                    ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
 
 $sql = "IF NOT EXISTS CREATE TABLE foo";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                                    ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
 
 $sql = "WITH RECURSION SELECT *";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
-//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                             ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
@@ -4247,7 +4247,7 @@ $non_sql = 'NO SELECT HIGHLIGHTING!';
 
 $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
 //     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php - meta.interpolation - string string
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.single.php
 //      ^ keyword.other.DML
 //                                             ^^^^^^^^ meta.string.sql string.quoted.single.sql
 //                                             ^^ constant.character.escape.php
@@ -4256,7 +4256,7 @@ $sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
 
 $sql = '
     SELECT * FROM users WHERE first_name = \'Eric\'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql - string.quoted.single.php
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.single.php
 //  ^ keyword.other.DML
 //                                         ^^ constant.character.escape.php
 ';
@@ -4264,15 +4264,15 @@ $sql = '
 
 $sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'GROUP BY' ;
 //     ^ meta.string.php - meta.interpolation
-//      ^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^ meta.string.php source.sql.embedded.php
 //             ^ meta.string.php - meta.interpolation
 //              ^^^^^^^^^^ - meta.string
 //                        ^ meta.string.php - meta.interpolation
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                                                        ^ meta.string.php - meta.interpolation
 //                                                         ^^^^^^^^^^^ - meta.string
 //                                                                    ^ meta.string.php - meta.interpolation
-//                                                                     ^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//                                                                     ^ meta.string.php source.sql.embedded.php
 //                                                                      ^ meta.string.php - meta.interpolation
 //                                                                       ^^^^^ - meta.string
 //                                                                            ^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation
@@ -4295,17 +4295,17 @@ $sql = 'SELECT ' . $col . 'FROM table WHERE ( first_name =' . $name . ')' ; . 'G
 
 $sql = 'DROP TABLE foo';
 //     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
-//      ^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                    ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
 
 $sql = 'IF NOT EXISTS CREATE TABLE foo';
 //     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                                    ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
 
 $sql = 'WITH RECURSION SELECT *';
 //     ^ meta.string.php string.quoted.single.php punctuation.definition.string.begin.php
-//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php meta.interpolation.php source.sql.embedded.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                             ^ meta.string.php string.quoted.single.php punctuation.definition.string.end.php
 
 
