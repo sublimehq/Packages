@@ -66,19 +66,20 @@
 
     . ()
 /*  ^ meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css */
-/*   ^^^ - meta.selector.css */
+/*   ^ meta.selector.css - entity - invalid - punctuation */
+/*    ^^ - meta.selector.css */
 /*    ^^ invalid.illegal.unexpected-token.css */
 
     . {}
 /*^^ - meta.selector.css */
-/*  ^ meta.selector.css */
-/*   ^^^ - meta.selector.css */
+/*  ^^ meta.selector.css */
+/*    ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.class.css punctuation.definition.entity.css */
 
     .classname {}
 /*^^ - meta.selector.css */
-/*  ^^^^^^^^^^ meta.selector.css */
-/*            ^^^ - meta.selector.css */
+/*  ^^^^^^^^^^^ meta.selector.css */
+/*             ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.class.css punctuation.definition.entity.css */
 /*   ^^^^^^^^^ entity.other.attribute-name.class.css - punctuation */
 
@@ -90,56 +91,56 @@
 
     # {}
 /*^^ - meta.selector.css */
-/*  ^ meta.selector.css */
-/*   ^^^ - meta.selector.css */
+/*  ^^ meta.selector.css */
+/*    ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 
     #* {}
 /*^^ - meta.selector.css */
-/*  ^^ meta.selector.css */
-/*    ^^^ - meta.selector.css */
+/*  ^^^ meta.selector.css */
+/*     ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 /*   ^ variable.language.wildcard.asterisk.css - punctuation */
 
     #01 {}
 /*^^ - meta.selector.css */
-/*  ^^^ meta.selector.css */
-/*     ^^^ - meta.selector.css */
+/*  ^^^^ meta.selector.css */
+/*      ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 /*   ^^ - entity - punctuation */
 
     #_1 {}
 /*^^ - meta.selector.css */
-/*  ^^^ meta.selector.css */
-/*     ^^^ - meta.selector.css */
+/*  ^^^^ meta.selector.css */
+/*      ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 /*   ^^ entity.other.attribute-name.id.css - punctuation */
 
     #ℜ- {}
 /*^^ - meta.selector.css */
-/*  ^^^ meta.selector.css */
-/*     ^^^ - meta.selector.css */
+/*  ^^^^ meta.selector.css */
+/*      ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 /*   ^^ entity.other.attribute-name.id.css - punctuation */
 
     #\211C \7B- {}
 /*^^ - meta.selector.css */
-/*  ^^^^^^^^^^^ meta.selector.css */
-/*             ^^^ - meta.selector.css */
+/*  ^^^^^^^^^^^^ meta.selector.css */
+/*              ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 /*   ^^^^^^^^^^ entity.other.attribute-name.id.css - punctuation */
 
     #id {}
 /*^^ - meta.selector.css */
-/*  ^^^ meta.selector.css */
-/*     ^^^ - meta.selector.css */
+/*  ^^^^ meta.selector.css */
+/*      ^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 /*   ^^ entity.other.attribute-name.id.css - punctuation */
 
     html, h1 {}
 /*^^ - meta.selector.css */
-/*  ^^^^^^^^ meta.selector.css */
-/*          ^^^ - meta.selector.css */
+/*  ^^^^^^^^^ meta.selector.css */
+/*           ^^ - meta.selector.css */
 /*  ^^^^ entity.name.tag.html.css */
 /*      ^ punctuation.separator.sequence.css */
 /*        ^^ entity.name.tag.html.css */
@@ -738,8 +739,7 @@
 
 @keyframes test-keyframes-keywords {
     from, to {}
-/*  ^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
-/*          ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
 /*           ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*             ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^^^^ keyword.other.selector.css */
@@ -747,8 +747,7 @@
 /*        ^^ keyword.other.selector.css */
 
     0%, 100% {}
-/*  ^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
-/*          ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
 /*           ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*             ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -758,8 +757,7 @@
 /*         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     .99%, 100.99% {}
-/*  ^^^^^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
-/*               ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
 /*                ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*                  ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^^^ meta.number.float.decimal.css constant.numeric.value.css */
@@ -771,8 +769,7 @@
 /*              ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     0%, to {}
-/*  ^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
-/*        ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
 /*         ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*           ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -781,16 +778,14 @@
 /*      ^^ keyword.other.selector.css */
 
     %, to {}
-/*  ^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
-/*       ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
 /*        ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*          ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*   ^ punctuation.separator.sequence.css */
 /*     ^^ keyword.other.selector.css */
 
     , to {}
-/*  ^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
-/*      ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
 /*       ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*         ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^ punctuation.separator.sequence.css */
@@ -866,8 +861,7 @@
 {
 /* <- meta.at-rule.document.css meta.block.css punctuation.section.block.begin.css */
     .class {
-/*  ^^^^^^ meta.at-rule.document.css meta.block.css meta.selector.css - meta.property-list - meta.block meta.block */
-/*        ^ meta.at-rule.document.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^ meta.at-rule.document.css meta.block.css meta.selector.css - meta.property-list - meta.block meta.block */
 /*         ^^ meta.at-rule.document.css meta.block.css meta.property-list.css meta.block.css */
 /*  ^^^^^^ entity.other.attribute-name.class.css */
 /*         ^ punctuation.section.block.begin.css */
@@ -1063,8 +1057,7 @@
 {
 /* <- meta.at-rule.supports.css meta.block.css punctuation.section.block.begin.css */
     .class {
-/*  ^^^^^^ meta.at-rule.supports.css meta.block.css meta.selector.css - meta.property-list - meta.block meta.block */
-/*        ^ meta.at-rule.supports.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^ meta.at-rule.supports.css meta.block.css meta.selector.css - meta.property-list - meta.block meta.block */
 /*         ^^ meta.at-rule.supports.css meta.block.css meta.property-list.css meta.block.css */
 /*  ^^^^^^ entity.other.attribute-name.class.css */
 /*         ^ punctuation.section.block.begin.css */
@@ -1080,10 +1073,9 @@
     @supports (display: grid) {span { display: grid; }}
 /*  ^^^^^^^^^^ meta.at-rule.supports.css - meta.block - meta.group */
 /*            ^^^^^^^^^^^^^^^ meta.at-rule.supports.css meta.group.css - meta.block */
-/*                           ^ meta.at-rule.supports.css  - meta.block - meta.group */
+/*                           ^ meta.at-rule.supports.css - meta.block - meta.group */
 /*                            ^ meta.at-rule.supports.css meta.block.css - meta.property-list - meta.selector - meta.block meta.block */
-/*                             ^^^^ meta.at-rule.supports.css meta.block.css meta.selector.css  - meta.property-list - meta.block meta.block */
-/*                                 ^ meta.at-rule.supports.css meta.block.css - meta.property-list - meta.selector - meta.block meta.block */
+/*                             ^^^^^ meta.at-rule.supports.css meta.block.css meta.selector.css - meta.property-list - meta.block meta.block */
 /*                                  ^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css meta.block.css meta.property-list.css meta.block.css */
 /*                                                    ^ meta.at-rule.supports.css meta.block.css - meta.property-list - meta.block meta.block */
 /*                                                     ^ - meta.at-rule - meta.block */
@@ -1647,8 +1639,8 @@
 }
 
 .test:has(> .class) {}
-/*^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                 ^^^ - meta.selector.css */
+/*^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                  ^^ - meta.selector.css */
 /*    ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
 /*       ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^ punctuation.section.group.begin.css */
@@ -1657,8 +1649,8 @@
 /*                ^ punctuation.section.group.end.css */
 
 .test:has(>> .class) {}
-/*^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                  ^^^ - meta.selector.css */
+/*^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                   ^^ - meta.selector.css */
 /*    ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
 /*       ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^ punctuation.section.group.begin.css */
@@ -1668,8 +1660,8 @@
 
 /* Test Functional Pseudo Class Meta Scopes */
 .test:nth-child(even) {}
-/*^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                   ^^^ - meta.selector.css */
+/*^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                    ^^ - meta.selector.css */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
 /*             ^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^ punctuation.section.group.begin.css */
@@ -1688,8 +1680,8 @@
 /* ^^^ meta.selector.css */
 /*  ^ punctuation.separator.sequence.css */
 .test:nth-child( /**/ 2) /**/ {}
-/*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                           ^^^^ - meta.selector */
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                            ^^^ - meta.selector */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
 /*             ^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^ punctuation.section.group.begin.css */
@@ -1733,8 +1725,8 @@
 /*              ^^^^ invalid.illegal.numeric.css */
 
 .test-pseudo-classes:nth-child(2):hover {}
-/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                                     ^^ - meta.selector.css */
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                                      ^^ - meta.selector.css */
 /*                   ^^^^^^^^^ entity.other.pseudo-class.css */
 /*                             ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                               ^ punctuation.definition.pseudo-class.css - entity */
@@ -1842,7 +1834,8 @@
 
 .test-attribute-selectors[disabled][ /**/ type=button] {}
 /*                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                                    ^^^ - meta.selector.css - meta.attribute-selector */
+/*                                                    ^ meta.selector.css - meta.attribute-selector */
+/*                                                     ^^ - meta.selector.css - meta.attribute-selector */
 /*                       ^^^^^^^^^^ meta.attribute-selector.css */
 /*                       ^ punctuation.section.brackets.begin.css */
 /*                        ^^^^^^^^ entity.other.attribute-name.css */
@@ -1855,7 +1848,8 @@
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ button /**/ ] {}
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                                                       ^^^ - meta.selector.css - meta.attribute-selector */
+/*                                                                       ^ meta.selector.css - meta.attribute-selector */
+/*                                                                        ^^ - meta.selector.css - meta.attribute-selector */
 /*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^^^^ comment.block.css */
 /*                                         ^^^^ entity.other.attribute-name.css */
@@ -1867,7 +1861,8 @@
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ 'button' /**/ ] {}
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                                                         ^^^ - meta.selector.css - meta.attribute-selector */
+/*                                                                         ^ meta.selector.css - meta.attribute-selector */
+/*                                                                          ^^ - meta.selector.css - meta.attribute-selector */
 /*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^^^^ comment.block.css */
 /*                                         ^^^^ entity.other.attribute-name.css */
@@ -1879,7 +1874,8 @@
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ "button" /**/ ] {}
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                                                         ^^^ - meta.selector.css - meta.attribute-selector */
+/*                                                                         ^ meta.selector.css - meta.attribute-selector */
+/*                                                                          ^^ - meta.selector.css - meta.attribute-selector */
 /*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^^^^ comment.block.css */
 /*                                         ^^^^ entity.other.attribute-name.css */
@@ -1891,7 +1887,8 @@
 
 .test-attribute-selectors-illegal[button button = button button i button] {}
 /*                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                                                       ^^^ - meta.selector.css - meta.attribute-selector */
+/*                                                                       ^ meta.selector.css - meta.attribute-selector */
+/*                                                                        ^^ - meta.selector.css - meta.attribute-selector */
 /*                               ^ punctuation.section.brackets.begin.css */
 /*                                ^^^^^^ entity.other.attribute-name.css */
 /*                                       ^^^^^^ invalid.illegal.css */
@@ -1903,16 +1900,15 @@
 /*                                                                      ^ punctuation.section.brackets.end.css */
 
 .test-attribute-selectors-incomplete[=button {}
-/*                                  ^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                          ^ - meta.property-list - meta.selector */
+/*                                  ^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                           ^^ meta.property-list.css - meta.selector */
 /*                                  ^ punctuation.section.brackets.begin.css */
 /*                                   ^ keyword.operator.logical.css */
 /*                                    ^^^^^^ meta.string.css string.unquoted.css */
 
 .test-attribute-selectors-incomplete[ ;
-/*                                  ^ meta.selector.css meta.attribute-selector.css */
-/*                                   ^^ - meta.property-list - meta.selector */
+/*                                  ^^ meta.selector.css meta.attribute-selector.css */
+/*                                    ^ - meta.property-list - meta.selector */
 /*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^ punctuation.terminator.rule.css */
 
