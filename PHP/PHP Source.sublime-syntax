@@ -507,8 +507,7 @@ contexts:
     - include: declarations
     - include: statements
     - include: expressions
-    - match: \}
-      scope: invalid.illegal.stray.php
+    - include: stray-braces
 
   declarations:
     - include: class-declarations
@@ -552,8 +551,8 @@ contexts:
     - include: modifiers
     - include: types
     - include: constants
-    - match: '[])]'
-      scope: invalid.illegal.stray.php
+    - include: stray-brackets
+    - include: stray-parens
 
   nested-expressions:
     # A possible sequence of expressions, which may be terminated by statements.
@@ -1181,6 +1180,10 @@ contexts:
       scope: punctuation.section.block.end.php
       pop: 1
 
+  stray-braces:
+    - match: \}
+      scope: punctuation.section.block.end.php
+
 ###[ CONTROL FLOW STATEMENTS ]################################################
 
   control-statements:
@@ -1473,6 +1476,10 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.php
       pop: 1
+
+  stray-parens:
+    - match: \)
+      scope: punctuation.section.group.end.php
 
 ###[ DEFINE CALLS ]###########################################################
 
@@ -1815,6 +1822,10 @@ contexts:
       scope: punctuation.section.brackets.end.php
       pop: 1
     - include: nested-expressions
+
+  stray-brackets:
+    - match: \]
+      scope: punctuation.section.brackets.end.php
 
 ###[ ATTRIBUTES ]#############################################################
 

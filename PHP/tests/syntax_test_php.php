@@ -4961,56 +4961,115 @@ function embedHtml() {
 //                           ^ punctuation.definition.tag.end.html
 
 <script>
+//^^^^^^ text.html.php meta.tag
     var foo = 4;
+// ^^^^^^^^^^^^^^ source.js.embedded
 //  ^ keyword.declaration
 //      ^^^ variable.other.readwrite
 //          ^ keyword.operator
 //            ^ constant.numeric
     <?
+//  ^^ punctuation.section.embedded.begin.php
     if ($minimal_increase) {
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php source.js.embedded source.php.embedded.js
+//     ^^^^^^^^^^^^^^^^^^^ meta.group.php
+//                         ^^ meta.block.php
+//  ^^ keyword.control.conditional.if.php
+//     ^ punctuation.section.group.begin.php
+//      ^^^^^^^^^^^^^^^^^ variable.other.php
+//                       ^ punctuation.section.group.end.php
+//                         ^ punctuation.section.block.begin.php
         ?>
+//     ^^^^ text.html.php source.js.embedded
+//     ^ source.php.embedded.js meta.block.php
+//      ^^ punctuation.section.embedded.end.php - source.php
         foo += 1;
 //      ^^^^^^^^^ source.js.embedded
 //      ^^^ variable.other.readwrite
 //          ^^ keyword.operator
 //             ^ constant.numeric
         <?
+//     ^^^^ text.html.php source.js.embedded.html
+//      ^^ punctuation.section.embedded.begin.php - source.php
+//        ^ source.php.embedded.js
     } else {
-//  ^^^^^^^^ source.php
+// ^^^^^^^^^^ text.html.php source.js.embedded source.php.embedded.js
+//  ^ punctuation.section.block.end.php
+//    ^^^^ keyword.control.conditional.else.php
+//         ^ punctuation.section.block.begin.php
         ?>
-//      ^^ meta.embedded.php - source.php
+//     ^^^^ text.html.php source.js.embedded
+//     ^ source.php.embedded.js meta.block.php
+//      ^^ punctuation.section.embedded.end.php - source.php
         foo *= 2;
 //      ^^^^^^^^^ source.js.embedded
 //      ^^^ variable.other.readwrite
 //          ^^ keyword.operator
 //             ^ constant.numeric
         <?
-//      ^^ meta.embedded.php - source.php
+//     ^^^^ text.html.php source.js.embedded.html
+//      ^^ punctuation.section.embedded.begin.php - source.php
+//        ^ source.php.embedded.js
     }
+// ^^^ text.html.php source.js.embedded.html
+//  ^ punctuation.section.block.end.php
     ?>
+// ^^^^ text.html.php source.js.embedded
+// ^ source.php.embedded.js - meta.block
+//  ^^ punctuation.section.embedded.end.php - source.php
 </script>
+
 <style>
 h1 {
     font-family: Arial;
+// ^^^^^^^^^^^^^^^^^^^^^ text.html.php source.css.embedded
 //  ^^^^^^^^^^^ support.type.property-name
 //               ^^^^^ string.unquoted
+
     <? if ($minimal_increase) { ?>
-//  ^^ meta.embedded.php - source.php
-//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
-//                              ^^ meta.embedded.php - source.php
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php source.css.embedded meta.block.css meta.embedded.php
+//  ^^ - source.php
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php.embedded.css
+//                              ^^ - source.php
+//  ^^ punctuation.section.embedded.begin.php
+//     ^^ keyword.control.conditional.if.php
+//        ^ punctuation.section.group.begin.php
+//         ^^^^^^^^^^^^^^^^^ variable.other.php
+//                          ^ punctuation.section.group.end.php
+//                            ^ punctuation.section.block.begin.php
+//                              ^^ punctuation.section.embedded.end.php
+
         font-size: 2em;
+//     ^^^^^^^^^^^^^^^^^ text.html.php source.css.embedded
 //      ^^^^^^^^^ support.type.property-name
 //                 ^ constant.numeric
     <? } else { ?>
-//  ^^ meta.embedded.php - source.php
-//    ^^^^^^^^^^ source.php
-//       ^^^^ keyword.control
-//              ^^ meta.embedded.php - source.php
+//  ^^^^^^^^^^^^^^ text.html.php source.css.embedded meta.block.css meta.embedded.php
+//  ^^ - source.php
+//    ^^^^^^^^^^ source.php.embedded.css
+//              ^^ - source.php
+//  ^^ punctuation.section.embedded.begin.php
+//     ^ punctuation.section.block.end.php
+//       ^^^^ keyword.control.conditional.else.php
+//            ^ punctuation.section.block.begin.php
+//              ^^ punctuation.section.embedded.end.php
+
         font-size: 3em;
+//     ^^^^^^^^^^^^^^^^^ text.html.php source.css.embedded
 //      ^^^^^^^^^ support.type.property-name
 //                 ^ constant.numeric
     <? } ?>
+//  ^^^^^^^ text.html.php source.css.embedded meta.block.css meta.embedded.php
+//  ^^ - source.php
+//    ^^^ source.php.embedded.css
+//       ^^ - source.php
+//  ^^ punctuation.section.embedded.begin.php
+//     ^ punctuation.section.block.end.php
+//       ^^ punctuation.section.embedded.end.php
+
 }
+// <- text.html.php source.css.embedded punctuation.section.block.end.css
+
 </style>
 
   <?phpzzzz
