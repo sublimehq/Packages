@@ -2826,6 +2826,24 @@ contexts:
       pop: 1
     - include: expressions
 
+###[ PROTOTYPES ]#############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  eol-pop:
+    - match: $
+      pop: 1
+
+  expression-end-pop:
+    - match: '{{expression_end}}'
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
 ###[ BUILTINS ]###############################################################
 
   support-function-name:
@@ -3591,21 +3609,3 @@ contexts:
           is_int | is_integer
         )\b
       scope: support.function.alias.php
-
-###[ PROTOTYPES ]#############################################################
-
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  eol-pop:
-    - match: $
-      pop: 1
-
-  expression-end-pop:
-    - match: '{{expression_end}}'
-      pop: 1
-
-  immediately-pop:
-    - match: ''
-      pop: 1
