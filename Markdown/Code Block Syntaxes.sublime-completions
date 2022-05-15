@@ -577,5 +577,11 @@
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>YAML</code> code highlighting"
 		},
+		{
+			"trigger": "yml",
+			"annotation": "YAML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>YAML</code> code highlighting"
+		},
 	],
 }
