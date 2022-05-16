@@ -1047,6 +1047,11 @@ contexts:
         - ts-object-literal-element-modifier
         - object-literal-element
 
+  object-literal-property-check:
+    - meta_prepend: true
+    - match: (?=<)
+      fail: object-literal-property
+
   ts-object-literal-element-modifier:
     - match: '{{modifier}}'
       scope: storage.modifier.js

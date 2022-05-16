@@ -1227,6 +1227,11 @@ const x = {
     readonly get,
 //  ^^^^^^^^ storage.modifier
 //           ^^^ variable.other.readwrite
+
+    f<T>() {},
+//  ^^^^^^^^^ meta.function
+//  ^ entity.name.function
+//   ^^^ meta.generic
 };
 
     true ? (a) : <T,foo="a">() => {} => {} : null; // </T>;
