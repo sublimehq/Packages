@@ -15,6 +15,7 @@ def get_properties():
     """
     common_values = get_common_values()
     properties_dict = {
+        "accent-color": ["auto", "<calc>", "<color>"],
         "additive-symbols": [],
         "align-content": [
             "center",
@@ -34,7 +35,7 @@ def get_properties():
             "stretch",
         ],
         "align-tracks": ["normal"],
-        "all": ["revert"],
+        "all": [],
         "alt": [],
         "animation": [
             "<animation-direction>",
@@ -61,6 +62,7 @@ def get_properties():
         ],
         "animation-play-state": ["running", "paused"],
         "animation-timing-function": ["<calc>", "<timing>"],
+        "animation-timeline": ["auto", "none"],
         "appearance": ["auto", "menulist-button", "none", "textfield"],
         "aspect-ratio": ["auto"],
         "azimuth": [
@@ -232,8 +234,9 @@ def get_properties():
         "clip-path": ["none", "<uri>", "<basic-shape>"],
         "clip-rule": ["nonzero", "evenodd"],
         "color": ["<color>"],
-        "color-adjust": ["economy", "exact"],
+        "color-interpolation": ["auto", "sRGB", "linearRGB"],
         "color-interpolation-filters": ["auto", "sRGB", "linearRGB"],
+        "color-scheme": ["normal", "light", "dark", "only"],
         "column-count": [
             "<calc>",
             "auto",
@@ -336,7 +339,6 @@ def get_properties():
             "flow",
             "flow-root",
             "grid",
-            "revert",
             "ruby",
             "ruby-base",
             "ruby-text",
@@ -404,7 +406,7 @@ def get_properties():
         "font": [
             "<absolute-weight>",
             "<calc>",
-            "<generic-name>",
+            "<generic-font-name>",
             "<relative-weight>",
             "caption",
             "icon",
@@ -417,7 +419,7 @@ def get_properties():
             "status-bar",
         ],
         "font-display": ["auto", "block", "fallback", "optional", "swap"],
-        "font-family": ["<generic-name>"],
+        "font-family": ["<generic-font-name>"],
         "font-feature-settings": ["normal", "<string>"],
         "font-kerning": ["auto", "normal", "none"],
         "font-language-override": ["normal", "<string>"],
@@ -429,6 +431,12 @@ def get_properties():
         ],
         "font-size-adjust": [
             "<calc>",
+            "ex-height",
+            "cap-height",
+            "ch-width",
+            "ic-width",
+            "ic-height",
+            "from-font",
             "none",
         ],
         "font-smooth": ["always", "auto", "never"],
@@ -444,7 +452,7 @@ def get_properties():
             "ultra-expanded",
         ],
         "font-style": ["normal", "italic", "oblique"],
-        "font-synthesis": ["none", "weight", "style"],
+        "font-synthesis": ["none", "weight", "style", "small-caps"],
         "font-variant": ["normal", "small-caps"],
         "font-variant-alternates": ["<font-variant-alternates>"],
         "font-variant-caps": [
@@ -591,6 +599,7 @@ def get_properties():
         "hanging-punctuation": ["allow-end", "first", "force-end", "last", "none"],
         "height": ["<calc>", "auto", "fit-content"],
         "hyphens": ["none", "manual", "auto"],
+        "hyphenate-character": ["auto"],
         "image-orientation": ["flip", "from-image"],
         "image-rendering": ["auto", "optimizeSpeed", "optimizeQuality", "pixelated"],
         "image-resolution": ["from-image"],
@@ -602,6 +611,7 @@ def get_properties():
             "<calc>",
         ],
         "inline-size": ["<calc>", "auto"],
+        "input-security": ["auto", "none"],
         "inset": [],
         "inset-block": [],
         "inset-block-end": [],
@@ -824,6 +834,7 @@ def get_properties():
         ],
         "position": ["static", "relative", "absolute", "fixed", "sticky"],
         "prefix": [],
+        "print-color-adjust": ["economy", "exact"],
         "quotes": ["none", "<string>"],
         "range": ["auto", "infinite"],
         "resize": ["none", "both", "horizontal", "vertical"],
@@ -1150,7 +1161,7 @@ def get_properties():
 
     for names, values in properties_dict.items():
         # Values that are allowed for all properties
-        allowed_values = ["inherit", "initial", "unset", ["var()", "var($1)"]]
+        allowed_values = ["inherit", "initial", "revert", "revert-layer", "unset", ["var()", "var($1)"]]
 
         # Determine which values are available for the current property name
         for value in values:

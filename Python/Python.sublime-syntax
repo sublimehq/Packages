@@ -16,16 +16,18 @@ file_extensions:
   - pxi.in
   - rpy
   - cpy
-  - SConstruct
-  - SConscript
   - gyp
   - gypi
-  - Snakefile
-  - smk
   - vpy
+  - smk
   - wscript
   - bazel
   - bzl
+
+hidden_file_extensions:
+  - SConstruct
+  - SConscript
+  - Snakefile
 
 first_line_match: |-
   (?xi:
@@ -41,7 +43,6 @@ variables:
   digits: (?:\d+(?:_\d+)*)
   exponent: (?:[eE][-+]?{{digits}})
   path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
-  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH|DECLARE|IF\s+(?:NOT\s+)?EXISTS)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
   format_spec: |-
     (?x:
@@ -55,6 +56,18 @@ variables:
       [bcdeEfFgGnosxX%]? # type
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
+
+  sql_indicator: |-
+    (?x: \s* (?:
+    # dml statements
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE
+    # ddl statements
+    | ADD | ALTER | CREATE | DROP
+    # conditional
+    | IF \s+ (?: NOT \s+ )? EXISTS
+    # declaration
+    | DECLARE | WITH
+    ) \s )
 
   builtin_exceptions: |-
     \b(?x:
@@ -2129,9 +2142,9 @@ contexts:
         - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: meta.string.python string.quoted.double.block.python
+            - meta_scope: meta.string.python
             - match: '"""'
-              scope: punctuation.definition.string.end.python
+              scope: string.quoted.double.block.python punctuation.definition.string.end.python
               set: after-expression
             - match: ''
               push: scope:source.sql
@@ -2216,9 +2229,9 @@ contexts:
         - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: meta.string.python string.quoted.double.block.python
+            - meta_scope: meta.string.python
             - match: '"""'
-              scope: punctuation.definition.string.end.python
+              scope: string.quoted.double.block.python punctuation.definition.string.end.python
               set: after-expression
             - match: ''
               push: scope:source.sql
@@ -2282,9 +2295,9 @@ contexts:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python
         - match: '"'
-          scope: punctuation.definition.string.end.python
+          scope: string.quoted.double.python punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
         - match: ''
@@ -2376,9 +2389,9 @@ contexts:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python
         - match: '"'
-          scope: punctuation.definition.string.end.python
+          scope: string.quoted.double.python punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
         - match: ''
@@ -2448,9 +2461,9 @@ contexts:
         - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: meta.string.python string.quoted.single.block.python
+            - meta_scope: meta.string.python
             - match: "'''"
-              scope: punctuation.definition.string.end.python
+              scope: string.quoted.single.block.python punctuation.definition.string.end.python
               set: after-expression
             - match: ''
               push: scope:source.sql
@@ -2536,9 +2549,9 @@ contexts:
         - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: meta.string.python string.quoted.single.block.python
+            - meta_scope: meta.string.python
             - match: "'''"
-              scope: punctuation.definition.string.end.python
+              scope: string.quoted.single.block.python punctuation.definition.string.end.python
               set: after-expression
             - match: ''
               push: scope:source.sql
@@ -2602,9 +2615,9 @@ contexts:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python
         - match: "'"
-          scope: punctuation.definition.string.end.python
+          scope: string.quoted.single.python punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
         - match: ''
@@ -2699,9 +2712,9 @@ contexts:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python
         - match: "'"
-          scope: punctuation.definition.string.end.python
+          scope: string.quoted.single.python punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
         - match: ''

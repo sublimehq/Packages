@@ -536,10 +536,10 @@ contexts:
       scope: keyword.operator.word.cast.objc++
       push:
         - match: '>'
-          scope: punctuation.section.generic.end.objc++
+          scope: punctuation.definition.generic.end.objc++
           pop: true
         - match: '<'
-          scope: punctuation.section.generic.begin.objc++
+          scope: punctuation.definition.generic.begin.objc++
           push:
             - match: '(?=>)'
               pop: true
@@ -613,11 +613,11 @@ contexts:
         # \S lookahead in the case of comments.
         - include: comments
         - match: <
-          scope: punctuation.section.generic.begin.objc++
+          scope: punctuation.definition.generic.begin.objc++
           set:
             - meta_content_scope: meta.template.objc++
             - match: '>'
-              scope: meta.template.objc++ punctuation.section.generic.end.objc++
+              scope: meta.template.objc++ punctuation.definition.generic.end.objc++
               pop: true
             - match: \.{3}
               scope: keyword.operator.variadic.objc++
@@ -642,10 +642,10 @@ contexts:
           captures:
             1: punctuation.accessor.double-colon.objc++
             2: variable.function.objc++
-            3: punctuation.section.generic.begin.objc++
+            3: punctuation.definition.generic.begin.objc++
           push:
             - match: '>'
-              scope: punctuation.section.generic.end.objc++
+              scope: punctuation.definition.generic.end.objc++
               pop: true
             - include: expressions-minus-generic-type-function-call
         - match: (?:(::)\s*)?({{identifier}})\s*(\()
@@ -696,19 +696,19 @@ contexts:
       push:
         - include: scope:source.c++#identifiers
         - match: '<'
-          scope: punctuation.section.generic.begin.objc++
+          scope: punctuation.definition.generic.begin.objc++
           set:
             - match: '>'
-              scope: punctuation.section.generic.end.objc++
+              scope: punctuation.definition.generic.end.objc++
               pop: true
             - include: expressions-minus-generic-type-function-call
 
   angle-brackets:
     - match: '<(?!<)'
-      scope: punctuation.section.generic.begin.objc++
+      scope: punctuation.definition.generic.begin.objc++
       push:
         - match: '>'
-          scope: punctuation.section.generic.end.objc++
+          scope: punctuation.definition.generic.end.objc++
           pop: true
         - include: expressions-minus-generic-type-function-call
 
@@ -799,11 +799,11 @@ contexts:
       set:
         - meta_scope: meta.method-call.objc++
         - match: <
-          scope: punctuation.section.generic.begin.objc++
+          scope: punctuation.definition.generic.begin.objc++
           set:
             - meta_content_scope: meta.method-call.objc++
             - match: '>'
-              scope: punctuation.section.generic.end.objc++
+              scope: punctuation.definition.generic.end.objc++
               set:
                 - meta_content_scope: meta.method-call.objc++
                 - include: comments

@@ -4,12 +4,14 @@
 using System;
 
 namespace YourNamespace
-///<- storage.type.namespace
-///        ^ entity.name.namespace
+///^^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs - meta.path
+///<- keyword.declaration.namespace
+///^^^^^^ keyword.declaration.namespace.cs
+///       ^^^^^^^^^^^^^ entity.name.namespace.cs
 {
 ///<- punctuation.section.block.begin
     class YourClass
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///        ^ entity.name.class
     {
         Int x;
@@ -126,7 +128,7 @@ namespace YourNamespace
 
     struct YourStruct
 /// ^^^^^^^^^^^^^^^^^ meta.struct
-/// ^ storage.type.struct
+/// ^ keyword.declaration.struct
 ///         ^ entity.name.struct
     {
 ///^^ meta.struct
@@ -137,7 +139,7 @@ namespace YourNamespace
 
     interface IYourInterface
 /// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
-/// ^ storage.type.interface
+/// ^ keyword.declaration.interface
 ///           ^ entity.name.interface
     {
 ///^^ meta.interface
@@ -170,7 +172,7 @@ namespace YourNamespace
 
     enum YourEnum
 /// ^^^^^^^^^^^^^ meta.enum
-/// ^ storage.type.enum
+/// ^ keyword.declaration.enum
 ///        ^ entity.name.enum
     {
 ///^^ meta.enum
@@ -197,7 +199,7 @@ namespace YourNamespace
 
     namespace YourNestedNamespace
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace meta.namespace
-///     ^ storage.type.namespace
+///     ^ keyword.declaration.namespace
 ///             ^ entity.name.namespace
     {
 ///^^ meta.namespace
@@ -205,7 +207,7 @@ namespace YourNamespace
         struct YourStruct
 /// ^^^^^^^^^^^^^^^^^^^^^ meta.namespace
 ///     ^^^^^^^^^^^^^^^^^ meta.struct
-///      ^ storage.type.struct
+///      ^ keyword.declaration.struct
 ///              ^ entity.name.struct
         {
 ///     ^ meta.struct meta.block punctuation.section.block.begin
@@ -216,7 +218,7 @@ namespace YourNamespace
 
     class InheritingSomething: IYourInterface
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///       ^ entity.name.class
 ///                          ^ punctuation.separator
 ///                            ^ entity.other.inherited-class
@@ -241,8 +243,18 @@ namespace YourNamespace
 ///                                                 ^^  support.type
 ///                                                   ^  punctuation.definition.generic.end
 
-namespace TestNamespace.Test
+namespace TestNamespace . Test
+///^^^^^^^ meta.namespace.cs meta.namespace.cs - meta.path
+///       ^^^^^^^^^^^^^^^^^^^^ meta.namespace.cs meta.namespace.cs meta.path.cs
+///                           ^ meta.namespace.cs meta.namespace.cs - meta.path
+///<- keyword.declaration.namespace
+///^^^^^^ keyword.declaration.namespace.cs
+///       ^^^^^^^^^^^^^ variable.namespace.cs
+///                     ^ punctuation.accessor.dot.cs
+///                       ^^^^ entity.name.namespace.cs
 {
+/// <- meta.namespace.cs meta.namespace.cs meta.block.cs punctuation.section.block.begin.cs
+
     using NodeName = SomeNamespace.SomeClass;
 
     public class Derived : Base
@@ -435,7 +447,7 @@ namespace TestNamespace.Test
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
             catch (FaultException<ServiceFault>)
-///         ^^^^^ keyword.control.trycatch.catch
+///         ^^^^^ keyword.control.exception.catch
 ///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///               ^ punctuation.section.group.begin
 ///                ^^^^^^^^^^^^^^ support.type
@@ -446,11 +458,11 @@ namespace TestNamespace.Test
             {
 ///         ^ punctuation.section.block.begin
                 throw;
-///             ^^^^^ keyword.control.trycatch.throw
+///             ^^^^^ keyword.control.flow.throw
 ///                  ^ punctuation
             }
             catch (FaultException<ServiceFault> e)
-///         ^^^^^ keyword.control.trycatch.catch
+///         ^^^^^ keyword.control.exception.catch
 ///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///               ^ punctuation.section.group.begin
 ///                ^^^^^^^^^^^^^^ support.type
@@ -463,7 +475,7 @@ namespace TestNamespace.Test
             {
 ///         ^ punctuation.section.block.begin
                 throw;
-///             ^^^^^ keyword.control.trycatch.throw
+///             ^^^^^ keyword.control.flow.throw
 ///                  ^ punctuation
             }
 ///         ^ punctuation.section.block.end
@@ -547,7 +559,7 @@ namespace TestNamespace.Test
 
     class YourMainClass
 /// ^^^^^^^^^^^^^^^^^^^ meta.class
-///   ^ storage.type.class
+///   ^ keyword.declaration.class
 ///          ^ entity.name.class
     {
 /// ^ meta.class meta.block punctuation.section.block.begin
@@ -1030,17 +1042,17 @@ namespace TestNamespace.Test
 ///                   ^ punctuation.terminator.statement - meta.function.anonymous
 
         try
-///     ^^^ keyword.control.trycatch.try
+///     ^^^ keyword.control.exception.try
         {
 
         }
         catch (InvalidOperationException ex)
-///     ^^^^^ keyword.control.trycatch.catch
+///     ^^^^^ keyword.control.exception.catch
         {
 
         }
         finally
-///     ^^^^^^^ keyword.control.trycatch.finally
+///     ^^^^^^^ keyword.control.exception.finally
         {
 
         }
@@ -1052,17 +1064,17 @@ namespace TestNamespace.Test
 ///                               ^ punctuation.terminator.statement - meta.function.anonymous
 
         try
-///     ^^^ keyword.control.trycatch.try
+///     ^^^ keyword.control.exception.try
         {
 
         }
         catch (InvalidOperationException ex)
-///     ^^^^^ keyword.control.trycatch.catch
+///     ^^^^^ keyword.control.exception.catch
         {
 
         }
         finally
-///     ^^^^^^^ keyword.control.trycatch.finally
+///     ^^^^^^^ keyword.control.exception.finally
         {
         }
 
@@ -1076,18 +1088,18 @@ namespace TestNamespace.Test
 ///                                    ^ punctuation.terminator.statement - meta.function.anonymous
 
         try
-///     ^^^ keyword.control.trycatch.try
+///     ^^^ keyword.control.exception.try
         {
 
         }
         catch (InvalidOperationException)
-///     ^^^^^ keyword.control.trycatch.catch
+///     ^^^^^ keyword.control.exception.catch
 ///            ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type
         {
 
         }
         finally
-///     ^^^^^^^ keyword.control.trycatch.finally
+///     ^^^^^^^ keyword.control.exception.finally
         {
         }
 
@@ -1307,7 +1319,7 @@ void Main () { // method outside a class, i.e. a LINQPad script
 
 public class AfterTopLevelMethod {
 ///^^^ storage.modifier.access
-///    ^^^^^ storage.type.class
+///    ^^^^^ keyword.declaration.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors

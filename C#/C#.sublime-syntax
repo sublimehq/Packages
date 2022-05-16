@@ -236,15 +236,16 @@ contexts:
         3: meta.path.cs
       push: using_namespace
 
-  namespace_alias:
+  namespace_variables:
     - match: '(?:(global)|({{name}}))\s*(::)'
+      scope: meta.path.cs
       captures:
-        1: support.namespace.cs
-        2: variable.other.namespace.cs
+        1: support.namespace.global.cs
+        2: variable.namespace.cs
         3: punctuation.accessor.double-colon.namespace.cs
 
   using_namespace:
-    - include: namespace_alias
+    - include: namespace_variables
     - match: '{{name}}'
       scope: meta.path.cs
     - match: '='
@@ -264,28 +265,55 @@ contexts:
 
   namespace_declaration:
     # package declaration
-    - match: '\b(namespace)\b'
-      scope: storage.type.namespace.cs
+    - match: \b(namespace)\b
+      scope: keyword.declaration.namespace.cs
       push:
-        - meta_scope: meta.namespace.cs
-        - match: '(?={{name}})'
-          push:
-            - meta_content_scope: entity.name.namespace.cs
-            - match: '{{name}}'
-            - match: \.
-              scope: punctuation.separator.namespace.cs
-            - match: ''
-              pop: true
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.namespace.cs meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - include: main
-        - match: (?=\S)
-          pop: true
+        - namespace_declaration_meta
+        - namespace_declaration_block
+        - namespace_declaration_name
+
+  namespace_declaration_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.namespace.cs
+    - match: ''
+      pop: true
+
+  namespace_declaration_name:
+    - match: ({{name}})\s*(\.)
+      captures:
+        1: variable.namespace.cs
+        2: punctuation.accessor.dot.cs
+      set: qualified_namespace_declaration_name
+    - include: unqualified_namespace_declaration_name
+
+  qualified_namespace_declaration_name:
+    - meta_scope: meta.path.cs
+    - match: ({{name}})\s*(\.)
+      captures:
+        1: variable.namespace.cs
+        2: punctuation.accessor.dot.cs
+    - include: unqualified_namespace_declaration_name
+
+  unqualified_namespace_declaration_name:
+    - match: '{{name}}'
+      scope: entity.name.namespace.cs
+      pop: true
+    - match: (?=\S)
+      pop: true
+
+  namespace_declaration_block:
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: namespace_declaration_block_body
+    - match: (?=\S)
+      pop: true
+
+  namespace_declaration_block_body:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - include: main
 
   class_declaration:
     - match: '\b(static|unsafe|abstract|partial|sealed)\b'
@@ -294,27 +322,27 @@ contexts:
       scope: storage.modifier.access.cs
     - match: \b(class)\s+({{name}})
       captures:
-        1: storage.type.class.cs
+        1: keyword.declaration.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
     - match: (?:\b(readonly)\s+)?\b(record)\s+(?:(struct)\s+)?({{name}})
       captures:
         1: storage.modifier.cs
-        2: storage.type.class.record.cs
-        3: storage.type.struct.record.cs
+        2: keyword.declaration.class.record.cs
+        3: keyword.declaration.struct.record.cs
         4: entity.name.class.cs
       push: [record_signature, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
         2: storage.modifier.cs
-        3: storage.type.struct.cs
+        3: keyword.declaration.struct.cs
         4: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs
       captures:
-        1: storage.type.enum.cs
+        1: keyword.declaration.enum.cs
         2: entity.name.enum.cs
         3: punctuation.separator.key-value.type.cs
         4: storage.type.cs
@@ -346,7 +374,7 @@ contexts:
   interface_declaration:
     - match: '(interface)\s+({{name}})'
       captures:
-        1: storage.type.interface.cs
+        1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
       push: [interface_signature, data_type_signature]
 
@@ -503,17 +531,13 @@ contexts:
   type_constraint_common:
     - match: (?=\{)
       pop: true
+    - include: namespace_variables
     - match: '\b(where)\s+(?:({{base_type}})|({{name}}))\s*(:)'
       captures:
         1: storage.modifier.cs
         2: storage.type.cs
         3: support.type.cs
         4: punctuation.separator.type.cs
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: meta.path.cs
-        3: punctuation.accessor.double-colon.namespace.cs
     - match: '(class|struct|interface)'
       scope: storage.type.cs
     - match: 'new\s*\(\s*\)'
@@ -664,7 +688,7 @@ contexts:
       scope: meta.method.cs
       captures:
         1: entity.other.inherited-class.cs
-        2: meta.generic.cs punctuation.section.generic.begin.cs
+        2: meta.generic.cs punctuation.definition.generic.begin.cs
       push:
         - meta_content_scope: meta.method.cs meta.generic.cs
         - match: '(>)\s*(\.)'
@@ -864,6 +888,7 @@ contexts:
 
   attribute_in:
     - meta_scope: meta.annotation.cs
+    - include: namespace_variables
     - match: '({{name}})\s*(\()'
       captures:
         1: variable.annotation.cs
@@ -871,13 +896,8 @@ contexts:
       set: [attribute_arguments, arguments]
     - match: '({{name}})\s*(\.)'
       captures:
-        1: variable.other.namespace.cs
+        1: variable.namespace.cs
         2: punctuation.accessor.dot.namespace.cs
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: support.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
     - match: '{{name}}'
       scope: variable.annotation.cs
     - match: ','
@@ -916,7 +936,7 @@ contexts:
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [for_block, foreach_var_assignment, var_declaration_including_tuple]
     - match: \b(try)\b
-      scope: keyword.control.trycatch.try.cs
+      scope: keyword.control.exception.try.cs
       set: [finally_block, catch_expr, try_block]
     - match: \b(using)\s*(\()
       captures:
@@ -954,7 +974,7 @@ contexts:
         2: punctuation.terminator.statement.cs
       pop: true
     - match: \b(throw)\b
-      scope: keyword.control.trycatch.throw.cs
+      scope: keyword.control.flow.throw.cs
       set: line_of_code_in
     - match: \b(goto)\s+(case)\b
       captures:
@@ -999,7 +1019,7 @@ contexts:
         1: entity.name.label.cs
         2: punctuation.separator.cs
       pop: true
-    - include: namespace_alias
+    - include: namespace_variables
     - match: '({{name}})\s+({{name}})'
       captures:
         1: support.type.cs
@@ -1327,11 +1347,7 @@ contexts:
       push: switch_expression
     - match: '({{reserved}})\b'
       scope: keyword.other.cs
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: support.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
+    - include: namespace_variables
     - match: '{{name}}'
       scope: variable.other.cs
     - match: '@'
@@ -1543,7 +1559,7 @@ contexts:
           push: var_declaration_explicit
 
   type_common:
-    - include: namespace_alias
+    - include: namespace_variables
     - match: '(class|struct|enum)'
       scope: storage.type.other.cs
     - match: 'new\s*\(\s*\)'
@@ -1861,11 +1877,11 @@ contexts:
   catch_expr:
     - match: '(catch)\s*(\()'
       captures:
-        1: keyword.control.trycatch.catch.cs
+        1: keyword.control.exception.catch.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       push: [catch_block, var_declaration_explicit]
     - match: 'catch'
-      scope: keyword.control.trycatch.catch.cs
+      scope: keyword.control.exception.catch.cs
       push: trycatch_block
     - match: (?=\S)
       pop: true
@@ -1878,7 +1894,7 @@ contexts:
 
   catch_when:
     - match: \bwhen\b
-      scope: keyword.control.trycatch.when.cs
+      scope: keyword.control.exception.when.cs
       set:
         - match: \(
           scope: punctuation.section.group.begin.cs
@@ -1896,7 +1912,7 @@ contexts:
   finally_block:
     - meta_scope: meta.block.trycatch.cs
     - match: finally\b
-      scope: keyword.control.trycatch.finally.cs
+      scope: keyword.control.exception.finally.cs
       set: trycatch_block
     - match: (?=\S)
       pop: true

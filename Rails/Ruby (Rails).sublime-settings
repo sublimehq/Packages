@@ -1,0 +1,5 @@
+{
+  // This gives precedence over the first file_extensions entry in the
+  // "Ruby (Rails).sublime-syntax" file.
+  "default_extension": "rb"
+}

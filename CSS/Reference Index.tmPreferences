@@ -3,6 +3,7 @@
 <dict>
 	<key>scope</key>
 	<string>
+		source.css meta.at-rule.import meta.function-call.arguments entity.other.layer,
 		source.css variable.other.custom-property
 	</string>
 	<key>settings</key>
