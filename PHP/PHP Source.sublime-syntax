@@ -2425,12 +2425,14 @@ contexts:
     - match: '{{heredoc_unquoted_end}}'
       pop: 1
     - include: string-escapes
+    - include: string-placeholders
     - include: string-interpolations
 
   heredoc-plain-content:
     - meta_content_scope: meta.string.heredoc.php string.unquoted.heredoc.php
     - match: '{{heredoc_quoted_end}}'
       pop: 1
+    - include: string-placeholders
 
 ###[ STRINGS ]################################################################
 
@@ -2522,6 +2524,7 @@ contexts:
     - meta_content_scope: string.quoted.double.php
     - include: string-double-quoted-end
     - include: string-escapes
+    - include: string-placeholders
     - include: string-interpolations
 
   string-double-quoted-sql-content:
@@ -2601,6 +2604,7 @@ contexts:
     - meta_scope: meta.string.php
     - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
+    - include: string-placeholders
     - match: \\[\\'']
       scope: constant.character.escape.php
 
@@ -2639,6 +2643,24 @@ contexts:
       scope: constant.character.escape.unicodepoint.php
     - match: \\[nrt\\\$\"]
       scope: constant.character.escape.php
+
+  string-placeholders:
+    # https://www.php.net/manual/en/function.printf.php
+    - match: '%%'
+      scope: constant.character.escape.php
+    # %[argnum$][flags][width][.precision]specifier
+    - match: |-
+        (?x)
+        (%)                         # punctuation
+        (?: \d+\$ )?                # argnum
+        [-+]? (?: [ 0] | '. )?      # flags
+        \d*                         # width
+        (?: (\.) \d* )?             # precision
+        [bcdeEfFgGhHosuxX]          # specifier
+      scope: constant.other.placeholder.php
+      captures:
+        1: punctuation.definition.placeholder.php
+        2: punctuation.separator.decimal.php
 
   string-interpolations:
     # PHP variable/expressions interpolated into string contexts

@@ -3746,6 +3746,159 @@ $var4 = 0b0_1_1_1;
 //                                               ^^ constant.character.escape.php
 //                                                 ^^^^^ - constant.character
 
+    'format: %b %d %c %d %e %E %f %F %g %G %h %H %o %s %u %x %X %%'
+//           ^ punctuation.definition.placeholder.php
+//           ^^ constant.other.placeholder.php
+//             ^ - constant.other.placeholder - punctuation
+//              ^ punctuation.definition.placeholder.php
+//              ^^ constant.other.placeholder.php
+//                ^ - constant.other.placeholder - punctuation
+//                 ^ punctuation.definition.placeholder.php
+//                 ^^ constant.other.placeholder.php
+//                   ^ - constant.other.placeholder - punctuation
+//                    ^ punctuation.definition.placeholder.php
+//                    ^^ constant.other.placeholder.php
+//                      ^ - constant.other.placeholder - punctuation
+//                       ^ punctuation.definition.placeholder.php
+//                       ^^ constant.other.placeholder.php
+//                         ^ - constant.other.placeholder - punctuation
+//                          ^ punctuation.definition.placeholder.php
+//                          ^^ constant.other.placeholder.php
+//                            ^ - constant.other.placeholder - punctuation
+//                             ^ punctuation.definition.placeholder.php
+//                             ^^ constant.other.placeholder.php
+//                               ^ - constant.other.placeholder - punctuation
+//                                ^ punctuation.definition.placeholder.php
+//                                ^^ constant.other.placeholder.php
+//                                  ^ - constant.other.placeholder - punctuation
+//                                   ^ punctuation.definition.placeholder.php
+//                                   ^^ constant.other.placeholder.php
+//                                     ^ - constant.other.placeholder - punctuation
+//                                      ^ punctuation.definition.placeholder.php
+//                                      ^^ constant.other.placeholder.php
+//                                        ^ - constant.other.placeholder - punctuation
+//                                         ^ punctuation.definition.placeholder.php
+//                                         ^^ constant.other.placeholder.php
+//                                           ^ - constant.other.placeholder - punctuation
+//                                            ^ punctuation.definition.placeholder.php
+//                                            ^^ constant.other.placeholder.php
+//                                              ^ - constant.other.placeholder - punctuation
+//                                               ^ punctuation.definition.placeholder.php
+//                                               ^^ constant.other.placeholder.php
+//                                                 ^ - constant.other.placeholder - punctuation
+//                                                  ^ punctuation.definition.placeholder.php
+//                                                  ^^ constant.other.placeholder.php
+//                                                    ^ - constant.other.placeholder - punctuation
+//                                                     ^ punctuation.definition.placeholder.php
+//                                                     ^^ constant.other.placeholder.php
+//                                                       ^ - constant.other.placeholder - punctuation
+//                                                        ^ punctuation.definition.placeholder.php
+//                                                        ^^ constant.other.placeholder.php
+//                                                          ^ - constant.other.placeholder - punctuation
+//                                                           ^ punctuation.definition.placeholder.php
+//                                                           ^^ constant.other.placeholder.php
+//                                                             ^ - constant.other.placeholder - punctuation
+//                                                              ^^ constant.character.escape.php - punctuation
+//                                                                ^ - constant
+
+    "format: %b %d %c %d %e %E %f %F %g %G %h %H %o %s %u %x %X %%"
+//           ^ punctuation.definition.placeholder.php
+//           ^^ constant.other.placeholder.php
+//             ^ - constant.other.placeholder - punctuation
+//              ^ punctuation.definition.placeholder.php
+//              ^^ constant.other.placeholder.php
+//                ^ - constant.other.placeholder - punctuation
+//                 ^ punctuation.definition.placeholder.php
+//                 ^^ constant.other.placeholder.php
+//                   ^ - constant.other.placeholder - punctuation
+//                    ^ punctuation.definition.placeholder.php
+//                    ^^ constant.other.placeholder.php
+//                      ^ - constant.other.placeholder - punctuation
+//                       ^ punctuation.definition.placeholder.php
+//                       ^^ constant.other.placeholder.php
+//                         ^ - constant.other.placeholder - punctuation
+//                          ^ punctuation.definition.placeholder.php
+//                          ^^ constant.other.placeholder.php
+//                            ^ - constant.other.placeholder - punctuation
+//                             ^ punctuation.definition.placeholder.php
+//                             ^^ constant.other.placeholder.php
+//                               ^ - constant.other.placeholder - punctuation
+//                                ^ punctuation.definition.placeholder.php
+//                                ^^ constant.other.placeholder.php
+//                                  ^ - constant.other.placeholder - punctuation
+//                                   ^ punctuation.definition.placeholder.php
+//                                   ^^ constant.other.placeholder.php
+//                                     ^ - constant.other.placeholder - punctuation
+//                                      ^ punctuation.definition.placeholder.php
+//                                      ^^ constant.other.placeholder.php
+//                                        ^ - constant.other.placeholder - punctuation
+//                                         ^ punctuation.definition.placeholder.php
+//                                         ^^ constant.other.placeholder.php
+//                                           ^ - constant.other.placeholder - punctuation
+//                                            ^ punctuation.definition.placeholder.php
+//                                            ^^ constant.other.placeholder.php
+//                                              ^ - constant.other.placeholder - punctuation
+//                                               ^ punctuation.definition.placeholder.php
+//                                               ^^ constant.other.placeholder.php
+//                                                 ^ - constant.other.placeholder - punctuation
+//                                                  ^ punctuation.definition.placeholder.php
+//                                                  ^^ constant.other.placeholder.php
+//                                                    ^ - constant.other.placeholder - punctuation
+//                                                     ^ punctuation.definition.placeholder.php
+//                                                     ^^ constant.other.placeholder.php
+//                                                       ^ - constant.other.placeholder - punctuation
+//                                                        ^ punctuation.definition.placeholder.php
+//                                                        ^^ constant.other.placeholder.php
+//                                                          ^ - constant.other.placeholder - punctuation
+//                                                           ^ punctuation.definition.placeholder.php
+//                                                           ^^ constant.other.placeholder.php
+//                                                             ^ - constant.other.placeholder - punctuation
+//                                                              ^^ constant.character.escape.php - punctuation
+//                                                                ^ - constant
+
+    'format: %5$- .9f | %-.9g | %+0d | %'ff'
+//           ^ punctuation.definition.placeholder.php
+//           ^^^^^^^^ constant.other.placeholder.php
+//                   ^^^ - constant
+//                      ^ punctuation.definition.placeholder.php
+//                      ^^^^^ constant.other.placeholder.php
+//                        ^ punctuation.separator.decimal.php
+//                           ^^^ - constant
+//                              ^ punctuation.definition.placeholder.php
+//                              ^^^^ constant.other.placeholder.php
+//                                  ^^^ - constant
+//                                     ^ punctuation.definition.placeholder.php
+//                                     ^^^^ constant.other.placeholder.php
+
+    "format: %5$- .9f | %-.9g | %+0d | %'ff"
+//           ^ punctuation.definition.placeholder.php
+//           ^^^^^^^^ constant.other.placeholder.php
+//                   ^^^ - constant
+//                      ^ punctuation.definition.placeholder.php
+//                      ^^^^^ constant.other.placeholder.php
+//                        ^ punctuation.separator.decimal.php
+//                           ^^^ - constant
+//                              ^ punctuation.definition.placeholder.php
+//                              ^^^^ constant.other.placeholder.php
+//                                  ^^^ - constant
+//                                     ^ punctuation.definition.placeholder.php
+//                                     ^^^^ constant.other.placeholder.php
+
+   "[%s]"       // standard string output
+//   ^^ constant.other.placeholder.php
+   "[%10s]"     // right-justification with spaces
+//   ^^^^ constant.other.placeholder.php
+   "[%-10s]"    // left-justification with spaces
+//   ^^^^^ constant.other.placeholder.php
+   "[%010s]"    // zero-padding works on strings too
+//   ^^^^^ constant.other.placeholder.php
+   "[%'#10s]"   // use the custom padding character '#'
+//   ^^^^^^ constant.other.placeholder.php
+   "[%10.9s]"   // right-justification but with a cutoff of 8 characters
+//   ^^^^^^ constant.other.placeholder.php
+   "[%-10.9s]"  // left-justification but with a cutoff of 8 characters
+//   ^^^^^^^ constant.other.placeholder.php
+
     '$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}'
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation
 //  ^ punctuation.definition.string.begin.php
