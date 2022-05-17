@@ -344,7 +344,7 @@ contexts:
       push:
         - ddl-create-target-expect-as
         - ddl-create-target
-        - create-condition
+        - create-table-condition
         - ddl-target
 
   ddl-create-target-expect-as:

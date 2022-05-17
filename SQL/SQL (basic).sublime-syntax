@@ -103,7 +103,12 @@ contexts:
 
   identifier-create:
     - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.function.sql
+    - meta_scope: meta.toc-list.full-identifier.sql entity.name.other.sql
+    - include: immediately-pop
+
+  table-identifier-create:
+    - meta_include_prototype: false
+    - meta_scope: meta.toc-list.full-identifier.sql entity.name.struct.sql
     - include: immediately-pop
 
   single-identifier-after-whitespace:
@@ -165,6 +170,13 @@ contexts:
     - match: (?=\S)
       set:
         - identifier-create
+        - single-identifier
+
+  create-table-condition:
+    - include: dml-condition
+    - match: (?=\S)
+      set:
+        - table-identifier-create
         - single-identifier
 
   drop-condition:
@@ -351,7 +363,7 @@ contexts:
       push:
         - ddl-create-target
         - ddl-table-creation-columns
-        - create-condition
+        - create-table-condition
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
       push:

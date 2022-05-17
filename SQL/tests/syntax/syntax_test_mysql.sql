@@ -26,36 +26,36 @@ SELECT "My /* Crazy Column Name" FROM my_table;
  -- <- meta.create keyword.other.ddl
 --^^^^^ keyword.other.ddl
 --      ^^^^^ keyword.other
---            ^^^ entity.name.function
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - entity.name.function
+--            ^^^ entity.name.struct
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - entity.name
 
 create table some_schema.test2( id serial );
 --^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
---           ^^^^^^^^^^^^^^^^^ entity.name.function
+--           ^^^^^^^^^^^^^^^^^ entity.name.struct
 --                      ^ punctuation.accessor.dot
---                            ^^^^^^^^^^^^^^ - entity.name.function
+--                            ^^^^^^^^^^^^^^ - entity.name
 
 create table some_schema . test2 ( id serial );
 --^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
 --           ^^^^^^^^^^^^^^^^^^^ entity.name
 --                       ^ punctuation.accessor.dot
---                              ^^^^^^^^^^^^^^^ - entity.name.function
+--                              ^^^^^^^^^^^^^^^ - entity.name
 
 create table "testing123" (id integer);
 --^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
 --           ^ punctuation.definition.identifier.begin
---            ^^^^^^^^^^ entity.name.function
+--            ^^^^^^^^^^ entity.name.struct
 --                      ^ punctuation.definition.identifier.end
 
 create table `dbo`."testing123" (id integer);
 --^^^^ meta.create keyword.other.ddl
 --     ^^^^^ meta.create keyword.other
---           ^^^^^^^^^^^^^^^^^^ entity.name.function
+--           ^^^^^^^^^^^^^^^^^^ entity.name.struct
 --                ^ punctuation.accessor.dot
---                             ^^^^^^^^^^^^^^^ - entity.name.function
+--                             ^^^^^^^^^^^^^^^ - entity.name
 
 create table IF NOT EXISTS `testing123` (
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.toc-list
@@ -162,7 +162,7 @@ create fulltext index if not exists `myindex` ON mytable;
 --                    ^^ keyword.control.flow
 --                       ^^^ keyword.operator.logical
 --                           ^^^^^^ keyword.operator.logical
---                                  ^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                                  ^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
 --                                            ^^ keyword.other
 --                                               ^^^^^^^ meta.table-name
 --                                                      ^ punctuation.terminator.statement
@@ -248,7 +248,7 @@ CREATE INDEX IX_some_index ON dbo.some_table(
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
---           ^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--           ^^^^^^^^^^^^^ meta.toc-list.full-identifier
 --                         ^^ keyword.other
 --                            ^^^^^^^^^^^^^^ meta.table-name
 --                                          ^ meta.group punctuation.section.group.begin
@@ -264,7 +264,7 @@ CREATE ALGORITHM=MERGE VIEW contactPersons(
 --              ^ keyword.operator.assignment
 --               ^^^^^ keyword.other
 --                     ^^^^ keyword.other
---                          ^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                          ^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
 --                                        ^ meta.group punctuation.section.group.begin
     customerName,
 --  ^^^^^^^^^^^^ meta.group meta.column-name
@@ -288,7 +288,7 @@ FROM customers;
 
 CREATE TEMPORARY TABLE IF NOT EXISTS foo (
 -- ^^^^^^^^^^^^^^^^^^^ meta.create keyword.other.ddl
---                                   ^^^ meta.toc-list.full-identifier entity.name.function
+--                                   ^^^ meta.toc-list.full-identifier entity.name.struct
     bar NVARCHAR(400),
     baz INT
 );

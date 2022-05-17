@@ -114,10 +114,22 @@ contexts:
       push:
         - ddl-create-target
         - ddl-table-creation-columns
-        - create-condition
+        - create-type-condition
 
   ddl-alter-common:
     - meta_prepend: false
+
+  create-type-condition:
+    - include: dml-condition
+    - match: (?=\S)
+      set:
+        - type-identifier-create
+        - single-identifier
+
+  type-identifier-create:
+    - meta_include_prototype: false
+    - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
+    - include: immediately-pop
 
   inside-ddl-table-creation-columns:
     - meta_scope: meta.group.table-columns.sql

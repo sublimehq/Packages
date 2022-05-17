@@ -4,7 +4,7 @@ CREATE KEYSPACE killrvideo WITH replication = {'class':'SimpleStrategy', 'replic
 --^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 --^^^^ keyword.other.ddl
 --     ^^^^^^^^ keyword.other
---              ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--              ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
 --                         ^^^^ keyword.other
 --                                          ^ keyword.operator
 --                                            ^ punctuation.section.braces.begin
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 --           ^^ keyword.control.flow
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
---                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
 --                                                   ^ meta.group.table-columns punctuation.section.group.begin
     userid uuid,
 --  ^^^^^^^^^^^^^ meta.create meta.group.table-columns
@@ -197,7 +197,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --                       ^^ keyword.control.flow
 --                          ^^^ keyword.operator.logical
 --                              ^^^^^^ keyword.operator.logical
---                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
 --                                                ^^ keyword.context.block
     SELECT *
 --  ^^^^^^ keyword.other.dml
@@ -223,7 +223,7 @@ CREATE TYPE user_defined_type (
 --^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 --^^^^ keyword.other.ddl
 --     ^^^^ keyword.other
---          ^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--          ^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.type
 --                            ^ meta.group punctuation.section.group.begin
     type1 timestamp,
 --  ^^^^^ meta.column-name variable.other.member.declaration

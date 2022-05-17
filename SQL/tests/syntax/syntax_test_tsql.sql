@@ -620,7 +620,7 @@ GO
 CREATE OR ALTER PROC CreateOrAlterDemo
 -- ^^^^^^^^^^^^ meta.create keyword.other.ddl
 --              ^^^^ meta.create keyword.other
---                   ^^^^^^^^^^^^^^^^^ meta.create meta.toc-list.full-identifier entity.name.function
+--                   ^^^^^^^^^^^^^^^^^ meta.create meta.toc-list.full-identifier entity.name.struct
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
@@ -830,7 +830,7 @@ SELECT cte_table.* FROM cte_table
 CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
---           ^^^ meta.toc-list.full-identifier entity.name.function
+--           ^^^ meta.toc-list.full-identifier entity.name.struct
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --               ^ punctuation.section.group.begin
 --                ^^ meta.column-name
@@ -1622,7 +1622,7 @@ CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
 --     ^^^^^^ keyword.other
 --            ^^^^^^^^^^^^ keyword.other
 --                         ^^^^^ keyword.other
---                               ^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                               ^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
 --                                             ^^ keyword.other
 --                                                ^^^^^^^^^^^^^^ meta.table-name
 --                                                              ^ meta.group punctuation.section.group.begin

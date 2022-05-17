@@ -3,7 +3,7 @@
 CREATE TABLE test1 (a character(4));
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 -- ^^^^^^^^^ keyword.other.ddl
---           ^^^^^ meta.toc-list.full-identifier entity.name.function
+--           ^^^^^ meta.toc-list.full-identifier entity.name.struct
 --                 ^^^^^^^^^^^^^^^^ meta.group.table-columns
 --                                 ^ punctuation.terminator.statement
 --                 ^ punctuation.section.group.begin
@@ -29,7 +29,7 @@ SELECT a, char_length(a) FROM test1;
 CREATE TABLE test2 (b varchar(5));
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 -- ^^^^^^^^^ keyword.other.ddl
---           ^^^^^ meta.toc-list.full-identifier entity.name.function
+--           ^^^^^ meta.toc-list.full-identifier entity.name.struct
 --                 ^^^^^^^^^^^^^^ meta.group.table-columns
 --                               ^ punctuation.terminator.statement
 --                 ^ punctuation.section.group.begin
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --           ^^ keyword.control.flow
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
---                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.function
+--                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
 --                               ^ punctuation.accessor.dot
 (
 -- <- meta.create meta.group.table-columns punctuation.section.group.begin
@@ -103,7 +103,7 @@ SELECT 'abc \153\154\155 \052\251\124'::bytea;
 CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 -- ^^^ meta.create keyword.other.ddl
 --     ^^^^ meta.create keyword.other
---          ^^^^ meta.create meta.toc-list.full-identifier entity.name.function
+--          ^^^^ meta.create meta.toc-list.full-identifier entity.name
 --               ^^ keyword.context.block
 CREATE TABLE person (
     name text,
@@ -205,7 +205,7 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 CREATE EXTENSION hstore SCHEMA addons;
 -- ^^^ meta.create keyword.other.ddl
 --     ^^^^^^^^^ meta.create keyword.other
---               ^^^^^^ meta.create meta.toc-list.full-identifier entity.name.function
+--               ^^^^^^ meta.create meta.toc-list.full-identifier entity.name.other
 --                      ^^^^^^ storage.modifier
 --                             ^^^^^^ meta.schema-name
 --                                   ^ punctuation.terminator.statement
@@ -274,7 +274,7 @@ ALTER TABLE test2 ADD something varchar[];
 CREATE TRIGGER blah AFTER INSERT OR UPDATE
 -- ^^^ keyword.other.ddl
 --     ^^^^^^^ keyword.other
---             ^^^^ meta.toc-list.full-identifier entity.name.function
+--             ^^^^ meta.toc-list.full-identifier entity.name.other
 --                  ^^^^^^^^^^^^^^^^^^^^^^ keyword.other
     ON some_table FOR EACH ROW EXECUTE PROCEDURE some_procedure();
 --  ^^ keyword.other
