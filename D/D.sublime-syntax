@@ -1024,6 +1024,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: variable-definition-begin
+    - match: '(?=\))'
+      pop: true
     - include: expect-end-of-line
 
   value-or-declaration-in:
@@ -2168,7 +2170,7 @@ contexts:
   condition:
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [condition-after, value]
+      set: [condition-after, first-value]
     - include: not-whitespace-illegal-pop
   condition-after:
     - match: '\)'
