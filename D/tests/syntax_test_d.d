@@ -358,9 +358,9 @@ f = 0xF.AP-2f;
   @(Foo!5)
 //^ punctuation.definition.annotation.begin.d
 // ^ punctuation.section.parens.begin.d
-//  ^^^ meta.function-call.d meta.path.d variable.function.d
-//     ^ meta.function-call.d punctuation.section.generic.begin.d
-//      ^ meta.function-call.d constant.numeric.value.d
+//  ^^^ meta.function-call.template.d meta.path.d variable.function.d
+//     ^ meta.function-call.template.d punctuation.section.generic.begin.d
+//      ^ meta.function-call.template.d constant.numeric.value.d
   struct Baz {}
 //^^^^^^^^^^^^^ meta.struct.d
 //^^^^^^ keyword.declaration.struct.d
@@ -515,7 +515,7 @@ extern(1)
 //       ^^^^^ string.quoted.double.d
 //            ^ punctuation.section.parens.end.d
 //             ^ punctuation.accessor.dot.d
-//              ^^^^^^^^^^^^ meta.function-call.d
+//              ^^^^^^^^^^^^ meta.function-call.template.d
 //              ^^^^ meta.path.d variable.function.d
 //                  ^ punctuation.section.generic.begin.d
 //                   ^^^^^^^ meta.path.d variable.other.d
@@ -1755,7 +1755,7 @@ extern(1)
 //^ punctuation.section.block.end.d
   mixin Foo!("foo");
 //^^^^^ keyword.control.d
-//      ^^^^^^^^^^^ meta.function-call.d
+//      ^^^^^^^^^^^ meta.function-call.template.d
 //      ^^^ variable.function.d
 //         ^ punctuation.section.generic.begin.d
 //          ^ punctuation.section.parens.begin.d
@@ -2818,7 +2818,7 @@ extern(1)
 
   .AliasSeq!(immutable char, int);
 //^ punctuation.accessor.dot.d
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.template.d
 // ^^^^^^^^ variable.function.d
 //         ^ punctuation.section.generic.begin.d
 //          ^ punctuation.section.parens.begin.d
@@ -2832,7 +2832,7 @@ extern(1)
   cast(Unqual!T*).foo;
 //^^^^ keyword.operator.word.d
 //    ^ punctuation.section.parens.begin.d
-//     ^^^^^^^^ meta.function-call.d
+//     ^^^^^^^^ meta.function-call.template.d
 //     ^^^^^^ meta.path.d variable.function.d
 //           ^ keyword.operator.d
 //            ^ meta.path.d variable.other.d
@@ -2857,7 +2857,7 @@ extern(1)
 //                                  ^ punctuation.separator.sequence.d
 //                                    ^^^^^ storage.modifier.d
 //                                          ^^^ storage.modifier.d
-//                                              ^^^^^^^^^^^^^^^ meta.function-call.d
+//                                              ^^^^^^^^^^^^^^^ meta.function-call.template.d
 //                                              ^^^^^^^^^^ variable.function.d
 //                                                        ^ keyword.operator.d
 //                                                         ^^^^ storage.type.d
@@ -2919,7 +2919,7 @@ extern(1)
 //               ^ punctuation.section.parens.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
-//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.template.d
 //                      ^^^^^^^^ meta.path.d variable.function.d
 //                              ^ punctuation.section.generic.begin.d
 //                               ^ punctuation.section.parens.begin.d
@@ -2938,7 +2938,7 @@ extern(1)
 //               ^ punctuation.section.parens.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
-//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.template.d
 //                      ^^^^^^^^ meta.path.d variable.function.d
 //                              ^ punctuation.section.generic.begin.d
 //                               ^ punctuation.section.parens.begin.d
@@ -2968,7 +2968,7 @@ extern(1)
 //                         ^ punctuation.section.block.end.d
 
   Foo!2 foo;
-//^^^^^ meta.function-call.d
+//^^^^^ meta.function-call.template.d
 //^^^ meta.path.d variable.function.d
 //   ^ keyword.operator.d
 //    ^ meta.number.integer.decimal.d
@@ -3069,7 +3069,7 @@ extern(1)
 
   pure Pair!int* makePair(int x) {}
 //^^^^ storage.modifier.d
-//     ^^^^^^^^ meta.function-call.d
+//     ^^^^^^^^ meta.function-call.template.d
 //     ^^^^ meta.path.d variable.function.d
 //         ^ keyword.operator.d
 //          ^^^ storage.type.d

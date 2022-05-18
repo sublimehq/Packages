@@ -786,13 +786,13 @@ contexts:
       scope: keyword.other.d
       set: [basic-type2, function-type]
     - match: '!(?!=|is\b)'
-      scope: meta.function-call.d keyword.operator.d
+      scope: meta.function-call.template.d keyword.operator.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [basic-type2, basic-type2-after-call, value-list]
         - match: '(?=\S)'
-          set: [basic-type2, meta-function-call, value-template-single]
+          set: [basic-type2, meta-function-call-template, value-template-single]
     - match: '\.(?!\.\.)'
       scope: storage.type.d
       set:
@@ -812,7 +812,7 @@ contexts:
       pop: true
     - include: not-whitespace-illegal-pop
   basic-type2-after-call:
-    - meta_scope: meta.function-call.d
+    - meta_scope: meta.function-call.template.d
     - include: basic-type2-after-parens
 
   typeof-value:
@@ -1065,13 +1065,13 @@ contexts:
       scope: meta.path.d punctuation.accessor.dot.d
       push: value-identifier
     - match: '!(?!=|is\b)'
-      scope: meta.function-call.d keyword.operator.d
+      scope: meta.function-call.template.d keyword.operator.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [first-value-call-after, value-list]
         - match: '(?=\S)'
-          set: [first-value-after, meta-function-call, value-template-single]
+          set: [first-value-after, meta-function-call-template, value-template-single]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [first-value-bracket-after, value-list]
@@ -1101,7 +1101,7 @@ contexts:
       set: first-value-after
     - include: not-whitespace-illegal-pop
   first-value-call-after:
-    - meta_scope: meta.function-call.d
+    - meta_scope: meta.function-call.template.d
     - include: first-value-parens-after
 
   value:
@@ -1265,7 +1265,7 @@ contexts:
     - meta_scope: meta.function-call.d
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [value-call-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, value-list]
     - match: (?=\S)
       set: value-after
   new-anonymous-after-args:
@@ -1358,7 +1358,10 @@ contexts:
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
-    - match: '\b{{name}}\b(?=\s*(\(|!(?!=|is\b)))'
+    - match: '\b{{name}}\b(?=\s*!(?!=|is\b))'
+      scope: meta.function-call.template.d meta.path.d variable.function.d
+      pop: true
+    - match: '\b{{name}}\b(?=\s*\()'
       scope: meta.function-call.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
@@ -1379,7 +1382,7 @@ contexts:
       set: [value-after, value-identifier]
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [value-call-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, value-list]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [value-bracket-after, value-list]
@@ -1408,13 +1411,13 @@ contexts:
       scope: keyword.operator.assignment.d
       set: value
     - match: '!'
-      scope: meta.function-call.d punctuation.section.generic.begin.d
+      scope: meta.function-call.template.d punctuation.section.generic.begin.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [value-call-parens-after, value-list]
+          set: [meta-function-call-template, value-parens-after, value-list]
         - match: '(?=\S)'
-          set: [value-after, meta-function-call, value-template-single]
+          set: [value-after, meta-function-call-template, value-template-single]
     - match: \*(?=\s*[\),;\]\*])
       scope: keyword.operator.pointer.d
       set: value-maybe-pointer-after
@@ -1469,9 +1472,6 @@ contexts:
       scope: punctuation.section.parens.end.d
       set: value-after
     - include: not-whitespace-illegal-pop
-  value-call-parens-after:
-    - meta_scope: meta.function-call.d
-    - include: value-parens-after
   value-bracket-after:
     - match: '\]'
       scope: punctuation.section.brackets.end.d
@@ -2195,7 +2195,7 @@ contexts:
 
   type-identifier:
     - match: '\b{{name}}\b(?=\s*!)'
-      scope: meta.function-call.d meta.path.d variable.function.d
+      scope: meta.function-call.template.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
       scope: meta.path.d storage.type.d
@@ -2272,6 +2272,11 @@ contexts:
 
   meta-function-call:
     - meta_scope: meta.function-call.d
+    - match: ''
+      pop: true
+
+  meta-function-call-template:
+    - meta_scope: meta.function-call.template.d
     - match: ''
       pop: true
 
