@@ -1627,6 +1627,16 @@ extern(1)
 //                   ^^ meta.function.d meta.block.d
 //                   ^ punctuation.section.block.begin.d
 //                    ^ punctuation.section.block.end.d
+  this(a...) {}
+//^^^^ meta.function.d entity.name.function.constructor.d
+//    ^^^^^^ meta.function.parameters.d
+//    ^ punctuation.section.group.begin.d
+//     ^ meta.path.d variable.other.d
+//      ^^^ keyword.operator.variadic.d
+//         ^ punctuation.section.group.end.d
+//           ^^ meta.function.d meta.block.d
+//           ^ punctuation.section.block.begin.d
+//            ^ punctuation.section.block.end.d
 
   static this(int foo) { int b; }
 //^^^^^^ storage.modifier.d

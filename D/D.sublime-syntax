@@ -1857,7 +1857,7 @@ contexts:
       scope: punctuation.section.group.end.d
       set: function-definition-after-first-argument-list
     - match: '(?=\S)'
-      set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument]
+      set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument, function-argument-or-type]
   destructor-arguments:
     - match: '\('
       scope: meta.function.parameters.d punctuation.section.group.begin.d
