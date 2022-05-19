@@ -1028,7 +1028,7 @@ contexts:
 
   value-or-declaration-in:
     - match: '{{definitely_value_lookahead}}'
-      push: [maybe-end-of-line, value-list]
+      push: [maybe-end-of-line, value-array-list]
     - match: '{{definitely_declaration_lookahead}}'
       push: [function-or-variable-after-type, type]
     - match: '(?=\S)'
@@ -1054,12 +1054,12 @@ contexts:
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
-      set: value-list
+      set: value-array-list
     - match: '{{name_lookahead}}'
       scope: variable.other.d
       set: [first-value-after, value-identifier]
     - match: '(?=\S)'
-      set: value-list
+      set: value-array-list
   first-value-after:
     - match: '\.'
       scope: meta.path.d punctuation.accessor.dot.d
@@ -1105,13 +1105,6 @@ contexts:
     - include: first-value-parens-after
 
   value:
-    - match: '\b({{name}})\s*(:)'
-      captures:
-        1: variable.other.d
-        2: punctuation.separator.key-value.d
-      set: value
-    - include: value-no-mapping-key
-  value-no-mapping-key:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
@@ -1464,12 +1457,12 @@ contexts:
       set: value
   value-condition:
     - match: (?=:)
-      pop: 1
-    - include: value-no-mapping-key
+      pop: true
+    - include: value
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d
-      set: value-no-mapping-key
+      set: value
     - include: not-whitespace-illegal-pop
   value-parens-after:
     - match: '\)'
@@ -1498,21 +1491,8 @@ contexts:
       set: value-list
     - include: not-whitespace-illegal-pop
 
-  value-list-no-mapping-key:
-    - match: '(?=\)|}|]|;|:)'
-      pop: true
-    - match: '(?=\S)'
-      set: [value-list-after-no-mapping-key, value-no-mapping-key]
-  value-list-after-no-mapping-key:
-    - match: '(?=\)|}|]|;|:)'
-      pop: true
-    - match: ','
-      scope: punctuation.separator.sequence.d
-      set: value-list-no-mapping-key
-    - include: not-whitespace-illegal-pop
-
   value-array-list:
-    - match: '(?=\])'
+    - match: '(?=\)|}|]|;)'
       pop: true
     - match: '(?=\S)'
       set: [value-array-list-after, value]
@@ -1522,7 +1502,7 @@ contexts:
       set: [value-array-list-after-value, value]
     - include: value-array-list-after-value
   value-array-list-after-value:
-    - match: '(?=\])'
+    - match: '(?=\)|}|]|;)'
       pop: true
     - match: ','
       scope: punctuation.separator.sequence.d
@@ -2098,7 +2078,7 @@ contexts:
         - include: not-whitespace-illegal-pop
     - match: '\bcase\b'
       scope: keyword.control.flow.d
-      push: [case-after, value-list-no-mapping-key]
+      push: [case-after, value-list]
     - match: '\bdefault\b'
       scope: keyword.control.flow.d
       push:
@@ -2120,7 +2100,7 @@ contexts:
           set:
             - match: '\bcase\b'
               scope: keyword.control.flow.d
-              set: [case-after, value-no-mapping-key]
+              set: [case-after, value]
             - include: not-whitespace-illegal-pop
         - match: '(?=\S)'
           pop: true
