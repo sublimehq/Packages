@@ -484,7 +484,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                 return self.tag_name_completions
             return self.tag_completions
 
-        # Note: Exclude opening punctuation to enable appreviations
+        # Note: Exclude opening punctuation to enable abbreviations
         #       if the caret is located directly in front of a html tag.
         if match_selector("text.html meta.tag - meta.string - punctuation.definition.tag.begin"):
             if ch in ' \f\n\t':
@@ -492,7 +492,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return None
 
         if match_selector("text.html - meta.tag"):
-            # Expand tag and attribute appreviations
+            # Expand tag and attribute abbreviations
             return self.expand_tag_attributes(view, locations) or self.tag_abbreviations
 
         return None
