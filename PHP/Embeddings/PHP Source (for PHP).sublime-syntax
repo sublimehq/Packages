@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+scope: source.php.embedded.php
+hidden: true
+version: 2
+
+extends: Packages/PHP/PHP Source.sublime-syntax
+
+##############################################################################
+
+contexts:
+
+  block-body:
+    - meta_prepend: true
+    - match: (\?>)(\s*\n)?
+      scope: meta.embedded.php
+      captures:
+        1: punctuation.section.embedded.end.php
+        2: meta.html-newline-after-php.php  # used by indentation rules
+      push: embedding-syntax
+
+  embedding-syntax:
+    - clear_scopes: true
+    - meta_scope: embedding.php text.html.php
+    - meta_include_prototype: false
+    - match: <\?(?i:php\b|=)?
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+      pop: 1
+    - include: Packages/PHP/PHP.sublime-syntax#html
+
+  stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray.php
+
+  stray-brackets:
+    - match: \]
+      scope: invalid.illegal.stray.php
+
+  stray-parens:
+    - match: \)
+      scope: invalid.illegal.stray.php

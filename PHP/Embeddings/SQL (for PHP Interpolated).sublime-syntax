@@ -9,7 +9,7 @@ extends: Packages/SQL/SQL.sublime-syntax
 contexts:
   prototype:
     - meta_prepend: true
-    - include: Packages/PHP/PHP Source.sublime-syntax#interpolation
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
 
   main:
     - meta_prepend: true
