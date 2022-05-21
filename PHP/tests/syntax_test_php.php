@@ -4494,6 +4494,7 @@ $sql = "
     SELECT * FROM users WHERE first_name = 'Eric'
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - string.quoted.double.php
 //  ^ keyword.other.dml
+//                      ^^^^^ keyword.other.dml.sql
 //                                         ^^^^^^ string.quoted.single.sql
 ";
 // <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
@@ -4520,11 +4521,14 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //                      ^ keyword.operator.concatenation.php
 //                        ^ string.quoted.double.php punctuation.definition.string.begin.php
 //                              ^^^^^^ variable.other.php
+//                                     ^^^^^ keyword.other.dml.sql
+//                                           ^ punctuation.section.group.begin.sql
 //                                                         ^ string.quoted.double.php punctuation.definition.string.end.php
 //                                                           ^ keyword.operator.concatenation.php
 //                                                             ^^^^^ variable.other.php
 //                                                                   ^ keyword.operator.concatenation.php
 //                                                                     ^ string.quoted.double.php punctuation.definition.string.begin.php
+//                                                                      ^ punctuation.section.group.end.sql - string
 //                                                                       ^ string.quoted.double.php punctuation.definition.string.end.php
 //                                                                         ^ punctuation.terminator.statement.php
 //                                                                           ^ keyword.operator.concatenation.php

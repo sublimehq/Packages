@@ -15,5 +15,9 @@ contexts:
     - meta_prepend: true
     # prevent stray bracket highlighting
     - match: \)
-      scope: punctuation.section.arguments.end.sql
+      scope: punctuation.section.group.end.sql
 
+  single-identifier:
+    - meta_prepend: true
+    - meta_include_prototype: false
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolation

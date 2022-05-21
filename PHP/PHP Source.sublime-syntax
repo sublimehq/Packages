@@ -1742,6 +1742,24 @@ contexts:
     - match: (?=\${{identifier_start}})
       push: interpolation-literal-variable
 
+  interpolation:
+    # PHP variable/expressions interpolated into foreign
+    # source code without clearing any string scopes.
+    #
+    # Prevents: "c:\{$foo}"
+    - match: \\\{
+    # Handles: "foo{$bar}baz"
+    - match: \{(?=\$)
+      scope: punctuation.section.interpolation.begin.php
+      set: interpolation-braced-expression
+    # Handles: "foo${bar}baz"
+    - match: \$\{
+      scope: punctuation.definition.variable.begin.php
+      set: interpolation-braced-variable
+    # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
+    - match: (?=\${{identifier_start}})
+      set: interpolation-literal-variable
+
   interpolation-braced-expression:
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.php
