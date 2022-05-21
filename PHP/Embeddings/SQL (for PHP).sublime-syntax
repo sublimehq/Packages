@@ -16,7 +16,7 @@ contexts:
     - meta_prepend: true
     # prevent stray bracket highlighting
     - match: \)
-      scope: punctuation.section.arguments.end.sql
+      scope: punctuation.section.group.end.sql
 
   php-string-single-quoted-escapes:
     - match: \\[\\']

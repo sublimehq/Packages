@@ -139,6 +139,7 @@ contexts:
     - include: single-quoted-identifier-part
     - include: double-quoted-identifier-part
     - include: backtick-quoted-identifier-part
+    - include: else-pop
 
   simple-identifier-part:
     - match: '{{simple_identifier}}'
