@@ -140,7 +140,51 @@ scalar
  ?not a key
 #^^^^^^^^^^ - meta.mapping
 
+# the entire first line is the key (as a mapping with one entry)
+? a key : not a value
+# ^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+#       ^ meta.mapping.key meta.mapping punctuation.separator.key-value.mapping
+  still explicit key
+# ^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml meta.string.yaml string.unquoted.plain.out.yaml
+
+- scalar
+# <- punctuation.definition.block.sequence.item.yaml
+# ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
 
 x:
   - #1
 #   ^^ comment.line
+
+##############################################################################
+## Sets
+# https://yaml.org/type/set.html
+
+key: !!set
+#    ^^^^^ meta.property.yaml storage.type.tag-handle.yaml
+  ? value1
+# ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+#  ^^^^^^^^ meta.mapping.key.yaml
+#   ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+  ? value2
+# ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+#  ^^^^^^^^ meta.mapping.key.yaml
+#   ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+    continued set value
+#  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
+#   ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+  not a set value
+# ^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - meta.mapping
+
+key: !!set
+  ? value1
+mapping-after-set:
+# <- meta.mapping.key.yaml meta.string.yaml string.unquoted.plain.out.yaml
+  - item1
+# ^ punctuation.definition.block.sequence.item.yaml
+#   ^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+  - item2
+# ^ punctuation.definition.block.sequence.item.yaml
+#   ^^^^^ meta.string.yaml string.unquoted.plain.out.yaml

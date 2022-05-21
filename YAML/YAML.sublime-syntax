@@ -732,22 +732,16 @@ contexts:
     - include: block-pair
 
   block-pair:
-    - match: \?(?=\s|$)
-      scope: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+    - match: ( *)(\?)(?=\s)
+      captures:
+        2: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
       push: block-key-explicit
     # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
     # if followed by a colon
     - match: '{{_flow_key_out_lookahead}}'
       push: block-key-implicit
-    - match: :(?=\s|$)
+    - match: :(?=\s)
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-
-  block-key-implicit:
-    - meta_content_scope: meta.mapping.key.yaml
-    - match: :(?=\s|$)
-      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
-    - include: flow-scalar-out-12
 
   block-key-explicit:
     - meta_content_scope: meta.mapping.key.yaml
@@ -757,9 +751,20 @@ contexts:
       captures:
         1: punctuation.separator.key-value.mapping.yaml
       pop: true
-    - match: (?=\?(?=\s|$))  # Empty mapping keys & values are allowed
+    # multi-line keys are indented by at least one more space than `?`
+    - match: ^(?!\1 +\S|\s*$)
+      pop: true
+    # explicit key of any indentation
+    - match: ^ *(?=\?\s)
       pop: true
     - include: block-node-12
+
+  block-key-implicit:
+    - meta_content_scope: meta.mapping.key.yaml
+    - match: :(?=\s)
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+      pop: true
+    - include: flow-scalar-out-12
 
   comment:
     # http://www.yaml.org/spec/1.2/spec.html#comment//
