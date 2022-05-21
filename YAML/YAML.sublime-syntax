@@ -591,13 +591,15 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type-11
-    - match: (?={{ns_plain_first_plain_out}})
-      push: flow-scalar-plain-out-body
+    - include: flow-scalar-plain-out-common
 
   flow-scalar-plain-out-12:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type-12
+    - include: flow-scalar-plain-out-common
+
+  flow-scalar-plain-out-common:
     - match: (?={{ns_plain_first_plain_out}})
       push: flow-scalar-plain-out-body
 
