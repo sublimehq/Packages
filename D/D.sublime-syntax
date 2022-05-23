@@ -1057,6 +1057,12 @@ contexts:
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
       set: value-array-list
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+      set: first-value-after
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+      set: first-value-after
     - match: '{{name_lookahead}}'
       scope: variable.other.d
       set: [first-value-after, value-identifier]
@@ -1589,9 +1595,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: base-class-list
-    - match: '(?={)'
+    - match: '(?=\S)'
       pop: true
-    - include: not-whitespace-illegal-pop
 
   interface-in:
     - match: '\b(interface)\b'
@@ -2173,6 +2178,7 @@ contexts:
       set: [condition-after, first-value]
     - include: not-whitespace-illegal-pop
   condition-after:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       pop: true
