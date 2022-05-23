@@ -1827,7 +1827,6 @@ extern(1)
   function mixin("alias A", "= B;") () {};
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.d
 //                                  ^^ meta.function.parameters.d
-//                                    ^ meta.function.d - meta.block
 //                                     ^^ meta.function.d meta.block.d
 //         ^^^^^ keyword.control.d
 //              ^ punctuation.section.parens.begin.d
