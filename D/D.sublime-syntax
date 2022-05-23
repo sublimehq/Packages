@@ -1052,7 +1052,7 @@ contexts:
       captures:
         1: keyword.control.d
         2: punctuation.section.parens.begin.d
-      set: [first-value-parens-after, value]
+      set: [first-value-parens-after, value-list]
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'

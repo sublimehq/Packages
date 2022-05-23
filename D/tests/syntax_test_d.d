@@ -1810,6 +1810,19 @@ extern(1)
 //                   ^ meta.function.d meta.block.d punctuation.section.block.begin.d
 //                    ^ meta.function.d meta.block.d punctuation.section.block.end.d
 
+  mixin("alias A", "= B;") foo() {};
+//^^^^^ keyword.control.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^^^^^^^ meta.string.d string.quoted.double.d
+//               ^ punctuation.separator.sequence.d
+//                 ^^^^^^ meta.string.d string.quoted.double.d
+//                       ^ punctuation.section.parens.end.d
+//                         ^^^ meta.function.d entity.name.function.d
+//                            ^ meta.function.parameters.d punctuation.section.group.begin.d
+//                             ^ meta.function.parameters.d punctuation.section.group.end.d
+//                               ^ meta.function.d meta.block.d punctuation.section.block.begin.d
+//                                ^ meta.function.d meta.block.d punctuation.section.block.end.d
+//                                 ^ punctuation.terminator.d
 
   foo:
 //^^^ entity.name.label.d
