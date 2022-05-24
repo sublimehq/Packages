@@ -824,7 +824,7 @@ contexts:
 
   for-condition:
     - match: '\('
-      scope: punctuation.section.group.js
+      scope: punctuation.section.group.begin.js
       set:
         - for-condition-end
         - for-condition-contents
@@ -834,7 +834,7 @@ contexts:
     - meta_scope: meta.group.js
 
     - match: '\)'
-      scope: punctuation.section.group.js
+      scope: punctuation.section.group.end.js
       pop: true
 
   for-condition-contents:
@@ -1754,6 +1754,7 @@ contexts:
     - match: \[
       scope: punctuation.section.brackets.begin.js
       set:
+        - meta_scope: meta.brackets.js
         - match: \]
           scope: punctuation.section.brackets.end.js
           pop: true
