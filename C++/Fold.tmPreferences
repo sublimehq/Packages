@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.c | source.c++</string>
+    <key>settings</key>
+    <dict>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.block.begin</string>
+                <key>end</key>
+                <string>punctuation.section.block.end</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

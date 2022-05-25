@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.dot</string>
+    <key>settings</key>
+    <dict>
+        <key>indentationFoldingEnabled</key>
+        <false/>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.group.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.group.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.attributes.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.attributes.end</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>
