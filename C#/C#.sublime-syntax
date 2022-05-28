@@ -33,7 +33,7 @@ variables:
   escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
-  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)\b)
+  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: \s*(<[^={};]*>)?\s*
 
