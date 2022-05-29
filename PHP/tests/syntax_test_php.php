@@ -1759,6 +1759,9 @@ $fn = fn($x) => fn($y) => $x * $y + $z;
 //                     ^^ keyword.declaration.function.arrow.php
 //                                    ^ punctuation.terminator.statement.php
 
+$fn = fn ($x): stringSpace\Test1 => null;
+//             ^^^^^^^^^^^^^^^^^ meta.function.return-type.php
+
 $var = fn($x)
 //     ^^ meta.function.anonymous.php
 //       ^^^^ meta.function.anonymous.parameters.php meta.group.php
