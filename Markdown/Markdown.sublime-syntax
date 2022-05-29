@@ -259,6 +259,20 @@ variables:
        )
     )
 
+  list_paragraph_end: |-
+    (?x: # pop out of this context if one of the following conditions are met:
+      ^(?= [ \t]*
+        (?: $                           # the line is blank (or only contains whitespace)
+        |   {{block_quote}}             # a blockquote begins the line
+        |   {{atx_heading}}             # an ATX heading begins the line
+        |   {{fenced_code_block_start}} # a fenced codeblock begins the line
+        |   {{thematic_break}}          # line is a thematic beak
+        |   {{list_item}}               # a list item begins the line
+        |   {{html_block}}              # a html block begins the line
+        )
+      )
+    )
+
   # https://spec.commonmark.org/0.30/#left-flanking-delimiter-run
   bold_italic_asterisk_begin: |-
     (?x:
@@ -758,26 +772,17 @@ contexts:
   list-paragraph:
     # https://spec.commonmark.org/0.30/#paragraphs
     - meta_scope: meta.paragraph.list.markdown
-    - match: '{{list_setext_heading_escape}}'
-      fail: list-setext-headings-or-paragraphs
+    - include: list-paragraph-fail
     - include: list-paragraph-end
     - include: inlines
 
   list-paragraph-end:
-    - match: |-
-        (?x)
-        # pop out of this context if one of the following conditions are met:
-        ^(?= [ \t]*
-          (?: $                           # the line is blank (or only contains whitespace)
-          |   {{block_quote}}             # a blockquote begins the line
-          |   {{atx_heading}}             # an ATX heading begins the line
-          |   {{fenced_code_block_start}} # a fenced codeblock begins the line
-          |   {{thematic_break}}          # line is a thematic beak
-          |   {{list_item}}               # a list item begins the line
-          |   {{html_block}}              # a html block begins the line
-          )
-        )
+    - match: '{{list_paragraph_end}}'
       pop: 1
+
+  list-paragraph-fail:
+    - match: '{{list_setext_heading_escape}}'
+      fail: list-setext-headings-or-paragraphs
 
 ###[ LEAF BLOCKS: ATX HEADINGS ]##############################################
 
@@ -902,14 +907,17 @@ contexts:
   paragraph:
     # https://spec.commonmark.org/0.30/#paragraphs
     - meta_scope: meta.paragraph.markdown
-    - match: '{{setext_heading_escape}}'
-      fail: setext-headings-or-paragraphs
+    - include: paragraph-fail
     - include: paragraph-end
     - include: inlines
 
   paragraph-end:
     - match: '{{paragraph_end}}'
       pop: 1
+
+  paragraph-fail:
+    - match: '{{setext_heading_escape}}'
+      fail: setext-headings-or-paragraphs
 
 ###[ LEAF BLOCKS: INDENTED CODE BLOCKS ]######################################
 
