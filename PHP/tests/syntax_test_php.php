@@ -1759,8 +1759,40 @@ $fn = fn($x) => fn($y) => $x * $y + $z;
 //                     ^^ keyword.declaration.function.arrow.php
 //                                    ^ punctuation.terminator.statement.php
 
+$fn = fn ($value): bool => true;
+//    ^^^ meta.function.anonymous.php
+//       ^^^^^^^^ meta.function.anonymous.parameters.php meta.group.php
+//               ^^^^^^^ meta.function.anonymous.return-type.php
+//                      ^^^^^^^ meta.function.anonymous.php
+//                             ^ - meta.function
+//    ^^ keyword.declaration.function.php
+//       ^ punctuation.section.group.begin.php
+//        ^^^^^^ variable.parameter.php
+//              ^ punctuation.section.group.end.php
+//               ^ punctuation.separator.colon.php
+//                 ^^^^ storage.type.primitive.php
+//                      ^^ keyword.declaration.function.arrow.php
+//                         ^^^^ constant.language.boolean.php
+//                             ^ punctuation.terminator.statement.php
+
 $fn = fn ($x): stringSpace\Test1 => null;
-//             ^^^^^^^^^^^^^^^^^ meta.function.return-type.php
+//    ^^^ meta.function.anonymous.php
+//       ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//           ^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.return-type.php
+//                               ^^^^^^^ meta.function.anonymous.php
+//                                      ^ - meta.function
+//    ^^ keyword.declaration.function.php
+//       ^ punctuation.section.group.begin.php
+//        ^^ variable.parameter.php
+//          ^ punctuation.section.group.end.php
+//           ^ punctuation.separator.colon.php
+//             ^^^^^^^^^^^^^^^^^ meta.path.php
+//             ^^^^^^^^^^^ variable.namespace.php
+//                        ^ punctuation.accessor.namespace.php
+//                         ^^^^^ support.class.php
+//                               ^^ keyword.declaration.function.arrow.php
+//                                  ^^^^ constant.language.null.php
+//                                      ^ punctuation.terminator.statement.php
 
 $var = fn($x)
 //     ^^ meta.function.anonymous.php
