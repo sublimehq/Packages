@@ -770,7 +770,7 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [basic-type2, basic-type2-after-parens, value]
+          set: [basic-type2, basic-type2-after-parens, value-list]
     - match: '{{name_lookahead}}'
       set: [basic-type2, type-identifier-ref]
     - match: '(?=\S)'
@@ -1052,7 +1052,7 @@ contexts:
       captures:
         1: keyword.control.d
         2: punctuation.section.parens.begin.d
-      set: [first-value-parens-after, value]
+      set: [first-value-parens-after, value-list]
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
