@@ -989,6 +989,7 @@ contexts:
       set:
         - arrow-function-body
         - arrow-function-or-fail
+        - arrow-function-return-type
         - arrow-function-parameters
 
   arrow-function-parameters:
@@ -1002,6 +1003,20 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.anonymous.parameters.php meta.group.php
     - include: function-parameters-body
+
+  arrow-function-return-type:
+    - match: ':'
+      scope: punctuation.separator.colon.php
+      set:
+        - arrow-function-return-type-body
+        - type-hint-simple-type
+        - type-hint-nullable
+    - include: else-pop
+
+  arrow-function-return-type-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.anonymous.return-type.php
+    - include: type-hint-body
 
   arrow-function-or-fail:
     - include: comments
