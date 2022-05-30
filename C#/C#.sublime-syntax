@@ -1276,7 +1276,9 @@ contexts:
     - match: '->'
       scope: punctuation.accessor.arrow.cs
     - match: '{{bin_op}}='
-      scope: keyword.operator.cs
+      scope: keyword.operator.assignment.augmented.cs
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.cs
     - match: '{{bin_op}}|{{unary_op}}'
       scope: keyword.operator.cs
     - match: '='
