@@ -1962,6 +1962,14 @@ private:
     and_now_method_name2();
 /*  ^ entity.name.function */
 
+    enum {
+        FOO,
+    /*  ^^^ entity.name.constant.objc++ */
+    /*     ^ punctuation.separator.objc++ */
+        BAR
+    /*  ^^^ entity.name.constant.objc++ */
+    };
+
     enum
 /*  ^^^^ meta.enum keyword.declaration */
     {

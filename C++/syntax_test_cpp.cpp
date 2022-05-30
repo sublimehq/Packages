@@ -2010,6 +2010,14 @@ private:
     and_now_method_name2();
 /*  ^ entity.name.function */
 
+    enum {
+        FOO,
+    /*  ^^^ entity.name.constant.c++ */
+    /*     ^ punctuation.separator.c++ */
+        BAR
+    /*  ^^^ entity.name.constant.c++ */
+    };
+
     enum
 /*  ^^^^ meta.enum keyword.declaration */
     {
