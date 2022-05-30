@@ -1766,11 +1766,11 @@ contexts:
 
   wildcard-variables:
     - match: _(?!{{identifier_continue}})
-      scope: variable.language.python
+      scope: variable.language.anonymous.python
 
   wildcard-variable:
     - match: _(?!{{identifier_continue}})
-      scope: variable.language.python
+      scope: variable.language.anonymous.python
       pop: true
 
   line-continuation:
