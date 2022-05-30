@@ -1422,7 +1422,7 @@ contexts:
     - match: ':'
       scope: keyword.operator.assignment.cs
     - match: _\b
-      scope: variable.language.deconstruction.discard.cs
+      scope: variable.language.anonymous.cs
     - match: (?!{{reserved}})(?={{namespaced_name}}{{type_suffix}}\s+{{name}}\s*[:,])
       push: var_declaration_explicit
     - match: '({{name}})(<)'
@@ -2073,7 +2073,7 @@ contexts:
               pop: true
             - include: line_of_code_in
         - match: \b_\b
-          scope: variable.language.deconstruction.discard.cs
+          scope: variable.language.anonymous.cs
         - match: '\bwhen\b'
           scope: keyword.control.switch.case.when.cs
         - match: \(
@@ -2086,7 +2086,7 @@ contexts:
             - match: ','
               scope: punctuation.separator.sequence.cs
             - match: _\b
-              scope: variable.language.deconstruction.discard.cs
+              scope: variable.language.anonymous.cs
             - include: line_of_code_in_no_semicolon # needed for "when" syntax?
         - match: (?={{namespaced_name}}\s+(?:\{|(?!{{reserved}}|when\b){{name}}))
           push: [maybe_pattern_matching_object, var_declaration]
@@ -2151,7 +2151,7 @@ contexts:
           scope: meta.sequence.tuple.cs punctuation.section.sequence.end.cs
           pop: true
         - match: _\b
-          scope: variable.language.deconstruction.discard.cs
+          scope: variable.language.anonymous.cs
         - match: '{{name}}'
           scope: variable.other.cs
         - match: ','

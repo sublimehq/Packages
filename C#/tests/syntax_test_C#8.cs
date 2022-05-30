@@ -48,7 +48,7 @@ public static decimal CalculateToll(object vehicle) =>
 ///                     ^^ meta.method meta.block punctuation.separator.case-expression
 
         _ => throw new ArgumentException("Not a known vehicle type", nameof(vehicle))
-///     ^ variable.language.deconstruction.discard
+///     ^ variable.language.anonymous
 ///       ^^ punctuation.separator.case-expression
     };
 
@@ -239,11 +239,11 @@ static Quadrant GetQuadrant(Point point) => point switch
     var (_, _) => Quadrant.OnBorder,
 /// ^^^ storage.type.variable
 ///     ^^^^^^ meta.sequence.tuple
-///      ^ variable.language.deconstruction.discard
+///      ^ variable.language.anonymous
 ///       ^ punctuation.separator.sequence
-///         ^ variable.language.deconstruction.discard
+///         ^ variable.language.anonymous
     _ => Quadrant.Unknown
-/// ^ variable.language.deconstruction.discard
+/// ^ variable.language.anonymous
 ///   ^^ punctuation.separator.case-expression
 };
 /// <- punctuation.section.block.end
