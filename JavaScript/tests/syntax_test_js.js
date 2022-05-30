@@ -1612,7 +1612,7 @@ debugger
 // <- meta.sequence
 
     a ?? b;
-//    ^^ keyword.operator.logical
+//    ^^ keyword.operator.null-coalescing
 
     a &&= b;
 //    ^^^ keyword.operator.assignment.augmented
