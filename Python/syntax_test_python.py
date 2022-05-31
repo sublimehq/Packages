@@ -353,7 +353,7 @@ NO_SWEAT NO AA1
 #           ^^^ variable.other.constant
 
 _ self
-# <- variable.language.python
+# <- variable.language.anonymous.python
 # ^^^^ variable.language.python
 
 
@@ -1001,7 +1001,7 @@ def _():
 #       ^^ meta.statement.conditional.case.patterns.python
 #         ^ meta.statement.conditional.case.python
 #   ^^^^ keyword.control.conditional.case.python
-#        ^ variable.language.python
+#        ^ variable.language.anonymous.python
 #         ^ punctuation.section.block.conditional.case.python
 #           ^^^^^^^^^^ comment.line.number-sign.python
         print("Code not found")
@@ -1280,7 +1280,7 @@ def _():
 
     case *expr as _:
 #              ^^ keyword.control.conditional.case.as.python
-#                 ^ variable.language.python
+#                 ^ variable.language.anonymous.python
 
     case *expr as isinstance:
 #              ^^ keyword.control.conditional.case.as.python
