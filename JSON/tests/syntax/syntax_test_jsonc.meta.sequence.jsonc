@@ -1,0 +1,71 @@
+// SYNTAX TEST "Packages/JSON/JSONC.sublime-syntax"
+
+// <- source.json.jsonc
+
+
+[
+// <- meta.sequence.list punctuation.definition.sequence.begin
+
+    true,
+//  ^^^^ constant.language.boolean
+
+    false,
+//  ^^^^^ constant.language.boolean
+
+    null,
+//  ^^^^ constant.language.null
+//  ^^^^ - constant.language.empty
+
+    0,
+//  ^ meta.number.integer.decimal constant.numeric.value
+
+    0.0,
+//  ^^^ meta.number.float.decimal constant.numeric.value
+
+    "value",
+//  ^^^^^^^ string.quoted.double
+
+    [],
+//  ^^ meta.sequence.list
+
+    [ ],
+//  ^^^ meta.sequence.list
+
+    [1, 2
+//  ^ meta.sequence.list punctuation.definition.sequence.begin
+//    ^ meta.sequence.list meta.sequence.list punctuation.separator.sequence
+        ,
+//     ^ - invalid
+//      ^ meta.sequence.list punctuation.separator.sequence
+        "three",
+//      ^^^^^^^  string.quoted.double - meta.mapping.key
+//             ^ punctuation.separator.sequence
+//             ^ - invalid.illegal.unexpected-separator
+    ],
+//  ^ meta.sequence.list punctuation.definition.sequence.end
+//   ^ meta.sequence.list punctuation.separator.sequence
+
+    {},
+//  ^^ meta.sequence.list meta.mapping
+
+    { },
+//  ^^^ meta.sequence.list meta.mapping
+
+    { "a": 1, "b": 2
+//  ^^^^^^^^^^^^^^^^ meta.sequence.list meta.mapping
+//       ^ meta.mapping punctuation.separator.key-value
+//          ^ meta.mapping punctuation.separator.sequence
+        ,
+//     ^ - invalid
+//      ^ meta.mapping punctuation.separator.sequence
+        "c": 3
+
+    ,
+//  ^ meta.mapping punctuation.separator.sequence
+    }
+
+    ,
+//  ^ meta.sequence.list punctuation.separator.sequence
+//  ^ - invalid.illegal.unexpected-separator
+]
+// <- meta.sequence.list punctuation.definition.sequence.end

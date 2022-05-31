@@ -1,0 +1,130 @@
+//  Packages/JSON/Main.sublime-menu
+//
+//  This file is being maintained at:
+//      https://github.com/sublimehq/Packages/blob/master/JSON/Main.sublime-menu
+
+
+[
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "JSON",
+                        "children":
+                        [
+                            {
+                                "caption": "JSON",
+                                "children":
+                                [
+                                    {
+                                        "caption": "Minify",
+                                        "command": "json_minify"
+                                    },
+                                    {
+                                        "caption": "Prettify",
+                                        "command": "json_prettify"
+                                    },
+                                    { "caption": "-" },
+                                    {
+                                        "caption": "Automatically prettify before saving",
+                                        "command": "json_toggle_auto_prettify"
+                                    },
+                                    {
+                                        "caption": "Settings - Syntax Specific",
+                                        "command": "edit_settings",
+                                        "args":
+                                        {
+                                            "base_file": "${packages}/JSON/JSON.sublime-settings",
+                                            "default": "{\n\t$0\n}\n"
+                                        }
+                                    },
+                                    { "caption": "-" },
+                                    {
+                                        "caption": "Documentation: Specs",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://www.json.org/json-en.html"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Documentation: RFC 7159",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://datatracker.ietf.org/doc/html/rfc7159"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Documentation: ECMA 404",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://www.ecma-international.org/publications-and-standards/standards/ecma-404/"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "caption": "JSONC (JSON with Comments)",
+                                "children":
+                                [
+                                    {
+                                        "caption": "Minify",
+                                        "command": "jsonc_minify"
+                                    },
+                                    {
+                                        "caption": "Prettify",
+                                        "command": "jsonc_prettify"
+                                    }
+                                ]
+                            },
+                            {
+                                "caption": "JSON5",
+                                "children":
+                                [
+                                    {
+                                        "caption": "Documentation: Specs",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://spec.json5.org/#summary-of-features"
+                                        }
+                                    }
+                                ]
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Support",
+                                "children":
+                                [
+                                    {
+                                        "caption": "Changelog (Packages/JSON)",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://github.com/sublimehq/Packages/commits/master/JSON"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Report a (JSON package) issue",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://github.com/sublimehq/Packages/issues"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

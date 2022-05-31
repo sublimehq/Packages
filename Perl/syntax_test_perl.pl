@@ -112,18 +112,38 @@
 # <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
 #^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
 
+=begin json5
+# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
+#^^^^^ entity.name.tag.pod.perl
+#     ^ - constant - entity
+#      ^^^^ constant.other.language-name.json5.perl
+
+# <- meta.comment.perl meta.interpolation.perl source.json5.embedded.perl source.json.json5
+=end
+# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+#^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+
+=begin jsonc
+# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
+#^^^^^ entity.name.tag.pod.perl
+#     ^ - constant - entity
+#      ^^^^ constant.other.language-name.jsonc.perl
+
+# <- meta.comment.perl meta.interpolation.perl source.jsonc.embedded.perl source.json.jsonc
+=end
+# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+#^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+
 =begin json
 # <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
 #^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
 #^^^^^ entity.name.tag.pod.perl
 #     ^ - constant - entity
 #      ^^^^ constant.other.language-name.json.perl
-  {
-# ^ meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
-    "key": "value",
-#   ^^^^^^^^^^^^^^^ meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
-  }
-# ^ meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
+
+# <- meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
 =end
 # <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
 #^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl

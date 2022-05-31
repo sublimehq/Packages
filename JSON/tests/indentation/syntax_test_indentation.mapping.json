@@ -1,0 +1,36 @@
+// SYNTAX TEST reindent "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+{
+    "a":
+    [
+        "a",
+        "b"
+    ],
+    "b":
+    [
+        {
+            "a": "a",
+            "b": "b"
+        },
+        {
+            "a": "a",
+            "b": "b"
+        }
+    ],
+    "c":
+    {
+        "a":
+        [
+            "a",
+            "b",
+            "c"
+        ],
+        "b":
+        {
+            "a": "a",
+            "b": "b"
+        }
+    }
+}

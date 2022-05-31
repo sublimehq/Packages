@@ -1,0 +1,130 @@
+// SYNTAX TEST reindent "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+[
+    [
+        "a",
+        "b",
+        "c"
+    ],
+    [
+        1,
+        2,
+        3
+    ],
+    [
+        0.0,
+        2.1,
+        -3.0
+    ],
+    [
+        true,
+        false,
+        null
+    ],
+    [
+        [
+            "a",
+            "b",
+            "c"
+        ],
+        [
+            1,
+            2,
+            3
+        ],
+        [
+            0.0,
+            2.1,
+            -3.0
+        ],
+        [
+            true,
+            false,
+            null
+        ],
+        [
+            {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+            },
+            {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+            },
+            {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+            }
+        ],
+        [
+            [
+                "a",
+                "b",
+                "c"
+            ],
+            [
+                1,
+                2,
+                3
+            ],
+            [
+                0.0,
+                2.1,
+                -3.0
+            ],
+            [
+                true,
+                false,
+                null
+            ],
+            [
+                {"a": "a"},
+                {"b": "b"},
+                {"c": "c"}
+            ],
+            [
+                [
+                    "a",
+                    "b",
+                    "c"
+                ],
+                [
+                    1,
+                    2,
+                    3
+                ],
+                [
+                    0.0,
+                    2.1,
+                    -3.0
+                ],
+                [
+                    true,
+                    false,
+                    null
+                ],
+                [
+                    {
+                        "a": "a"
+                    },
+                    {
+                        "b": "b"
+                    },
+                    {
+                        "c": "c"
+                    }
+                ],
+                [
+                    [0],
+                    [0],
+                    [0]
+                ]
+            ]
+        ]
+    ]
+]

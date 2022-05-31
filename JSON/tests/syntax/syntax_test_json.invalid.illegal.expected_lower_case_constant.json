@@ -1,0 +1,18 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+[
+    Null,
+//  ^^^^ invalid.illegal.expected-lower-case-null
+    NULL,
+//  ^^^^ invalid.illegal.expected-lower-case-null
+    False,
+//  ^^^^^ invalid.illegal.expected-lower-case-boolean
+    FALSE,
+//  ^^^^^ invalid.illegal.expected-lower-case-boolean
+    True,
+//  ^^^^ invalid.illegal.expected-lower-case-boolean
+    TRUE
+//  ^^^^ invalid.illegal.expected-lower-case-boolean
+]

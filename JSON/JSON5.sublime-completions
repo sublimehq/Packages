@@ -1,0 +1,48 @@
+{
+    "scope": "source.json.json5",
+    "completions":
+    [
+        {
+            "trigger": "Infinity",
+            "contents": "Infinity",
+            "annotation": "constant.language",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://spec.json5.org/#summary-of-features\">JSON5</a> number<br><br><a href=\"http://ieeexplore.ieee.org/servlet/opac?punumber=4610933\">IEEE 754</a> positive infinity<br>literal constant \"Infinity\""
+        },
+        {
+            "trigger": "Infinity",
+            "contents": "+Infinity",
+            "annotation": "constant.language",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://spec.json5.org/#summary-of-features\">JSON5</a> number<br><br><a href=\"http://ieeexplore.ieee.org/servlet/opac?punumber=4610933\">IEEE 754</a> positive infinity<br>literal constant \"Infinity\" with an optional plus as prefix"
+        },
+        {
+            "trigger": "Infinity",
+            "contents": "-Infinity",
+            "annotation": "constant.language",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://spec.json5.org/#summary-of-features\">JSON5</a> number<br><br><a href=\"http://ieeexplore.ieee.org/servlet/opac?punumber=4610933\">IEEE 754</a> negative infinity<br>literal constant \"-Infinity\""
+        },
+        {
+            "trigger": "NaN",
+            "contents": "NaN",
+            "annotation": "constant.language",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://spec.json5.org/#summary-of-features\">JSON5</a> number<br><br><a href=\"http://ieeexplore.ieee.org/servlet/opac?punumber=4610933\">IEEE 754</a> NaN<br>literal constant \"NaN\""
+        },
+        {
+            "trigger": "NaN",
+            "contents": "+NaN",
+            "annotation": "constant.language",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://spec.json5.org/#summary-of-features\">JSON5</a> number<br><br><a href=\"http://ieeexplore.ieee.org/servlet/opac?punumber=4610933\">IEEE 754</a> NaN<br>literal constant \"NaN\" with an optional plus as prefix"
+        },
+        {
+            "trigger": "NaN",
+            "contents": "-NaN",
+            "annotation": "constant.language",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://spec.json5.org/#summary-of-features\">JSON5</a> number<br><br><a href=\"http://ieeexplore.ieee.org/servlet/opac?punumber=4610933\">IEEE 754</a> NaN<br>literal constant \"NaN\" with an optional minus as prefix"
+        }
+    ]
+}

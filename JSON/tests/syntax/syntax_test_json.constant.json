@@ -1,0 +1,15 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+[
+    false,
+//  ^^^^^ constant.language.boolean
+
+    true,
+//  ^^^^ constant.language.boolean
+
+    null
+//  ^^^^ constant.language.null
+//  ^^^^ - constant.language.empty
+]

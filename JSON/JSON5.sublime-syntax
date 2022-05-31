@@ -1,0 +1,255 @@
+%YAML 1.2
+---
+#   YAML Documentation:
+#       https://yaml.org/spec/1.2/spec.html
+#   Sublime Text Documentation:
+#       https://www.sublimetext.com/docs/syntax.html#ver-dev
+#       https://www.sublimetext.com/docs/syntax.html#testing:ver-dev
+#       https://www.sublimetext.com/docs/scope_naming.html
+#   This file is being maintained at:
+#       https://github.com/sublimehq/Packages/blob/master/JSON/JSON5.sublime-syntax
+
+name: JSON5
+scope: source.json.json5
+version: 2
+
+# https://www.sublimetext.com/docs/syntax.html#inheritance
+extends: Packages/JSON/JSONC.sublime-syntax
+
+file_extensions:
+  - json5
+    # https://json5.org/
+    # https://spec.json5.org/#summary-of-features
+    # https://262.ecma-international.org/5.1/
+
+hidden_file_extensions:
+  - .babelrc
+    # Babel.js File-relative Configuration
+    # https://babeljs.io/docs/en/config-files
+
+  - .babelrc.json
+    # Babel.js File-relative Configuration
+    # https://babeljs.io/docs/en/config-files
+
+  - .jupyterlab-settings
+    # JupyterLab User Settings
+    # https://jupyterlab.readthedocs.io/en/stable/user/directories.html?highlight=json5#jupyterlab-user-settings-directory
+
+  - .parcelrc
+    # parcel Bundler Configuration
+    # https://github.com/parcel-bundler/parcel
+    # https://parceljs.org/features/plugins/#.parcelrc
+
+  - .postcssrc.json
+    # PostCSS Configuration
+    # https://postcss.org
+
+  - babel.config.json
+    # Babel.js Project-wide Configuration
+    # https://babeljs.io/docs/en/config-files
+
+  - next.config.json
+    # Vercel Next.js Configuration
+    # https://nextjs.org/docs/api-reference/next.config.js/introduction
+
+  - nextrc.json
+    # Vercel Next.js Configuration
+    # https://nextjs.org/docs/api-reference/next.config.js/introduction
+
+  - techdocs_metadata.json
+    # Spotify's @backstage/techdocs_common Configuration
+    # https://github.com/backstage/backstage/tree/master/packages/techdocs-common
+    # https://backstage.io/docs/features/techdocs/techdocs-overview
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bjson5\b .*? -\*-                                    # editorconfig
+  )
+
+variables:
+
+  #   Boost documentation:
+  #       https://www.boost.org/doc/libs/1_64_0/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html
+  #   Unicode documentation:
+  #       https://www.unicode.org/versions/latest/
+  #       https://www.unicode.org/Public/UCD/latest/ucd/
+  #   Oniguruma documentation:
+  #       https://github.com/kkos/oniguruma/blob/master/doc/RE
+  #       https://github.com/kkos/oniguruma/blob/master/doc/UNICODE_PROPERTIES
+
+  identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
+  identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
+  identifier_part: (?:[_$\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]|{{identifier_escape}})
+  identifier_break: (?!{{identifier_part}})
+
+  identifier_name: (?:{{identifier_start}}{{identifier_part}}*{{identifier_break}})
+
+########################################################################################################################
+
+contexts:
+
+  # TODO: check whitespace valid chars
+
+####[ Numbers ]#########################################################################################################
+
+  decimal-float:
+    - match: |-
+        (?x:
+          ([-+]?)
+          (
+            {{pos_integer_decimal}}
+            (?:
+              (\.)\d* {{exponent}}?                                             # 1. 1.e1 1.e-1 1.e+1 1.1 1.1e1 1.1e-1 1.1e+1
+              | {{exponent}}                                                    # 1e1 1+e1 1-e1
+            )
+            | (\.)\d+ {{exponent}}?                                             # .1 .1e1 .1e+1 .1e-1
+          )
+        )
+      scope: meta.number.float.decimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: constant.numeric.value.json5
+        3: punctuation.separator.decimal.json5
+        4: punctuation.separator.decimal.json5
+      pop: 1
+    - match: ([-+]?)(Infinity)
+      scope: meta.number.float.decimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: constant.language.infinity.json5
+      pop: 1
+    - match: ([-+]?)(NaN)
+      scope: meta.number.float.decimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: constant.language.nan.json5
+      pop: 1
+
+    # when erroneously containing wrongly cased letters
+    - match: ([-+]?)(?i:(infinity))
+      scope: meta.number.float.decimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: invalid.illegal.expected-language-constant.json5
+      pop: 1
+    - match: ([-+]?)(?i:(nan))
+      scope: meta.number.float.decimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: invalid.illegal.expected-language-constant.json5
+      pop: 1
+
+  integer:
+    - meta_prepend: true
+    - include: hexadecimal-integer
+
+  decimal-integer:
+    - match: ([-+]?)({{pos_integer_decimal}})
+      scope: meta.number.integer.decimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: constant.numeric.value.json5
+      pop: 1
+
+  hexadecimal-integer:
+    - match: ([-+]?)(0[xX])(\h+)
+      scope: meta.number.integer.hexadecimal.json5
+      captures:
+        1: constant.numeric.sign.json5
+        2: constant.numeric.base.json5
+        3: constant.numeric.value.json5
+      pop: 1
+
+####[ Strings ]#########################################################################################################
+
+  strings:
+    - meta_append: true
+    - include: single-quoted-string
+
+  single-quoted-string:
+    - match: \'
+      scope: punctuation.definition.string.begin.json5
+      set: single-quoted-string-content
+
+  single-quoted-string-content:
+    - meta_include_prototype: false
+    - meta_scope: >-
+        meta.string.json5
+        string.quoted.single.json5
+    - match: \'
+      scope: punctuation.definition.string.end.json5
+      pop: 1
+    - include: single-quoted-string-escape-characters
+    - match: \n
+      scope: invalid.illegal.unclosed-string.json5
+      pop: 1
+
+  single-quoted-string-escape-characters:
+    - match: \\\'
+      scope: constant.character.escape.single-quote.json5
+    - include: string-escape-characters
+
+  valid-string-escape-characters:
+    - meta_prepend: true
+    - match: ((\\)\x{2028})(.*)$\n?
+      captures:
+        1: constant.character.escape.line-separator.json5
+        2: punctuation.separator.continuation.line.json5
+        3: invalid.illegal.expected-eol-after-line-continuation.json5
+    - match: ((\\)\x{2029})(.*)$\n?
+      captures:
+        1: constant.character.escape.paragraph-separator.json5
+        2: punctuation.separator.continuation.line.json5
+        3: invalid.illegal.expected-eol-after-line-continuation.json5
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.line.json5
+    - match: \\v
+      scope: constant.character.escape.vertical-tab.json5
+    - match: (\\0)([0-9])?
+      captures:
+        1: constant.character.escape.null.json5
+        2: invalid.illegal.unexpected-digit-character.json5
+    - match: \\x[0-9a-fA-F]{2}
+      scope: constant.character.escape.unicode-symbol.basic-latin-or-latin-1-supplement.json5
+    - match: \\u[0-9a-fA-F]{4}\\u[0-9a-fA-F]{4}
+      scope: constant.character.escape.unicode-symbol.utf16-surrogate-pair.json5
+
+  invalid-string-escape-characters:
+    - meta_prepend: true
+    - match: ([^\\])(?:\x{2028}|\x{2029})
+      captures:
+        1: invalid.illegal.expected-backslash-char.json5
+
+####[ Mappings ]########################################################################################################
+
+  mapping-key:
+    - meta_append: true
+    - match: \'
+      scope: punctuation.definition.string.begin.json5
+      push: mapping-key-single-quoted
+
+    # looking ahead at `identifier_start` would've been faster with possibly
+    # invalid matches, but we want to make sure we only match valid ecma
+    # `identifier_name`s as keys
+    - match: (?={{identifier_name}})
+      push: mapping-key-ecma
+
+  mapping-key-ecma:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: >-
+        meta.mapping.key.json5
+        meta.string.json5
+        string.unquoted.plain.json5
+    - match: '{{identifier_break}}'
+      pop: 1
+
+  mapping-key-single-quoted:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: >-
+        meta.mapping.key.json5
+        meta.string.json5
+        string.quoted.single.json5
+    - include: single-quoted-string-content

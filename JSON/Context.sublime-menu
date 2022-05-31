@@ -1,0 +1,29 @@
+//  Packages/JSON/Context.sublime-menu
+
+
+//  This file is being maintained at:
+//      https://github.com/sublimehq/Packages/blob/master/JSON/Context.sublime-menu
+
+
+[
+    // visible only with JSON syntax highlighting
+    {
+        "caption": "JSON: Minify",
+        "command": "json_minify"
+    },
+    {
+        "caption": "JSON: Prettify",
+        "command": "json_prettify"
+    },
+
+
+    // visible only with JSONC syntax highlighting
+    {
+        "caption": "JSONC: Minify",
+        "command": "jsonc_minify"
+    },
+    {
+        "caption": "JSONC: Prettify",
+        "command": "jsonc_prettify"
+    }
+]

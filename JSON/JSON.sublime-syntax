@@ -1,31 +1,136 @@
 %YAML 1.2
 ---
+#   YAML Documentation:
+#       https://yaml.org/spec/1.2/spec.html
+#   Sublime Text Documentation:
+#       https://www.sublimetext.com/docs/syntax.html#ver-dev
+#       https://www.sublimetext.com/docs/syntax.html#testing:ver-dev
+#       https://www.sublimetext.com/docs/scope_naming.html
+#   This file is being maintained at:
+#       https://github.com/sublimehq/Packages/blob/master/JSON/JSON.sublime-syntax
+
 name: JSON
 scope: source.json
 version: 2
 
 file_extensions:
   - json
-  - sublime-build
-  - sublime-color-scheme
-  - sublime-commands
-  - sublime-completions
-  - sublime-keymap
-  - sublime-macro
-  - sublime-menu
-  - sublime-mousemap
-  - sublime-project
-  - sublime-settings
-  - sublime-theme
-  - sublime-workspace
-  - ipynb
+    # https://www.json.org/json-en.html
+    # https://datatracker.ietf.org/doc/html/rfc7159
+    # https://www.ecma-international.org/publications-and-standards/standards/ecma-404/
+
+hidden_file_extensions:
+  - .bowerrc
+    # Bower
+    # https://bower.io/docs/config/
+
+  - .htmlhintrc
+    # HTML hint
+    # https://htmlhint.com/docs/user-guide/getting-started
+
+  - .jscsrc
+    # JavaScript Code Style Configuration
+    # https://jscs-dev.github.io
+
+  - .markdownlintrc
+    # https://github.com/DavidAnson/markdownlint
+
+  - .tern-config
+    # Tern.js Server Configuration
+    # https://ternjs.net/doc/manual.html#server
+
+  - .tern-project
+    # Tern.js Project Configuration
+    # https://ternjs.net/doc/manual.html#configuration
+
+  - .watchmanconfig
+    # Facebook Watchman
+    # root specific configuration file
+    # https://facebook.github.io/watchman/docs/config.html
+
   - Pipfile.lock
+    # Pipfile
+    # https://github.com/pypa/pipfile
+
+  - avsc
+    # Pure JavaScript implementation of the Avro specification
+    # https://github.com/mtth/avsc
+
+  - composer.lock
+    # Composer lock file
+    # https://getcomposer.org/doc/01-basic-usage.md
+
+  - css.map
+    # CSS Source Map
+
+  - geojson
+    # JSON for geographic data structures
+    # https://geojson.org
+    # https://datatracker.ietf.org/wg/geojson/charter/
+    # https://datatracker.ietf.org/doc/html/rfc7946
+
   - gltf
+    # glTF Runtime 3D asset delivery
+    # https://www.khronos.com/gltf
+
+  - har
+    # HTTP Archive Format
+
+  - ipynb
+    # Jupyter Notebook, formerly known as iPython Notebook
+    # https://jupyter.org/documentation
+
+  - js.map
+    # JavaScript Source Map
+
+  - jsonld
+    # JSON for Linking Data
+    # https://json-ld.org
+
+  - ldjson
+    # JSON for Linking Data
+    # https://json-ld.org
+
+  - schema
+    # JSON Schema
+    # https://json-schema.org/learn
+
+  - tfstate
+    # Hashicorp Terraform State
+    # https://www.terraform.io/docs/language/state/index.html
+
+  - tfstate.backup
+    # Hashicorp Terraform State
+    # https://www.terraform.io/docs/language/state/index.html
+
+  - topojson
+    # TopoJSON, an extension to GeoJSON
+    # https://github.com/topojson/topojson-specification
+
+  - ts.map
+    # TypeScript Source Map
+
+  - webapp
+    # Web app manifests
+    # https://developer.mozilla.org/en-US/docs/Web/Manifest
+
+  - webmanifest
+    # Web app manifests
+    # https://developer.mozilla.org/en-US/docs/Web/Manifest
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \bjson\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bjson\b .*? -\*-                                     # editorconfig
   )
+
+variables:
+  exponent: (?:[eE][-+]?\d+)
+  pos_integer_decimal: (?:0|[1-9]\d*)
+  html_entity: '&([a-zA-Z0-9]+|#\d+|#[Xx]\h+);'
+  email_domain: '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?'
+  email_user: '[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+'
+
+########################################################################################################################
 
 contexts:
 
@@ -33,139 +138,397 @@ contexts:
     - include: comments
 
   main:
-    - include: value
-
-  value:
-    - include: constant
-    - include: number
-    - include: string
-    - include: array
-    - include: object
-
-  array:
-    - match: \[
-      scope: punctuation.section.sequence.begin.json
+    - match: (?=\S)
       push:
-        - meta_scope: meta.sequence.json
-        - match: \]
-          scope: punctuation.section.sequence.end.json
-          pop: 1
-        - include: value
-        - match: ','
-          scope: punctuation.separator.sequence.json
-        - match: '[^\s\]]'
-          scope: invalid.illegal.expected-sequence-separator.json
+        - invalid-remainder
+        - any-else-pop
+
+####[ Helpers ]#########################################################################################################
+
+  any:
+    - include: structures
+    - include: values
+
+  any-else-pop:
+    - include: any
+    - include: else-pop
+
+  structures:
+    - include: objects
+    - include: arrays
+
+  values:
+    - include: constants
+    - include: numbers
+    - include: strings
+
+  invalid-remainder:
+    - match: '[,:]'
+      scope: invalid.illegal.unexpected-separator.json
+    - match: '[^,:\s]+'
+      scope: invalid.illegal.unexpected-code-after-first-structure-or-value.json
+
+####[ Prototypes ]######################################################################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  eol-pop:
+    - match: '$\n?'
+      pop: 1
+
+####[ Comments ]########################################################################################################
 
   comments:
-    - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.json
-      push:
-        - meta_scope: comment.block.documentation.json
-        - meta_include_prototype: false
-        - match: \*/
-          pop: 1
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.json
-    - match: /\*
-      scope: punctuation.definition.comment.json
-      push:
-        - meta_scope: comment.block.json
-        - meta_include_prototype: false
-        - match: \*/
-          pop: 1
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.js
-      captures:
-        1: punctuation.definition.comment.json
+    - include: comment-line
+    - include: comment-block
 
-  constant:
+  comment-line:
+    - match: //
+      push: comment-line-content
+
+  comment-line-content:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.comment.json
+    - include: eol-pop
+
+  comment-block:
+    - match: /\*\*+/
+      scope: invalid.illegal.comment.json
+    - match: /\*
+      push: comment-block-content
+
+  comment-block-content:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.comment.json
+    - match: \*/
+      pop: 1
+
+####[ Constants ]#######################################################################################################
+
+  constants:
+    - include: valid-constants
+    - include: invalid-constants
+
+  valid-constants:
+    - match: \b(?:null)\b
+      scope: constant.language.null.json
+      pop: 1
     - match: \b(?:false|true)\b
       scope: constant.language.boolean.json
-    - match: \bnull\b
-      scope: constant.language.null.json
+      pop: 1
 
-  number:
-    # handles integer and decimal numbers
-    - match: (-?)((?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+)))
+  invalid-constants:
+    # when erroneously containing upper case letters
+    - match: \b(?i:null)\b
+      scope: invalid.illegal.expected-lower-case-null.json
+      pop: 1
+    - match: \b(?i:false|true)\b
+      scope: invalid.illegal.expected-lower-case-boolean.json
+      pop: 1
+
+####[ Numbers ]#########################################################################################################
+
+  numbers:
+    - include: float
+    - include: integer
+
+  float:
+    - include: decimal-float
+
+  decimal-float:
+    - match: |-
+        (?x:
+          (?:(-)|(\+))?
+          (
+            {{pos_integer_decimal}}
+            (?:
+              (\.)\d+ {{exponent}}?                                             # 1.1 1.1e1 1.1e-1 1.1e+1
+              | {{exponent}}                                                    # 1e1 1+e1 1-e1
+            )
+          )
+        )
       scope: meta.number.float.decimal.json
       captures:
-        1: keyword.operator.arithmetic.json
-        2: constant.numeric.value.json
-        3: punctuation.separator.decimal.json
-    - match: (-?)(0|[1-9]\d*)
+        1: constant.numeric.sign.json
+        2: invalid.illegal.numeric-sign.json
+        3: constant.numeric.value.json
+        4: punctuation.separator.decimal.json
+      pop: 1
+
+  integer:
+    - include: decimal-integer
+
+  decimal-integer:
+    - match: (?:(-)|(\+))?({{pos_integer_decimal}})
       scope: meta.number.integer.decimal.json
       captures:
-        1: keyword.operator.arithmetic.json
-        2: constant.numeric.value.json
+        1: constant.numeric.sign.json
+        2: invalid.illegal.numeric-sign.json
+        3: constant.numeric.value.json
+      pop: 1
 
-  object:
-    # a JSON object
-    - match: \{
-      scope: punctuation.section.mapping.begin.json
-      push:
-        - meta_scope: meta.mapping.json
-        - match: \}
-          scope: punctuation.section.mapping.end.json
-          pop: 1
-        - match: \"
-          scope: punctuation.definition.string.begin.json
-          push:
-            - clear_scopes: 1
-            - meta_scope: meta.mapping.key.json string.quoted.double.json
-            - meta_include_prototype: false
-            - include: inside-string
-        - match: ':'
-          scope: punctuation.separator.key-value.json
-          push:
-            - match: ',|\s?(?=\})'
-              scope: invalid.illegal.expected-mapping-value.json
-              pop: 1
-            - match: (?=\S)
-              set:
-                - clear_scopes: 1
-                - meta_scope: meta.mapping.value.json
-                - include: value
-                - match: ''
-                  set:
-                    - match: ','
-                      scope: punctuation.separator.sequence.json
-                      pop: 1
-                    - match: \s*(?=\})
-                      pop: 1
-                    - match: \s(?!/[/*])(?=[^\s,])|[^\s,]
-                      scope: invalid.illegal.expected-mapping-separator.json
-                      pop: 1
-        - match: '[^\s\}]'
-          scope: invalid.illegal.expected-mapping-key.json
+####[ Strings ]#########################################################################################################
 
-  string:
+  strings:
+    - include: double-quoted-string
+
+  double-quoted-string:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      push: inside-string
+      set: double-quoted-string-content
 
-  inside-string:
-    - meta_scope: string.quoted.double.json
+  double-quoted-string-content:
     - meta_include_prototype: false
+    - meta_scope: >-
+        meta.string.json
+        string.quoted.double.json
     - match: \"
       scope: punctuation.definition.string.end.json
       pop: 1
-    - include: string-escape
+    - include: double-quoted-string-escape-characters
+    - include: links
     - match: \n
       scope: invalid.illegal.unclosed-string.json
       pop: 1
 
-  string-escape:
+  links:
+    - include: autolink-email
+    - include: autolink-inet
+
+  autolink-email:
     - match: |-
-        (?x:                # turn on extended mode
-          \\                # a literal backslash
-          (?:               # ...followed by...
-            ["\\/bfnrt]     # one of these characters
-            |               # ...or...
-            u               # a u
-            [0-9a-fA-F]{4}  # and four hex digits
+        (?x:
+          (<)
+          (
+            (?:mailto(:))?
+            {{email_user}}
+            (@)
+            {{email_domain}}(?:\.{{email_domain}})*
           )
+          (>)
         )
-      scope: constant.character.escape.json
+      scope: meta.link.email.json
+      captures:
+        1: punctuation.definition.link.begin.json
+        2: markup.underline.link.json
+        3: punctuation.separator.path.json
+        4: punctuation.separator.path.json
+        5: punctuation.definition.link.end.json
+    - match: |-
+        (?x:
+          [\w.+-]+
+          (@)
+          [\w-]+(?:\.(?:(?![._-][\W])[\w_-])+)+(?![_-])
+        )
+      scope: >-
+        meta.link.email.json
+        markup.underline.link.json
+      captures:
+        1: punctuation.separator.path.json
+
+  autolink-inet:
+    - match: <(?=[[:alpha:]][[:alnum:].+-]+:)
+      scope: punctuation.definition.link.begin.json
+      push:
+        - autolink-inet-angled-content
+        - link-url-scheme-separator
+    - match: (?:(?:https|http|ftp)(://)|www\.)[\w-]+
+      captures:
+        1: punctuation.separator.path.json
+      push: autolink-inet-unquoted-content
+
+  autolink-inet-angled-content:
+    - meta_scope: meta.link.inet.json
+    - meta_content_scope: markup.underline.link.json
+    - match: \>
+      scope: punctuation.definition.link.end.json
+      pop: 1
+    - match: (?=\s)
+      pop: 1
+    - include: autolink-inet-common
+
+  autolink-inet-unquoted-content:
+    - meta_scope: >-
+        meta.link.inet.json
+        markup.underline.link.json
+    - match: (?=(?:\)|(?:{{html_entity}})*)[?!.,:*_~]*[\s<])
+      pop: 1
+    - include: autolink-inet-common
+
+  autolink-inet-group:
+    - match: \)
+      pop: 1
+    - match: (?=(?:{{html_entity}})*[?!.,:*_~]*[\s<])
+      pop: 1
+    - include: autolink-inet-common
+
+  autolink-inet-common:
+    - match: \(
+      push: autolink-inet-group
+    - match: '[/&?#]'
+      scope: punctuation.separator.path.json
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.json
+      captures:
+        1: punctuation.definition.escape.json
+
+  link-url-scheme-separator:
+    - match: ':/{,2}'
+      scope: punctuation.separator.path.json
+      pop: 1
+
+  double-quoted-string-escape-characters:
+    - match: (\\)\"
+      scope: constant.character.escape.double-quote.json                        # quotation mark
+      captures:
+        1: punctuation.definition.escape.json
+    - include: string-escape-characters
+
+  string-escape-characters:
+    - include: valid-string-escape-characters
+    - include: invalid-string-escape-characters
+
+  valid-string-escape-characters:
+    - match: (\\)\\
+      scope: constant.character.escape.back-slash.json                          # reverse solidus
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)\/
+      scope: constant.character.escape.forward-slash.json                       # solidus
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)b
+      scope: constant.character.escape.backspace.json
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)f
+      scope: constant.character.escape.form-feed.json
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)n
+      scope: constant.character.escape.newline.json                             # linefeed
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)r
+      scope: constant.character.escape.carriage-return.json
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)t
+      scope: constant.character.escape.horizontal-tab.json
+      captures:
+        1: punctuation.definition.escape.json
+    - match: (\\)u[0-9a-fA-F]{4}
+      scope: >-
+        constant.character.escape.unicode-symbol.basic-multilingual-plane.json
+      captures:
+        1: punctuation.definition.escape.json
+
+  invalid-string-escape-characters:
     - match: \\.
       scope: invalid.illegal.unrecognized-string-escape.json
+
+####[ Sequences ]#######################################################################################################
+
+  arrays:
+    - match: \[
+      scope: punctuation.definition.sequence.begin.json
+      set:
+        - array-body
+        - array-item
+
+  array-body:
+    - meta_scope: meta.sequence.list.json
+    - match: \]
+      scope: punctuation.definition.sequence.end.json
+      pop: 1
+    - include: array-separators
+
+  array-separators:
+    - match: (?=,)
+      branch_point: array-separators
+      branch:
+        - valid-array-separator
+        - invalid-array-separator
+    - match: (?=\S)
+      push: array-item
+
+  valid-array-separator:
+    - match: ','
+      scope: punctuation.separator.sequence.json
+      set: array-expect-value
+
+  array-expect-value:
+    - match: (?=\])
+      fail: array-separators
+    - include: array-item
+
+  array-item:
+    - include: any
+    - include: invalid-array-separator
+
+  invalid-array-separator:
+    - match: ','
+      scope: invalid.illegal.unexpected-separator.json
+    - include: else-pop
+
+####[ Mappings ]########################################################################################################
+
+  # FIXME: leading separators
+  # FIXME: trailing commas
+
+  objects:
+    - match: \{
+      scope: punctuation.definition.mapping.begin.json
+      set: object-body
+
+  object-body:
+    - meta_scope: meta.mapping.json
+    - match: \}
+      scope: punctuation.definition.mapping.end.json
+      pop: 1
+    - include: mapping-key
+    - include: mapping-separator
+    - match: '[^\s\}]'
+      scope: invalid.illegal.expected-mapping-key.json
+
+  mapping-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      push: mapping-key-double-quoted
+
+  mapping-key-double-quoted:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: >-
+        meta.mapping.key.json
+        meta.string.json
+        string.quoted.double.json
+    - include: double-quoted-string-content
+
+  mapping-separator:
+    - match: ':'
+      scope: punctuation.separator.key-value.json
+      push: mapping-expect-value
+
+  mapping-expect-value:
+    - match: ',|\s?(?=\})'
+      scope: invalid.illegal.expected-mapping-value.json
+      pop: 1
+    - match: (?=\S)
+      set:
+        - mapping-value
+        - any-else-pop
+
+  mapping-value:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.json
+    - match: ','
+      scope: punctuation.separator.sequence.json
+      pop: 1
+    - match: \s*(?=\})
+      pop: 1
+    - match: \s(?!/[/*])(?=[^\s,])|[^\s,]
+      scope: invalid.illegal.expected-mapping-separator.json
+      pop: 1

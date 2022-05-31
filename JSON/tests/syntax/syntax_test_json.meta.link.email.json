@@ -1,0 +1,26 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+
+{
+    "email-one": "Firstname Lastname test@test.com",
+//                                   ^^^^^^^^^^^^^ meta.link.email markup.underline.link
+    "email-two": "Firstname Lastname test+test@test.com",
+//                                   ^^^^^^^^^^^^^^^^^^ meta.link.email markup.underline.link
+    "email-three": "Firstname Lastname <test@test.com>",
+//                                     ^^^^^^^^^^^^^^^ meta.link.email
+//                                      ^^^^^^^^^^^^^ markup.underline.link
+    "email-four": "Firstname Lastname <test+test@test.com>",
+//                                    ^^^^^^^^^^^^^^^^^^^^ meta.link.email
+//                                     ^^^^^^^^^^^^^^^^^^ markup.underline.link
+    "email-five": "Firstname Lastname <mailto:test@test.com>",
+//                                    ^^^^^^^^^^^^^^^^^^^^^^ meta.link.email
+//                                     ^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+    "email-six": "Firstname Lastname <mailto:test+test@test.com>",
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.email
+//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+    "email-seven": "Firstname Lastname <foo#bar?@mail.test.com>"
+//                                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.email
+//                                      ^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+}

@@ -1,0 +1,106 @@
+%YAML 1.2
+---
+#   YAML Documentation:
+#       https://yaml.org/spec/1.2/spec.html
+#   Sublime Text Documentation:
+#       https://www.sublimetext.com/docs/syntax.html#ver-dev
+#       https://www.sublimetext.com/docs/syntax.html#testing:ver-dev
+#       https://www.sublimetext.com/docs/scope_naming.html
+#   This file is being maintained at:
+#       https://github.com/sublimehq/Packages/blob/master/JSON/JSON_dotNET.sublime-syntax
+#
+#   Date formatting:
+#       https://www.iso.org/standard/70907.html (Basic rules)
+#       https://www.iso.org/standard/70908.html (Extensions)
+#       https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
+
+name: 'JSON .NET'
+scope: source.json.json-dotnet
+version: 2
+
+# https://www.sublimetext.com/docs/syntax.html#inheritance
+extends: Packages/JSON/JSON.sublime-syntax
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bjson\.net\b .*? -\*-                                # editorconfig
+  )
+
+########################################################################################################################
+
+contexts:
+
+####[ Strings ]#########################################################################################################
+
+  strings:
+    - meta_prepend: true
+    - include: datetime-string
+
+  datetime-string:
+
+    # for date strings of json.Net v4.5+ with an ISO Date
+    # like "2000-01-01T00:00:00Z"
+    - match: |-
+        (?x:
+          (\")
+          (
+            \d{4} [-] \d{2} [-] \d{2}
+            [Tt]
+            \d{2} [:] \d{2} [:] \d{2}
+            (?:
+              Z | [-+] \d{1,2} (?: [:]\d{1,2})?
+            )?
+          )
+          (\")
+        )
+      scope: >-
+        meta.string.json-dotnet
+        string.quoted.double.datetime.json-dotnet
+      captures:
+        1: punctuation.definition.string.begin.json-dotnet
+        2: constant.other.timestamp.json-dotnet
+        3: punctuation.definition.string.end.json-dotnet
+
+    # for date strings (of the old discontinued format) erroneously containing
+    # double escapes like "\/Date(1234)\/"
+    - match: |-
+        (?x:
+          (\")
+          (
+            (\\)
+            \/Date\(
+            \d+
+            \)
+            (\\)
+            \/
+          )
+          (\")
+        )
+      scope: >-
+        meta.string.json-dotnet
+        string.quoted.double.datetime.json-dotnet
+      captures:
+        1: punctuation.definition.string.begin.json-dotnet
+        2: constant.other.timestamp.json-dotnet
+        3: invalid.illegal.double-escape.json-dotnet
+        4: invalid.illegal.double-escape.json-dotnet
+        5: punctuation.definition.string.end.json-dotnet
+
+    # the old discontinued format like "/Date(1234)/"
+    - match: |-
+        (?x:
+          (\")
+          (
+            \/Date\(
+            \d+
+            \)\/
+          )
+          (\")
+        )
+      scope: >-
+        meta.string.json-dotnet
+        string.quoted.double.datetime.json-dotnet
+      captures:
+        1: punctuation.definition.string.begin.json-dotnet
+        2: constant.other.timestamp.json-dotnet
+        3: punctuation.definition.string.end.json-dotnet

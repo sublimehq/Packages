@@ -1,0 +1,77 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax"
+
+// <- source.json.json5
+
+{
+    'expected-backslash-char-line-separator': 'x ',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                            ^^^^ meta.mapping.value meta.string string.quoted.single
+//                                             ^ invalid.illegal.expected-backslash-char
+//                                              ^ - constant.character.escape.line-separator
+
+    'expected-backslash-char-paragraph-separator': 'x ',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                                 ^^^^ meta.mapping.value meta.string string.quoted.single
+//                                                  ^ invalid.illegal.expected-backslash-char
+//                                                   ^ - constant.character.escape.paragraph-separator
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    'escape-character-null': '\00',
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                           ^^^^^ meta.mapping.value meta.string string.quoted.single
+//                            ^^ constant.character.escape.null
+//                              ^ invalid.illegal.unexpected-digit-character
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    'unrecognized-string-escape-unicode-symbol-too-short': '\x0',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                                         ^^^^^ meta.mapping.value meta.string string.quoted.single
+//                                                          ^^ invalid.illegal.unrecognized-string-escape
+//                                                          ^^^ - constant.character.escape
+
+    'unrecognized-string-escape-unicode-symbol-upper-case-too-short': '\X0',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                                                    ^^^^^ meta.mapping.value meta.string string.quoted.single
+//                                                                     ^^ invalid.illegal.unrecognized-string-escape
+//                                                                     ^^^ - constant.character.escape
+
+    'unrecognized-string-escape-unicode-symbol-upper-case': '\X00',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                                          ^^^^^^ meta.mapping.value meta.string string.quoted.single
+//                                                           ^^ invalid.illegal.unrecognized-string-escape
+//                                                           ^^^^ - constant.character.escape
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    'expected-language-constant-Infinity': -infinity,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                         ^^^^^^^^^ meta.mapping.value meta.number.float.decimal
+//                                         ^ constant.numeric.sign
+//                                          ^^^^^^^^ invalid.illegal.expected-language-constant
+
+    'expected-language-constant-NaN': -nan
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                    ^^^^ meta.mapping.value meta.number.float.decimal
+//                                    ^ constant.numeric.sign
+//                                     ^^^ invalid.illegal.expected-language-constant
+}

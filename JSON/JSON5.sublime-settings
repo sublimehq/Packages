@@ -1,0 +1,10 @@
+//  Packages/JSON/JSON5.sublime-settings
+//  Settings - Syntax Specific (Default)
+//
+//  This file is being maintained at:
+//      https://github.com/sublimehq/Packages/blob/master/JSON/JSON5.sublime-settings
+
+
+{
+    "default_extension": "json5"
+}

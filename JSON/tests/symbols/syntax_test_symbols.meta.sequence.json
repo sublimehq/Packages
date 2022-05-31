@@ -1,0 +1,14 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+[
+    {
+        "key-one": "value",
+//      @@@@@@@@@ none
+//      ^^^^^^^^^ meta.sequence.list meta.mapping.key
+        "key-two": "value"
+//      @@@@@@@@@ none
+//      ^^^^^^^^^ meta.sequence.list meta.mapping.key
+    }
+]

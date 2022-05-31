@@ -1,0 +1,136 @@
+%YAML 1.2
+---
+#   YAML Documentation:
+#       https://yaml.org/spec/1.2/spec.html
+#   Sublime Text Documentation:
+#       https://www.sublimetext.com/docs/syntax.html#ver-dev
+#       https://www.sublimetext.com/docs/syntax.html#testing:ver-dev
+#       https://www.sublimetext.com/docs/scope_naming.html
+#   This file is being maintained at:
+#       https://github.com/sublimehq/Packages/blob/master/JSON/JSONC.sublime-syntax
+
+name: JSONC
+scope: source.json.jsonc
+version: 2
+
+# https://www.sublimetext.com/docs/syntax.html#inheritance
+extends: Packages/JSON/JSON.sublime-syntax
+
+file_extensions:
+  - jsonc
+
+  - sublime-build                       # https://www.sublimetext.com/docs/build_systems.html
+  - sublime-color-scheme                # https://www.sublimetext.com/docs/color_schemes.html
+  - sublime-commands
+  - sublime-completions                 # https://www.sublimetext.com/docs/completions.html
+  - sublime-keymap                      # https://www.sublimetext.com/docs/key_bindings.html
+  - sublime-macro
+  - sublime-menu                        # https://www.sublimetext.com/docs/menus.html
+  - sublime-mousemap
+  - sublime-project                     # https://www.sublimetext.com/docs/projects.html
+  - sublime-settings                    # https://www.sublimetext.com/docs/settings.html
+  - sublime-theme                       # https://www.sublimetext.com/docs/themes.html
+  - sublime-workspace                   # https://www.sublimetext.com/docs/projects.html
+
+hidden_file_extensions:
+  - .ember-cli
+
+  - .esformatter
+    # esformatter: ECMAScript code formatter
+    # https://github.com/millermedeiros/esformatter
+
+  - .eslintrc
+    # ESLint Configuration
+    # https://eslint.org/docs/user-guide/configuring/
+
+  - .eslintrc.json
+    # ESLint Configuration
+    # https://eslint.org/docs/user-guide/configuring/
+
+  - .hintrc
+    # Webhint Configuration
+    # https://webhint.io/docs/user-guide/configuring-webhint/summary/
+
+  - .htmlhintrc
+    # HTMLHint Configuration
+    # https://htmlhint.com/docs/user-guide/configuration
+
+  - .jsfmtrc
+    # jsfmt: For formatting, searching and re-writing JavaScript
+    # https://github.com/rdio/jsfmt#formatting
+
+  - .jshintrc
+    # JSHint
+    # https://www.jshint.com/docs/#options
+
+  - .jslintrc
+    # JSLint's implementation of JSHint
+    # https://www.jslint.com/lint.html
+
+  - .stylintrc
+    # stylint Configuration
+    # https://github.com/SimenB/stylint
+
+  - .swcrc
+    # swc Configuration
+    # https://swc.rs/docs/configuring-swc
+
+  - eslintrc.json
+    # ESLint Configuration
+    # https://eslint.org/docs/user-guide/configuring/
+
+  - languagebabel
+
+  - tsconfig.json
+    # TypeScript Configuration
+    # https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bjsonc\b .*? -\*-                                    # editorconfig
+  )
+
+########################################################################################################################
+
+contexts:
+
+####[ Comments ]########################################################################################################
+
+  comment-line:
+    - match: //
+      scope: punctuation.definition.comment.jsonc
+      push: comment-line-content
+
+  comment-line-content:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.jsonc
+    - include: eol-pop
+
+  comment-block:
+    # empty block comments
+    - match: (/\*)\**(\*/)
+      scope: comment.block.empty.jsonc
+      captures:
+        1: punctuation.definition.comment.begin.jsonc
+        2: punctuation.definition.comment.end.jsonc
+    # normal block comments
+    - match: /\*
+      scope: punctuation.definition.comment.begin.jsonc
+      push: comment-block-content
+
+  comment-block-content:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.jsonc
+    - include: comment-block-end
+
+  comment-block-end:
+    - match: \*/
+      scope: punctuation.definition.comment.end.jsonc
+      pop: 1
+
+####[ Sequences ]#######################################################################################################
+
+  array-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.jsonc
+      push: array-item

@@ -1,0 +1,22 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax"
+
+// <- source.json.json5
+
+[
+    {
+        "key-one-one": "value",
+//      @@@@@@@@@@@@@ none
+//      ^^^^^^^^^^^^^ meta.sequence.list meta.mapping.key
+        "key-one-two": "value"
+//      @@@@@@@@@@@@@ none
+//      ^^^^^^^^^^^^^ meta.sequence.list meta.mapping.key
+    },
+    {
+        'key-two-one': 'value',
+//      @@@@@@@@@@@@@ none
+//      ^^^^^^^^^^^^^ meta.sequence.list meta.mapping.key
+        'key-two-two': 'value'
+//      @@@@@@@@@@@@@ none
+//      ^^^^^^^^^^^^^ meta.sequence.list meta.mapping.key
+    }
+]

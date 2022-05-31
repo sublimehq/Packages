@@ -1,0 +1,43 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+
+{
+    "link-https": "<https://www.sublimetext.com>",
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+//                       ^^^ punctuation.separator.path
+    "link-http": "<http://www.sublimetext.com>",
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+//                     ^^^ punctuation.separator.path
+    "link-www": "www.sublimetext.com",
+//               ^^^^^^^^^^^^^^^^^^^ meta.link.inet markup.underline.link
+    "link-ftp": "<ftp://www.sublimetext.com>",
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+//                   ^^^ punctuation.separator.path
+    "link-irc": "<irc://foo%20bar.com:2233/baz>",
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+//                   ^^^ punctuation.separator.path
+//                                        ^ punctuation.separator.path
+    "link-abcd": "<a+b+c:d>",
+//                ^^^^^^^^^ meta.link.inet
+//                 ^^^^^^^ markup.underline.link
+    "link-made-up": "<made-up-scheme://foo,bar>",
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+//                                  ^^^ punctuation.separator.path
+    "link-http-empty": "<http://../>",
+//                      ^^^^^^^^^^^^ meta.link.inet
+//                       ^^^^^^^^^^ markup.underline.link
+//                           ^^^ punctuation.separator.path
+//                                ^ punctuation.separator.path
+    "link-localhost": "<localhost:5001/foo>"
+//                     ^^^^^^^^^^^^^^^^^^^^ meta.link.inet
+//                      ^^^^^^^^^^^^^^^^^^ markup.underline.link
+//                               ^ punctuation.separator.path
+//                                    ^ punctuation.separator.path
+}

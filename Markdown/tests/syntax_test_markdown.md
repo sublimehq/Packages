@@ -1862,6 +1862,27 @@ for (var i = 0; i < 10; i++) {
 | <- meta.code-fence.definition.end.jsx.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |^^ meta.code-fence.definition.end.jsx.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
+```json5
+
+| <- markup.raw.code-fence.json5.markdown-gfm
+```
+| <- meta.code-fence.definition.end.json5.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.json5.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
+```jsonc
+
+| <- markup.raw.code-fence.jsonc.markdown-gfm
+```
+| <- meta.code-fence.definition.end.jsonc.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.jsonc.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
+```json
+
+| <- markup.raw.code-fence.json.markdown-gfm
+```
+| <- meta.code-fence.definition.end.json.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.json.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
 ```lisp
 
 | <- markup.raw.code-fence.lisp.markdown-gfm source.lisp

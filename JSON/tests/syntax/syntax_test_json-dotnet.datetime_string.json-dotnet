@@ -1,0 +1,25 @@
+// SYNTAX TEST "Packages/JSON/JSON_dotNET.sublime-syntax"
+
+// <- source.json.json-dotnet
+
+{
+    "key-one": "2000-01-01T00:00:00Z",
+//             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.json-dotnet string.quoted.double.datetime.json-dotnet
+//             ^ punctuation.definition.string.begin.json-dotnet
+//              ^^^^^^^^^^^^^^^^^^^^ constant.other.timestamp.json-dotnet
+//                                  ^ punctuation.definition.string.end.json-dotnet
+
+    "key-two": "/Date(1234)/",
+//             ^^^^^^^^^^^^^^ meta.string.json-dotnet string.quoted.double.datetime.json-dotnet
+//             ^ punctuation.definition.string.begin.json-dotnet
+//              ^^^^^^^^^^^^ constant.other.timestamp.json-dotnet
+//                          ^ punctuation.definition.string.end.json-dotnet
+
+    "key-three": "\/Date(1234)\/"
+//               ^^^^^^^^^^^^^^ meta.string.json-dotnet string.quoted.double.datetime.json-dotnet
+//               ^ punctuation.definition.string.begin.json-dotnet
+//                ^^^^^^^^^^^^^^ constant.other.timestamp.json-dotnet
+//                ^ invalid.illegal.double-escape.json-dotnet
+//                            ^ invalid.illegal.double-escape.json-dotnet
+//                              ^ punctuation.definition.string.end.json-dotnet
+}

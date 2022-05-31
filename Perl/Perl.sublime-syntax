@@ -251,6 +251,18 @@ contexts:
       embed: scope:source.js
       embed_scope: source.js.embedded.perl
       escape: (?=^{{pod}})
+    # embedded json5
+    - match: \bjson5\b
+      scope: constant.other.language-name.json5.perl
+      embed: scope:source.json.json5
+      embed_scope: source.json5.embedded.perl
+      escape: (?=^{{pod}})
+    # embedded jsonc
+    - match: \bjsonc\b
+      scope: constant.other.language-name.jsonc.perl
+      embed: scope:source.json.jsonc
+      embed_scope: source.jsonc.embedded.perl
+      escape: (?=^{{pod}})
     # embedded json
     - match: \bjson\b
       scope: constant.other.language-name.json.perl
@@ -930,6 +942,22 @@ contexts:
         3: entity.name.tag.heredoc.js.perl
         4: punctuation.definition.tag.end.perl
       set: [string-heredoc-javascript, string-heredoc-expr]
+    # embedded json5
+    - match: \s*((['"]?)(\s*JSON5)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.json5.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-heredoc-json5, string-heredoc-expr]
+    # embedded jsonc
+    - match: \s*((['"]?)(\s*JSONC)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.jsonc.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-heredoc-jsonc, string-heredoc-expr]
     # embedded json
     - match: \s*((['"]?)(\s*JSON)(\2))
       captures:
@@ -1012,6 +1040,24 @@ contexts:
     - match: ''
       embed: scope:source.js
       escape: (?=^ *JAVASCRIPT$)
+
+  string-heredoc-json5:
+    - meta_content_scope: source.json5.embedded.perl
+    - match: ^\3$
+      scope: meta.tag.heredoc.perl entity.name.tag.heredoc.json5.perl
+      pop: true
+    - match: ''
+      embed: scope:source.json.json5
+      escape: (?=^ *JSON5$)
+
+  string-heredoc-jsonc:
+    - meta_content_scope: source.jsonc.embedded.perl
+    - match: ^\3$
+      scope: meta.tag.heredoc.perl entity.name.tag.heredoc.jsonc.perl
+      pop: true
+    - match: ''
+      embed: scope:source.json.jsonc
+      escape: (?=^ *JSONC$)
 
   string-heredoc-json:
     - meta_content_scope: source.json.embedded.perl

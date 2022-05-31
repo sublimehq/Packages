@@ -1,0 +1,10 @@
+//  Packages/JSON/JSONC.sublime-settings
+//  Settings - Syntax Specific (Default)
+//
+//  This file is being maintained at:
+//      https://github.com/sublimehq/Packages/blob/master/JSON/JSONC.sublime-settings
+
+
+{
+    "default_extension": "jsonc"
+}

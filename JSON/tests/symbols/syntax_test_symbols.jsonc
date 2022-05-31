@@ -1,0 +1,17 @@
+// SYNTAX TEST "Packages/JSON/JSONC.sublime-syntax"
+
+// <- source.json.jsonc
+
+{
+    "key": "value",
+//  @@@@@ definition
+//  ^^^^^ meta.mapping.key - meta.mapping.value meta.mapping.key
+
+    "key-two": { "key-two-one": "value", "key-two-two": "value" }
+//  @@@@@@@@@ definition
+//  ^^^^^^^^^ meta.mapping.key - meta.mapping.value meta.mapping.key
+//               @@@@@@@@@@@@@ none
+//               ^^^^^^^^^^^^^ meta.mapping.value meta.mapping.key
+//                                       @@@@@@@@@@@@@ none
+//                                       ^^^^^^^^^^^^^ meta.mapping.value meta.mapping.key
+}

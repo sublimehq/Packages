@@ -1,0 +1,140 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax"
+
+// <- source.json.json5
+
+{
+// <- meta.mapping punctuation.definition.mapping.begin
+
+    _identifierOne: null,
+//  ^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//  ^^^^^^^^^^^^^^ meta.string string.unquoted.plain
+//                ^ meta.mapping punctuation.separator.key-value
+//                  ^^^^ meta.mapping.value
+//                  ^^^^ - meta.mapping meta.mapping.value
+//                      ^ meta.mapping punctuation.separator.sequence
+
+    $identifierTwo: null,
+//  ^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//  ^^^^^^^^^^^^^^ meta.string string.unquoted.plain
+//                ^ meta.mapping punctuation.separator.key-value
+//                  ^^^^ meta.mapping.value
+//                  ^^^^ - meta.mapping meta.mapping.value
+
+    \u1234abc: null,
+//  ^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^ - meta.mapping meta.mapping.key
+//  ^^^^^^^^^ meta.string string.unquoted.plain
+//           ^ meta.mapping punctuation.separator.key-value
+//             ^^^^ meta.mapping.value
+//             ^^^^ - meta.mapping meta.mapping.value
+
+    'meta-mapping-value-constant': null,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                               ^ meta.mapping punctuation.separator.key-value
+//                                 ^^^^ meta.mapping.value
+//                                 ^^^^ - meta.mapping meta.mapping.value
+
+    'meta-mapping-value-number': 0,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                             ^ meta.mapping punctuation.separator.key-value
+//                               ^ meta.mapping.value
+//                               ^ - meta.mapping meta.mapping.value
+
+    'meta-mapping-value-string': "value",
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                             ^ meta.mapping punctuation.separator.key-value
+//                               ^^^^^^^ meta.mapping.value
+//                               ^^^^^^^ - meta.mapping meta.mapping.value
+
+    'meta-mapping-value-string': 'value',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                             ^ meta.mapping punctuation.separator.key-value
+//                               ^^^^^^^ meta.mapping.value
+//                               ^^^^^^^ - meta.mapping meta.mapping.value
+
+    'meta-mapping-value-sequence-empty': [],
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                                     ^ meta.mapping punctuation.separator.key-value
+//                                       ^^ meta.mapping.value
+//                                       ^^ - meta.mapping meta.mapping.value
+//                                       ^^ meta.mapping.value meta.sequence.list
+//                                       ^ punctuation.definition.sequence.begin
+//                                        ^ punctuation.definition.sequence.end
+
+    'meta-mapping-value-sequence-empty-with-space': [ ],
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                                                ^ meta.mapping punctuation.separator.key-value
+//                                                  ^^^ meta.mapping.value
+//                                                  ^^^ - meta.mapping meta.mapping.value
+//                                                  ^^^ meta.mapping.value meta.sequence.list
+//                                                  ^ punctuation.definition.sequence.begin
+//                                                    ^ punctuation.definition.sequence.end
+
+    'meta-mapping-value-sequence': [1, 2, 3],
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                               ^ meta.mapping punctuation.separator.key-value
+//                                 ^^^^^^^^^ meta.mapping.value
+//                                 ^^^^^^^^^ - meta.mapping meta.mapping.value
+//                                 ^ meta.mapping.value meta.sequence.list punctuation.definition.sequence.begin
+//                                         ^ meta.mapping.value meta.sequence.list punctuation.definition.sequence.end
+
+    'meta-mapping-value-mapping-empty': {},
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                                    ^ meta.mapping punctuation.separator.key-value
+//                                      ^^ meta.mapping.value meta.mapping
+//                                      ^^ - meta.mapping meta.mapping.value
+//                                      ^ punctuation.definition.mapping.begin
+//                                       ^ punctuation.definition.mapping.end
+
+    'meta-mapping-value-mapping-empty-with-space': { },
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                                               ^ meta.mapping punctuation.separator.key-value
+//                                                 ^^^ meta.mapping.value meta.mapping
+//                                                 ^^^ - meta.mapping meta.mapping.value
+//                                                 ^ punctuation.definition.mapping.begin
+//                                                   ^ punctuation.definition.mapping.end
+
+    'meta-mapping-value-mapping': { "a": 1, "b": 2 },
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                              ^ meta.mapping punctuation.separator.key-value
+//                                ^ meta.mapping.value meta.mapping punctuation.definition.mapping.begin
+//                                ^ - meta.mapping meta.mapping.value
+//                                  ^^^ meta.mapping.value meta.mapping.key
+//                                     ^ meta.mapping.value meta.mapping punctuation.separator.key-value
+//                                       ^ meta.mapping.value meta.mapping.value
+//                                        ^ meta.mapping.value meta.mapping punctuation.separator.sequence
+//                                          ^^^ meta.mapping.value meta.mapping.key
+//                                             ^ meta.mapping.value meta.mapping punctuation.separator.key-value
+//                                               ^ meta.mapping.value meta.mapping.value
+//                                                 ^ meta.mapping.value meta.mapping punctuation.definition.mapping.end
+//                                                 ^ - meta.mapping meta.mapping.value
+
+    'meta-mapping-value-mapping': { 'a': 1, 'b': 2 }
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping.key
+//                              ^ meta.mapping punctuation.separator.key-value
+//                                ^ meta.mapping.value meta.mapping punctuation.definition.mapping.begin
+//                                ^ - meta.mapping meta.mapping.value
+//                                  ^^^ meta.mapping.value meta.mapping.key
+//                                     ^ meta.mapping.value meta.mapping punctuation.separator.key-value
+//                                       ^ meta.mapping.value meta.mapping.value
+//                                        ^ meta.mapping.value meta.mapping punctuation.separator.sequence
+//                                          ^^^ meta.mapping.value meta.mapping.key
+//                                             ^ meta.mapping.value meta.mapping punctuation.separator.key-value
+//                                               ^ meta.mapping.value meta.mapping.value
+//                                                 ^ meta.mapping.value meta.mapping punctuation.definition.mapping.end
+//                                                 ^ - meta.mapping meta.mapping.value
+}
+// <- meta.mapping punctuation.definition.mapping.end

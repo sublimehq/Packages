@@ -1,0 +1,55 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+
+[
+// <- meta.sequence.list punctuation.definition.sequence.begin
+
+    true,
+//  ^^^^ constant.language.boolean
+
+    false,
+//  ^^^^^ constant.language.boolean
+
+    null,
+//  ^^^^ constant.language.null
+//  ^^^^ - constant.language.empty
+
+    0,
+//  ^ meta.number.integer.decimal constant.numeric.value
+
+    0.0,
+//  ^^^ meta.number.float.decimal constant.numeric.value
+
+    "value",
+//  ^^^^^^^ string.quoted.double
+
+    [],
+//  ^^ meta.sequence.list meta.sequence.list
+
+    [ ],
+//  ^^^ meta.sequence.list meta.sequence.list
+
+    [1, 2, 3],
+//  ^^^^^^^^^ meta.sequence.list meta.sequence.list
+//  ^ punctuation.definition.sequence.begin
+//   ^ constant.numeric.value
+//    ^ punctuation.separator.sequence
+//      ^ constant.numeric.value
+//       ^ punctuation.separator.sequence
+//         ^ constant.numeric.value
+//          ^ punctuation.definition.sequence.end
+//           ^ punctuation.separator.sequence
+
+    {},
+//  ^^ meta.mapping
+
+    { },
+//  ^^^ meta.mapping
+
+    { "a": 1, "b": 2, "c": 3 }
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+
+]
+// <- meta.sequence.list punctuation.definition.sequence.end
