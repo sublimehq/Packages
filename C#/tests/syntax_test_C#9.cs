@@ -21,6 +21,7 @@ public record Person
 ///     ^^^^ keyword.declaration.function.accessor.set
 ///          ^^ keyword.declaration.function.arrow
 ///             ^^^^^^^^ variable.other
+///                               ^^ keyword.operator.null-coalescing
     }
 }
 

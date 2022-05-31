@@ -7,7 +7,7 @@ List<int> numbers = null;
 int? i = null;
 
 numbers ??= new List<int>();
-///     ^^^ keyword.operator
+///     ^^^ keyword.operator.assignment.augmented
 numbers.Add(i ??= 17);
 numbers.Add(i ??= 20);
 
