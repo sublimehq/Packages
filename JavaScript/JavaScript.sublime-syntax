@@ -1263,8 +1263,11 @@ contexts:
         \?\?=
       scope: keyword.operator.assignment.augmented.js
       push: expression-begin
-    - match: '&&|\|\||\?\?'
+    - match: '&&|\|\|'
       scope: keyword.operator.logical.js
+      push: expression-begin
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.js
       push: expression-begin
     - match: |-
         (?x)
