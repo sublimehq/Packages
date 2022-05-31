@@ -252,7 +252,7 @@ contexts:
     - include: match-call-or-type-conversion
     - include: match-short-variable-declarations
     - match: \b_\b
-      scope: variable.language.blank.go
+      scope: variable.language.anonymous.go
     - match: '{{ident}}'
       scope: variable.other.go
 
@@ -327,7 +327,7 @@ contexts:
       push:
         - include: match-comments
         - match: \b_\b
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
         - match: '{{ident}}'
           scope: variable.other.readwrite.declaration.go
         - include: match-comma
@@ -427,7 +427,7 @@ contexts:
         - match: '{{ident}}(?={{noise}}\.)'
           scope: variable.other.go
         - match: \b_\b
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
           pop: true
         - include: pop-type-identifier
         - include: pop-before-nonblank
@@ -663,12 +663,12 @@ contexts:
               pop: true
 
             - match: \b_\b(?={{noise}},)
-              scope: variable.language.blank.go
+              scope: variable.language.anonymous.go
             - match: '{{ident}}(?={{noise}},)'
               scope: variable.other.constant.declaration.go
 
             - match: \b_\b
-              scope: variable.language.blank.go
+              scope: variable.language.anonymous.go
               push: pop-const-type-and-or-assignment
             - match: '{{ident}}'
               scope: variable.other.constant.declaration.go
@@ -680,12 +680,12 @@ contexts:
         - include: match-comma
 
         - match: \b_\b(?={{noise}},)
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
         - match: '{{ident}}(?={{noise}},)'
           scope: variable.other.constant.declaration.go
 
         - match: \b_\b
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
           set: pop-const-type-and-or-assignment
         - match: '{{ident}}'
           scope: variable.other.constant.declaration.go
@@ -809,7 +809,7 @@ contexts:
               scope: punctuation.section.parens.end.go
               pop: true
             - match: \b_\b
-              scope: variable.language.blank.go
+              scope: variable.language.anonymous.go
               push:
                 - match: (?=\))
                   pop: true
@@ -823,7 +823,7 @@ contexts:
             - include: match-any
 
         - match: \b_\b
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
           set: pop-type-alias-or-typedef
         - match: '{{ident}}'
           scope: entity.name.type.go
@@ -843,12 +843,12 @@ contexts:
               pop: true
 
             - match: \b_\b(?={{noise}},)
-              scope: variable.language.blank.go
+              scope: variable.language.anonymous.go
             - match: '{{ident}}(?={{noise}},)'
               scope: variable.other.readwrite.declaration.go
 
             - match: \b_\b
-              scope: variable.language.blank.go
+              scope: variable.language.anonymous.go
               push: pop-var-type-and-or-assignment
             - match: '{{ident}}'
               scope: variable.other.readwrite.declaration.go
@@ -860,12 +860,12 @@ contexts:
         - include: match-comma
 
         - match: \b_\b(?={{noise}},)
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
         - match: '{{ident}}(?={{noise}},)'
           scope: variable.other.readwrite.declaration.go
 
         - match: \b_\b
-          scope: variable.language.blank.go
+          scope: variable.language.anonymous.go
           set: pop-var-type-and-or-assignment
         - match: '{{ident}}'
           scope: variable.other.readwrite.declaration.go
@@ -876,7 +876,7 @@ contexts:
   pop-func-signature:
     - include: match-comments
     - match: \b_\b
-      scope: variable.language.blank.go
+      scope: variable.language.anonymous.go
       set: pop-func-parameter-and-return-lists
     - match: '{{ident}}'
       scope: entity.name.function.go
@@ -954,7 +954,7 @@ contexts:
     - include: match-comma
     - include: match-ellipsis
     - match: \b_\b
-      scope: variable.language.blank.go
+      scope: variable.language.anonymous.go
       push: pop-parameter-type
     - match: '{{ident}}'
       scope: variable.parameter.go
@@ -1063,7 +1063,7 @@ contexts:
               scope: entity.other.inherited-class.go
 
             - match: \b_\b
-              scope: variable.language.blank.go
+              scope: variable.language.anonymous.go
             - match: '{{ident}}'
               scope: variable.other.member.declaration.go
               push:
@@ -1147,14 +1147,14 @@ contexts:
   pop-named-type:
     - include: match-comments
     - match: \b_\b
-      scope: variable.language.blank.go
+      scope: variable.language.anonymous.go
       pop: true
     - match: '{{ident}}(?={{noise}}\.)'
       scope: variable.other.go
     - match: \.
       scope: punctuation.accessor.dot.go
     - match: \b_\b
-      scope: variable.language.blank.go
+      scope: variable.language.anonymous.go
       pop: true
     - include: pop-type-identifier
     - include: pop-before-nonblank
@@ -1248,7 +1248,7 @@ contexts:
 
   pop-member:
     - match: \b_\b
-      scope: variable.language.blank.go
+      scope: variable.language.anonymous.go
       pop: true
     - match: '{{ident}}'
       scope: variable.other.member.go

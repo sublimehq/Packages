@@ -232,7 +232,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     chan _
 //  ^^^^ keyword.declaration.chan.go
-//       ^ variable.language.blank.go
+//       ^ variable.language.anonymous.go
 
     chan typ
 //  ^^^^ keyword.declaration.chan.go
@@ -1385,7 +1385,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     type _ typ
 //  ^^^^ keyword.declaration.type.go
-//       ^ variable.language.blank.go
+//       ^ variable.language.anonymous.go
 //         ^^^ storage.type.go
 
     type Type typ
@@ -1556,7 +1556,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     const _ = 10
 //  ^^^^^ keyword.declaration.const.go
-//        ^ variable.language.blank.go
+//        ^ variable.language.anonymous.go
 //          ^ keyword.operator.assignment.go
 //            ^^ meta.number.integer.decimal.go constant.numeric.value.go
 
@@ -1748,14 +1748,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                 ^ meta.number.integer.decimal.go constant.numeric.value.go
         var _ = iota
 //      ^^^ keyword.declaration.var.go
-//          ^ variable.language.blank.go
+//          ^ variable.language.anonymous.go
 //            ^ keyword.operator.assignment.go
 //              ^^^^ variable.other.go -constant
     }
 
     var _ = log.Println
 //  ^^^ keyword.declaration.var.go
-//      ^ variable.language.blank.go
+//      ^ variable.language.anonymous.go
 //        ^ keyword.operator.assignment.go
 //          ^^^ variable.other.go
 //             ^ punctuation.accessor.dot.go
@@ -2907,12 +2907,12 @@ every type individually.
 
     type _ typ
 //  ^^^^ keyword.declaration.type.go
-//       ^ variable.language.blank.go
+//       ^ variable.language.anonymous.go
 //         ^^^ storage.type.go -support
 
     type _ int
 //  ^^^^ keyword.declaration.type.go
-//       ^ variable.language.blank.go
+//       ^ variable.language.anonymous.go
 //         ^^^ storage.type.go support.type.builtin.go
 
     const ident typ
