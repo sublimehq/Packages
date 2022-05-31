@@ -411,16 +411,18 @@ contexts:
   qualified-namespace:
     - match: ({{identifier}})?(::)
       captures:
-        1: entity.name.namespace.perl
+        1: variable.namespace.perl
         2: punctuation.accessor.double-colon.perl
-      set:
-        - meta_scope: meta.path.perl
-        - match: ({{identifier}})(::)
-          captures:
-            1: entity.name.namespace.perl
-            2: punctuation.accessor.double-colon.perl
-        - include: unqualified-namespace
-        - include: immediately-pop
+      set: qualified-namespace-content
+
+  qualified-namespace-content:
+    - meta_scope: meta.path.perl
+    - match: ({{identifier}})(::)
+      captures:
+        1: variable.namespace.perl
+        2: punctuation.accessor.double-colon.perl
+    - include: unqualified-namespace
+    - include: immediately-pop
 
   unqualified-namespace:
     - match: '{{identifier}}'
@@ -1066,7 +1068,7 @@ contexts:
     # The `meta.path` is not applied for simplicity reasons.
     - match: \b(CORE)(::)(?={{reserved_words}})
       captures:
-        1: variable.namespace.perl
+        1: support.namespace.perl
         2: punctuation.accessor.double-colon.perl
     # declaration
     - match: \b(?:{{storage_keywords}}){{break}}
@@ -1797,11 +1799,12 @@ contexts:
 ###[ VARIABLES ]##############################################################
 
   qualified-variables:
-    - match: ([$@%*]#?)({{identifier}})?(::)
+    - match: ([$@%*]#?)(?:(CORE)|({{identifier}}))?(::)
       captures:
         1: punctuation.definition.variable.perl
-        2: variable.namespace.perl
-        3: punctuation.accessor.double-colon.perl
+        2: support.namespace.perl
+        3: variable.namespace.perl
+        4: punctuation.accessor.double-colon.perl
       push: [maybe-item-access, qualified-variables-path]
 
   qualified-variables-path:
