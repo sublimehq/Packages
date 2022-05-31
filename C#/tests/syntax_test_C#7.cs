@@ -424,7 +424,7 @@ class Foo {
 ///      ^^^^^^ storage.type
 ///             ^^^^ variable.other
 ///                 ^ punctuation.separator.sequence
-///                   ^ variable.language.deconstruction.discard
+///                   ^ variable.language.anonymous
 ///                    ^ punctuation.separator.sequence
 ///                      ^^^^^^ storage.type
 ///                             ^^^^ variable.other
@@ -436,7 +436,7 @@ class Foo {
 ///          ^ punctuation.separator.sequence
 ///            ^^^^^^^^^^ variable.other
 ///                      ^ punctuation.separator.sequence
-///                        ^ variable.language.deconstruction
+///                        ^ variable.language.anonymous
 ///                         ^ punctuation.section.sequence.end
 ///                           ^ keyword.operator.assignment
         var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);

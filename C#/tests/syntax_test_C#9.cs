@@ -92,7 +92,7 @@ var message = myValue switch
 ///            ^^ constant.numeric.value
 ///               ^^ punctuation.separator.case-expression
     _ => "More than 10"
-/// ^ variable.language.deconstruction.discard
+/// ^ variable.language.anonymous
 ///   ^^ punctuation.separator.case-expression
 } + ".";
 /// <- punctuation.section.block.end
@@ -138,7 +138,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 ///                      ^ punctuation.accessor.dot
 ///                       ^^^^ variable.other
 ///                           ^ punctuation.separator.sequence
-///                             ^ variable.language.deconstruction.discard
+///                             ^ variable.language.anonymous
 ///                              ^ punctuation.section.sequence.end
 ///                                ^^ punctuation.separator.case-expression
 ///                                   ^^^^ constant.language
