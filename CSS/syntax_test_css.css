@@ -1646,6 +1646,14 @@
 /*       ^^^^^^ meta.number.float.decimal.css */
 /*       ^^^ constant.numeric.value.css */
 /*          ^^^ constant.numeric.suffix.css */
+    top: 1.0vh;
+/*          ^^ constant.numeric.suffix.css */
+    top: 1.0svh;
+/*          ^^^ constant.numeric.suffix.css */
+    top: 1.0dvh;
+/*          ^^^ constant.numeric.suffix.css */
+    top: 1.0lvh;
+/*          ^^^ constant.numeric.suffix.css */
 }
 
 .test-properties {

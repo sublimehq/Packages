@@ -64,7 +64,7 @@ variables:
     | {{viewport_percentage_lengths}}
     )
   font_relative_lengths: (?i:cap|ch|em|ex|ic|lh|rem|rlh)\b
-  viewport_percentage_lengths: (?i:vh|vw|vi|vb|vmin|vmax)\b
+  viewport_percentage_lengths: (?i:[sld]?(?:vh|vw|vi|vb|vmin|vmax))\b
   absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)\b
   angle_units: (?i:deg|grad|rad|turn)\b
   duration_units: (?i:s|ms)\b
