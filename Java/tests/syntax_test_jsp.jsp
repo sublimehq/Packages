@@ -205,19 +205,19 @@
 
     The map file has <font color="<%=color.blue()%>"><%= map.size() %></font> entries.
 //  ^^^^^^^^^^^^^^^^^ - meta
-//                   ^^^^^^ meta.tag.inline.any.html - meta.attribute-with-value.html
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.html
+//                   ^^^^^^ meta.tag.block - meta.attribute-with-value.html
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block meta.attribute-with-value.html
 //                               ^ meta.string.html - meta.interpolation
 //                                ^^^^^^^^^^^^^^^^^ meta.string.html meta.interpolation.jsp
 //                                                 ^ meta.string.html - meta.interpolation
 //                                ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
 //                                   ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.jsp - source.java source.java
 //                                               ^^ meta.embedded.expression.jsp punctuation.section.embedded.end.jsp - source.java
-//                                                  ^ meta.tag.inline.any.html - meta.attribute-with-value.html
+//                                                  ^ meta.tag.block - meta.attribute-with-value.html
 //                                                   ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
 //                                                      ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.jsp
 //                                                                  ^^ meta.embedded.expression.jsp punctuation.section.embedded.end.jsp - source.java
-//                                                                    ^^^^^^^ meta.tag.inline.any.html
+//                                                                    ^^^^^^^ meta.tag.block
 //                                                                           ^^^^^^^^^ - meta
 
 
@@ -236,14 +236,14 @@
 //           ^^ keyword.operator.logical.java
     %><div style="width: <%=with%>"></div><%
 //  ^^ punctuation.section.embedded.end.jsp - source.java.embedded.jsp
-//    ^^^^^ meta.tag.block.any.html - meta.attribute-with-value
-//         ^^^^^^^ meta.tag.block.any.html meta.attribute-with-value.style.html - source.css
-//                ^^^^^^^ meta.tag.block.any.html meta.attribute-with-value.style.html source.css - meta.expression
-//                       ^^^^^^^^^ meta.tag.block.any.html meta.attribute-with-value.style.html source.css meta.embedded.expression.jsp
-//                                ^ meta.tag.block.any.html meta.attribute-with-value.style.html - source.css
-//                                 ^^^^^^^ meta.tag.block.any.html - meta.attribute-with-value.style.html - source.css
+//    ^^^^^ meta.tag.block - meta.attribute-with-value
+//         ^^^^^^^ meta.tag.block meta.attribute-with-value.style.html - source.css
+//                ^^^^^^^ meta.tag.block meta.attribute-with-value.style.html source.css - meta.expression
+//                       ^^^^^^^^^ meta.tag.block meta.attribute-with-value.style.html source.css meta.embedded.expression.jsp
+//                                ^ meta.tag.block meta.attribute-with-value.style.html - source.css
+//                                 ^^^^^^^ meta.tag.block - meta.attribute-with-value.style.html - source.css
 //    ^ punctuation.definition.tag.begin.html
-//     ^^^ entity.name.tag.block.any.html
+//     ^^^ entity.name.tag.block
 //         ^^^^^ entity.other.attribute-name.style.html
 //              ^ punctuation.separator.key-value.html
 //               ^ string.quoted.double punctuation.definition.string.begin.html
@@ -407,7 +407,7 @@
     Good guess, but nope. Try<b><jsp:expression>numguess.getHint()</jsp:expression></b>.
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta
 //                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag.jsp meta.tag.jsp
-//                           ^^^ meta.tag.inline.any.html
+//                           ^^^ meta.tag.inline
 //                              ^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.begin.html
 //                              ^ punctuation.definition.tag.begin.html
 //                               ^^^ entity.name.tag.namespace.html
@@ -421,12 +421,12 @@
 //                                                                     ^ entity.name.tag.html punctuation.separator.namespace.html
 //                                                                      ^^^^^^^^^^ entity.name.tag.localname.html
 //                                                                                ^ punctuation.definition.tag.end.html
-//                                                                                 ^^^^ meta.tag.inline.any.html
+//                                                                                 ^^^^ meta.tag.inline
 
     Good guess, but nope. Try<b><jsp:expression/>numguess.getHint()</jsp:expression></b>.
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta
 //                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag.jsp meta.tag.jsp
-//                           ^^^ meta.tag.inline.any.html
+//                           ^^^ meta.tag.inline
 //                              ^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.begin.html
 //                              ^ punctuation.definition.tag.begin.html
 //                               ^^^ entity.name.tag.namespace.html
@@ -440,7 +440,7 @@
 //                                                                      ^ entity.name.tag.html punctuation.separator.namespace.html
 //                                                                       ^^^^^^^^^^ entity.name.tag.localname.html
 //                                                                                 ^ punctuation.definition.tag.end.html
-//                                                                                  ^^^^ meta.tag.inline.any.html
+//                                                                                  ^^^^ meta.tag.inline
 
 
     <!--
@@ -681,8 +681,8 @@
 //      ^ punctuation.separator.namespace.html
 //       ^^^^ entity.name.tag.localname.html
 //           ^^ punctuation.definition.tag.end.html
-//                  ^^^ meta.tag.inline.any.html
-//                         ^^^^ meta.tag.inline.any.html
+//                  ^^^ meta.tag.inline
+//                         ^^^^ meta.tag.inline
 //                             ^^^^^^^^^^^ meta.tag.jsp.other.end.html
 //                             ^^ punctuation.definition.tag.begin.html
 //                               ^^^ entity.name.tag.namespace.html
@@ -698,8 +698,8 @@
 //      ^ punctuation.separator.namespace.html
 //       ^^^^ entity.name.tag.localname.html
 //           ^ punctuation.definition.tag.end.html
-//                 ^^^ meta.tag.inline.any.html
-//                        ^^^^ meta.tag.inline.any.html
+//                 ^^^ meta.tag.inline
+//                        ^^^^ meta.tag.inline
 //                            ^^^^^^^^^^^ meta.tag.jsp.other.end.html
 //                            ^^ punctuation.definition.tag.begin.html
 //                              ^^^ entity.name.tag.namespace.html
@@ -717,14 +717,14 @@
 //           ^ punctuation.definition.tag.end.html
 //                 ^^^^ constant.character.entity.named.html
 //                      ^^^^ constant.character.entity.named.html
-//                              ^^^^ meta.tag.inline.any.html
+//                              ^^^^ meta.tag.inline
 //                                  ^^^^^^^^^^^^ meta.tag.jsp.other.end.html
 //                                  ^^ punctuation.definition.tag.begin.html
 //                                    ^^^ entity.name.tag.namespace.html
 //                                       ^ punctuation.separator.namespace.html
 //                                        ^^^^^ entity.name.tag.localname.html
 //                                             ^ punctuation.definition.tag.end.html
-//                                              ^^^ meta.tag.inline.any.html
+//                                              ^^^ meta.tag.inline
 
     <c:forEach var="customer" items="${customers}">
 //                                  ^ meta.tag.other.begin.html meta.attribute-with-value.html meta.string.html - meta.interpolation - meta.embedded
