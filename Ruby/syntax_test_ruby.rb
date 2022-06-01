@@ -162,7 +162,7 @@ puts <<-HTML; # comment
 #            ^^ punctuation.definition.variable.ruby
 #            ^^^^^ variable.other.readwrite.instance.ruby
   </body>
-# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded meta.tag.structure.any.html
+# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded meta.tag.structure
   HTML
 # ^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #     ^ - meta.string - string.unquoted
