@@ -1,9 +1,9 @@
 ' SYNTAX TEST "Packages/ASP/HTML (ASP).sublime-syntax"
 <!DOCTYPE html>
 <html>
-'<- meta.tag.structure.any.html punctuation.definition.tag.begin.html - source.asp.embedded.html
-'^^^^ meta.tag.structure.any.html entity.name.tag.structure.any.html
-'    ^ meta.tag.structure.any.html punctuation.definition.tag.end.html
+'<- meta.tag.structure punctuation.definition.tag.begin.html - source.asp.embedded.html
+'^^^^ meta.tag.structure entity.name.tag.structure
+'    ^ meta.tag.structure punctuation.definition.tag.end.html
  <%@ TRANSACTION = Required %>
 '^^ punctuation.section.embedded.begin.asp
 '    ^^^^^^^^^^^ constant.language.processing-directive.asp
@@ -1038,7 +1038,7 @@
     %>
     
     <p>foobar</p>
-   '^^^ text.html.asp meta.tag.block.any.html - source.asp.embedded.html
+   '^^^ text.html.asp meta.tag.block - source.asp.embedded.html
     <%='test %>
    '^^^ punctuation.section.embedded.begin.asp - source.asp
    '   ^^^^^^ comment.line.apostrophe.asp
@@ -1114,12 +1114,12 @@ test = "hello%>
 '              ^ - source.asp.embedded.html
 
 <footer>
-'^^^^^^ text.html.asp meta.tag.block.any.html entity.name.tag.block.any.html
+'^^^^^^ text.html.asp meta.tag.block entity.name.tag.block
     <% With abc %>
     '  ^^^^ keyword.control.flow.asp
     '           ^^ text.html.asp punctuation.section.embedded.end.inside-block.asp
         <p>Some conditional content in the footer</p>
-        '<- text.html.asp meta.tag.block.any.html punctuation.definition.tag.begin.html
+        '<- text.html.asp meta.tag.block punctuation.definition.tag.begin.html
     <% End With %>
    '^^ punctuation.section.embedded.begin.inside-block.asp
    '   ^^^^^^^^ keyword.control.flow.asp
@@ -1128,8 +1128,8 @@ test = "hello%>
     <% If abc = "def" Then %>
     '                     ^ meta.if.block.asp - meta.if.line.asp
         <span id="span1">Text here</span>
-        '     ^^ text.html.asp meta.tag.inline.any.html meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-        '                         ^^ text.html.asp meta.tag.inline.any.html punctuation.definition.tag.begin.html
+        '     ^^ text.html.asp meta.tag.inline meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+        '                         ^^ text.html.asp meta.tag.inline punctuation.definition.tag.begin.html
     <% End If %>
     ' ^ meta.if.block.asp
     '  ^^^^^^ keyword.control.flow.asp
@@ -1137,7 +1137,7 @@ test = "hello%>
    
 </footer><% [%><br />
 '            ^^ punctuation.section.embedded.end.asp
-'               ^^ text.html.asp meta.tag.inline.any.html entity.name.tag.inline.any.html
+'               ^^ text.html.asp meta.tag.inline entity.name.tag.inline
 <% Sub InventiveMethodNameHere(list) %>
 '  ^^^ meta.method.identifier.asp storage.type.function.asp
 '                                   ^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp
@@ -1149,7 +1149,7 @@ test = "hello%>
        '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
             %><li><%= item %></li><%
                     '^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp
-           '  ^ meta.tag.inline.any.html punctuation.definition.tag.begin.html
+           '  ^ meta.tag.block punctuation.definition.tag.begin.html
            '      ^^^ punctuation.section.embedded.begin.inside-block.asp
            '               ^^ punctuation.section.embedded.end.inside-block.asp
         Next
@@ -1160,8 +1160,8 @@ test = "hello%>
 '  ^^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp storage.type.function.end.asp
 '         ^ - meta.method.asp
  <p class="<% If True Then %>test<% End If %>"></p>
-'^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
-'                                         ^^^^^^^^^ meta.tag.block.any.html
+'^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block
+'                                         ^^^^^^^^^ meta.tag.block
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
 '         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
 '          ^^ meta.attribute-with-value.class.html  meta.string.html meta.interpolation.html - string
@@ -1184,24 +1184,24 @@ test = "hello%>
 '                                             ^ punctuation.definition.tag.end.html
 
  <p <%= "class=""test""" %> id="test1"></p>
-'^^^ meta.tag.block.any.html
-'                          ^^^^^^^^^^^^^^^^ meta.tag.block.any.html
+'^^^ meta.tag.block
+'                          ^^^^^^^^^^^^^^^^ meta.tag.block
 '^ punctuation.definition.tag.begin.html
-' ^ entity.name.tag.block.any.html
+' ^ entity.name.tag.block
 '   ^^^ punctuation.section.embedded.begin.asp
 '       ^^^^^^^^^^^^^^^^ string.quoted.double.asp
 '                        ^^ punctuation.section.embedded.end.asp
 '                           ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
 '                               ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                     ^ punctuation.definition.tag.end.html
-'                                          ^ - meta.tag.block.any.html
+'                                          ^ - meta.tag.block
 <% If True Then
    Do
  %>
         <span <%= "class=""test""" %> id="test2"></span>
-       '^^^^^^ meta.tag.inline.any.html
+       '^^^^^^ meta.tag.inline
        '^ punctuation.definition.tag.begin.html
-       ' ^^^^ entity.name.tag.inline.any.html
+       ' ^^^^ entity.name.tag.inline
        '      ^^^ punctuation.section.embedded.begin.inside-block.asp
        '          ^^^^^^^^^^^^^^^^ string.quoted.double.asp
        '                           ^^ punctuation.section.embedded.end.inside-block.asp
@@ -1209,19 +1209,19 @@ test = "hello%>
        '                              ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
        '                                  ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
        '                                        ^ punctuation.definition.tag.end.html
-       '                                         ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
+       '                                         ^^^^^^^ meta.tag.inline - meta.tag.after-embedded-asp
        '                                         ^^ punctuation.definition.tag.begin.html
-       '                                           ^^^^ entity.name.tag.inline.any.html
+       '                                           ^^^^ entity.name.tag.inline
        '                                               ^ punctuation.definition.tag.end.html
 <% Loop
    End If %>
   '^^^^^^ keyword.control.flow.asp
 
  <span <% If False Then %> class="test" <% End If %> id="test3"></span>
-'^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html
-'                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html
+'^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline
+'                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline
 '^ punctuation.definition.tag.begin.html
-' ^^^^ entity.name.tag.inline.any.html
+' ^^^^ entity.name.tag.inline
 '      ^^ punctuation.section.embedded.begin.asp
 '         ^^ keyword.control.flow.asp
 '            ^^^^^ meta.between-if-and-then.asp storage.type.asp
@@ -1257,15 +1257,15 @@ test = "hello%>
 '^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
 '    ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '          ^ punctuation.definition.tag.end.html
-'           ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
+'           ^^^^^^^ meta.tag.inline - meta.tag.after-embedded-asp
 '           ^^ punctuation.definition.tag.begin.html
-'             ^^^^ entity.name.tag.inline.any.html
+'             ^^^^ entity.name.tag.inline
 '                 ^ punctuation.definition.tag.end.html
  <% If True Then %>
 '^^ punctuation.section.embedded.begin.asp
 '                ^^ punctuation.section.embedded.end.inside-block.asp
  <span class="<%= "test" %>" id="test5"></span>
-'^^^^^^^^^^^^^ meta.tag.inline.any.html
+'^^^^^^^^^^^^^ meta.tag.inline
 '            ^ string.quoted.double.html punctuation.definition.string.begin.html
 '             ^^^ punctuation.section.embedded.begin.inside-block.asp
 '                        ^^ punctuation.section.embedded.end.inside-block.asp
@@ -1274,9 +1274,9 @@ test = "hello%>
 '                            ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
 '                                ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                      ^ punctuation.definition.tag.end.html
-'                                       ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
+'                                       ^^^^^^^ meta.tag.inline - meta.tag.after-embedded-asp
 '                                       ^^ punctuation.definition.tag.begin.html
-'                                         ^^^^ entity.name.tag.inline.any.html
+'                                         ^^^^ entity.name.tag.inline
 '                                             ^ punctuation.definition.tag.end.html
  <% End If %>
 '^^ punctuation.section.embedded.begin.inside-block.asp
@@ -1293,7 +1293,7 @@ test = "hello%>
 
 '<- - comment - source.asp.embedded.html
  </body>
-'^^^^^^^ meta.tag.structure.any.html
+'^^^^^^^ meta.tag.structure
 <script type="text/javascript">
 <% If True Then %>var hello = "world";<% End If %>
 </script>
