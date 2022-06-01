@@ -5066,9 +5066,9 @@ function embedHtml() {
 //                                                   ^^ punctuation.section.embedded.end
 
   <tag-<?php $bar ?>na<?php $baz ?>me att<?php $bar ?>rib=false />
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other
 //^ punctuation.definition.tag.begin.html
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other
 //     ^^^^^ punctuation.section.embedded.begin.php
 //     ^^^^^^^^^^^^^ meta.embedded.php
 //                ^^ punctuation.section.embedded.end
@@ -5083,9 +5083,9 @@ function embedHtml() {
 //                                                              ^^ punctuation.definition.tag.end.html
 
   <tag<?php $bar ?>na<?php $baz ?>me att<?php $bar ?>rib=false />
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other
 //^ punctuation.definition.tag.begin.html
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other
 //    ^^^^^ punctuation.section.embedded.begin.php
 //    ^^^^^^^^^^^^^ meta.embedded.php
 //               ^^ punctuation.section.embedded.end
