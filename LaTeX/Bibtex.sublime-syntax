@@ -16,6 +16,9 @@ first_line_match: |-
     ^ \s* \%+ .*? -\*- .*? \bbibtex\b .*? -\*-  # editorconfig
   )
 
+variables:
+  var: '\b[a-zA-Z]\w*'
+
 contexts:
   main:
     - match: "@Comment"
@@ -25,12 +28,12 @@ contexts:
         - meta_scope: comment.line.at-sign.bibtex
         - match: $\n?
           pop: true
-    - match: '((@)String)\s*(\{)\s*([a-zA-Z]*)'
+    - match: '((@)[Ss]tring)\s*(\{)\s*({{var}})'
       captures:
         1: keyword.other.string-constant.bibtex
         2: punctuation.definition.keyword.bibtex
         3: punctuation.section.string-constant.begin.bibtex
-        4: variable.other.bibtex
+        4: entity.name.constant.bibtex
       push:
         - meta_scope: meta.string-constant.braces.bibtex
         - match: '\}'
@@ -38,12 +41,14 @@ contexts:
             0: punctuation.section.string-constant.end.bibtex
           pop: true
         - include: string_content
-    - match: '((@)String)\s*(\()\s*([a-zA-Z]*)'
+        - include: variables
+        - include: operators
+    - match: '((@)[Ss]tring)\s*(\()\s*({{var}})'
       captures:
         1: keyword.other.string-constant.bibtex
         2: punctuation.definition.keyword.bibtex
         3: punctuation.section.string-constant.begin.bibtex
-        4: variable.other.bibtex
+        4: entity.name.constant.bibtex
       push:
         - meta_scope: meta.string-constant.parenthesis.bibtex
         - match: \)
@@ -51,6 +56,8 @@ contexts:
             0: punctuation.section.string-constant.end.bibtex
           pop: true
         - include: string_content
+        - include: variables
+        - include: operators
     - match: '((@)[a-zA-Z]+)\s*(\{)\s*([^\s,]*)'
       captures:
         1: keyword.other.entry-type.bibtex
@@ -76,6 +83,8 @@ contexts:
               pop: true
             - include: string_content
             - include: integer
+            - include: variables
+            - include: operators
         - match: \,
           scope: punctuation.separator.sequence.bibtex
     - match: '((@)[a-zA-Z]+)\s*(\()\s*([^\s,]*)'
@@ -103,6 +112,8 @@ contexts:
               pop: true
             - include: string_content
             - include: integer
+            - include: variables
+            - include: operators
         - match: \,
           scope: punctuation.separator.sequence.bibtex
     - match: '[^@\n]'
@@ -112,7 +123,13 @@ contexts:
           pop: true
   integer:
     - match: \d+
-      scope: constant.numeric.bibtex
+      scope: meta.number.integer.decimal.bibtex constant.numeric.value.bibtex
+  variables:
+    - match: '{{var}}'
+      scope: variable.other.constant.bibtex
+  operators:
+    - match: \#
+      scope: keyword.operator.concatenation.bibtex
   nested_braces:
     - match: '\{'
       captures:
