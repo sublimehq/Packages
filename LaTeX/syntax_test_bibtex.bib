@@ -1,5 +1,11 @@
 % SYNTAX TEST "Packages/LaTeX/Bibtex.sublime-syntax"
 
+@string(mar = "march")
+@string(aw = "Addison-Wesley")
+%<- keyword.other.string-constant.bibtex punctuation.definition.keyword.bibtex
+%^^^^^^ keyword.other.string-constant.bibtex
+%       ^^ entity.name.constant.bibtex
+
 @book{knuth97,
 %<- keyword.other.entry-type.bibtex punctuation.definition.keyword.bibtex
 %^^^^ keyword.other.entry-type.bibtex
@@ -14,7 +20,11 @@
 %                                ^ punctuation.separator.sequence.bibtex
     title     = {The Art of Computer Programming, Vol. 1: Fundamental Algorithms},
     edition   = {3},
-    publisher = {Addison-Wesley},
-    date      = {1997},
+    publisher = aw,
+%               ^^ variable.other.constant.bibtex
+    date      = 1997,
+%               ^^^^ meta.number.integer.decimal.bibtex constant.numeric.value.bibtex
+    month     = "1~" # mar,
+%                    ^ keyword.operator.concatenation.bibtex
     isbn      = {978-0-201-89683-1}
 }
