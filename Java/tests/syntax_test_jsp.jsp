@@ -205,19 +205,19 @@
 
     The map file has <font color="<%=color.blue()%>"><%= map.size() %></font> entries.
 //  ^^^^^^^^^^^^^^^^^ - meta
-//                   ^^^^^^ meta.tag.block - meta.attribute-with-value.html
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block meta.attribute-with-value.html
+//                   ^^^^^^ meta.tag.inline - meta.attribute-with-value.html
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline meta.attribute-with-value.html
 //                               ^ meta.string.html - meta.interpolation
 //                                ^^^^^^^^^^^^^^^^^ meta.string.html meta.interpolation.jsp
 //                                                 ^ meta.string.html - meta.interpolation
 //                                ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
 //                                   ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.jsp - source.java source.java
 //                                               ^^ meta.embedded.expression.jsp punctuation.section.embedded.end.jsp - source.java
-//                                                  ^ meta.tag.block - meta.attribute-with-value.html
+//                                                  ^ meta.tag.inline - meta.attribute-with-value.html
 //                                                   ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
 //                                                      ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.jsp
 //                                                                  ^^ meta.embedded.expression.jsp punctuation.section.embedded.end.jsp - source.java
-//                                                                    ^^^^^^^ meta.tag.block
+//                                                                    ^^^^^^^ meta.tag.inline
 //                                                                           ^^^^^^^^^ - meta
 
 

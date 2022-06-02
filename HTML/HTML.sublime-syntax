@@ -30,7 +30,7 @@ variables:
     | {{html_embedded_tags}}
     | {{html_web_tags}}
     | {{html_header_tags}}
-    | {{html_deprecated_tags}}
+    | {{html_deprecated_block_tags}}
     )
 
   html_block_tags_selfclosing: |-
@@ -46,6 +46,7 @@ variables:
     | {{html_media_tags}}
     | {{html_interactive_tags}}
     | {{html_script_tags}}
+    | {{html_deprecated_inline_tags}}
     )
 
   html_inline_tags_selfclosing: |-
@@ -85,9 +86,8 @@ variables:
 
   html_text_semantic_tags: |-
     (?xi:
-      a | abbr | b | bdi | bdo | code | data | time | dfn | em | i | kbd
-    | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
-    | sub | sup | u | var
+      a | abbr | b | bdi | bdo | code | data | time | dfn | em | i | kbd | mark
+    | q | ruby | rp | rt | s | samp | small | span | strong | sub | sup | u | var
     ){{tag_name_break}}
   html_text_semantic_tags_selfclosing: |-
     (?xi: br | wbr ){{tag_name_break}}
@@ -129,13 +129,15 @@ variables:
   html_web_tags: |-
     (?xi: slot | template ){{tag_name_break}}
 
-  html_deprecated_tags: |-
+  html_deprecated_block_tags: |-
     (?xi:
-      acronym | applet | basefont | bgsound | big | blink | center | command
-    | content | dir | element | font | frame | frameset | image | isindex
-    | keygen | listing | marquee | menuitem | multicol | nextid | nobr
-    | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
+      acronym | applet | bgsound | command | content | dir | element | frame
+    | frameset | isindex | keygen | listing | marquee | menuitem | multicol
+    | nextid | noembed | noframes | plaintext | shadow | spacer | xmp
     ){{tag_name_break}}
+  html_deprecated_inline_tags: |-
+    (?xi: basefont | big | blink | center | font | image | nobr | rb | rtc
+    | strike | tt ){{tag_name_break}}
 
   javascript_mime_type: |-
     (?ix:
