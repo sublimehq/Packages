@@ -40,6 +40,14 @@ enum { kFoo = FOO, kBar = BAR };
 /*                      ^ keyword.operator.assignment.c */
 /*                        ^^^ - entity.name.constant */
 
+enum { 
+    FOO, 
+/*  ^^^ entity.name.constant.c */
+/*     ^ punctuation.separator.c */
+    BAR 
+/*  ^^^ entity.name.constant.c */
+};
+
 typedef enum state { DEAD, ALIVE } State;
 /* <- keyword.declaration
 /*           ^ entity.name.enum */

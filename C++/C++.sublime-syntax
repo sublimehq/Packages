@@ -334,12 +334,14 @@ contexts:
     - include: expressions
 
   statements-enum:
+    - include: comments
     - include: preprocessor-statements
     - include: scope:source.c#label
     - match: '{{identifier}}'
       scope: entity.name.constant.c++
       push: constant-value
-    - include: expressions
+    - match: ','
+      scope: punctuation.separator.c++
 
   constant-value:
     - match: (?=[,;}])
