@@ -1609,8 +1609,10 @@ class MyClass(Inherited, \
 #                      ^ punctuation.separator.inheritance
 #                        ^ punctuation.separator.continuation.line.python
               module . Inherited2, metaclass=ABCMeta):
-#             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#             ^^^^^^^^^^^^^^^^^^^ meta.path - meta.path meta.path
+#             ^^^^^^ variable.namespace - entity
 #                    ^ punctuation.accessor.dot
+#                      ^^^^^^^^^^ entity.other.inherited-class
 #                                ^ punctuation.separator.inheritance
 #                                  ^^^^^^^^^ variable.parameter.class-inheritance
 #                                           ^ keyword.operator.assignment
