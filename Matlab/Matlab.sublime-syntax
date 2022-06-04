@@ -446,6 +446,10 @@ contexts:
     - match: (?=\S)
       pop: 1
 
+  immediately-pop:
+    - match: ''
+      pop: 1
+
 ###[ COMMENTS AND LINE CONTINUATION ]###########################################
 
   comments:
@@ -787,8 +791,7 @@ contexts:
         2: punctuation.accessor.dot.matlab
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.matlab
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   class-attributes-list:
     - meta_scope: meta.attributes.matlab

@@ -116,7 +116,7 @@ classdef ClassName ... comment
 end
 
 classdef MyClass < matlab.mixin.Copyable
-%                  ^^^^^^^^^^^^^^^^^^^^^ meta.path.matlab
+%                  ^^^^^^^^^^^^^^^^^^^^^ meta.path.matlab - meta.path meta.path
 %                  ^^^^^^ variable.namespace.matlab
 %                        ^ punctuation.accessor.dot.matlab
 %                         ^^^^^ variable.namespace.matlab
