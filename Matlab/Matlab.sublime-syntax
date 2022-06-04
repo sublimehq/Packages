@@ -772,10 +772,23 @@ contexts:
     - include: line-continuations
     - match: '{{eol}}'
       set: class-body
+    - match: (?={{identifier}}\.)
+      push: qualified-superclass
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.matlab
     - match: \&
       scope: punctuation.separator.sequence.matlab
+
+  qualified-superclass:
+    - meta_scope: meta.path.matlab
+    - match: '({{identifier}})(\.)'
+      captures:
+        1: variable.namespace.matlab
+        2: punctuation.accessor.dot.matlab
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.matlab
+    - match: ''
+      pop: 1
 
   class-attributes-list:
     - meta_scope: meta.attributes.matlab
