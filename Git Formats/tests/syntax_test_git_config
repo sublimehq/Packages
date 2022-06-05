@@ -14,6 +14,7 @@
 #^^^^^^^ meta.brackets entity.name
 #       ^ meta.brackets punctuation.definition.brackets.end
 #        ^ -meta.brackets
+#        ^ meta.whitespace.newline.ini
 [section "subsection"]
 # <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^^^^^^^ meta.brackets
@@ -96,6 +97,7 @@
 #           ^ punctuation.definition.string.end
 #            ^ punctuation.definition.brackets.end
 #             ^ -meta.brackets
+#             ^ meta.whitespace.newline.ini
     old = red
 # <- meta.mapping
 #^^^^^^^^^^^^ meta.mapping
