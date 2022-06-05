@@ -13,6 +13,7 @@
 # <- meta.section punctuation.definition.section.begin
 #^^^^^^^ meta.section entity.name
 #       ^ meta.section punctuation.definition.section.end
+#        ^ meta.whitespace.newline
 [section "subsection"]
 # <- meta.section punctuation.definition.section.begin
 #^^^^^^^^^^^^^ meta.section

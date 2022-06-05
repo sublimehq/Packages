@@ -47,7 +47,11 @@ contexts:
     - meta_scope: meta.section.git.config
     - match: \]
       scope: punctuation.definition.section.end.git.config
-      pop: 1
+      set:
+        - match: \s*$
+          scope: meta.whitespace.newline.git.config
+        - match: ''
+          pop: 1
     - include: illegal-line-end-pop
     - match: \S
       scope: invalid.illegal.header-end.git.config
