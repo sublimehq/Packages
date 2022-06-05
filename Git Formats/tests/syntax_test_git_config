@@ -10,21 +10,20 @@
 
 # SECTION HEADER TESTS
 [section]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^ meta.brackets entity.name
-#       ^ meta.brackets punctuation.definition.brackets.end
-#        ^ meta.whitespace.newline.git.config - meta.brackets
+# <- meta.section punctuation.definition.section.begin
+#^^^^^^^ meta.section entity.name
+#       ^ meta.section punctuation.definition.section.end
 [section "subsection"]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.brackets
+# <- meta.section punctuation.definition.section.begin
+#^^^^^^^^^^^^^ meta.section
 #^^^^^^^ entity.name
 #        ^^^^^^^^^^^^ string.quoted.double
 #        ^ punctuation.definition.string.begin
 #                   ^ punctuation.definition.string.end
-#                    ^ punctuation.definition.brackets.end
+#                    ^ punctuation.definition.section.end
 [section \"subsection"]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.brackets
+# <- meta.section punctuation.definition.section.begin
+#^^^^^^^^^^^^^ meta.section
 #^^^^^^^ entity.name
 #        ^ invalid.illegal
 [section "\slashes\are\legal"]
@@ -52,23 +51,23 @@
 
 # LEGACY SECTION HEADER SYNTAX
 [section.subsection.subsubsection]
-# <- meta.brackets
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
-#                                 ^ - meta.brackets
-# <- punctuation.definition.brackets.begin
+# <- meta.section
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section
+#                                 ^ - meta.section
+# <- punctuation.definition.section.begin
 #^^^^^^^ entity.name.section
 #       ^ punctuation.accessor.dot
 #        ^^^^^^^^^^ string.unquoted
 #                  ^ punctuation.accessor.dot
 #                   ^^^^^^^^^^^^^ string.unquoted
-#                                ^ punctuation.definition.brackets.end
+#                                ^ punctuation.definition.section.end
 
 # LEGACY SECTION HEADER SYNTAX
 [se\ct\\ion.s"ub\se\\ct\"ion
-# <- meta.brackets
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
-#                            ^ - meta.brackets
-# <- punctuation.definition.brackets.begin
+# <- meta.section
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section
+#                            ^ - meta.section
+# <- punctuation.definition.section.begin
 #^^ entity.name.section
 #  ^ invalid.illegal.section-name
 #   ^^ entity.name.section
@@ -88,14 +87,13 @@
 
 # COLOR TESTS
 [color "diff"]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.brackets
+# <- meta.section punctuation.definition.section.begin
+#^^^^^^^^^^^^^ meta.section
 #^^^^^ entity.name
 #      ^^^^^^ string.quoted.double
 #      ^ punctuation.definition.string.begin
 #           ^ punctuation.definition.string.end
-#            ^ punctuation.definition.brackets.end
-#             ^ meta.whitespace.newline.git.config - meta.brackets
+#            ^ punctuation.definition.section.end
     old = red
 # <- meta.mapping
 #^^^^^^^^^^^^ meta.mapping
@@ -212,11 +210,11 @@
 
 # ILLEGAL NEWLINE IN SECTION TEST
 [section
-#^^^^^^^^ meta.brackets
+#^^^^^^^^ meta.section
 #^^^^^^^ entity.name
 #       ^ invalid.illegal.unexpected.eol
 ]
-# <- punctuation.definition.brackets.end invalid.illegal.stray-bracket
+# <- invalid.illegal.stray-bracket
 #
 # INVALID TEXT AFTER SECTION TEST
 [stray-bracket]] and anything # comment
@@ -230,7 +228,7 @@
 
 # STRAY BRACKET TEST
 stray-bracket]
-#            ^ punctuation.definition.brackets.end invalid.illegal.stray-bracket
+#            ^ invalid.illegal.stray-bracket
 
 # STRING TESTS
 [strings]
@@ -454,10 +452,10 @@ stray-bracket]
 
 # REAL WORLD SAMPLE TESTS
 [alias]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^ meta.brackets
+# <- meta.section punctuation.definition.section.begin
+#^^^^^^ meta.section
 #^^^^^ entity.name
-#     ^ punctuation.definition.brackets.end
+#     ^ punctuation.definition.section.end
     branch-author = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)'
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping

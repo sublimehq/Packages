@@ -40,18 +40,14 @@ contexts:
 
   section-header:
     - match: \[
-      scope: punctuation.definition.brackets.begin.git.config
+      scope: punctuation.definition.section.begin.git.config
       set: [expect-line-end, section-header-end, section-name]
 
   section-header-end:
-    - meta_scope: meta.brackets.git.config
+    - meta_scope: meta.section.git.config
     - match: \]
-      scope: punctuation.definition.brackets.end.git.config
-      set:
-        - match: \s*$
-          scope: meta.whitespace.newline.git.config
-        - match: ''
-          pop: 1
+      scope: punctuation.definition.section.end.git.config
+      pop: 1
     - include: illegal-line-end-pop
     - match: \S
       scope: invalid.illegal.header-end.git.config
@@ -103,7 +99,7 @@ contexts:
     - match: (?=^\s*\[) # start of new section
       pop: 1
     - match: \]
-      scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
+      scope: invalid.illegal.stray-bracket.git.config
 
 ##[ SECTION BODY ]#####################################################
 
