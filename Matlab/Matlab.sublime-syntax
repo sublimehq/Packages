@@ -791,6 +791,7 @@ contexts:
         2: punctuation.accessor.dot.matlab
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.matlab
+      pop: 1
     - include: immediately-pop
 
   class-attributes-list:
