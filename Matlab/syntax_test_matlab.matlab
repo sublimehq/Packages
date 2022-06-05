@@ -115,6 +115,15 @@ classdef ClassName ... comment
 %    ^^^^^^^^^^ meta.class.matlab entity.other.inherited-class.matlab
 end
 
+classdef MyClass < matlab.mixin.Copyable
+%                  ^^^^^^^^^^^^^^^^^^^^^ meta.path.matlab - meta.path meta.path
+%                  ^^^^^^ variable.namespace.matlab
+%                        ^ punctuation.accessor.dot.matlab
+%                         ^^^^^ variable.namespace.matlab
+%                              ^ punctuation.accessor.dot.matlab
+%                               ^^^^^^^^ entity.other.inherited-class.matlab
+end
+
 
 %---------------------------------------------
 % Parens, brackets, braces, punctuation
