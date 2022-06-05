@@ -13,7 +13,7 @@
 # <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^ meta.brackets entity.name
 #       ^ meta.brackets punctuation.definition.brackets.end
-#        ^ meta.whitespace.newline.ini - meta.brackets
+#        ^ meta.whitespace.newline.git.config - meta.brackets
 [section "subsection"]
 # <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^^^^^^^ meta.brackets
@@ -95,7 +95,7 @@
 #      ^ punctuation.definition.string.begin
 #           ^ punctuation.definition.string.end
 #            ^ punctuation.definition.brackets.end
-#             ^ meta.whitespace.newline.ini - meta.brackets
+#             ^ meta.whitespace.newline.git.config - meta.brackets
     old = red
 # <- meta.mapping
 #^^^^^^^^^^^^ meta.mapping
