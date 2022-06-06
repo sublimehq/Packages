@@ -48,11 +48,7 @@ contexts:
     - match: \]
       scope: punctuation.definition.section.end.git.config
       set:
-        - match: \s*(([#;]).*\n?)?$
-          scope: meta.whitespace.newline.git.config
-          captures:
-            1: comment.line.git
-            2: punctuation.definition.comment.git
+        - include: Git Common.sublime-syntax#comments-section-line
         - match: ''
           pop: 1
     - include: illegal-line-end-pop

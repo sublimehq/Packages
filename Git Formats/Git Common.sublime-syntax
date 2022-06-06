@@ -63,6 +63,14 @@ contexts:
       captures:
         1: punctuation.definition.comment.git
 
+  comments-section-line:
+    # comment which is at the end of a section line
+    - match: \s*(({{comment_char}}).*\n?)?$
+      scope: meta.whitespace.newline.git
+      captures:
+        1: comment.line.git
+        2: punctuation.definition.comment.git
+
 ##[ REFERENCES ]#######################################################
 
   references:
