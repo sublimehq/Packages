@@ -9,11 +9,14 @@
 #^^^^^^^^^^^^^^^^^^ comment.line
 
 # SECTION HEADER TESTS
-[section]
+[section]  # color section
 # <- meta.section punctuation.definition.section.begin
 #^^^^^^^ meta.section entity.name
 #       ^ meta.section punctuation.definition.section.end
 #        ^ meta.whitespace.newline
+#        ^^^^^^^^^^^^^^^^^^ meta.whitespace.newline
+#          ^ punctuation.definition.comment
+#          ^^^^^^^^^^^^^^^^ comment.line
 [section "subsection"]
 # <- meta.section punctuation.definition.section.begin
 #^^^^^^^^^^^^^ meta.section
