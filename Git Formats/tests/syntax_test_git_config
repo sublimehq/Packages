@@ -10,24 +10,24 @@
 
 # SECTION HEADER TESTS
 [section]  # color section
-# <- meta.section punctuation.definition.section.begin
-#^^^^^^^ meta.section entity.name
-#       ^ meta.section punctuation.definition.section.end
-#        ^ meta.whitespace.newline
-#        ^^^^^^^^^^^^^^^^^^ meta.whitespace.newline
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^ meta.section.header meta.brackets entity.name.section - punctuation
+#       ^ meta.section.header meta.brackets punctuation.definition.brackets.end
+#        ^^^^^^^^^^^^^^^^^^ meta.section.header - meta.brackets
 #          ^ punctuation.definition.comment
 #          ^^^^^^^^^^^^^^^^ comment.line
 [section "subsection"]
-# <- meta.section punctuation.definition.section.begin
-#^^^^^^^^^^^^^ meta.section
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                     ^ meta.section.header - meta.brackets
 #^^^^^^^ entity.name
 #        ^^^^^^^^^^^^ string.quoted.double
 #        ^ punctuation.definition.string.begin
 #                   ^ punctuation.definition.string.end
-#                    ^ punctuation.definition.section.end
+#                    ^ punctuation.definition.brackets.end
 [section \"subsection"]
-# <- meta.section punctuation.definition.section.begin
-#^^^^^^^^^^^^^ meta.section
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^ meta.section.header
 #^^^^^^^ entity.name
 #        ^ invalid.illegal
 [section "\slashes\are\legal"]
@@ -55,23 +55,23 @@
 
 # LEGACY SECTION HEADER SYNTAX
 [section.subsection.subsubsection]
-# <- meta.section
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section
-#                                 ^ - meta.section
-# <- punctuation.definition.section.begin
+# <- meta.section.header
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                                 ^ meta.section.header - meta.brackets
+# <- punctuation.definition.brackets.begin
 #^^^^^^^ entity.name.section
 #       ^ punctuation.accessor.dot
 #        ^^^^^^^^^^ string.unquoted
 #                  ^ punctuation.accessor.dot
 #                   ^^^^^^^^^^^^^ string.unquoted
-#                                ^ punctuation.definition.section.end
+#                                ^ punctuation.definition.brackets.end
 
 # LEGACY SECTION HEADER SYNTAX
 [se\ct\\ion.s"ub\se\\ct\"ion
-# <- meta.section
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section
-#                            ^ - meta.section
-# <- punctuation.definition.section.begin
+# <- meta.section.header
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.header
+#                            ^ - meta.section.header
+# <- punctuation.definition.brackets.begin
 #^^ entity.name.section
 #  ^ invalid.illegal.section-name
 #   ^^ entity.name.section
@@ -91,13 +91,13 @@
 
 # COLOR TESTS
 [color "diff"]
-# <- meta.section punctuation.definition.section.begin
-#^^^^^^^^^^^^^ meta.section
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^ meta.section.header
 #^^^^^ entity.name
 #      ^^^^^^ string.quoted.double
 #      ^ punctuation.definition.string.begin
 #           ^ punctuation.definition.string.end
-#            ^ punctuation.definition.section.end
+#            ^ punctuation.definition.brackets.end
     old = red
 # <- meta.mapping
 #^^^^^^^^^^^^ meta.mapping
@@ -214,7 +214,7 @@
 
 # ILLEGAL NEWLINE IN SECTION TEST
 [section
-#^^^^^^^^ meta.section
+#^^^^^^^^ meta.section.header
 #^^^^^^^ entity.name
 #       ^ invalid.illegal.unexpected.eol
 ]
@@ -456,10 +456,10 @@ stray-bracket]
 
 # REAL WORLD SAMPLE TESTS
 [alias]
-# <- meta.section punctuation.definition.section.begin
-#^^^^^^ meta.section
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^ meta.section.header
 #^^^^^ entity.name
-#     ^ punctuation.definition.section.end
+#     ^ punctuation.definition.brackets.end
     branch-author = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)'
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping

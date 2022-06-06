@@ -9,9 +9,9 @@
         <array>
             <dict>
                 <key>begin</key>
-                <string>meta.section punctuation.definition.section.end</string>
+                <string>meta.section meta.brackets punctuation.definition.brackets.end</string>
                 <key>end</key>
-                <string>meta.section punctuation.definition.section.begin</string>
+                <string>meta.section meta.brackets punctuation.definition.brackets.begin</string>
                 <key>excludeTrailingNewlines</key>
                 <true/>
             </dict>
