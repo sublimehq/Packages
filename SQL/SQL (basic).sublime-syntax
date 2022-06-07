@@ -290,6 +290,13 @@ contexts:
       set: inside-group
     - include: else-pop
 
+  inside-group:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: main
+
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
     - match: \b(?i:end)\b
@@ -340,20 +347,6 @@ contexts:
       scope: punctuation.separator.argument.sql
     - include: distinct
     - include: expressions-or-column-name
-
-  inside-group:
-    - meta_scope: meta.group.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - include: main
-
-  inside-subquery-allow-table-alias:
-    - meta_scope: meta.group.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      set: maybe-table-alias
-    - include: main
 
   statements:
     - include: ddl-statements
@@ -623,6 +616,13 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.sql
       set: inside-subquery-allow-table-alias
+
+  inside-subquery-allow-table-alias:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      set: maybe-table-alias
+    - include: main
 
   table-name-or-subquery:
     - include: pop-on-top-level-reserved-word
