@@ -85,7 +85,7 @@ contexts:
 
   single-quoted-string:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.single.sql
+    - meta_scope: meta.string.sql string.quoted.single.sql
     - match: \'\'
       scope: constant.character.escape.sql
     - match: \'
