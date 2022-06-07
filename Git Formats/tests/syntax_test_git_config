@@ -9,22 +9,26 @@
 #^^^^^^^^^^^^^^^^^^ comment.line
 
 # SECTION HEADER TESTS
-[section]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^ meta.brackets entity.name
-#       ^ meta.brackets punctuation.definition.brackets.end
-#        ^ -meta.brackets
+[section]  # color section
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^ meta.section.header meta.brackets entity.name.section - punctuation
+#       ^ meta.section.header meta.brackets punctuation.definition.brackets.end
+#        ^^^^^^^^^^^^^^^^^^ meta.section.header - meta.brackets
+#          ^ punctuation.definition.comment
+#          ^^^^^^^^^^^^^^^^ comment.line
 [section "subsection"]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.brackets
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                     ^ meta.section.header - meta.brackets
 #^^^^^^^ entity.name
 #        ^^^^^^^^^^^^ string.quoted.double
 #        ^ punctuation.definition.string.begin
 #                   ^ punctuation.definition.string.end
 #                    ^ punctuation.definition.brackets.end
 [section \"subsection"]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.brackets
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                      ^ meta.section.header - meta.brackets
 #^^^^^^^ entity.name
 #        ^ invalid.illegal
 [section "\slashes\are\legal"]
@@ -52,9 +56,9 @@
 
 # LEGACY SECTION HEADER SYNTAX
 [section.subsection.subsubsection]
-# <- meta.brackets
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
-#                                 ^ - meta.brackets
+# <- meta.section.header
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                                 ^ meta.section.header - meta.brackets
 # <- punctuation.definition.brackets.begin
 #^^^^^^^ entity.name.section
 #       ^ punctuation.accessor.dot
@@ -65,9 +69,9 @@
 
 # LEGACY SECTION HEADER SYNTAX
 [se\ct\\ion.s"ub\se\\ct\"ion
-# <- meta.brackets
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
-#                            ^ - meta.brackets
+# <- meta.section.header
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                            ^ - meta.section.header
 # <- punctuation.definition.brackets.begin
 #^^ entity.name.section
 #  ^ invalid.illegal.section-name
@@ -88,14 +92,14 @@
 
 # COLOR TESTS
 [color "diff"]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.brackets
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^ meta.section.header meta.brackets
 #^^^^^ entity.name
 #      ^^^^^^ string.quoted.double
 #      ^ punctuation.definition.string.begin
 #           ^ punctuation.definition.string.end
 #            ^ punctuation.definition.brackets.end
-#             ^ -meta.brackets
+#             ^ meta.section.header - meta.brackets
     old = red
 # <- meta.mapping
 #^^^^^^^^^^^^ meta.mapping
@@ -212,11 +216,11 @@
 
 # ILLEGAL NEWLINE IN SECTION TEST
 [section
-#^^^^^^^^ meta.brackets
+#^^^^^^^^ meta.section.header
 #^^^^^^^ entity.name
 #       ^ invalid.illegal.unexpected.eol
 ]
-# <- punctuation.definition.brackets.end invalid.illegal.stray-bracket
+# <- invalid.illegal.stray-bracket
 #
 # INVALID TEXT AFTER SECTION TEST
 [stray-bracket]] and anything # comment
@@ -230,7 +234,7 @@
 
 # STRAY BRACKET TEST
 stray-bracket]
-#            ^ punctuation.definition.brackets.end invalid.illegal.stray-bracket
+#            ^ invalid.illegal.stray-bracket
 
 # STRING TESTS
 [strings]
@@ -454,10 +458,11 @@ stray-bracket]
 
 # REAL WORLD SAMPLE TESTS
 [alias]
-# <- meta.brackets punctuation.definition.brackets.begin
-#^^^^^^ meta.brackets
+# <- meta.section.header meta.brackets punctuation.definition.brackets.begin
+#^^^^^^ meta.section.header meta.brackets
 #^^^^^ entity.name
 #     ^ punctuation.definition.brackets.end
+#      ^ meta.section.header - meta.brackets
     branch-author = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)'
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping

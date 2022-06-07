@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>text.git.config</string>
+    <key>settings</key>
+    <dict>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>meta.section meta.brackets punctuation.definition.brackets.end</string>
+                <key>end</key>
+                <string>meta.section meta.brackets punctuation.definition.brackets.begin</string>
+                <key>excludeTrailingNewlines</key>
+                <true/>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

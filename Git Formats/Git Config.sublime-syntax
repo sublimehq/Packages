@@ -41,7 +41,14 @@ contexts:
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.git.config
-      set: [expect-line-end, section-header-end, section-name]
+      set: [section-header-meta, section-header-end, section-name]
+
+  section-header-meta:
+    - meta_scope: meta.section.header.git.config
+    - match: $\n?
+      pop: 1
+    - match: \S
+      scope: invalid.illegal.expected.eol.git.config
 
   section-header-end:
     - meta_scope: meta.brackets.git.config
@@ -99,13 +106,14 @@ contexts:
     - match: (?=^\s*\[) # start of new section
       pop: 1
     - match: \]
-      scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
+      scope: invalid.illegal.stray-bracket.git.config
 
 ##[ SECTION BODY ]#####################################################
 
   # changed = red
   # untracked = bold green
   key-color-pair:
+    - meta_scope: meta.section.body.git.config
     - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
         1: meta.mapping.git.config
@@ -120,6 +128,7 @@ contexts:
 
   # key = val
   key-value-pair:
+    - meta_scope: meta.section.body.git.config
     - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
         1: meta.mapping.git.config
