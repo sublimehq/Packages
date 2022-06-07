@@ -286,11 +286,17 @@ contexts:
     - match: \b(?i:include)\b
       scope: keyword.other.sql
 
-  numbers-variables-and-strings:
+  literals-and-variables:
     - meta_prepend: true
     - include: variables
-    - match: 0x\h+
-      scope: meta.number.integer.hexadecimal.tsql constant.numeric.value.tsql
+
+  numbers:
+    - meta_prepend: true
+    - match: (0x)(\h+)
+      scope: meta.number.integer.hexadecimal.tsql
+      captures:
+        1: constant.numeric.base.tsql
+        2: constant.numeric.value.tsql
 
   dml-statements:
     - meta_append: true
@@ -815,7 +821,7 @@ contexts:
     - match: \)
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
-    - include: numbers-variables-and-strings
+    - include: literals-and-variables
     - include: ddl-table-creation-columns
     - match: (?=\S)
       push:
