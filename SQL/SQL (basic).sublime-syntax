@@ -39,18 +39,15 @@ contexts:
     - include: expressions-or-column-name
 
   comments:
-    - meta_include_prototype: false
     - include: double-dash-comments
     - include: block-comments
 
   double-dash-comments:
-    - meta_include_prototype: false
     - match: '--'
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
 
   block-comments:
-    - meta_include_prototype: false
     - match: /\*(?:\*(?!/))+
       scope: punctuation.definition.comment.begin.sql
       push: inside-comment-docblock
@@ -82,7 +79,6 @@ contexts:
       pop: 1
 
   string-escape:
-    - meta_include_prototype: false
     - match: '{{string_escape}}'
       scope: constant.character.escape.sql
 
