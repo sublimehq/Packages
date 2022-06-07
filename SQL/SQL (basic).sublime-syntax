@@ -78,10 +78,6 @@ contexts:
       scope: punctuation.definition.comment.end.sql
       pop: 1
 
-  string-escape:
-    - match: '{{string_escape}}'
-      scope: constant.character.escape.sql
-
   strings:
     - match: \'
       scope: punctuation.definition.string.begin.sql
@@ -95,7 +91,11 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.sql
       pop: 1
-    - include: string-escape
+    - include: string-escapes
+
+  string-escapes:
+    - match: '{{string_escape}}'
+      scope: constant.character.escape.sql
 
   identifier-create:
     - meta_include_prototype: false
