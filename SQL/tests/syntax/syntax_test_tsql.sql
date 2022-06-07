@@ -461,7 +461,9 @@ SET column1 = v.column1,
     column2 = 'testing123 TODO: assert the = operator is scoped as assignment instead of comparison'
 --          ^ keyword.operator
  , col3 = 0xDEADC0DE
---        ^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric.value
+--        ^^^^^^^^^^ meta.number.integer.hexadecimal
+--        ^^ constant.numeric.base
+--          ^^^^^^^^ constant.numeric.value
 FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.dml
 --   ^^^^^^^^^^^^^ meta.table-name
