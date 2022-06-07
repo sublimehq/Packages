@@ -27,7 +27,8 @@
 #                    ^ punctuation.definition.brackets.end
 [section \"subsection"]
 # <- meta.section.header meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.section.header
+#^^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
+#                      ^ meta.section.header - meta.brackets
 #^^^^^^^ entity.name
 #        ^ invalid.illegal
 [section "\slashes\are\legal"]
@@ -69,7 +70,7 @@
 # LEGACY SECTION HEADER SYNTAX
 [se\ct\\ion.s"ub\se\\ct\"ion
 # <- meta.section.header
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.header
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.header meta.brackets
 #                            ^ - meta.section.header
 # <- punctuation.definition.brackets.begin
 #^^ entity.name.section
@@ -92,12 +93,13 @@
 # COLOR TESTS
 [color "diff"]
 # <- meta.section.header meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^ meta.section.header
+#^^^^^^^^^^^^^ meta.section.header meta.brackets
 #^^^^^ entity.name
 #      ^^^^^^ string.quoted.double
 #      ^ punctuation.definition.string.begin
 #           ^ punctuation.definition.string.end
 #            ^ punctuation.definition.brackets.end
+#             ^ meta.section.header - meta.brackets
     old = red
 # <- meta.mapping
 #^^^^^^^^^^^^ meta.mapping
@@ -457,9 +459,10 @@ stray-bracket]
 # REAL WORLD SAMPLE TESTS
 [alias]
 # <- meta.section.header meta.brackets punctuation.definition.brackets.begin
-#^^^^^^ meta.section.header
+#^^^^^^ meta.section.header meta.brackets
 #^^^^^ entity.name
 #     ^ punctuation.definition.brackets.end
+#      ^ meta.section.header - meta.brackets
     branch-author = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)'
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
