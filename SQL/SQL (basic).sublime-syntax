@@ -253,8 +253,10 @@ contexts:
       scope: constant.language.null.sql
 
   numbers:
-    - match: \b\d+\.\d+\b
+    - match: \b\d+(\.)\d+\b
       scope: meta.number.float.decimal.sql constant.numeric.value.sql
+      captures:
+        1: punctuation.separator.decimal.sql
     - match: \b\d+\b
       scope: meta.number.integer.decimal.sql constant.numeric.value.sql
 

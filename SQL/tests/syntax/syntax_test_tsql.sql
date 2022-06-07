@@ -863,6 +863,7 @@ AS
 --                                             ^^^^ meta.table-name
 --                                                  ^^^ keyword.other.dml
 --                                                                                                     ^^^^ meta.number.float.decimal constant.numeric.value
+--                                                                                                       ^ punctuation.separator.decimal
 
 IF OBJECT_ID('tempdb..import') IS NOT NULL
     DROP TABLE tempdb..import
