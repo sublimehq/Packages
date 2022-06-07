@@ -947,14 +947,14 @@ $f3 = #[ExampleAttribute] fn () => 1;
 
     readonly class
 //  ^^^^^^^^ storage.modifier.php
-//  ^^^^^^^^^^^^^^^ meta.class.php keyword.declaration.class.php
+//           ^^^^^ meta.class.php keyword.declaration.class.php
+//  ^^^^^^^^^^^^^^ meta.class.php
 //                ^ meta.class.php - keyword
 
-    readonly class Test1
-//  ^^^^^^^^ storage.modifier.php
-//  ^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
-//           ^^^^^ keyword.declaration.class.php
-//                 ^^^^^ entity.name.class.php
+    class Test1
+//  ^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
+//  ^^^^^ keyword.declaration.class.php
+//        ^^^^^ entity.name.class.php
 
     class Test2 extends implements {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
@@ -965,17 +965,18 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //              ^^^^^^^ storage.modifier.extends.php
 //                      ^^^^^^^^^^ storage.modifier.implements.php
 
-    class Test3 extends stdClass implements Countable {}
+    readonly class Test3 extends stdClass implements Countable {}
 // ^ - meta.class
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
-//                                                    ^^ meta.class.php meta.block.php
-//  ^^^^^ keyword.declaration.class.php
-//        ^^^^^ entity.name.class.php
-//              ^^^^^^^ storage.modifier.extends.php
-//                      ^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
-//                               ^^^^^^^^^^ storage.modifier.implements.php
-//                                          ^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                             ^^ meta.class.php meta.block.php
+//  ^^^^^^^^ storage.modifier.php
+//           ^^^^^ keyword.declaration.class.php
+//                 ^^^^^ entity.name.class.php
+//                       ^^^^^^^ storage.modifier.extends.php
+//                               ^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
+//                                        ^^^^^^^^^^ storage.modifier.implements.php
+//                                                   ^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
 
     class Test4 extends Foo, Bar implements Foo, Bar {}
 // ^ - meta.class
