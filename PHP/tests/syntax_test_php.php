@@ -945,14 +945,16 @@ $f3 = #[ExampleAttribute] fn () => 1;
  * Class Declaration Tests
  *****************************************************************************/
 
-    class
-//  ^^^^^ meta.class.php keyword.declaration.class.php
-//       ^ meta.class.php - keyword
+    readonly class
+//  ^^^^^^^^ storage.modifier.php
+//  ^^^^^^^^^^^^^^^ meta.class.php keyword.declaration.class.php
+//                ^ meta.class.php - keyword
 
-    class Test1
-//  ^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
-//  ^^^^^ keyword.declaration.class.php
-//        ^^^^^ entity.name.class.php
+    readonly class Test1
+//  ^^^^^^^^ storage.modifier.php
+//  ^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
+//           ^^^^^ keyword.declaration.class.php
+//                 ^^^^^ entity.name.class.php
 
     class Test2 extends implements {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
