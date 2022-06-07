@@ -1947,9 +1947,8 @@ contexts:
   type-hint-simple-type:
     # note that
     #   - "callable", "never" and "void" are not allowed in property type
-    #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
-    - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
+    - match: (?i:iterable|false|mixed|never|null|true|void|{{storage_types}})\b
       scope: storage.type.primitive.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
