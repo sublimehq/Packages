@@ -286,7 +286,7 @@ contexts:
     - match: \b(?i:include)\b
       scope: keyword.other.sql
 
-  numbers-variables-and-strings:
+  literals-and-variables:
     - meta_prepend: true
     - include: variables
     - match: 0x\h+
@@ -815,7 +815,7 @@ contexts:
     - match: \)
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
-    - include: numbers-variables-and-strings
+    - include: literals-and-variables
     - include: ddl-table-creation-columns
     - match: (?=\S)
       push:

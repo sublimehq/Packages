@@ -78,25 +78,6 @@ contexts:
       scope: punctuation.definition.comment.end.sql
       pop: 1
 
-  strings:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      push: single-quoted-string
-
-  single-quoted-string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.sql string.quoted.single.sql
-    - match: \'\'
-      scope: constant.character.escape.sql
-    - match: \'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-escapes
-
-  string-escapes:
-    - match: '{{string_escape}}'
-      scope: constant.character.escape.sql
-
   identifier-create:
     - meta_include_prototype: false
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.other.sql
@@ -236,12 +217,6 @@ contexts:
         - column-name
         - single-identifier
 
-  numbers:
-    - match: \b\d+\.\d+\b
-      scope: meta.number.float.decimal.sql constant.numeric.value.sql
-    - match: \b\d+\b
-      scope: meta.number.integer.decimal.sql constant.numeric.value.sql
-
   expressions:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
@@ -251,7 +226,7 @@ contexts:
     - match: \b(?i:case)\b
       scope: keyword.control.conditional.case.sql
       push: inside-case-expression
-    - include: numbers-variables-and-strings
+    - include: literals-and-variables
     - include: operators
     - include: collate
     - include: built-in-aggregate-function-calls
@@ -266,13 +241,41 @@ contexts:
     - match: (?=;)
       pop: 1
 
-  numbers-variables-and-strings:
+  literals-and-variables:
+    - include: constants
     - include: numbers
+    - include: strings
+
+  constants:
     - match: \b(?i:true|false)\b
       scope: constant.language.boolean.sql
     - match: \b(?i:null)\b
       scope: constant.language.null.sql
-    - include: strings
+
+  numbers:
+    - match: \b\d+\.\d+\b
+      scope: meta.number.float.decimal.sql constant.numeric.value.sql
+    - match: \b\d+\b
+      scope: meta.number.integer.decimal.sql constant.numeric.value.sql
+
+  strings:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      push: single-quoted-string
+
+  single-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \'\'
+      scope: constant.character.escape.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-escapes
+
+  string-escapes:
+    - match: '{{string_escape}}'
+      scope: constant.character.escape.sql
 
   begin-group:
     - match: \(
