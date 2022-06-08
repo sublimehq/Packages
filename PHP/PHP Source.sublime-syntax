@@ -683,11 +683,8 @@ contexts:
 ###[ CLASS DECLARATIONS ]#####################################################
 
   class-declarations:
-    - match: (?i:(abstract|final|readonly)\s+)?((?i:class))\b
-      scope: meta.class.php
-      captures:
-        1: storage.modifier.php
-        2: keyword.declaration.class.php
+    - match: (?i:class)\b
+      scope: meta.class.php keyword.declaration.class.php
       push:
         - class-declaration-body
         - class-declaration-name

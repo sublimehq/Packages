@@ -948,7 +948,6 @@ $f3 = #[ExampleAttribute] fn () => 1;
     readonly class
 //  ^^^^^^^^ storage.modifier.php
 //           ^^^^^ meta.class.php keyword.declaration.class.php
-//  ^^^^^^^^^^^^^^ meta.class.php
 //                ^ meta.class.php - keyword
 
     class Test1
@@ -967,8 +966,8 @@ $f3 = #[ExampleAttribute] fn () => 1;
 
     readonly class Test3 extends stdClass implements Countable {}
 // ^ - meta.class
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
 //                                                             ^^ meta.class.php meta.block.php
 //  ^^^^^^^^ storage.modifier.php
 //           ^^^^^ keyword.declaration.class.php
@@ -1012,7 +1011,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                                           ^ punctuation.accessor.namespace.php
 
     ABSTRACT CLASS /**/ #[Anno] /**/ Test6 /**/ EXTENDS /**/ #[Anno] /**/ \My\Foo /**/ IMPLEMENTS /**/ #[Anno] /**/ Bar /**/, /**/ Baz /**/ {  }
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php
 //  ^^^^^^^^ storage.modifier.php
 //           ^^^^^ keyword.declaration.class.php
 //                 ^^^^ comment.block.php
