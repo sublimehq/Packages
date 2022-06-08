@@ -12,11 +12,13 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(node|js)\b                              # shebang
-  | ^ \s* // .*? -\*- .*? \b(js|javascript)\b .*? -\*-  # editorconfig
+    ^ \#! .* \b(?:node|js)\b                              # shebang
+  | ^ \s* // .*? -\*- .*? \b(?:js|javascript)\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_lang: \b(?:node|js)\b
+
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'
   dec_digit: '[0-9_]'
@@ -221,7 +223,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.js
     # Note: Keep sync with first_line_match!
-    - match: \b(node|js)\b
+    - match: '{{shebang_lang}}'
       scope: constant.language.shebang.js
     - match: \n
       pop: 1
