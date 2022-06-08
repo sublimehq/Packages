@@ -394,7 +394,7 @@ contexts:
         - function-declaration-expect-parameters
         - ts-type-parameter-list
 
-    - match: (?={{identifier_start}}|['"])
+    - match: (?={{identifier_start}}|['"]|\d)
       push:
         - - match: (?=[<(])
             set:
@@ -411,6 +411,7 @@ contexts:
       scope: variable.other.readwrite.js
       pop: true
     - include: literal-string
+    - include: literal-number
 
   ts-enum:
     - match: enum{{identifier_break}}
