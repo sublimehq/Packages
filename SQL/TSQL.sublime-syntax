@@ -49,7 +49,7 @@ contexts:
     - meta_append: true
     - match: N'
       scope: punctuation.definition.string.begin.sql
-      push: single-quoted-string
+      push: inside-single-quoted-string
 
   operators:
     - meta_append: true

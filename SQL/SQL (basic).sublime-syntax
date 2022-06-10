@@ -263,9 +263,9 @@ contexts:
   strings:
     - match: \'
       scope: punctuation.definition.string.begin.sql
-      push: single-quoted-string
+      push: inside-single-quoted-string
 
-  single-quoted-string:
+  inside-single-quoted-string:
     - meta_include_prototype: false
     - meta_scope: meta.string.sql string.quoted.single.sql
     - match: \'\'
