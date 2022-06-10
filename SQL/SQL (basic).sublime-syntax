@@ -223,9 +223,7 @@ contexts:
       push:
         - column-alias
         - single-identifier-after-whitespace
-    - match: \b(?i:case)\b
-      scope: keyword.control.conditional.case.sql
-      push: inside-case-expression
+    - include: case-expressions
     - include: literals-and-variables
     - include: operators
     - include: collate
@@ -238,6 +236,28 @@ contexts:
       scope: punctuation.separator.sequence.sql
     - match: (?=;)
       pop: 1
+
+  case-expressions:
+    - match: \b(?i:case)\b
+      scope: keyword.control.conditional.case.sql
+      push: inside-case-expression
+
+  inside-case-expression:
+    - meta_scope: meta.statement.conditional.case.sql
+    - match: \b(?i:end)\b
+      scope: keyword.control.conditional.end.sql
+      pop: 1
+    - match: \b(?i:(case)\s+(when))\b
+      captures:
+        1: keyword.control.conditional.case.sql
+        2: keyword.control.conditional.when.sql
+    - match: \b(?i:when)\b
+      scope: keyword.control.conditional.when.sql
+    - match: \b(?i:then)\b
+      scope: keyword.control.conditional.then.sql
+    - match: \b(?i:else)\b
+      scope: keyword.control.conditional.else.sql
+    - include: expressions-or-column-name
 
   function-calls:
     - include: built-in-aggregate-function-calls
@@ -336,23 +356,6 @@ contexts:
   string-escapes:
     - match: '{{string_escape}}'
       scope: constant.character.escape.sql
-
-  inside-case-expression:
-    - meta_scope: meta.statement.conditional.case.sql
-    - match: \b(?i:end)\b
-      scope: keyword.control.conditional.end.sql
-      pop: 1
-    - match: \b(?i:(case)\s+(when))\b
-      captures:
-        1: keyword.control.conditional.case.sql
-        2: keyword.control.conditional.when.sql
-    - match: \b(?i:when)\b
-      scope: keyword.control.conditional.when.sql
-    - match: \b(?i:then)\b
-      scope: keyword.control.conditional.then.sql
-    - match: \b(?i:else)\b
-      scope: keyword.control.conditional.else.sql
-    - include: expressions-or-column-name
 
   statements:
     - include: ddl-statements
