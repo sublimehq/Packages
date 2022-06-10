@@ -90,8 +90,7 @@ contexts:
       escape_captures:
         0: meta.string.regexp.psql punctuation.definition.string.end.sql
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
   single-quoted-regex:
     - meta_scope: meta.string.regexp.psql
@@ -109,9 +108,9 @@ contexts:
         - single-identifier
 
   declaration-variable-name:
+    - meta_include_prototype: false
     - meta_scope: variable.other.psql
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   ddl-statements:
     - meta_prepend: true

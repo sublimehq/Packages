@@ -414,13 +414,12 @@ contexts:
   label-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.label-name.sql
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   cursor-name:
+    - meta_include_prototype: false
     - meta_content_scope: meta.cursor-name.sql
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   after-declare:
     - match: (?=\w+\s+(?i:cursor)\b)
@@ -800,8 +799,7 @@ contexts:
   function-name:
     - meta_include_prototype: false
     - meta_content_scope: variable.function.tsql
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   expressions-or-unknown:
     - meta_content_scope: meta.group.tsql
@@ -829,11 +827,9 @@ contexts:
   index-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.index-name.tsql
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   filegroup-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.filegroup-name.tsql
-    - match: ''
-      pop: 1
+    - include: immediately-pop
