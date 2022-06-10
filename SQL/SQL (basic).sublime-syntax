@@ -220,9 +220,9 @@ contexts:
   expressions:
     - include: alias-expressions
     - include: case-expressions
+    - include: collate-expressions
     - include: literals-and-variables
     - include: operators
-    - include: collate
     - include: function-calls
     #- include: types
     - include: groups
@@ -261,6 +261,17 @@ contexts:
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.sql
     - include: expressions-or-column-name
+
+  collate-expressions:
+    - match: \b(?i:collate)\b
+      scope: keyword.other.sql
+      push: inside-collate-expression
+
+  inside-collate-expression:
+    - match: \w+
+      scope: support.constant.sql
+      pop: 1
+    - include: else-pop
 
   function-calls:
     - include: built-in-aggregate-function-calls
@@ -741,17 +752,6 @@ contexts:
 
   after-declare:
     - include: immediately-pop
-
-  collate:
-    - match: \b(?i:collate)\b
-      scope: keyword.other.sql
-      push: collation
-
-  collation:
-    - match: \w+
-      scope: support.constant.sql
-      pop: 1
-    - include: else-pop
 
   after-constraint:
     - match: \b(?i:check)\b

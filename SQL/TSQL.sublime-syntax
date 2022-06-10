@@ -588,7 +588,7 @@ contexts:
     - match: \b(?i:ENCRYPTED\s+WITH)\b
       scope: storage.modifier.tsql
       set: with-paren-or-pop
-    - include: collate
+    - include: collate-expressions
 
   maybe-identifier-accessor:
     - meta_prepend: true
