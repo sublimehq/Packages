@@ -59,7 +59,7 @@ contexts:
       scope: keyword.other.dml.cql
       push:
         - copy-from
-        - begin-group-or-pop
+        - maybe-group
         - table-name
         - single-identifier-after-whitespace
 

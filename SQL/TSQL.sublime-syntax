@@ -255,7 +255,7 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:pivot|unpivot)\b
       scope: keyword.other.tsql
-      push: [maybe-table-alias, begin-group-or-pop]
+      push: [maybe-table-alias, maybe-group]
     - match: \b(?i:for)\b
       scope: keyword.other.tsql
     - match: \b(\w+)(:)
@@ -469,11 +469,9 @@ contexts:
 
   after-table-alias:
     - meta_prepend: true
-    - include: with
+    - include: groups # column-alias-list
     - include: table-hint-without-with
-    - match: \(
-      scope: punctuation.section.group.begin.tsql
-      push: inside-group # column-alias-list
+    - include: with
 
   table-hint-without-with:
     - match: |-

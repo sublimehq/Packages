@@ -233,13 +233,34 @@ contexts:
     - include: built-in-scalar-function-calls
     #- include: types
     - include: user-defined-function-calls
-    - include: begin-group
+    - include: groups
     - match: \)
       scope: invalid.illegal.trailing-paren.sql
     - match: ','
       scope: punctuation.separator.sequence.sql
     - match: (?=;)
       pop: 1
+
+  maybe-group:
+    - include: group
+    - include: else-pop
+
+  group:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-group
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: inside-group
+
+  inside-group:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: main
 
   literals-and-variables:
     - include: constants
@@ -278,24 +299,6 @@ contexts:
   string-escapes:
     - match: '{{string_escape}}'
       scope: constant.character.escape.sql
-
-  begin-group:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      push: inside-group
-
-  begin-group-or-pop:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-group
-    - include: else-pop
-
-  inside-group:
-    - meta_scope: meta.group.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - include: main
 
   inside-case-expression:
     - meta_scope: meta.statement.conditional.case.sql
