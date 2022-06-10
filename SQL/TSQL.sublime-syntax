@@ -421,12 +421,11 @@ contexts:
     - meta_content_scope: meta.cursor-name.sql
     - include: immediately-pop
 
-  after-declare:
-    - match: (?=\w+\s+(?i:cursor)\b)
-      set:
-        - cursor-name
-        - single-identifier
-    - match: '(@){{simple_identifier}}'
+  inside-declaration:
+    - match: \w+(?=\s+(?i:cursor)\b)
+      scope: meta.cursor-name.sql
+      pop: 1
+    - match: (@){{simple_identifier}}
       scope: variable.other.readwrite.declaration.tsql
       captures:
         1: punctuation.definition.variable.tsql

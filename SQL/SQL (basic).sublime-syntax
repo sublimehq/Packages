@@ -748,9 +748,9 @@ contexts:
   declarations:
     - match: \b(?i:declare)\b
       scope: keyword.declaration.variable.sql
-      push: after-declare
+      push: inside-declaration
 
-  after-declare:
+  inside-declaration:
     - include: immediately-pop
 
   after-constraint:

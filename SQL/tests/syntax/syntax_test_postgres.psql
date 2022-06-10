@@ -287,8 +287,11 @@ CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, someth
 DECLARE
 -- ^^^^ keyword.declaration.variable
     output varchar[];
+-- ^ - variable
 --  ^^^^^^ variable.other
+--        ^ - variable - storage
 --         ^^^^^^^ storage.type
+--                ^^ - storage
 --                ^ punctuation.section.brackets.begin
 --                 ^ punctuation.section.brackets.end
 --                  ^ punctuation.terminator.statement
@@ -301,6 +304,11 @@ BEGIN
 --  ^^^^^^ keyword.control.flow.return
 END;
 $$ LANGUAGE plpgsql STABLE;
+
+DECLARE var varchar[];
+--     ^ - variable
+--      ^^^ variable.other.psql
+--         ^ - variable - storage
 
 DROP TRIGGER blah ON some_table;
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop

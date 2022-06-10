@@ -100,8 +100,8 @@ contexts:
     - meta_prepend: true
     - include: declarations
 
-  after-declare:
-    - match: ''
+  inside-declaration:
+    - match: (?=\S)
       set:
         - expect-type
         - declaration-variable-name
