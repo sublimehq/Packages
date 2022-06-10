@@ -286,6 +286,29 @@ contexts:
     - match: \b(?i:include)\b
       scope: keyword.other.sql
 
+  built-in-scalar-function-calls:
+    - meta_append: true
+    - match: \b((?i:CONVERT))\s*(\()
+      scope: meta.function-call.sql
+      captures:
+         1: support.function.scalar.sql
+         2: meta.group.sql punctuation.section.arguments.begin.sql
+      push:
+        - inside-convert-arguments
+        - expect-type
+    - match: \b(?i:GETDATE)(?=\s*\()
+      scope: support.function.scalar.sql
+      push: function-call-arguments
+
+  inside-convert-arguments:
+    - meta_content_scope: meta.function-call.sql meta.group.sql
+    - match: \)
+      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.argument.sql
+    - include: expressions-or-column-name
+
   literals-and-variables:
     - meta_prepend: true
     - include: variables
@@ -387,29 +410,6 @@ contexts:
   dml-update:
     - meta_prepend: true
     - include: top
-
-  built-in-scalar-function-calls:
-    - meta_append: true
-    - match: (?i)\b(CONVERT)\s*(\()
-      scope: meta.function-call.sql
-      captures:
-         1: support.function.scalar.sql
-         2: meta.group.sql punctuation.section.arguments.begin.sql
-      push:
-        - method-call-convert
-        - expect-type
-    - match: (?i)\b(?:GETDATE)(?=\s*\()
-      scope: support.function.scalar.sql
-      push: begin-method-call-paren
-
-  method-call-convert:
-    - meta_content_scope: meta.function-call.sql meta.group.sql
-    - match: \)
-      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
-      pop: 1
-    - match: ','
-      scope: punctuation.separator.argument.sql
-    - include: expressions-or-column-name
 
   label-name:
     - meta_include_prototype: false
@@ -626,7 +626,7 @@ contexts:
       scope: meta.table-valued-function-name.sql support.function.tsql
       push:
         - with-column-definition
-        - begin-method-call-paren
+        - function-call-arguments
     - match: \b(?i:(OPENROWSET))\b\s*(\()
       scope: meta.function-call.tsql
       captures:
@@ -687,7 +687,7 @@ contexts:
     - match: \)
       scope: meta.function-call.tsql meta.group.tsql punctuation.section.arguments.end.sql
       set: maybe-table-alias
-    - include: inside-method-call
+    - include: inside-function-call-arguments
 
   merge-condition:
     - match: \b(?i:\s+by\s+(?:source|target))\b
@@ -793,7 +793,7 @@ contexts:
     - meta_append: true
     - match: (?={{identifier_for_lookahead}}\s*\()
       push:
-        - begin-method-call-paren
+        - function-call-arguments
         - function-name
         - single-identifier
 

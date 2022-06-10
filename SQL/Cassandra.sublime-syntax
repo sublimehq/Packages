@@ -47,6 +47,12 @@ contexts:
     - match: \b(?i:using\s+ttl)\b
       scope: keyword.other.cql
 
+  built-in-scalar-function-calls:
+    - meta_append: true
+    - match: \b(?:token|uuid|now|toJson|TTL|WRITETIME|KEYS|ENTRIES|FULL)(?=\s*\()
+      scope: support.function.scalar.cql
+      push: function-call-arguments
+
   dml-statements:
     - meta_prepend: true
     - match: \b(?i:(select)\s+(json))\b
@@ -176,12 +182,6 @@ contexts:
       scope: keyword.other.cql
       pop: 1
     - include: else-pop
-
-  built-in-scalar-function-calls:
-    - meta_append: true
-    - match: \b(?:token|uuid|now|toJson|TTL|WRITETIME|KEYS|ENTRIES|FULL)(?=\s*\()
-      scope: support.function.scalar.cql
-      push: begin-method-call-paren
 
   logical-operators:
     - meta_append: true
