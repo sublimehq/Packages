@@ -535,7 +535,7 @@ contexts:
     - match: \b(?i:from)\b
       scope: keyword.other.dml.sql
       push: table-name-or-subquery
-    - match: (?i)\b(asc|desc)\b
+    - match: \b(?i:asc|desc)\b
       scope: keyword.other.order.sql
 
   inside-ddl-table-creation-columns:
