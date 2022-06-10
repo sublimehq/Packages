@@ -218,11 +218,7 @@ contexts:
         - single-identifier
 
   expressions:
-    - match: \b(?i:as)\b
-      scope: keyword.operator.assignment.alias.sql
-      push:
-        - column-alias
-        - single-identifier-after-whitespace
+    - include: alias-expressions
     - include: case-expressions
     - include: literals-and-variables
     - include: operators
@@ -236,6 +232,13 @@ contexts:
       scope: punctuation.separator.sequence.sql
     - match: (?=;)
       pop: 1
+
+  alias-expressions:
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+      push:
+        - column-alias
+        - single-identifier-after-whitespace
 
   case-expressions:
     - match: \b(?i:case)\b
