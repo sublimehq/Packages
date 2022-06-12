@@ -590,10 +590,10 @@ contexts:
 
   maybe-identifier-accessor:
     - meta_prepend: true
-    - match: \s*(\.{2,})
+    - match: \s*(\.{2,})\s*
       captures:
         1: punctuation.accessor.dot.sql
-      set: single-identifier-after-whitespace
+      set: single-identifier
 
   cast:
     - meta_scope: meta.function-call.sql

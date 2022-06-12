@@ -101,14 +101,15 @@ contexts:
         - identifier-part
 
   maybe-identifier-accessor:
-    - match: \s*(\.)(?=\s*\*)
+    - match: \s*(\.)\s*(\*)
       captures:
         1: punctuation.accessor.dot.sql
-      set: possible-wildcard
-    - match: \s*(\.)
+        2: variable.language.wildcard.asterisk.sql
+      pop: 1
+    - match: \s*(\.)\s*
       captures:
         1: punctuation.accessor.dot.sql
-      set: single-identifier-after-whitespace
+      set: single-identifier
     - include: immediately-pop
 
   identifier-part:
@@ -142,6 +143,10 @@ contexts:
         1: punctuation.definition.identifier.begin.sql
         3: punctuation.definition.identifier.end.sql
       pop: 1
+
+  wildcard-identifiers:
+    - match: \*
+      scope: variable.language.wildcard.asterisk.sql
 
   create-condition:
     - include: dml-condition
@@ -206,7 +211,7 @@ contexts:
     - include: else-pop
 
   expressions-or-column-name:
-    - include: wildcard-identifier
+    - include: wildcard-identifiers
     - include: expressions
     - include: column-references
 
@@ -724,14 +729,6 @@ contexts:
 
   possible-operator:
     - include: operators
-    - include: else-pop
-
-  wildcard-identifier:
-    - match: \*
-      scope: variable.language.wildcard.asterisk.sql
-
-  possible-wildcard:
-    - include: wildcard-identifier
     - include: else-pop
 
   tablesample:
