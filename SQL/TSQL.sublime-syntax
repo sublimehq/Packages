@@ -269,9 +269,6 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - match: \b(?i:cast)\b
-      scope: support.function.tsql
-      push: cast
     - include: with
     - match: \b(?i:output)\b
       scope: storage.modifier.output.tsql
@@ -288,6 +285,9 @@ contexts:
 
   built-in-scalar-function-calls:
     - meta_append: true
+    - match: \b(?i:CAST)\b
+      scope: support.function.tsql
+      push: cast-arguments
     - match: \b((?i:CONVERT))\s*(\()
       scope: meta.function-call.sql
       captures:
@@ -299,6 +299,23 @@ contexts:
     - match: \b(?i:GETDATE)(?=\s*\()
       scope: support.function.scalar.sql
       push: function-call-arguments
+
+  cast-arguments:
+    - meta_scope: meta.function-call.sql
+    - match: \(
+      scope: meta.group.sql punctuation.section.arguments.begin.sql
+      set: inside-cast-arguments
+    - include: else-pop
+
+  inside-cast-arguments:
+    - meta_content_scope: meta.function-call.sql meta.group.sql
+    - match: \)
+      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
+      pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.tsql
+      push: expect-type
+    - include: expressions-or-column-name
 
   inside-convert-arguments:
     - meta_content_scope: meta.function-call.sql meta.group.sql
@@ -594,23 +611,6 @@ contexts:
       captures:
         1: punctuation.accessor.dot.sql
       set: single-identifier
-
-  cast:
-    - meta_scope: meta.function-call.sql
-    - match: \(
-      scope: meta.group.sql punctuation.section.arguments.begin.sql
-      set: inside-cast-method-call
-    - include: else-pop
-
-  inside-cast-method-call:
-    - meta_content_scope: meta.function-call.sql meta.group.sql
-    - match: \)
-      scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
-      pop: 1
-    - match: \b(?i:as)\b
-      scope: keyword.operator.assignment.tsql
-      push: expect-type
-    - include: expressions-or-column-name
 
   joins:
     - meta_append: true
