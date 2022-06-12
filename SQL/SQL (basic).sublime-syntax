@@ -89,7 +89,7 @@ contexts:
     - include: immediately-pop
 
   single-identifier-after-whitespace:
-    - match: \s*
+    - match: (?=\S)
       set: single-identifier
 
   single-identifier:
