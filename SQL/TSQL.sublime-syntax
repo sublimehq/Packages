@@ -356,7 +356,7 @@ contexts:
       scope: keyword.other.tsql
       push: for-xml
     - include: top
-    - match: \b(?i:(option))\b\s*(\()
+    - match: \b(?i:(option))\s*(\()
       captures:
         1: keyword.other.dml.tsql
         2: meta.group.sql punctuation.section.group.begin.sql
@@ -625,7 +625,7 @@ contexts:
       push:
         - with-column-definition
         - function-call-arguments
-    - match: \b(?i:(OPENROWSET))\b\s*(\()
+    - match: \b(?i:(OPENROWSET))\s*(\()
       scope: meta.function-call.tsql
       captures:
         1: meta.table-valued-function-name.sql support.function.tsql
