@@ -709,6 +709,13 @@ contexts:
         - maybe-filegroup
         - inside-ddl-table-creation-columns
 
+  inside-ddl-table-creation-columns:
+    - meta_prepend: true
+    - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:period\s+for\s+system_time)\b
+      scope: storage.modifier.tsql
+
   maybe-filegroup:
     - match: \b(?i:ON)\b(?!\s*{{identifier_for_lookahead}}\s*=)
       scope: keyword.other.tsql
@@ -717,16 +724,14 @@ contexts:
         - single-identifier-after-whitespace
     - include: else-pop
 
+  filegroup-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.filegroup-name.tsql
+    - include: immediately-pop
+
   maybe-with-table-options:
     - include: with
     - include: else-pop
-
-  inside-ddl-table-creation-columns:
-    - meta_prepend: true
-    - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
-      scope: storage.modifier.tsql
-    - match: \b(?i:period\s+for\s+system_time)\b
-      scope: storage.modifier.tsql
 
   computed-column-definition:
     - meta_content_scope: meta.computed-column-definition.tsql
@@ -826,9 +831,4 @@ contexts:
   index-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.index-name.tsql
-    - include: immediately-pop
-
-  filegroup-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.filegroup-name.tsql
     - include: immediately-pop
