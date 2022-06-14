@@ -119,7 +119,7 @@ contexts:
         1: meta.mapping.git.config
         2: meta.mapping.key.git.config variable.other.readwrite.git.config
         3: meta.mapping.git.config
-        4: keyword.operator.assignment.git.config
+        4: punctuation.separator.key-value.git.config
       push:
         - meta_content_scope: meta.mapping.value.git.config
         - include: color-value
@@ -134,7 +134,7 @@ contexts:
         1: meta.mapping.git.config
         2: meta.mapping.key.git.config variable.other.readwrite.git.config
         3: meta.mapping.git.config
-        4: keyword.operator.assignment.git.config
+        4: punctuation.separator.key-value.git.config
       push:
         - meta_content_scope: meta.mapping.value.git.config
         - include: other-value
