@@ -24,14 +24,6 @@ contexts:
   prototype:
     - include: comments
 
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
   main:
     - include: statements
     - match: ';'
@@ -772,3 +764,13 @@ contexts:
       scope: punctuation.section.group.begin.sql
       set: inside-ddl-table-creation-columns
     - include: else-pop
+
+###[ PROTOTYPES ]##############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
