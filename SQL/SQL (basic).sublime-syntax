@@ -30,6 +30,8 @@ contexts:
       scope: punctuation.terminator.statement.sql
     - include: expressions-or-column-name
 
+###[ COMMENTS ]################################################################
+
   comments:
     - include: double-dash-comments
     - include: block-comments
