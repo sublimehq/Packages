@@ -30,21 +30,6 @@ variables:
     )\b
 
 contexts:
-  identifier-part:
-    - meta_prepend: true
-    - match: \b(?i:inserted|deleted)(\.)
-      scope: constant.language.table.tsql
-      captures:
-        1: punctuation.accessor.dot.tsql
-    - include: square-bracketed-identifier-part
-
-  square-bracketed-identifier-part:
-    - match: (\[)([^]]+)(\])
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-
   strings:
     - meta_append: true
     - match: N'
@@ -234,7 +219,7 @@ contexts:
       scope: keyword.control.flow.tsql
     - match: \b(?i:goto)\b
       scope: keyword.control.flow.tsql
-      push: [label-name, single-identifier-after-whitespace]
+      push: expect-label-name
     - match: \b(?i:exec)\b
       scope: keyword.control.flow.tsql
       push: [expect-procedure-name, exec]
@@ -246,7 +231,7 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:use)\b
       scope: keyword.context.tsql
-      push: [database-name, single-identifier-after-whitespace]
+      push: expect-database-name
     - match: \b(?i:backup(?:\s+database)?)\b # https://docs.microsoft.com/en-us/sql/t-sql/statements/backup-transact-sql?view=sql-server-ver15
       scope: keyword.other.tsql
     - match: \b(?i:to)\b
@@ -344,10 +329,10 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:insert)\b
       scope: keyword.other.dml.sql
-      push: [table-name, single-identifier-after-whitespace]
+      push: expect-table-name
     - match: \b(?i:into)\b(?!\s*@)
       scope: keyword.other.dml.tsql
-      push: [table-name, single-identifier-after-whitespace]
+      push: expect-table-name
     - match: \b(?i:into)\b
       scope: keyword.other.tsql
     - match: \b(?i:off)\b
@@ -363,23 +348,19 @@ contexts:
       push: inside-with-group
     - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
-      push:
-        - cursor-name
-        - single-identifier-after-whitespace
+      push: expect-cursor-name
     - match: \b(?i:merge)\b
       scope: keyword.other.tsql
       push:
         - maybe-table-alias
-        - table-name
-        - single-identifier-after-whitespace
+        - expect-table-name
     - match: \b(?i:using)\b
       scope: keyword.other.tsql
       push:
         - table-name-or-subquery
         - join-on
         - maybe-table-alias
-        - table-name
-        - single-identifier-after-whitespace
+        - expect-table-name
     - match: \b(?i:set)\b
       scope: keyword.other.dml.tsql
 
@@ -428,16 +409,6 @@ contexts:
     - meta_prepend: true
     - include: top
 
-  label-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.label-name.sql
-    - include: immediately-pop
-
-  cursor-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.cursor-name.sql
-    - include: immediately-pop
-
   inside-declaration:
     - match: \w+(?=\s+(?i:cursor)\b)
       scope: meta.cursor-name.sql
@@ -461,9 +432,7 @@ contexts:
       scope: constant.language.switch.tsql
     - match: \b(?i:identity_insert)\b
       scope: constant.language.switch.tsql
-      push:
-        - table-name
-        - single-identifier
+      push: expect-table-name
     - match: \b(?i:on|off)\b
       scope: constant.language.boolean.tsql
     - include: variables
@@ -505,14 +474,12 @@ contexts:
       scope: keyword.other.dml.sql
       push:
         - cte-column-list-begin
-        - cte-table-name
-        - single-identifier
+        - expect-cte-table-name
     - match: (?i)\bwith\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
       scope: keyword.other.dml.sql
       push:
         - cte-as
-        - cte-table-name
-        - single-identifier
+        - expect-cte-table-name
 
   with:
     - match: (?i)\bwith\b
@@ -552,9 +519,7 @@ contexts:
       captures:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
-      push:
-        - index-name
-        - single-identifier-after-whitespace
+      push: expect-index-name
     - match: \b((?i:SYSTEM_VERSIONING))\s*(=)
       captures:
         1: keyword.other.tsql
@@ -565,9 +530,7 @@ contexts:
       captures:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
+      push: expect-table-name
     - match: \w+
       scope: constant.language.with.tsql
     - match: ','
@@ -605,13 +568,6 @@ contexts:
       set: with-paren-or-pop
     - include: collate-expressions
 
-  maybe-identifier-accessor:
-    - meta_prepend: true
-    - match: \s*(\.{2,})\s*
-      captures:
-        1: punctuation.accessor.dot.sql
-      set: single-identifier
-
   joins:
     - meta_append: true
     - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
@@ -638,13 +594,6 @@ contexts:
     - include: expressions
     - include: else-pop
 
-  expect-procedure-name:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - procedure-name
-        - single-identifier-after-whitespace
-
   cte-column-list-begin:
     - match: (?=\()
       scope: punctuation.section.group.begin.tsql
@@ -660,13 +609,10 @@ contexts:
     - include: pop-on-top-level-reserved-word
     - match: ','
       scope: punctuation.separator.sequence.cte.tsql
-      set: [cte-column-list-begin, cte-table-name, single-identifier-after-whitespace]
+      set:
+        - cte-column-list-begin
+        - expect-cte-table-name
     - include: expressions
-
-  cte-table-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.cte-table-name.sql
-    - include: immediately-pop
 
   for-xml:
     - match: \b(?i:raw|auto|elements|root|path)\b
@@ -719,15 +665,8 @@ contexts:
   maybe-filegroup:
     - match: \b(?i:ON)\b(?!\s*{{identifier_for_lookahead}}\s*=)
       scope: keyword.other.tsql
-      set:
-        - filegroup-name
-        - single-identifier-after-whitespace
+      set: expect-filegroup-name
     - include: else-pop
-
-  filegroup-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.filegroup-name.tsql
-    - include: immediately-pop
 
   maybe-with-table-options:
     - include: with
@@ -823,12 +762,81 @@ contexts:
       pop: 1
     - include: literals-and-variables
     - include: ddl-table-creation-columns
+    - include: expect-index-names
+
+###[ IDENTIFIERS ]#############################################################
+
+  expect-cte-table-name:
     - match: (?=\S)
-      push:
-        - index-name
-        - single-identifier
+      set: [cte-table-name, single-identifier]
+
+  cte-table-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.cte-table-name.sql
+    - include: immediately-pop
+
+  expect-cursor-name:
+    - match: (?=\S)
+      set: [cursor-name, single-identifier]
+
+  cursor-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.cursor-name.sql
+    - include: immediately-pop
+
+  expect-filegroup-name:
+    - match: (?=\S)
+      set: [filegroup-name, single-identifier]
+
+  filegroup-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.filegroup-name.tsql
+    - include: immediately-pop
+
+  expect-index-names:
+    - match: (?=\S)
+      push: [index-name, single-identifier]
+
+  expect-index-name:
+    - match: (?=\S)
+      set: [index-name, single-identifier]
 
   index-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.index-name.tsql
     - include: immediately-pop
+
+  expect-label-name:
+    - match: (?=\S)
+      set: [label-name, single-identifier]
+
+  label-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.label-name.sql
+    - include: immediately-pop
+
+  maybe-identifier-accessor:
+    - meta_prepend: true
+    - match: \s*(\.{2,})\s*
+      captures:
+        1: punctuation.accessor.dot.sql
+      set: single-identifier
+
+  identifier-part:
+    - meta_prepend: true
+    - match: \b(?i:inserted|deleted)(\.)
+      scope: constant.language.table.tsql
+      captures:
+        1: punctuation.accessor.dot.tsql
+    - include: square-bracketed-identifier-part
+
+  square-bracketed-identifier-part:
+    - match: (\[)([^]]+)(\])
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+
+  inside-simple-identifier-part:
+    - meta_prepend: true
+    - include: variables

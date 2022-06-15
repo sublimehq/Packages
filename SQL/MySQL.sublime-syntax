@@ -138,18 +138,14 @@ contexts:
     - meta_append: true
     - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
       scope: keyword.other.dml.sql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
+      push: expect-table-name
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.sql
 
   ddl-target-common:
     - match: \b(?i:on)\b
       scope: keyword.other.mysql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
+      push: expect-table-name
     - match: \b(?i:using)\b
       scope: keyword.other.mysql
     - match: \b(?i:(algorithm))\s*(=)
@@ -189,9 +185,9 @@ contexts:
     - match: \b(?i:change\s+column)\b
       scope: keyword.other.ddl.sql
       push:
-        - new-column-name
-        - column-name
-        - single-identifier-after-whitespace
+        - expect-type
+        - expect-column-name-declaration
+        - expect-column-name
 
   inside-ddl-table-creation-columns:
     - meta_prepend: true
@@ -205,10 +201,3 @@ contexts:
       scope: keyword.other.mysql
       pop: 1
     - include: else-pop
-
-  new-column-name:
-    - match: (?=\S)
-      set:
-        - expect-type
-        - column-name-declaration
-        - single-identifier

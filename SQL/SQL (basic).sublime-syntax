@@ -85,7 +85,7 @@ contexts:
     - match: (?=\S)
       set:
         - ddl-target-on
-        - single-identifier-after-whitespace
+        - single-identifier
 
   dml-condition:
     - match: \b(?i:if)\b
@@ -131,14 +131,7 @@ contexts:
   expressions-or-column-name:
     - include: wildcard-identifiers
     - include: expressions
-    - include: column-references
-
-  column-references:
-    - match: (?=\S)
-      push:
-        - possible-operator
-        - column-name
-        - single-identifier
+    - include: expect-column-names
 
   expressions:
     - include: alias-expressions
@@ -159,9 +152,7 @@ contexts:
   alias-expressions:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-      push:
-        - column-alias-name
-        - single-identifier-after-whitespace
+      push: expect-column-alias-name
 
   case-expressions:
     - match: \b(?i:case)\b
@@ -325,8 +316,7 @@ contexts:
       scope: keyword.other.ddl.sql
       push:
         - ddl-alter-table
-        - table-name
-        - single-identifier-after-whitespace
+        - expect-table-name
     - match: \b(?i:alter)\b
       scope: keyword.other.ddl.sql
       push:
@@ -355,9 +345,7 @@ contexts:
   ddl-target-on:
     - match: \b(?i:on)\b
       scope: keyword.other.sql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
+      push: expect-table-name
     - include: else-pop
 
   ddl-table-creation-columns:
@@ -378,10 +366,7 @@ contexts:
   ddl-drop-table:
     - meta_scope: meta.drop.sql
     - include: dml-condition
-    - match: (?=\S)
-      set:
-        - table-name
-        - single-identifier-after-whitespace
+    - include: expect-table-name
 
   ddl-alter-table:
     - meta_scope: meta.alter.sql
@@ -399,8 +384,7 @@ contexts:
       scope: meta.add.sql keyword.other.sql
       push:
         - after-constraint-pop
-        - constraint-name
-        - single-identifier-after-whitespace
+        - expect-constraint-name
     - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
       scope: meta.add.sql keyword.other.sql
     #- include: types
@@ -411,24 +395,18 @@ contexts:
       scope: keyword.other.ddl.sql
       push:
         - expect-type
-        - column-name-declaration
-        - single-identifier-after-whitespace
+        - expect-column-name-declaration
     - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}})
       scope: keyword.other.ddl.sql
       push:
         - expect-type
-        - column-name-declaration
-        - single-identifier-after-whitespace
+        - expect-column-name-declaration
     - match: \b(?i:drop\s+column)\b
       scope: keyword.other.ddl.sql
-      push:
-        - column-name
-        - single-identifier-after-whitespace
+      push: expect-column-name
     - match: \b(?i:drop)\b(?!\s+{{ddl_target}})
       scope: keyword.other.ddl.sql
-      push:
-        - column-name
-        - single-identifier-after-whitespace
+      push: expect-column-name
 
   dml-statements:
     - match: \b(?i:select)\b
@@ -443,9 +421,7 @@ contexts:
       push: dml-update
     - match: \b(?i:(?:insert\s+into|truncate))\b
       scope: keyword.other.dml.sql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
+      push: expect-table-name
     - match: \b(?i:set)\b
       scope: keyword.other.dml.sql
       push: set
@@ -468,9 +444,7 @@ contexts:
       pop: 1
     - match: \b(?i:constraint)\b
       scope: storage.modifier.sql
-      push:
-        - constraint-name
-        - single-identifier-after-whitespace
+      push: expect-constraint-name
     - include: after-constraint
     - include: expressions
     - include: ddl-creation-column
@@ -486,21 +460,13 @@ contexts:
   use-db:
     - match: \b(?i:use)\b
       scope: keyword.context.sql
-      push:
-        - database-name
-        - single-identifier-after-whitespace
+      push: expect-database-name
 
   dml-delete:
-    - match: (?=\S)
-      set:
-        - table-name
-        - single-identifier
+    - include: expect-table-name
 
   dml-update:
-    - match: (?=\S)
-      set:
-        - table-name
-        - single-identifier
+    - include: expect-table-name
 
   distinct:
     - match: \b(?i:distinct)\b
@@ -633,8 +599,7 @@ contexts:
       scope: storage.modifier.sql
       push:
         - maybe-column-reference
-        - table-name
-        - single-identifier-after-whitespace
+        - expect-table-name
 
   after-constraint-pop:
     - include: after-constraint
@@ -648,35 +613,67 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
+  expect-column-names:
+    - match: (?=\S)
+      push: [possible-operator, column-name, single-identifier]
+
+  expect-column-name:
+    - match: (?=\S)
+      set: [column-name, single-identifier]
+
   column-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.column-name.sql
     - include: immediately-pop
+
+  expect-column-name-declaration:
+    - match: (?=\S)
+      set: [column-name-declaration, single-identifier]
 
   column-name-declaration:
     - meta_include_prototype: false
     - meta_content_scope: meta.column-name.sql variable.other.member.declaration.sql
     - include: immediately-pop
 
+  expect-column-alias-name:
+    - match: (?=\S)
+      set: [column-alias-name, single-identifier]
+
   column-alias-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.column-alias.sql
     - include: immediately-pop
+
+  expect-database-name:
+    - match: (?=\S)
+      set: [database-name, single-identifier]
 
   database-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.database-name.sql
     - include: immediately-pop
 
+  expect-procedure-name:
+    - match: (?=\S)
+      set: [procedure-name, single-identifier]
+
   procedure-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.procedure-name.sql
     - include: immediately-pop
 
+  expect-constraint-name:
+    - match: (?=\S)
+      set: [constraint-name, single-identifier]
+
   constraint-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.constraint-name.sql
     - include: immediately-pop
+
+  expect-schema-name:
+    - match: (?=\S)
+      set: [schema-name, single-identifier]
 
   schema-name:
     - meta_include_prototype: false
@@ -692,10 +689,18 @@ contexts:
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.struct.sql
     - include: immediately-pop
 
+  expect-table-name:
+    - match: (?=\S)
+      set: [table-name, single-identifier]
+
   table-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.table-name.sql
     - include: immediately-pop
+
+  expect-table-alias-name:
+    - match: (?=\S)
+      set: [table-alias-name, single-identifier]
 
   table-alias-name:
     - meta_include_prototype: false
@@ -710,10 +715,6 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.other.sql
     - include: immediately-pop
-
-  single-identifier-after-whitespace:
-    - match: (?=\S)
-      set: single-identifier
 
   single-identifier:
     - meta_include_prototype: false

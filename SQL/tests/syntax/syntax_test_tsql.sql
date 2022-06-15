@@ -329,7 +329,9 @@ SET NOCOUNT ON
 --          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 -- ^ keyword.control.flow
+--  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                          ^ - meta.procedure-name
 --                           ^^^^^^^^^ variable.other.readwrite
 --                                    ^ punctuation.separator.sequence
 --                                      ^^^^^^^^^^^ variable.other.readwrite
@@ -373,7 +375,9 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'every 10 
         @schedule_uid=N'564354f8-4985-7408-80b7-afdc2bb92d3c'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 --                                    ^^^^ keyword.control.flow
+--                                        ^ - meta.label-name
 --                                         ^^^^^^^^^^^^^^^^ meta.label-name
+--                                                         ^ - meta.label-name
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
 -- ^ keyword.control.flow
 --   ^^^^^^^^^^^ variable.other.readwrite
@@ -466,8 +470,11 @@ SET column1 = v.column1,
 --          ^^^^^^^^ constant.numeric.value
 FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.dml
+--  ^ - meta.table-name
 --   ^^^^^^^^^^^^^ meta.table-name
+--                ^ - meta.table-name - meta.table-alias-name
 --                 ^^^^^^^^^^ meta.table-alias-name
+--                           ^ - meta.table-alias-name
 --                            ^^^^ keyword.other
 --                                 ^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                                     ^ - meta.group
@@ -478,20 +485,28 @@ FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 --                                                    ^ punctuation.section.group.end
 INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 -- ^^^^^^^ keyword.other.dml
+--        ^ - meta.table-name
 --         ^^^^^^^^^ meta.table-name
+--                  ^ - meta.table-name
 --                   ^^ keyword.operator.assignment.alias
+--                     ^ - meta.table-alias-name
 --                      ^ meta.table-alias-name
+--                       ^ - meta.table-alias-name
 --                            ^^^^ keyword.other.dml
 --                                 ^^^^^^^^ meta.group
 --                                 ^ punctuation.section.group.begin
 --                                  ^^^^^^ constant.language.with
 --                                        ^ punctuation.section.group.end
 --                                          ^^ keyword.operator.join
+--                                            ^ - meta.column-name
 --                                             ^^^^^^^^^ meta.column-name
 --                                              ^ punctuation.accessor.dot
+--                                                      ^ - meta.column-name
 --                                                       ^ keyword.operator.comparison
+--                                                        ^ - meta.column-name
 --                                                         ^^^^^^^^^^^^^^^^^^ meta.column-name
 --                                                                   ^ punctuation.accessor.dot
+--                                                                           ^ - meta.column-name
 WHERE TableAlias.some_id IN (
 -- ^^ keyword.other.dml
 --                       ^^ keyword.operator.logical
@@ -500,10 +515,16 @@ WHERE TableAlias.some_id IN (
 --  ^^^^^^ keyword.other.dml
     FROM dbname..table_name_in_default_schema a
 --  ^^^^ keyword.other.dml
+--      ^ - meta.table-name
 --       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
---                                            ^ meta.group meta.table-alias-name
+--                                           ^ - meta.table-name - meta.table-alias-name
+--                                            ^ meta.table-alias-name
+--                                             ^ - meta.table-alias-name
     WHERE a.another_id_column IS NOT NULL
---  ^^^^^ meta.group keyword.other.dml
+--  ^^^^^ keyword.other.dml
+--       ^ - meta.column-name - keyword
+--        ^^^^^^^^^^^^^^^^^^^ meta.column-name
+--                           ^ - meta.column-name - keyword
 --                            ^^ keyword.operator.logical
 --                               ^^^ keyword.operator.logical
 --                                   ^^^^ constant.language.null
@@ -1120,14 +1141,18 @@ CREATE TABLE dbo.T1
 --           ^^^^^^^^^^^ storage.type
         CONSTRAINT default_name DEFAULT ('my column default'),
 --      ^^^^^^^^^^ storage.modifier
+--                ^ - meta.constraint-name
 --                 ^^^^^^^^^^^^ meta.constraint-name
+--                             ^ - meta.constraint-name
 --                              ^^^^^^^ storage.modifier
 --                                      ^ punctuation.section.group.begin
 --                                       ^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --                                                          ^ punctuation.section.group.end
 --                                                           ^ punctuation.separator.sequence
     column_3 rowversion,
+-- ^ - meta.column-name
 --  ^^^^^^^^ meta.column-name
+--          ^ - meta.column-name
 --           ^^^^^^^^^^ storage.type
     column_4 varchar(40) NULL
 );
@@ -1140,12 +1165,18 @@ INSERT INTO T1 DEFAULT VALUES;
 
 MERGE sales.category t
 -- ^^ keyword.other
+--   ^ - meta.table-name
 --    ^^^^^^^^^^^^^^ meta.table-name
+--                  ^ - meta.table-name - meta.table-alias-name
 --                   ^ meta.table-alias-name
+--                    ^ - meta.table-alias-name
     USING sales.category_staging s
 --  ^^^^^ keyword.other
+--       ^ - meta.table-name
 --        ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                              ^ - meta.table-name - meta.table-alias-name
 --                               ^ meta.table-alias-name
+--                                ^ - meta.table-alias-name
 ON (s.category_id = t.category_id)
 -- <- keyword.operator.join
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -1543,11 +1574,25 @@ FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath 
 --                                      ^ punctuation.section.group.end
 EXEC sp_xml_removedocument @XmlDocumentHandle
 -- <- keyword.control.flow
+--  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                        ^ - meta.procedure-name
 --                         ^ variable.other.readwrite punctuation.definition.variable
+--                          ^^^^^^^^^^^^^^^^^ variable.other.readwrite - punctuation
 
 --Create an internal representation of the XML document.
 EXEC sp_xml_preparedocument @idoc OUTPUT, @doc;
+-- <- keyword.control.flow
+--  ^ - meta.procedure-name
+--   ^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                         ^ - meta.procedure-name
+--                          ^ variable.other.readwrite punctuation.definition.variable
+--                           ^^^^ variable.other.readwrite.sql
+--                               ^ - variable
+--                                ^^^^^^ storage.modifier.output.tsql
+--                                      ^ punctuation.separator.sequence.sql
+--                                        ^^^^ variable.other.readwrite.sql
+--                                            ^ punctuation.terminator.statement.sql
 
 -- SELECT stmt using OPENXML rowset provider
 SELECT *

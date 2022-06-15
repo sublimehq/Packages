@@ -66,8 +66,7 @@ contexts:
       push:
         - copy-from
         - maybe-group
-        - table-name
-        - single-identifier-after-whitespace
+        - expect-table-name
 
   statements:
     - meta_prepend: true
@@ -129,10 +128,10 @@ contexts:
     - include: dml-condition
     - match: (?=\S)
       set:
-        - type-identifier-create
+        - type-creation-name
         - single-identifier
 
-  type-identifier-create:
+  type-creation-name:
     - meta_include_prototype: false
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
     - include: immediately-pop
@@ -164,7 +163,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cql
       set: inside-group
-    - include: column-references
+    - include: expect-column-names
 
   inside-partition-key-group:
     - match: \)
@@ -172,7 +171,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.sequence.cql
-    - include: column-references
+    - include: expect-column-names
 
   joins:
     - match: \bjoin\b

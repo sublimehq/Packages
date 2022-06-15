@@ -122,6 +122,4 @@ contexts:
       scope: keyword.other.psql
     - match: \b(?i:schema)\b
       scope: storage.modifier.psql
-      push:
-        - schema-name
-        - single-identifier-after-whitespace
+      push: expect-schema-name
