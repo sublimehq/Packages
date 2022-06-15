@@ -72,89 +72,13 @@ contexts:
       scope: punctuation.definition.comment.end.sql
       pop: 1
 
-  identifier-create:
-    - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.other.sql
-    - include: immediately-pop
-
-  table-identifier-create:
-    - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.struct.sql
-    - include: immediately-pop
-
-  single-identifier-after-whitespace:
-    - match: (?=\S)
-      set: single-identifier
-
-  single-identifier:
-    - meta_include_prototype: false
-    - include: pop-on-top-level-reserved-word
-    - match: ''
-      set:
-        - maybe-identifier-accessor
-        - identifier-part
-
-  maybe-identifier-accessor:
-    - match: \s*(\.)\s*(\*)
-      captures:
-        1: punctuation.accessor.dot.sql
-        2: variable.language.wildcard.asterisk.sql
-      pop: 1
-    - match: \s*(\.)\s*
-      captures:
-        1: punctuation.accessor.dot.sql
-      set: single-identifier
-    - include: immediately-pop
-
-  identifier-part:
-    - include: simple-identifier-part
-    - include: single-quoted-identifier-part
-    - include: double-quoted-identifier-part
-    - include: backtick-quoted-identifier-part
-    - include: else-pop
-
-  simple-identifier-part:
-    - match: '{{simple_identifier}}'
-      pop: 1
-
-  single-quoted-identifier-part:
-    - match: (')([^']+)(')
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-
-  double-quoted-identifier-part:
-    - match: (")([^"]+)(")
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-
-  backtick-quoted-identifier-part:
-    - match: (`)([^`]+)(`)
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-
-  wildcard-identifiers:
-    - match: \*
-      scope: variable.language.wildcard.asterisk.sql
-
   create-condition:
     - include: dml-condition
-    - match: (?=\S)
-      set:
-        - identifier-create
-        - single-identifier
+    - include: expect-other-creation-name
 
   create-table-condition:
     - include: dml-condition
-    - match: (?=\S)
-      set:
-        - table-identifier-create
-        - single-identifier
+    - include: expect-table-creation-name
 
   drop-condition:
     - include: dml-condition
@@ -236,7 +160,7 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
       push:
-        - column-alias
+        - column-alias-name
         - single-identifier-after-whitespace
 
   case-expressions:
@@ -589,51 +513,6 @@ contexts:
         - join-on
         - table-name-or-subquery
 
-  column-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.column-name.sql
-    - include: immediately-pop
-
-  column-name-declaration:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.column-name.sql variable.other.member.declaration.sql
-    - include: immediately-pop
-
-  column-alias:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.column-alias.sql
-    - include: immediately-pop
-
-  database-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.database-name.sql
-    - include: immediately-pop
-
-  table-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.table-name.sql
-    - include: immediately-pop
-
-  table-alias-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.table-alias-name.sql
-    - include: immediately-pop
-
-  procedure-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.procedure-name.sql
-    - include: immediately-pop
-
-  constraint-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.constraint-name.sql
-    - include: immediately-pop
-
-  schema-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.schema-name.sql
-    - include: immediately-pop
-
   subquery:
     - match: \(
       scope: punctuation.section.group.begin.sql
@@ -766,6 +645,131 @@ contexts:
       scope: punctuation.section.group.begin.sql
       set: inside-ddl-table-creation-columns
     - include: else-pop
+
+###[ IDENTIFIERS ]#############################################################
+
+  column-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.column-name.sql
+    - include: immediately-pop
+
+  column-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.column-name.sql variable.other.member.declaration.sql
+    - include: immediately-pop
+
+  column-alias-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.column-alias.sql
+    - include: immediately-pop
+
+  database-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.database-name.sql
+    - include: immediately-pop
+
+  procedure-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.procedure-name.sql
+    - include: immediately-pop
+
+  constraint-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.constraint-name.sql
+    - include: immediately-pop
+
+  schema-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.schema-name.sql
+    - include: immediately-pop
+
+  expect-table-creation-name:
+    - match: (?=\S)
+      set: [table-creation-name, single-identifier]
+
+  table-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.toc-list.full-identifier.sql entity.name.struct.sql
+    - include: immediately-pop
+
+  table-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.table-name.sql
+    - include: immediately-pop
+
+  table-alias-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.table-alias-name.sql
+    - include: immediately-pop
+
+  expect-other-creation-name:
+    - match: (?=\S)
+      set: [other-creation-name, single-identifier]
+
+  other-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.toc-list.full-identifier.sql entity.name.other.sql
+    - include: immediately-pop
+
+  single-identifier-after-whitespace:
+    - match: (?=\S)
+      set: single-identifier
+
+  single-identifier:
+    - meta_include_prototype: false
+    - include: pop-on-top-level-reserved-word
+    - match: ''
+      set:
+        - maybe-identifier-accessor
+        - identifier-part
+
+  maybe-identifier-accessor:
+    - match: \s*(\.)\s*(\*)
+      captures:
+        1: punctuation.accessor.dot.sql
+        2: variable.language.wildcard.asterisk.sql
+      pop: 1
+    - match: \s*(\.)\s*
+      captures:
+        1: punctuation.accessor.dot.sql
+      set: single-identifier
+    - include: immediately-pop
+
+  identifier-part:
+    - include: simple-identifier-part
+    - include: single-quoted-identifier-part
+    - include: double-quoted-identifier-part
+    - include: backtick-quoted-identifier-part
+    - include: else-pop
+
+  simple-identifier-part:
+    - match: '{{simple_identifier}}'
+      pop: 1
+
+  single-quoted-identifier-part:
+    - match: (')([^']+)(')
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+
+  double-quoted-identifier-part:
+    - match: (")([^"]+)(")
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+
+  backtick-quoted-identifier-part:
+    - match: (`)([^`]+)(`)
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+
+  wildcard-identifiers:
+    - match: \*
+      scope: variable.language.wildcard.asterisk.sql
 
 ###[ PROTOTYPES ]##############################################################
 
