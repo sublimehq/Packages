@@ -4499,20 +4499,34 @@ $sql = "
 ";
 // <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
-$sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "GROUP BY" ;
+$sql = "SELECT `$col` FROM 'my$table--name'";
+//             ^^^^^^ meta.column-name.sql
+//             ^ punctuation.definition.identifier.begin.sql
+//              ^^^^ meta.interpolation.php variable.other.php
+//                  ^ punctuation.definition.identifier.end.sql
+//                    ^^^^ keyword.other.dml.sql
+//                         ^^^^^^^^^^^^^^^^ meta.table-name.sql
+//                         ^ punctuation.definition.identifier.begin.sql
+//                            ^^^^^^ meta.interpolation.php variable.other.php
+//                                        ^ punctuation.definition.identifier.end.sql
+
+$sql = "SELECT " . $col . "FROM $table WHERE ( first_$name =" . $name . ")" ; . "GROUP BY" ;
 //     ^ meta.string.php - meta.interpolation
 //      ^^^^^^^ meta.string.php source.sql.embedded.php
 //             ^ meta.string.php - meta.interpolation
 //              ^^^^^^^^^^ - meta.string
 //                        ^ meta.string.php - meta.interpolation
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
-//                                                         ^ meta.string.php - meta.interpolation
-//                                                          ^^^^^^^^^^^ - meta.string
-//                                                                     ^ meta.string.php - meta.interpolation
-//                                                                      ^ meta.string.php source.sql.embedded.php
-//                                                                       ^ meta.string.php - meta.interpolation
-//                                                                        ^^^^^ - meta.string
-//                                                                             ^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
+//                         ^^^^^ meta.string.php source.sql.embedded.php - meta.interpolation
+//                              ^^^^^^ meta.string.php source.sql.embedded.php meta.table-name.sql meta.interpolation.php
+//                                    ^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php - meta.interpolation
+//                                                   ^^^^^ meta.string.php source.sql.embedded.php meta.interpolation.php
+//                                                          ^ meta.string.php - meta.interpolation
+//                                                           ^^^^^^^^^^^ - meta.string
+//                                                                      ^ meta.string.php - meta.interpolation
+//                                                                       ^ meta.string.php source.sql.embedded.php
+//                                                                        ^ meta.string.php - meta.interpolation
+//                                                                         ^^^^^ - meta.string
+//                                                                              ^^^^^^^^^^ meta.string.php string.quoted.double.php - meta.interpolation
 //     ^ string.quoted.double.php punctuation.definition.string.begin.php
 //      ^^^^^^ keyword.other.dml.sql
 //             ^ string.quoted.double.php punctuation.definition.string.end.php
@@ -4523,16 +4537,18 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //                              ^^^^^^ variable.other.php
 //                                     ^^^^^ keyword.other.dml.sql
 //                                           ^ punctuation.section.group.begin.sql
-//                                                         ^ string.quoted.double.php punctuation.definition.string.end.php
-//                                                           ^ keyword.operator.concatenation.php
-//                                                             ^^^^^ variable.other.php
-//                                                                   ^ keyword.operator.concatenation.php
-//                                                                     ^ string.quoted.double.php punctuation.definition.string.begin.php
-//                                                                      ^ punctuation.section.group.end.sql - string
-//                                                                       ^ string.quoted.double.php punctuation.definition.string.end.php
-//                                                                         ^ punctuation.terminator.statement.php
-//                                                                           ^ keyword.operator.concatenation.php
-//                                                                                        ^ punctuation.terminator.statement.php
+//                                             ^^^^^^ meta.column-name.sql - variable
+//                                                   ^^^^^ meta.column-name.sql variable.other.php
+//                                                         ^ keyword.operator.comparison.sql
+//                                                          ^ string.quoted.double.php punctuation.definition.string.end.php
+//                                                            ^ keyword.operator.concatenation.php
+//                                                              ^^^^^ variable.other.php
+//                                                                    ^ keyword.operator.concatenation.php
+//                                                                      ^ string.quoted.double.php punctuation.definition.string.begin.php
+//                                                                        ^ string.quoted.double.php punctuation.definition.string.end.php
+//                                                                          ^ punctuation.terminator.statement.php
+//                                                                            ^ keyword.operator.concatenation.php
+//                                                                                         ^ punctuation.terminator.statement.php
 
 $sql = "DROP TABLE foo";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php

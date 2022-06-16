@@ -8,6 +8,7 @@ version: 2
 variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
+  simple_identifier_break: (?!\w)
   reserved: (?:;|\b(?i:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|update|truncate|create|alter|drop|return)\b)
   additional_reserved: (?!)
   simple_types: (?i:\b(?:bit|bool|boolean|datetime|int)\b)
@@ -103,6 +104,12 @@ contexts:
       scope: keyword.operator.arithmetic.sql
     - include: logical-operators
 
+  expect-type:
+    - meta_include_prototype: false
+    - include: comments
+    - include: built-in-type
+    - include: expect-user-type
+
   built-in-type:
     - match: '{{simple_types}}'
       scope: storage.type.sql
@@ -118,12 +125,15 @@ contexts:
         3: constant.numeric.sql
       pop: 1
 
-  expect-type:
-    - include: built-in-type
-    - match: '{{simple_identifier}}'
-      scope: support.type.sql
+  expect-user-type:
+    - match: (?=\S)
+      set: inside-user-type
+
+  inside-user-type:
+    # note: may contain foreign variable interpolation
+    - meta_scope: support.type.sql
+    - match: '{{simple_identifier_break}}'
       pop: 1
-    - include: else-pop
 
   after-type:
     - include: else-pop
@@ -509,6 +519,7 @@ contexts:
         - single-identifier
 
   fail-if-function-call:
+    - meta_include_prototype: false
     - match: \(
       fail: table-or-table-function # basically we are using branch points to avoid a complicated lookahead (which can be overridden by syntaxes extending this one) for an identifier followed by an open paren
     - match: (?=\S)
@@ -618,6 +629,9 @@ contexts:
       push: [possible-operator, column-name, single-identifier]
 
   expect-column-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [column-name, single-identifier]
 
@@ -627,6 +641,9 @@ contexts:
     - include: immediately-pop
 
   expect-column-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [column-name-declaration, single-identifier]
 
@@ -636,6 +653,9 @@ contexts:
     - include: immediately-pop
 
   expect-column-alias-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [column-alias-name, single-identifier]
 
@@ -645,6 +665,9 @@ contexts:
     - include: immediately-pop
 
   expect-database-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [database-name, single-identifier]
 
@@ -654,6 +677,9 @@ contexts:
     - include: immediately-pop
 
   expect-procedure-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [procedure-name, single-identifier]
 
@@ -663,6 +689,9 @@ contexts:
     - include: immediately-pop
 
   expect-constraint-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [constraint-name, single-identifier]
 
@@ -672,6 +701,9 @@ contexts:
     - include: immediately-pop
 
   expect-schema-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [schema-name, single-identifier]
 
@@ -681,6 +713,9 @@ contexts:
     - include: immediately-pop
 
   expect-table-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [table-creation-name, single-identifier]
 
@@ -690,6 +725,9 @@ contexts:
     - include: immediately-pop
 
   expect-table-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [table-name, single-identifier]
 
@@ -699,6 +737,9 @@ contexts:
     - include: immediately-pop
 
   expect-table-alias-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [table-alias-name, single-identifier]
 
@@ -708,6 +749,9 @@ contexts:
     - include: immediately-pop
 
   expect-other-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [other-creation-name, single-identifier]
 
@@ -725,47 +769,65 @@ contexts:
         - identifier-part
 
   maybe-identifier-accessor:
+    - meta_include_prototype: false
     - match: \s*(\.)\s*(\*)
       captures:
         1: punctuation.accessor.dot.sql
         2: variable.language.wildcard.asterisk.sql
       pop: 1
-    - match: \s*(\.)\s*
+    - match: \s*(\.)
       captures:
         1: punctuation.accessor.dot.sql
       set: single-identifier
     - include: immediately-pop
 
   identifier-part:
-    - include: simple-identifier-part
-    - include: single-quoted-identifier-part
-    - include: double-quoted-identifier-part
+    - meta_include_prototype: false
     - include: backtick-quoted-identifier-part
-    - include: else-pop
+    - include: double-quoted-identifier-part
+    - include: single-quoted-identifier-part
+    - include: simple-identifier-part
 
-  simple-identifier-part:
-    - match: '{{simple_identifier}}'
-      pop: 1
+  backtick-quoted-identifier-part:
+    - match: \`
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-backtick-quoted-identifier-part
 
-  single-quoted-identifier-part:
-    - match: (')([^']+)(')
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
+  inside-backtick-quoted-identifier-part:
+    # note: may contain foreign variable interpolation
+    - match: \`
+      scope: punctuation.definition.identifier.end.sql
       pop: 1
 
   double-quoted-identifier-part:
-    - match: (")([^"]+)(")
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
+    - match: \"
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-double-quoted-identifier-part
+
+  inside-double-quoted-identifier-part:
+    # note: may contain foreign variable interpolation
+    - match: \"
+      scope: punctuation.definition.identifier.end.sql
       pop: 1
 
-  backtick-quoted-identifier-part:
-    - match: (`)([^`]+)(`)
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
+  single-quoted-identifier-part:
+    - match: \'
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-single-quoted-identifier-part
+
+  inside-single-quoted-identifier-part:
+    # note: may contain foreign variable interpolation
+    - match: \'
+      scope: punctuation.definition.identifier.end.sql
+      pop: 1
+
+  simple-identifier-part:
+    - match: (?=\S)
+      set: inside-simple-identifier-part
+
+  inside-simple-identifier-part:
+    # note: may contain foreign variable interpolation
+    - match: '{{simple_identifier_break}}'
       pop: 1
 
   wildcard-identifiers:

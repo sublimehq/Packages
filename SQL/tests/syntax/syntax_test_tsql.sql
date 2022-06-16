@@ -708,7 +708,7 @@ into #temp
 --   ^^^^^ meta.table-name
 from @A A
 -- ^ keyword.other.dml
---   ^^ meta.table-name
+--   ^^ meta.table-name.sql variable.other.readwrite.sql
 --      ^ meta.table-alias-name
 inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
 --^^^^^^^^ keyword.other.dml
@@ -1399,6 +1399,13 @@ RETURN
    WHERE E.DepartmentID = @DeptID
    )
 GO
+
+CREATE FUNCTION foo() RETURNS @MyType
+--                            ^^^^^^^ support.type.sql variable.other.readwrite.sql
+
+CREATE FUNCTION foo() RETURNS My@TypeName
+--                            ^^ support.type.sql - variable
+--                              ^^^^^^^^^ support.type.sql variable.other.readwrite.sql
 
 SELECT * FROM Department D
 CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_results_table

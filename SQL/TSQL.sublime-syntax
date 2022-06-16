@@ -7,7 +7,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   string_escape: (?:'')
-  simple_identifier: (?:(?:(?:##?)?|@)?\w+) # (one or two hashes OR an ampersand OR nothing) followed by a word
+  simple_identifier_break: (?![\w#@])
   additional_reserved: \b(?i:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b
   enclosed_type_begin: (?:\[)
   enclosed_type_end: (?:\])
@@ -426,6 +426,10 @@ contexts:
       scope: keyword.other.tsql
       set: computed-column-definition
 
+  inside-user-type:
+    - meta_prepend: true
+    - include: variables
+
   set:
     - meta_prepend: true
     - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
@@ -767,6 +771,9 @@ contexts:
 ###[ IDENTIFIERS ]#############################################################
 
   expect-cte-table-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [cte-table-name, single-identifier]
 
@@ -776,6 +783,9 @@ contexts:
     - include: immediately-pop
 
   expect-cursor-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [cursor-name, single-identifier]
 
@@ -785,6 +795,9 @@ contexts:
     - include: immediately-pop
 
   expect-filegroup-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [filegroup-name, single-identifier]
 
@@ -798,6 +811,9 @@ contexts:
       push: [index-name, single-identifier]
 
   expect-index-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [index-name, single-identifier]
 
@@ -807,6 +823,9 @@ contexts:
     - include: immediately-pop
 
   expect-label-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
     - match: (?=\S)
       set: [label-name, single-identifier]
 
@@ -831,10 +850,14 @@ contexts:
     - include: square-bracketed-identifier-part
 
   square-bracketed-identifier-part:
-    - match: (\[)([^]]+)(\])
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        3: punctuation.definition.identifier.end.sql
+    - match: \[
+      scope: punctuation.definition.identifier.begin.sql
+      set: inside-square-bracketed-identifier-part
+
+  inside-square-bracketed-identifier-part:
+    # note: may contain foreign variable interpolation
+    - match: \]
+      scope: punctuation.definition.identifier.end.sql
       pop: 1
 
   inside-simple-identifier-part:
