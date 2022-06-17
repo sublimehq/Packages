@@ -489,61 +489,6 @@ contexts:
         - join-on
         - table-name-or-subquery
 
-  subquery:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-subquery-allow-table-alias
-
-  inside-subquery-allow-table-alias:
-    - meta_scope: meta.group.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      set: maybe-table-alias
-    - include: main
-
-  table-name-or-subquery:
-    - include: pop-on-top-level-reserved-word
-    - include: subquery
-    - match: (?=\S)
-      branch_point: table-or-table-function
-      branch:
-        - table-name-not-function-call
-        - table-valued-function-call
-
-  table-name-not-function-call:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - fail-if-function-call
-        - table-name
-        - single-identifier
-
-  fail-if-function-call:
-    - meta_include_prototype: false
-    - match: \(
-      fail: table-or-table-function # basically we are using branch points to avoid a complicated lookahead (which can be overridden by syntaxes extending this one) for an identifier followed by an open paren
-    - match: (?=\S)
-      set: maybe-table-alias
-      pop: 3 # one to pop 'fail-if-function-call', one to pop 'table-name-not-function-call' where we were forced to push to avoid the branch instantly succeeding, one because we are doing a set and ST gets confused without it?! it should set away from 'table-name-or-subquery'
-
-  maybe-table-alias:
-    - match: \b(?i:as)\b
-      scope: keyword.operator.assignment.alias.sql
-    - include: pop-on-top-level-reserved-word
-    - match: (?=\S)
-      set:
-        - after-table-alias
-        - table-alias-name
-        - single-identifier
-
-  after-table-alias:
-    - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
-      captures:
-        1: keyword.other.sql
-        2: meta.group.tablesample.sql punctuation.section.group.begin.sql
-      push: tablesample
-    - include: else-pop
-
   join-on:
     - match: (?i)\bon\b
       scope: keyword.operator.join.sql
@@ -553,9 +498,32 @@ contexts:
   set:
     - include: else-pop
 
-  assignment-operator:
-    - match: '='
-      scope: keyword.operator.assignment.sql
+  table-name-or-subquery:
+    - match: (?=\()
+      set:
+        - maybe-table-alias
+        - group
+    - match: (?=\S)
+      pop: 1 # pop `table-name-or-subquery` before evaluating branches
+      branch_point: table-or-table-function
+      branch:
+        - table-name-not-function-call
+        - table-valued-function-call
+
+  table-name-not-function-call:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - table-name-fail-if-function-cal
+        - table-name
+        - single-identifier
+
+  table-name-fail-if-function-cal:
+    - meta_include_prototype: false
+    - match: (?=\()
+      fail: table-or-table-function
+    - match: (?=\S)
+      set: maybe-table-alias
 
   table-valued-function-call:
     - meta_include_prototype: false
@@ -570,6 +538,27 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.table-valued-function-name.sql
     - include: immediately-pop
+
+  maybe-table-alias:
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+    - match: (?=\S)
+      set:
+        - after-table-alias
+        - table-alias-name
+        - single-identifier
+
+  after-table-alias:
+    - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
+      captures:
+        1: keyword.other.sql
+        2: meta.group.tablesample.sql punctuation.section.group.begin.sql
+      push: tablesample
+    - include: else-pop
+
+  assignment-operator:
+    - match: '='
+      scope: keyword.operator.assignment.sql
 
   possible-operator:
     - include: operators

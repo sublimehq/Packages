@@ -445,15 +445,15 @@ contexts:
     - include: operators
     - include: else-pop
 
+  table-name-fail-if-function-cal:
+    - meta_prepend: true
+    - include: table-hint-without-with
+
   maybe-table-alias:
     - meta_prepend: true
     - include: with
     - match: (?=\b(?i:unpivot|pivot)\b)
       pop: 1
-
-  fail-if-function-call:
-    - meta_prepend: true
-    - include: table-hint-without-with
 
   after-table-alias:
     - meta_prepend: true

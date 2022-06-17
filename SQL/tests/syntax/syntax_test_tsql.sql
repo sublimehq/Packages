@@ -1486,6 +1486,11 @@ FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
 --                                  ^^^^^^^^^^^^^^^^^^ meta.column-name
 ORDER BY p.BusinessEntityID DESC;
 
+-- Test incomplete table alias assignment
+JOIN table AS WHERE
+--         ^^ keyword.operator.assignment.alias.sql
+--            ^^^^^ keyword.other.dml.sql
+
 --------
 
 USE AdventureWorks2012;
