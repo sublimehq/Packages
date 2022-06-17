@@ -553,12 +553,6 @@ contexts:
   set:
     - include: else-pop
 
-  pop-on-top-level-reserved-word:
-    - match: (?={{reserved}}|{{additional_reserved}})
-      pop: 1
-    - match: (?=\))
-      pop: 1
-
   assignment-operator:
     - match: '='
       scope: keyword.operator.assignment.sql
@@ -842,4 +836,10 @@ contexts:
 
   immediately-pop:
     - match: ''
+      pop: 1
+
+  pop-on-top-level-reserved-word:
+    - match: (?={{reserved}}|{{additional_reserved}})
+      pop: 1
+    - match: (?=\))
       pop: 1
