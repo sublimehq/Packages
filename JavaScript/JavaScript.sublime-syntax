@@ -1088,58 +1088,75 @@ contexts:
     - include: else-pop
 
   literal-string:
-    - match: "'"
+    - include: literal-double-quoted-string
+    - include: literal-single-quoted-string
+
+  literal-double-quoted-string:
+    - match: \"
       scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.js string.quoted.single.js
-        - match: \'
-          scope: punctuation.definition.string.end.js
-          pop: true
-        - match: \n
-          scope: invalid.illegal.newline.js
-          pop: true
-        - include: string-content
-    - match: '"'
+      set: literal-double-quoted-string-content
+
+  literal-double-quoted-string-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.double.js
+    - match: \"
+      scope: punctuation.definition.string.end.js
+      pop: true
+    - match: \n
+      scope: invalid.illegal.newline.js
+      pop: true
+    - include: string-content
+
+  literal-single-quoted-string:
+    - match: \'
       scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.js string.quoted.double.js
-        - match: \"
-          scope: punctuation.definition.string.end.js
-          pop: true
-        - match: \n
-          scope: invalid.illegal.newline.js
-          pop: true
-        - include: string-content
+      set: literal-single-quoted-string-content
+
+  literal-single-quoted-string-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.single.js
+    - match: \'
+      scope: punctuation.definition.string.end.js
+      pop: true
+    - match: \n
+      scope: invalid.illegal.newline.js
+      pop: true
+    - include: string-content
 
   literal-string-template:
-    - match: '`'
+    - match: \`
       scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.js string.quoted.other.js
-        - match: "`"
-          scope: punctuation.definition.string.end.js
-          pop: true
-        - match: '\$\{'
-          scope: punctuation.section.interpolation.begin.js
-          push:
-            - clear_scopes: 1
-            - meta_scope: meta.interpolation.js
-            - meta_content_scope: source.js.embedded
-            - match: '\}'
-              scope: punctuation.section.interpolation.end.js
-              pop: true
-            - match: (?=\S)
-              push: expression
-        - include: string-content
+      set: literal-string-template-content
+
+  literal-string-template-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.other.js
+    - match: \`
+      scope: punctuation.definition.string.end.js
+      pop: true
+    - include: string-interpolations
+    - include: string-content
 
   string-content:
     - match: \\\n
       scope: constant.character.escape.newline.js
     - match: \\(?:x\h\h|u\h\h\h\h|.)
       scope: constant.character.escape.js
+
+  string-interpolations:
+    - match: \$\{
+      scope: punctuation.section.interpolation.begin.js
+      push: string-interpolation-content
+
+  string-interpolation-content:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.js
+    - meta_content_scope: source.js.embedded
+    - match: \}
+      scope: punctuation.section.interpolation.end.js
+      pop: true
+    - match: (?=\S)
+      push: expression
 
   regexp-complete:
     - match: '/'
