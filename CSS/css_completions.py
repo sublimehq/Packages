@@ -91,28 +91,29 @@ class CSSCompletions(sublime_plugin.EventListener):
         return None
 
     def complete_property_name(self, view, prefix, pt):
-        text = view.substr(sublime.Region(pt, view.line(pt).end()))
-        matches = self.re_value.search(text)
-        if matches:
-            colon, space, value, term = matches.groups()
-        else:
-            colon = ""
-            space = ""
-            value = ""
-            term = ""
-
-        # don't append anything if next character is a colon
         suffix = ""
-        if not colon:
-            # add space after colon if smart typing is enabled
-            if not space and view.settings().get("auto_complete_trailing_spaces"):
-                suffix = ": $0"
+        if view.settings().get("auto_complete_trailing_symbols"):
+            text = view.substr(sublime.Region(pt, view.line(pt).end()))
+            matches = self.re_value.search(text)
+            if matches:
+                colon, space, value, term = matches.groups()
             else:
-                suffix = ":$0"
+                colon = ""
+                space = ""
+                value = ""
+                term = ""
 
-            # terminate empty value if not within parentheses
-            if not value and not term and not match_selector(view, pt, "meta.group"):
-                suffix += ";"
+            # don't append anything if next character is a colon
+            if not colon:
+                # add space after colon if smart typing is enabled
+                if not space and view.settings().get("auto_complete_trailing_spaces"):
+                    suffix = ": $0"
+                else:
+                    suffix = ":$0"
+
+                # terminate empty value if not within parentheses
+                if not value and not term and not match_selector(view, pt, "meta.group"):
+                    suffix += ";"
 
         return (
             sublime.CompletionItem(
@@ -140,10 +141,14 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if match_selector(view, pt, "meta.group") or next_none_whitespace(view, pt) == ";":
-                    suffix = ""
-                else:
+                if (
+                    view.settings().get("auto_complete_trailing_symbols")
+                    and not match_selector(view, pt, "meta.group")
+                    and next_none_whitespace(view, pt) != ";"
+                ):
                     suffix = "$0;"
+                else:
+                    suffix = ""
 
                 for value in values:
                     if isinstance(value, list):
