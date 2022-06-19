@@ -58,11 +58,11 @@ contexts:
       scope: entity.other.attribute-name.js
       set:
         - match: (?=[>=])
-          pop: true
+          pop: 1
         - match: (?=\S)
           fail: arrow-function
 
     - match: (?=[/>{]|{{identifier_start}})
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: arrow-function
