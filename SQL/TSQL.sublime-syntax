@@ -410,7 +410,7 @@ contexts:
     - include: top
 
   inside-declaration:
-    - match: \w+(?=\s+(?i:cursor)\b)
+    - match: '{{simple_identifier}}(?=\s+(?i:cursor)\b)'
       scope: meta.cursor-name.sql
       pop: 1
     - match: (@){{simple_identifier}}
@@ -535,7 +535,7 @@ contexts:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
       push: expect-table-name
-    - match: \w+
+    - match: '{{simple_identifier}}'
       scope: constant.language.with.tsql
     - match: ','
       scope: punctuation.separator.sequence.tsql

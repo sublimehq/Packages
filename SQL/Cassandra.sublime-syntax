@@ -26,7 +26,7 @@ contexts:
     - meta_append: true
     - match: \h{8}(?:-\h{4}){3}-\h{12}
       scope: constant.numeric.uuid.cql
-    - match: (:)\w+
+    - match: (:){{simple_identifier}}
       scope: variable.other.constant.cql
       captures:
         1: punctuation.definition.variable.cql

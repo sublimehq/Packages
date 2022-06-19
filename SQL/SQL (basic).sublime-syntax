@@ -192,7 +192,7 @@ contexts:
       push: inside-collate-expression
 
   inside-collate-expression:
-    - match: \w+
+    - match: '{{simple_identifier}}'
       scope: support.constant.sql
       pop: 1
     - include: else-pop
@@ -214,7 +214,7 @@ contexts:
       scope: support.function.scalar.sql
 
   user-defined-function-calls:
-    - match: \b\w+(?=\s*\()
+    - match: \b{{simple_identifier}}(?=\s*\()
       scope: support.function.sql
       push: function-call-arguments
 
