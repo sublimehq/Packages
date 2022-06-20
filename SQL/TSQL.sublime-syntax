@@ -477,7 +477,8 @@ contexts:
     - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\()
       scope: keyword.other.dml.sql
       push:
-        - cte-column-list-begin
+        - cte-as
+        - cte-column-list
         - expect-cte-table-name
     - match: (?i)\bwith\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
       scope: keyword.other.dml.sql
@@ -598,14 +599,9 @@ contexts:
     - include: expressions
     - include: else-pop
 
-  cte-column-list-begin:
-    - match: (?=\()
-      scope: punctuation.section.group.begin.tsql
-      set:
-        - cte-as
-        - ddl-table-creation-columns
-    - match: (?=\S)
-      set: cte-as
+  cte-column-list:
+    - include: ddl-table-creation-columns
+    - include: else-pop
 
   cte-as:
     - match: \b(?i:as)\b
@@ -613,8 +609,8 @@ contexts:
     - include: pop-on-top-level-reserved-word
     - match: ','
       scope: punctuation.separator.sequence.cte.tsql
-      set:
-        - cte-column-list-begin
+      push:
+        - cte-column-list
         - expect-cte-table-name
     - include: expressions
 
