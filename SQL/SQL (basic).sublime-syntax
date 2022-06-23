@@ -246,44 +246,6 @@ contexts:
       pop: 1
     - include: main
 
-  literals-and-variables:
-    - include: constants
-    - include: numbers
-    - include: strings
-
-  constants:
-    - match: \b(?i:true|false)\b
-      scope: constant.language.boolean.sql
-    - match: \b(?i:null)\b
-      scope: constant.language.null.sql
-
-  numbers:
-    - match: \b\d+(\.)\d+\b
-      scope: meta.number.float.decimal.sql constant.numeric.value.sql
-      captures:
-        1: punctuation.separator.decimal.sql
-    - match: \b\d+\b
-      scope: meta.number.integer.decimal.sql constant.numeric.value.sql
-
-  strings:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      push: inside-single-quoted-string
-
-  inside-single-quoted-string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.sql string.quoted.single.sql
-    - match: \'\'
-      scope: constant.character.escape.sql
-    - match: \'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-escapes
-
-  string-escapes:
-    - match: '{{string_escape}}'
-      scope: constant.character.escape.sql
-
   statements:
     - include: ddl-statements
     - include: dml-statements
@@ -797,6 +759,46 @@ contexts:
   wildcard-identifiers:
     - match: \*
       scope: variable.language.wildcard.asterisk.sql
+
+###[ LITERALS ]################################################################
+
+  literals-and-variables:
+    - include: constants
+    - include: numbers
+    - include: strings
+
+  constants:
+    - match: \b(?i:true|false)\b
+      scope: constant.language.boolean.sql
+    - match: \b(?i:null)\b
+      scope: constant.language.null.sql
+
+  numbers:
+    - match: \b\d+(\.)\d+\b
+      scope: meta.number.float.decimal.sql constant.numeric.value.sql
+      captures:
+        1: punctuation.separator.decimal.sql
+    - match: \b\d+\b
+      scope: meta.number.integer.decimal.sql constant.numeric.value.sql
+
+  strings:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      push: inside-single-quoted-string
+
+  inside-single-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \'\'
+      scope: constant.character.escape.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-escapes
+
+  string-escapes:
+    - match: '{{string_escape}}'
+      scope: constant.character.escape.sql
 
 ###[ OPERATORS ]###############################################################
 

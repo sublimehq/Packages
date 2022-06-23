@@ -30,25 +30,6 @@ variables:
     )\b
 
 contexts:
-  strings:
-    - meta_append: true
-    - match: N'
-      scope: punctuation.definition.string.begin.sql
-      push: inside-single-quoted-string
-
-  variables:
-    - match: (@)\w+
-      scope: variable.other.readwrite.sql
-      captures:
-        1: punctuation.definition.variable.sql
-    - match: |-
-        (?xi)(@@)
-        (?:cursor_rows|connections|cpu_busy|datefirst|dbts|error|fetch_status|identity|idle|io_busy|langid|language|lock_timeout|
-          max_connections|max_precision|nestlevel|options|packet_errors|pack_received|pack_sent|procid|remserver|rowcount|
-          servername|servicename|spid|textsize|timeticks|total_errors|total_read|total_write|trancount|version)\b
-      scope: support.variable.global.sql
-      captures:
-        1: punctuation.definition.variable.sql
 
   like-string-not-followed-by-escape:
     - match: \'
@@ -297,18 +278,6 @@ contexts:
     - match: ','
       scope: punctuation.separator.argument.sql
     - include: expressions-or-column-name
-
-  literals-and-variables:
-    - meta_prepend: true
-    - include: variables
-
-  numbers:
-    - meta_prepend: true
-    - match: (0x)(\h+)
-      scope: meta.number.integer.hexadecimal.tsql
-      captures:
-        1: constant.numeric.base.tsql
-        2: constant.numeric.value.tsql
 
   dml-statements:
     - meta_append: true
@@ -846,6 +815,43 @@ contexts:
   inside-simple-identifier-part:
     - meta_prepend: true
     - include: variables
+
+###[ LITERALS ]################################################################
+
+  literals-and-variables:
+    - meta_prepend: true
+    - include: variables
+
+  numbers:
+    - meta_prepend: true
+    - match: (0x)(\h+)
+      scope: meta.number.integer.hexadecimal.tsql
+      captures:
+        1: constant.numeric.base.tsql
+        2: constant.numeric.value.tsql
+
+  strings:
+    - meta_append: true
+    - match: N'
+      scope: punctuation.definition.string.begin.sql
+      push: inside-single-quoted-string
+
+  variables:
+    - match: (@){{simple_identifier}}
+      scope: variable.other.readwrite.sql
+      captures:
+        1: punctuation.definition.variable.sql
+    - match: |-
+        (?xi)(@@)
+        (?: cursor_rows | connections | cpu_busy | datefirst | dbts | error
+        | fetch_status | identity | idle | io_busy | langid | language
+        | lock_timeout | max_connections | max_precision | nestlevel | options
+        | packet_errors | pack_received | pack_sent | procid | remserver
+        | rowcount | servername | servicename | spid | textsize | timeticks
+        | total_errors | total_read | total_write | trancount | version )\b
+      scope: support.variable.global.sql
+      captures:
+        1: punctuation.definition.variable.sql
 
 ###[ OPERATORS ]###############################################################
 

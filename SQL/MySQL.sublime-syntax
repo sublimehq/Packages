@@ -40,59 +40,6 @@ contexts:
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
 
-  strings:
-    - meta_append: true
-    - match: '"'
-      scope: punctuation.definition.string.begin.sql
-      push: inside-double-quoted-string
-    - include: begin-interpolation
-
-  inside-double-quoted-string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.mysql string.quoted.double.sql
-    - match: '""'
-      scope: constant.character.escape.sql
-    - match: '"'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-interpolation
-
-  begin-interpolation:
-    - match: '%\{'
-      scope: punctuation.definition.string.begin.sql
-      push: inside-interpolation
-
-  inside-interpolation:
-    - meta_include_prototype: false
-    - meta_scope: string.other.quoted.brackets.sql
-    - match: '\}'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-interpolation
-
-  string-interpolation:
-    - meta_include_prototype: false
-    - match: '(#\{)([^\}]*)(\})'
-      scope: string.interpolated.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        3: punctuation.definition.string.end.sql
-
-  regexps:
-    - match: /(?=\S.*/)
-      scope: punctuation.definition.string.begin.sql
-      push: inside-regexp
-
-  inside-regexp:
-    - meta_include_prototype: false
-    - meta_scope: string.regexp.sql
-    - match: /
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-interpolation
-    - match: \\/
-      scope: constant.character.escape.slash.sql
-
   after-type:
     - meta_prepend: true
     - match: \b(?i:unsigned)\b
@@ -197,9 +144,74 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ LITERALS ]################################################################
+
+  regexps:
+    - match: /(?=\S.*/)
+      scope: punctuation.definition.string.begin.sql
+      push: inside-regexp
+
+  inside-regexp:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.regexp.sql string.regexp.sql
+    - match: /
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+    - match: \\/
+      scope: constant.character.escape.slash.sql
+
+  strings:
+    - meta_append: true
+    - include: double-quoted-strings
+    - include: interpolations
+
+  double-quoted-strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.sql
+      push: inside-double-quoted-string
+
+  inside-double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.double.sql
+    - match: \"\"
+      scope: constant.character.escape.sql
+    - match: \"
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+
+  interpolations:
+    - match: \%\{
+      scope: punctuation.definition.string.begin.sql
+      push: inside-interpolation
+
+  inside-interpolation:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.other.quoted.brackets.sql
+    - match: \}
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+
+  string-interpolations:
+    - meta_include_prototype: false
+    - match: (#\{)([^\}]*)(\})
+      scope: meta.interpolation.sql
+      captures:
+        1: punctuation.section.interpolation.begin.sql
+        3: punctuation.section.interpolation.end.sql
+      push: clear-scope-imediately-pop
+
 ###[ OPERATORS ]###############################################################
 
   operators:
     - meta_append: true
     - match: \|\|
       scope: keyword.operator.concatenation.sql
+
+###[ PROTOTYPES ]##############################################################
+
+  clear-scope-imediately-pop:
+    - clear_scopes: 1
+    - include: immediately-pop
