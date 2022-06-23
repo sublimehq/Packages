@@ -63,38 +63,10 @@ contexts:
     - match: \b(?i:check)\b
       scope: keyword.other.psql
 
-  operators:
-    - meta_prepend: true
-    - match: '::'
-      scope: keyword.operator.cast.psql
-      push: expect-type
-    - include: regex-operators
-
-  regex-operators:
-    # https://www.postgresql.org/docs/7.4/functions-matching.html#FUNCTIONS-POSIX-REGEXP
-    - match: '!?~\*?'
-      scope: keyword.operator.comparison.psql
-      push: expect-regex
-
   inside-ddl-table-creation-columns:
     - meta_prepend: true
     - match: \b(?i:unique)\b
       scope: keyword.other.psql
-
-  expect-regex:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      embed: single-quoted-regex
-      embed_scope: source.regexp
-      escape: \'
-      escape_captures:
-        0: meta.string.regexp.psql punctuation.definition.string.end.sql
-      pop: 1
-    - include: else-pop
-
-  single-quoted-regex:
-    - meta_scope: meta.string.regexp.psql
-    - include: scope:source.regexp
 
   statements:
     - meta_prepend: true
@@ -123,3 +95,29 @@ contexts:
     - match: \b(?i:schema)\b
       scope: storage.modifier.psql
       push: expect-schema-name
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - meta_prepend: true
+    - match: '::'
+      scope: keyword.operator.cast.psql
+      push: expect-type
+    - include: regex-operators
+
+  regex-operators:
+    # https://www.postgresql.org/docs/7.4/functions-matching.html#FUNCTIONS-POSIX-REGEXP
+    - match: '!?~\*?'
+      scope: keyword.operator.comparison.psql
+      push: expect-regexp
+
+  expect-regexp:
+    - match: \'
+      scope: meta.string.regexp.psql punctuation.definition.string.begin.sql
+      embed: scope:source.regexp
+      embed_scope: meta.string.regexp.psql
+      escape: \'
+      escape_captures:
+        0: meta.string.regexp.psql punctuation.definition.string.end.sql
+      pop: 1
+    - include: else-pop

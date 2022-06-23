@@ -220,7 +220,6 @@ CREATE TABLE example_table (
 --         ^^^^^^^^^^ meta.column-name
 --                    ^^ keyword.operator.comparison
 --                       ^^^^^^^^^^ meta.string.regexp
---                        ^^^^^^^^ source.regexp
 --                       ^ punctuation.definition.string.begin
 --                                ^ punctuation.definition.string.end
 --                                 ^ punctuation.section.group.end - meta.string

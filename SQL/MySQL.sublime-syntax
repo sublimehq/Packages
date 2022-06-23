@@ -93,11 +93,6 @@ contexts:
     - match: \\/
       scope: constant.character.escape.slash.sql
 
-  operators:
-    - meta_append: true
-    - match: \|\|
-      scope: keyword.operator.concatenation.sql
-
   after-type:
     - meta_prepend: true
     - match: \b(?i:unsigned)\b
@@ -201,3 +196,10 @@ contexts:
       scope: keyword.other.mysql
       pop: 1
     - include: else-pop
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - meta_append: true
+    - match: \|\|
+      scope: keyword.operator.concatenation.sql

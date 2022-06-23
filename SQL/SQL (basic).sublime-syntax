@@ -93,17 +93,6 @@ contexts:
       scope: keyword.control.flow.sql
     - include: logical-operators
 
-  logical-operators:
-    - match: \b(?i:and|or|having|exists|between|in|not|is)\b
-      scope: keyword.operator.logical.sql
-
-  operators:
-    - match: '<=>|[!<>]?=|<>|<|>'
-      scope: keyword.operator.comparison.sql
-    - match: '[-+/*]'
-      scope: keyword.operator.arithmetic.sql
-    - include: logical-operators
-
   expect-type:
     - meta_include_prototype: false
     - include: comments
@@ -556,14 +545,6 @@ contexts:
       push: tablesample
     - include: else-pop
 
-  assignment-operator:
-    - match: '='
-      scope: keyword.operator.assignment.sql
-
-  possible-operator:
-    - include: operators
-    - include: else-pop
-
   tablesample:
     - meta_content_scope: meta.group.tablesample.sql
     - match: \b(?i:rows|percent)\b
@@ -609,7 +590,7 @@ contexts:
 
   expect-column-names:
     - match: (?=\S)
-      push: [possible-operator, column-name, single-identifier]
+      push: [maybe-operator, column-name, single-identifier]
 
   expect-column-name:
     # prevent prototypes from inheriting syntaxes
@@ -816,6 +797,35 @@ contexts:
   wildcard-identifiers:
     - match: \*
       scope: variable.language.wildcard.asterisk.sql
+
+###[ OPERATORS ]###############################################################
+
+  maybe-operator:
+    - match: '<=>|[!<>]?=|<>|<|>'
+      scope: keyword.operator.comparison.sql
+      pop: 1
+    - match: '[-+/*]'
+      scope: keyword.operator.arithmetic.sql
+      pop: 1
+    - match: \b(?i:and|or|having|exists|between|in|not|is)\b
+      scope: keyword.operator.logical.sql
+      pop: 1
+    - include: else-pop
+
+  operators:
+    - match: '<=>|[!<>]?=|<>|<|>'
+      scope: keyword.operator.comparison.sql
+    - match: '[-+/*]'
+      scope: keyword.operator.arithmetic.sql
+    - include: logical-operators
+
+  assignment-operators:
+    - match: '='
+      scope: keyword.operator.assignment.sql
+
+  logical-operators:
+    - match: \b(?i:and|or|having|exists|between|in|not|is)\b
+      scope: keyword.operator.logical.sql
 
 ###[ PROTOTYPES ]##############################################################
 

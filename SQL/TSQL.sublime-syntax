@@ -36,19 +36,6 @@ contexts:
       scope: punctuation.definition.string.begin.sql
       push: inside-single-quoted-string
 
-  operators:
-    - meta_append: true
-    - match: \b(?i:like)\b
-      scope: keyword.operator.logical.sql
-      branch_point: like-strings-branch
-      branch:
-        - like-string-not-followed-by-escape
-        - like-string-followed-by-escape-slash
-        - like-string-followed-by-escape-caret
-        - like-string-followed-by-unknown-escape
-    - match: '%'
-      scope: keyword.operator.arithmetic.tsql
-
   variables:
     - match: (@)\w+
       scope: variable.other.readwrite.sql
@@ -594,8 +581,8 @@ contexts:
       set: inside-openrowset-call
 
   exec:
-    - include: assignment-operator
     - include: pop-on-top-level-reserved-word
+    - include: assignment-operators
     - include: expressions
     - include: else-pop
 
@@ -859,3 +846,18 @@ contexts:
   inside-simple-identifier-part:
     - meta_prepend: true
     - include: variables
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - meta_append: true
+    - match: \b(?i:like)\b
+      scope: keyword.operator.logical.sql
+      branch_point: like-strings-branch
+      branch:
+        - like-string-not-followed-by-escape
+        - like-string-followed-by-escape-slash
+        - like-string-followed-by-escape-caret
+        - like-string-followed-by-unknown-escape
+    - match: '%'
+      scope: keyword.operator.arithmetic.tsql
