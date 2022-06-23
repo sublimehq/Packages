@@ -31,119 +31,6 @@ variables:
 
 contexts:
 
-  like-string-not-followed-by-escape:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-fail
-        - inside-like-single-quoted-string
-    - include: else-pop
-
-  like-string-followed-by-escape-slash:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-character-slash
-        - like-escape-pop
-        - inside-like-single-quoted-string-slash-escape
-    - include: else-pop
-
-  like-string-followed-by-escape-caret:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-character-caret
-        - like-escape-pop
-        - inside-like-single-quoted-string-caret-escape
-    - include: else-pop
-
-  like-string-followed-by-unknown-escape:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-character-any
-        - like-escape-pop
-        - inside-like-single-quoted-string
-    - include: else-pop
-
-  inside-like-single-quoted-string-slash-escape:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.like.sql string.quoted.single.sql
-    - match: \\.
-      scope: constant.character.escape.sql
-    - include: inside-like-single-quoted-string
-
-  inside-like-single-quoted-string-caret-escape:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.like.sql string.quoted.single.sql
-    - match: \^.
-      scope: constant.character.escape.sql
-    - include: inside-like-single-quoted-string
-
-  inside-like-single-quoted-string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.like.sql string.quoted.single.sql
-    - match: \'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - match: |-
-        (?x)
-        (\[)(\^)?
-        (?:.|[^]'-]+?)
-        (?:(-)[^]'-]*)?
-        (\])
-      scope: meta.set.like.sql
-      captures:
-        1: keyword.control.set.begin.sql
-        2: keyword.control.set.negation.sql
-        3: constant.other.range.sql
-        4: keyword.control.set.end.sql
-    - match: '[%_]'
-      scope: keyword.operator.wildcard.sql
-
-  like-escape-fail:
-    - match: \b(?i:escape)\b
-      fail: like-strings-branch
-    - include: else-pop
-
-  like-escape-pop:
-    - match: \b(?i:escape)\b
-      scope: keyword.operator.word.sql
-      pop: 1
-    - include: else-pop
-
-  like-escape-character-any:
-    - match: (\')([^'])(\')
-      scope: meta.string.escape.sql string.quoted.single.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        2: constant.character.escape.sql
-        3: punctuation.definition.string.end.sql
-      pop: 1
-    - include: else-pop
-
-  like-escape-character-caret:
-    - match: (\')(\^)(\')
-      scope: meta.string.escape.sql string.quoted.single.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        2: constant.character.escape.sql
-        3: punctuation.definition.string.end.sql
-      pop: 1
-    - match: (?=\S)
-      fail: like-strings-branch
-
-  like-escape-character-slash:
-    - match: (\')(\\)(\')
-      scope: meta.string.escape.sql string.quoted.single.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        2: constant.character.escape.sql
-        3: punctuation.definition.string.end.sql
-      pop: 1
-    - match: (?=\S)
-      fail: like-strings-branch
-
   built-in-type:
     - meta_prepend: true
     - match: |-
@@ -223,6 +110,7 @@ contexts:
   expressions:
     - meta_prepend: true
     - include: with
+    - include: like-expressions
     - match: \b(?i:output)\b
       scope: storage.modifier.output.tsql
     - match: \b(?i:over|partition\s+by)\b
@@ -720,6 +608,133 @@ contexts:
     - include: ddl-table-creation-columns
     - include: expect-index-names
 
+###[ LIKE EXPRESSIONS ]########################################################
+
+  like-expressions:
+    - match: \b(?i:like)\b
+      scope: keyword.operator.logical.sql
+      branch_point: like-expressions
+      branch:
+        - like-string-not-followed-by-escape
+        - like-string-followed-by-escape-slash
+        - like-string-followed-by-escape-caret
+        - like-string-followed-by-unknown-escape
+
+  like-string-not-followed-by-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-fail
+        - inside-like-single-quoted-string
+    - include: else-pop
+
+  like-string-followed-by-escape-slash:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-slash
+        - like-escape
+        - inside-like-single-quoted-string-slash-escape
+    - include: else-pop
+
+  like-string-followed-by-escape-caret:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-caret
+        - like-escape
+        - inside-like-single-quoted-string-caret-escape
+    - include: else-pop
+
+  like-string-followed-by-unknown-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-any
+        - like-escape
+        - inside-like-single-quoted-string
+    - include: else-pop
+
+  inside-like-single-quoted-string-slash-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \\.
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string-caret-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \^.
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - match: |-
+        (?x)
+        (\[)(\^)?
+        (?:.|[^]'-]+?)
+        (?:(-)[^]'-]*)?
+        (\])
+      scope: meta.set.like.sql
+      captures:
+        1: keyword.control.set.begin.sql
+        2: keyword.control.set.negation.sql
+        3: constant.other.range.sql
+        4: keyword.control.set.end.sql
+    - match: '[%_]'
+      scope: keyword.operator.wildcard.sql
+
+  like-else-fail:
+    - match: (?=\S)
+      fail: like-expressions
+
+  like-escape-fail:
+    - match: \b(?i:escape)\b
+      fail: like-expressions
+    - include: else-pop
+
+  like-escape:
+    - match: \b(?i:escape)\b
+      scope: keyword.operator.word.sql
+      pop: 1
+    - include: else-pop
+
+  like-escape-character-any:
+    - match: (\')([^'])(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: else-pop
+
+  like-escape-character-caret:
+    - match: (\')(\^)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
+
+  like-escape-character-slash:
+    - match: (\')(\\)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
+
 ###[ IDENTIFIERS ]#############################################################
 
   expect-cte-table-name:
@@ -857,13 +872,5 @@ contexts:
 
   operators:
     - meta_append: true
-    - match: \b(?i:like)\b
-      scope: keyword.operator.logical.sql
-      branch_point: like-strings-branch
-      branch:
-        - like-string-not-followed-by-escape
-        - like-string-followed-by-escape-slash
-        - like-string-followed-by-escape-caret
-        - like-string-followed-by-unknown-escape
     - match: '%'
       scope: keyword.operator.arithmetic.tsql
