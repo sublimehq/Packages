@@ -31,36 +31,6 @@ variables:
 
 contexts:
 
-  built-in-type:
-    - meta_prepend: true
-    - match: |-
-        (?xi)
-        {{enclosed_type_begin}}
-        {{simple_types}}
-        {{enclosed_type_end}}
-      scope: storage.type.sql
-      pop: 1
-    - match: |-
-        (?xi)
-        {{enclosed_type_begin}}
-        {{types_with_optional_number}}
-        {{enclosed_type_end}}
-        (?:\s*\(\s*(?:(\d+)|(MAX))\s*(?:(,)\s*(\d+))?\))?
-      scope: storage.type.sql
-      captures:
-        1: constant.numeric.sql
-        2: constant.language.max.sql
-        3: punctuation.separator.sequence.sql
-        4: constant.numeric.sql
-      pop: 1
-    - match: |-
-        (?xi)
-        (?:{{enclosed_type_begin}}|\b)
-        table
-        (?:{{enclosed_type_end}}|\b)
-      scope: storage.type.sql
-      pop: 1
-
   statements:
     - meta_append: true
     - include: declarations
@@ -264,16 +234,6 @@ contexts:
       set: expect-type
     - include: else-pop
 
-  expect-type:
-    - meta_prepend: true
-    - match: \b(?i:as)\b
-      scope: keyword.other.tsql
-      set: computed-column-definition
-
-  inside-user-type:
-    - meta_prepend: true
-    - include: variables
-
   set:
     - meta_prepend: true
     - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
@@ -408,15 +368,6 @@ contexts:
       set: inside-with-group
     - include: else-pop
 
-  after-type:
-    - meta_prepend: true
-    - match: \b(?i:GENERATED\s+ALWAYS\s+AS\s+ROW\s+(?:START|END)(?:\s+HIDDEN)?)\b
-      scope: keyword.other.tsql
-    - match: \b(?i:ENCRYPTED\s+WITH)\b
-      scope: storage.modifier.tsql
-      set: with-paren-or-pop
-    - include: collate-expressions
-
   joins:
     - meta_append: true
     - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
@@ -515,14 +466,6 @@ contexts:
   maybe-with-table-options:
     - include: with
     - include: else-pop
-
-  computed-column-definition:
-    - meta_content_scope: meta.computed-column-definition.tsql
-    - match: (?=,)
-      pop: 1
-    - match: (?=\b(?i:constraint)\b)
-      pop: 1
-    - include: expressions-or-column-name
 
   raiserror-args:
     - match: \b(?i:with)\b
@@ -734,6 +677,65 @@ contexts:
         3: punctuation.definition.string.end.sql
       pop: 1
     - include: like-else-fail
+
+###[ TYPES ]###################################################################
+
+  expect-type:
+    - meta_prepend: true
+    - match: \b(?i:as)\b
+      scope: keyword.other.tsql
+      set: computed-column-definition
+
+  computed-column-definition:
+    - meta_content_scope: meta.computed-column-definition.tsql
+    - match: (?=,)
+      pop: 1
+    - match: (?=\b(?i:constraint)\b)
+      pop: 1
+    - include: expressions-or-column-name
+
+  built-in-type:
+    - meta_prepend: true
+    - match: |-
+        (?xi)
+        {{enclosed_type_begin}}
+        {{simple_types}}
+        {{enclosed_type_end}}
+      scope: storage.type.sql
+      pop: 1
+    - match: |-
+        (?xi)
+        {{enclosed_type_begin}}
+        {{types_with_optional_number}}
+        {{enclosed_type_end}}
+        (?:\s*\(\s*(?:(\d+)|(MAX))\s*(?:(,)\s*(\d+))?\))?
+      scope: storage.type.sql
+      captures:
+        1: constant.numeric.sql
+        2: constant.language.max.sql
+        3: punctuation.separator.sequence.sql
+        4: constant.numeric.sql
+      pop: 1
+    - match: |-
+        (?xi)
+        (?:{{enclosed_type_begin}}|\b)
+        table
+        (?:{{enclosed_type_end}}|\b)
+      scope: storage.type.sql
+      pop: 1
+
+  inside-user-type:
+    - meta_prepend: true
+    - include: variables
+
+  after-type:
+    - meta_prepend: true
+    - match: \b(?i:GENERATED\s+ALWAYS\s+AS\s+ROW\s+(?:START|END)(?:\s+HIDDEN)?)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:ENCRYPTED\s+WITH)\b
+      scope: storage.modifier.tsql
+      set: with-paren-or-pop
+    - include: collate-expressions
 
 ###[ IDENTIFIERS ]#############################################################
 

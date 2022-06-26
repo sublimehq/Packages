@@ -40,15 +40,6 @@ contexts:
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
 
-  after-type:
-    - meta_prepend: true
-    - match: \b(?i:unsigned)\b
-      scope: storage.modifier.mysql
-      pop: 1
-    - match: \b(?i:with(?:out)?\s+time\s+zone)\b
-      scope: storage.type.sql
-      pop: 1
-
   inside-number-sign-comment:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
@@ -143,6 +134,17 @@ contexts:
       scope: keyword.other.mysql
       pop: 1
     - include: else-pop
+
+###[ TYPES ]###################################################################
+
+  after-type:
+    - meta_prepend: true
+    - match: \b(?i:unsigned)\b
+      scope: storage.modifier.mysql
+      pop: 1
+    - match: \b(?i:with(?:out)?\s+time\s+zone)\b
+      scope: storage.type.sql
+      pop: 1
 
 ###[ LITERALS ]################################################################
 

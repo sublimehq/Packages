@@ -93,40 +93,6 @@ contexts:
       scope: keyword.control.flow.sql
     - include: logical-operators
 
-  expect-type:
-    - meta_include_prototype: false
-    - include: comments
-    - include: built-in-type
-    - include: expect-user-type
-
-  built-in-type:
-    - match: '{{simple_types}}'
-      scope: storage.type.sql
-      pop: 1
-    - match: |-
-        (?xi)
-        {{types_with_optional_number}}
-        (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
-      scope: storage.type.sql
-      captures:
-        1: constant.numeric.sql
-        2: punctuation.separator.sequence.sql
-        3: constant.numeric.sql
-      pop: 1
-
-  expect-user-type:
-    - match: (?=\S)
-      set: inside-user-type
-
-  inside-user-type:
-    # note: may contain foreign variable interpolation
-    - meta_scope: support.type.sql
-    - match: '{{simple_identifier_break}}'
-      pop: 1
-
-  after-type:
-    - include: else-pop
-
   expressions-or-column-name:
     - include: wildcard-identifiers
     - include: expressions
@@ -546,6 +512,42 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.sql
       set: inside-ddl-table-creation-columns
+    - include: else-pop
+
+###[ TYPES ]###################################################################
+
+  expect-type:
+    - meta_include_prototype: false
+    - include: comments
+    - include: built-in-type
+    - include: expect-user-type
+
+  built-in-type:
+    - match: '{{simple_types}}'
+      scope: storage.type.sql
+      pop: 1
+    - match: |-
+        (?xi)
+        {{types_with_optional_number}}
+        (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
+      scope: storage.type.sql
+      captures:
+        1: constant.numeric.sql
+        2: punctuation.separator.sequence.sql
+        3: constant.numeric.sql
+      pop: 1
+
+  expect-user-type:
+    - match: (?=\S)
+      set: inside-user-type
+
+  inside-user-type:
+    # note: may contain foreign variable interpolation
+    - meta_scope: support.type.sql
+    - match: '{{simple_identifier_break}}'
+      pop: 1
+
+  after-type:
     - include: else-pop
 
 ###[ IDENTIFIERS ]#############################################################

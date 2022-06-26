@@ -68,21 +68,6 @@ contexts:
     - match: \b(?i:source)\b
       scope: keyword.other.cql
 
-  built-in-type:
-    - meta_prepend: true
-    - match: \b(?i:set|frozen|map|tuple)(<)
-      scope: storage.type.cql
-      captures:
-        1: punctuation.definition.generic.begin.cql
-      set:
-        - end-generic-type
-        - built-in-type
-
-  end-generic-type:
-    - match: \>
-      scope: storage.type.cql punctuation.definition.generic.end.cql
-      pop: 1
-
   inside-dict-or-set:
     - match: \}
       scope: punctuation.section.braces.end.cql
@@ -175,6 +160,23 @@ contexts:
       scope: keyword.other.cql
       pop: 1
     - include: else-pop
+
+###[ TYPES ]###################################################################
+
+  built-in-type:
+    - meta_prepend: true
+    - match: \b(?i:set|frozen|map|tuple)(<)
+      scope: storage.type.cql
+      captures:
+        1: punctuation.definition.generic.begin.cql
+      set:
+        - end-generic-type
+        - built-in-type
+
+  end-generic-type:
+    - match: \>
+      scope: storage.type.cql punctuation.definition.generic.end.cql
+      pop: 1
 
 ###[ LITERALS ]################################################################
 
