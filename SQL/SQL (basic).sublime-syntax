@@ -93,6 +93,8 @@ contexts:
       scope: keyword.control.flow.sql
     - include: logical-operators
 
+###[ EXPRESSIONS ]#############################################################
+
   expressions-or-column-name:
     - include: wildcard-identifiers
     - include: expressions

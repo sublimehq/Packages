@@ -46,13 +46,6 @@ contexts:
     - match: \n
       pop: 1
 
-  expressions:
-    - meta_prepend: true
-    - match: \b(?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
-      scope: support.function.string.sql
-    - match: \b(?i:using)\b
-      scope: keyword.other.mysql
-
   statements:
     - meta_append: true
     - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
@@ -134,6 +127,15 @@ contexts:
       scope: keyword.other.mysql
       pop: 1
     - include: else-pop
+
+###[ EXPRESSIONS ]#############################################################
+
+  expressions:
+    - meta_prepend: true
+    - match: \b(?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+      scope: support.function.string.sql
+    - match: \b(?i:using)\b
+      scope: keyword.other.mysql
 
 ###[ TYPES ]###################################################################
 

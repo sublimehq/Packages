@@ -77,6 +77,8 @@ contexts:
     - match: (?i)\b(?:begin|commit|rollback|save)\s+tran(saction)?\b
       scope: keyword.context.tsql
 
+###[ EXPRESSIONS ]#############################################################
+
   expressions:
     - meta_prepend: true
     - include: with
