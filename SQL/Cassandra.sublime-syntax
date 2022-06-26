@@ -23,6 +23,112 @@ variables:
 
 contexts:
 
+###[ DDL STATEMENTS ]##########################################################
+
+  ddl-statements:
+    - meta_prepend: true
+    - match: \b(?i:create\s+type)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-create-target
+        - ddl-table-creation-columns
+        - ddl-create-type-condition
+
+  ddl-alter-common:
+    - meta_prepend: false
+
+  ddl-create-target:
+    - meta_prepend: true
+    - match: \b(?i:with)\b
+      scope: keyword.other.cql
+    - match: \b(?i:clustering)\b
+      scope: keyword.other.cql
+
+  ddl-create-type-condition:
+    - include: dml-condition
+    - include: expect-type-creation-name
+
+  expect-type-creation-name:
+    - match: (?=\S)
+      set: [type-creation-name, single-identifier]
+
+  type-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
+    - include: immediately-pop
+
+  inside-ddl-table-creation-columns:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:(primary\s+key))\s*(\()
+      captures:
+        1: storage.modifier.cql
+        2: meta.group.partition-key.cql punctuation.section.group.begin.cql
+      push: inside-partition-key
+    - match: \b(?i:primary\s+key)\b
+      scope: storage.modifier.cql
+    - include: expressions
+    - include: ddl-creation-column
+
+  inside-partition-key:
+    - meta_content_scope: meta.group.partition-key.cql
+    - match: \)
+      scope: meta.group.partition-key.cql punctuation.section.group.end.cql
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.cql
+      push: inside-partition-key-group
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+      set: inside-group
+    - include: expect-column-names
+
+  inside-partition-key-group:
+    - match: \)
+      scope: punctuation.section.group.end.cql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+    - include: expect-column-names
+
+###[ DML STATEMENTS ]##########################################################
+
+  dml-statements:
+    - meta_prepend: true
+    - match: \b(?i:(select)\s+(json))\b
+      captures:
+        1: keyword.other.dml.sql
+        2: storage.modifier.cql
+    - match: \b(?i:allow\s+filtering)\b
+      scope: keyword.other.dml.cql
+    - match: \b(?i:copy)\b
+      scope: keyword.other.dml.cql
+      push:
+        - dml-copy-from
+        - maybe-group
+        - expect-table-name
+
+  dml-copy-from:
+    - match: \b(?i:from)\b
+      scope: keyword.other.cql
+      pop: 1
+    - include: else-pop
+
+  joins:
+    - match: \bjoin\b
+
+###[ OTHER STATEMENTS ]########################################################
+
+  other-statements:
+    - meta_prepend: true
+    - match: \b(?i:use)\b
+      scope: keyword.context.sql
+      push: expect-database-name
+    - match: \b(?i:source)\b
+      scope: keyword.other.cql
+
 ###[ EXPRESSIONS ]#############################################################
 
   expressions:
@@ -50,26 +156,11 @@ contexts:
       scope: support.function.scalar.cql
       push: function-call-arguments
 
-  dml-statements:
-    - meta_prepend: true
-    - match: \b(?i:(select)\s+(json))\b
-      captures:
-        1: keyword.other.dml.sql
-        2: storage.modifier.cql
-    - match: \b(?i:allow\s+filtering)\b
-      scope: keyword.other.dml.cql
-    - match: \b(?i:copy)\b
-      scope: keyword.other.dml.cql
-      push:
-        - copy-from
-        - maybe-group
-        - expect-table-name
-
-  statements:
-    - meta_prepend: true
-    - include: use-db
-    - match: \b(?i:source)\b
-      scope: keyword.other.cql
+  inside-array:
+    - match: \]
+      scope: punctuation.section.brackets.end.cql
+      pop: 1
+    - include: expressions
 
   inside-dict-or-set:
     - match: \}
@@ -80,89 +171,6 @@ contexts:
     - include: expressions
     - match: \w+
       scope: meta.mapping.key.cql string.unquoted.cql
-
-  inside-array:
-    - match: \]
-      scope: punctuation.section.brackets.end.cql
-      pop: 1
-    - include: expressions
-
-  ddl-create-target:
-    - meta_prepend: true
-    - match: \b(?i:with)\b
-      scope: keyword.other.cql
-    - match: \b(?i:clustering)\b
-      scope: keyword.other.cql
-
-  ddl-statements:
-    - meta_prepend: true
-    - match: \b(?i:create\s+type)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-create-target
-        - ddl-table-creation-columns
-        - create-type-condition
-
-  ddl-alter-common:
-    - meta_prepend: false
-
-  create-type-condition:
-    - include: dml-condition
-    - match: (?=\S)
-      set:
-        - type-creation-name
-        - single-identifier
-
-  type-creation-name:
-    - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
-    - include: immediately-pop
-
-  inside-ddl-table-creation-columns:
-    - meta_scope: meta.group.table-columns.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - match: \b(?i:(primary\s+key))\s*(\()
-      captures:
-        1: storage.modifier.cql
-        2: meta.group.partition-key.cql punctuation.section.group.begin.cql
-      push: partition-key
-    - match: \b(?i:primary\s+key)\b
-      scope: storage.modifier.cql
-      #push: partition-key
-    - include: expressions
-    - include: ddl-creation-column
-
-  partition-key:
-    - meta_content_scope: meta.group.partition-key.cql
-    - match: \)
-      scope: meta.group.partition-key.cql punctuation.section.group.end.cql
-      pop: 1
-    - match: \(
-      scope: punctuation.section.group.begin.cql
-      push: inside-partition-key-group
-    - match: ','
-      scope: punctuation.separator.sequence.cql
-      set: inside-group
-    - include: expect-column-names
-
-  inside-partition-key-group:
-    - match: \)
-      scope: punctuation.section.group.end.cql
-      pop: 1
-    - match: ','
-      scope: punctuation.separator.sequence.cql
-    - include: expect-column-names
-
-  joins:
-    - match: \bjoin\b
-
-  copy-from:
-    - match: \b(?i:from)\b
-      scope: keyword.other.cql
-      pop: 1
-    - include: else-pop
 
 ###[ TYPES ]###################################################################
 

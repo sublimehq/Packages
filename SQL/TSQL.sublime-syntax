@@ -31,10 +31,153 @@ variables:
 
 contexts:
 
-  statements:
-    - meta_append: true
+  sql:
+    - meta_prepend: true
     - include: declarations
-    - include: transaction-statements
+
+###[ DECLARATIONS ]############################################################
+
+  declarations:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.variable.sql
+      push: inside-declaration
+
+  inside-declaration:
+    - match: '{{simple_identifier}}(?=\s+(?i:cursor)\b)'
+      scope: meta.cursor-name.sql
+      pop: 1
+    - match: (@){{simple_identifier}}
+      scope: variable.other.readwrite.declaration.tsql
+      captures:
+        1: punctuation.definition.variable.tsql
+      set: expect-type
+    - include: else-pop
+
+###[ DDL STATEMENTS ]##########################################################
+
+  ddl-statements:
+    - meta_prepend: true
+    - match: (?i)\b(?:create(?:\s+or\s+alter)?)\b(?!\s*table\b)
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-create-target-expect-as
+        - ddl-create-target
+        - create-table-condition
+        - ddl-target
+
+  ddl-alter-target:
+    - meta_prepend: true
+    #- match: \b(?i:proc|procedure|function)\b
+    #  scope: keyword.other.sql
+    - match: (?=\S)
+      set:
+        - ddl-create-target-expect-as
+        - expect-procedure-name
+
+  ddl-create-target-expect-as:
+    - meta_prepend: true
+    - include: with
+
+  ddl-target:
+    - meta_prepend: true
+    - match: \b(?i:proc|unique|clustered|nonclustered)\b
+      scope: keyword.other.ddl.sql
+
+  ddl-table-creation-columns:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set:
+        - maybe-with-table-options
+        - maybe-filegroup
+        - inside-ddl-table-creation-columns
+
+  inside-ddl-table-creation-columns:
+    - meta_prepend: true
+    - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:period\s+for\s+system_time)\b
+      scope: storage.modifier.tsql
+
+###[ DML STATEMENTS ]##########################################################
+
+  dml-statements:
+    - meta_append: true
+    - match: \b(?i:bulk\s+insert)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:insert)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - match: \b(?i:into)\b(?!\s*@)
+      scope: keyword.other.dml.tsql
+      push: expect-table-name
+    - match: \b(?i:into)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:off)\b
+      scope: keyword.other.tsql
+    - match: \b(?i:for\s+xml)\b
+      scope: keyword.other.tsql
+      push: for-xml
+    - match: \b(?i:(option))\s*(\()
+      captures:
+        1: keyword.other.dml.tsql
+        2: meta.group.sql punctuation.section.group.begin.sql
+      push: inside-with-group
+    - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
+      scope: keyword.other.sql
+      push: expect-cursor-name
+    - match: \b(?i:merge)\b
+      scope: keyword.other.tsql
+      push:
+        - maybe-table-alias
+        - expect-table-name
+    - match: \b(?i:using)\b
+      scope: keyword.other.tsql
+      push:
+        - table-name-or-subquery
+        - join-on
+        - maybe-table-alias
+        - expect-table-name
+    - match: \b(?i:set)\b
+      scope: keyword.other.dml.tsql
+    - include: top
+
+  dml-delete:
+    - meta_prepend: true
+    - include: top
+
+  dml-update:
+    - meta_prepend: true
+    - include: top
+
+  top:
+    - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
+      captures:
+        1: keyword.other.dml.tsql
+        2: meta.group.tsql punctuation.section.parens.begin.tsql
+        3: meta.group.tsql meta.number.integer.decimal.tsql constant.numeric.value.tsql
+        4: meta.group.tsql punctuation.section.parens.end.tsql
+        5: keyword.other.dml.tsql
+
+  for-xml:
+    - match: \b(?i:raw|auto|elements|root|path)\b
+      scope: keyword.other.tsql
+    - match: \b(?:XSINIL|XMLSCHEMA)\b # case sensitive?! TODO: need to check
+      scope: keyword.other.tsql
+    - match: (?=\))
+      pop: 1
+    - include: expressions
+    - include: else-pop
+
+  joins:
+    - meta_append: true
+    - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
+      scope: keyword.other.dml.sql
+      push: table-name-or-subquery
+
+###[ OTHER STATEMENTS ]########################################################
+
+  other-statements:
+    - meta_prepend: true
     - include: cte-with
     - match: (?=\b(?i:raiserror)\b)
       push: raiserror-args
@@ -72,10 +215,38 @@ contexts:
       captures:
         1: entity.name.label.tsql
         2: punctuation.definition.label.tsql
-
-  transaction-statements:
     - match: (?i)\b(?:begin|commit|rollback|save)\s+tran(saction)?\b
       scope: keyword.context.tsql
+
+###[ CTE WITH STATEMENTS ]#####################################################
+
+  cte-with:
+    - match: \b(?i:with)\b(?=\s*(?:\[\w+\]|\w+)\s*\()
+      scope: keyword.other.dml.sql
+      push:
+        - cte-as
+        - cte-column-list
+        - expect-cte-table-name
+    - match: \b(?i:with)\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
+      scope: keyword.other.dml.sql
+      push:
+        - cte-as
+        - expect-cte-table-name
+
+  cte-as:
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.cte.tsql
+    - include: pop-on-top-level-reserved-word
+    - match: ','
+      scope: punctuation.separator.sequence.cte.tsql
+      push:
+        - cte-column-list
+        - expect-cte-table-name
+    - include: expressions
+
+  cte-column-list:
+    - include: ddl-table-creation-columns
+    - include: else-pop
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -139,103 +310,6 @@ contexts:
       scope: punctuation.separator.argument.sql
     - include: expressions-or-column-name
 
-  dml-statements:
-    - meta_append: true
-    - match: \b(?i:bulk\s+insert)\b
-      scope: keyword.other.tsql
-    - match: \b(?i:insert)\b
-      scope: keyword.other.dml.sql
-      push: expect-table-name
-    - match: \b(?i:into)\b(?!\s*@)
-      scope: keyword.other.dml.tsql
-      push: expect-table-name
-    - match: \b(?i:into)\b
-      scope: keyword.other.tsql
-    - match: \b(?i:off)\b
-      scope: keyword.other.tsql
-    - match: \b(?i:for\s+xml)\b
-      scope: keyword.other.tsql
-      push: for-xml
-    - include: top
-    - match: \b(?i:(option))\s*(\()
-      captures:
-        1: keyword.other.dml.tsql
-        2: meta.group.sql punctuation.section.group.begin.sql
-      push: inside-with-group
-    - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
-      scope: keyword.other.sql
-      push: expect-cursor-name
-    - match: \b(?i:merge)\b
-      scope: keyword.other.tsql
-      push:
-        - maybe-table-alias
-        - expect-table-name
-    - match: \b(?i:using)\b
-      scope: keyword.other.tsql
-      push:
-        - table-name-or-subquery
-        - join-on
-        - maybe-table-alias
-        - expect-table-name
-    - match: \b(?i:set)\b
-      scope: keyword.other.dml.tsql
-
-  ddl-statements:
-    - meta_prepend: true
-    - match: (?i)\b(?:create(?:\s+or\s+alter)?)\b(?!\s*table\b)
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-create-target-expect-as
-        - ddl-create-target
-        - create-table-condition
-        - ddl-target
-
-  ddl-create-target-expect-as:
-    - meta_prepend: true
-    - include: with
-
-  ddl-target:
-    - meta_prepend: true
-    - match: \b(?i:proc|unique|clustered|nonclustered)\b
-      scope: keyword.other.ddl.sql
-
-  ddl-alter-target:
-    - meta_prepend: true
-    #- match: \b(?i:proc|procedure|function)\b
-    #  scope: keyword.other.sql
-    - match: (?=\S)
-      set:
-        - ddl-create-target-expect-as
-        - expect-procedure-name
-
-  top:
-    - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
-      captures:
-        1: keyword.other.dml.tsql
-        2: meta.group.tsql punctuation.section.parens.begin.tsql
-        3: meta.group.tsql meta.number.integer.decimal.tsql constant.numeric.value.tsql
-        4: meta.group.tsql punctuation.section.parens.end.tsql
-        5: keyword.other.dml.tsql
-
-  dml-delete:
-    - meta_prepend: true
-    - include: top
-
-  dml-update:
-    - meta_prepend: true
-    - include: top
-
-  inside-declaration:
-    - match: '{{simple_identifier}}(?=\s+(?i:cursor)\b)'
-      scope: meta.cursor-name.sql
-      pop: 1
-    - match: (@){{simple_identifier}}
-      scope: variable.other.readwrite.declaration.tsql
-      captures:
-        1: punctuation.definition.variable.tsql
-      set: expect-type
-    - include: else-pop
-
   set:
     - meta_prepend: true
     - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
@@ -250,6 +324,29 @@ contexts:
       scope: keyword.operator.assignment.tsql
     - include: operators
     - include: else-pop
+
+  table-name-or-subquery:
+    - meta_prepend: true
+    - match: \b(?i:OPENXML)\b
+      scope: meta.table-valued-function-name.sql support.function.tsql
+      push:
+        - with-column-definition
+        - function-call-arguments
+    - match: \b(?i:(OPENROWSET))\s*(\()
+      scope: meta.function-call.tsql
+      captures:
+        1: meta.table-valued-function-name.sql support.function.tsql
+        2: punctuation.section.arguments.begin.tsql
+      set: inside-openrowset-call
+
+  inside-openrowset-call:
+    - meta_content_scope: meta.group.sql
+    - match: \)
+      scope: meta.function-call.tsql meta.group.tsql punctuation.section.arguments.end.sql
+      set: maybe-table-alias
+    - match: ';'
+      scope: punctuation.separator.sequence.tsql
+    - include: inside-function-call-arguments
 
   table-name-fail-if-function-cal:
     - meta_prepend: true
@@ -279,18 +376,9 @@ contexts:
         2: constant.language.table-hint.tsql
         3: punctuation.section.group.end.tsql
 
-  cte-with:
-    - match: (?i)\bwith\b(?=\s*(?:\[\w+\]|\w+)\s*\()
-      scope: keyword.other.dml.sql
-      push:
-        - cte-as
-        - cte-column-list
-        - expect-cte-table-name
-    - match: (?i)\bwith\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
-      scope: keyword.other.dml.sql
-      push:
-        - cte-as
-        - expect-cte-table-name
+  maybe-with-table-options:
+    - include: with
+    - include: else-pop
 
   with:
     - match: (?i)\bwith\b
@@ -370,65 +458,11 @@ contexts:
       set: inside-with-group
     - include: else-pop
 
-  joins:
-    - meta_append: true
-    - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
-      scope: keyword.other.dml.sql
-      push: table-name-or-subquery
-
-  table-name-or-subquery:
-    - meta_prepend: true
-    - match: \b(?i:OPENXML)\b
-      scope: meta.table-valued-function-name.sql support.function.tsql
-      push:
-        - with-column-definition
-        - function-call-arguments
-    - match: \b(?i:(OPENROWSET))\s*(\()
-      scope: meta.function-call.tsql
-      captures:
-        1: meta.table-valued-function-name.sql support.function.tsql
-        2: punctuation.section.arguments.begin.tsql
-      set: inside-openrowset-call
-
   exec:
     - include: pop-on-top-level-reserved-word
     - include: assignment-operators
     - include: expressions
     - include: else-pop
-
-  cte-column-list:
-    - include: ddl-table-creation-columns
-    - include: else-pop
-
-  cte-as:
-    - match: \b(?i:as)\b
-      scope: keyword.operator.assignment.cte.tsql
-    - include: pop-on-top-level-reserved-word
-    - match: ','
-      scope: punctuation.separator.sequence.cte.tsql
-      push:
-        - cte-column-list
-        - expect-cte-table-name
-    - include: expressions
-
-  for-xml:
-    - match: \b(?i:raw|auto|elements|root|path)\b
-      scope: keyword.other.tsql
-    - match: \b(?:XSINIL|XMLSCHEMA)\b # case sensitive?! TODO: need to check
-      scope: keyword.other.tsql
-    - match: (?=\))
-      pop: 1
-    - include: expressions
-    - include: else-pop
-
-  inside-openrowset-call:
-    - meta_content_scope: meta.group.sql
-    - match: ';'
-      scope: punctuation.separator.sequence.tsql
-    - match: \)
-      scope: meta.function-call.tsql meta.group.tsql punctuation.section.arguments.end.sql
-      set: maybe-table-alias
-    - include: inside-function-call-arguments
 
   merge-condition:
     - match: \b(?i:\s+by\s+(?:source|target))\b
@@ -444,29 +478,10 @@ contexts:
     - include: dml-statements
     - include: expressions
 
-  ddl-table-creation-columns:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set:
-        - maybe-with-table-options
-        - maybe-filegroup
-        - inside-ddl-table-creation-columns
-
-  inside-ddl-table-creation-columns:
-    - meta_prepend: true
-    - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
-      scope: storage.modifier.tsql
-    - match: \b(?i:period\s+for\s+system_time)\b
-      scope: storage.modifier.tsql
-
   maybe-filegroup:
     - match: \b(?i:ON)\b(?!\s*{{identifier_for_lookahead}}\s*=)
       scope: keyword.other.tsql
       set: expect-filegroup-name
-    - include: else-pop
-
-  maybe-with-table-options:
-    - include: with
     - include: else-pop
 
   raiserror-args:
@@ -544,11 +559,11 @@ contexts:
 
   index-names:
     - meta_content_scope: meta.group.tsql
-    - match: ','
-      scope: punctuation.separator.sequence.tsql
     - match: \)
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.tsql
     - include: literals-and-variables
     - include: ddl-table-creation-columns
     - include: expect-index-names

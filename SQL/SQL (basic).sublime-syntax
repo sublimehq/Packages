@@ -26,10 +26,18 @@ contexts:
     - include: comments
 
   main:
+    - include: sql
+
+  sql:
     - include: statements
     - match: ';'
       scope: punctuation.terminator.statement.sql
     - include: expressions-or-column-name
+
+  statements:
+    - include: ddl-statements
+    - include: dml-statements
+    - include: other-statements
 
 ###[ COMMENTS ]################################################################
 
@@ -73,7 +81,146 @@ contexts:
       scope: punctuation.definition.comment.end.sql
       pop: 1
 
-  create-condition:
+###[ DDL STATEMENTS ]##########################################################
+
+  ddl-statements:
+    - match: \b(?i:create\s+(?:temporary\s+)?table)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-create-target
+        - ddl-table-creation-columns
+        - create-table-condition
+    - match: \b(?i:create)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-create-target-expect-as
+        - ddl-create-target
+        - create-other-condition
+        - ddl-target
+    - match: \b(?i:drop\s+table)\b
+      scope: keyword.other.ddl.sql
+      push: ddl-drop-table
+    - match: \b(?i:drop)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-drop-target
+        - drop-condition
+        - ddl-target
+    - match: \b(?i:alter\s+table)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-alter-table
+        - expect-table-name
+    - match: \b(?i:alter)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-alter-target
+        - ddl-target
+
+  ddl-table-creation-columns:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-ddl-table-creation-columns
+
+  inside-ddl-table-creation-columns:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:constraint)\b
+      scope: storage.modifier.sql
+      push: expect-constraint-name
+    - include: after-constraint
+    - include: expressions
+    - include: ddl-creation-column
+
+  ddl-creation-column:
+    - match: (?=\S)
+      push:
+        - after-type
+        - expect-type
+        - column-name-declaration
+        - single-identifier
+
+  ddl-create-target:
+    - meta_scope: meta.create.sql
+    - include: ddl-target-on
+
+  ddl-create-target-expect-as:
+    - match: \b(?i:as)\b
+      scope: keyword.context.block.sql
+      pop: 1
+    - match: \b(?i:returns)\b
+      scope: keyword.other.sql
+      push: expect-type
+    - match: (@){{simple_identifier}}
+      scope: variable.parameter.sql
+      push: expect-type
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
+
+  ddl-target-on:
+    - match: \b(?i:on)\b
+      scope: keyword.other.sql
+      push: expect-table-name
+    - include: else-pop
+
+  ddl-drop-target:
+    - meta_include_prototype: false
+    - meta_scope: meta.drop.sql
+    - include: immediately-pop
+
+  ddl-target:
+    - match: '{{ddl_target}}'
+      scope: keyword.other.sql
+    - include: else-pop
+
+  ddl-drop-table:
+    - meta_scope: meta.drop.sql
+    - include: dml-condition
+    - include: expect-table-name
+
+  ddl-alter-table:
+    - meta_scope: meta.alter.sql
+    - include: ddl-alter-column
+    - include: ddl-alter-common
+    - include: expressions-or-column-name
+
+  ddl-alter-target:
+    - meta_scope: meta.alter.sql
+    - include: ddl-alter-common
+    - include: else-pop
+
+  ddl-alter-common:
+    - match: \b(?i:add\s+constraint)\b
+      scope: meta.add.sql keyword.other.sql
+      push:
+        - after-constraint-pop
+        - expect-constraint-name
+    - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
+      scope: meta.add.sql keyword.other.sql
+    #- include: types
+    - include: pop-on-top-level-reserved-word
+
+  ddl-alter-column:
+    - match: \b(?i:(?:add|alter)\s+column)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - expect-column-name-declaration
+    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}})
+      scope: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - expect-column-name-declaration
+    - match: \b(?i:drop\s+column)\b
+      scope: keyword.other.ddl.sql
+      push: expect-column-name
+    - match: \b(?i:drop)\b(?!\s+{{ddl_target}})
+      scope: keyword.other.ddl.sql
+      push: expect-column-name
+
+  create-other-condition:
     - include: dml-condition
     - include: expect-other-creation-name
 
@@ -88,10 +235,70 @@ contexts:
         - ddl-target-on
         - single-identifier
 
+###[ DML STATEMENTS ]##########################################################
+
+  dml-statements:
+    - match: \b(?i:select)\b
+      scope: keyword.other.dml.sql
+    - match: \b(?i:union(?:\s+all)?)\b
+      scope: keyword.other.dml.sql
+    - match: \b(?i:(?:delete(?:\s+from)?))\b
+      scope: keyword.other.dml.sql
+      set: dml-delete
+    - match: \b(?i:update)\b
+      scope: keyword.other.dml.sql
+      push: dml-update
+    - match: \b(?i:(?:insert\s+into|truncate))\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - match: \b(?i:set)\b
+      scope: keyword.other.dml.sql
+      push: set
+    - match: \b(?i:(?:default\s+)?values)\b
+      scope: keyword.other.dml.II.sql
+    - include: distinct
+    - include: joins
+    - match: \b(?i:group\s+by|order\s+by|having|where)\b
+      scope: keyword.other.dml.sql
+    - match: \b(?i:from)\b
+      scope: keyword.other.dml.sql
+      push: table-name-or-subquery
+    - match: \b(?i:asc|desc)\b
+      scope: keyword.other.order.sql
+
+  dml-delete:
+    - include: expect-table-name
+
+  dml-update:
+    - include: expect-table-name
+
+  distinct:
+    - match: \b(?i:distinct)\b
+      scope: keyword.other.dml.sql
+
+  joins:
+    - match: (?i)\b(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join\b
+      scope: keyword.other.dml.sql
+      push:
+        - join-on
+        - table-name-or-subquery
+
+  join-on:
+    - match: (?i)\bon\b
+      scope: keyword.operator.join.sql
+      pop: 1
+    - include: else-pop
+
   dml-condition:
     - match: \b(?i:if)\b
       scope: keyword.control.flow.sql
     - include: logical-operators
+
+###[ OTHER STATEMENTS ]########################################################
+
+  other-statements:
+    - match: \b(?i:grant(?:\s+with\s+grant\s+option)?|revoke)\b
+      scope: keyword.other.authorization.sql
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -214,206 +421,6 @@ contexts:
       pop: 1
     - include: main
 
-  statements:
-    - include: ddl-statements
-    - include: dml-statements
-
-  ddl-statements:
-    - match: \b(?i:create\s+(?:temporary\s+)?table)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-create-target
-        - ddl-table-creation-columns
-        - create-table-condition
-    - match: \b(?i:create)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-create-target-expect-as
-        - ddl-create-target
-        - create-condition
-        - ddl-target
-    - match: \b(?i:drop\s+table)\b
-      scope: keyword.other.ddl.sql
-      push: ddl-drop-table
-    - match: \b(?i:drop)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-drop-target
-        - drop-condition
-        - ddl-target
-    - match: \b(?i:alter\s+table)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-alter-table
-        - expect-table-name
-    - match: \b(?i:alter)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-alter-target
-        - ddl-target
-    - match: \b(?i:grant(?:\swith\sgrant\soption)?|revoke)\b
-      scope: keyword.other.authorization.sql
-
-  ddl-create-target:
-    - meta_scope: meta.create.sql
-    - include: ddl-target-on
-
-  ddl-create-target-expect-as:
-    - match: \b(?i:as)\b
-      scope: keyword.context.block.sql
-      pop: 1
-    - match: \b(?i:returns)\b
-      scope: keyword.other.sql
-      push: expect-type
-    - match: (@){{simple_identifier}}
-      scope: variable.parameter.sql
-      push: expect-type
-    - include: expressions
-    - include: pop-on-top-level-reserved-word
-
-  ddl-target-on:
-    - match: \b(?i:on)\b
-      scope: keyword.other.sql
-      push: expect-table-name
-    - include: else-pop
-
-  ddl-table-creation-columns:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-ddl-table-creation-columns
-
-  ddl-drop-target:
-    - meta_include_prototype: false
-    - meta_scope: meta.drop.sql
-    - include: immediately-pop
-
-  ddl-target:
-    - match: '{{ddl_target}}'
-      scope: keyword.other.sql
-    - include: else-pop
-
-  ddl-drop-table:
-    - meta_scope: meta.drop.sql
-    - include: dml-condition
-    - include: expect-table-name
-
-  ddl-alter-table:
-    - meta_scope: meta.alter.sql
-    - include: ddl-alter-column
-    - include: ddl-alter-common
-    - include: expressions-or-column-name
-
-  ddl-alter-target:
-    - meta_scope: meta.alter.sql
-    - include: ddl-alter-common
-    - include: else-pop
-
-  ddl-alter-common:
-    - match: \b(?i:add\s+constraint)\b
-      scope: meta.add.sql keyword.other.sql
-      push:
-        - after-constraint-pop
-        - expect-constraint-name
-    - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
-      scope: meta.add.sql keyword.other.sql
-    #- include: types
-    - include: pop-on-top-level-reserved-word
-
-  ddl-alter-column:
-    - match: \b(?i:(?:add|alter)\s+column)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - expect-type
-        - expect-column-name-declaration
-    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}})
-      scope: keyword.other.ddl.sql
-      push:
-        - expect-type
-        - expect-column-name-declaration
-    - match: \b(?i:drop\s+column)\b
-      scope: keyword.other.ddl.sql
-      push: expect-column-name
-    - match: \b(?i:drop)\b(?!\s+{{ddl_target}})
-      scope: keyword.other.ddl.sql
-      push: expect-column-name
-
-  dml-statements:
-    - match: \b(?i:select)\b
-      scope: keyword.other.dml.sql
-    - match: \b(?i:union(?:\s+all)?)\b
-      scope: keyword.other.dml.sql
-    - match: \b(?i:(?:delete(?:\s+from)?))\b
-      scope: keyword.other.dml.sql
-      set: dml-delete
-    - match: \b(?i:update)\b
-      scope: keyword.other.dml.sql
-      push: dml-update
-    - match: \b(?i:(?:insert\s+into|truncate))\b
-      scope: keyword.other.dml.sql
-      push: expect-table-name
-    - match: \b(?i:set)\b
-      scope: keyword.other.dml.sql
-      push: set
-    - match: \b(?i:(?:default\s+)?values)\b
-      scope: keyword.other.dml.II.sql
-    - include: distinct
-    - include: joins
-    - match: \b(?i:group\s+by|order\s+by|having|where)\b
-      scope: keyword.other.dml.sql
-    - match: \b(?i:from)\b
-      scope: keyword.other.dml.sql
-      push: table-name-or-subquery
-    - match: \b(?i:asc|desc)\b
-      scope: keyword.other.order.sql
-
-  inside-ddl-table-creation-columns:
-    - meta_scope: meta.group.table-columns.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - match: \b(?i:constraint)\b
-      scope: storage.modifier.sql
-      push: expect-constraint-name
-    - include: after-constraint
-    - include: expressions
-    - include: ddl-creation-column
-
-  ddl-creation-column:
-    - match: (?=\S)
-      push:
-        - after-type
-        - expect-type
-        - column-name-declaration
-        - single-identifier
-
-  use-db:
-    - match: \b(?i:use)\b
-      scope: keyword.context.sql
-      push: expect-database-name
-
-  dml-delete:
-    - include: expect-table-name
-
-  dml-update:
-    - include: expect-table-name
-
-  distinct:
-    - match: \b(?i:distinct)\b
-      scope: keyword.other.dml.sql
-
-  joins:
-    - match: (?i)\b(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join\b
-      scope: keyword.other.dml.sql
-      push:
-        - join-on
-        - table-name-or-subquery
-
-  join-on:
-    - match: (?i)\bon\b
-      scope: keyword.operator.join.sql
-      pop: 1
-    - include: else-pop
-
   set:
     - include: else-pop
 
@@ -472,27 +479,19 @@ contexts:
       captures:
         1: keyword.other.sql
         2: meta.group.tablesample.sql punctuation.section.group.begin.sql
-      push: tablesample
+      push: inside-tablesample-group
     - include: else-pop
 
-  tablesample:
+  inside-tablesample-group:
     - meta_content_scope: meta.group.tablesample.sql
-    - match: \b(?i:rows|percent)\b
-      scope: constant.language.sql
     - match: (\))(?:\s*((?i:repeatable))\b)?
       captures:
         1: meta.group.tablesample.sql punctuation.section.group.end.sql
         2: constant.language.sql
-      pop: true
+      pop: 1
+    - match: \b(?i:rows|percent)\b
+      scope: constant.language.sql
     - include: expressions
-
-  declarations:
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.sql
-      push: inside-declaration
-
-  inside-declaration:
-    - include: immediately-pop
 
   after-constraint:
     - match: \b(?i:check)\b
