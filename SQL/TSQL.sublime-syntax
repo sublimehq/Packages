@@ -260,7 +260,7 @@ contexts:
       scope: keyword.other.sql
     - match: \b(?i:cursor)\b
       scope: support.type.tsql
-      set: cursor-declaration
+      push: cursor-declaration
     - match: \b(?i:when\s+(?:not\s+)?matched)\b
       scope: keyword.control.conditional.case.sql
       push: merge-condition
