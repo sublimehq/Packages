@@ -496,7 +496,7 @@ contexts:
   after-constraint:
     - match: \b(?i:check)\b
       scope: keyword.other.sql
-    - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|default))\b
+    - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\s+delete(\s+cascade)?|on\s+update(\s+cascade)?|default))\b
       scope: storage.modifier.sql
       push: maybe-column-reference
     - match: \b(?i:references)\b
