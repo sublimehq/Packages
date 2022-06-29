@@ -3413,6 +3413,38 @@ class MethodDelcarationTests {
 //                ^^^ variable.parameter.java
 //                    ^ punctuation.terminator.java
 
+  default void method() {}
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
+//^^^^^^^^ meta.function.modifier.java
+//        ^^^^^ meta.function.return-type.java
+//             ^^^^^^ meta.function.identifier.java
+//                   ^^ meta.function.parameters.java meta.group.java
+//                     ^ meta.function.java - meta.group - meta.block meta.block
+//                      ^^ meta.function.java meta.block.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^ storage.type.void.java
+//             ^^^^^^ entity.name.function.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
+//                      ^ punctuation.section.block.begin.java
+//                       ^ punctuation.section.block.end.java
+
+  default MyType method() {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
+//^^^^^^^^ meta.function.modifier.java
+//        ^^^^^^^ meta.function.return-type.java
+//               ^^^^^^ meta.function.identifier.java
+//                     ^^ meta.function.parameters.java meta.group.java
+//                       ^ meta.function.java - meta.group - meta.block meta.block
+//                        ^^ meta.function.java meta.block.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ storage.type.class.java
+//               ^^^^^^ entity.name.function.java
+//                     ^ punctuation.section.group.begin.java
+//                      ^ punctuation.section.group.end.java
+//                        ^ punctuation.section.block.begin.java
+//                         ^ punctuation.section.block.end.java
+
   static void method()
 //^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
 //^^^^^^^ meta.function.modifier.java
