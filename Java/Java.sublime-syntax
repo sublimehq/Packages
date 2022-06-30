@@ -40,7 +40,7 @@ variables:
     (?x: class | enum | @?interface | record | var | void | extends | implements | import | package )
   control_keywords: |-
     (?x: assert | break | case | catch | continue | do | else | finally | for
-    | if | return | switch | throw | throws | try | while )
+    | if | return | switch | throw | throws | try | while | yield )
   operator_keywords: |-
     (?x: new | instanceof )
   illegal_keywords: |-
@@ -131,8 +131,8 @@ contexts:
     - include: import
     - include: module
     - include: package
-    - include: statements
     - include: declarations
+    - include: statements
     - include: else-expressions
 
   statements:
@@ -653,8 +653,8 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - meta_scope: meta.class.java meta.block.java
     - include: block-end
-    - include: member-statements
     - include: member-declarations
+    - include: member-statements
     - include: else-expressions
 
 ###[ ENUM DECLARATIONS ]#######################################################
@@ -1135,14 +1135,14 @@ contexts:
   method-attributes:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
     - match: throws{{break}}
-      scope: keyword.declaration.throws.java
+      scope: storage.modifier.throws.java
       set:
         - method-throws-body
         - maybe-illegal-array-modifiers
         - expect-object-type
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
     - match: default{{break}}
-      scope: keyword.declaration.default.java
+      scope: storage.modifier.default.java
       set: method-default-body
     - include: else-pop
 
@@ -1764,8 +1764,8 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - meta_scope: meta.block.java
     - include: block-end
-    - include: statements
     - include: declarations
+    - include: statements
     - include: else-expressions
 
 ###[ GROUPS ]##################################################################

@@ -2274,7 +2274,7 @@ Bar             // comment
 //    ^^^^^^^^^^^^ entity.name.function.java
 //                ^ punctuation.section.group.begin.java
 //                 ^ punctuation.section.group.end.java
-//                   ^^^^^^^ keyword.declaration.default.java
+//                   ^^^^^^^ storage.modifier.default.java
 //                           ^^ constant.numeric
 
   boolean booleanValue() default true;
@@ -2288,7 +2288,7 @@ Bar             // comment
 //        ^^^^^^^^^^^^ entity.name.function.java
 //                    ^ punctuation.section.group.begin.java
 //                     ^ punctuation.section.group.end.java
-//                       ^^^^^^^ keyword.declaration.default.java
+//                       ^^^^^^^ storage.modifier.default.java
 //                               ^^^^ constant.language
 
   char charValue() default 'S';
@@ -2302,7 +2302,7 @@ Bar             // comment
 //     ^^^^^^^^^ entity.name.function.java
 //              ^ punctuation.section.group.begin.java
 //               ^ punctuation.section.group.end.java
-//                 ^^^^^^^ keyword.declaration.default.java
+//                 ^^^^^^^ storage.modifier.default.java
 //                         ^^^ string.quoted.single.java
 
   String value() default "Default value";
@@ -2316,7 +2316,7 @@ Bar             // comment
 //             ^ punctuation.section.group.end.java
 //               ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.default.java
 //                                      ^ - meta.function
-//               ^^^^^^^ keyword.declaration.default.java
+//               ^^^^^^^ storage.modifier.default.java
 //                       ^^^^^^^^^^^^^^^ string.quoted.double.java
 
   Class<?> classValue() default String.class;
@@ -2330,7 +2330,7 @@ Bar             // comment
 //         ^^^^^^^^^^ entity.name.function.java
 //                   ^ punctuation.section.group.begin.java
 //                    ^ punctuation.section.group.end.java
-//                      ^^^^^^^ keyword.declaration.default.java
+//                      ^^^^^^^ storage.modifier.default.java
 //                              ^^^^^^ storage.type.class.java
 //                                    ^ punctuation.accessor.dot.java
 //                                     ^^^^^ variable.language.class.java - storage.type.java
@@ -2348,7 +2348,7 @@ Bar             // comment
 //                   ^ punctuation.section.group.begin.java
 //                    ^ punctuation.section.group.end.java
 //                     ^^ storage.modifier.array.java
-//                        ^^^^^^^ keyword.declaration.default.java
+//                        ^^^^^^^ storage.modifier.default.java
 //                                ^ punctuation.section.braces.begin.java
 //                                 ^^^^^ string.quoted.double.java
 //                                      ^ punctuation.separator.comma.java
@@ -3413,6 +3413,38 @@ class MethodDelcarationTests {
 //                ^^^ variable.parameter.java
 //                    ^ punctuation.terminator.java
 
+  default void method() {}
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
+//^^^^^^^^ meta.function.modifier.java
+//        ^^^^^ meta.function.return-type.java
+//             ^^^^^^ meta.function.identifier.java
+//                   ^^ meta.function.parameters.java meta.group.java
+//                     ^ meta.function.java - meta.group - meta.block meta.block
+//                      ^^ meta.function.java meta.block.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^ storage.type.void.java
+//             ^^^^^^ entity.name.function.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
+//                      ^ punctuation.section.block.begin.java
+//                       ^ punctuation.section.block.end.java
+
+  default MyType method() {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
+//^^^^^^^^ meta.function.modifier.java
+//        ^^^^^^^ meta.function.return-type.java
+//               ^^^^^^ meta.function.identifier.java
+//                     ^^ meta.function.parameters.java meta.group.java
+//                       ^ meta.function.java - meta.group - meta.block meta.block
+//                        ^^ meta.function.java meta.block.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ storage.type.class.java
+//               ^^^^^^ entity.name.function.java
+//                     ^ punctuation.section.group.begin.java
+//                      ^ punctuation.section.group.end.java
+//                        ^ punctuation.section.block.begin.java
+//                         ^ punctuation.section.block.end.java
+
   static void method()
 //^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
 //^^^^^^^ meta.function.modifier.java
@@ -3627,7 +3659,7 @@ class MethodDelcarationTests {
 //                   ^^^^^^^^^^^^ entity.name.function.java
 //                               ^ punctuation.section.group.begin.java
 //                                ^ punctuation.section.group.end.java
-//                                  ^^^^^^ keyword.declaration.throws.java
+//                                  ^^^^^^ storage.modifier.throws.java
 //                                         ^^^^^^^^^^^ storage.type.class.java
 //                                                    ^ punctuation.definition.generic.begin.java
 //                                                     ^^^ storage.type.class.java
@@ -3673,7 +3705,7 @@ class MethodDelcarationTests {
 //                   ^^^^^^^^^^^^ entity.name.function.java
 //                               ^ punctuation.section.group.begin.java
 //                                ^ punctuation.section.group.end.java
-//                                  ^^^^^^ keyword.declaration.throws.java
+//                                  ^^^^^^ storage.modifier.throws.java
 //                                         ^^^ invalid.illegal.unexpected-keyword.java
 //                                             ^ punctuation.section.block.begin.java
 //                                              ^ punctuation.section.block.end.java
@@ -3694,7 +3726,7 @@ class MethodDelcarationTests {
 //                   ^^^^^^^^^^^^ entity.name.function.java
 //                               ^ punctuation.section.group.begin.java
 //                                ^ punctuation.section.group.end.java
-//                                  ^^^^^^ keyword.declaration.throws.java
+//                                  ^^^^^^ storage.modifier.throws.java
 //                                         ^^^^^ storage.type.class.java
 //                                              ^^ invalid.illegal.unexpected-modifier.java
 //                                                 ^ punctuation.section.block.begin.java
@@ -3717,7 +3749,7 @@ class MethodDelcarationTests {
 //                   ^^^^^^^^^^^^ entity.name.function.java
 //                               ^ punctuation.section.group.begin.java
 //                                ^ punctuation.section.group.end.java
-//                                  ^^^^^^ keyword.declaration.throws.java
+//                                  ^^^^^^ storage.modifier.throws.java
 //                                         ^^^^^^^^^^^ storage.type.class.java
 //                                                    ^ punctuation.definition.generic.begin.java
 //                                                     ^^^ storage.type.class.java
@@ -3746,7 +3778,7 @@ class MethodDelcarationTests {
 //                   ^^^^^^^^^^^^ entity.name.function.java
 //                               ^ punctuation.section.group.begin.java
 //                                ^ punctuation.section.group.end.java
-//                                  ^^^^^^ keyword.declaration.throws.java
+//                                  ^^^^^^ storage.modifier.throws.java
 //                                         ^^^^ variable.namespace.java
 //                                             ^ punctuation.accessor.dot.java
 //                                              ^^^^^^^^^^^ storage.type.class.java
@@ -4099,7 +4131,7 @@ class MethodDelcarationTests {
 //^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
 //^^ meta.function.java
 //  ^^^^^^^ meta.function.throws.java
-//  ^^^^^^ keyword.declaration.throws.java
+//  ^^^^^^ storage.modifier.throws.java
         Exception
 //^^^^^^^^^^^^^^^^ meta.function.throws.java - meta.function meta.function
 //      ^^^^^^^^^ storage.type.class.java
@@ -4145,7 +4177,7 @@ class MethodDelcarationTests {
 //                   ^ meta.function.parameters.java variable.parameter.java
 //                      ^ punctuation.section.group.end
       throws Exception {
-//    ^ meta.function.throws.java keyword.declaration.throws.java
+//    ^ meta.function.throws.java storage.modifier.throws.java
 //           ^ meta.function.throws.java storage.type.class.java
     return someMethod (new Function<V, V>() {
 //        ^ - meta.function-call
