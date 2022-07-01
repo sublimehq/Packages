@@ -133,14 +133,10 @@ contexts:
 
   expressions:
     - meta_append: true
+    - include: arrays
+    - include: dicts-or-sets
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.cql
-    - match: \{
-      scope: punctuation.section.braces.begin.cql
-      push: inside-dict-or-set
-    - match: \[
-      scope: punctuation.section.brackets.begin.cql
-      push: inside-array
     - match: \b((?i:with))\s+(\w+)?
       captures:
         1: keyword.other.cql
@@ -156,20 +152,32 @@ contexts:
       scope: support.function.scalar.cql
       push: function-call-arguments
 
+  arrays:
+    - match: \[
+      scope: punctuation.section.brackets.begin.cql
+      push: inside-array
+
   inside-array:
+    - meta_scope: meta.brackets.cql
     - match: \]
       scope: punctuation.section.brackets.end.cql
       pop: 1
     - include: expressions
 
+  dicts-or-sets:
+    - match: \{
+      scope: punctuation.section.braces.begin.cql
+      push: inside-dict-or-set
+
   inside-dict-or-set:
+    - meta_scope: meta.braces.cql
     - match: \}
       scope: punctuation.section.braces.end.cql
       pop: 1
     - match: ':'
       scope: punctuation.separator.key-value.cql
     - include: expressions
-    - match: \w+
+    - match: '{{simple_identifier}}'
       scope: meta.mapping.key.cql string.unquoted.cql
 
 ###[ TYPES ]###################################################################
