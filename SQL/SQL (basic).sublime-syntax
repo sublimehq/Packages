@@ -130,7 +130,7 @@ contexts:
     - match: \b(?i:constraint)\b
       scope: storage.modifier.sql
       push: expect-constraint-name
-    - include: after-constraint
+    - include: column-modifiers
     - include: expressions
     - include: ddl-creation-column
 
@@ -195,7 +195,7 @@ contexts:
     - match: \b(?i:add\s+constraint)\b
       scope: meta.add.sql keyword.other.sql
       push:
-        - after-constraint-pop
+        - maybe-column-modifier
         - expect-constraint-name
     - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
       scope: meta.add.sql keyword.other.sql
@@ -424,6 +424,8 @@ contexts:
   set:
     - include: else-pop
 
+###[ TABLE NAMES ]#############################################################
+
   table-name-or-subquery:
     - match: (?=\()
       set:
@@ -493,10 +495,21 @@ contexts:
       scope: constant.language.sql
     - include: expressions
 
-  after-constraint:
+###[ COLUMN MODIFIERS ]########################################################
+
+  maybe-column-modifier:
+    - include: column-modifiers
+    - include: else-pop
+
+  column-modifiers:
     - match: \b(?i:check)\b
       scope: keyword.other.sql
-    - match: \b(?i:(((?:foreign|fulltext|primary|unique)\s+)?key|on\s+delete(\s+cascade)?|on\s+update(\s+cascade)?|default))\b
+    - match: |-
+        \b(?xi:
+          (?: (?: foreign | fulltext | primary | unique ) \s+ )? key
+        | on \s+ (?: delete | update ) (?: \s+ cascade )?
+        | default
+        )\b
       scope: storage.modifier.sql
       push: maybe-column-reference
     - match: \b(?i:references)\b
@@ -504,10 +517,6 @@ contexts:
       push:
         - maybe-column-reference
         - expect-table-name
-
-  after-constraint-pop:
-    - include: after-constraint
-    - include: else-pop
 
   maybe-column-reference:
     - match: \(
