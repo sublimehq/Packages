@@ -3000,7 +3000,7 @@ contexts:
       fail: list-math-blocks
 
   list-math-inline-block-begin:
-    # Math blocks preceeded or followed by normal text are treated as inline raw
+    # Math blocks preceded or followed by normal text are treated as inline raw
     # code blocks, scoped `markup.math` excluding leading or trailing whitespace.
     - meta_include_prototype: false
     - match: \$\$
@@ -3066,7 +3066,7 @@ contexts:
       fail: math-blocks
 
   math-inline-block-begin:
-    # Math blocks preceeded or followed by normal text are treated as inline raw
+    # Math blocks preceded or followed by normal text are treated as inline raw
     # code blocks, scoped `markup.math` excluding leading or trailing whitespace.
     - meta_include_prototype: false
     - match: \$\$
@@ -3096,14 +3096,14 @@ contexts:
 
   math-inline:
     # Consume any remaining $$ to prevent deadlock
-    # (workaround for sublimehq/sublime_text/issues/5415)
+    # (workaround for https://github.com/sublimehq/sublime_text/issues/5415)
     - match: \$\$
     - match: |-
         (?x)
         # dollar sign not followed by whitespace
         (\$) (?=\S)
-        # arbritary number of chars, maybe escaped dollar sign, but no html tags
-        # terminated by non-whitespace, followed by dollar and non-word characther
+        # arbitrary number of chars, maybe escaped dollar sign, but no html tags
+        # terminated by non-whitespace, followed by dollar and non-word character
         (?= (?: \\\\ | \\\$ | (?!</?[A-Za-z]+[ \t]*/?>)[^\$] )*? \S\$\W )
       scope:
         markup.math.inline.markdown
