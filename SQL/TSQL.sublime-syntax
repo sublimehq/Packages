@@ -3,6 +3,7 @@
 name: T-SQL
 scope: source.sql.tsql
 version: 2
+
 extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:

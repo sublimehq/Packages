@@ -2,8 +2,8 @@
 ---
 name: SQL (Basic)
 scope: source.sql.basic
-hidden: true
 version: 2
+hidden: true
 
 variables:
   string_escape: (?:\\.)

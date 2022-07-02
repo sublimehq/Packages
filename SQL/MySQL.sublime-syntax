@@ -3,6 +3,7 @@
 name: MySQL
 scope: source.sql.mysql
 version: 2
+
 extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
