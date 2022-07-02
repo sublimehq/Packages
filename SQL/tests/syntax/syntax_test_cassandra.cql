@@ -100,11 +100,37 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
     permissions frozen<set<text>>,
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --  ^^^^^^^^^^^ meta.column-name
---              ^^^^^^^^^^^^^^^^^ storage.type
+--              ^^^^^^ - meta.generic
+--                    ^^^^ meta.generic.cql - meta.generic meta.generic
+--                        ^^^^^^ meta.generic.cql meta.generic.cql - meta.generic meta.generic meta.generic
+--                              ^ meta.generic.cql - meta.generic meta.generic
+--                               ^ - meta.generic
+--              ^^^^^^ storage.type
 --                    ^ punctuation.definition.generic.begin
+--                     ^^^ storage.type
 --                        ^ punctuation.definition.generic.begin
+--                         ^^^^ storage.type
 --                             ^^ punctuation.definition.generic.end
 --                               ^ punctuation.separator.sequence
+   storage tuple<map<text, set<my_type>>>,
+--         ^^^^^ - meta.generic
+--              ^^^^ meta.generic.cql - meta.generic meta.generic
+--                  ^^^^^^^^^^ meta.generic.cql meta.generic.cql - meta.generic meta.generic meta.generic
+--                            ^^^^^^^^^ meta.generic.cql meta.generic.cql meta.generic.cql
+--                                     ^ meta.generic.cql meta.generic.cql - meta.generic meta.generic meta.generic
+--                                      ^ meta.generic.cql - meta.generic meta.generic
+--                                       ^ - meta.generic
+--         ^^^^^ storage.type.cql
+--              ^ punctuation.definition.generic.begin.cql
+--               ^^^ storage.type.cql
+--                  ^ punctuation.definition.generic.begin.cql
+--                   ^^^^ storage.type.sql
+--                       ^ punctuation.separator.sequence.cql
+--                         ^^^ storage.type.cql
+--                            ^ punctuation.definition.generic.begin.cql
+--                             ^^^^^^^ support.type.sql
+--                                    ^^^ punctuation.definition.generic.end.cql
+--                                       ^ punctuation.separator.sequence.sql
     PRIMARY KEY(userid)
 --  ^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --  ^^^^^^^^^^^ storage.modifier

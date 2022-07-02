@@ -184,18 +184,32 @@ contexts:
 
   built-in-type:
     - meta_prepend: true
-    - match: \b(?i:set|frozen|map|tuple)(<)
+    # https://cassandra.apache.org/doc/latest/cassandra/cql/types.html#collections
+    - match: \b(?i:frozen|list|map|set|tuple)\b
       scope: storage.type.cql
-      captures:
-        1: punctuation.definition.generic.begin.cql
-      set:
-        - end-generic-type
-        - built-in-type
+      set: maybe-generic
 
-  end-generic-type:
+  maybe-generic:
+    - match: <
+      scope: punctuation.definition.generic.begin.cql
+      set:
+        - inside-generic
+        - expect-generic-type
+    - include: else-pop
+
+  inside-generic:
+    - meta_scope: meta.generic.cql
     - match: \>
-      scope: storage.type.cql punctuation.definition.generic.end.cql
+      scope: punctuation.definition.generic.end.cql
       pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+      push: expect-generic-type
+
+  expect-generic-type:
+    - match: (?=[,>])
+      pop: 1
+    - include: expect-type
 
 ###[ LITERALS ]################################################################
 
