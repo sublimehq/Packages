@@ -277,14 +277,14 @@ contexts:
       scope: keyword.other.dml.sql
 
   joins:
-    - match: (?i)\b(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join\b
+    - match: \b(?i:(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join)\b
       scope: keyword.other.dml.sql
       push:
         - join-on
         - table-name-or-subquery
 
   join-on:
-    - match: (?i)\bon\b
+    - match: \b(?i:on)\b
       scope: keyword.operator.join.sql
       pop: 1
     - include: else-pop

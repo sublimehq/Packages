@@ -118,7 +118,7 @@ contexts:
 
   joins:
     - meta_append: true
-    - match: (?i)\b(?:straight_join|natural)\b
+    - match: \b(?i:straight_join|natural)\b
       scope: keyword.other.dml.sql
 
 ###[ OTHER STATEMENTS ]########################################################

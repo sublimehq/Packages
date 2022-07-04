@@ -466,7 +466,7 @@ contexts:
     - include: else-pop
 
   merge-condition:
-    - match: \b(?i:\s+by\s+(?:source|target))\b
+    - match: \b(?i:by\s+(?:source|target))\b
       scope: keyword.other.tsql
     - match: \b(?i:then)\b
       scope: keyword.other.tsql
@@ -499,7 +499,7 @@ contexts:
 
   cursor-declaration:
     - meta_content_scope: meta.cursor-declaration.tsql
-    - match: (?i)\b(?:FORWARD_ONLY|SCROLL|STATIC|KEYSET|DYNAMIC|FAST_FORWARD|READ_ONLY|SCROLL_LOCKS|OPTIMISTIC|TYPE_WARNING)\b
+    - match: \b(?i:FORWARD_ONLY|SCROLL|STATIC|KEYSET|DYNAMIC|FAST_FORWARD|READ_ONLY|SCROLL_LOCKS|OPTIMISTIC|TYPE_WARNING)\b
       scope: storage.modifier.tsql
     - match: \b(?i:for)\b
       scope: keyword.other.tsql
@@ -526,7 +526,7 @@ contexts:
 
   after-cursor-select-statement-for:
     - meta_scope: meta.cursor-declaration.tsql
-    - match: (?i)\b(?:READ\s+ONLY|UPDATE(?:\s+OF)?)\b
+    - match: \b(?i:READ\s+ONLY|UPDATE(?:\s+OF)?)\b
       scope: storage.modifier.tsql
       pop: 1
     - include: else-pop
