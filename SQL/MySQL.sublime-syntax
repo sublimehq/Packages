@@ -8,19 +8,13 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   simple_types: |-
-    (?xi:
-      \b
-      (?:bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|integer|
-        line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext
-      )
-      \b
-    )
+    (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
+    | date | datetime | double\s+precision | enum | inet | integer | line
+    | longtext | lseg | macaddr | money | ntext | oid | path | point | polygon
+    | real | serial | smallint | sysdate | sysname | text | tinytext )
   types_with_optional_number: |-
-    (?xi:
-      \b
-      (?:bit\s+varying|character\s+(?:varying)?|tinyint|var\schar|float|int|interval|numeric|decimal|times?|timestamp(?:s|tz)?)
-      \b
-    )
+    (?xi: bit\s+varying | character\s+(?:varying)? | tinyint | var\s+char | float
+    | int | interval | numeric | decimal | times? | timestamp(?:s | tz)? )
 
 contexts:
   sql:

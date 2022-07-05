@@ -9,26 +9,29 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   string_escape: (?:'')
   simple_identifier_break: (?![\w#@])
-  additional_reserved: \b(?i:if|while|declare|with|for|begin|end|else|print|use|raiserror|merge|backup|exec|go|bulk|insert|on|when)\b
-  enclosed_type_begin: (?:\[)
-  enclosed_type_end: (?:\])
+
+  additional_reserved: |-
+    (?xi: backup | begin | bulk | declare | else | end | exec | for | go | if
+    | insert | merge | on | print | raiserror | use | when | while | with )
+
   identifier_for_lookahead: |-
     (?x:
       (?:(?:\b\w+|\[[^]]+\])\.)*
       (?:\b\w+|\[[^]]+\])
     )
 
+  # types
+
+  enclosed_type_begin: \[
+  enclosed_type_end: \]
+
   simple_types: |-
-    \b(?xi:
-      (?: bigint | bit | float | int | real | smallint | tinyint )
-    | (?: date | datetime | datetime2 | datetimeoffset | smalldatetime | time )
-    | (?: geometry | hierarchyid | image | n?text | rowversion | sql_variant | sysname | uniqueidentifier | xml )
-    )\b
+    (?xi: bigint | bit | float | int | real | smallint | tinyint
+    | date | datetime | datetime2 | datetimeoffset | smalldatetime | time
+    | geometry | hierarchyid | image | n?text | rowversion | sql_variant
+    | sysname | uniqueidentifier | xml )
   types_with_optional_number: |-
-    \b(?xi:
-      (?: n?char | n?varchar | binary | varbinary )
-    | (?: decimal | money | numeric )
-    )\b
+    (?xi: n?char | n?varchar | binary | varbinary | decimal | money | numeric )
 
 contexts:
 
@@ -673,12 +676,15 @@ contexts:
     - include: with-table-options
 
   table-hints-without-with:
+    # https://docs.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table?view=sql-server-ver15#arguments
     - match: |-
         (?xi)
-        (\()\s*
-        (NOLOCK|READUNCOMMITTED|UPDLOCK|REPEATABLEREAD|SERIALIZABLE|READCOMMITTED|TABLOCK|TABLOCKX|PAGLOCK|ROWLOCK|NOWAIT|READPAST|XLOCK|SNAPSHOT|NOEXPAND)
-        \s*(\))
-      scope: meta.group.tsql invalid.deprecated.table-hint-without-with.tsql # https://docs.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table?view=sql-server-ver15#arguments
+        (\() \s*
+        ( NOLOCK | READUNCOMMITTED | UPDLOCK | REPEATABLEREAD | SERIALIZABLE
+        | READCOMMITTED | TABLOCK | TABLOCKX | PAGLOCK | ROWLOCK | NOWAIT
+        | READPAST | XLOCK | SNAPSHOT | NOEXPAND )
+        \s* (\))
+      scope: meta.group.tsql invalid.deprecated.table-hint-without-with.tsql
       captures:
         1: punctuation.section.group.begin.tsql
         2: constant.language.table-hint.tsql

@@ -9,17 +9,23 @@ variables:
   string_escape: (?:\\.)
   simple_identifier: (?:\w+)
   simple_identifier_break: (?!\w)
-  reserved: (?:;|\b(?i:from|order|group|select|where|inner|outer|left|right|join|on|set|union|insert|delete|update|truncate|create|alter|drop|return)\b)
+
+  reserved: |-
+    (?xi: alter | create | delete | drop | from | group | inner | insert
+    | join | left | on | order | outer | return | right | select | set
+    | truncate | union | update | where )
   additional_reserved: (?!)
-  simple_types: (?i:\b(?:bit|bool|boolean|datetime|int)\b)
-  types_with_optional_number: (?i:\b(?:n?char|number|n?varchar|varbinary)\b)
+
   ddl_target: |-
-    \b(?xi:
-      aggregate | constraint | conversion | database | domain | function | group
-    | (?:(?:fulltext | spatial | unique)\s+)?index | language | operator class
-    | operator | procedure | rule | schema | sequence | table(?:space)?
-    | trigger | type | user | view
-    )\b
+    (?xi: aggregate | constraint | conversion | database | domain | function
+    | group | (?: (?: fulltext | spatial | unique ) \s+ )?index | language
+    | operator\s+class | operator | procedure | rule | schema | sequence
+    | table(?:space)? | trigger | type | user | view )
+
+  simple_types: |-
+    (?xi: bit | bool | boolean | datetime | int )
+  types_with_optional_number: |-
+    (?xi: number | n?(?:var)?char | varbinary )
 
 contexts:
   prototype:
@@ -170,7 +176,7 @@ contexts:
     - include: immediately-pop
 
   ddl-target:
-    - match: '{{ddl_target}}'
+    - match: \b{{ddl_target}}\b
       scope: keyword.other.sql
     - include: else-pop
 
@@ -207,7 +213,7 @@ contexts:
       push:
         - expect-type
         - expect-column-name-declaration
-    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}})
+    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}}\b)
       scope: keyword.other.ddl.sql
       push:
         - expect-type
@@ -215,7 +221,7 @@ contexts:
     - match: \b(?i:drop\s+column)\b
       scope: keyword.other.ddl.sql
       push: expect-column-name
-    - match: \b(?i:drop)\b(?!\s+{{ddl_target}})
+    - match: \b(?i:drop)\b(?!\s+{{ddl_target}}\b)
       scope: keyword.other.ddl.sql
       push: expect-column-name
 
@@ -540,12 +546,12 @@ contexts:
     - include: expect-user-type
 
   built-in-type:
-    - match: '{{simple_types}}'
+    - match: \b{{simple_types}}\b
       scope: storage.type.sql
       pop: 1
     - match: |-
         (?xi)
-        {{types_with_optional_number}}
+        \b{{types_with_optional_number}}\b
         (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
       scope: storage.type.sql
       captures:
@@ -867,7 +873,5 @@ contexts:
       pop: 1
 
   pop-on-top-level-reserved-word:
-    - match: (?={{reserved}}|{{additional_reserved}})
-      pop: 1
-    - match: (?=\))
+    - match: (?=[;)]|\b(?:{{reserved}}|{{additional_reserved}})\b)
       pop: 1

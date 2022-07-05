@@ -11,29 +11,20 @@ file_extensions:
 
 variables:
   simple_types: |-
-    (?xi:
-      \b
-      (?:smallint|integer|bigint|real|double\s+precision|smallserial|serial|bigserial|
-        money|
-        bytea|
-        times?|timestamp(?:s|tz)?|date|interval|
-        int4range|int8range|numrange|tsrange|tstzrange|daterange|
-        boolean|
-        point|line|lseg|box|path|polygon|circle|
-        cidr|inet|macaddr|macaddr8|
-        tsvector|tsquery|
-        uuid|
-        xml|jsonb?|text)
-      \b
-    )
+    (?xi: smallint | integer | bigint | real | double\s+precision
+    | smallserial | serial | bigserial
+    | money
+    | bytea
+    | boolean
+    | times? | timestamp(?:s | tz)? | date | interval
+    | int4range | int8range | numrange | tsrange | tstzrange | daterange
+    | point | line | lseg | box | path | polygon | circle
+    | cidr | inet | macaddr | macaddr8
+    | tsvector | tsquery
+    | uuid
+    | text | xml | jsonb? )
   types_with_optional_number: |-
-    (?xi:
-      \b
-      (?:decimal|numeric|
-        character\s+varying|varchar|character|char|
-        bit|bit\s+varying)
-      \b
-    )
+    (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
 
 contexts:
 
