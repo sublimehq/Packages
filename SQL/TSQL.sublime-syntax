@@ -308,7 +308,7 @@ contexts:
       scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
       pop: 1
     - match: ','
-      scope: punctuation.separator.argument.sql
+      scope: punctuation.separator.arguments.sql
     - include: expressions-or-column-name
 
   set:
@@ -428,11 +428,10 @@ contexts:
       push: expect-table-name
     - match: '{{simple_identifier}}'
       scope: constant.language.with.tsql
-    - match: ','
-      scope: punctuation.separator.sequence.tsql
     - match: '='
       scope: keyword.operator.assignment.tsql
       push: with-assignment
+    - include: comma-separators
 
   with-assignment:
     - include: with-bool-assignment
@@ -558,8 +557,7 @@ contexts:
     - match: \)
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
-    - match: ','
-      scope: punctuation.separator.sequence.tsql
+    - include: comma-separators
     - include: literals-and-variables
     - include: ddl-table-creation-columns
     - include: expect-index-names

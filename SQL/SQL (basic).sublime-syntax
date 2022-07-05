@@ -30,8 +30,7 @@ contexts:
 
   sql:
     - include: statements
-    - match: ';'
-      scope: punctuation.terminator.statement.sql
+    - include: statement-terminators
     - include: expressions-or-column-name
 
   statements:
@@ -314,12 +313,10 @@ contexts:
     - include: literals-and-variables
     - include: operators
     - include: function-calls
-    #- include: types
+    - include: comma-separators
     - include: groups
     - match: \)
       scope: invalid.illegal.trailing-paren.sql
-    - match: ','
-      scope: punctuation.separator.sequence.sql
     - match: (?=;)
       pop: 1
 
@@ -396,7 +393,7 @@ contexts:
       scope: meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
       pop: 1
     - match: ','
-      scope: punctuation.separator.argument.sql
+      scope: punctuation.separator.arguments.sql
     - include: distinct
     - include: expressions-or-column-name
 
@@ -850,6 +847,14 @@ contexts:
   logical-operators:
     - match: \b(?i:and|or|having|exists|between|in|not|is)\b
       scope: keyword.operator.logical.sql
+
+  comma-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+
+  statement-terminators:
+    - match: ';'
+      scope: punctuation.terminator.statement.sql
 
 ###[ PROTOTYPES ]##############################################################
 

@@ -226,7 +226,7 @@ SELECT @fileDate = CONVERT(VARCHAR(20),GETDATE(),112)
 --                                     ^^^^^^^ support.function.scalar
 --                                            ^ punctuation.section.arguments.begin
 --                                             ^ punctuation.section.arguments.end
---                                              ^ punctuation.separator.argument
+--                                              ^ punctuation.separator.arguments
 --                                               ^^^ meta.number.integer.decimal constant.numeric.value
 --                                                  ^ punctuation.section.arguments.end
 --                                                   ^ - meta.function-call - meta.group
@@ -1300,7 +1300,7 @@ CREATE TABLE [dbo].[table_with_constraint_following_derived_column](
 --                           ^^^^^^^^^^ support.function
 --                                     ^ punctuation.section.arguments.begin
 --                                      ^^^^^^ meta.group meta.function-call meta.group meta.column-name
---                                            ^ meta.group meta.function-call meta.group punctuation.separator.argument
+--                                            ^ meta.group meta.function-call meta.group punctuation.separator.arguments
 --                                              ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --                                                                       ^ punctuation.section.arguments.end
 --                                                                         ^^ keyword.operator.assignment
@@ -1424,9 +1424,9 @@ OUTER APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID, 123, 'testing123'
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.table-valued-function-name
 --                                            ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                                             ^^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
---                                                           ^ meta.function-call meta.group punctuation.separator.argument
+--                                                           ^ meta.function-call meta.group punctuation.separator.arguments
 --                                                             ^^^ meta.function-call meta.group meta.number.integer.decimal constant.numeric.value
---                                                                ^ meta.function-call meta.group punctuation.separator.argument
+--                                                                ^ meta.function-call meta.group punctuation.separator.arguments
 --                                                                  ^^^^^^^^^^^^ meta.function-call meta.group string.quoted.single
 --                                                                              ^ meta.function-call meta.group punctuation.section.arguments.end
 GO
