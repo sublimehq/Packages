@@ -204,7 +204,6 @@ contexts:
         - expect-constraint-name
     - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
       scope: meta.add.sql keyword.other.sql
-    #- include: types
     - include: pop-on-top-level-reserved-word
 
   ddl-alter-column:

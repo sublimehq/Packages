@@ -70,9 +70,8 @@ contexts:
         - ddl-target
 
   ddl-alter-target:
-    - meta_prepend: true
-    #- match: \b(?i:proc|procedure|function)\b
-    #  scope: keyword.other.sql
+    - meta_scope: meta.alter.sql
+    - include: ddl-alter-common
     - match: (?=\S)
       set:
         - ddl-create-target-expect-as
