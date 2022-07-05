@@ -405,11 +405,6 @@ contexts:
         1: keyword.other.tsql
         2: meta.group.tsql punctuation.section.group.begin.tsql
       push: expressions-or-unknown
-    - match: \b((?i:OPTIMIZE\s+FOR))\s*(\()
-      captures:
-        1: keyword.other.tsql
-        2: meta.group.tsql punctuation.section.group.begin.tsql
-      push: expressions-or-unknown
     - match: \b((?i:INDEX|FORCESEEK))\s*(\()
       captures:
         1: keyword.other.tsql
