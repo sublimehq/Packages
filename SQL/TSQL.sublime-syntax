@@ -351,7 +351,7 @@ contexts:
 
   table-name-fail-if-function-cal:
     - meta_prepend: true
-    - include: table-hint-without-with
+    - include: table-hints-without-with
 
   maybe-table-alias:
     - meta_prepend: true
@@ -359,13 +359,13 @@ contexts:
     - match: (?=\b(?i:unpivot|pivot)\b)
       pop: 1
 
-  after-table-alias:
+  maybe-table-sample:
     - meta_prepend: true
     - include: groups # column-alias-list
-    - include: table-hint-without-with
+    - include: table-hints-without-with
     - include: with
 
-  table-hint-without-with:
+  table-hints-without-with:
     - match: |-
         (?xi)
         (\()\s*

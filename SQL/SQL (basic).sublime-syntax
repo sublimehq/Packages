@@ -472,28 +472,38 @@ contexts:
       scope: keyword.operator.assignment.alias.sql
     - match: (?=\S)
       set:
-        - after-table-alias
+        - maybe-table-sample
         - table-alias-name
         - single-identifier
 
-  after-table-alias:
-    - match: \b(?i:(TABLESAMPLE(?:\s+SYSTEM)?))\s*(\()
-      captures:
-        1: keyword.other.sql
-        2: meta.group.tablesample.sql punctuation.section.group.begin.sql
-      push: inside-tablesample-group
+  maybe-table-sample:
+    - match: \b(?i:tablesample(?:\s+system)?)\b
+      scope: keyword.other.sql
+      push:
+        - after-tablesample-group
+        - maybe-table-sample-group
+    - include: else-pop
+
+  maybe-table-sample-group:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-tablesample-group
     - include: else-pop
 
   inside-tablesample-group:
-    - meta_content_scope: meta.group.tablesample.sql
-    - match: (\))(?:\s*((?i:repeatable))\b)?
-      captures:
-        1: meta.group.tablesample.sql punctuation.section.group.end.sql
-        2: constant.language.sql
+    - meta_scope: meta.group.tablesample.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
       pop: 1
     - match: \b(?i:rows|percent)\b
       scope: constant.language.sql
     - include: expressions
+
+  after-tablesample-group:
+    - match: \b(?i:repeatable)\b
+      scope: constant.language.sql
+      pop: 1
+    - include: else-pop
 
 ###[ COLUMN MODIFIERS ]########################################################
 
