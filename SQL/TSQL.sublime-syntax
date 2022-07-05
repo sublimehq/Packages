@@ -401,64 +401,7 @@ contexts:
     - include: operators
     - include: else-pop
 
-  table-name-or-subquery:
-    - meta_prepend: true
-    - match: \b(?i:OPENXML)\b
-      scope: meta.table-valued-function-name.sql support.function.tsql
-      push:
-        - maybe-with-column-definition
-        - function-call-arguments
-    - match: \b(?i:(OPENROWSET))\s*(\()
-      scope: meta.function-call.tsql
-      captures:
-        1: meta.table-valued-function-name.sql support.function.tsql
-        2: punctuation.section.arguments.begin.tsql
-      set: inside-openrowset-call
-
-  inside-openrowset-call:
-    - meta_content_scope: meta.group.sql
-    - match: \)
-      scope: meta.function-call.tsql meta.group.tsql punctuation.section.arguments.end.sql
-      set: maybe-table-alias
-    - match: ';'
-      scope: punctuation.separator.sequence.tsql
-    - include: inside-function-call-arguments
-
-  table-name-fail-if-function-cal:
-    - meta_prepend: true
-    - include: table-hints-without-with
-
-  maybe-table-alias:
-    - meta_prepend: true
-    - include: with-table-options
-    - match: (?=\b(?i:unpivot|pivot)\b)
-      pop: 1
-
-  maybe-table-sample:
-    - meta_prepend: true
-    - include: groups # column-alias-list
-    - include: table-hints-without-with
-    - include: with-table-options
-
-  table-hints-without-with:
-    - match: |-
-        (?xi)
-        (\()\s*
-        (NOLOCK|READUNCOMMITTED|UPDLOCK|REPEATABLEREAD|SERIALIZABLE|READCOMMITTED|TABLOCK|TABLOCKX|PAGLOCK|ROWLOCK|NOWAIT|READPAST|XLOCK|SNAPSHOT|NOEXPAND)
-        \s*(\))
-      scope: meta.group.tsql invalid.deprecated.table-hint-without-with.tsql # https://docs.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table?view=sql-server-ver15#arguments
-      captures:
-        1: punctuation.section.group.begin.tsql
-        2: constant.language.table-hint.tsql
-        3: punctuation.section.group.end.tsql
-
 ###[ WITH EXPRESSIONS ]########################################################
-
-  maybe-with-column-definition:
-    - match: \b(?i:with)\b
-      scope: keyword.other.tsql
-      set: ddl-table-creation-columns
-    - include: else-pop
 
   maybe-with-table-options:
     - include: with-table-options
@@ -685,6 +628,65 @@ contexts:
         3: punctuation.definition.string.end.sql
       pop: 1
     - include: like-else-fail
+
+###[ TABLE NAMES ]#############################################################
+
+  table-name-or-subquery:
+    - meta_prepend: true
+    - match: \b(?i:OPENXML)\b
+      scope: meta.table-valued-function-name.sql support.function.tsql
+      push:
+        - maybe-with-column-definition
+        - function-call-arguments
+    - match: \b(?i:(OPENROWSET))\s*(\()
+      scope: meta.function-call.tsql
+      captures:
+        1: meta.table-valued-function-name.sql support.function.tsql
+        2: punctuation.section.arguments.begin.tsql
+      set: inside-openrowset-call
+
+  inside-openrowset-call:
+    - meta_content_scope: meta.group.sql
+    - match: \)
+      scope: meta.function-call.tsql meta.group.tsql punctuation.section.arguments.end.sql
+      set: maybe-table-alias
+    - match: ';'
+      scope: punctuation.separator.sequence.tsql
+    - include: inside-function-call-arguments
+
+  table-name-fail-if-function-cal:
+    - meta_prepend: true
+    - include: table-hints-without-with
+
+  maybe-table-alias:
+    - meta_prepend: true
+    - include: with-table-options
+    - match: (?=\b(?i:unpivot|pivot)\b)
+      pop: 1
+
+  maybe-table-sample:
+    - meta_prepend: true
+    - include: groups # column-alias-list
+    - include: table-hints-without-with
+    - include: with-table-options
+
+  table-hints-without-with:
+    - match: |-
+        (?xi)
+        (\()\s*
+        (NOLOCK|READUNCOMMITTED|UPDLOCK|REPEATABLEREAD|SERIALIZABLE|READCOMMITTED|TABLOCK|TABLOCKX|PAGLOCK|ROWLOCK|NOWAIT|READPAST|XLOCK|SNAPSHOT|NOEXPAND)
+        \s*(\))
+      scope: meta.group.tsql invalid.deprecated.table-hint-without-with.tsql # https://docs.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table?view=sql-server-ver15#arguments
+      captures:
+        1: punctuation.section.group.begin.tsql
+        2: constant.language.table-hint.tsql
+        3: punctuation.section.group.end.tsql
+
+  maybe-with-column-definition:
+    - match: \b(?i:with)\b
+      scope: keyword.other.tsql
+      set: ddl-table-creation-columns
+    - include: else-pop
 
 ###[ TYPES ]###################################################################
 
