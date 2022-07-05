@@ -97,7 +97,7 @@ contexts:
 
   inside-ddl-table-creation-columns:
     - meta_prepend: true
-    - match: \b(?i:ROWGUIDCOL|CLUSTERED|NONCLUSTERED)\b
+    - match: \b(?i:rowguidcol|clustered|nonclustered)\b
       scope: storage.modifier.tsql
     - match: \b(?i:period\s+for\s+system_time)\b
       scope: storage.modifier.tsql
@@ -289,10 +289,10 @@ contexts:
 
   built-in-scalar-function-calls:
     - meta_append: true
-    - match: \b(?i:CAST)\b
+    - match: \b(?i:cast)\b
       scope: support.function.tsql
       push: cast-arguments
-    - match: \b((?i:CONVERT))\s*(\()
+    - match: \b((?i:convert))\s*(\()
       scope: meta.function-call.sql
       captures:
          1: support.function.scalar.sql
@@ -300,7 +300,7 @@ contexts:
       push:
         - inside-convert-arguments
         - expect-type
-    - match: \b(?i:GETDATE)(?=\s*\()
+    - match: \b(?i:getdate)(?=\s*\()
       scope: support.function.scalar.sql
       push: function-call-arguments
 
@@ -372,7 +372,7 @@ contexts:
 
   after-cursor-select-statement:
     - meta_scope: meta.cursor-declaration.tsql
-    - match: \b(?i:READ\s+ONLY|UPDATE(?:\s+OF)?)\b
+    - match: \b(?i:read\s+only|update(?:\s+of)?)\b
       scope: storage.modifier.tsql
       pop: 1
     - include: else-pop
@@ -433,29 +433,29 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
       set: maybe-filegroup
-    - match: \b(?i:OPTIMIZE\s+FOR\s+UNKNOWN)\b
+    - match: \b(?i:optimize\s+for\s+unknown)\b
       scope: keyword.other.tsql
-    - match: \b((?i:OPTIMIZE\s+FOR))\s*(\()
+    - match: \b((?i:optimize\s+for))\s*(\()
       captures:
         1: keyword.other.tsql
         2: meta.group.tsql punctuation.section.group.begin.tsql
       push: inside-optimize-for-group
-    - match: \b((?i:INDEX|FORCESEEK))\s*(\()
+    - match: \b((?i:index|forceseek))\s*(\()
       captures:
         1: keyword.other.tsql
         2: meta.group.tsql punctuation.section.group.begin.tsql
       push: inside-index-names-group
-    - match: \b((?i:INDEX))\s*(=)
+    - match: \b((?i:index))\s*(=)
       captures:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
       push: expect-index-name
-    - match: \b((?i:SYSTEM_VERSIONING))\s*(=)
+    - match: \b((?i:system_versioning))\s*(=)
       captures:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
       push: with-group-assignment
-    - match: \b((?i:HISTORY_TABLE))\s*(=)
+    - match: \b((?i:history_table))\s*(=)
       captures:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
@@ -468,7 +468,7 @@ contexts:
     - include: comma-separators
 
   maybe-filegroup:
-    - match: \b(?i:ON)\b(?!\s*{{identifier_for_lookahead}}\s*=)
+    - match: \b(?i:on)\b(?!\s*{{identifier_for_lookahead}}\s*=)
       scope: keyword.other.tsql
       set: expect-filegroup-name
     - include: else-pop
@@ -504,7 +504,7 @@ contexts:
     - include: expressions
 
   with-booleans:
-    - match: \b(?i:ON|OFF)\b
+    - match: \b(?i:on|off)\b
       scope: constant.language.bool.tsql
 
 ###[ LIKE EXPRESSIONS ]########################################################
@@ -638,12 +638,12 @@ contexts:
 
   table-name-or-subquery:
     - meta_prepend: true
-    - match: \b(?i:OPENXML)\b
+    - match: \b(?i:openxml)\b
       scope: meta.table-valued-function-name.sql support.function.tsql
       push:
         - maybe-with-column-definition
         - function-call-arguments
-    - match: \b(?i:(OPENROWSET))\s*(\()
+    - match: \b(?i:(openrowset))\s*(\()
       scope: meta.function-call.tsql
       captures:
         1: meta.table-valued-function-name.sql support.function.tsql
@@ -680,9 +680,9 @@ contexts:
     - match: |-
         (?xi)
         (\() \s*
-        ( NOLOCK | READUNCOMMITTED | UPDLOCK | REPEATABLEREAD | SERIALIZABLE
-        | READCOMMITTED | TABLOCK | TABLOCKX | PAGLOCK | ROWLOCK | NOWAIT
-        | READPAST | XLOCK | SNAPSHOT | NOEXPAND )
+        ( nolock | readuncommitted | updlock | repeatableread | serializable
+        | readcommitted | tablock | tablockx | paglock | rowlock | nowait
+        | readpast | xlock | snapshot | noexpand )
         \s* (\))
       scope: meta.group.tsql invalid.deprecated.table-hint-without-with.tsql
       captures:
@@ -726,7 +726,7 @@ contexts:
         {{enclosed_type_begin}}
         {{types_with_optional_number}}
         {{enclosed_type_end}}
-        (?:\s*\(\s*(?:(\d+)|(MAX))\s*(?:(,)\s*(\d+))?\))?
+        (?:\s*\(\s*(?:(\d+)|(max))\s*(?:(,)\s*(\d+))?\))?
       scope: storage.type.sql
       captures:
         1: constant.numeric.sql
@@ -748,9 +748,9 @@ contexts:
 
   after-type:
     - meta_prepend: true
-    - match: \b(?i:GENERATED\s+ALWAYS\s+AS\s+ROW\s+(?:START|END)(?:\s+HIDDEN)?)\b
+    - match: \b(?i:generated\s+always\s+as\s+row\s+(?:start|end)(?:\s+hidden)?)\b
       scope: keyword.other.tsql
-    - match: \b(?i:ENCRYPTED\s+WITH)\b
+    - match: \b(?i:encrypted\s+with)\b
       scope: storage.modifier.tsql
       set:
         - maybe-table-alias

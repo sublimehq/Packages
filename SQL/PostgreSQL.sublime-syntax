@@ -69,7 +69,7 @@ contexts:
 
   ddl-create-target-expect-as:
     - meta_prepend: true
-    - match: \b(?i:FOR\s+EACH\s+ROW\s+EXECUTE\s+PROCEDURE)\b
+    - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
       scope: keyword.other.psql
     - match: \b(?i:schema)\b
       scope: storage.modifier.psql
