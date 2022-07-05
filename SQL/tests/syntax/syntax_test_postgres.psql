@@ -295,7 +295,7 @@ DECLARE
 --                 ^ punctuation.section.brackets.end
 --                  ^ punctuation.terminator.statement
 BEGIN
--- ^^ keyword.other.LUW
+-- ^^ keyword.other.luw
     FOR I IN array_lower(vals, 1)..array_upper(vals, 1) LOOP
         output[I] := compute_result(vals[I], something, something_else);
     END LOOP;
