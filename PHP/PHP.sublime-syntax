@@ -68,7 +68,6 @@ contexts:
 
   cdata-content:
     - meta_prepend: true
-    - meta_include_prototype: false
     - include: php-interpolations
 
   script-javascript-content:

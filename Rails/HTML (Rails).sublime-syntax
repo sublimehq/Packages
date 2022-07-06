@@ -20,11 +20,7 @@ contexts:
     - meta_prepend: true
     - include: rails-embedded
 
-  strings-common-content:
-    - meta_prepend: true
-    - include: rails-interpolations
-
-  tag-attribute-value-content:
+  cdata-content:
     - meta_prepend: true
     - include: rails-interpolations
 
@@ -111,6 +107,14 @@ contexts:
         0: meta.string.html string.quoted.single.html
            punctuation.definition.string.end.html
     - include: else-pop
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: rails-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: rails-interpolations
 
 ###[ EMBEDDED RUBY ]##########################################################
 

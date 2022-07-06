@@ -1292,6 +1292,14 @@ test = "hello%>
 '           ^ comment
 
 '<- - comment - source.asp.embedded.html
+
+<![CDATA[Text with <%= vbscript %> interpolation.]]>
+'        ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+'                  ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.interpolation.html - string
+'                                 ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+'                  ^^^ punctuation.section.embedded.begin.asp
+'                               ^^ punctuation.section.embedded.end.asp
+
  </body>
 '^^^^^^^ meta.tag.structure.any.html
 <script type="text/javascript">

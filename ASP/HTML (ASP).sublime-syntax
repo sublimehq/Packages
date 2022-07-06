@@ -30,6 +30,10 @@ contexts:
     - meta_prepend: true
     - include: asp-tags
 
+  cdata-content:
+    - meta_prepend: true
+    - include: asp-interpolations
+
   tag-attribute-value-content:
     - meta_prepend: true
     - include: asp-interpolations
