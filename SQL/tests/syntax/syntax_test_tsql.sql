@@ -1128,6 +1128,7 @@ GO
 
 CREATE TABLE dbo.T1
 (
+-- <- meta.group.table-columns punctuation.section.group.begin
     column_1 AS 'Computed column ' + column_2,
 --  ^^^^^^^^ meta.column-name
 --           ^^ keyword.other
@@ -1154,8 +1155,24 @@ CREATE TABLE dbo.T1
 --  ^^^^^^^^ meta.column-name
 --          ^ - meta.column-name
 --           ^^^^^^^^^^ storage.type
-    column_4 varchar(40) NULL
+    column_4 varchar(40) NULL,
+-- ^ - meta.column-name
+--  ^^^^^^^^ meta.column-name
+--          ^ - meta.column-name
+--           ^^^^^^^^^^^ storage.type
+--                       ^^^^ constant.language.null
+--                           ^ punctuation.separator.sequence
+    column_5 as 'last computed' + column_2
+-- ^ - meta.column-name
+--  ^^^^^^^^ meta.column-name
+--          ^^^ - meta.column-name - meta.computed-column-definition
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.computed-column-definition
+--           ^^ keyword.other.tsql
+--              ^^^^^^^^^^^^^^^ string.quoted.single
+--                              ^ keyword.operator.arithmetic
+--                                ^^^^^^^^ meta.column-name.sql
 );
+-- <- meta.group.table-columns punctuation.section.group.end
 INSERT INTO T1 DEFAULT VALUES;
 -- ^^^^^^^^ keyword.other.dml
 --          ^^ meta.table-name

@@ -705,7 +705,7 @@ contexts:
 
   computed-column-definition:
     - meta_content_scope: meta.computed-column-definition.tsql
-    - match: (?=,)
+    - match: (?=[,)])
       pop: 1
     - match: (?=\b(?i:constraint)\b)
       pop: 1
