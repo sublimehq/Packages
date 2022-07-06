@@ -397,11 +397,9 @@ contexts:
     - match: \b(?i:identity_insert)\b
       scope: constant.language.switch.tsql
       push: expect-table-name
-    - match: \b(?i:on|off)\b
-      scope: constant.language.boolean.tsql
+    - include: onoff-constants
     - include: variables
-    - match: '[-+/*%^|]='
-      scope: keyword.operator.assignment.tsql
+    - include: augmented-assignment-operators
     - include: operators
     - include: else-pop
 
@@ -493,18 +491,14 @@ contexts:
 
   with-group-assignment:
     - include: with-group
-    - include: with-booleans
+    - include: onoff-constants
     - include: else-pop
 
   with-other-assignment:
     - match: (?=[,)])
       pop: 1
-    - include: with-booleans
+    - include: onoff-constants
     - include: expressions
-
-  with-booleans:
-    - match: \b(?i:on|off)\b
-      scope: constant.language.bool.tsql
 
 ###[ LIKE EXPRESSIONS ]########################################################
 
@@ -858,6 +852,10 @@ contexts:
     - meta_prepend: true
     - include: variables
 
+  onoff-constants:
+    - match: \b(?i:on|off)\b
+      scope: constant.language.boolean.tsql
+
   numbers:
     - meta_prepend: true
     - match: (0x)(\h+)
@@ -895,3 +893,7 @@ contexts:
     - meta_append: true
     - match: '%'
       scope: keyword.operator.arithmetic.tsql
+
+  augmented-assignment-operators:
+    - match: '[-+/*%^|]='
+      scope: keyword.operator.assignment.tsql
