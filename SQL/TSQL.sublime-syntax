@@ -318,7 +318,7 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.tsql
       push: expect-type
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   inside-convert-arguments:
     - meta_content_scope: meta.function-call.sql meta.group.sql
@@ -327,7 +327,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.arguments.sql
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   user-defined-function-calls:
     - meta_append: true
@@ -709,7 +709,7 @@ contexts:
       pop: 1
     - match: (?=\b(?i:constraint)\b)
       pop: 1
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   built-in-type:
     - meta_prepend: true

@@ -37,7 +37,7 @@ contexts:
   sql:
     - include: statements
     - include: statement-terminators
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   statements:
     - include: ddl-statements
@@ -189,7 +189,7 @@ contexts:
     - meta_scope: meta.alter.sql
     - include: ddl-alter-column
     - include: ddl-alter-common
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   ddl-alter-target:
     - meta_scope: meta.alter.sql
@@ -306,7 +306,7 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
-  expressions-or-column-name:
+  expressions-or-column-names:
     - include: wildcard-identifiers
     - include: expressions
     - include: expect-column-names
@@ -350,7 +350,7 @@ contexts:
       scope: keyword.control.conditional.then.sql
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.sql
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   collate-expressions:
     - match: \b(?i:collate)\b
@@ -400,7 +400,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.arguments.sql
     - include: distinct
-    - include: expressions-or-column-name
+    - include: expressions-or-column-names
 
   maybe-group:
     - include: group
