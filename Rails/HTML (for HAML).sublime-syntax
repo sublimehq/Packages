@@ -12,10 +12,6 @@ contexts:
     - meta_prepend: true
     - include: HAML.sublime-syntax#interpolations
 
-  cdata-content:
-    - meta_prepend: true
-    - include: HAML.sublime-syntax#string-interpolations
-
   script-javascript-content:
     - meta_include_prototype: false
     - match: '{{script_content_begin}}'
