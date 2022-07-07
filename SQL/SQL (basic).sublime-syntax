@@ -444,11 +444,11 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       set:
-        - table-name-fail-if-function-cal
+        - table-name-fail-if-function-call
         - table-name
         - single-identifier
 
-  table-name-fail-if-function-cal:
+  table-name-fail-if-function-call:
     - meta_include_prototype: false
     - match: (?=\()
       fail: table-or-table-function

@@ -652,7 +652,7 @@ contexts:
       scope: punctuation.separator.sequence.tsql
     - include: inside-function-call-arguments
 
-  table-name-fail-if-function-cal:
+  table-name-fail-if-function-call:
     - meta_prepend: true
     - include: table-hints-without-with
 
