@@ -226,7 +226,7 @@ SELECT @fileDate = CONVERT(VARCHAR(20),GETDATE(),112)
 --                                     ^^^^^^^ support.function.scalar
 --                                            ^ punctuation.section.arguments.begin
 --                                             ^ punctuation.section.arguments.end
---                                              ^ punctuation.separator.argument
+--                                              ^ punctuation.separator.arguments
 --                                               ^^^ meta.number.integer.decimal constant.numeric.value
 --                                                  ^ punctuation.section.arguments.end
 --                                                   ^ - meta.function-call - meta.group
@@ -329,7 +329,9 @@ SET NOCOUNT ON
 --          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 -- ^ keyword.control.flow
+--  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                          ^ - meta.procedure-name
 --                           ^^^^^^^^^ variable.other.readwrite
 --                                    ^ punctuation.separator.sequence
 --                                      ^^^^^^^^^^^ variable.other.readwrite
@@ -373,7 +375,9 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'every 10 
         @schedule_uid=N'564354f8-4985-7408-80b7-afdc2bb92d3c'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 --                                    ^^^^ keyword.control.flow
+--                                        ^ - meta.label-name
 --                                         ^^^^^^^^^^^^^^^^ meta.label-name
+--                                                         ^ - meta.label-name
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
 -- ^ keyword.control.flow
 --   ^^^^^^^^^^^ variable.other.readwrite
@@ -466,8 +470,11 @@ SET column1 = v.column1,
 --          ^^^^^^^^ constant.numeric.value
 FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.dml
+--  ^ - meta.table-name
 --   ^^^^^^^^^^^^^ meta.table-name
+--                ^ - meta.table-name - meta.table-alias-name
 --                 ^^^^^^^^^^ meta.table-alias-name
+--                           ^ - meta.table-alias-name
 --                            ^^^^ keyword.other
 --                                 ^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                                     ^ - meta.group
@@ -478,20 +485,28 @@ FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 --                                                    ^ punctuation.section.group.end
 INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 -- ^^^^^^^ keyword.other.dml
+--        ^ - meta.table-name
 --         ^^^^^^^^^ meta.table-name
+--                  ^ - meta.table-name
 --                   ^^ keyword.operator.assignment.alias
+--                     ^ - meta.table-alias-name
 --                      ^ meta.table-alias-name
+--                       ^ - meta.table-alias-name
 --                            ^^^^ keyword.other.dml
 --                                 ^^^^^^^^ meta.group
 --                                 ^ punctuation.section.group.begin
 --                                  ^^^^^^ constant.language.with
 --                                        ^ punctuation.section.group.end
 --                                          ^^ keyword.operator.join
+--                                            ^ - meta.column-name
 --                                             ^^^^^^^^^ meta.column-name
 --                                              ^ punctuation.accessor.dot
+--                                                      ^ - meta.column-name
 --                                                       ^ keyword.operator.comparison
+--                                                        ^ - meta.column-name
 --                                                         ^^^^^^^^^^^^^^^^^^ meta.column-name
 --                                                                   ^ punctuation.accessor.dot
+--                                                                           ^ - meta.column-name
 WHERE TableAlias.some_id IN (
 -- ^^ keyword.other.dml
 --                       ^^ keyword.operator.logical
@@ -500,10 +515,16 @@ WHERE TableAlias.some_id IN (
 --  ^^^^^^ keyword.other.dml
     FROM dbname..table_name_in_default_schema a
 --  ^^^^ keyword.other.dml
+--      ^ - meta.table-name
 --       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
---                                            ^ meta.group meta.table-alias-name
+--                                           ^ - meta.table-name - meta.table-alias-name
+--                                            ^ meta.table-alias-name
+--                                             ^ - meta.table-alias-name
     WHERE a.another_id_column IS NOT NULL
---  ^^^^^ meta.group keyword.other.dml
+--  ^^^^^ keyword.other.dml
+--       ^ - meta.column-name - keyword
+--        ^^^^^^^^^^^^^^^^^^^ meta.column-name
+--                           ^ - meta.column-name - keyword
 --                            ^^ keyword.operator.logical
 --                               ^^^ keyword.operator.logical
 --                                   ^^^^ constant.language.null
@@ -687,7 +708,7 @@ into #temp
 --   ^^^^^ meta.table-name
 from @A A
 -- ^ keyword.other.dml
---   ^^ meta.table-name
+--   ^^ meta.table-name.sql variable.other.readwrite.sql
 --      ^ meta.table-alias-name
 inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
 --^^^^^^^^ keyword.other.dml
@@ -1107,6 +1128,7 @@ GO
 
 CREATE TABLE dbo.T1
 (
+-- <- meta.group.table-columns punctuation.section.group.begin
     column_1 AS 'Computed column ' + column_2,
 --  ^^^^^^^^ meta.column-name
 --           ^^ keyword.other
@@ -1120,17 +1142,37 @@ CREATE TABLE dbo.T1
 --           ^^^^^^^^^^^ storage.type
         CONSTRAINT default_name DEFAULT ('my column default'),
 --      ^^^^^^^^^^ storage.modifier
+--                ^ - meta.constraint-name
 --                 ^^^^^^^^^^^^ meta.constraint-name
+--                             ^ - meta.constraint-name
 --                              ^^^^^^^ storage.modifier
 --                                      ^ punctuation.section.group.begin
 --                                       ^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --                                                          ^ punctuation.section.group.end
 --                                                           ^ punctuation.separator.sequence
     column_3 rowversion,
+-- ^ - meta.column-name
 --  ^^^^^^^^ meta.column-name
+--          ^ - meta.column-name
 --           ^^^^^^^^^^ storage.type
-    column_4 varchar(40) NULL
+    column_4 varchar(40) NULL,
+-- ^ - meta.column-name
+--  ^^^^^^^^ meta.column-name
+--          ^ - meta.column-name
+--           ^^^^^^^^^^^ storage.type
+--                       ^^^^ constant.language.null
+--                           ^ punctuation.separator.sequence
+    column_5 as 'last computed' + column_2
+-- ^ - meta.column-name
+--  ^^^^^^^^ meta.column-name
+--          ^^^ - meta.column-name - meta.computed-column-definition
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.computed-column-definition
+--           ^^ keyword.other.tsql
+--              ^^^^^^^^^^^^^^^ string.quoted.single
+--                              ^ keyword.operator.arithmetic
+--                                ^^^^^^^^ meta.column-name.sql
 );
+-- <- meta.group.table-columns punctuation.section.group.end
 INSERT INTO T1 DEFAULT VALUES;
 -- ^^^^^^^^ keyword.other.dml
 --          ^^ meta.table-name
@@ -1140,12 +1182,18 @@ INSERT INTO T1 DEFAULT VALUES;
 
 MERGE sales.category t
 -- ^^ keyword.other
+--   ^ - meta.table-name
 --    ^^^^^^^^^^^^^^ meta.table-name
+--                  ^ - meta.table-name - meta.table-alias-name
 --                   ^ meta.table-alias-name
+--                    ^ - meta.table-alias-name
     USING sales.category_staging s
 --  ^^^^^ keyword.other
+--       ^ - meta.table-name
 --        ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
+--                              ^ - meta.table-name - meta.table-alias-name
 --                               ^ meta.table-alias-name
+--                                ^ - meta.table-alias-name
 ON (s.category_id = t.category_id)
 -- <- keyword.operator.join
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -1237,15 +1285,15 @@ CREATE TABLE [dbo].[be_Categories](
 --    ^^^^ keyword.other.dml
 --          ^^^^^^^^^ constant.language.with
 --                    ^ keyword.operator.assignment
---                      ^^^ constant.language.bool
+--                      ^^^ constant.language.boolean
 --                         ^ punctuation.separator.sequence
 --                                                                               ^^^^^^^^^^^^^^^ constant.language.with
 --                                                                                               ^ keyword.operator.assignment
---                                                                                                 ^^ constant.language.bool
+--                                                                                                 ^^ constant.language.boolean
 --                                                                                                   ^ punctuation.separator.sequence
 --                                                                                                     ^^^^^^^^^^^^^^^^ constant.language.with
 --                                                                                                                      ^ keyword.operator.assignment
---                                                                                                                        ^^ constant.language.bool
+--                                                                                                                        ^^ constant.language.boolean
 --                                                                                                                          ^ punctuation.section.group.end
 --                                                                                                                            ^^ keyword.other
 --                                                                                                                               ^^^^^^^^^ meta.filegroup-name
@@ -1269,7 +1317,7 @@ CREATE TABLE [dbo].[table_with_constraint_following_derived_column](
 --                           ^^^^^^^^^^ support.function
 --                                     ^ punctuation.section.arguments.begin
 --                                      ^^^^^^ meta.group meta.function-call meta.group meta.column-name
---                                            ^ meta.group meta.function-call meta.group punctuation.separator.argument
+--                                            ^ meta.group meta.function-call meta.group punctuation.separator.arguments
 --                                              ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --                                                                       ^ punctuation.section.arguments.end
 --                                                                         ^^ keyword.operator.assignment
@@ -1288,15 +1336,15 @@ CREATE TABLE [dbo].[table_with_constraint_following_derived_column](
 --    ^^^^ keyword.other.dml
 --          ^^^^^^^^^ constant.language.with
 --                    ^ keyword.operator.assignment
---                      ^^^ constant.language.bool
+--                      ^^^ constant.language.boolean
 --                         ^ punctuation.separator.sequence
 --                                                                               ^^^^^^^^^^^^^^^ constant.language.with
 --                                                                                               ^ keyword.operator.assignment
---                                                                                                 ^^ constant.language.bool
+--                                                                                                 ^^ constant.language.boolean
 --                                                                                                   ^ punctuation.separator.sequence
 --                                                                                                     ^^^^^^^^^^^^^^^^ constant.language.with
 --                                                                                                                      ^ keyword.operator.assignment
---                                                                                                                        ^^ constant.language.bool
+--                                                                                                                        ^^ constant.language.boolean
 --                                                                                                                          ^ punctuation.section.group.end
 --                                                                                                                            ^^ keyword.other
 --                                                                                                                               ^^^^^^^^^ meta.filegroup-name
@@ -1369,6 +1417,13 @@ RETURN
    )
 GO
 
+CREATE FUNCTION foo() RETURNS @MyType
+--                            ^^^^^^^ support.type.sql variable.other.readwrite.sql
+
+CREATE FUNCTION foo() RETURNS My@TypeName
+--                            ^^ support.type.sql - variable
+--                              ^^^^^^^^^ support.type.sql variable.other.readwrite.sql
+
 SELECT * FROM Department D
 CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_results_table
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
@@ -1386,9 +1441,9 @@ OUTER APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID, 123, 'testing123'
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.table-valued-function-name
 --                                            ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                                             ^^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
---                                                           ^ meta.function-call meta.group punctuation.separator.argument
+--                                                           ^ meta.function-call meta.group punctuation.separator.arguments
 --                                                             ^^^ meta.function-call meta.group meta.number.integer.decimal constant.numeric.value
---                                                                ^ meta.function-call meta.group punctuation.separator.argument
+--                                                                ^ meta.function-call meta.group punctuation.separator.arguments
 --                                                                  ^^^^^^^^^^^^ meta.function-call meta.group string.quoted.single
 --                                                                              ^ meta.function-call meta.group punctuation.section.arguments.end
 GO
@@ -1447,6 +1502,11 @@ FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
 --                                ^ keyword.operator.comparison
 --                                  ^^^^^^^^^^^^^^^^^^ meta.column-name
 ORDER BY p.BusinessEntityID DESC;
+
+-- Test incomplete table alias assignment
+JOIN table AS WHERE
+--         ^^ keyword.operator.assignment.alias.sql
+--            ^^^^^ keyword.other.dml.sql
 
 --------
 
@@ -1543,11 +1603,25 @@ FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath 
 --                                      ^ punctuation.section.group.end
 EXEC sp_xml_removedocument @XmlDocumentHandle
 -- <- keyword.control.flow
+--  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                        ^ - meta.procedure-name
 --                         ^ variable.other.readwrite punctuation.definition.variable
+--                          ^^^^^^^^^^^^^^^^^ variable.other.readwrite - punctuation
 
 --Create an internal representation of the XML document.
 EXEC sp_xml_preparedocument @idoc OUTPUT, @doc;
+-- <- keyword.control.flow
+--  ^ - meta.procedure-name
+--   ^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
+--                         ^ - meta.procedure-name
+--                          ^ variable.other.readwrite punctuation.definition.variable
+--                           ^^^^ variable.other.readwrite.sql
+--                               ^ - variable
+--                                ^^^^^^ storage.modifier.output.tsql
+--                                      ^ punctuation.separator.sequence.sql
+--                                        ^^^^ variable.other.readwrite.sql
+--                                            ^ punctuation.terminator.statement.sql
 
 -- SELECT stmt using OPENXML rowset provider
 SELECT *
@@ -1794,7 +1868,7 @@ WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Department_History, DATA_CONSI
 --   ^ punctuation.section.group.begin
 --    ^^^^^^^^^^^^^^^^^ keyword.other
 --                      ^ keyword.operator.assignment
---                        ^^ constant.language.bool
+--                        ^^ constant.language.boolean
 --                           ^ punctuation.section.group.begin
 --                            ^^^^^^^^^^^^^ keyword.other
 --                                          ^ keyword.operator.assignment
@@ -1802,7 +1876,7 @@ WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Department_History, DATA_CONSI
 --                                                                  ^ punctuation.separator.sequence
 --                                                                    ^^^^^^^^^^^^^^^^^^^^^^ constant.language.with
 --                                                                                           ^ keyword.operator.assignment
---                                                                                             ^^ constant.language.bool
+--                                                                                             ^^ constant.language.boolean
 --                                                                                               ^ punctuation.section.group.end
 --                                                                                                ^ punctuation.section.group.end
 --                                                                                                 ^ punctuation.terminator.statement

@@ -220,7 +220,6 @@ CREATE TABLE example_table (
 --         ^^^^^^^^^^ meta.column-name
 --                    ^^ keyword.operator.comparison
 --                       ^^^^^^^^^^ meta.string.regexp
---                        ^^^^^^^^ source.regexp
 --                       ^ punctuation.definition.string.begin
 --                                ^ punctuation.definition.string.end
 --                                 ^ punctuation.section.group.end - meta.string
@@ -287,13 +286,16 @@ CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, someth
 DECLARE
 -- ^^^^ keyword.declaration.variable
     output varchar[];
+-- ^ - variable
 --  ^^^^^^ variable.other
+--        ^ - variable - storage
 --         ^^^^^^^ storage.type
+--                ^^ - storage
 --                ^ punctuation.section.brackets.begin
 --                 ^ punctuation.section.brackets.end
 --                  ^ punctuation.terminator.statement
 BEGIN
--- ^^ keyword.other.LUW
+-- ^^ keyword.other.luw
     FOR I IN array_lower(vals, 1)..array_upper(vals, 1) LOOP
         output[I] := compute_result(vals[I], something, something_else);
     END LOOP;
@@ -301,6 +303,11 @@ BEGIN
 --  ^^^^^^ keyword.control.flow.return
 END;
 $$ LANGUAGE plpgsql STABLE;
+
+DECLARE var varchar[];
+--     ^ - variable
+--      ^^^ variable.other.psql
+--         ^ - variable - storage
 
 DROP TRIGGER blah ON some_table;
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop

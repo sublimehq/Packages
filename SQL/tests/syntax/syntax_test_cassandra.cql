@@ -100,11 +100,37 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
     permissions frozen<set<text>>,
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --  ^^^^^^^^^^^ meta.column-name
---              ^^^^^^^^^^^^^^^^^ storage.type
+--              ^^^^^^ - meta.generic
+--                    ^^^^ meta.generic.cql - meta.generic meta.generic
+--                        ^^^^^^ meta.generic.cql meta.generic.cql - meta.generic meta.generic meta.generic
+--                              ^ meta.generic.cql - meta.generic meta.generic
+--                               ^ - meta.generic
+--              ^^^^^^ storage.type
 --                    ^ punctuation.definition.generic.begin
+--                     ^^^ storage.type
 --                        ^ punctuation.definition.generic.begin
+--                         ^^^^ storage.type
 --                             ^^ punctuation.definition.generic.end
 --                               ^ punctuation.separator.sequence
+   storage tuple<map<text, set<my_type>>>,
+--         ^^^^^ - meta.generic
+--              ^^^^ meta.generic.cql - meta.generic meta.generic
+--                  ^^^^^^^^^^ meta.generic.cql meta.generic.cql - meta.generic meta.generic meta.generic
+--                            ^^^^^^^^^ meta.generic.cql meta.generic.cql meta.generic.cql
+--                                     ^ meta.generic.cql meta.generic.cql - meta.generic meta.generic meta.generic
+--                                      ^ meta.generic.cql - meta.generic meta.generic
+--                                       ^ - meta.generic
+--         ^^^^^ storage.type.cql
+--              ^ punctuation.definition.generic.begin.cql
+--               ^^^ storage.type.cql
+--                  ^ punctuation.definition.generic.begin.cql
+--                   ^^^^ storage.type.sql
+--                       ^ punctuation.separator.sequence.cql
+--                         ^^^ storage.type.cql
+--                            ^ punctuation.definition.generic.begin.cql
+--                             ^^^^^^^ support.type.sql
+--                                    ^^^ punctuation.definition.generic.end.cql
+--                                       ^ punctuation.separator.sequence.sql
     PRIMARY KEY(userid)
 --  ^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --  ^^^^^^^^^^^ storage.modifier
@@ -248,6 +274,10 @@ VALUES (
     583395ca-0845-4517-b0f7-97bb0ea86b53,
     false,
     {77a969b4-378a-4fb0-b531-83404ee3c395:{id:22f7244c-c6d7-4bd7-aeac-a886c4242cd8,sometext:'text here',empty:{}}}
+    -- <- meta.braces.cql punctuation.section.braces.begin.cql
+    --^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cql - meta.braces meta.braces
+    --                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cql meta.braces.cql
+    --                                                                                                           ^ meta.braces.cql - meta.braces meta.braces
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.uuid
     --                                   ^ punctuation.separator.key-value
     --                                    ^ punctuation.section.braces.begin
@@ -267,6 +297,7 @@ VALUES (
 
 INSERT INTO something_by_someid (someid, someset)
 VALUES (22f7244c-c6d7-4bd7-aeac-a886c4242cd8,{'item1','item2','item3'});
+--                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.cql
 --                                           ^ punctuation.section.braces.begin
 --                                            ^^^^^^^ string.quoted.single
 --                                                   ^ punctuation.separator.sequence
@@ -449,6 +480,7 @@ SELECT *
 FROM cycling.birthday_list
 WHERE blist['age'] = '23';
 --    ^^^^^ meta.column-name
+--         ^^^^^^^ meta.brackets.cql
 --         ^ punctuation.section.brackets.begin
 --          ^^^^^ string.quoted.single
 --               ^ punctuation.section.brackets.end
@@ -461,6 +493,7 @@ FROM cycling.race_starts
 WHERE rnumbers = [39,7,14];
 --    ^^^^^^^^ meta.column-name
 --             ^ keyword.operator.comparison
+--               ^^^^^^^^^ meta.brackets.cql
 --               ^ punctuation.section.brackets.begin
 --                ^^ meta.number.integer.decimal constant.numeric.value
 --                  ^ punctuation.separator.sequence

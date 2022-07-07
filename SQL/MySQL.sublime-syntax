@@ -3,28 +3,25 @@
 name: MySQL
 scope: source.sql.mysql
 version: 2
+
 extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   simple_types: |-
-    (?xi:
-      \b
-      (?:bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|integer|
-        line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext
-      )
-      \b
-    )
+    (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
+    | date | datetime | double\s+precision | enum | inet | integer | line
+    | longtext | lseg | macaddr | money | ntext | oid | path | point | polygon
+    | real | serial | smallint | sysdate | sysname | text | tinytext )
   types_with_optional_number: |-
-    (?xi:
-      \b
-      (?:bit\s+varying|character\s+(?:varying)?|tinyint|var\schar|float|int|interval|numeric|decimal|times?|timestamp(?:s|tz)?)
-      \b
-    )
+    (?xi: bit\s+varying | character\s+(?:varying)? | tinyint | var\s+char | float
+    | int | interval | numeric | decimal | times? | timestamp(?:s | tz)? )
 
 contexts:
-  main:
+  sql:
     - meta_append: true
     - include: regexps
+
+###[ COMMENTS ]################################################################
 
   comments:
     - meta_append: true
@@ -38,90 +35,13 @@ contexts:
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
 
-  strings:
-    - meta_append: true
-    - match: '"'
-      scope: punctuation.definition.string.begin.sql
-      push: inside-double-quoted-string
-    - include: begin-interpolation
-
-  inside-double-quoted-string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.mysql string.quoted.double.sql
-    - match: '""'
-      scope: constant.character.escape.sql
-    - match: '"'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-interpolation
-
-  begin-interpolation:
-    - match: '%\{'
-      scope: punctuation.definition.string.begin.sql
-      push: inside-interpolation
-
-  inside-interpolation:
-    - meta_include_prototype: false
-    - meta_scope: string.other.quoted.brackets.sql
-    - match: '\}'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-interpolation
-
-  string-interpolation:
-    - meta_include_prototype: false
-    - match: '(#\{)([^\}]*)(\})'
-      scope: string.interpolated.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        3: punctuation.definition.string.end.sql
-
-  regexps:
-    - match: /(?=\S.*/)
-      scope: punctuation.definition.string.begin.sql
-      push: inside-regexp
-
-  inside-regexp:
-    - meta_include_prototype: false
-    - meta_scope: string.regexp.sql
-    - match: /
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - include: string-interpolation
-    - match: \\/
-      scope: constant.character.escape.slash.sql
-
-  operators:
-    - meta_append: true
-    - match: \|\|
-      scope: keyword.operator.concatenation.sql
-
-  after-type:
-    - meta_prepend: true
-    - match: \b(?i:unsigned)\b
-      scope: storage.modifier.mysql
-      pop: 1
-    - match: \b(?i:with(?:out)?\s+time\s+zone)\b
-      scope: storage.type.sql
-      pop: 1
-
   inside-number-sign-comment:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
     - match: \n
       pop: 1
 
-  expressions:
-    - meta_prepend: true
-    - match: \b(?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
-      scope: support.function.string.sql
-    - match: \b(?i:using)\b
-      scope: keyword.other.mysql
-
-  statements:
-    - meta_append: true
-    - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
-      scope: keyword.other.LUW.sql
+###[ DDL STATEMENTS ]##########################################################
 
   ddl-statements:
     - meta_prepend: true
@@ -132,22 +52,31 @@ contexts:
         - create-condition
         - ddl-target
 
-  dml-statements:
-    - meta_append: true
-    - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
-      scope: keyword.other.dml.sql
+  ddl-alter-table:
+    - meta_prepend: true
+    - match: \b(?i:change\s+column)\b
+      scope: keyword.other.ddl.sql
       push:
-        - table-name
-        - single-identifier-after-whitespace
-    - match: \b(?i:limit)\b
-      scope: keyword.other.dml.sql
+        - expect-type
+        - expect-column-name-declaration
+        - expect-column-name
+
+  ddl-target:
+    - meta_prepend: true
+    - include: ddl-target-common
+
+  ddl-create-target:
+    - meta_prepend: true
+    - include: ddl-target-common
+
+  create-condition:
+    - meta_prepend: true
+    - include: ddl-target-common
 
   ddl-target-common:
     - match: \b(?i:on)\b
       scope: keyword.other.mysql
-      push:
-        - table-name
-        - single-identifier-after-whitespace
+      push: expect-table-name
     - match: \b(?i:using)\b
       scope: keyword.other.mysql
     - match: \b(?i:(algorithm))\s*(=)
@@ -158,38 +87,11 @@ contexts:
     - match: (?=\()
       pop: 1
 
-  create-condition:
-    - meta_prepend: true
-    - include: ddl-target-common
-
-  ddl-target:
-    - meta_prepend: true
-    - include: ddl-target-common
-
-  ddl-create-target:
-    - meta_prepend: true
-    - include: ddl-target-common
-
-  joins:
-    - meta_append: true
-    - match: (?i)\b(?:straight_join|natural)\b
-      scope: keyword.other.dml.sql
-
-  table-name-or-subquery:
-    - meta_prepend: true
-    - meta_include_prototype: false
-    - match: (?=#)
+  ddl-target-algorithm:
+    - match: \b(?i:MERGE|TEMPTABLE|UNDEFINED)\b
+      scope: keyword.other.mysql
       pop: 1
-    - include: comments
-
-  ddl-alter-table:
-    - meta_prepend: true
-    - match: \b(?i:change\s+column)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - new-column-name
-        - column-name
-        - single-identifier-after-whitespace
+    - include: else-pop
 
   inside-ddl-table-creation-columns:
     - meta_prepend: true
@@ -198,15 +100,123 @@ contexts:
     - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
       scope: keyword.other.object-comments.sql
 
-  ddl-target-algorithm:
-    - match: \b(?i:MERGE|TEMPTABLE|UNDEFINED)\b
-      scope: keyword.other.mysql
-      pop: 1
-    - include: else-pop
+###[ DML STATEMENTS ]##########################################################
 
-  new-column-name:
-    - match: (?=\S)
-      set:
-        - expect-type
-        - column-name-declaration
-        - single-identifier
+  dml-statements:
+    - meta_append: true
+    - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - match: \b(?i:limit)\b
+      scope: keyword.other.dml.sql
+
+  joins:
+    - meta_append: true
+    - match: \b(?i:straight_join|natural)\b
+      scope: keyword.other.dml.sql
+
+###[ OTHER STATEMENTS ]########################################################
+
+  other-statements:
+    - meta_prepend: true
+    - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
+      scope: keyword.other.luw.sql
+
+###[ EXPRESSIONS ]#############################################################
+
+  expressions:
+    - meta_prepend: true
+    - match: \b(?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+      scope: support.function.string.sql
+    - match: \b(?i:using)\b
+      scope: keyword.other.mysql
+
+  table-name-or-subquery:
+    - meta_prepend: true
+    - meta_include_prototype: false
+    - match: (?=#)
+      pop: 1
+    - include: comments
+
+###[ TYPES ]###################################################################
+
+  after-type:
+    - meta_prepend: true
+    - match: \b(?i:unsigned)\b
+      scope: storage.modifier.mysql
+      pop: 1
+    - match: \b(?i:with(?:out)?\s+time\s+zone)\b
+      scope: storage.type.sql
+      pop: 1
+
+###[ LITERALS ]################################################################
+
+  regexps:
+    - match: /(?=\S.*/)
+      scope: punctuation.definition.string.begin.sql
+      push: inside-regexp
+
+  inside-regexp:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.regexp.sql string.regexp.sql
+    - match: /
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+    - match: \\/
+      scope: constant.character.escape.slash.sql
+
+  strings:
+    - meta_append: true
+    - include: double-quoted-strings
+    - include: interpolations
+
+  double-quoted-strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.sql
+      push: inside-double-quoted-string
+
+  inside-double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.double.sql
+    - match: \"\"
+      scope: constant.character.escape.sql
+    - match: \"
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+
+  interpolations:
+    - match: \%\{
+      scope: punctuation.definition.string.begin.sql
+      push: inside-interpolation
+
+  inside-interpolation:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.other.quoted.brackets.sql
+    - match: \}
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+
+  string-interpolations:
+    - meta_include_prototype: false
+    - match: (#\{)([^\}]*)(\})
+      scope: meta.interpolation.sql
+      captures:
+        1: punctuation.section.interpolation.begin.sql
+        3: punctuation.section.interpolation.end.sql
+      push: clear-scope-imediately-pop
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - meta_append: true
+    - match: \|\|
+      scope: keyword.operator.concatenation.sql
+
+###[ PROTOTYPES ]##############################################################
+
+  clear-scope-imediately-pop:
+    - clear_scopes: 1
+    - include: immediately-pop
