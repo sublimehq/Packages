@@ -93,7 +93,7 @@ contexts:
       scope: keyword.other.ddl.sql
       push:
         - ddl-create-target
-        - ddl-table-creation-columns
+        - maybe-column-declaration-list
         - create-table-condition
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
@@ -121,31 +121,6 @@ contexts:
       push:
         - ddl-alter-target
         - ddl-target
-
-  ddl-table-creation-columns:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-ddl-table-creation-columns
-
-  inside-ddl-table-creation-columns:
-    - meta_scope: meta.group.table-columns.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - match: \b(?i:constraint)\b
-      scope: storage.modifier.sql
-      push: expect-constraint-name
-    - include: column-modifiers
-    - include: expressions
-    - include: ddl-creation-column
-
-  ddl-creation-column:
-    - match: (?=\S)
-      push:
-        - after-type
-        - expect-type
-        - column-name-declaration
-        - single-identifier
 
   ddl-create-target:
     - meta_scope: meta.create.sql
@@ -507,7 +482,36 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ COLUMN MODIFIERS ]########################################################
+###[ COLUMN DECLARATIONS ]#####################################################
+
+  maybe-column-declaration-list:
+    - include: column-declaration-list
+    - include: else-pop
+
+  column-declaration-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-column-declaration-list
+
+  inside-column-declaration-list:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:constraint)\b
+      scope: storage.modifier.sql
+      push: expect-constraint-name
+    - include: column-modifiers
+    - include: expressions
+    - include: column-declaration
+
+  column-declaration:
+    - match: (?=\S)
+      push:
+        - after-type
+        - expect-type
+        - column-name-declaration
+        - single-identifier
 
   maybe-column-modifier:
     - include: column-modifiers
@@ -523,18 +527,28 @@ contexts:
         | default
         )\b
       scope: storage.modifier.sql
-      push: maybe-column-reference
+      push: maybe-column-reference-list
     - match: \b(?i:references)\b
       scope: storage.modifier.sql
       push:
-        - maybe-column-reference
+        - maybe-column-reference-list
         - expect-table-name
 
-  maybe-column-reference:
+  maybe-column-reference-list:
+    - include: column-reference-list
+    - include: else-pop
+
+  column-reference-list:
     - match: \(
       scope: punctuation.section.group.begin.sql
-      set: inside-ddl-table-creation-columns
-    - include: else-pop
+      set: inside-column-reference-list
+
+  inside-column-reference-list:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: expressions-or-column-names
 
 ###[ TYPES ]###################################################################
 
