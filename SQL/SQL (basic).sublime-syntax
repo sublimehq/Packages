@@ -396,7 +396,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: 1
-    - include: main
+    - include: sql
 
   set:
     - include: else-pop
