@@ -268,7 +268,7 @@ FETCH NEXT FROM db_cursor INTO @name
 --                             ^^^^^ variable.other.readwrite
 
 WHILE @@FETCH_STATUS = 0
--- ^^ keyword.control.flow
+-- ^^ keyword.control.loop
 --    ^^^^^^^^^^^^^^ support.variable.global
 --    ^^ support.variable.global
 --                   ^ keyword.operator.comparison
@@ -328,7 +328,7 @@ SET NOCOUNT ON
 --  ^^^^^^^ constant.language.switch
 --          ^^ constant.language.boolean
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
--- ^ keyword.control.flow
+-- ^ keyword.control.flow.execute
 --  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
 --                          ^ - meta.procedure-name
@@ -344,7 +344,7 @@ IF @FileExists = 0
 BEGIN
     RAISERROR ('File "%s" does not exist', 16, -1, @FromFile)
     RETURN -1
-    -- ^^^ keyword.control.flow
+    -- ^^^ keyword.control.flow.return
     --     ^ keyword.operator.arithmetic
     --      ^ meta.number.integer.decimal constant.numeric.value
 END
@@ -374,17 +374,19 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'every 10 
         @active_end_time=235959,
         @schedule_uid=N'564354f8-4985-7408-80b7-afdc2bb92d3c'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
---                                    ^^^^ keyword.control.flow
+-- <- keyword.control.conditional
+--                                    ^^^^ keyword.control.flow.goto
 --                                        ^ - meta.label-name
 --                                         ^^^^^^^^^^^^^^^^ meta.label-name
 --                                                         ^ - meta.label-name
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
--- ^ keyword.control.flow
+-- ^ keyword.control.flow.execute
 --   ^^^^^^^^^^^ variable.other.readwrite
 --               ^ keyword.operator.assignment
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 COMMIT TRANSACTION
+-- <- keyword.context
 -- ^^^^^^^^^^^^^^^ keyword.context
 GOTO EndSave
 QuitWithRollback:
@@ -582,7 +584,7 @@ WHERE i.LocationID BETWEEN 3 AND 4
 ORDER BY i.LocationID;
 
 PRINT 'Record with ID ' + CAST(@RecordID AS VARCHAR(10)) + ' has been updated.'
--- ^^ keyword.other
+-- ^^ support.function.tsql
 --    ^^^^^^^^^^^^^^^^^ string.quoted.single
 --                      ^ keyword.operator.arithmetic
 --                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
@@ -673,7 +675,7 @@ BEGIN
 END
 -- <- keyword.control.flow.end
 GO
--- <- keyword.control.flow
+-- <- keyword.control.flow.go
 
 ---------------
 ALTER PROC CreateOrAlterDemo
@@ -865,7 +867,7 @@ CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 --                                                           ^ constant.numeric
 --                                                             ^ punctuation.section.group.end
 GO
--- <- keyword.control.flow
+-- <- keyword.control.flow.go
 CREATE TABLE foo ([int] [int] PRIMARY KEY, [test'hello¬world'@"me"] [varchar] (5));
 --                      ^^^^^ storage.type
 --                                         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.column-name
@@ -920,7 +922,7 @@ WITH (
 )
 -- <- punctuation.section.group.end
 IF @@ERROR != 0
--- <- keyword.control.flow
+-- <- keyword.control.conditional
 -- ^^^^^^^ support.variable.global
 --         ^^ keyword.operator.comparison
     UPDATE tempdb..continue_script SET proceed = 0
@@ -1410,7 +1412,7 @@ RETURNS TABLE
 AS
 -- <- keyword.context.block
 RETURN
--- ^^^ keyword.control.flow
+-- ^^^ keyword.control.flow.return
    (
    SELECT * FROM Employee E
    WHERE E.DepartmentID = @DeptID
@@ -1602,7 +1604,7 @@ FROM      OPENXML (@XmlDocumentHandle, '/ROOT/Customer',2) -- TODO: apply xpath 
 --                           ^^^^^^^^^^^ storage.type
 --                                      ^ punctuation.section.group.end
 EXEC sp_xml_removedocument @XmlDocumentHandle
--- <- keyword.control.flow
+-- <- keyword.control.flow.execute
 --  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
 --                        ^ - meta.procedure-name
@@ -1611,7 +1613,7 @@ EXEC sp_xml_removedocument @XmlDocumentHandle
 
 --Create an internal representation of the XML document.
 EXEC sp_xml_preparedocument @idoc OUTPUT, @doc;
--- <- keyword.control.flow
+-- <- keyword.control.flow.execute
 --  ^ - meta.procedure-name
 --   ^^^^^^^^^^^^^^^^^^^^^^ meta.procedure-name
 --                         ^ - meta.procedure-name
@@ -1927,3 +1929,72 @@ ADD CONSTRAINT fk_inv_product_id
     ON DELETE CASCADE;
 --  ^^^^^^^^^^^^^^^^^ meta.alter storage.modifier
 --                   ^ punctuation.terminator.statement
+
+BEGIN TRY
+-- <- keyword.control.exception
+-- ^^^^^^ keyword.control.exception
+    -- Generate divide-by-zero error.
+    SELECT 1/0;
+END TRY
+-- <- keyword.control.exception
+-- ^^^^ keyword.control.exception
+BEGIN CATCH
+-- <- keyword.control.exception
+-- ^^^^^^^^ keyword.control.exception
+    -- Execute error retrieval routine.
+    EXECUTE usp_GetErrorInfo;
+END CATCH;
+-- <- keyword.control.exception
+-- ^^^^^^ keyword.control.exception
+
+BEGIN
+-- <- keyword.control.flow.begin
+    WAITFOR DELAY '02:00';
+--  ^^^^^^^ keyword.control.flow.waitfor
+--          ^^^^^ storage.type
+--                ^^^^^^^ meta.string string.quoted.single
+--                       ^ punctuation.terminator.statement
+    EXECUTE sp_helpdb;
+--  ^^^^^^^ keyword.control.flow.execute
+--          ^^^^^^^^^ meta.procedure-name
+END;
+
+BEGIN
+-- <- keyword.control.flow.begin
+    WAITFOR TIME '22:20';
+--  ^^^^^^^ keyword.control.flow.waitfor
+--          ^^^^ storage.type
+--               ^^^^^^^ meta.string string.quoted.single
+--                      ^ punctuation.terminator.statement
+    EXECUTE sp_helpdb;
+--  ^^^^^^^ keyword.control.flow.execute
+--          ^^^^^^^^^ meta.procedure-name
+END;
+
+IF DATENAME(weekday, GETDATE()) IN (N'Saturday', N'Sunday')
+-- <- keyword.control.conditional
+-- ^^^^^^^^ meta.function-call support.function
+--         ^^^^^^^^^^^^^^^^^^^^ meta.function-call meta.group
+--                              ^^ keyword.operator.logical
+--                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+       SELECT 'Weekend';
+--     ^^^^^^ keyword.other.dml
+ELSE
+-- <- keyword.control.conditional
+       SELECT 'Weekday';
+--     ^^^^^^ keyword.other.dml
+
+WHILE TRUE
+-- <- keyword.control.loop
+    BREAK
+--  ^^^^^ keyword.control.flow.break
+    CONTINUE
+--  ^^^^^^^^ keyword.control.flow.continue
+END
+-- <- keyword.control.flow.end
+
+    CURRENT_USER SESSION_USER SYSTEM_USER USER
+--  ^^^^^^^^^^^^ support.function.scalar.sql
+--               ^^^^^^^^^^^^ support.function.scalar.sql
+--                            ^^^^^^^^^^^ support.function.scalar.sql
+--                                        ^^^^ support.function.scalar.sql

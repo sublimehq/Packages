@@ -63,7 +63,7 @@ create table `dbo`."testing123" (id integer);
 
 create table IF NOT EXISTS `testing123` (
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.toc-list
---           ^^ keyword.control.flow
+--           ^^ keyword.control.conditional.if
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -163,7 +163,7 @@ CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
 
 create fulltext index if not exists `myindex` ON mytable;
 --     ^^^^^^^^^^^^^^ keyword.other.sql
---                    ^^ keyword.control.flow
+--                    ^^ keyword.control.conditional.if
 --                       ^^^ keyword.operator.logical
 --                           ^^^^^^ keyword.operator.logical
 --                                  ^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
@@ -187,7 +187,7 @@ ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
 DROP TABLE IF EXISTS testing123;
 -- <- meta.drop.sql keyword.other.ddl.sql
 -- ^^^^^^^ meta.drop keyword.other.ddl
---         ^^ meta.drop keyword.control.flow
+--         ^^ meta.drop keyword.control.conditional.if
 --            ^^^^^^ keyword.operator.logical.sql
 --                   ^^^^^^^^^^ meta.table-name
 --                             ^ punctuation.terminator.statement
@@ -296,3 +296,10 @@ CREATE TEMPORARY TABLE IF NOT EXISTS foo (
     bar NVARCHAR(400),
     baz INT
 );
+
+CREATE FUNCTION myFunction(id INT) RETURNS TABLE
+BEGIN
+   RETURN SELECT * FROM board;
+-- ^^^^^^ keyword.control.flow.return
+END
+-- <- keyword.control.flow.end

@@ -11,8 +11,9 @@ variables:
   simple_identifier_break: (?![\w#@])
 
   additional_reserved: |-
-    (?xi: backup | begin | bulk | declare | else | end | exec | for | go | if
-    | insert | merge | on | print | raiserror | use | when | while | with )
+    (?xi: backup | begin | break | bulk | continue | declare | else | end
+    | exec(?:ute)? | for | go | if | insert | merge | on | print | raiserror
+    | return | throw | use | waitfor | when | while | with )
 
   identifier_for_lookahead: |-
     (?x:
@@ -164,28 +165,51 @@ contexts:
 
   other-statements:
     - meta_prepend: true
+    # context keywords
     - include: cte-with
-    - match: (?=\b(?i:raiserror)\b)
-      push: raiserror-args
-    - match: \b(?i:go)\b
-      scope: keyword.control.flow.tsql
-    - match: \b(?i:if|else|return|while)\b
-      scope: keyword.control.flow.tsql
-    - match: \b(?i:goto)\b
-      scope: keyword.control.flow.tsql
-      push: expect-label-name
-    - match: \b(?i:exec)\b
-      scope: keyword.control.flow.tsql
-      push: [expect-procedure-name, exec-args]
-    - match: \b(?i:begin)\b
-      scope: keyword.control.flow.begin.tsql
-    - match: \b(?i:end)\b
-      scope: keyword.control.flow.end.tsql
-    - match: \b(?i:print)\b
-      scope: keyword.other.tsql
+    - match: \b(?i:(?:begin|commit|rollback|save)\s+tran(?:saction)?)\b
+      scope: keyword.context.tsql
     - match: \b(?i:use)\b
       scope: keyword.context.tsql
       push: expect-database-name
+    # control flow keywords
+    - match: \b(?i:if)\b
+      scope: keyword.control.conditional.if.tsql
+    - match: \b(?i:else)\b
+      scope: keyword.control.conditional.else.tsql
+    - match: \b(?i:begin|end)\s+(?i:try|catch)\b
+      scope: keyword.control.exception.tsql
+    - match: \b(?i:while)\b
+      scope: keyword.control.loop.tsql
+    - match: \b(?i:begin)\b
+      scope: keyword.control.flow.begin.tsql
+    - match: \b(?i:break)\b
+      scope: keyword.control.flow.break.tsql
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.tsql
+    - match: \b(?i:end)\b
+      scope: keyword.control.flow.end.tsql
+    - match: \b(?i:exec(?:ute)?)\b
+      scope: keyword.control.flow.execute.tsql
+      push: [expect-procedure-name, execute-args]
+    - match: \b(?i:go)\b
+      scope: keyword.control.flow.go.tsql
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.tsql
+      push: expect-label-name
+    - match: \b(?i:return)\b
+      scope: keyword.control.flow.return.tsql
+    - match: \b(?i:throw)\b
+      scope: keyword.control.flow.throw.tsql
+    - match: \b(?i:waitfor)\b
+      scope: keyword.control.flow.waitfor.tsql
+      push: waitfor-args
+    # builtin funtions
+    - match: \b(?i:print)\b
+      scope: support.function.tsql
+    - match: (?=\b(?i:raiserror)\b)
+      push: raiserror-args
+    # other keywords
     - match: \b(?i:backup(?:\s+database)?)\b # https://docs.microsoft.com/en-us/sql/t-sql/statements/backup-transact-sql?view=sql-server-ver15
       scope: keyword.other.tsql
     - match: \b(?i:to)\b
@@ -201,10 +225,8 @@ contexts:
       captures:
         1: entity.name.label.tsql
         2: punctuation.definition.label.tsql
-    - match: (?i)\b(?:begin|commit|rollback|save)\s+tran(saction)?\b
-      scope: keyword.context.tsql
 
-  exec-args:
+  execute-args:
     - include: pop-on-top-level-reserved-word
     - include: assignment-operators
     - include: expressions
@@ -220,6 +242,12 @@ contexts:
   raiserror-options:
     - match: \b(?i:nowait|log|seterror)\b
       scope: keyword.other.tsql
+    - include: else-pop
+
+  waitfor-args:
+    - match: \b(?i:delay|time)\b
+      scope: storage.type.tsql
+      pop: 1
     - include: else-pop
 
 ###[ CTE WITH STATEMENTS ]#####################################################
@@ -283,6 +311,8 @@ contexts:
     - match: \b(?i:getdate)(?=\s*\()
       scope: support.function.scalar.sql
       push: function-call-arguments
+    - match: \b(?i:user)\b
+      scope: support.function.scalar.sql
 
   cast-arguments:
     - meta_scope: meta.function-call.sql

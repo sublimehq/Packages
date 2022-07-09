@@ -7,6 +7,9 @@ version: 2
 extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
+  additional_reserved: |-
+    (?xi: begin | end | return )
+
   simple_types: |-
     (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
     | date | datetime | double\s+precision | enum | inet | integer | line
@@ -88,7 +91,7 @@ contexts:
       pop: 1
 
   ddl-target-algorithm:
-    - match: \b(?i:MERGE|TEMPTABLE|UNDEFINED)\b
+    - match: \b(?i:merge|temptable|undefined)\b
       scope: keyword.other.mysql
       pop: 1
     - include: else-pop
@@ -114,12 +117,16 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
       scope: keyword.other.luw.sql
+    - match: \b(?i:end)\b
+      scope: keyword.control.flow.end.sql
+    - match: \b(?i:return)\b
+      scope: keyword.control.flow.return.sql
 
 ###[ EXPRESSIONS ]#############################################################
 
   expressions:
     - meta_prepend: true
-    - match: \b(?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+    - match: \b(?i:concatenate|convert|lower|substring|translate|trim|upper)\b
       scope: support.function.string.sql
     - match: \b(?i:using)\b
       scope: keyword.other.mysql

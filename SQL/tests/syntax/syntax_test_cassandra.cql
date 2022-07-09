@@ -87,7 +87,7 @@ insert into something_by_countrycode (someid, countrycode) values (:someid, :cou
 CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 -- ^^^^^^^^^ keyword.other.ddl
---           ^^ keyword.control.flow
+--           ^^ keyword.control.conditional.if
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
 --                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS date_by_userid (
 DROP TABLE IF EXISTS userpermissions_by_userid;
 --^^^^^^^^^^^^^^^^^^^ meta.drop
 --^^^^^^^^ keyword.other.ddl
---         ^^ keyword.control.flow
+--         ^^ keyword.control.conditional.if
 --            ^^^^^^ keyword.operator.logical
 --                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                            ^ punctuation.terminator.statement
@@ -220,7 +220,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --^^^^ keyword.other.ddl
 --     ^^^^^^^^^^^^ keyword.other
 --                  ^^^^ keyword.other
---                       ^^ keyword.control.flow
+--                       ^^ keyword.control.conditional.if
 --                          ^^^ keyword.operator.logical
 --                              ^^^^^^ keyword.operator.logical
 --                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other

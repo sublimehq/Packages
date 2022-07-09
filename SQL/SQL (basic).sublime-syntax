@@ -11,9 +11,9 @@ variables:
   simple_identifier_break: (?!\w)
 
   reserved: |-
-    (?xi: alter | create | delete | drop | from | group | inner | insert
-    | join | left | on | order | outer | return | right | select | set
-    | truncate | union | update | where )
+    (?xi: alter | create | delete | drop | from | group | inner | insert | join
+    | left | on | order | outer | right | select | set | truncate | union
+    | update | where )
   additional_reserved: (?!)
 
   ddl_target: |-
@@ -270,7 +270,7 @@ contexts:
 
   dml-condition:
     - match: \b(?i:if)\b
-      scope: keyword.control.flow.sql
+      scope: keyword.control.conditional.if.sql
     - include: logical-operators
 
 ###[ OTHER STATEMENTS ]########################################################

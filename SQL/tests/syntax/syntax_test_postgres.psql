@@ -50,7 +50,7 @@ SELECT b, char_length(b) FROM test2;
 CREATE TABLE IF NOT EXISTS public.dropzone_details
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 -- ^^^^^^^^^ keyword.other.ddl
---           ^^ keyword.control.flow
+--           ^^ keyword.control.conditional.if
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
 --                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
