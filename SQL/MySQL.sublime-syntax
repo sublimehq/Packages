@@ -93,13 +93,6 @@ contexts:
       pop: 1
     - include: else-pop
 
-  inside-ddl-table-creation-columns:
-    - meta_prepend: true
-    - match: \b(?i:auto_increment)\b
-      scope: keyword.other.mysql
-    - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
-      scope: keyword.other.object-comments.sql
-
 ###[ DML STATEMENTS ]##########################################################
 
   dml-statements:
@@ -137,6 +130,15 @@ contexts:
     - match: (?=#)
       pop: 1
     - include: comments
+
+###[ COLUMN DECLARATIONS ]#####################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:auto_increment)\b
+      scope: keyword.other.mysql
+    - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
+      scope: keyword.other.object-comments.sql
 
 ###[ TYPES ]###################################################################
 

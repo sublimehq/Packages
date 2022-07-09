@@ -86,21 +86,6 @@ contexts:
     - match: \b(?i:proc|unique|clustered|nonclustered)\b
       scope: keyword.other.ddl.sql
 
-  ddl-table-creation-columns:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set:
-        - maybe-with-table-options
-        - maybe-filegroup
-        - inside-ddl-table-creation-columns
-
-  inside-ddl-table-creation-columns:
-    - meta_prepend: true
-    - match: \b(?i:rowguidcol|clustered|nonclustered)\b
-      scope: storage.modifier.tsql
-    - match: \b(?i:period\s+for\s+system_time)\b
-      scope: storage.modifier.tsql
-
 ###[ DML STATEMENTS ]##########################################################
 
   dml-statements:
@@ -244,7 +229,7 @@ contexts:
       scope: keyword.other.dml.sql
       push:
         - cte-as
-        - cte-column-list
+        - maybe-column-reference-list
         - expect-cte-table-name
     - match: \b(?i:with)\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
       scope: keyword.other.dml.sql
@@ -259,13 +244,9 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cte.tsql
       push:
-        - cte-column-list
+        - maybe-column-reference-list
         - expect-cte-table-name
     - include: expressions
-
-  cte-column-list:
-    - include: ddl-table-creation-columns
-    - include: else-pop
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -476,8 +457,8 @@ contexts:
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
     - include: comma-separators
+    - include: column-reference-list
     - include: literals-and-variables
-    - include: ddl-table-creation-columns
     - include: expect-index-names
 
   inside-optimize-for-group:
@@ -686,8 +667,25 @@ contexts:
   maybe-with-column-definition:
     - match: \b(?i:with)\b
       scope: keyword.other.tsql
-      set: ddl-table-creation-columns
+      set: maybe-column-declaration-list
     - include: else-pop
+
+###[ COLUMN DECLARATIONS ]#####################################################
+
+  maybe-column-declaration-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set:
+        - maybe-with-table-options
+        - maybe-filegroup
+        - inside-column-declaration-list
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:rowguidcol|clustered|nonclustered)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:period\s+for\s+system_time)\b
+      scope: storage.modifier.tsql
 
 ###[ TYPES ]###################################################################
 

@@ -21,8 +21,12 @@ SELECT "My -- Crazy Column Name" FROM my_table;
 SELECT "My /* Crazy Column Name" FROM my_table;
 --         ^^ - comment - punctuation
 
+CREATE TABLE foo
+-- ^^^^^^^^^ keyword.other.ddl
+--           ^^^ entity.name.struct
 
 ;CREATE TABLE foo (id INTEGER PRIMARY KEY);
+-- <- punctuation.terminator.statement.sql
  -- <- meta.create keyword.other.ddl
 --^^^^^ keyword.other.ddl
 --      ^^^^^ keyword.other

@@ -34,7 +34,7 @@ contexts:
       scope: keyword.other.ddl.sql
       push:
         - ddl-create-target
-        - ddl-table-creation-columns
+        - maybe-column-declaration-list
         - ddl-create-type-condition
 
   ddl-alter-common:
@@ -59,21 +59,6 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
     - include: immediately-pop
-
-  inside-ddl-table-creation-columns:
-    - meta_scope: meta.group.table-columns.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - match: \b(?i:(primary\s+key))\s*(\()
-      captures:
-        1: storage.modifier.cql
-        2: meta.group.partition-key.cql punctuation.section.group.begin.cql
-      push: inside-partition-key
-    - match: \b(?i:primary\s+key)\b
-      scope: storage.modifier.cql
-    - include: expressions
-    - include: ddl-creation-column
 
   inside-partition-key:
     - meta_content_scope: meta.group.partition-key.cql
@@ -182,6 +167,23 @@ contexts:
     - include: expressions
     - match: '{{simple_identifier}}'
       scope: meta.mapping.key.cql string.unquoted.cql
+
+###[ COLUMN DECLARATIONS ]#####################################################
+
+  inside-column-declaration-list:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:(primary\s+key))\s*(\()
+      captures:
+        1: storage.modifier.cql
+        2: meta.group.partition-key.cql punctuation.section.group.begin.cql
+      push: inside-partition-key
+    - match: \b(?i:primary\s+key)\b
+      scope: storage.modifier.cql
+    - include: expressions
+    - include: column-declaration
 
 ###[ TYPES ]###################################################################
 
