@@ -623,6 +623,18 @@ contexts:
     - match: (?=\S)
       set: [column-alias-name, single-identifier]
 
+  expect-constraint-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [constraint-name, single-identifier]
+
+  constraint-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.constraint-name.sql
+    - include: immediately-pop
+
   column-alias-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.column-alias.sql
@@ -650,18 +662,6 @@ contexts:
   procedure-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.procedure-name.sql
-    - include: immediately-pop
-
-  expect-constraint-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [constraint-name, single-identifier]
-
-  constraint-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.constraint-name.sql
     - include: immediately-pop
 
   expect-schema-name:
