@@ -60,27 +60,6 @@ contexts:
     - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
     - include: immediately-pop
 
-  inside-partition-key:
-    - meta_content_scope: meta.group.partition-key.cql
-    - match: \)
-      scope: meta.group.partition-key.cql punctuation.section.group.end.cql
-      pop: 1
-    - match: \(
-      scope: punctuation.section.group.begin.cql
-      push: inside-partition-key-group
-    - match: ','
-      scope: punctuation.separator.sequence.cql
-      set: inside-group
-    - include: expect-column-names
-
-  inside-partition-key-group:
-    - match: \)
-      scope: punctuation.section.group.end.cql
-      pop: 1
-    - match: ','
-      scope: punctuation.separator.sequence.cql
-    - include: expect-column-names
-
 ###[ DML STATEMENTS ]##########################################################
 
   dml-statements:
@@ -184,6 +163,27 @@ contexts:
       scope: storage.modifier.cql
     - include: expressions
     - include: column-declaration
+
+  inside-partition-key:
+    - meta_content_scope: meta.group.partition-key.cql
+    - match: \)
+      scope: meta.group.partition-key.cql punctuation.section.group.end.cql
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.cql
+      push: inside-partition-key-group
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+      set: inside-group
+    - include: expect-column-names
+
+  inside-partition-key-group:
+    - match: \)
+      scope: punctuation.section.group.end.cql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+    - include: expect-column-names
 
 ###[ TYPES ]###################################################################
 
