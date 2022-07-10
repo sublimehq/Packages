@@ -16,11 +16,22 @@ variables:
     | update | where )
   additional_reserved: (?!)
 
+  # TODO: not all are supported by all dialects!
   ddl_target: |-
-    (?xi: aggregate | constraint | conversion | database | domain | function
-    | group | (?: (?: fulltext | spatial | unique ) \s+ )?index | language
-    | operator\s+class | operator | procedure | rule | schema | sequence
-    | table(?:space)? | trigger | type | user | view )
+    (?xi: {{ddl_target_other}} | {{ddl_target_procedure}}
+    | (?: {{ddl_target_index_modifier}} \s+ )? index
+    | (?: {{ddl_target_table_modifier}} \s+ )? table )
+  ddl_target_procedure: |-
+    (?xi: procedure | function )
+  ddl_target_other: |-
+    (?xi: aggregate | constraint | conversion | database | domain | group
+    | language | operator\s+class | operator | rule | schema | sequence
+    | tablespace | trigger | type | user | view )
+
+  ddl_target_index_modifier: |-
+    (?xi: fulltext | spatial | unique )
+  ddl_target_table_modifier: |-
+    (?xi: temp(?:orary)? )
 
   simple_types: |-
     (?xi: bit | bool | boolean | datetime | int )
@@ -43,6 +54,11 @@ contexts:
     - include: ddl-statements
     - include: dml-statements
     - include: other-statements
+
+  ddl-statements:
+    - include: ddl-create-statements
+    - include: ddl-drop-statements
+    - include: ddl-alter-statements
 
 ###[ COMMENTS ]################################################################
 
@@ -86,55 +102,266 @@ contexts:
       scope: punctuation.definition.comment.end.sql
       pop: 1
 
-###[ DDL STATEMENTS ]##########################################################
+###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-statements:
-    - match: \b(?i:create\s+(?:temporary\s+)?table)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-create-target
-        - maybe-column-declaration-list
-        - create-table-condition
+  ddl-create-statements:
     - match: \b(?i:create)\b
       scope: keyword.other.ddl.sql
       push:
-        - ddl-create-target-expect-as
+        - ddl-create-meta
         - ddl-create-target
-        - create-other-condition
-        - ddl-target
-    - match: \b(?i:drop\s+table)\b
+
+  ddl-create-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.create.sql
+    - include: immediately-pop
+
+  ddl-create-target:
+    - include: ddl-create-index
+    - include: ddl-create-table
+    - include: ddl-create-procedure
+    - include: ddl-create-other
+    - include: else-pop
+
+  ddl-create-index:
+    - match: \b(?xi:(?:({{ddl_target_index_modifier}})\s+)?(index))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - ddl-target-as
+        - ddl-target-on
+        - expect-index-creation-name
+        - ddl-create-index-condition
+
+  ddl-create-index-condition:
+    - include: ddl-condition
+
+  ddl-create-procedure:
+    - match: \b{{ddl_target_procedure}}\b
       scope: keyword.other.ddl.sql
-      push: ddl-drop-table
+      set:
+        - ddl-target-as
+        - expect-procedure-creation-name
+        - ddl-create-procedure-condition
+
+  ddl-create-procedure-condition:
+    - include: ddl-condition
+
+  ddl-create-table:
+    - match: \b(?i:(?:({{ddl_target_table_modifier}})\s+)?(table))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - ddl-target-on
+        - maybe-column-declaration-list
+        - expect-table-creation-name
+        - ddl-create-table-condition
+
+  ddl-create-table-condition:
+    - include: ddl-condition
+
+  ddl-create-other:
+    - match: \b{{ddl_target_other}}\b
+      scope: keyword.other.ddl.sql
+      set:
+        - ddl-target-as
+        - ddl-target-on
+        - expect-other-creation-name
+        - ddl-create-other-condition
+
+  ddl-create-other-condition:
+    - include: ddl-condition
+
+###[ DDL DROP STATEMENTS ]#####################################################
+
+  ddl-drop-statements:
     - match: \b(?i:drop)\b
       scope: keyword.other.ddl.sql
       push:
+        - ddl-drop-meta
         - ddl-drop-target
-        - drop-condition
-        - ddl-target
-    - match: \b(?i:alter\s+table)\b
+
+  ddl-drop-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.drop.sql
+    - include: immediately-pop
+
+  ddl-drop-target:
+    - include: ddl-drop-index
+    - include: ddl-drop-table
+    - include: ddl-drop-procedure
+    - include: ddl-drop-other
+    - include: else-pop
+
+  ddl-drop-index:
+    - match: \b(?i:index)\b
       scope: keyword.other.ddl.sql
-      push:
-        - ddl-alter-table
+      set:
+        - expect-index-name
+        - ddl-drop-index-condition
+
+  ddl-drop-index-condition:
+    - include: ddl-condition
+
+  ddl-drop-procedure:
+    - match: \b{{ddl_target_procedure}}\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-procedure-name
+        - ddl-drop-procedure-condition
+
+  ddl-drop-procedure-condition:
+    - include: ddl-condition
+
+  ddl-drop-table:
+    - match: \b(?i:(?:({{ddl_target_table_modifier}})\s+)?(table))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
         - expect-table-name
+        - ddl-drop-table-condition
+
+  ddl-drop-table-condition:
+    - include: ddl-condition
+
+  ddl-drop-other:
+    - match: \b{{ddl_target_other}}\b
+      scope: keyword.other.ddl.sql
+      set:
+        - ddl-target-on
+        - expect-other-name
+        - ddl-drop-other-condition
+
+  ddl-drop-other-condition:
+    - include: ddl-condition
+
+###[ DDL ALTER STATEMENTS ]####################################################
+
+  ddl-alter-statements:
     - match: \b(?i:alter)\b
       scope: keyword.other.ddl.sql
       push:
+        - ddl-alter-meta
         - ddl-alter-target
-        - ddl-target
 
-  ddl-create-target:
-    - meta_scope: meta.create.sql
-    - include: ddl-target-on
+  ddl-alter-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.alter.sql
+    - include: immediately-pop
 
-  ddl-create-target-expect-as:
+  ddl-alter-target:
+    - include: ddl-alter-index
+    - include: ddl-alter-table
+    - include: ddl-alter-procedure
+    - include: ddl-alter-other
+    - include: else-pop
+
+  ddl-alter-index:
+    - match: \b(?:({{ddl_target_index_modifier}})\s+)?(index)\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - ddl-alter-other-args
+        - expect-index-name
+        - ddl-alter-index-condition
+
+  ddl-alter-index-condition:
+    - include: ddl-condition
+
+  ddl-alter-procedure:
+    - match: \b{{ddl_target_procedure}}\b
+      scope: keyword.other.ddl.sql
+      set:
+        - ddl-target-as
+        - expect-procedure-name
+        - ddl-alter-procedure-condition
+
+  ddl-alter-procedure-condition:
+    - include: ddl-condition
+
+  ddl-alter-table:
+    - match: \b(?i:(?:({{ddl_target_table_modifier}})\s+)?(table))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - ddl-alter-table-args
+        - expect-table-name
+        - ddl-alter-table-condition
+
+  ddl-alter-table-condition:
+    - include: ddl-condition
+
+  ddl-alter-table-args:
+    - include: ddl-alter-columns
+    - include: ddl-alter-common
+    - include: pop-on-top-level-reserved-word
+    - include: expressions-or-column-names
+
+  ddl-alter-other:
+    - match: \b{{ddl_target_other}}\b
+      scope: keyword.other.ddl.sql
+      set:
+        - ddl-alter-other-args
+        - expect-other-name
+        - ddl-alter-other-condition
+
+  ddl-alter-other-condition:
+    - include: ddl-condition
+
+  ddl-alter-other-args:
+    - include: ddl-alter-common
+    - include: else-pop
+
+  ddl-alter-columns:
+    - match: \b(?i:(add|alter)(?:\s+(column)|(?!\s+{{ddl_target}})))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - expect-column-name-declaration
+    - match: \b(?i:(drop)(?:\s+(column)|(?!\s+{{ddl_target}})))\b
+      scope: keyword.other.ddl.sql
+      push: expect-column-name
+
+  ddl-alter-common:
+    - match: \b(?i:(add)\s+(constraint))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      push:
+        - maybe-column-modifier
+        - expect-constraint-name
+    - match: \b(?i:(add)\s+(?:({{ddl_target_index_modifier}})\s+)?(index))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+        3: keyword.other.ddl.sql
+    - match: \b(?i:(add)\s+(primary|foreign)\s+(key))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+        3: keyword.other.ddl.sql
+
+###[ DDL STATEMENT PROTOTYPES ]################################################
+
+  ddl-condition:
+    - match: \b(?i:if)\b
+      scope: keyword.control.conditional.if.sql
+    - include: logical-operators
+    - include: else-pop
+
+  ddl-target-as:
     - match: \b(?i:as)\b
       scope: keyword.context.block.sql
       pop: 1
     - match: \b(?i:returns)\b
       scope: keyword.other.sql
-      push: expect-type
-    - match: (@){{simple_identifier}}
-      scope: variable.parameter.sql
       push: expect-type
     - include: expressions
     - include: pop-on-top-level-reserved-word
@@ -144,75 +371,6 @@ contexts:
       scope: keyword.other.sql
       push: expect-table-name
     - include: else-pop
-
-  ddl-drop-target:
-    - meta_include_prototype: false
-    - meta_scope: meta.drop.sql
-    - include: immediately-pop
-
-  ddl-target:
-    - match: \b{{ddl_target}}\b
-      scope: keyword.other.sql
-    - include: else-pop
-
-  ddl-drop-table:
-    - meta_scope: meta.drop.sql
-    - include: dml-condition
-    - include: expect-table-name
-
-  ddl-alter-table:
-    - meta_scope: meta.alter.sql
-    - include: ddl-alter-column
-    - include: ddl-alter-common
-    - include: expressions-or-column-names
-
-  ddl-alter-target:
-    - meta_scope: meta.alter.sql
-    - include: ddl-alter-common
-    - include: else-pop
-
-  ddl-alter-common:
-    - match: \b(?i:add\s+constraint)\b
-      scope: meta.add.sql keyword.other.sql
-      push:
-        - maybe-column-modifier
-        - expect-constraint-name
-    - match: \b(?i:add\s+(?:(?:fulltext|spatial)\s+(index|key)|index))\b
-      scope: meta.add.sql keyword.other.sql
-    - include: pop-on-top-level-reserved-word
-
-  ddl-alter-column:
-    - match: \b(?i:(?:add|alter)\s+column)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - expect-type
-        - expect-column-name-declaration
-    - match: \b(?i:(?:add|alter))\b(?!\s+{{ddl_target}}\b)
-      scope: keyword.other.ddl.sql
-      push:
-        - expect-type
-        - expect-column-name-declaration
-    - match: \b(?i:drop\s+column)\b
-      scope: keyword.other.ddl.sql
-      push: expect-column-name
-    - match: \b(?i:drop)\b(?!\s+{{ddl_target}}\b)
-      scope: keyword.other.ddl.sql
-      push: expect-column-name
-
-  create-other-condition:
-    - include: dml-condition
-    - include: expect-other-creation-name
-
-  create-table-condition:
-    - include: dml-condition
-    - include: expect-table-creation-name
-
-  drop-condition:
-    - include: dml-condition
-    - match: (?=\S)
-      set:
-        - ddl-target-on
-        - single-identifier
 
 ###[ DML STATEMENTS ]##########################################################
 
@@ -652,6 +810,42 @@ contexts:
     - meta_content_scope: meta.database-name.sql
     - include: immediately-pop
 
+  expect-index-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [index-creation-name, single-identifier]
+
+  index-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.struct.index.sql
+    - include: immediately-pop
+
+  expect-index-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [index-name, single-identifier]
+
+  index-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.index-name.sql
+    - include: immediately-pop
+
+  expect-procedure-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [procedure-creation-name, single-identifier]
+
+  procedure-creation-name:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.function.sql
+    - include: immediately-pop
+
   expect-procedure-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -664,18 +858,6 @@ contexts:
     - meta_content_scope: meta.procedure-name.sql
     - include: immediately-pop
 
-  expect-schema-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [schema-name, single-identifier]
-
-  schema-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.schema-name.sql
-    - include: immediately-pop
-
   expect-table-creation-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -685,7 +867,7 @@ contexts:
 
   table-creation-name:
     - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.struct.sql
+    - meta_scope: entity.name.struct.table.sql
     - include: immediately-pop
 
   expect-table-name:
@@ -721,7 +903,19 @@ contexts:
 
   other-creation-name:
     - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.other.sql
+    - meta_scope: entity.name.struct.other.sql
+    - include: immediately-pop
+
+  expect-other-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [other-name, single-identifier]
+
+  other-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.other-name.sql
     - include: immediately-pop
 
   single-identifier:

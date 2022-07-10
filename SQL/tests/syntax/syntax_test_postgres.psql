@@ -1,9 +1,11 @@
 -- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
 
 CREATE TABLE test1 (a character(4));
+-- <- meta.create.sql keyword.other.ddl
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
--- ^^^^^^^^^ keyword.other.ddl
---           ^^^^^ meta.toc-list.full-identifier entity.name.struct
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^^^^ entity.name.struct.table
 --                 ^^^^^^^^^^^^^^^^ meta.group.table-columns
 --                                 ^ punctuation.terminator.statement
 --                 ^ punctuation.section.group.begin
@@ -28,8 +30,9 @@ SELECT a, char_length(a) FROM test1;
 
 CREATE TABLE test2 (b varchar(5));
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
--- ^^^^^^^^^ keyword.other.ddl
---           ^^^^^ meta.toc-list.full-identifier entity.name.struct
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^^^^ entity.name.struct
 --                 ^^^^^^^^^^^^^^ meta.group.table-columns
 --                               ^ punctuation.terminator.statement
 --                 ^ punctuation.section.group.begin
@@ -49,11 +52,12 @@ SELECT b, char_length(b) FROM test2;
 
 CREATE TABLE IF NOT EXISTS public.dropzone_details
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
--- ^^^^^^^^^ keyword.other.ddl
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
 --           ^^ keyword.control.conditional.if
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
---                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
+--                         ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct
 --                               ^ punctuation.accessor.dot
 (
 -- <- meta.create meta.group.table-columns punctuation.section.group.begin
@@ -103,7 +107,7 @@ SELECT 'abc \153\154\155 \052\251\124'::bytea;
 CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 -- ^^^ meta.create keyword.other.ddl
 --     ^^^^ meta.create keyword.other
---          ^^^^ meta.create meta.toc-list.full-identifier entity.name
+--          ^^^^ meta.create entity.name
 --               ^^ keyword.context.block
 CREATE TABLE person (
     name text,
@@ -202,13 +206,116 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 --                      ^^^^ keyword.other.dml
 --                           ^^^^^^^ meta.table-name
 
+
+-- -----------------
+-- CREATE EXTENSION
+-- https://www.postgresql.org/docs/current/sql-createextension.html
+-- -----------------
+
 CREATE EXTENSION hstore SCHEMA addons;
--- ^^^ meta.create keyword.other.ddl
---     ^^^^^^^^^ meta.create keyword.other
---               ^^^^^^ meta.create meta.toc-list.full-identifier entity.name.other
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^^^^^ keyword.other.ddl
+--               ^^^^^^ entity.name.namespace.psql
 --                      ^^^^^^ storage.modifier
 --                             ^^^^^^ meta.schema-name
 --                                   ^ punctuation.terminator.statement
+
+CREATE EXTENSION IF NOT EXISTS extension_name WITH SCHEMA schema_name VERSION 1.0 CASCADE;
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^ keyword.other.ddl.psql
+--               ^^ keyword.control.conditional.if.sql
+--                  ^^^ keyword.operator.logical.sql
+--                      ^^^^^^ keyword.operator.logical.sql
+--                             ^^^^^^^^^^^^^^ entity.name.namespace.psql
+--                                            ^^^^ keyword.other.psql
+--                                                 ^^^^^^ storage.modifier.psql
+--                                                        ^^^^^^^^^^^ meta.schema-name.psql
+--                                                                    ^^^^^^^ storage.modifier.psql
+--                                                                            ^^^ meta.number.float.decimal.sql constant.numeric.value.sql
+--                                                                                ^^^^^^^ storage.modifier.psql
+--                                                                                       ^ punctuation.terminator.statement.sql
+
+-- -----------------
+-- DROP EXTENSION
+-- https://www.postgresql.org/docs/current/sql-dropextension.html
+-- -----------------
+
+DROP EXTENSION name CASCADE;
+-- <- meta.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^^^^^ keyword.other.ddl.psql
+--             ^^^^ meta.extension-name.psql
+--                  ^^^^^^^ storage.modifier.psql
+--                         ^ punctuation.terminator.statement.sql
+
+DROP EXTENSION IF EXISTS name, second RESTRICT;
+-- <- meta.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^^^^^ keyword.other.ddl.psql
+--             ^^ keyword.control.conditional.if.sql
+--                ^^^^^^ keyword.operator.logical.sql
+--                       ^^^^ meta.extension-name.psql
+--                           ^ punctuation.separator.sequence.psql
+--                             ^^^^^^ meta.extension-name.psql
+--                                    ^^^^^^^^ storage.modifier.psql
+--                                            ^ punctuation.terminator.statement.sql
+
+-- -----------------
+-- ALTER EXTENSION
+-- https://www.postgresql.org/docs/current/sql-alterextension.html
+-- -----------------
+
+ALTER EXTENSION extension_name UPDATE TO 1.2;
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^^^^ keyword.other.ddl.psql
+--                                    ^^ keyword.other.ddl.psql
+--                                       ^^^ meta.number.float.decimal.sql constant.numeric.value.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+ALTER EXTENSION extension_name SET SCHEMA new_schema;
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^ keyword.other.ddl.psql
+--                                 ^^^^^^ storage.modifier.psql
+--                                        ^^^^^^^^^^ meta.schema-name.psql
+--
+
+ALTER EXTENSION extension_name ADD member_object;
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^ keyword.other.ddl.sql
+--                                 ^^^^^^^^^^^^^ meta.member-name.psql
+--                                              ^ punctuation.terminator.statement.sql
+
+ALTER EXTENSION extension_name DROP member_object;
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^^ keyword.other.ddl.sql
+--                                  ^^^^^^^^^^^^^ meta.member-name.psql
+
+-- -----------------
+-- CREATE TABLE
+-- https://www.postgresql.org/docs/current/ddl-basics.html
+-- -----------------
 
 CREATE TABLE example_table (
      first_name VARCHAR(100)
@@ -226,9 +333,13 @@ CREATE TABLE example_table (
 );
 
 ALTER TABLE mytable ADD CONSTRAINT verif_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA'));
--- ^^^^^^^^ keyword.other.ddl
+-- <- meta.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl
+--    ^^^^^ keyword.other.ddl
 --          ^^^^^^^ meta.table-name
---                  ^^^^^^^^^^^^^^ keyword.other
+--                  ^^^ keyword.other.ddl
+--                      ^^^^^^^^^^ keyword.other.ddl
 --                                 ^^^^^^^^^^ meta.constraint-name
 --                                            ^^^^^ keyword.other
 --                                                  ^ punctuation.section.group.begin
@@ -259,8 +370,10 @@ CREATE TABLE test2 (
 );
 
 ALTER TABLE test2 ADD something varchar[];
+-- <- meta.alter.sql keyword.other.ddl
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter
--- ^^^^^^^^ keyword.other.ddl
+-- ^^ keyword.other.ddl
+--    ^^^^^ keyword.other.ddl
 --          ^^^^^ meta.table-name
 --                ^^^ keyword.other.ddl
 --                    ^^^^^^^^^ meta.column-name
@@ -273,7 +386,7 @@ ALTER TABLE test2 ADD something varchar[];
 CREATE TRIGGER blah AFTER INSERT OR UPDATE
 -- ^^^ keyword.other.ddl
 --     ^^^^^^^ keyword.other
---             ^^^^ meta.toc-list.full-identifier entity.name.other
+--             ^^^^ entity.name.struct.other
 --                  ^^^^^^^^^^^^^^^^^^^^^^ keyword.other
     ON some_table FOR EACH ROW EXECUTE PROCEDURE some_procedure();
 --  ^^ keyword.other

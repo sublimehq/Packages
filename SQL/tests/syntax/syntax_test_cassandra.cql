@@ -4,7 +4,7 @@ CREATE KEYSPACE killrvideo WITH replication = {'class':'SimpleStrategy', 'replic
 --^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 --^^^^ keyword.other.ddl
 --     ^^^^^^^^ keyword.other
---              ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
+--              ^^^^^^^^^^ entity.name.struct.other
 --                         ^^^^ keyword.other
 --                                          ^ keyword.operator
 --                                            ^ punctuation.section.braces.begin
@@ -86,11 +86,12 @@ insert into something_by_countrycode (someid, countrycode) values (:someid, :cou
 
 CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
--- ^^^^^^^^^ keyword.other.ddl
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
 --           ^^ keyword.control.conditional.if
 --              ^^^ keyword.operator.logical
 --                  ^^^^^^ keyword.operator.logical
---                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
+--                         ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct
 --                                                   ^ meta.group.table-columns punctuation.section.group.begin
     userid uuid,
 --  ^^^^^^^^^^^^^ meta.create meta.group.table-columns
@@ -208,22 +209,25 @@ CREATE TABLE IF NOT EXISTS date_by_userid (
 
 
 DROP TABLE IF EXISTS userpermissions_by_userid;
---^^^^^^^^^^^^^^^^^^^ meta.drop
---^^^^^^^^ keyword.other.ddl
+-- <- meta.drop.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- ^ keyword.other.ddl
+--   ^^^^^ keyword.other.ddl
 --         ^^ keyword.control.conditional.if
 --            ^^^^^^ keyword.operator.logical
 --                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                            ^ punctuation.terminator.statement
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
---^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
 --^^^^ keyword.other.ddl
---     ^^^^^^^^^^^^ keyword.other
---                  ^^^^ keyword.other
+--     ^^^^^^^^^^^^ keyword.other.ddl
+--                  ^^^^ keyword.other.ddl
 --                       ^^ keyword.control.conditional.if
 --                          ^^^ keyword.operator.logical
 --                              ^^^^^^ keyword.operator.logical
---                                     ^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
+--                                     ^^^^^^^^^^ entity.name.struct.other
 --                                                ^^ keyword.context.block
     SELECT *
 --  ^^^^^^ keyword.other.dml
@@ -249,7 +253,7 @@ CREATE TYPE user_defined_type (
 --^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 --^^^^ keyword.other.ddl
 --     ^^^^ keyword.other
---          ^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.type
+--          ^^^^^^^^^^^^^^^^^ entity.name.type
 --                            ^ meta.group punctuation.section.group.begin
     type1 timestamp,
 --  ^^^^^ meta.column-name variable.other.member.declaration
@@ -330,8 +334,10 @@ PRIMARY KEY (entityid, datecreated, somefield)
 --                                                          ^ punctuation.terminator.statement
 
 ALTER TABLE someentity_by_somefield add usefulfield text;
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter
--- ^^^^^^^^ keyword.other.ddl
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^ keyword.other.ddl.sql
 --          ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                  ^^^ keyword.other.ddl
 --                                      ^^^^^^^^^^^ meta.column-name
@@ -419,9 +425,11 @@ CREATE TABLE myschema.users (
  );
 
 CREATE INDEX user_state
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
---           ^^^^^^^^^^ meta.toc-list.full-identifier
+--           ^^^^^^^^^^ entity.name.struct.index.sql
    ON myschema.users (state);
 -- ^^ keyword.other
 --    ^^^^^^^^^^^^^^ meta.table-name

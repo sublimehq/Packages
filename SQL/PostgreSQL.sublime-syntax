@@ -32,11 +32,15 @@ contexts:
     - meta_prepend: true
     - include: declarations
 
+  statements:
+    - meta_prepend: true
+    - match: \$\$
+
 ###[ DECLARATIONS ]############################################################
 
   declarations:
     - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.sql
+      scope: keyword.declaration.variable.psql
       push: inside-declaration
 
   inside-declaration:
@@ -51,33 +55,101 @@ contexts:
     - meta_scope: variable.other.psql
     - include: immediately-pop
 
-###[ DDL STATEMENTS ]##########################################################
+###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-statements:
+  ddl-create-target:
     - meta_prepend: true
-    - match: \$\$
+    - include: ddl-create-extension
+
+  ddl-create-extension:
+    # https://www.postgresql.org/docs/current/sql-createextension.html
+    - match: \b(?i:extension|domain)\b
+      scope: keyword.other.ddl.psql
+      set:
+        - ddl-target-as
+        - expect-extension-name-declaration
+        - ddl-create-extension-condition
+
+  ddl-create-extension-condition:
+    - include: ddl-condition
+
+###[ DDL DROP STATEMENTS ]#####################################################
+
+  ddl-drop-target:
+    - meta_prepend: true
+    # https://www.postgresql.org/docs/current/sql-dropextension.html
+    - match: \b(?i:extension|domain)\b
+      scope: keyword.other.ddl.psql
+      set:
+        - ddl-target-as
+        - ddl-drop-extension-name-list
+        - ddl-drop-extension-name
+
+  ddl-drop-extension-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.psql
+      push: expect-extension-name
+    - include: else-pop
+
+  ddl-drop-extension-name:
+    - meta_include_prototype: false
+    - include: comments
+    - include: dml-condition
+    - include: expect-extension-name
+
+###[ DDL ALTER STATEMENTS ]####################################################
+
+  ddl-alter-target:
+    - meta_prepend: true
+    # https://www.postgresql.org/docs/current/sql-alterextension.html
+    - match: \b(?i:extension|domain)\b
+      scope: keyword.other.ddl.psql
+      set:
+        - ddl-alter-extension-args
+        - ddl-alter-extension-name
+
+  ddl-alter-extension-name:
+    - meta_include_prototype: false
+    - include: expect-extension-name
+
+  ddl-alter-extension-args:
+    - match: \b(?i:add|drop)\b
+      scope: keyword.other.ddl.sql
+      push: expect-member-name
+    - match: \b(?i:(set)\s+(schema))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: storage.modifier.psql
+      push: expect-schema-name
+    - match: \b(?i:(update)\s+(to))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: keyword.other.ddl.psql
+    - include: numbers
+    - include: else-pop
 
   ddl-alter-common:
     - meta_prepend: true
     - match: \b(?i:check)\b
       scope: keyword.other.psql
 
-  ddl-create-target:
-    - meta_prepend: true
-    - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
-      scope: keyword.other.psql
+###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  ddl-create-target-expect-as:
+  ddl-target-as:
     - meta_prepend: true
     - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
+      scope: keyword.other.psql
+    - match: \b(?i:with)\b
       scope: keyword.other.psql
     - match: \b(?i:schema)\b
       scope: storage.modifier.psql
       push: expect-schema-name
+    - match: \b(?i:version|cascade|restrict)\b
+      scope: storage.modifier.psql
 
-  ddl-target:
+  ddl-target-on:
     - meta_prepend: true
-    - match: \b(?i:extension|domain)\b
+    - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
       scope: keyword.other.psql
 
 ###[ EXPRESSIONS ]#############################################################
@@ -100,6 +172,68 @@ contexts:
     - match: \b(?i:unique)\b
       scope: keyword.other.psql
 
+###[ IDENTIFIERS ]#############################################################
+
+  expect-extension-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [extension-name, single-identifier]
+
+  extension-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.extension-name.psql
+    - include: immediately-pop
+
+  expect-extension-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [extension-name-declaration, single-identifier]
+
+  extension-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.namespace.psql
+    - include: immediately-pop
+
+  expect-member-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [member-name, single-identifier]
+
+  member-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.member-name.psql
+    - include: immediately-pop
+
+  expect-member-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [member-name-declaration, single-identifier]
+
+  member-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.member.psql
+    - include: immediately-pop
+
+  expect-schema-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [schema-name, single-identifier]
+
+  schema-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.schema-name.psql
+    - include: immediately-pop
+
 ###[ OPERATORS ]###############################################################
 
   operators:
@@ -117,11 +251,11 @@ contexts:
 
   expect-regexp:
     - match: \'
-      scope: meta.string.regexp.psql punctuation.definition.string.begin.sql
+      scope: meta.string.regexp.psql punctuation.definition.string.begin.psql
       embed: scope:source.regexp
       embed_scope: meta.string.regexp.psql
       escape: \'
       escape_captures:
-        0: meta.string.regexp.psql punctuation.definition.string.end.sql
+        0: meta.string.regexp.psql punctuation.definition.string.end.psql
       pop: 1
     - include: else-pop

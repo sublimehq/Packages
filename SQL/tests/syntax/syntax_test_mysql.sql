@@ -22,8 +22,13 @@ SELECT "My /* Crazy Column Name" FROM my_table;
 --         ^^ - comment - punctuation
 
 CREATE TABLE foo
--- ^^^^^^^^^ keyword.other.ddl
---           ^^^ entity.name.struct
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl
+--    ^ - keyword
+--     ^^^^^ keyword.other.ddl
+--          ^ - keyword
+--           ^^^ entity.name.struct.table.sql
 
 ;CREATE TABLE foo (id INTEGER PRIMARY KEY);
 -- <- punctuation.terminator.statement.sql
@@ -138,18 +143,27 @@ create table fancy_table (
 );
 
 CREATE INDEX ON fancy_table(mytime);
---     ^^^^^ keyword.other.sql
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+--     ^^^^^ keyword.other.ddl
 --           ^^ keyword.other
 --              ^^^^^^^^^^^ meta.table-name
 
 CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
---     ^^^^^ keyword.other.sql
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
 --           ^^ keyword.other
 --              ^^^^^^^^^^^ meta.table-name
 --                          ^^^^^ keyword.other
 
 CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
---     ^^^^^^^^^^^^ keyword.other.sql
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^^ keyword.other.ddl
+--            ^^^^^ keyword.other.ddl
 --                  ^^ meta.create keyword.other
 --                     ^^^^^^^^^^^ meta.table-name
 --                                ^ meta.group punctuation.section.group.begin
@@ -162,32 +176,42 @@ CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
 --                                                                       ^^^^ constant.language.null.sql
 
 create fulltext index if not exists `myindex` ON mytable;
---     ^^^^^^^^^^^^^^ keyword.other.sql
+--     ^^^^^^^^ keyword.other.ddl
+--              ^^^^^ keyword.other.ddl
 --                    ^^ keyword.control.conditional.if
 --                       ^^^ keyword.operator.logical
 --                           ^^^^^^ keyword.operator.logical
---                                  ^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
+--                                  ^^^^^^^^^ entity.name.struct.index
 --                                            ^^ keyword.other
 --                                               ^^^^^^^ meta.table-name
 --                                                      ^ punctuation.terminator.statement
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
--- ^^^^^^^^ meta.alter keyword.other.ddl
---                         ^^^ keyword.other.ddl.sql
---                             ^^^^^^ keyword.other.ddl.sql
+-- <- meta.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl
+--    ^^^^^ keyword.other.ddl
+--          ^^^^^^^^^^^^^^ meta.table-name.sql
+--                         ^^^ keyword.other.ddl
+--                             ^^^^^^ keyword.other.ddl
 --                                    ^^^^^^^^ meta.column-name
 --                                             ^^^^^^^^ storage.type.sql
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
---                     ^^^^^^^^^^^^^ meta.alter keyword.other.ddl
+-- <- meta.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+--                     ^^^^^^ keyword.other.ddl
+--                            ^^^^^^ keyword.other.ddl
 --                                   ^^^^^^^^ meta.column-name
 --                                            ^^^^^^^^ meta.column-name variable.other.member.declaration
 --                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
--- <- meta.drop.sql keyword.other.ddl.sql
--- ^^^^^^^ meta.drop keyword.other.ddl
---         ^^ meta.drop keyword.control.conditional.if
+-- <- meta.drop.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- ^ keyword.other.ddl
+--   ^^^^^ keyword.other.ddl
+--         ^^ keyword.control.conditional.if.sql
 --            ^^^^^^ keyword.operator.logical.sql
 --                   ^^^^^^^^^^ meta.table-name
 --                             ^ punctuation.terminator.statement
@@ -251,8 +275,8 @@ WHERE   f.a IS NULL
 CREATE INDEX IX_some_index ON dbo.some_table(
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
 -- ^^^ keyword.other.ddl
---     ^^^^^ keyword.other
---           ^^^^^^^^^^^^^ meta.toc-list.full-identifier
+--     ^^^^^ keyword.other.ddl
+--           ^^^^^^^^^^^^^ entity.name.struct.index
 --                         ^^ keyword.other
 --                            ^^^^^^^^^^^^^^ meta.table-name
 --                                          ^ meta.group punctuation.section.group.begin
@@ -266,9 +290,9 @@ CREATE ALGORITHM=MERGE VIEW contactPersons(
 -- ^^^ keyword.other.ddl
 --     ^^^^^^^^^ keyword.other
 --              ^ keyword.operator.assignment
---               ^^^^^ keyword.other
---                     ^^^^ keyword.other
---                          ^^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.other
+--               ^^^^^ constant.language
+--                     ^^^^ keyword.other.ddl
+--                          ^^^^^^^^^^^^^^ entity.name.struct.other
 --                                        ^ meta.group punctuation.section.group.begin
     customerName,
 --  ^^^^^^^^^^^^ meta.group meta.column-name
@@ -291,8 +315,15 @@ FROM customers;
 --            ^ punctuation.terminator.statement
 
 CREATE TEMPORARY TABLE IF NOT EXISTS foo (
--- ^^^^^^^^^^^^^^^^^^^ meta.create keyword.other.ddl
---                                   ^^^ meta.toc-list.full-identifier entity.name.struct
+-- <- meta.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^^^^^ keyword.other.ddl
+--               ^^^^^ keyword.other.ddl
+--                     ^^ keyword.control.conditional.if.sql
+--                        ^^^ keyword.operator.logical.sql
+--                            ^^^^^^ keyword.operator.logical.sql
+--                                   ^^^ entity.name.struct.table
     bar NVARCHAR(400),
     baz INT
 );

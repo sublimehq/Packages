@@ -11,6 +11,12 @@ file_extensions:
   - cql
 
 variables:
+
+  ddl_target_procedure: |-
+    (?xi: function )
+  ddl_target_other: |-
+    (?xi: keyspace | type | user | (?: materialized \s+ )? view )
+
   simple_types: |-
     \b(?xi:
       ASCII | BIGINT | BLOB | BOOLEAN | COUNTER | DATE | DECIMAL | DOUBLE
@@ -18,47 +24,35 @@ variables:
     | TIMEUUID | TINYINT | UUID | VARCHAR | VARINT
     )\b
   types_with_optional_number: (?!)
-  ddl_target: |-
-    \b(?xi:
-      function | index | keyspace | table | type | user
-    | (?:materialized\s+)?view
-    )\b
 
 contexts:
 
-###[ DDL STATEMENTS ]##########################################################
-
-  ddl-statements:
-    - meta_prepend: true
-    - match: \b(?i:create\s+type)\b
-      scope: keyword.other.ddl.sql
-      push:
-        - ddl-create-target
-        - maybe-column-declaration-list
-        - ddl-create-type-condition
-
-  ddl-alter-common:
-    - meta_prepend: false
+###[ DDL CREATE STATEMENTS ]###################################################
 
   ddl-create-target:
     - meta_prepend: true
-    - match: \b(?i:with)\b
-      scope: keyword.other.cql
-    - match: \b(?i:clustering)\b
-      scope: keyword.other.cql
+    - include: ddl-create-type
+
+  ddl-create-type:
+    - match: \b(?i:type)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - ddl-target-on
+        - maybe-column-declaration-list
+        - expect-type-creation-name
+        - ddl-create-type-condition
 
   ddl-create-type-condition:
-    - include: dml-condition
-    - include: expect-type-creation-name
+    - include: ddl-condition
 
-  expect-type-creation-name:
-    - match: (?=\S)
-      set: [type-creation-name, single-identifier]
+###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  type-creation-name:
-    - meta_include_prototype: false
-    - meta_scope: meta.toc-list.full-identifier.sql entity.name.type.cql
-    - include: immediately-pop
+  ddl-target-on:
+    - meta_prepend: true
+    - match: \b(?i:clustering)\b
+      scope: keyword.other.cql
+    - match: \b(?i:with)\b
+      scope: keyword.other.cql
 
 ###[ DML STATEMENTS ]##########################################################
 
@@ -184,6 +178,19 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cql
     - include: expect-column-names
+
+###[ IDENTIFIERS ]#############################################################
+
+  expect-type-creation-name:
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [type-creation-name, single-identifier]
+
+  type-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.type.cql
+    - include: immediately-pop
 
 ###[ TYPES ]###################################################################
 

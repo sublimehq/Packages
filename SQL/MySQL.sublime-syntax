@@ -44,55 +44,56 @@ contexts:
     - match: \n
       pop: 1
 
-###[ DDL STATEMENTS ]##########################################################
+###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-statements:
+  ddl-create-statements:
     - meta_prepend: true
     - match: \b(?i:create\s+or\s+replace)\b
       scope: keyword.other.ddl.sql
       push:
+        - ddl-create-meta
         - ddl-create-target
-        - create-condition
-        - ddl-target
 
-  ddl-alter-table:
+  ddl-create-target:
     - meta_prepend: true
-    - match: \b(?i:change\s+column)\b
+    - include: ddl-target-algorithm
+    # index modifiers
+    - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
+
+  ddl-drop-target:
+    - meta_prepend: true
+    - include: ddl-target-algorithm
+
+###[ DDL ALTER STATEMENTS ]####################################################
+
+  ddl-alter-target:
+    - meta_prepend: true
+    - include: ddl-target-algorithm
+
+  ddl-alter-columns:
+    - meta_prepend: true
+    - match: \b(?i:(change)\s+(column))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
       push:
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
 
-  ddl-target:
-    - meta_prepend: true
-    - include: ddl-target-common
+###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  ddl-create-target:
-    - meta_prepend: true
-    - include: ddl-target-common
-
-  create-condition:
-    - meta_prepend: true
-    - include: ddl-target-common
-
-  ddl-target-common:
-    - match: \b(?i:on)\b
-      scope: keyword.other.mysql
-      push: expect-table-name
-    - match: \b(?i:using)\b
-      scope: keyword.other.mysql
+  ddl-target-algorithm:
     - match: \b(?i:(algorithm))\s*(=)
       captures:
         1: keyword.other.mysql
         2: keyword.operator.assignment.mysql
-      push: ddl-target-algorithm
-    - match: (?=\()
-      pop: 1
+      push: ddl-target-algorithm-value
 
-  ddl-target-algorithm:
+  ddl-target-algorithm-value:
     - match: \b(?i:merge|temptable|undefined)\b
-      scope: keyword.other.mysql
+      scope: constant.language.sql
       pop: 1
     - include: else-pop
 

@@ -539,26 +539,46 @@ AND (v.column2 IS NULL OR ISNULL(TableAlias.column1, 0) != v.column1)
 --                                                      ^^ keyword.operator.comparison
 
 drop table foobar
--- ^^^^^^^ meta.drop keyword.other.ddl
+-- <- meta.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^ meta.drop
+-- ^ keyword.other.ddl
+--  ^ - keyword
+--   ^^^^^ keyword.other
 --         ^^^^^^ meta.table-name
 
 alter table foo
--- ^^^^^^^^ meta.alter keyword.other.ddl
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--   ^ - keyword
+--    ^^^^^ keyword.other.ddl.sql
+--         ^ - keyword
 --          ^^^ meta.alter meta.table-name
 add bar uniqueidentifier
---^ meta.alter keyword.other.ddl
---  ^^^ meta.alter meta.column-name
---      ^^^^^^^^^^^^^^^^ meta.alter storage.type
+--^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+--^ keyword.other.ddl.sql
+--  ^^^ meta.column-name
+--      ^^^^^^^^^^^^^^^^ storage.type
 
 alter table foo
---^^^^^^^^^ meta.alter keyword.other.ddl - meta.alter meta.alter
---          ^^^ meta.alter meta.table-name
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--   ^ - keyword
+--    ^^^^^ keyword.other.ddl.sql
+--         ^ - keyword
+--          ^^^  meta.table-name
 alter column bar uniqueidentifier not null
---^^^^^^^^^^ meta.alter keyword.other.ddl
---           ^^^ meta.alter meta.column-name
---               ^^^^^^^^^^^^^^^^ meta.alter storage.type
---                                ^^^ meta.alter keyword.operator.logical
---                                    ^^^^ meta.alter constant.language.null
+-- <- meta.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- ^^ keyword.other.ddl.sql
+--   ^ - keyword
+--    ^^^^^^ keyword.other.ddl.sql
+--          ^ - keyword
+--           ^^^ meta.column-name
+--               ^^^^^^^^^^^^^^^^ storage.type
+--                                ^^^ keyword.operator.logical
+--                                    ^^^^ constant.language.null
 
 USE AdventureWorks2012;
 GO
@@ -645,7 +665,7 @@ GO
 CREATE OR ALTER PROC CreateOrAlterDemo
 -- ^^^^^^^^^^^^ meta.create keyword.other.ddl
 --              ^^^^ meta.create keyword.other
---                   ^^^^^^^^^^^^^^^^^ meta.create meta.toc-list.full-identifier entity.name.struct
+--                   ^^^^^^^^^^^^^^^^^ meta.create.sql entity.name.function.sql
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
@@ -855,7 +875,7 @@ SELECT cte_table.* FROM cte_table
 CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
---           ^^^ meta.toc-list.full-identifier entity.name.struct
+--           ^^^ entity.name.struct
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
 --               ^ punctuation.section.group.begin
 --                ^^ meta.column-name
@@ -1420,9 +1440,23 @@ RETURN
 GO
 
 CREATE FUNCTION foo() RETURNS @MyType
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^ entity.name.function.sql
+--                 ^^ meta.group.sql
+--                    ^^^^^^^ keyword.other.sql
 --                            ^^^^^^^ support.type.sql variable.other.readwrite.sql
 
 CREATE FUNCTION foo() RETURNS My@TypeName
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^ entity.name.function.sql
+--                 ^^ meta.group.sql
+--                    ^^^^^^^ keyword.other.sql
 --                            ^^ support.type.sql - variable
 --                              ^^^^^^^^^ support.type.sql variable.other.readwrite.sql
 
@@ -1701,7 +1735,7 @@ CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
 --     ^^^^^^ keyword.other
 --            ^^^^^^^^^^^^ keyword.other
 --                         ^^^^^ keyword.other
---                               ^^^^^^^^^^^^^ meta.toc-list.full-identifier entity.name.struct
+--                               ^^^^^^^^^^^^^ entity.name.struct
 --                                             ^^ keyword.other
 --                                                ^^^^^^^^^^^^^^ meta.table-name
 --                                                              ^ meta.group punctuation.section.group.begin
@@ -1914,8 +1948,12 @@ CREATE TABLE Customers (
 
 ALTER TABLE inventory
 ADD CONSTRAINT fk_inv_product_id
---^^^^^^^^^^^^ meta.alter meta.add keyword.other
---             ^^^^^^^^^^^^^^^^^ meta.alter meta.constraint-name
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+--^ keyword.other.ddl.sql
+-- ^ - keyword
+--  ^^^^^^^^^^ keyword.other.ddl.sql
+--            ^ - keyword
+--             ^^^^^^^^^^^^^^^^^ meta.constraint-name
     FOREIGN KEY (product_id)
 --  ^^^^^^^^^^^ meta.alter storage.modifier
 --              ^ meta.alter meta.group.table-columns punctuation.section.group.begin

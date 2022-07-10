@@ -21,6 +21,9 @@ variables:
       (?:\b\w+|\[[^]]+\])
     )
 
+  ddl_target_procedure: |-
+    (?xi: proc(?:edure)? | func(?:tion)? )
+
   # types
 
   enclosed_type_begin: \[
@@ -58,34 +61,29 @@ contexts:
       set: expect-type
     - include: else-pop
 
-###[ DDL STATEMENTS ]##########################################################
+###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-statements:
-    - meta_prepend: true
-    - match: (?i)\b(?:create(?:\s+or\s+alter)?)\b(?!\s*table\b)
+  ddl-create-statements:
+    - match: \b(?i:create(?:\s+or\s+alter)?)\b
       scope: keyword.other.ddl.sql
       push:
-        - ddl-create-target-expect-as
+        - ddl-create-meta
         - ddl-create-target
-        - create-table-condition
-        - ddl-target
 
-  ddl-alter-target:
-    - meta_scope: meta.alter.sql
-    - include: ddl-alter-common
-    - match: (?=\S)
-      set:
-        - ddl-create-target-expect-as
-        - expect-procedure-name
+  ddl-create-target:
+    - meta_prepend: true
+    # modifiers
+    - match: \b(?i:unique|clustered|nonclustered)\b
+      scope: keyword.other.ddl.sql
 
-  ddl-create-target-expect-as:
+###[ DDL STATEMENT PROTOTYPES ]################################################
+
+  ddl-target-as:
     - meta_prepend: true
     - include: with-table-options
-
-  ddl-target:
-    - meta_prepend: true
-    - match: \b(?i:proc|unique|clustered|nonclustered)\b
-      scope: keyword.other.ddl.sql
+    - match: (@){{simple_identifier}}
+      scope: variable.parameter.sql
+      push: expect-type
 
 ###[ DML STATEMENTS ]##########################################################
 

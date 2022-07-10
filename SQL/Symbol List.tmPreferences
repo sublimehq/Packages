@@ -5,7 +5,7 @@
     <string>source.sql entity.name.struct</string>
     <key>settings</key>
     <dict>
-        <key>showInIndexedSymbolList</key>
+        <key>showInSymbolList</key>
         <string>1</string>
     </dict>
 </dict>
