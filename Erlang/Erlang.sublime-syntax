@@ -784,6 +784,15 @@ contexts:
         - meta_scope: meta.case.erlang
         - include: expr-control-conditional-end
         - include: expr-control-body
+    # https://www.erlang.org/doc/reference_manual/expressions.html#maybe
+    - match: maybe{{ident_break}}
+      scope: keyword.control.conditional.maybe.erlang
+      push:
+        - meta_scope: meta.maybe.erlang
+        - match: \?=
+          scope: keyword.operator.logical.erlang
+        - include: expr-control-conditional-end
+        - include: expr-control-body
     # http://erlang.org/doc/reference_manual/expressions.html#receive
     - match: receive{{ident_break}}
       scope: keyword.control.flow.receive.erlang

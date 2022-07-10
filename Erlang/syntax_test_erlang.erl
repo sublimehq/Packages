@@ -4465,6 +4465,69 @@ if_tests() ->
 %   ^^^ keyword.control.conditional.end.erlang
 %      ^ punctuation.terminator.clause.erlang
 
+maybe_tests() ->
+
+    maybe4you
+%   ^^^^^^^^^ meta.atom.erlang constant.other.symbol.erlang - keyword
+
+    maybe_you
+%   ^^^^^^^^^ meta.atom.erlang constant.other.symbol.erlang - keyword
+
+    maybe@you
+%   ^^^^^^^^^ meta.atom.erlang constant.other.symbol.erlang - keyword
+
+    maybe
+%  ^ - meta.maybe - keyword
+%   ^^^^^^ meta.maybe.erlang - meta.maybe meta.maybe
+%   ^^^^^ keyword.control.conditional.maybe.erlang
+%        ^ - keyword
+        maybe
+%   ^^^^ meta.maybe.erlang - meta.maybe meta.maybe - keyword
+%       ^^^^^^ meta.maybe.erlang meta.maybe.erlang
+%       ^^^^^ keyword.control.conditional.maybe.erlang
+%            ^ - keyword
+            {ok, A} ?= a(),
+%   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.maybe.erlang meta.maybe.erlang
+%           ^^^^^^^ meta.sequence.tuple.erlang
+%                   ^^ keyword.operator.logical.erlang
+%                      ^ variable.function.erlang
+%                       ^ punctuation.section.arguments.begin.erlang
+%                        ^ punctuation.section.arguments.end.erlang
+%                         ^ punctuation.separator.expressions.erlang
+            true = A >= 0,
+%   ^^^^^^^^^^^^^^^^^^^^^^^ meta.maybe.erlang meta.maybe.erlang
+%           ^^^^ constant.language.boolean.erlang
+%                ^ keyword.operator.assignment.erlang
+%                  ^ variable.other.readwrite.erlang
+%                    ^^ keyword.operator.comparison.erlang
+%                       ^ constant.numeric.value.erlang
+%                        ^ punctuation.separator.expressions.erlang
+            {ok, B} ?= b(),
+%   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.maybe.erlang meta.maybe.erlang
+%           ^^^^^^^ meta.sequence.tuple.erlang
+%                   ^^ keyword.operator.logical.erlang
+%                      ^ variable.function.erlang
+%                       ^ punctuation.section.arguments.begin.erlang
+%                        ^ punctuation.section.arguments.end.erlang
+%                         ^ punctuation.separator.expressions.erlang
+            A + B
+%   ^^^^^^^^^^^^^^ meta.maybe.erlang meta.maybe.erlang
+%           ^ variable.other.readwrite.erlang
+%             ^ keyword.operator.arithmetic.erlang
+%               ^ variable.other.readwrite.erlang
+        end
+%   ^^^^^^^ meta.maybe.erlang meta.maybe.erlang
+%      ^ - keyword
+%       ^^^ keyword.control.conditional.end.erlang
+%          ^ meta.maybe.erlang - meta.maybe meta.maybe - keyword
+    end
+%  ^^^^ meta.maybe.erlang - meta.maybe meta.maybe
+%  ^ - keyword
+%   ^^^ keyword.control.conditional.end.erlang
+%      ^ - meta.maybe - keyword
+    .
+%   ^ meta.function.erlang punctuation.terminator.clause.erlang
+
 function_call_tests() ->
 
 % erlang is a special autoimported namespace
