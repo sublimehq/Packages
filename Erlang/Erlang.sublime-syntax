@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-# http://erlang.org/doc/reference_manual
+# https://www.erlang.org/doc/reference_manual
 # https://www.sublimetext.com/docs/syntax.html
 name: Erlang
 scope: source.erlang
@@ -23,11 +23,11 @@ first_line_match: |-
 ###############################################################################
 
 variables:
-  # http://erlang.org/doc/reference_manual/data_types.html#atom
+  # https://www.erlang.org/doc/reference_manual/data_types.html#atom
   # an atom starts with lowercase alphanumeric
   atom_unquoted: '[a-z]{{ident_char}}*'
 
-  # http://erlang.org/doc/reference_manual/expressions.html#variables
+  # https://www.erlang.org/doc/reference_manual/expressions.html#variables
   # a variable starts with uppercase alphanumeric or underscore
   variable: '[_A-Z]{{ident_char}}*'
 
@@ -49,14 +49,14 @@ variables:
   # quoted/unquoted/macro identifier
   ident: \?{,2}(?:{{ident_unquoted}}|{{ident_quoted}})
 
-  # http://erlang.org/doc/reference_manual/macros.html#predefined-macros
+  # https://www.erlang.org/doc/reference_manual/macros.html#predefined-macros
   erlang_macros: |-
     (?x:
       MODULE|FUNCTION_NAME|FUNCTION_ARITY|MODULE_STRING|
       FILE|LINE|MACHINE|OTP_RELEASE
     ){{ident_break}}
 
-  # http://erlang.org/doc/man/erlang.html#exports
+  # https://www.erlang.org/doc/man/erlang.html#exports
   erlang_functions: |-
     (?x:
       abs|adler32|adler32_combine|append_element|apply|atom_to_binary|atom_to_list|
@@ -94,7 +94,7 @@ variables:
   erlang_types: |-
     (?x:
       # builtin data types
-      # http://erlang.org/doc/reference_manual/typespec.html#the-erlang-type-language
+      # https://www.erlang.org/doc/reference_manual/typespec.html#the-erlang-type-language
       any|arity|atom|binary|bitstring|boolean|byte|char|float|fun|function|
       identifier|integer|iodata|iolist|list|map|maybe_improper_list|mfa|module|nil|
       no_return|node|none|non_neg_integer|neg_integer|pos_integer|nonempty_list|
@@ -103,7 +103,7 @@ variables:
       number|pid|port|record|reference|string|term|timeout|tuple|
 
       # erlang library
-      # http://erlang.org/doc/man/erlang.html#data-types
+      # https://www.erlang.org/doc/man/erlang.html#data-types
       dist_handle|ext_binary|iovec|message_queue_data|nif_resource|
       deprecated_time_unit|timeout|timestamp|time_unit
     ){{ident_break}}
@@ -265,7 +265,7 @@ contexts:
 ###[ PREPROCESSOR CONTROL ]###################################################
 
   preproc-control:
-    # http://erlang.org/doc/reference_manual/macros.html#flow-control-in-macros
+    # https://www.erlang.org/doc/reference_manual/macros.html#flow-control-in-macros
     # Note:
     #   The `-` is scoped as `punctuation.definition` because:
     #   1. derectives are most likely one-liners (with exceptions!)
@@ -346,7 +346,7 @@ contexts:
 ###[ PREPROCESSOR DEFINE ]####################################################
 
   preproc-define:
-    # http://erlang.org/doc/reference_manual/macros.html#defining-and-using-macros
+    # https://www.erlang.org/doc/reference_manual/macros.html#defining-and-using-macros
     - match: (-)\s*(define){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -391,7 +391,7 @@ contexts:
 ###[ PREPROCESSOR EXPORT ]####################################################
 
   preproc-export:
-    # http://erlang.org/doc/reference_manual/modules.html#pre-defined-module-attributes
+    # https://www.erlang.org/doc/reference_manual/modules.html#pre-defined-module-attributes
     - match: (-)\s*(export(_type)?){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -433,7 +433,7 @@ contexts:
 ###[ PREPROCESSOR IMPORT ]####################################################
 
   preproc-import:
-    # http://erlang.org/doc/reference_manual/modules.html#pre-defined-module-attributes
+    # https://www.erlang.org/doc/reference_manual/modules.html#pre-defined-module-attributes
     - match: (-)\s*(import){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -464,7 +464,7 @@ contexts:
 ###[ PREPROCESSOR INCLUDE ]###################################################
 
   preproc-include:
-    # http://erlang.org/doc/reference_manual/macros.html#file-inclusion
+    # https://www.erlang.org/doc/reference_manual/macros.html#file-inclusion
     - match: (-)\s*(include(_lib)?){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -499,7 +499,7 @@ contexts:
 ###[ PREPROCESSOR MODULE ]####################################################
 
   preproc-module:
-    # http://erlang.org/doc/reference_manual/modules.html#module-syntax
+    # https://www.erlang.org/doc/reference_manual/modules.html#module-syntax
     - match: (-)\s*(module){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -570,21 +570,21 @@ contexts:
     - include: eol-pop
 
   preproc-attribute-argument:
-    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
     - match: \(
       scope: punctuation.section.group.begin.erlang
       push:
         - meta_scope: meta.group.erlang
         - include: group-common
         - include: preproc-attribute-argument
-    # http://erlang.org/doc/reference_manual/data_types.html#list
+    # https://www.erlang.org/doc/reference_manual/data_types.html#list
     - match: \[
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.list.erlang
         - include: list-common
         - include: preproc-attribute-argument
-    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    # https://www.erlang.org/doc/reference_manual/data_types.html#tuple
     - match: \{
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -600,7 +600,7 @@ contexts:
 ###[ PREPROCESSOR RECORD ]####################################################
 
   preproc-record:
-    # http://erlang.org/doc/reference_manual/modules.html#record-definitions
+    # https://www.erlang.org/doc/reference_manual/modules.html#record-definitions
     - match: (-)\s*(record){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -632,7 +632,7 @@ contexts:
 ###[ PREPROCESSOR SPEC ]######################################################
 
   preproc-spec:
-    # http://erlang.org/doc/reference_manual/typespec.html#specifications-for-functions
+    # https://www.erlang.org/doc/reference_manual/typespec.html#specifications-for-functions
     - match: (-)\s*(callback|spec){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -707,7 +707,7 @@ contexts:
 ###[ PREPROCESSOR TYPE ]######################################################
 
   preproc-type:
-    # http://erlang.org/doc/reference_manual/typespec.html#typespec-of-user-defined-types
+    # https://www.erlang.org/doc/reference_manual/typespec.html#typespec-of-user-defined-types
     - match: (-)\s*(opaque|type){{ident_break}}
       captures:
         1: punctuation.definition.keyword.erlang
@@ -770,14 +770,14 @@ contexts:
 ###[ CONTROL EXPRESSION ]#####################################################
 
   expr-control:
-    # http://erlang.org/doc/reference_manual/expressions.html#if
+    # https://www.erlang.org/doc/reference_manual/expressions.html#if
     - match: if{{ident_break}}
       scope: keyword.control.conditional.if.erlang
       push:
         - meta_scope: meta.if.erlang
         - include: expr-control-conditional-end
         - include: expr-control-body
-    # http://erlang.org/doc/reference_manual/expressions.html#case
+    # https://www.erlang.org/doc/reference_manual/expressions.html#case
     - match: case{{ident_break}}
       scope: keyword.control.conditional.case.erlang
       push:
@@ -793,28 +793,28 @@ contexts:
           scope: keyword.operator.logical.erlang
         - include: expr-control-conditional-end
         - include: expr-control-body
-    # http://erlang.org/doc/reference_manual/expressions.html#receive
+    # https://www.erlang.org/doc/reference_manual/expressions.html#receive
     - match: receive{{ident_break}}
       scope: keyword.control.flow.receive.erlang
       push:
         - meta_scope: meta.receive.erlang
         - include: expr-control-flow-end
         - include: expr-control-body
-    # http://erlang.org/doc/reference_manual/expressions.html#block-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#block-expressions
     - match: begin{{ident_break}}
       scope: keyword.control.flow.begin.erlang
       push:
         - meta_scope: meta.block.erlang
         - include: expr-control-flow-end
         - include: expr-control-body
-    # http://erlang.org/doc/reference_manual/...?
+    # https://www.erlang.org/doc/reference_manual/...?
     - match: query{{ident_break}}
       scope: keyword.control.flow.query.erlang
       push:
         - meta_scope: meta.query.erlang
         - include: expr-control-flow-end
         - include: expr-control-body
-    # http://erlang.org/doc/reference_manual/expressions.html#guard-sequences
+    # https://www.erlang.org/doc/reference_manual/expressions.html#guard-sequences
     - match: when{{ident_break}}
       scope: keyword.control.conditional.when.erlang
       push:
@@ -842,7 +842,7 @@ contexts:
 ###[ TRY-CATCH EXPRESSION ]###################################################
 
   expr-try:
-    # http://erlang.org/doc/reference_manual/expressions.html#try
+    # https://www.erlang.org/doc/reference_manual/expressions.html#try
     - match: try{{ident_break}}
       scope: keyword.control.exception.try.erlang
       push:
@@ -884,7 +884,7 @@ contexts:
 ###[ FUN EXPRESSION ]#########################################################
 
   expr-fun:
-    # http://erlang.org/doc/reference_manual/expressions.html#fun-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#fun-expressions
     - match: fun{{ident_break}}
       scope: keyword.declaration.function.erlang
       push:
@@ -948,7 +948,7 @@ contexts:
 ###[ FUNCTION DEFINITION ]####################################################
 
   function:
-    # http://erlang.org/doc/reference_manual/functions.html#function-declaration-syntax
+    # https://www.erlang.org/doc/reference_manual/functions.html#function-declaration-syntax
     # Function names can be (un-)quoted atoms or nested (un-)quoted macros
     # which can contain escape sequences as ordinary strings.
     # Example:  ?'fu % na\'me' (arguments)
@@ -1008,7 +1008,7 @@ contexts:
 ###[ TYPE CALL ]##############################################################
 
   type-call:
-    # http://erlang.org/doc/reference_manual/typespec.html
+    # https://www.erlang.org/doc/reference_manual/typespec.html
     # A function type looks like:
     #  fun()                  %% any function
     #  fun((...) -> Type)     %% any arity, returning Type
@@ -1081,7 +1081,7 @@ contexts:
 ###[ GROUPS ]#################################################################
 
   group-of-expressions:
-    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
     - match: \(
       scope: punctuation.section.group.begin.erlang
       push:
@@ -1090,7 +1090,7 @@ contexts:
         - include: expressions
 
   group-of-function-parameters:
-    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
     - match: \(
       scope: punctuation.section.group.begin.erlang
       push:
@@ -1099,7 +1099,7 @@ contexts:
         - include: function-parameter
 
   group-of-types:
-    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
     - match: \(
       scope: punctuation.section.group.begin.erlang
       push:
@@ -1108,7 +1108,7 @@ contexts:
         - include: type-expressions
 
   group-of-type-parameters:
-    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
     - match: \(
       scope: punctuation.section.group.begin.erlang
       push:
@@ -1125,7 +1125,7 @@ contexts:
 ###[ LISTS ]##################################################################
 
   list-of-expressions:
-    # http://erlang.org/doc/reference_manual/data_types.html#list
+    # https://www.erlang.org/doc/reference_manual/data_types.html#list
     - match: \[
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1134,7 +1134,7 @@ contexts:
         - include: expressions
 
   list-of-function-parameters:
-    # http://erlang.org/doc/reference_manual/data_types.html#list
+    # https://www.erlang.org/doc/reference_manual/data_types.html#list
     - match: \[
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1143,7 +1143,7 @@ contexts:
         - include: function-parameter
 
   list-of-types:
-    # http://erlang.org/doc/reference_manual/data_types.html#list
+    # https://www.erlang.org/doc/reference_manual/data_types.html#list
     - match: \[
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1153,7 +1153,7 @@ contexts:
         - include: type-expressions
 
   list-of-type-parameters:
-    # http://erlang.org/doc/reference_manual/data_types.html#list
+    # https://www.erlang.org/doc/reference_manual/data_types.html#list
     - match: \[
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1174,8 +1174,8 @@ contexts:
 ###[ MAPS ]###################################################################
 
   map-of-expressions:
-    # http://erlang.org/doc/reference_manual/data_types.html#map
-    # http://erlang.org/doc/reference_manual/expressions.html#map-expressions
+    # https://www.erlang.org/doc/reference_manual/data_types.html#map
+    # https://www.erlang.org/doc/reference_manual/expressions.html#map-expressions
     - match: '#{'
       scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
       push:
@@ -1199,8 +1199,8 @@ contexts:
     - include: map-separator
 
   map-of-types:
-    # http://erlang.org/doc/reference_manual/data_types.html#map
-    # http://erlang.org/doc/reference_manual/expressions.html#map-expressions
+    # https://www.erlang.org/doc/reference_manual/data_types.html#map
+    # https://www.erlang.org/doc/reference_manual/expressions.html#map-expressions
     - match: '#{'
       scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
       push:
@@ -1236,7 +1236,7 @@ contexts:
 ###[ RECORDS ]################################################################
 
   record:
-    # http://erlang.org/doc/reference_manual/records.html
+    # https://www.erlang.org/doc/reference_manual/records.html
     - match: \#(?={{ident}})
       scope: punctuation.definition.record.erlang
       push: [record-fields, record-name, variable-other-record]
@@ -1344,7 +1344,7 @@ contexts:
 ###[ TUPLES ]#################################################################
 
   tuple-of-expressions:
-    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    # https://www.erlang.org/doc/reference_manual/data_types.html#tuple
     - match: \{
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1353,7 +1353,7 @@ contexts:
         - include: expressions
 
   tuple-of-function-parameters:
-    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    # https://www.erlang.org/doc/reference_manual/data_types.html#tuple
     - match: \{
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1362,7 +1362,7 @@ contexts:
         - include: function-parameter
 
   tuple-of-types:
-    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    # https://www.erlang.org/doc/reference_manual/data_types.html#tuple
     - match: \{
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1372,7 +1372,7 @@ contexts:
         - include: type-expressions
 
   tuple-of-type-parameters:
-    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    # https://www.erlang.org/doc/reference_manual/data_types.html#tuple
     - match: \{
       scope: punctuation.section.sequence.begin.erlang
       push:
@@ -1392,18 +1392,18 @@ contexts:
 ###[ KEYWORDS ]###############################################################
 
   constant:
-    # http://erlang.org/doc/reference_manual/data_types.html#boolean
+    # https://www.erlang.org/doc/reference_manual/data_types.html#boolean
     - match: (false|true){{ident_break}}
       scope: constant.language.boolean.erlang
-    # http://erlang.org/doc/reference_manual/errors.html#exceptions
+    # https://www.erlang.org/doc/reference_manual/errors.html#exceptions
     - match: (error|exit|ok|throw){{ident_break}}
       scope: constant.language.exception.type.erlang
     - match: (badarg|badarith|badmatch|function_clause|case_clause|if_clause|try_clause|undef|badfun|badarity|timeout_value|noproc|nocatch|system_limit){{ident_break}}
       scope: constant.language.exception.reason.erlang
-    # http://erlang.org/doc/reference_manual/records.html#defining-records
+    # https://www.erlang.org/doc/reference_manual/records.html#defining-records
     - match: (none|undefined){{ident_break}}
       scope: constant.language.undefined.erlang
-    # http://erlang.org/doc/man/erlang.html#data-types
+    # https://www.erlang.org/doc/man/erlang.html#data-types
     - match: (off_heap|on_heap){{ident_break}}
       scope: constant.language.message-queue-data.erlang
     - match: ((milli|micro|nano)?second|native|perf_counter|infinity){{ident_break}}
@@ -1421,7 +1421,7 @@ contexts:
   illegal-type-keyword:
     # The following keywords are not part of the type/spec language and must
     # not be used as types/constants as they are part of the reserved words.
-    # http://erlang.org/doc/reference_manual/introduction.html#reserved-words
+    # https://www.erlang.org/doc/reference_manual/introduction.html#reserved-words
     - match: (after|andalso|begin|case|catch|cond|end|if|let|of|orelse|receive|try|when){{ident_break}}
       scope: invalid.illegal.keyword.erlang
 
@@ -1550,7 +1550,7 @@ contexts:
 ###[ IDENTIFIERS ]############################################################
 
   atom:
-    # http://erlang.org/doc/reference_manual/data_types.html#atom
+    # https://www.erlang.org/doc/reference_manual/data_types.html#atom
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang constant.other.symbol.erlang
     - match: \'
@@ -1561,7 +1561,7 @@ contexts:
         - include: atom-quoted-common
 
   atom-pop:
-    # http://erlang.org/doc/reference_manual/data_types.html#atom
+    # https://www.erlang.org/doc/reference_manual/data_types.html#atom
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang constant.other.symbol.erlang
       pop: 1
@@ -1705,8 +1705,8 @@ contexts:
 ###[ ATOMIC DATA TYPES ]######################################################
 
   binary:
-    # http://erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
-    # http://erlang.org/doc/reference_manual/expressions.html#bit_syntax
+    # https://www.erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
+    # https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax
     - match: <<
       scope: punctuation.definition.sequence.begin.erlang
       push:
@@ -1717,8 +1717,8 @@ contexts:
         - include: variable-other
 
   binary-function-parameter:
-    # http://erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
-    # http://erlang.org/doc/reference_manual/expressions.html#bit_syntax
+    # https://www.erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
+    # https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax
     - match: <<
       scope: punctuation.definition.sequence.begin.erlang
       push:
@@ -1729,8 +1729,8 @@ contexts:
         - include: variable-parameter
 
   binary-type-parameter:
-    # http://erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
-    # http://erlang.org/doc/reference_manual/expressions.html#bit_syntax
+    # https://www.erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
+    # https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax
     - match: <<
       scope: punctuation.definition.sequence.begin.erlang
       push:
@@ -1780,7 +1780,7 @@ contexts:
           pop: 1
 
   escape:
-    # http://erlang.org/doc/reference_manual/data_types.html#escape-sequences
+    # https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences
     - match: (\\)[bdefnrstv\\''"$~]
       scope: constant.character.escape.erlang
       captures:
@@ -1826,12 +1826,12 @@ contexts:
       pop: 1
 
   macro:
-    # http://erlang.org/doc/reference_manual/macros.html#predefined-macros
+    # https://www.erlang.org/doc/reference_manual/macros.html#predefined-macros
     - match: (\?{1,2}){{erlang_macros}}
       scope: constant.language.macro.erlang
       captures:
         1: punctuation.definition.macro.erlang
-    # http://erlang.org/doc/reference_manual/macros.html#defining-and-using-macros
+    # https://www.erlang.org/doc/reference_manual/macros.html#defining-and-using-macros
     - match: \?{1,2}
       scope:
         constant.other.macro.erlang
@@ -1853,7 +1853,7 @@ contexts:
       set: constant-other-macro
 
   number:
-    # http://erlang.org/doc/reference_manual/data_types.html#number
+    # https://www.erlang.org/doc/reference_manual/data_types.html#number
     - match: \d[\d_]*(\.)[\d_]+([eE][-+]?[\d_]+)?\b
       scope: meta.number.float.decimal.erlang constant.numeric.value.erlang
       captures:
@@ -1984,7 +1984,7 @@ contexts:
       scope: invalid.illegal.integer.erlang
 
   string:
-    # http://erlang.org/doc/reference_manual/data_types.html#string
+    # https://www.erlang.org/doc/reference_manual/data_types.html#string
     - match: \"
       scope: punctuation.definition.string.begin.erlang
       push: string-body
@@ -1997,7 +1997,7 @@ contexts:
       pop: 1
     - match: (?=\\)
       push: escape
-    # http://erlang.org/doc/man/io.html
+    # https://www.erlang.org/doc/man/io.html
     # The general format of a control sequence is ~F.P.PadModC.
     - match: |-
         (?x:
@@ -2037,29 +2037,29 @@ contexts:
       scope: keyword.operator.comprehension.erlang
 
   operator-unary:
-    # http://erlang.org/doc/reference_manual/expressions.html#list-comprehensions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#list-comprehensions
     - match: <=|<-
       scope: keyword.operator.generator.erlang
-    # http://erlang.org/doc/reference_manual/expressions.html#term-comparisons
+    # https://www.erlang.org/doc/reference_manual/expressions.html#term-comparisons
     - match: =/=|=:=|/=|==|=<|>=|=!|>|<
       scope: keyword.operator.comparison.erlang
-    # http://erlang.org/doc/reference_manual/expressions.html#list-operations
+    # https://www.erlang.org/doc/reference_manual/expressions.html#list-operations
     - match: \+\+|--
       scope: keyword.operator.lists.erlang
-    # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.erlang
     - match: '[=!]'
       scope: keyword.operator.assignment.erlang
 
   operator:
-    # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
     - match: (div|rem){{ident_break}}
       scope: keyword.operator.arithmetic.erlang
     - match: (band|bor|bxor|bnot|bsl|bsr){{ident_break}}
       scope: keyword.operator.bitwise.erlang
-    # http://erlang.org/doc/reference_manual/expressions.html#boolean-expressions
-    # http://erlang.org/doc/reference_manual/expressions.html#short-circuit-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#boolean-expressions
+    # https://www.erlang.org/doc/reference_manual/expressions.html#short-circuit-expressions
     - match: (and|or|xor|not|andalso|orelse){{ident_break}}
       scope: keyword.operator.logical.erlang
 
