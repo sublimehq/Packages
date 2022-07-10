@@ -73,6 +73,12 @@ contexts:
   ddl-create-extension-condition:
     - include: ddl-condition
 
+  ddl-create-index-condition:
+    # https://www.postgresql.org/docs/current/sql-createindex.html
+    - meta_prepend: true
+    - match: \b(?i:concurrently)\b
+      scope: keyword.other.ddl.psql
+
 ###[ DDL DROP STATEMENTS ]#####################################################
 
   ddl-drop-target:
@@ -148,9 +154,14 @@ contexts:
       scope: storage.modifier.psql
 
   ddl-target-on:
-    - meta_prepend: true
     - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
       scope: keyword.other.psql
+    - match: \b(?i:(on)(?:\s+(only))?)\b
+      captures:
+        1: keyword.other.sql
+        2: keyword.other.psql
+      push: expect-table-name
+    - include: else-pop
 
 ###[ EXPRESSIONS ]#############################################################
 

@@ -312,6 +312,78 @@ ALTER EXTENSION extension_name DROP member_object;
 --                             ^^^^ keyword.other.ddl.sql
 --                                  ^^^^^^^^^^^^^ meta.member-name.psql
 
+
+-- -----------------
+-- CREATE INDEX
+-- https://www.postgresql.org/docs/current/sql-createindex.html
+--
+-- CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON [ ONLY ] table_name [ USING method ]
+--    ( { column_name | ( expression ) } [ COLLATE collation ] [ opclass [ ( opclass_parameter = value [, ... ] ) ] ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] [, ...] )
+--    [ INCLUDE ( column_name [, ...] ) ]
+--    [ WITH ( storage_parameter [= value] [, ... ] ) ]
+--    [ TABLESPACE tablespace_name ]
+--    [ WHERE predicate ]
+-- -----------------
+
+CREATE INDEX index_name
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ entity.name.struct.index.sql
+
+CREATE INDEX index_name USING method_name
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ entity.name.struct.index.sql
+--                      ^^^^^ keyword.other.mysql
+
+CREATE UNIQUE INDEX IF NOT EXISTS index_name ON table_name
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^ keyword.other.ddl.sql
+--                  ^^ keyword.control.conditional.if.sql
+--                     ^^^ keyword.operator.logical.sql
+--                         ^^^^^^ keyword.operator.logical.sql
+--                                ^^^^^^^^^^ entity.name.struct.index.sql
+--                                           ^^ keyword.other.sql
+--                                              ^^^^^^^^^^ meta.table-name.sql
+
+CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS index_name ON ONLY table_name
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^ keyword.other.ddl.psql
+--                               ^^ keyword.control.conditional.if.sql
+--                                  ^^^ keyword.operator.logical.sql
+--                                      ^^^^^^ keyword.operator.logical.sql
+--                                             ^^^^^^^^^^ entity.name.struct.index.sql
+--                                                        ^^ keyword.other.sql
+--                                                           ^^^^ keyword.other.psql
+--                                                                ^^^^^^^^^^ meta.table-name.sql
+
+CREATE UNIQUE INDEX CONCURRENTLY IF EXISTS index_name ON ONLY table_name USING method_name
+-- <- meta.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^ keyword.other.ddl.psql
+--                               ^^ keyword.control.conditional.if.sql
+--                                  ^^^^^^ keyword.operator.logical.sql
+--                                         ^^^^^^^^^^ entity.name.struct.index.sql
+--                                                    ^^ keyword.other.sql
+--                                                       ^^^^ keyword.other.psql
+--                                                            ^^^^^^^^^^ meta.table-name.sql
+--                                                                       ^^^^^ keyword.other.mysql
+
+
 -- -----------------
 -- CREATE TABLE
 -- https://www.postgresql.org/docs/current/ddl-basics.html
