@@ -35,7 +35,7 @@ contexts:
 
   ddl-create-type:
     - match: \b(?i:type)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.other.ddl.cql
       push:
         - ddl-target-on
         - maybe-column-declaration-list
