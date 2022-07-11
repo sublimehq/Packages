@@ -648,6 +648,20 @@ F'''string'''
 #^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
 #         ^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.end.python
 
+    f"{size:.2f}"
+#    ^ meta.string.interpolated.python - meta.interpolation
+#     ^^^^^ meta.string.interpolated.python meta.interpolation.python - meta.format-spec
+#          ^^^^ meta.string.interpolated.python meta.interpolation.python meta.format-spec.python
+#              ^ meta.string.interpolated.python meta.interpolation.python - meta.format-spec
+#               ^ meta.string.interpolated.python string.quoted.double.python - meta.interpolation
+#    ^ punctuation.definition.string.begin.python
+#     ^ punctuation.section.interpolation.begin.python
+#      ^^^^ meta.qualified-name.python meta.generic-name.python
+#          ^^^^ constant.other.format-spec.python
+#          ^ punctuation.separator.format-spec.python
+#              ^ punctuation.section.interpolation.end.python
+#               ^ punctuation.definition.string.end.python
+
  rf'string'
 #^^ storage.type.string - string
 #  ^^^^^^^^ meta.string.interpolated string.quoted.single
