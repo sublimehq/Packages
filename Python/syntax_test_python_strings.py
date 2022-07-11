@@ -651,7 +651,7 @@ F'''string'''
     f"{size:.2f}"
 #    ^ meta.string.interpolated.python - meta.interpolation
 #     ^^^^^ meta.string.interpolated.python meta.interpolation.python - meta.format-spec
-#          ^^^^ meta.string.interpolated.python meta.interpolation.python meta.format-spec.python
+#          ^^^^ meta.string.interpolated.python meta.interpolation.python meta.format-spec.python - meta.format-spec meta.format-spec
 #              ^ meta.string.interpolated.python meta.interpolation.python - meta.format-spec
 #               ^ meta.string.interpolated.python string.quoted.double.python - meta.interpolation
 #    ^ punctuation.definition.string.begin.python
