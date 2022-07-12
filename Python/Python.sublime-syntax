@@ -2102,10 +2102,11 @@ contexts:
     - match: '![ars]'
       scope: storage.modifier.conversion.python
     - match: ':'
+      scope: meta.format-spec.python constant.other.format-spec.python punctuation.separator.format-spec.python
       set: f-string-format-spec
 
   f-string-format-spec:
-    - meta_scope: meta.format-spec.python constant.other.format-spec.python
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
     # Because replacements can also be used *within* the format-spec,
     # basically any character is valid and matching {{format_spec}} is useless.
     # - match: '{{format_spec}}'
