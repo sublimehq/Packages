@@ -1,5 +1,366 @@
 -- SYNTAX TEST "Packages/SQL/MySQL.sublime-syntax"
 
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- https://mariadb.com/kb/en/account-management-sql-commands
+-- ----------------------------------------------------------------------------
+
+CREATE USER IF NOT EXISTS
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql
+--     ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^ keyword.other.ddl.sql
+--          ^^ keyword.control.conditional.if.sql
+--             ^^^ keyword.operator.logical.sql
+--                 ^^^^^^ keyword.operator.logical.sql
+    user1,
+-- <- meta.statement.create.sql
+-- ^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^ entity.name.user.sql
+--       ^ punctuation.separator.sequence.sql
+
+    user2 IDENTIFIED BY 'password',
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^ entity.name.user.sql
+--        ^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^ keyword.other.ddl.sql
+--                      ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                ^ punctuation.separator.sequence.sql
+
+    user3 IDENTIFIED BY PASSWORD 'password_hash',
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^ entity.name.user.sql
+--        ^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^ keyword.other.ddl.sql
+--                      ^^^^^^^^ storage.modifier.sql
+--                               ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                              ^ punctuation.separator.sequence.sql
+
+    user4 IDENTIFIED VIA
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^ entity.name.user.sql
+--        ^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^^ keyword.other.ddl.sql
+
+        auth_plugin1,
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                  ^ punctuation.separator.sequence.sql
+
+        auth_plugin2 AS 'auth_string',
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                   ^^ keyword.operator.assignment.alias.sql
+--                      ^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                   ^ punctuation.separator.sequence.sql
+
+        auth_plugin3 USING 'auth_string',
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                   ^^^^^ keyword.other.ddl.sql
+--                         ^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                      ^ punctuation.separator.sequence.sql
+
+        auth_plugin4 AS PASSWORD('password')
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                   ^^ keyword.operator.assignment.alias.sql
+--                      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                      ^^^^^^^^ support.function.sql
+--                              ^^^^^^^^^^^^ meta.group.sql
+--                              ^ punctuation.section.arguments.begin.sql
+--                               ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                         ^ punctuation.section.arguments.end.sql
+
+    REQUIRE NONE
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^ constant.language.null.sql
+
+    REQUIRE SSL AND CIPHER 'ciphername' X509 AND SUBJECT 'subject'
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^ constant.language.sql
+--              ^^^ keyword.operator.logical.sql
+--                  ^^^^^^ constant.language.sql
+--                         ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                      ^^^^ constant.language.sql
+--                                           ^^^ keyword.operator.logical.sql
+--                                               ^^^^^^^ constant.language.sql
+--                                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    WITH MAX_QUERIES_PER_HOUR 5
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_UPDATES_PER_HOUR 5
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_CONNECTIONS_PER_HOUR 5
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                                ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_USER_CONNECTIONS 5
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_STATEMENT_TIME 5
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    ACCOUNT LOCK
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^ constant.language.sql
+
+    ACCOUNT UNLOCK
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^ constant.language.sql
+
+    PASSWORD EXPIRE DEFAULT
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^ constant.language.sql
+
+    PASSWORD EXPIRE NEVER
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^ constant.language.sql
+
+    PASSWORD EXPIRE INTERVAL 5 DAY
+-- <- meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^ constant.language.sql
+--                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^^^ keyword.other.unit.sql
+
+-- ----------------------------------------------------------------------------
+
+ALTER USER IF EXISTS
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql
+--    ^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^ keyword.other.ddl.sql
+--         ^^ keyword.control.conditional.if.sql
+--            ^^^^^^ keyword.operator.logical.sql
+    user1,
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^ meta.user-name.sql
+--       ^ punctuation.separator.sequence.sql
+
+    user2 IDENTIFIED BY 'password',
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^ meta.user-name.sql
+--        ^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^ keyword.other.ddl.sql
+--                      ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                ^ punctuation.separator.sequence.sql
+
+    user3 IDENTIFIED BY PASSWORD 'password_hash',
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^ meta.user-name.sql
+--        ^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^ keyword.other.ddl.sql
+--                      ^^^^^^^^ storage.modifier.sql
+--                               ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                              ^ punctuation.separator.sequence.sql
+
+    user4 IDENTIFIED VIA
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^ meta.user-name.sql
+--        ^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^^ keyword.other.ddl.sql
+
+        auth_plugin1,
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                  ^ punctuation.separator.sequence.sql
+
+        auth_plugin2 AS 'auth_string',
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                   ^^ keyword.operator.assignment.alias.sql
+--                      ^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                   ^ punctuation.separator.sequence.sql
+
+        auth_plugin3 USING 'auth_string',
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                   ^^^^^ keyword.other.ddl.sql
+--                         ^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                      ^ punctuation.separator.sequence.sql
+
+        auth_plugin4 AS PASSWORD('password')
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--      ^^^^^^^^^^^^ meta.other-name.sql
+--                   ^^ keyword.operator.assignment.alias.sql
+--                      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                      ^^^^^^^^ support.function.sql
+--                              ^^^^^^^^^^^^ meta.group.sql
+--                              ^ punctuation.section.arguments.begin.sql
+--                               ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                         ^ punctuation.section.arguments.end.sql
+
+    REQUIRE NONE
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^ constant.language.null.sql
+
+    REQUIRE SSL AND CIPHER 'ciphername' X509 AND SUBJECT 'subject'
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^ constant.language.sql
+--              ^^^ keyword.operator.logical.sql
+--                  ^^^^^^ constant.language.sql
+--                         ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                      ^^^^ constant.language.sql
+--                                           ^^^ keyword.operator.logical.sql
+--                                               ^^^^^^^ constant.language.sql
+--                                                       ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    WITH MAX_QUERIES_PER_HOUR 5
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_UPDATES_PER_HOUR 5
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_CONNECTIONS_PER_HOUR 5
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                                ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_USER_CONNECTIONS 5
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    WITH MAX_STATEMENT_TIME 5
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^^ constant.language.sql
+--                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    ACCOUNT LOCK
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^ constant.language.sql
+
+    ACCOUNT UNLOCK
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^ constant.language.sql
+
+    PASSWORD EXPIRE DEFAULT
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^ constant.language.sql
+
+    PASSWORD EXPIRE NEVER
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^ constant.language.sql
+
+    PASSWORD EXPIRE INTERVAL 5 DAY
+-- <- meta.statement.alter.sql meta.user.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
+--  ^^^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^ constant.language.sql
+--                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^^^ keyword.other.unit.sql
+
+-- ----------------------------------------------------------------------------
+
+DROP USER bob ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^ keyword.other.ddl.sql
+--        ^^^ meta.user-name.sql
+--            ^ punctuation.terminator.statement.sql
+
+DROP USER IF EXISTS bob, clara ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^ keyword.other.ddl.sql
+--        ^^ keyword.control.conditional.if.sql
+--           ^^^^^^ keyword.operator.logical.sql
+--                  ^^^ meta.user-name.sql
+--                     ^ punctuation.separator.sequence.sql
+--                       ^^^^^ meta.user-name.sql
+--                             ^ punctuation.terminator.statement.sql
+
+
+-- ----------------------------------------------------------------------------
+-- Legacy Tests
+-- ----------------------------------------------------------------------------
+
 SELECT 'Foo Bar';
 --     ^^^^^^^^^ string.quoted.single
 --     ^ punctuation.definition.string.begin

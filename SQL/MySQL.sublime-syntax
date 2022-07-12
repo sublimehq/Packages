@@ -56,22 +56,67 @@ contexts:
 
   create-target:
     - meta_prepend: true
-    - include: target-algorithm
     # index modifiers
     - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
+    - include: target-algorithm
+    - include: create-user
+
+  create-user:
+    # https://mariadb.com/kb/en/create-user
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - user-options
+        - create-user-name-list
+        - user-identification
+        - expect-user-name-declaration
+        - create-user-condition
+
+  create-user-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-user-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-identification
+        - expect-user-name-declaration
+    - include: else-pop
 
 ###[ DDL DROP STATEMENTS ]#####################################################
 
   drop-target:
     - meta_prepend: true
     - include: target-algorithm
+    - include: drop-user
+
+  drop-user:
+    # https://mariadb.com/kb/en/drop-user
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - drop-user-name-list
+        - expect-user-name
+        - drop-user-condition
+
+  drop-user-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-user-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push: expect-user-name
+    - include: else-pop
 
 ###[ DDL ALTER STATEMENTS ]####################################################
 
   alter-target:
     - meta_prepend: true
     - include: target-algorithm
+    - include: alter-user
 
   alter-columns:
     - meta_prepend: true
@@ -83,6 +128,29 @@ contexts:
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
+
+  alter-user:
+    # https://mariadb.com/kb/en/alter-user
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - user-options
+        - alter-user-name-list
+        - user-identification
+        - expect-user-name
+        - alter-user-condition
+
+  alter-user-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  alter-user-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-identification
+        - expect-user-name
+    - include: else-pop
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
@@ -150,6 +218,88 @@ contexts:
     - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
       scope: keyword.other.object-comments.sql
 
+###[ USER MANAGEMENT EXPRESSIONS ]#############################################
+
+  user-identification:
+    - match: \b(?i:identified|by)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:password)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:via)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - user-auth-list
+        - user-auth-args
+        - expect-other-name
+    - include: strings
+    - include: else-pop
+
+  user-auth-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-auth-args
+        - expect-other-name
+    - include: else-pop
+
+  user-auth-args:
+    - match: (?=,|\b(?i:require|with|account)\b)
+      pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+    - match: \b(?i:using)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:password)
+      scope: support.function.sql
+      push: function-call-arguments
+    - include: strings
+    - include: pop-on-top-level-reserved-word
+
+  user-options:
+    - meta_scope: meta.user.sql
+    - include: user-account-options
+    - include: user-password-options
+    - include: user-resource-options
+    - include: user-tls-options
+    - include: numbers
+    - include: strings
+    - include: pop-on-top-level-reserved-word
+
+  user-account-options:
+    - match: \b(?i:account)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:unlock|lock)\b
+      scope: constant.language.sql
+
+  user-password-options:
+    - match: \b(?i:(password)\s+(expire))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:day)\b
+      scope: keyword.other.unit.sql
+    - match: \b(?i:default|never|interval)\b
+      scope: constant.language.sql
+
+  user-resource-options:
+    - match: \b(?i:with)\b
+      scope: keyword.other.ddl.sql
+    - match: |-
+        \b(?xi: max_queries_per_hour | max_updates_per_hour
+        | max_connections_per_hour | max_user_connections
+        | max_statement_time )\b
+      scope: constant.language.sql
+
+  user-tls-options:
+    - match: \b(?i:require)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:and)\b
+      scope: keyword.operator.logical.sql
+    - match: \b(?i:ssl|x509|cipher|issuer|subject)\b
+      scope: constant.language.sql
+    - match: \b(?i:none)\b
+      scope: constant.language.null.sql
+
 ###[ TYPES ]###################################################################
 
   after-type:
@@ -160,6 +310,32 @@ contexts:
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.type.sql
       pop: 1
+
+###[ IDENTIFIERS ]#############################################################
+
+  expect-user-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [user-name, single-identifier]
+
+  user-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.user-name.sql
+    - include: immediately-pop
+
+  expect-user-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [user-name-declaration, single-identifier]
+
+  user-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.user.sql
+    - include: immediately-pop
 
 ###[ LITERALS ]################################################################
 
