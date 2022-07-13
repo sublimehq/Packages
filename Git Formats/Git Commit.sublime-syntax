@@ -81,10 +81,11 @@ contexts:
 
   # for Gerrit Code Review
   change-id:
-    - match: ^\s*(Change-Id)\s*(:)
+    - match: ^\s*(Change-Id)\s*(:)\s*(.*)
       captures:
         1: keyword.other.change-id.git.commit
         2: punctuation.separator.key-value.git.commit
+        3: constant.language.change-id.git.commit
 
   signed-off:
     - match: ^\s*(Signed-off-by)\s*(:)
