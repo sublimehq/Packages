@@ -226,6 +226,14 @@ import foo;
 //           ^ punctuation.separator.type
 //             ^^^ meta.type support.type.any
 //                ^ punctuation.separator
+
+        1: any,
+//      ^ meta.number.integer.decimal
+//      ^ constant.numeric.value
+//       ^ punctuation.separator.type
+//        ^^^^ meta.type
+//         ^^^ support.type.any
+//            ^ punctuation.separator
     }
 //  ^ meta.block punctuation.section.block.end
 

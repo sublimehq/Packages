@@ -130,7 +130,7 @@ def get_tag_completions(inside_tag=True):
         ('param', 'param name=\"$1\" value=\"$2\">'),
         ('progress', 'progress value=\"$1\" max=\"$2\">'),
         ('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
-        ('slot', 'slot name=name=\"$1\">$0</slot>'),
+        ('slot', 'slot name=\"$1\">$0</slot>'),
         ('source', 'source src=\"$1\" type=\"$2\">'),
         ('style', 'style type=\"${1:text/css}\">$0</style>'),
         ('track', 'track kind=\"$1\" src=\"$2\">'),
