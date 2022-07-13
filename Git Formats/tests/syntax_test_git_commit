@@ -130,6 +130,11 @@ This commit applies all changes required to satisfy the JSON format unittest.
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #
+  Change-Id: I3b3613e336397febf02cd8e5c14c53d493343e93
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+# ^^^^^^^^^ keyword.other.change-id.git.commit
+#          ^ punctuation.separator.key-value.git.commit
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.change-id.git.commit
   Signed-off-by: username <user.name@domain.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                         ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
