@@ -356,6 +356,155 @@ DROP USER IF EXISTS bob, clara ;
 --                       ^^^^^ meta.user-name.sql
 --                             ^ punctuation.terminator.statement.sql
 
+-- ----------------------------------------------------------------------------
+
+GRANT
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^ meta.statement.grant.sql keyword.other.ddl.sql
+--   ^ meta.statement.grant.sql - keyword
+
+GRANT DROP TABLE, ALTER COLUMN
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.ddl.sql
+--              ^ punctuation.separator.sequence.sql
+
+GRANT ALTER COLUMN ON *
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--                 ^^ keyword.other.ddl.sql
+--                    ^ meta.other-name.sql variable.language.wildcard.asterisk.sql
+
+GRANT ALTER TABLE ON *.*
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--                ^^ keyword.other.ddl.sql
+--                   ^^^ meta.other-name.sql
+--                   ^ variable.language.wildcard.asterisk.sql
+--                    ^ punctuation.accessor.dot.sql
+--                     ^ variable.language.wildcard.asterisk.sql
+
+GRANT ALTER INDEX ON db_name.*
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--                ^^ keyword.other.ddl.sql
+--                   ^^^^^^^^^ meta.other-name.sql
+--                          ^ punctuation.accessor.dot.sql
+--                           ^ variable.language.wildcard.asterisk.sql
+
+GRANT ALTER COLUMN ON db_name.table_name
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--                 ^^ keyword.other.ddl.sql
+--                    ^^^^^^^^^^^^^^^^^^ meta.other-name.sql
+--                           ^ punctuation.accessor.dot.sql
+
+GRANT ALTER COLUMN ON table_name
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--                 ^^ keyword.other.ddl.sql
+--                    ^^^^^^^^^^ meta.other-name.sql
+
+GRANT CREATE INDEX ON TABLE * TO user1 IDENTIFIED BY 'password' ;
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.ddl.sql
+--                 ^^ keyword.other.ddl.sql
+--                    ^^^^^ storage.type.sql
+--                          ^ meta.other-name.sql variable.language.wildcard.asterisk.sql
+--                            ^^ keyword.other.ddl.sql
+--                               ^^^^^ meta.user-name.sql
+--                                     ^^^^^^^^^^ keyword.other.ddl.sql
+--                                                ^^ keyword.other.ddl.sql
+--                                                   ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                              ^ punctuation.terminator.statement.sql
+
+GRANT CREATE INDEX ON PROCEDURE *.* TO user1 IDENTIFIED BY PASSWORD 'password_hash' ;
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.ddl.sql
+--                 ^^ keyword.other.ddl.sql
+--                    ^^^^^^^^^ storage.type.sql
+--                              ^^^ meta.other-name.sql
+--                                  ^^ keyword.other.ddl.sql
+--                                     ^^^^^ meta.user-name.sql
+--                                           ^^^^^^^^^^ keyword.other.ddl.sql
+--                                                      ^^ keyword.other.ddl.sql
+--                                                         ^^^^^^^^ storage.modifier.sql
+--                                                                  ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                                                  ^ punctuation.terminator.statement.sql
+
+GRANT CREATE INDEX ON PACKAGE *.* TO user1 IDENTIFIED VIA auth1 or auth2 ;
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.ddl.sql
+--                 ^^ keyword.other.ddl.sql
+--                    ^^^^^^^ storage.type.sql
+--                            ^^^ meta.other-name.sql
+--                                ^^ keyword.other.ddl.sql
+--                                   ^^^^^ meta.user-name.sql
+--                                         ^^^^^^^^^^ keyword.other.ddl.sql
+--                                                    ^^^ keyword.other.ddl.sql
+--                                                        ^^^^^ meta.other-name.sql
+--                                                              ^^ keyword.operator.logical.sql
+--                                                                 ^^^^^ meta.other-name.sql
+--                                                                       ^ punctuation.terminator.statement.sql
+
+GRANT PROXY
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^ keyword.other.ddl.sql
+    ON username
+-- <- meta.statement.grant.sql
+-- ^^^^^^^^^^^^^ meta.statement.grant.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^ meta.user-name.sql
+    TO user1 IDENTIFIED BY 'password',
+-- <- meta.statement.grant.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^ meta.user-name.sql
+--           ^^^^^^^^^^ keyword.other.ddl.sql
+--                      ^^ keyword.other.ddl.sql
+--                         ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                   ^ punctuation.separator.sequence.sql
+       user2 IDENTIFIED VIA auth USING PASSWORD('passord')
+-- <- meta.statement.grant.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--     ^^^^^ meta.user-name.sql
+--           ^^^^^^^^^^ keyword.other.ddl.sql
+--                      ^^^ keyword.other.ddl.sql
+--                          ^^^^ meta.other-name.sql
+--                               ^^^^^ keyword.other.ddl.sql
+--                                     ^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                                     ^^^^^^^^ support.function.sql
+--                                             ^^^^^^^^^^^ meta.group.sql
+--                                             ^ punctuation.section.arguments.begin.sql
+--                                              ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                       ^ punctuation.section.arguments.end.sql
+    WITH GRANT OPTION ;
+-- <- meta.statement.grant.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^ constant.language.sql
+--                    ^ punctuation.terminator.statement.sql
+
+GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
+-- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^ meta.user-name.sql
+--             ^^ keyword.other.ddl.sql
+--                ^^^^ meta.user-name.sql
+--                    ^ punctuation.separator.sequence.sql
+--                      ^^^^ meta.user-name.sql
+--                           ^^^^^^^^^^ keyword.other.ddl.sql
+--                                      ^^ keyword.other.ddl.sql
+--                                         ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                    ^^^^ keyword.other.ddl.sql
+--                                                         ^^^^^^^^^^^^ constant.language.sql
+--                                                                      ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
 -- Legacy Tests

@@ -8,7 +8,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   additional_reserved: |-
-    (?xi: begin | end | return )
+    (?xi: begin | end | return | grant )
 
   simple_types: |-
     (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
@@ -23,6 +23,10 @@ contexts:
   sql:
     - meta_append: true
     - include: regexps
+
+  statements:
+    - meta_prepend: true
+    - include: grant-statements
 
 ###[ COMMENTS ]################################################################
 
@@ -67,7 +71,7 @@ contexts:
     - match: \b(?i:user)\b
       scope: keyword.other.ddl.sql
       set:
-        - user-options
+        - create-user-args
         - create-user-name-list
         - user-identification
         - expect-user-name-declaration
@@ -84,6 +88,10 @@ contexts:
         - user-identification
         - expect-user-name-declaration
     - include: else-pop
+
+  create-user-args:
+    - meta_scope: meta.user.sql
+    - include: user-options
 
 ###[ DDL DROP STATEMENTS ]#####################################################
 
@@ -134,8 +142,8 @@ contexts:
     - match: \b(?i:user)\b
       scope: keyword.other.ddl.sql
       set:
-        - user-options
-        - alter-user-name-list
+        - alter-user-args
+        - expect-user-identification-list
         - user-identification
         - expect-user-name
         - alter-user-condition
@@ -144,13 +152,9 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
-  alter-user-name-list:
-    - match: ','
-      scope: punctuation.separator.sequence.sql
-      push:
-        - user-identification
-        - expect-user-name
-    - include: else-pop
+  alter-user-args:
+    - meta_scope: meta.user.sql
+    - include: user-options
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
@@ -182,10 +186,77 @@ contexts:
     - match: \b(?i:straight_join|natural)\b
       scope: keyword.other.dml.sql
 
+###[ GRANT STATEMENTS ]########################################################
+
+  grant-statements:
+    # https://mariadb.com/kb/en/grant
+    - match: \b(?i:grant)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - grant-meta
+        - grant-options
+        - grant-to-user
+        - grant-target
+
+  grant-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.grant.sql
+    - include: immediately-pop
+
+  grant-target:
+    # grant proxy on name to user
+    - match: \b(?i:proxy)\b
+      scope: keyword.other.ddl.sql
+      set: grant-on-user
+    # grant role name to
+    - match: (?=\S+\s+(?i:to)\b)
+      set: expect-user-name
+    # grant operation on
+    - match: (?=\S)
+      set: grant-operations
+
+  grant-operations:
+    - match: \b(?i:on)\b
+      scope: keyword.other.ddl.sql
+      set: grant-on-type
+    - match: (?=[;)]|\b(?i:grant|to|with)\b)
+      pop: 1
+    - include: comma-separators
+    - include: user-privilidges
+
+  grant-on-type:
+    # object type
+    - match: \b(?i:table|function|procedure|package)\b
+      scope: storage.type.sql
+    # wildcard privilidge level
+    - match: (\*)(?:(\.)(\*))?
+      scope: meta.other-name.sql
+      captures:
+        1: variable.language.wildcard.asterisk.sql
+        2: punctuation.accessor.dot.sql
+        3: variable.language.wildcard.asterisk.sql
+      pop: 1
+    # named privilidge level: database, table or method
+    - include: expect-other-name
+
+  grant-on-user:
+    - match: \b(?i:on)\b
+      scope: keyword.other.ddl.sql
+    - include: expect-user-name
+
+  grant-to-user:
+    - match: \b(?i:to)\b
+      scope: keyword.other.ddl.sql
+    - include: expect-user-identification-list
+
+  grant-options:
+    - include: user-grant-privilidges
+    - include: user-resource-options
+    - include: else-pop
+
 ###[ OTHER STATEMENTS ]########################################################
 
   other-statements:
-    - meta_prepend: true
     - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
       scope: keyword.other.luw.sql
     - match: \b(?i:end)\b
@@ -220,6 +291,24 @@ contexts:
 
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 
+  expect-user-identification-list:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set:
+        - user-identification-list
+        - user-identification
+        - expect-user-name
+
+  user-identification-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-identification
+        - expect-user-name
+    - include: else-pop
+
   user-identification:
     - match: \b(?i:identified|by)\b
       scope: keyword.other.ddl.sql
@@ -235,15 +324,22 @@ contexts:
     - include: else-pop
 
   user-auth-list:
+    # used by CREATE/ALTER user
     - match: ','
       scope: punctuation.separator.sequence.sql
+      push:
+        - user-auth-args
+        - expect-other-name
+    # used by GRANT statements
+    - match: \b(?i:or)\b
+      scope: keyword.operator.logical.sql
       push:
         - user-auth-args
         - expect-other-name
     - include: else-pop
 
   user-auth-args:
-    - match: (?=,|\b(?i:require|with|account)\b)
+    - match: (?=,|\b(?i:account|on|or|require|with)\b)
       pop: 1
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
@@ -256,7 +352,6 @@ contexts:
     - include: pop-on-top-level-reserved-word
 
   user-options:
-    - meta_scope: meta.user.sql
     - include: user-account-options
     - include: user-password-options
     - include: user-resource-options
@@ -299,6 +394,18 @@ contexts:
       scope: constant.language.sql
     - match: \b(?i:none)\b
       scope: constant.language.null.sql
+
+  user-privilidges:
+    - include: user-all-privilidges
+    - include: user-grant-privilidges
+
+  user-all-privilidges:
+    - match: \b(?i:all\s+privileges)\b
+      scope: constant.language.sql
+
+  user-grant-privilidges:
+    - match: \b(?i:(?:grant|admin)\s+option)\b
+      scope: constant.language.sql
 
 ###[ TYPES ]###################################################################
 
