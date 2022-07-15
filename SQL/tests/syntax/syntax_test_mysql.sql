@@ -519,6 +519,38 @@ GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
 --                                                                      ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
+
+RENAME
+-- <- meta.statement.rename.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.rename.sql
+-- ^^^ keyword.other.ddl.sql
+--    ^ - keyword
+
+RENAME USER
+-- <- meta.statement.rename.sql keyword.other.ddl.sql
+-- ^^^^^^^^^ meta.statement.rename.sql
+-- ^^^ keyword.other.ddl.sql
+--    ^ - keyword
+--     ^^^^ keyword.other.ddl.sql
+--         ^ - keyword
+
+RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
+-- <- meta.statement.rename.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.rename.sql
+-- ^^^ keyword.other.ddl.sql
+--    ^ - keyword
+--     ^^^^ keyword.other.ddl.sql
+--         ^ - keyword
+--          ^^^^^^^^ meta.user-name.sql
+--                   ^^ keyword.other.ddl.sql
+--                      ^^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                                        ^ punctuation.separator.sequence.sql
+--                                          ^^^^^^^^ meta.user-name.sql
+--                                                   ^^ keyword.other.ddl.sql
+--                                                      ^^^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                                                                         ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
 -- Legacy Tests
 -- ----------------------------------------------------------------------------
 

@@ -8,7 +8,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   additional_reserved: |-
-    (?xi: begin | end | return | grant )
+    (?xi: begin | end | return | grant | rename )
 
   simple_types: |-
     (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
@@ -27,6 +27,7 @@ contexts:
   statements:
     - meta_prepend: true
     - include: grant-statements
+    - include: rename-statements
 
 ###[ COMMENTS ]################################################################
 
@@ -105,19 +106,13 @@ contexts:
     - match: \b(?i:user)\b
       scope: keyword.other.ddl.sql
       set:
-        - drop-user-name-list
+        - user-name-list
         - expect-user-name
         - drop-user-condition
 
   drop-user-condition:
     - meta_include_prototype: false
     - include: maybe-condition
-
-  drop-user-name-list:
-    - match: ','
-      scope: punctuation.separator.sequence.sql
-      push: expect-user-name
-    - include: else-pop
 
 ###[ DDL ALTER STATEMENTS ]####################################################
 
@@ -254,6 +249,35 @@ contexts:
     - include: user-resource-options
     - include: else-pop
 
+###[ RENAME STATEMENTS ]#######################################################
+
+  rename-statements:
+    # https://mariadb.com/kb/en/rename-user
+    - match: \b(?i:rename)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - rename-meta
+        - rename-targets
+
+  rename-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.rename.sql
+    - include: immediately-pop
+
+  rename-targets:
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - rename-user
+        - expect-user-name
+    - include: else-pop
+
+  rename-user:
+    - match: \b(?i:to)\b
+      scope: keyword.other.ddl.sql
+      push: expect-user-name
+    - include: user-name-list
+
 ###[ OTHER STATEMENTS ]########################################################
 
   other-statements:
@@ -321,6 +345,12 @@ contexts:
         - user-auth-args
         - expect-other-name
     - include: strings
+    - include: else-pop
+
+  user-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push: expect-user-name
     - include: else-pop
 
   user-auth-list:
