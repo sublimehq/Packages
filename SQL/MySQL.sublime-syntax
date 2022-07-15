@@ -8,7 +8,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   additional_reserved: |-
-    (?xi: begin | end | return | grant | rename )
+    (?xi: begin | end | return | grant | rename | revoke )
 
   simple_types: |-
     (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
@@ -28,6 +28,7 @@ contexts:
     - meta_prepend: true
     - include: grant-statements
     - include: rename-statements
+    - include: revoke-statements
 
 ###[ COMMENTS ]################################################################
 
@@ -211,28 +212,11 @@ contexts:
       set: grant-operations
 
   grant-operations:
-    - match: \b(?i:on)\b
-      scope: keyword.other.ddl.sql
-      set: grant-on-type
     - match: (?=[;)]|\b(?i:grant|to|with)\b)
       pop: 1
+    - include: on-privilidge-level
     - include: comma-separators
     - include: user-privilidges
-
-  grant-on-type:
-    # object type
-    - match: \b(?i:table|function|procedure|package)\b
-      scope: storage.type.sql
-    # wildcard privilidge level
-    - match: (\*)(?:(\.)(\*))?
-      scope: meta.other-name.sql
-      captures:
-        1: variable.language.wildcard.asterisk.sql
-        2: punctuation.accessor.dot.sql
-        3: variable.language.wildcard.asterisk.sql
-      pop: 1
-    # named privilidge level: database, table or method
-    - include: expect-other-name
 
   grant-on-user:
     - match: \b(?i:on)\b
@@ -257,14 +241,14 @@ contexts:
       scope: keyword.other.ddl.sql
       push:
         - rename-meta
-        - rename-targets
+        - rename-target
 
   rename-meta:
     - meta_include_prototype: false
     - meta_scope: meta.statement.rename.sql
     - include: immediately-pop
 
-  rename-targets:
+  rename-target:
     - match: \b(?i:user)\b
       scope: keyword.other.ddl.sql
       set:
@@ -277,6 +261,37 @@ contexts:
       scope: keyword.other.ddl.sql
       push: expect-user-name
     - include: user-name-list
+
+###[ REVOKE STATEMENTS ]#######################################################
+
+  revoke-statements:
+    # https://mariadb.com/kb/en/revoke
+    - match: \b(?i:revoke)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - revoke-meta
+        - revoke-options
+        - revoke-privilidges
+
+  revoke-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.revoke.sql
+    - include: immediately-pop
+
+  revoke-privilidges:
+    - match: (?=[;)]|\b(?i:for|from)\b)
+      pop: 1
+    - include: on-privilidge-level
+    - include: comma-separators
+    - include: user-privilidges
+
+  revoke-options:
+    - match: \b(?i:for|from)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - user-name-list
+        - expect-user-name
+    - include: else-pop
 
 ###[ OTHER STATEMENTS ]########################################################
 
@@ -426,6 +441,7 @@ contexts:
       scope: constant.language.null.sql
 
   user-privilidges:
+    - include: column-reference-lists
     - include: user-all-privilidges
     - include: user-grant-privilidges
 
@@ -436,6 +452,26 @@ contexts:
   user-grant-privilidges:
     - match: \b(?i:(?:grant|admin)\s+option)\b
       scope: constant.language.sql
+
+  on-privilidge-level:
+    - match: \b(?i:on)\b
+      scope: keyword.other.ddl.sql
+      set: privilidge-level
+
+  privilidge-level:
+    # object type
+    - match: \b(?i:table|function|procedure|package)\b
+      scope: storage.type.sql
+    # wildcard privilidge level
+    - match: (\*)(?:(\.)(\*))?
+      scope: meta.other-name.sql
+      captures:
+        1: variable.language.wildcard.asterisk.sql
+        2: punctuation.accessor.dot.sql
+        3: variable.language.wildcard.asterisk.sql
+      pop: 1
+    # named privilidge level: database, table or method
+    - include: expect-other-name
 
 ###[ TYPES ]###################################################################
 

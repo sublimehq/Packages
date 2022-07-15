@@ -699,6 +699,11 @@ contexts:
       scope: punctuation.section.group.begin.sql
       set: inside-column-reference-list
 
+  column-reference-lists:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: inside-column-reference-list
+
   inside-column-reference-list:
     - meta_scope: meta.group.table-columns.sql
     - match: \)

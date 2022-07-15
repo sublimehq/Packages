@@ -551,6 +551,73 @@ RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
 --                                                                         ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
+
+REVOKE ;
+-- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.revoke.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^ punctuation.terminator.statement.sql
+
+REVOKE ALTER COLUMN (`col1`, `names`) ;
+-- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
+--                  ^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                  ^ punctuation.section.group.begin.sql
+--                   ^^^^^^ meta.column-name.sql
+--                         ^ punctuation.separator.sequence.sql
+--                           ^^^^^^^ meta.column-name.sql
+--                                  ^ punctuation.section.group.end.sql
+--                                    ^ punctuation.terminator.statement.sql
+
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM user@'%', user2 ;
+-- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^^^^^ constant.language.sql
+--                   ^ punctuation.separator.sequence.sql
+--                     ^^^^^^^^^^^^ constant.language.sql
+--                                  ^^^^ keyword.other.ddl.sql
+--                                       ^^^^^^^^ meta.user-name.sql
+--                                               ^ punctuation.separator.sequence.sql
+--                                                 ^^^^^ meta.user-name.sql
+--                                                       ^ punctuation.terminator.statement.sql
+
+REVOKE SUPER ON *.* FROM 'alexander'@'localhost';
+-- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
+-- ^^^ keyword.other.ddl.sql
+--           ^^ keyword.other.ddl.sql
+--              ^^^ meta.other-name.sql
+--              ^ variable.language.wildcard.asterisk.sql
+--               ^ punctuation.accessor.dot.sql
+--                ^ variable.language.wildcard.asterisk.sql
+--                  ^^^^ keyword.other.ddl.sql
+--                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                                              ^ punctuation.terminator.statement.sql
+
+REVOKE ADMIN OPTION FOR role FROM grantee, grantee2 ;
+-- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^^^ constant.language.sql
+--                  ^^^ keyword.other.ddl.sql
+--                      ^^^^ meta.user-name.sql
+--                           ^^^^ keyword.other.ddl.sql
+--                                ^^^^^^^ meta.user-name.sql
+--                                       ^ punctuation.separator.sequence.sql
+--                                         ^^^^^^^^ meta.user-name.sql
+--                                                  ^ punctuation.terminator.statement.sql
+
+REVOKE role1, role2 FROM grantee, grantee2 ;
+-- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
+--                  ^^^^ keyword.other.ddl.sql
+--                       ^^^^^^^ meta.user-name.sql
+--                              ^ punctuation.separator.sequence.sql
+--                                ^^^^^^^^ meta.user-name.sql
+--                                         ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
 -- Legacy Tests
 -- ----------------------------------------------------------------------------
 
