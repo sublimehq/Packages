@@ -425,7 +425,7 @@ contexts:
     - meta_include_prototype: false
     - include: comments
     - match: (?=\S)
-      set: [user-name, single-identifier]
+      set: [user-name, user-identifier]
 
   user-name:
     - meta_include_prototype: false
@@ -437,12 +437,54 @@ contexts:
     - meta_include_prototype: false
     - include: comments
     - match: (?=\S)
-      set: [user-name-declaration, single-identifier]
+      set: [user-name-declaration, user-identifier]
 
   user-name-declaration:
     - meta_include_prototype: false
     - meta_content_scope: entity.name.user.sql
     - include: immediately-pop
+
+  user-identifier:
+    # https://mariadb.com/kb/en/grant/#account-names
+    - meta_include_prototype: false
+    - include: pop-on-top-level-reserved-word
+    - match: ''
+      set:
+        - identifier-host-accessor
+        - identifier-part
+
+  identifier-host-accessor:
+    - meta_include_prototype: false
+    - match: \s*(@)
+      captures:
+        1: punctuation.accessor.at.sql
+      set: identifier-host-part
+    - include: immediately-pop
+
+  identifier-host-part:
+    - meta_include_prototype: false
+    - match: \%
+      scope: variable.language.wildcard.percent.sql
+      pop: 1
+    - match: (')(%)(')
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: variable.language.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - match: (")(%)(")
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: variable.language.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - match: (`)(%)(`)
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: variable.language.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - include: identifier-part
 
 ###[ LITERALS ]################################################################
 

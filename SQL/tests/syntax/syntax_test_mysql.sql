@@ -20,24 +20,32 @@ CREATE USER IF NOT EXISTS
 --  ^^^^^ entity.name.user.sql
 --       ^ punctuation.separator.sequence.sql
 
-    user2 IDENTIFIED BY 'password',
+    user2@localhost IDENTIFIED BY 'password',
 -- <- meta.statement.create.sql meta.user.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
---  ^^^^^ entity.name.user.sql
---        ^^^^^^^^^^ keyword.other.ddl.sql
---                   ^^ keyword.other.ddl.sql
---                      ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
---                                ^ punctuation.separator.sequence.sql
+--  ^^^^^^^^^^^^^^^ entity.name.user.sql
+--       ^ punctuation.accessor.at.sql
+--                  ^^^^^^^^^^ keyword.other.ddl.sql
+--                             ^^ keyword.other.ddl.sql
+--                                ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                          ^ punctuation.separator.sequence.sql
 
-    user3 IDENTIFIED BY PASSWORD 'password_hash',
+    'user3@'@'%' IDENTIFIED BY PASSWORD 'password_hash',
 -- <- meta.statement.create.sql meta.user.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
---  ^^^^^ entity.name.user.sql
---        ^^^^^^^^^^ keyword.other.ddl.sql
---                   ^^ keyword.other.ddl.sql
---                      ^^^^^^^^ storage.modifier.sql
---                               ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
---                                              ^ punctuation.separator.sequence.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+--  ^^^^^^^^^^^^ entity.name.user.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--        ^ - punctuation
+--         ^ punctuation.definition.identifier.end.sql
+--          ^ punctuation.accessor.at.sql
+--           ^ punctuation.definition.identifier.begin.sql
+--            ^ variable.language.wildcard.percent.sql
+--             ^ punctuation.definition.identifier.end.sql
+--               ^^^^^^^^^^ keyword.other.ddl.sql
+--                          ^^ keyword.other.ddl.sql
+--                             ^^^^^^^^ storage.modifier.sql
+--                                      ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                     ^ punctuation.separator.sequence.sql
 
     user4 IDENTIFIED VIA
 -- <- meta.statement.create.sql meta.user.sql
@@ -336,25 +344,27 @@ ALTER USER IF EXISTS
 
 -- ----------------------------------------------------------------------------
 
-DROP USER bob ;
+DROP USER bob@'%' ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^ meta.statement.drop.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^ keyword.other.ddl.sql
---        ^^^ meta.user-name.sql
---            ^ punctuation.terminator.statement.sql
+--        ^^^^^^^ meta.user-name.sql
+--           ^ punctuation.accessor.at.sql
+--                ^ punctuation.terminator.statement.sql
 
-DROP USER IF EXISTS bob, clara ;
+DROP USER IF EXISTS bob, clara@localhost ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^ keyword.other.ddl.sql
 --        ^^ keyword.control.conditional.if.sql
 --           ^^^^^^ keyword.operator.logical.sql
 --                  ^^^ meta.user-name.sql
 --                     ^ punctuation.separator.sequence.sql
---                       ^^^^^ meta.user-name.sql
---                             ^ punctuation.terminator.statement.sql
+--                       ^^^^^^^^^^^^^^^ meta.user-name.sql
+--                            ^ punctuation.accessor.at.sql
+--                                       ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
 
@@ -405,7 +415,7 @@ GRANT ALTER COLUMN ON table_name
 --                 ^^ keyword.other.ddl.sql
 --                    ^^^^^^^^^^ meta.other-name.sql
 
-GRANT CREATE INDEX ON TABLE * TO user1 IDENTIFIED BY 'password' ;
+GRANT CREATE INDEX ON TABLE * TO user1@% IDENTIFIED BY 'password' ;
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 -- ^^ keyword.other.ddl.sql
@@ -413,11 +423,13 @@ GRANT CREATE INDEX ON TABLE * TO user1 IDENTIFIED BY 'password' ;
 --                    ^^^^^ storage.type.sql
 --                          ^ meta.other-name.sql variable.language.wildcard.asterisk.sql
 --                            ^^ keyword.other.ddl.sql
---                               ^^^^^ meta.user-name.sql
---                                     ^^^^^^^^^^ keyword.other.ddl.sql
---                                                ^^ keyword.other.ddl.sql
---                                                   ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
---                                                              ^ punctuation.terminator.statement.sql
+--                               ^^^^^^^ meta.user-name.sql
+--                                    ^ punctuation.accessor.at.sql
+--                                     ^ variable.language.wildcard.percent.sql
+--                                       ^^^^^^^^^^ keyword.other.ddl.sql
+--                                                  ^^ keyword.other.ddl.sql
+--                                                     ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                                ^ punctuation.terminator.statement.sql
 
 GRANT CREATE INDEX ON PROCEDURE *.* TO user1 IDENTIFIED BY PASSWORD 'password_hash' ;
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
@@ -434,21 +446,21 @@ GRANT CREATE INDEX ON PROCEDURE *.* TO user1 IDENTIFIED BY PASSWORD 'password_ha
 --                                                                  ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 --                                                                                  ^ punctuation.terminator.statement.sql
 
-GRANT CREATE INDEX ON PACKAGE *.* TO user1 IDENTIFIED VIA auth1 or auth2 ;
+GRANT CREATE INDEX ON PACKAGE *.* TO "user1" IDENTIFIED VIA auth1 or auth2 ;
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 -- ^^ keyword.other.ddl.sql
 --                 ^^ keyword.other.ddl.sql
 --                    ^^^^^^^ storage.type.sql
 --                            ^^^ meta.other-name.sql
 --                                ^^ keyword.other.ddl.sql
---                                   ^^^^^ meta.user-name.sql
---                                         ^^^^^^^^^^ keyword.other.ddl.sql
---                                                    ^^^ keyword.other.ddl.sql
---                                                        ^^^^^ meta.other-name.sql
---                                                              ^^ keyword.operator.logical.sql
---                                                                 ^^^^^ meta.other-name.sql
---                                                                       ^ punctuation.terminator.statement.sql
+--                                   ^^^^^^^ meta.user-name.sql
+--                                           ^^^^^^^^^^ keyword.other.ddl.sql
+--                                                      ^^^ keyword.other.ddl.sql
+--                                                          ^^^^^ meta.other-name.sql
+--                                                                ^^ keyword.operator.logical.sql
+--                                                                   ^^^^^ meta.other-name.sql
+--                                                                         ^ punctuation.terminator.statement.sql
 
 GRANT PROXY
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
