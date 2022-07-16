@@ -126,7 +126,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       set:
-        - target-as
+        - target-options
         - target-on
         - expect-index-creation-name
         - create-index-condition
@@ -139,7 +139,7 @@ contexts:
     - match: \b{{ddl_target_procedure}}\b
       scope: keyword.other.ddl.sql
       set:
-        - target-as
+        - target-options
         - expect-procedure-creation-name
         - create-procedure-condition
 
@@ -166,7 +166,7 @@ contexts:
     - match: \b{{ddl_target_other}}\b
       scope: keyword.other.ddl.sql
       set:
-        - target-as
+        - target-options
         - target-on
         - expect-other-creation-name
         - create-other-condition
@@ -282,7 +282,7 @@ contexts:
     - match: \b{{ddl_target_procedure}}\b
       scope: keyword.other.ddl.sql
       set:
-        - target-as
+        - target-options
         - expect-procedure-name
         - alter-procedure-condition
 
@@ -359,7 +359,7 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  target-as:
+  target-options:
     - match: \b(?i:as)\b
       scope: keyword.context.block.sql
       pop: 1

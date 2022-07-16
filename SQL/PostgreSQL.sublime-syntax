@@ -66,7 +66,7 @@ contexts:
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - target-as
+        - target-options
         - expect-extension-name-declaration
         - create-extension-condition
 
@@ -88,7 +88,7 @@ contexts:
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - target-as
+        - target-options
         - drop-extension-name-list
         - expect-extension-name
         - drop-extension-condition
@@ -137,7 +137,7 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  target-as:
+  target-options:
     - meta_prepend: true
     - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
       scope: keyword.other.psql

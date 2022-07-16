@@ -78,7 +78,7 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  target-as:
+  target-options:
     - meta_prepend: true
     - include: with-table-options
     - match: (@){{simple_identifier}}
