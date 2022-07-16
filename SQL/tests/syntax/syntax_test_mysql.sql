@@ -400,9 +400,46 @@ ALTER USER IF EXISTS
 
 -- ----------------------------------------------------------------------------
 
+DROP
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+
+DROP ROLE role ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^^ meta.statement.drop.sql meta.user.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^ keyword.other.ddl.sql
+--       ^ - keyword
+--        ^^^^ meta.user-name.sql
+--             ^ punctuation.terminator.statement.sql
+
+DROP ROLE IF EXISTS role1, role2, role3;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.user.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^ keyword.other.ddl.sql
+--       ^ - keyword
+--        ^^ keyword.control.conditional.if.sql
+--          ^ - keyword
+--           ^^^^^^ keyword.operator.logical.sql
+--                 ^ - keyword
+--                  ^^^^^ meta.user-name.sql
+--                       ^ punctuation.separator.sequence.sql
+--                         ^^^^^ meta.user-name.sql
+--                              ^ punctuation.separator.sequence.sql
+--                                ^^^^^ meta.user-name.sql
+--                                     ^ punctuation.terminator.statement.sql
+
 DROP USER bob@'%' ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^^^^^ meta.statement.drop.sql meta.user.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^ keyword.other.ddl.sql
 --        ^^^^^^^ meta.user-name.sql
@@ -411,7 +448,8 @@ DROP USER bob@'%' ;
 
 DROP USER IF EXISTS bob, clara@localhost ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.user.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^ keyword.other.ddl.sql
 --        ^^ keyword.control.conditional.if.sql

@@ -121,17 +121,22 @@ contexts:
     - include: drop-user
 
   drop-user:
+    # https://mariadb.com/kb/en/drop-role
     # https://mariadb.com/kb/en/drop-user
-    - match: \b(?i:user)\b
+    - match: \b(?i:role|user)\b
       scope: keyword.other.ddl.sql
       set:
-        - user-name-list
+        - drop-user-args
         - expect-user-name
         - drop-user-condition
 
   drop-user-condition:
     - meta_include_prototype: false
     - include: maybe-condition
+
+  drop-user-args:
+    - meta_scope: meta.user.sql
+    - include: user-name-list
 
 ###[ DDL ALTER STATEMENTS ]####################################################
 
