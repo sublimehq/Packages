@@ -22,8 +22,8 @@ SELECT "My /* Crazy Column Name" FROM my_table;
 --         ^^ - comment - punctuation
 
 CREATE TABLE foo
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl
 --    ^ - keyword
 --     ^^^^^ keyword.other.ddl
@@ -32,36 +32,36 @@ CREATE TABLE foo
 
 ;CREATE TABLE foo (id INTEGER PRIMARY KEY);
 -- <- punctuation.terminator.statement.sql
- -- <- meta.create keyword.other.ddl
+ -- <- meta.statement.create keyword.other.ddl
 --^^^^^ keyword.other.ddl
 --      ^^^^^ keyword.other
 --            ^^^ entity.name.struct
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - entity.name
 
 create table some_schema.test2( id serial );
---^^^^ meta.create keyword.other.ddl
---     ^^^^^ meta.create keyword.other
+--^^^^ meta.statement.create keyword.other.ddl
+--     ^^^^^ meta.statement.create keyword.other
 --           ^^^^^^^^^^^^^^^^^ entity.name.struct
 --                      ^ punctuation.accessor.dot
 --                            ^^^^^^^^^^^^^^ - entity.name
 
 create table some_schema . test2 ( id serial );
---^^^^ meta.create keyword.other.ddl
---     ^^^^^ meta.create keyword.other
+--^^^^ meta.statement.create keyword.other.ddl
+--     ^^^^^ meta.statement.create keyword.other
 --           ^^^^^^^^^^^^^^^^^^^ entity.name
 --                       ^ punctuation.accessor.dot
 --                              ^^^^^^^^^^^^^^^ - entity.name
 
 create table "testing123" (id integer);
---^^^^ meta.create keyword.other.ddl
---     ^^^^^ meta.create keyword.other
+--^^^^ meta.statement.create keyword.other.ddl
+--     ^^^^^ meta.statement.create keyword.other
 --           ^ punctuation.definition.identifier.begin
 --            ^^^^^^^^^^ entity.name.struct
 --                      ^ punctuation.definition.identifier.end
 
 create table `dbo`."testing123" (id integer);
---^^^^ meta.create keyword.other.ddl
---     ^^^^^ meta.create keyword.other
+--^^^^ meta.statement.create keyword.other.ddl
+--     ^^^^^ meta.statement.create keyword.other
 --           ^^^^^^^^^^^^^^^^^^ entity.name.struct
 --                ^ punctuation.accessor.dot
 --                             ^^^^^^^^^^^^^^^ - entity.name
@@ -143,15 +143,15 @@ create table fancy_table (
 );
 
 CREATE INDEX ON fancy_table(mytime);
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 --     ^^^^^ keyword.other.ddl
 --           ^^ keyword.other
 --              ^^^^^^^^^^^ meta.table-name
 
 CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other.ddl
 --           ^^ keyword.other
@@ -159,12 +159,12 @@ CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
 --                          ^^^^^ keyword.other
 
 CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl
 --     ^^^^^^ keyword.other.ddl
 --            ^^^^^ keyword.other.ddl
---                  ^^ meta.create keyword.other
+--                  ^^ meta.statement.create keyword.other
 --                     ^^^^^^^^^^^ meta.table-name
 --                                ^ meta.group punctuation.section.group.begin
 --                                 ^^^^^^^^^^^^ meta.group meta.column-name
@@ -187,8 +187,8 @@ create fulltext index if not exists `myindex` ON mytable;
 --                                                      ^ punctuation.terminator.statement
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
--- <- meta.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl
 --    ^^^^^ keyword.other.ddl
 --          ^^^^^^^^^^^^^^ meta.table-name.sql
@@ -198,8 +198,8 @@ ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
 --                                             ^^^^^^^^ storage.type.sql
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
--- <- meta.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 --                     ^^^^^^ keyword.other.ddl
 --                            ^^^^^^ keyword.other.ddl
 --                                   ^^^^^^^^ meta.column-name
@@ -207,8 +207,8 @@ ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
 --                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
--- <- meta.drop.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- <- meta.statement.drop.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl
 --   ^^^^^ keyword.other.ddl
 --         ^^ keyword.control.conditional.if.sql
@@ -273,7 +273,7 @@ WHERE   f.a IS NULL
 --                     ^^^^ constant.language.null.sql
 
 CREATE INDEX IX_some_index ON dbo.some_table(
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other.ddl
 --           ^^^^^^^^^^^^^ entity.name.struct.index
@@ -286,7 +286,7 @@ CREATE INDEX IX_some_index ON dbo.some_table(
 )
 
 CREATE ALGORITHM=MERGE VIEW contactPersons(
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^^^^^ keyword.other
 --              ^ keyword.operator.assignment
@@ -315,8 +315,8 @@ FROM customers;
 --            ^ punctuation.terminator.statement
 
 CREATE TEMPORARY TABLE IF NOT EXISTS foo (
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl
 --     ^^^^^^^^^ keyword.other.ddl
 --               ^^^^^ keyword.other.ddl

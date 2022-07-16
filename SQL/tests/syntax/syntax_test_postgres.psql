@@ -1,8 +1,8 @@
 -- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
 
 CREATE TABLE test1 (a character(4));
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other.ddl
 --           ^^^^^ entity.name.struct.table
@@ -29,7 +29,7 @@ SELECT a, char_length(a) FROM test1;
 --                                 ^ punctuation.terminator.statement
 
 CREATE TABLE test2 (b varchar(5));
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other.ddl
 --           ^^^^^ entity.name.struct
@@ -51,7 +51,7 @@ INSERT INTO test2 VALUES ('too long'::varchar(5)); -- explicit truncation
 SELECT b, char_length(b) FROM test2;
 
 CREATE TABLE IF NOT EXISTS public.dropzone_details
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other.ddl
 --           ^^ keyword.control.conditional.if
@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --                         ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct
 --                               ^ punctuation.accessor.dot
 (
--- <- meta.create meta.group.table-columns punctuation.section.group.begin
+-- <- meta.statement.create meta.group.table-columns punctuation.section.group.begin
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^ meta.column-name
 --     ^^^^ storage.type
 --          ^^^ keyword.operator.logical
@@ -105,9 +105,9 @@ SELECT 'abc \153\154\155 \052\251\124'::bytea;
 --                                           ^ punctuation.terminator.statement
 
 CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
--- ^^^ meta.create keyword.other.ddl
---     ^^^^ meta.create keyword.other
---          ^^^^ meta.create entity.name
+-- ^^^ meta.statement.create keyword.other.ddl
+--     ^^^^ meta.statement.create keyword.other
+--          ^^^^ meta.statement.create entity.name
 --               ^^ keyword.context.block
 CREATE TABLE person (
     name text,
@@ -129,14 +129,14 @@ INSERT INTO test VALUES (B'10'::bit(3), B'101');
 CREATE TABLE sal_emp (
     name            text,
     pay_by_quarter  integer[],
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^^^^^^^^^^^^^ meta.column-name
 --                  ^^^^^^^ storage.type
 --                         ^ punctuation.section.brackets.begin
 --                          ^ punctuation.section.brackets.end
 --                           ^ punctuation.separator.sequence - storage
     schedule        text[][]
---  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^^^^^^^ meta.column-name
 --                  ^^^^ storage.type
 --                      ^ punctuation.section.brackets.begin
@@ -213,8 +213,8 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 -- -----------------
 
 CREATE EXTENSION hstore SCHEMA addons;
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl
 --     ^^^^^^^^^ keyword.other.ddl
 --               ^^^^^^ entity.name.namespace.psql
@@ -223,8 +223,8 @@ CREATE EXTENSION hstore SCHEMA addons;
 --                                   ^ punctuation.terminator.statement
 
 CREATE EXTENSION IF NOT EXISTS extension_name WITH SCHEMA schema_name VERSION 1.0 CASCADE;
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^^^^ keyword.other.ddl.psql
 --               ^^ keyword.control.conditional.if.sql
@@ -245,8 +245,8 @@ CREATE EXTENSION IF NOT EXISTS extension_name WITH SCHEMA schema_name VERSION 1.
 -- -----------------
 
 DROP EXTENSION name CASCADE;
--- <- meta.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^^^^^^ keyword.other.ddl.psql
 --             ^^^^ meta.extension-name.psql
@@ -254,8 +254,8 @@ DROP EXTENSION name CASCADE;
 --                         ^ punctuation.terminator.statement.sql
 
 DROP EXTENSION IF EXISTS name, second RESTRICT;
--- <- meta.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^^^^^^ keyword.other.ddl.psql
 --             ^^ keyword.control.conditional.if.sql
@@ -272,8 +272,8 @@ DROP EXTENSION IF EXISTS name, second RESTRICT;
 -- -----------------
 
 ALTER EXTENSION extension_name UPDATE TO 1.2;
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --    ^^^^^^^^^ keyword.other.ddl.psql
 --              ^^^^^^^^^^^^^^ meta.extension-name.psql
@@ -283,8 +283,8 @@ ALTER EXTENSION extension_name UPDATE TO 1.2;
 --                                          ^ punctuation.terminator.statement.sql
 
 ALTER EXTENSION extension_name SET SCHEMA new_schema;
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --    ^^^^^^^^^ keyword.other.ddl.psql
 --              ^^^^^^^^^^^^^^ meta.extension-name.psql
@@ -294,8 +294,8 @@ ALTER EXTENSION extension_name SET SCHEMA new_schema;
 --
 
 ALTER EXTENSION extension_name ADD member_object;
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --    ^^^^^^^^^ keyword.other.ddl.psql
 --              ^^^^^^^^^^^^^^ meta.extension-name.psql
@@ -304,8 +304,8 @@ ALTER EXTENSION extension_name ADD member_object;
 --                                              ^ punctuation.terminator.statement.sql
 
 ALTER EXTENSION extension_name DROP member_object;
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --    ^^^^^^^^^ keyword.other.ddl.psql
 --              ^^^^^^^^^^^^^^ meta.extension-name.psql
@@ -326,23 +326,23 @@ ALTER EXTENSION extension_name DROP member_object;
 -- -----------------
 
 CREATE INDEX index_name
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^ keyword.other.ddl.sql
 --           ^^^^^^^^^^ entity.name.struct.index.sql
 
 CREATE INDEX index_name USING method_name
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^ keyword.other.ddl.sql
 --           ^^^^^^^^^^ entity.name.struct.index.sql
 --                      ^^^^^ keyword.other.mysql
 
 CREATE UNIQUE INDEX IF NOT EXISTS index_name ON table_name
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^ keyword.other.ddl.sql
 --            ^^^^^ keyword.other.ddl.sql
@@ -354,8 +354,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS index_name ON table_name
 --                                              ^^^^^^^^^^ meta.table-name.sql
 
 CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS index_name ON ONLY table_name
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^ keyword.other.ddl.sql
 --            ^^^^^ keyword.other.ddl.sql
@@ -369,8 +369,8 @@ CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS index_name ON ONLY table_name
 --                                                                ^^^^^^^^^^ meta.table-name.sql
 
 CREATE UNIQUE INDEX CONCURRENTLY IF EXISTS index_name ON ONLY table_name USING method_name
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^ keyword.other.ddl.sql
 --            ^^^^^ keyword.other.ddl.sql
@@ -405,8 +405,8 @@ CREATE TABLE example_table (
 );
 
 ALTER TABLE mytable ADD CONSTRAINT verif_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA'));
--- <- meta.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl
 --    ^^^^^ keyword.other.ddl
 --          ^^^^^^^ meta.table-name
@@ -442,8 +442,8 @@ CREATE TABLE test2 (
 );
 
 ALTER TABLE test2 ADD something varchar[];
--- <- meta.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter
+-- <- meta.statement.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter
 -- ^^ keyword.other.ddl
 --    ^^^^^ keyword.other.ddl
 --          ^^^^^ meta.table-name
@@ -495,7 +495,7 @@ DECLARE var varchar[];
 --         ^ - variable - storage
 
 DROP TRIGGER blah ON some_table;
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop
 -- ^ keyword.other.ddl
 --   ^^^^^^^ keyword.other
 --                ^^ keyword.other

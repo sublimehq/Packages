@@ -110,7 +110,7 @@ contexts:
 
   create-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.create.sql
+    - meta_scope: meta.statement.create.sql
     - include: immediately-pop
 
   create-target:
@@ -186,7 +186,7 @@ contexts:
 
   drop-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.drop.sql
+    - meta_scope: meta.statement.drop.sql
     - include: immediately-pop
 
   drop-target:
@@ -254,7 +254,7 @@ contexts:
 
   alter-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.alter.sql
+    - meta_scope: meta.statement.alter.sql
     - include: immediately-pop
 
   alter-target:

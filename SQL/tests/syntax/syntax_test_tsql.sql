@@ -539,38 +539,38 @@ AND (v.column2 IS NULL OR ISNULL(TableAlias.column1, 0) != v.column1)
 --                                                      ^^ keyword.operator.comparison
 
 drop table foobar
--- <- meta.drop.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^ meta.drop
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^ meta.statement.drop
 -- ^ keyword.other.ddl
 --  ^ - keyword
 --   ^^^^^ keyword.other
 --         ^^^^^^ meta.table-name
 
 alter table foo
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --   ^ - keyword
 --    ^^^^^ keyword.other.ddl.sql
 --         ^ - keyword
---          ^^^ meta.alter meta.table-name
+--          ^^^ meta.statement.alter meta.table-name
 add bar uniqueidentifier
---^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+--^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 --^ keyword.other.ddl.sql
 --  ^^^ meta.column-name
 --      ^^^^^^^^^^^^^^^^ storage.type
 
 alter table foo
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --   ^ - keyword
 --    ^^^^^ keyword.other.ddl.sql
 --         ^ - keyword
 --          ^^^  meta.table-name
 alter column bar uniqueidentifier not null
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --   ^ - keyword
 --    ^^^^^^ keyword.other.ddl.sql
@@ -663,9 +663,9 @@ USE MSSQLTipsDemo
 GO
 
 CREATE OR ALTER PROC CreateOrAlterDemo
--- ^^^^^^^^^^^^ meta.create keyword.other.ddl
---              ^^^^ meta.create keyword.other
---                   ^^^^^^^^^^^^^^^^^ meta.create.sql entity.name.function.sql
+-- ^^^^^^^^^^^^ meta.statement.create keyword.other.ddl
+--              ^^^^ meta.statement.create keyword.other
+--                   ^^^^^^^^^^^^^^^^^ meta.statement.create.sql entity.name.function.sql
  @Count SMALLINT
 ,@Other INT OUTPUT
 -- <- punctuation.separator.sequence
@@ -699,8 +699,8 @@ GO
 
 ---------------
 ALTER PROC CreateOrAlterDemo
--- ^^ meta.alter keyword.other.ddl
---    ^^^^ meta.alter keyword.other.ddl
+-- ^^ meta.statement.alter keyword.other.ddl
+--    ^^^^ meta.statement.alter keyword.other.ddl
 --         ^^^^^^^^^^^^^^^^^ meta.procedure-name
  @Count SMALLINT
 ,@Other INT OUTPUT
@@ -876,7 +876,7 @@ CREATE TABLE foo (id [int] PRIMARY KEY, [test me] [varchar] (5))
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
 --           ^^^ entity.name.struct
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --               ^ punctuation.section.group.begin
 --                ^^ meta.column-name
 --                   ^^^^^ storage.type
@@ -1321,7 +1321,7 @@ CREATE TABLE [dbo].[be_Categories](
 --                                                                                                                               ^^^^^^^^^ meta.filegroup-name
 ) ON [PRIMARY]
 -- <- punctuation.section.group.end
---^^ meta.create keyword.other
+--^^ meta.statement.create keyword.other
 --   ^^^^^^^^^ meta.filegroup-name
 --   ^ punctuation.definition.identifier.begin
 --           ^ punctuation.definition.identifier.end
@@ -1372,7 +1372,7 @@ CREATE TABLE [dbo].[table_with_constraint_following_derived_column](
 --                                                                                                                               ^^^^^^^^^ meta.filegroup-name
 ) ON [PRIMARY]
 -- <- punctuation.section.group.end
---^^ meta.create keyword.other
+--^^ meta.statement.create keyword.other
 --   ^^^^^^^^^ meta.filegroup-name
 --   ^ punctuation.definition.identifier.begin
 --           ^ punctuation.definition.identifier.end
@@ -1399,8 +1399,8 @@ CREATE TABLE [Employee](
 --                                                                    ^ punctuation.separator.sequence
 ) ON [PRIMARY]
 -- <- punctuation.section.group.end
---^^ meta.create keyword.other
---   ^^^^^^^^^ meta.create meta.filegroup-name
+--^^ meta.statement.create keyword.other
+--   ^^^^^^^^^ meta.statement.create meta.filegroup-name
 GO
 SELECT * FROM Department D
 CROSS APPLY
@@ -1440,8 +1440,8 @@ RETURN
 GO
 
 CREATE FUNCTION foo() RETURNS @MyType
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^^^ keyword.other.ddl.sql
 --              ^^^ entity.name.function.sql
@@ -1450,8 +1450,8 @@ CREATE FUNCTION foo() RETURNS @MyType
 --                            ^^^^^^^ support.type.sql variable.other.readwrite.sql
 
 CREATE FUNCTION foo() RETURNS My@TypeName
--- <- meta.create.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^^^ keyword.other.ddl.sql
 --              ^^^ entity.name.function.sql
@@ -1730,7 +1730,7 @@ SELECT @Data = (
 
 -------------------
 CREATE UNIQUE NONCLUSTERED INDEX IX_some_index ON dbo.some_table(
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^^ keyword.other
 --            ^^^^^^^^^^^^ keyword.other
@@ -1899,7 +1899,7 @@ CREATE TABLE Department
 --                                                  ^ punctuation.section.group.end
 )
 WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Department_History, DATA_CONSISTENCY_CHECK = ON));
---^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 --^^ keyword.other.dml
 --   ^ punctuation.section.group.begin
 --    ^^^^^^^^^^^^^^^^^ keyword.other
@@ -1933,7 +1933,7 @@ CREATE TABLE Customers (
 --      ^ punctuation.section.group.end
 --       ^ punctuation.separator.sequence
     SSN VARCHAR(11) COLLATE Latin1_General_BIN2
---  ^^^ meta.create meta.group.table-columns meta.column-name variable.other.member.declaration
+--  ^^^ meta.statement.create meta.group.table-columns meta.column-name variable.other.member.declaration
 --      ^^^^^^^^^^^ storage.type
 --                  ^^^^^^^ keyword.other
 --                          ^^^^^^^^^^^^^^^^^^^ support.constant
@@ -1948,24 +1948,24 @@ CREATE TABLE Customers (
 
 ALTER TABLE inventory
 ADD CONSTRAINT fk_inv_product_id
---^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 --^ keyword.other.ddl.sql
 -- ^ - keyword
 --  ^^^^^^^^^^ keyword.other.ddl.sql
 --            ^ - keyword
 --             ^^^^^^^^^^^^^^^^^ meta.constraint-name
     FOREIGN KEY (product_id)
---  ^^^^^^^^^^^ meta.alter storage.modifier
---              ^ meta.alter meta.group.table-columns punctuation.section.group.begin
+--  ^^^^^^^^^^^ meta.statement.alter storage.modifier
+--              ^ meta.statement.alter meta.group.table-columns punctuation.section.group.begin
 --               ^^^^^^^^^^ meta.column-name
     REFERENCES products (product_id)
---  ^^^^^^^^^^ meta.alter storage.modifier
---             ^^^^^^^^ meta.alter meta.table-name
---                      ^ meta.alter meta.group.table-columns punctuation.section.group.begin
+--  ^^^^^^^^^^ meta.statement.alter storage.modifier
+--             ^^^^^^^^ meta.statement.alter meta.table-name
+--                      ^ meta.statement.alter meta.group.table-columns punctuation.section.group.begin
 --                       ^^^^^^^^^^ meta.column-name
 --                                 ^ punctuation.section.group.end
     ON DELETE CASCADE;
---  ^^^^^^^^^^^^^^^^^ meta.alter storage.modifier
+--  ^^^^^^^^^^^^^^^^^ meta.statement.alter storage.modifier
 --                   ^ punctuation.terminator.statement
 
 BEGIN TRY

@@ -1,7 +1,7 @@
 -- SYNTAX TEST "Packages/SQL/Cassandra.sublime-syntax"
 
 CREATE KEYSPACE killrvideo WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
---^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+--^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 --^^^^ keyword.other.ddl
 --     ^^^^^^^^ keyword.other
 --              ^^^^^^^^^^ entity.name.struct.other
@@ -85,7 +85,7 @@ insert into something_by_countrycode (someid, countrycode) values (:someid, :cou
 --                                                                                       ^ punctuation.terminator.statement
 
 CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other.ddl
 --           ^^ keyword.control.conditional.if
@@ -94,12 +94,12 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 --                         ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct
 --                                                   ^ meta.group.table-columns punctuation.section.group.begin
     userid uuid,
---  ^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--  ^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^^^^^ meta.column-name
 --         ^^^^ storage.type
 --             ^ punctuation.separator.sequence
     permissions frozen<set<text>>,
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^^^^^^^^^^ meta.column-name
 --              ^^^^^^ - meta.generic
 --                    ^^^^ meta.generic.cql - meta.generic meta.generic
@@ -133,20 +133,20 @@ CREATE TABLE IF NOT EXISTS userpermissions_by_userid (
 --                                    ^^^ punctuation.definition.generic.end.cql
 --                                       ^ punctuation.separator.sequence.sql
     PRIMARY KEY(userid)
---  ^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--  ^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^^^^^^^^^^ storage.modifier
 --             ^ meta.group punctuation.section.group.begin
 --              ^^^^^^ meta.group.partition-key meta.column-name
 --                    ^ meta.group.partition-key punctuation.section.group.end
 );
--- <- meta.create meta.group.table-columns punctuation.section.group.end
+-- <- meta.statement.create meta.group.table-columns punctuation.section.group.end
 
 CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     userid uuid,
     other_id uuid,
     test text,
     PRIMARY KEY(userid, other_id)
---  ^^^^^^^^^^^ meta.create meta.group.table-columns storage.modifier
+--  ^^^^^^^^^^^ meta.statement.create meta.group.table-columns storage.modifier
 --             ^ punctuation.section.group.begin
 --              ^^^^^^ meta.group.partition-key meta.column-name
 --                    ^^^^^^^^^^^ - meta.group.partition-key
@@ -154,13 +154,13 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
 --                      ^^^^^^^^ meta.group.table-columns meta.group meta.column-name
 --                              ^ punctuation.section.group.end
 );
--- <- meta.create meta.group.table-columns punctuation.section.group.end
+-- <- meta.statement.create meta.group.table-columns punctuation.section.group.end
 CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     userid uuid,
     other_id uuid,
     test text,
     PRIMARY KEY ((userid), other_id)
---  ^^^^^^^^^^^ meta.create meta.group.table-columns storage.modifier
+--  ^^^^^^^^^^^ meta.statement.create meta.group.table-columns storage.modifier
 --              ^ punctuation.section.group.begin
 --               ^^^^^^^^ meta.group.partition-key
 --               ^ punctuation.section.group.begin
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
 --                         ^^^^^^^^ meta.group.table-columns meta.group meta.column-name
 --                                 ^ punctuation.section.group.end
 );
--- <- meta.create meta.group.table-columns punctuation.section.group.end
+-- <- meta.statement.create meta.group.table-columns punctuation.section.group.end
 CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
     userid uuid,
     other_id timeuuid,
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
 --                   ^ punctuation.separator.sequence
     test int,
     PRIMARY KEY ((userid, other_id), test)
---  ^^^^^^^^^^^ meta.create meta.group.table-columns storage.modifier
+--  ^^^^^^^^^^^ meta.statement.create meta.group.table-columns storage.modifier
 --              ^ punctuation.section.group.begin
 --               ^^^^^^^^^^^^^^^^^^ meta.group.partition-key
 --               ^ punctuation.section.group.begin
@@ -193,11 +193,11 @@ CREATE TABLE IF NOT EXISTS test_by_userid_otherid (
 --                                   ^^^^ meta.group.table-columns meta.group meta.column-name
 --                                       ^ punctuation.section.group.end
 );
--- <- meta.create meta.group.table-columns punctuation.section.group.end
+-- <- meta.statement.create meta.group.table-columns punctuation.section.group.end
 
 CREATE TABLE IF NOT EXISTS date_by_userid (
     userid uuid PRIMARY KEY,
---  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create meta.group.table-columns
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
 --  ^^^^^^ meta.column-name
 --         ^^^^ storage.type
 --              ^^^^^^^^^^^ storage.modifier
@@ -209,8 +209,8 @@ CREATE TABLE IF NOT EXISTS date_by_userid (
 
 
 DROP TABLE IF EXISTS userpermissions_by_userid;
--- <- meta.drop.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drop.sql
+-- <- meta.statement.drop.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl
 --   ^^^^^ keyword.other.ddl
 --         ^^ keyword.control.conditional.if
@@ -219,8 +219,8 @@ DROP TABLE IF EXISTS userpermissions_by_userid;
 --                                            ^ punctuation.terminator.statement
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 --^^^^ keyword.other.ddl
 --     ^^^^^^^^^^^^ keyword.other.ddl
 --                  ^^^^ keyword.other.ddl
@@ -250,7 +250,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --                                                             ^ punctuation.terminator.statement
 
 CREATE TYPE user_defined_type (
---^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.create
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
 --^^^^ keyword.other.ddl
 --     ^^^^ keyword.other
 --          ^^^^^^^^^^^^^^^^^ entity.name.type
@@ -319,7 +319,7 @@ CREATE TABLE IF NOT EXISTS someentity_by_somefield (
     anotherfield text
 PRIMARY KEY (entityid, datecreated, somefield)
 ) WITH CLUSTERING ORDER BY (datecreated DESC, somefield ASC);
---^^^^^^^^^^^^^^^^ meta.create
+--^^^^^^^^^^^^^^^^ meta.statement.create
 -- ^^^ keyword.other
 --     ^^^^^^^^^^ keyword.other
 --                ^^^^^^^^ keyword.other.dml
@@ -334,8 +334,8 @@ PRIMARY KEY (entityid, datecreated, somefield)
 --                                                          ^ punctuation.terminator.statement
 
 ALTER TABLE someentity_by_somefield add usefulfield text;
--- <- meta.alter.sql keyword.other.ddl.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.alter.sql
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
 --    ^^^^^ keyword.other.ddl.sql
 --          ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
@@ -346,7 +346,7 @@ ALTER TABLE someentity_by_somefield add usefulfield text;
 
 ALTER TABLE someentity_by_somefield
     add usefulfield text;
---  ^^^^^^^^^^^^^^^^^^^^ meta.alter
+--  ^^^^^^^^^^^^^^^^^^^^ meta.statement.alter
 --  ^^^ keyword.other.ddl
 --      ^^^^^^^^^^^ meta.column-name
 --                  ^^^^ storage.type
@@ -354,7 +354,7 @@ ALTER TABLE someentity_by_somefield
 
 ALTER TABLE someentity_by_somefield
     DROP unnecessryfield;
---  ^^^^^^^^^^^^^^^^^^^^ meta.alter
+--  ^^^^^^^^^^^^^^^^^^^^ meta.statement.alter
 --  ^^^^ keyword.other.ddl
 --       ^^^^^^^^^^^^^^^ meta.column-name
 --                      ^ punctuation.terminator.statement
@@ -425,8 +425,8 @@ CREATE TABLE myschema.users (
  );
 
 CREATE INDEX user_state
--- <- meta.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^ meta.create.sql
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 -- ^^^ keyword.other.ddl
 --     ^^^^^ keyword.other
 --           ^^^^^^^^^^ entity.name.struct.index.sql
@@ -448,7 +448,7 @@ CREATE INDEX ON myschema.users (zip);
 --                                 ^ punctuation.section.group.end
 
 CREATE INDEX todo_dates ON users (KEYS(todo));
---                         ^^^^^ meta.create meta.table-name
+--                         ^^^^^ meta.statement.create meta.table-name
 --                               ^ punctuation.section.group.begin
 --                                ^^^^ meta.function-call support.function.scalar
 --                                    ^ punctuation.section.arguments.begin
@@ -457,7 +457,7 @@ CREATE INDEX todo_dates ON users (KEYS(todo));
 --                                          ^ punctuation.section.group.end
 
 CREATE INDEX entries_idx ON race (ENTRIES(race_wins));
---                          ^^^^ meta.create meta.table-name
+--                          ^^^^ meta.statement.create meta.table-name
 --                               ^ punctuation.section.group.begin
 --                                ^^^^^^^ meta.function-call support.function.scalar
 --                                       ^ punctuation.section.arguments.begin
@@ -466,7 +466,7 @@ CREATE INDEX entries_idx ON race (ENTRIES(race_wins));
 --                                                  ^ punctuation.section.group.end
 
 CREATE INDEX rnumbers_idx ON cycling.race_starts (FULL(rnumbers));
---                           ^^^^^^^^^^^^^^^^^^^ meta.create meta.table-name
+--                           ^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.table-name
 --                                               ^ punctuation.section.group.begin
 --                                                ^^^^ meta.function-call support.function.scalar
 --                                                    ^ punctuation.section.arguments.begin
