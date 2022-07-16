@@ -5,8 +5,6 @@
     <string>source.js | source.ts</string>
     <key>settings</key>
     <dict>
-        <key>indentationFoldingEnabled</key>
-        <false/>
         <key>foldScopes</key>
         <array>
             <dict>
