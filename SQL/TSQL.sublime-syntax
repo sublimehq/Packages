@@ -159,6 +159,20 @@ contexts:
       scope: keyword.other.dml.sql
       push: table-name-or-subquery
 
+###[ DML SET STATEMENTS ]######################################################
+
+  set-target:
+    - meta_prepend: true
+    - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
+      scope: constant.language.switch.tsql
+    - match: \b(?i:identity_insert)\b
+      scope: constant.language.switch.tsql
+      push: expect-table-name
+    - include: onoff-constants
+    - include: variables
+    - include: augmented-assignment-operators
+    - include: operators
+
 ###[ OTHER STATEMENTS ]########################################################
 
   other-statements:
@@ -398,19 +412,6 @@ contexts:
   values-or-expressions:
     - include: dml-statements
     - include: expressions
-
-  set:
-    - meta_prepend: true
-    - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
-      scope: constant.language.switch.tsql
-    - match: \b(?i:identity_insert)\b
-      scope: constant.language.switch.tsql
-      push: expect-table-name
-    - include: onoff-constants
-    - include: variables
-    - include: augmented-assignment-operators
-    - include: operators
-    - include: else-pop
 
 ###[ WITH EXPRESSIONS ]########################################################
 

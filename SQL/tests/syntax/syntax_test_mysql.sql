@@ -618,6 +618,72 @@ REVOKE role1, role2 FROM grantee, grantee2 ;
 --                                         ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
+
+SET
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^ meta.statement.set.sql - keyword
+
+SET PASSWORD =
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^ meta.statement.set.sql
+-- ^ - keyword
+--  ^^^^^^^^ keyword.other.dml.sql
+--          ^ - keyword
+--           ^ keyword.operator.assignment.sql
+
+SET PASSWORD FOR user1@localhost =
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+-- ^ - keyword
+--  ^^^^^^^^ keyword.other.dml.sql
+--          ^ - keyword
+--           ^^^ keyword.other.dml.sql
+--               ^^^^^^^^^^^^^^^ meta.user-name.sql
+--                    ^ punctuation.accessor.at.sql
+--                               ^ keyword.operator.assignment.sql
+
+SET PASSWORD = PASSWORD('some password')
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--             ^^^^^^^^ meta.function-call - meta.group
+--                     ^^^^^^^^^^^^^^^^^ meta.function-call.sql meta.group.sql
+--  ^^^^^^^^ keyword.other.dml.sql
+--           ^ keyword.operator.assignment.sql
+--             ^^^^^^^^ support.function.sql
+--                     ^ punctuation.section.arguments.begin.sql
+--                      ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                     ^ punctuation.section.arguments.end.sql
+
+SET PASSWORD = OLD_PASSWORD('some password');
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--             ^^^^^^^^^^^^ meta.function-call - meta.group
+--                         ^^^^^^^^^^^^^^^^^ meta.function-call.sql meta.group.sql
+--  ^^^^^^^^ keyword.other.dml.sql
+--           ^ keyword.operator.assignment.sql
+--             ^^^^^^^^^^^^ support.function.sql
+--                         ^ punctuation.section.arguments.begin.sql
+--                          ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                         ^ punctuation.section.arguments.end.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+SET PASSWORD for `user@`@'%' = 'encrypted password';
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^^^^^ keyword.other.dml.sql
+--           ^^^ keyword.other.dml.sql
+--               ^^^^^^^^^^^ meta.user-name.sql
+--               ^ punctuation.definition.identifier.begin.sql
+--                     ^ punctuation.definition.identifier.end.sql
+--                      ^ punctuation.accessor.at.sql
+--                       ^ punctuation.definition.identifier.begin.sql
+--                        ^ variable.language.wildcard.percent.sql
+--                         ^ punctuation.definition.identifier.end.sql
+--                           ^ keyword.operator.assignment.sql
+--                             ^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
 -- Legacy Tests
 -- ----------------------------------------------------------------------------
 

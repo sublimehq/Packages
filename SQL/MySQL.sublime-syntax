@@ -182,6 +182,30 @@ contexts:
     - match: \b(?i:straight_join|natural)\b
       scope: keyword.other.dml.sql
 
+###[ DML SET STATEMENTS ]######################################################
+
+  set-target:
+    - meta_prepend: true
+    - include: set-password
+
+  set-password:
+    # https://mariadb.com/kb/en/set-password
+    - match: \b(?i:password)\b
+      scope: keyword.other.dml.sql
+      set:
+        - set-other-assignment
+        - maybe-for-user
+
+  set-other-assignment:
+    - match: =
+      scope: keyword.operator.assignment.sql
+      set: set-other-value
+    - include: else-pop
+
+  set-other-value:
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
+
 ###[ GRANT STATEMENTS ]########################################################
 
   grant-statements:
@@ -329,6 +353,12 @@ contexts:
       scope: keyword.other.object-comments.sql
 
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
+
+  maybe-for-user:
+    - match: \b(?i:for)\b
+      scope: keyword.other.dml.sql
+      set: expect-user-name
+    - include: else-pop
 
   expect-user-identification-list:
     # prevent prototypes from inheriting syntaxes

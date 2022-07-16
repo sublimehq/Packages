@@ -391,9 +391,7 @@ contexts:
     - match: \b(?i:(?:insert\s+into|truncate))\b
       scope: keyword.other.dml.sql
       push: expect-table-name
-    - match: \b(?i:set)\b
-      scope: keyword.other.dml.sql
-      push: set
+    - include: set-statements
     - match: \b(?i:(?:default\s+)?values)\b
       scope: keyword.other.dml.II.sql
     - include: distinct
@@ -427,6 +425,23 @@ contexts:
     - match: \b(?i:on)\b
       scope: keyword.operator.join.sql
       pop: 1
+    - include: else-pop
+
+###[ DML SET STATEMENTS ]######################################################
+
+  set-statements:
+    - match: \b(?i:set)\b
+      scope: keyword.other.dml.sql
+      push:
+        - set-meta
+        - set-target
+
+  set-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.set.sql
+    - include: immediately-pop
+
+  set-target:
     - include: else-pop
 
 ###[ OTHER STATEMENTS ]########################################################
@@ -553,9 +568,6 @@ contexts:
       scope: punctuation.section.group.end.sql
       pop: 1
     - include: sql
-
-  set:
-    - include: else-pop
 
 ###[ TABLE NAMES ]#############################################################
 
