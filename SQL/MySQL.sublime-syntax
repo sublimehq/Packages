@@ -8,7 +8,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 
 variables:
   additional_reserved: |-
-    (?xi: begin | end | return | grant | rename | revoke )
+    (?xi: begin | end | return | grant | rename | revoke | show )
 
   simple_types: |-
     (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
@@ -29,6 +29,7 @@ contexts:
     - include: grant-statements
     - include: rename-statements
     - include: revoke-statements
+    - include: show-statements
 
 ###[ COMMENTS ]################################################################
 
@@ -357,6 +358,30 @@ contexts:
         - user-name-list
         - expect-user-name
     - include: else-pop
+
+###[ SHOW STATEMENTS ]#########################################################
+
+  show-statements:
+    - match: \b(?i:show)\b
+      scope: keyword.other.dml.sql
+      push:
+        - show-meta
+        - show-target
+
+  show-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.show.sql
+    - include: immediately-pop
+
+  show-target:
+    # https://mariadb.com/kb/en/show-grants
+    - include: show-grants
+    - include: else-pop
+
+  show-grants:
+    - match: \b(?i:grants)\b
+      scope: keyword.other.dml.sql
+      set: maybe-for-user
 
 ###[ OTHER STATEMENTS ]########################################################
 

@@ -822,6 +822,47 @@ SET DEFAULT ROLE role FOR user@host
 --                        ^^^^^^^^^ meta.user-name.sql
 
 -- ----------------------------------------------------------------------------
+
+SHOW GRANTS
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--  ^ - keyword
+--   ^^^^^^ keyword.other.dml.sql
+--         ^ - keyword
+
+SHOW GRANTS FOR user@host
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--  ^ - keyword
+--   ^^^^^^ keyword.other.dml.sql
+--         ^ - keyword
+--          ^^^ keyword.other.dml.sql
+--              ^^^^^^^^^ meta.user-name.sql
+
+SHOW GRANTS FOR role
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--  ^ - keyword
+--   ^^^^^^ keyword.other.dml.sql
+--         ^ - keyword
+--          ^^^ keyword.other.dml.sql
+--              ^^^^ meta.user-name.sql
+
+SHOW GRANTS FOR CURRENT_USER;
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+--              ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+
+SHOW GRANTS FOR CURRENT_USER();
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+--              ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                          ^^ meta.function-call.sql meta.group.sql
+
+-- ----------------------------------------------------------------------------
 -- Legacy Tests
 -- ----------------------------------------------------------------------------
 
