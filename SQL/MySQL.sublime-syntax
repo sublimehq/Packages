@@ -210,6 +210,7 @@ contexts:
   set-target:
     - meta_prepend: true
     - include: set-password
+    - include: set-role
 
   set-password:
     # https://mariadb.com/kb/en/set-password
@@ -218,6 +219,23 @@ contexts:
       set:
         - set-other-assignment
         - maybe-for-user
+
+  set-role:
+    # https://mariadb.com/kb/en/set-role
+    # https://mariadb.com/kb/en/set-default-role
+    - match: \b(?i:(?:(default)\s+)?(role))\b
+      captures:
+        1: keyword.other.dml.sql
+        2: keyword.other.dml.sql
+      set:
+        - maybe-for-user
+        - set-role-name
+
+  set-role-name:
+    - match: \b(?i:none)\b
+      scope: constant.language.null.sql
+      pop: 1
+    - include: expect-user-name
 
   set-other-assignment:
     - match: =

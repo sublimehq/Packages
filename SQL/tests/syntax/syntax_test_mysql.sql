@@ -777,6 +777,50 @@ SET PASSWORD for `user@`@'%' = 'encrypted password';
 --                             ^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 --                                                 ^ punctuation.terminator.statement.sql
 
+SET ROLE NONE
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^ keyword.other.dml.sql
+--       ^^^^ constant.language.null.sql
+
+SET ROLE role
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^ keyword.other.dml.sql
+--       ^^^^ meta.user-name.sql
+
+SET DEFAULT ROLE NONE
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^^^^ keyword.other.dml.sql
+--          ^^^^ keyword.other.dml.sql
+--               ^^^^ constant.language.null.sql
+
+SET DEFAULT ROLE role
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^^^^ keyword.other.dml.sql
+--          ^^^^ keyword.other.dml.sql
+--               ^^^^ meta.user-name.sql
+
+SET DEFAULT ROLE NONE FOR user@host
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^^^^ keyword.other.dml.sql
+--          ^^^^ keyword.other.dml.sql
+--               ^^^^ constant.language.null.sql
+--                    ^^^ keyword.other.dml.sql
+--                        ^^^^^^^^^ meta.user-name.sql
+
+SET DEFAULT ROLE role FOR user@host
+-- <- meta.statement.set.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+--  ^^^^^^^ keyword.other.dml.sql
+--          ^^^^ keyword.other.dml.sql
+--               ^^^^ meta.user-name.sql
+--                    ^^^ keyword.other.dml.sql
+--                        ^^^^^^^^^ meta.user-name.sql
+
 -- ----------------------------------------------------------------------------
 -- Legacy Tests
 -- ----------------------------------------------------------------------------
