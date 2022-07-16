@@ -29,25 +29,26 @@ contexts:
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-create-target:
+  create-target:
     - meta_prepend: true
-    - include: ddl-create-type
+    - include: create-type
 
-  ddl-create-type:
+  create-type:
     - match: \b(?i:type)\b
       scope: keyword.other.ddl.cql
       push:
-        - ddl-target-on
+        - target-on
         - maybe-column-declaration-list
         - expect-type-creation-name
-        - ddl-create-type-condition
+        - create-type-condition
 
-  ddl-create-type-condition:
-    - include: ddl-condition
+  create-type-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  ddl-target-on:
+  target-on:
     - meta_prepend: true
     - match: \b(?i:clustering)\b
       scope: keyword.other.cql

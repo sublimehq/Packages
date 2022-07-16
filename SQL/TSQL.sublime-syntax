@@ -41,11 +41,11 @@ contexts:
 
   sql:
     - meta_prepend: true
-    - include: declarations
+    - include: declare-statements
 
-###[ DECLARATIONS ]############################################################
+###[ DECLARE STATEMENTS ]######################################################
 
-  declarations:
+  declare-statements:
     - match: \b(?i:declare)\b
       scope: keyword.declaration.variable.sql
       push: inside-declaration
@@ -63,14 +63,14 @@ contexts:
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-create-statements:
+  create-statements:
     - match: \b(?i:create(?:\s+or\s+alter)?)\b
       scope: keyword.other.ddl.sql
       push:
-        - ddl-create-meta
-        - ddl-create-target
+        - create-meta
+        - create-target
 
-  ddl-create-target:
+  create-target:
     - meta_prepend: true
     # modifiers
     - match: \b(?i:unique|clustered|nonclustered)\b
@@ -78,7 +78,7 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  ddl-target-as:
+  target-as:
     - meta_prepend: true
     - include: with-table-options
     - match: (@){{simple_identifier}}

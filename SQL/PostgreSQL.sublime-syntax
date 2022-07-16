@@ -30,15 +30,15 @@ contexts:
 
   sql:
     - meta_prepend: true
-    - include: declarations
+    - include: declare-statements
 
   statements:
     - meta_prepend: true
     - match: \$\$
 
-###[ DECLARATIONS ]############################################################
+###[ DECLARE STATEMENTS ]######################################################
 
-  declarations:
+  declare-statements:
     - match: \b(?i:declare)\b
       scope: keyword.declaration.variable.psql
       push: inside-declaration
@@ -57,23 +57,24 @@ contexts:
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-create-target:
+  create-target:
     - meta_prepend: true
-    - include: ddl-create-extension
+    - include: create-extension
 
-  ddl-create-extension:
+  create-extension:
     # https://www.postgresql.org/docs/current/sql-createextension.html
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - ddl-target-as
+        - target-as
         - expect-extension-name-declaration
-        - ddl-create-extension-condition
+        - create-extension-condition
 
-  ddl-create-extension-condition:
-    - include: ddl-condition
+  create-extension-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
 
-  ddl-create-index-condition:
+  create-index-condition:
     # https://www.postgresql.org/docs/current/sql-createindex.html
     - meta_prepend: true
     - match: \b(?i:concurrently)\b
@@ -81,44 +82,39 @@ contexts:
 
 ###[ DDL DROP STATEMENTS ]#####################################################
 
-  ddl-drop-target:
+  drop-target:
     - meta_prepend: true
     # https://www.postgresql.org/docs/current/sql-dropextension.html
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - ddl-target-as
-        - ddl-drop-extension-name-list
-        - ddl-drop-extension-name
+        - target-as
+        - drop-extension-name-list
+        - expect-extension-name
+        - drop-extension-condition
 
-  ddl-drop-extension-name-list:
+  drop-extension-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-extension-name-list:
     - match: ','
       scope: punctuation.separator.sequence.psql
       push: expect-extension-name
     - include: else-pop
 
-  ddl-drop-extension-name:
-    - meta_include_prototype: false
-    - include: comments
-    - include: dml-condition
-    - include: expect-extension-name
-
 ###[ DDL ALTER STATEMENTS ]####################################################
 
-  ddl-alter-target:
+  alter-target:
     - meta_prepend: true
     # https://www.postgresql.org/docs/current/sql-alterextension.html
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - ddl-alter-extension-args
-        - ddl-alter-extension-name
+        - alter-extension-args
+        - expect-extension-name
 
-  ddl-alter-extension-name:
-    - meta_include_prototype: false
-    - include: expect-extension-name
-
-  ddl-alter-extension-args:
+  alter-extension-args:
     - match: \b(?i:add|drop)\b
       scope: keyword.other.ddl.sql
       push: expect-member-name
@@ -134,14 +130,14 @@ contexts:
     - include: numbers
     - include: else-pop
 
-  ddl-alter-common:
+  alter-common:
     - meta_prepend: true
     - match: \b(?i:check)\b
       scope: keyword.other.psql
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  ddl-target-as:
+  target-as:
     - meta_prepend: true
     - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
       scope: keyword.other.psql
@@ -153,7 +149,7 @@ contexts:
     - match: \b(?i:version|cascade|restrict)\b
       scope: storage.modifier.psql
 
-  ddl-target-on:
+  target-on:
     - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
       scope: keyword.other.psql
     - match: \b(?i:(on)(?:\s+(only))?)\b

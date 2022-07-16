@@ -46,32 +46,34 @@ contexts:
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
-  ddl-create-statements:
+  create-statements:
     - meta_prepend: true
     - match: \b(?i:create\s+or\s+replace)\b
       scope: keyword.other.ddl.sql
       push:
-        - ddl-create-meta
-        - ddl-create-target
+        - create-meta
+        - create-target
 
-  ddl-create-target:
+  create-target:
     - meta_prepend: true
-    - include: ddl-target-algorithm
+    - include: target-algorithm
     # index modifiers
     - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
 
-  ddl-drop-target:
+###[ DDL DROP STATEMENTS ]#####################################################
+
+  drop-target:
     - meta_prepend: true
-    - include: ddl-target-algorithm
+    - include: target-algorithm
 
 ###[ DDL ALTER STATEMENTS ]####################################################
 
-  ddl-alter-target:
+  alter-target:
     - meta_prepend: true
-    - include: ddl-target-algorithm
+    - include: target-algorithm
 
-  ddl-alter-columns:
+  alter-columns:
     - meta_prepend: true
     - match: \b(?i:(change)\s+(column))\b
       captures:
@@ -84,14 +86,14 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  ddl-target-algorithm:
+  target-algorithm:
     - match: \b(?i:(algorithm))\s*(=)
       captures:
         1: keyword.other.mysql
         2: keyword.operator.assignment.mysql
-      push: ddl-target-algorithm-value
+      push: target-algorithm-value
 
-  ddl-target-algorithm-value:
+  target-algorithm-value:
     - match: \b(?i:merge|temptable|undefined)\b
       scope: constant.language.sql
       pop: 1
