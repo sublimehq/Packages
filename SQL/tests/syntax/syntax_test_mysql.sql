@@ -1,8 +1,14 @@
 -- SYNTAX TEST "Packages/SQL/MySQL.sublime-syntax"
 
 -- ----------------------------------------------------------------------------
--- Account Management SQL Commands
--- https://mariadb.com/kb/en/account-management-sql-commands
+-- Data Definition Statements
+-- https://mariadb.com/kb/en/data-definition
+-- ----------------------------------------------------------------------------
+
+
+-- ----------------------------------------------------------------------------
+-- Create Role Statements
+-- https://mariadb.com/kb/en/create-role
 -- ----------------------------------------------------------------------------
 
 CREATE ROLE role
@@ -60,6 +66,12 @@ CREATE ROLE role WITH ADMIN CURRENT_ROLE
 --               ^^^^ keyword.other.ddl.sql
 --                    ^^^^^ keyword.other.ddl.sql
 --                          ^^^^^^^^^^^^ support.function.scalar.sql
+
+
+-- ----------------------------------------------------------------------------
+-- Create User Statements
+-- https://mariadb.com/kb/en/create-user
+-- ----------------------------------------------------------------------------
 
 CREATE USER IF NOT EXISTS
 -- <- meta.statement.create.sql keyword.other.ddl.sql
@@ -233,6 +245,10 @@ CREATE USER IF NOT EXISTS
 --                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                             ^^^ keyword.other.unit.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Alter User Statements
+-- https://mariadb.com/kb/en/alter-user
 -- ----------------------------------------------------------------------------
 
 ALTER USER IF EXISTS
@@ -398,6 +414,10 @@ ALTER USER IF EXISTS
 --                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                             ^^^ keyword.other.unit.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Drop Statements
+-- https://mariadb.com/kb/en/drop
 -- ----------------------------------------------------------------------------
 
 DROP
@@ -405,6 +425,12 @@ DROP
 -- ^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql
 --  ^ - keyword
+
+
+-- ----------------------------------------------------------------------------
+-- Drop Role Statements
+-- https://mariadb.com/kb/en/drop-role
+-- ----------------------------------------------------------------------------
 
 DROP ROLE role ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
@@ -436,6 +462,12 @@ DROP ROLE IF EXISTS role1, role2, role3;
 --                                ^^^^^ meta.user-name.sql
 --                                     ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Drop User Statements
+-- https://mariadb.com/kb/en/drop-user
+-- ----------------------------------------------------------------------------
+
 DROP USER bob@'%' ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
 -- ^^ meta.statement.drop.sql - meta.user
@@ -460,6 +492,12 @@ DROP USER IF EXISTS bob, clara@localhost ;
 --                            ^ punctuation.accessor.at.sql
 --                                       ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Grant Statements
+-- https://mariadb.com/kb/en/grant
 -- ----------------------------------------------------------------------------
 
 GRANT
@@ -612,6 +650,12 @@ GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
 --                                                         ^^^^^^^^^^^^ constant.language.sql
 --                                                                      ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Rename User Statements
+-- https://mariadb.com/kb/en/rename-user
 -- ----------------------------------------------------------------------------
 
 RENAME
@@ -644,6 +688,12 @@ RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
 --                                                      ^^^^^^^^^^^^^^^^^^^ meta.user-name.sql
 --                                                                         ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Revoke Statements
+-- https://mariadb.com/kb/en/revoke
 -- ----------------------------------------------------------------------------
 
 REVOKE ;
@@ -711,6 +761,12 @@ REVOKE role1, role2 FROM grantee, grantee2 ;
 --                                ^^^^^^^^ meta.user-name.sql
 --                                         ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Set Password Statements
+-- https://mariadb.com/kb/en/set-password
 -- ----------------------------------------------------------------------------
 
 SET
@@ -777,6 +833,14 @@ SET PASSWORD for `user@`@'%' = 'encrypted password';
 --                             ^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 --                                                 ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Set Role Statements
+-- https://mariadb.com/kb/en/set-role
+-- ----------------------------------------------------------------------------
+
 SET ROLE NONE
 -- <- meta.statement.set.sql keyword.other.dml.sql
 -- ^^^^^^^^^^ meta.statement.set.sql
@@ -821,6 +885,12 @@ SET DEFAULT ROLE role FOR user@host
 --                    ^^^ keyword.other.dml.sql
 --                        ^^^^^^^^^ meta.user-name.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Show Create User Statements
+-- https://mariadb.com/kb/en/show-create-user
 -- ----------------------------------------------------------------------------
 
 SHOW CREATE USER user_name
@@ -830,6 +900,14 @@ SHOW CREATE USER user_name
 --   ^^^^^^ keyword.other.ddl.sql
 --          ^^^^ keyword.other.ddl.sql
 --               ^^^^^^^^^ meta.user-name.sql
+
+
+-- ----------------------------------------------------------------------------
+-- Account Management SQL Commands
+-- -------------------------------
+-- Show Grants Statements
+-- https://mariadb.com/kb/en/show-grants
+-- ----------------------------------------------------------------------------
 
 SHOW GRANTS
 -- <- meta.statement.show.sql keyword.other.dml.sql
@@ -869,6 +947,7 @@ SHOW GRANTS FOR CURRENT_USER();
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
 --              ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
 --                          ^^ meta.function-call.sql meta.group.sql
+
 
 -- ----------------------------------------------------------------------------
 -- Legacy Tests
