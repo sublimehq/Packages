@@ -66,7 +66,25 @@ contexts:
     - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
     - include: target-algorithm
+    - include: create-role
     - include: create-user
+
+  create-role:
+    # https://mariadb.com/kb/en/create-role
+    - match: \b(?i:role)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-role-args
+        - expect-user-name-declaration
+        - create-role-condition
+
+  create-role-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-role-args:
+    - meta_scope: meta.user.sql
+    - include: maybe-with-admin-user
 
   create-user:
     # https://mariadb.com/kb/en/create-user
@@ -336,6 +354,16 @@ contexts:
     - match: \b(?i:using)\b
       scope: keyword.other.mysql
 
+  built-in-user-function-calls:
+    - match: \b(?i:(?:current|session|system)_(?:role|user))\b
+      scope: support.function.scalar.sql
+      push: function-call-arguments
+
+  built-in-user-function-call:
+    - match: \b(?i:(?:current|session|system)_(?:role|user))\b
+      scope: support.function.scalar.sql
+      set: function-call-arguments
+
   table-name-or-subquery:
     - meta_prepend: true
     - meta_include_prototype: false
@@ -353,6 +381,21 @@ contexts:
       scope: keyword.other.object-comments.sql
 
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
+
+  maybe-with-admin-user:
+    - meta_scope: meta.user.sql
+    - match: \b(?i:with)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-user-name
+        - maybe-admin
+    - include: else-pop
+
+  maybe-admin:
+    - match: \b(?i:admin)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+    - include: else-pop
 
   maybe-for-user:
     - match: \b(?i:for)\b
@@ -520,6 +563,7 @@ contexts:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
     - include: comments
+    - include: built-in-user-function-call
     - match: (?=\S)
       set: [user-name, user-identifier]
 

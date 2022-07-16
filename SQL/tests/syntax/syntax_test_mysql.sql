@@ -5,6 +5,62 @@
 -- https://mariadb.com/kb/en/account-management-sql-commands
 -- ----------------------------------------------------------------------------
 
+CREATE ROLE role
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.user
+--     ^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+-- ^^^ keyword.other.ddl.sql
+--    ^ - keyword
+--     ^^^^ keyword.other.ddl.sql
+--         ^ - keyword - entity
+--          ^^^^ entity.name.user.sql
+--              ^ - entity
+
+CREATE ROLE IF NOT EXISTS role
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.user
+--     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+-- ^^^ keyword.other.ddl.sql
+--    ^ - keyword
+--     ^^^^ keyword.other.ddl.sql
+--         ^ - keyword
+--          ^^ keyword.control.conditional.if.sql
+--            ^ - keyword
+--             ^^^ keyword.operator.logical.sql
+--                ^ - keyword
+--                 ^^^^^^ keyword.operator.logical.sql
+--                       ^ - keyword - entity
+--                        ^^^^ entity.name.user.sql
+--                            ^ - entity
+
+CREATE OR REPLACE ROLE IF NOT EXISTS role
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.user
+--                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
+-- ^^^^^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^ keyword.other.ddl.sql
+--                     ^^ keyword.control.conditional.if.sql
+--                        ^^^ keyword.operator.logical.sql
+--                            ^^^^^^ keyword.operator.logical.sql
+--                                   ^^^^ entity.name.user.sql
+
+CREATE OR REPLACE ROLE with WITH ADMIN lorinda@localhost
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.user
+--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+--                          ^^^^ keyword.other.ddl.sql
+--                               ^^^^^ keyword.other.ddl.sql
+--                                     ^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                                            ^ punctuation.accessor.at.sql
+
+CREATE ROLE role WITH ADMIN CURRENT_ROLE
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.user
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+--               ^^^^ keyword.other.ddl.sql
+--                    ^^^^^ keyword.other.ddl.sql
+--                          ^^^^^^^^^^^^ support.function.scalar.sql
+
 CREATE USER IF NOT EXISTS
 -- <- meta.statement.create.sql keyword.other.ddl.sql
 -- ^^^^ meta.statement.create.sql

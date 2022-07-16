@@ -512,6 +512,7 @@ contexts:
   function-calls:
     - include: built-in-aggregate-function-calls
     - include: built-in-scalar-function-calls
+    - include: built-in-user-function-calls
     - include: user-defined-function-calls
 
   built-in-aggregate-function-calls:
@@ -522,8 +523,14 @@ contexts:
 
   built-in-scalar-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-    - match: \b(?i:CURRENT_(?:DATE|TIME(?:STAMP)?|USER)|(?:SESSION|SYSTEM)_USER)\b
+    - match: \b(?i:current_(?:date|time(?:stamp)?))\b
       scope: support.function.scalar.sql
+      push: function-call-arguments
+
+  built-in-user-function-calls:
+    - match: \b(?i:(?:current|session|system)_user)\b
+      scope: support.function.scalar.sql
+      push: function-call-arguments
 
   user-defined-function-calls:
     - match: \b{{simple_identifier}}(?=\s*\()
