@@ -374,11 +374,20 @@ contexts:
     - include: immediately-pop
 
   show-target:
-    # https://mariadb.com/kb/en/show-grants
+    - include: show-create-user
     - include: show-grants
     - include: else-pop
 
+  show-create-user:
+    # https://mariadb.com/kb/en/show-create-user
+    - match: \b(?i:(create)\s+(user))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set: expect-user-name
+
   show-grants:
+    # https://mariadb.com/kb/en/show-grants
     - match: \b(?i:grants)\b
       scope: keyword.other.dml.sql
       set: maybe-for-user

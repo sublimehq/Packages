@@ -823,6 +823,14 @@ SET DEFAULT ROLE role FOR user@host
 
 -- ----------------------------------------------------------------------------
 
+SHOW CREATE USER user_name
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^ keyword.other.ddl.sql
+--          ^^^^ keyword.other.ddl.sql
+--               ^^^^^^^^^ meta.user-name.sql
+
 SHOW GRANTS
 -- <- meta.statement.show.sql keyword.other.dml.sql
 -- ^^^^^^^^^ meta.statement.show.sql
