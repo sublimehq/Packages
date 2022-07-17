@@ -213,6 +213,7 @@ contexts:
     - meta_prepend: true
     - include: algorithms
     - include: alter-database
+    - include: alter-event
     - include: alter-user
 
   alter-columns:
@@ -247,6 +248,25 @@ contexts:
         2: keyword.other.ddl.sql
       pop: 1
     - include: create-database-args
+
+  alter-event:
+    # https://mariadb.com/kb/en/alter-event
+    - include: event-definers
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - alter-event-args
+        - expect-event-name
+        - alter-event-condition
+
+  alter-event-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  alter-event-args:
+    - meta_scope: meta.event.sql
+    - include: event-options
+    - include: pop-on-top-level-reserved-word
 
   alter-user:
     # https://mariadb.com/kb/en/alter-user

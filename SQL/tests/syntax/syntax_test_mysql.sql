@@ -582,6 +582,154 @@ ALTER SCHEMA schema_name
 --          ^ keyword.operator.assignment.sql
 --            ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
+-- ----------------------------------------------------------------------------
+-- Alter Event Statements
+-- https://mariadb.com/kb/en/alter-event
+--
+-- ALTER
+--     [DEFINER = { user | CURRENT_USER }]
+--     EVENT event_name
+--     [ON SCHEDULE schedule]
+--     [ON COMPLETION [NOT] PRESERVE]
+--     [RENAME TO new_event_name]
+--     [ENABLE | DISABLE | DISABLE ON SLAVE]
+--     [COMMENT 'comment']
+--     [DO sql_statement]
+-- ----------------------------------------------------------------------------
+
+ALTER EVENT event_name
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql - meta.event
+--    ^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^ meta.event-name.sql
+
+ALTER DEFINER = user@host EVENT event_name
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql - meta.event
+--                        ^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^ variable.parameter.definer.sql
+--            ^ keyword.operator.assignment.sql
+--              ^^^^^^^^^ meta.user-name.sql
+--                        ^^^^^ keyword.other.ddl.sql
+--                              ^^^^^^^^^^ meta.event-name.sql
+
+ALTER EVENT IF NOT EXISTS event_name
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql - meta.event
+--    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^ keyword.other.ddl.sql
+--          ^^ keyword.control.conditional.if.sql
+--             ^^^ keyword.operator.logical.sql
+--                 ^^^^^^ keyword.operator.logical.sql
+--                        ^^^^^^^^^^ meta.event-name.sql
+
+ALTER EVENT event_name
+    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR + INTERVAL 3 MINUTE
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                                   ^ keyword.operator.arithmetic.sql
+--                                     ^^^^^^^^ storage.type.interval.sql
+--                                              ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                ^^^^ keyword.other.unit.sql
+--                                                     ^ keyword.operator.arithmetic.sql
+--                                                       ^^^^^^^^ storage.type.interval.sql
+--                                                                ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                                  ^^^^^^ keyword.other.unit.sql
+
+ALTER EVENT event_name
+    ON SCHEDULE EVERY 1 MONTH
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^ keyword.other.ddl.sql
+--                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                      ^^^^^ keyword.other.unit.sql
+
+    STARTS CURRENT_TIMESTAMP + INTERVAL 1 MONTH
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                           ^ keyword.operator.arithmetic.sql
+--                             ^^^^^^^^ storage.type.interval.sql
+--                                      ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                        ^^^^^ keyword.other.unit.sql
+
+    ENDS CURRENT_TIMESTAMP + INTERVAL 1 MONTH + INTERVAL 1 WEEK
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                         ^ keyword.operator.arithmetic.sql
+--                           ^^^^^^^^ storage.type.interval.sql
+--                                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                      ^^^^^ keyword.other.unit.sql
+--                                            ^ keyword.operator.arithmetic.sql
+--                                              ^^^^^^^^ storage.type.interval.sql
+--                                                       ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                         ^^^^ keyword.other.unit.sql
+
+    ON COMPLETION PRESERVE
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^ constant.language.sql
+
+    ON COMPLETION NOT PRESERVE
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^ keyword.operator.logical.sql
+--                    ^^^^^^^^ constant.language.sql
+
+    ENABLE
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^^^^^ keyword.other.ddl.sql
+
+    DISABLE
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+
+    DISABLE ON SLAVE
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^ keyword.other.ddl.sql
+--             ^^^^^ keyword.other.ddl.sql
+
+    COMMENT 'my comment'
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    DO UPDATE myschema.mytable SET mycol = mycol + 1;
+-- <- meta.statement.alter.sql meta.event.sql
+-- ^^^ meta.statement.alter.sql meta.event.sql
+--    ^ - meta.statement
+--     ^^^^^^ keyword.other.dml.sql
+--            ^^^^^^^^^^^^^^^^ meta.table-name.sql
+--                             ^^^ keyword.other.dml.sql
+--                                 ^^^^^ meta.column-name.sql
+--                                       ^ keyword.operator.comparison.sql
+--                                         ^^^^^ meta.column-name.sql
+--                                               ^ keyword.operator.arithmetic.sql
+--                                                 ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                  ^ punctuation.terminator.statement.sql
+
 
 -- ----------------------------------------------------------------------------
 -- Alter User Statements
