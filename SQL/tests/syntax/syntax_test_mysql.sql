@@ -604,6 +604,45 @@ DROP
 
 
 -- ----------------------------------------------------------------------------
+-- Drop Database Statements
+-- https://mariadb.com/kb/en/drop-database
+-- ----------------------------------------------------------------------------
+
+DROP DATABASE db_name ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql
+--   ^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.database.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^^^^^ keyword.other.ddl.sql
+--           ^ - keyword
+--            ^^^^^^^ meta.database-name.sql
+--                    ^ punctuation.terminator.statement.sql
+
+DROP DATABASE IF EXISTS db_name ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.database.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^^^^^ keyword.other.ddl.sql
+--           ^ - keyword
+--            ^^ keyword.control.conditional.if.sql
+--               ^^^^^^ keyword.operator.logical.sql
+--                      ^^^^^^^ meta.database-name.sql
+--                              ^ punctuation.terminator.statement.sql
+
+DROP SCHEMA schema_name ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^^^ keyword.other.ddl.sql
+--         ^ - keyword
+--          ^^^^^^^^^^^ meta.database.sql meta.database-name.sql
+--                      ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
 -- Drop Role Statements
 -- https://mariadb.com/kb/en/drop-role
 -- ----------------------------------------------------------------------------

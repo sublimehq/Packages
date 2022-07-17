@@ -144,7 +144,26 @@ contexts:
   drop-target:
     - meta_prepend: true
     - include: algorithms
+    - include: drop-database
     - include: drop-user
+
+  drop-database:
+    # https://mariadb.com/kb/en/drop-database
+    - match: \b(?i:database|schema)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - drop-database-args
+        - expect-database-name
+        - drop-database-condition
+
+  drop-database-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-database-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.database.sql
+    - include: immediately-pop
 
   drop-user:
     # https://mariadb.com/kb/en/drop-role
