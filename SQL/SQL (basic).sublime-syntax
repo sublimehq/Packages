@@ -820,6 +820,10 @@ contexts:
     - meta_scope: entity.name.struct.index.sql
     - include: immediately-pop
 
+  expect-index-names:
+    - match: (?=\S)
+      push: [index-name, single-identifier]
+
   expect-index-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false

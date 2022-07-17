@@ -814,22 +814,6 @@ contexts:
     - meta_content_scope: meta.filegroup-name.tsql
     - include: immediately-pop
 
-  expect-index-names:
-    - match: (?=\S)
-      push: [index-name, single-identifier]
-
-  expect-index-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [index-name, single-identifier]
-
-  index-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.index-name.tsql
-    - include: immediately-pop
-
   expect-label-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
