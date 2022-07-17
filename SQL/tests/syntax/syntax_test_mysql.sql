@@ -1446,6 +1446,20 @@ SET DEFAULT ROLE role FOR user@host
 
 
 -- ----------------------------------------------------------------------------
+-- Show Create Event Statements
+-- https://mariadb.com/kb/en/show-create-event
+-- ----------------------------------------------------------------------------
+
+SHOW CREATE EVENT db_name.event_name
+-- <- meta.statement.show.sql keyword.other.dml.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^ keyword.other.ddl.sql
+--          ^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^^^^^^^^^^^ meta.event-name.sql
+
+
+-- ----------------------------------------------------------------------------
 -- Account Management SQL Commands
 -- -------------------------------
 -- Show Create User Statements
