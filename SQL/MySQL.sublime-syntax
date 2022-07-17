@@ -169,6 +169,7 @@ contexts:
   alter-target:
     - meta_prepend: true
     - include: algorithms
+    - include: alter-database
     - include: alter-user
 
   alter-columns:
@@ -181,6 +182,28 @@ contexts:
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
+
+  alter-database:
+    # https://mariadb.com/kb/en/alter-database
+    - match: \b(?i:database|schema)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - alter-database-args
+        - expect-database-name
+        - alter-database-condition
+
+  alter-database-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  alter-database-args:
+    - meta_scope: meta.database.sql
+    - match: \b(?i:(upgrade)(?:\s+(data\s+directory\s+name))?)\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      pop: 1
+    - include: create-database-args
 
   alter-user:
     # https://mariadb.com/kb/en/alter-user

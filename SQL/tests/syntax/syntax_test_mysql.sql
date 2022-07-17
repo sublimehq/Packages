@@ -350,6 +350,79 @@ CREATE USER IF NOT EXISTS
 
 
 -- ----------------------------------------------------------------------------
+-- Alter Database Statements
+-- https://mariadb.com/kb/en/alter-database
+-- ----------------------------------------------------------------------------
+
+ALTER DATABASE db_name
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql
+--    ^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^ meta.database-name.sql
+
+
+ALTER DATABASE db_name UPGRADE DATA DIRECTORY NA
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql
+--    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+--                            ^^^^^^^^^^^^^^^^^^^ - meta.statement.alter
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^ meta.database-name.sql
+--                     ^^^^^^^ keyword.other.ddl.sql
+--                            ^^^^^^^^^^^^^^^^^^ - keyword
+
+ALTER DATABASE db_name UPGRADE DATA DIRECTORY NAME
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql
+--    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^ meta.database-name.sql
+--                     ^^^^^^^ keyword.other.ddl.sql
+--                            ^ - keyword
+--                             ^^^^^^^^^^^^^^^^^^^ keyword.other.ddl.sql
+
+ALTER SCHEMA schema_name
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^ meta.statement.alter.sql
+--    ^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^^ meta.database-name.sql
+
+    CHARACTER SET = 'utf-8'
+-- <- meta.statement.alter.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+--  ^^^^^^^^^^^^^ variable.parameter.database.sql
+--                ^ keyword.operator.assignment.sql
+--                  ^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    DEFAULT CHARACTER SET = 'utf-16'
+-- <- meta.statement.alter.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+--  ^^^^^^^^^^^^^^^^^^^^^ variable.parameter.database.sql
+--                        ^ keyword.operator.assignment.sql
+--                          ^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    COLLATE = 'collation'
+-- <- meta.statement.alter.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+--  ^^^^^^^ variable.parameter.database.sql
+--          ^ keyword.operator.assignment.sql
+--            ^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    COMMENT = 'My new database'
+-- <- meta.statement.alter.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^ keyword.operator.assignment.sql
+--            ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+
+-- ----------------------------------------------------------------------------
 -- Alter User Statements
 -- https://mariadb.com/kb/en/alter-user
 -- ----------------------------------------------------------------------------
