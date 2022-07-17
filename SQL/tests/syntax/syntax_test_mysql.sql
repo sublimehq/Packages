@@ -110,6 +110,167 @@ CREATE OR REPLACE SCHEMA schema_name
 
 
 -- ----------------------------------------------------------------------------
+-- Create Event Statements
+-- https://mariadb.com/kb/en/create-event
+--
+-- CREATE [OR REPLACE]
+--     [DEFINER = { user | CURRENT_USER | role | CURRENT_ROLE }]
+--     EVENT
+--     [IF NOT EXISTS]
+--     event_name
+--     ON SCHEDULE schedule
+--     [ON COMPLETION [NOT] PRESERVE]
+--     [ENABLE | DISABLE | DISABLE ON SLAVE]
+--     [COMMENT 'comment']
+--     DO sql_statement;
+--
+-- schedule:
+--     AT timestamp [+ INTERVAL interval] ...
+--   | EVERY interval
+--     [STARTS timestamp [+ INTERVAL interval] ...]
+--     [ENDS timestamp [+ INTERVAL interval] ...]
+--
+-- interval:
+--     quantity {YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE |
+--               WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |
+--               DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}
+-- ----------------------------------------------------------------------------
+
+CREATE EVENT event_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.event
+--     ^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ entity.name.event.sql
+
+CREATE DEFINER = user@host EVENT event_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.event
+--                         ^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^ variable.parameter.definer.sql
+--             ^ keyword.operator.assignment.sql
+--               ^^^^^^^^^ meta.user-name.sql
+--                         ^^^^^ keyword.other.ddl.sql
+--                               ^^^^^^^^^^ entity.name.event.sql
+
+CREATE EVENT IF NOT EXISTS event_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.event
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^ keyword.control.conditional.if.sql
+--              ^^^ keyword.operator.logical.sql
+--                  ^^^^^^ keyword.operator.logical.sql
+--                         ^^^^^^^^^^ entity.name.event.sql
+
+CREATE EVENT event_name
+    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR + INTERVAL 3 MINUTE
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                                   ^ keyword.operator.arithmetic.sql
+--                                     ^^^^^^^^ storage.type.interval.sql
+--                                              ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                ^^^^ keyword.other.unit.sql
+--                                                     ^ keyword.operator.arithmetic.sql
+--                                                       ^^^^^^^^ storage.type.interval.sql
+--                                                                ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                                  ^^^^^^ keyword.other.unit.sql
+
+CREATE EVENT event_name
+    ON SCHEDULE EVERY 1 MONTH
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^ keyword.other.ddl.sql
+--                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                      ^^^^^ keyword.other.unit.sql
+
+    STARTS CURRENT_TIMESTAMP + INTERVAL 1 MONTH
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                           ^ keyword.operator.arithmetic.sql
+--                             ^^^^^^^^ storage.type.interval.sql
+--                                      ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                        ^^^^^ keyword.other.unit.sql
+
+    ENDS CURRENT_TIMESTAMP + INTERVAL 1 MONTH + INTERVAL 1 WEEK
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                         ^ keyword.operator.arithmetic.sql
+--                           ^^^^^^^^ storage.type.interval.sql
+--                                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                      ^^^^^ keyword.other.unit.sql
+--                                            ^ keyword.operator.arithmetic.sql
+--                                              ^^^^^^^^ storage.type.interval.sql
+--                                                       ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                         ^^^^ keyword.other.unit.sql
+
+    ON COMPLETION PRESERVE
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^ constant.language.sql
+
+    ON COMPLETION NOT PRESERVE
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^ keyword.operator.logical.sql
+--                    ^^^^^^^^ constant.language.sql
+
+    ENABLE
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^^^^^ keyword.other.ddl.sql
+
+    DISABLE
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+
+    DISABLE ON SLAVE
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^ keyword.other.ddl.sql
+--             ^^^^^ keyword.other.ddl.sql
+
+    COMMENT 'my comment'
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    DO UPDATE myschema.mytable SET mycol = mycol + 1;
+-- <- meta.statement.create.sql meta.event.sql
+-- ^^^ meta.statement.create.sql meta.event.sql
+--    ^ - meta.statement
+--     ^^^^^^ keyword.other.dml.sql
+--            ^^^^^^^^^^^^^^^^ meta.table-name.sql
+--                             ^^^ keyword.other.dml.sql
+--                                 ^^^^^ meta.column-name.sql
+--                                       ^ keyword.operator.comparison.sql
+--                                         ^^^^^ meta.column-name.sql
+--                                               ^ keyword.operator.arithmetic.sql
+--                                                 ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                  ^ punctuation.terminator.statement.sql
+
+
+-- ----------------------------------------------------------------------------
 -- Create Role Statements
 -- https://mariadb.com/kb/en/create-role
 -- ----------------------------------------------------------------------------

@@ -19,6 +19,10 @@ variables:
     (?xi: bit\s+varying | character\s+(?:varying)? | tinyint | var\s+char | float
     | int | interval | numeric | decimal | times? | timestamp(?:s | tz)? )
 
+  time_unit: |-
+    (?xi: year | quarter | month | day | hour | minute | week | second | year_month
+    | day_hour | day_minute | day_second | hour_minute | hour_second | minute_second )
+
 contexts:
   sql:
     - meta_append: true
@@ -68,6 +72,7 @@ contexts:
       scope: keyword.other.ddl.sql
     - include: algorithms
     - include: create-database
+    - include: create-event
     - include: create-role
     - include: create-user
 
@@ -94,6 +99,25 @@ contexts:
       scope: keyword.operator.assignment.sql
     - include: strings
     - include: else-pop
+
+  create-event:
+    # https://mariadb.com/kb/en/create-event
+    - include: event-definers
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-event-args
+        - expect-event-creation-name
+        - create-event-condition
+
+  create-event-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-event-args:
+    - meta_scope: meta.event.sql
+    - include: event-options
+    - include: pop-on-top-level-reserved-word
 
   create-role:
     # https://mariadb.com/kb/en/create-role
@@ -499,6 +523,57 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ EVENT EXPRESSIONS ]#######################################################
+
+  event-definers:
+    - match: \b(?i:definer)\b
+      scope: variable.parameter.definer.sql
+      push: maybe-user-assignment
+
+  event-options:
+    - match: \b(?i:do)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+    - match: \b(?i:comment)\b
+      scope: keyword.other.ddl.sql
+    - include: event-schedule-args
+    - include: event-enable-args
+    - include: event-completion-args
+
+  event-completion-args:
+    - match: \b(?i:(on)\s+(completion))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:preserve)\b
+      scope: constant.language.sql
+
+  event-enable-args:
+    - match: \b(?i:(on)\s+(slave))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:enable|disable)\b
+      scope: keyword.other.ddl.sql
+
+  event-schedule-args:
+    - match: \b(?i:(on)\s+(schedule))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:starts|ends)\b
+      scope: keyword.other.ddl.sql
+    - match: \+
+      scope: keyword.operator.arithmetic.sql
+    - match: \b(?i:at)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:every)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:interval)\b
+      scope: storage.type.interval.sql
+    - include: time-units
+    - include: expressions
+
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 
   maybe-with-admin-user:
@@ -519,6 +594,12 @@ contexts:
   maybe-for-user:
     - match: \b(?i:for)\b
       scope: keyword.other.dml.sql
+      set: expect-user-name
+    - include: else-pop
+
+  maybe-user-assignment:
+    - match: =
+      scope: keyword.operator.assignment.sql
       set: expect-user-name
     - include: else-pop
 
@@ -755,6 +836,10 @@ contexts:
     - include: identifier-part
 
 ###[ LITERALS ]################################################################
+
+  time-units:
+    - match: '{{time_unit}}'
+      scope: keyword.other.unit.sql
 
   regexps:
     - match: /(?=\S.*/)

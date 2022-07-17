@@ -844,6 +844,30 @@ contexts:
     - meta_content_scope: meta.database-name.sql
     - include: immediately-pop
 
+  expect-event-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [event-creation-name, single-identifier]
+
+  event-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.event.sql
+    - include: immediately-pop
+
+  expect-event-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [event-name, single-identifier]
+
+  event-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.event-name.sql
+    - include: immediately-pop
+
   expect-index-creation-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
