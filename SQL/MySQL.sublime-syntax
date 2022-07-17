@@ -74,6 +74,7 @@ contexts:
     - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
     - include: algorithms
+    - include: definers
     - include: create-database
     - include: create-event
     - include: create-role
@@ -105,7 +106,6 @@ contexts:
 
   create-event:
     # https://mariadb.com/kb/en/create-event
-    - include: event-definers
     - match: \b(?i:event)\b
       scope: keyword.other.ddl.sql
       set:
@@ -234,6 +234,7 @@ contexts:
   alter-target:
     - meta_prepend: true
     - include: algorithms
+    - include: definers
     - include: alter-database
     - include: alter-event
     - include: alter-user
@@ -273,7 +274,6 @@ contexts:
 
   alter-event:
     # https://mariadb.com/kb/en/alter-event
-    - include: event-definers
     - match: \b(?i:event)\b
       scope: keyword.other.ddl.sql
       set:
@@ -585,12 +585,12 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ EVENT EXPRESSIONS ]#######################################################
-
-  event-definers:
+  definers:
     - match: \b(?i:definer)\b
       scope: variable.parameter.definer.sql
       push: maybe-user-assignment
+
+###[ EVENT EXPRESSIONS ]#######################################################
 
   event-options:
     - match: \b(?i:do)\b
