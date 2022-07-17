@@ -820,6 +820,18 @@ contexts:
     - meta_content_scope: meta.column-alias.sql
     - include: immediately-pop
 
+  expect-database-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [database-creation-name, single-identifier]
+
+  database-creation-name:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.struct.database.sql
+    - include: immediately-pop
+
   expect-database-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false

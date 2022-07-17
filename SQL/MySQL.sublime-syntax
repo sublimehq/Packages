@@ -67,8 +67,33 @@ contexts:
     - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
     - include: algorithms
+    - include: create-database
     - include: create-role
     - include: create-user
+
+  create-database:
+    # https://mariadb.com/kb/en/create-database
+    - match: \b(?i:database|schema)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-database-args
+        - expect-database-creation-name
+        - create-database-condition
+
+  create-database-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-database-args:
+    - meta_scope: meta.database.sql
+    - match: \b(?i:comment)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:(?:default\s+)?(?:character\s+set|collate))\b
+      scope: variable.parameter.database.sql
+    - match: =
+      scope: keyword.operator.assignment.sql
+    - include: strings
+    - include: else-pop
 
   create-role:
     # https://mariadb.com/kb/en/create-role

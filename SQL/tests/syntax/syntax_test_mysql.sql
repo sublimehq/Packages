@@ -5,6 +5,109 @@
 -- https://mariadb.com/kb/en/data-definition
 -- ----------------------------------------------------------------------------
 
+-- ----------------------------------------------------------------------------
+-- Create Database Statements
+-- https://mariadb.com/kb/en/create-database
+--
+-- CREATE [OR REPLACE] {DATABASE | SCHEMA} [IF NOT EXISTS] db_name
+--     [create_specification] ...
+--
+-- create_specification:
+--     [DEFAULT] CHARACTER SET [=] charset_name
+--   | [DEFAULT] COLLATE [=] collation_name
+--   | COMMENT [=] 'comment'
+-- ----------------------------------------------------------------------------
+
+CREATE DATABASE db_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.database
+--     ^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^^^ entity.name.struct.database.sql
+
+CREATE DATABASE IF NOT EXISTS db_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.database
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^ keyword.control.conditional.if.sql
+--                 ^^^ keyword.operator.logical.sql
+--                     ^^^^^^ keyword.operator.logical.sql
+--                            ^^^^^^^ entity.name.struct.database.sql
+
+CREATE OR REPLACE DATABASE db_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.database
+--                ^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^ keyword.other.ddl.sql
+--                         ^^^^^^^ entity.name.struct.database.sql
+
+CREATE SCHEMA schema_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.database
+--     ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^^^^^^^ entity.name.struct.database.sql
+
+CREATE SCHEMA IF NOT EXISTS schema_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.database
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^ keyword.control.conditional.if.sql
+--               ^^^ keyword.operator.logical.sql
+--                   ^^^^^^ keyword.operator.logical.sql
+--                          ^^^^^^^^^^^ entity.name.struct.database.sql
+
+CREATE OR REPLACE SCHEMA schema_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.database
+--                ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^ keyword.other.ddl.sql
+--                       ^^^^^^^^^^^ entity.name.struct.database.sql
+
+    CHARACTER SET = 'utf-8'
+-- <- meta.statement.create.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+--  ^^^^^^^^^^^^^ variable.parameter.database.sql
+--                ^ keyword.operator.assignment.sql
+--                  ^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    DEFAULT CHARACTER SET = 'utf-16'
+-- <- meta.statement.create.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+--  ^^^^^^^^^^^^^^^^^^^^^ variable.parameter.database.sql
+--                        ^ keyword.operator.assignment.sql
+--                          ^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    COLLATE = 'collation'
+-- <- meta.statement.create.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+--  ^^^^^^^ variable.parameter.database.sql
+--          ^ keyword.operator.assignment.sql
+--            ^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    COMMENT = 'My new database'
+-- <- meta.statement.create.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^ keyword.operator.assignment.sql
+--            ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    COMMENT 'My new database'
+-- <- meta.statement.create.sql meta.database.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
 
 -- ----------------------------------------------------------------------------
 -- Create Role Statements
