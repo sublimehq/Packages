@@ -25,6 +25,12 @@
                 <key>end</key>
                 <string>punctuation.section.brackets.end</string>
             </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.group.begin</string>
+                <key>end</key>
+                <string>punctuation.section.group.end</string>
+            </dict>
         </array>
     </dict>
 </dict>
