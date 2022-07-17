@@ -271,6 +271,175 @@ CREATE EVENT event_name
 
 
 -- ----------------------------------------------------------------------------
+-- Create Function Statements
+-- https://mariadb.com/kb/en/create-function
+--
+-- CREATE [OR REPLACE]
+--     [DEFINER = {user | CURRENT_USER | role | CURRENT_ROLE }]
+--     [AGGREGATE] FUNCTION [IF NOT EXISTS] func_name ([func_parameter[,...]])
+--     RETURNS type
+--     [characteristic ...]
+--     RETURN func_body
+--
+-- func_parameter:
+--     [ IN | OUT | INOUT | IN OUT ]  param_name type
+--
+-- type:
+--     Any valid MariaDB data type
+--
+-- characteristic:
+--     LANGUAGE SQL
+--   | [NOT] DETERMINISTIC
+--   | { CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA }
+--   | SQL SECURITY { DEFINER | INVOKER }
+--   | COMMENT 'string'
+--
+-- func_body:
+--     Valid SQL procedure statement
+-- ----------------------------------------------------------------------------
+
+CREATE DEFINER = CURRENT_ROLE AGGREGATE FUNCTION foo
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.function
+--                            ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^ variable.parameter.definer.sql
+--             ^ keyword.operator.assignment.sql
+--               ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                            ^^^^^^^^^ keyword.other.ddl.sql
+--                                      ^^^^^^^^ keyword.other.ddl.sql
+--                                               ^^^ entity.name.function.sql
+
+CREATE FUNCTION func_name(IN param_name number, IN OUT out varchar) RETURN
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.function
+--     ^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.parameters.sql meta.group.sql
+--                                                                 ^^^^^^^ meta.statement.create.sql meta.function.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^^^^^ entity.name.function.sql
+--                       ^ punctuation.section.group.begin.sql
+--                        ^^ storage.modifier.sql
+--                           ^^^^^^^^^^ variable.parameter.sql
+--                                      ^^^^^^ support.type.sql
+--                                            ^ punctuation.separator.sequence.sql
+--                                              ^^^^^^ storage.modifier.sql
+--                                                     ^^^ variable.parameter.sql
+--                                                         ^^^^^^^ support.type.sql
+--                                                                ^ punctuation.section.group.end.sql
+--                                                                  ^^^^^^ keyword.control.flow.return.sql
+--
+
+CREATE AGGREGATE FUNCTION
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.function
+--     ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^ keyword.other.ddl.sql
+--               ^^^^^^^^ keyword.other.ddl.sql
+
+    func_name()
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql
+--  ^^^^^^^^^ meta.function.sql entity.name.function.sql
+--           ^ meta.function.parameters.sql meta.group.sql punctuation.section.group.begin.sql
+--            ^ meta.function.parameters.sql meta.group.sql punctuation.section.group.end.sql
+
+    RETURNS varchar(200)
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^ support.type.sql
+--                 ^^^^^ meta.group.sql
+--                 ^ punctuation.section.group.begin.sql
+--                  ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                     ^ punctuation.section.group.end.sql
+
+    LANGUAGE SQL
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^ storage.modifier.sql
+--           ^^^ constant.other.language.sql
+
+    NOT DETERMINISTIC
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^ keyword.operator.logical.sql
+--      ^^^^^^^^^^^^^ storage.modifier.sql
+
+    CONTAINS SQL
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^^^^^ storage.modifier.sql
+
+    NO SQL
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^ storage.modifier.sql
+
+    READS SQL DATA
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^^^^^^^ storage.modifier.sql
+
+    MODIFIES SQL DATA
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^^^^^^^^^^ storage.modifier.sql
+
+    SQL SECURITY DEFINER
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^^^^^ storage.modifier.sql
+--               ^^^^^^^ constant.language.user.sql
+    SQL SECURITY INVOKER
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^^^^^ storage.modifier.sql
+--               ^^^^^^^ constant.language.user.sql
+
+    COMMENT 'string'
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^ meta.string.sql string.quoted.single.sql
+
+    RETURN
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^ meta.statement.create.sql meta.function.sql
+--        ^ - meta.statement - meta.function
+
+
+-- ----------------------------------------------------------------------------
+-- Create Procedure Statements
+-- https://mariadb.com/kb/en/create-function
+--
+-- CREATE
+--     [OR REPLACE]
+--     [DEFINER = { user | CURRENT_USER | role | CURRENT_ROLE }]
+--     PROCEDURE sp_name ([proc_parameter[,...]])
+--     [characteristic ...] routine_body
+--
+-- proc_parameter:
+--     [ IN | OUT | INOUT ] param_name type
+--
+-- type:
+--     Any valid MariaDB data type
+--
+-- characteristic:
+--     LANGUAGE SQL
+--   | [NOT] DETERMINISTIC
+--   | { CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA }
+--   | SQL SECURITY { DEFINER | INVOKER }
+--   | COMMENT 'string'
+--
+-- routine_body:
+--     Valid SQL procedure statement
+-- ----------------------------------------------------------------------------
+
+
+-- ----------------------------------------------------------------------------
 -- Create Role Statements
 -- https://mariadb.com/kb/en/create-role
 -- ----------------------------------------------------------------------------

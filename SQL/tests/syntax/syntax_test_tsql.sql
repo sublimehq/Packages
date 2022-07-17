@@ -1446,7 +1446,7 @@ CREATE FUNCTION foo() RETURNS @MyType
 --     ^^^^^^^^ keyword.other.ddl.sql
 --              ^^^ entity.name.function.sql
 --                 ^^ meta.group.sql
---                    ^^^^^^^ keyword.other.sql
+--                    ^^^^^^^ keyword.other.ddl.sql
 --                            ^^^^^^^ support.type.sql variable.other.readwrite.sql
 
 CREATE FUNCTION foo() RETURNS My@TypeName
@@ -1456,7 +1456,7 @@ CREATE FUNCTION foo() RETURNS My@TypeName
 --     ^^^^^^^^ keyword.other.ddl.sql
 --              ^^^ entity.name.function.sql
 --                 ^^ meta.group.sql
---                    ^^^^^^^ keyword.other.sql
+--                    ^^^^^^^ keyword.other.ddl.sql
 --                            ^^ support.type.sql - variable
 --                              ^^^^^^^^^ support.type.sql variable.other.readwrite.sql
 

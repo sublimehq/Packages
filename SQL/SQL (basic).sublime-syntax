@@ -18,20 +18,26 @@ variables:
 
   # TODO: not all are supported by all dialects!
   ddl_target: |-
-    (?xi: {{ddl_target_other}} | {{ddl_target_procedure}}
+    (?xi: {{ddl_target_other}}
+    | (?: {{ddl_target_function_modifier}} \s+ )? {{ddl_target_function}}
     | (?: {{ddl_target_index_modifier}} \s+ )? index
     | (?: {{ddl_target_table_modifier}} \s+ )? table )
-  ddl_target_procedure: |-
+  ddl_target_function: |-
     (?xi: procedure | function )
   ddl_target_other: |-
     (?xi: aggregate | constraint | conversion | database | domain | group
     | language | operator\s+class | operator | rule | schema | sequence
     | tablespace | trigger | type | user | view )
 
+  ddl_target_function_modifier: |-
+    (?xi: aggregate )
   ddl_target_index_modifier: |-
     (?xi: fulltext | spatial | unique )
   ddl_target_table_modifier: |-
     (?xi: temp(?:orary)? )
+
+  function_parameter_modifier: |-
+    (?xi: inout | in | out )
 
   simple_types: |-
     (?xi: bit | bool | boolean | datetime | int )
@@ -114,11 +120,26 @@ contexts:
     - include: immediately-pop
 
   create-target:
+    - include: create-function
     - include: create-index
     - include: create-table
-    - include: create-procedure
     - include: create-other
     - include: else-pop
+
+  create-function:
+    - match: \b(?:({{ddl_target_function_modifier}})\s+)?({{ddl_target_function}})\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - expect-function-characteristics
+        - expect-function-parameters
+        - expect-function-creation-name
+        - create-function-condition
+
+  create-function-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
 
   create-index:
     - match: \b(?xi:(?:({{ddl_target_index_modifier}})\s+)?(index))\b
@@ -132,18 +153,6 @@ contexts:
         - create-index-condition
 
   create-index-condition:
-    - meta_include_prototype: false
-    - include: maybe-condition
-
-  create-procedure:
-    - match: \b{{ddl_target_procedure}}\b
-      scope: keyword.other.ddl.sql
-      set:
-        - target-options
-        - expect-procedure-creation-name
-        - create-procedure-condition
-
-  create-procedure-condition:
     - meta_include_prototype: false
     - include: maybe-condition
 
@@ -190,11 +199,22 @@ contexts:
     - include: immediately-pop
 
   drop-target:
+    - include: drop-function
     - include: drop-index
     - include: drop-table
-    - include: drop-procedure
     - include: drop-other
     - include: else-pop
+
+  drop-function:
+    - match: \b{{ddl_target_function}}\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-function-name
+        - drop-function-condition
+
+  drop-function-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
 
   drop-index:
     - match: \b(?i:index)\b
@@ -204,17 +224,6 @@ contexts:
         - drop-index-condition
 
   drop-index-condition:
-    - meta_include_prototype: false
-    - include: maybe-condition
-
-  drop-procedure:
-    - match: \b{{ddl_target_procedure}}\b
-      scope: keyword.other.ddl.sql
-      set:
-        - expect-procedure-name
-        - drop-procedure-condition
-
-  drop-procedure-condition:
     - meta_include_prototype: false
     - include: maybe-condition
 
@@ -258,11 +267,26 @@ contexts:
     - include: immediately-pop
 
   alter-target:
+    - include: alter-function
     - include: alter-index
     - include: alter-table
-    - include: alter-procedure
     - include: alter-other
     - include: else-pop
+
+  alter-function:
+    - match: \b(?:({{ddl_target_function_modifier}})\s+)?({{ddl_target_function}})\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - expect-function-characteristics
+        - expect-function-parameters
+        - expect-function-name
+        - alter-function-condition
+
+  alter-function-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
 
   alter-index:
     - match: \b(?:({{ddl_target_index_modifier}})\s+)?(index)\b
@@ -275,18 +299,6 @@ contexts:
         - alter-index-condition
 
   alter-index-condition:
-    - meta_include_prototype: false
-    - include: maybe-condition
-
-  alter-procedure:
-    - match: \b{{ddl_target_procedure}}\b
-      scope: keyword.other.ddl.sql
-      set:
-        - target-options
-        - expect-procedure-name
-        - alter-procedure-condition
-
-  alter-procedure-condition:
     - meta_include_prototype: false
     - include: maybe-condition
 
@@ -363,9 +375,6 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.context.block.sql
       pop: 1
-    - match: \b(?i:returns)\b
-      scope: keyword.other.sql
-      push: expect-type
     - include: expressions
     - include: pop-on-top-level-reserved-word
 
@@ -575,6 +584,56 @@ contexts:
       scope: punctuation.section.group.end.sql
       pop: 1
     - include: sql
+
+###[ FUNCTION EXPRESSIONS ]####################################################
+
+  expect-function-parameters:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-function-parameters
+    - include: else-pop
+
+  inside-function-parameters:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.sql meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - match: (?=\S)
+      push:
+        - expect-type
+        - expect-parameter-name
+        - maybe-parameter-modifier
+
+  expect-parameter-name:
+    - match: '{{simple_identifier}}'
+      scope: variable.parameter.sql
+      pop: 1
+    - include: else-pop
+
+  maybe-parameter-modifier:
+    - match: \b{{function_parameter_modifier}}\b
+      scope: storage.modifier.sql
+      pop: 1
+    - include: else-pop
+
+  expect-function-characteristics:
+    - meta_scope: meta.function.sql
+    - match: \b(?i:language)\b
+      scope: storage.modifier.sql
+      push: expect-function-language-name
+    - match: \b(?i:returns)\b
+      scope: keyword.other.ddl.sql
+      push: expect-type
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
+
+  expect-function-language-name:
+    - match: '{{simple_identifier}}'
+      scope: constant.other.language.sql
+      pop: 1
+    - include: else-pop
 
 ###[ TABLE NAMES ]#############################################################
 
@@ -896,7 +955,7 @@ contexts:
     - meta_scope: meta.index-name.sql
     - include: immediately-pop
 
-  expect-procedure-creation-name:
+  expect-function-creation-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
     - include: comments
@@ -908,7 +967,7 @@ contexts:
     - meta_content_scope: entity.name.function.sql
     - include: immediately-pop
 
-  expect-procedure-name:
+  expect-function-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
     - include: comments

@@ -21,7 +21,7 @@ variables:
       (?:\b\w+|\[[^]]+\])
     )
 
-  ddl_target_procedure: |-
+  ddl_target_function: |-
     (?xi: proc(?:edure)? | func(?:tion)? )
 
   # types
@@ -76,14 +76,15 @@ contexts:
     - match: \b(?i:unique|clustered|nonclustered)\b
       scope: keyword.other.ddl.sql
 
+  expect-function-characteristics:
+    - meta_prepend: true
+    - include: target-options
+
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
   target-options:
     - meta_prepend: true
     - include: with-table-options
-    - match: (@){{simple_identifier}}
-      scope: variable.parameter.sql
-      push: expect-type
 
 ###[ DML STATEMENTS ]##########################################################
 
@@ -203,7 +204,7 @@ contexts:
       scope: keyword.control.flow.end.tsql
     - match: \b(?i:exec(?:ute)?)\b
       scope: keyword.control.flow.execute.tsql
-      push: [expect-procedure-name, execute-args]
+      push: [expect-function-name, execute-args]
     - match: \b(?i:go)\b
       scope: keyword.control.flow.go.tsql
     - match: \b(?i:goto)\b
@@ -412,6 +413,17 @@ contexts:
   values-or-expressions:
     - include: dml-statements
     - include: expressions
+
+###[ FUNCTION EXPRESSIONS ]####################################################
+
+  expect-function-parameters:
+    - match: (@){{simple_identifier}}
+      scope: variable.parameter.tsql
+      captures:
+        1: punctuation.definition.variable.tsql
+      push: expect-type
+    - include: comma-separators
+    - include: else-pop
 
 ###[ WITH EXPRESSIONS ]########################################################
 

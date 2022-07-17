@@ -172,6 +172,15 @@ contexts:
     - match: ':(?!:)'
       scope: keyword.operator.range.psql
 
+###[ FUNCTION EXPRESSIONS ]####################################################
+
+  expect-function-characteristics:
+    # https://mariadb.com/kb/en/create-function
+    - meta_prepend: true
+    - match: \b(?i:as)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+
 ###[ COLUMN DECLARATIONS ]#####################################################
 
   inside-column-declaration-list:

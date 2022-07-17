@@ -12,7 +12,7 @@ file_extensions:
 
 variables:
 
-  ddl_target_procedure: |-
+  ddl_target_function: |-
     (?xi: function )
   ddl_target_other: |-
     (?xi: keyspace | type | user | (?: materialized \s+ )? view )
