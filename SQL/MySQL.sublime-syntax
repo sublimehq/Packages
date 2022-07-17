@@ -489,26 +489,37 @@ contexts:
     - include: immediately-pop
 
   show-target:
+    - include: show-create
+    - include: show-grants
+    - include: else-pop
+
+  show-create:
+    - match: \b(?i:create)\b
+      scope: keyword.other.ddl.sql
+      set: show-create-target
+
+  show-create-target:
     - include: show-create-event
     - include: show-create-user
-    - include: show-grants
+    - include: show-create-other
     - include: else-pop
 
   show-create-event:
     # https://mariadb.com/kb/en/show-create-event
-    - match: \b(?i:(create)\s+(event))\b
-      captures:
-        1: keyword.other.ddl.sql
-        2: keyword.other.ddl.sql
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
       set: expect-event-name
 
   show-create-user:
     # https://mariadb.com/kb/en/show-create-user
-    - match: \b(?i:(create)\s+(user))\b
-      captures:
-        1: keyword.other.ddl.sql
-        2: keyword.other.ddl.sql
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
       set: expect-user-name
+
+  show-create-other:
+    - match: '{{simple_identifier}}'
+      scope: keyword.other.ddl.sql
+      set: expect-other-name
 
   show-grants:
     # https://mariadb.com/kb/en/show-grants
