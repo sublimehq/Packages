@@ -432,15 +432,6 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ COLUMN DECLARATIONS ]#####################################################
-
-  inside-column-declaration-list:
-    - meta_prepend: true
-    - match: \b(?i:auto_increment)\b
-      scope: keyword.other.mysql
-    - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
-      scope: keyword.other.object-comments.sql
-
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 
   maybe-with-admin-user:
@@ -606,6 +597,15 @@ contexts:
       pop: 1
     # named privilidge level: database, table or method
     - include: expect-other-name
+
+###[ COLUMN DECLARATIONS ]#####################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:auto_increment)\b
+      scope: keyword.other.mysql
+    - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
+      scope: keyword.other.object-comments.sql
 
 ###[ TYPES ]###################################################################
 
