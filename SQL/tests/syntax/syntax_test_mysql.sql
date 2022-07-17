@@ -951,6 +951,41 @@ DROP SCHEMA schema_name ;
 --          ^^^^^^^^^^^ meta.database.sql meta.database-name.sql
 --                      ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Drop Event Statements
+-- https://mariadb.com/kb/en/drop-event
+-- ----------------------------------------------------------------------------
+
+DROP EVENT event ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^^^ meta.statement.drop.sql meta.event.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^^ keyword.other.ddl.sql
+--        ^ - keyword - meta.event-name
+--         ^^^^^ meta.event-name.sql
+--              ^ - meta.event-name
+--               ^ punctuation.terminator.statement.sql
+
+DROP EVENT IF EXISTS event ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.event.sql
+-- ^ keyword.other.ddl.sql
+--  ^ - keyword
+--   ^^^^^ keyword.other.ddl.sql
+--        ^ - keyword
+--         ^^ keyword.control.conditional.if.sql
+--           ^ - keyword
+--            ^^^^^^ keyword.operator.logical.sql
+--                  ^ - keyword - meta.event-name
+--                   ^^^^^ meta.event-name.sql
+--                        ^ - meta.event-name
+--                         ^ punctuation.terminator.statement.sql
+
+
 -- ----------------------------------------------------------------------------
 -- Drop Role Statements
 -- https://mariadb.com/kb/en/drop-role

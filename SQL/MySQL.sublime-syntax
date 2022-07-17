@@ -169,6 +169,7 @@ contexts:
     - meta_prepend: true
     - include: algorithms
     - include: drop-database
+    - include: drop-event
     - include: drop-user
 
   drop-database:
@@ -187,6 +188,24 @@ contexts:
   drop-database-args:
     - meta_include_prototype: false
     - meta_scope: meta.database.sql
+    - include: immediately-pop
+
+  drop-event:
+    # https://mariadb.com/kb/en/drop-event
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - drop-event-args
+        - expect-event-name
+        - drop-event-condition
+
+  drop-event-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-event-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.event.sql
     - include: immediately-pop
 
   drop-user:
