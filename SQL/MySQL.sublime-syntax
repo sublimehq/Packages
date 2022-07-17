@@ -66,7 +66,7 @@ contexts:
     # index modifiers
     - match: \b(?i:unique|fulltext|spatial)\b
       scope: keyword.other.ddl.sql
-    - include: target-algorithm
+    - include: algorithms
     - include: create-role
     - include: create-user
 
@@ -118,7 +118,7 @@ contexts:
 
   drop-target:
     - meta_prepend: true
-    - include: target-algorithm
+    - include: algorithms
     - include: drop-user
 
   drop-user:
@@ -143,7 +143,7 @@ contexts:
 
   alter-target:
     - meta_prepend: true
-    - include: target-algorithm
+    - include: algorithms
     - include: alter-user
 
   alter-columns:
@@ -175,21 +175,6 @@ contexts:
   alter-user-args:
     - meta_scope: meta.user.sql
     - include: user-options
-
-###[ DDL STATEMENT PROTOTYPES ]################################################
-
-  target-algorithm:
-    - match: \b(?i:(algorithm))\s*(=)
-      captures:
-        1: keyword.other.mysql
-        2: keyword.operator.assignment.mysql
-      push: target-algorithm-value
-
-  target-algorithm-value:
-    - match: \b(?i:merge|temptable|undefined)\b
-      scope: constant.language.sql
-      pop: 1
-    - include: else-pop
 
 ###[ DML STATEMENTS ]##########################################################
 
@@ -427,6 +412,25 @@ contexts:
     - match: (?=#)
       pop: 1
     - include: comments
+
+###[ ALGORITHM EXPRESSIONS ]###################################################
+
+  algorithms:
+    - match: \b(?i:algorithm)\b
+      scope: keyword.other.mysql
+      push: algorithm-assignment
+
+  algorithm-assignment:
+    - match: =
+      scope: keyword.operator.assignment.sql
+      set: algorithm-value
+    - include: else-pop
+
+  algorithm-value:
+    - match: \b(?i:merge|temptable|undefined)\b
+      scope: constant.language.sql
+      pop: 1
+    - include: else-pop
 
 ###[ COLUMN DECLARATIONS ]#####################################################
 
