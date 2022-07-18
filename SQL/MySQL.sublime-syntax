@@ -400,7 +400,7 @@ contexts:
       pop: 1
     - include: on-privilidge-level
     - include: comma-separators
-    - include: user-privilidges
+    - include: user-privileges
 
   grant-on-user:
     - match: \b(?i:on)\b
@@ -413,7 +413,7 @@ contexts:
     - include: expect-user-identification-list
 
   grant-options:
-    - include: user-grant-privilidges
+    - include: user-grant-privileges
     - include: user-resource-options
     - include: else-pop
 
@@ -455,19 +455,19 @@ contexts:
       push:
         - revoke-meta
         - revoke-options
-        - revoke-privilidges
+        - revoke-privileges
 
   revoke-meta:
     - meta_include_prototype: false
     - meta_scope: meta.statement.revoke.sql
     - include: immediately-pop
 
-  revoke-privilidges:
+  revoke-privileges:
     - match: (?=[;)]|\b(?i:for|from)\b)
       pop: 1
     - include: on-privilidge-level
     - include: comma-separators
-    - include: user-privilidges
+    - include: user-privileges
 
   revoke-options:
     - match: \b(?i:for|from)\b
@@ -796,16 +796,16 @@ contexts:
     - match: \b(?i:none)\b
       scope: constant.language.null.sql
 
-  user-privilidges:
+  user-privileges:
     - include: column-reference-lists
-    - include: user-all-privilidges
-    - include: user-grant-privilidges
+    - include: user-all-privileges
+    - include: user-grant-privileges
 
-  user-all-privilidges:
+  user-all-privileges:
     - match: \b(?i:all\s+privileges)\b
       scope: constant.language.sql
 
-  user-grant-privilidges:
+  user-grant-privileges:
     - match: \b(?i:(?:grant|admin)\s+option)\b
       scope: constant.language.sql
 
