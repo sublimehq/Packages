@@ -800,7 +800,7 @@ contexts:
   built-in-type:
     - match: \b{{simple_types}}\b
       scope: storage.type.sql
-      pop: 1
+      set: maybe-group
     - match: |-
         (?xi)
         \b{{types_with_optional_number}}\b
@@ -810,11 +810,11 @@ contexts:
         1: constant.numeric.sql
         2: punctuation.separator.sequence.sql
         3: constant.numeric.sql
-      pop: 1
+      set: maybe-group
 
   expect-user-type:
     - match: (?=\S)
-      set: inside-user-type
+      set: [maybe-group, inside-user-type]
 
   inside-user-type:
     # note: may contain foreign variable interpolation

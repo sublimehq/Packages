@@ -438,6 +438,54 @@ CREATE AGGREGATE FUNCTION
 --     Valid SQL procedure statement
 -- ----------------------------------------------------------------------------
 
+CREATE PROCEDURE
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.function
+--     ^^^^^^^^^ meta.statement.create.sql meta.function.sql keyword.other.ddl.sql
+
+CREATE OR REPLACE PROCEDURE sp_name (param int, out args varchar(200)) SELECT foo FROM bar;
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql
+--                ^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.parameters.sql meta.group.sql
+--                                                                    ^ meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^^ meta.function.sql keyword.other.ddl.sql
+--                          ^^^^^^^ entity.name.function.sql
+--                                  ^ punctuation.section.group.begin.sql
+--                                   ^^^^^ variable.parameter.sql
+--                                         ^^^ storage.type.sql
+--                                            ^ punctuation.separator.sequence.sql
+--                                              ^^^ storage.modifier.sql
+--                                                  ^^^^ variable.parameter.sql
+--                                                       ^^^^^^^ support.type.sql
+--                                                              ^ punctuation.section.group.begin.sql
+--                                                               ^^^ constant.numeric.value.sql
+--                                                                  ^^ punctuation.section.group.end.sql
+--                                                                     ^^^^^^ keyword.other.dml.sql
+--                                                                            ^^^ meta.column-name.sql
+--                                                                                ^^^^ keyword.other.dml.sql
+--                                                                                     ^^^ meta.table-name.sql
+--                                                                                        ^ punctuation.terminator.statement.sql
+
+CREATE PROCEDURE
+    sp_name
+    NOT DETERMINISTIC
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^ keyword.operator.logical.sql
+--      ^^^^^^^^^^^^^ storage.modifier.sql
+    SQL SECURITY INVOKER
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^^^^^^ storage.modifier.sql
+--               ^^^^^^^ constant.language.user.sql
+    COMMENT 'my procedure'
+-- <- meta.statement.create.sql meta.function.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+
 
 -- ----------------------------------------------------------------------------
 -- Create Role Statements
