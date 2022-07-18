@@ -442,6 +442,10 @@ CREATE AGGREGATE FUNCTION
 -- ----------------------------------------------------------------------------
 -- Create Role Statements
 -- https://mariadb.com/kb/en/create-role
+--
+-- CREATE [OR REPLACE] ROLE [IF NOT EXISTS] role
+--  [WITH ADMIN
+--    {CURRENT_USER | CURRENT_ROLE | user | role}]
 -- ----------------------------------------------------------------------------
 
 CREATE ROLE role
@@ -504,6 +508,49 @@ CREATE ROLE role WITH ADMIN CURRENT_ROLE
 -- ----------------------------------------------------------------------------
 -- Create User Statements
 -- https://mariadb.com/kb/en/create-user
+--
+-- CREATE [OR REPLACE] USER [IF NOT EXISTS]
+--  user_specification [,user_specification ...]
+--   [REQUIRE {NONE | tls_option [[AND] tls_option ...] }]
+--   [WITH resource_option [resource_option ...] ]
+--   [lock_option] [password_option]
+--
+-- user_specification:
+--   username [authentication_option]
+--
+-- authentication_option:
+--   IDENTIFIED BY 'password'
+--   | IDENTIFIED BY PASSWORD 'password_hash'
+--   | IDENTIFIED {VIA|WITH} authentication_rule [OR authentication_rule  ...]
+--
+-- authentication_rule:
+--     authentication_plugin
+--   | authentication_plugin {USING|AS} 'authentication_string'
+--   | authentication_plugin {USING|AS} PASSWORD('password')
+--
+-- tls_option:
+--   SSL
+--   | X509
+--   | CIPHER 'cipher'
+--   | ISSUER 'issuer'
+--   | SUBJECT 'subject'
+--
+-- resource_option:
+--   MAX_QUERIES_PER_HOUR count
+--   | MAX_UPDATES_PER_HOUR count
+--   | MAX_CONNECTIONS_PER_HOUR count
+--   | MAX_USER_CONNECTIONS count
+--   | MAX_STATEMENT_TIME time
+--
+-- password_option:
+--   PASSWORD EXPIRE
+--   | PASSWORD EXPIRE DEFAULT
+--   | PASSWORD EXPIRE NEVER
+--   | PASSWORD EXPIRE INTERVAL N DAY
+--
+-- lock_option:
+--     ACCOUNT LOCK
+--   | ACCOUNT UNLOCK
 -- ----------------------------------------------------------------------------
 
 CREATE USER IF NOT EXISTS
@@ -682,6 +729,16 @@ CREATE USER IF NOT EXISTS
 -- ----------------------------------------------------------------------------
 -- Alter Database Statements
 -- https://mariadb.com/kb/en/alter-database
+--
+-- ALTER {DATABASE | SCHEMA} [db_name]
+--     alter_specification ...
+-- ALTER {DATABASE | SCHEMA} db_name
+--     UPGRADE DATA DIRECTORY NAME
+--
+-- alter_specification:
+--     [DEFAULT] CHARACTER SET [=] charset_name
+--   | [DEFAULT] COLLATE [=] collation_name
+--   | COMMENT [=] 'comment'
 -- ----------------------------------------------------------------------------
 
 ALTER DATABASE db_name
@@ -903,6 +960,49 @@ ALTER EVENT event_name
 -- ----------------------------------------------------------------------------
 -- Alter User Statements
 -- https://mariadb.com/kb/en/alter-user
+--
+-- ALTER USER [IF EXISTS]
+--  user_specification [,user_specification] ...
+--   [REQUIRE {NONE | tls_option [[AND] tls_option] ...}]
+--   [WITH resource_option [resource_option] ...]
+--   [lock_option] [password_option]
+--
+-- user_specification:
+--   username [authentication_option]
+--
+-- authentication_option:
+--   IDENTIFIED BY 'password'
+--   | IDENTIFIED BY PASSWORD 'password_hash'
+--   | IDENTIFIED {VIA|WITH} authentication_rule [OR authentication_rule] ...
+--
+-- authentication_rule:
+--   authentication_plugin
+--   | authentication_plugin {USING|AS} 'authentication_string'
+--   | authentication_plugin {USING|AS} PASSWORD('password')
+--
+-- tls_option
+--   SSL
+--   | X509
+--   | CIPHER 'cipher'
+--   | ISSUER 'issuer'
+--   | SUBJECT 'subject'
+--
+-- resource_option
+--   MAX_QUERIES_PER_HOUR count
+--   | MAX_UPDATES_PER_HOUR count
+--   | MAX_CONNECTIONS_PER_HOUR count
+--   | MAX_USER_CONNECTIONS count
+--   | MAX_STATEMENT_TIME time
+--
+-- password_option:
+--   PASSWORD EXPIRE
+--   | PASSWORD EXPIRE DEFAULT
+--   | PASSWORD EXPIRE NEVER
+--   | PASSWORD EXPIRE INTERVAL N DAY
+--
+-- lock_option:
+--     ACCOUNT LOCK
+--   | ACCOUNT UNLOCK
 -- ----------------------------------------------------------------------------
 
 ALTER USER IF EXISTS
@@ -1084,6 +1184,8 @@ DROP
 -- ----------------------------------------------------------------------------
 -- Drop Database Statements
 -- https://mariadb.com/kb/en/drop-database
+--
+-- DROP {DATABASE | SCHEMA} [IF EXISTS] db_name
 -- ----------------------------------------------------------------------------
 
 DROP DATABASE db_name ;
@@ -1124,6 +1226,8 @@ DROP SCHEMA schema_name ;
 -- ----------------------------------------------------------------------------
 -- Drop Event Statements
 -- https://mariadb.com/kb/en/drop-event
+--
+-- DROP EVENT [IF EXISTS] event_name
 -- ----------------------------------------------------------------------------
 
 DROP EVENT event ;
@@ -1158,6 +1262,8 @@ DROP EVENT IF EXISTS event ;
 -- ----------------------------------------------------------------------------
 -- Drop Role Statements
 -- https://mariadb.com/kb/en/drop-role
+--
+-- DROP ROLE [IF EXISTS] role_name [,role_name ...]
 -- ----------------------------------------------------------------------------
 
 DROP ROLE role ;
@@ -1194,6 +1300,8 @@ DROP ROLE IF EXISTS role1, role2, role3;
 -- ----------------------------------------------------------------------------
 -- Drop User Statements
 -- https://mariadb.com/kb/en/drop-user
+--
+-- DROP USER [IF EXISTS] user_name [, user_name] ...
 -- ----------------------------------------------------------------------------
 
 DROP USER bob@'%' ;
@@ -1226,6 +1334,72 @@ DROP USER IF EXISTS bob, clara@localhost ;
 -- -------------------------------
 -- Grant Statements
 -- https://mariadb.com/kb/en/grant
+--
+-- GRANT
+--     priv_type [(column_list)]
+--       [, priv_type [(column_list)]] ...
+--     ON [object_type] priv_level
+--     TO user_specification [ user_options ...]
+--
+-- user_specification:
+--   username [authentication_option]
+--
+-- authentication_option:
+--   IDENTIFIED BY 'password'
+--   | IDENTIFIED BY PASSWORD 'password_hash'
+--   | IDENTIFIED {VIA|WITH} authentication_rule [OR authentication_rule  ...]
+--
+-- authentication_rule:
+--     authentication_plugin
+--   | authentication_plugin {USING|AS} 'authentication_string'
+--   | authentication_plugin {USING|AS} PASSWORD('password')
+--
+-- GRANT PROXY ON username
+--     TO user_specification [, user_specification ...]
+--     [WITH GRANT OPTION]
+--
+-- GRANT rolename TO grantee [, grantee ...]
+--     [WITH ADMIN OPTION]
+--
+-- grantee:
+--     rolename
+--     username [authentication_option]
+--
+-- user_options:
+--     [REQUIRE {NONE | tls_option [[AND] tls_option] ...}]
+--     [WITH with_option [with_option] ...]
+--
+-- object_type:
+--     TABLE
+--   | FUNCTION
+--   | PROCEDURE
+--   | PACKAGE
+--
+-- priv_level:
+--     *
+--   | *.*
+--   | db_name.*
+--   | db_name.tbl_name
+--   | tbl_name
+--   | db_name.routine_name
+--
+-- with_option:
+--     GRANT OPTION
+--   | resource_option
+--
+-- resource_option:
+--   MAX_QUERIES_PER_HOUR count
+--   | MAX_UPDATES_PER_HOUR count
+--   | MAX_CONNECTIONS_PER_HOUR count
+--   | MAX_USER_CONNECTIONS count
+--   | MAX_STATEMENT_TIME time
+--
+-- tls_option:
+--   SSL
+--   | X509
+--   | CIPHER 'cipher'
+--   | ISSUER 'issuer'
+--   | SUBJECT 'subject'
 -- ----------------------------------------------------------------------------
 
 GRANT
@@ -1384,6 +1558,9 @@ GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
 -- -------------------------------
 -- Rename User Statements
 -- https://mariadb.com/kb/en/rename-user
+--
+-- RENAME USER old_user TO new_user
+--    [, old_user TO new_user] ...
 -- ----------------------------------------------------------------------------
 
 RENAME
@@ -1422,6 +1599,15 @@ RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
 -- -------------------------------
 -- Revoke Statements
 -- https://mariadb.com/kb/en/revoke
+--
+-- REVOKE
+--     priv_type [(column_list)]
+--       [, priv_type [(column_list)]] ...
+--     ON [object_type] priv_level
+--     FROM user [, user] ...
+--
+-- REVOKE ALL PRIVILEGES, GRANT OPTION
+--     FROM user [, user] ...
 -- ----------------------------------------------------------------------------
 
 REVOKE ;
@@ -1495,6 +1681,13 @@ REVOKE role1, role2 FROM grantee, grantee2 ;
 -- -------------------------------
 -- Set Password Statements
 -- https://mariadb.com/kb/en/set-password
+--
+-- SET PASSWORD [FOR user] =
+--    {
+--        PASSWORD('some password')
+--      | OLD_PASSWORD('some password')
+--      | 'encrypted password'
+--    }
 -- ----------------------------------------------------------------------------
 
 SET
@@ -1567,6 +1760,8 @@ SET PASSWORD for `user@`@'%' = 'encrypted password';
 -- -------------------------------
 -- Set Role Statements
 -- https://mariadb.com/kb/en/set-role
+--
+-- SET ROLE { role | NONE }
 -- ----------------------------------------------------------------------------
 
 SET ROLE NONE
@@ -1617,6 +1812,8 @@ SET DEFAULT ROLE role FOR user@host
 -- ----------------------------------------------------------------------------
 -- Show Create Event Statements
 -- https://mariadb.com/kb/en/show-create-event
+--
+-- SHOW CREATE EVENT event_name
 -- ----------------------------------------------------------------------------
 
 SHOW CREATE EVENT db_name.event_name
@@ -1649,6 +1846,8 @@ SHOW CREATE USER user_name
 -- -------------------------------
 -- Show Grants Statements
 -- https://mariadb.com/kb/en/show-grants
+--
+-- SHOW CREATE USER user_name
 -- ----------------------------------------------------------------------------
 
 SHOW GRANTS
