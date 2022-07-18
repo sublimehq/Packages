@@ -674,7 +674,7 @@ CREATE USER IF NOT EXISTS
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.user.sql
 --  ^^^^^^^^ keyword.other.ddl.sql
 --           ^^^^^^ keyword.other.ddl.sql
---                  ^^^^^^^^ constant.language.sql
+--                  ^^^^^^^^ storage.type.interval.sql
 --                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                             ^^^ keyword.other.unit.sql
 
@@ -1064,7 +1064,7 @@ ALTER USER IF EXISTS
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
 --  ^^^^^^^^ keyword.other.ddl.sql
 --           ^^^^^^ keyword.other.ddl.sql
---                  ^^^^^^^^ constant.language.sql
+--                  ^^^^^^^^ storage.type.interval.sql
 --                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                             ^^^ keyword.other.unit.sql
 

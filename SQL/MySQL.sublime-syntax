@@ -633,8 +633,7 @@ contexts:
       scope: keyword.other.ddl.sql
     - match: \b(?i:every)\b
       scope: keyword.other.ddl.sql
-    - match: \b(?i:interval)\b
-      scope: storage.type.interval.sql
+    - include: intervals
     - include: time-units
     - include: expressions
 
@@ -774,10 +773,10 @@ contexts:
       captures:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
-    - match: \b(?i:day)\b
-      scope: keyword.other.unit.sql
-    - match: \b(?i:default|never|interval)\b
+    - match: \b(?i:default|never)\b
       scope: constant.language.sql
+    - include: intervals
+    - include: time-units
 
   user-resource-options:
     - match: \b(?i:with)\b
@@ -841,6 +840,10 @@ contexts:
       scope: keyword.other.object-comments.sql
 
 ###[ TYPES ]###################################################################
+
+  intervals:
+    - match: \b(?i:interval)\b
+      scope: storage.type.interval.sql
 
   after-type:
     - meta_prepend: true
