@@ -657,6 +657,8 @@ contexts:
       scope: storage.modifier.sql
     - match: \b(?i:definer|invoker)\b
       scope: constant.language.user.sql
+    - match: \b(?i:soname)\b
+      scope: keyword.other.ddl.sql
 
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 

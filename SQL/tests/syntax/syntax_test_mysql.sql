@@ -296,6 +296,10 @@ CREATE EVENT event_name
 --
 -- func_body:
 --     Valid SQL procedure statement
+--
+-- CREATE [OR REPLACE] [AGGREGATE] FUNCTION [IF NOT EXISTS] function_name
+--    RETURNS {STRING|INTEGER|REAL|DECIMAL}
+--    SONAME shared_library_name
 -- ----------------------------------------------------------------------------
 
 CREATE DEFINER = CURRENT_ROLE AGGREGATE FUNCTION foo
@@ -410,6 +414,17 @@ CREATE AGGREGATE FUNCTION
 -- ^^^^^^^ meta.statement.create.sql meta.function.sql
 --        ^ - meta.statement - meta.function
 
+CREATE FUNCTION function_name RETURNS STRING SONAME 'ha_connect.so';
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.function
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--     ^^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^^^^^^^^^ entity.name.function.sql
+--                            ^^^^^^^ keyword.other.ddl.sql
+--                                    ^^^^^^ support.type.sql
+--                                           ^^^^^^ keyword.other.ddl.sql
+--                                                  ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                                 ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
 -- Create Procedure Statements
