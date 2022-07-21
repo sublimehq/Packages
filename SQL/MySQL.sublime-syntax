@@ -42,15 +42,17 @@ contexts:
 
   comments:
     - meta_append: true
-    - match: '#'
-      scope: punctuation.definition.comment.sql
-      push: inside-number-sign-comment
+    - include: number-sign-comments
 
   double-dash-comments:
-    - meta_include_prototype: false
     - match: '--(?=\s)'
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
+
+  number-sign-comments:
+    - match: '#'
+      scope: punctuation.definition.comment.sql
+      push: inside-number-sign-comment
 
   inside-number-sign-comment:
     - meta_include_prototype: false
