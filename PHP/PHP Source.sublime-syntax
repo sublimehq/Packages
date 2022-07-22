@@ -959,7 +959,7 @@ contexts:
       scope: storage.modifier.php
     - include: access-modifiers
     - include: static-modifiers
-    - include: type-hint
+    - include: type-hints-set
     - include: attributes
     - include: comments
     - include: else-pop
@@ -1123,7 +1123,7 @@ contexts:
     - include: punctuation-separators
     - include: reference-modifiers
     - include: variadic-operators
-    - include: type-hints
+    - include: type-hints-push
     - match: (\$+){{identifier}}
       scope: variable.parameter.php
       captures:
@@ -1295,7 +1295,7 @@ contexts:
     - include: expression-end-pop
     - include: attributes
     - include: comments
-    - include: type-hints
+    - include: type-hints-push
     - match: (\$){{identifier}}
       scope: variable.other.php
       captures:
@@ -1905,17 +1905,17 @@ contexts:
 
 ###[ TYPE HINTS ]#############################################################
 
-  type-hints:
+  type-hints-push:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+    - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       push:
         - type-hint-body
         - type-hint-simple-type
         - type-hint-nullable
 
-  type-hint:
+  type-hints-set:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+    - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       set:
         - type-hint-body
         - type-hint-simple-type
@@ -1931,9 +1931,19 @@ contexts:
     - match: '&(?!\s*\$)'
       scope: punctuation.separator.type.intersection.php
       push:
-        - type-hint-nullable
         - type-hint-simple-type
+        - type-hint-nullable
+    - include: type-hint-body-group
     - include: else-pop
+
+  type-hint-body-group:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      push:
+        - match: \)
+          scope: punctuation.section.group.end.php
+          pop: 1
+        - include: type-hints-push
 
   type-hint-nullable:
     - match: \?

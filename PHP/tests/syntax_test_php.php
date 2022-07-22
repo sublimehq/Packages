@@ -2019,6 +2019,25 @@ function foo(?stinrg ...$args) {}
 //                    ^^^ storage.type
 //                        ^ punctuation.definition.variable
 //                         ^^^^^^ variable.parameter
+        (?A|B)&(C|?D)&?E $param2,
+//      ^ punctuation.section.group.begin
+//       ^ storage.type.nullable
+//        ^ support.class
+//         ^ punctuation.separator.type.union
+//          ^ support.class
+//           ^ punctuation.section.group.end
+//            ^ punctuation.separator.type.intersection
+//             ^ punctuation.section.group.begin
+//              ^ support.class
+//               ^ punctuation.separator.type.union
+//                ^ storage.type.nullable
+//                 ^ support.class
+//                  ^ punctuation.section.group.end
+//                   ^ punctuation.separator.type.intersection
+//                    ^ storage.type.nullable
+//                     ^ support.class
+//                       ^ punctuation.definition.variable
+//                        ^^^^^^ variable.parameter
         string $param3,
 //      ^^^^^^ storage.type
 //             ^ punctuation.definition.variable
