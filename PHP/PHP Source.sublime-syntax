@@ -959,7 +959,7 @@ contexts:
       scope: storage.modifier.php
     - include: access-modifiers
     - include: static-modifiers
-    - include: type-hints-set
+    - include: type-hint
     - include: attributes
     - include: comments
     - include: else-pop
@@ -1123,7 +1123,7 @@ contexts:
     - include: punctuation-separators
     - include: reference-modifiers
     - include: variadic-operators
-    - include: type-hints-push
+    - include: type-hints
     - match: (\$+){{identifier}}
       scope: variable.parameter.php
       captures:
@@ -1295,7 +1295,7 @@ contexts:
     - include: expression-end-pop
     - include: attributes
     - include: comments
-    - include: type-hints-push
+    - include: type-hints
     - match: (\$){{identifier}}
       scope: variable.other.php
       captures:
@@ -1905,7 +1905,7 @@ contexts:
 
 ###[ TYPE HINTS ]#############################################################
 
-  type-hints-push:
+  type-hints:
     # https://wiki.php.net/rfc/union_types_v2
     - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       push:
@@ -1913,7 +1913,7 @@ contexts:
         - type-hint-simple-type
         - type-hint-nullable
 
-  type-hints-set:
+  type-hint:
     # https://wiki.php.net/rfc/union_types_v2
     - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       set:
@@ -1933,17 +1933,17 @@ contexts:
       push:
         - type-hint-simple-type
         - type-hint-nullable
-    - include: type-hint-body-group
+    - include: type-hint-group
     - include: else-pop
 
-  type-hint-body-group:
+  type-hint-group:
     - match: \(
       scope: punctuation.section.group.begin.php
       push:
         - match: \)
           scope: punctuation.section.group.end.php
           pop: 1
-        - include: type-hints-push
+        - include: type-hints
 
   type-hint-nullable:
     - match: \?
