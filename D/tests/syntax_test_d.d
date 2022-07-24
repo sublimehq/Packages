@@ -3194,3 +3194,9 @@ extern(1)
 //                   ^ meta.function-call.d meta.path.d variable.other.d
 //                    ^ meta.function-call.d punctuation.section.parens.end.d
 //                     ^ punctuation.terminator.d
+
+    constant = true;
+//  ^^^^^^^^ meta.path.d variable.other.d - storage
+//           ^ keyword.operator.assignment.d
+//             ^^^^ constant.language.d
+//                 ^ punctuation.terminator.d
