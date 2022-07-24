@@ -1933,10 +1933,10 @@ contexts:
       push:
         - type-hint-simple-type
         - type-hint-nullable
-    - include: type-hint-group
+    - include: type-hint-groups
     - include: else-pop
 
-  type-hint-group:
+  type-hint-groups:
     - match: \(
       scope: punctuation.section.group.begin.php
       push:
