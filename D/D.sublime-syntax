@@ -1058,7 +1058,6 @@ contexts:
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
       set: value-array-list
     - match: '{{name_lookahead}}'
-      scope: variable.other.d
       set: [first-value-after, value-identifier]
     - match: '(?=\S)'
       set: value-array-list
