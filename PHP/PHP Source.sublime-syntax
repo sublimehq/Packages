@@ -1940,6 +1940,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       push:
+        - meta_scope: meta.group.php
         - match: \)
           scope: punctuation.section.group.end.php
           pop: 1
