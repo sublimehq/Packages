@@ -757,11 +757,18 @@ contexts:
       push: cmd-rem-body
 
   cmd-rem-body:
+    - include: unquoted-eol-pop
+    - match: \^\n
+      scope: punctuation.separator.continuation.line.dosbatch
+      set: cmd-rem-comment-body
+    - match: (?=\S)
+      set: cmd-rem-comment-body
+
+  cmd-rem-comment-body:
     - meta_scope: meta.command.rem.dosbatch
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
     - meta_content_scope: comment.line.rem.dosbatch
-    - include: line-continuations
     - match: \n
       scope: comment.line.rem.dosbatch
       pop: 1
