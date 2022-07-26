@@ -20,7 +20,7 @@
 :: ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
    REM ^
-   I'm a (com|ment)
+   I'm a (com|ment) ^
    not a comment
 :: ^^^^^^^^^^^^^ - comment
 
