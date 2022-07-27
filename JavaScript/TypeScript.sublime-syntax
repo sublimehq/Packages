@@ -885,8 +885,8 @@ contexts:
       pop: 1
       branch_point: ts-function-type
       branch:
-        - ts-type-parenthesized
         - ts-type-function
+        - ts-type-parenthesized
 
     - include: literal-string
     - include: literal-number
@@ -1005,9 +1005,6 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
-        - - match: (?==>)
-            fail: ts-function-type
-          - include: else-pop
         - - meta_scope: meta.group.js
           - match: \)
             scope: punctuation.section.group.end.js
@@ -1032,7 +1029,8 @@ contexts:
                 - ts-type-expression-end
                 - ts-type-expression-end-no-line-terminator
                 - ts-type-expression-begin
-            - include: else-pop
+            - match: (?=\S)
+              fail: ts-function-type
         - include: comma-separator
         - match: '\.\.\.'
           scope: keyword.operator.spread.js
@@ -1041,6 +1039,8 @@ contexts:
           push:
             - ts-type-annotation
             - ts-type-annotation-optional
+        - match: (?=\S)
+          fail: ts-function-type
 
   object-literal-contents:
     - meta_prepend: true
