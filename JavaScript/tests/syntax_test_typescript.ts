@@ -1265,3 +1265,43 @@ const x = {
 //                                           ^^^^ constant.language.null
 //                                               ^ punctuation.terminator.statement
 //                                                 ^^^^^^^^ comment.line.double-slash
+
+const f = (x): ((y) => any) => 42;
+//        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^ meta.function.parameters
+//         ^ meta.binding.name variable.parameter.function
+//           ^ punctuation.separator.type
+//            ^^^^^^^^^^^^^^ meta.type
+//             ^^^^^^^^^^^^ meta.group
+//             ^ punctuation.section.group.begin
+//              ^^^ meta.group
+//              ^ punctuation.section.group.begin
+//               ^ variable.parameter
+//                ^ punctuation.section.group.end
+//                  ^^ keyword.declaration.function
+//                     ^^^ support.type.any
+//                        ^ punctuation.section.group.end
+//                          ^^ keyword.declaration.function.arrow
+//                             ^^ meta.block meta.number.integer.decimal
+//                             ^^ constant.numeric.value
+//                               ^ punctuation.terminator.statement
+
+const f = (x): (y) => 42 => z;
+//    ^ meta.binding.name entity.name.function
+//    ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^ punctuation.section.group.begin
+//         ^ meta.binding.name variable.parameter.function
+//          ^ punctuation.section.group.end
+//           ^ punctuation.separator.type
+//            ^^^^^^^^^^^ meta.type
+//             ^^^ meta.group
+//             ^ punctuation.section.group.begin
+//              ^ variable.parameter
+//               ^ punctuation.section.group.end
+//                 ^^ keyword.declaration.function
+//                    ^^ meta.number.integer.decimal constant.numeric.value
+//                       ^^ keyword.declaration.function.arrow
+//                          ^ meta.block variable.other.readwrite
+//                           ^ punctuation.terminator.statement
