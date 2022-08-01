@@ -39,19 +39,20 @@ variables:
   ruleassign: :(?!=)
   function_call_token_begin: \$\$?\(
 
-  # The big "rule lookahead". What we want to do is here is detect if the
+  # The big "rule lookahead". What we want to do here is detect if the
   # line that we are parsing is going to define a rule. So we need to check
   # if we have something of the form <rule-name> : <rule-prerequisites>
   # However matters become complicated by the fact that we can have arbitrary
   # variable substitutions anywhere. We try to remedy this by hacking in a
   # regex that matches up to four levels of nested parentheses, and ignores
   # whatever's inside the parentheses.
+  nps0: '[^()=]*'     # doesn't look like assignment
   nps: '[^()]*'
   open: '(?:\('
   close: '\))?'       # ignore this invalid.illegal
   just_eat: |         # WARNING: INSANITY FOLLOWS!
     (?x)              # ignore whitespace in this regex
-      {{nps}}         #       level 0
+      {{nps0}}        #       level 0
       {{open}}        # start level 1                      __
         {{nps}}       #       level 1          _______    /*_>-<
         {{open}}      # start level 2      ___/ _____ \__/ /
@@ -103,22 +104,11 @@ variables:
         {{close}}     #   end level 2
         {{nps}}       #       level 1
       {{close}}       #   end level 1
-      {{nps}}         #       level 0
-  rule_lookahead: '{{just_eat}}{{ruleassign}}{{just_eat}}'
+      {{nps0}}        #       level 0
+  rule_lookahead: '{{just_eat}}{{ruleassign}}'
 
-  var_lookahead_base: '{{just_eat}}({{varassign}}|{{shellassign}}){{just_eat}}'
   # Just as with rules we want to look ahead if we are going to define a var.
-  # However, due to the possibility of "target-specific" variables (see 6.11),
-  # we want to NOT match if there's a {{ruleassign}} before a {{varassign}}.
-  var_lookahead: (?!{{rule_lookahead}}){{var_lookahead_base}}
-
-  first_assign_then_colon: |
-    (?x)
-      {{just_eat}}
-        {{varassign}}
-      {{just_eat}}
-        {{ruleassign}}
-      {{just_eat}}
+  var_lookahead: '{{just_eat}}(?:{{varassign}}|{{shellassign}})'
 
 #-------------------------------------------------------------------------------
 contexts:
@@ -128,9 +118,9 @@ contexts:
   # variable definitions, directives, and comments.
   main:
     - include: comments
-    - include: variable-definitions
     - match: (?={{rule_lookahead}})
       push: expect-rule
+    - include: variable-definitions
     - include: variable-substitutions
     - include: control-flow
     - match: ^\s*(endef)
@@ -540,7 +530,7 @@ contexts:
         - match: (\?|\+|::?)?=
           scope: keyword.operator.assignment.makefile
           set: [value-to-be-defined, eat-whitespace-then-pop]
-    - match: (?={{var_lookahead}}|{{first_assign_then_colon}})
+    - match: (?={{var_lookahead}})
       push:
         - meta_content_scope: variable.other.makefile
         - match: (?=\s*!=)
