@@ -162,15 +162,14 @@ contexts:
 
   filters:
     # Notes:
-    # 1. Markdown is not implemented as it fails to render due to
-    #    indentation and because it embedds many syntaxes itself.
-    # 2. Syntaxes not part of this repo (LESS, SCSS, SASS, CoffeeScript)
-    #    are not implemented as those would cause issues when not present.
+    #   Syntaxes not part of this repo (LESS, SCSS, SASS, CoffeeScript)
+    #   are not implemented as those would cause issues when not present.
     # source:
     #   https://github.com/haml/haml/blob/main/lib/haml/filters.rb
     - include: filters-css
     - include: filters-erb
     - include: filters-javascript
+    - include: filters-markdown
     - include: filters-ruby
     - include: filters-plain
 
@@ -208,6 +207,18 @@ contexts:
       embed_scope:
         meta.filter.haml meta.embedded.haml
         source.js.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-markdown:
+    - match: ^(\s*)((:)(markdown)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.markdown.haml
+      embed: scope:text.html.markdown.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        text.html.markdown.embedded.haml
       escape: '{{filter_escapes}}'
 
   filters-plain:
