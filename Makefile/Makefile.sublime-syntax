@@ -123,6 +123,7 @@ contexts:
     - include: variable-definitions
     - include: variable-substitutions
     - include: control-flow
+    - include: line-continuation
     - match: ^\s*(endef)
       captures:
         1: invalid.illegal.stray.endef.makefile
@@ -510,12 +511,6 @@ contexts:
     - match: \s*(override)\b
       captures:
         1: keyword.control.makefile
-      set:
-        - match: \bdefine\b
-          scope: keyword.control.makefile
-          push: inside-define-directive-context
-        - include: variable-definitions
-        - include: continuation-or-pop-on-line-end
     - match: \s*(define)\b
       captures:
         1: keyword.control.makefile

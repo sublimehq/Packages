@@ -200,6 +200,18 @@ endef
 endef
 # <- invalid.illegal.stray
 
+override \
+# <- keyword.control.makefile
+#        ^ punctuation.separator.continuation.line.makefile
+
+override \
+	define foo
+# ^^^^^ keyword.control.makefile
+#       ^^^^ variable.other.makefile
+endef
+# <- keyword.control.makefile
+
+
 ########################################
 # 6.11 target-specific variable values #
 ########################################
