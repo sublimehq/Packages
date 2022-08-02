@@ -211,6 +211,13 @@ prog : CFLAGS = -g
 #              ^ - string
 #               ^^ string - meta.function.arguments
 
+$(prog) : CFLAGS = -g
+#       ^ keyword.operator
+#         ^ variable - string
+#                ^ keyword
+#                 ^ - string
+#                  ^^ string - meta.function.arguments
+
 #########################################
 # 6.12 pattern-specific variable values #
 #########################################
