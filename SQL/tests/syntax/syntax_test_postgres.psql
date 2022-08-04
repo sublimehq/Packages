@@ -207,10 +207,15 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 --                           ^^^^^^^ meta.table-name
 
 
--- -----------------
+-- ----------------------------------------------------------------------------
 -- CREATE EXTENSION
 -- https://www.postgresql.org/docs/current/sql-createextension.html
--- -----------------
+--
+-- CREATE EXTENSION [ IF NOT EXISTS ] extension_name
+--  [ WITH ] [ SCHEMA schema_name ]
+--           [ VERSION version ]
+--           [ CASCADE ]
+-- ----------------------------------------------------------------------------
 
 CREATE EXTENSION hstore SCHEMA addons;
 -- <- meta.statement.create.sql keyword.other.ddl

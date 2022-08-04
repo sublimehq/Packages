@@ -37,7 +37,7 @@ contexts:
     - match: \b(?i:type)\b
       scope: keyword.other.ddl.cql
       push:
-        - target-on
+        - create-type-args
         - maybe-column-declaration-list
         - expect-type-creation-name
         - create-type-condition
@@ -46,9 +46,11 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
-###[ DDL STATEMENT PROTOTYPES ]################################################
+  create-type-args:
+    - meta_scope: meta.type.sql
+    - include: create-common-args
 
-  target-on:
+  create-common-args:
     - meta_prepend: true
     - match: \b(?i:clustering)\b
       scope: keyword.other.cql
@@ -179,19 +181,6 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cql
     - include: expect-column-names
-
-###[ IDENTIFIERS ]#############################################################
-
-  expect-type-creation-name:
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [type-creation-name, single-identifier]
-
-  type-creation-name:
-    - meta_include_prototype: false
-    - meta_scope: entity.name.type.cql
-    - include: immediately-pop
 
 ###[ TYPES ]###################################################################
 

@@ -147,8 +147,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       set:
-        - target-options
-        - target-on
+        - create-index-args
         - expect-index-creation-name
         - create-index-condition
 
@@ -156,13 +155,18 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
+  create-index-args:
+    - meta_scope: meta.index.sql
+    - include: on-tables
+    - include: create-common-args
+
   create-table:
     - match: \b(?i:(?:({{ddl_target_table_modifier}})\s+)?(table))\b
       captures:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       set:
-        - target-on
+        - create-table-args
         - maybe-column-declaration-list
         - expect-table-creation-name
         - create-table-condition
@@ -171,18 +175,32 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
+  create-table-args:
+    - meta_scope: meta.table.sql
+    - include: create-common-args
+
   create-other:
     - match: \b{{ddl_target_other}}\b
       scope: keyword.other.ddl.sql
       set:
-        - target-options
-        - target-on
+        - create-other-args
         - expect-other-creation-name
         - create-other-condition
 
   create-other-condition:
     - meta_include_prototype: false
     - include: maybe-condition
+
+  create-other-args:
+    - match: \b(?i:as)\b
+      scope: keyword.context.block.sql
+      pop: 1
+    - include: on-tables
+    - include: create-common-args
+
+  create-common-args:
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
 
 ###[ DDL DROP STATEMENTS ]#####################################################
 
@@ -209,6 +227,7 @@ contexts:
     - match: \b{{ddl_target_function}}\b
       scope: keyword.other.ddl.sql
       set:
+        - drop-function-args
         - expect-function-name
         - drop-function-condition
 
@@ -216,10 +235,16 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
+  drop-function-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.sql
+    - include: immediately-pop
+
   drop-index:
     - match: \b(?i:index)\b
       scope: keyword.other.ddl.sql
       set:
+        - drop-index-args
         - expect-index-name
         - drop-index-condition
 
@@ -227,12 +252,17 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
+  drop-index-args:
+    - meta_scope: meta.index.sql
+    - include: maybe-on-table
+
   drop-table:
     - match: \b(?i:(?:({{ddl_target_table_modifier}})\s+)?(table))\b
       captures:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       set:
+        - drop-table-args
         - expect-table-name
         - drop-table-condition
 
@@ -240,17 +270,25 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
+  drop-table-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.table.sql
+    - include: immediately-pop
+
   drop-other:
     - match: \b{{ddl_target_other}}\b
       scope: keyword.other.ddl.sql
       set:
-        - target-on
+        - drop-other-args
         - expect-other-name
         - drop-other-condition
 
   drop-other-condition:
     - meta_include_prototype: false
     - include: maybe-condition
+
+  drop-other-args:
+    - include: maybe-on-table
 
 ###[ DDL ALTER STATEMENTS ]####################################################
 
@@ -371,18 +409,14 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  target-options:
-    - match: \b(?i:as)\b
-      scope: keyword.context.block.sql
-      pop: 1
-    - include: expressions
-    - include: pop-on-top-level-reserved-word
+  maybe-on-table:
+    - include: on-tables
+    - include: else-pop
 
-  target-on:
+  on-tables:
     - match: \b(?i:on)\b
       scope: keyword.other.sql
       push: expect-table-name
-    - include: else-pop
 
 ###[ DML STATEMENTS ]##########################################################
 
@@ -620,14 +654,16 @@ contexts:
 
   expect-function-characteristics:
     - meta_scope: meta.function.sql
+    - match: \b(?i:as|return)\b
+      scope: keyword.context.block.sql
+      pop: 1
     - match: \b(?i:language)\b
       scope: storage.modifier.sql
       push: expect-function-language-name
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
       push: expect-type
-    - include: expressions
-    - include: pop-on-top-level-reserved-word
+    - include: create-common-args
 
   expect-function-language-name:
     - match: '{{simple_identifier}}'
@@ -1013,6 +1049,18 @@ contexts:
   table-alias-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.table-alias-name.sql
+    - include: immediately-pop
+
+  expect-type-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [type-creation-name, single-identifier]
+
+  type-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.type.cql
     - include: immediately-pop
 
   expect-other-creation-name:

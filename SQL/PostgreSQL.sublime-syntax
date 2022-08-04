@@ -66,7 +66,7 @@ contexts:
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - target-options
+        - create-extension-args
         - expect-extension-name-declaration
         - create-extension-condition
 
@@ -74,22 +74,41 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
+  create-extension-args:
+    - meta_scope: meta.extension.sql
+    - match: \b(?i:with)\b
+      scope: keyword.other.psql
+    - match: \b(?i:schema)\b
+      scope: storage.modifier.psql
+      push: expect-schema-name
+    - include: extension-attributes
+    - include: expressions
+
   create-index-condition:
     # https://www.postgresql.org/docs/current/sql-createindex.html
     - meta_prepend: true
     - match: \b(?i:concurrently)\b
       scope: keyword.other.ddl.psql
 
+  create-common-args:
+    - meta_prepend: true
+    - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
+      scope: keyword.other.psql
+    - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
+      scope: keyword.other.psql
+
 ###[ DDL DROP STATEMENTS ]#####################################################
 
   drop-target:
     - meta_prepend: true
+    - include: drop-extension
+
+  drop-extension:
     # https://www.postgresql.org/docs/current/sql-dropextension.html
     - match: \b(?i:extension|domain)\b
       scope: keyword.other.ddl.psql
       set:
-        - target-options
-        - drop-extension-name-list
+        - drop-extension-args
         - expect-extension-name
         - drop-extension-condition
 
@@ -97,10 +116,12 @@ contexts:
     - meta_include_prototype: false
     - include: maybe-condition
 
-  drop-extension-name-list:
+  drop-extension-args:
+    - meta_scope: meta.extension.psql
     - match: ','
       scope: punctuation.separator.sequence.psql
       push: expect-extension-name
+    - include: extension-attributes
     - include: else-pop
 
 ###[ DDL ALTER STATEMENTS ]####################################################
@@ -137,27 +158,12 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  target-options:
-    - meta_prepend: true
-    - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
-      scope: keyword.other.psql
-    - match: \b(?i:with)\b
-      scope: keyword.other.psql
-    - match: \b(?i:schema)\b
-      scope: storage.modifier.psql
-      push: expect-schema-name
-    - match: \b(?i:version|cascade|restrict)\b
-      scope: storage.modifier.psql
-
-  target-on:
-    - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
-      scope: keyword.other.psql
+  on-tables:
     - match: \b(?i:(on)(?:\s+(only))?)\b
       captures:
         1: keyword.other.sql
         2: keyword.other.psql
       push: expect-table-name
-    - include: else-pop
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -171,6 +177,12 @@ contexts:
       scope: punctuation.section.brackets.end.psql
     - match: ':(?!:)'
       scope: keyword.operator.range.psql
+
+###[ EXTENSION EXPRESSIONS ]###################################################
+
+  extension-attributes:
+    - match: \b(?i:cascade|restrict|version)\b
+      scope: storage.modifier.psql
 
 ###[ FUNCTION EXPRESSIONS ]####################################################
 

@@ -72,9 +72,6 @@ contexts:
 
   create-target:
     - meta_prepend: true
-    # index modifiers
-    - match: \b(?i:unique|fulltext|spatial)\b
-      scope: keyword.other.ddl.sql
     - include: algorithms
     - include: definers
     - include: create-database
