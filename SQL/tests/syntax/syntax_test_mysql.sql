@@ -98,14 +98,14 @@ CREATE OR REPLACE SCHEMA schema_name
     COMMENT = 'My new database'
 -- <- meta.statement.create.sql meta.database.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^ keyword.operator.assignment.sql
 --            ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
     COMMENT 'My new database'
 -- <- meta.statement.create.sql meta.database.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
 
@@ -252,7 +252,7 @@ CREATE EVENT event_name
     COMMENT 'my comment'
 -- <- meta.statement.create.sql meta.event.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.event.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
     DO UPDATE myschema.mytable SET mycol = mycol + 1;
@@ -406,7 +406,7 @@ CREATE AGGREGATE FUNCTION
     COMMENT 'string'
 -- <- meta.statement.create.sql meta.function.sql
 -- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^ meta.string.sql string.quoted.single.sql
 
     RETURN
@@ -498,7 +498,7 @@ CREATE PROCEDURE
     COMMENT 'my procedure'
 -- <- meta.statement.create.sql meta.function.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
 
@@ -604,7 +604,7 @@ CREATE INDEX index_name
 --         ^^^ keyword.other.unit.sql
     COMMENT 'my comment'
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
     WITH PARSER parser_name
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
@@ -697,6 +697,605 @@ CREATE ROLE role WITH ADMIN CURRENT_ROLE
 --               ^^^^ keyword.other.ddl.sql
 --                    ^^^^^ keyword.other.ddl.sql
 --                          ^^^^^^^^^^^^ support.function.scalar.sql
+
+
+-- ----------------------------------------------------------------------------
+-- Create Table Statements
+-- https://mariadb.com/kb/en/create-table
+--
+-- CREATE [OR REPLACE] [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+--     (create_definition,...) [table_options    ]... [partition_options]
+-- CREATE [OR REPLACE] [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+--     [(create_definition,...)] [table_options   ]... [partition_options]
+--     select_statement
+-- CREATE [OR REPLACE] [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+--    { LIKE old_table_name | (LIKE old_table_name) }
+--
+-- create_definition:
+--   { col_name column_definition | index_definition | period_definition | CHECK (expr) }
+--
+-- column_definition:
+--   data_type
+--     [NOT NULL | NULL] [DEFAULT default_value | (expression)]
+--     [ON UPDATE [NOW | CURRENT_TIMESTAMP] [(precision)]]
+--     [AUTO_INCREMENT] [ZEROFILL] [UNIQUE [KEY] | [PRIMARY] KEY]
+--     [INVISIBLE] [{WITH|WITHOUT} SYSTEM VERSIONING]
+--     [COMMENT 'string'] [REF_SYSTEM_ID = value]
+--     [reference_definition]
+--   | data_type [GENERATED ALWAYS]
+--   AS { { ROW {START|END} } | { (expression) [VIRTUAL | PERSISTENT | STORED] } }
+--       [UNIQUE [KEY]] [COMMENT 'string']
+--
+-- constraint_definition:
+--    CONSTRAINT [constraint_name] CHECK (expression)
+--
+-- select_statement:
+--     [IGNORE | REPLACE] [AS] SELECT ...   (Some legal select statement)
+--
+-- table_options:
+--    table_option, [table_option ...]
+--
+-- table_option:
+--     [STORAGE] ENGINE [=] engine_name
+--   | AUTO_INCREMENT [=] value
+--   | AVG_ROW_LENGTH [=] value
+--   | [DEFAULT] CHARACTER SET [=] charset_name
+--   | CHECKSUM [=] {0 | 1}
+--   | [DEFAULT] COLLATE [=] collation_name
+--   | COMMENT [=] 'string'
+--   | CONNECTION [=] 'connect_string'
+--   | DATA DIRECTORY [=] 'absolute path to directory'
+--   | DELAY_KEY_WRITE [=] {0 | 1}
+--   | ENCRYPTED [=] {YES | NO}
+--   | ENCRYPTION_KEY_ID [=] value
+--   | IETF_QUOTES [=] {YES | NO}
+--   | INDEX DIRECTORY [=] 'absolute path to directory'
+--   | INSERT_METHOD [=] { NO | FIRST | LAST }
+--   | KEY_BLOCK_SIZE [=] value
+--   | MAX_ROWS [=] value
+--   | MIN_ROWS [=] value
+--   | PACK_KEYS [=] {0 | 1 | DEFAULT}
+--   | PAGE_CHECKSUM [=] {0 | 1}
+--   | PAGE_COMPRESSED [=] {0 | 1}
+--   | PAGE_COMPRESSION_LEVEL [=] {0 .. 9}
+--   | PASSWORD [=] 'string'
+--   | ROW_FORMAT [=] {DEFAULT|DYNAMIC|FIXED|COMPRESSED|REDUNDANT|COMPACT|PAGE}
+--   | SEQUENCE [=] {0|1}
+--   | STATS_AUTO_RECALC [=] {DEFAULT|0|1}
+--   | STATS_PERSISTENT [=] {DEFAULT|0|1}
+--   | STATS_SAMPLE_PAGES [=] {DEFAULT|value}
+--   | TABLESPACE tablespace_name
+--   | TRANSACTIONAL [=]  {0 | 1}
+--   | UNION [=] (tbl_name[,tbl_name]...)
+--   | WITH SYSTEM VERSIONING
+--
+-- partition_options:
+--   PARTITION BY
+--       { [LINEAR] HASH(expr)
+--       | [LINEAR] KEY(column_list)
+--       | RANGE(expr)
+--       | LIST(expr)
+--       | SYSTEM_TIME [INTERVAL time_quantity time_unit] [LIMIT num] }
+--   [PARTITIONS num]
+--   [SUBPARTITION BY
+--       { [LINEAR] HASH(expr)
+--       | [LINEAR] KEY(column_list) }
+--     [SUBPARTITIONS num]
+--   ]
+--   [(partition_definition [, partition_definition] ...)]
+--
+--  partition_definition:
+--      PARTITION partition_name
+--          [VALUES {LESS THAN {(expr) | MAXVALUE} | IN (value_list)}]
+--          [[STORAGE] ENGINE [=] engine_name]
+--          [COMMENT [=] 'comment_text' ]
+--          [DATA DIRECTORY [=] 'data_dir']
+--          [INDEX DIRECTORY [=] 'index_dir']
+--          [MAX_ROWS [=] max_number_of_rows]
+--          [MIN_ROWS [=] min_number_of_rows]
+--          [TABLESPACE [=] tablespace_name]
+--          [NODEGROUP [=] node_group_id]
+--          [(subpartition_definition [, subpartition_definition] ...)]
+--
+--  subpartition_definition:
+--      SUBPARTITION logical_name
+--          [[STORAGE] ENGINE [=] engine_name]
+--          [COMMENT [=] 'comment_text' ]
+--          [DATA DIRECTORY [=] 'data_dir']
+--          [INDEX DIRECTORY [=] 'index_dir']
+--          [MAX_ROWS [=] max_number_of_rows]
+--          [MIN_ROWS [=] min_number_of_rows]
+--          [TABLESPACE [=] tablespace_name]
+--          [NODEGROUP [=] node_group_id]
+-- ----------------------------------------------------------------------------
+
+CREATE TABLE foo
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+-- ^^^ keyword.other.ddl
+--    ^ - keyword
+--     ^^^^^ keyword.other.ddl
+--          ^ - keyword
+--           ^^^ entity.name.struct.table.sql
+
+;CREATE OR REPLACE TABLE foo (id INTEGER PRIMARY KEY);
+-- <- punctuation.terminator.statement.sql
+ -- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^ meta.statement.create.sql - meta.table
+--                 ^^^^^^^^^^ meta.statement.create.sql meta.table.sql - meta.group
+--                           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+-- ^^^^ keyword.other.ddl
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^ keyword.other.ddl.sql
+--                       ^^^ entity.name.struct
+--                          ^ - entity.name
+--                           ^ punctuation.section.group.begin.sql
+--                            ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                               ^^^^^^^ storage.type.sql
+--                                       ^^^^^^^^^^^ storage.modifier.sql
+--                                                  ^ punctuation.section.group.end.sql
+--                                                   ^ punctuation.terminator.statement.sql
+
+create table some_schema.test2( id serial );
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql - meta.group
+--                            ^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^^^^^^^^ entity.name.struct
+--                      ^ punctuation.accessor.dot
+--                            ^ punctuation.section.group.begin.sql
+--                              ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                 ^^^^^^ storage.type.sql
+--                                        ^ punctuation.section.group.end.sql
+--                                         ^ punctuation.terminator.statement.sql
+
+create table some_schema . test2 ( id serial );
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql - meta.group
+--                               ^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--          ^ - entity.name
+--           ^^^^^^^^^^^^^^^^^^^ entity.name.struct
+--                              ^ - entity.name
+--                       ^ punctuation.accessor.dot
+--                               ^ punctuation.section.group.begin.sql
+--                                 ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                    ^^^^^^ storage.type.sql
+--                                           ^ punctuation.section.group.end.sql
+--                                            ^ punctuation.terminator.statement.sql
+
+create temporary table "testing123" (id integer);
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql - meta.group
+--                                  ^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^ keyword.other.ddl.sql
+--               ^^^^^ keyword.other.ddl.sql
+--                     ^^^^^^^^^^^^ entity.name.struct.table.sql
+--                     ^ punctuation.definition.identifier.begin.sql
+--                                ^ punctuation.definition.identifier.end.sql
+--                                  ^ punctuation.section.group.begin.sql
+--                                   ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                      ^^^^^^^ storage.type.sql
+--                                             ^ punctuation.section.group.end.sql
+--                                              ^ punctuation.terminator.statement.sql
+
+create table if not exists `dbo`."testing123" (id integer);
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql - meta.group
+--                                            ^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^ keyword.control.conditional.if.sql
+--              ^^^ keyword.operator.logical.sql
+--                  ^^^^^^ keyword.operator.logical.sql
+--                         ^^^^^^^^^^^^^^^^^^ entity.name.struct.table.sql
+--                         ^ punctuation.definition.identifier.begin.sql
+--                             ^ punctuation.definition.identifier.end.sql
+--                              ^ punctuation.accessor.dot.sql
+--                               ^ punctuation.definition.identifier.begin.sql
+--                                          ^ punctuation.definition.identifier.end.sql
+--                                            ^ punctuation.section.group.begin.sql
+--                                             ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                                ^^^^^^^ storage.type.sql
+--                                                       ^ punctuation.section.group.end.sql
+--                                                        ^ punctuation.terminator.statement.sql
+
+create table IF NOT EXISTS `testing123` (
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql - meta.group
+--                                      ^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^ keyword.control.conditional.if.sql
+--              ^^^ keyword.operator.logical.sql
+--                  ^^^^^^ keyword.operator.logical.sql
+--                         ^^^^^^^^^^^^ entity.name.struct.table.sql
+--                                      ^ punctuation.section.group.begin.sql
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--  ^^^^ meta.column-name.sql
+--       ^^^^^^^ storage.type.sql
+--           ^^ constant.numeric.sql
+--               ^^^^^^^^ storage.modifier.sql
+--                        ^^^ keyword.operator.logical.sql
+--                            ^^^^ constant.language.null.sql
+--                                 ^^^^^^^^^^^^^^ storage.modifier.sql
+--                                               ^ punctuation.separator.sequence.sql
+    `lastchanged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--                ^^^^^^^^^ storage.type.sql
+--                                           ^^^^^^^^^^^^^^^^^ support.function.scalar.sql
+--                                                             ^^^^^^^^^ storage.modifier.sql
+    `col` bool DEFAULT FALSE,
+--        ^^^^ storage.type.sql
+--             ^^^^^^^ storage.modifier.sql
+--                     ^^^^^ constant.language.boolean.sql
+--                          ^ punctuation.separator.sequence
+    `fkey` INT UNSIGNED NULL REFERENCES test2(id),
+--                           ^^^^^^^^^^ storage.modifier.sql
+    `version` tinytext DEFAULT NULL COMMENT 'important clarification',
+--            ^^^^^^^^ storage.type.sql
+    `percentage` float DEFAULT '0',
+    UNIQUE KEY `testing123_search` (`col`, `version`),
+--  ^^^^^^^^^^ storage.modifier.sql
+    KEY `testing123_col` (`col`),
+--  ^^^ storage.modifier.sql
+    FULLTEXT KEY `testing123_version` (`version`)
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARACTER SET=utf8;
+
+create table fancy_table (
+    id SERIAL,
+--     ^^^^^^ storage.type.sql
+    foreign_id integer,
+--             ^^^^^^^ storage.type.sql
+    myflag boolean DEFAULT false,
+--         ^^^^^^^ storage.type.sql
+    mycount double  precision DEFAULT 1,
+--          ^^^^^^^^^^^^^^^^^ storage.type.sql
+    fancy_column character  varying(42) DEFAULT 'nice'::character varying,
+--               ^^^^^^^^^^^^^^^^^^^^^^ storage.type.sql
+    mytime timestamp(3) without time zone DEFAULT now(),
+--         ^^^^^^^^^^^^ storage.type.sql
+--                   ^ constant.numeric
+--                      ^^^^^^^^^^^^^^^^^ storage.type.sql
+--                                        ^^^^^^^ storage.modifier
+--                                                ^^^ meta.function-call support.function
+--                                                   ^ punctuation.section.arguments.begin
+--                                                    ^ punctuation.section.arguments.end
+--                                                     ^ punctuation.separator.sequence
+    mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone, -- TODO: seems like :: is a postgresql cast operator
+--                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
+    some_number numeric(5, 2) DEFAULT 0,
+--  ^^^^^^^^^^^ meta.column-name
+--              ^^^^^^^^^^^^^ storage.type
+--                      ^ constant.numeric
+--                       ^ punctuation.separator.sequence
+--                         ^ constant.numeric
+--                            ^^^^^^^ storage.modifier
+--                                    ^ meta.number.integer.decimal constant.numeric.value
+    primary key (id),
+--  ^^^^^^^^^^^ storage.modifier.sql
+    UNIQUE (foreign_id),
+    CONSTRAINT fancy_table_valid1 CHECK (id <> foreign_id)
+--  ^^^^^^^^^^ storage.modifier.sql
+--                                ^^^^^ keyword.other
+--                                      ^^^^^^^^^^^^^^^^^^ meta.group meta.group
+--                                       ^^ meta.column-name
+--                                          ^^ keyword.operator.comparison
+--                                             ^^^^^^^^^^ meta.column-name
+);
+
+CREATE TABLE foo LIKE bar;
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.table
+--     ^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^ entity.name.struct.table.sql
+--               ^^^^ keyword.other.sql
+--                    ^^^ meta.table-name.sql
+--                       ^ punctuation.terminator.statement.sql
+
+
+CREATE TABLE foo (col1, col2)
+    ENGINE = engine_name,
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^ variable.parameter.sql
+--         ^ keyword.operator.comparison.sql
+    STORAGE ENGINE = engine_name,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^ variable.parameter.sql
+--                 ^ keyword.operator.comparison.sql
+    AUTO_INCREMENT = 30,
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^ variable.parameter.sql
+    AVG_ROW_LENGTH = 30,
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^ variable.parameter.sql
+    DEFAULT CHARACTER SET = 'utf-8',
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^^^^^^ variable.parameter.sql
+    CHARACTER SET = 'utf-16',
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^ variable.parameter.sql
+    CHECKSUM = 0, -- {0 | 1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^ variable.parameter.sql
+    COLLATE = collation_name,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^ variable.parameter.sql
+    DEFAULT COLLATE = collation_name,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^ variable.parameter.sql
+    COMMENT = 'string',
+-- ^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^ variable.parameter.sql
+    CONNECTION = 'connect_string',
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^ variable.parameter.sql
+    DATA DIRECTORY = 'absolute path to directory',
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^ variable.parameter.sql
+    DELAY_KEY_WRITE = 0, -- {0 | 1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^ variable.parameter.sql
+    ENCRYPTED = NO, -- {YES | NO}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^ variable.parameter.sql
+    ENCRYPTION_KEY_ID = 30,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^^ variable.parameter.sql
+    IETF_QUOTES = YES, -- {YES | NO}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^ variable.parameter.sql
+    INDEX DIRECTORY = 'absolute path to directory',
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^ variable.parameter.sql
+    INSERT_METHOD = FIRST, -- { NO | FIRST | LAST }
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^ variable.parameter.sql
+    KEY_BLOCK_SIZE = 30,
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^ variable.parameter.sql
+    MAX_ROWS = 30,
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^ variable.parameter.sql
+    MIN_ROWS = 30,
+-- ^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^ variable.parameter.sql
+    PACK_KEYS = 1, -- {0 | 1 | DEFAULT}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^ variable.parameter.sql
+    PAGE_CHECKSUM = 0, -- {0 | 1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^ variable.parameter.sql
+    PAGE_COMPRESSED = 0, -- {0 | 1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^ variable.parameter.sql
+    PAGE_COMPRESSION_LEVEL = 9, -- {0 .. 9}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^^^^^^^ variable.parameter.sql
+    PASSWORD = 'string',
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^ variable.parameter.sql
+    ROW_FORMAT = DYNAMIC, -- {DEFAULT|DYNAMIC|FIXED|COMPRESSED|REDUNDANT|COMPACT|PAGE}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^ variable.parameter.sql
+--             ^ keyword.operator.comparison.sql
+--               ^^^^^^^ constant.language.sql
+    SEQUENCE = 0, -- {0|1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^ variable.parameter.sql
+    STATS_AUTO_RECALC = DEFAULT, -- {DEFAULT|0|1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^^ variable.parameter.sql
+    STATS_PERSISTENT = DEFAULT, -- {DEFAULT|0|1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^ variable.parameter.sql
+    STATS_SAMPLE_PAGES = DEFAULT, -- {DEFAULT|value}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^^^ variable.parameter.sql
+    TABLESPACE tablespace_name,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^ variable.parameter.sql
+--             ^^^^^^^^^^^^^^^ meta.other-name.sql
+    TRANSACTIONAL =  0, -- {0 | 1}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^ variable.parameter.sql
+    UNION = (`table1`, "table2", table3), -- (tbl_name[,tbl_name]...)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^ variable.parameter.sql
+--        ^ keyword.operator.assignment.sql
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tables.sql
+--          ^ punctuation.section.sequence.begin.sql
+--           ^^^^^^^^ meta.table-name.sql
+--                   ^ punctuation.separator.sequence.sql
+--                     ^^^^^^^^ meta.table-name.sql
+--                             ^ punctuation.separator.sequence.sql
+--                               ^^^^^^ meta.table-name.sql
+--                                     ^ punctuation.section.sequence.end.sql
+    WITH SYSTEM VERSIONING
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^^^^^^^^ variable.parameter.sql
+;
+-- <- punctuation.terminator.statement.sql
+
+CREATE
+    TABLE
+--  ^^^^^ meta.statement.create.sql meta.table.sql keyword.other.ddl.sql
+    foo
+--  ^^^ meta.statement.create.sql meta.table.sql entity.name.struct.table.sql
+    (col1, col2)
+--  ^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+    PARTITION BY
+--  ^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql keyword.other.sql
+        LINEAR HASH( 20 + YEAR(col2) )
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--      ^^^^^^ storage.modifier.sql
+--             ^^^^ support.function.sql
+--                 ^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                 ^ punctuation.section.group.begin.sql
+--                   ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                      ^ keyword.operator.arithmetic.sql
+--                        ^^^^^^^^^^ meta.function-call
+--                        ^^^^ support.function.sql
+--                            ^^^^^^ meta.group.sql
+--                            ^ punctuation.section.arguments.begin.sql
+--                             ^^^^ meta.column-name.sql
+--                                 ^ punctuation.section.arguments.end.sql
+--                                   ^ punctuation.section.group.end.sql
+        LINEAR KEY(col1, col2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--      ^^^^^^ storage.modifier.sql
+--             ^^^ support.function.sql
+--                ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                ^ punctuation.section.group.begin.sql
+--                 ^^^^ meta.column-name.sql
+--                     ^ punctuation.separator.sequence.sql
+--                       ^^^^ meta.column-name.sql
+--                           ^ punctuation.section.group.end.sql
+        RANGE(10)
+--  ^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--      ^^^^^ support.function.sql
+--           ^^^^ meta.group.sql
+--           ^ punctuation.section.group.begin.sql
+--            ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--              ^ punctuation.section.group.end.sql
+        LIST()
+--  ^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--      ^^^^ support.function.sql
+--          ^^ meta.group.sql
+--          ^ punctuation.section.group.begin.sql
+--           ^ punctuation.section.group.end.sql
+        SYSTEM_TIME INTERVAL 10 DAY LIMIT 10
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--      ^^^^^^^^^^^ keyword.other.sql
+--                  ^^^^^^^^ storage.type.interval.sql
+--                           ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                              ^^^ keyword.other.unit.sql
+--                                  ^^^^^ keyword.other.sql
+--                                        ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    PARTITIONS 3
+--  ^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^ keyword.other.sql
+--             ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+    SUBPARTITION BY
+--  ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--  ^^^^^^^^^^^^^^^ keyword.other.sql
+        LINEAR HASH(10 + 20)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+
+        LINEAR KEY(col1, col2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+        SUBPARTITIONS 3
+--  ^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+
+    (
+--  ^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--  ^ punctuation.section.sequence.begin.sql
+        PARTITION partition1
+--      ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--      ^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^^^ entity.name.struct.partition.sql
+            VALUES LESS THAN MAXVALUE
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^ keyword.operator.logical.sql
+--                           ^^^^^^^^ constant.language.sql
+            VALUES LESS THAN (20)
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^ keyword.operator.logical.sql
+--                           ^^^^ meta.group.sql
+--                           ^ punctuation.section.group.begin.sql
+--                            ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                              ^ punctuation.section.group.end.sql
+            ENGINE = engine_name
+--         ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^ variable.parameter.sql
+--                 ^ keyword.operator.comparison.sql
+            COMMENT = 'comment_text'
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^ variable.parameter.sql
+--                  ^ keyword.operator.comparison.sql
+--                    ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+            DATA DIRECTORY = 'data_dir'
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^^^^^^^^ variable.parameter.sql
+--                         ^ keyword.operator.comparison.sql
+--                           ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+            INDEX DIRECTORY = 'index_dir'
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^^^^^^^^^ variable.parameter.sql
+--                          ^ keyword.operator.comparison.sql
+--                            ^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+            MAX_ROWS = 20
+--         ^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^^ variable.parameter.sql
+--                   ^ keyword.operator.comparison.sql
+--                     ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+            MIN_ROWS = 4
+--         ^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^^ variable.parameter.sql
+--                   ^ keyword.operator.comparison.sql
+--                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+            TABLESPACE = tablespace_name
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^^^^ variable.parameter.sql
+--                     ^ keyword.operator.assignment.sql
+--                       ^^^^^^^^^^^^^^^ meta.other-name.sql
+            NODEGROUP = 32
+
+            (
+--         ^ meta.sequence.partitions.sql - meta.sequence meta.sequence
+--          ^^ meta.sequence.partitions.sql meta.sequence.partitions.sql
+--          ^ punctuation.section.sequence.begin.sql
+                subpartition parition1
+--              ^^^^^^^^^^^^ keyword.other.ddl.sql
+--                           ^^^^^^^^^ entity.name.struct.partition.sql
+                    ENGINE engine_name
+--                  ^^^^^^ variable.parameter.sql
+                    COMMENT 'comment_text'
+--                  ^^^^^^^ variable.parameter.sql
+--                          ^^^^^^^^^^^^^^ string.quoted.single.sql
+
+              , subpartition parition2
+--            ^ punctuation.separator.sequence.sql
+--              ^^^^^^^^^^^^ keyword.other.ddl.sql
+--                           ^^^^^^^^^ entity.name.struct.partition.sql
+            ),
+--         ^^ meta.sequence.partitions.sql meta.sequence.partitions.sql
+--           ^ meta.sequence.partitions.sql - meta.sequence meta.sequence
+--          ^ punctuation.section.sequence.end.sql
+--           ^ punctuation.separator.sequence.sql
+
+        PARTITION partition2
+--     ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--      ^^^^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^^^ entity.name.struct.partition.sql
+            VALUES IN ("value1", "value2", "value3")
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^ keyword.other.ddl.sql
+--                 ^^ keyword.operator.logical.sql
+--                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                    ^ punctuation.section.group.begin.sql
+--                     ^^^^^^^^ meta.string.sql string.quoted.double.sql
+--                             ^ punctuation.separator.sequence.sql
+--                               ^^^^^^^^ meta.string.sql string.quoted.double.sql
+--                                       ^ punctuation.separator.sequence.sql
+--                                         ^^^^^^^^ meta.string.sql string.quoted.double.sql
+--                                                 ^ punctuation.section.group.end.sql
+--
+            STORAGE ENGINE = engine_name
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--          ^^^^^^^^^^^^^^ variable.parameter.sql
+--                         ^ keyword.operator.comparison.sql
+    )
+-- ^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--  ^ punctuation.section.sequence.end.sql
 
 
 -- ----------------------------------------------------------------------------
@@ -998,7 +1597,7 @@ ALTER SCHEMA schema_name
     COMMENT = 'My new database'
 -- <- meta.statement.alter.sql meta.database.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.database.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^ keyword.operator.assignment.sql
 --            ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
@@ -1133,7 +1732,7 @@ ALTER EVENT event_name
     COMMENT 'my comment'
 -- <- meta.statement.alter.sql meta.event.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.event.sql
---  ^^^^^^^ keyword.other.ddl.sql
+--  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 
     DO UPDATE myschema.mytable SET mycol = mycol + 1;
@@ -2128,126 +2727,6 @@ SELECT "My -- Crazy Column Name" FROM my_table;
 SELECT "My /* Crazy Column Name" FROM my_table;
 --         ^^ - comment - punctuation
 
-CREATE TABLE foo
--- <- meta.statement.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^ meta.statement.create.sql
--- ^^^ keyword.other.ddl
---    ^ - keyword
---     ^^^^^ keyword.other.ddl
---          ^ - keyword
---           ^^^ entity.name.struct.table.sql
-
-;CREATE TABLE foo (id INTEGER PRIMARY KEY);
--- <- punctuation.terminator.statement.sql
- -- <- meta.statement.create keyword.other.ddl
---^^^^^ keyword.other.ddl
---      ^^^^^ keyword.other
---            ^^^ entity.name.struct
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - entity.name
-
-create table some_schema.test2( id serial );
---^^^^ meta.statement.create keyword.other.ddl
---     ^^^^^ meta.statement.create keyword.other
---           ^^^^^^^^^^^^^^^^^ entity.name.struct
---                      ^ punctuation.accessor.dot
---                            ^^^^^^^^^^^^^^ - entity.name
-
-create table some_schema . test2 ( id serial );
---^^^^ meta.statement.create keyword.other.ddl
---     ^^^^^ meta.statement.create keyword.other
---           ^^^^^^^^^^^^^^^^^^^ entity.name
---                       ^ punctuation.accessor.dot
---                              ^^^^^^^^^^^^^^^ - entity.name
-
-create table "testing123" (id integer);
---^^^^ meta.statement.create keyword.other.ddl
---     ^^^^^ meta.statement.create keyword.other
---           ^ punctuation.definition.identifier.begin
---            ^^^^^^^^^^ entity.name.struct
---                      ^ punctuation.definition.identifier.end
-
-create table `dbo`."testing123" (id integer);
---^^^^ meta.statement.create keyword.other.ddl
---     ^^^^^ meta.statement.create keyword.other
---           ^^^^^^^^^^^^^^^^^^ entity.name.struct
---                ^ punctuation.accessor.dot
---                             ^^^^^^^^^^^^^^^ - entity.name
-
-create table IF NOT EXISTS `testing123` (
--- ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.toc-list
---           ^^ keyword.control.conditional.if
---              ^^^ keyword.operator.logical
---                  ^^^^^^ keyword.operator.logical
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---  ^^^^ meta.column-name
---       ^^^^^^^ storage.type
---               ^^^^^^^^ storage.modifier
---                        ^^^ keyword.operator.logical
---                            ^^^^ constant.language.null
---                                 ^^^^^^^^^^^^^^ keyword.other
---                                               ^ punctuation.separator.sequence
-    `lastchanged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---                ^^^^^^^^^ storage.type.sql
---                                           ^^^^^^^^^^^^^^^^^ support.function.scalar.sql
---                                                             ^^^^^^^^^ storage.modifier.sql
-    `col` bool DEFAULT FALSE,
---        ^^^^ storage.type.sql
---             ^^^^^^^ storage.modifier.sql
---                     ^^^^^ constant.language.boolean.sql
---                          ^ punctuation.separator.sequence
-    `fkey` INT UNSIGNED NULL REFERENCES test2(id),
---                           ^^^^^^^^^^ storage.modifier.sql
-    `version` tinytext DEFAULT NULL COMMENT 'important clarification',
---            ^^^^^^^^ storage.type.sql
-    `percentage` float DEFAULT '0',
-    UNIQUE KEY `testing123_search` (`col`, `version`),
---  ^^^^^^^^^^ storage.modifier.sql
-    KEY `testing123_col` (`col`),
---  ^^^ storage.modifier.sql
-    FULLTEXT KEY `testing123_version` (`version`)
-) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
-
-create table fancy_table (
-    id SERIAL,
---     ^^^^^^ storage.type.sql
-    foreign_id integer,
---             ^^^^^^^ storage.type.sql
-    myflag boolean DEFAULT false,
---         ^^^^^^^ storage.type.sql
-    mycount double  precision DEFAULT 1,
---          ^^^^^^^^^^^^^^^^^ storage.type.sql
-    fancy_column character  varying(42) DEFAULT 'nice'::character varying,
---               ^^^^^^^^^^^^^^^^^^^^^^ storage.type.sql
-    mytime timestamp(3) without time zone DEFAULT now(),
---         ^^^^^^^^^^^^ storage.type.sql
---                   ^ constant.numeric
---                      ^^^^^^^^^^^^^^^^^ storage.type.sql
---                                        ^^^^^^^ storage.modifier
---                                                ^^^ meta.function-call support.function
---                                                   ^ punctuation.section.arguments.begin
---                                                    ^ punctuation.section.arguments.end
---                                                     ^ punctuation.separator.sequence
-    mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone, -- TODO: seems like :: is a postgresql cast operator
---                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
-    some_number numeric(5, 2) DEFAULT 0,
---  ^^^^^^^^^^^ meta.column-name
---              ^^^^^^^^^^^^^ storage.type
---                      ^ constant.numeric
---                       ^ punctuation.separator.sequence
---                         ^ constant.numeric
---                            ^^^^^^^ storage.modifier
---                                    ^ meta.number.integer.decimal constant.numeric.value
-    primary key (id),
---  ^^^^^^^^^^^ storage.modifier.sql
-    UNIQUE (foreign_id),
-    CONSTRAINT fancy_table_valid1 CHECK (id <> foreign_id)
---  ^^^^^^^^^^ storage.modifier.sql
---                                ^^^^^ keyword.other
---                                      ^^^^^^^^^^^^^^^^^^ meta.group meta.group
---                                       ^^ meta.column-name
---                                          ^^ keyword.operator.comparison
---                                             ^^^^^^^^^^ meta.column-name
-);
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
 -- <- meta.statement.alter.sql keyword.other.ddl

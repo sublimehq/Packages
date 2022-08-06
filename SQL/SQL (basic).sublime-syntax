@@ -998,6 +998,30 @@ contexts:
     - match: (?=\S)
       set: [procedure-creation-name, single-identifier]
 
+  expect-partition-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [partition-creation-name, single-identifier]
+
+  partition-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.struct.partition.sql
+    - include: immediately-pop
+
+  expect-partition-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [partition-name, single-identifier]
+
+  partition-name:
+    - meta_include_prototype: false
+    - meta_scope: meta.partition-name.sql
+    - include: immediately-pop
+
   procedure-creation-name:
     - meta_include_prototype: false
     - meta_content_scope: entity.name.function.sql
@@ -1026,6 +1050,10 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: entity.name.struct.table.sql
     - include: immediately-pop
+
+  expect-table-names:
+    - match: (?=\S)
+      push: [table-name, single-identifier]
 
   expect-table-name:
     # prevent prototypes from inheriting syntaxes

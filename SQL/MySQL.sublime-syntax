@@ -13,6 +13,23 @@ variables:
   function_parameter_modifier: |-
     (?xi: in\s*out | in | out )
 
+  database_parameters: |-
+    (?xi: (?:default\s+)? (?: character\s+set | collate ) )
+
+  partition_parameters: |-
+    (?xi: (?:storage\s+)?engine | (?:data|index)\s+directory | max_rows | min_rows | nodegroup )
+
+  table_parameters: |-
+    (?xi: (?:storage\s+)?engine | (?:default\s+)?(?: character\s+set | collate )
+    | auto_increment | avg_row_length | checksum | connection | data\s+directory
+    | delay_key_write | encrypted | encryption_key_id | ietf_quotes | index\s+directory
+    | insert_method | key_block_size | max_rows | min_rows | pack_keys | page_checksum
+    | page_compressed | page_compression_level | password | row_format | sequence
+    | stats_auto_recalc | stats_persistent | stats_sample_pages | transactional | union
+    | with\s+system\s+versioning )
+  table_row_formats: |-
+    (?xi: dynamic | fixed | compressed | redundant | compact | page )
+
   simple_types: |-
     (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
     | date | datetime | double\s+precision | enum | inet | integer | line
@@ -94,10 +111,9 @@ contexts:
 
   create-database-args:
     - meta_scope: meta.database.sql
-    - match: \b(?i:(?:default\s+)?(?:character\s+set|collate))\b
+    - match: \b{{database_parameters}}\b
       scope: variable.parameter.database.sql
-    - match: =
-      scope: keyword.operator.assignment.sql
+    - include: assignment-operators
     - include: comment-keywords
     - include: strings
     - include: else-pop
@@ -148,6 +164,13 @@ contexts:
   create-role-args:
     - meta_scope: meta.user.sql
     - include: maybe-with-admin-user
+
+  create-table-args:
+    # https://mariadb.com/kb/en/create-table
+    - meta_prepend: true
+    - include: partition-lists
+    - include: partition-options
+    - include: table-options
 
   create-user:
     # https://mariadb.com/kb/en/create-user
@@ -733,6 +756,101 @@ contexts:
     - match: \b(?i:key_block_size)\b
       scope: keyword.other.ddl.sql
 
+###[ PARTITION EXPRESSIONS ]###################################################
+
+  partition-lists:
+    - match: \(
+      scope: punctuation.section.sequence.begin.sql
+      push: inside-partition-list
+
+  inside-partition-list:
+    - meta_scope: meta.sequence.partitions.sql
+    - match: \)
+      scope: punctuation.section.sequence.end.sql
+      pop: 1
+    # partition and subpartition declarations
+    - match: \b(?i:(?:sub)?partition)\b
+      scope: keyword.other.ddl.sql
+      push: expect-partition-creation-name
+    # partition parameters
+    - match: \b(?i:values)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:in|less\s+than)\b
+      scope: keyword.operator.logical.sql
+      push: maybe-group
+    - match: \b{{partition_parameters}}\b
+      scope: variable.parameter.sql
+    - include: partition-lists
+    - include: comment-keywords
+    - include: maxvalue-constants
+    - include: tablespaces
+    - include: expressions
+
+  partition-options:
+    # partition keywords
+    - match: \b(?i:(?:sub)?partition by)\b
+      scope: keyword.other.sql
+    - match: \b(?i:(?:sub)?partitions)\b
+      scope: keyword.other.sql
+    # partition arguments
+    - match: \b(?i:linear)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:hash|range|list)\b
+      scope: support.function.sql
+      push: maybe-group
+    - match: \b(?i:key)\b
+      scope: support.function.sql
+      push: maybe-column-reference-list
+    - match: \b(?i:limit|system_time)\b
+      scope: keyword.other.sql
+    - include: intervals
+    - include: time-units
+
+###[ TABLE EXPRESSIONS ]#######################################################
+
+  table-options:
+    - include: comment-keywords
+    # table options with special treatment
+    - include: tablespaces
+    - match: \b(?i:like)\b
+      scope: keyword.other.sql
+      push: expect-table-name
+    - match: \b(?i:union)\b
+      scope: variable.parameter.sql
+      push: maybe-table-reference-list
+    # common table options
+    - match: \b{{table_parameters}}\b
+      scope: variable.parameter.sql
+    - match: \b{{table_row_formats}}\b
+      scope: constant.language.sql
+    # common table option values
+    - match: \b(?i:first|last)\b
+      scope: constant.language.sql
+
+  tablespaces:
+    - match: \b(?i:tablespace)\b
+      scope: variable.parameter.sql
+      push: maybe-tablespace-name
+
+  maybe-tablespace-name:
+    - include: assignment-operators
+    - include: expect-other-name
+
+  maybe-table-reference-list:
+    - match: \(
+      scope: punctuation.section.sequence.begin.sql
+      set: inside-table-reference-list
+    - include: assignment-operators
+    - include: else-pop
+
+  inside-table-reference-list:
+    - meta_scope: meta.sequence.tables.sql
+    - match: \)
+      scope: punctuation.section.sequence.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-table-names
+
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 
   maybe-with-admin-user:
@@ -909,7 +1027,7 @@ contexts:
   inside-column-declaration-list:
     - meta_prepend: true
     - match: \b(?i:auto_increment)\b
-      scope: keyword.other.mysql
+      scope: storage.modifier.sql
     - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
       scope: keyword.other.object-comments.sql
 
@@ -922,7 +1040,7 @@ contexts:
   after-type:
     - meta_prepend: true
     - match: \b(?i:unsigned)\b
-      scope: storage.modifier.mysql
+      scope: storage.modifier.sql
       pop: 1
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.type.sql
@@ -1001,7 +1119,7 @@ contexts:
 
   comment-keywords:
     - match: \b(?i:comment)\b
-      scope: keyword.other.ddl.sql
+      scope: variable.parameter.sql
 
   constants:
     - meta_append: true
@@ -1017,6 +1135,10 @@ contexts:
     - match: \b(?i:default)\b
       scope: constant.language.default.sql
       pop: 1
+
+  maxvalue-constants:
+    - match: \b(?i:maxvalue)\b
+      scope: constant.language.sql
 
   yesno-constants:
     - match: \b(?i:yes|no)\b
