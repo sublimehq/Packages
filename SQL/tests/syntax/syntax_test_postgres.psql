@@ -343,7 +343,7 @@ CREATE INDEX index_name USING method_name
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^ keyword.other.ddl.sql
 --           ^^^^^^^^^^ entity.name.struct.index.sql
---                      ^^^^^ keyword.other.mysql
+--                      ^^^^^ keyword.other
 
 CREATE UNIQUE INDEX IF NOT EXISTS index_name ON table_name
 -- <- meta.statement.create.sql keyword.other.ddl.sql
@@ -386,8 +386,18 @@ CREATE UNIQUE INDEX CONCURRENTLY IF EXISTS index_name ON ONLY table_name USING m
 --                                                    ^^ keyword.other.sql
 --                                                       ^^^^ keyword.other.psql
 --                                                            ^^^^^^^^^^ meta.table-name.sql
---                                                                       ^^^^^ keyword.other.mysql
+--                                                                       ^^^^^ keyword.other
 
+CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^ meta.statement.create.sql - meta.index
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^ keyword.other
+--              ^^^^^^^^^^^ meta.table-name
+--                          ^^^^^ keyword.other
+--                                ^^^ meta.function-call.sql support.function.sql
 
 -- -----------------
 -- CREATE TABLE

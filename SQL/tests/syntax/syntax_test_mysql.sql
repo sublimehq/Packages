@@ -503,6 +503,137 @@ CREATE PROCEDURE
 
 
 -- ----------------------------------------------------------------------------
+-- Create Index Statements
+-- https://mariadb.com/kb/en/create-index
+--
+-- CREATE [OR REPLACE] [UNIQUE|FULLTEXT|SPATIAL] INDEX
+--   [IF NOT EXISTS] index_name
+--     [index_type]
+--     ON tbl_name (index_col_name,...)
+--     [WAIT n | NOWAIT]
+--     [index_option]
+--     [algorithm_option | lock_option] ...
+--
+-- index_col_name:
+--     col_name [(length)] [ASC | DESC]
+--
+-- index_type:
+--     USING {BTREE | HASH | RTREE}
+--
+-- index_option:
+--     [ KEY_BLOCK_SIZE [=] value
+--   | index_type
+--   | WITH PARSER parser_name
+--   | COMMENT 'string'
+--   | CLUSTERING={YES| NO} ]
+--   [ IGNORED | NOT IGNORED ]
+--
+-- algorithm_option:
+--     ALGORITHM [=] {DEFAULT|INPLACE|COPY|NOCOPY|INSTANT}
+--
+-- lock_option:
+--     LOCK [=] {DEFAULT|NONE|SHARED|EXCLUSIVE}
+-- ----------------------------------------------------------------------------
+
+CREATE INDEX ON fancy_table(mytime);
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^ meta.statement.create.sql - meta.index
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--     ^^^^^ keyword.other.ddl
+--           ^^ keyword.other
+--              ^^^^^^^^^^^ meta.table-name
+--                         ^^^^^^^^ meta.group.sql
+
+CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^ meta.statement.create.sql - meta.index
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^^ keyword.other.ddl
+--            ^^^^^ keyword.other.ddl
+--                  ^^ meta.statement.create keyword.other
+--                     ^^^^^^^^^^^ meta.table-name
+--                                ^ meta.group punctuation.section.group.begin
+--                                 ^^^^^^^^^^^^ meta.group meta.column-name
+--                                             ^ meta.group punctuation.separator.sequence
+--                                              ^^^^^^^ meta.group meta.column-name
+--                                                     ^ meta.group punctuation.section.group.end
+--                                                       ^^^^^ keyword.other.dml.sql
+--                                                                    ^^ keyword.operator.logical.sql
+--                                                                       ^^^^ constant.language.null.sql
+
+create fulltext index if not exists `myindex` ON mytable;
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql - meta.index
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--     ^^^^^^^^ keyword.other.ddl
+--              ^^^^^ keyword.other.ddl
+--                    ^^ keyword.control.conditional.if
+--                       ^^^ keyword.operator.logical
+--                           ^^^^^^ keyword.operator.logical
+--                                  ^^^^^^^^^ entity.name.struct.index
+--                                            ^^ keyword.other
+--                                               ^^^^^^^ meta.table-name
+--                                                      ^ punctuation.terminator.statement
+
+CREATE INDEX index_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^ meta.statement.create.sql
+--     ^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ entity.name.struct.index.sql
+    USING BTREE
+-- ^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^ keyword.other.ddl.sql
+--        ^^^^^ constant.language.index-type.sql
+    ON tbl_name (col1(100) ASC, col2 DESC)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^ keyword.other.sql
+--     ^^^^^^^^ meta.table-name.sql
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--              ^ punctuation.section.group.begin.sql
+--                                       ^ punctuation.section.group.end.sql
+    NOWAIT
+-- ^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^^ keyword.other.ddl.sql
+    WAIT 1 DAY
+-- ^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--         ^^^ keyword.other.unit.sql
+    COMMENT 'my comment'
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+    WITH PARSER parser_name
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^^^^^^^ meta.other-name.sql
+    CLUSTERING = YES
+-- ^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^^^^^^ keyword.other.ddl.sql
+--             ^ keyword.operator.comparison.sql
+--               ^^^ constant.language.boolean.sql
+    KEY_BLOCK_SIZE 20
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+    NOT IGNORED
+-- ^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^ keyword.operator.logical.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+    ALGORITHM INPLACE
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^^^^^^ keyword.other.ddl.sql
+--            ^^^^^^^ constant.language.algorithm.sql
+    LOCK SHARED
+-- ^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^ constant.language.lock-option.sql
+
+
+-- ----------------------------------------------------------------------------
 -- Create Role Statements
 -- https://mariadb.com/kb/en/create-role
 --
@@ -1323,6 +1454,25 @@ DROP EVENT IF EXISTS event ;
 
 
 -- ----------------------------------------------------------------------------
+-- Drop Index Statements
+-- https://mariadb.com/kb/en/drop-index
+--
+-- DROP INDEX [IF EXISTS] index_name ON tbl_name
+--     [WAIT n |NOWAIT]
+-- ----------------------------------------------------------------------------
+
+DROP INDEX index_name ON tbl_name NOWAIT;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql - meta.index
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.index.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^ meta.index-name.sql
+--                    ^^ keyword.other.sql
+--                       ^^^^^^^^ meta.table-name.sql
+--                                ^^^^^^ keyword.other.ddl.sql
+
+-- ----------------------------------------------------------------------------
 -- Drop Role Statements
 -- https://mariadb.com/kb/en/drop-role
 --
@@ -2098,50 +2248,6 @@ create table fancy_table (
 --                                          ^^ keyword.operator.comparison
 --                                             ^^^^^^^^^^ meta.column-name
 );
-
-CREATE INDEX ON fancy_table(mytime);
--- <- meta.statement.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
---     ^^^^^ keyword.other.ddl
---           ^^ keyword.other
---              ^^^^^^^^^^^ meta.table-name
-
-CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
--- <- meta.statement.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
--- ^^^ keyword.other.ddl
---     ^^^^^ keyword.other.ddl
---           ^^ keyword.other
---              ^^^^^^^^^^^ meta.table-name
---                          ^^^^^ keyword.other
-
-CREATE UNIQUE INDEX ON fancy_table(fancy_column,mycount) WHERE myflag IS NULL;
--- <- meta.statement.create.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
--- ^^^ keyword.other.ddl
---     ^^^^^^ keyword.other.ddl
---            ^^^^^ keyword.other.ddl
---                  ^^ meta.statement.create keyword.other
---                     ^^^^^^^^^^^ meta.table-name
---                                ^ meta.group punctuation.section.group.begin
---                                 ^^^^^^^^^^^^ meta.group meta.column-name
---                                             ^ meta.group punctuation.separator.sequence
---                                              ^^^^^^^ meta.group meta.column-name
---                                                     ^ meta.group punctuation.section.group.end
---                                                       ^^^^^ keyword.other.dml.sql
---                                                                    ^^ keyword.operator.logical.sql
---                                                                       ^^^^ constant.language.null.sql
-
-create fulltext index if not exists `myindex` ON mytable;
---     ^^^^^^^^ keyword.other.ddl
---              ^^^^^ keyword.other.ddl
---                    ^^ keyword.control.conditional.if
---                       ^^^ keyword.operator.logical
---                           ^^^^^^ keyword.operator.logical
---                                  ^^^^^^^^^ entity.name.struct.index
---                                            ^^ keyword.other
---                                               ^^^^^^^ meta.table-name
---                                                      ^ punctuation.terminator.statement
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
 -- <- meta.statement.alter.sql keyword.other.ddl
