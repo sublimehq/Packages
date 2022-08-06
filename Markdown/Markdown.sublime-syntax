@@ -16,6 +16,7 @@ version: 2
 file_extensions:
   - md
   - mdown
+  - mdwn
   - markdown
   - markdn
 
