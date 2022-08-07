@@ -881,10 +881,12 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
    switch plottype
 %  ^^^^^^ meta.block.switch.matlab keyword.control.conditional.switch.matlab
       case 'bar'
+%^^^^^^^^^^^^^^^ meta.disable-dedentation.matlab
 %     ^^^^ meta.block.switch.matlab keyword.control.conditional.case.matlab
          bar(x)
          title('Bar Graph')
       case {'pie', 'pie3'}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.disable-dedentation.matlab
 %     ^^^^ meta.block.switch.matlab keyword.control.conditional.case.matlab
          pie3(x)
          title('Pie Chart')

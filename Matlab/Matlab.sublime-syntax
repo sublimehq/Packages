@@ -438,6 +438,12 @@ contexts:
     - include: variables
     - include: invalid-variables
 
+  expect-expression:
+    - match: (?=\s*[;,])
+      pop: 1
+    - include: eol-pop
+    - include: expressions
+
   eol-pop:
     - match: '{{eol}}'
       pop: 1
@@ -977,7 +983,26 @@ contexts:
   switch-blocks:
     - match: \bswitch\b
       scope: keyword.control.conditional.switch.matlab
-      push: switch-block-content
+      push:
+        - switch-block-content
+        - expect-first-case-statement
+        - expect-expression
+
+  expect-first-case-statement:
+    # Disable dedentation of first case statement by special indentation rule.
+    - match: ^\s*(case)\b
+      captures:
+        1: keyword.control.conditional.case.matlab
+      set:
+        - meta-disable-dedentation
+        - expect-expression
+    - include: comments
+    - include: else-pop
+
+  meta-disable-dedentation:
+    - meta_include_prototype: false
+    - meta_scope: meta.disable-dedentation.matlab
+    - include: immediately-pop
 
   switch-block-content:
     - meta_scope: meta.block.switch.matlab
