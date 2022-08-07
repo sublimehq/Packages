@@ -736,13 +736,13 @@ contexts:
         meta.statement.conditional.case.python
         keyword.control.conditional.case.python
       set:
-        - meta-disable-detention
+        - meta-disable-dedentation
         - case-statement-pattern
         - allow-unpack-operators
     - include: comments
     - include: else-pop
 
-  meta-disable-detention:
+  meta-disable-dedentation:
     - meta_include_prototype: false
     - meta_scope: meta.disable-dedentation.python
     - match: ''
