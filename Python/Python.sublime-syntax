@@ -501,10 +501,11 @@ contexts:
     - include: allow-unpack-operators
 
   case-statement-end:
-    - match: ':(?!=)'
-      scope:
-        meta.statement.conditional.case.python
-        punctuation.section.block.conditional.case.python
+    # consume trailing whitespace so ST applies indentation rules reliably
+    - match: (:(?!=))\s*
+      scope: meta.statement.conditional.case.python
+      captures:
+        1: punctuation.section.block.conditional.case.python
       pop: true
 
   case-statement-fail:
@@ -725,7 +726,27 @@ contexts:
   match-statement-end:
     - match: ':(?!=)'
       scope: punctuation.section.block.conditional.match.python
-      pop: true
+      set: expect-first-case-statement
+
+  expect-first-case-statement:
+    # Disable detentation of first case statement by special indentation rule.
+    # see: https://github.com/sublimehq/Packages/issues/3456
+    - match: case\b
+      scope:
+        meta.statement.conditional.case.python
+        keyword.control.conditional.case.python
+      set:
+        - meta-disable-detention
+        - case-statement-pattern
+        - allow-unpack-operators
+    - include: comments
+    - include: else-pop
+
+  meta-disable-detention:
+    - meta_include_prototype: false
+    - meta_scope: meta.disable-dedentation.python
+    - match: ''
+      pop: 1
 
   structural-pattern-fallback:
     # Fallback context, which is used if `match` or `case` don't seem to
