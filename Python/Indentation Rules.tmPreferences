@@ -6,7 +6,7 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^\s*(elif|else|except|finally)\b.*:</string>
+		<string>^\s*(elif|else|except|finally)\b</string>
 		<key>increaseIndentPattern</key>
 		<string><![CDATA[(?x)
 			^\s*
