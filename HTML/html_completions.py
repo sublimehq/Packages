@@ -491,7 +491,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                 return self.attribute_completions(view, locations[0], prefix)
             return None
 
-        if match_selector("text.html - meta.tag"):
+        if match_selector("text.html - meta.tag, text.html punctuation.definition.tag.begin"):
             # Expand tag and attribute abbreviations
             return self.expand_tag_attributes(view, locations) or self.tag_abbreviations
 
