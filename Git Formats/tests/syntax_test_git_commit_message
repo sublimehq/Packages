@@ -103,6 +103,9 @@ Fix: #203
 #    ^ punctuation.definition.reference.issue.git
 #    ^^^^ constant.other.reference.issue.git
 #
+  see: https://github.com/sublimehq
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit markup.underline.link.git
+
   Change-Id: I3b3613e336397febf02cd8e5c14c53d493343e93
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 # ^^^^^^^^^ keyword.other.change-id.git.commit
