@@ -1,7 +1,5 @@
 %YAML 1.2
 ---
-# Highlight regular git commits, merge commits, and tags.
-
 name: Git Commit Message
 scope: text.git.commit-message
 version: 2
