@@ -477,10 +477,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return self.entity_completions
 
         if ch == '<':
-            # If the caret is in front of `>` complete only tag names.
+            # If the caret is within tag, complete only tag names.
             # see: https://github.com/sublimehq/sublime_text/issues/3508
-            ch = view.substr(locations[0])
-            if ch == '>':
+            if match_selector("meta.tag"):
                 return self.tag_name_completions
             return self.tag_completions
 
