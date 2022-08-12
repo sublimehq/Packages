@@ -5,8 +5,6 @@
 	<string>source.matlab</string>
 	<key>settings</key>
 	<dict>
-		<key>decreaseIndentPattern</key>
-		<string>^\s*\b(end\w*|catch|else|elseif|case|otherwise)\b</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)^\s*
 		\b(
