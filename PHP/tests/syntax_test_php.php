@@ -5260,6 +5260,30 @@ h1 {
 
 </style>
 
+<p style="color: <?php echo "red" ?>">text</p>
+//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
+//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - meta.embedded.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html meta.embedded.php
+//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
+//                                   ^ text.html.php meta.tag.block.any.html punctuation.definition.tag.end.html
+
+<p style='color: <?php echo 'red' ?>'>text</p>
+//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
+//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - meta.embedded.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html meta.embedded.php
+//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
+//                                   ^ text.html.php meta.tag.block.any.html punctuation.definition.tag.end.html
+
+<p onclick="foo(<?php echo "red" ?>)">text</p>
+//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call.js
+//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
+
+<p onclick='foo(<?php echo 'red' ?>)'>text</p>
+//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call.js
+//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
+
   <?phpzzzz
 //^^ punctuation.section.embedded.begin.php
 //  ^^^^^^^ constant.other.php
