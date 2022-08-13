@@ -275,3 +275,12 @@ if (a < b || c <= d) {}
 //                                                    ^^^^ meta.tag
 //                                                      ^ meta.tag.name entity.name.tag
 //                                                        ^ punctuation.terminator.statement
+
+// https://github.com/sublimehq/Packages/issues/3473
+data.slice(data.length - 1).map((review) => (
+  <div class="review grid-sm">
+    <img src={review.avatar} alt={review.name} class="review-avatar">
+  </div>
+))
+// <- meta.group.js punctuation.section.group.end.js - meta.jsx
+ // <- meta.group.js punctuation.section.group.end.js - meta.jsx

@@ -47,9 +47,15 @@ contexts:
         - jsx-expect-tag-end
         - jsx-tag-name
 
+    - match: '{{html_tag_name_selfclosing}}'
+      scope: entity.name.tag.native.js
+      set:
+        - jsx-tag-self-closing
+        - tsx-tag-check
+
     - match: (?=\S)
       set:
-        - jsx-tag-attributes
+        - jsx-tag-maybe-self-closing
         - tsx-tag-check
         - jsx-tag-name
 

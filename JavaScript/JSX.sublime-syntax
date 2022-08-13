@@ -19,6 +19,9 @@ variables:
   jsx_identifier_break: (?!{{jsx_identifier_part}})
   jsx_identifier: '{{identifier_start}}{{jsx_identifier_part}}*{{jsx_identifier_break}}'
 
+  # implicitly self-closing html tags
+  html_tag_name_selfclosing: (?:base|hr|img|link|meta|w?br){{jsx_identifier_break}}
+
 contexts:
   expression-begin:
     - meta_prepend: true
@@ -91,9 +94,13 @@ contexts:
         - jsx-expect-tag-end
         - jsx-tag-name
 
+    - match: '{{html_tag_name_selfclosing}}'
+      scope: entity.name.tag.native.js
+      set: jsx-tag-self-closing
+
     - match: (?=\S)
       set:
-        - jsx-tag-attributes
+        - jsx-tag-maybe-self-closing
         - jsx-tag-name
 
   jsx-meta-unmatched-tag:
@@ -101,16 +108,24 @@ contexts:
     - meta_scope: invalid.illegal.unmatched-tag.js
     - include: immediately-pop
 
-  jsx-tag-attributes:
+  jsx-tag-maybe-self-closing:
     - meta_scope: meta.tag.attributes.js
-
     - match: '>'
       scope: punctuation.definition.tag.end.js
       set: jsx-body
+    - include: jsx-tag-attributes
 
-    - match: '/'
+  jsx-tag-self-closing:
+    - meta_scope: meta.tag.attributes.js
+    - match: '>'
       scope: punctuation.definition.tag.end.js
-      set: jsx-expect-tag-end
+      pop: 1
+    - include: jsx-tag-attributes
+
+  jsx-tag-attributes:
+    - match: '/>'
+      scope: punctuation.definition.tag.end.js
+      pop: 1
 
     - include: jsx-interpolation
 
@@ -199,10 +214,16 @@ contexts:
             - jsx-expect-tag-end
             - jsx-tag-name
 
+        - match: '{{html_tag_name_selfclosing}}'
+          scope: entity.name.tag.native.js
+          set:
+            - jsx-body
+            - jsx-tag-self-closing
+
         - match: (?=\S)
           set:
             - jsx-body
-            - jsx-tag-attributes
+            - jsx-tag-maybe-self-closing
             - jsx-tag-name
 
     - include: jsx-html-escapes
