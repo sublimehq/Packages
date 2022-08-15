@@ -6,13 +6,14 @@ name: Git Commit
 scope: text.git.commit
 version: 2
 
+extends: Git Commit Message.sublime-syntax
+
 file_extensions:
   - COMMIT_EDITMSG
   - MERGE_MSG
   - TAG_EDITMSG
 
 variables:
-  comment_char: '[#;]'
   hash: \b\h{7,}\b
   # Rebase operations
   shortcut: '[defprsx]'
@@ -44,70 +45,16 @@ variables:
 
 contexts:
   prototype:
+    - meta_prepend: true
     - include: dropped-content
-    - include: comments
 
-  main:
-    - match: ^\s*(?=\S)
-      set: commit-subject
-
-##[ COMMITS ]##########################################################
-
-  commit-subject:
-    # first none empty none comment line is commit subject
-    - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
-    - match: $\n?
-      set: commit-separator
-    - include: Git Common.sublime-syntax#references
-
-  commit-separator:
-    # empty line between subject and message
-    - match: \n
-      set: commit-message
-    - match: \S.*
-      scope: invalid.illegal.empty-line-expected.git.commit
-
-  commit-message:
-    # all none comment lines after subject belong to the message
-    - match: ^
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.message.git.commit
-        - match: ^(?=#)
-          pop: 1
-        - include: Git Common.sublime-syntax#references
-        - include: change-id
-        - include: signed-off
-
-  # for Gerrit Code Review
-  change-id:
-    - match: ^\s*(Change-Id)\s*(:)\s*(.*)
-      captures:
-        1: keyword.other.change-id.git.commit
-        2: punctuation.separator.key-value.git.commit
-        3: constant.language.change-id.git.commit
-
-  signed-off:
-    - match: ^\s*(Signed-off-by)\s*(:)
-      captures:
-        1: keyword.other.signed-off-by.git.commit
-        2: punctuation.separator.key-value.git.commit
-
-##[ COMMENTS ]#########################################################
-
-  comments:
-    - match: ^{{comment_char}}
-      scope: punctuation.definition.comment.git.commit
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.git.commit
-        - match: $\n?
-          pop: 1
-        - include: branch-line
-        - include: change-list
-        - include: commands-line
-        - include: date-line
-        - include: heading
+  comment-content:
+    - meta_append: true
+    - include: branch-line
+    - include: change-list
+    - include: commands-line
+    - include: date-line
+    - include: heading
 
   branch-line:
     - match: \b({{on_branch}})\s+(.*)

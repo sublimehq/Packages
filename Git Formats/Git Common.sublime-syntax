@@ -71,6 +71,7 @@ contexts:
     - include: email
     - include: username
     - include: commit
+    - include: urls
 
   issue:
     # issue reference
@@ -140,6 +141,17 @@ contexts:
       captures:
         1: punctuation.separator.reference.commit.git  # (inside repository_ref)
         2: punctuation.separator.reference.commit.git
+
+  urls:
+    - match: |-
+        (?x)
+        \b(?:
+          https?://(?:(?:[\w\d\-]+(?:\.[\w\d\-.]+)+)|localhost)  # http://
+        | www\.[\w\d\-]+(?:\.[\w\d\-.]+)+                        # www.
+        )
+        /?[\w\d\-.?,!'(){}\[\]/+&@%$#=:"|~;]*                    # url path and query string
+        [\w\d\-~:/#@$*+=]                                        # allowed end chars
+      scope: markup.underline.link.git
 
 ##[ FNMATCH ]##########################################################
 
