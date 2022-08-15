@@ -949,15 +949,18 @@ def _():
 #         ^^^^^^^^^ meta.qualified-name.python meta.generic-name.python
 #                  ^ punctuation.section.block.conditional.match.python
     case "200":
+#   ^^^^^^^^^^^^ meta.disable-dedentation.python
 #   ^^^^ meta.statement.conditional.case.python
 #       ^^^^^^ meta.statement.conditional.case.patterns.python
-#             ^^ meta.statement.conditional.case.python
+#             ^ meta.statement.conditional.case.python
+#              ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^^^ string.quoted.double.python
 #             ^ punctuation.section.block.conditional.case.python
         print("OK")
 
     case ["403",
+#   ^^^^^^^^^^^^ - meta.disable-dedentation
 #   ^^^^ meta.statement.conditional.case.python
 #       ^^^^^^^^^ meta.statement.conditional.case.patterns.python
 #   ^^^^ keyword.control.conditional.case.python
@@ -976,8 +979,8 @@ def _():
     case \
         418: ; print("I'm a teapot")
 #      ^^^^ meta.statement.conditional.case.patterns.python
-#          ^^ meta.statement.conditional.case.python - meta.sequence
-#            ^^ - meta.statement
+#          ^ meta.statement.conditional.case.python - meta.sequence
+#           ^^^ - meta.statement
 #       ^^^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^ punctuation.section.block.conditional.case.python
 #            ^ punctuation.terminator.statement.python
@@ -986,7 +989,8 @@ def _():
     case -408+203:
 #   ^^^^ meta.statement.conditional.case.python
 #       ^^^^^^^^^ meta.statement.conditional.case.patterns.python
-#                ^^ meta.statement.conditional.case.python - meta.sequence
+#                ^ meta.statement.conditional.case.python - meta.sequence
+#                 ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^ keyword.operator.arithmetic.python
 #         ^^^ constant.numeric.value.python
@@ -1163,7 +1167,8 @@ def _():
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
 #        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
 #            ^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
-#                             ^^ meta.statement.conditional.case.python - meta.function-call
+#                             ^ meta.statement.conditional.case.python - meta.function-call
+#                              ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^^ storage.type.class.python
 #            ^ punctuation.section.arguments.begin.python
@@ -1180,7 +1185,8 @@ def _():
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
 #        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
 #            ^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
-#                           ^^ meta.statement.conditional.case.python - meta.function-call
+#                           ^ meta.statement.conditional.case.python - meta.function-call
+#                            ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^^ storage.type.class.python
 #            ^ punctuation.section.arguments.begin.python
@@ -1195,7 +1201,8 @@ def _():
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
 #        ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
 #                 ^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
-#                                ^^ meta.statement.conditional.case.python - meta.function-call
+#                                ^ meta.statement.conditional.case.python - meta.function-call
+#                                 ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^^^^^^^ meta.qualified-name.python
 #        ^^^^ meta.generic-name.python
@@ -1239,7 +1246,8 @@ def _():
 #                                                                ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #                                                                  ^ meta.statement.conditional.case.patterns.python - meta.function-call
 #                                                                   ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.function-call
-#                                                                                 ^^ meta.statement.conditional.case.python
+#                                                                                 ^ meta.statement.conditional.case.python
+#                                                                                  ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^ support.type.python
 #           ^ punctuation.section.arguments.begin.python

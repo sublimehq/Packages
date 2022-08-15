@@ -501,11 +501,10 @@ contexts:
     - include: allow-unpack-operators
 
   case-statement-end:
-    # consume trailing whitespace so ST applies indentation rules reliably
-    - match: (:(?!=))\s*
-      scope: meta.statement.conditional.case.python
-      captures:
-        1: punctuation.section.block.conditional.case.python
+    - match: ':(?!=)'
+      scope:
+        meta.statement.conditional.case.python
+        punctuation.section.block.conditional.case.python
       pop: true
 
   case-statement-fail:
@@ -745,8 +744,7 @@ contexts:
   meta-disable-dedentation:
     - meta_include_prototype: false
     - meta_scope: meta.disable-dedentation.python
-    - match: ''
-      pop: 1
+    - include: else-pop
 
   structural-pattern-fallback:
     # Fallback context, which is used if `match` or `case` don't seem to

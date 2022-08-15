@@ -2,11 +2,11 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.python meta.statement.conditional.case - meta.disable-dedentation</string>
+	<string>source.python - meta.disable-dedentation</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^\s*case\b</string>
+		<string>^\s*(case|elif|else|except|finally)\b.*:(?!=)</string>
 	</dict>
 </dict>
 </plist>
