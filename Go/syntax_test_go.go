@@ -15,12 +15,12 @@ You may have to disable Go-specific linters when working on this file.
     //
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^ comment.line.go
+//  ^^^ comment.line.double-slash.go
 
     // comment // comment
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.go
+//  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
 //             ^^ -punctuation
 
     /* comment // comment */  // comment
@@ -31,7 +31,7 @@ You may have to disable Go-specific linters when working on this file.
 //                        ^^ punctuation.definition.comment.end.go
 //                          ^^ -comment -punctuation
 //                            ^^ punctuation.definition.comment.go
-//                            ^^^^^^^^^^^ comment.line.go
+//                            ^^^^^^^^^^^ comment.line.double-slash.go
 
     /*
 // ^ -comment
@@ -67,72 +67,72 @@ You may have to disable Go-specific linters when working on this file.
     //go
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^ comment.line.go -meta.annotation
+//  ^^^^ comment.line.double-slash.go -meta.annotation
 
     //go:
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^ comment.line.go -meta.annotation
+//  ^^^^^ comment.line.double-slash.go -meta.annotation
 
     //go:generate one two three
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^ meta.keyword.annotation.go
 //       ^^^^^^^^ meta.variable.function.go
-//                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                             ^ comment.line.go -meta.annotation
+//                ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                             ^ comment.line.double-slash.go -meta.annotation
 
     //go-sumtype:decl MySumType
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^^^^^^^ meta.keyword.annotation.go
 //               ^^^^ meta.variable.function.go
-//                    ^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                             ^ comment.line.go -meta.annotation
+//                    ^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                             ^ comment.line.double-slash.go -meta.annotation
 
     //lint:ignore U1000 Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^ meta.variable.function.go
-//                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                             ^ comment.line.go -meta.annotation
+//                ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                             ^ comment.line.double-slash.go -meta.annotation
 
     //lint:file-ignore Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^^^^^^ meta.variable.function.go
-//                     ^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                            ^ comment.line.go -meta.annotation
+//                     ^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                            ^ comment.line.double-slash.go -meta.annotation
 
     //line :10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//         ^^^ comment.line.go meta.annotation.parameters.go
-//            ^ comment.line.go -meta.annotation
+//         ^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//            ^ comment.line.double-slash.go -meta.annotation
 
     //line file.rl:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//         ^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                   ^ comment.line.go -meta.annotation
+//         ^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                   ^ comment.line.double-slash.go -meta.annotation
 
     //line file.rl:100:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//         ^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                       ^ comment.line.go -meta.annotation
+//         ^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                       ^ comment.line.double-slash.go -meta.annotation
 
     /*line :10*/
 // ^ -comment
@@ -180,16 +180,16 @@ You may have to disable Go-specific linters when working on this file.
     //export myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^ comment.line.go meta.annotation.go
-//           ^^^^^^ comment.line.go meta.annotation.parameters.go
-//                 ^ comment.line.go -meta.annotation
+//  ^^^^^^^^ comment.line.double-slash.go meta.annotation.go
+//           ^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                 ^ comment.line.double-slash.go -meta.annotation
 
     //extern myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^ comment.line.go meta.annotation.go
-//           ^^^^^^ comment.line.go meta.annotation.parameters.go
-//                 ^ comment.line.go -meta.annotation
+//  ^^^^^^^^ comment.line.double-slash.go meta.annotation.go
+//           ^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                 ^ comment.line.double-slash.go -meta.annotation
 
 
 /* # Imports */
@@ -219,13 +219,13 @@ You may have to disable Go-specific linters when working on this file.
 //            ^ string.quoted.double.go punctuation.definition.string.begin.go
 //             ^^^^^^ string.quoted.double.go
 //                   ^ string.quoted.double.go punctuation.definition.string.end.go
-//                          ^^^^^^^^^^^ comment.line.go
+//                          ^^^^^^^^^^^ comment.line.double-slash.go
         ident "module"      // comment
 //      ^^^^^ variable.other.go
 //            ^ string.quoted.double.go punctuation.definition.string.begin.go
 //             ^^^^^^ string.quoted.double.go
 //                   ^ string.quoted.double.go punctuation.definition.string.end.go
-//                          ^^^^^^^^^^^ comment.line.go
+//                          ^^^^^^^^^^^ comment.line.double-slash.go
     )
 
 
@@ -1222,7 +1222,7 @@ by accident, but if necessary, such support could be sacrificed.
 
         Inherit // comment
 //      ^^^^^^^ meta.type.go storage.type.go
-//              ^^^^^^^^^^^ meta.type.go comment.line.go
+//              ^^^^^^^^^^^ meta.type.go comment.line.double-slash.go
 
         Inherit /* comment */
 //      ^^^^^^^ meta.type.go storage.type.go
@@ -1314,7 +1314,7 @@ by accident, but if necessary, such support could be sacrificed.
 //      ^^^ storage.type.go
 //          ^ keyword.operator.go
         // comment
-//      ^^^^^^^^^^ comment.line.go
+//      ^^^^^^^^^^ comment.line.double-slash.go
 //      ^^ punctuation.definition.comment.go
         two
 //      ^^^ storage.type.go
@@ -1561,7 +1561,7 @@ by accident, but if necessary, such support could be sacrificed.
 
         typ // comment
 //      ^^^ meta.type.go entity.other.inherited-class.go
-//          ^^^^^^^^^^^ meta.type.go comment.line.go
+//          ^^^^^^^^^^^ meta.type.go comment.line.double-slash.go
 
         typ /* comment */
 //      ^^^ meta.type.go entity.other.inherited-class.go

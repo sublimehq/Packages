@@ -186,7 +186,7 @@ contexts:
   # line and block comment line directives are valid.
   match-comment-magic-line-renum:
     - match: ((//)(line)( ))([a-zA-Z0-9. :]*(?::[0-9]+){1,2})$\n?
-      scope: comment.line.go
+      scope: comment.line.double-slash.go
       captures:
         1: meta.annotation.go
         2: punctuation.definition.comment.go
@@ -207,7 +207,7 @@ contexts:
   # Finally, Cgo and gccgo have directives for exporting functions to C.
   match-comment-magic-line-extern:
     - match: ((//)(export|extern)( ))({{ident}})$\n?
-      scope: comment.line.go
+      scope: comment.line.double-slash.go
       captures:
         1: meta.annotation.go
         2: punctuation.definition.comment.go
@@ -216,7 +216,7 @@ contexts:
         5: meta.annotation.parameters.go
 
   pop-line-annotation:
-    - meta_scope: comment.line.go
+    - meta_scope: comment.line.double-slash.go
     - meta_content_scope: meta.annotation.parameters.go
     - include: pop-on-eol
 
@@ -226,7 +226,7 @@ contexts:
       push: pop-comment-line-normal
 
   pop-comment-line-normal:
-    - meta_scope: comment.line.go
+    - meta_scope: comment.line.double-slash.go
     - include: pop-on-eol
 
   match-comment-general:
