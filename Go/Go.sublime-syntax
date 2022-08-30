@@ -641,7 +641,7 @@ contexts:
       scope: punctuation.definition.string.begin.go
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.other.go
+        - meta_scope: string.quoted.backtick.go
         - match: '`'
           scope: punctuation.definition.string.end.go
           pop: 1

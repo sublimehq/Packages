@@ -1542,20 +1542,20 @@ by accident, but if necessary, such support could be sacrificed.
         field typ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^ meta.type.go storage.type.go
-//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         field /**/ typ /**/ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^^ meta.type.go comment.block.go
 //                 ^^^ meta.type.go storage.type.go
 //                     ^^^^ meta.type.go comment.block.go
-//                          ^^^^^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                          ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         typ       `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
-//                ^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                ^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         typ /**/  `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
 //          ^^^^ meta.type.go comment.block.go
-//                ^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                ^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         typ
 //      ^^^ meta.type.go entity.other.inherited-class.go
 
@@ -1785,7 +1785,7 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.other.go
+//                     ^^^^^ string.quoted.backtick.go
 //                     ^ punctuation.definition.string.begin.go
 //                         ^ punctuation.definition.string.end.go
 //                           ^ punctuation.section.braces.end.go
@@ -1798,7 +1798,7 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.other.go
+//                     ^^^^^ string.quoted.backtick.go
 //                     ^ punctuation.definition.string.begin.go
 //                         ^ punctuation.definition.string.end.go
 //                          ^ punctuation.terminator.go
@@ -1842,7 +1842,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                    ^ punctuation.terminator.go
 //                      ^^^^^ variable.other.member.declaration.go
 //                            ^^^ storage.type.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                      ^ punctuation.section.braces.end.go
@@ -1858,7 +1858,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                    ^ punctuation.terminator.go
 //                      ^^^^^ variable.other.member.declaration.go
 //                            ^^^ storage.type.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                     ^ punctuation.terminator.go
@@ -1872,7 +1872,7 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.other.go
+//                     ^^^^^ string.quoted.backtick.go
 //                     ^ punctuation.definition.string.begin.go
 //                         ^ punctuation.definition.string.end.go
 //                          ^ punctuation.terminator.go
@@ -1888,7 +1888,7 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.other.go
+//                     ^^^^^ string.quoted.backtick.go
 //                     ^ punctuation.definition.string.begin.go
 //                         ^ punctuation.definition.string.end.go
 //                          ^ punctuation.terminator.go
@@ -1905,13 +1905,13 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.other.go
+//                     ^^^^^ string.quoted.backtick.go
 //                     ^ punctuation.definition.string.begin.go
 //                         ^ punctuation.definition.string.end.go
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                            ^ punctuation.section.braces.end.go
@@ -1924,13 +1924,13 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.other.go
+//                     ^^^^^ string.quoted.backtick.go
 //                     ^ punctuation.definition.string.begin.go
 //                         ^ punctuation.definition.string.end.go
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
@@ -1971,7 +1971,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.other.go
+//                           ^^^^^ string.quoted.backtick.go
 //                           ^ punctuation.definition.string.begin.go
 //                               ^ punctuation.definition.string.end.go
 //                                 ^ punctuation.section.braces.end.go
@@ -1986,7 +1986,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.other.go
+//                           ^^^^^ string.quoted.backtick.go
 //                           ^ punctuation.definition.string.begin.go
 //                               ^ punctuation.definition.string.end.go
 //                                ^ punctuation.terminator.go
@@ -2036,7 +2036,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                            ^ punctuation.section.braces.end.go
@@ -2054,7 +2054,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
@@ -2070,7 +2070,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.other.go
+//                           ^^^^^ string.quoted.backtick.go
 //                           ^ punctuation.definition.string.begin.go
 //                               ^ punctuation.definition.string.end.go
 //                                ^ punctuation.terminator.go
@@ -2088,7 +2088,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.other.go
+//                           ^^^^^ string.quoted.backtick.go
 //                           ^ punctuation.definition.string.begin.go
 //                               ^ punctuation.definition.string.end.go
 //                                ^ punctuation.terminator.go
@@ -2107,13 +2107,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.other.go
+//                           ^^^^^ string.quoted.backtick.go
 //                           ^ punctuation.definition.string.begin.go
 //                               ^ punctuation.definition.string.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^^^^^ variable.other.member.declaration.go
 //                                        ^^^ storage.type.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                  ^ punctuation.section.braces.end.go
@@ -2128,13 +2128,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.other.go
+//                           ^^^^^ string.quoted.backtick.go
 //                           ^ punctuation.definition.string.begin.go
 //                               ^ punctuation.definition.string.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^^^^^ variable.other.member.declaration.go
 //                                        ^^^ storage.type.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.terminator.go
@@ -2178,7 +2178,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                      ^ punctuation.section.braces.end.go
@@ -2194,7 +2194,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                     ^ punctuation.terminator.go
@@ -2247,7 +2247,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                               ^ punctuation.terminator.go
 //                                 ^^^^^ variable.other.member.declaration.go
 //                                       ^^^ storage.type.go
-//                                           ^^^^^ string.quoted.other.go
+//                                           ^^^^^ string.quoted.backtick.go
 //                                           ^ punctuation.definition.string.begin.go
 //                                               ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.section.braces.end.go
@@ -2266,7 +2266,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                               ^ punctuation.terminator.go
 //                                 ^^^^^ variable.other.member.declaration.go
 //                                       ^^^ storage.type.go
-//                                           ^^^^^ string.quoted.other.go
+//                                           ^^^^^ string.quoted.backtick.go
 //                                           ^ punctuation.definition.string.begin.go
 //                                               ^ punctuation.definition.string.end.go
 //                                                ^ punctuation.terminator.go
@@ -2283,7 +2283,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                     ^ punctuation.terminator.go
@@ -2302,7 +2302,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                     ^ punctuation.terminator.go
@@ -2322,13 +2322,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.other.go
+//                                                 ^^^^^ string.quoted.backtick.go
 //                                                 ^ punctuation.definition.string.begin.go
 //                                                     ^ punctuation.definition.string.end.go
 //                                                       ^ punctuation.section.braces.end.go
@@ -2344,13 +2344,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.other.go
+//                                ^^^^^ string.quoted.backtick.go
 //                                ^ punctuation.definition.string.begin.go
 //                                    ^ punctuation.definition.string.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.other.go
+//                                                 ^^^^^ string.quoted.backtick.go
 //                                                 ^ punctuation.definition.string.begin.go
 //                                                     ^ punctuation.definition.string.end.go
 //                                                      ^ punctuation.terminator.go
@@ -2362,7 +2362,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2378,7 +2378,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2395,7 +2395,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2403,7 +2403,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                            ^ punctuation.section.braces.end.go
@@ -2414,7 +2414,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2422,7 +2422,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
@@ -2434,7 +2434,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2453,7 +2453,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2473,7 +2473,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2484,7 +2484,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.other.go
+//                                                 ^^^^^ string.quoted.backtick.go
 //                                                 ^ punctuation.definition.string.begin.go
 //                                                     ^ punctuation.definition.string.end.go
 //                                                       ^ punctuation.section.braces.end.go
@@ -2495,7 +2495,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2506,7 +2506,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.other.go
+//                                                 ^^^^^ string.quoted.backtick.go
 //                                                 ^ punctuation.definition.string.begin.go
 //                                                     ^ punctuation.definition.string.end.go
 //                                                      ^ punctuation.terminator.go
@@ -2518,7 +2518,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2526,7 +2526,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
@@ -2540,7 +2540,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2548,7 +2548,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
@@ -2563,7 +2563,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2571,13 +2571,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.other.go
+//                                                       ^^^^^ string.quoted.backtick.go
 //                                                       ^ punctuation.definition.string.begin.go
 //                                                           ^ punctuation.definition.string.end.go
 //                                                             ^ punctuation.section.braces.end.go
@@ -2588,7 +2588,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2596,13 +2596,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.other.go
+//                                      ^^^^^ string.quoted.backtick.go
 //                                      ^ punctuation.definition.string.begin.go
 //                                          ^ punctuation.definition.string.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.other.go
+//                                                       ^^^^^ string.quoted.backtick.go
 //                                                       ^ punctuation.definition.string.begin.go
 //                                                           ^ punctuation.definition.string.end.go
 //                                                            ^ punctuation.terminator.go
@@ -2614,7 +2614,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2632,7 +2632,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2651,7 +2651,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2661,7 +2661,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                  ^ punctuation.section.braces.end.go
@@ -2672,7 +2672,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2682,7 +2682,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.terminator.go
@@ -2694,7 +2694,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2715,7 +2715,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2737,7 +2737,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2750,7 +2750,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.other.go
+//                                                       ^^^^^ string.quoted.backtick.go
 //                                                       ^ punctuation.definition.string.begin.go
 //                                                           ^ punctuation.definition.string.end.go
 //                                                             ^ punctuation.section.braces.end.go
@@ -2761,7 +2761,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2774,7 +2774,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.other.go
+//                                                       ^^^^^ string.quoted.backtick.go
 //                                                       ^ punctuation.definition.string.begin.go
 //                                                           ^ punctuation.definition.string.end.go
 //                                                            ^ punctuation.terminator.go
@@ -2786,7 +2786,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2796,7 +2796,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.terminator.go
@@ -2810,7 +2810,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2820,7 +2820,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.terminator.go
@@ -2835,7 +2835,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2845,13 +2845,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^^^^^ variable.other.member.declaration.go
 //                                                         ^^^ storage.type.go
-//                                                             ^^^^^ string.quoted.other.go
+//                                                             ^^^^^ string.quoted.backtick.go
 //                                                             ^ punctuation.definition.string.begin.go
 //                                                                 ^ punctuation.definition.string.end.go
 //                                                                   ^ punctuation.section.braces.end.go
@@ -2862,7 +2862,7 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.other.go
+//                    ^^^^^ string.quoted.backtick.go
 //                    ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
 //                         ^ punctuation.terminator.go
@@ -2872,13 +2872,13 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.other.go
+//                                            ^^^^^ string.quoted.backtick.go
 //                                            ^ punctuation.definition.string.begin.go
 //                                                ^ punctuation.definition.string.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^^^^^ variable.other.member.declaration.go
 //                                                         ^^^ storage.type.go
-//                                                             ^^^^^ string.quoted.other.go
+//                                                             ^^^^^ string.quoted.backtick.go
 //                                                             ^ punctuation.definition.string.begin.go
 //                                                                 ^ punctuation.definition.string.end.go
 //                                                                  ^ punctuation.terminator.go
@@ -2907,7 +2907,7 @@ by accident, but if necessary, such support could be sacrificed.
 //           ^ punctuation.section.brackets.begin.go
 //            ^^^ variable.other.type.go
 //               ^ punctuation.section.brackets.end.go
-//                 ^^ string.quoted.other.go
+//                 ^^ string.quoted.backtick.go
 //                 ^ punctuation.definition.string.begin.go
 //                  ^ punctuation.definition.string.end.go
         embed /**/ [typ]
@@ -2928,7 +2928,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                 ^ punctuation.section.brackets.begin.go
 //                  ^^^ variable.other.type.go
 //                     ^ punctuation.section.brackets.end.go
-//                       ^^ string.quoted.other.go
+//                       ^^ string.quoted.backtick.go
 //                       ^ punctuation.definition.string.begin.go
 //                        ^ punctuation.definition.string.end.go
         embed /**/ [typ] /**/
@@ -2955,7 +2955,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                       ^^^^ comment.block.go
 //                       ^^ punctuation.definition.comment.begin.go
 //                         ^^ punctuation.definition.comment.end.go
-//                            ^^ string.quoted.other.go
+//                            ^^ string.quoted.backtick.go
 //                            ^ punctuation.definition.string.begin.go
 //                             ^ punctuation.definition.string.end.go
         embed /**/ [typ] ; field typ
@@ -2997,7 +2997,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                       ^^^^ comment.block.go
 //                       ^^ punctuation.definition.comment.begin.go
 //                         ^^ punctuation.definition.comment.end.go
-//                            ^^ string.quoted.other.go
+//                            ^^ string.quoted.backtick.go
 //                            ^ punctuation.definition.string.begin.go
 //                             ^ punctuation.definition.string.end.go
 //                              ^ punctuation.terminator.go
@@ -3041,7 +3041,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                        ^^ punctuation.definition.comment.begin.go
 //                          ^^ punctuation.definition.comment.end.go
 //                             ^^^ storage.type.go
-//                                 ^^^^^ string.quoted.other.go
+//                                 ^^^^^ string.quoted.backtick.go
 //                                 ^ punctuation.definition.string.begin.go
 //                                     ^ punctuation.definition.string.end.go
     }
@@ -4469,54 +4469,54 @@ by accident, but if necessary, such support could be sacrificed.
 
     `one two`
 //  ^ punctuation.definition.string.begin.go
-//  ^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^ string.quoted.backtick.go
 //          ^ punctuation.definition.string.end.go
     `one \\ \n two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go -constant.character.escape
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go -constant.character.escape
     `one %% two`
-//  ^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^ constant.character.escape.go
     `one % two`
-//  ^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^ constant.other.placeholder.go
     `one %v two`
-//  ^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^ constant.other.placeholder.go
     `one %+v two`
-//  ^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^ constant.other.placeholder.go
     `one %1.2d two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^ constant.other.placeholder.go
     `one %[1] two`
-//  ^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^^ constant.other.placeholder.go
     `one %[1]v two`
-//  ^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^ constant.other.placeholder.go
     `one %[1]+v two`
-//  ^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^^ constant.other.placeholder.go
     `one %[1]1.2d two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^^^^ constant.other.placeholder.go
     `%`
-//  ^^^ string.quoted.other.go
+//  ^^^ string.quoted.backtick.go
 //   ^ -constant.other.placeholder
 
     `
-//  ^ string.quoted.other.go punctuation.definition.string.begin.go
+//  ^ string.quoted.backtick.go punctuation.definition.string.begin.go
     one
-//  ^^^ string.quoted.other.go
+//  ^^^ string.quoted.backtick.go
     two
-//  ^^^ string.quoted.other.go
+//  ^^^ string.quoted.backtick.go
     three
-//  ^^^^^ string.quoted.other.go
+//  ^^^^^ string.quoted.backtick.go
     `
-//  ^ string.quoted.other.go punctuation.definition.string.end.go
+//  ^ string.quoted.backtick.go punctuation.definition.string.end.go
 
     `one /* two */ three`
-//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.go -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.backtick.go -comment
 
 
 /* # Operators */
