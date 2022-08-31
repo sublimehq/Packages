@@ -84,6 +84,12 @@ variables:
 
   keyword_or_ident: \b[[:alpha:]_][[:alnum:]_]*\b
 
+  # Sublime normalizes newlines from `\r\n` and `\r` into `\n`. Sublime's syntax
+  # engine uses regexps line-by-line, so `$` is often equivalent to `\n`. For
+  # semantic accuracy, we should use `\n` when possible. However, the last line
+  # in a file may end with `$` INSTEAD of `\n`, so we must try both.
+  newline: (?:\n|$)
+
   # Directive comment key.
   directive: \b[[:alpha:]_-][[:alnum:]_-]*\b
 
@@ -120,7 +126,8 @@ variables:
   # We should convert from lookahead to branching.
   type_argument_list: \[(?:{{noise}}|[^\[\]])*\]
 
-  iface_entry_delim: (?://|;|\}|$)
+
+  iface_entry_delim: (?://|;|\}|{{newline}})
   struct_entry_delim: (?:"|`|{{iface_entry_delim}})
   struct_embed_argument_list: '{{type_argument_list}}{{noise}}{{struct_entry_delim}}'
 
@@ -185,7 +192,7 @@ contexts:
   # having come from the specified file, line and column. Both single
   # line and block comment line directives are valid.
   match-comment-magic-line-renum:
-    - match: ((//)(line)( ))([a-zA-Z0-9. :]*(?::[0-9]+){1,2})$\n?
+    - match: ((//)(line)( ))([a-zA-Z0-9. :]*(?::[0-9]+){1,2}){{newline}}?
       scope: comment.line.double-slash.go
       captures:
         1: meta.annotation.go
@@ -206,7 +213,7 @@ contexts:
 
   # Finally, Cgo and gccgo have directives for exporting functions to C.
   match-comment-magic-line-extern:
-    - match: ((//)(export|extern)( ))({{ident}})$\n?
+    - match: ((//)(export|extern)( ))({{ident}}){{newline}}?
       scope: comment.line.double-slash.go
       captures:
         1: meta.annotation.go
@@ -1123,7 +1130,7 @@ contexts:
       pop: 1
 
   pop-before-newline:
-    - match: (?=$)
+    - match: (?={{newline}})
       pop: 1
 
   pop-before-terminator:
@@ -1410,10 +1417,9 @@ contexts:
 
   # Including the newline allows the scope to visually stretch to the right,
   # and ensures that functionality that relies on comment scoping, such as
-  # contextual hotkeys, works properly at EOL while typing a comment. This
-  # should also match \r\n due to Sublime's internal normalization.
+  # contextual hotkeys, works properly at EOL while typing a comment.
   pop-on-eol:
-    - match: $\n?
+    - match: '{{newline}}'
       pop: 1
 
   pop-inside-parens:
