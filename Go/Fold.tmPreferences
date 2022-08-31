@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>scope</key>
-    <string>source.go</string>
-    <key>settings</key>
-    <dict>
-        <key>foldScopes</key>
-        <array>
-            <dict>
-                <key>begin</key>
-                <string>punctuation.section.braces.begin</string>
-                <key>end</key>
-                <string>punctuation.section.braces.end</string>
-            </dict>
-        </array>
-    </dict>
+  <key>scope</key>
+  <string>source.go</string>
+  <key>settings</key>
+  <dict>
+    <key>foldScopes</key>
+    <array>
+      <dict>
+        <key>begin</key>
+        <string>punctuation.section.braces.begin</string>
+        <key>end</key>
+        <string>punctuation.section.braces.end</string>
+      </dict>
+      <dict>
+        <key>begin</key>
+        <string>punctuation.definition.comment.begin.go</string>
+        <key>end</key>
+        <string>punctuation.definition.comment.end.go</string>
+      </dict>
+    </array>
+  </dict>
 </dict>
 </plist>
