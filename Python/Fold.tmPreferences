@@ -11,6 +11,12 @@
         <array>
             <dict>
                 <key>begin</key>
+                <string>comment.block.documentation punctuation.definition.comment.begin</string>
+                <key>end</key>
+                <string>comment.block.documentation punctuation.definition.comment.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
                 <string>punctuation.section.arguments.begin</string>
                 <key>end</key>
                 <string>punctuation.section.arguments.end</string>
