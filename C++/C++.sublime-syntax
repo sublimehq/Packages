@@ -24,6 +24,7 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \s* // .*? -\*- .*? \b(c\+\+|cpp\b) .*? -\*-  # editorconfig
+  | ^ \s* \# \s* include \s* [<"]
   )
 
 variables:
