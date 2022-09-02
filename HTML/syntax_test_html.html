@@ -140,6 +140,16 @@
         ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
         </script>
 
+        <script type="application/f̱oo+json">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.json
+        </script>
+
+        <script type="application/ld+json;charset=utf-8">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        </script>
+
         <script type="whatever+json">
             <![CDATA[
                 {
@@ -150,11 +160,6 @@
                 }
         ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
             ]]>
-        </script>
-
-        <script type="application/f̱oo+json">
-            { "@id": {"key": "value" } }
-        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.json
         </script>
 
         <script type = "text/html"> <!--
@@ -183,6 +188,11 @@
 ##     ^ text.html.basic - meta.tag
 ##      ^^^^^^^^^ text.html.basic meta.tag.script.end
 ##               ^ text.html.basic - meta.tag
+
+        <script type = "text/html;charset=utf-8,foo=bar">
+            <div></div>
+        ##  ^^^^^^^^^^^ text.html.basic meta.tag.block.any
+        </script>
 
         <script>
             <!-- i = 0;
