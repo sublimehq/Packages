@@ -43,8 +43,13 @@ variables:
       | text/livescript
     )
 
+  # A JSON MIME type
+  # is any MIME type whose subtype ends in "+json"
+  # or whose essence is "application/json" or "text/json".
+  # https://mimesniff.spec.whatwg.org/#understanding-mime-types
   # https://mimesniff.spec.whatwg.org/#json-mime-type
-  json_mime_type: (?i:application/|text/|.+\+)json
+  json_mime_type: |-
+    (?xi: (?:[[:ascii:]]+/)?[[:ascii:]]+\+json | (?:application|text)/json )
 
   # Embedded script and style syntaxes may be wrapped into html comments for
   # historical reasons. The following patterns match them, while maintaining

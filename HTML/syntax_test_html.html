@@ -135,6 +135,11 @@
         ##  ^ source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
         </script>
 
+        <script type="application/ld+json">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        </script>
+
         <script type="whatever+json">
             <![CDATA[
                 {
@@ -145,6 +150,11 @@
                 }
         ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
             ]]>
+        </script>
+
+        <script type="whatever-json">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.json
         </script>
 
         <script type = "text/html"> <!--
