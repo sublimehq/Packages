@@ -122,11 +122,11 @@ contexts:
       scope: storage.modifier.sql
     - match:
         (?x)
-        (\d+ (\.)? (?:\d* (?:[eE][-+]? \d+)?)? | (\.) \d+ (?:[eE][-+]? \d+)?)
+        (?:\d+ (\.)? \d* (?:[eE] [-+]? \d+)? | (\.) \d+ (?:[eE] [-+]? \d+)?)
       captures:
-        1: constant.numeric.sql
+        0: constant.numeric.sql
+        1: punctuation.separator.decimal.sql
         2: punctuation.separator.decimal.sql
-        3: punctuation.separator.decimal.sql
     - match: \d+
       scope: constant.numeric.sql
     - match: (?i:true|false)\b
