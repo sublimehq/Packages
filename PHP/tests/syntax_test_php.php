@@ -945,9 +945,10 @@ $f3 = #[ExampleAttribute] fn () => 1;
  * Class Declaration Tests
  *****************************************************************************/
 
-    class
-//  ^^^^^ meta.class.php keyword.declaration.class.php
-//       ^ meta.class.php - keyword
+    readonly class
+//  ^^^^^^^^ storage.modifier.php
+//           ^^^^^ meta.class.php keyword.declaration.class.php
+//                ^ meta.class.php - keyword
 
     class Test1
 //  ^^^^^^^^^^^^ meta.class.php - meta.block - meta.class meta.class
@@ -963,17 +964,18 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //              ^^^^^^^ storage.modifier.extends.php
 //                      ^^^^^^^^^^ storage.modifier.implements.php
 
-    class Test3 extends stdClass implements Countable {}
+    readonly class Test3 extends stdClass implements Countable {}
 // ^ - meta.class
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
-//                                                    ^^ meta.class.php meta.block.php
-//  ^^^^^ keyword.declaration.class.php
-//        ^^^^^ entity.name.class.php
-//              ^^^^^^^ storage.modifier.extends.php
-//                      ^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
-//                               ^^^^^^^^^^ storage.modifier.implements.php
-//                                          ^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class, - meta.block meta.block
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php - meta.block
+//                                                             ^^ meta.class.php meta.block.php
+//  ^^^^^^^^ storage.modifier.php
+//           ^^^^^ keyword.declaration.class.php
+//                 ^^^^^ entity.name.class.php
+//                       ^^^^^^^ storage.modifier.extends.php
+//                               ^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
+//                                        ^^^^^^^^^^ storage.modifier.implements.php
+//                                                   ^^^^^^^^^ entity.other.inherited-class.php support.class.builtin.php - meta.path
 
     class Test4 extends Foo, Bar implements Foo, Bar {}
 // ^ - meta.class
@@ -1009,7 +1011,7 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //                                           ^ punctuation.accessor.namespace.php
 
     ABSTRACT CLASS /**/ #[Anno] /**/ Test6 /**/ EXTENDS /**/ #[Anno] /**/ \My\Foo /**/ IMPLEMENTS /**/ #[Anno] /**/ Bar /**/, /**/ Baz /**/ {  }
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.php
 //  ^^^^^^^^ storage.modifier.php
 //           ^^^^^ keyword.declaration.class.php
 //                 ^^^^ comment.block.php
@@ -2017,6 +2019,25 @@ function foo(?stinrg ...$args) {}
 //                    ^^^ storage.type
 //                        ^ punctuation.definition.variable
 //                         ^^^^^^ variable.parameter
+        (?A|B)&(C|?D)&?E $param2,
+//      ^ punctuation.section.group.begin
+//       ^ storage.type.nullable
+//        ^ support.class
+//         ^ punctuation.separator.type.union
+//          ^ support.class
+//           ^ punctuation.section.group.end
+//            ^ punctuation.separator.type.intersection
+//             ^ punctuation.section.group.begin
+//              ^ support.class
+//               ^ punctuation.separator.type.union
+//                ^ storage.type.nullable
+//                 ^ support.class
+//                  ^ punctuation.section.group.end
+//                   ^ punctuation.separator.type.intersection
+//                    ^ storage.type.nullable
+//                     ^ support.class
+//                       ^ punctuation.definition.variable
+//                        ^^^^^^ variable.parameter
         string $param3,
 //      ^^^^^^ storage.type
 //             ^ punctuation.definition.variable

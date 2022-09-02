@@ -683,11 +683,8 @@ contexts:
 ###[ CLASS DECLARATIONS ]#####################################################
 
   class-declarations:
-    - match: (?i:(abstract|final)\s+)?((?i:class))\b
-      scope: meta.class.php
-      captures:
-        1: storage.modifier.php
-        2: keyword.declaration.class.php
+    - match: (?i:class)\b
+      scope: meta.class.php keyword.declaration.class.php
       push:
         - class-declaration-body
         - class-declaration-name
@@ -1910,7 +1907,7 @@ contexts:
 
   type-hints:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+    - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       push:
         - type-hint-body
         - type-hint-simple-type
@@ -1918,7 +1915,7 @@ contexts:
 
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+    - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       set:
         - type-hint-body
         - type-hint-simple-type
@@ -1934,9 +1931,20 @@ contexts:
     - match: '&(?!\s*\$)'
       scope: punctuation.separator.type.intersection.php
       push:
-        - type-hint-nullable
         - type-hint-simple-type
+        - type-hint-nullable
+    - include: type-hint-groups
     - include: else-pop
+
+  type-hint-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      push:
+        - meta_scope: meta.group.php
+        - match: \)
+          scope: punctuation.section.group.end.php
+          pop: 1
+        - include: type-hints
 
   type-hint-nullable:
     - match: \?
@@ -1947,9 +1955,8 @@ contexts:
   type-hint-simple-type:
     # note that
     #   - "callable", "never" and "void" are not allowed in property type
-    #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
-    - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
+    - match: (?i:iterable|false|mixed|never|null|true|void|{{storage_types}})\b
       scope: storage.type.primitive.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
