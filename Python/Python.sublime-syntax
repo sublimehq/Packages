@@ -725,7 +725,26 @@ contexts:
   match-statement-end:
     - match: ':(?!=)'
       scope: punctuation.section.block.conditional.match.python
-      pop: true
+      set: expect-first-case-statement
+
+  expect-first-case-statement:
+    # Disable detentation of first case statement by special indentation rule.
+    # see: https://github.com/sublimehq/Packages/issues/3456
+    - match: case\b
+      scope:
+        meta.statement.conditional.case.python
+        keyword.control.conditional.case.python
+      set:
+        - meta-disable-dedentation
+        - case-statement-pattern
+        - allow-unpack-operators
+    - include: comments
+    - include: else-pop
+
+  meta-disable-dedentation:
+    - meta_include_prototype: false
+    - meta_scope: meta.disable-dedentation.python
+    - include: else-pop
 
   structural-pattern-fallback:
     # Fallback context, which is used if `match` or `case` don't seem to

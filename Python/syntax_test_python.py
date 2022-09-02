@@ -949,6 +949,7 @@ def _():
 #         ^^^^^^^^^ meta.qualified-name.python meta.generic-name.python
 #                  ^ punctuation.section.block.conditional.match.python
     case "200":
+#   ^^^^^^^^^^^^ meta.disable-dedentation.python
 #   ^^^^ meta.statement.conditional.case.python
 #       ^^^^^^ meta.statement.conditional.case.patterns.python
 #             ^ meta.statement.conditional.case.python
@@ -959,6 +960,7 @@ def _():
         print("OK")
 
     case ["403",
+#   ^^^^^^^^^^^^ - meta.disable-dedentation
 #   ^^^^ meta.statement.conditional.case.python
 #       ^^^^^^^^^ meta.statement.conditional.case.patterns.python
 #   ^^^^ keyword.control.conditional.case.python
