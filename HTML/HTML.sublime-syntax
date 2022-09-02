@@ -34,17 +34,32 @@ variables:
       button|datalist|input|label|legend|meter|optgroup|option|output|progress|select|template|textarea
     ){{tag_name_break}}
 
+  html_mime_type: |-
+    (?xi: text/html {{mime_type_parameters}}? )
+
   javascript_mime_type: |-
-    (?ix:
+    (?xi:
+      (?:
       # https://mimesniff.spec.whatwg.org/#javascript-mime-type
-      (?:application|text)/(?:x-)?(?:java|ecma)script
+        (?:application|text)/(?:x-)?(?:java|ecma)script
       | text/javascript1\.[0-5]
       | text/jscript
       | text/livescript
+      )
+      {{mime_type_parameters}}?
     )
 
+  # A JSON MIME type
+  # is any MIME type whose subtype ends in "+json"
+  # or whose essence is "application/json" or "text/json".
+  # https://mimesniff.spec.whatwg.org/#understanding-mime-types
   # https://mimesniff.spec.whatwg.org/#json-mime-type
-  json_mime_type: (?i:application/|text/|.+\+)json
+  json_mime_type: |-
+     (?xi: (?i:application/|text/|[[:ascii:]]+\+)json {{mime_type_parameters}}? )
+
+  # A MIME type’s parameters is an ordered map whose keys are ASCII strings and values are strings
+  # limited to HTTP quoted-string token code points. It is initially empty.
+  mime_type_parameters: (?:;.*?)
 
   # Embedded script and style syntaxes may be wrapped into html comments for
   # historical reasons. The following patterns match them, while maintaining
@@ -342,7 +357,7 @@ contexts:
         - script-json
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?=(?i:text/html{{unquoted_attribute_break}}|'text/html'|"text/html"))
+    - match: (?=(?i:{{html_mime_type}}{{unquoted_attribute_break}}|'{{html_mime_type}}'|"{{html_mime_type}}"))
       set:
         - script-html
         - tag-generic-attribute-meta
