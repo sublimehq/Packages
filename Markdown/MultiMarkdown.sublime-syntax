@@ -9,30 +9,44 @@ extends: Markdown.sublime-syntax
 first_line_match: (?i:^format:\s*complete\s*$)
 
 variables:
-  header: ([A-Za-z0-9][\w -]*)(:)
+  header: ([A-Za-z0-9][\w -]*)((:)\s+)
 
 contexts:
   main:
-    - match: ^(?={{header}})
-      push: multimarkdown-header
-    - match: ^
-      set: multimarkdown-content
+    - meta_include_prototype: false
+    - match: ''
+      set: [markdown, frontmatter]
 
-  multimarkdown-header:
-    - match: ^$
-      pop: 1
-    - match: ^(?:{{header}}\s*)?
+  frontmatter:
+    # MultiMarkdown 6 supports frontmatter like headers for compatibility reasons
+    # Note: The content is still limited to simple key-value pairs, no YAML!
+    - match: ^(---)\s*\n
       captures:
-        1: keyword.other.multimarkdown
-        2: punctuation.separator.key-value.multimarkdown
-      push: multimarkdown-header-value
-
-  multimarkdown-header-value:
-    - meta_scope: meta.header.multimarkdown
-    - meta_content_scope: string.unquoted.multimarkdown
-    - match: \n
+        0: meta.frontmatter.multimarkdown
+        1: punctuation.section.block.begin.frontmatter.multimarkdown
+      embed: frontmatter-content
+      embed_scope: meta.frontmatter.multimarkdown
+      escape: ^(---|\.{3})\s*\n
+      escape_captures:
+        0: meta.frontmatter.multimarkdown
+        1: punctuation.section.block.end.frontmatter.multimarkdown
+      pop: 1
+    # Classic key-value frontmatter beginning with first key, terminated by empty line.
+    - match: ^(?={{header}})
+      embed: frontmatter-content
+      embed_scope: meta.frontmatter.multimarkdown
+      escape: ^$
+      pop: 1
+    # Ensure to highlight frontmatter if the syntax is embedded, but pop as early as possible
+    - match: ^|(?=\S)
       pop: 1
 
-  multimarkdown-content:
-    - meta_scope: meta.content.multimarkdown
-    - include: markdown
+  frontmatter-content:
+    - match: ^{{header}}
+      captures:
+        1: meta.mapping.key.multimarkdown entity.other.attribute-name.multimarkdown
+        2: meta.mapping.multimarkdown
+        3: punctuation.separator.key-value.multimarkdown
+      embed: html-content
+      embed_scope: meta.mapping.value.multimarkdown
+      escape: ^(?={{header}})
