@@ -54,13 +54,16 @@ import;
 import;/**/
 //     ^ - meta.import
 
-export { name1, name2 as name3, name4 as '+' };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+export { name1, name2 as name3, name4 as '+', name5 as "+" };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //            ^ punctuation.separator.comma
 //                    ^^ keyword.control.import-export
+//                                    ^^ keyword.control.import-export
 //                                       ^^^ meta.string string.quoted.single
+//                                                  ^^ keyword.control.import-export
+//                                                     ^^^ meta.string string.quoted.double
 
 export let name1, name2;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
