@@ -24,13 +24,15 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 //                                             ^ constant.other.js
 //                                                             ^ keyword.control.import-export
 
-import { identifier as 'string' } from "somewhere";
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.js
-//       ^^^^^^^^^^ variable.other.readwrite.js
-//                  ^^ keyword.control.import-export.js
-//                     ^^^^^^^^ meta.string.js string.quoted.single.js
-//                              ^ punctuation.section.block.end.js
+import { identifier as 'string', other as "string" } from "somewhere";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//       ^^^^^^^^^^ variable.other.readwrite
+//                  ^^ keyword.control.import-export
+//                     ^^^^^^^^ meta.string string.quoted.single
+//                                     ^^ keyword.control.import-export
+//                                        ^^^^^^^^ meta.string string.quoted.double
+//                                                 ^ punctuation.section.block.end
 
 import 'module';
 // ^^^^^^^^^^^^^ meta.import
@@ -68,7 +70,7 @@ export { name1, name2 as name3, name4 as '+' };
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //            ^ punctuation.separator.comma
 //                    ^^ keyword.control.import-export
-//                                       ^^^ meta.string.js string.quoted.single.js
+//                                       ^^^ meta.string string.quoted.single
 
 export let name1, name2;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
