@@ -98,19 +98,18 @@ def show_diff_output(diff, view, win, name, panel_name):
         sublime.status_message("No changes")
         return
 
-    use_buffer = not view or view.settings().get('diff_changes_to_buffer')
+    use_buffer = not view or view.settings().get('diff_tabs_to_buffer')
 
     if use_buffer:
         v = win.new_file()
         v.set_name(name)
         v.set_scratch(True)
-        v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
     else:
         v = win.create_output_panel(panel_name)
-        v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
         if view:
             v.settings().set('word_wrap', view.settings().get('word_wrap'))
 
+    v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
     v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
 
     if not use_buffer:
@@ -125,12 +124,17 @@ def get_view_from_tab_context(active_view, **kwargs):
 
 
 def get_views_from_tab_context(active_view, **kwargs):
-    selected_views = list(filter(lambda view: view, map(lambda sheet: sheet.view(), active_view.window().selected_sheets())))
+    selected_views = list(get_selected_views(active_view.window()))
     if 'group' in kwargs and 'index' in kwargs:
         tab_context_view = get_view_from_tab_context(active_view, **kwargs)
-        if tab_context_view.id() not in map(lambda view: view.id(), selected_views):
-            return selected_views + [tab_context_view]
+        # if the tab which was right clicked on is selected, exclude it from the selected views and re-add it afterwards
+        # so that the order of the diff will be determined by which tab was right-clicked on
+        return [view for view in selected_views if view.id() != tab_context_view.id()] + [tab_context_view]
     return selected_views
+
+
+def get_selected_views(window):
+    return filter(lambda view: view, map(lambda sheet: sheet.view(), window.selected_sheets()))
 
 
 def get_name_for_view(view):
@@ -161,7 +165,7 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             from_lines,
             to_lines,
             fromfile=view_names[0],
-            tofile  =view_names[1]
+            tofile=view_names[1]
         )
 
         try:
@@ -181,3 +185,10 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
     def is_visible(self, **kwargs):
         views = get_views_from_tab_context(self.view, **kwargs)
         return len(views) == 2
+
+    def description(self, **kwargs):
+        selected_views = list(get_selected_views(self.view.window()))
+        if len(selected_views) == 2:
+            return 'Diff selected tabs...'
+
+        return 'Diff with current tab...'
