@@ -74,15 +74,31 @@ contexts:
     - include: comment-in
 
   main:
-    - match: '^#!'
-      scope: punctuation.definition.comment.number-sign.d
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.number-sign.d
-        - match: '$\n?'
-          pop: true
+    - meta_include_prototype: false
+    - match: ''
+      set: [d, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.d
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.d
+    # Note: Keep sync with first_line_match!
+    - match: \bg?dmd\b
+      scope: constant.language.shebang.d
+    - match: \n
+      pop: 1
+
+  d:
     - include: module-in
     - include: statement-list-in
+
   module-in:
     - match: \bmodule\b
       scope: keyword.declaration.namespace.d
