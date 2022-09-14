@@ -307,7 +307,12 @@ contexts:
       scope: keyword.operator.logical.cabal
     - match: (?:>=|<=|==|[<>])
       scope: keyword.operator.comparison.cabal
-      push: literal-version
+      push: expect-literal-version
+
+  expect-literal-version:
+    - include: literal-versions
+    - match: $|(?=\S)
+      pop: 1
 
   sequence-separators:
     - match: ','
@@ -418,12 +423,3 @@ contexts:
       captures:
         1: variable.language.wildcard.asterisk.cabal
         2: punctuation.separator.decimal.cabal
-
-  literal-version:
-    - match: (?:\d+|(\*))(\.(?=[*\d]))?
-      scope: meta.number.version.cabal constant.numeric.value.cabal
-      captures:
-        1: variable.language.wildcard.asterisk.cabal
-        2: punctuation.separator.decimal.cabal
-    - match: $|(?=\S)
-      pop: 1
