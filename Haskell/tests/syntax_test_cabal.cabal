@@ -36,9 +36,9 @@ Author: Jon Doe <jon.doe@nowhere.com>
 --^^^^ meta.mapping.key.cabal
 --    ^ meta.mapping.cabal
 --     ^^^^^^^^^ meta.mapping.value.other.cabal
---              ^ meta.mapping.value.other.cabal meta.path.email.cabal - meta.string
---               ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal meta.path.email.cabal meta.string.cabal
---                                  ^ meta.mapping.value.other.cabal meta.path.email.cabal - meta.string
+--              ^ meta.mapping.value.other.cabal meta.path.email.cabal - markup.underline.link
+--               ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal meta.path.email.cabal markup.underline.link.cabal
+--                                  ^ meta.mapping.value.other.cabal meta.path.email.cabal - markup.underline.link
 --                                   ^ meta.mapping.value.other.cabal - meta.path
 --^^^^ entity.name.tag.cabal
 --    ^ punctuation.separator.key-value.cabal
@@ -52,7 +52,7 @@ Maintainer: cabal-devel@haskell.org
 --^^^^^^^^ meta.mapping.key.cabal
 --        ^ meta.mapping.cabal
 --         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal
---          ^^^^^^^^^^^^^^^^^^^^^^^ meta.path.email.cabal meta.string.cabal string.unquoted.cabal
+--          ^^^^^^^^^^^^^^^^^^^^^^^ meta.path.email.cabal markup.underline.link.cabal
 --^^^^ entity.name.tag.cabal
 --        ^ punctuation.separator.key-value.cabal
 --                     ^ punctuation.separator.path.email.cabal
@@ -91,7 +91,7 @@ Bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
 --          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal
 -- ^^^^^^^^ entity.name.tag.cabal
 --         ^ punctuation.separator.key-value.cabal
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.cabal meta.string.cabal string.unquoted.cabal
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.cabal markup.underline.link.cabal
 --                    ^^^ punctuation.separator.path.cabal
 --                                 ^ punctuation.separator.path.cabal
 --                                         ^^^ constant.character.escape.url.cabal
@@ -107,9 +107,9 @@ homepage:
 -- ^^^^^ entity.name.tag.cabal
 --      ^ punctuation.separator.key-value.cabal
     https://sublimehq.com
--- ^ meta.mapping.value.urls.cabal - meta.string - string
---  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal meta.path.url.cabal meta.string.cabal string.unquoted.cabal
---                       ^ meta.mapping.value.urls.cabal - meta.string - string
+-- ^ meta.mapping.value.urls.cabal - markup.underline.link - string
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal meta.path.url.cabal markup.underline.link.cabal
+--                       ^ meta.mapping.value.urls.cabal - markup.underline.link - string
 --       ^^^ punctuation.separator.path.cabal
 
 Flags: +embed_data_files -trypandoc "+Dkey: value"
@@ -218,22 +218,22 @@ data-files:
                  -- documentation
                  INSTALL.md, AUTHORS.md, README.md,
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
---              ^ - meta.path - meta.string - string
---               ^^^^^^^^^^ meta.path.file.cabal
---                         ^^ - meta.path - meta.string - string
+--              ^ - meta.path - markup.underline.link - string
+--               ^^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
+--                         ^^ - meta.path - markup.underline.link - string
 --                         ^ punctuation.separator.sequence.cabal
---                           ^^^^^^^^^^ meta.path.file.cabal
---                                     ^^ - meta.path - meta.string - string
+--                           ^^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
+--                                     ^^ - meta.path - markup.underline.link - string
 --                                     ^ punctuation.separator.sequence.cabal
---                                       ^^^^^^^^^ meta.path.file.cabal
---                                                ^^ - meta.path - meta.string - string
+--                                       ^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
+--                                                ^^ - meta.path - markup.underline.link - string
 --                                                ^ punctuation.separator.sequence.cabal
 
                  -- templates
                  ../data/template?.../**/styles.html
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
---              ^ - meta.path - meta.string - string
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal
+--              ^ - meta.path - markup.underline.link - string
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
 --               ^^ constant.language.path.parent.cabal
 --                 ^ punctuation.separator.path.cabal
 --                      ^ punctuation.separator.path.cabal
@@ -242,7 +242,7 @@ data-files:
 --                                   ^ punctuation.separator.path.cabal
 --                                    ^^ keyword.operator.wildcard.cabal
 --                                      ^ punctuation.separator.path.cabal
---                                                  ^ - meta.path - meta.string - string
+--                                                  ^ - meta.path - markup.underline.link - string
 
 build-depends:  pandoc,
 -- <- meta.mapping.key.cabal entity.name.tag.cabal

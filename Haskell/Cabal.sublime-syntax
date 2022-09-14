@@ -313,7 +313,7 @@ contexts:
 
   literal-email-domain:
     - meta_scope: meta.path.email.cabal
-    - meta_content_scope: meta.string.cabal string.unquoted.cabal
+    - meta_content_scope: markup.underline.link.cabal
     - match: (?=\s)|>
       scope: punctuation.definition.path.end.cabal
       pop: 1
@@ -332,9 +332,7 @@ contexts:
 
   literal-path-content:
     - meta_include_prototype: false
-    - meta_content_scope:
-        meta.path.file.cabal
-        meta.string.cabal string.unquoted.cabal
+    - meta_content_scope: meta.path.file.cabal markup.underline.link.cabal
     - match: (?=[,\s])
       pop: 1
     - match: '[/\\]'
@@ -359,9 +357,7 @@ contexts:
 
   literal-url-content:
     - meta_include_prototype: false
-    - meta_content_scope:
-        meta.path.url.cabal
-        meta.string.cabal string.unquoted.cabal
+    - meta_content_scope: meta.path.url.cabal markup.underline.link.cabal
     - match: (?=\s)
       pop: 1
     - match: (%)\h{2}
