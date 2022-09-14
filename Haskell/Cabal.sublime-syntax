@@ -237,6 +237,7 @@ contexts:
     - include: value-end
     - include: literal-emails
     - include: literal-strings
+    - include: literal-urls
 
   value-end:
     - match: ^(?!\s*(?:--|$)|\1\s)
@@ -353,19 +354,21 @@ contexts:
       pop: 1
 
   literal-urls:
-    - match: (?=[[:alnum:]/])
+    - match: (?:(?:https|http|ftps?|file)(://)|www\.)[\w-]+
+      captures:
+        1: punctuation.separator.path.cabal
       push: literal-url-content
 
   literal-url-content:
     - meta_include_prototype: false
-    - meta_content_scope: meta.path.url.cabal markup.underline.link.cabal
+    - meta_scope: meta.path.url.cabal markup.underline.link.cabal
     - match: (?=\s)
       pop: 1
     - match: (%)\h{2}
       scope: constant.character.escape.url.cabal
       captures:
         1: punctuation.definition.escape.cabal
-    - match: '[/&?#]|://'
+    - match: '[/&?#]'
       scope: punctuation.separator.path.cabal
 
   literal-strings:
