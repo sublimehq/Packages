@@ -236,6 +236,7 @@ contexts:
     - meta_content_scope: meta.mapping.value.other.cabal
     - include: value-end
     - include: literal-emails
+    - include: literal-strings
 
   value-end:
     - match: ^(?!\s*(?:--|$)|\1\s)
@@ -370,9 +371,12 @@ contexts:
   literal-strings:
     - match: \"
       scope: punctuation.definition.string.begin.cabal
-      push: literal-string-body
+      push: literal-double-quoted-string-body
+    - match: \'
+      scope: punctuation.definition.string.begin.cabal
+      push: literal-single-quoted-string-body
 
-  literal-string-body:
+  literal-double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.cabal string.quoted.double.cabal
     - match: \"|$
@@ -385,6 +389,13 @@ contexts:
         3: constant.character.escape.octal.cabal
         4: constant.character.escape.hexadecimal.cabal
         5: constant.character.escape.control.cabal
+
+  literal-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cabal string.quoted.single.cabal
+    - match: \'|$
+      scope: punctuation.definition.string.end.cabal
+      pop: 1
 
   literal-versions:
     - match: (?:\d+|(\*))(\.(?=[*\d]))?
