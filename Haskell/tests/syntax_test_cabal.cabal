@@ -11,7 +11,7 @@ cabal-version:   >=2.2
 --                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                  ^ punctuation.separator.decimal.cabal
 
-name:            pandoc
+Name:            pandoc
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^ meta.mapping.key.cabal
 --  ^ meta.mapping.cabal
@@ -19,7 +19,7 @@ name:            pandoc
 -- ^ entity.name.tag.cabal
 --  ^ punctuation.separator.key-value.cabal
 
-version:         2.11.3.1
+Version:         2.11.3.1
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^ meta.mapping.key.cabal
 --     ^ meta.mapping.cabal
@@ -31,7 +31,7 @@ version:         2.11.3.1
 --                   ^ punctuation.separator.decimal.cabal
 --                     ^ punctuation.separator.decimal.cabal
 
-author: Jon Doe <jon.doe@nowhere.com>
+Author: Jon Doe <jon.doe@nowhere.com>
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^^ meta.mapping.key.cabal
 --    ^ meta.mapping.cabal
@@ -47,7 +47,7 @@ author: Jon Doe <jon.doe@nowhere.com>
 --                              ^ punctuation.separator.path.domain.cabal
 --                                  ^ punctuation.definition.path.end.cabal
 
-maintainer: cabal-devel@haskell.org
+Maintainer: cabal-devel@haskell.org
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^^^^^^ meta.mapping.key.cabal
 --        ^ meta.mapping.cabal
@@ -58,7 +58,7 @@ maintainer: cabal-devel@haskell.org
 --                     ^ punctuation.separator.path.email.cabal
 --                             ^ punctuation.separator.path.domain.cabal
 
-tests: True
+Tests: True
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^ meta.mapping.key.cabal
 --   ^ meta.mapping.cabal
@@ -67,7 +67,7 @@ tests: True
 --   ^ punctuation.separator.key-value.cabal
 --     ^^^^ constant.language.boolean.cabal
 
-optimization: False
+Optimization: False
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^^^^^^^^ meta.mapping.key.cabal
 --          ^ meta.mapping.cabal
@@ -76,7 +76,7 @@ optimization: False
 --          ^ punctuation.separator.key-value.cabal
 --            ^^^^ constant.language.boolean.cabal
 
-build-type:      Simple
+Build-type:      Simple
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^ meta.mapping.key.cabal
 --        ^ meta.mapping.cabal
@@ -84,7 +84,7 @@ build-type:      Simple
 -- ^^^^^^^ entity.name.tag.cabal
 --        ^ punctuation.separator.key-value.cabal
 
-bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
+Bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^^ meta.mapping.key.cabal
 --         ^ meta.mapping.cabal
@@ -112,7 +112,7 @@ homepage:
 --                       ^ meta.mapping.value.urls.cabal - meta.string - string
 --       ^^^ punctuation.separator.path.cabal
 
-flags: +embed_data_files -trypandoc "+Dkey: value"
+Flags: +embed_data_files -trypandoc "+Dkey: value"
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^ meta.mapping.key.cabal
 --   ^ meta.mapping.cabal
@@ -125,7 +125,7 @@ flags: +embed_data_files -trypandoc "+Dkey: value"
 --                        ^^^^^^^^^ variable.parameter.option.haskell - punctuation
 --                                  ^^^^^^^^^^^^^^ meta.string.cabal string.quoted.double.cabal
 
-ghc-options: -j +RTS -A64m -RTS
+Ghc-options: -j +RTS -A64m -RTS
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^^^^^^^ meta.mapping.key.cabal
 --         ^ meta.mapping.cabal
@@ -141,7 +141,7 @@ ghc-options: -j +RTS -A64m -RTS
 --                         ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
 --                          ^^^ variable.parameter.option.haskell - punctuation
 
-exposed-modules: ,
+Exposed-modules: ,
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^^^^^^ meta.mapping.key.cabal
 --             ^ meta.mapping.cabal
@@ -150,7 +150,7 @@ exposed-modules: ,
 --             ^ punctuation.separator.key-value.cabal
 --               ^ punctuation.separator.sequence.cabal
 
-exposed-modules: ModId.ModName,
+Exposed-modules: ModId.ModName,
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^^^^^^ meta.mapping.key.cabal
 --             ^ meta.mapping.cabal
@@ -268,7 +268,7 @@ build-depends:  pandoc,
 --                                  ^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                                     ^ punctuation.separator.sequence.cabal
 
-executable
+Executable
 -- <- meta.toc-list.sections.cabal keyword.declaration.section.cabal
 -- ^^^^^^^ meta.toc-list.sections.cabal keyword.declaration.section.cabal
 

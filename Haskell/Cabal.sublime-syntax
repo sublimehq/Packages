@@ -17,27 +17,27 @@ variables:
   module_identifier: (?:[[:upper:]][\w']*)
 
   section_tags: |-
-    (?x:
+    (?xi:
       common | executable | benchmark | custom-setup | flag | library | package
     | source-repository | test-suite
     )
 
   boolean_tags: |-
-    (?x: benchmarks | default | optimization | tests )
+    (?xi: benchmarks | default | optimization | tests )
   compiler_tags: |-
-    (?x: tested-with )
+    (?xi: tested-with )
   dependency_tags: |-
-    (?x: (?:{{identifier}}-)? depends )
+    (?xi: (?:{{identifier}}-)? depends )
   module_tags: |-
-    (?x: (?:{{identifier}}-)? modules )
+    (?xi: (?:{{identifier}}-)? modules )
   option_tags: |-
-    (?x: (?:{{identifier}}-)? options | flags )
+    (?xi: (?:{{identifier}}-)? options | flags )
   path_tags: |-
-    (?x: (?:{{identifier}}-)? (?: dir | file | path ) s? | main-is | packages )
+    (?xi: (?:{{identifier}}-)? (?: dir | file | path ) s? | main-is | packages )
   url_tags: |-
-    (?x: bug-reports | homepage | location | package-url )
+    (?xi: bug-reports | homepage | location | package-url )
   version_tags: |-
-    (?x: cabal-version | version )
+    (?xi: cabal-version | version )
 
   compiler_values: |-
     (?xi: GHC | UHC | LHC )
