@@ -16,12 +16,6 @@ variables:
   identifier: (?:[[:alpha:]][-_[:alnum:]]*)
   module_identifier: (?:[[:upper:]][\w']*)
 
-  section_tags: |-
-    (?xi:
-      common | executable | benchmark | custom-setup | flag | library | package
-    | source-repository(?:-package)? | test-suite
-    )
-
   boolean_tags: |-
     (?xi: benchmarks | default | optimization | tests )
   compiler_tags: |-
@@ -92,7 +86,7 @@ contexts:
 ###[ SECTIONS ]################################################################
 
   sections:
-    - match: ^(({{section_tags}})(?:\s+([^\s,]+))?)\s*$
+    - match: ^(({{identifier}})(?:\s+([^\s,]+))?)\s*$
       captures:
         1: meta.toc-list.sections.cabal
         2: keyword.declaration.section.cabal
