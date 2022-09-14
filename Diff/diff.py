@@ -55,7 +55,7 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
         bdate = time.ctime(os.stat(files[0]).st_mtime)
 
         diff = difflib.unified_diff(a, b, files[1], files[0], adate, bdate)
-        show_diff_output(diff, None, self.window, f"{os.path.basename(files[1])} -> {os.path.basename(files[0])}", 'diff_files')
+        show_diff_output(diff, None, self.window, f"{os.path.basename(files[1])} -> {os.path.basename(files[0])}", 'diff_files', 'diff_files_to_buffer')
 
     def is_visible(self, files):
         return len(files) == 2
@@ -85,20 +85,21 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
         bdate = time.ctime()
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
-        show_diff_output(diff, self.view, self.view.window(), "Unsaved Changes: " + os.path.basename(self.view.file_name()), 'unsaved_changes')
+        name = "Unsaved Changes: " + os.path.basename(self.view.file_name())
+        show_diff_output(diff, self.view, self.view.window(), name, 'unsaved_changes', 'diff_changes_to_buffer')
 
     def is_enabled(self):
         return self.view.is_dirty() and self.view.file_name() is not None
 
 
-def show_diff_output(diff, view, win, name, panel_name):
+def show_diff_output(diff, view, win, name, panel_name, buffer_setting_name):
     difftxt = u"".join(line for line in diff)
 
     if difftxt == "":
         sublime.status_message("No changes")
         return
 
-    use_buffer = not view or view.settings().get('diff_tabs_to_buffer')
+    use_buffer = not view or view.settings().get(buffer_setting_name)
 
     if use_buffer:
         v = win.new_file()
@@ -177,7 +178,7 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
         except ValueError:
             common_path_length = 0
         view_names = list(map(lambda name: name[common_path_length:], view_names))
-        show_diff_output(diff, views[0], views[0].window(), f'{view_names[0]} -> {view_names[1]}', 'diff_views')
+        show_diff_output(diff, views[0], views[0].window(), f'{view_names[0]} -> {view_names[1]}', 'diff_views', 'diff_tabs_to_buffer')
 
     def is_enabled(self, **kwargs):
         return self.is_visible(**kwargs)
