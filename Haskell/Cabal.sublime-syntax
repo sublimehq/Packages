@@ -27,7 +27,7 @@ variables:
   compiler_tags: |-
     (?xi: tested-with )
   dependency_tags: |-
-    (?xi: (?:{{identifier}}-)? depends )
+    (?xi: (?:{{identifier}}-)? depends | allow-(?: newer | older ) | constraints | preferences )
   module_tags: |-
     (?xi: (?:{{identifier}}-)? modules )
   option_tags: |-
@@ -133,6 +133,7 @@ contexts:
 ###[ DEPENDENCIES ]############################################################
 
   dependency-keys:
+    # https://cabal.readthedocs.io/en/3.8/cabal-project.html#solver-configuration-options
     - match: ^(\s*)({{dependency_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -142,10 +143,26 @@ contexts:
   dependency-values:
     - meta_content_scope: meta.mapping.value.dependencies.cabal
     - include: value-end
-    - include: sequence-separators
+    - include: dependency-names
+    - include: dependency-operators
     - include: operators
-    - include: literal-versions
-    - include: ident-other
+    - include: sequence-separators
+
+  dependency-names:
+    - match: \*(?!\.)
+      scope: variable.language.wildcard.asterisk.cabal
+    - match: \ball\b  # synonym for `*`
+      scope: constant.language.all.cabal
+    - match: \bnone\b
+      scope: constant.language.null.cabal
+    - match: '[[:alpha:]][-_.[:alnum:]]*'
+      scope: meta.path.package.cabal
+
+  dependency-operators:
+    - match: ':'
+      scope: keyword.operator.assignment.cabal
+    - match: \^
+      scope: keyword.operator.bound.cabal
 
 ###[ MODULES ]#################################################################
 
@@ -294,8 +311,9 @@ contexts:
   operators:
     - match: \|\||&&||!
       scope: keyword.operator.logical.cabal
-    - match: \^?(>=|<=|==|[<>])
+    - match: (?:>=|<=|==|[<>])
       scope: keyword.operator.comparison.cabal
+      push: literal-version
 
   sequence-separators:
     - match: ','
@@ -404,5 +422,14 @@ contexts:
     - match: (?:\d+|(\*))(\.(?=[*\d]))?
       scope: meta.number.version.cabal constant.numeric.value.cabal
       captures:
-        1: keyword.operator.wildcard.cabal
+        1: variable.language.wildcard.asterisk.cabal
         2: punctuation.separator.decimal.cabal
+
+  literal-version:
+    - match: (?:\d+|(\*))(\.(?=[*\d]))?
+      scope: meta.number.version.cabal constant.numeric.value.cabal
+      captures:
+        1: variable.language.wildcard.asterisk.cabal
+        2: punctuation.separator.decimal.cabal
+    - match: $|(?=\S)
+      pop: 1

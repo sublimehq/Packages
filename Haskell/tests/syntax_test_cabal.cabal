@@ -261,12 +261,138 @@ build-depends:  pandoc,
 --                           ^ punctuation.separator.sequence.cabal
         containers ^>= 0.4.2.1 && < 0.7,
 --      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
---                 ^^^ keyword.operator.comparison.cabal
+--                 ^ keyword.operator.bound.cabal
+--                  ^^ keyword.operator.comparison.cabal
 --                     ^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                             ^^ keyword.operator.logical.cabal
 --                                ^ keyword.operator.comparison.cabal
 --                                  ^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                                     ^ punctuation.separator.sequence.cabal
+
+constraints: pkg > 2.0, pkg >= 2.0
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
+--           ^^^ meta.path.package.cabal
+--               ^ keyword.operator.comparison.cabal
+--                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                    ^ punctuation.separator.sequence.cabal
+--                      ^^^ meta.path.package.cabal
+--                          ^^ keyword.operator.comparison.cabal
+--                             ^^^ meta.number.version.cabal constant.numeric.value.cabal
+
+preferences: pkg >= 2.*,
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
+--           ^^^ meta.path.package.cabal
+--               ^^ keyword.operator.comparison.cabal
+--                  ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                   ^ punctuation.separator.decimal.cabal
+--                    ^ variable.language.wildcard.asterisk.cabal
+--                     ^ punctuation.separator.sequence.cabal
+
+-- 'quux ^>= ...'-style constraints only.
+allow-newer: bar, baz, ^quux
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
+--           ^^^ meta.path.package.cabal
+--              ^ punctuation.separator.sequence.cabal
+--                ^^^ meta.path.package.cabal
+--                   ^ punctuation.separator.sequence.cabal
+--                     ^ keyword.operator.bound.cabal
+--                      ^^^^ meta.path.package.cabal
+
+-- Disregard none upper bounds when dependency solving
+allow-newer: none
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^^ meta.mapping.value.dependencies.cabal
+--           ^^^^ constant.language.null.cabal
+
+-- Disregard all upper bounds when dependency solving
+allow-newer: all
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^ meta.mapping.value.dependencies.cabal
+--           ^^^ constant.language.all.cabal
+
+-- Disregard all `^>=`-style upper bounds when dependency solving
+allow-newer: ^all
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^^ meta.mapping.value.dependencies.cabal
+--           ^ keyword.operator.bound.cabal
+--            ^^^ constant.language.all.cabal
+
+allow-newer: all:bar, *:baz, *:^quux
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--         ^ meta.mapping.cabal punctuation.separator.key-value.cabal
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
+--           ^^^ constant.language.all.cabal
+--              ^ keyword.operator.assignment.cabal
+--               ^^^ meta.path.package.cabal
+--                  ^ punctuation.separator.sequence.cabal
+--                    ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--                     ^ keyword.operator.assignment.cabal
+--                      ^^^ meta.path.package.cabal
+--                         ^ punctuation.separator.sequence.cabal
+--                           ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--                            ^ keyword.operator.assignment.cabal
+--                             ^ keyword.operator.bound.cabal
+--                              ^^^^ meta.path.package.cabal
+
+allow-newer: *:*
+--           ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--            ^ keyword.operator.assignment.cabal
+--             ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+
+allow-newer: all:all
+--           ^^^ constant.language.all.cabal
+--              ^ keyword.operator.assignment.cabal
+--               ^^^ constant.language.all.cabal
+
+allow-newer: *:^*
+--           ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--            ^ keyword.operator.assignment.cabal
+--             ^ keyword.operator.bound.cabal
+--              ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+
+allow-newer: all:^all
+--           ^^^ constant.language.all.cabal
+--              ^ keyword.operator.assignment.cabal
+--               ^ keyword.operator.bound.cabal
+--                ^^^ constant.language.all.cabal
+
+-- Disregard any upper bounds specified by pkg-1.2.3
+allow-newer: pkg-1.2.3:*
+--           ^^^^^^^^^ meta.path.package.cabal
+--                    ^ keyword.operator.assignment.cabal
+--                     ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+
+-- Disregard only `^>=`-style upper bounds in pkg-1.2.3
+allow-newer: pkg-1.2.3:^*
+--           ^^^^^^^^^ meta.path.package.cabal
+--                    ^ keyword.operator.assignment.cabal
+--                     ^ keyword.operator.bound.cabal
+--                      ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+
+allow-newer: pkg-1.2.3:dep-pkg, pkg-1.1.2:dep-pkg
+--           ^^^^^^^^^ meta.path.package.cabal
+--                    ^ keyword.operator.assignment.cabal
+--                     ^^^^^^^ meta.path.package.cabal
+--                            ^ punctuation.separator.sequence.cabal
+--                              ^^^^^^^^^ meta.path.package.cabal
+--                                       ^ keyword.operator.assignment.cabal
+--                                        ^^^^^^^ meta.path.package.cabal
 
 flag nightly
   Description:   Add "-nightly-COMPILEDATE" to the output of '--version'.
@@ -322,7 +448,7 @@ executable pandoc
   --       ^^^ constant.language.compiler.cabal
   --           ^ keyword.operator.comparison.cabal
   --             ^^^ meta.number.version.cabal constant.numeric.value.cabal
-  --               ^ keyword.operator.wildcard.cabal
+  --               ^ variable.language.wildcard.asterisk.cabal
   --                ^ punctuation.section.group.end.cabal
      hs-source-dirs: prelude
      -- <- meta.mapping.key.cabal entity.name.tag.cabal
@@ -334,7 +460,8 @@ executable pandoc
 --^^^^ keyword.control.conditional.cabal
      build-depends:  base-compat ^>= 1.*
      -- <- meta.mapping.key.cabal entity.name.tag.cabal
-     --                          ^^^ keyword.operator.comparison.cabal
+     --                          ^ keyword.operator.bound.cabal
+     --                           ^^ keyword.operator.comparison.cabal
      --                              ^^^ meta.number.version.cabal constant.numeric.value.cabal
 
   default-language: Haskell2010
