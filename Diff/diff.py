@@ -190,6 +190,6 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
     def description(self, **kwargs):
         selected_views = list(get_selected_views(self.view.window()))
         if len(selected_views) == 2:
-            return 'Diff selected tabs...'
+            return 'Diff Selected Tabs...'
 
-        return 'Diff with current tab...'
+        return 'Diff With Current Tab...'
