@@ -170,13 +170,28 @@ key: !!set
 # ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
 #  ^^^^^^^^ meta.mapping.key.yaml
 #   ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
-
     continued set value
 #  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
 
-  not a set value
-# ^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - meta.mapping
+    ? value3
+#   ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+#    ^^^^^^^^ meta.mapping.key.yaml
+#     ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+      continued set value
+#    ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+ ? value3
+#^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+# ^^^^^^^^ meta.mapping.key.yaml
+#  ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+      continued set value
+#    ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+ not a set value
+#^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - meta.mapping
 
 key: !!set
   ? value1
