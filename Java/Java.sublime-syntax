@@ -2060,6 +2060,56 @@ contexts:
       scope: invalid.illegal.identifier.java
       set: maybe-only-array-modifiers
 
+###[ TYPE PATTERNS ]###########################################################
+
+  type-pattern:
+    # https://openjdk.org/jeps/405
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - type-pattern-group-end
+        - type-pattern
+    - match: (?=\S)
+      set:
+        - variable-declaration-maybe-identifier
+        - type-pattern-type
+
+  type-pattern-group-end:
+    - meta_scope: meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      pop: 1
+    - include: else-pop
+
+  type-pattern-type:
+    - include: primitive-maybe-array-type
+    - include: var-type
+    - match: (?={{identifier}})
+      set:
+        - record-structure-pattern
+        - maybe-only-array-modifiers
+        - object-type
+    - include: annotations
+    - include: maybe-type-argument
+
+  record-structure-pattern:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - record-structure-pattern-body
+        - type-pattern
+    - include: else-pop
+
+  record-structure-pattern-body:
+    - meta_scope: meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push: type-pattern
+    - include: expression-terminator
+
 ###[ VARIABLES ]###############################################################
 
   variables:
@@ -2398,8 +2448,12 @@ contexts:
     - match: instanceof{{break}}
       scope: keyword.other.storage.instanceof.java
       push:
-        - maybe-only-array-modifiers
-        - cast-expression-type
+        - instanceof-meta
+        - type-pattern
+
+  instanceof-meta:
+    - meta_scope: meta.instanceof.java
+    - include: immediately-pop
 
   operator-ternary-colon:
     - match: ':'
@@ -3126,12 +3180,17 @@ contexts:
   primitive-types:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
-      push: maybe-array-modifiers
+      push: maybe-only-array-modifiers
 
   primitive-type:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
       pop: 1
+
+  primitive-maybe-array-type:
+    - match: '{{storage_types}}{{break}}'
+      scope: storage.type.primitive.java
+      set: maybe-only-array-modifiers
 
   var-types:
     - match: var{{break}}

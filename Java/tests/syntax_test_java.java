@@ -8880,26 +8880,52 @@ class CastExpressionsTests {
 
 class TypeComparisonExpressionsTests {
 
- void instanceofPrimitiveTests {
+  void instanceofPrimitiveTests {
 
     instanceof
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
 
     instanceof boolean
+//  ^^^^^^^^^^^^^^^^^^ meta.instanceof.java
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //             ^^^^^^^ storage.type.primitive.java
 
     instanceof boolean[]
+//  ^^^^^^^^^^^^^^^^^^^^ meta.instanceof.java
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //             ^^^^^^^ storage.type.primitive.java
 //                    ^^ storage.modifier.array.java
 
     instanceof boolean@anno[]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instanceof.java
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //             ^^^^^^^ storage.type.primitive.java
 //                    ^ punctuation.definition.annotation.java
 //                     ^^^^ variable.annotation.java
 //                         ^^ storage.modifier.array.java
+
+    instanceof ( boolean@anno[] )
+//  ^^^^^^^^^^^ meta.instanceof.java - meta.group
+//             ^^^^^^^^^^^^^^^^^^ meta.instanceof.java meta.group.java
+//                               ^ - meta.instanceof
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^^^^^^^ storage.type.primitive.java
+//                      ^ punctuation.definition.annotation.java
+//                       ^^^^ variable.annotation.java
+//                           ^^ storage.modifier.array.java
+//                              ^ punctuation.section.group.end.java
+
+    instanceof ( boolean@anno[] foo )
+//  ^^^^^^^^^^^ meta.instanceof.java - meta.group
+//             ^^^^^^^^^^^^^^^^^^^^^^ meta.instanceof.java meta.group.java
+//                                   ^ - meta.instanceof
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^^^^^^^ storage.type.primitive.java
+//                      ^ punctuation.definition.annotation.java
+//                       ^^^^ variable.annotation.java
+//                           ^^ storage.modifier.array.java
+//                              ^^^ variable.other.java
+//                                  ^ punctuation.section.group.end.java
 
     instanceof char
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
@@ -8942,21 +8968,25 @@ class TypeComparisonExpressionsTests {
 //   ^^^^ variable.annotation.java
     []
 //  ^^ storage.modifier.array.java
-}
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
- void instanceofClassTests {
+  void instanceofClassTests {
 
     a instanceof b
+//    ^^^^^^^^^^^^^ meta.instanceof.java
 //    ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //               ^ storage.type.class.java
 
     a instanceof b.c
+//    ^^^^^^^^^^^^^^^ meta.instanceof.java
 //    ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //               ^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
 //                 ^ storage.type.class.java
 
     a instanceof b.c.d
+//    ^^^^^^^^^^^^^^^^^ meta.instanceof.java
 //    ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //               ^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
@@ -8964,23 +8994,53 @@ class TypeComparisonExpressionsTests {
 //                  ^ punctuation.accessor.dot.java
 //                   ^ storage.type.class.java
 
+    a instanceof b.c.d e f
+//    ^^^^^^^^^^^^^^^^^^ meta.instanceof.java
+//                      ^^^ - meta.instanceof
+//    ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^ variable.namespace.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^ storage.type.class.java
+//                     ^ variable.other.java
+//                       ^ variable.other.java
+
     a instanceof Object
+//    ^^^^^^^^^^^^^^^^^^ meta.instanceof.java
 //    ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //               ^^^^^^ storage.type.class.java
-}
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
- void instanceofGenericsTests {
+  void instanceofGenericsTests {
 
     instanceof <T>
+//  ^^^^^^^^^^^ meta.instanceof.java - meta.generic
+//             ^^^ meta.instanceof.java meta.generic.java
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
 
     instanceof X<?>.Y<?>
+//  ^^^^^^^^^^^ meta.instanceof.java - meta.path
+//             ^^^^^^^^^ meta.instanceof.java meta.path.java
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
- }
+//             ^ storage.type.class.java
+//              ^ punctuation.definition.generic.begin.java
+//               ^ variable.language.wildcard.java
+//                ^ punctuation.definition.generic.end.java
+//                 ^ punctuation.accessor.dot.java
+//                  ^ storage.type.class.java
+//                   ^ punctuation.definition.generic.begin.java
+//                    ^ variable.language.wildcard.java
+//                     ^ punctuation.definition.generic.end.java
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
- void instanceofAmbigultyTests {
+  void instanceofAmbigultyTests {
 
     a = b instanceof c?1__1:0b11110101;
+//        ^^^^^^^^^^^^ meta.instanceof.java
+//                    ^^^^^^^^^^^^^^^^^^ - meta.instanceof
 //  ^ variable.other.java
 //    ^ keyword.operator.assignment.java
 //      ^ variable.other.java
@@ -8992,24 +9052,163 @@ class TypeComparisonExpressionsTests {
 //                          ^^ constant.numeric.base.java
 //                            ^^^^^^^^ constant.numeric.value.java
 //                                    ^ punctuation.terminator.java
- }
- // <- meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
   void instanceofPatternsTests () {
 
-      obj instanceof String s && s.length() > 5
-//    ^^^ variable.other.java
-//        ^^^^^^^^^^ keyword.other.storage.instanceof.java
+    obj instanceof String s && s.length() > 5
+//      ^^^^^^^^^^^^^^^^^^^ meta.instanceof.java
+//                         ^^^^^^^^^^^^^^^^^^^ - meta.instanceof
+//  ^^^ variable.other.java
+//      ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                 ^^^^^^ storage.type.class.java
+//                        ^ variable.other.java
+//                          ^^ keyword.operator.logical.java
+//                             ^ variable.other.java
+//                              ^ punctuation.accessor.dot.java
+//                               ^^^^^^ variable.function.java
+//                                     ^^ meta.group.java
+//                                        ^ keyword.operator.comparison.java
+//                                          ^ constant.numeric.value.java
+
+    obj instanceof ( String[] s ) s == 5
+//      ^^^^^^^^^^^ meta.instanceof.java - meta.group
+//                 ^^^^^^^^^^^^^^ meta.instanceof.java meta.group.java
+//                               ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.instanceof
+//  ^^^ variable.other.java
+//      ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                 ^ punctuation.section.group.begin.java
 //                   ^^^^^^ storage.type.class.java
-//                          ^ variable.other.java
-//                            ^^ keyword.operator.logical.java
-//                               ^ variable.other.java
-//                                ^ punctuation.accessor.dot.java
-//                                 ^^^^^^ variable.function.java
-//                                       ^^ meta.group.java
-//                                          ^ keyword.operator.comparison.java
-//                                            ^ constant.numeric.value.java
+//                         ^^ storage.modifier.array.java
+//                            ^ variable.other.java
+//                              ^ punctuation.section.group.end.java
+//                                ^ variable.other.java
+//                                  ^^ keyword.operator.comparison.java
+//                                     ^ constant.numeric.value.java
   }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+
+  static void instanceofStructuredRecordTests(Rectangle r) {
+    if (r instanceof Rectangle(ColoredPoint(Point p, Color c),
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instanceof.java
+//      ^ variable.other.java
+//        ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                   ^^^^^^^^^ storage.type.class.java
+//                            ^ punctuation.section.group.begin.java
+//                             ^^^^^^^^^^^^ storage.type.class.java
+//                                         ^ punctuation.section.group.begin.java
+//                                          ^^^^^ storage.type.class.java
+//                                                ^ variable.other.java
+//                                                 ^ punctuation.separator.comma.java
+//                                                   ^^^^^ storage.type.class.java
+//                                                         ^ variable.other.java
+//                                                          ^ punctuation.section.group.end.java
+//                                                           ^ punctuation.separator.comma.java
+                               coloredpoint lr)) {
+//                            ^^^^^^^^^^^^^^^^^ meta.instanceof.java
+//                                             ^ - meta.instanceof
+//                             ^^^^^^^^^^^^ storage.type.class.java
+//                                          ^^ variable.other.java
+//                                            ^^ punctuation.section.group.end.java
+//                                               ^ punctuation.section.block.begin.java
+      System.out.println(c);
+//               ^^^^^^^ variable.function.java
+    }
+//  ^ punctuation.section.block.end.java
+
+    obj instanceof (Record(boolean a, (var b), Foo(int c) d) e) f && s.length() > 5
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instanceof.java
+//                                                             ^^^^^^^^^^^^^^^^^^^^^ - meta.instanceof
+//                 ^^^^^^^ meta.group.java - meta.group meta.group
+//                        ^^^^^^^^^^^^ meta.group.java meta.group.java - meta.group meta.group meta.group
+//                                    ^^^^^^^ meta.group.java meta.group.java meta.group.java
+//                                           ^^^^^ meta.group.java meta.group.java - meta.group meta.group meta.group
+//                                                ^^^^^^^ meta.group.java meta.group.java meta.group.java
+//                                                       ^^^ meta.group.java meta.group.java - meta.group meta.group meta.group
+//                                                          ^^^ meta.group.java - meta.group meta.group
+//                                                             ^ - meta.group
+//  ^^^ variable.other.java
+//      ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                 ^ punctuation.section.group.begin.java
+//                  ^^^^^^ storage.type.class.java
+//                        ^ punctuation.section.group.begin.java
+//                         ^^^^^^^ storage.type.primitive.java
+//                                 ^ variable.other.java
+//                                  ^ punctuation.separator.comma.java
+//                                    ^ punctuation.section.group.begin.java
+//                                     ^^^ storage.type.variant.java
+//                                         ^ variable.other.java
+//                                          ^ punctuation.section.group.end.java
+//                                           ^ punctuation.separator.comma.java
+//                                             ^^^ storage.type.class.java
+//                                                ^ punctuation.section.group.begin.java
+//                                                 ^^^ storage.type.primitive.java
+//                                                     ^ variable.other.java
+//                                                      ^ punctuation.section.group.end.java
+//                                                        ^ variable.other.java
+//                                                         ^ punctuation.section.group.end.java
+//                                                            ^ punctuation.section.group.end.java
+//                                                              ^ variable.other.java
+//                                                                ^^ keyword.operator.logical.java
+//                                                                   ^ variable.other.java
+//                                                                    ^ punctuation.accessor.dot.java
+//                                                                     ^^^^^^ variable.function.java
+//                                                                           ^^ meta.group.java
+//                                                                              ^ keyword.operator.comparison.java
+//                                                                                ^ constant.numeric.value.java
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+
+  static void instanceofGenericTest1(Box<Object> bo) {
+    if (bo instanceof Box<Object>(String s)) {
+//     ^^^^ meta.group.java - meta.instanceof
+//         ^^^^^^^^^^^^^^ meta.group.java meta.instanceof.java - meta.generic
+//                       ^^^^^^^^ meta.group.java meta.instanceof.java meta.generic.java
+//                               ^^^^^^^^^^ meta.group.java meta.instanceof.java meta.group.java
+//                                         ^ meta.group.java - meta.instanceof
+//      ^^ variable.other.java
+//         ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                    ^^^ storage.type.class.java
+//                       ^ punctuation.definition.generic.begin.java
+//                        ^^^^^^ storage.type.class.java
+//                              ^ punctuation.definition.generic.end.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^^^^^^ storage.type.class.java
+//                                       ^ variable.other.java
+//                                        ^ punctuation.section.group.end.java
+
+      System.out.println("String " + s);
+//               ^^^^^^^ variable.function.java
+    }
+//  ^ punctuation.section.block.end.java
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+
+  static void instanceofGenericTest2(Box<Object> bo) {
+    if (bo instanceof box<string>(var s)) {
+//     ^^^^ meta.group.java - meta.instanceof
+//         ^^^^^^^^^^^^^^ meta.group.java meta.instanceof.java - meta.generic
+//                       ^^^^^^^^ meta.group.java meta.instanceof.java meta.generic.java
+//                               ^^^^^^^ meta.group.java meta.instanceof.java meta.group.java
+//                                      ^ meta.group.java - meta.instanceof
+//      ^^ variable.other.java
+//         ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                    ^^^ storage.type.class.java
+//                       ^ punctuation.definition.generic.begin.java
+//                        ^^^^^^ storage.type.class.java
+//                              ^ punctuation.definition.generic.end.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^^^ storage.type.variant.java
+//                                    ^ variable.other.java
+//                                     ^^ punctuation.section.group.end.java
+//                                        ^ punctuation.section.block.begin.java
+      System.out.println("String " + s);
+//               ^^^^^^^ variable.function.java
+    }
+//  ^ punctuation.section.block.end.java
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 }
 // <- meta.class.java meta.block.java punctuation.section.block.end.java
 
