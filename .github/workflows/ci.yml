@@ -46,13 +46,31 @@ jobs:
           # latest dev build
           # https://www.sublimetext.com/dev
           - sublime-channel: dev
-            sublime-build: 4134
+            sublime-build: 4136
             optional: false
 
     steps:
 
+      - name: Git config (global)
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config --global init.defaultBranch master
+
+      # https://github.com/actions/checkout
       - name: Git checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
+
+      - name: Clean up for automated testing
+        run: |
+          # remove (some) subdirectories in root directory
+          find . -maxdepth 1 -mindepth 1 -type d -name '.git' -exec rm -rf '{}' ';'
+          find . -maxdepth 1 -mindepth 1 -type d -name '.github' -exec rm -rf '{}' ';'
+          # remove (some) files in root directory
+          find . -maxdepth 1 -mindepth 1 -type f -name '.gitignore' -delete
+          find . -maxdepth 1 -mindepth 1 -type f -name 'LICENSE' -delete
+          find . -maxdepth 1 -mindepth 1 -type f -name 'README.md' -delete
+        shell: bash
 
       - name: Get binary for Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
         run: |
