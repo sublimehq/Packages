@@ -226,9 +226,9 @@ contexts:
     #   scope: invalid.illegal.unmatched.yaml
 
   node:
-    - include: block-node
+    - include: block-node-11
 
-  flow-node:
+  flow-node-11:
     # http://yaml.org/spec/1.2/spec.html#style/flow/
     # ns-flow-yaml-node(n,c)
     - include: flow-alias
@@ -265,12 +265,12 @@ contexts:
     - include: flow-sequence
     - include: flow-mapping
 
-  block-node:
+  block-node-11:
     # http://yaml.org/spec/1.2/spec.html#style/block/
     - include: block-scalar
     - include: block-collection
-    - include: flow-scalar-plain-out  # needs higher priority than flow-node, which includes flow-scalar-plain-in
-    - include: flow-node
+    - include: flow-scalar-plain-out-11  # needs higher priority than flow-node-11, which includes flow-scalar-plain-in
+    - include: flow-node-11
 
   block-node-12:
     # http://yaml.org/spec/1.2/spec.html#style/block/
@@ -587,17 +587,19 @@ contexts:
         7: punctuation.separator.time.yaml
         8: punctuation.separator.time.yaml
 
-  flow-scalar-plain-out:
+  flow-scalar-plain-out-11:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type-11
-    - match: (?={{ns_plain_first_plain_out}})
-      push: flow-scalar-plain-out-body
+    - include: flow-scalar-plain-out-common
 
   flow-scalar-plain-out-12:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type-12
+    - include: flow-scalar-plain-out-common
+
+  flow-scalar-plain-out-common:
     - match: (?={{ns_plain_first_plain_out}})
       push: flow-scalar-plain-out-body
 
@@ -622,7 +624,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.yaml
     - include: flow-pair-no-clear
-    - include: flow-node
+    - include: flow-node-11
 
   flow-mapping:
     - match: \{
@@ -637,7 +639,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.yaml
     - include: flow-pair
-    - include: flow-node  # for sets
+    - include: flow-node-11  # for sets
 
   flow-pair:
     - match: \?
@@ -678,7 +680,7 @@ contexts:
   flow-pair-value:
     - meta_content_scope: meta.mapping.value.yaml
     - include: flow-pair-end
-    - include: flow-node
+    - include: flow-node-11
 
   flow-pair-clear-1:
     - meta_include_prototype: false
@@ -730,22 +732,16 @@ contexts:
     - include: block-pair
 
   block-pair:
-    - match: \?(?=\s|$)
-      scope: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+    - match: ( *)(\?)(?=\s)
+      captures:
+        2: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
       push: block-key-explicit
     # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
     # if followed by a colon
     - match: '{{_flow_key_out_lookahead}}'
       push: block-key-implicit
-    - match: :(?=\s|$)
+    - match: :(?=\s)
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-
-  block-key-implicit:
-    - meta_content_scope: meta.mapping.key.yaml
-    - match: :(?=\s|$)
-      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
-    - include: flow-scalar-out-12
 
   block-key-explicit:
     - meta_content_scope: meta.mapping.key.yaml
@@ -755,9 +751,17 @@ contexts:
       captures:
         1: punctuation.separator.key-value.mapping.yaml
       pop: true
-    - match: (?=\?(?=\s|$))  # Empty mapping keys & values are allowed
+    # multi-line keys are indented by at least one more space than `?`
+    - match: ^(?!\1 +\S|\s*$)
       pop: true
     - include: block-node-12
+
+  block-key-implicit:
+    - meta_content_scope: meta.mapping.key.yaml
+    - match: :(?=\s)
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+      pop: true
+    - include: flow-scalar-out-12
 
   comment:
     # http://www.yaml.org/spec/1.2/spec.html#comment//
