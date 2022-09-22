@@ -5553,7 +5553,8 @@ class SwitchStatementTests {
 //    ^^^^ keyword.control.conditional.case.java
 
       case :
-//   ^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
+//   ^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.label.java
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
 //          ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ punctuation.separator.expressions.java
@@ -5703,6 +5704,20 @@ class SwitchStatementTests {
 //         ^^^^^^^^ constant.other.java
 //                 ^ punctuation.separator.expressions.java
 
+      case CONSTANT, constant:
+//   ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
+//    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
+//         ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.label.java - meta.path
+//                 ^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
+//                   ^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.label.java - meta.path
+//                           ^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
+//                            ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+//                 ^ punctuation.separator.comma.java
+//                   ^^^^^^^^ constant.other.java
+//                           ^ punctuation.separator.expressions.java
+
       case constant
 //   ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
 //    ^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.conditional.case.java
@@ -5828,8 +5843,8 @@ class SwitchStatementTests {
 //                                                                ^ punctuation.separator.expressions.java
 
       case /**/ @anno /**/ mod /**/ . /**/ @anno /**/ sub /**/ . /**/ @anno /**/ MyClass /**/ . /**/ @anno /**/ EnumConst:
-//    ^^^^^^^^^^ meta.statement.conditional.case.java - meta.path
-//              ^^^^^^^^^^^  meta.statement.conditional.case.label.java - meta.path
+//    ^^^^^ meta.statement.conditional.case.java - meta.path
+//         ^^^^^^^^^^^^^^^^  meta.statement.conditional.case.label.java - meta.path
 //                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.statement.conditional.case.label.java meta.path.java
 //                                                                                                                       ^ meta.statement.conditional.case.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
@@ -5961,7 +5976,11 @@ class SwitchExpressionsTests {
           case MONDAY, FRIDAY, SUNDAY -> 6;
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
 //        ^^^^^ meta.statement.conditional.case.java
-//             ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//             ^^^^^^ meta.statement.conditional.case.label.java
+//                   ^^ meta.statement.conditional.case.java
+//                     ^^^^^^ meta.statement.conditional.case.label.java
+//                           ^^ meta.statement.conditional.case.java
+//                             ^^^^^^ meta.statement.conditional.case.label.java
 //                                    ^^ meta.statement.conditional.case.java
 //                                      ^^^^ - meta.statement.conditional.case
 //        ^^^^ keyword.control.conditional.case.java
@@ -6049,7 +6068,204 @@ class SwitchExpressionsTests {
 //     ^ punctuation.terminator.java - meta.statement.conditional.switch
    }
 // ^ punctuation.section.block.end.java
+
+   String testPatternCaseLabels(Object o) {
+     return switch (o) {
+       case Integer i -> String.format("int %d", i);
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                    ^^ meta.statement.conditional.case.java
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.conditional.case
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^^^^ storage.type.class.java
+//                  ^ variable.other.java
+//                    ^^ punctuation.separator.expressions.java
+//                       ^^^^^^ storage.type.class.java
+//                             ^ punctuation.accessor.dot.java
+//                              ^^^^^^ variable.function.java
+
+       case Long l    -> String.format("long %d", l);
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                    ^^ meta.statement.conditional.case.java
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.conditional.case
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^ storage.type.class.java
+//               ^ variable.other.java
+//                    ^^ punctuation.separator.expressions.java
+//                       ^^^^^^ storage.type.class.java
+//                             ^ punctuation.accessor.dot.java
+//                              ^^^^^^ variable.function.java
+
+       case null, String s -> "String, including null";
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^ meta.statement.conditional.case.label.java
+//              ^^ meta.statement.conditional.case.java
+//                ^^^^^^^^^ meta.statement.conditional.case.label.java
+//                         ^^ meta.statement.conditional.case.java
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.conditional.case
+//          ^^^^ constant.language.null.java
+//              ^ punctuation.separator.comma.java
+//                ^^^^^^ storage.type.class.java
+//                       ^ variable.other.java
+//                         ^^ punctuation.separator.expressions.java
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.java
+//                                                    ^ punctuation.terminator.java
+
+       default        -> o.toString();
+//     ^^^^^^^^^^^^^^^^^ meta.statement.conditional.default.java
+//                      ^^^^^^^^^^^^^^^ - meta.statement.conditional.default
+//     ^^^^^^^ keyword.control.conditional.default.java
+//                    ^^ punctuation.separator.expressions.java
+//                       ^ variable.other.java
+//                        ^ punctuation.accessor.dot.java
+//                         ^^^^^^^^ variable.function.java
+     };
+//   ^ punctuation.section.block.end.java
+//    ^ punctuation.terminator.java
+   }
+// ^ punctuation.section.block.end.java
+
+  void testPatternCaseLabelsWithGuards(Object o) {
+    return switch (o) {
+       case DayType when -> "incomplete";
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                       ^^ meta.statement.conditional.case.java
+//                         ^^^^^^^^^^^^^^^ - meta.statement.conditional.case
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^^^^ storage.type.class.java
+//                  ^^^^ keyword.control.conditional.when.java
+//                       ^^  punctuation.separator.expressions.java
+//                          ^^^^^^^^^^^^ string.quoted.double.java
+//                                      ^ punctuation.terminator.java
+
+       case DayType t when t.isType() == WEEKDAY -> "complete";
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                                               ^^ meta.statement.conditional.case.java
+//                                                 ^^^^^^^^^^^^ - meta.statement.conditional.case
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^^^^ storage.type.class.java
+//                  ^ variable.other.java
+//                    ^^^^ keyword.control.conditional.when.java
+//                         ^ meta.variable.identifier.java variable.other.java
+//                          ^ punctuation.accessor.dot.java
+//                           ^^^^^^ variable.function.java
+//                                    ^^ keyword.operator.comparison.java
+//                                       ^^^^^^^ constant.other.java
+//                                               ^^  punctuation.separator.expressions.java
+//                                                  ^^^^^^^^^^ string.quoted.double.java
+//                                                            ^ punctuation.terminator.java
+
+       case DayType t
+//    ^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^ meta.statement.conditional.case.label.java
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^^^^ storage.type.class.java
+//                  ^ variable.other.java
+          when t.isType() > WEEKEND ->
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                                  ^^ meta.statement.conditional.case.java
+//                                    ^ - meta.statement.conditional.case
+//        ^^^^ keyword.control.conditional.when.java
+//             ^ variable.other.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^ variable.function.java
+//                        ^ keyword.operator.comparison.java
+//                          ^^^^^^^ constant.other.java
+//                                  ^^ punctuation.separator.expressions.java
+             System.out.println("weekend");
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//           ^^^^^^ storage.type.class.java
+//                 ^ punctuation.accessor.dot.java
+//                  ^^^ meta.variable.identifier.java variable.other.java
+//                     ^ punctuation.accessor.dot.java
+//                      ^^^^^^^ meta.function-call.identifier.java variable.function.java
+//                             ^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
+//                                        ^ punctuation.terminator.java
+
+       case DayType t when t == HOLIDAY, Date d when d == Date.MONDAY -> "ok";
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                                                                    ^^ meta.statement.conditional.case.java
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^^^^ storage.type.class.java
+//                  ^ variable.other.java
+//                    ^^^^ keyword.control.conditional.when.java
+//                         ^ variable.other.java
+//                           ^^ keyword.operator.comparison.java
+//                              ^^^^^^^ constant.other.java
+//                                     ^ punctuation.separator.comma.java
+//                                       ^^^^ storage.type.class.java
+//                                            ^ variable.other.java
+//                                              ^^^^ keyword.control.conditional.when.java
+//                                                   ^ variable.other.java
+//                                                     ^^ keyword.operator.comparison.java
+//                                                        ^^^^ storage.type.class.java
+//                                                            ^ punctuation.accessor.dot.java
+//                                                             ^^^^^^ constant.other.java
+//                                                                    ^^ punctuation.separator.expressions.java
+//                                                                       ^^^^ meta.string.java string.quoted.double.java
+
+       case DateTime(Date(int y, int m, int d), Time(int h, int m, int s)) when y == 2000 -> y + m + d;
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function.java meta.block.java meta.statement.conditional.switch.java meta.block.java
+//     ^^^^^ meta.statement.conditional.case.java
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.label.java
+//                                                                                        ^^ meta.statement.conditional.case.java
+//                                                                                          ^ - meta.statement.conditional.case
+//     ^^^^ keyword.control.conditional.case.java
+//          ^^^^^^^^ storage.type.class.java
+//                  ^ punctuation.section.group.begin.java
+//                   ^^^^ storage.type.class.java
+//                       ^ punctuation.section.group.begin.java
+//                        ^^^ storage.type.primitive.java
+//                            ^ variable.other.java
+//                             ^ punctuation.separator.comma.java
+//                               ^^^ storage.type.primitive.java
+//                                   ^ variable.other.java
+//                                    ^ punctuation.separator.comma.java
+//                                      ^^^ storage.type.primitive.java
+//                                          ^ variable.other.java
+//                                           ^ punctuation.section.group.end.java
+//                                            ^ punctuation.separator.comma.java
+//                                              ^^^^ storage.type.class.java
+//                                                  ^ punctuation.section.group.begin.java
+//                                                   ^^^ storage.type.primitive.java
+//                                                       ^ variable.other.java
+//                                                        ^ punctuation.separator.comma.java
+//                                                          ^^^ storage.type.primitive.java
+//                                                              ^ variable.other.java
+//                                                               ^ punctuation.separator.comma.java
+//                                                                 ^^^ storage.type.primitive.java
+//                                                                     ^ variable.other.java
+//                                                                      ^^ punctuation.section.group.end.java
+//                                                                         ^^^^ keyword.control.conditional.when.java
+//                                                                              ^ meta.variable.identifier.java variable.other.java
+//                                                                                ^^ keyword.operator.comparison.java
+//                                                                                   ^^^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                                                                        ^^ punctuation.separator.expressions.java
+//                                                                                           ^ meta.variable.identifier.java variable.other.java
+//                                                                                             ^ keyword.operator.arithmetic.java
+//                                                                                               ^ meta.variable.identifier.java variable.other.java
+//                                                                                                 ^ keyword.operator.arithmetic.java
+//                                                                                                   ^ meta.variable.identifier.java variable.other.java
+//                                                                                                    ^ punctuation.terminator.java
+    };
+// ^^ meta.statement.conditional.switch.java meta.block.java
+//   ^ - meta.statement.conditional.switch
+//  ^ punctuation.section.block.end.java
+//   ^ punctuation.terminator.java
+  }
+//^ punctuation.section.block.end.java
 }
+// <- meta.class.java meta.block.java punctuation.section.block.end.java
 
 
 /******************************************************************************

@@ -1296,10 +1296,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
     - match: case{{break}}
       scope: keyword.control.conditional.case.java
-      branch_point: case-label
-      branch:
-        - case-label-constant
-        - case-label-expression
+      push: case-label
     - match: default{{break}}
       scope: keyword.control.conditional.default.java
       push: case-default-end
@@ -1322,9 +1319,19 @@ contexts:
       pop: 1
     - include: else-pop
 
-  case-label-constant:
+  case-label:
+    - meta_include_prototype: false
     - meta_scope: meta.statement.conditional.case.java
     - match: (?=\S)
+      branch_point: case-label
+      branch:
+        - case-label-constant
+        - case-label-pattern
+        - case-label-expression
+
+  case-label-constant:
+    - meta_include_prototype: false
+    - match: ''
       set:
         - case-label-constant-end
         - case-label-constant-identifier
@@ -1336,26 +1343,50 @@ contexts:
     - include: case-label-fail
 
   case-label-constant-end:
+    - clear_scopes: 1
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
-    - match: (?=[;{}]|(?:{{keywords}}|{{storage_types}}|{{storage_modifiers}}){{break}})
+    - include: case-label-fail
+
+  case-label-pattern:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - case-label-pattern-end
+        - case-label-pattern-identifier
+        - type-pattern-type
+
+  case-label-pattern-identifier:
+    # prevent `when` from being scoped variable or constant
+    - match: (?=when{{break}})
       pop: 1
+    - include: variable-declaration-maybe-identifier
+
+  case-label-pattern-end:
+    - clear_scopes: 1
+    - meta_content_scope: meta.statement.conditional.case.label.java
+    - match: when{{break}}
+      scope: meta.statement.conditional.case.label.java keyword.control.conditional.when.java
+      pop: 1
+      push: case-label-expression
+    - include: case-label-end
     - include: case-label-fail
 
   case-label-expression:
-    - meta_scope: meta.statement.conditional.case.java
-    - match: (?=\S)
-      set: case-label-expression-body
-
-  case-label-expression-body:
+    - clear_scopes: 1
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
     - include: expression
 
   case-label-end:
+    - match: ','
+      scope: meta.statement.conditional.case.java punctuation.separator.comma.java
+      pop: 1
     - match: ':|->'
       scope: meta.statement.conditional.case.java punctuation.separator.expressions.java
-      pop: 1
+      pop: 2
+    - match: (?=[;{}]|(?:{{keywords}}|{{storage_modifiers}}){{break}})
+      pop: 2
 
   case-label-fail:
     - match: (?=\S)
