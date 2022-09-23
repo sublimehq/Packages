@@ -161,6 +161,7 @@ contexts:
     - include: literals
     - include: punctuations
     - include: operators
+    - include: type-comparisons
     - include: primitive-types
     - include: var-types
     - include: array-modifiers
@@ -2096,6 +2097,19 @@ contexts:
 
 ###[ TYPE PATTERNS ]###########################################################
 
+  type-comparisons:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
+    - match: instanceof{{break}}
+      scope: keyword.other.storage.instanceof.java
+      push:
+        - type-comparison-meta
+        - type-pattern
+
+  type-comparison-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.instanceof.java
+    - include: immediately-pop
+
   type-pattern:
     # https://openjdk.org/jeps/405
     - match: \(
@@ -2478,16 +2492,6 @@ contexts:
     - match: '\?'
       scope: keyword.operator.ternary.java
       push: ternary-expression
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
-    - match: instanceof{{break}}
-      scope: keyword.other.storage.instanceof.java
-      push:
-        - instanceof-meta
-        - type-pattern
-
-  instanceof-meta:
-    - meta_scope: meta.instanceof.java
-    - include: immediately-pop
 
   operator-ternary-colon:
     - match: ':'
