@@ -152,12 +152,15 @@ contexts:
     - include: labeled-statements
 
   expressions:
+    - include: instantiations
+    - include: lambdas
+    - include: constant-expressions
+
+  constant-expressions:
     - include: groups
     - include: literals
     - include: punctuations
-    - include: lambdas
     - include: operators
-    - include: instantiations
     - include: primitive-types
     - include: var-types
     - include: array-modifiers
@@ -1376,7 +1379,7 @@ contexts:
     - clear_scopes: 1
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
-    - include: expression
+    - include: constant-expressions
 
   case-label-end:
     - match: ','
