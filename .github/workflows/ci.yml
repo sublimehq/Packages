@@ -46,7 +46,7 @@ jobs:
           # latest dev build
           # https://www.sublimetext.com/dev
           - sublime-channel: dev
-            sublime-build: 4136
+            sublime-build: 4137
             optional: false
 
     steps:
