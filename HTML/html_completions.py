@@ -267,9 +267,9 @@ def get_tag_attributes():
             'srcdoc', 'width'
         ],
         'img': [
-            'align', 'alt', 'border', 'crossorigin', 'height', 'hspace',
-            'ismap', 'longdesc', 'name', 'sizes', 'src', 'srcset', 'usemap',
-            'vspace', 'width'
+            'align', 'alt', 'border', 'crossorigin', 'decoding', 'fetchpriority',
+            'height', 'hspace', 'ismap', 'loading', 'longdesc', 'name',
+            'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'vspace', 'width'
         ],
         'input': [
             'accept', 'align', 'alt', 'autocomplete', 'autofocus', 'autosave',
