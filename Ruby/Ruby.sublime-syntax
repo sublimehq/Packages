@@ -28,6 +28,7 @@ name: Ruby
 scope: source.ruby
 
 file_extensions:
+  - arb
   - rb
   - rbi
   - rbx
