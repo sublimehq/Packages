@@ -6,10 +6,10 @@ scope: source.ruby.rails
 extends: Packages/Ruby/Ruby.sublime-syntax
 
 file_extensions:
-  - arb
   - ruby.rail
   - rxml
   - builder
+  - arb
 
 contexts:
 
