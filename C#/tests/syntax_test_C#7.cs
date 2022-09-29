@@ -729,7 +729,7 @@ public readonly ref struct Span<T>
     private readonly int _length;
 }
 
-public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg) ;
 ///    ^^^^^^^^ storage.type.delegate
 ///             ^^^^ storage.type
 ///                  ^^^^^^^^^^ variable.other.member.delegate
@@ -738,6 +738,7 @@ public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
 ///                              ^ punctuation.separator.type
 ///                                ^^ storage.modifier
 ///                                   ^^^^ support.type
+///                                                                 ^ punctuation.terminator.statement.cs
 
 void Test ()
 {

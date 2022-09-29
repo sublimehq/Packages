@@ -256,7 +256,7 @@ contexts:
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
     - match: ';'
-      scope: punctuation.terminator.cs
+      scope: punctuation.terminator.statement.cs
       pop: true
     - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
@@ -427,10 +427,11 @@ contexts:
       push: [method_param, method_param_type]
 
   delegate_end:
-    - match: ';'
-      scope: punctuation.terminator.cs
+    - match: \s*(;)
+      captures:
+        1: punctuation.terminator.statement.cs
       pop: true
-    - match: (\s+(?=\S)|\S)
+    - match: \s*(?=\S)
       scope: invalid.illegal.expected.colon
       pop: true
 
@@ -832,7 +833,7 @@ contexts:
             - include: stray_close_bracket
             - include: code_block_in
     - match: ;
-      scope: punctuation.terminator.cs
+      scope: punctuation.terminator.statement.cs
       pop: true
     - match: \S+
       scope: invalid.illegal.cs
