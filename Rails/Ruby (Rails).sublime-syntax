@@ -9,6 +9,7 @@ file_extensions:
   - ruby.rail
   - rxml
   - builder
+  - arb
 
 contexts:
 
