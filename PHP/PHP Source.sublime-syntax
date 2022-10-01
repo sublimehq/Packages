@@ -1312,21 +1312,21 @@ contexts:
     - meta_content_scope: meta.catch.php
     - match: \(
       scope: punctuation.section.group.begin.php
-      set: catch-arguments-body
+      set:
+        - catch-arguments-body
+        - expect-type-hint
     - include: comments
     - include: else-pop
 
   catch-arguments-body:
     - meta_scope: meta.catch.arguments.php meta.group.php
-    - include: group-end
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
-    - include: type-hints
     - match: (\$){{identifier}}
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
+    - include: group-end
+    - include: comments
+    - include: else-pop
 
 ###[ FOR STATEMENTS ]#########################################################
 
@@ -1944,13 +1944,6 @@ contexts:
     # https://wiki.php.net/rfc/union_types_v2
     - match: (?=\S)
       set:
-        - type-hint-body
-        - type-hint-simple-type
-
-  type-hints:
-    # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
-      push:
         - type-hint-body
         - type-hint-simple-type
 
