@@ -1552,6 +1552,71 @@ class B
 
 class TestTypedProperties {
 
+    public ;
+//  ^^^^^^ storage.modifier.access.php
+//        ^^ - meta.type
+//         ^ punctuation.terminator.statement.php
+
+    public ( ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php meta.group.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public ? ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//         ^ storage.type.nullable.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public & ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//         ^ punctuation.separator.type.intersection.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public | ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//         ^ punctuation.separator.type.union.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public $var;
+//  ^^^^^^ storage.modifier.access.php
+//        ^^^^^ - meta.type
+//         ^^^^ variable.other.php
+//             ^ punctuation.terminator.statement.php
+
+    public ( $var;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php meta.group.php
+//           ^^^^^ - meta.type
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+    public ? $var;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//           ^^^^^ - meta.type
+//         ^ storage.type.nullable.php
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+    public & $var;
+//  ^^^^^^ storage.modifier.access.php
+//        ^^^^^^^ - meta.type
+//         ^ - punctuation.separator.type.intersection
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+    public | $var;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//           ^^^^^ - meta.type
+//         ^ punctuation.separator.type.union.php
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+
     public static ?Foo $str = '';
 //  ^^^^^^ storage.modifier.access.php
 //         ^^^^^^ storage.modifier.namespace.php

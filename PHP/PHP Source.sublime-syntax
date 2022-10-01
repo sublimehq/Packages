@@ -952,16 +952,13 @@ contexts:
       push: property-type-hint
 
   property-type-hint:
-    - match: (?=(?i:const|function)\b)
+    - match: (?=\$|(?i:const|function)\b)
       pop: 1
     - match: '{{property_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
     - include: static-modifiers
-    - include: type-hint
-    - include: attributes
-    - include: comments
-    - include: else-pop
+    - include: expect-type-hint
 
 ###[ ARROW FUNCTION DECLARATIONS ]############################################
 
@@ -1902,17 +1899,19 @@ contexts:
 
 ###[ TYPE HINTS ]#############################################################
 
+  expect-type-hint:
+    - include: attributes
+    - include: comments
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: (?=\S)
+      set:
+        - type-hint-body
+        - type-hint-simple-type
+
   type-hints:
     # https://wiki.php.net/rfc/union_types_v2
     - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
       push:
-        - type-hint-body
-        - type-hint-simple-type
-
-  type-hint:
-    # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\(\s*)?(?:\?\s*)?\\?{{identifier_start}})
-      set:
         - type-hint-body
         - type-hint-simple-type
 
