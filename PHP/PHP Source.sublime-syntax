@@ -987,9 +987,12 @@ contexts:
 
   arrow-function-parameters:
     - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: arrow-function-parameters-body
+    - match: (?=\()
+      set:
+        - arrow-function-parameters-body
+        - function-parameter-variable
+        - expect-type-hint
+        - group-begin
     - include: else-pop
 
   arrow-function-parameters-body:
@@ -1082,47 +1085,75 @@ contexts:
       set: function-parameters
 
   constructor-parameters:
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: constructor-parameters-body
+    - meta_include_prototype: false
+    - match: (?=\()
+      set:
+        - constructor-parameters-body
+        - function-parameter-variable
+        - constructor-type-hint
+        - group-begin
+    - include: comments
     - include: else-pop
 
   constructor-parameters-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.php meta.group.php
+    - match: ',|(?=[(?\\[:alpha:]])'  # handle missing comma gracefully
+      scope: punctuation.separator.sequence.php
+      push:
+        - function-parameter-variable
+        - constructor-type-hint
+    - include: function-parameter-values
+    - include: group-end
+    - include: comments
+    - include: else-pop
+
+  constructor-type-hint:
     - match: '{{constructor_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
     - include: static-modifiers
-    - include: function-parameters-body
+    - include: expect-type-hint
 
   function-parameters:
     - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: function-parameters-body
+    - match: (?=\()
+      set:
+        - function-parameters-body
+        - function-parameter-variable
+        - expect-type-hint
+        - group-begin
+    - include: comments
     - include: else-pop
 
   function-parameters-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.php meta.group.php
-    - match: \)
-      scope: punctuation.section.group.end.php
-      pop: 1
-    - match: =
-      scope: keyword.operator.assignment.php
-      push: single-expression
-    - include: expression-end-pop
-    - include: attributes
+    - match: ',|(?=[(?\\[:alpha:]])'  # handle missing comma gracefully
+      scope: punctuation.separator.sequence.php
+      push:
+        - function-parameter-variable
+        - expect-type-hint
+    - include: function-parameter-values
+    - include: group-end
     - include: comments
-    - include: punctuation-separators
-    - include: reference-modifiers
-    - include: variadic-operators
-    - include: type-hints
+    - include: else-pop
+
+  function-parameter-variable:
     - match: (\$+){{identifier}}
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
+      pop: 1
+    - include: reference-modifiers
+    - include: variadic-operators
+    - include: comments
+    - include: else-pop
+
+  function-parameter-values:
+    - match: =
+      scope: keyword.operator.assignment.php
+      push: single-expression
 
   function-use:
     - match: (?i:use)\b
@@ -1136,6 +1167,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       set: function-use-group-body
+    - include: comments
     - include: else-pop
 
   function-use-group-body:
@@ -1161,6 +1193,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.php
       set: function-block-body
+    - include: comments
     - include: else-pop
 
   function-block-body:
@@ -1472,6 +1505,12 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       push: group-body
+
+  group-begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      pop: 1
 
   group-body:
     - meta_scope: meta.group.php
