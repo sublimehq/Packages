@@ -1927,6 +1927,27 @@ function foo(?stinrg ...$args) {}
 //                   ^^^ keyword.operator.variadic
 //                      ^^^^^ variable.parameter
 
+    // incomplete and therefore invalid code to illustrate reference operator precedence
+    function &typedParameterReferences(int & C &$v, bool & $new, ?string | $str) {}
+//  ^ keyword.declaration.function.php
+//           ^ keyword.operator.reference.php
+//            ^ entity.name.function.php
+//                                    ^ punctuation.section.group.begin.php
+//                                     ^^^ storage.type.primitive.php
+//                                         ^ punctuation.separator.type.intersection.php
+//                                           ^ support.class.php
+//                                             ^ keyword.operator.reference.php
+//                                              ^^ variable.parameter.php
+//                                                ^ punctuation.separator.sequence.php
+//                                                  ^^^^ storage.type.primitive.php
+//                                                       ^ keyword.operator.reference.php
+//                                                         ^^^^ variable.parameter.php
+//                                                             ^ punctuation.separator.sequence.php
+//                                                               ^ storage.type.nullable.php
+//                                                                ^^^^^^ storage.type.primitive.php
+//                                                                       ^ punctuation.separator.type.union.php
+//                                                                         ^^^^ variable.parameter.php
+//                                                                             ^ punctuation.section.group.end.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
@@ -2038,6 +2059,28 @@ function foo(?stinrg ...$args) {}
 //                     ^ support.class
 //                       ^ punctuation.definition.variable
 //                        ^^^^^^ variable.parameter
+
+        (?A/**/|/**/B/**/)/**/&/**/(/**/C/**/|/**/?D/**/)/**/&/**/?E $param2,
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.php
+//                                                                   ^^^^^^^^^ - meta.type
+//      ^ punctuation.section.group.begin
+//       ^ storage.type.nullable
+//        ^ support.class
+//             ^ punctuation.separator.type.union
+//                  ^ support.class
+//                       ^ punctuation.section.group.end
+//                            ^ punctuation.separator.type.intersection
+//                                 ^ punctuation.section.group.begin
+//                                      ^ support.class
+//                                           ^ punctuation.separator.type.union
+//                                                ^ storage.type.nullable
+//                                                 ^ support.class
+//                                                      ^ punctuation.section.group.end
+//                                                           ^ punctuation.separator.type.intersection
+//                                                                ^ storage.type.nullable
+//                                                                 ^ support.class
+//                                                                   ^ punctuation.definition.variable
+//                                                                    ^^^^^^ variable.parameter
         string $param3,
 //      ^^^^^^ storage.type
 //             ^ punctuation.definition.variable

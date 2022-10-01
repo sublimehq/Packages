@@ -788,7 +788,6 @@ contexts:
       set:
         - type-hint-body
         - type-hint-simple-type
-        - type-hint-nullable
     - include: else-pop
 
   enum-declaration-body:
@@ -1007,7 +1006,6 @@ contexts:
       set:
         - arrow-function-return-type-body
         - type-hint-simple-type
-        - type-hint-nullable
     - include: else-pop
 
   arrow-function-return-type-body:
@@ -1154,7 +1152,6 @@ contexts:
       set:
         - function-return-type-body
         - type-hint-simple-type
-        - type-hint-nullable
     - include: else-pop
 
   function-return-type-body:
@@ -1911,7 +1908,6 @@ contexts:
       push:
         - type-hint-body
         - type-hint-simple-type
-        - type-hint-nullable
 
   type-hint:
     # https://wiki.php.net/rfc/union_types_v2
@@ -1919,38 +1915,29 @@ contexts:
       set:
         - type-hint-body
         - type-hint-simple-type
-        - type-hint-nullable
 
   type-hint-body:
     - meta_scope: meta.type.php
-    - match: \|(?!\s*\$)
-      scope: punctuation.separator.type.union.php
-      push:
-        - type-hint-simple-type
-        - type-hint-nullable
-    - match: '&(?!\s*\$)'
-      scope: punctuation.separator.type.intersection.php
-      push:
-        - type-hint-simple-type
-        - type-hint-nullable
-    - include: type-hint-groups
-    - include: else-pop
-
-  type-hint-groups:
     - match: \(
       scope: punctuation.section.group.begin.php
       push:
-        - meta_scope: meta.group.php
-        - match: \)
-          scope: punctuation.section.group.end.php
-          pop: 1
-        - include: type-hints
-
-  type-hint-nullable:
-    - match: \?
-      scope: storage.type.nullable.php
-      pop: 1
+        - type-hint-group-body
+        - type-hint-simple-type
+    - match: \|
+      scope: punctuation.separator.type.union.php
+      push: type-hint-simple-type
+    - match: \&(?!\s*\$)  # references have precedence
+      scope: punctuation.separator.type.intersection.php
+      push: type-hint-simple-type
+    - include: comments
     - include: else-pop
+
+  type-hint-group-body:
+    - meta_scope: meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
+      pop: 1
+    - include: type-hint-body
 
   type-hint-simple-type:
     # note that
@@ -1962,8 +1949,11 @@ contexts:
     - match: (?=(?i:extends|implements)\b)
       pop: 1
     - include: expression-end-pop
+    - match: \?
+      scope: storage.type.nullable.php
     - include: binding
     - include: class-name
+    - include: comments
     - include: else-pop
 
 ###[ CLASSES ]################################################################
