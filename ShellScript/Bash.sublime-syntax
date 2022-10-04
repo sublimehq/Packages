@@ -14,6 +14,7 @@ file_extensions:
   - bashrc    # e.g.: /etc/bash.bashrc
   - ash
   - zsh
+  - env
 
 hidden_file_extensions:
   - .bash_aliases
@@ -24,6 +25,7 @@ hidden_file_extensions:
   - .bash_profile
   - .bash_variables
   - .bashrc
+  - .env
   - .profile
   - .textmate_init
   - .zlogin
