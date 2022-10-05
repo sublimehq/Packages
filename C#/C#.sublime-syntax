@@ -331,7 +331,7 @@ contexts:
         2: keyword.declaration.class.record.cs
         3: keyword.declaration.struct.record.cs
         4: entity.name.class.cs
-      push: [record_signature, data_type_signature, record_parameters, data_type_signature]
+      push: [record_signature, data_type_constraint, record_parameters, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
@@ -514,6 +514,9 @@ contexts:
       push:
         - meta_content_scope: meta.generic.cs
         - include: type_parameter
+    - include: data_type_constraint
+
+  data_type_constraint:
     - match: ':'
       scope: punctuation.separator.type.cs
       set: type_constraint

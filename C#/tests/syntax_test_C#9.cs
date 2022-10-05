@@ -311,10 +311,11 @@ public record A(int Num);
 ///                 ^^^ variable.parameter
 ///                    ^ punctuation.section.parameters.end
 ///                     ^ punctuation.terminator.statement
-public record B<T>(T Num);
+public record B<T>(T Num)<NoGeneric>;
 ///    ^^^^^^^^^^^ meta.class.record
 ///               ^^^^^^^ meta.class.record.parameters
-///                      ^ - meta.class
+///                      ^^^^^^^^^^^ meta.class.record - meta.generic
+///                                 ^ - meta.class
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^^^ meta.generic
@@ -323,7 +324,7 @@ public record B<T>(T Num);
 ///              ^ punctuation.definition.generic.end
 ///               ^ punctuation.section.parameters.begin
 ///                     ^ punctuation.section.parameters.end
-///                      ^ punctuation.terminator.statement
+///                                 ^ punctuation.terminator.statement
 public record C<TNum> (TNum Num) where TNum : class;
 ///    ^^^^^^^^^^^^^^^ meta.class.record.cs
 ///                   ^^^^^^^^^^ meta.class.record.parameters.cs
