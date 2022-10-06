@@ -19,6 +19,7 @@ hidden_file_extensions:
   - .bash_aliases
   - .bash_completions
   - .bash_functions
+  - .bash_hisotry
   - .bash_login
   - .bash_logout
   - .bash_profile
