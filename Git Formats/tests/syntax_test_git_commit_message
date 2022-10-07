@@ -108,13 +108,35 @@ Fix: #203
 
   Change-Id: I3b3613e336397febf02cd8e5c14c53d493343e93
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-# ^^^^^^^^^ keyword.other.change-id.git.commit
+# ^^^^^^^^^ keyword.other.trailer.git.commit
 #          ^ punctuation.separator.key-value.git.commit
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.change-id.git.commit
+  Co-authored-by: username <user.name@domain.com>
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                          ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+# ^^^^^^^^^^^^^^ keyword.other.trailer.git.commit
+#               ^ punctuation.separator.key-value.git.commit
+#                          ^ punctuation.definition.reference.email.begin.git
+#                           ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                               ^ - punctuation.separator.email.git
+#                                    ^ punctuation.separator.email.git
+#                                           ^ punctuation.separator.domain.git
+#                                               ^ punctuation.definition.reference.email.end.git
+  Reviewed-by: username <user.name@domain.com>
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                       ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+# ^^^^^^^^^^^ keyword.other.trailer.git.commit
+#            ^ punctuation.separator.key-value.git.commit
+#                       ^ punctuation.definition.reference.email.begin.git
+#                        ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                            ^ - punctuation.separator.email.git
+#                                 ^ punctuation.separator.email.git
+#                                        ^ punctuation.separator.domain.git
+#                                            ^ punctuation.definition.reference.email.end.git
   Signed-off-by: username <user.name@domain.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                         ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
-# ^^^^^^^^^^^^^ keyword.other.signed-off-by.git.commit
+# ^^^^^^^^^^^^^ keyword.other.trailer.git.commit
 #              ^ punctuation.separator.key-value.git.commit
 #                         ^ punctuation.definition.reference.email.begin.git
 #                          ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
@@ -122,6 +144,12 @@ Fix: #203
 #                                   ^ punctuation.separator.email.git
 #                                          ^ punctuation.separator.domain.git
 #                                              ^ punctuation.definition.reference.email.end.git
+  See-also: 21dde213 subject
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+# ^^^^^^^^ keyword.other.trailer.git.commit
+#         ^ punctuation.separator.key-value.git.commit
+#           ^^^^^^^^ constant.other.hash.git
+
   This commit references a hash: 21dde213
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                                ^^^^^^^^ constant.other.hash.git
