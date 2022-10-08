@@ -150,6 +150,18 @@ Fix: #203
 #         ^ punctuation.separator.key-value.git.commit
 #           ^^^^^^^^ constant.other.hash.git
 
+  -No-trailer-by: value
+# ^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  No_railer-by: value
+# ^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  No.railer-by: value
+# ^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  No-Tℜailer-by: value
+# ^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
   This commit references a hash: 21dde213
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                                ^^^^^^^^ constant.other.hash.git
