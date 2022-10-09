@@ -1552,6 +1552,71 @@ class B
 
 class TestTypedProperties {
 
+    public ;
+//  ^^^^^^ storage.modifier.access.php
+//        ^^ - meta.type
+//         ^ punctuation.terminator.statement.php
+
+    public ( ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php meta.group.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public ? ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//         ^ storage.type.nullable.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public & ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//         ^ punctuation.separator.type.intersection.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public | ;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//         ^ punctuation.separator.type.union.php
+//           ^ punctuation.terminator.statement.php - meta.type
+
+    public $var;
+//  ^^^^^^ storage.modifier.access.php
+//        ^^^^^ - meta.type
+//         ^^^^ variable.other.php
+//             ^ punctuation.terminator.statement.php
+
+    public ( $var;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php meta.group.php
+//           ^^^^^ - meta.type
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+    public ? $var;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//           ^^^^^ - meta.type
+//         ^ storage.type.nullable.php
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+    public & $var;
+//  ^^^^^^ storage.modifier.access.php
+//        ^^^^^^^ - meta.type
+//         ^ - punctuation.separator.type.intersection
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+    public | $var;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^ meta.type.php
+//           ^^^^^ - meta.type
+//         ^ punctuation.separator.type.union.php
+//           ^^^^ variable.other.php
+//               ^ punctuation.terminator.statement.php
+
+
     public static ?Foo $str = '';
 //  ^^^^^^ storage.modifier.access.php
 //         ^^^^^^ storage.modifier.namespace.php
@@ -1927,6 +1992,27 @@ function foo(?stinrg ...$args) {}
 //                   ^^^ keyword.operator.variadic
 //                      ^^^^^ variable.parameter
 
+    // incomplete and therefore invalid code to illustrate reference operator precedence
+    function &typedParameterReferences(int & C &$v, bool & $new, ?string | $str) {}
+//  ^ keyword.declaration.function.php
+//           ^ keyword.operator.reference.php
+//            ^ entity.name.function.php
+//                                    ^ punctuation.section.group.begin.php
+//                                     ^^^ storage.type.primitive.php
+//                                         ^ punctuation.separator.type.intersection.php
+//                                           ^ support.class.php
+//                                             ^ keyword.operator.reference.php
+//                                              ^^ variable.parameter.php
+//                                                ^ punctuation.separator.sequence.php
+//                                                  ^^^^ storage.type.primitive.php
+//                                                       ^ keyword.operator.reference.php
+//                                                         ^^^^ variable.parameter.php
+//                                                             ^ punctuation.separator.sequence.php
+//                                                               ^ storage.type.nullable.php
+//                                                                ^^^^^^ storage.type.primitive.php
+//                                                                       ^ punctuation.separator.type.union.php
+//                                                                         ^^^^ variable.parameter.php
+//                                                                             ^ punctuation.section.group.end.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ keyword.declaration.function
@@ -1988,6 +2074,106 @@ function foo(?stinrg ...$args) {}
 //                                                              ^ punctuation.separator.type.intersection
 //                                                                ^^^^^^^^^^ support.class
 
+    function incompleteParamTypesFunction(
+
+        $param0,
+//      ^^^^^^^ variable.parameter.php
+//             ^ punctuation.separator.sequence.php
+
+        ? $param1,
+//      ^^ meta.type.php
+//        ^^^^^^^ - meta.type
+//      ^ storage.type.nullable.php
+//        ^^^^^^^ variable.parameter.php
+//               ^ punctuation.separator.sequence.php
+
+        & $param2,
+//      ^^^^^^^^^ - meta.type
+//      ^ keyword.operator.reference.php
+//        ^^^^^^^ variable.parameter.php
+//               ^ punctuation.separator.sequence.php
+
+        | $param3,
+//      ^^ meta.type.php
+//        ^^^^^^^ - meta.type
+//      ^ punctuation.separator.type.union.php
+//        ^^^^^^^ variable.parameter.php
+//               ^ punctuation.separator.sequence.php
+
+        ( $param4,
+//      ^^ meta.type.php meta.group.php
+//        ^^^^^^^ - meta.type
+//      ^ punctuation.section.group.begin.php
+//        ^^^^^^^ variable.parameter.php
+//        ^ punctuation.definition.variable.php
+//               ^ punctuation.separator.sequence.php
+
+        () $param5,
+//      ^^ meta.type.php meta.group.php
+//        ^ meta.type.php - meta.type meta.group
+//         ^^^^^^^ - meta.type
+//      ^ punctuation.section.group.begin.php
+//       ^ punctuation.section.group.end.php
+//         ^^^^^^^ variable.parameter.php
+//                ^ punctuation.separator.sequence.php
+
+        ...$param1,
+//      ^^^ keyword.operator.variadic.php
+//         ^^^^^^^ variable.parameter.php
+//                ^ punctuation.separator.sequence.php
+
+        ? ...$param2,
+//      ^^ meta.type.php
+//        ^^^^^^^^^^^ - meta.type
+//      ^ storage.type.nullable.php
+//        ^^^ keyword.operator.variadic.php
+//           ^^^^^^^ variable.parameter.php
+//                  ^ punctuation.separator.sequence.php
+
+        & ...$param3,
+//      ^^ meta.type.php
+//        ^^^^^^^^^^^ - meta.type
+//      ^ punctuation.separator.type.intersection.php
+//        ^^^ keyword.operator.variadic.php
+//           ^^^^^^^ variable.parameter.php
+//                  ^ punctuation.separator.sequence.php
+
+        | ...$param4,
+//      ^^ meta.type.php
+//        ^^^^^^^^^^^ - meta.type
+//      ^ punctuation.separator.type.union.php
+//        ^^^ keyword.operator.variadic.php
+//           ^^^^^^^ variable.parameter.php
+//                  ^ punctuation.separator.sequence.php
+
+        ( ...$param5,
+//      ^^ meta.type.php meta.group.php
+//        ^^^^^^^^^^^ - meta.type
+//      ^ punctuation.section.group.begin.php
+//        ^^^ keyword.operator.variadic.php
+//           ^^^^^^^ variable.parameter.php
+//           ^ punctuation.definition.variable.php
+//                  ^ punctuation.separator.sequence.php
+
+        () ...$param6,
+//      ^^ meta.type.php meta.group.php
+//        ^ meta.type.php - meta.type meta.group
+//         ^^^^^^^^^^^ - meta.type
+//      ^ punctuation.section.group.begin.php
+//       ^ punctuation.section.group.end.php
+//         ^^^ keyword.operator.variadic.php
+//            ^^^^^^^ variable.parameter.php
+//                   ^ punctuation.separator.sequence.php
+
+        bool $param0 string $param2,
+//      ^^^^ storage.type.primitive.php
+//           ^^^^^^^ variable.parameter.php
+//                   ^^^^^^ storage.type.primitive.php
+//                          ^^^^^^^ variable.parameter.php
+//                                 ^ punctuation.separator.sequence.php
+
+    ): {}
+
     function unionTypeFunction(
 //  ^ keyword.declaration.function
 //           ^ entity.name.function.php
@@ -2038,6 +2224,28 @@ function foo(?stinrg ...$args) {}
 //                     ^ support.class
 //                       ^ punctuation.definition.variable
 //                        ^^^^^^ variable.parameter
+
+        (?A/**/|/**/B/**/)/**/&/**/(/**/C/**/|/**/?D/**/)/**/&/**/?E $param2,
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.php
+//                                                                   ^^^^^^^^^ - meta.type
+//      ^ punctuation.section.group.begin
+//       ^ storage.type.nullable
+//        ^ support.class
+//             ^ punctuation.separator.type.union
+//                  ^ support.class
+//                       ^ punctuation.section.group.end
+//                            ^ punctuation.separator.type.intersection
+//                                 ^ punctuation.section.group.begin
+//                                      ^ support.class
+//                                           ^ punctuation.separator.type.union
+//                                                ^ storage.type.nullable
+//                                                 ^ support.class
+//                                                      ^ punctuation.section.group.end
+//                                                           ^ punctuation.separator.type.intersection
+//                                                                ^ storage.type.nullable
+//                                                                 ^ support.class
+//                                                                   ^ punctuation.definition.variable
+//                                                                    ^^^^^^ variable.parameter
         string $param3,
 //      ^^^^^^ storage.type
 //             ^ punctuation.definition.variable
