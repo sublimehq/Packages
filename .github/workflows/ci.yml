@@ -46,13 +46,14 @@ jobs:
           # latest dev build
           # https://www.sublimetext.com/dev
           - sublime-channel: dev
-            sublime-build: 4134
+            sublime-build: 4137
             optional: false
 
     steps:
 
+      # https://github.com/actions/checkout
       - name: Git checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
 
       - name: Get binary for Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
         run: |
