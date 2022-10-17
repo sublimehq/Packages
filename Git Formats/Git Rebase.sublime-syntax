@@ -97,6 +97,12 @@ contexts:
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.label.git.rebase
       set: help-cmd-args
+    - match: \b(u)(,) (update-ref)\b
+      captures:
+        1: keyword.operator.commit.update-ref.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.update-ref.git.rebase
+      set: help-cmd-args
     - match: \b(m)(,) (merge)\b
       captures:
         1: keyword.operator.commit.merge.git.rebase
@@ -211,6 +217,11 @@ contexts:
         0: meta.branch.label.git.rebase
         1: keyword.other.label.git.rebase
         2: constant.language.branch-name.git.commit
+    - match: ^\s*(u|update-ref)\s+(\S+)
+      captures:
+        0: meta.branch.update-ref.git.rebase
+        1: keyword.operator.update-ref.git.rebase
+        2: constant.language.ref.git.commit
     - match: ^\s*(m|merge)\s+({{option}})\s+({{hash}})\s+(\S+)
       captures:
         0: meta.branch.merge.git.rebase
