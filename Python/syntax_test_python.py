@@ -2361,14 +2361,20 @@ foo.bar(baz., True)
 
 primes: List[int] = []
 #     ^ punctuation.separator.annotation.variable.python
+#     ^^^^^^^^^^^^ meta.variable.parameters.annotation.python
+#       ^^^^ meta.qualified-name.python
 #                 ^ keyword.operator.assignment
 
 captain: str  # Note: no initial value!
 #      ^ punctuation.separator.annotation.variable.python
+#      ^^^^^^^ meta.variable.parameters.annotation.python
+#             ^^^^^^^ comment
+#        ^^^ meta.qualified-name.python
 
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.parameters.annotation.python
 #                                   ^ keyword.operator.assignment
 
 
