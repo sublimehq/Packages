@@ -1429,7 +1429,7 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|is|where|not|has)(?=\()
+    - match: (?i:matches|is|where|not|has|host(?:-context)?)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
