@@ -256,7 +256,7 @@ contexts:
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
     - match: ';'
-      scope: punctuation.terminator.cs
+      scope: punctuation.terminator.statement.cs
       pop: true
     - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
@@ -331,7 +331,7 @@ contexts:
         2: keyword.declaration.class.record.cs
         3: keyword.declaration.struct.record.cs
         4: entity.name.class.cs
-      push: [record_signature, data_type_signature]
+      push: [record_signature, data_type_constraint, record_parameters, data_type_signature]
     - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
@@ -427,56 +427,77 @@ contexts:
       push: [method_param, method_param_type]
 
   delegate_end:
-    - match: ';'
-      scope: punctuation.terminator.cs
+    - match: \s*(;)
+      captures:
+        1: punctuation.terminator.statement.cs
       pop: true
-    - match: (\s+(?=\S)|\S)
+    - match: \s*(?=\S)
       scope: invalid.illegal.expected.colon
       pop: true
 
-  struct_signature:
-    - meta_scope: meta.struct.cs
-    - match: ''
-      set: [struct_body, data_type_body]
+  record_parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      push: record_params
+    - match: (?=\S)
+      pop: true
+
+  record_params:
+    - clear_scopes: 1
+    - meta_scope: meta.class.record.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 2
+    - match: (?=\S)
+      push: [method_param, method_param_type]
 
   class_signature:
     - meta_scope: meta.class.cs
-    - match: ''
-      set: [class_body, data_type_body]
-
-  record_signature:
-    - meta_scope: meta.class.record.cs
-    - match: ''
-      set: [class_body, record_type_body]
-
-  interface_signature:
-    - meta_scope: meta.interface.cs
-    - match: ''
-      set: [interface_body, data_type_body]
-
-  struct_body:
-    - meta_content_scope: meta.struct.body.cs
-    - match: ''
-      pop: true
+    - match: (?=\S)
+      set: class_body
 
   class_body:
     - meta_content_scope: meta.class.body.cs
-    - match: ''
-      pop: true
+    - include: data_type_expect_block
+
+  interface_signature:
+    - meta_scope: meta.interface.cs
+    - match: (?=\S)
+      set: interface_body
 
   interface_body:
     - meta_content_scope: meta.interface.body.cs
-    - match: ''
-      pop: true
+    - include: data_type_expect_block
 
-  data_type_body:
+  record_signature:
+    - meta_scope: meta.class.record.cs
+    - match: (?=\S)
+      set: record_body
+
+  record_body:
+    - meta_content_scope: meta.class.record.body.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - include: data_type_expect_block
+
+  struct_signature:
+    - meta_scope: meta.struct.cs
+    - match: (?=\S)
+      set: struct_body
+
+  struct_body:
+    - meta_content_scope: meta.struct.body.cs
+    - include: data_type_expect_block
+
+  data_type_expect_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
       push:
         - meta_scope: meta.block.cs
         - match: \}
           scope: punctuation.section.block.end.cs
-          pop: true
+          pop: 2
         - include: attribute
         - include: class_declaration
         - include: interface_declaration
@@ -484,28 +505,7 @@ contexts:
         - include: method_declaration
         - include: stray_close_bracket
     - match: \S*
-      scope: invalid.illegal
-      pop: true
-
-  record_type_body:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - include: attribute
-        - include: class_declaration
-        - include: interface_declaration
-        - include: delegate_declaration
-        - include: method_declaration
-        - include: stray_close_bracket
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      set: [data_type_signature, method_params]
-    - match: ';'
-      scope: punctuation.terminator.cs
+      scope: invalid.illegal.cs
       pop: true
 
   data_type_signature:
@@ -514,6 +514,9 @@ contexts:
       push:
         - meta_content_scope: meta.generic.cs
         - include: type_parameter
+    - include: data_type_constraint
+
+  data_type_constraint:
     - match: ':'
       scope: punctuation.separator.type.cs
       set: type_constraint
@@ -832,7 +835,7 @@ contexts:
             - include: stray_close_bracket
             - include: code_block_in
     - match: ;
-      scope: punctuation.terminator.cs
+      scope: punctuation.terminator.statement.cs
       pop: true
     - match: \S+
       scope: invalid.illegal.cs
