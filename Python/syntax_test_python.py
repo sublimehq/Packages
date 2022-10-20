@@ -2371,6 +2371,27 @@ captain: str  # Note: no initial value!
 #             ^^^^^^^ comment
 #        ^^^ meta.qualified-name.python
 
+foo: \
+#  ^^^ meta.variable.parameters.annotation.python
+foo: \
+    bar = zoo
+# <- meta.variable.parameters.annotation.python
+#^^^^^^^ meta.variable.parameters.annotation.python
+#       ^ keyword.operator.assignment
+
+zoo: \
+#  ^^^ meta.variable.parameters.annotation.python
+zoo: \
+    loo \
+# <- meta.variable.parameters.annotation.python
+#^^^^^^^^^ meta.variable.parameters.annotation.python
+zoo: \
+    loo \
+    = too
+# <- meta.variable.parameters.annotation.python
+#^^^ meta.variable.parameters.annotation.python
+#   ^ keyword.operator.assignment
+
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
