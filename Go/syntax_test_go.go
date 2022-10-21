@@ -10,18 +10,17 @@ This file must not be formatted with `go fmt`.
 You may have to disable Go-specific linters when working on this file.
 */
 
-
-// # Comments
+/* # Comments */
 
     //
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^ comment.line.go
+//  ^^^ comment.line.double-slash.go
 
     // comment // comment
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.go
+//  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
 //             ^^ -punctuation
 
     /* comment // comment */  // comment
@@ -32,100 +31,112 @@ You may have to disable Go-specific linters when working on this file.
 //                        ^^ punctuation.definition.comment.end.go
 //                          ^^ -comment -punctuation
 //                            ^^ punctuation.definition.comment.go
-//                            ^^^^^^^^^^^ comment.line.go
+//                            ^^^^^^^^^^^ comment.line.double-slash.go
 
     /*
 // ^ -comment
+//  ^^ comment.block.go punctuation.definition.comment.begin.go
+//    ^^ comment.block.go - punctuation
 //  ^^^^ comment.block.go
     comment
 //  ^^^^^^^^ comment.block.go
     */
-//  ^^ comment.block.go
+//^^ comment.block.go - punctuation
+//  ^^ comment.block.go punctuation.definition.comment.end.go
 //    ^ -comment
 
     /* * */
 // ^ -comment
 //  ^^^^^^^ comment.block.go
+//  ^^ punctuation.definition.comment.begin.go
+//    ^^^ -punctuation.definition.comment.go
+//       ^^ punctuation.definition.comment.end.go
 //         ^ -comment
 
-    /**
+    /*
+    *
+//  ^ -punctuation.definition.comment.go
+
+        *
+//      ^ -punctuation.definition.comment.go
+
      *
-//   ^ comment.block.go punctuation.definition.comment.go
+//   ^ punctuation.definition.comment.go
     */
 
     //go
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^ comment.line.go -meta.annotation
+//  ^^^^ comment.line.double-slash.go -meta.annotation
 
     //go:
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^ comment.line.go -meta.annotation
+//  ^^^^^ comment.line.double-slash.go -meta.annotation
 
     //go:generate one two three
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^ meta.keyword.annotation.go
 //       ^^^^^^^^ meta.variable.function.go
-//                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                             ^ comment.line.go -meta.annotation
+//                ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                             ^ comment.line.double-slash.go -meta.annotation
 
     //go-sumtype:decl MySumType
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^^^^^^^ meta.keyword.annotation.go
 //               ^^^^ meta.variable.function.go
-//                    ^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                             ^ comment.line.go -meta.annotation
+//                    ^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                             ^ comment.line.double-slash.go -meta.annotation
 
     //lint:ignore U1000 Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^ meta.variable.function.go
-//                ^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                             ^ comment.line.go -meta.annotation
+//                ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                             ^ comment.line.double-slash.go -meta.annotation
 
     //lint:file-ignore Reason.
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^^^^^^ meta.variable.function.go
-//                     ^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                            ^ comment.line.go -meta.annotation
+//                     ^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                            ^ comment.line.double-slash.go -meta.annotation
 
     //line :10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//         ^^^ comment.line.go meta.annotation.parameters.go
-//            ^ comment.line.go -meta.annotation
+//         ^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//            ^ comment.line.double-slash.go -meta.annotation
 
     //line file.rl:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//         ^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                   ^ comment.line.go -meta.annotation
+//         ^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                   ^ comment.line.double-slash.go -meta.annotation
 
     //line file.rl:100:10
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^ comment.line.go meta.annotation.go
+//  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
-//         ^^^^^^^^^^^^^^ comment.line.go meta.annotation.parameters.go
-//                       ^ comment.line.go -meta.annotation
+//         ^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                       ^ comment.line.double-slash.go -meta.annotation
 
     /*line :10*/
 // ^ -comment
-//  ^^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^ comment.block.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^ comment.block.go meta.annotation.parameters.go
 //            ^^ comment.block.go punctuation.definition.comment.end.go
@@ -133,7 +144,7 @@ You may have to disable Go-specific linters when working on this file.
 
     /*line file.rl:10*/
 // ^ -comment
-//  ^^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
@@ -142,7 +153,7 @@ You may have to disable Go-specific linters when working on this file.
 
     /*line file.rl:100:10*/
 // ^ -comment
-//  ^^^^^^^ comment.block.go meta.annotation.go
+//  ^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
@@ -169,22 +180,22 @@ You may have to disable Go-specific linters when working on this file.
     //export myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^ comment.line.go meta.annotation.go
-//           ^^^^^^ comment.line.go meta.annotation.parameters.go
-//                 ^ comment.line.go -meta.annotation
+//  ^^^^^^^^ comment.line.double-slash.go meta.annotation.go
+//           ^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                 ^ comment.line.double-slash.go -meta.annotation
 
     //extern myfunc
 // ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^^^^^ comment.line.go meta.annotation.go
-//           ^^^^^^ comment.line.go meta.annotation.parameters.go
-//                 ^ comment.line.go -meta.annotation
+//  ^^^^^^^^ comment.line.double-slash.go meta.annotation.go
+//           ^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
+//                 ^ comment.line.double-slash.go -meta.annotation
 
 
-// # Imports
+/* # Imports */
 
     package main
-//  ^^^^^^^ storage.type.namespace.go keyword.declaration.namespace.go
+//  ^^^^^^^ keyword.declaration.namespace.go
 //         ^ - keyword - storage
 //          ^^^^ entity.name.namespace.go
 
@@ -208,17 +219,17 @@ You may have to disable Go-specific linters when working on this file.
 //            ^ string.quoted.double.go punctuation.definition.string.begin.go
 //             ^^^^^^ string.quoted.double.go
 //                   ^ string.quoted.double.go punctuation.definition.string.end.go
-//                          ^^^^^^^^^^^ comment.line.go
+//                          ^^^^^^^^^^^ comment.line.double-slash.go
         ident "module"      // comment
 //      ^^^^^ variable.other.go
 //            ^ string.quoted.double.go punctuation.definition.string.begin.go
 //             ^^^^^^ string.quoted.double.go
 //                   ^ string.quoted.double.go punctuation.definition.string.end.go
-//                          ^^^^^^^^^^^ comment.line.go
+//                          ^^^^^^^^^^^ comment.line.double-slash.go
     )
 
 
-// # Type Keywords and Syntax
+/* # Type Keywords and Syntax */
 
 /*
 Type keywords are tested early because they're used in many other tests.
@@ -228,7 +239,7 @@ Note: Go permits an arbitrary number of parens around a type.
 Note: built-ins are tested separately. Search for "# Built-in Types".
 */
 
-// ## chan
+/* ## chan */
 
     chan _
 //  ^^^^ keyword.declaration.chan.go
@@ -312,11 +323,10 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     chan
 //  ^^^^ keyword.declaration.chan.go
-    ident /**/ . /**/
+    ident . /**/
 //  ^^^^^ variable.other.go
-//        ^^^^ comment.block.go
-//             ^ punctuation.accessor.dot.go
-//               ^^^^ comment.block.go
+//        ^ punctuation.accessor.dot.go
+//          ^^^^ comment.block.go
     typ
 //  ^^^ storage.type.go
 
@@ -324,16 +334,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^ keyword.operator.assignment.go
     chan
 //  ^^^^ keyword.declaration.chan.go
-    ident /**/ . /**/
+    ident . /**/
 //  ^^^^^ variable.other.go
-//        ^^^^ comment.block.go
-//             ^ punctuation.accessor.dot.go
-//               ^^^^ comment.block.go
-    ident /**/ . /**/
+//        ^ punctuation.accessor.dot.go
+//          ^^^^ comment.block.go
+    ident . /**/
 //  ^^^^^ variable.other.go
-//        ^^^^ comment.block.go
-//             ^ punctuation.accessor.dot.go
-//               ^^^^ comment.block.go
+//        ^ punctuation.accessor.dot.go
+//          ^^^^ comment.block.go
     typ
 //  ^^^ storage.type.go
 
@@ -342,16 +350,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     <-    /**/
 //  ^^ keyword.operator.assignment.go
 //        ^^^^ comment.block.go
-    ident /**/ . /**/
+    ident . /**/
 //  ^^^^^ variable.other.go
-//        ^^^^ comment.block.go
-//             ^ punctuation.accessor.dot.go
-//               ^^^^ comment.block.go
-    ident /**/ . /**/
+//        ^ punctuation.accessor.dot.go
+//          ^^^^ comment.block.go
+    ident . /**/
 //  ^^^^^ variable.other.go
-//        ^^^^ comment.block.go
-//             ^ punctuation.accessor.dot.go
-//               ^^^^ comment.block.go
+//        ^ punctuation.accessor.dot.go
+//          ^^^^ comment.block.go
     typ
 //  ^^^ storage.type.go
 
@@ -422,7 +428,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //               ^^^ storage.type.go
 
 
-// ## func
+/* ## func */
 
 // Note: a function type and the beginning of a non-method function declaration
 // are parsed EXACTLY the same. Function types may contain parameter names.
@@ -668,17 +674,16 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                      ^ punctuation.separator.go
         /**/
 //      ^^^^ comment.block.go
-        param /**/ * /**/ ident /**/ . /**/ Type,
+        param /**/ * /**/ ident . /**/ Type,
 //      ^^^^^ variable.parameter.go
 //            ^^^^ comment.block.go
 //                 ^ keyword.operator.go
 //                   ^^^^ comment.block.go
 //                        ^^^^^ variable.other.go
-//                              ^^^^ comment.block.go
-//                                   ^ punctuation.accessor.dot.go
-//                                     ^^^^ comment.block.go
-//                                          ^^^^ storage.type.go
-//                                              ^ punctuation.separator.go
+//                              ^ punctuation.accessor.dot.go
+//                                ^^^^ comment.block.go
+//                                     ^^^^ storage.type.go
+//                                         ^ punctuation.separator.go
     ) /**/ (
 //  ^ punctuation.section.parens.end.go
 //    ^^^^ comment.block.go
@@ -701,17 +706,16 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                                  ^ punctuation.separator.go
         /**/
 //      ^^^^ comment.block.go
-        param /**/ * /**/ ident /**/ . /**/ Type,
+        param /**/ * /**/ ident . /**/ Type,
 //      ^^^^^ variable.parameter.go
 //            ^^^^ comment.block.go
 //                 ^ keyword.operator.go
 //                   ^^^^ comment.block.go
 //                        ^^^^^ variable.other.go
-//                              ^^^^ comment.block.go
-//                                   ^ punctuation.accessor.dot.go
-//                                     ^^^^ comment.block.go
-//                                          ^^^^ storage.type.go
-//                                              ^ punctuation.separator.go
+//                              ^ punctuation.accessor.dot.go
+//                                ^^^^ comment.block.go
+//                                     ^^^^ storage.type.go
+//                                         ^ punctuation.separator.go
     )
 //  ^ punctuation.section.parens.end.go
 
@@ -755,8 +759,429 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                                                     ^^^ storage.type.go
 //                                                                        ^^ punctuation.section.parens.end.go
 
+    /*
+    Support for unions. At the time of writing, type unions are not permitted
+    in this position. The Go parser considers this a syntax error. However,
+    it's better to future-proof our syntax implementation by allowing unions
+    in any type position.
+    */
+    func /**/ (param /**/ ... /**/ typ | ~typ | *typ)
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ comment.block.go
+//       ^^ punctuation.definition.comment.begin.go
+//             ^^^^^ variable.parameter.go
+//                   ^^^^ comment.block.go
+//                        ^^^ keyword.operator.variadic.go
+//                            ^^^^ comment.block.go
+//                                 ^^^ storage.type.go
+//                                     ^ keyword.operator.go
+//                                       ^ keyword.operator.go
+//                                        ^^^ storage.type.go
+//                                            ^ keyword.operator.go
+//                                              ^ keyword.operator.go
+//                                               ^^^ storage.type.go
+//                                                  ^ punctuation.section.parens.end.go
 
-// ## interface
+/* ### Generic functions: anonymous */
+
+/*
+At the time of writing, Go doesn't support anonymous generic functions.
+The Go parser understands them and rejects them. We may support them
+by accident, but if necessary, such support could be sacrificed.
+*/
+
+    func[TypeParam Type[TypeArg]] (param Type[TypeArg]) Type {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//      ^ punctuation.section.brackets.begin.go
+//       ^^^^^^^^^ variable.parameter.type.go
+//                 ^^^^ storage.type.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^^^^^ variable.other.type.go
+//                             ^^ punctuation.section.brackets.end.go
+//                                ^ punctuation.section.parens.begin.go
+//                                 ^^^^^ variable.parameter.go
+//                                       ^^^^ storage.type.go
+//                                           ^ punctuation.section.brackets.begin.go
+//                                            ^^^^^^^ variable.other.type.go
+//                                                   ^ punctuation.section.brackets.end.go
+//                                                    ^ punctuation.section.parens.end.go
+//                                                      ^^^^ storage.type.go
+//                                                           ^^ meta.block.go
+//                                                           ^ punctuation.section.braces.begin.go
+//                                                            ^ punctuation.section.braces.end.go
+
+    func[TypeParam Type[TypeArg]] (param Type[TypeArg]) Type[TypeArg] {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//      ^ punctuation.section.brackets.begin.go
+//       ^^^^^^^^^ variable.parameter.type.go
+//                 ^^^^ storage.type.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^^^^^ variable.other.type.go
+//                             ^^ punctuation.section.brackets.end.go
+//                                ^ punctuation.section.parens.begin.go
+//                                 ^^^^^ variable.parameter.go
+//                                       ^^^^ storage.type.go
+//                                           ^ punctuation.section.brackets.begin.go
+//                                            ^^^^^^^ variable.other.type.go
+//                                                   ^ punctuation.section.brackets.end.go
+//                                                    ^ punctuation.section.parens.end.go
+//                                                      ^^^^ storage.type.go
+//                                                          ^ punctuation.section.brackets.begin.go
+//                                                           ^^^^^^^ variable.other.type.go
+//                                                                  ^ punctuation.section.brackets.end.go
+//                                                                    ^^ meta.block.go
+//                                                                    ^ punctuation.section.braces.begin.go
+//                                                                     ^ punctuation.section.braces.end.go
+
+    func(param Type[TypeArg]) (param Type[TypeArg]) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//      ^ punctuation.section.parens.begin.go
+//       ^^^^^ variable.parameter.go
+//             ^^^^ storage.type.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^^^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.section.parens.end.go
+//                            ^ punctuation.section.parens.begin.go
+//                             ^^^^^ variable.parameter.go
+//                                   ^^^^ storage.type.go
+//                                       ^ punctuation.section.brackets.begin.go
+//                                        ^^^^^^^ variable.other.type.go
+//                                               ^ punctuation.section.brackets.end.go
+//                                                ^ punctuation.section.parens.end.go
+//                                                  ^^ meta.block.go
+//                                                  ^ punctuation.section.braces.begin.go
+//                                                   ^ punctuation.section.braces.end.go
+
+    func[TypeParam Type[TypeArg]] (param Type[TypeArg]) (param Type[TypeArg]) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//      ^ punctuation.section.brackets.begin.go
+//       ^^^^^^^^^ variable.parameter.type.go
+//                 ^^^^ storage.type.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^^^^^ variable.other.type.go
+//                             ^^ punctuation.section.brackets.end.go
+//                                ^ punctuation.section.parens.begin.go
+//                                 ^^^^^ variable.parameter.go
+//                                       ^^^^ storage.type.go
+//                                           ^ punctuation.section.brackets.begin.go
+//                                            ^^^^^^^ variable.other.type.go
+//                                                   ^ punctuation.section.brackets.end.go
+//                                                    ^ punctuation.section.parens.end.go
+//                                                      ^ punctuation.section.parens.begin.go
+//                                                       ^^^^^ variable.parameter.go
+//                                                             ^^^^ storage.type.go
+//                                                                 ^ punctuation.section.brackets.begin.go
+//                                                                  ^^^^^^^ variable.other.type.go
+//                                                                         ^ punctuation.section.brackets.end.go
+//                                                                          ^ punctuation.section.parens.end.go
+//                                                                            ^^ meta.block.go
+//                                                                            ^ punctuation.section.braces.begin.go
+//                                                                             ^ punctuation.section.braces.end.go
+
+/* ### Generic functions: named */
+
+    func Func(param Type[TypeArg]) Type
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//           ^ punctuation.section.parens.begin.go
+//            ^^^^^ variable.parameter.go
+//                  ^^^^ storage.type.go
+//                      ^ punctuation.section.brackets.begin.go
+//                       ^^^^^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.section.parens.end.go
+//                                 ^^^^ storage.type.go
+
+    func Func[TypeParam Type[TypeArg]] (param Type[TypeArg]) Type
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^^^^^^^ variable.parameter.type.go
+//                      ^^^^ storage.type.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^^^^^ variable.other.type.go
+//                                  ^^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.section.parens.begin.go
+//                                      ^^^^^ variable.parameter.go
+//                                            ^^^^ storage.type.go
+//                                                ^ punctuation.section.brackets.begin.go
+//                                                 ^^^^^^^ variable.other.type.go
+//                                                        ^ punctuation.section.brackets.end.go
+//                                                         ^ punctuation.section.parens.end.go
+//                                                           ^^^^ storage.type.go
+
+    func Func(param Type[TypeArg]) Type[TypeArg]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//           ^ punctuation.section.parens.begin.go
+//            ^^^^^ variable.parameter.go
+//                  ^^^^ storage.type.go
+//                      ^ punctuation.section.brackets.begin.go
+//                       ^^^^^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.section.parens.end.go
+//                                 ^^^^ storage.type.go
+//                                     ^ punctuation.section.brackets.begin.go
+//                                      ^^^^^^^ variable.other.type.go
+//                                             ^ punctuation.section.brackets.end.go
+
+    func Func[TypeParam Type[TypeArg]] (param Type[TypeArg]) Type[TypeArg]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^^^^^^^ variable.parameter.type.go
+//                      ^^^^ storage.type.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^^^^^ variable.other.type.go
+//                                  ^^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.section.parens.begin.go
+//                                      ^^^^^ variable.parameter.go
+//                                            ^^^^ storage.type.go
+//                                                ^ punctuation.section.brackets.begin.go
+//                                                 ^^^^^^^ variable.other.type.go
+//                                                        ^ punctuation.section.brackets.end.go
+//                                                         ^ punctuation.section.parens.end.go
+//                                                           ^^^^ storage.type.go
+//                                                               ^ punctuation.section.brackets.begin.go
+//                                                                ^^^^^^^ variable.other.type.go
+//                                                                       ^ punctuation.section.brackets.end.go
+
+    func Func(param Type[TypeArg]) (param Type[TypeArg])
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//           ^ punctuation.section.parens.begin.go
+//            ^^^^^ variable.parameter.go
+//                  ^^^^ storage.type.go
+//                      ^ punctuation.section.brackets.begin.go
+//                       ^^^^^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.section.parens.end.go
+//                                 ^ punctuation.section.parens.begin.go
+//                                  ^^^^^ variable.parameter.go
+//                                        ^^^^ storage.type.go
+//                                            ^ punctuation.section.brackets.begin.go
+//                                             ^^^^^^^ variable.other.type.go
+//                                                    ^ punctuation.section.brackets.end.go
+//                                                     ^ punctuation.section.parens.end.go
+
+    func Func[TypeParam Type[TypeArg]] (param Type[TypeArg]) (param Type[TypeArg]) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^^^^^^^ variable.parameter.type.go
+//                      ^^^^ storage.type.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^^^^^ variable.other.type.go
+//                                  ^^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.section.parens.begin.go
+//                                      ^^^^^ variable.parameter.go
+//                                            ^^^^ storage.type.go
+//                                                ^ punctuation.section.brackets.begin.go
+//                                                 ^^^^^^^ variable.other.type.go
+//                                                        ^ punctuation.section.brackets.end.go
+//                                                         ^ punctuation.section.parens.end.go
+//                                                           ^ punctuation.section.parens.begin.go
+//                                                            ^^^^^ variable.parameter.go
+//                                                                  ^^^^ storage.type.go
+//                                                                      ^ punctuation.section.brackets.begin.go
+//                                                                       ^^^^^^^ variable.other.type.go
+//                                                                              ^ punctuation.section.brackets.end.go
+//                                                                               ^ punctuation.section.parens.end.go
+//                                                                                 ^^ meta.block.go
+//                                                                                 ^ punctuation.section.braces.begin.go
+//                                                                                  ^ punctuation.section.braces.end.go
+
+    func Func /**/ [
+//  ^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^ entity.name.function.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+        ident /**/ ident . /**/ Ident [/**/ ident . /**/ Ident /**/],
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^ comment.block.go
+//                 ^^^^^ variable.other.go
+//                       ^ punctuation.accessor.dot.go
+//                         ^^^^ comment.block.go
+//                              ^^^^^ storage.type.go
+//                                    ^ punctuation.section.brackets.begin.go
+//                                     ^^^^ comment.block.go
+//                                          ^^^^^ variable.other.type.go
+//                                                ^ punctuation.accessor.dot.go
+//                                                  ^^^^ comment.block.go
+//                                                       ^^^^^ variable.other.member.go
+//                                                             ^^^^ comment.block.go
+//                                                                 ^ punctuation.section.brackets.end.go
+//                                                                  ^ punctuation.separator.go
+        ident /**/ ident . /**/ Ident [/**/ ident . /**/ Ident /**/],
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^ comment.block.go
+//                 ^^^^^ variable.other.go
+//                       ^ punctuation.accessor.dot.go
+//                         ^^^^ comment.block.go
+//                              ^^^^^ storage.type.go
+//                                    ^ punctuation.section.brackets.begin.go
+//                                     ^^^^ comment.block.go
+//                                          ^^^^^ variable.other.type.go
+//                                                ^ punctuation.accessor.dot.go
+//                                                  ^^^^ comment.block.go
+//                                                       ^^^^^ variable.other.member.go
+//                                                             ^^^^ comment.block.go
+//                                                                 ^ punctuation.section.brackets.end.go
+//                                                                  ^ punctuation.separator.go
+    ] (
+//^^^^^ meta.function.declaration.go
+//  ^ punctuation.section.brackets.end.go
+//    ^ punctuation.section.parens.begin.go
+        ident /**/ ident . /**/ Ident [/**/ ident . /**/ Ident /**/],
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^^^^^ variable.parameter.go
+//            ^^^^ comment.block.go
+//                 ^^^^^ variable.other.go
+//                       ^ punctuation.accessor.dot.go
+//                         ^^^^ comment.block.go
+//                              ^^^^^ storage.type.go
+//                                    ^ punctuation.section.brackets.begin.go
+//                                     ^^^^ comment.block.go
+//                                          ^^^^^ variable.other.type.go
+//                                                ^ punctuation.accessor.dot.go
+//                                                  ^^^^ comment.block.go
+//                                                       ^^^^^ variable.other.member.go
+//                                                             ^^^^ comment.block.go
+//                                                                 ^ punctuation.section.brackets.end.go
+//                                                                  ^ punctuation.separator.go
+        ident /**/ ident . /**/ Ident [/**/ ident . /**/ Ident /**/],
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^^^^^ variable.parameter.go
+//            ^^^^ comment.block.go
+//                 ^^^^^ variable.other.go
+//                       ^ punctuation.accessor.dot.go
+//                         ^^^^ comment.block.go
+//                              ^^^^^ storage.type.go
+//                                    ^ punctuation.section.brackets.begin.go
+//                                     ^^^^ comment.block.go
+//                                          ^^^^^ variable.other.type.go
+//                                                ^ punctuation.accessor.dot.go
+//                                                  ^^^^ comment.block.go
+//                                                       ^^^^^ variable.other.member.go
+//                                                             ^^^^ comment.block.go
+//                                                                 ^ punctuation.section.brackets.end.go
+//                                                                  ^ punctuation.separator.go
+    ) (
+//^^^^^ meta.function.declaration.go
+//  ^ punctuation.section.parens.end.go
+//    ^ punctuation.section.parens.begin.go
+        ident /**/ ident . /**/ Ident [/**/ ident . /**/ Ident /**/],
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^^^^^ variable.parameter.go
+//            ^^^^ comment.block.go
+//                 ^^^^^ variable.other.go
+//                       ^ punctuation.accessor.dot.go
+//                         ^^^^ comment.block.go
+//                              ^^^^^ storage.type.go
+//                                    ^ punctuation.section.brackets.begin.go
+//                                     ^^^^ comment.block.go
+//                                          ^^^^^ variable.other.type.go
+//                                                ^ punctuation.accessor.dot.go
+//                                                  ^^^^ comment.block.go
+//                                                       ^^^^^ variable.other.member.go
+//                                                             ^^^^ comment.block.go
+//                                                                 ^ punctuation.section.brackets.end.go
+//                                                                  ^ punctuation.separator.go
+        ident /**/ ident . /**/ Ident [/**/ ident . /**/ Ident /**/],
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^^^^^ variable.parameter.go
+//            ^^^^ comment.block.go
+//                 ^^^^^ variable.other.go
+//                       ^ punctuation.accessor.dot.go
+//                         ^^^^ comment.block.go
+//                              ^^^^^ storage.type.go
+//                                    ^ punctuation.section.brackets.begin.go
+//                                     ^^^^ comment.block.go
+//                                          ^^^^^ variable.other.type.go
+//                                                ^ punctuation.accessor.dot.go
+//                                                  ^^^^ comment.block.go
+//                                                       ^^^^^ variable.other.member.go
+//                                                             ^^^^ comment.block.go
+//                                                                 ^ punctuation.section.brackets.end.go
+//                                                                  ^ punctuation.separator.go
+    )
+//^^^ meta.function.declaration.go
+//  ^ punctuation.section.parens.end.go
+
+/* ### Generic functions: methods */
+
+    func(param Type[TypeArg]) Func(param Type[TypeArg]) Type
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//      ^ punctuation.section.parens.begin.go
+//       ^^^^^ variable.parameter.go
+//             ^^^^ storage.type.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^^^^^ variable.parameter.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.section.parens.end.go
+//                            ^^^^ entity.name.function.go
+//                                ^ punctuation.section.parens.begin.go
+//                                 ^^^^^ variable.parameter.go
+//                                       ^^^^ storage.type.go
+//                                           ^ punctuation.section.brackets.begin.go
+//                                            ^^^^^^^ variable.other.type.go
+//                                                   ^ punctuation.section.brackets.end.go
+//                                                    ^ punctuation.section.parens.end.go
+//                                                      ^^^^ storage.type.go
+//                                                          ^ -meta.function.declaration.go
+
+    func(ident ident[ident, ident]) ident(ident ident[ident, ident]) (ident ident[ident, ident])
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//      ^ punctuation.section.parens.begin.go
+//       ^^^^^ variable.parameter.go
+//             ^^^^^ storage.type.go
+//                  ^ punctuation.section.brackets.begin.go
+//                   ^^^^^ variable.parameter.type.go
+//                        ^ punctuation.separator.go
+//                          ^^^^^ variable.parameter.type.go
+//                               ^ punctuation.section.brackets.end.go
+//                                ^ punctuation.section.parens.end.go
+//                                  ^^^^^ entity.name.function.go
+//                                       ^ punctuation.section.parens.begin.go
+//                                        ^^^^^ variable.parameter.go
+//                                              ^^^^^ storage.type.go
+//                                                   ^ punctuation.section.brackets.begin.go
+//                                                    ^^^^^ variable.other.type.go
+//                                                         ^ punctuation.separator.go
+//                                                           ^^^^^ variable.other.type.go
+//                                                                ^ punctuation.section.brackets.end.go
+//                                                                 ^ punctuation.section.parens.end.go
+//                                                                   ^ punctuation.section.parens.begin.go
+//                                                                    ^^^^^ variable.parameter.go
+//                                                                          ^^^^^ storage.type.go
+//                                                                               ^ punctuation.section.brackets.begin.go
+//                                                                                ^^^^^ variable.other.type.go
+//                                                                                     ^ punctuation.separator.go
+//                                                                                       ^^^^^ variable.other.type.go
+//                                                                                            ^ punctuation.section.brackets.end.go
+//                                                                                             ^ punctuation.section.parens.end.go
+//                                                                                              ^ -meta.function.declaration.go
+
+/* ## interface */
 
     interface{}
 //  ^^^^^^^^^ keyword.declaration.interface.go
@@ -787,20 +1212,20 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                  ^ meta.type.go punctuation.section.parens.end.go
 
         Inherit
-//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//      ^^^^^^^ meta.type.go storage.type.go
 
         *ident.Inherit
 //      ^ meta.type.go keyword.operator.go
 //       ^^^^^ meta.type.go variable.other.go
 //            ^ meta.type.go punctuation.accessor.dot.go
-//             ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//             ^^^^^^^ meta.type.go storage.type.go
 
         Inherit // comment
-//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
-//              ^^^^^^^^^^^ meta.type.go comment.line.go
+//      ^^^^^^^ meta.type.go storage.type.go
+//              ^^^^^^^^^^^ meta.type.go comment.line.double-slash.go
 
         Inherit /* comment */
-//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//      ^^^^^^^ meta.type.go storage.type.go
 //              ^^^^^^^^^^^^^ meta.type.go comment.block.go
 
         Method(
@@ -816,18 +1241,16 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //           ^ meta.type.go punctuation.accessor.dot.go
 //            ^^^^^ meta.type.go variable.other.go
 //                 ^ meta.type.go punctuation.accessor.dot.go
-//                  ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//                  ^^^^^^^ meta.type.go storage.type.go
 
-        ident /**/ .
+        ident .
 //      ^^^^^ meta.type.go variable.other.go
-//            ^^^^ meta.type.go comment.block.go
-//                 ^ meta.type.go punctuation.accessor.dot.go
-        ident /**/ .
+//            ^ meta.type.go punctuation.accessor.dot.go
+        ident .
 //      ^^^^^ meta.type.go variable.other.go
-//            ^^^^ meta.type.go comment.block.go
-//                 ^ meta.type.go punctuation.accessor.dot.go
+//            ^ meta.type.go punctuation.accessor.dot.go
         Inherit
-//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//      ^^^^^^^ meta.type.go storage.type.go
     }
 //  ^ meta.type.go punctuation.section.braces.end.go
 
@@ -842,7 +1265,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                   ^ meta.type.go punctuation.section.parens.end.go
 //                     ^^^ meta.type.go storage.type.go
 //                        ^ meta.type.go punctuation.terminator.go
-//                          ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//                          ^^^^^^^ meta.type.go storage.type.go
 //                                 ^ meta.type.go punctuation.terminator.go
 //                                   ^^^^^^ meta.type.go entity.name.function.go
 //                                         ^ meta.type.go punctuation.section.parens.begin.go
@@ -853,8 +1276,51 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                                        ^ meta.type.go punctuation.terminator.go
 //                                                         ^ meta.type.go punctuation.section.braces.end.go
 
+    interface{~ident}
+//  ^^^^^^^^^ keyword.declaration.interface.go
+//           ^^^^^^^^ meta.type.go
+//           ^ punctuation.section.braces.begin.go
+//            ^ keyword.operator.go
+//             ^^^^^ storage.type.go
+//                  ^ punctuation.section.braces.end.go
 
-// ## map
+    interface{one|two|three}
+//  ^^^^^^^^^ keyword.declaration.interface.go
+//           ^^^^^^^^^^^^^^^ meta.type.go
+//           ^ punctuation.section.braces.begin.go
+//            ^^^ storage.type.go
+//               ^ keyword.operator.go
+//                ^^^ storage.type.go
+//                   ^ keyword.operator.go
+//                    ^^^^^ storage.type.go
+//                         ^ punctuation.section.braces.end.go
+
+    interface{~one|~two|~three}
+//  ^^^^^^^^^ keyword.declaration.interface.go
+//           ^^^^^^^^^^^^^^^^^^ meta.type.go
+//           ^ punctuation.section.braces.begin.go
+//            ^ keyword.operator.go
+//             ^^^ storage.type.go
+//                ^ keyword.operator.go
+//                 ^ keyword.operator.go
+//                  ^^^ storage.type.go
+//                     ^ keyword.operator.go
+//                      ^ keyword.operator.go
+//                       ^^^^^ storage.type.go
+//                            ^ punctuation.section.braces.end.go
+
+    interface{
+        one |
+//      ^^^ storage.type.go
+//          ^ keyword.operator.go
+        // comment
+//      ^^^^^^^^^^ comment.line.double-slash.go
+//      ^^ punctuation.definition.comment.go
+        two
+//      ^^^ storage.type.go
+    }
+
+/* ## map */
 
     map[typ]typ
 //  ^^^ keyword.declaration.map.go
@@ -871,12 +1337,6 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //          ^^^ storage.type.go
 //              ^^^^^ variable.other.go -storage
 
-    map[typ]
-//  ^^^ keyword.declaration.map.go
-//      ^^^ storage.type.go
-    ident
-//  ^^^^^ variable.other.go
-
     map /**/ [/**/ typ /**/] /**/ typ
 //  ^^^ keyword.declaration.map.go
 //      ^^^^ comment.block.go
@@ -888,20 +1348,23 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                           ^^^^ comment.block.go
 //                                ^^^ storage.type.go
 
-    map /**/
+    map
 //  ^^^ keyword.declaration.map.go
+    /**/
+//  ^^^^ comment.block.go
+    [
+//  ^ punctuation.section.brackets.begin.go
+        /**/
 //      ^^^^ comment.block.go
-    /**/ [ /**/
+        typ
+//      ^^^ storage.type.go
+        /**/
+//      ^^^^ comment.block.go
+    ]
+    /**/
 //  ^^^^ comment.block.go
-//       ^ punctuation.section.brackets.begin.go
-//         ^^^^ comment.block.go
-    /**/ typ /**/ ] /**/ typ
-//  ^^^^ comment.block.go
-//       ^^^ storage.type.go
-//           ^^^^ comment.block.go
-//                ^ punctuation.section.brackets.end.go
-//                  ^^^^ comment.block.go
-//                       ^^^ storage.type.go
+    typ
+//  ^^^ storage.type.go
 
     map[typ]map[typ]map[typ]map[typ]typ
 //  ^^^ keyword.declaration.map.go
@@ -995,18 +1458,16 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                        ^ punctuation.accessor.dot.go
 //                         ^^^^ storage.type.go
 
-    map[typ]ident /**/ . /**/
+    map[typ]ident . /**/
 //  ^^^ keyword.declaration.map.go
 //      ^^^ storage.type.go
 //          ^^^^^ variable.other.go
-//                ^^^^ comment.block.go
-//                     ^ punctuation.accessor.dot.go
-//                       ^^^^ comment.block.go
-            ident /**/ . /**/
+//                ^ punctuation.accessor.dot.go
+//                  ^^^^ comment.block.go
+            ident . /**/
 //          ^^^^^ variable.other.go
-//                ^^^^ comment.block.go
-//                     ^ punctuation.accessor.dot.go
-//                       ^^^^ comment.block.go
+//                ^ punctuation.accessor.dot.go
+//                  ^^^^ comment.block.go
             typ
 //          ^^^ storage.type.go
 
@@ -1030,7 +1491,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                             ^^^ storage.type.go
 
 
-// ## struct
+/* ## struct */
 
     struct{}
 //  ^^^^^^ keyword.declaration.struct.go
@@ -1081,26 +1542,26 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
         field typ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^ meta.type.go storage.type.go
-//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         field /**/ typ /**/ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^^ meta.type.go comment.block.go
 //                 ^^^ meta.type.go storage.type.go
 //                     ^^^^ meta.type.go comment.block.go
-//                          ^^^^^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                          ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         typ       `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
-//                ^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                ^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         typ /**/  `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
 //          ^^^^ meta.type.go comment.block.go
-//                ^^^^^^^^^^ meta.type.go string.quoted.other.go
+//                ^^^^^^^^^^ meta.type.go string.quoted.backtick.go
         typ
 //      ^^^ meta.type.go entity.other.inherited-class.go
 
         typ // comment
 //      ^^^ meta.type.go entity.other.inherited-class.go
-//          ^^^^^^^^^^^ meta.type.go comment.line.go
+//          ^^^^^^^^^^^ meta.type.go comment.line.double-slash.go
 
         typ /* comment */
 //      ^^^ meta.type.go entity.other.inherited-class.go
@@ -1143,30 +1604,26 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^ meta.type.go punctuation.section.braces.end.go
 
     struct {
-        ** /**/ ident /**/ . /**/ ident /**/ . /**/ embed
+        ** /**/ ident . /**/ ident . /**/ embed
 //      ^^ meta.type.go keyword.operator.go
 //         ^^^^ meta.type.go comment.block.go
 //              ^^^^^ meta.type.go variable.other.go
-//                    ^^^^ meta.type.go comment.block.go
-//                         ^ meta.type.go punctuation.accessor.dot.go
-//                           ^^^^ meta.type.go comment.block.go
-//                                ^^^^^ meta.type.go variable.other.go
-//                                      ^^^^ meta.type.go comment.block.go
-//                                           ^ meta.type.go punctuation.accessor.dot.go
-//                                             ^^^^ meta.type.go comment.block.go
-//                                                  ^^^^^ meta.type.go entity.other.inherited-class.go
+//                    ^ meta.type.go punctuation.accessor.dot.go
+//                      ^^^^ meta.type.go comment.block.go
+//                           ^^^^^ meta.type.go variable.other.go
+//                                 ^ meta.type.go punctuation.accessor.dot.go
+//                                   ^^^^ meta.type.go comment.block.go
+//                                        ^^^^^ meta.type.go entity.other.inherited-class.go
 
-        ** ident /**/ . /**/
+        ** ident . /**/
 //      ^^ meta.type.go keyword.operator.go
 //         ^^^^^ meta.type.go variable.other.go
-//               ^^^^ meta.type.go comment.block.go
-//                    ^ meta.type.go punctuation.accessor.dot.go
-//                      ^^^^ meta.type.go comment.block.go
-           ident /**/ . /**/
+//               ^ meta.type.go punctuation.accessor.dot.go
+//                 ^^^^ meta.type.go comment.block.go
+           ident . /**/
 //         ^^^^^ meta.type.go variable.other.go
-//               ^^^^ meta.type.go comment.block.go
-//                    ^ meta.type.go punctuation.accessor.dot.go
-//                      ^^^^ meta.type.go comment.block.go
+//               ^ meta.type.go punctuation.accessor.dot.go
+//                 ^^^^ meta.type.go comment.block.go
            embed
 //         ^^^^^ meta.type.go entity.other.inherited-class.go
     }
@@ -1297,8 +1754,1339 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //               ^^^ meta.type.go storage.type.go
     }
 
+/* ### Embedded parametrized types */
 
-// ## Array / Slice
+    struct{ embed[typ] }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ]; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                    ^ punctuation.terminator.go
+//                      ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ] `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^^^^^ string.quoted.backtick.go
+//                     ^ punctuation.definition.string.begin.go
+//                         ^ punctuation.definition.string.end.go
+//                           ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ] `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^^^^^ string.quoted.backtick.go
+//                     ^ punctuation.definition.string.begin.go
+//                         ^ punctuation.definition.string.end.go
+//                          ^ punctuation.terminator.go
+//                            ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ]; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                    ^ punctuation.terminator.go
+//                      ^^^^^ variable.other.member.declaration.go
+//                            ^^^ storage.type.go
+//                                ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ]; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                    ^ punctuation.terminator.go
+//                      ^^^^^ variable.other.member.declaration.go
+//                            ^^^ storage.type.go
+//                               ^ punctuation.terminator.go
+//                                ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ]; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                    ^ punctuation.terminator.go
+//                      ^^^^^ variable.other.member.declaration.go
+//                            ^^^ storage.type.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ]; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                    ^ punctuation.terminator.go
+//                      ^^^^^ variable.other.member.declaration.go
+//                            ^^^ storage.type.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ] `tag`; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^^^^^ string.quoted.backtick.go
+//                     ^ punctuation.definition.string.begin.go
+//                         ^ punctuation.definition.string.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ] `tag`; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^^^^^ string.quoted.backtick.go
+//                     ^ punctuation.definition.string.begin.go
+//                         ^ punctuation.definition.string.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                     ^ punctuation.terminator.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ] `tag`; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^^^^^ string.quoted.backtick.go
+//                     ^ punctuation.definition.string.begin.go
+//                         ^ punctuation.definition.string.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                            ^ punctuation.section.braces.end.go
+
+    struct{ embed[typ] `tag`; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ entity.other.inherited-class.go
+//               ^ punctuation.section.brackets.begin.go
+//                ^^^ variable.other.type.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^^^^^ string.quoted.backtick.go
+//                     ^ punctuation.definition.string.begin.go
+//                         ^ punctuation.definition.string.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ]; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.terminator.go
+//                            ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ string.quoted.backtick.go
+//                           ^ punctuation.definition.string.begin.go
+//                               ^ punctuation.definition.string.end.go
+//                                 ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ string.quoted.backtick.go
+//                           ^ punctuation.definition.string.begin.go
+//                               ^ punctuation.definition.string.end.go
+//                                ^ punctuation.terminator.go
+//                                  ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ]; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ]; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                     ^ punctuation.terminator.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ]; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                            ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ]; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.terminator.go
+//                            ^^^^^ variable.other.member.declaration.go
+//                                  ^^^ storage.type.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] `tag`; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ string.quoted.backtick.go
+//                           ^ punctuation.definition.string.begin.go
+//                               ^ punctuation.definition.string.end.go
+//                                ^ punctuation.terminator.go
+//                                  ^^^^^ variable.other.member.declaration.go
+//                                        ^^^ storage.type.go
+//                                            ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] `tag`; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ string.quoted.backtick.go
+//                           ^ punctuation.definition.string.begin.go
+//                               ^ punctuation.definition.string.end.go
+//                                ^ punctuation.terminator.go
+//                                  ^^^^^ variable.other.member.declaration.go
+//                                        ^^^ storage.type.go
+//                                           ^ punctuation.terminator.go
+//                                            ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] `tag`; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ string.quoted.backtick.go
+//                           ^ punctuation.definition.string.begin.go
+//                               ^ punctuation.definition.string.end.go
+//                                ^ punctuation.terminator.go
+//                                  ^^^^^ variable.other.member.declaration.go
+//                                        ^^^ storage.type.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                  ^ punctuation.section.braces.end.go
+
+    struct{ ident.embed[typ] `tag`; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ entity.other.inherited-class.go
+//                     ^ punctuation.section.brackets.begin.go
+//                      ^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ string.quoted.backtick.go
+//                           ^ punctuation.definition.string.begin.go
+//                               ^ punctuation.definition.string.end.go
+//                                ^ punctuation.terminator.go
+//                                  ^^^^^ variable.other.member.declaration.go
+//                                        ^^^ storage.type.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.terminator.go
+//                                                   ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ]; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.terminator.go
+//                                 ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ]; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.terminator.go
+//                                 ^^^^^ variable.other.member.declaration.go
+//                                       ^^^ storage.type.go
+//                                           ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ]; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.terminator.go
+//                                 ^^^^^ variable.other.member.declaration.go
+//                                       ^^^ storage.type.go
+//                                          ^ punctuation.terminator.go
+//                                           ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ]; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.terminator.go
+//                                 ^^^^^ variable.other.member.declaration.go
+//                                       ^^^ storage.type.go
+//                                           ^^^^^ string.quoted.backtick.go
+//                                           ^ punctuation.definition.string.begin.go
+//                                               ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ]; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.terminator.go
+//                                 ^^^^^ variable.other.member.declaration.go
+//                                       ^^^ storage.type.go
+//                                           ^^^^^ string.quoted.backtick.go
+//                                           ^ punctuation.definition.string.begin.go
+//                                               ^ punctuation.definition.string.end.go
+//                                                ^ punctuation.terminator.go
+//                                                  ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] `tag`; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                 ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] `tag`; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                ^ punctuation.terminator.go
+//                                                 ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] `tag`; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                 ^^^^^ string.quoted.backtick.go
+//                                                 ^ punctuation.definition.string.begin.go
+//                                                     ^ punctuation.definition.string.end.go
+//                                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ; embed[typ] `tag`; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                   ^ punctuation.terminator.go
+//                     ^^^^^ entity.other.inherited-class.go
+//                          ^ punctuation.section.brackets.begin.go
+//                           ^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ string.quoted.backtick.go
+//                                ^ punctuation.definition.string.begin.go
+//                                    ^ punctuation.definition.string.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                 ^^^^^ string.quoted.backtick.go
+//                                                 ^ punctuation.definition.string.begin.go
+//                                                     ^ punctuation.definition.string.end.go
+//                                                      ^ punctuation.terminator.go
+//                                                        ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ]; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                            ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ]; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                 ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ]; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                ^ punctuation.terminator.go
+//                                                 ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ]; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                 ^^^^^ string.quoted.backtick.go
+//                                                 ^ punctuation.definition.string.begin.go
+//                                                     ^ punctuation.definition.string.end.go
+//                                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ]; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                     ^ punctuation.terminator.go
+//                                       ^^^^^ variable.other.member.declaration.go
+//                                             ^^^ storage.type.go
+//                                                 ^^^^^ string.quoted.backtick.go
+//                                                 ^ punctuation.definition.string.begin.go
+//                                                     ^ punctuation.definition.string.end.go
+//                                                      ^ punctuation.terminator.go
+//                                                        ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] `tag`; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] `tag`; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                      ^ punctuation.terminator.go
+//                                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] `tag`; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                       ^^^^^ string.quoted.backtick.go
+//                                                       ^ punctuation.definition.string.begin.go
+//                                                           ^ punctuation.definition.string.end.go
+//                                                             ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; embed[typ] `tag`; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ entity.other.inherited-class.go
+//                                ^ punctuation.section.brackets.begin.go
+//                                 ^^^ variable.other.type.go
+//                                    ^ punctuation.section.brackets.end.go
+//                                      ^^^^^ string.quoted.backtick.go
+//                                      ^ punctuation.definition.string.begin.go
+//                                          ^ punctuation.definition.string.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                       ^^^^^ string.quoted.backtick.go
+//                                                       ^ punctuation.definition.string.begin.go
+//                                                           ^ punctuation.definition.string.end.go
+//                                                            ^ punctuation.terminator.go
+//                                                              ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ]; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                  ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.terminator.go
+//                                                   ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ]; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ]; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                      ^ punctuation.terminator.go
+//                                                       ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ]; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                       ^^^^^ string.quoted.backtick.go
+//                                                       ^ punctuation.definition.string.begin.go
+//                                                           ^ punctuation.definition.string.end.go
+//                                                             ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ]; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                           ^ punctuation.terminator.go
+//                                             ^^^^^ variable.other.member.declaration.go
+//                                                   ^^^ storage.type.go
+//                                                       ^^^^^ string.quoted.backtick.go
+//                                                       ^ punctuation.definition.string.begin.go
+//                                                           ^ punctuation.definition.string.end.go
+//                                                            ^ punctuation.terminator.go
+//                                                              ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] `tag`; field typ }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.terminator.go
+//                                                   ^^^^^ variable.other.member.declaration.go
+//                                                         ^^^ storage.type.go
+//                                                             ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] `tag`; field typ;}
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.terminator.go
+//                                                   ^^^^^ variable.other.member.declaration.go
+//                                                         ^^^ storage.type.go
+//                                                            ^ punctuation.terminator.go
+//                                                             ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] `tag`; field typ `tag` }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.terminator.go
+//                                                   ^^^^^ variable.other.member.declaration.go
+//                                                         ^^^ storage.type.go
+//                                                             ^^^^^ string.quoted.backtick.go
+//                                                             ^ punctuation.definition.string.begin.go
+//                                                                 ^ punctuation.definition.string.end.go
+//                                                                   ^ punctuation.section.braces.end.go
+
+    struct{ field typ `tag`; ident.embed[typ] `tag`; field typ `tag`; }
+//  ^^^^^^ keyword.declaration.struct.go
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//        ^ punctuation.section.braces.begin.go
+//          ^^^^^ variable.other.member.declaration.go
+//                ^^^ storage.type.go
+//                    ^^^^^ string.quoted.backtick.go
+//                    ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+//                         ^ punctuation.terminator.go
+//                           ^^^^^ variable.other.go
+//                                ^ punctuation.accessor.dot.go
+//                                 ^^^^^ entity.other.inherited-class.go
+//                                      ^ punctuation.section.brackets.begin.go
+//                                       ^^^ variable.other.type.go
+//                                          ^ punctuation.section.brackets.end.go
+//                                            ^^^^^ string.quoted.backtick.go
+//                                            ^ punctuation.definition.string.begin.go
+//                                                ^ punctuation.definition.string.end.go
+//                                                 ^ punctuation.terminator.go
+//                                                   ^^^^^ variable.other.member.declaration.go
+//                                                         ^^^ storage.type.go
+//                                                             ^^^^^ string.quoted.backtick.go
+//                                                             ^ punctuation.definition.string.begin.go
+//                                                                 ^ punctuation.definition.string.end.go
+//                                                                  ^ punctuation.terminator.go
+//                                                                    ^ punctuation.section.braces.end.go
+
+    struct {
+//  ^^^^^^ keyword.declaration.struct.go
+//         ^ meta.type.go punctuation.section.braces.begin.go
+        embed[typ]
+//^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^ variable.other.type.go
+//               ^ punctuation.section.brackets.end.go
+        embed[typ, typ]
+//^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^ variable.other.type.go
+//               ^ punctuation.separator.go
+//                 ^^^ variable.other.type.go
+//                    ^ punctuation.section.brackets.end.go
+        embed[typ] ``
+//^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^ variable.other.type.go
+//               ^ punctuation.section.brackets.end.go
+//                 ^^ string.quoted.backtick.go
+//                 ^ punctuation.definition.string.begin.go
+//                  ^ punctuation.definition.string.end.go
+        embed /**/ [typ]
+//^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+        embed /**/ [typ] ``
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+//                       ^^ string.quoted.backtick.go
+//                       ^ punctuation.definition.string.begin.go
+//                        ^ punctuation.definition.string.end.go
+        embed /**/ [typ] /**/
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+//                       ^^^^ comment.block.go
+//                       ^^ punctuation.definition.comment.begin.go
+//                         ^^ punctuation.definition.comment.end.go
+        embed /**/ [typ] /**/ ``
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+//                       ^^^^ comment.block.go
+//                       ^^ punctuation.definition.comment.begin.go
+//                         ^^ punctuation.definition.comment.end.go
+//                            ^^ string.quoted.backtick.go
+//                            ^ punctuation.definition.string.begin.go
+//                             ^ punctuation.definition.string.end.go
+        embed /**/ [typ] ; field typ
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+//                       ^ punctuation.terminator.go
+//                         ^^^^^ variable.other.member.declaration.go
+//                               ^^^ storage.type.go
+        embed /**/ [typ] /**/; field typ
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+//                       ^^^^ comment.block.go
+//                       ^^ punctuation.definition.comment.begin.go
+//                         ^^ punctuation.definition.comment.end.go
+//                           ^ punctuation.terminator.go
+//                             ^^^^^ variable.other.member.declaration.go
+//                                   ^^^ storage.type.go
+        embed /**/ [typ] /**/ ``; field typ
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ entity.other.inherited-class.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^ variable.other.type.go
+//                     ^ punctuation.section.brackets.end.go
+//                       ^^^^ comment.block.go
+//                       ^^ punctuation.definition.comment.begin.go
+//                         ^^ punctuation.definition.comment.end.go
+//                            ^^ string.quoted.backtick.go
+//                            ^ punctuation.definition.string.begin.go
+//                             ^ punctuation.definition.string.end.go
+//                              ^ punctuation.terminator.go
+//                                ^^^^^ variable.other.member.declaration.go
+//                                      ^^^ storage.type.go
+        field /**/ [] /**/ typ
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ variable.other.member.declaration.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^ punctuation.section.brackets.end.go
+//                    ^^^^ comment.block.go
+//                    ^^ punctuation.definition.comment.begin.go
+//                      ^^ punctuation.definition.comment.end.go
+//                         ^^^ storage.type.go
+        field /**/ [size] /**/ typ
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ variable.other.member.declaration.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^^ variable.other.go
+//                      ^ punctuation.section.brackets.end.go
+//                        ^^^^ comment.block.go
+//                        ^^ punctuation.definition.comment.begin.go
+//                          ^^ punctuation.definition.comment.end.go
+//                             ^^^ storage.type.go
+        field /**/ [size] /**/ typ `tag`
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^ variable.other.member.declaration.go
+//            ^^^^ comment.block.go
+//            ^^ punctuation.definition.comment.begin.go
+//              ^^ punctuation.definition.comment.end.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^^ variable.other.go
+//                      ^ punctuation.section.brackets.end.go
+//                        ^^^^ comment.block.go
+//                        ^^ punctuation.definition.comment.begin.go
+//                          ^^ punctuation.definition.comment.end.go
+//                             ^^^ storage.type.go
+//                                 ^^^^^ string.quoted.backtick.go
+//                                 ^ punctuation.definition.string.begin.go
+//                                     ^ punctuation.definition.string.end.go
+    }
+//^^^ meta.type.go
+//  ^ punctuation.section.braces.end.go
+
+    struct {_}
+//  ^^^^^^ keyword.declaration.struct.go
+//         ^^^ meta.type.go
+//         ^ punctuation.section.braces.begin.go
+//          ^ variable.language.anonymous.go
+//           ^ punctuation.section.braces.end.go
+
+    struct {
+        _[typ]
+//^^^^^^^^^^^^ meta.type.go
+//      ^ variable.language.anonymous.go
+//       ^ punctuation.section.brackets.begin.go
+//        ^^^ variable.other.type.go
+//           ^ punctuation.section.brackets.end.go
+    }
+
+    struct {
+        *ident.embed[typ]
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^ keyword.operator.go
+//       ^^^^^ variable.other.go
+//            ^ punctuation.accessor.dot.go
+//             ^^^^^ entity.other.inherited-class.go
+//                  ^ punctuation.section.brackets.begin.go
+//                   ^^^ variable.other.type.go
+//                      ^ punctuation.section.brackets.end.go
+    }
+
+    /*
+    Known defect. This should be scoped as an embedded type.
+    The current implementation incorrectly scopes this as a field.
+    TODO improve.
+    */
+    struct {
+        embed[struct{
+        }]
+    }
+
+/* ## Array / Slice */
 
     [0]typ
 //  ^ punctuation.section.brackets.begin.go
@@ -1381,7 +3169,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^^^^^ variable.other.go
 
 
-// ## type
+/* ## type */
 
     type _ typ
 //  ^^^^ keyword.declaration.type.go
@@ -1397,7 +3185,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^ keyword.declaration.type.go
     /**/
 //  ^^^^ comment.block.go
-    Type /**/ * /**/ * /**/ ident /**/ . /**/
+    Type /**/ * /**/ * /**/ ident . /**/
 //  ^^^^ entity.name.type.go
 //       ^^^^ comment.block.go
 //            ^ keyword.operator.go
@@ -1405,15 +3193,13 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                   ^ keyword.operator.go
 //                     ^^^^ comment.block.go
 //                          ^^^^^ variable.other.go
-//                                ^^^^ comment.block.go
-//                                     ^ punctuation.accessor.dot.go
-//                                       ^^^^ comment.block.go
-        /**/ ident /**/ . /**/
+//                                ^ punctuation.accessor.dot.go
+//                                  ^^^^ comment.block.go
+        /**/ ident . /**/
 //      ^^^^ comment.block.go
 //           ^^^^^ variable.other.go
-//                 ^^^^ comment.block.go
-//                      ^ punctuation.accessor.dot.go
-//                        ^^^^ comment.block.go
+//                 ^ punctuation.accessor.dot.go
+//                   ^^^^ comment.block.go
         /**/ Type
 //      ^^^^ comment.block.go
 //           ^^^^ storage.type.go
@@ -1485,7 +3271,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
         Method()
 //      ^^^^^^ meta.type.go entity.name.function.go
         Inherit
-//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//      ^^^^^^^ meta.type.go storage.type.go
     } ident
 //    ^^^^^ variable.other.go
 
@@ -1546,8 +3332,364 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
         }
     )
 
+    /*
+    Support for unions.
 
-// # Constants and Vars
+    At the time of writing, unions are allowed only in interfaces (called
+    "general" interfaces as opposed to "basic" interfaces which contain only
+    methods), and in constraints for type parameters, where a union is
+    considered a shorthand for a general interface. Unions in RHS of type
+    definitions are not yet allowed. However, for us, it's easier to support
+    unions in all type contexts.
+    */
+    type Ident Ident | ~Ident | *Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^^^^^ storage.type.go
+//                   ^ keyword.operator.go
+//                     ^ keyword.operator.go
+//                      ^^^^^ storage.type.go
+//                            ^ keyword.operator.go
+//                              ^ keyword.operator.go
+//                               ^^^^^ storage.type.go
+
+    type Ident = Ident | ~Ident | *Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ keyword.operator.assignment.go
+//               ^^^^^ storage.type.go
+//                     ^ keyword.operator.go
+//                       ^ keyword.operator.go
+//                        ^^^^^ storage.type.go
+//                              ^ keyword.operator.go
+//                                ^ keyword.operator.go
+//                                 ^^^^^ storage.type.go
+
+    /*
+    Sanity check. This looks similar to a parametrized type, but in fact defines
+    an array type.
+    */
+    type Type[ident] ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^ entity.name.type.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^^^^^ variable.other.go
+//                 ^ punctuation.section.brackets.end.go
+//                   ^^^^^ storage.type.go
+
+    // Same as above. This is NOT a parametrized type.
+    type Type[_] ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^ entity.name.type.go
+//           ^ punctuation.section.brackets.begin.go
+//            ^ variable.language.anonymous.go
+//             ^ punctuation.section.brackets.end.go
+//               ^^^^^ storage.type.go
+
+    /*
+    Parsing ambiguity. Can be interpreted as:
+
+        * Parametrized typedef of "C" where "A" is a type parameter and "*B" is
+          a type constraint.
+
+        * Non-parametrized typedef of array of "C" where "A * B" is a constant
+          expression that defines array size.
+
+    For backwards compatibility, Go resolves such ambiguities in favor of
+    constant expressions and arrays, rather than type parameter lists.
+    We must match this behavior.
+    */
+    type Type [A * B] C
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^ entity.name.type.go
+//            ^ punctuation.section.brackets.begin.go
+//             ^ variable.other.go
+//               ^ keyword.operator.go
+//                 ^ variable.other.go
+//                  ^ punctuation.section.brackets.end.go
+//                    ^ storage.type.go
+
+    /*
+    Known issue.
+
+    This type parameter list is disambiguated from a fixed-size array definition
+    by the trailing comma. This is part of the official documentation and is
+    specifically supported by the Go parser and `gofmt`.
+
+    Our current implementation doesn't support this case.
+    TODO consider fixing.
+    */
+    type Type [A * B,] C
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^ entity.name.type.go
+//            ^ punctuation.section.brackets.begin.go
+//               ^ keyword.operator.go
+//                  ^ punctuation.separator.go
+//                   ^ punctuation.section.brackets.end.go
+//                     ^ storage.type.go
+
+    type Ident [Ident Ident] Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^^^^^ storage.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                           ^^^^^ storage.type.go
+
+    type Ident [Ident, Ident Ident] ident.Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                   ^ punctuation.separator.go
+//                     ^^^^^ variable.parameter.type.go
+//                           ^^^^^ storage.type.go
+//                                ^ punctuation.section.brackets.end.go
+//                                  ^^^^^ variable.other.go
+//                                       ^ punctuation.accessor.dot.go
+//                                        ^^^^^ storage.type.go
+
+    type (
+        Ident [Ident Ident] Ident
+//      ^^^^^ entity.name.type.go
+//            ^ punctuation.section.brackets.begin.go
+//             ^^^^^ variable.parameter.type.go
+//                   ^^^^^ storage.type.go
+//                        ^ punctuation.section.brackets.end.go
+//                          ^^^^^ storage.type.go
+
+        Ident [Ident ident.Ident] ident.Ident
+//      ^^^^^ entity.name.type.go
+//            ^ punctuation.section.brackets.begin.go
+//             ^^^^^ variable.parameter.type.go
+//                   ^^^^^ variable.other.go
+//                        ^ punctuation.accessor.dot.go
+//                         ^^^^^ storage.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                                ^^^^^ variable.other.go
+//                                     ^ punctuation.accessor.dot.go
+//                                      ^^^^^ storage.type.go
+    )
+
+    type Ident [
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+        Ident Ident,
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^^ storage.type.go
+//                 ^ punctuation.separator.go
+    ] Ident
+//  ^ punctuation.section.brackets.end.go
+//    ^^^^^ storage.type.go
+
+    type Ident [
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+        Ident ident.Ident,
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^^ variable.other.go
+//                 ^ punctuation.accessor.dot.go
+//                  ^^^^^ storage.type.go
+//                       ^ punctuation.separator.go
+    ] ident.Ident
+//  ^ punctuation.section.brackets.end.go
+//    ^^^^^ variable.other.go
+//         ^ punctuation.accessor.dot.go
+//          ^^^^^ storage.type.go
+
+    type Ident [
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+        Ident,
+//      ^^^^^ variable.parameter.type.go
+//           ^ punctuation.separator.go
+        Ident ident.Ident,
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^^ variable.other.go
+//                 ^ punctuation.accessor.dot.go
+//                  ^^^^^ storage.type.go
+    ] ident.Ident
+//  ^ punctuation.section.brackets.end.go
+//    ^^^^^ variable.other.go
+//         ^ punctuation.accessor.dot.go
+//          ^^^^^ storage.type.go
+
+    type Ident [
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+        Ident, Ident ident.Ident,
+//      ^^^^^ variable.parameter.type.go
+//           ^ punctuation.separator.go
+//             ^^^^^ variable.parameter.type.go
+//                   ^^^^^ variable.other.go
+//                        ^ punctuation.accessor.dot.go
+//                         ^^^^^ storage.type.go
+//                              ^ punctuation.separator.go
+    ] ident.Ident
+//  ^ punctuation.section.brackets.end.go
+//    ^^^^^ variable.other.go
+//         ^ punctuation.accessor.dot.go
+//          ^^^^^ storage.type.go
+
+    type Ident [Ident ~Ident] Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^ keyword.operator.go
+//                     ^^^^^ storage.type.go
+//                          ^ punctuation.section.brackets.end.go
+//                            ^^^^^ storage.type.go
+
+    type Ident [Ident ~ident.Ident] ident.Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^ keyword.operator.go
+//                     ^^^^^ variable.other.go
+//                          ^ punctuation.accessor.dot.go
+//                           ^^^^^ storage.type.go
+//                                ^ punctuation.section.brackets.end.go
+//                                  ^^^^^ variable.other.go
+//                                       ^ punctuation.accessor.dot.go
+//                                        ^^^^^ storage.type.go
+
+    type Ident [
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+        Ident ~ident.Ident,
+//      ^^^^^ variable.parameter.type.go
+//            ^ keyword.operator.go
+//             ^^^^^ variable.other.go
+//                  ^ punctuation.accessor.dot.go
+//                   ^^^^^ storage.type.go
+//                        ^ punctuation.separator.go
+    ] ident.Ident
+//  ^ punctuation.section.brackets.end.go
+//    ^^^^^ variable.other.go
+//         ^ punctuation.accessor.dot.go
+//          ^^^^^ storage.type.go
+
+    type Ident [Ident []ident.Ident] ident.Ident
+
+    type Ident [Ident [ident.Ident] ident.Ident] ident.Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^ punctuation.section.brackets.begin.go
+//                     ^^^^^ variable.other.go
+//                          ^ punctuation.accessor.dot.go
+//                           ^^^^^ variable.other.member.go
+//                                ^ punctuation.section.brackets.end.go
+//                                  ^^^^^ variable.other.go
+//                                       ^ punctuation.accessor.dot.go
+//                                        ^^^^^ storage.type.go
+//                                             ^ punctuation.section.brackets.end.go
+//                                               ^^^^^ variable.other.go
+//                                                    ^ punctuation.accessor.dot.go
+//                                                     ^^^^^ storage.type.go
+
+    type Ident [Ident struct{}] ident.Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^^^^^^ keyword.declaration.struct.go
+//                          ^^ meta.type.go
+//                          ^ punctuation.section.braces.begin.go
+//                           ^ punctuation.section.braces.end.go
+//                            ^ punctuation.section.brackets.end.go
+//                              ^^^^^ variable.other.go
+//                                   ^ punctuation.accessor.dot.go
+//                                    ^^^^^ storage.type.go
+
+    type Ident [Ident interface{}] ident.Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^^^^^^^^^^^ meta.type.go
+//                    ^^^^^^^^^ keyword.declaration.interface.go
+//                             ^ punctuation.section.braces.begin.go
+//                              ^ punctuation.section.braces.end.go
+//                               ^ punctuation.section.brackets.end.go
+//                                 ^^^^^ variable.other.go
+//                                      ^ punctuation.accessor.dot.go
+//                                       ^^^^^ storage.type.go
+
+    type Ident [Ident map[ident.Ident]ident.Ident] ident.Ident
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+//              ^^^^^ variable.parameter.type.go
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//                    ^^^ keyword.declaration.map.go
+//                       ^ punctuation.section.brackets.begin.go
+//                        ^^^^^ variable.other.go
+//                             ^ punctuation.accessor.dot.go
+//                              ^^^^^ storage.type.go
+//                                   ^ punctuation.section.brackets.end.go
+//                                    ^^^^^ variable.other.go
+//                                         ^ punctuation.accessor.dot.go
+//                                          ^^^^^ storage.type.go
+//                                               ^ punctuation.section.brackets.end.go
+//                                                 ^^^^^ variable.other.go
+//                                                      ^ punctuation.accessor.dot.go
+//                                                       ^^^^^ storage.type.go
+
+    type Ident [
+//  ^^^^ keyword.declaration.type.go
+//       ^^^^^ entity.name.type.go
+//             ^ punctuation.section.brackets.begin.go
+        Ident ident.Ident,
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^^ variable.other.go
+//                 ^ punctuation.accessor.dot.go
+//                  ^^^^^ storage.type.go
+//                       ^ punctuation.separator.go
+        Ident interface{
+//      ^^^^^ variable.parameter.type.go
+//            ^^^^^^^^^^ meta.type.go
+//            ^^^^^^^^^ keyword.declaration.interface.go
+//                     ^ punctuation.section.braces.begin.go
+            ident.Ident
+//^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//          ^^^^^ variable.other.go
+//               ^ punctuation.accessor.dot.go
+//                ^^^^^ storage.type.go
+            Method() ident.Ident
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//          ^^^^^^ entity.name.function.go
+//                ^ punctuation.section.parens.begin.go
+//                 ^ punctuation.section.parens.end.go
+//                   ^^^^^ variable.other.go
+//                        ^ punctuation.accessor.dot.go
+//                         ^^^^^ storage.type.go
+        },
+//^^^^^^^ meta.type.go
+//      ^ punctuation.section.braces.end.go
+//       ^ punctuation.separator.go
+    ] [Ident * Ident] ident.Ident
+//  ^ punctuation.section.brackets.end.go
+//    ^ punctuation.section.brackets.begin.go
+//     ^^^^^ variable.other.go
+//           ^ keyword.operator.go
+//             ^^^^^ variable.other.go
+//                  ^ punctuation.section.brackets.end.go
+//                    ^^^^^ variable.other.go
+//                         ^ punctuation.accessor.dot.go
+//                          ^^^^^ storage.type.go
+
+
+/* # Constants and Vars */
 
 // Note: initialization expressions may span multiple lines, but the syntax
 // currently doesn't support this due to implementation difficulties. This may
@@ -1847,7 +3989,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     )
 //  ^ punctuation.section.parens.end.go
 
-// ## Short Variable Declaration
+/* ## Short Variable Declaration */
 
     ident := expr
 //  ^^^^^ variable.other.readwrite.declaration.go
@@ -1874,11 +4016,11 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^ keyword.operator.assignment.go
 //          ^^^^ variable.other.go
 
-// # Literals
+/* # Literals */
 
-// ## Integers
+/* ## Integers */
 
-// ### Decimal
+/* ### Decimal */
 
     0; 123456789; -0; -123456789; 1777_000_000;
 //  ^ meta.number.integer.decimal.go constant.numeric.value.go
@@ -1889,7 +4031,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^^^^^^^^^ meta.number.integer.decimal.go constant.numeric.value.go
 //                                ^^^^^^^^^^^^ meta.number.integer.decimal.go constant.numeric.value.go
 
-// ### Octal
+/* ### Octal */
 
     00; 01234567; -01234567; 0_0; 012_45;
 //  ^ meta.number.integer.octal.go constant.numeric.base.go
@@ -1921,7 +4063,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                               ^^ meta.number.integer.octal.go constant.numeric.base.go
 //                                 ^^^^^ meta.number.integer.octal.go constant.numeric.value.go
 
-// ### Hex
+/* ### Hex */
 
     0x0; 0x0123456789ABCDEFabcdef; -0x0123456789ABCDEFabcdef;
 //  ^^ meta.number.integer.hexadecimal.go constant.numeric.base.go
@@ -1938,7 +4080,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^^ meta.number.integer.hexadecimal.go constant.numeric.base.go
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.go constant.numeric.value.go
 
-// ### Binary
+/* ### Binary */
 
     0b1011; 0B00001; -0b1; 0b_1; 0B1_0;
 //  ^^ meta.number.integer.binary.go constant.numeric.base.go
@@ -1953,7 +4095,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                               ^^ meta.number.integer.binary.go constant.numeric.base.go
 //                                 ^^^ meta.number.integer.binary.go constant.numeric.value.go
 
-// ## Floats
+/* ## Floats */
 
     000.000; 123.456; .0; 1.;
 //  ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
@@ -2067,7 +4209,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                       ^^^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
 //                       ^ punctuation.separator.decimal.go
 
-// ## Imaginary
+/* ## Imaginary */
 
     000i; 100i; -100i; 1_1i;
 //  ^^^^ meta.number.imaginary.decimal.go
@@ -2197,7 +4339,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                 ^ punctuation.separator.decimal.go
 //                            ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 
-// ## Runes
+/* ## Runes */
 
     ' '
 //  ^^^ meta.string.go string.quoted.single.go
@@ -2243,7 +4385,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //   ^^^^ constant.character.escape.go
 //       ^ punctuation.definition.string.end.go - constant
 
-// ## Strings
+/* ## Strings */
 
     "one two"
 //  ^ punctuation.definition.string.begin.go
@@ -2327,57 +4469,57 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     `one two`
 //  ^ punctuation.definition.string.begin.go
-//  ^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^ string.quoted.backtick.go
 //          ^ punctuation.definition.string.end.go
     `one \\ \n two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go -constant.character.escape
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go -constant.character.escape
     `one %% two`
-//  ^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^ constant.character.escape.go
     `one % two`
-//  ^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^ constant.other.placeholder.go
     `one %v two`
-//  ^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^ constant.other.placeholder.go
     `one %+v two`
-//  ^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^ constant.other.placeholder.go
     `one %1.2d two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^ constant.other.placeholder.go
     `one %[1] two`
-//  ^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^^ constant.other.placeholder.go
     `one %[1]v two`
-//  ^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^ constant.other.placeholder.go
     `one %[1]+v two`
-//  ^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^^ constant.other.placeholder.go
     `one %[1]1.2d two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^^^^^^^ constant.other.placeholder.go
     `%`
-//  ^^^ string.quoted.other.go
+//  ^^^ string.quoted.backtick.go
 //   ^ -constant.other.placeholder
 
     `
-//  ^ string.quoted.other.go punctuation.definition.string.begin.go
+//  ^ string.quoted.backtick.go punctuation.definition.string.begin.go
     one
-//  ^^^ string.quoted.other.go
+//  ^^^ string.quoted.backtick.go
     two
-//  ^^^ string.quoted.other.go
+//  ^^^ string.quoted.backtick.go
     three
-//  ^^^^^ string.quoted.other.go
+//  ^^^^^ string.quoted.backtick.go
     `
-//  ^ string.quoted.other.go punctuation.definition.string.end.go
+//  ^ string.quoted.backtick.go punctuation.definition.string.end.go
 
     `one /* two */ three`
-//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.go -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.backtick.go -comment
 
 
-// # Operators
+/* # Operators */
 
     !=
 //  ^^ keyword.operator.comparison.go
@@ -2451,9 +4593,11 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^ keyword.operator.logical.go
     |
 //  ^ keyword.operator.bitwise.go
+    ~
+//  ^ keyword.operator.go
 
 
-// # Punctuation
+/* # Punctuation */
 
 // Note: [] can denote array and slice types. It's covered in the type section.
 
@@ -2477,9 +4621,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     }
 //  ^ meta.block.go punctuation.section.braces.end.go
 
-// ## Selector
+/* ## Selector */
 
-// ### Member
+/* ### Member */
 
     ident.ident
 //  ^^^^^ variable.other.go
@@ -2506,7 +4650,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     ident
 //  ^^^^^ variable.other.member.go
 
-// ### Type Assertion
+/* ### Type Assertion */
 
     ident.(ident)
 //  ^^^^^ variable.other.go
@@ -2517,11 +4661,10 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^^ variable.other.go
     /**/./**/
 //      ^ punctuation.accessor.dot.go
-    (/* ident */ ident /* ident */ ident)
+    (/* ident */ ident /* ident */)
 //   ^^^^^^^^^^^ comment.block.go
 //               ^^^^^ storage.type.go
 //                     ^^^^^^^^^^^ comment.block.go
-//                                 ^^^^^ variable.other.go
 
     ident.(chan typ)
 //  ^^^^^ variable.other.go
@@ -2585,7 +4728,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^ punctuation.accessor.dot.go
 //                      ^^^^^ storage.type.go
 
-// ## Parens
+/* ## Parens */
 
 // Note: we can't syntactically disambiguate calls and type conversions.
 
@@ -2665,7 +4808,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                 ^ punctuation.accessor.dot.go
 //                   ^^^^ comment.block.go
         ident /**/ )) /**/ ((
-//      ^^^^^ variable.function.go
+//      ^^^^^ variable.other.member.go
 //            ^^^^ comment.block.go
 //                 ^^ punctuation.section.parens.end.go
 //                    ^^^^ comment.block.go
@@ -2701,8 +4844,33 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //     ^^^ storage.type.go
 //          ^^^^^ variable.other.go
 
+    ident[]()
+//  ^^^^^ variable.function.go
+//       ^ punctuation.section.brackets.begin.go
+//        ^ punctuation.section.brackets.end.go
+//         ^ punctuation.section.parens.begin.go
+//          ^ punctuation.section.parens.end.go
 
-// # Keywords
+    ident[typ]()
+//  ^^^^^ variable.function.go
+//       ^ punctuation.section.brackets.begin.go
+//        ^^^ variable.other.type.go
+//           ^ punctuation.section.brackets.end.go
+//            ^ punctuation.section.parens.begin.go
+//             ^ punctuation.section.parens.end.go
+
+    ident[typ, typ]()
+//  ^^^^^ variable.function.go
+//       ^ punctuation.section.brackets.begin.go
+//        ^^^ variable.other.type.go
+//           ^ punctuation.separator.go
+//             ^^^ variable.other.type.go
+//                ^ punctuation.section.brackets.end.go
+//                 ^ punctuation.section.parens.begin.go
+//                  ^ punctuation.section.parens.end.go
+
+
+/* # Keywords */
 
 // Some keywords are covered elsewhere in the test.
 
@@ -2737,7 +4905,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     switch
 //  ^^^^^^ keyword.control.go
 
-// ## func
+/* ## func */
 
 // Note: function signatures are thoroughly tested in the section of this test
 // file dedicated to types. The part after the function name (parameters and
@@ -2778,7 +4946,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     ) typ {}
 //    ^^^ storage.type.go
 
-// Methods
+/* ### Methods */
 
     func (self Type) Method() {}
 //       ^ meta.function.declaration.go punctuation.section.parens.begin.go
@@ -2801,7 +4969,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     func /**/
 //  ^^^^ keyword.declaration.function.go
 //       ^^^^ comment.block.go
-    ( /**/ self /**/ * /**/ ident /**/ . /**/ Type /**/ ) /**/ Method /**/ (
+    ( /**/ self /**/ * /**/ ident . /**/ Type /**/ ) /**/ Method /**/ (
 //  ^ meta.function.declaration.go punctuation.section.parens.begin.go
 //    ^^^^ meta.function.declaration.go comment.block.go
 //         ^^^^ meta.function.declaration.go variable.parameter.go
@@ -2809,15 +4977,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                   ^ meta.function.declaration.go keyword.operator.go
 //                     ^^^^ meta.function.declaration.go comment.block.go
 //                          ^^^^^ meta.function.declaration.go variable.other.go
-//                                ^^^^ meta.function.declaration.go comment.block.go
-//                                     ^ meta.function.declaration.go punctuation.accessor.dot.go
-//                                       ^^^^ meta.function.declaration.go comment.block.go
-//                                            ^^^^ meta.function.declaration.go storage.type.go
-//                                                 ^^^^ meta.function.declaration.go comment.block.go
-//                                                      ^ meta.function.declaration.go punctuation.section.parens.end.go
-//                                                        ^^^^ meta.function.declaration.go comment.block.go
-//                                                             ^^^^^^ meta.function.declaration.go entity.name.function.go
-//                                                                    ^^^^ comment.block.go
+//                                ^ meta.function.declaration.go punctuation.accessor.dot.go
+//                                  ^^^^ meta.function.declaration.go comment.block.go
+//                                       ^^^^ meta.function.declaration.go storage.type.go
+//                                            ^^^^ meta.function.declaration.go comment.block.go
+//                                                 ^ meta.function.declaration.go punctuation.section.parens.end.go
+//                                                   ^^^^ meta.function.declaration.go comment.block.go
+//                                                        ^^^^^^ meta.function.declaration.go entity.name.function.go
+//                                                               ^^^^ comment.block.go
         param typ
 //      ^^^^^ variable.parameter.go
 //            ^^^ storage.type.go
@@ -2827,7 +4994,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //         ^ meta.block.go punctuation.section.braces.end.go
 
 
-// # Predeclared Constants
+/* # Predeclared Constants */
 
     true false nil
 //  ^^^^ constant.language.go
@@ -2835,7 +5002,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //             ^^^ constant.language.go
 
 
-// # Built-in Types
+/* # Built-in Types */
 
 /*
 These tests make sure that the treatment of built-ins is consistent with
@@ -2885,11 +5052,11 @@ every type individually.
 
     interface { typ }
 //  ^^^^^^^^^ keyword.declaration.interface.go
-//              ^^^ meta.type.go entity.other.inherited-class.go -support
+//              ^^^ meta.type.go storage.type.go -support
 
     interface { error }
 //  ^^^^^^^^^ keyword.declaration.interface.go
-//              ^^^^^ meta.type.go entity.other.inherited-class.go support.type.builtin.go
+//              ^^^^^ meta.type.go storage.type.go support.type.builtin.go
 
     [...]typ
 //   ^^^ keyword.operator.variadic.go
@@ -2952,30 +5119,39 @@ every type individually.
 //        ^^^^^ variable.other.go
 
 
-// # Built-in Functions
+/* # Built-in Functions */
 
-// ## Special Functions
+/* ## Special Functions */
 
     make(typ)
 //  ^^^^ variable.function.go support.function.builtin.go
+//      ^ punctuation.section.parens.begin.go
 //       ^^^ storage.type.go -support
+//          ^ punctuation.section.parens.end.go
 
     make(int)
 //  ^^^^ variable.function.go support.function.builtin.go
+//      ^ punctuation.section.parens.begin.go
 //       ^^^ storage.type.go support.type.builtin.go
+//          ^ punctuation.section.parens.end.go
 
     make /**/ (
 //  ^^^^ variable.function.go support.function.builtin.go
 //       ^^^^ comment.block.go
+//            ^ punctuation.section.parens.begin.go
         /**/ typ /**/,
 //      ^^^^ comment.block.go
 //           ^^^ storage.type.go -support
 //               ^^^^ comment.block.go
+//                   ^ punctuation.separator.go
         ident,
 //      ^^^^^ variable.other.go
+//           ^ punctuation.separator.go
         ident,
 //      ^^^^^ variable.other.go
+//           ^ punctuation.separator.go
     )
+//  ^ punctuation.section.parens.end.go
 
     make /**/ (
 //  ^^^^ variable.function.go support.function.builtin.go
@@ -2999,23 +5175,16 @@ every type individually.
 
     new(typ, ident)
 //  ^^^ variable.function.go support.function.builtin.go
-//      ^^^ storage.type.go -support
+//     ^ punctuation.section.parens.begin.go
+//      ^^^ storage.type.go
+//         ^ punctuation.separator.go
 //           ^^^^^ variable.other.go
+//                ^ punctuation.section.parens.end.go
 
     new(int, ident)
 //  ^^^ variable.function.go support.function.builtin.go
 //      ^^^ storage.type.go support.type.builtin.go
 //           ^^^^^ variable.other.go
-
-    ((new))(typ, ident)
-//    ^^^ variable.function.go support.function.builtin.go
-//          ^^^ storage.type.go -support
-//               ^^^^^ variable.other.go
-
-    ((new))(int, ident)
-//    ^^^ variable.function.go support.function.builtin.go
-//          ^^^ storage.type.go support.type.builtin.go
-//               ^^^^^ variable.other.go
 
     new /**/ (
 //  ^^^ variable.function.go support.function.builtin.go
@@ -3042,7 +5211,7 @@ every type individually.
 //  ^^^ keyword.declaration.var.go
 //      ^^^ variable.other.readwrite.declaration.go -support
 
-// ## Other Functions
+/* ## Other Functions */
 
 /*
 These tests make sure that the treatment of built-ins is consistent with

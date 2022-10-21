@@ -3,6 +3,11 @@
     "completions": [
          // https://golang.org/ref/spec#Keywords
         {
+            "trigger": "any",
+            "contents": "any",
+            "kind": "type"
+        },
+        {
             "trigger": "append",
             "contents": "append",
             "kind": "function"
@@ -41,6 +46,11 @@
             "trigger": "close",
             "contents": "close",
             "kind": "function"
+        },
+        {
+            "trigger": "comparable",
+            "contents": "comparable",
+            "kind": "type"
         },
         {
             "trigger": "complex",
@@ -195,7 +205,7 @@
         {
             "trigger": "make",
             "annotation": "make(type, 0)",
-            "contents": "make(${1:type}, 0)",
+            "contents": "make(${0:type}, 0)",
             "kind": "snippet"
         },
         {
