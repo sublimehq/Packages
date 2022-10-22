@@ -114,7 +114,7 @@ contexts:
         (?x)
         (
           (\\)
-          (?:(?:re)?newcommand\*?)
+          (?:(?:new|renew|provide)command\*?)
         )
         (?:
           (\{)(\\[A-Za-z@]+)(\})
