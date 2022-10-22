@@ -42,6 +42,18 @@
 %             ^support.function.latex entity.name.newcommand.latex
 %                               ^ support.function.general.latex
 
+
+\renewcommand{\foo}[1]{\bar #1}
+%   ^ meta.function.newcommand.latex
+%               ^support.function.latex entity.name.newcommand.latex
+%                        ^ support.function.general.latex
+
+\providecommand{\foo}[2][default]{\bar #1 #2}
+%   ^ meta.function.newcommand.latex
+%                 ^support.function.latex entity.name.newcommand.latex
+%                                  ^ support.function.general.latex
+
+
 \newcolumntype{x}{>{$}c<{$}}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
 % ^ support.function.newcolumntype.latex
