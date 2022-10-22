@@ -112,15 +112,21 @@ contexts:
     - include: scope:text.tex#macros
     - match: |-
         (?x)
+        # The defining command
         (
           (\\)
           (?:(?:new|renew|provide)command\*?)
         )
+        \s*
+        # the command to be defined, possibly surrounded by braces
         (?:
-          (\{)(\\[A-Za-z@]+)(\})
-          | (\\[A-Za-z@])+
+          (\{)\s*(\\[A-Za-z@]+)\s*(\})
+          | (\\[A-Za-z@]+)
         )
-        (?:(\[)(?:[^\]]*)(\]))*
+        \s*
+        # optional argument specification in square brackets
+        (?:(\[)(?:[^\]]*)(\])\s*)*
+        # start of actual command definition
         (\{)
       captures:
         1: support.function.newcommand.latex storage.modifier.newcommand.latex
@@ -128,7 +134,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.latex
         4: support.function.latex entity.name.newcommand.latex
         5: punctuation.definition.group.brace.end.latex
-        6: support.function.latex
+        6: support.function.latex entity.name.newcommand.latex
         7: punctuation.definition.group.bracket.begin.latex
         8: punctuation.definition.group.bracket.end.latex
         9: punctuation.definition.group.brace.begin.latex

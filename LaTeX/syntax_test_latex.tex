@@ -53,6 +53,20 @@
 %                 ^support.function.latex entity.name.newcommand.latex
 %                                  ^ support.function.general.latex
 
+\newcommand{ \foo }{\bar}
+%   ^ meta.function.newcommand.latex
+%              ^support.function.latex entity.name.newcommand.latex
+%                     ^ support.function.general.latex
+
+\newcommand \foo {\bar}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                   ^ support.function.general.latex
+
+\newcommand \baz [1] [def] {\textbf{#1}}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                               ^ support.function.general.latex
 
 \newcolumntype{x}{>{$}c<{$}}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
