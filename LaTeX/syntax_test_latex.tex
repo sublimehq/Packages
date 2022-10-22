@@ -28,7 +28,7 @@
 % <- comment.line.percentage.tex
 
 \newcommand{\foo}{\bar}
-%   ^ meta.function.newcommand.latex
+%   ^ meta.function.newcommand.latex 
 %             ^support.function.latex entity.name.newcommand.latex
 %                   ^ support.function.general.latex
 
@@ -53,10 +53,20 @@
 %                 ^support.function.latex entity.name.newcommand.latex
 %                                  ^ support.function.general.latex
 
+\newcommand\foo{\bar}
+%   ^ meta.function.newcommand.latex
+%            ^support.function.latex entity.name.newcommand.latex
+%                 ^ support.function.general.latex
+
 \newcommand{ \foo }{\bar}
 %   ^ meta.function.newcommand.latex
 %              ^support.function.latex entity.name.newcommand.latex
 %                     ^ support.function.general.latex
+
+\newcommand* {\foo }{\bar}
+%          ^ meta.function.newcommand.latex
+%               ^support.function.latex entity.name.newcommand.latex
+%                      ^ support.function.general.latex
 
 \newcommand \foo {\bar}
 %   ^ meta.function.newcommand.latex
@@ -67,6 +77,16 @@
 %   ^ meta.function.newcommand.latex
 %             ^support.function.latex entity.name.newcommand.latex
 %                               ^ support.function.general.latex
+
+\DeclareMathOperator{\op } {op}
+%   ^ meta.function.declare-math-operator.latex
+%                     ^support.function.latex entity.name.declare-math-operator.latex
+%                            ^ text.tex.latex
+
+\DeclareMathOperator* \op {op}
+%   ^ meta.function.declare-math-operator.latex
+%                      ^support.function.latex entity.name.declare-math-operator.latex
+%                           ^ text.tex.latex
 
 \newcolumntype{x}{>{$}c<{$}}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
