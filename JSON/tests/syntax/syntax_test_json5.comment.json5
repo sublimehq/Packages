@@ -1,0 +1,28 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax"
+
+// <- source.json.json5
+
+{
+    //  comment 'not a string'
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash
+//  ^^ comment.line.double-slash punctuation.definition.comment
+//              ^^^^^^^^^^^^^^ - meta.string string.quoted.single
+//              ^ - punctuation.definition.string.begin
+//                           ^ - punctuation.definition.string.end
+
+    /* comment 'not a string' */
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+//  ^^ comment.block punctuation.definition.comment.begin
+//             ^^^^^^^^^^^^^^ - meta.string string.quoted.single
+//             ^ - punctuation.definition.string.begin
+//                          ^ - punctuation.definition.string.end
+//                            ^^ comment.block punctuation.definition.comment.end
+
+    /* comment
+    'not a string' */
+//  ^^^^^^^^^^^^^^^^^ comment.block
+//  ^^^^^^^^^^^^^^ - meta.string string.quoted.single
+//  ^ - punctuation.definition.string.begin
+//               ^ - punctuation.definition.string.end
+//                 ^^ comment.block punctuation.definition.comment.end
+}

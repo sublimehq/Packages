@@ -1,0 +1,13 @@
+//  Packages/JSON/JSON.sublime-settings
+//  Settings - Syntax Specific (Default)
+//
+//  This file is being maintained at:
+//      https://github.com/sublimehq/Packages/blob/master/JSON/JSON.sublime-settings
+
+
+{
+    "default_extension": "json",
+
+    //  whether `on_pre_save_async` events auto-trigger the `json_prettify` command
+    "json.auto_prettify": false
+}

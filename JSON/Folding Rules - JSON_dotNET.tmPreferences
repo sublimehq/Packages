@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.json.json-dotnet</string>
+	<key>settings</key>
+	<dict>
+		<key>indentationFoldingEnabled</key>
+		<false/>
+		<key>foldScopes</key>
+		<array>
+			<dict>
+				<key>begin</key>
+				<string>punctuation.definition.mapping.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.mapping.end</string>
+			</dict>
+			<dict>
+				<key>begin</key>
+				<string>punctuation.definition.sequence.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.sequence.end</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

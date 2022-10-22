@@ -1,0 +1,15 @@
+// SYNTAX TEST "Packages/JSON/JSONC.sublime-syntax"
+
+// <- source.json.jsonc
+
+{
+    "unterminated string
+//  ^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.double
+//                      ^ invalid.illegal.unclosed-string
+
+    /**/: "test"
+// ^ - string.quoted.double
+//  ^^^^ meta.mapping comment.block
+//      ^ meta.mapping punctuation.separator.key-value
+//        ^^^^^^ meta.mapping.value meta.string string.quoted.double
+}

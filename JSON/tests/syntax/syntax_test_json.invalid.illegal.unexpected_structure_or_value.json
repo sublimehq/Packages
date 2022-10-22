@@ -1,0 +1,10 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+    5, 5
+//   ^ invalid.illegal.unexpected-separator
+//     ^ invalid.illegal.unexpected-code-after-first-structure-or-value
+
+    // comment
+//  ^^^^^^^^^^ invalid.illegal.comment - invalid.illegal.unexpected-code-after-first-structure-or-value

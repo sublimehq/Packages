@@ -1,0 +1,50 @@
+// SYNTAX TEST "Packages/JSON/JSONC.sublime-syntax"
+
+// <- source.json.jsonc
+
+{
+    "unrecognized-string-escape": "\.",
+//                                ^^^^ meta.mapping.value meta.string string.quoted.double
+//                                 ^^ invalid.illegal.unrecognized-string-escape
+//                                 ^^ - constant.character.escape
+
+    "unrecognized-string-escape-upper-case-b": "\B",
+//                                             ^^^^ meta.mapping.value meta.string string.quoted.double
+//                                              ^^ invalid.illegal.unrecognized-string-escape
+//                                              ^^ - constant.character.escape
+
+    "unrecognized-string-escape-upper-case-f": "\F",
+//                                             ^^^^ meta.mapping.value meta.string string.quoted.double
+//                                              ^^ invalid.illegal.unrecognized-string-escape
+//                                              ^^ - constant.character.escape
+
+    "unrecognized-string-escape-upper-case-n": "\N",
+//                                             ^^^^ meta.mapping.value meta.string string.quoted.double
+//                                              ^^ invalid.illegal.unrecognized-string-escape
+//                                              ^^ - constant.character.escape
+
+    "unrecognized-string-escape-upper-case-r": "\R",
+//                                             ^^^^ meta.mapping.value meta.string string.quoted.double
+//                                              ^^ invalid.illegal.unrecognized-string-escape
+//                                              ^^ - constant.character.escape
+
+    "unrecognized-string-escape-upper-case-t": "\T",
+//                                             ^^^^ meta.mapping.value meta.string string.quoted.double
+//                                              ^^ invalid.illegal.unrecognized-string-escape
+//                                              ^^ - constant.character.escape
+
+    "unrecognized-string-escape-unicode-symbol-too-short": "\u123",
+//                                                         ^^^^^^^ meta.mapping.value meta.string string.quoted.double
+//                                                          ^^^^^ - constant.character.escape
+//                                                          ^^ invalid.illegal.unrecognized-string-escape
+
+    "unrecognized-string-escape-unicode-symbol-upper-case-and-too-short": "\U123",
+//                                                                        ^^^^^^^ meta.mapping.value meta.string string.quoted.double
+//                                                                         ^^^^^ - constant.character.escape
+//                                                                         ^^ invalid.illegal.unrecognized-string-escape
+
+    "unrecognized-string-escape-unicode-symbol-upper-case": "\U1234"
+//                                                          ^^^^^^^^ meta.mapping.value meta.string string.quoted.double
+//                                                           ^^^^^^ - constant.character.escape
+//                                                           ^^ invalid.illegal.unrecognized-string-escape
+}

@@ -1,0 +1,65 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax" \
+
+// <- source.json.json5
+
+{
+    'key': 'value',
+//  ^^^^^ meta.mapping.key meta.string string.quoted.single
+//         ^^^^^^^ meta.mapping.value meta.string string.quoted.single
+
+    'line-continuation-single': 'line\
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single \
+//                              ^^^^^^ meta.mapping.value meta.string string.quoted.single \
+//                                   ^ punctuation.separator.continuation.line \
+    continuation',
+// ^ meta.mapping.value meta.string string.quoted.single
+
+    "line-continuation-double": "line\
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.double \
+//                              ^^^^^^ meta.mapping.value meta.string string.quoted.double \
+//                                   ^ punctuation.separator.continuation.line \
+    continuation",
+// ^ meta.mapping.value meta.string string.quoted.double
+
+
+    'escape-character-single-quote': '\'',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                   ^^^^ meta.mapping.value meta.string string.quoted.single
+//                                    ^^ constant.character.escape.single-quote
+
+    'escape-character-vertical-tab': '\v',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                   ^^^^ meta.mapping.value meta.string string.quoted.single
+//                                    ^^ constant.character.escape.vertical-tab
+
+    'escape-character-null': '\0',
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                           ^^^^ meta.mapping.value meta.string string.quoted.single
+//                            ^^ constant.character.escape.null
+
+    'escape-character-unicode-symbol-basic': '\x00',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                           ^^^^^^ meta.mapping.value meta.string string.quoted.single
+//                                            ^^^^ constant.character.escape.unicode-symbol.basic-latin-or-latin-1-supplement
+
+    'escape-character-unicode-symbol-utf16-surrogate-pair': '\u0000\u0000',
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
+//                                                          ^^^^^^^^^^^^^^ meta.mapping.value meta.string string.quoted.single
+//                                                           ^^^^^^^^^^^^ constant.character.escape.unicode-symbol.utf16-surrogate-pair
+//                                                           ^^^^^^ - constant.character.escape.unicode-symbol.basic-multilingual-plane
+//                                                                 ^^^^^^^ - constant.character.escape.unicode-symbol.basic-multilingual-plane
+
+    'escape-character-line-separator': '\ 
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single \
+//                                     ^^^ meta.mapping.value meta.string string.quoted.single \
+//                                      ^^ constant.character.escape.line-separator \
+    ',
+// ^ meta.mapping.value meta.string string.quoted.single
+
+    'escape-character-paragraph-separator': '\ 
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single \
+//                                          ^^^ meta.mapping.value meta.string string.quoted.single \
+//                                           ^^ constant.character.escape.paragraph-separator \
+    '
+// ^ meta.mapping.value meta.string string.quoted.single
+}

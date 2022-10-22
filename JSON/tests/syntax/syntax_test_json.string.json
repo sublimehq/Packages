@@ -1,0 +1,74 @@
+// SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
+
+// <- source.json - (source.json.json-dotnet | source.json.json5 | source.json.jsonc)
+
+[
+    "\"",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.double-quote
+//   ^ punctuation.definition.escape
+
+    "\\",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.back-slash
+//   ^ punctuation.definition.escape
+
+    "\/",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.forward-slash
+//   ^ punctuation.definition.escape
+
+    "\b",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.backspace
+//   ^ punctuation.definition.escape
+
+    "\f",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.form-feed
+//   ^ punctuation.definition.escape
+
+    "\n",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.newline
+//   ^ punctuation.definition.escape
+
+    "\r",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.carriage-return
+//   ^ punctuation.definition.escape
+
+    "\t",
+//  ^^^^ meta.string string.quoted.double
+//   ^^ constant.character.escape.horizontal-tab
+//   ^ punctuation.definition.escape
+
+    "\u1234",
+//  ^^^^^^^^ meta.string string.quoted.double
+//   ^^^^^^ constant.character.escape.unicode-symbol.basic-multilingual-plane
+//   ^ punctuation.definition.escape
+
+    "\u12345",
+//  ^^^^^^^^^ meta.string string.quoted.double
+//   ^^^^^^ constant.character.escape.unicode-symbol.basic-multilingual-plane
+//   ^ punctuation.definition.escape
+//         ^ - constant.character.escape
+
+    "ke//y",
+//  ^^^^^^^ meta.string string.quoted.double - comment
+
+    "ke// y",
+//  ^^^^^^^^ meta.string string.quoted.double - comment
+
+    "ke/***/y",
+//  ^^^^^^^^^^ meta.string string.quoted.double - comment
+
+    "ke/** */y",
+//  ^^^^^^^^^^^ meta.string string.quoted.double - comment
+
+    "ke/**/y",
+//  ^^^^^^^^^ meta.string string.quoted.double - comment
+
+    "ke/* */y"
+//  ^^^^^^^^^^ meta.string string.quoted.double - comment
+]

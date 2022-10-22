@@ -980,7 +980,9 @@ contexts:
     - include: fenced-html
     - include: fenced-java
     - include: fenced-javascript
+    - include: fenced-json5
     - include: fenced-jsonc
+    - include: fenced-json
     - include: fenced-jspx
     - include: fenced-jsx
     - include: fenced-lisp
@@ -1329,11 +1331,49 @@ contexts:
         0: meta.code-fence.definition.end.javascript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
 
+  fenced-json5:
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:json5))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.json5.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:source.json.json5
+      embed_scope:
+        markup.raw.code-fence.json5.markdown-gfm
+        source.json.json5
+      escape: '{{fenced_code_block_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.json5.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+
   fenced-jsonc:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:jsonc?))
+          ((?i:jsonc))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.jsonc.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:source.json.jsonc
+      embed_scope:
+        markup.raw.code-fence.jsonc.markdown-gfm
+        source.json.jsonc
+      escape: '{{fenced_code_block_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.jsonc.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-json:
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:json))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.json.markdown-gfm

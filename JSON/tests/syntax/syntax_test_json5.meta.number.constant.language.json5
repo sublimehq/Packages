@@ -1,0 +1,31 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax"
+
+// <- source.json.json5
+
+{
+////[ ieee 754 ]////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    "constant-language-nan": NaN,
+//                           ^^^ meta.number.float.decimal constant.language.nan
+    "constant-language-nan-pos": +NaN,
+//                               ^^^^ meta.number.float.decimal
+//                               ^ constant.numeric.sign
+//                                ^^^ constant.language.nan
+    "constant-language-nan-neg": -NaN,
+//                               ^^^^ meta.number.float.decimal
+//                               ^ constant.numeric.sign
+//                                ^^^ constant.language.nan
+
+    "constant-language-infinity": Infinity,
+//                                ^^^^^^^^ meta.number.float.decimal constant.language.infinity
+    "constant-language-infinity-pos": +Infinity,
+//                                    ^^^^^^^^^ meta.number.float.decimal
+//                                    ^ constant.numeric.sign
+//                                     ^^^^^^^^ constant.language.infinity
+    "constant-language-infinity-neg": -Infinity
+//                                    ^^^^^^^^^ meta.number.float.decimal
+//                                    ^ constant.numeric.sign
+//                                     ^^^^^^^^ constant.language.infinity
+}

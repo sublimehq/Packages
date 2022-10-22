@@ -1,0 +1,208 @@
+// SYNTAX TEST "Packages/JSON/JSON5.sublime-syntax"
+
+// <- source.json.json5
+
+{
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////[ explicitly positive ]/////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    "float-explicitly-positive-zero": +0.0,
+//                                    ^^^^ meta.number.float.decimal
+//                                    ^ constant.numeric.sign
+//                                     ^^^ constant.numeric.value
+//                                      ^ punctuation.separator.decimal
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    "float-explicitly-positive-zero-with-zero-exponent": +0.0e0,
+//                                                       ^^^^^^ meta.number.float.decimal
+//                                                       ^ constant.numeric.sign
+//                                                        ^^^^^ constant.numeric.value
+//                                                         ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-zero-with-negative-zero-exponent": +0.0e-0,
+//                                                                ^^^^^^^ meta.number.float.decimal
+//                                                                ^ constant.numeric.sign
+//                                                                 ^^^^^^ constant.numeric.value
+//                                                                  ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-zero-no-fraction-with-zero-exponent": +0e0,
+//                                                                   ^^^^ meta.number.float.decimal
+//                                                                   ^ constant.numeric.sign
+//                                                                    ^^^ constant.numeric.value
+
+    "float-explicitly-positive-zero-no-fraction-with-negative-zero-exponent": +0e-0,
+//                                                                            ^^^^^ meta.number.float.decimal
+//                                                                            ^ constant.numeric.sign
+//                                                                             ^^^^ constant.numeric.value
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    "float-explicitly-positive-zero-with-exponent": +0.0e9,
+//                                                  ^^^^^^ meta.number.float.decimal
+//                                                  ^ constant.numeric.sign
+//                                                   ^^^^^ constant.numeric.value
+//                                                    ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-zero-with-negative-exponent": +0.0e-9,
+//                                                           ^^^^^^^ meta.number.float.decimal
+//                                                           ^ constant.numeric.sign
+//                                                            ^^^^^^ constant.numeric.value
+//                                                             ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-zero-no-fraction-with-exponent": +0e9,
+//                                                              ^^^^ meta.number.float.decimal
+//                                                              ^ constant.numeric.sign
+//                                                               ^^^ constant.numeric.value
+
+    "float-explicitly-positive-zero-no-fraction-with-negative-exponent": +0e-9,
+//                                                                       ^^^^^ meta.number.float.decimal
+//                                                                       ^ constant.numeric.sign
+//                                                                        ^^^^ constant.numeric.value
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    "float-explicitly-positive": +9.0,
+//                               ^^^^ meta.number.float.decimal
+//                               ^ constant.numeric.sign
+//                                ^^^ constant.numeric.value
+//                                 ^ punctuation.separator.decimal
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    "float-explicitly-positive-with-zero-exponent": +9.0e0,
+//                                                  ^^^^^^ meta.number.float.decimal
+//                                                  ^ constant.numeric.sign
+//                                                   ^^^^^ constant.numeric.value
+//                                                    ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-with-negative-zero-exponent": +9.0e-0,
+//                                                           ^^^^^^^ meta.number.float.decimal
+//                                                           ^ constant.numeric.sign
+//                                                            ^^^^^^ constant.numeric.value
+//                                                             ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-no-fraction-with-zero-exponent": +9e0,
+//                                                              ^^^^ meta.number.float.decimal
+//                                                              ^ constant.numeric.sign
+//                                                               ^^^ constant.numeric.value
+
+    "float-explicitly-positive-no-fraction-with-negative-zero-exponent": +9e-0,
+//                                                                       ^^^^^ meta.number.float.decimal
+//                                                                       ^ constant.numeric.sign
+//                                                                        ^^^^ constant.numeric.value
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    "float-explicitly-positive-with-exponent": +9.0e9,
+//                                             ^^^^^^ meta.number.float.decimal
+//                                             ^ constant.numeric.sign
+//                                              ^^^^^ constant.numeric.value
+//                                               ^ punctuation.separator.decimal
+
+    "float-explicitly-positive-with-negative-exponent": +9.0e-9,
+//                                                      ^^^^^^^ meta.number.float.decimal
+//                                                      ^ constant.numeric.sign
+//                                                       ^^^^^^ constant.numeric.value
+//                                                        ^ punctuation.separator.decimal
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    "float-explicitly-positive-no-fraction-with-exponent": +9e9,
+//                                                         ^^^^ meta.number.float.decimal
+//                                                         ^ constant.numeric.sign
+//                                                          ^^^ constant.numeric.value
+
+    "float-explicitly-positive-no-fraction-with-negative-exponent": +9e-9,
+//                                                                  ^^^^^ meta.number.float.decimal
+//                                                                  ^ constant.numeric.sign
+//                                                                   ^^^^ constant.numeric.value
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////[ leading period ]//////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    "float-leading-period-followed-by-zero": .0,
+//                                           ^^ meta.number.float.decimal
+//                                           ^^ constant.numeric.value
+//                                           ^ punctuation.separator.decimal
+//                                           ^^ - invalid.illegal.meta-number-float-decimal
+
+    "float-leading-period-followed-by-nonzero": .9,
+//                                              ^^ meta.number.float.decimal
+//                                              ^^ constant.numeric.value
+//                                              ^ punctuation.separator.decimal
+//                                              ^^ - invalid.illegal.meta-number-float-decimal
+
+    "negative-float-leading-period-followed-by-zero": -.0,
+//                                                    ^^^ meta.number.float.decimal
+//                                                    ^ constant.numeric.sign
+//                                                     ^^ constant.numeric.value
+//                                                     ^ punctuation.separator.decimal
+//                                                    ^^^ - invalid.illegal.meta-number-float-decimal
+
+    "negative-float-leading-period-followed-by-nonzero": -.9,
+//                                                       ^^^ meta.number.float.decimal
+//                                                       ^ constant.numeric.sign
+//                                                        ^^ constant.numeric.value
+//                                                        ^ punctuation.separator.decimal
+//                                                       ^^^ - invalid.illegal.meta-number-float-decimal
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////[ trailing period ]/////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    "float-trailing-period-lead-by-zero": 0.,
+//                                        ^^ meta.number.float.decimal
+//                                        ^^ constant.numeric.value
+//                                         ^ punctuation.separator.decimal
+//                                        ^^ - invalid.illegal.meta-number-float-decimal
+
+    "float-trailing-period-lead-by-nonzero": 9.,
+//                                           ^^ meta.number.float.decimal
+//                                           ^^ constant.numeric.value
+//                                            ^ punctuation.separator.decimal
+//                                           ^^ - invalid.illegal.meta-number-float-decimal
+
+    "negative-float-trailing-period-lead-by-zero": -0.,
+//                                                 ^^^ meta.number.float.decimal
+//                                                 ^ constant.numeric.sign
+//                                                  ^^ constant.numeric.value
+//                                                   ^ punctuation.separator.decimal
+//                                                 ^^^ - invalid.illegal.meta-number-float-decimal
+
+    "negative-float-trailing-period-lead-by-nonzero": -9.
+//                                                    ^^^ meta.number.float.decimal
+//                                                    ^ constant.numeric.sign
+//                                                     ^^ constant.numeric.value
+//                                                      ^ punctuation.separator.decimal
+//                                                    ^^^ - invalid.illegal.meta-number-float-decimal
+}
