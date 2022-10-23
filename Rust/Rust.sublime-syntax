@@ -88,11 +88,11 @@ contexts:
         1: storage.type.type.rust
         2: entity.name.type.rust
       push:
-      - match: '=(?!=)'
-        scope: keyword.operator.assignment.rust
-        push: after-operator
-      - match: '(?=\S)'
-        pop: true
+        - match: '=(?!=)'
+          scope: keyword.operator.assignment.rust
+          push: after-operator
+        - match: '(?=\S)'
+          pop: true
 
     - match: '\b(trait)\s+({{identifier}})\b'
       captures:
@@ -1474,16 +1474,16 @@ contexts:
       scope: keyword.other.rust
 
   no-type-names:
-      # This push state prevents highlighting basic types like
-      # i32, etc when following ::
-      - include: comments
-      - include: macro-identifiers
-      - include: basic-identifiers
-      - match: '{{identifier}}'
-      - match: '(?=<)'
-        push: generic-angles
-      - match: ''
-        pop: true
+    # This push state prevents highlighting basic types like
+    # i32, etc when following ::
+    - include: comments
+    - include: macro-identifiers
+    - include: basic-identifiers
+    - match: '{{identifier}}'
+    - match: '(?=<)'
+      push: generic-angles
+    - match: ''
+      pop: true
 
   symbols:
     - match: '=>'
