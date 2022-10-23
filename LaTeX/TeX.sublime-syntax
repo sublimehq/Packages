@@ -6,6 +6,61 @@ file_extensions:
   - sty
   - cls
 scope: text.tex
+
+variables:
+  greeks: |-
+    (?x:alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|
+        iota|kappa|lambda|mu|nu|xi|o|pi|varpi|rho|varrho|sigma|varsigma|
+        tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|
+        Sigma|Upsilon|Phi|Psi|Omega
+      )
+  mathfun: |-
+    (?x:arccos|cos|csc|exp|ker|limsup|min|sinh|
+        arcsin|cosh|deg|gcd|lg|ln|Pr|sup|
+        arctan|cot|det|hom|lim|log|sec|tan|
+        arg|coth|dim|inf|liminf|max|sin|tan|pmod|bmod
+      )
+  relations: |-
+    (?x:leq|lq|geq|ge|equiv|prec|succ|sim|
+        preceq|succeq|simeq|ll|gg|subset|supset|approx|
+        subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|
+        in|notin|ne|ni|owns|vdash|dashv|models|smile|mid|
+        doteq|frown|parallel|perp|propto
+      )
+  largeops: |-
+    (?x:sum|prod|coprod|int|oint|bigcap|bigcup|bigsqcup|
+        bigvee|bigwedge|bigodot|bigotimes|bigoplus|biguplus
+    )
+  binops: |-
+    (?x:pm|mp|setminus|cdot|times|ast|star|diamond|circ|bullet|
+        div|cap|cup|uplus|sqcap|sqcup|triangleleft|triangleright|
+        wr|bigcirc|bigtriangleup|bigtriangledown|vee|lor|
+        wedge|land|oplus|ominus|otimes|oslash|odot|dagger|
+        ddagger|amalg
+    )
+  accents: |-
+    (?x:hat|widehat|check|tilde|widetilde|acute|grave|dot|
+        ddot|breve|bar|vec
+    )
+  symbols: |-
+    (?x:aleph|hbar|imath|jmath|ell|wp|Re|Im|partial|infty|
+        prime|emptyset|nabla|surd|top|bot|\||angle|triangle|
+        backslash|forall|exists|neg|lnot|flat|natural|sharp|
+        clubsuit|diamondsuit|heartsuit|spadesuit
+    )
+  arrows: |-
+    (?x:leftarrow|gets|longleftarrow|Leftarrow|Longleftarrow|
+        rightarrow|to|longrightarrow|Rightarrow|Longrightarrow|
+        leftrightarrow|longleftrightarrow|Leftrightarrow|
+        Longleftrightarrow|mapsto|longmapsto|hookleftarrow|
+        hookrightarrow|uparrow|Uparrow|downarrow|Downarrow|
+        updownarrow|Updownarrow|nearrow|searrow|nwarrow|swarrow
+    )
+  delimiters: |-
+    (?x:lbrack|lbrace|langle|rbrack|rbrace|rangle|
+        vert|lfloor|lceil|Vert|rfloor|rceil
+    )
+
 contexts:
   prototype:
     - include: comments
@@ -114,10 +169,69 @@ contexts:
         - include: macro-braces
 
   greeks:
-    - match: ((\\)(alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|gamma|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega))(?=\b|_)
+    - match: ((\\)({{greeks}}))(?=\b|_)
       captures:
-        1: keyword.other.greek.math.tex
+        # keyword.other.greek.math.tex retained for backward compatibility
+        1: keyword.other.math.greek.tex keyword.other.greek.math.tex
         2: punctuation.definition.backslash.tex
+
+  math-functions:
+    - match: ((\\)({{mathfun}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.function.tex
+        2: punctuation.definition.backslash.tex
+
+  math-relations:
+    - match: ((\\)({{relations}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.relation.tex
+        2: punctuation.definition.backslash.tex
+
+  math-largeops:
+    - match: ((\\)({{largeops}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.large-operator.tex
+        2: punctuation.definition.backslash.tex
+
+  math-binops:
+    - match: ((\\)({{binops}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.binary-operator.tex
+        2: punctuation.definition.backslash.tex
+
+  math-symbols:
+    - match: ((\\)({{symbols}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.symbol.tex
+        2: punctuation.definition.backslash.tex
+
+  math-accents:
+    - match: ((\\)({{accents}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.accent.tex
+        2: punctuation.definition.backslash.tex
+
+  math-arrows:
+    - match: ((\\)({{arrows}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.arrow.tex
+        2: punctuation.definition.backslash.tex
+
+  math-delimiters:
+    - match: ((\\)({{delimiters}}))(?=\b|_)
+      captures:
+        1: keyword.other.math.delimiter.tex
+        2: punctuation.definition.backslash.tex
+
+  math-builtin:
+    - include: greeks
+    - include: math-functions
+    - include: math-relations
+    - include: math-largeops
+    - include: math-binops
+    - include: math-symbols
+    - include: math-accents
+    - include: math-arrows
 
   math-commands:
     - match: '((\\)[A-Za-z@]+)'
@@ -158,7 +272,7 @@ contexts:
       scope: variable.other.math.tex
 
   math-content:
-    - include: greeks
+    - include: math-builtin
     - include: math-brackets
     - include: math-braces
     - include: boxes
