@@ -175,55 +175,55 @@ contexts:
     - include: math-delimiters
 
   math-greeks:
-    - match: (\\)({{greeks}})(?=\b|_)
+    - match: (\\){{greeks}}(?=\b|_)
       scope: keyword.other.math.greek.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-functions:
-    - match: (\\)({{mathfun}})(?=\b|_)
+    - match: (\\){{mathfun}}(?=\b|_)
       scope: keyword.other.math.function.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-relations:
-    - match: (\\)({{relations}})(?=\b|_)
+    - match: (\\){{relations}}(?=\b|_)
       scope: keyword.other.math.relation.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-largeops:
-    - match: (\\)({{largeops}})(?=\b|_)
+    - match: (\\){{largeops}}(?=\b|_)
       scope: keyword.other.math.large-operator.tex
       captures:
         1: punctuation.definition.backslash.texpunctuation.definition.backslash.tex
 
   math-binops:
-    - match: (\\)({{binops}})(?=\b|_)
+    - match: (\\){{binops}}(?=\b|_)
       scope: keyword.other.math.binary-operator.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-symbols:
-    - match: (\\)({{symbols}})(?=\b|_)
+    - match: (\\){{symbols}}(?=\b|_)
       scope: keyword.other.math.symbol.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-accents:
-    - match: (\\)({{accents}})(?=\b|_)
+    - match: (\\){{accents}}(?=\b|_)
       scope: keyword.other.math.accent.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-arrows:
-    - match: (\\)({{arrows}})(?=\b|_)
+    - match: (\\){{arrows}}(?=\b|_)
       scope: keyword.other.math.arrow.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-delimiters:
-    - match: (\\)({{delimiters}})(?=\b|_)
+    - match: (\\){{delimiters}}(?=\b|_)
       scope: keyword.other.math.delimiter.tex
       captures:
         1: punctuation.definition.backslash.tex
