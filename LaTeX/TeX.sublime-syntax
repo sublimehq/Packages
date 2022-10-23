@@ -163,7 +163,17 @@ contexts:
         - include: general-commands
         - include: macro-braces
 
-  greeks:
+  math-builtin:
+    - include: math-greeks
+    - include: math-functions
+    - include: math-relations
+    - include: math-largeops
+    - include: math-binops
+    - include: math-symbols
+    - include: math-accents
+    - include: math-arrows
+
+  math-greeks:
     - match: ((\\)({{greeks}}))(?=\b|_)
       captures:
         1: keyword.other.math.greek.tex
@@ -216,16 +226,6 @@ contexts:
       captures:
         1: keyword.other.math.delimiter.tex
         2: punctuation.definition.backslash.tex
-
-  math-builtin:
-    - include: greeks
-    - include: math-functions
-    - include: math-relations
-    - include: math-largeops
-    - include: math-binops
-    - include: math-symbols
-    - include: math-accents
-    - include: math-arrows
 
   math-commands:
     - match: '((\\)[A-Za-z@]+)'
