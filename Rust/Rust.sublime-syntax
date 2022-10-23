@@ -564,8 +564,10 @@ contexts:
     - include: type-identifiers
 
   type-identifiers:
-    - match: '[!?](?={{type_identifier}})'
-      scope: storage.modifier.rust
+    - match: '(?:(!)|(\?))(?={{type_identifier}})'
+      captures:
+        1: keyword.operator.negated-type.rust
+        2: storage.modifier.relaxed-bounds.rust
     - include: support-type
     - include: type
     - match: '{{type_identifier}}'
@@ -618,7 +620,7 @@ contexts:
     - match: '\b_\b'
       scope: keyword.operator.rust
     - match: '!(?!\w)'
-      scope: storage.type.rust
+      scope: storage.type.never.rust
     - match: \bextern\b
       scope: keyword.other.rust
       push:
@@ -634,11 +636,15 @@ contexts:
     - match: '::'
       scope: punctuation.accessor.rust
       pop: true
+    - match: '!'
+      scope: keyword.operator.negated-type.rust
     - include: type-identifiers
 
   type-any-identifiers:
-    - match: '[!?]'
-      scope: storage.modifier.rust
+    - match: '!'
+      scope: keyword.operator.negated-type.rust
+    - match: '\?'
+      scope: storage.modifier.relaxed-bounds.rust
     - include: support-type
     - include: type
     - match: '{{type_identifier}}'

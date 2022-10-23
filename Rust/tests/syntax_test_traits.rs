@@ -76,6 +76,20 @@ impl !Send for Point {}
 //^^^^^^^^^^^^^^^^^^^^^ meta.impl
 //   ^ meta.impl keyword.operator meta.impl.opt-out
 
+impl<T: ?Sized> !marker::Sync for Rc<T> {}
+//  ^^^^^^^^^^^ meta.impl.rust meta.generic.rust
+//  ^ punctuation.definition.generic.begin.rust
+//   ^ storage.type.rust
+//    ^ punctuation.separator.rust
+//      ^ storage.modifier.relaxed-bounds.rust
+//       ^^^^^ support.type.rust
+//            ^ punctuation.definition.generic.end.rust
+//              ^ meta.impl.rust keyword.operator.rust meta.impl.opt-out.rust
+//               ^^^^^^^^ meta.impl.rust meta.path.rust
+//                       ^^^^ meta.impl.rust support.type.rust
+//                            ^^^ meta.impl.rust keyword.other.rust
+//                                ^^ meta.impl.rust meta.generic.rust entity.name.impl.rust
+
 // Trait bounds and type parameters.
 trait Foo: 'static {}
 //^^^^^^^^^^^^^^^^^^^ meta.trait
@@ -86,19 +100,16 @@ trait Foo<'a>: Sized {}
 //^^^^^^^^^^^^^^^^^^^^^ meta.trait
 //        ^^ meta.generic storage.modifier.lifetime
 //             ^^^^^ meta.where support.type
-trait Executor: Send + !Sync + 'static {}
+trait Executor: Send + !Sync + !marker::Send + 'static {}
 //              ^^^^ meta.trait meta.where support.type
-//                     ^ storage.modifier.rust
+//                     ^ keyword.operator.negated-type.rust
 //                      ^^^^ meta.trait meta.where support.type
-//                             ^^^^^^^ meta.trait meta.where storage.modifier.lifetime
+//                             ^ keyword.operator.negated-type.rust
+//                                             ^^^^^^^ meta.trait meta.where storage.modifier.lifetime
 trait RcBoxPtr<T: ?Sized> {}
 //            ^^^^^^^^^^^ meta.trait meta.generic
-//                ^ storage.modifier.rust
+//                ^ storage.modifier.relaxed-bounds.rust
 //                 ^^^^^ support.type
-trait RcBoxPtr<T: ?UnSized> {}
-//            ^^^^^^^^^^^^^ meta.trait meta.generic
-//                ^ storage.modifier.rust
-//                 ^^^^^^^ storage.type
 trait Circle where Self: Shape {}
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait
 //           ^^^^^^^^^^^^^^^^^^ meta.trait meta.where
@@ -118,7 +129,7 @@ trait Wedding<'t>: 't {}
 trait IntoCow<'a, B: ?Sized> where B: ToOwned {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait
 //            ^^ meta.generic storage.modifier.lifetime
-//                   ^ storage.modifier.rust
+//                   ^ storage.modifier.relaxed-bounds.rust
 //                    ^^^^^ meta.generic support.type
 //                           ^^^^^ meta.where keyword.other
 //                                    ^^^^^^^ meta.where support.type
