@@ -51,16 +51,17 @@
 %             ^^^^ support.function.latex entity.name.newcommand.latex
 %                        ^ support.function.general.latex
 
-\providecommand{\foo}[2][default]{\bar #1 #2}
-%   ^ meta.function.newcommand.latex
-%               ^^^^ support.function.latex entity.name.newcommand.latex
-%                     ^ constant.numeric.value.latex
-%                        ^^^^^^^ meta.function.parameters.default-value.latex
-%                                  ^ support.function.general.latex
+  \providecommand{\f@o}[2][default]{\bar #1 #2}
+% ^^^^^^^^^^^^^^^^^^^^^ meta.function.newcommand.latex
+%                 ^^^^ support.function.latex entity.name.newcommand.latex
+%                      ^^^ meta.function.parameters
+%                         ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                                  ^^^^^^^^^^^^ text.tex.latex
 
 \newcommand\foo{\bar}
 %   ^ meta.function.newcommand.latex
 %          ^^^^ support.function.latex entity.name.newcommand.latex
+%              ^^^^^^ meta.function.definition.latex - meta.function.newcommand.latex
 %                 ^ support.function.general.latex
 
 \newcommand{ \foo }{\bar}
@@ -78,12 +79,31 @@
 %           ^^^^support.function.latex entity.name.newcommand.latex
 %                   ^ support.function.general.latex
 
+\newcommand \foo % some comment here
+%   ^ meta.function.newcommand.latex
+%           ^^^^support.function.latex entity.name.newcommand.latex
+ {\bar}
+%  ^ support.function.general.latex
+
 \newcommand \baz [1] [def] {\textbf{#1}}
 %   ^ meta.function.newcommand.latex
 %           ^^^^ support.function.latex entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                     ^^^ meta.function.parameters.default-value.latex
 %                               ^ support.function.general.latex
+
+% This example checks that we can split over multiple lines, including with comments
+\newcommand\baz % 
+%  ^ meta.function.newcommand.latex
+%          ^^^^ support.function.latex entity.name.newcommand.latex
+  [1] 
+%  ^ constant.numeric.value.latex
+ [difi % other
+%^^^^^ meta.function.parameters.default-value.latex
+%      ^^^^^^^^ meta.function.parameters.default-value.latex comment.line.percentage.tex
+  cu{]}t] {\textbf{#1}}
+% ^^^^^^^ meta.function.parameters.default-value.latex
+%         ^^^^^^^^^^^^^ meta.function.definition.latex
 
 \DeclareMathOperator{\op } {op}
 %   ^ meta.function.declare-math-operator.latex
@@ -94,6 +114,14 @@
 %   ^ meta.function.declare-math-operator.latex
 %                     ^^^ support.function.latex entity.name.declare-math-operator.latex
 %                           ^ text.tex.latex
+
+% Here, we check that opening an environment within a command defintition does not
+% break subsequent highlighting
+\newcommand{\open}{\begin{equation}}
+  \alpha
+% ^^^^^^ support.function.general.latex
+
+\newcommand{\test}
 
 \newcolumntype{x}{>{$}c<{$}}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex

@@ -123,15 +123,6 @@ contexts:
           (\{)\s*(\\[A-Za-z@]+)\s*(\})
           | (\\[A-Za-z@]+)
         )
-        \s*
-        # optionally, the number of arguments. LaTeX allows only up to 9, so a single digit
-        (?:(\[)\s*(\d)\s*(\]))?
-        \s*
-        # optionally, a default argument value
-        (?:(\[)([^\]]*)(\]))?
-        \s*
-        # start of actual command definition
-        (\{)
       captures:
         1: support.function.newcommand.latex storage.modifier.newcommand.latex
         2: punctuation.definition.backslash.latex
@@ -139,21 +130,10 @@ contexts:
         4: support.function.latex entity.name.newcommand.latex
         5: punctuation.definition.group.brace.end.latex
         6: support.function.latex entity.name.newcommand.latex
-        7: punctuation.definition.group.bracket.begin.latex
-        8: meta.number.integer.decimal.latex constant.numeric.value.latex
-        9: punctuation.definition.group.bracket.end.latex
-        10: punctuation.definition.group.bracket.begin.latex
-        11: meta.function.parameters.default-value.latex
-        12: punctuation.definition.group.bracket.end.latex
-        13: punctuation.definition.group.brace.begin.latex
+      scope: meta.function.newcommand.latex
       push:
-        - meta_scope: meta.function.newcommand.latex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - newcommand-definition
+        - newcommand-argspec
     - match: |-
         (?x)
         (
@@ -165,8 +145,7 @@ contexts:
           (\{)\s*(\\[A-Za-z@]+)\s*(\})
           | (\\[A-Za-z@]+)
         )
-        \s*
-        (\{)
+      scope: meta.function.declare-math-operator.latex
       captures:
         1: support.function.declare-math-operator.latex storage.modifier.declare-math-operator.latex
         2: punctuation.definition.backslash.latex
@@ -174,15 +153,55 @@ contexts:
         4: support.function.latex entity.name.declare-math-operator.latex
         5: punctuation.definition.group.brace.end.latex
         6: support.function.latex entity.name.declare-math-operator.latex
-        7: punctuation.definition.group.brace.begin.latex
+      push: newcommand-definition
+
+  newcommand-argspec:
+    - match: '(\[)\s*(\d)\s*(\])'
+      scope: meta.function.parameters.latex
+      captures:
+        1: punctuation.definition.group.bracket.begin.latex
+        2: constant.numeric.value.latex meta.number.integer.decimal.latex
+        3: punctuation.definition.group.bracket.end.latex
       push:
-        - meta_scope: meta.function.declare-math-operator.latex
+        - match: '\['
+          scope: punctuation.definition.group.bracket.begin.latex
+          push:
+            - meta_scope: meta.function.parameters.default-value.latex
+            - match: '\]'
+              scope: punctuation.definition.group.bracket.end.latex
+              pop: 2
+            - include: general-constants
+            - include: general-commands
+            - include: macro-braces
+        - match: '(?=\S)'
+          pop: true
+
+    # if we enounter anything that is not an opening bracket, whitespace, or
+    # a comment, then there are no argument specifications and we can continue
+    # with the definition
+    - match: '(?=\S)'
+      pop: true
+
+  # we need a separate context for command definitions, because they can contain
+  # un-balanced elements.
+  newcommand-definition:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.definition.latex
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
-          pop: true
+          pop: 2
         - include: general-constants
         - include: general-commands
         - include: macro-braces
+    # if we enounter anything that is not an opening brace, whitespace, or
+    # a comment, then this definition is probably in the process of being
+    # written. We pop the scope, so the rest of the document continues to be
+    # highlighted properly.
+    - match: '(?=\S)'
+      pop: true
+
 
   general-constants:
     - match: '(\\\\)(?:(\[)\s*-?((?:[[:digit:]]|\.)*)\s*(\w*)\s*(\]))?'
