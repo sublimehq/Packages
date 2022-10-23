@@ -124,8 +124,12 @@ contexts:
           | (\\[A-Za-z@]+)
         )
         \s*
-        # optional argument specification in square brackets
-        (?:(\[)(?:[^\]]*)(\])\s*)*
+        # optionally, the number of arguments. LaTeX allows only up to 9, so a single digit
+        (?:(\[)\s*(\d)\s*(\]))?
+        \s*
+        # optionally, a default argument value
+        (?:(\[)([^\]]*)(\]))?
+        \s*
         # start of actual command definition
         (\{)
       captures:
@@ -136,8 +140,12 @@ contexts:
         5: punctuation.definition.group.brace.end.latex
         6: support.function.latex entity.name.newcommand.latex
         7: punctuation.definition.group.bracket.begin.latex
-        8: punctuation.definition.group.bracket.end.latex
-        9: punctuation.definition.group.brace.begin.latex
+        8: constant.numeric.value.latex
+        9: punctuation.definition.group.bracket.end.latex
+        10: punctuation.definition.group.bracket.begin.latex
+        11: meta.function.parameters.default-value.latex
+        12: punctuation.definition.group.bracket.end.latex
+        13: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.newcommand.latex
         - match: '\}'
