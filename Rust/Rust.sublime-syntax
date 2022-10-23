@@ -612,7 +612,7 @@ contexts:
         - include: type-any-identifier
     - include: lifetime
     - match: '\b([[:upper:]]|_*[[:upper:]][[:alnum:]_]*[[:lower:]][[:alnum:]_]*)\b(::)'
-      scope: meta.path.rust storage.type.rust
+      scope: meta.path.rust
       captures:
         1: storage.type.rust
         2: punctuation.accessor.rust

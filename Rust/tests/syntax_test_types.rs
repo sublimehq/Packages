@@ -174,3 +174,17 @@ type Item = <I as Iterator>::Item;
 //                ^^^^^^^^ support.type
 //                         ^^ punctuation.accessor
 //                           ^^^^ storage.type.source
+
+impl Iterator for Struct {
+    type Temp = i32;
+    type Item = Self::Temp;
+
+    fn next(&mut self) -> Option<Self::Item>;
+//                        ^^^^^^^^^^^^^^^^^^ meta.impl.rust meta.block.rust meta.function.rust meta.function.return-type.rust meta.generic.rust
+//                        ^^^^^^ support.type.rust
+//                              ^ punctuation.definition.generic.begin.rust
+//                               ^^^^^^ meta.path.rust - storage.type.rust storage.type.rust
+//                               ^^^^ storage.type.rust
+//                                   ^^ punctuation.accessor.rust - storage.type.rust
+//                                     ^^^^
+}
