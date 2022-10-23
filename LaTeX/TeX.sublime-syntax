@@ -171,8 +171,7 @@ contexts:
   greeks:
     - match: ((\\)({{greeks}}))(?=\b|_)
       captures:
-        # keyword.other.greek.math.tex retained for backward compatibility
-        1: keyword.other.math.greek.tex keyword.other.greek.math.tex
+        1: keyword.other.math.greek.tex
         2: punctuation.definition.backslash.tex
 
   math-functions:
