@@ -14,7 +14,7 @@ pub trait Animal {
 //                ^ punctuation.terminator
     fn where_semi<X>() where X: Ord + PartialOrd;
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.where
-//                                  ^ keyword.operator.rust
+//                                  ^ keyword.operator.arithmetic.union.rust
 //                                              ^ punctuation.terminator
     fn return_semi() -> bool;
 //                   ^^^^^^^ meta.function meta.function.return-type

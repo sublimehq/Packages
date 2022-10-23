@@ -616,9 +616,9 @@ contexts:
           scope: punctuation.separator.rust
         - include: types-any
     - match: '\+'
-      scope: keyword.operator.rust
+      scope: keyword.operator.arithmetic.union.rust
     - match: '\b_\b'
-      scope: keyword.operator.rust
+      scope: storage.type.inference.rust
     - match: '!(?!\w)'
       scope: storage.type.never.rust
     - match: \bextern\b
