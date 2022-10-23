@@ -172,66 +172,67 @@ contexts:
     - include: math-symbols
     - include: math-accents
     - include: math-arrows
+    - include: math-delimiters
 
   math-greeks:
-    - match: ((\\)({{greeks}}))(?=\b|_)
+    - match: (\\)({{greeks}})(?=\b|_)
+      scope: keyword.other.math.greek.tex
       captures:
-        1: keyword.other.math.greek.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-functions:
-    - match: ((\\)({{mathfun}}))(?=\b|_)
+    - match: (\\)({{mathfun}})(?=\b|_)
+      scope: keyword.other.math.function.tex
       captures:
-        1: keyword.other.math.function.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-relations:
-    - match: ((\\)({{relations}}))(?=\b|_)
+    - match: (\\)({{relations}})(?=\b|_)
+      scope: keyword.other.math.relation.tex
       captures:
-        1: keyword.other.math.relation.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-largeops:
-    - match: ((\\)({{largeops}}))(?=\b|_)
+    - match: (\\)({{largeops}})(?=\b|_)
+      scope: keyword.other.math.large-operator.tex
       captures:
-        1: keyword.other.math.large-operator.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.texpunctuation.definition.backslash.tex
 
   math-binops:
-    - match: ((\\)({{binops}}))(?=\b|_)
+    - match: (\\)({{binops}})(?=\b|_)
+      scope: keyword.other.math.binary-operator.tex
       captures:
-        1: keyword.other.math.binary-operator.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-symbols:
-    - match: ((\\)({{symbols}}))(?=\b|_)
+    - match: (\\)({{symbols}})(?=\b|_)
+      scope: keyword.other.math.symbol.tex
       captures:
-        1: keyword.other.math.symbol.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-accents:
-    - match: ((\\)({{accents}}))(?=\b|_)
+    - match: (\\)({{accents}})(?=\b|_)
+      scope: keyword.other.math.accent.tex
       captures:
-        1: keyword.other.math.accent.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-arrows:
-    - match: ((\\)({{arrows}}))(?=\b|_)
+    - match: (\\)({{arrows}})(?=\b|_)
+      scope: keyword.other.math.arrow.tex
       captures:
-        1: keyword.other.math.arrow.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-delimiters:
-    - match: ((\\)({{delimiters}}))(?=\b|_)
+    - match: (\\)({{delimiters}})(?=\b|_)
+      scope: keyword.other.math.delimiter.tex
       captures:
-        1: keyword.other.math.delimiter.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-commands:
-    - match: '((\\)[A-Za-z@]+)'
+    - match: '(\\)[A-Za-z@]+'
+      scope: support.function.math.tex
       captures:
-        1: support.function.math.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-operators:
     - match: \+|\-|=|-|\*|/|\^|_|<|>
