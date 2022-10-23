@@ -2392,6 +2392,10 @@ zoo: \
 #^^^ meta.variable.annotation.python
 #   ^ keyword.operator.assignment
 
+foo: int; print("foo")
+#       ^ punctuation.terminator.statement.python
+#       ^^^^^^^^^^^^^^ - meta.variable.annotation.python
+
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python

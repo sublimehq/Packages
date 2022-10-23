@@ -1020,7 +1020,7 @@ contexts:
       scope: punctuation.separator.annotation.variable.python
       push:
         - meta_scope: meta.variable.annotation.python
-        - match: '(?==|$|#)'
+        - match: (?=$|=|#|;)
           pop: 1
         - include: expression-in-a-group
     - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
