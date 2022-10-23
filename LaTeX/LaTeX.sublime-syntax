@@ -110,50 +110,21 @@ contexts:
 
   macros:
     - include: scope:text.tex#macros
-    - match: |-
-        (?x)
-        # The defining command
-        (
-          (\\)
-          (?:(?:new|renew|provide)command\*?)
-        )
-        \s*
-        # the command to be defined, possibly surrounded by braces
-        (?:
-          (\{)\s*(\\[A-Za-z@]+)\s*(\})
-          | (\\[A-Za-z@]+)
-        )
+    - match: '(\\)(?:(?:new|renew|provide)command\*?)'
+      scope: meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
-        1: support.function.newcommand.latex storage.modifier.newcommand.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.latex
-        4: support.function.latex entity.name.newcommand.latex
-        5: punctuation.definition.group.brace.end.latex
-        6: support.function.latex entity.name.newcommand.latex
-      scope: meta.function.newcommand.latex
+        1: punctuation.definition.backslash.latex
       push:
         - newcommand-definition
         - newcommand-argspec
-    - match: |-
-        (?x)
-        (
-          (\\)
-          DeclareMathOperator\*?
-        )
-        \s*
-        (?:
-          (\{)\s*(\\[A-Za-z@]+)\s*(\})
-          | (\\[A-Za-z@]+)
-        )
-      scope: meta.function.declare-math-operator.latex
+        - newcommand-commandname
+    - match: '(\\)DeclareMathOperator\*?'
+      scope: meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
       captures:
-        1: support.function.declare-math-operator.latex storage.modifier.declare-math-operator.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.latex
-        4: support.function.latex entity.name.declare-math-operator.latex
-        5: punctuation.definition.group.brace.end.latex
-        6: support.function.latex entity.name.declare-math-operator.latex
-      push: newcommand-definition
+        1: punctuation.definition.backslash.latex
+      push:
+        - newcommand-definition
+        - newcommand-commandname
 
   newcommand-argspec:
     - match: '(\[)\s*(\d)\s*(\])'
@@ -181,6 +152,26 @@ contexts:
     # with the definition
     - match: '(?=\S)'
       pop: true
+
+  newcommand-commandname:
+    # version one: brace-wrapped command name
+    - match: '(\{)\s*((\\)[A-Za-z@]+)\s*(\})'
+      scope: meta.function.latex
+      captures:
+        1: punctuation.definition.group.brace.begin.latex
+        2: entity.name.newcommand.latex
+        3: punctuation.definition.backslash.latex
+        4: punctuation.definition.group.brace.end.latex
+      pop: true
+    # version two: directly written
+    - match: '(\\)[A-Za-z@]+'
+      scope: meta.function.latex entity.name.newcommand.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: true
+    - match: '(?=\S)'
+      pop: true
+
 
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.

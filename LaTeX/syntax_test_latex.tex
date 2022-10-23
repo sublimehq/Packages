@@ -28,74 +28,77 @@
 % <- comment.line.percentage.tex
 
 \newcommand{\foo}{\bar}
-%   ^ meta.function.newcommand.latex 
-%           ^^^^ support.function.latex entity.name.newcommand.latex
+%^^^^^^^^^^ keyword.declaration.function.latex
+%^^^^^^^^^^^^^^^^ meta.function 
+%           ^^^^ entity.name.newcommand.latex
+%           ^ punctuation.definition.backslash.latex
+%                ^^^^^^ meta.function.definition.latex
 %                   ^ support.function.general.latex
 
 \newcommand{\foo}[1]{\bar #1}
-%   ^ meta.function.newcommand.latex
-%           ^^^^ support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                      ^ support.function.general.latex
 
 \newcommand{\foo}[2][default]{\bar #1 #2}
-%   ^ meta.function.newcommand.latex
-%           ^^^^ support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                     ^^^^^^ meta.function.parameters.default-value.latex
 %                               ^ support.function.general.latex
 
 
 \renewcommand{\foo}[1]{\bar #1}
-%   ^ meta.function.newcommand.latex
-%             ^^^^ support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%             ^^^^ entity.name.newcommand.latex
 %                        ^ support.function.general.latex
 
   \providecommand{\f@o}[2][default]{\bar #1 #2}
-% ^^^^^^^^^^^^^^^^^^^^^ meta.function.newcommand.latex
-%                 ^^^^ support.function.latex entity.name.newcommand.latex
+% ^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                 ^^^^ entity.name.newcommand.latex
 %                      ^^^ meta.function.parameters
 %                         ^^^^^^^^^ meta.function.parameters.default-value.latex
 %                                  ^^^^^^^^^^^^ text.tex.latex
 
 \newcommand\foo{\bar}
-%   ^ meta.function.newcommand.latex
-%          ^^^^ support.function.latex entity.name.newcommand.latex
-%              ^^^^^^ meta.function.definition.latex - meta.function.newcommand.latex
+%   ^ meta.function.latex
+%          ^^^^ entity.name.newcommand.latex
+%              ^^^^^^ meta.function.definition.latex - meta.function.latex
 %                 ^ support.function.general.latex
 
 \newcommand{ \foo }{\bar}
-%   ^ meta.function.newcommand.latex
-%            ^^^^ support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%            ^^^^ entity.name.newcommand.latex
 %                     ^ support.function.general.latex
 
 \newcommand* {\foo }{\bar}
-%   ^ meta.function.newcommand.latex
-%             ^^^^ support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%             ^^^^ entity.name.newcommand.latex
 %                      ^ support.function.general.latex
 
 \newcommand \foo {\bar}
-%   ^ meta.function.newcommand.latex
-%           ^^^^support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%           ^^^^ entity.name.newcommand.latex
 %                   ^ support.function.general.latex
 
 \newcommand \foo % some comment here
-%   ^ meta.function.newcommand.latex
-%           ^^^^support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%           ^^^^ entity.name.newcommand.latex
  {\bar}
 %  ^ support.function.general.latex
 
 \newcommand \baz [1] [def] {\textbf{#1}}
-%   ^ meta.function.newcommand.latex
-%           ^^^^ support.function.latex entity.name.newcommand.latex
+%   ^ meta.function.latex
+%           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                     ^^^ meta.function.parameters.default-value.latex
 %                               ^ support.function.general.latex
 
 % This example checks that we can split over multiple lines, including with comments
 \newcommand\baz % 
-%  ^ meta.function.newcommand.latex
-%          ^^^^ support.function.latex entity.name.newcommand.latex
+%  ^ meta.function.latex
+%          ^^^^ entity.name.newcommand.latex
   [1] 
 %  ^ constant.numeric.value.latex
  [difi % other
@@ -106,13 +109,14 @@
 %         ^^^^^^^^^^^^^ meta.function.definition.latex
 
 \DeclareMathOperator{\op } {op}
-%   ^ meta.function.declare-math-operator.latex
-%                    ^^^ support.function.latex entity.name.declare-math-operator.latex
-%                            ^ text.tex.latex
+%^^^^^^^^^^^^^^^^^^^ meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                    ^^^ entity.name.newcommand.latex
+%                           ^^ text.tex.latex
 
 \DeclareMathOperator* \op {op}
-%   ^ meta.function.declare-math-operator.latex
-%                     ^^^ support.function.latex entity.name.declare-math-operator.latex
+%   ^ meta.function.latex support.function.declare-math-operator.latex
+%                     ^^^ entity.name.newcommand.latex
 %                           ^ text.tex.latex
 
 % Here, we check that opening an environment within a command defintition does not
