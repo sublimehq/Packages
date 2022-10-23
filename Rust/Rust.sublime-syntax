@@ -357,17 +357,6 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
-  support-type:
-    - match: '(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\s*(?=<)'
-      scope: support.type.rust
-      push: generic-angles
-    - match: '[?]?(?=\bSized\b)'
-      scope: keyword.operator.rust
-    - match: '[!]?(?=\bSync|Send\b)'
-      scope: keyword.operator.rust
-    - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
-      scope: support.type.rust
-
   return-type:
     - match: '\bimpl\b'
       scope: storage.type.impl.rust
@@ -563,7 +552,7 @@ contexts:
 
   types:
     # more relaxed take on types-any
-    - match: '(?={{type_identifier}}::)'
+    - match: '(?=[!?]?{{type_identifier}}::)'
       push: type-identifier-path
     - include: type-identifiers
 
@@ -575,6 +564,8 @@ contexts:
     - include: type-identifiers
 
   type-identifiers:
+    - match: '[!?](?={{type_identifier}})'
+      scope: storage.modifier.rust
     - include: support-type
     - include: type
     - match: '{{type_identifier}}'
@@ -606,7 +597,7 @@ contexts:
               pop: true
         - include: types-any
     - include: lifetime
-    - match: (?={{identifier}}::)
+    - match: (?=[?!]?{{identifier}}::)
       push: type-any-identifier-path
     - match: ::(?={{identifier}})
       scope: meta.path.rust punctuation.accessor.rust
@@ -626,8 +617,8 @@ contexts:
       scope: keyword.operator.rust
     - match: '\b_\b'
       scope: keyword.operator.rust
-    - match: '!'
-      scope: keyword.operator.rust
+    - match: '!(?!\w)'
+      scope: storage.type.rust
     - match: \bextern\b
       scope: keyword.other.rust
       push:
@@ -646,11 +637,20 @@ contexts:
     - include: type-identifiers
 
   type-any-identifiers:
+    - match: '[!?]'
+      scope: storage.modifier.rust
     - include: support-type
     - include: type
     - match: '{{type_identifier}}'
       scope: storage.type.rust
     - match: '{{identifier}}'
+
+  support-type:
+    - match: '(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\s*(?=<)'
+      scope: support.type.rust
+      push: generic-angles
+    - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
+      scope: support.type.rust
 
   type:
     # A low-level type. Typically you want types-any for the full type grammar.

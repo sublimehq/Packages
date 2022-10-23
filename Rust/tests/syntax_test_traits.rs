@@ -86,14 +86,19 @@ trait Foo<'a>: Sized {}
 //^^^^^^^^^^^^^^^^^^^^^ meta.trait
 //        ^^ meta.generic storage.modifier.lifetime
 //             ^^^^^ meta.where support.type
-trait Executor: Send + Sync + 'static {}
+trait Executor: Send + !Sync + 'static {}
 //              ^^^^ meta.trait meta.where support.type
-//                     ^^^^ meta.trait meta.where support.type
-//                            ^^^^^^^ meta.trait meta.where storage.modifier.lifetime
+//                     ^ storage.modifier.rust
+//                      ^^^^ meta.trait meta.where support.type
+//                             ^^^^^^^ meta.trait meta.where storage.modifier.lifetime
 trait RcBoxPtr<T: ?Sized> {}
 //            ^^^^^^^^^^^ meta.trait meta.generic
-//                ^ keyword.operator
+//                ^ storage.modifier.rust
 //                 ^^^^^ support.type
+trait RcBoxPtr<T: ?UnSized> {}
+//            ^^^^^^^^^^^^^ meta.trait meta.generic
+//                ^ storage.modifier.rust
+//                 ^^^^^^^ storage.type
 trait Circle where Self: Shape {}
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait
 //           ^^^^^^^^^^^^^^^^^^ meta.trait meta.where
@@ -113,7 +118,7 @@ trait Wedding<'t>: 't {}
 trait IntoCow<'a, B: ?Sized> where B: ToOwned {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait
 //            ^^ meta.generic storage.modifier.lifetime
-//                   ^ meta.generic keyword.operator
+//                   ^ storage.modifier.rust
 //                    ^^^^^ meta.generic support.type
 //                           ^^^^^ meta.where keyword.other
 //                                    ^^^^^^^ meta.where support.type

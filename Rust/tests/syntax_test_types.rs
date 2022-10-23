@@ -172,7 +172,7 @@ fn f(string: &str) -> StrWrap<'_> { }
 
 // Never type.
 fn from_str() -> Result<Foo, !> {}
-//                           ^ meta.function meta.function.return-type meta.generic keyword.operator
+//                           ^ storage.type.rust
 
 // Qualified path with type.
 // Note: This isn't actually a generics, but that gets reused for this purpose.
