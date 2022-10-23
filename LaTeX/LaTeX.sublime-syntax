@@ -140,7 +140,7 @@ contexts:
         5: punctuation.definition.group.brace.end.latex
         6: support.function.latex entity.name.newcommand.latex
         7: punctuation.definition.group.bracket.begin.latex
-        8: constant.numeric.value.latex
+        8: meta.number.integer.decimal.latex constant.numeric.value.latex
         9: punctuation.definition.group.bracket.end.latex
         10: punctuation.definition.group.bracket.begin.latex
         11: meta.function.parameters.default-value.latex
