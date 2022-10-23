@@ -188,8 +188,7 @@ contexts:
     # is more performant as the below
     # - match: '\b((?:debug_)?assert_(?:eq|ne)!)\s*(\()'
 
-    - match: '\b{{identifier}}!(?=\s*(\(|\{|\[))'
-      scope: support.macro.rust
+    - include: macro-identifiers
 
     - include: support-type
 
@@ -1464,6 +1463,10 @@ contexts:
       push: no-type-names
     - include: no-path-identifiers
 
+  macro-identifiers:
+    - match: '\b{{identifier}}!(?=\s*(\(|\{|\[))'
+      scope: support.macro.rust
+
   no-path-identifiers:
     - match: \b(self)\b
       scope: variable.language.rust
@@ -1474,6 +1477,7 @@ contexts:
       # This push state prevents highlighting basic types like
       # i32, etc when following ::
       - include: comments
+      - include: macro-identifiers
       - include: basic-identifiers
       - match: '{{identifier}}'
       - match: '(?=<)'
