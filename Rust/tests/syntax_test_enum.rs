@@ -21,8 +21,8 @@ enum OperatingSystem
 // <- meta.block meta.enum punctuation.section.block.end
 
 let q = Message::Quit;
+//      ^^^^^^^^^ meta.path
 //      ^^^^^^^ storage.type.source
-//             ^^ meta.path
 //               ^^^^ storage.type.source
 //                   ^ punctuation.terminator
 let w = Message::WriteString("Some string".to_string());
