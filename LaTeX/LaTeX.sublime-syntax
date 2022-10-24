@@ -83,17 +83,20 @@ contexts:
       pop: true
     - include: main
 
+  # matches any nospace and pops the context
+  immediate-pop:
+    - match: '(?=\S)'
+      pop: true
+
   argument:
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
       set: argument-brace
-    - match: '(?=\S)'
-      pop: true
+    - include: immediate-pop
 
   optional-arguments:
     - include: general-optional-arguments
-    - match: '(?=\S)'
-      pop: true
+    - include: immediate-pop
 
   # used in macros to prevent matching of \begin{env}...\end{env}
   macro-braces:
@@ -144,14 +147,12 @@ contexts:
             - include: general-constants
             - include: general-commands
             - include: macro-braces
-        - match: '(?=\S)'
-          pop: true
+        - include: immediate-pop
 
     # if we enounter anything that is not an opening bracket, whitespace, or
     # a comment, then there are no argument specifications and we can continue
     # with the definition
-    - match: '(?=\S)'
-      pop: true
+    - include: immediate-pop
 
   newcommand-commandname:
     # version one: brace-wrapped command name
@@ -169,8 +170,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.latex
       pop: true
-    - match: '(?=\S)'
-      pop: true
+    - include: immediate-pop
 
 
   # we need a separate context for command definitions, because they can contain
@@ -186,12 +186,7 @@ contexts:
         - include: general-constants
         - include: general-commands
         - include: macro-braces
-    # if we enounter anything that is not an opening brace, whitespace, or
-    # a comment, then this definition is probably in the process of being
-    # written. We pop the scope, so the rest of the document continues to be
-    # highlighted properly.
-    - match: '(?=\S)'
-      pop: true
+    - include: immediate-pop
 
 
   general-constants:
