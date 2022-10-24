@@ -113,7 +113,7 @@ contexts:
 
   macros:
     - include: scope:text.tex#macros
-    - match: '(\\)(?:(?:new|renew|provide)command\*?)'
+    - match: '(\\)(?:new|renew|provide)command\*?'
       scope: meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
