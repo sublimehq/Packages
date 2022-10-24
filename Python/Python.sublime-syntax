@@ -1018,15 +1018,17 @@ contexts:
     - include: illegal-assignment-expression
     - match: ':'
       scope: punctuation.separator.annotation.variable.python
-      push:
-        - meta_scope: meta.variable.annotation.python
-        - match: (?=$|=|#|;)
-          pop: 1
-        - include: expression-in-a-group
+      push: variable-annotation
     - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
       scope: keyword.operator.assignment.augmented.python
     - match: '=(?!=)'
       scope: keyword.operator.assignment.python
+
+  variable-annotation:
+    - meta_scope: meta.variable.annotation.python
+    - match: (?=$|=|#|;)
+      pop: 1
+    - include: expression-in-a-group
 
   operators:
     - match: <>
