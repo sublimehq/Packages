@@ -108,6 +108,12 @@
 % ^^^^^^^ meta.function.parameters.default-value.latex
 %         ^^^^^^^^^^^^^ meta.function.definition.latex
 
+% The argument count can also be based on another macro. Check that we accept this
+\def\one{1}
+\newcommand{\weirder}[\one] [default] {this is #1 arg}
+%                    ^^^^^^ meta.function.parameters.latex
+%                           ^^^^^^^^^ meta.function.parameters.default-value.latex
+
 \DeclareMathOperator{\op } {op}
 %^^^^^^^^^^^^^^^^^^^ meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
 %^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.latex

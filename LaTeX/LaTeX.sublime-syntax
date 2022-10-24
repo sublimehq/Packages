@@ -119,6 +119,7 @@ contexts:
         1: punctuation.definition.backslash.latex
       push:
         - newcommand-definition
+        - newcommand-optarg
         - newcommand-argspec
         - newcommand-commandname
     - match: '(\\)DeclareMathOperator\*?'
@@ -130,28 +131,43 @@ contexts:
         - newcommand-commandname
 
   newcommand-argspec:
+    # direct specification of the argument count: This is what we usually expect,
+    # and what we want to support well
     - match: '(\[)\s*(\d)\s*(\])'
       scope: meta.function.parameters.latex
       captures:
         1: punctuation.definition.group.bracket.begin.latex
         2: constant.numeric.value.latex meta.number.integer.decimal.latex
         3: punctuation.definition.group.bracket.end.latex
-      push:
-        - match: '\['
-          scope: punctuation.definition.group.bracket.begin.latex
-          push:
-            - meta_scope: meta.function.parameters.default-value.latex
-            - match: '\]'
-              scope: punctuation.definition.group.bracket.end.latex
-              pop: 2
-            - include: general-constants
-            - include: general-commands
-            - include: macro-braces
-        - include: immediate-pop
+      pop: true
 
-    # if we enounter anything that is not an opening bracket, whitespace, or
-    # a comment, then there are no argument specifications and we can continue
-    # with the definition
+    # however, we might also get weirder argument specifications. Most of them
+    # will be wrong, but determining that would be very difficult, so we're just
+    # very lenient here and accept anything enclosed in brackets.
+    - match: '\['
+      scope: punctuation.definition.group.bracket.begin.latex
+      push:
+        - meta_scope: meta.function.parameters.latex
+        - match: '\]'
+          scope: punctuation.definition.group.bracket.end.latex
+          pop: 2
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - include: immediate-pop
+
+  newcommand-optarg:
+    - match: '\['
+      scope: punctuation.definition.group.bracket.begin.latex
+      push:
+        - meta_scope: meta.function.parameters.default-value.latex
+        - match: '\]'
+          scope: punctuation.definition.group.bracket.end.latex
+          pop: 2
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
     - include: immediate-pop
 
   newcommand-commandname:
