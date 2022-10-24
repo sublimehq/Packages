@@ -88,6 +88,11 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+  # pops out of the current context if there is a new paragraph
+  paragraph-pop:
+    - match: ^(?=\s*\r?\n)
+      pop: true
+
   argument:
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
@@ -131,6 +136,7 @@ contexts:
         - newcommand-commandname
 
   newcommand-argspec:
+    - include: paragraph-pop
     # direct specification of the argument count: This is what we usually expect,
     # and what we want to support well
     - match: '(\[)\s*(\d)\s*(\])'
@@ -158,6 +164,7 @@ contexts:
     - include: immediate-pop
 
   newcommand-optarg:
+    - include: paragraph-pop
     - match: '\['
       scope: punctuation.definition.group.bracket.begin.latex
       push:
@@ -171,6 +178,7 @@ contexts:
     - include: immediate-pop
 
   newcommand-commandname:
+    - include: paragraph-pop
     # version one: brace-wrapped command name
     - match: '(\{)\s*((\\)[A-Za-z@]+)\s*(\})'
       scope: meta.function.latex
@@ -192,6 +200,8 @@ contexts:
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.
   newcommand-definition:
+    - include: paragraph-pop
+    # usually, a command definition is a brace-enclosed group of tokens
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
       push:
@@ -202,6 +212,23 @@ contexts:
         - include: general-constants
         - include: general-commands
         - include: macro-braces
+
+    # but in principle, a single token is also valid,
+    # thus either a command sequence ...
+    - match: '(\\)[A-Za-z@]+'
+      captures:
+        1: punctuation.definition.backslash.latex
+      scope: meta.function.definition.latex support.function.general.latex
+      pop: true
+
+    # or a single, potentially escaped character. no further effort at
+    # differentiation here
+    - match: '(\\)?\S\b'
+      captures:
+        1: punctuation.definition.backslash.latex
+      scope: meta.function.definition.latex
+      pop: true
+
     - include: immediate-pop
 
 

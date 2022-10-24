@@ -88,6 +88,13 @@
  {\bar}
 %  ^ support.function.general.latex
 
+% note: with an actual empty line in-between, this is a new paragraph
+\newcommand \foo 
+ 
+ {\bar}
+%^^^^^^ - meta.function.definition.latex
+
+
 \newcommand \baz [1] [def] {\textbf{#1}}
 %   ^ meta.function.latex
 %           ^^^^ entity.name.newcommand.latex
@@ -114,6 +121,11 @@
 %                    ^^^^^^ meta.function.parameters.latex
 %                           ^^^^^^^^^ meta.function.parameters.default-value.latex
 
+% newcommand entirely without braces
+\newcommand\cmd\src
+%          ^^^^ meta.function.latex entity.name.newcommand.latex
+%              ^^^^ meta.function.definition.latex support.function.general.latex
+
 \DeclareMathOperator{\op } {op}
 %^^^^^^^^^^^^^^^^^^^ meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
 %^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
@@ -125,13 +137,11 @@
 %                     ^^^ entity.name.newcommand.latex
 %                           ^ text.tex.latex
 
-% Here, we check that opening an environment within a command defintition does not
+% Here, we check that opening an environment within a command definition does not
 % break subsequent highlighting
 \newcommand{\open}{\begin{equation}}
   \alpha
 % ^^^^^^ support.function.general.latex
-
-\newcommand{\test}
 
 \newcolumntype{x}{>{$}c<{$}}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
