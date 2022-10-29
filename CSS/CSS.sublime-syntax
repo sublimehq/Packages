@@ -1196,7 +1196,6 @@ contexts:
       pop: 1
 
   other-property:
-    # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'
       scope: support.type.property-name.css
       pop: 1
