@@ -18,6 +18,7 @@ file_extensions:
   - sublime-settings
   - sublime-theme
   - sublime-workspace
+  - sublime_session
   - ipynb
   - Pipfile.lock
   - gltf
