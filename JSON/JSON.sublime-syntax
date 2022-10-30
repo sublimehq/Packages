@@ -18,10 +18,12 @@ file_extensions:
   - sublime-settings
   - sublime-theme
   - sublime-workspace
-  - sublime_session
   - ipynb
-  - Pipfile.lock
   - gltf
+
+hidden_file_extensions:
+  - Pipfile.lock
+  - sublime_session
 
 first_line_match: |-
   (?xi:
