@@ -84,24 +84,24 @@ contexts:
     - include: main
 
   # matches any nospace and pops the context
-  immediate-pop:
+  else-pop:
     - match: '(?=\S)'
       pop: true
 
   # pops out of the current context if there is a new paragraph
   paragraph-pop:
-    - match: ^(?=\s*\r?\n)
+    - match: ^(?=\s*$)
       pop: true
 
   argument:
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
       set: argument-brace
-    - include: immediate-pop
+    - include: else-pop
 
   optional-arguments:
     - include: general-optional-arguments
-    - include: immediate-pop
+    - include: else-pop
 
   # used in macros to prevent matching of \begin{env}...\end{env}
   macro-braces:
@@ -161,7 +161,7 @@ contexts:
         - include: general-commands
         - include: macro-braces
 
-    - include: immediate-pop
+    - include: else-pop
 
   newcommand-optarg:
     - include: paragraph-pop
@@ -175,7 +175,7 @@ contexts:
         - include: general-constants
         - include: general-commands
         - include: macro-braces
-    - include: immediate-pop
+    - include: else-pop
 
   newcommand-commandname:
     - include: paragraph-pop
@@ -194,7 +194,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.latex
       pop: true
-    - include: immediate-pop
+    - include: else-pop
 
 
   # we need a separate context for command definitions, because they can contain
@@ -229,7 +229,7 @@ contexts:
       scope: meta.function.definition.latex
       pop: true
 
-    - include: immediate-pop
+    - include: else-pop
 
 
   general-constants:
