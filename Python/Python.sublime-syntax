@@ -1028,6 +1028,9 @@ contexts:
     - meta_scope: meta.variable.annotation.python
     - match: (?=$|=|#|;)
       pop: 1
+    - match: \bNone\b
+      scope: constant.language.null.python
+    - include: illegal-assignment-expression
     - include: expression-in-a-group
 
   operators:

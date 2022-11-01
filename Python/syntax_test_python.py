@@ -2371,6 +2371,26 @@ captain: str  # Note: no initial value!
 #             ^^^^^^^ comment
 #        ^^^ meta.qualified-name.python
 
+foo: str | None = None
+#  ^^^^^^^^^^^^^ meta.variable.annotation.python
+#               ^^^^^^^ - meta.variable
+#  ^ punctuation.separator.annotation.variable.python
+#    ^^^ support.type.python
+#        ^ keyword.operator.arithmetic.python
+#          ^^^^ constant.language.null.python
+#               ^ keyword.operator.assignment.python
+#                 ^^^^ constant.language.null.python
+
+bar: str | None = 'b'
+#  ^^^^^^^^^^^^^ meta.variable.annotation.python
+#               ^^^^^^ - meta.variable
+#  ^ punctuation.separator.annotation.variable.python
+#    ^^^ support.type.python
+#        ^ keyword.operator.arithmetic.python
+#          ^^^^ constant.language.null.python
+#               ^ keyword.operator.assignment.python
+#                 ^^^ string.quoted.single.python
+
 foo: \
 #  ^^^ meta.variable.annotation.python
 foo: \
