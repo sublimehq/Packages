@@ -85,7 +85,11 @@ contexts:
 
   # matches any nospace and pops the context
   else-pop:
-    - match: '(?=\S)'
+    - match: (?=\S)
+      pop: true
+
+  immediately-pop:
+    - match: ''
       pop: true
 
   # pops out of the current context if there is a new paragraph
@@ -118,8 +122,8 @@ contexts:
 
   macros:
     - include: scope:text.tex#macros
-    - match: '(\\)(?:new|renew|provide)command\*?'
-      scope: meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
+    - match: (\\)(?:new|renew|provide)command\*?
+      scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:
@@ -127,8 +131,8 @@ contexts:
         - newcommand-optarg
         - newcommand-argspec
         - newcommand-commandname
-    - match: '(\\)DeclareMathOperator\*?'
-      scope: meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
+    - match: (\\)DeclareMathOperator\*?
+      scope: support.function.declare-math-operator.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:
@@ -136,14 +140,12 @@ contexts:
         - newcommand-commandname
 
   newcommand-argspec:
-    # an argument specification can be given in square brackets. Usually, this
-    # is just a number, but in principle it can be any latex sequence that will
-    # expand to a number.
-    - match: '\['
+    - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
       push:
+        - clear_scopes: 1
         - meta_scope: meta.function.parameters.latex
-        - match: '\]'
+        - match: \]
           scope: punctuation.definition.group.bracket.end.latex
           pop: 2
         - match: \d+\b
@@ -155,11 +157,12 @@ contexts:
     - include: else-pop
 
   newcommand-optarg:
-    - match: '\['
+    - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
       push:
+        - clear_scopes: 1
         - meta_scope: meta.function.parameters.default-value.latex
-        - match: '\]'
+        - match: \]
           scope: punctuation.definition.group.bracket.end.latex
           pop: 2
         - include: general-constants
@@ -170,58 +173,77 @@ contexts:
 
   newcommand-commandname:
     # version one: brace-wrapped command name
-    - match: '(\{)\s*((\\)[A-Za-z@]+)\s*(\})'
-      scope: meta.function.latex
-      captures:
-        1: punctuation.definition.group.brace.begin.latex
-        2: entity.name.newcommand.latex
-        3: punctuation.definition.backslash.latex
-        4: punctuation.definition.group.brace.end.latex
-      pop: true
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.latex
+      push:
+        - clear_scopes: 1
+        - meta_scope: meta.function.identifier.latex
+        - match: \}
+          scope: punctuation.definition.group.brace.end.latex
+          pop: 2
+        - match: (\\)[A-Za-z@]+
+          scope: entity.name.newcommand.latex
+          captures:
+            1: punctuation.definition.backslash.latex
     # version two: directly written
-    - match: '(\\)[A-Za-z@]+'
-      scope: meta.function.latex entity.name.newcommand.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-      pop: true
+    - match: (?=\\)
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.function.identifier.latex
+        - match: (\\)[A-Za-z@]+
+          scope: entity.name.newcommand.latex
+          captures:
+            1: punctuation.definition.backslash.latex
+          pop: 1
+        - include: paragraph-pop
+        - include: else-pop
     - include: paragraph-pop
     - include: else-pop
-
 
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.
   newcommand-definition:
-    # usually, a command definition is a brace-enclosed group of tokens
-    - match: '\{'
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.function.definition.latex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.latex
-          pop: 2
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
-
-    # but in principle, a single token is also valid,
-    # thus either a command sequence ...
-    - match: '(\\)[A-Za-z@]+'
-      scope: meta.function.definition.latex support.function.general.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-      pop: true
-
-    # or a single, potentially escaped character. no further effort at
-    # differentiation here
-    - match: '(\\)?\S\b'
-      scope: meta.function.definition.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-      pop: true
-
+    - meta_scope: meta.function.latex
+    - match: (?=\{)
+      set: newcommand-block
+    - match: (?=\\)
+      set: newcommand-expression
     - include: paragraph-pop
     - include: else-pop
 
+  newcommand-block:
+    # usually, a command definition is a brace-enclosed group of tokens
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.latex
+      set: newcommand-block-body
+
+  newcommand-block-body:
+    - meta_scope: meta.function.body.latex meta.group.brace.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.latex
+      pop: 1
+    - include: general-constants
+    - include: general-commands
+    - include: macro-braces
+
+  newcommand-expression:
+    - meta_scope: meta.function.body.latex
+    # but in principle, a single token is also valid,
+    # thus either a command sequence ...
+    - match: (\\)[A-Za-z@]+
+      scope: support.function.general.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+    # or a single, potentially escaped character. no further effort at
+    # differentiation here
+    - match: (\\)?\S\b
+      scope: constant.character.escape.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
 
   general-constants:
     - match: '(\\\\)(?:(\[)\s*-?((?:[[:digit:]]|\.)*)\s*(\w*)\s*(\]))?'
