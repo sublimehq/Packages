@@ -136,19 +136,9 @@ contexts:
         - newcommand-commandname
 
   newcommand-argspec:
-    # direct specification of the argument count: This is what we usually expect,
-    # and what we want to support well
-    - match: '(\[)\s*(\d)\s*(\])'
-      scope: meta.function.parameters.latex
-      captures:
-        1: punctuation.definition.group.bracket.begin.latex
-        2: meta.number.integer.decimal.latex constant.numeric.value.latex
-        3: punctuation.definition.group.bracket.end.latex
-      pop: true
-
-    # however, we might also get weirder argument specifications. Most of them
-    # will be wrong, but determining that would be very difficult, so we're just
-    # very lenient here and accept anything enclosed in brackets.
+    # an argument specification can be given in square brackets. Usually, this
+    # is just a number, but in principle it can be any latex sequence that will
+    # expand to a number.
     - match: '\['
       scope: punctuation.definition.group.bracket.begin.latex
       push:
@@ -156,6 +146,8 @@ contexts:
         - match: '\]'
           scope: punctuation.definition.group.bracket.end.latex
           pop: 2
+        - match: \d+\b
+          scope: meta.number.integer.decimal.latex constant.numeric.value.latex
         - include: general-constants
         - include: general-commands
         - include: macro-braces
