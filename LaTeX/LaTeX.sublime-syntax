@@ -136,7 +136,6 @@ contexts:
         - newcommand-commandname
 
   newcommand-argspec:
-    - include: paragraph-pop
     # direct specification of the argument count: This is what we usually expect,
     # and what we want to support well
     - match: '(\[)\s*(\d)\s*(\])'
@@ -160,11 +159,10 @@ contexts:
         - include: general-constants
         - include: general-commands
         - include: macro-braces
-
+    - include: paragraph-pop
     - include: else-pop
 
   newcommand-optarg:
-    - include: paragraph-pop
     - match: '\['
       scope: punctuation.definition.group.bracket.begin.latex
       push:
@@ -175,10 +173,10 @@ contexts:
         - include: general-constants
         - include: general-commands
         - include: macro-braces
+    - include: paragraph-pop
     - include: else-pop
 
   newcommand-commandname:
-    - include: paragraph-pop
     # version one: brace-wrapped command name
     - match: '(\{)\s*((\\)[A-Za-z@]+)\s*(\})'
       scope: meta.function.latex
@@ -194,13 +192,13 @@ contexts:
       captures:
         1: punctuation.definition.backslash.latex
       pop: true
+    - include: paragraph-pop
     - include: else-pop
 
 
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.
   newcommand-definition:
-    - include: paragraph-pop
     # usually, a command definition is a brace-enclosed group of tokens
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
@@ -229,6 +227,7 @@ contexts:
         1: punctuation.definition.backslash.latex
       pop: true
 
+    - include: paragraph-pop
     - include: else-pop
 
 
