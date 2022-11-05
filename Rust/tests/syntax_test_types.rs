@@ -149,6 +149,14 @@ let p_imm: *const u32 = &i as *const u32;
 //         ^^^^^^ storage.modifier
 //                            ^^^^^^ storage.modifier
 //                                   ^^^ storage.type
+
+type Snail = Vec<SnailNum>;
+//           ^^^^^^^^^^^^^ meta.generic.rust
+//           ^^^ support.type.rust
+//              ^ punctuation.definition.generic.begin.rust
+//               ^^^^^^^^ storage.type.rust
+//                       ^ punctuation.definition.generic.end.rust
+
 type ExampleRawPointer = HashMap<*const i32, Option<i32>, BuildHasherDefault<FnvHasher>>;
 //                               ^^^^^^ meta.generic storage.modifier
 //                                      ^^^ meta.generic storage.type
@@ -164,7 +172,7 @@ fn f(string: &str) -> StrWrap<'_> { }
 
 // Never type.
 fn from_str() -> Result<Foo, !> {}
-//                           ^ meta.function meta.function.return-type meta.generic keyword.operator
+//                           ^ storage.type.never.rust
 
 // Qualified path with type.
 // Note: This isn't actually a generics, but that gets reused for this purpose.
@@ -174,3 +182,30 @@ type Item = <I as Iterator>::Item;
 //                ^^^^^^^^ support.type
 //                         ^^ punctuation.accessor
 //                           ^^^^ storage.type.source
+
+type Item = module::Temp;
+//          ^^^^^^^^ meta.path.rust
+//                ^^ punctuation.accessor.rust
+//                  ^^^^ storage.type.source.rust
+type Item = Iterator::Item;
+//          ^^^^^^^^^^ meta.path.rust
+//                  ^^ punctuation.accessor.rust
+//                    ^^^^ storage.type.source.rust
+
+impl Iterator for Struct {
+    type Temp = i32;
+    type Item = Self::Temp;
+//              ^^^^^^ meta.path.rust
+//              ^^^^ storage.type.rust
+//                  ^^ punctuation.accessor.rust
+//                    ^^^^ storage.type.source.rust
+
+    fn next(&mut self) -> Option<Self::Item>;
+//                        ^^^^^^^^^^^^^^^^^^ meta.impl.rust meta.block.rust meta.function.rust meta.function.return-type.rust meta.generic.rust
+//                        ^^^^^^ support.type.rust
+//                              ^ punctuation.definition.generic.begin.rust
+//                               ^^^^^^ meta.path.rust - storage.type.rust storage.type.rust
+//                               ^^^^ storage.type.rust
+//                                   ^^ punctuation.accessor.rust - storage.type.rust
+//                                     ^^^^
+}
