@@ -2157,7 +2157,7 @@ raise Ellipsis
 #^^^^ keyword.control.flow.raise
 #     ^^^^^^^^ constant.language
 raise KeyError() from z
-#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise
+#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise - meta.statement.raise meta.statement.raise
 #^^^^ keyword.control.flow.raise
 #     ^^^^^^^^ support.type.exception
 #                ^^^^ keyword.control.flow.raise.from
