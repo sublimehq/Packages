@@ -409,7 +409,9 @@ contexts:
       captures:
         1: storage.modifier.async.python
         2: keyword.control.flow.with.python
-      push: with-body
+      push:
+        - with-meta
+        - with-body
     # except ... as ...:
     - match: \bexcept\b
       scope: keyword.control.exception.catch.python
@@ -757,31 +759,60 @@ contexts:
 
 ###[ WITH STATEMENTS ]########################################################
 
-  with-body:
+  with-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.statement.with.python
-    - include: line-continuation-or-pop
-    - match: \b(as)\b
-      scope: keyword.control.flow.with.as.python
-      set: with-as
-    - match: ':(?!=)'
-      scope: punctuation.section.block.with.python
+    - match: ''
       pop: true
-    - match: ','
-      scope: punctuation.separator.with-resources.python
-    - include: expression-in-a-statement
 
-  with-as:
-    - meta_scope: meta.statement.with.python
-    - include: line-continuation-or-pop
-    - match: ':'
-      scope: punctuation.section.block.with.python
+  with-body:
+    - match: \(
+      scope: punctuation.section.sequence.begin.python
+      set: with-tuple-body
+    - match: (?=\S)
+      set: with-plain-body
+
+  with-tuple-body:
+    - meta_scope: meta.sequence.tuple.python
+    - match: \)
+      scope: punctuation.section.sequence.end.python
+      set: with-end
+    - match: \bas\b
+      scope: keyword.control.flow.with.as.python
+      push: with-tuple-as
+    - include: expression-in-a-group
+
+  with-tuple-as:
+    - match: (?=[,)])
       pop: true
-    - match: ','
-      scope: punctuation.separator.with-resources.python
-      set: with-body
+    - include: comments
     - include: name
     - include: generators-groups-and-tuples
     - include: lists
+
+  with-plain-body:
+    - match: \bas\b
+      scope: keyword.control.flow.with.as.python
+      set: with-plain-as
+    - include: with-end
+    - include: expression-in-a-statement
+
+  with-plain-as:
+    - match: ','
+      scope: punctuation.separator.sequence.python
+      set: with-plain-body
+    - include: with-end
+    - include: name
+    - include: generators-groups-and-tuples
+    - include: lists
+
+  with-end:
+    - match: ':(?!=)'
+      scope: punctuation.section.block.with.python
+      pop: true
+    - include: line-continuation-or-pop
+
+###[ EXPRESSIONS ]############################################################
 
   expressions-common:
     - include: comments

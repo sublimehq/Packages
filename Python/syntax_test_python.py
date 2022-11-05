@@ -747,15 +747,43 @@ def _():
 #       ^^ meta.statement.with
 
     with open(), open() as x, open() as y:
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #   ^^^^ keyword.control.flow.with
 #        ^^^^ support.function
-#              ^ punctuation.separator.with-resources
+#              ^ punctuation.separator.sequence
 #                       ^^ keyword.control.flow.with.as
-#                           ^ punctuation.separator.with-resources
+#                           ^ punctuation.separator.sequence
 #                             ^^^^ support.function
 #                                    ^^ keyword.control.flow.with.as
 
+    with (
+#   ^^^^^^^ - meta.statement.with meta.statement.with
+#   ^^^^^ meta.statement.with.python - meta.sequence
+#        ^^ meta.statement.with.python meta.sequence.tuple.python
+#   ^^^^ keyword.control.flow.with
+#        ^ punctuation.section.sequence.begin.python
+        open(),
+#      ^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
+#       ^^^^ support.function
+#             ^ punctuation.separator.sequence
+
+        open() as x,
+#      ^^^^^^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
+#       ^^^^ support.function
+#              ^^ keyword.control.flow.with.as
+#                  ^ punctuation.separator.sequence
+        open() as as
+#      ^^^^^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
+#       ^^^^ support.function
+#              ^^ keyword.control.flow.with.as
+#                 ^^ invalid.illegal.name.python
+    ):
+# ^^^^ - meta.statement.with meta.statement.with
+# ^^^ meta.statement.with.python meta.sequence.tuple.python
+#    ^ meta.statement.with.python punctuation.section.block.with.python
+
     with captured() as (out, err):
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #   ^^^^ keyword.control.flow.with
 #        ^^^^^^^^ variable.function
 #                ^ punctuation.section.arguments.begin
