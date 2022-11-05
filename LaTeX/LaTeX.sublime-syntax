@@ -427,7 +427,7 @@ contexts:
     - include: references
     - include: begin-end-commands
     # extended from tex
-    - include: scope:text.tex#greeks
+    - include: scope:text.tex#math-builtin
     - include: scope:text.tex#math-brackets
     - include: math-braces
     - include: boxes
