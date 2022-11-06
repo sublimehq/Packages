@@ -6,6 +6,53 @@ file_extensions:
   - sty
   - cls
 scope: text.tex
+
+variables:
+  greeks: |-
+    (?x: alpha | beta | gamma | delta | epsilon | varepsilon | zeta | eta | theta
+    | vartheta | iota | kappa | lambda | mu | nu | xi | o | pi | varpi | rho
+    | varrho | sigma | varsigma | tau | upsilon | phi | varphi | chi | psi
+    | omega | Gamma | Delta | Theta | Lambda | Xi | Pi | Sigma | Upsilon | Phi
+    | Psi | Omega )
+  mathfun: |-
+    (?x: arccos | cos | csc | exp | ker | limsup | min | sinh
+    | arcsin | cosh | deg | gcd | lg | ln | Pr | sup
+    | arctan | cot | det | hom | lim | log | sec | tan
+    | arg | coth | dim | inf | liminf | max | sin | tan | pmod | bmod)
+  relations: |-
+    (?x: leq | lq | geq | ge | equiv | prec | succ | sim
+    | preceq | succeq | simeq | ll | gg | subset | supset | approx
+    | subseteq | supseteq | cong | sqsubseteq | sqsupseteq | bowtie
+    | in | notin | ne | ni | owns | vdash | dashv | models | smile | mid
+    | doteq | frown | parallel | perp | propto)
+  largeops: |-
+    (?x: sum | prod | coprod | int | oint | bigcap | bigcup | bigsqcup
+    | bigvee | bigwedge | bigodot | bigotimes | bigoplus | biguplus)
+  binops: |-
+    (?x: pm | mp | setminus | cdot | times | ast | star | diamond | circ | bullet
+    | div | cap | cup | uplus | sqcap | sqcup | triangleleft | triangleright
+    | wr | bigcirc | bigtriangleup | bigtriangledown | vee | lor
+    | wedge | land | oplus | ominus | otimes | oslash | odot | dagger
+    | ddagger | amalg)
+  accents: |-
+    (?x: hat | widehat | check | tilde | widetilde | acute | grave | dot
+    | ddot | breve | bar | vec)
+  symbols: |-
+    (?x: aleph | hbar | imath | jmath | ell | wp | Re | Im | partial | infty
+    | prime | emptyset | nabla | surd | top | bot | \| | angle | triangle
+    | backslash | forall | exists | neg | lnot | flat | natural | sharp
+    | clubsuit | diamondsuit | heartsuit | spadesuit)
+  arrows: |-
+    (?x: leftarrow | gets | longleftarrow | Leftarrow | Longleftarrow
+    | rightarrow | to | longrightarrow | Rightarrow | Longrightarrow
+    | leftrightarrow | longleftrightarrow | Leftrightarrow
+    | Longleftrightarrow | mapsto | longmapsto | hookleftarrow
+    | hookrightarrow | uparrow | Uparrow | downarrow | Downarrow
+    | updownarrow | Updownarrow | nearrow | searrow | nwarrow | swarrow)
+  delimiters: |-
+    (?x: lbrack | lbrace | langle | rbrack | rbrace | rangle
+    | vert | lfloor | lceil | Vert | rfloor | rceil)
+
 contexts:
   prototype:
     - include: comments
@@ -22,7 +69,7 @@ contexts:
     - include: general-commands
 
   general-commands:
-    - match: '(\\)[A-Za-z@]+'
+    - match: (\\)[A-Za-z@]+
       scope: support.function.general.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -30,7 +77,7 @@ contexts:
   general-constants:
     - match: \\\\
       scope: constant.character.newline.tex
-    - match: '(\\)[^A-Za-z@]'
+    - match: (\\)[^A-Za-z@]
       scope: constant.character.escape.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -48,7 +95,7 @@ contexts:
       captures:
         1: keyword.control.tex
         2: punctuation.definition.backslash.tex
-    - match: '((\\)(?:input))\b'
+    - match: ((\\)(?:input))\b
       scope: meta.function.input.tex
       captures:
         1: keyword.control.input.tex
@@ -63,21 +110,24 @@ contexts:
         3: constant.numeric.category.tex
 
   braces:
-    - match: '\{'
+    - match: \{
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.group.brace.tex
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: main
 
+  # within macros, it is possible that only part of some nested struture
+  # is present. To prevent this from causing problems, here we only match
+  # elements that are simple, i.e. that do not push to the stack.
   macro-braces:
-    - match: '\{'
+    - match: \{
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.group.brace.tex
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: general-constants
@@ -85,20 +135,20 @@ contexts:
         - include: macro-braces
 
   boxes:
-    - match: '((\\)[hv]box)\s*(\{)'
+    - match: ((\\)[hv]box)\s*(\{)
       captures:
         1: support.function.box.tex
         2: punctuation.definition.backslash.tex
         3: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.box.tex
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: main
 
   macros:
-    - match: '(\\def)\s*((\\)[A-Za-z@]+)\s*[^\{]*?\s*(\{)'
+    - match: (\\def)\s*((\\)[A-Za-z@]+)\s*[^\{]*?\s*(\{)
       captures:
         1: support.function.definition.tex storage.modifier.definition.tex
         2: support.function.general.tex entity.name.definition.tex
@@ -106,35 +156,94 @@ contexts:
         4: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.definition.tex
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: general-constants
         - include: general-commands
         - include: macro-braces
 
-  greeks:
-    - match: ((\\)(alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|gamma|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega))(?=\b|_)
+  math-builtin:
+    - include: math-greeks
+    - include: math-functions
+    - include: math-relations
+    - include: math-largeops
+    - include: math-binops
+    - include: math-symbols
+    - include: math-accents
+    - include: math-arrows
+    - include: math-delimiters
+
+  math-greeks:
+    - match: (\\){{greeks}}(?=\b|_)
+      scope: keyword.other.math.greek.tex
       captures:
-        1: keyword.other.greek.math.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
+
+  math-functions:
+    - match: (\\){{mathfun}}(?=\b|_)
+      scope: keyword.other.math.function.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  math-relations:
+    - match: (\\){{relations}}(?=\b|_)
+      scope: keyword.other.math.relation.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  math-largeops:
+    - match: (\\){{largeops}}(?=\b|_)
+      scope: keyword.other.math.large-operator.tex
+      captures:
+        1: punctuation.definition.backslash.texpunctuation.definition.backslash.tex
+
+  math-binops:
+    - match: (\\){{binops}}(?=\b|_)
+      scope: keyword.other.math.binary-operator.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  math-symbols:
+    - match: (\\){{symbols}}(?=\b|_)
+      scope: keyword.other.math.symbol.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  math-accents:
+    - match: (\\){{accents}}(?=\b|_)
+      scope: keyword.other.math.accent.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  math-arrows:
+    - match: (\\){{arrows}}(?=\b|_)
+      scope: keyword.other.math.arrow.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  math-delimiters:
+    - match: (\\){{delimiters}}(?=\b|_)
+      scope: keyword.other.math.delimiter.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
   math-commands:
-    - match: '((\\)[A-Za-z@]+)'
+    - match: (\\)[A-Za-z@]+
+      scope: support.function.math.tex
       captures:
-        1: support.function.math.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-operators:
     - match: \+|\-|=|-|\*|/|\^|_|<|>
       scope: keyword.operator.math.tex
 
   math-braces:
-    - match: '\{'
+    - match: \{
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.group.brace.tex
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: math-content
@@ -144,21 +253,21 @@ contexts:
       scope: constant.character.parenthesis.tex
     - match: '[\[\]]'
       scope: constant.character.bracket.tex
-    - match: '(\\)[\{\}]'
+    - match: (\\)[\{\}]
       scope: constant.character.brace.escape.tex
       captures:
         1: punctuation.definition.backslash.brace.escape.tex
 
   math-numerics:
-    - match: '(([[:digit:]]*\.[[:digit:]]+)|[[:digit:]]+)'
+    - match: (([[:digit:]]*\.[[:digit:]]+)|[[:digit:]]+)
       scope: constant.numeric.math.tex
 
   math-characters:
-    - match: "[A-Za-z]+"
+    - match: '[A-Za-z]+'
       scope: variable.other.math.tex
 
   math-content:
-    - include: greeks
+    - include: math-builtin
     - include: math-brackets
     - include: math-braces
     - include: boxes

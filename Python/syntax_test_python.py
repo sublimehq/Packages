@@ -747,15 +747,43 @@ def _():
 #       ^^ meta.statement.with
 
     with open(), open() as x, open() as y:
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #   ^^^^ keyword.control.flow.with
 #        ^^^^ support.function
-#              ^ punctuation.separator.with-resources
+#              ^ punctuation.separator.sequence
 #                       ^^ keyword.control.flow.with.as
-#                           ^ punctuation.separator.with-resources
+#                           ^ punctuation.separator.sequence
 #                             ^^^^ support.function
 #                                    ^^ keyword.control.flow.with.as
 
+    with (
+#   ^^^^^^^ - meta.statement.with meta.statement.with
+#   ^^^^^ meta.statement.with.python - meta.sequence
+#        ^^ meta.statement.with.python meta.sequence.tuple.python
+#   ^^^^ keyword.control.flow.with
+#        ^ punctuation.section.sequence.begin.python
+        open(),
+#      ^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
+#       ^^^^ support.function
+#             ^ punctuation.separator.sequence
+
+        open() as x,
+#      ^^^^^^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
+#       ^^^^ support.function
+#              ^^ keyword.control.flow.with.as
+#                  ^ punctuation.separator.sequence
+        open() as as
+#      ^^^^^^^^^^^^^ meta.statement.with.python meta.sequence.tuple.python
+#       ^^^^ support.function
+#              ^^ keyword.control.flow.with.as
+#                 ^^ invalid.illegal.name.python
+    ):
+# ^^^^ - meta.statement.with meta.statement.with
+# ^^^ meta.statement.with.python meta.sequence.tuple.python
+#    ^ meta.statement.with.python punctuation.section.block.with.python
+
     with captured() as (out, err):
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #   ^^^^ keyword.control.flow.with
 #        ^^^^^^^^ variable.function
 #                ^ punctuation.section.arguments.begin
@@ -2157,7 +2185,7 @@ raise Ellipsis
 #^^^^ keyword.control.flow.raise
 #     ^^^^^^^^ constant.language
 raise KeyError() from z
-#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise
+#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise - meta.statement.raise meta.statement.raise
 #^^^^ keyword.control.flow.raise
 #     ^^^^^^^^ support.type.exception
 #                ^^^^ keyword.control.flow.raise.from
@@ -2361,14 +2389,65 @@ foo.bar(baz., True)
 
 primes: List[int] = []
 #     ^ punctuation.separator.annotation.variable.python
+#     ^^^^^^^^^^^^ meta.variable.annotation.python
+#       ^^^^ meta.qualified-name.python
 #                 ^ keyword.operator.assignment
 
 captain: str  # Note: no initial value!
 #      ^ punctuation.separator.annotation.variable.python
+#      ^^^^^^^ meta.variable.annotation.python
+#             ^^^^^^^ comment
+#        ^^^ meta.qualified-name.python
+
+foo: str | None = None
+#  ^^^^^^^^^^^^^ meta.variable.annotation.python
+#               ^^^^^^^ - meta.variable
+#  ^ punctuation.separator.annotation.variable.python
+#    ^^^ support.type.python
+#        ^ keyword.operator.arithmetic.python
+#          ^^^^ constant.language.null.python
+#               ^ keyword.operator.assignment.python
+#                 ^^^^ constant.language.null.python
+
+bar: str | None = 'b'
+#  ^^^^^^^^^^^^^ meta.variable.annotation.python
+#               ^^^^^^ - meta.variable
+#  ^ punctuation.separator.annotation.variable.python
+#    ^^^ support.type.python
+#        ^ keyword.operator.arithmetic.python
+#          ^^^^ constant.language.null.python
+#               ^ keyword.operator.assignment.python
+#                 ^^^ string.quoted.single.python
+
+foo: \
+#  ^^^ meta.variable.annotation.python
+foo: \
+    bar = zoo
+# <- meta.variable.annotation.python
+#^^^^^^^ meta.variable.annotation.python
+#       ^ keyword.operator.assignment
+
+zoo: \
+#  ^^^ meta.variable.annotation.python
+zoo: \
+    loo \
+# <- meta.variable.annotation.python
+#^^^^^^^^^ meta.variable.annotation.python
+zoo: \
+    loo \
+    = too
+# <- meta.variable.annotation.python
+#^^^ meta.variable.annotation.python
+#   ^ keyword.operator.assignment
+
+foo: int; print("foo")
+#       ^ punctuation.terminator.statement.python
+#       ^^^^^^^^^^^^^^ - meta.variable.annotation.python
 
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.annotation.python
 #                                   ^ keyword.operator.assignment
 
 

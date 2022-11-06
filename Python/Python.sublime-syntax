@@ -204,34 +204,38 @@ contexts:
   line-statements:
     - include: imports
     - include: decorators
-    - match: \b(raise)\b
+    - match: \braise\b
       scope: keyword.control.flow.raise.python
-      push:
-        - meta_scope: meta.statement.raise.python
-        - include: line-continuation-or-pop
-        - match: \b(from)\b
-          scope: keyword.control.flow.raise.from.python
-          set:
-            - meta_scope: meta.statement.raise.python
-            - include: line-continuation-or-pop
-            - include: expression-in-a-statement
-        - include: expression-in-a-statement
-    - match: \b(assert)\b
+      push: raise-statement-body
+    - match: \bassert\b
       scope: keyword.control.flow.assert.python
-    - match: \b(del)\b
+    - match: \bdel\b
       scope: keyword.other.del.python
-    - match: \b(print)\b(?! *([,.()\]}]))
+    - match: \bprint\b(?! *([,.()\]}]))
       scope: keyword.other.print.python
-    - match: \b(exec)\b(?! *($|[,.()\]}]))
+    - match: \bexec\b(?! *($|[,.()\]}]))
       scope: keyword.other.exec.python
-    - match: \b(return)\b
+    - match: \breturn\b
       scope: keyword.control.flow.return.python
-    - match: \b(break)\b
+    - match: \bbreak\b
       scope: keyword.control.flow.break.python
-    - match: \b(continue)\b
+    - match: \bcontinue\b
       scope: keyword.control.flow.continue.python
-    - match: \b(pass)\b
+    - match: \bpass\b
       scope: keyword.control.flow.pass.python
+
+  raise-statement-body:
+    - meta_scope: meta.statement.raise.python
+    - match: \bfrom\b
+      scope: keyword.control.flow.raise.from.python
+      set: raise-statement-from
+    - include: line-continuation-or-pop
+    - include: expression-in-a-statement
+
+  raise-statement-from:
+    - meta_content_scope: meta.statement.raise.python
+    - include: line-continuation-or-pop
+    - include: expression-in-a-statement
 
 ###[ IMPORTS ]################################################################
 
@@ -409,7 +413,9 @@ contexts:
       captures:
         1: storage.modifier.async.python
         2: keyword.control.flow.with.python
-      push: with-body
+      push:
+        - with-meta
+        - with-body
     # except ... as ...:
     - match: \bexcept\b
       scope: keyword.control.exception.catch.python
@@ -757,31 +763,60 @@ contexts:
 
 ###[ WITH STATEMENTS ]########################################################
 
-  with-body:
+  with-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.statement.with.python
-    - include: line-continuation-or-pop
-    - match: \b(as)\b
-      scope: keyword.control.flow.with.as.python
-      set: with-as
-    - match: ':(?!=)'
-      scope: punctuation.section.block.with.python
+    - match: ''
       pop: true
-    - match: ','
-      scope: punctuation.separator.with-resources.python
-    - include: expression-in-a-statement
 
-  with-as:
-    - meta_scope: meta.statement.with.python
-    - include: line-continuation-or-pop
-    - match: ':'
-      scope: punctuation.section.block.with.python
+  with-body:
+    - match: \(
+      scope: punctuation.section.sequence.begin.python
+      set: with-tuple-body
+    - match: (?=\S)
+      set: with-plain-body
+
+  with-tuple-body:
+    - meta_scope: meta.sequence.tuple.python
+    - match: \)
+      scope: punctuation.section.sequence.end.python
+      set: with-end
+    - match: \bas\b
+      scope: keyword.control.flow.with.as.python
+      push: with-tuple-as
+    - include: expression-in-a-group
+
+  with-tuple-as:
+    - match: (?=[,)])
       pop: true
-    - match: ','
-      scope: punctuation.separator.with-resources.python
-      set: with-body
+    - include: comments
     - include: name
     - include: generators-groups-and-tuples
     - include: lists
+
+  with-plain-body:
+    - match: \bas\b
+      scope: keyword.control.flow.with.as.python
+      set: with-plain-as
+    - include: with-end
+    - include: expression-in-a-statement
+
+  with-plain-as:
+    - match: ','
+      scope: punctuation.separator.sequence.python
+      set: with-plain-body
+    - include: with-end
+    - include: name
+    - include: generators-groups-and-tuples
+    - include: lists
+
+  with-end:
+    - match: ':(?!=)'
+      scope: punctuation.section.block.with.python
+      pop: true
+    - include: line-continuation-or-pop
+
+###[ EXPRESSIONS ]############################################################
 
   expressions-common:
     - include: comments
@@ -789,7 +824,7 @@ contexts:
     - include: numbers
     - include: yields
     - include: operators
-    - match: \b(await)\b
+    - match: \bawait\b
       scope: keyword.other.await.python
     - include: inline-if
     - include: strings
@@ -1018,10 +1053,20 @@ contexts:
     - include: illegal-assignment-expression
     - match: ':'
       scope: punctuation.separator.annotation.variable.python
+      push: variable-annotation
     - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
       scope: keyword.operator.assignment.augmented.python
     - match: '=(?!=)'
       scope: keyword.operator.assignment.python
+
+  variable-annotation:
+    - meta_scope: meta.variable.annotation.python
+    - match: (?=$|=|#|;)
+      pop: 1
+    - match: \bNone\b
+      scope: constant.language.null.python
+    - include: illegal-assignment-expression
+    - include: expression-in-a-group
 
   operators:
     - match: <>

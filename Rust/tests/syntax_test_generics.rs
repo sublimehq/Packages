@@ -249,7 +249,7 @@ fn collect_vec() {
 //                                                             ^^^ support.type
 //                                                            ^^^^^^^^ meta.generic
 //                                                             ^^^^^^ meta.generic meta.generic
-//                                                                 ^ keyword.operator
+//                                                                 ^ storage.type.inference.rust
     let _: Vec<(usize, usize)> = vec!();
 //                               ^^^^ support.macro
     let _: Vec<(usize, usize)> = vec!{};

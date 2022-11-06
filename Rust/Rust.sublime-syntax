@@ -25,6 +25,8 @@ variables:
   float_suffixes: 'f(32|64)'
   dec_literal: '[0-9](?:[0-9_])*'
   float_exponent: '[eE][+-]?[0-9_]*[0-9][0-9_]*'
+  type_identifier: '\b(?:[[:upper:]]|_*[[:upper:]][[:alnum:]_]*[[:lower:]][[:alnum:]_]*)\b'
+
 contexts:
   main:
     - include: statements
@@ -88,11 +90,11 @@ contexts:
         1: storage.type.type.rust
         2: entity.name.type.rust
       push:
-      - match: '=(?!=)'
-        scope: keyword.operator.assignment.rust
-        push: after-operator
-      - match: '(?=\S)'
-        pop: true
+        - match: '=(?!=)'
+          scope: keyword.operator.assignment.rust
+          push: after-operator
+        - match: '(?=\S)'
+          pop: true
 
     - match: '\b(trait)\s+({{identifier}})\b'
       captures:
@@ -138,9 +140,6 @@ contexts:
       captures:
         1: keyword.control.rust
         2: entity.name.label.rust
-
-    - include: support-type
-    - include: type
 
     - match: '\b(macro_rules!)\s+({{identifier}})\b'
       captures:
@@ -188,11 +187,9 @@ contexts:
     # is more performant as the below
     # - match: '\b((?:debug_)?assert_(?:eq|ne)!)\s*(\()'
 
-    - match: '\b{{identifier}}!(?=\s*(\(|\{|\[))'
-      scope: support.macro.rust
+    - include: macro-identifiers
 
-    - include: support-type
-
+    - include: types
     - include: basic-identifiers
     - include: numbers
 
@@ -360,17 +357,6 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
-  support-type:
-    - match: '(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\s*(?=<)'
-      scope: support.type.rust
-      push: generic-angles
-    - match: '[?]?(?=\bSized\b)'
-      scope: keyword.operator.rust
-    - match: '[!]?(?=\bSync|Send\b)'
-      scope: keyword.operator.rust
-    - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
-      scope: support.type.rust
-
   return-type:
     - match: '\bimpl\b'
       scope: storage.type.impl.rust
@@ -387,7 +373,7 @@ contexts:
           pop: true
         - match: '(?=<)'
           push: generic-angles
-        - include: type-any-identifier
+        - include: types-any
         - match: '{{identifier}}'
         # Escape for incomplete expression
         - match: '(?=\S)'
@@ -461,7 +447,7 @@ contexts:
       push:
         - match: '(?=,|\)|\]|\}|\|)'
           pop: true
-        - include: type-any-identifier
+        - include: types-any
 
     - match: ','
       scope: punctuation.separator.rust
@@ -505,28 +491,6 @@ contexts:
     - meta_scope: meta.function.closure.rust
     - include: block
 
-  type:
-    # A low-level type. Typically you want type-any-identifier for the full
-    # type grammar.
-    - match: '{{identifier}}(?=<)'
-      push: generic-angles
-    - match: \b(Self|{{int_suffixes}}|{{float_suffixes}}|bool|char|str)\b
-      scope: storage.type.rust
-    # stdsimd types
-    - match: |-
-        (?x)
-        \b(?:
-          [ium]8x(?:2|4|8|16|32) | [iu]8x64   |
-          [ium]16x(?:2|4|8|16)   | [iu]16x32  | # f16xN types might come later
-          [iumf]32x(?:2|4|8)     | [iuf]32x16 |
-          [iumf]64x(?:2|4)       | [iuf]64x8  |
-          m1x(?:64|32|16|8)                   | # 512-bit masks
-          __m(?:64|128|256)[di]? # __m512 should come later
-        )\b
-      scope: storage.type.rust
-    - match: '\bdyn\b(?!\s*::)(?=\s*(?:\(|{{lifetime}}|{{identifier}}))'
-      scope: storage.type.trait.rust
-
   generic-angles:
     - meta_scope: meta.generic.rust
     - match: '>'
@@ -553,7 +517,7 @@ contexts:
     - include: bool
     # byte must be before type-any-identifier since it doesn't know about byte tokens
     - include: byte
-    - include: type-any-identifier
+    - include: types-any
     # char must be after type-any-identifier to deal with conflict with lifetimes
     - include: char
     # Handle negative integers (technically unary negative expression with a literal expression)
@@ -586,9 +550,32 @@ contexts:
     - match: '[-+%/*]'
       scope: keyword.operator.arithmetic.rust
 
-  type-any-identifier:
-    - include: comments
+  types:
+    # more relaxed take on types-any
+    - match: '(?=[!?]?{{type_identifier}}::)'
+      push: type-identifier-path
+    - include: type-identifiers
+
+  type-identifier-path:
+    - meta_scope: meta.path.rust
+    - match: '::'
+      scope: punctuation.accessor.rust
+      pop: true
+    - include: type-identifiers
+
+  type-identifiers:
+    - match: '(?:(!)|(\?))(?={{type_identifier}})'
+      captures:
+        1: keyword.operator.negated-type.rust
+        2: storage.modifier.relaxed-bounds.rust
     - include: support-type
+    - include: type
+    - match: '{{type_identifier}}'
+      scope: storage.type.source.rust
+
+  types-any:
+    # also matches stray identifiers because a type is expected
+    - include: comments
     - include: return-type
     - match: '&'
       scope: keyword.operator.rust
@@ -610,18 +597,11 @@ contexts:
             - include: return-type
             - match: '(?=\S)'
               pop: true
-        - include: type-any-identifier
+        - include: types-any
     - include: lifetime
-    - match: '\b([[:upper:]]|_*[[:upper:]][[:alnum:]_]*[[:lower:]][[:alnum:]_]*)\b(::)'
-      scope: meta.path.rust storage.type.rust
-      captures:
-        1: storage.type.rust
-        2: punctuation.accessor.rust
-    - match: '{{identifier}}(::)'
-      scope: meta.path.rust
-      captures:
-        1: punctuation.accessor.rust
-    - match: '(::)(?={{identifier}})'
+    - match: (?=[?!]?{{identifier}}::)
+      push: type-any-identifier-path
+    - match: ::(?={{identifier}})
       scope: meta.path.rust punctuation.accessor.rust
     - match: '(?=<)'
       push: generic-angles
@@ -634,9 +614,13 @@ contexts:
           pop: true
         - match: ','
           scope: punctuation.separator.rust
-        - include: type-any-identifier
+        - include: types-any
     - match: '\+'
-      scope: keyword.operator.rust
+      scope: keyword.operator.arithmetic.union.rust
+    - match: '\b_\b'
+      scope: storage.type.inference.rust
+    - match: '!(?!\w)'
+      scope: storage.type.never.rust
     - match: \bextern\b
       scope: keyword.other.rust
       push:
@@ -644,13 +628,56 @@ contexts:
         - match: '(?=\S)'
           pop: true
     - include: hrtb
-    - include: type
     - include: type-slice-or-array
-    - match: '\b_\b'
-      scope: keyword.operator.rust
+    - include: type-any-identifiers
+
+  type-any-identifier-path:
+    - meta_scope: meta.path.rust
+    - match: '::'
+      scope: punctuation.accessor.rust
+      pop: true
     - match: '!'
-      scope: keyword.operator.rust
+      scope: keyword.operator.negated-type.rust
+    - include: type-identifiers
+
+  type-any-identifiers:
+    - match: '!'
+      scope: keyword.operator.negated-type.rust
+    - match: '\?'
+      scope: storage.modifier.relaxed-bounds.rust
+    - include: support-type
+    - include: type
+    - match: '{{type_identifier}}'
+      scope: storage.type.rust
     - match: '{{identifier}}'
+
+  support-type:
+    - match: '(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\s*(?=<)'
+      scope: support.type.rust
+      push: generic-angles
+    - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
+      scope: support.type.rust
+
+  type:
+    # A low-level type. Typically you want types-any for the full type grammar.
+    - match: '{{identifier}}(?=<)'
+      push: generic-angles
+    - match: \b(Self|{{int_suffixes}}|{{float_suffixes}}|bool|char|str)\b
+      scope: storage.type.rust
+    # stdsimd types
+    - match: |-
+        (?x)
+        \b(?:
+          [ium]8x(?:2|4|8|16|32) | [iu]8x64   |
+          [ium]16x(?:2|4|8|16)   | [iu]16x32  | # f16xN types might come later
+          [iumf]32x(?:2|4|8)     | [iuf]32x16 |
+          [iumf]64x(?:2|4)       | [iuf]64x8  |
+          m1x(?:64|32|16|8)                   | # 512-bit masks
+          __m(?:64|128|256)[di]? # __m512 should come later
+        )\b
+      scope: storage.type.rust
+    - match: '\bdyn\b(?!\s*::)(?=\s*(?:\(|{{lifetime}}|{{identifier}}))'
+      scope: storage.type.trait.rust
 
   raw-pointer:
     - match: '\*\s*(?:const|mut)\b'
@@ -662,7 +689,7 @@ contexts:
       push:
         - match: '(?=<)'
           push: generic-angles
-        - include: type-any-identifier
+        - include: types-any
         - match: '&'
           scope: keyword.operator.rust
         - include: lifetime
@@ -683,7 +710,7 @@ contexts:
               scope: punctuation.section.group.end.rust
               pop: true
             - include: constant-integer-expression
-        - include: type-any-identifier
+        - include: types-any
 
   struct-identifier:
     - meta_scope: meta.struct.rust
@@ -729,7 +756,7 @@ contexts:
         - meta_scope: meta.group.rust
         - include: comments
         - include: visibility
-        - include: type-any-identifier
+        - include: types-any
         - match: ','
           scope: punctuation.separator.rust
 
@@ -763,7 +790,7 @@ contexts:
         - include: comments
         - match: ':'
           scope: punctuation.separator.rust
-        - include: type-any-identifier
+        - include: types-any
     - match: '(?=\S)'
       # Abort for an invalid match.
       pop: true
@@ -1071,7 +1098,7 @@ contexts:
         - match: \bfor\b
           scope: keyword.other.rust
           set: impl-identifier
-        - include: type-any-identifier
+        - include: types-any
     - match: ''
       set: impl-identifier
 
@@ -1103,7 +1130,7 @@ contexts:
       pop: true
     - match: \bwhere\b
       scope: keyword.other.rust
-    - include: type-any-identifier
+    - include: types-any
     - match: ':'
       scope: punctuation.separator.rust
 
@@ -1163,7 +1190,7 @@ contexts:
       set: fn-body
     - match: \bwhere\b
       scope: keyword.other.rust
-    - include: type-any-identifier
+    - include: types-any
     - match: '[:,]'
       scope: punctuation.separator.rust
     # Escape for incomplete expression, or ';'
@@ -1450,7 +1477,7 @@ contexts:
       scope: storage.type.rust
     - match: '\b(?:r#)?_*[A-Z][a-zA-Z0-9_]*[a-z][a-zA-Z0-9_]*\b'
       scope: storage.type.source.rust
-    - match: '(?={{identifier}}::)'
+    - match: (?={{identifier}}::)
       push:
         - meta_scope: meta.path.rust
         - include: no-path-identifiers
@@ -1464,6 +1491,10 @@ contexts:
       push: no-type-names
     - include: no-path-identifiers
 
+  macro-identifiers:
+    - match: '\b{{identifier}}!(?=\s*(\(|\{|\[))'
+      scope: support.macro.rust
+
   no-path-identifiers:
     - match: \b(self)\b
       scope: variable.language.rust
@@ -1471,15 +1502,16 @@ contexts:
       scope: keyword.other.rust
 
   no-type-names:
-      # This push state prevents highlighting basic types like
-      # i32, etc when following ::
-      - include: comments
-      - include: basic-identifiers
-      - match: '{{identifier}}'
-      - match: '(?=<)'
-        push: generic-angles
-      - match: ''
-        pop: true
+    # This push state prevents highlighting basic types like
+    # i32, etc when following ::
+    - include: comments
+    - include: macro-identifiers
+    - include: basic-identifiers
+    - match: '{{identifier}}'
+    - match: '(?=<)'
+      push: generic-angles
+    - match: ''
+      pop: true
 
   symbols:
     - match: '=>'
