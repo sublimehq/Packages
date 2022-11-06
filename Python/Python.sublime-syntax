@@ -2182,655 +2182,881 @@ contexts:
       scope: punctuation.section.interpolation.end.python
       pop: 2
 
-  string-quoted-double-block:
-    # Triple-quoted capital R raw string, unicode or not, no syntax embedding
-    - match: '([uU]?R)(""")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-unicode-char
+  strings:
+    # triple-quoted versions must be matched first
+    - include: triple-double-quoted-strings
+    - include: double-quoted-strings
+    - include: triple-single-quoted-strings
+    - include: single-quoted-strings
+
+  triple-double-quoted-strings:
+    - include: triple-double-quoted-plain-raw-b-strings
+    - include: triple-double-quoted-raw-b-strings
+    - include: triple-double-quoted-plain-raw-f-strings
+    - include: triple-double-quoted-raw-f-strings
+    - include: triple-double-quoted-plain-raw-u-strings
+    - include: triple-double-quoted-raw-u-strings
+    - include: triple-double-quoted-b-strings
+    - include: triple-double-quoted-f-strings
+    - include: triple-double-quoted-u-strings
+
+  triple-double-quoted-string-end:
+    - match: '"""'
+      scope: punctuation.definition.string.end.python
+      set: after-expression
+
+  triple-double-quoted-string-pop:
+    - match: (?=""")
+      pop: true
+
+  triple-double-quoted-plain-raw-b-strings:
     # Triple-quoted capital R raw string, bytes, no syntax embedding
-    - match: '([bB]R|R[bB])(""")'
+    - match: ([bB]R|R[bB])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-    # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
-    - match: '([uU]?r)(""")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.block.python
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: meta.string.python
-            - match: '"""'
-              scope: string.quoted.double.block.python punctuation.definition.string.end.python
-              set: after-expression
-            - match: ''
-              push: scope:source.sql
-              with_prototype:
-                - match: '(?=""")'
-                  pop: true
-                - include: escaped-unicode-char
-                - include: constant-placeholder
-        - match: '(?=\S)'
-          set:
-            - meta_scope: meta.string.python string.quoted.double.block.python
-            - match: '"""'
-              scope: punctuation.definition.string.end.python
-              set: after-expression
-            - match: ''
-              push: scope:source.regexp.python
-              with_prototype:
-                - match: '(?=""")'
-                  pop: true
-                - include: escaped-unicode-char
+      push: inside-triple-double-quoted-plain-raw-b-string
+
+  inside-triple-double-quoted-plain-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+
+  triple-double-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
-    - match: '([bB]r|r[bB])(""")'
+    - match: ([bB]r|r[bB])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - match: ''
-          embed: scope:source.regexp.python
-          escape: (?=""")
+      push: inside-triple-double-quoted-raw-b-string
+
+  inside-triple-double-quoted-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - match: ''
+      embed: scope:source.regexp.python
+      escape: (?=""")
+
+  triple-double-quoted-plain-raw-f-strings:
     # Triple-quoted raw f-string
     - match: ([fF]R|R[fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: f-string-content
+      push: inside-triple-double-quoted-plain-raw-f-string
+
+  inside-triple-double-quoted-plain-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: f-string-content
+
+  triple-double-quoted-raw-f-strings:
     # Triple-quoted raw f-string, treated as regex
     - match: ([fF]r|r[fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?=""")'
-              pop: true
-            - include: f-string-content-with-regex
+      push: inside-triple-double-quoted-raw-f-string
+
+  inside-triple-double-quoted-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: f-string-content-with-regex
+
+  triple-double-quoted-plain-raw-u-strings:
+    # Triple-quoted capital R raw string, unicode or not, no syntax embedding
+    - match: ([uU]?R)(""")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
+      push: inside-triple-double-quoted-plain-raw-u-string
+
+  inside-triple-double-quoted-plain-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: escaped-unicode-char
+
+  triple-double-quoted-raw-u-strings:
+    # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
+    - match: ([uU]?r)(""")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
+      push: inside-triple-double-quoted-raw-u-string
+
+  inside-triple-double-quoted-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-raw-u-string-syntax
+
+  triple-double-quoted-raw-u-string-syntax:
+    - match: (?={{sql_indicator}})
+      set: inside-triple-double-quoted-sql-raw-u-string
+    - match: (?=\S)
+      set: inside-triple-double-quoted-regexp-raw-u-string
+
+  inside-triple-double-quoted-sql-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: '"""'
+      scope: string.quoted.double.block.python punctuation.definition.string.end.python
+      set: after-expression
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: escaped-unicode-char
+        - include: constant-placeholder
+
+  inside-triple-double-quoted-regexp-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - match: '"""'
+      scope: punctuation.definition.string.end.python
+      set: after-expression
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: escaped-unicode-char
+
+  triple-double-quoted-b-strings:
+    # Triple-quoted string, bytes, no syntax embedding
+    - match: ([bB])(""")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
+      push: inside-triple-double-quoted-b-string
+
+  inside-triple-double-quoted-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: line-continuation-inside-block-string
+    - include: escaped-char
+    - include: constant-placeholder
+
+  triple-double-quoted-f-strings:
     # Triple-quoted f-string
     - match: ([fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-block-string
-        - include: escaped-fstring-escape
-        - include: escaped-unicode-char
-        - include: escaped-char
-        - include: f-string-content
-    # Triple-quoted string, unicode or not, will detect SQL
-    - match: '([uU]?)(""")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.block.python
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: meta.string.python
-            - match: '"""'
-              scope: string.quoted.double.block.python punctuation.definition.string.end.python
-              set: after-expression
-            - match: ''
-              push: scope:source.sql
-              with_prototype:
-                - match: '(?=""")'
-                  pop: true
-                - include: line-continuation-inside-block-string
-                - include: escaped-unicode-char
-                - include: escaped-char
-                - include: constant-placeholder
-        - match: '(?=\S)'
-          set:
-            - meta_scope: meta.string.python string.quoted.double.block.python
-            - match: '"""'
-              scope: punctuation.definition.string.end.python
-              set: after-expression
-            - include: line-continuation-inside-block-string
-            - include: escaped-unicode-char
-            - include: escaped-char
-            - include: constant-placeholder
-    # Triple-quoted string, bytes, no syntax embedding
-    - match: '([bB])(""")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.block.python
-        - match: '"""'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-block-string
-        - include: escaped-char
-        - include: constant-placeholder
+      push: inside-triple-double-quoted-f-string
 
-  string-quoted-double:
-    # Single-line capital R raw string, unicode or not, no syntax embedding
-    - match: '([uU]?R)(")'
+  inside-triple-double-quoted-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: line-continuation-inside-block-string
+    - include: escaped-fstring-escape
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: f-string-content
+
+  triple-double-quoted-u-strings:
+    # Triple-quoted string, unicode or not, will detect SQL
+    - match: ([uU]?)(""")
       captures:
         1: storage.type.string.python
-        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
+      push: inside-triple-double-quoted-u-string
+
+  inside-triple-double-quoted-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: line-continuation-inside-block-string
+    - include: triple-double-quoted-u-string-syntax
+
+  triple-double-quoted-u-string-syntax:
+    - match: (?={{sql_indicator}})
+      set: inside-triple-double-quoted-sql-u-strings
+    - match: (?=\S)
+      set: inside-double-quoted-plain-u-block-string
+
+  inside-double-quoted-plain-u-block-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-plain-u-string-content
+
+  inside-triple-double-quoted-sql-u-strings:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: '"""'
+      scope: string.quoted.double.block.python punctuation.definition.string.end.python
+      set: after-expression
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: triple-double-quoted-plain-u-string-content
+
+  triple-double-quoted-plain-u-string-content:
+    - include: line-continuation-inside-block-string
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: constant-placeholder
+
+  double-quoted-strings:
+    - include: double-quoted-plain-raw-b-strings
+    - include: double-quoted-raw-b-strings
+    - include: double-quoted-plain-raw-f-strings
+    - include: double-quoted-raw-f-strings
+    - include: double-quoted-plain-raw-u-strings
+    - include: double-quoted-raw-u-strings
+    - include: double-quoted-b-strings
+    - include: double-quoted-f-strings
+    - include: double-quoted-u-strings
+
+  double-quoted-string-end:
+    - match: '"'
+      scope: punctuation.definition.string.end.python
+      set: after-expression
+    - include: line-continuation-inside-string
+
+  double-quoted-string-pop:
+    - match: (?="|\n)
+      pop: true
+    - include: line-continuation-inside-string
+
+  double-quoted-plain-raw-b-strings:
     # Single-line capital R raw string, bytes, no syntax embedding
-    - match: '([bB]R|R[bB])(")'
+    - match: ([bB]R|R[bB])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-    # Single-line raw string, unicode or not, starting with a SQL keyword
-    - match: '([uU]?r)(")(?={{sql_indicator}})'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python
-        - match: '"'
-          scope: string.quoted.double.python punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.sql
-          with_prototype:
-            - match: '(?="|\n)'
-              pop: true
-            - include: constant-placeholder
-            - include: line-continuation-inside-string
-    # Single-line raw string, unicode or not, treated as regex
-    - match: '([uU]?r)(")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?="|\n)'
-              pop: true
-            - include: line-continuation-inside-string
+      push: inside-double-quoted-plain-raw-b-string
+
+  inside-double-quoted-plain-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
+
+  double-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
-    - match: '([bB]r|r[bB])(")'
+    - match: ([bB]r|r[bB])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          embed: scope:source.regexp.python
-          escape: (?="|\n)
+      push: inside-double-quoted-raw-b-string
+
+  inside-double-quoted-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
+    - match: ''
+      embed: scope:source.regexp.python
+      escape: (?="|\n)
+
+  double-quoted-plain-raw-f-strings:
     # Single-line raw f-string
     - match: (R[fF]|[fF]R)(")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - include: f-string-content
+      push: inside-double-quoted-plain-raw-f-string
+
+  inside-double-quoted-plain-raw-f-string:
+    - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+    - meta_include_prototype: false
+    - include: double-quoted-string-end
+    - include: f-string-content
+
+  double-quoted-raw-f-strings:
     # Single-line raw f-string, treated as regex
     - match: (r[fF]|[fF]r)(")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?="|\n)'
-              pop: true
-            - include: line-continuation-inside-string
-            - include: f-string-content-with-regex
+      push: inside-double-quoted-raw-f-string
+
+  inside-double-quoted-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+    - include: double-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: double-quoted-string-pop
+        - include: f-string-content-with-regex
+
+  double-quoted-plain-raw-u-strings:
+    # Single-line capital R raw string, unicode or not, no syntax embedding
+    - match: ([uU]?R)(")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+      push: inside-double-quoted-plain-raw-u-string
+
+  inside-double-quoted-plain-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
+
+  double-quoted-raw-u-strings:
+    - match: ([uU]?r)(")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+      push: inside-double-quoted-raw-u-string
+
+  inside-double-quoted-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: double-quoted-string-end
+    - include: double-quoted-raw-u-string-syntax
+
+  double-quoted-raw-u-string-syntax:
+    # Single-line raw string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: inside-double-quoted-sql-raw-u-string
+    # Single-line raw string, unicode or not, treated as regex
+    - match: (?=\S)
+      set: inside-double-quoted-regexp-raw-u-string
+
+  inside-double-quoted-regexp-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: double-quoted-string-pop
+
+  inside-double-quoted-sql-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: '"'
+      scope: string.quoted.double.python punctuation.definition.string.end.python
+      set: after-expression
+    - include: line-continuation-inside-string
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: double-quoted-string-pop
+        - include: constant-placeholder
+
+  double-quoted-b-strings:
+    # Single-line string, bytes
+    - match: ([bB])(")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+      push: inside-double-quoted-b-string
+
+  inside-double-quoted-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
+    - include: escaped-char
+    - include: constant-placeholder
+
+  double-quoted-f-strings:
     # Single-line f-string
     - match: ([fF])(")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-fstring-escape
-        - include: escaped-unicode-char
-        - include: escaped-char
-        - include: line-continuation-inside-string
-        - include: f-string-content
-    # Single-line string, unicode or not, starting with a SQL keyword
-    - match: '([uU]?)(")(?={{sql_indicator}})'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python
-        - match: '"'
-          scope: string.quoted.double.python punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.sql
-          with_prototype:
-            - match: '(?="|\n)'
-              pop: true
-            - include: escaped-unicode-char
-            - include: escaped-char
-            - include: line-continuation-inside-string
-            - include: constant-placeholder
-    # Single-line string, unicode or not
-    - match: '([uU]?)(")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-unicode-char
-        - include: escaped-char
-        - include: line-continuation-inside-string
-        - include: constant-placeholder
-    # Single-line string, bytes
-    - match: '([bB])(")'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.double.python
-        - match: '"'
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-char
-        - include: line-continuation-inside-string
-        - include: constant-placeholder
+      push: inside-double-quoted-f-string
 
-  string-quoted-single-block:
-    # Triple-quoted capital R raw string, unicode or not, no syntax embedding
-    - match: ([uU]?R)(''')
+  inside-double-quoted-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+    - include: double-quoted-string-end
+    - include: escaped-fstring-escape
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: f-string-content
+
+  double-quoted-u-strings:
+    - match: ([uU]?)(")
       captures:
         1: storage.type.string.python
-        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+      push: inside-double-quoted-u-string
+
+  inside-double-quoted-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: double-quoted-string-end
+    - include: double-quoted-u-string-syntax
+
+  double-quoted-u-string-syntax:
+    # Single-line string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: inside-double-quoted-sql-u-string
+    # Single-line string, unicode or not
+    - match: (?=\S)
+      set: inside-double-quoted-plain-u-string
+
+  inside-double-quoted-plain-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
+    - include: double-quoted-u-string-content
+
+  inside-double-quoted-sql-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: '"'
+      scope: string.quoted.double.python punctuation.definition.string.end.python
+      set: after-expression
+    - include: line-continuation-inside-string
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: double-quoted-string-pop
+        - include: double-quoted-u-string-content
+
+  double-quoted-u-string-content:
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: constant-placeholder
+
+  triple-single-quoted-strings:
+    - include: triple-single-quoted-plain-raw-b-strings
+    - include: triple-single-quoted-raw-b-strings
+    - include: triple-single-quoted-plain-raw-f-strings
+    - include: triple-single-quoted-raw-f-strings
+    - include: triple-single-quoted-plain-raw-u-strings
+    - include: triple-single-quoted-raw-u-strings
+    - include: triple-single-quoted-b-strings
+    - include: triple-single-quoted-f-strings
+    - include: triple-single-quoted-u-strings
+
+  triple-single-quoted-string-end:
+    - match: "'''"
+      scope: punctuation.definition.string.end.python
+      set: after-expression
+
+  triple-single-quoted-string-pop:
+    - match: (?=''')
+      pop: true
+
+  triple-single-quoted-plain-raw-b-strings:
     # Triple-quoted capital R raw string, bytes, no syntax embedding
     - match: ([bB]R|R[bB])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-    # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
-    - match: ([uU]?r)(''')
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.block.python
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: meta.string.python
-            - match: "'''"
-              scope: string.quoted.single.block.python punctuation.definition.string.end.python
-              set: after-expression
-            - match: ''
-              push: scope:source.sql
-              with_prototype:
-                - match: (?=''')
-                  pop: true
-                - include: escaped-unicode-char
-                - include: escaped-char
-                - include: constant-placeholder
-        - match: '(?=\S)'
-          set:
-            - meta_scope: meta.string.python string.quoted.single.block.python
-            - match: "'''"
-              scope: punctuation.definition.string.end.python
-              set: after-expression
-            - match: ''
-              push: scope:source.regexp.python
-              with_prototype:
-                - match: (?=''')
-                  pop: true
-                - include: escaped-unicode-char
+      push: inside-triple-single-quoted-plain-raw-b-string
+
+  inside-triple-single-quoted-plain-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+
+  triple-single-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
     - match: ([bB]r|r[bB])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - match: ''
-          embed: scope:source.regexp.python
-          escape: (?=''')
+      push: inside-triple-single-quoted-raw-b-string
+
+  inside-triple-single-quoted-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - match: ''
+      embed: scope:source.regexp.python
+      escape: (?=''')
+
+  triple-single-quoted-plain-raw-f-strings:
     # Triple-quoted raw f-string
     - match: ([fF]R|R[fF])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: f-string-content
+      push: inside-triple-single-quoted-plain-raw-f-string
+
+  inside-triple-single-quoted-plain-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - include: f-string-content
+
+  triple-single-quoted-raw-f-strings:
     # Triple-quoted raw f-string, treated as regex
     - match: ([fF]r|r[fF])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: (?=''')
-              pop: true
-            - include: f-string-content-with-regex
-    # Triple-quoted f-string
-    - match: ([fF])(''')
-      captures:
-        1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-block-string
-        - include: escaped-fstring-escape
-        - include: escaped-unicode-char
-        - include: escaped-char
-        - include: f-string-content
-    # Triple-quoted string, unicode or not, will detect SQL
-    - match: ([uU]?)(''')
+      push: inside-triple-single-quoted-raw-f-string
+
+  inside-triple-single-quoted-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-single-quoted-string-pop
+        - include: f-string-content-with-regex
+
+  triple-single-quoted-plain-raw-u-strings:
+    # Triple-quoted capital R raw string, unicode or not, no syntax embedding
+    - match: ([uU]?R)(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.block.python
-        - match: '(?={{sql_indicator}})'
-          set:
-            - meta_scope: meta.string.python
-            - match: "'''"
-              scope: string.quoted.single.block.python punctuation.definition.string.end.python
-              set: after-expression
-            - match: ''
-              push: scope:source.sql
-              with_prototype:
-                - match: (?=''')
-                  pop: true
-                - include: line-continuation-inside-block-string
-                - include: escaped-unicode-char
-                - include: escaped-char
-                - include: constant-placeholder
-        - match: '(?=\S)'
-          set:
-            - meta_scope: meta.string.python string.quoted.single.block.python
-            - match: "'''"
-              scope: punctuation.definition.string.end.python
-              set: after-expression
-            - include: line-continuation-inside-block-string
-            - include: escaped-unicode-char
-            - include: escaped-char
-            - include: constant-placeholder
+      push: inside-triple-single-quoted-plain-raw-u-string
+
+  inside-triple-single-quoted-plain-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+
+  triple-single-quoted-raw-u-strings:
+    # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
+    - match: ([uU]?r)(''')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
+      push: inside-triple-single-quoted-raw-u-string
+
+  inside-triple-single-quoted-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-raw-u-string-syntax
+
+  triple-single-quoted-raw-u-string-syntax:
+    - match: (?={{sql_indicator}})
+      set: inside-triple-single-quoted-sql-raw-u-string
+    - match: (?=\S)
+      set: inside-triple-single-quoted-regexp-raw-u-string
+
+  inside-triple-single-quoted-regexp-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-single-quoted-string-pop
+        - include: escaped-unicode-char
+
+  inside-triple-single-quoted-sql-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: "'''"
+      scope: string.quoted.single.block.python punctuation.definition.string.end.python
+      set: after-expression
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: triple-single-quoted-string-pop
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: constant-placeholder
+
+  triple-single-quoted-b-strings:
     # Triple-quoted string, bytes, no syntax embedding
     - match: ([bB])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.block.python
-        - match: "'''"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-block-string
-        - include: escaped-char
+      push: inside-triple-single-quoted-b-string
+
+  inside-triple-single-quoted-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - include: line-continuation-inside-block-string
+    - include: escaped-char
+    - include: constant-placeholder
+
+  triple-single-quoted-f-strings:
+    # Triple-quoted f-string
+    - match: ([fF])(''')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+      push: inside-triple-single-quoted-f-string
+
+  inside-triple-single-quoted-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - include: line-continuation-inside-block-string
+    - include: escaped-fstring-escape
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: f-string-content
+
+  triple-single-quoted-u-strings:
+    # Triple-quoted string, unicode or not, will detect SQL
+    - match: ([uU]?)(''')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
+      push: inside-triple-single-quoted-u-string
+
+  inside-triple-single-quoted-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - include: line-continuation-inside-block-string
+    - include: triple-single-quoted-u-string-syntax
+
+  triple-single-quoted-u-string-syntax:
+    - match: (?={{sql_indicator}})
+      set: inside-triple-single-quoted-sql-u-string
+    - match: (?=\S)
+      set: inside-single-quoted-plain-u-block-string
+
+  inside-single-quoted-plain-u-block-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-u-string-content
+
+  inside-triple-single-quoted-sql-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: "'''"
+      scope: string.quoted.single.block.python punctuation.definition.string.end.python
+      set: after-expression
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: triple-single-quoted-string-pop
+        - include: triple-single-quoted-u-string-content
+
+  triple-single-quoted-u-string-content:
+    - include: line-continuation-inside-block-string
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: constant-placeholder
+
+  single-quoted-strings:
+    - include: single-quoted-plain-raw-b-strings
+    - include: single-quoted-raw-b-strings
+    - include: single-quoted-plain-raw-f-strings
+    - include: single-quoted-raw-f-strings
+    - include: single-quoted-plain-raw-u-strings
+    - include: single-quoted-raw-u-strings
+    - include: single-quoted-b-strings
+    - include: single-quoted-f-strings
+    - include: single-quoted-u-strings
+
+  single-quoted-string-end:
+    - match: "'"
+      scope: punctuation.definition.string.end.python
+      set: after-expression
+    - include: line-continuation-inside-string
+
+  single-quoted-string-pop:
+    - match: (?='|\n)
+      pop: true
+    - include: line-continuation-inside-string
+
+  single-quoted-plain-raw-b-strings:
+    # Single-line capital R raw string, bytes, no syntax embedding
+    - match: ([bB]R|R[bB])(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+      push: inside-single-quoted-plain-raw-b-string
+
+  inside-single-quoted-plain-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+
+  single-quoted-raw-b-strings:
+    # Single-line raw string, bytes, treated as regex
+    - match: ([bB]r|r[bB])(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+      push: inside-single-quoted-raw-b-string
+
+  inside-single-quoted-raw-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: single-quoted-string-pop
+
+  single-quoted-plain-raw-u-strings:
+    # Single-line capital R raw string, unicode or not, no syntax embedding
+    - match: ([uU]?R)(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+      push: inside-single-quoted-plain-raw-u-string
+
+  inside-single-quoted-plain-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+
+  single-quoted-raw-u-strings:
+    - match: ([uU]?r)(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+      push: inside-single-quoted-raw-u-string
+
+  inside-single-quoted-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - include: single-quoted-raw-u-string-syntax
+
+  single-quoted-raw-u-string-syntax:
+    # Single-line raw string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: inside-single-quoted-sql-raw-u-string
+    # Single-line raw string, unicode or not, treated as regex
+    - match: (?=\S)
+      set: inside-single-quoted-regexp-raw-u-string
+
+  inside-single-quoted-regexp-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: single-quoted-string-pop
+
+  inside-single-quoted-sql-raw-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: "'"
+      scope: string.quoted.single.python punctuation.definition.string.end.python
+      set: after-expression
+    - include: line-continuation-inside-string
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: single-quoted-string-pop
         - include: constant-placeholder
 
-  string-quoted-single:
-    # Single-line capital R raw string, unicode or not, no syntax embedding
-    - match: '([uU]?R)('')'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-    # Single-line capital R raw string, bytes, no syntax embedding
-    - match: '([bB]R|R[bB])('')'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-    # Single-line raw string, unicode or not, starting with a SQL keyword
-    - match: '([uU]?r)('')(?={{sql_indicator}})'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python
-        - match: "'"
-          scope: string.quoted.single.python punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.sql
-          with_prototype:
-            - match: '(?=''|\n)'
-              pop: true
-            - include: line-continuation-inside-string
-            - include: constant-placeholder
-    # Single-line raw string, unicode or not, treated as regex
-    - match: '([uU]?r)('')'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?=''|\n)'
-              pop: true
-            - include: line-continuation-inside-string
-    # Single-line raw string, bytes, treated as regex
-    - match: '([bB]r|r[bB])('')'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?=''|\n)'
-              pop: true
-            - include: line-continuation-inside-string
+  single-quoted-plain-raw-f-strings:
     # Single-line raw f-string
     - match: ([fF]R|R[fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - include: f-string-content
+      push: inside-single-quoted-plain-raw-f-string
+
+  inside-single-quoted-plain-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - include: f-string-content
+
+  single-quoted-raw-f-strings:
     # Single-line raw f-string, treated as regex
     - match: ([fF]r|r[fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: (?='|\n)
-              pop: true
-            - include: line-continuation-inside-string
-            - include: f-string-content-with-regex
+      push: inside-single-quoted-raw-f-string
+
+  inside-single-quoted-raw-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: single-quoted-string-pop
+        - include: f-string-content-with-regex
+
+  single-quoted-b-strings:
+    # Single-line string, bytes
+    - match: ([bB])(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+      push: inside-single-quoted-b-string
+
+  inside-single-quoted-b-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - include: escaped-char
+    - include: constant-placeholder
+
+  single-quoted-f-strings:
     # Single-line f-string
     - match: ([fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-fstring-escape
-        - include: escaped-unicode-char
-        - include: escaped-char
-        - include: line-continuation-inside-string
-        - include: f-string-content
-    # Single-line string, unicode or not, starting with a SQL keyword
-    - match: '([uU]?)('')(?={{sql_indicator}})'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python
-        - match: "'"
-          scope: string.quoted.single.python punctuation.definition.string.end.python
-          set: after-expression
-        - include: line-continuation-inside-string
-        - match: ''
-          push: scope:source.sql
-          with_prototype:
-            - match: '(?=''|\n)'
-              pop: true
-            - include: escaped-unicode-char
-            - include: escaped-char
-            - include: line-continuation-inside-string
-            - include: constant-placeholder
-    # Single-line string, unicode or not
-    - match: '([uU]?)('')'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-unicode-char
-        - include: escaped-char
-        - include: line-continuation-inside-string
-        - include: constant-placeholder
-    # Single-line string, bytes
-    - match: '([bB])('')'
-      captures:
-        1: storage.type.string.python
-        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push:
-        - meta_content_scope: meta.string.python string.quoted.single.python
-        - match: "'"
-          scope: punctuation.definition.string.end.python
-          set: after-expression
-        - include: escaped-char
-        - include: line-continuation-inside-string
-        - include: constant-placeholder
+      push: inside-single-quoted-f-string
 
-  strings:
-    # block versions must be matched first
-    - include: string-quoted-double-block
-    - include: string-quoted-double
-    - include: string-quoted-single-block
-    - include: string-quoted-single
+  inside-single-quoted-f-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - include: escaped-fstring-escape
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: f-string-content
+
+  single-quoted-u-strings:
+    - match: ([uU]?)(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+      push: inside-single-quoted-u-string
+
+  inside-single-quoted-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - include: single-quoted-u-string-syntax
+
+  single-quoted-u-string-syntax:
+    # Single-line string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: inside-single-quoted-sql-u-string
+    # Single-line string, unicode or not
+    - match: (?=\S)
+      set: inside-single-quoted-plain-u-string
+
+  inside-single-quoted-plain-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
+    - include: single-quoted-u-string-content
+
+  inside-single-quoted-sql-u-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - match: "'"
+      scope: string.quoted.single.python punctuation.definition.string.end.python
+      set: after-expression
+    - include: line-continuation-inside-string
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: single-quoted-string-pop
+        - include: single-quoted-u-string-content
+
+  single-quoted-u-string-content:
+    - include: escaped-unicode-char
+    - include: escaped-char
+    - include: constant-placeholder
 
   inline-for:
     - match: \b(?:(async)\s+)?(for)\b
