@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 from .common import get_common_values
 
 
