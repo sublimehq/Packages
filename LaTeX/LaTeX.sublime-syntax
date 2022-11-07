@@ -122,7 +122,7 @@ contexts:
 
   macros:
     - include: scope:text.tex#macros
-    - match: (\\)(?:new|renew|provide)command\*?(?=[^a-zA-Z@])
+    - match: (\\)(?:new|renew|provide)command(?:\*|(?![A-Za-z@]))
       scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
