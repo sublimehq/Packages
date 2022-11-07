@@ -91,7 +91,7 @@ contexts:
       scope: comment.line.percentage.tex
 
   controls:
-    - match: ((\\)(else|fi|ftrue|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|undefined|vbox|vmode|void|x)?))\b
+    - match: ((\\)(else|expandafter|fi|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?))\b
       captures:
         1: keyword.control.tex
         2: punctuation.definition.backslash.tex
@@ -148,12 +148,13 @@ contexts:
         - include: main
 
   macros:
-    - match: (\\def)\s*((\\)[A-Za-z@]+)\s*[^\{]*?\s*(\{)
+    - match: ((\\)def)\s*((\\)[A-Za-z@]+)\s*[^\{]*?\s*(\{)
       captures:
         1: support.function.definition.tex storage.modifier.definition.tex
-        2: support.function.general.tex entity.name.definition.tex
-        3: punctuation.definition.backslash.tex
-        4: punctuation.definition.group.brace.begin.tex
+        2: punctuation.definition.backslash.tex
+        3: support.function.general.tex entity.name.definition.tex
+        4: punctuation.definition.backslash.tex
+        5: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.definition.tex
         - match: \}
