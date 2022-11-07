@@ -382,7 +382,7 @@ def get_tag_attributes():
     # Assume that global attributes are common to all HTML elements
     global_attributes = (
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir',
-        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
+        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate',
 
         # event handler attributes
         'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
