@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import difflib
-import os
-import time
-
 import sublime
 import sublime_plugin
 
+import difflib
+import os
+import time
 import typing
 
 
