@@ -1968,226 +1968,6 @@ contexts:
       scope: punctuation.definition.comment.end.python
       pop: true
 
-###[ STRING CONTENTS ]########################################################
-
-  escaped-char:
-    - match: '(\\x\h{2})|(\\[0-7]{1,3})|(\\[\\"''abfnrtv])'
-      captures:
-        1: constant.character.escape.hex.python
-        2: constant.character.escape.octal.python
-        3: constant.character.escape.python
-    - match: \\.  # deprecated in 3.6 and will eventually be a syntax error
-      scope: invalid.deprecated.character.escape.python
-
-  escaped-unicode-char:
-    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[-a-zA-Z ]+\})'
-      captures:
-        1: constant.character.escape.unicode.16-bit-hex.python
-        2: constant.character.escape.unicode.32-bit-hex.python
-        3: constant.character.escape.unicode.name.python
-
-  escaped-fstring-escape:
-    # special-case the '\{{' sequence because it has higher priority than the deprecated '\{'
-    - match: (\\)(\{\{|\}\})
-      scope: constant.character.escape.backslash.regexp
-      captures:
-        1: invalid.deprecated.character.escape.python
-        2: constant.character.escape.python
-
-  line-continuation-inside-string:
-    - match: (\\)$\n?
-      captures:
-        1: punctuation.separator.continuation.line.python
-    - match: \n
-      scope: invalid.illegal.unclosed-string.python
-      set: after-expression
-
-  line-continuation-inside-block-string:
-    - match: \\$
-      scope: punctuation.separator.continuation.line.python
-
-  constant-placeholder:
-    - match: |- # printf style
-        (?x)
-        %
-          ( \( ({{identifier}}) \) )? # mapping key
-          \#?            # alternate form
-          0?             # pad with zeros
-          \-?            # left-adjust
-          \ ?            # implicit sign
-          [+-]?          # sign
-          (\d*|\*)       # width
-          (\. (\d*|\*))? # precision
-          [hlL]?         # length modifier (but ignored)
-          [acdeEfFgGiorsuxX%]
-      scope: constant.other.placeholder.python
-      captures:
-        2: variable.other.placeholder.python
-    - match: '{{strftime_spec}}'
-      scope: constant.other.placeholder.python
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.python
-    - include: formatting-syntax
-
-  formatting-syntax:
-    # https://docs.python.org/3.6/library/string.html#formatstrings
-    # Technically allows almost every character for the key,
-    # but those are rarely used if ever.
-    - match: |- # simple form
-        (?x)
-        (\{)
-          (?: [\w.\[\]]+)?           # field_name
-          (   ! [ars])?              # conversion
-          (?: (:) ({{format_spec}}|  # format_spec OR
-                   [^}%]*%.[^}]*)    # any format-like string
-          )?
-        (\})
-      scope: constant.other.placeholder.python
-      captures:
-        1: punctuation.definition.placeholder.begin.python
-        2: storage.modifier.conversion.python
-        3: punctuation.separator.format-spec.python
-        4: meta.format-spec.python constant.other.format-spec.python
-        5: punctuation.definition.placeholder.end.python
-    - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
-      branch_point: formatting-syntax-branch
-      branch:
-        - formatting-syntax-complex
-        - formatting-syntax-fallback
-
-  formatting-syntax-fallback:
-    - match: \{
-      scope: meta.debug.formatting-syntax-fallback.python
-      pop: true
-
-  formatting-syntax-complex:
-    - match: \{
-      scope: punctuation.definition.placeholder.begin.python
-      set:
-        - meta_scope: constant.other.placeholder.python
-        - match: \}
-          scope: punctuation.definition.placeholder.end.python
-          pop: true
-        # TODO could match numeric indices or everything else as a key
-        # and also [] indexing
-        - match: '![ars]'
-          scope: storage.modifier.conversion.python
-        - match: ':'
-          scope: punctuation.separator.format-spec.python
-          push:
-            - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
-            - match: (?=\})
-              pop: true
-            - match: (?=\{)
-              push: formatting-syntax-complex
-        - match: '[{"''\n]'
-          fail: formatting-syntax-branch
-
-  f-string-content:
-    # https://www.python.org/dev/peps/pep-0498/
-    # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
-    - match: \{\{|\}\}
-      scope: constant.character.escape.python
-    - match: \{\s*\}
-      scope: invalid.illegal.empty-expression.python
-    - include: f-string-replacements
-    - match: \}
-      scope: invalid.illegal.stray-brace.python
-
-  f-string-content-with-regex:
-    # Same as f-string-content, but will reset the entire scope stack
-    # and has an additional match.
-    - match: \\(\{\{|\}\})
-      scope: constant.character.escape.backslash.regexp
-      captures:
-        1: constant.character.escape.python
-    - match: \{\{|\}\}
-      scope: constant.character.escape.python
-    - match: \{\s*\}
-      scope: invalid.illegal.empty-expression.python
-    - include: f-string-replacements-reset
-    - match: \}
-      scope: invalid.illegal.stray-brace.python
-
-  f-string-replacements:
-    - match: \{
-      scope: punctuation.section.interpolation.begin.python
-      push:
-        - f-string-replacement-meta
-        - f-string-replacement-modifier
-        - f-string-replacement-expression
-
-  f-string-replacement-meta:
-    - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_scope: meta.interpolation.python
-    - match: ''
-      pop: 1
-
-  f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
-    - match: (?=\s*(?:=\s*)?(![^=]|:|\}))
-      pop: 1
-    - match: \\
-      scope: invalid.illegal.backslash-in-fstring.python
-    - include: inline-for
-    - include: expression-in-a-group
-
-  f-string-replacement-modifier:
-    - include: f-string-replacement-end
-    - include: f-string-replacement-common
-    - match: =
-      scope: storage.modifier.debug.python
-
-  f-string-replacements-reset:
-    - match: \{
-      scope: punctuation.section.interpolation.begin.python
-      push:
-        - f-string-replacement-reset-meta
-        - f-string-replacement-reset-modifier
-        - f-string-replacement-reset-expression
-
-  f-string-replacement-reset-meta:
-    # Same as f-string-replacement, but with clear_scopes: true
-    - clear_scopes: true
-    - meta_include_prototype: false
-    - meta_scope: source.python meta.string.interpolated.python meta.interpolation.python
-    - match: ''
-      pop: 1
-
-  f-string-replacement-reset-expression:
-    - meta_content_scope: source.python.embedded
-    - match: (?=![^=]|:|\})
-      pop: 1
-    - match: \\
-      scope: invalid.illegal.backslash-in-fstring.python
-    - include: inline-for
-    - include: expression-in-a-group
-
-  f-string-replacement-reset-modifier:
-    - include: f-string-replacement-end
-    - include: f-string-replacement-common
-
-  f-string-replacement-common:
-    - match: '![ars]'
-      scope: storage.modifier.conversion.python
-    - match: ':'
-      scope: meta.format-spec.python constant.other.format-spec.python punctuation.separator.format-spec.python
-      set: f-string-format-spec
-
-  f-string-format-spec:
-    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
-    # Because replacements can also be used *within* the format-spec,
-    # basically any character is valid and matching {{format_spec}} is useless.
-    # - match: '{{format_spec}}'
-    - include: f-string-replacement-end
-    - include: f-string-content
-
-  f-string-replacement-end:
-    - match: \}
-      scope: punctuation.section.interpolation.end.python
-      pop: 2
-
 ###[ STRINGS ]################################################################
 
   strings:
@@ -3073,6 +2853,228 @@ contexts:
     - include: escaped-unicode-char
     - include: escaped-char
     - include: constant-placeholder
+
+###[ STRING CONTENTS ]########################################################
+
+  escaped-char:
+    - match: '(\\x\h{2})|(\\[0-7]{1,3})|(\\[\\"''abfnrtv])'
+      captures:
+        1: constant.character.escape.hex.python
+        2: constant.character.escape.octal.python
+        3: constant.character.escape.python
+    - match: \\.  # deprecated in 3.6 and will eventually be a syntax error
+      scope: invalid.deprecated.character.escape.python
+
+  escaped-unicode-char:
+    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[-a-zA-Z ]+\})'
+      captures:
+        1: constant.character.escape.unicode.16-bit-hex.python
+        2: constant.character.escape.unicode.32-bit-hex.python
+        3: constant.character.escape.unicode.name.python
+
+  escaped-fstring-escape:
+    # special-case the '\{{' sequence because it has higher priority than the deprecated '\{'
+    - match: (\\)(\{\{|\}\})
+      scope: constant.character.escape.backslash.regexp
+      captures:
+        1: invalid.deprecated.character.escape.python
+        2: constant.character.escape.python
+
+  line-continuation-inside-string:
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.line.python
+    - match: \n
+      scope: invalid.illegal.unclosed-string.python
+      set: after-expression
+
+  line-continuation-inside-block-string:
+    - match: \\$
+      scope: punctuation.separator.continuation.line.python
+
+  constant-placeholder:
+    - match: |- # printf style
+        (?x)
+        %
+          ( \( ({{identifier}}) \) )? # mapping key
+          \#?            # alternate form
+          0?             # pad with zeros
+          \-?            # left-adjust
+          \ ?            # implicit sign
+          [+-]?          # sign
+          (\d*|\*)       # width
+          (\. (\d*|\*))? # precision
+          [hlL]?         # length modifier (but ignored)
+          [acdeEfFgGiorsuxX%]
+      scope: constant.other.placeholder.python
+      captures:
+        2: variable.other.placeholder.python
+    - match: '{{strftime_spec}}'
+      scope: constant.other.placeholder.python
+    - match: '\{\{|\}\}'
+      scope: constant.character.escape.python
+    - include: formatting-syntax
+
+  formatting-syntax:
+    # https://docs.python.org/3.6/library/string.html#formatstrings
+    # Technically allows almost every character for the key,
+    # but those are rarely used if ever.
+    - match: |- # simple form
+        (?x)
+        (\{)
+          (?: [\w.\[\]]+)?           # field_name
+          (   ! [ars])?              # conversion
+          (?: (:) ({{format_spec}}|  # format_spec OR
+                   [^}%]*%.[^}]*)    # any format-like string
+          )?
+        (\})
+      scope: constant.other.placeholder.python
+      captures:
+        1: punctuation.definition.placeholder.begin.python
+        2: storage.modifier.conversion.python
+        3: punctuation.separator.format-spec.python
+        4: meta.format-spec.python constant.other.format-spec.python
+        5: punctuation.definition.placeholder.end.python
+    - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
+      branch_point: formatting-syntax-branch
+      branch:
+        - formatting-syntax-complex
+        - formatting-syntax-fallback
+
+  formatting-syntax-fallback:
+    - match: \{
+      scope: meta.debug.formatting-syntax-fallback.python
+      pop: true
+
+  formatting-syntax-complex:
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      set:
+        - meta_scope: constant.other.placeholder.python
+        - match: \}
+          scope: punctuation.definition.placeholder.end.python
+          pop: true
+        # TODO could match numeric indices or everything else as a key
+        # and also [] indexing
+        - match: '![ars]'
+          scope: storage.modifier.conversion.python
+        - match: ':'
+          scope: punctuation.separator.format-spec.python
+          push:
+            - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+            - match: (?=\})
+              pop: true
+            - match: (?=\{)
+              push: formatting-syntax-complex
+        - match: '[{"''\n]'
+          fail: formatting-syntax-branch
+
+  f-string-content:
+    # https://www.python.org/dev/peps/pep-0498/
+    # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
+    - match: \{\{|\}\}
+      scope: constant.character.escape.python
+    - match: \{\s*\}
+      scope: invalid.illegal.empty-expression.python
+    - include: f-string-replacements
+    - match: \}
+      scope: invalid.illegal.stray-brace.python
+
+  f-string-content-with-regex:
+    # Same as f-string-content, but will reset the entire scope stack
+    # and has an additional match.
+    - match: \\(\{\{|\}\})
+      scope: constant.character.escape.backslash.regexp
+      captures:
+        1: constant.character.escape.python
+    - match: \{\{|\}\}
+      scope: constant.character.escape.python
+    - match: \{\s*\}
+      scope: invalid.illegal.empty-expression.python
+    - include: f-string-replacements-reset
+    - match: \}
+      scope: invalid.illegal.stray-brace.python
+
+  f-string-replacements:
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-meta
+        - f-string-replacement-modifier
+        - f-string-replacement-expression
+
+  f-string-replacement-meta:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.python
+    - match: ''
+      pop: 1
+
+  f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - match: (?=\s*(?:=\s*)?(![^=]|:|\}))
+      pop: 1
+    - match: \\
+      scope: invalid.illegal.backslash-in-fstring.python
+    - include: inline-for
+    - include: expression-in-a-group
+
+  f-string-replacement-modifier:
+    - include: f-string-replacement-end
+    - include: f-string-replacement-common
+    - match: =
+      scope: storage.modifier.debug.python
+
+  f-string-replacements-reset:
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-reset-meta
+        - f-string-replacement-reset-modifier
+        - f-string-replacement-reset-expression
+
+  f-string-replacement-reset-meta:
+    # Same as f-string-replacement, but with clear_scopes: true
+    - clear_scopes: true
+    - meta_include_prototype: false
+    - meta_scope: source.python meta.string.interpolated.python meta.interpolation.python
+    - match: ''
+      pop: 1
+
+  f-string-replacement-reset-expression:
+    - meta_content_scope: source.python.embedded
+    - match: (?=![^=]|:|\})
+      pop: 1
+    - match: \\
+      scope: invalid.illegal.backslash-in-fstring.python
+    - include: inline-for
+    - include: expression-in-a-group
+
+  f-string-replacement-reset-modifier:
+    - include: f-string-replacement-end
+    - include: f-string-replacement-common
+
+  f-string-replacement-common:
+    - match: '![ars]'
+      scope: storage.modifier.conversion.python
+    - match: ':'
+      scope: meta.format-spec.python constant.other.format-spec.python punctuation.separator.format-spec.python
+      set: f-string-format-spec
+
+  f-string-format-spec:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    # Because replacements can also be used *within* the format-spec,
+    # basically any character is valid and matching {{format_spec}} is useless.
+    # - match: '{{format_spec}}'
+    - include: f-string-replacement-end
+    - include: f-string-content
+
+  f-string-replacement-end:
+    - match: \}
+      scope: punctuation.section.interpolation.end.python
+      pop: 2
+
+###[ INLINE EXPRESSIONS ]#####################################################
 
   inline-for:
     - match: \b(?:(async)\s+)?(for)\b
