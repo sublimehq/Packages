@@ -122,7 +122,7 @@ contexts:
 
   macros:
     - include: scope:text.tex#macros
-    - match: (\\)(?:new|renew|provide)command\*?
+    - match: (\\)(?:new|renew|provide)command\*?(?=[^a-zA-Z@])
       scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
@@ -131,7 +131,7 @@ contexts:
         - newcommand-optarg
         - newcommand-argspec
         - newcommand-commandname
-    - match: (\\)DeclareMathOperator\*?
+    - match: (\\)DeclareMathOperator\*?(?=[^a-zA-Z@])
       scope: support.function.declare-math-operator.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
