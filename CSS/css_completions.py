@@ -74,7 +74,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         view: sublime.View,
         prefix: str,
         locations: typing.List[sublime_types.Point]
-    ) -> typing.Union[None, typing.List[sublime_types.CompletionValue], typing.Tuple[typing.List[sublime_types.CompletionValue], sublime.AutoCompleteFlags], sublime.CompletionList]:
+    ) -> typing.Union[None, sublime.CompletionList]:
 
         settings = sublime.load_settings('CSS.sublime-settings')
         if settings.get('disable_default_completions'):
@@ -102,7 +102,10 @@ class CSSCompletions(sublime_plugin.EventListener):
             return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
         return None
 
-    def complete_property_name(self, view: sublime.View, prefix: str, pt: sublime_types.Point):
+    def complete_property_name(
+        self, view: sublime.View, prefix: str, pt: sublime_types.Point
+    ) -> typing.List[sublime.CompletionItem]:
+
         text: str = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
@@ -126,18 +129,19 @@ class CSSCompletions(sublime_plugin.EventListener):
             if not value and not term and not match_selector(view, pt, "meta.group"):
                 suffix += ";"
 
-        return (
+        return [
             sublime.CompletionItem(
                 trigger=prop,
                 completion=prop + suffix,
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                 kind=KIND_CSS_PROPERTY
             ) for prop in self.props
-        )
+        ]
 
     def complete_property_value(
         self, view: sublime.View, prefix: str, pt: sublime_types.Point
     ) -> typing.List[sublime.CompletionItem]:
+
         completions = [
             sublime.CompletionItem(
                 trigger="!important",
@@ -184,8 +188,9 @@ class CSSCompletions(sublime_plugin.EventListener):
         prefix: str,
         pt: sublime_types.Point
     ) -> typing.Optional[typing.List[sublime.CompletionItem]]:
-        func_name: str = ""
-        nest_level: int = 1
+
+        func_name = ""
+        nest_level = 1
         # Look for the beginning of the current function call's arguments list,
         # while ignoring any nested function call or group.
         for i in range(pt - 1, pt - 32 * 1024, -1):
