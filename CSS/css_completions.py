@@ -162,11 +162,11 @@ class CSSCompletions(sublime_plugin.EventListener):
                 for value in values:
                     if isinstance(value, list):
                         desc, snippet = value
-                        kind: sublime_types.Kind = KIND_CSS_FUNCTION
+                        kind = KIND_CSS_FUNCTION
                     else:
                         desc = value
                         snippet = value
-                        kind: sublime_types.Kind = KIND_CSS_CONSTANT
+                        kind = KIND_CSS_CONSTANT
 
                     completions.append(sublime.CompletionItem(
                         trigger=desc,
@@ -189,7 +189,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         # Look for the beginning of the current function call's arguments list,
         # while ignoring any nested function call or group.
         for i in range(pt - 1, pt - 32 * 1024, -1):
-            ch: str = view.substr(i)
+            ch = view.substr(i)
             # end of nested arguments list or group before caret
             if ch == ")" and not view.match_selector(i, "string, comment"):
                 nest_level += 1
@@ -200,7 +200,7 @@ class CSSCompletions(sublime_plugin.EventListener):
                 # Stop, if nesting level drops below start value as this indicates the
                 # beginning of the arguments list the function name is of interest for.
                 if nest_level <= 0:
-                    func_name: str = view.substr(view.expand_by_class(
+                    func_name = view.substr(view.expand_by_class(
                         i - 1, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END))
                     break
 
