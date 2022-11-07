@@ -9,9 +9,7 @@ import time
 import typing
 
 
-def splitlines_keep_ends(
-    text: str
-) -> typing.List[str]:
+def splitlines_keep_ends(text: str) -> typing.List[str]:
     lines: typing.List[str] = text.split('\n')
 
     # Need to insert back the newline characters between lines, difflib
@@ -23,9 +21,7 @@ def splitlines_keep_ends(
     return lines
 
 
-def read_file_lines(
-    fname: str
-) -> typing.List[str]:
+def read_file_lines(fname: str) -> typing.List[str]:
     with open(fname, mode='rt', encoding='utf-8') as f:
         lines: typing.List[str] = splitlines_keep_ends(f.read())
 
@@ -60,14 +56,7 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
         adate: str = time.ctime(os.stat(files[1]).st_mtime)
         bdate: str = time.ctime(os.stat(files[0]).st_mtime)
 
-        diff = difflib.unified_diff(
-            a,
-            b,
-            files[1],
-            files[0],
-            adate,
-            bdate
-        )
+        diff = difflib.unified_diff(a, b, files[1], files[0], adate, bdate)
         show_diff_output(
             diff,
             None,
@@ -112,14 +101,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
         name: str = f'Unsaved Changes: {os.path.basename(fname)}'
-        show_diff_output(
-            diff,
-            v,
-            w,
-            name,
-            'unsaved_changes',
-            'diff_changes_to_buffer'
-        )
+        show_diff_output(diff, v, w, name, 'unsaved_changes', 'diff_changes_to_buffer')
 
     def is_enabled(self):
         return self.view.is_dirty() and self.view.file_name() is not None
@@ -127,8 +109,8 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
 def show_diff_output(
     diff,
-    v: typing.Union[None, sublime.View],
-    w: sublime.Window,
+    view: typing.Union[None, sublime.View],
+    window: sublime.Window,
     name: str,
     panel_name: str,
     buffer_setting_name: str
@@ -139,18 +121,18 @@ def show_diff_output(
         sublime.status_message("No changes")
         return
 
-    use_buffer: bool = not v or v.settings().get(buffer_setting_name)
+    use_buffer: bool = not view or view.settings().get(buffer_setting_name)
 
     if use_buffer:
-        new_view: sublime.View = w.new_file()
+        new_view: sublime.View = window.new_file()
         new_view.set_name(name)
         new_view.set_scratch(True)
     else:
-        new_view = w.create_output_panel(panel_name)
-        if v:
+        new_view = window.create_output_panel(panel_name)
+        if view:
             new_view.settings().set(
                 'word_wrap',
-                v.settings().get('word_wrap')
+                view.settings().get('word_wrap')
             )
 
     new_view.assign_syntax('Packages/Diff/Diff.sublime-syntax')
@@ -160,30 +142,30 @@ def show_diff_output(
     )
 
     if not use_buffer:
-        w.run_command('show_panel', {'panel': f'output.{panel_name}'})
+        window.run_command('show_panel', {'panel': f'output.{panel_name}'})
 
 
 def get_view_from_tab_context(
     active_view: sublime.View,
     **kwargs
 ):
-    v: sublime.View = active_view
+    view: sublime.View = active_view
     if 'group' in kwargs and 'index' in kwargs:
-        w: typing.Optional[sublime.Window] = v.window()
-        if w is not None:
-            v = w.views_in_group(kwargs['group'])[kwargs['index']]
-    return v
+        window: typing.Optional[sublime.Window] = view.window()
+        if window is not None:
+            view = window.views_in_group(kwargs['group'])[kwargs['index']]
+    return view
 
 
 def get_views_from_tab_context(
     active_view: sublime.View,
     **kwargs
 ) -> typing.Union[None, typing.List[sublime.View]]:
-    w: typing.Optional[sublime.Window] = active_view.window()
-    if w is None:
+    window: typing.Optional[sublime.Window] = active_view.window()
+    if window is None:
         return None
-    selected_views: typing.List[sublime.View] = get_selected_views(w)
-    if w is not None:
+    selected_views: typing.List[sublime.View] = get_selected_views(window)
+    if window is not None:
         if 'group' in kwargs and 'index' in kwargs:
             tab_context_view = get_view_from_tab_context(active_view, **kwargs)
             # if the tab which was right clicked on is selected, exclude it from the
@@ -240,13 +222,13 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
         except ValueError:
             common_path_length = 0
         view_names = list(map(lambda name: name[common_path_length:], view_names))
-        v: sublime.View = views[0]
-        w: typing.Optional[sublime.Window] = v.window()
-        if w is not None:
+        view: sublime.View = views[0]
+        window: typing.Optional[sublime.Window] = view.window()
+        if window is not None:
             show_diff_output(
                 diff,
-                v,
-                w,
+                view,
+                window,
                 f'{view_names[0]} -> {view_names[1]}',
                 'diff_views',
                 'diff_tabs_to_buffer'
@@ -263,9 +245,9 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             return len(views) == 2
 
     def description(self, **kwargs) -> str:
-        w: typing.Optional[sublime.Window] = self.view.window()
-        if w is not None:
-            selected_views = list(get_selected_views(w))
+        window: typing.Optional[sublime.Window] = self.view.window()
+        if window is not None:
+            selected_views = list(get_selected_views(window))
             if len(selected_views) == 2:
                 return 'Diff Selected Tabs...'
 
