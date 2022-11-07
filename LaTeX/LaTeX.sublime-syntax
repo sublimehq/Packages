@@ -131,7 +131,7 @@ contexts:
         - newcommand-optarg
         - newcommand-argspec
         - newcommand-commandname
-    - match: (\\)DeclareMathOperator\*?(?=[^a-zA-Z@])
+    - match: (\\)DeclareMathOperator(?:\*|(?![A-Za-z@]))
       scope: support.function.declare-math-operator.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
