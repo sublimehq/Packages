@@ -74,13 +74,13 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
     def run(self, edit: sublime.Edit):
 
-        v: sublime.View = self.view
-        w: typing.Optional[sublime.Window] = v.window()
-        if not w:
+        view: sublime.View = self.view
+        window: typing.Optional[sublime.Window] = view.window()
+        if not window:
             sublime.status_message('Unable to diff with missing window')
             return
 
-        fname: typing.Optional[str] = v.file_name()
+        fname: typing.Optional[str] = view.file_name()
 
         if not fname or not os.path.exists(fname):
             sublime.status_message("Unable to diff changes because the file does not exist")
@@ -92,7 +92,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        b: typing.List[str] = get_lines_for_view(v)
+        b: typing.List[str] = get_lines_for_view(view)
 
         add_no_eol_warning_if_applicable(b)
 
@@ -101,7 +101,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
         name: str = f'Unsaved Changes: {os.path.basename(fname)}'
-        show_diff_output(diff, v, w, name, 'unsaved_changes', 'diff_changes_to_buffer')
+        show_diff_output(diff, view, window, name, 'unsaved_changes', 'diff_changes_to_buffer')
 
     def is_enabled(self):
         return self.view.is_dirty() and self.view.file_name() is not None
