@@ -1,7 +1,7 @@
 from __future__ import annotation
 
 import sublime
-import sublime_plugi
+import sublime_plugin
 
 import re
 import timeit
