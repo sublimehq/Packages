@@ -87,12 +87,12 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
     def run(self, edit: sublime.Edit):
 
         v: sublime.View = self.view
-        w: typing.Union[None, sublime.Window] = v.window()
+        w: typing.Optional[sublime.Window] = v.window()
         if not w:
             sublime.status_message('Unable to diff with missing window')
             return
 
-        fname: typing.Union[None, str] = v.file_name()
+        fname: typing.Optional[str] = v.file_name()
 
         if not fname or not os.path.exists(fname):
             sublime.status_message("Unable to diff changes because the file does not exist")
@@ -128,7 +128,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
 def show_diff_output(
     diff,
-    v: typing.Union[None, sublime.View],
+    v: typing.Optional[sublime.View],
     w: sublime.Window,
     name: str,
     panel_name: str,
@@ -170,7 +170,7 @@ def get_view_from_tab_context(
 ):
     v: sublime.View = active_view
     if 'group' in kwargs and 'index' in kwargs:
-        w: typing.Union[None, sublime.Window] = v.window()
+        w: typing.Optional[sublime.Window] = v.window()
         if w is not None:
             v = w.views_in_group(kwargs['group'])[kwargs['index']]
     return v
@@ -180,7 +180,7 @@ def get_views_from_tab_context(
     active_view: sublime.View,
     **kwargs
 ) -> typing.Union[None, typing.List[sublime.View]]:
-    w: typing.Union[None, sublime.Window] = active_view.window()
+    w: typing.Optional[sublime.Window] = active_view.window()
     if w is None:
         return None
     selected_views: typing.List[sublime.View] = get_selected_views(w)
@@ -211,7 +211,7 @@ def get_lines_for_view(view: sublime.View):
 class DiffViewsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit: sublime.Edit, **kwargs):
-        views: typing.Union[None, typing.List[sublime.View]] = get_views_from_tab_context(self.view, **kwargs)
+        views: typing.Optional[typing.List[sublime.View]] = get_views_from_tab_context(self.view, **kwargs)
         if views is None or len(views) != 2:
             return
 
@@ -242,7 +242,7 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             common_path_length = 0
         view_names = list(map(lambda name: name[common_path_length:], view_names))
         v: sublime.View = views[0]
-        w: typing.Union[None, sublime.Window] = v.window()
+        w: typing.Optional[sublime.Window] = v.window()
         if w is not None:
             show_diff_output(
                 diff,
@@ -264,7 +264,7 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             return len(views) == 2
 
     def description(self, **kwargs) -> str:
-        w: typing.Union[None, sublime.Window] = self.view.window()
+        w: typing.Optional[sublime.Window] = self.view.window()
         if w is not None:
             selected_views = list(get_selected_views(w))
             if len(selected_views) == 2:
