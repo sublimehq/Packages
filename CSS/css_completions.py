@@ -16,43 +16,36 @@ if typing.TYPE_CHECKING:
 
 __all__ = ['CSSCompletions']
 
-KIND_CSS_PROPERTY: sublime_types.Kind = (sublime.KIND_ID_KEYWORD, "p", "property")
-KIND_CSS_FUNCTION: sublime_types.Kind = (sublime.KIND_ID_FUNCTION, "f", "function")
-KIND_CSS_CONSTANT: sublime_types.Kind = (sublime.KIND_ID_VARIABLE, "c", "constant")
+KIND_CSS_PROPERTY = (sublime.KIND_ID_KEYWORD, "p", "property")
+KIND_CSS_FUNCTION = (sublime.KIND_ID_FUNCTION, "f", "function")
+KIND_CSS_CONSTANT = (sublime.KIND_ID_VARIABLE, "c", "constant")
 
-ENABLE_TIMING: bool = False
+ENABLE_TIMING = False
 
 
 def timing(func):
     @wraps(func)
     def wrap(*args, **kw):
         if ENABLE_TIMING:
-            ts: float = timeit.default_timer()
+            ts = timeit.default_timer()
         result = func(*args, **kw)
         if ENABLE_TIMING:
-            te: float = timeit.default_timer()
+            te = timeit.default_timer()
             print(f"{func.__name__}({args}, {kw}) took: {1000.0 * (te - ts):2.3f} ms")
         return result
     return wrap
 
 
-def match_selector(
-    view: sublime.View,
-    pt: sublime_types.Point,
-    scope: str
-) -> bool:
+def match_selector(view: sublime.View, pt: sublime_types.Point, scope: str) -> bool:
     # This will catch scenarios like:
     # - .foo {font-style: |}
     # - <style type="text/css">.foo { font-weight: b|</style>
     return any(view.match_selector(p, scope) for p in (pt, pt - 1))
 
 
-def next_none_whitespace(
-    view: sublime.View,
-    pt: sublime_types.Point
-) -> typing.Union[str, None]:
+def next_none_whitespace(view: sublime.View, pt: sublime_types.Point) -> typing.Union[str, None]:
     for pt in range(pt, view.size()):
-        ch: str = view.substr(pt)
+        ch = view.substr(pt)
         if ch not in ' \t':
             return ch
 
@@ -83,15 +76,15 @@ class CSSCompletions(sublime_plugin.EventListener):
         locations: typing.List[sublime_types.Point]
     ) -> typing.Union[None, typing.List[sublime_types.CompletionValue], typing.Tuple[typing.List[sublime_types.CompletionValue], sublime.AutoCompleteFlags], sublime.CompletionList]:
 
-        settings: sublime.Settings = sublime.load_settings('CSS.sublime-settings')
+        settings = sublime.load_settings('CSS.sublime-settings')
         if settings.get('disable_default_completions'):
             return None
 
-        selector: str = settings.get('default_completions_selector', '')
+        selector = settings.get('default_completions_selector', '')
         if isinstance(selector, list):
             selector = ''.join(selector)
 
-        pt: sublime_types.Point = locations[0]
+        pt = locations[0]
         if not match_selector(view, pt, selector):
             return None
 
@@ -109,12 +102,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
         return None
 
-    def complete_property_name(
-        self,
-        view: sublime.View,
-        prefix: str,
-        pt: sublime_types.Point
-    ):
+    def complete_property_name(self, view: sublime.View, prefix: str, pt: sublime_types.Point):
         text: str = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
@@ -126,7 +114,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             term = ""
 
         # don't append anything if next character is a colon
-        suffix: str = ""
+        suffix = ""
         if not colon:
             # add space after colon if smart typing is enabled
             if not space and view.settings().get("auto_complete_trailing_spaces"):
@@ -148,11 +136,8 @@ class CSSCompletions(sublime_plugin.EventListener):
         )
 
     def complete_property_value(
-        self,
-        view: sublime.View,
-        prefix: str,
-        pt: sublime_types.Point
-    ):
+        self, view: sublime.View, prefix: str, pt: sublime_types.Point
+    ) -> typing.List[sublime.CompletionItem]:
         completions = [
             sublime.CompletionItem(
                 trigger="!important",
@@ -161,18 +146,18 @@ class CSSCompletions(sublime_plugin.EventListener):
                 details="override any other declaration"
             )
         ]
-        text: str = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
+        text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
         matches = self.re_name.search(text)
         if matches:
             prop = matches.group(1)
             values = self.props.get(prop)
             if values:
-                details: str = f"<code>{prop}</code> property-value"
+                details = f"<code>{prop}</code> property-value"
 
                 if match_selector(view, pt, "meta.group") or next_none_whitespace(view, pt) == ";":
-                    suffix: str = ""
+                    suffix = ""
                 else:
-                    suffix: str = "$0;"
+                    suffix = "$0;"
 
                 for value in values:
                     if isinstance(value, list):
@@ -198,7 +183,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         view: sublime.View,
         prefix: str,
         pt: sublime_types.Point
-    ) -> typing.Union[typing.List[sublime.CompletionItem], None]:
+    ) -> typing.Optional[typing.List[sublime.CompletionItem]]:
         func_name: str = ""
         nest_level: int = 1
         # Look for the beginning of the current function call's arguments list,
