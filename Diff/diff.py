@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import sublime
-import sublime_plugin
-
 import difflib
 import os
 import time
 import typing
+
+import sublime
+import sublime_plugin
 
 
 def splitlines_keep_ends(text: str) -> typing.List[str]:
