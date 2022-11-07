@@ -1,0 +1,113 @@
+% SYNTAX TEST "Packages/LaTeX/TeX.sublime-syntax"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Macro definitions - \def, \gdef, \edef, \xdef
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Check the main scopes
+  \def\macro{replacement}
+% ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+% Check puncutation scopes
+  \def\macro{replacement}
+% ^ punctuation.definition.backslash.tex
+%     ^ punctuation.definition.backslash.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%                       ^ punctuation.definition.group.brace.end.tex
+
+
+% examples taken from https://en.wikibooks.org/wiki/TeX/def
+
+% With spaces and parameter specification
+ \def \foo [#1]#2{The first argument is ``#1'', the second one is ``#2''}
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex
+%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
+%         ^^^^^^^ meta.function.parameters.tex -meta.function.tex
+%           ^^ variable.parameter.tex
+%              ^^ variable.parameter.tex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+% With line continuation
+ \def \foo [#1]#2%
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^meta.function.tex
+%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
+%         ^^^^^^^ meta.function.parameters.tex
+%                ^^ comment.line.percentage.tex
+  {The first argument is ``#1''.
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+  The second one is ``#2''}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+% With nested braces
+ \def \author {William {\sc Smith}}
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex
+%     ^^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^ meta.function.parameters.tex
+%             ^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+
+% gdef as a global variation of def
+ \gdef\macro{replacement}
+%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+% edef as an immediately expanded version of def. Note that here, 
+% argument specifications would not be allowed by TeX.
+ \edef\macro{replacement}
+%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+
+
+% And now, the really weird cases
+%  escaped characters in the argument specification
+%   hash
+ \def\macro\#1#1{replacement}
+%          ^^^^^ meta.function.parameters.tex
+%          ^^ constant.character.escape.tex
+%            ^ - variable.parameter.tex
+%             ^^ variable.parameter.tex
+
+%   open-brace
+ \def\macro\{#1{replacement}
+%          ^^^^ meta.function.parameters.tex
+%          ^^ constant.character.escape.tex
+%            ^^ variable.parameter.tex
+%              ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+
+%    double escape
+ \def\macro\\#1{replacement}
+%          ^^^^ meta.function.parameters.tex
+%          ^^constant.character.escape.tex
+%            ^^ variable.parameter.tex
+
+
+%  defining special character macros
+ \def\_{underscore}
+%^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%    ^^ meta.function.identifier.tex entity.name.definition.tex
+%      ^^^^^^^^^^^^ meta.function.body.tex
+
+%  stop scope for incomplete defs
+\def\text 
+
+some other text
+% ^^^^^^^^^^^^^^ - meta.function%
+
+%  incomplete but with parameters; the { comes too late to open the function definition
+\def\text A#1A
+
+  { some other text
+% ^^^^^^^^^^^^^^ - meta.function
+
+%  command just prefixed with def. Needs to be picked up as a custom command
+\deftext
+%^^^^^^^ support.function.general.tex
