@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
 def get_common_values():
     common_values = {
         "animation-direction": ["alternate", "alternate-reverse", "normal", "reverse"],
