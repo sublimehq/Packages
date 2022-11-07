@@ -128,7 +128,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
 def show_diff_output(
     diff,
-    v: typing.Optional[sublime.View],
+    v: typing.Union[None, sublime.View],
     w: sublime.Window,
     name: str,
     panel_name: str,
