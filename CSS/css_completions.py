@@ -2,21 +2,21 @@
 # coding: utf-8
 
 
-from __future__ import annotations                                              # https://docs.python.org/3.8/library/__future__.html
+from __future__ import annotation
 
-import sublime                                                                  # EXECUTABLE_DIR/Lib/python38/sublime.py
-import sublime_plugin                                                           # EXECUTABLE_DIR/Lib/python38/sublime_plugin.py
+import sublime
+import sublime_plugi
 
-import re                                                                       # https://docs.python.org/3.8/library/re.html
-import timeit                                                                   # https://docs.python.org/3.8/library/timeit.html
+import re
+import timeit
 
-from functools import cached_property, wraps                                    # https://docs.python.org/3.8/library/functools.html
+from functools import cached_property, wraps
 
 from . import completions
 
-import typing                                                                   # https://docs.python.org/3.8/library/typing.html
+import typing
 if typing.TYPE_CHECKING:
-    import sublime_types                                                        # EXECUTABLE_DIR/Lib/python38/sublime_types.py
+    import sublime_types
 
 __all__ = ['CSSCompletions']
 
