@@ -1940,29 +1940,33 @@ contexts:
         )__\b
       scope: support.variable.magic.python
 
+###[ STRINGS ]################################################################
+
   docstrings:
-    - match: ^\s*(?=(?i)(ur|ru|u|r)?("""|'''))
-      push:
-      - match: (?i)(u)?("""|''')
-        captures:
-          1: storage.type.string.python
-          2: punctuation.definition.comment.begin.python
-        set:
-          - meta_scope: comment.block.documentation.python
-          - include: escaped-unicode-char
-          - include: escaped-char
-          - match: '\2'
-            scope: punctuation.definition.comment.end.python
-            pop: true
-      - match: (?i)(u?ru?)("""|''')
-        captures:
-          1: storage.type.string.python
-          2: punctuation.definition.comment.begin.python
-        set:
-          - meta_scope: comment.block.documentation.python
-          - match: '\2'
-            scope: punctuation.definition.comment.end.python
-            pop: true
+    - match: ^\s*(?i)(u)?("""|''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.comment.begin.python
+      push: inside-docstring
+    - match: ^\s*(?i)(ur|ru?)("""|''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.comment.begin.python
+      push: inside-raw-docstring
+
+  inside-docstring:
+    - meta_scope: comment.block.documentation.python
+    - match: \2
+      scope: punctuation.definition.comment.end.python
+      pop: true
+    - include: escaped-unicode-char
+    - include: escaped-char
+
+  inside-raw-docstring:
+    - meta_scope: comment.block.documentation.python
+    - match: \2
+      scope: punctuation.definition.comment.end.python
+      pop: true
 
   escaped-char:
     - match: '(\\x\h{2})|(\\[0-7]{1,3})|(\\[\\"''abfnrtv])'
