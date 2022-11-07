@@ -10,7 +10,7 @@ import sublime_plugin
 
 
 def splitlines_keep_ends(text: str) -> typing.List[str]:
-    lines: typing.List[str] = text.split('\n')
+    lines = text.split('\n')
 
     # Need to insert back the newline characters between lines, difflib
     # requires this.
@@ -67,33 +67,33 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
     def run(self, edit: sublime.Edit):
 
-        view: sublime.View = self.view
-        window: typing.Optional[sublime.Window] = view.window()
+        view = self.view
+        window = view.window()
         if not window:
             sublime.status_message('Unable to diff with missing window')
             return
 
-        fname: typing.Optional[str] = view.file_name()
+        fname = view.file_name()
 
         if not fname or not os.path.exists(fname):
             sublime.status_message("Unable to diff changes because the file does not exist")
             return
 
         try:
-            a: typing.List[str] = read_file_lines(fname)
+            a = read_file_lines(fname)
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        b: typing.List[str] = get_lines_for_view(view)
+        b = get_lines_for_view(view)
 
         add_no_eol_warning_if_applicable(b)
 
-        adate: str = time.ctime(os.stat(fname).st_mtime)
-        bdate: str = time.ctime()
+        adate = time.ctime(os.stat(fname).st_mtime)
+        bdate = time.ctime()
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
-        name: str = f'Unsaved Changes: {os.path.basename(fname)}'
+        name = f'Unsaved Changes: {os.path.basename(fname)}'
         show_diff_output(diff, view, window, name, 'unsaved_changes', 'diff_changes_to_buffer')
 
     def is_enabled(self):
@@ -114,10 +114,10 @@ def show_diff_output(
         sublime.status_message("No changes")
         return
 
-    use_buffer: bool = not view or view.settings().get(buffer_setting_name)
+    use_buffer = not view or view.settings().get(buffer_setting_name)
 
     if use_buffer:
-        new_view: sublime.View = window.new_file()
+        new_view = window.new_file()
         new_view.set_name(name)
         new_view.set_scratch(True)
     else:
@@ -139,19 +139,19 @@ def show_diff_output(
 
 
 def get_view_from_tab_context(active_view: sublime.View, **kwargs) -> sublime.View:
-    view: sublime.View = active_view
+    view = active_view
     if 'group' in kwargs and 'index' in kwargs:
-        window: typing.Optional[sublime.Window] = view.window()
+        window = view.window()
         if window is not None:
             view = window.views_in_group(kwargs['group'])[kwargs['index']]
     return view
 
 
 def get_views_from_tab_context(active_view: sublime.View, **kwargs) -> typing.List[sublime.View]:
-    window: typing.Optional[sublime.Window] = active_view.window()
+    window = active_view.window()
     if window is None:
         return []
-    selected_views: typing.List[sublime.View] = get_selected_views(window)
+    selected_views = get_selected_views(window)
     if 'group' in kwargs and 'index' in kwargs:
         tab_context_view = get_view_from_tab_context(active_view, **kwargs)
         # if the tab which was right clicked on is selected, exclude it from the
@@ -176,7 +176,7 @@ def get_lines_for_view(view: sublime.View) -> typing.List[str]:
 class DiffViewsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit: sublime.Edit, **kwargs):
-        views: typing.List[sublime.View] = get_views_from_tab_context(self.view, **kwargs)
+        views = get_views_from_tab_context(self.view, **kwargs)
         if len(views) != 2:
             return
 
@@ -185,8 +185,8 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
             get_name_for_view(views[1])
         )
 
-        from_lines: typing.List[str] = get_lines_for_view(views[0])
-        to_lines: typing.List[str] = get_lines_for_view(views[1])
+        from_lines = get_lines_for_view(views[0])
+        to_lines = get_lines_for_view(views[1])
         add_no_eol_warning_if_applicable(from_lines)
         add_no_eol_warning_if_applicable(to_lines)
 
@@ -198,7 +198,7 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
         )
 
         try:
-            common_path_length: int = len(os.path.commonpath(view_names))
+            common_path_length = len(os.path.commonpath(view_names))
             if common_path_length <= 1:
                 common_path_length = 0
             else:
@@ -206,8 +206,8 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
         except ValueError:
             common_path_length = 0
         view_names = list(map(lambda name: name[common_path_length:], view_names))
-        view: sublime.View = views[0]
-        window: typing.Optional[sublime.Window] = view.window()
+        view = views[0]
+        window = view.window()
         if window is not None:
             show_diff_output(
                 diff,
@@ -222,11 +222,11 @@ class DiffViewsCommand(sublime_plugin.TextCommand):
         return self.is_visible(**kwargs)
 
     def is_visible(self, **kwargs) -> bool:
-        views: typing.List[sublime.View] = get_views_from_tab_context(self.view, **kwargs)
+        views = get_views_from_tab_context(self.view, **kwargs)
         return len(views) == 2
 
     def description(self, **kwargs) -> str:
-        window: typing.Optional[sublime.Window] = self.view.window()
+        window = self.view.window()
         if window is None:
             return ''
 
