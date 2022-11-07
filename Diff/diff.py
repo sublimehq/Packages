@@ -2,16 +2,16 @@
 # coding: utf-8
 
 
-from __future__ import annotations                                              # https://docs.python.org/3.8/library/__future__.html
+from __future__ import annotations
 
-import difflib                                                                  # https://docs.python.org/3.8/library/difflib.html
-import os                                                                       # https://docs.python.org/3.8/library/os.html
-import time                                                                     # https://docs.python.org/3.8/library/time.html
+import difflib
+import os
+import time
 
-import sublime                                                                  # EXECUTABLE_DIR/Lib/python38/sublime.py
-import sublime_plugin                                                           # EXECUTABLE_DIR/Lib/python38/sublime_plugin.py
+import sublime
+import sublime_plugin
 
-import typing                                                                   # https://docs.python.org/3.8/library/typing.html
+import typing
 
 
 def splitlines_keep_ends(
