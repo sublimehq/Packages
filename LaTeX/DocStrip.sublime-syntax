@@ -1,0 +1,89 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: TeX (DocStrip)
+file_extensions:
+  - ins
+scope: source.tex.docstrip
+
+extends: Packages/LaTeX/TeX.sublime-syntax
+
+contexts:
+  main:
+    - meta_prepend: true
+    - include: docstrip-preamble
+    - include: docstrip-config
+    - include: docstrip-keywords
+    - include: docstrip-constants
+
+  controls:
+    - meta_append: true
+    - match: ((\\)(?:endbatchfile))\b
+      captures:
+        1: keyword.control.tex.docstrip
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)(?:(?:batch)?input))\b
+      scope: meta.function.input.tex
+      captures:
+        1: keyword.control.input.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)ifToplevel)\b
+      captures:
+        1: keyword.control.conditional.tex.docstrip
+        2: punctuation.definition.backslash.tex
+
+  docstrip-preamble:
+    - match: ((\\)((?:declare)?(?:pre|post)amble))\b
+      captures:
+        1: keyword.context.block.tex.docstrip
+        2: punctuation.definition.backslash.tex
+      push: preamble-content
+
+
+  preamble-content:
+    - meta_include_prototype: false
+    - meta_content_scope: markup.raw.verbatim.tex
+    - match: ((\\)(?:end(?:pre|post)amble))\b
+      captures:
+        1: keyword.context.block.tex.docstrip
+        2: punctuation.definition.backslash.tex
+      pop: 1
+
+  docstrip-keywords:
+    - match: ((\\)(:?generate|needed))
+      captures:
+        1: keyword.tex.docstrip
+        2: punctuation.definition.backslash.tex
+    - match: (\\)(:?file|from)
+      scope: keyword.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: file-argument
+
+  file-argument:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      set: file-argument-path
+    - include: else-pop
+    - include: paragraph-pop
+
+  file-argument-path:
+    - meta_content_scope: meta.path.tex.docstrip
+    - include: macro-brace-content
+
+  docstrip-config:
+    - match: ((\\)(:?usedir|showdirectory|BaseDirectory|DeclareDir|UseTDS|maxfiles|maxoutfiles))
+      captures:
+        1: support.function.tex.docstrip
+        2: punctuation.definition.backslash.tex
+
+  docstrip-constants:
+    - match: ((\\)(?:askforoverwrite(?:true|false)|askonceonly|(?:use|no)(?:pre|post)amble|showprogress|keepsilent))
+      captures:
+        1: constant.language.tex.docstrip
+        2: punctuation.definition.backslash.tex
+
+    - match: ((\\)(?:DoubleperCent|MetaPrefix|empty))
+      captures:
+        1: constant.language.tex.docstrip
+        2: punctuation.definition.backslash.tex
