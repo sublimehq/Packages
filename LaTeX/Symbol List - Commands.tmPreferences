@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>entity.name.newcommand.latex, entity.name.declare-math-operator.latex, entity.name.definition.tex</string>
+	<string>entity.name.newcommand.latex, entity.name.definition.tex</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
