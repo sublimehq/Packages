@@ -62,6 +62,8 @@ variables:
   # type names, and if they were highlighted wrongly the user could not fix this.
   letter: '[A-Za-z@]'
   nonletter: '[^A-Za-z@]'
+  # look-ahead for end of command sequence
+  endcs: '(?!{{letter}})'
 
 contexts:
   prototype:
@@ -114,11 +116,11 @@ contexts:
       scope: comment.line.percentage.tex
 
   controls:
-    - match: ((\\)(else|expandafter|fi|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?))\b
+    - match: ((\\)(else|expandafter|fi|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?)){{endcs}}
       captures:
         1: keyword.control.tex
         2: punctuation.definition.backslash.tex
-    - match: ((\\)(?:input))\b
+    - match: ((\\)(?:input)){{endcs}}
       scope: meta.function.input.tex
       captures:
         1: keyword.control.input.tex
@@ -176,7 +178,7 @@ contexts:
     # so syntax highlighting will work properly with correct code.
     # we need to make sure to match only full commands, so we look-ahead for
     # any following non-letter
-    - match: (\\)[gex]?def(?={{nonletter}})
+    - match: (\\)[gex]?def{{endcs}}
       scope: keyword.declaration.function.tex storage.modifier.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -245,61 +247,61 @@ contexts:
     - include: math-delimiters
 
   math-greeks:
-    - match: (\\){{greeks}}(?=\b|_)
+    - match: (\\){{greeks}}{{endcs}}
       scope: keyword.other.math.greek.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-functions:
-    - match: (\\){{mathfun}}(?=\b|_)
+    - match: (\\){{mathfun}}{{endcs}}
       scope: keyword.other.math.function.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-relations:
-    - match: (\\){{relations}}(?=\b|_)
+    - match: (\\){{relations}}{{endcs}}
       scope: keyword.other.math.relation.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-largeops:
-    - match: (\\){{largeops}}(?=\b|_)
+    - match: (\\){{largeops}}{{endcs}}
       scope: keyword.other.math.large-operator.tex
       captures:
         1: punctuation.definition.backslash.texpunctuation.definition.backslash.tex
 
   math-binops:
-    - match: (\\){{binops}}(?=\b|_)
+    - match: (\\){{binops}}{{endcs}}
       scope: keyword.other.math.binary-operator.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-symbols:
-    - match: (\\){{symbols}}(?=\b|_)
+    - match: (\\){{symbols}}{{endcs}}
       scope: keyword.other.math.symbol.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-accents:
-    - match: (\\){{accents}}(?=\b|_)
+    - match: (\\){{accents}}{{endcs}}
       scope: keyword.other.math.accent.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-arrows:
-    - match: (\\){{arrows}}(?=\b|_)
+    - match: (\\){{arrows}}{{endcs}}
       scope: keyword.other.math.arrow.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-delimiters:
-    - match: (\\){{delimiters}}(?=\b|_)
+    - match: (\\){{delimiters}}{{endcs}}
       scope: keyword.other.math.delimiter.tex
       captures:
         1: punctuation.definition.backslash.tex
 
   math-commands:
-    - match: (\\)[A-Za-z@]+
+    - match: (\\){{letter}}+
       scope: support.function.math.tex
       captures:
         1: punctuation.definition.backslash.tex
