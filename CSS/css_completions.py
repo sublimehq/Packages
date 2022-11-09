@@ -3,16 +3,14 @@ from __future__ import annotations
 import sublime
 import sublime_plugin
 
+from . import completions
+from functools import cached_property, wraps
 import re
 import timeit
+from typing import List, Optional, TYPE_CHECKING, Union
 
-from functools import cached_property, wraps
-
-from . import completions
-
-import typing
-if typing.TYPE_CHECKING:
-    import sublime_types
+if TYPE_CHECKING:
+    from sublime_types import Point
 
 __all__ = ['CSSCompletions']
 
@@ -36,14 +34,14 @@ def timing(func):
     return wrap
 
 
-def match_selector(view: sublime.View, pt: sublime_types.Point, scope: str) -> bool:
+def match_selector(view: sublime.View, pt: Point, scope: str) -> bool:
     # This will catch scenarios like:
     # - .foo {font-style: |}
     # - <style type="text/css">.foo { font-weight: b|</style>
     return any(view.match_selector(p, scope) for p in (pt, pt - 1))
 
 
-def next_none_whitespace(view: sublime.View, pt: sublime_types.Point) -> typing.Union[str, None]:
+def next_none_whitespace(view: sublime.View, pt: Point) -> Union[str, None]:
     for pt in range(pt, view.size()):
         ch = view.substr(pt)
         if ch not in ' \t':
@@ -70,11 +68,8 @@ class CSSCompletions(sublime_plugin.EventListener):
 
     @timing
     def on_query_completions(
-        self,
-        view: sublime.View,
-        prefix: str,
-        locations: typing.List[sublime_types.Point]
-    ) -> typing.Union[None, sublime.CompletionList]:
+        self, view: sublime.View, prefix: str, locations: List[Point]
+    ) -> Union[None, sublime.CompletionList]:
 
         settings = sublime.load_settings('CSS.sublime-settings')
         if settings.get('disable_default_completions'):
@@ -103,10 +98,10 @@ class CSSCompletions(sublime_plugin.EventListener):
         return None
 
     def complete_property_name(
-        self, view: sublime.View, prefix: str, pt: sublime_types.Point
-    ) -> typing.List[sublime.CompletionItem]:
+        self, view: sublime.View, prefix: str, pt: Point
+    ) -> List[sublime.CompletionItem]:
 
-        text: str = view.substr(sublime.Region(pt, view.line(pt).end()))
+        text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
             colon, space, value, term = matches.groups()
@@ -139,8 +134,8 @@ class CSSCompletions(sublime_plugin.EventListener):
         ]
 
     def complete_property_value(
-        self, view: sublime.View, prefix: str, pt: sublime_types.Point
-    ) -> typing.List[sublime.CompletionItem]:
+        self, view: sublime.View, prefix: str, pt: Point
+    ) -> List[sublime.CompletionItem]:
 
         completions = [
             sublime.CompletionItem(
@@ -186,8 +181,8 @@ class CSSCompletions(sublime_plugin.EventListener):
         self,
         view: sublime.View,
         prefix: str,
-        pt: sublime_types.Point
-    ) -> typing.Optional[typing.List[sublime.CompletionItem]]:
+        pt: Point
+    ) -> Optional[List[sublime.CompletionItem]]:
 
         func_name = ""
         nest_level = 1
