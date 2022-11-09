@@ -3,14 +3,16 @@ from __future__ import annotations
 import sublime
 import sublime_plugin
 
-from . import completions
 from functools import cached_property, wraps
 import re
 import timeit
-from typing import List, Optional, TYPE_CHECKING, Union
 
+from typing import List, Optional, TYPE_CHECKING, Union
 if TYPE_CHECKING:
     from sublime_types import Point
+
+from . import completions
+
 
 __all__ = ['CSSCompletions']
 
