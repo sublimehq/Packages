@@ -53,6 +53,9 @@ variables:
     (?x: lbrack | lbrace | langle | rbrack | rbrace | rangle
     | vert | lfloor | lceil | Vert | rfloor | rceil)
 
+  registers: |-
+    (?x: box | count | dimen | muskip | skip | toks)
+
   # letters in the sense of macro names. Whether @ is a letter or not can vary
   # from a syntax-highlighting perspective, however, we are much safer to
   # assume it is a letter. Situations where we have `\macro` followed immediately
@@ -77,6 +80,7 @@ contexts:
     - include: boxes
     - include: block-math
     - include: inline-math
+    - include: registers
     - include: general-constants
     - include: general-commands
 
@@ -110,6 +114,14 @@ contexts:
       scope: constant.character.escape.tex
       captures:
         1: punctuation.definition.backslash.tex
+
+  registers:
+    - match: (\\)({{registers}})(\d*)
+      scope: variable.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+        2: storage.type.tex
+        3: constant.numeric.tex
 
   comments:
     - match: '%.*$\n?'
