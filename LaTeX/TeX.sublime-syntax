@@ -116,9 +116,37 @@ contexts:
       scope: comment.line.percentage.tex
 
   controls:
-    - match: ((\\)(else|expandafter|fi|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?)){{endcs}}
+    - match: ((\\)ifcase){{endcs}}
       captures:
-        1: keyword.control.tex
+        1: keyword.control.conditional.switch.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)or){{endcs}}
+      captures:
+        1: keyword.control.conditional.case.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)loop){{endcs}}
+      captures:
+        1: keyword.control.loop.do-while.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)repeat){{endcs}}
+      captures:
+        1: keyword.control.loop.end.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)expandafter){{endcs}}
+      captures:
+        1: keyword.control.flow.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)if(?:cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?){{endcs}}
+      captures:
+        1: keyword.control.conditional.if.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)else){{endcs}}
+      captures:
+        1: keyword.control.conditional.else.tex
+        2: punctuation.definition.backslash.tex
+    - match: ((\\)fi){{endcs}}
+      captures:
+        1: keyword.control.conditional.end.tex
         2: punctuation.definition.backslash.tex
     - match: ((\\)(?:input)){{endcs}}
       scope: meta.function.input.tex
