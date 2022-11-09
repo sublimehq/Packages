@@ -1940,7 +1940,7 @@ contexts:
         )__\b
       scope: support.variable.magic.python
 
-###[ STRINGS ]################################################################
+###[ DOCSTRINGS ]#############################################################
 
   docstrings:
     - match: ^\s*(?i)(u)?("""|''')
@@ -1967,6 +1967,8 @@ contexts:
     - match: \2
       scope: punctuation.definition.comment.end.python
       pop: true
+
+###[ STRING CONTENTS ]########################################################
 
   escaped-char:
     - match: '(\\x\h{2})|(\\[0-7]{1,3})|(\\[\\"''abfnrtv])'
@@ -2186,12 +2188,16 @@ contexts:
       scope: punctuation.section.interpolation.end.python
       pop: 2
 
+###[ STRINGS ]################################################################
+
   strings:
     # triple-quoted versions must be matched first
     - include: triple-double-quoted-strings
     - include: double-quoted-strings
     - include: triple-single-quoted-strings
     - include: single-quoted-strings
+
+###[ TRIPLE DOUBLE QUOTED STRINGS ]###########################################
 
   triple-double-quoted-strings:
     - include: triple-double-quoted-plain-raw-b-strings
@@ -2412,6 +2418,8 @@ contexts:
     - include: escaped-char
     - include: constant-placeholder
 
+###[ DOUBLE QUOTED STRINGS ]##################################################
+
   double-quoted-strings:
     - include: double-quoted-plain-raw-b-strings
     - include: double-quoted-raw-b-strings
@@ -2627,6 +2635,8 @@ contexts:
     - include: escaped-unicode-char
     - include: escaped-char
     - include: constant-placeholder
+
+###[ TRIPLE SINGLE QUOTED STRINGS ]###########################################
 
   triple-single-quoted-strings:
     - include: triple-single-quoted-plain-raw-b-strings
@@ -2844,6 +2854,8 @@ contexts:
     - include: escaped-unicode-char
     - include: escaped-char
     - include: constant-placeholder
+
+###[ SINGLE QUOTED STRINGS ]##################################################
 
   single-quoted-strings:
     - include: single-quoted-plain-raw-b-strings
