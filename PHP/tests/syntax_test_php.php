@@ -5,6 +5,23 @@
  * PHPDoc Tests
  *****************************************************************************/
 
+/* ?> */
+// <- comment.block.php punctuation.definition.comment.begin.php
+//^^^^ comment.block.php - punctuation
+//    ^^ comment.block.php punctuation.definition.comment.end.php
+
+/* <?php ... ?> */
+// <- comment.block.php punctuation.definition.comment.begin.php
+//^^^^^^^^^^^^^^ comment.block.php - punctuation
+
+// comment ?> <div>
+//^^^^^^^^^^^ text.html.php meta.embedded.php
+//           ^^^^^^^ text.html.php - meta.embedded
+// ^^^^^^^^ comment.line.double-slash.php
+//         ^^ punctuation.section.embedded.end.php
+
+<?php
+
 /**
 //^ comment.block.documentation.phpdoc.php punctuation.definition.comment.begin.php
 // ^ comment.block.documentation.phpdoc.php - punctuation

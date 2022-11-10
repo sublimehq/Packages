@@ -623,8 +623,6 @@ contexts:
     - match: \*/
       scope: punctuation.definition.comment.end.php
       pop: 1
-    - match: (?=\?>)
-      pop: 1
 
   phpdoc-block-tag:
     - meta_include_prototype: false
