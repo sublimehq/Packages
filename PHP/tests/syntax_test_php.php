@@ -4137,7 +4137,7 @@ $var4 = 0b0_1_1_1;
 //                                                              ^^ constant.character.escape.php - punctuation
 //                                                                ^ - constant
 
-    'format: %5$- .9f | %-.9g | %+0d | %'ff'
+    'format: %5$- .9f | %-.9g | %+0d | %\'ff'
 //           ^ punctuation.definition.placeholder.php
 //           ^^^^^^^^ constant.other.placeholder.php
 //                   ^^^ - constant
@@ -4149,7 +4149,7 @@ $var4 = 0b0_1_1_1;
 //                              ^^^^ constant.other.placeholder.php
 //                                  ^^^ - constant
 //                                     ^ punctuation.definition.placeholder.php
-//                                     ^^^^ constant.other.placeholder.php
+//                                     ^^^^^ constant.other.placeholder.php
 
     "format: %5$- .9f | %-.9g | %+0d | %'ff"
 //           ^ punctuation.definition.placeholder.php
@@ -4179,6 +4179,11 @@ $var4 = 0b0_1_1_1;
 //   ^^^^^^ constant.other.placeholder.php
    "[%-10.9s]"  // left-justification but with a cutoff of 8 characters
 //   ^^^^^^^ constant.other.placeholder.php
+
+    'foo "%'.urldecode($_REQUEST['searchterm']);
+//  ^^^^^^^^ meta.string.php string.quoted.single.php - constant.other.placeholder
+//          ^ keyword.operator.concatenation.php
+//           ^^^^^^^^^ support.function.url.php
 
     '$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}'
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation
