@@ -85,6 +85,10 @@ contexts:
     - match: (?=\S)
       pop: true
 
+  immediately-pop:
+    - match: ''
+      pop: true
+
   # pops out of the current context if there is a new paragraph
   paragraph-pop:
     - match: ^(?=\s*$)
