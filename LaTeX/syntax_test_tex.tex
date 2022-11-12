@@ -156,28 +156,36 @@ some other text
 
 \muskip5
 %^^^^^^ storage.type.tex
-%^^^^^^^ variable.language.tex
-%      ^ constant.numeric.tex
+%^^^^^^^ meta.register.tex
+%      ^ meta.number.integer.decimal constant.numeric.value.tex
 
 \box 60
 %^^^ storage.type.tex
-%^^^^^^ variable.language.tex
-%    ^^ constant.numeric.tex
+%^^^^^^ meta.register.tex
+%    ^^ meta.number.integer.decimal constant.numeric.value.tex
 
 \skip5 10
-%^^^^^ variable.language.tex
-%      ^^ - variable.language.tex
+%^^^^^ meta.register.tex
+%      ^^ - meta.register.tex
 
 \counting
-%^^^^^^^^ - variable.language.tex
+%^^^^^^^^ - meta.register.tex
 
 \newdimen\mydimen
 %^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
 %        ^^^^^^^^ entity.name.constant.tex
 %        ^ punctuation.definition.backslash.tex
 
+\newcount { \mycounter }
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%         ^^^^^^^^^^^^^^ meta.group.brace.latex
+%           ^^^^^^^^^^ entity.name.constant.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.backslash.tex
+%                      ^ punctuation.definition.group.brace.end.tex
+
 \def\five{5}
 \toks \five = 8
-%^^^^^^^^^^ variable.language.tex
+%^^^^^^^^^^ meta.register.tex
 %^^^^ storage.type.tex
 %     ^ punctuation.definition.backslash.tex

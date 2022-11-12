@@ -123,13 +123,12 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
         2: storage.type.tex
-      push:
-        - meta_scope: variable.language.tex
-        - include: register-id
+      push: register-id
 
   register-id:
+    - meta_scope: meta.register.tex
     - match: \d+
-      scope: constant.numeric.tex
+      scope: meta.number.integer.decimal constant.numeric.value.tex
       pop: 1
     - match: (\\){{cmdname}}
       captures:
@@ -146,15 +145,24 @@ contexts:
       push: def-registername
 
   def-registername:
-    - match: (?=\\)
-      set:
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      pop: 1
+
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push:
+        - meta_scope: meta.group.brace.latex
+        - match: \}
+          scope: punctuation.definition.group.brace.end.tex
+          pop: 2
         - match: (\\){{cmdname}}
           scope: entity.name.constant.tex
           captures:
             1: punctuation.definition.backslash.tex
-          pop: 1
-        - include: paragraph-pop
-        - include: else-pop
+
     - include: paragraph-pop
     - include: else-pop
 
