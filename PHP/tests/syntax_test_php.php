@@ -4779,6 +4779,36 @@ $sql = "
 ";
 // <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
+$sql = "SELECT * FROM users where first_name = $user_name";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                             ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                       ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = '$user_name'";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                              ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                        ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = `$user_name`";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                              ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                        ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = %r{^$user_name}";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                 ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                           ^^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name LIKE $user_name";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                          ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name LIKE '$user_name'";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                 ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                           ^ meta.string.php - meta.interpolation
+
 $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "GROUP BY" ;
 //     ^ meta.string.php - meta.interpolation
 //      ^^^^^^^ meta.string.php source.sql.embedded.php
@@ -4825,6 +4855,11 @@ $sql = "WITH RECURSION SELECT *";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                             ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+
+
+/******************************************************************************
+ * SQL String Tests without interpolation
+ *****************************************************************************/
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string
