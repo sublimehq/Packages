@@ -116,15 +116,42 @@ contexts:
       scope: comment.line.percentage.tex
 
   controls:
-    - match: ((\\)(else|expandafter|fi|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?)){{endcs}}
+    - match: (\\)ifcase{{endcs}}
+      scope: keyword.control.conditional.switch.tex
       captures:
-        1: keyword.control.tex
-        2: punctuation.definition.backslash.tex
-    - match: ((\\)(?:input)){{endcs}}
-      scope: meta.function.input.tex
+        1: punctuation.definition.backslash.tex
+    - match: (\\)or{{endcs}}
+      scope: keyword.control.conditional.case.tex
       captures:
-        1: keyword.control.input.tex
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
+    - match: (\\)loop{{endcs}}
+      scope: keyword.control.loop.do-while.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)repeat{{endcs}}
+      scope: keyword.control.loop.end.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)expandafter{{endcs}}
+      scope: keyword.control.flow.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)if(?:cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?{{endcs}}
+      scope: keyword.control.conditional.if.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)else{{endcs}}
+      scope: keyword.control.conditional.else.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)fi{{endcs}}
+      scope: keyword.control.conditional.end.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)input{{endcs}}
+      scope: meta.function.input.tex keyword.control.input.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
   catcode:
     - match: ((\\)catcode)`(?:\\)?.=(\d+)
