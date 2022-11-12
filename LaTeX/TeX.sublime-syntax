@@ -148,7 +148,7 @@ contexts:
       scope: keyword.control.conditional.end.tex
       captures:
         1: punctuation.definition.backslash.tex
-    - match: (\\)(?:input){{endcs}}
+    - match: (\\)input{{endcs}}
       scope: meta.function.input.tex keyword.control.input.tex
       captures:
         1: punctuation.definition.backslash.tex
