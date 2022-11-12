@@ -67,6 +67,8 @@ variables:
   nonletter: '[^A-Za-z@]'
   # look-ahead for end of command sequence
   endcs: '(?!{{letter}})'
+  # a command name: either a sequence of letters, or a single non-letter
+  cmdname: '(?x: {{letter}}+ | {{nonletter}})'
 
 contexts:
   prototype:
@@ -81,6 +83,7 @@ contexts:
     - include: block-math
     - include: inline-math
     - include: registers
+    - include: register-allocations
     - include: general-constants
     - include: general-commands
 
@@ -116,12 +119,44 @@ contexts:
         1: punctuation.definition.backslash.tex
 
   registers:
-    - match: (\\)({{registers}})(\d*)
-      scope: variable.language.tex
+    - match: (\\)({{registers}}){{endcs}}
       captures:
         1: punctuation.definition.backslash.tex
         2: storage.type.tex
-        3: constant.numeric.tex
+      push:
+        - meta_scope: variable.language.tex
+        - include: register-id
+
+  register-id:
+    - match: \d+
+      scope: constant.numeric.tex
+      pop: 1
+    - match: (\\){{cmdname}}
+      captures:
+        1: punctuation.definition.backslash.tex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
+
+  register-allocations:
+    - match: (\\)new{{registers}}{{endcs}}
+      scope: keyword.declaration.register.tex storage.modifier.register.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: def-registername
+
+  def-registername:
+    - match: (?=\\)
+      set:
+        - match: (\\){{cmdname}}
+          scope: entity.name.constant.tex
+          captures:
+            1: punctuation.definition.backslash.tex
+          pop: 1
+        - include: paragraph-pop
+        - include: else-pop
+    - include: paragraph-pop
+    - include: else-pop
 
   comments:
     - match: '%.*$\n?'
@@ -229,12 +264,7 @@ contexts:
       set:
         - clear_scopes: 1
         - meta_scope: meta.function.identifier.tex
-        - match: (\\){{letter}}+
-          scope: entity.name.definition.tex
-          captures:
-            1: punctuation.definition.backslash.tex
-          set: def-argspec
-        - match: (\\){{nonletter}}
+        - match: (\\){{cmdname}}
           scope: entity.name.definition.tex
           captures:
             1: punctuation.definition.backslash.tex

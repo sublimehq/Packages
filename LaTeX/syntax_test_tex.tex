@@ -105,7 +105,7 @@ some other text
 %  incomplete but with parameters; the { comes too late to open the function definition
 \def\text A#1A
 
-  { some other text
+  { some other text}
 % ^^^^^^^^^^^^^^ - meta.function
 
 %  command just prefixed with def. Needs to be picked up as a custom command
@@ -148,3 +148,36 @@ some other text
 %^^^^ keyword.control.conditional.else.tex
 \fi
 %^^ keyword.control.conditional.end.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               Registers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\muskip5
+%^^^^^^ storage.type.tex
+%^^^^^^^ variable.language.tex
+%      ^ constant.numeric.tex
+
+\box 60
+%^^^ storage.type.tex
+%^^^^^^ variable.language.tex
+%    ^^ constant.numeric.tex
+
+\skip5 10
+%^^^^^ variable.language.tex
+%      ^^ - variable.language.tex
+
+\counting
+%^^^^^^^^ - variable.language.tex
+
+\newdimen\mydimen
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%        ^^^^^^^^ entity.name.constant.tex
+%        ^ punctuation.definition.backslash.tex
+
+\def\five{5}
+\toks \five = 8
+%^^^^^^^^^^ variable.language.tex
+%^^^^ storage.type.tex
+%     ^ punctuation.definition.backslash.tex
