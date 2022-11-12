@@ -2645,7 +2645,7 @@ contexts:
     - meta_scope: meta.string.php
     - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
-    - include: string-placeholders
+    - include: string-single-quoted-placeholders
     - match: \\[\\'']
       scope: constant.character.escape.php
 
@@ -2695,6 +2695,24 @@ contexts:
         (%)                         # punctuation
         (?: \d+\$ )?                # argnum
         [-+]? (?: [ 0] | '. )?      # flags
+        \d*                         # width
+        (?: (\.) \d* )?             # precision
+        [bcdeEfFgGhHosuxX]          # specifier
+      scope: constant.other.placeholder.php
+      captures:
+        1: punctuation.definition.placeholder.php
+        2: punctuation.separator.decimal.php
+
+  string-single-quoted-placeholders:
+    # https://www.php.net/manual/en/function.printf.php
+    - match: '%%'
+      scope: constant.character.escape.php
+    # %[argnum$][flags][width][.precision]specifier
+    - match: |-
+        (?x)
+        (%)                         # punctuation
+        (?: \d+\$ )?                # argnum
+        [-+]? (?: [ 0] | \\'. )?    # flags
         \d*                         # width
         (?: (\.) \d* )?             # precision
         [bcdeEfFgGhHosuxX]          # specifier
