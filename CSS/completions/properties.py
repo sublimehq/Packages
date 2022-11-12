@@ -369,7 +369,8 @@ def get_properties():
         ],
         "flex": [
             "<calc>",
-            "none" "auto",
+            "none",
+            "auto",
         ],
         "flex-basis": [
             "<calc>",
@@ -642,7 +643,8 @@ def get_properties():
         ],
         "list-style": [
             "<list-style-type>",
-            "<uri>" "inside",
+            "<uri>",
+            "inside",
             "outside",
         ],
         "list-style-image": ["<uri>", "none"],
@@ -1098,7 +1100,8 @@ def get_properties():
         "transition-timing-function": ["<calc>", "<timing>"],
         "translate": ["<calc>", "none"],
         "unicode-bidi": [
-            "bidi-override" "embed",
+            "bidi-override",
+            "embed",
             "isolate",
             "isolate-override",
             "normal",
