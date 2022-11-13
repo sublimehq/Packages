@@ -145,26 +145,26 @@ contexts:
       push: def-registername
 
   def-registername:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: inside-register-name-group
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
         1: punctuation.definition.backslash.tex
       pop: 1
-
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: 2
-        - match: (\\){{cmdname}}
-          scope: entity.name.constant.tex
-          captures:
-            1: punctuation.definition.backslash.tex
-
     - include: paragraph-pop
     - include: else-pop
+
+  inside-register-name-group:
+    - meta_scope: meta.group.brace.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
   comments:
     - match: '%.*$\n?'
