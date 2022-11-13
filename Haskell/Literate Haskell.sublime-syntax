@@ -10,7 +10,7 @@ file_extensions:
   - lhs
 
 contexts:
-  plain-tex:
+  begin-end-commands:
     - meta_prepend: true
     - include: haskell-code
 
