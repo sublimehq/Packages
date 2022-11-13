@@ -1,6 +1,5 @@
-import codecs
 import difflib
-import os.path
+import os
 import time
 
 import sublime
