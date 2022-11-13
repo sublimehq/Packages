@@ -1,12 +1,16 @@
 {
-	"selector": "source.actionscript",
-	"cmd": [
-		"mxmlc", 
-		"${file}",
-		"-library-path+=${project_path}/libs",
-		"-output", "${project_path}/bin/${project_base_name}.swf",
-		"-debug=false",
-		"-static-link-runtime-shared-libraries=true"
-	],
-	"file_regex": "^(.+?)\\(([0-9]+)\\): col: (([0-9]+))(.*)$"
+    "selector": "source.actionscript",
+    "file_patterns": [
+        "*.as"
+    ],
+    "cmd": [
+        "mxmlc", 
+        "${file}",
+        "-library-path+=${project_path}/libs",
+        "-output", "${project_path}/bin/${project_base_name}.swf",
+        "-debug=false",
+        "-static-link-runtime-shared-libraries=true"
+    ],
+    "cancel": { "kill": true },
+    "file_regex": "^(.+?)\\(([0-9]+)\\): col: (([0-9]+))(.*)$"
 }
