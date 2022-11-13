@@ -74,5 +74,15 @@ some text to copy
 %                           ^^^^^ keyword.tex.docstrip
 %                                 ^^^^^^^^^^ meta.path.tex.docstrip
 
+
+% Old but still supported syntax:
+\generateFile{README.txt}{t}{\from{test.dtx}{README}}
+%^^^^^^^^^^^^ keyword.tex.docstrip
+%             ^^^^^^^^^^ meta.path.tex.docstrip
+%                            ^^^^^ keyword.tex.docstrip
+%                                  ^^^^^^^^ meta.path.tex.docstrip
+
+\Msg{* "example" package is now generated}
+%^^^ support.function.tex.docstrip
 \endbatchfile
 %^^^^^^^^^^^^ keyword.control.tex
