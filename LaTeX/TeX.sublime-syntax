@@ -80,20 +80,6 @@ contexts:
     - include: general-constants
     - include: general-commands
 
-  # matches any nospace and pops the context
-  else-pop:
-    - match: (?=\S)
-      pop: true
-
-  immediately-pop:
-    - match: ''
-      pop: true
-
-  # pops out of the current context if there is a new paragraph
-  paragraph-pop:
-    - match: ^(?=\s*$)
-      pop: true
-
   general-commands:
     - match: (\\){{letter}}+
       scope: support.function.general.tex
@@ -399,3 +385,19 @@ contexts:
           scope: string.other.math.tex punctuation.definition.string.end.tex
           pop: true
         - include: math-content
+
+###[ PROTOTYPES ]##############################################################
+
+  # matches any nospace and pops the context
+  else-pop:
+    - match: (?=\S)
+      pop: true
+
+  immediately-pop:
+    - match: ''
+      pop: true
+
+  # pops out of the current context if there is a new paragraph
+  paragraph-pop:
+    - match: ^(?=\s*$)
+      pop: true
