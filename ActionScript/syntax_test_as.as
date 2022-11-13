@@ -2,4 +2,4 @@
 
 /**
     *
-/*  ^ comment.block.actionscript.2 punctuation.definition.comment.actionscript.2 */
+/*  ^ comment.block.actionscript punctuation.definition.comment.actionscript */
