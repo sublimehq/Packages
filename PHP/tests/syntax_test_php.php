@@ -2290,6 +2290,26 @@ function testGenerator1()
 //  ^^^^^ keyword.control.flow.yield.php
 //        ^ constant.numeric.value.php
 //         ^ punctuation.terminator.statement.php
+
+   (yield);
+// ^^^^^^^ meta.group.php
+// ^ punctuation.section.group.begin.php
+//  ^^^^^ keyword.control.flow.yield.php
+//       ^ punctuation.section.group.end.php
+//        ^ punctuation.terminator.statement.php
+
+   [yield];
+// ^^^^^^^ meta.sequence.array.php
+// ^ punctuation.section.sequence.begin.php
+//  ^^^^^ keyword.control.flow.yield.php
+//       ^ punctuation.section.sequence.end.php
+//        ^ punctuation.terminator.statement.php
+
+    $send = yield $value;
+//  ^^^^^ variable.other.php
+//        ^ keyword.operator.assignment.php
+//          ^^^^^ keyword.control.flow.yield.php
+//                ^^^^^^ variable.other.php
 }
 
 function testGenerator2()
@@ -2301,6 +2321,14 @@ function testGenerator2()
 //                           ^ punctuation.section.group.begin.php
 //                            ^ punctuation.section.group.end.php
 //                             ^ punctuation.terminator.statement.php
+
+    $a = yield from test(1);
+//  ^^ variable.other.php
+//     ^ keyword.operator.assignment.php
+//       ^^^^^ keyword.control.flow.yield.php
+//             ^^^^ keyword.control.flow.yield.php
+//                  ^^^^ meta.function-call.identifier.php variable.function.php
+//                      ^^^ meta.function-call.arguments.php meta.group.php
 }
 
 
