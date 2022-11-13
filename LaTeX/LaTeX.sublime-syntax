@@ -78,19 +78,6 @@ contexts:
     - include: general-optional-arguments
     - include: else-pop
 
-  # used in macros to prevent matching of \begin{env}...\end{env}
-  macro-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
-
   macros:
     - meta_append: true
     - match: (\\)(?:new|renew|provide)command(?:\*|(?![A-Za-z@]))
