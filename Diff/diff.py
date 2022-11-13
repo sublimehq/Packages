@@ -85,7 +85,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
         bdate = time.ctime()
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
-        name = "Unsaved Changes: " + os.path.basename(self.view.file_name())
+        name = "Unsaved Changes: " + os.path.basename(fname)
         show_diff_output(diff, self.view, self.view.window(), name, 'unsaved_changes', 'diff_changes_to_buffer')
 
     def is_enabled(self):
