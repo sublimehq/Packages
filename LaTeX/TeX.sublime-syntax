@@ -130,10 +130,7 @@ contexts:
     - match: \d+
       scope: meta.number.integer.decimal constant.numeric.value.tex
       pop: 1
-    - match: (\\){{cmdname}}
-      captures:
-        1: punctuation.definition.backslash.tex
-      pop: 1
+    - include: general-commands
     - include: paragraph-pop
     - include: else-pop
 
