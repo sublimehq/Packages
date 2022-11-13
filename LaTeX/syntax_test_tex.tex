@@ -105,7 +105,7 @@ some other text
 %  incomplete but with parameters; the { comes too late to open the function definition
 \def\text A#1A
 
-  { some other text
+  { some other text}
 % ^^^^^^^^^^^^^^ - meta.function
 
 %  command just prefixed with def. Needs to be picked up as a custom command
@@ -148,3 +148,47 @@ some other text
 %^^^^ keyword.control.conditional.else.tex
 \fi
 %^^ keyword.control.conditional.end.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               Registers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\muskip5
+%^^^^^^ storage.type.tex
+%^^^^^^^ meta.register.tex
+%      ^ meta.number.integer.decimal constant.numeric.value.tex
+
+\box 60
+%^^^ storage.type.tex
+%^^^^^^ meta.register.tex
+%    ^^ meta.number.integer.decimal constant.numeric.value.tex
+
+\skip5 10
+%^^^^^ meta.register.tex
+%      ^^ - meta.register.tex
+
+\counting
+%^^^^^^^^ - meta.register.tex
+
+\newdimen\mydimen
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%        ^^^^^^^^ entity.name.constant.tex
+%        ^ punctuation.definition.backslash.tex
+
+\newcount { \mycounter }
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%         ^^^^^^^^^^^^^^ meta.group.brace.latex
+%           ^^^^^^^^^^ entity.name.constant.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.backslash.tex
+%                      ^ punctuation.definition.group.brace.end.tex
+
+% A very weird case where we use a macro for the register id. In this case
+% we just scope the macro like we would any other.
+\def\five{5}
+\toks \five = 8
+%^^^^^^^^^^^ meta.register.tex
+%^^^^ storage.type.tex
+%     ^^^^^ support.function.general.tex
+%     ^ punctuation.definition.backslash.tex
