@@ -7,13 +7,13 @@
 
 using System;
 #pragma warning disable warning-list
-// ^ keyword.other.preprocessor
-//       ^ keyword.other.preprocessor
+/// ^ keyword.other.preprocessor
+///       ^ keyword.other.preprocessor
 #pragma warning restore warning-list
 #pragma checksum "file.cs" "{3673e4ca-6098-4ec1-890f-8fceb2a794a2}" "{012345678AB}" // New checksum
-//       ^ keyword.other.preprocessor
-//                 ^ stirng.quoted.double
-//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+///       ^ keyword.other.preprocessor
+///                 ^ string.quoted.double
+///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric.value
 
 #region
 /// ^^ meta.preprocessor keyword.other.preprocessor
@@ -66,12 +66,12 @@ public class MyClass
     }
 }
 #endregion a / b
-// ^^ storage.type.section
-//         ^^^^^ variable.other.section
-//              ^ meta.preprocessor.endregion meta.whitespace.newline
+/// ^^ keyword.other.preprocessor
+///        ^^^^^ variable.other.section
+///             ^ meta.preprocessor.endregion meta.whitespace.newline
 #endregion
-// ^^ storage.type.section
-//        ^ meta.preprocessor.endregion meta.whitespace.newline
+/// ^^ keyword.other.preprocessor
+///       ^ meta.preprocessor.endregion meta.whitespace.newline
 
 #nullable enable
 /// ^^ meta.preprocessor keyword.other.preprocessor
@@ -93,4 +93,4 @@ public class MyClass
 #nullable disable warnings
 /// ^^ meta.preprocessor keyword.other.preprocessor
 ///       ^^ meta.preprocessor keyword.other.preprocessor
-// /              ^^ meta.preprocessor keyword.other.preprocessor
+///               ^^ meta.preprocessor keyword.other.preprocessor
