@@ -16,23 +16,19 @@ contexts:
     - match: ".*FiXme:"
       scope: meta.log.latex.fixme
 
-    - match: (Overfull|Underfull)
-      captures:
-        1: keyword.control.hyphenation.latex
+    - match: (?:Overfull|Underfull)
+      scope: keyword.control.hyphenation.latex
       push:
         - meta_scope: meta.log.latex.hyphenation
 
-        - match: '(\[\]\n)'
-          captures:
-            1: keyword.control.hyphenation.latex
+        - match: '(?:\[\]\n)'
+          scope: keyword.control.hyphenation.latex
           pop: 1
 
         - match: '[0-9]+\-\-[0-9]+'
           scope: variable.parameter.hyphenation.latex2
 
-    - match: '<'
-      scope: punctuation.definition.string.begin.log.latex
-      push: angle-bracket-strings
+    - include: strings
 
   invalids:
     - match: ".*Warning:"
@@ -63,14 +59,21 @@ contexts:
     - match: .*Info.*
       scope: comment.block.documentation
 
+  strings:
+    - include: angle-bracket-strings
+
   angle-bracket-strings:
+    - match: '<'
+      scope: punctuation.definition.string.begin.log.latex
+      push: angle-bracket-string-content
+
+  angle-bracket-string-content:
     - meta_scope: string.unquoted.other.filename.log.latex
 
     - match: '>'
       scope: punctuation.definition.string.end.log.latex
       pop: 1
 
-    - match: (.*/.*\.pdf)
+    - match: (?:.*/.*\.pdf)
       scope: support.function.with-arg.latex
-      captures:
-        1: entity.name.function.filename.latex
+      scope: entity.name.function.filename.latex
