@@ -17,9 +17,11 @@ using System;
 
 #region
 /// ^^ meta.preprocessor keyword.other.preprocessor
+///    ^ meta.preprocessor.region meta.whitespace.newline
 #region MyClass definition
 /// ^^ meta.preprocessor keyword.other.preprocessor
 ///     ^^ meta.preprocessor entity.name.section
+///                       ^ meta.preprocessor.region meta.whitespace.newline
 public class MyClass
 {
     static void Main()
@@ -66,8 +68,10 @@ public class MyClass
 #endregion a / b
 // ^^ storage.type.section
 //         ^^^^^ variable.other.section
+//              ^ meta.preprocessor.endregion meta.whitespace.newline
 #endregion
 // ^^ storage.type.section
+//        ^ meta.preprocessor.endregion meta.whitespace.newline
 
 #nullable enable
 /// ^^ meta.preprocessor keyword.other.preprocessor

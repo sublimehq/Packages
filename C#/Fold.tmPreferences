@@ -57,6 +57,12 @@
                 <key>end</key>
                 <string>punctuation.definition.generic.end</string>
             </dict>
+            <dict>
+                <key>begin</key>
+                <string>meta.preprocessor.region meta.whitespace.newline</string>
+                <key>end</key>
+                <string>meta.preprocessor.endregion meta.whitespace.newline</string>
+            </dict>
         </array>
     </dict>
 </dict>
