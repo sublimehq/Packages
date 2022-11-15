@@ -102,6 +102,15 @@ contexts:
         - newcommand-definition
         - newcommand-commandname
 
+    - match: '(\\)(?:(?:New|Renew|Provide|Declare)(:?Expandable)?DocumentCommand)'
+      scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - newcommand-definition
+        - xparse-argspec
+        - newcommand-commandname
+
   newcommand-argspec:
     - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
@@ -197,6 +206,123 @@ contexts:
       pop: 1
     - include: paragraph-pop
     - include: else-pop
+
+  xparse-argspec:
+    - match: (?=\{)
+      set:
+        # deliberately using an anonymous scope here. we need two match the `{`
+        # in two stages, so we can apply the `clear_scopes`, and still be able
+        # to push `xparse-argspec` onto the stack without messing up scoping.
+        - clear_scopes: 1
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set: xparse-argspec-content
+
+    - include: paragraph-pop
+    - include: else-pop
+
+  xparse-argspec-content:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.latex
+    - include: brace-group-end
+    - include: macro-braces
+    - include: xparse-single-argspec
+    # not actually allowed, but included here to future-proof highlighting
+    - include: general-constants
+    - include: general-commands
+    - include: paragraph-pop
+
+  xparse-single-argspec:
+    # modifiers and simple specs
+    - match: '[+!movsb]'
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+
+    - match: t
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+      push:
+        - xparse-args-token
+
+    # delimited arguments without default
+    - match: '[rd]'
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+      push:
+        - xparse-args-token
+        - xparse-args-token
+
+    # delimited arguments with default
+    - match: '[RD]'
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+      push:
+        - xparse-optarg-value
+        - xparse-args-token
+        - xparse-args-token
+
+    # optional argument with default
+    - match: O
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+      push: xparse-optarg-value
+
+    # embellishment argument
+    - match: e
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+      push: xparse-embellishment
+
+    # embellishment argument with default
+    - match: E
+      scope: string.unquoted.latex meta.annotation.parameters.latex
+      push:
+        - xparse-optarg-value
+        - xparse-embellishment
+
+  xparse-embellishment:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.latex
+      set: xparse-embellishment-content
+    - match: (?=\S)
+      set: xparse-args-token
+    - include: paragraph-pop
+
+  xparse-embellishment-content:
+    - match: (?!\})
+      push: xparse-args-token
+    - include: brace-group-end
+    - include: paragraph-pop
+    - include: else-pop
+
+  xparse-args-token:
+    # either a command
+    - match: '(\\){{cmdname}}{{endcs}}'
+      scope: constant.other.token.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+    # or the token wrapped in a group
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: xparse-args-token
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 1
+    # or a single character
+    - match: '\S'
+      scope: constant.character.latex constant.other.token.latex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
+
+  xparse-optarg-value:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.parameters.default-value.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: 2
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+    - match: (?=\})
+      pop: 1
 
   general-constants:
     - meta_prepend: true
