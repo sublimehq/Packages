@@ -156,9 +156,7 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.group.brace.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
+        - include: brace-pop
         - include: main
 
   # within macros, it is possible that only part of some nested struture
@@ -169,9 +167,7 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.group.brace.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
+        - include: brace-pop
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -184,9 +180,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.box.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
+        - include: brace-pop
         - include: main
 
   macros:
@@ -244,9 +238,7 @@ contexts:
 
   def-definition-body:
     - meta_scope: meta.function.body.tex meta.group.brace.tex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 1
+    - include: brace-pop
     - include: general-constants
     - include: general-commands
     - include: macro-braces
@@ -332,9 +324,7 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.group.brace.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
+        - include: brace-pop
         - include: math-content
 
   math-brackets:
@@ -391,6 +381,12 @@ contexts:
   # matches any nospace and pops the context
   else-pop:
     - match: (?=\S)
+      pop: true
+
+  # matches a closing brace pops the context
+  brace-pop:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
       pop: true
 
   immediately-pop:
