@@ -59,9 +59,9 @@
             </dict>
             <dict>
                 <key>begin</key>
-                <string>meta.preprocessor.region meta.whitespace.newline</string>
+                <string>meta.preprocessor.region meta.fold.begin</string>
                 <key>end</key>
-                <string>meta.preprocessor.endregion meta.whitespace.newline</string>
+                <string>meta.preprocessor.region meta.fold.end</string>
             </dict>
         </array>
     </dict>

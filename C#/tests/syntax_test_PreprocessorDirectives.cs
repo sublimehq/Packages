@@ -16,12 +16,10 @@ using System;
 ///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric.value
 
 #region
-/// ^^ meta.preprocessor keyword.other.preprocessor
-///    ^ meta.preprocessor.region meta.whitespace.newline
+/// ^^ meta.preprocessor.region keyword.other.preprocessor meta.fold.begin
 #region MyClass definition
-/// ^^ meta.preprocessor keyword.other.preprocessor
-///     ^^ meta.preprocessor entity.name.section
-///                       ^ meta.preprocessor.region meta.whitespace.newline
+/// ^^ meta.preprocessor.region keyword.other.preprocessor - meta.fold
+///     ^^ meta.preprocessor.region entity.name.section meta.fold.begin
 public class MyClass
 {
     static void Main()
@@ -68,10 +66,10 @@ public class MyClass
 #endregion a / b
 /// ^^ keyword.other.preprocessor
 ///        ^^^^^ variable.other.section
-///             ^ meta.preprocessor.endregion meta.whitespace.newline
+///             ^ meta.preprocessor.region meta.fold.end
 #endregion
 /// ^^ keyword.other.preprocessor
-///       ^ meta.preprocessor.endregion meta.whitespace.newline
+///       ^ meta.preprocessor.region meta.fold.end
 
 #nullable enable
 /// ^^ meta.preprocessor keyword.other.preprocessor
