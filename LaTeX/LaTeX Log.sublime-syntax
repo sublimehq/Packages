@@ -78,7 +78,7 @@ contexts:
       scope: punctuation.definition.string.end.log.latex
       pop: 1
 
-    - match: (?:.*/.*\.pdf)
+    - match: '.*/.*\.pdf'
       scope: >-
         support.function.with-arg.latex
         entity.name.function.filename.latex
