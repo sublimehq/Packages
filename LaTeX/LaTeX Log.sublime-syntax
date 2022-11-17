@@ -25,7 +25,7 @@ contexts:
       push:
         - meta_scope: meta.log.latex.hyphenation
 
-        - match: '(?:\[\]\n)'
+        - match: \[\]\n
           scope: keyword.control.hyphenation.latex
           pop: 1
 
