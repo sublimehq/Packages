@@ -19,35 +19,34 @@ contexts:
 
   controls:
     - meta_append: true
-    - match: ((\\)(?:endbatchfile)){{endcs}}
+    - match: (\\)(?:endbatchfile){{endcs}}
+      scope: keyword.control.tex.docstrip
       captures:
-        1: keyword.control.tex.docstrip
-        2: punctuation.definition.backslash.tex
-    - match: ((\\)(?:(?:batch)?input)){{endcs}}
-      scope: meta.function.input.tex
+        1: punctuation.definition.backslash.tex
+    - match: (\\)(?:(?:batch)?input){{endcs}}
+      scope: meta.function.input.tex keyword.control.input.tex
       captures:
-        1: keyword.control.input.tex
-        2: punctuation.definition.backslash.tex
-    - match: ((\\)ifToplevel){{endcs}}
+        1: punctuation.definition.backslash.tex
+    - match: (\\)ifToplevel{{endcs}}
+      scope: keyword.control.conditional.tex.docstrip
       captures:
-        1: keyword.control.conditional.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   docstrip-preamble:
-    - match: ((\\)((?:declare)?(?:pre|post)amble)){{endcs}}
+    - match: (\\)((?:declare)?(?:pre|post)amble){{endcs}}
+      scope: keyword.context.block.tex.docstrip
       captures:
-        1: keyword.context.block.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
       push: preamble-content
 
 
   preamble-content:
     - meta_include_prototype: false
     - meta_content_scope: markup.raw.verbatim.tex
-    - match: ((\\)(?:end(?:pre|post)amble)){{endcs}}
+    - match: (\\)(?:end(?:pre|post)amble){{endcs}}
+      scope: keyword.context.block.tex.docstrip
       captures:
-        1: keyword.context.block.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
       pop: 1
 
   docstrip-keywords:
@@ -56,10 +55,10 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       push: file-argument
-    - match: ((\\)(:?generate|needed)){{endcs}}
+    - match: (\\)(:?generate|needed){{endcs}}
+      scope: keyword.tex.docstrip
       captures:
-        1: keyword.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
 
   file-argument:
@@ -75,23 +74,23 @@ contexts:
 
   docstrip-config:
     - match: ((\\)(:?usedir|showdirectory|BaseDirectory|DeclareDir|UseTDS|maxfiles|maxoutfiles)){{endcs}}
+      scope: support.function.tex.docstrip
       captures:
-        1: support.function.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   docstrip-user-io:
-     - match: ((\\)(:?Msg|Ask)){{endcs}}
+     - match: (\\)(:?Msg|Ask){{endcs}}
+       scope: support.function.tex.docstrip
        captures:
-         1: support.function.tex.docstrip
-         2: punctuation.definition.backslash.tex
+         1: punctuation.definition.backslash.tex
 
   docstrip-constants:
-    - match: ((\\)(?:askforoverwrite(?:true|false)|askonceonly|(?:use|no)(?:pre|post)amble|showprogress|keepsilent)){{endcs}}
+    - match: (\\)(?:askforoverwrite(?:true|false)|askonceonly|(?:use|no)(?:pre|post)amble|showprogress|keepsilent){{endcs}}
+      scope: constant.language.tex.docstrip
       captures:
-        1: constant.language.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
-    - match: ((\\)(?:(?:Double)perCent|MetaPrefix|empty)){{endcs}}
+    - match: (\\)(?:(?:Double)perCent|MetaPrefix|empty){{endcs}}
+      scope: constant.language.tex.docstrip
       captures:
-        1: constant.language.tex.docstrip
-        2: punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
