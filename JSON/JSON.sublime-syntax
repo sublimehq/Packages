@@ -23,6 +23,7 @@ file_extensions:
 
 hidden_file_extensions:
   - Pipfile.lock
+  - hidden-color-scheme
   - sublime_session
 
 first_line_match: |-
