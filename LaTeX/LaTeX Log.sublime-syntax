@@ -79,7 +79,7 @@ contexts:
       pop: 1
 
     - match: '.*/.*\.pdf'
-      scope: >-
+      scope:
         support.function.with-arg.latex
         entity.name.function.filename.latex
 
