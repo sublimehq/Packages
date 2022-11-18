@@ -306,7 +306,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.include.latex
-        - include: brace-pop
+        - include: brace-group-end
 
   sections:
     - match: |-
@@ -335,7 +335,7 @@ contexts:
       push:
         - meta_scope: meta.section.latex
         - meta_content_scope: entity.name.section.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
 
   structure:
@@ -444,7 +444,7 @@ contexts:
       scope: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.group.brace.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: math-content
 
   math-content:
@@ -466,7 +466,7 @@ contexts:
       push:
         - meta_scope: meta.function.ensuremath.latex
         - meta_content_scope: meta.environment.math.inline.ensuremath.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: math-content
 
     - match: (\\\()
@@ -560,7 +560,7 @@ contexts:
       push:
         - meta_scope: meta.function.emph.latex
         - meta_content_scope: markup.italic.emph.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
     - match: ((\\)textit)(\{)
       captures:
@@ -570,7 +570,7 @@ contexts:
       push:
         - meta_scope: meta.function.textit.latex
         - meta_content_scope: markup.italic.textit.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
     - match: ((\\)textbf)(\{)
       captures:
@@ -580,7 +580,7 @@ contexts:
       push:
         - meta_scope: meta.function.textbf.latex
         - meta_content_scope: markup.bold.textbf.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
     - match: ((\\)texttt)(\{)
       captures:
@@ -590,7 +590,7 @@ contexts:
       push:
         - meta_scope: meta.function.texttt.latex
         - meta_content_scope: markup.raw.texttt.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
     - match: ((\\)textsl)(\{)
       captures:
@@ -600,7 +600,7 @@ contexts:
       push:
         - meta_scope: meta.function.textsl.latex
         - meta_content_scope: markup.italic.textsl.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
     - match: ((\\)text)(\{)
       captures:
@@ -608,7 +608,7 @@ contexts:
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
       push:
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
     - match: ((\\)underline)(\{)
       captures:
@@ -618,7 +618,7 @@ contexts:
       push:
         - meta_scope: meta.function.underline.latex
         - meta_content_scope: markup.underline.underline.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: main
 
   footnote:
@@ -634,7 +634,7 @@ contexts:
           set:
             - meta_scope: meta.function.footnote.latex meta.group.brace.latex
             - meta_content_scope: markup.italic.footnote.latex
-            - include: brace-pop
+            - include: brace-group-end
             - include: main
         - match: (?=\S)
           pop: true
@@ -686,7 +686,7 @@ contexts:
             - meta_scope: meta.group.brace.latex
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.citation.latex
-            - include: brace-pop
+            - include: brace-group-end
         - match: ''
           pop: true
     - match: |-
@@ -708,7 +708,7 @@ contexts:
             - meta_scope: meta.function.reference.latex meta.group.brace.latex
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.reference.latex
-            - include: brace-pop
+            - include: brace-group-end
         - match: ''
           pop: true
     - match: ((\\)label)(\{)
@@ -720,7 +720,7 @@ contexts:
         - meta_scope: meta.function.label.latex
         - match: '[a-zA-Z0-9\.:/*!^_-]+'
           scope: entity.name.label.latex
-        - include: brace-pop
+        - include: brace-group-end
 
   begin-end-commands:
     - match: ((\\)begin)(\{)\s*(\w*)\*?\s*(\})
@@ -1547,7 +1547,7 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: meta.function.newcolumntype.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: array-preamble
 
 
@@ -1591,7 +1591,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.group.brace.begin.latex
       push:
-        - include: brace-pop
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: array-preamble
@@ -1611,7 +1611,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.before-column-decl.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -1622,7 +1622,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.after-column-decl.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -1636,7 +1636,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.inter-column-decl.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -1647,7 +1647,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.inter-column-decl.latex
-        - include: brace-pop
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
