@@ -39,10 +39,9 @@ contexts:
       scope: keyword.context.block.tex.docstrip
       captures:
         1: punctuation.definition.backslash.tex
-      push: preamble-content
+      push: docstrip-preamble-content
 
-
-  preamble-content:
+  docstrip-preamble-content:
     - meta_include_prototype: false
     - meta_content_scope: markup.raw.verbatim.tex
     - match: (\\)end(?:pre|post)amble{{endcs}}
@@ -56,21 +55,20 @@ contexts:
       scope: keyword.tex.docstrip
       captures:
         1: punctuation.definition.backslash.tex
-      push: file-argument
+      push: docstrip-file-argument
     - match: (\\)(?:generate|needed){{endcs}}
       scope: keyword.tex.docstrip
       captures:
         1: punctuation.definition.backslash.tex
 
-
-  file-argument:
+  docstrip-file-argument:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      set: file-argument-path
+      set: docstrip-file-argument-path
     - include: else-pop
     - include: paragraph-pop
 
-  file-argument-path:
+  docstrip-file-argument-path:
     - meta_content_scope: meta.path.tex.docstrip
     - include: macro-brace-content
 
