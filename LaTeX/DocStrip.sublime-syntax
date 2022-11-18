@@ -1,12 +1,14 @@
 %YAML 1.2
 ---
 # https://www.sublimetext.com/docs/syntax.html
+# https://www.texlive.info/CTAN/macros/latex/base/docstrip.pdf
 name: TeX (DocStrip)
+scope: source.tex.docstrip
+version: 1
+extends: Packages/LaTeX/TeX.sublime-syntax
+
 file_extensions:
   - ins
-scope: source.tex.docstrip
-
-extends: Packages/LaTeX/TeX.sublime-syntax
 
 contexts:
   main:
