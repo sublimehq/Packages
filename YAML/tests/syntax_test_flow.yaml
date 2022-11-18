@@ -117,16 +117,16 @@ continuation"
 #^ meta.mapping.key.yaml string.unquoted.plain.in.yaml
 # ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
 #   ^ meta.mapping.value string.unquoted.plain.in -entity.name.tag
-#    ^ meta.mapping.yaml punctuation.separator.mapping
+#    ^ meta.mapping.yaml punctuation.separator.sequence
 #      ^^ meta.mapping.key.yaml string.unquoted.plain.in
 #        ^ meta.mapping.yaml punctuation.separator.key-value.mapping
 #          ^^ meta.mapping.value.yaml string.unquoted.plain.in
-#            ^ punctuation.separator.mapping
+#            ^ punctuation.separator.sequence
 # <- meta.mapping.yaml punctuation.definition.mapping.begin
 *alias, true : false }
 #^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #^^^^^ variable.other.alias
-#     ^ punctuation.separator.mapping
+#     ^ punctuation.separator.sequence
 #       ^^^^ meta.mapping.key.yaml constant.language.boolean.yaml - string
 #            ^     punctuation.separator.key-value.mapping
 #              ^^^^^ meta.mapping.value.yaml constant.language.boolean.yaml
@@ -148,7 +148,7 @@ continuation"
 #       ^^^^^^^^ meta.mapping.value.yaml
 #        ^^^^^^^ string.quoted.double.yaml
 #               ^^ meta.mapping.yaml
-#               ^ punctuation.separator.mapping.yaml
+#               ^ punctuation.separator.sequence.yaml
 #                 ^^^^^ meta.mapping.key.yaml string.quoted.single.yaml
 #                      ^ punctuation.separator.key-value.mapping.yaml
 #                       ^^^ meta.mapping.value.yaml
@@ -158,7 +158,7 @@ continuation"
 {? !!str 'key' : !!str value,
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #               ^^^^^^^^^^^^ meta.mapping.value
-#                           ^ punctuation.separator.mapping - meta.mapping.value
+#                           ^ punctuation.separator.sequence - meta.mapping.value
 #^ punctuation.definition.key.begin.yaml
 #^^^^^^^^^^^^^^ meta.mapping.key.yaml
 #  ^^^^^ storage

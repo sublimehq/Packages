@@ -21,8 +21,8 @@ enum OperatingSystem
 // <- meta.block meta.enum punctuation.section.block.end
 
 let q = Message::Quit;
+//      ^^^^^^^^^ meta.path
 //      ^^^^^^^ storage.type.source
-//             ^^ meta.path
 //               ^^^^ storage.type.source
 //                   ^ punctuation.terminator
 let w = Message::WriteString("Some string".to_string());
@@ -37,18 +37,18 @@ let m = Message::Move { x: 50, y: 200 };
 
 enum Discriminant {
     A = 1,
-//  ^ meta.enum constant.other
+//  ^ meta.enum entity.name.constant
 //      ^ meta.enum constant.numeric.integer.decimal
     V1 = 0xABC,
-//  ^^ meta.enum constant.other
+//  ^^ meta.enum entity.name.constant
 //       ^^^^^ meta.enum constant.numeric.integer.hexadecimal
     V2,
-//  ^^ meta.enum constant.other
+//  ^^ meta.enum entity.name.constant
     SomeValue = 123,
 //  ^^^^^^^^^ meta.enum storage.type.source
 //              ^^^ meta.enum constant.numeric.integer.decimal
     V3 = (1<<4),
-//  ^^ meta.enum constant.other
+//  ^^ meta.enum entity.name.constant
 //       ^^^^^^ meta.enum meta.group
 //        ^ constant.numeric.integer.decimal
 //         ^^ keyword.operator.bitwise

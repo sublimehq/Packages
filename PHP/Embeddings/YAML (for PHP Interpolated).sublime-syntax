@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+scope: source.yaml.interpolated.php
+version: 2
+hidden: true
+
+extends: Packages/YAML/YAML.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
+
+  flow-scalar-double-quoted-body:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
+
+  flow-scalar-single-quoted-body:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations

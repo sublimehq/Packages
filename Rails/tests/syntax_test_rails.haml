@@ -428,14 +428,34 @@
 
 :markdown
 / <- meta.filter.definition.haml punctuation.definition.filter.haml
-/^^^^^^^^ meta.filter.definition.haml constant.other.language-name.plain.haml
+/^^^^^^^^ meta.filter.definition.haml constant.other.language-name.markdown.haml
 /        ^ meta.filter.definition.haml - constant
 
 :markdown
-  # Title
-  / <- meta.filter.haml text.plain.embedded.haml
+  # Title #{ @name }
+  / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml markup.heading.1.markdown punctuation.definition.heading.begin.markdown
+  /       ^^^^^^^^^^ meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml markup.heading.1.markdown meta.interpolation.haml
   Context
-  / <- meta.filter.haml text.plain.embedded.haml
+  / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.paragraph
+
+  ```c
+  void foo() {}
+  ```
+  / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.code-fence.definition.end.c.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+  /^^ meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.code-fence.definition.end.c.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
+  - list #{@item}
+  / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+  /^ meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml markup.list.unnumbered.markdown
+  / ^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.paragraph.list.markdown
+  /      ^^^^^^^^ meta.interpolation.haml
+  /      ^^ punctuation.section.interpolation.begin.haml
+  /        ^^^^^ source.ruby.rails.embedded.haml variable.other.readwrite.instance.ruby
+  /             ^ punctuation.section.interpolation.end.haml
+
+  <style  lang="#{@style_type}"> p { font-family: #{@font_name}; }
+/               ^^^^^^^^^^^^^^ meta.string.html meta.interpolation.haml
+/                                                 ^^^^^^^^^^^^^ meta.property-value.css meta.interpolation.haml
 
 :plain
 / <- meta.filter.definition.haml punctuation.definition.filter.haml

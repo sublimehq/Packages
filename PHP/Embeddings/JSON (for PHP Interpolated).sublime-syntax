@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+scope: source.json.interpolated.php
+version: 2
+hidden: true
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolations

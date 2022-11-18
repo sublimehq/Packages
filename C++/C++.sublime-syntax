@@ -333,6 +333,21 @@ contexts:
     - include: scope:source.c#label
     - include: expressions
 
+  statements-enum:
+    - include: comments
+    - include: preprocessor-statements
+    - include: scope:source.c#label
+    - match: '{{identifier}}'
+      scope: entity.name.constant.c++
+      push: constant-value
+    - match: ','
+      scope: punctuation.separator.c++
+
+  constant-value:
+    - match: (?=[,;}])
+      pop: true
+    - include: expressions
+
   expressions:
     - include: early-expressions
     - include: late-expressions
@@ -522,10 +537,10 @@ contexts:
       scope: keyword.operator.word.cast.c++
       push:
         - match: '>'
-          scope: punctuation.section.generic.end.c++
+          scope: punctuation.definition.generic.end.c++
           pop: true
         - match: '<'
-          scope: punctuation.section.generic.begin.c++
+          scope: punctuation.definition.generic.begin.c++
           push:
             - match: '(?=>)'
               pop: true
@@ -709,11 +724,11 @@ contexts:
         # \S lookahead in the case of comments.
         - include: comments
         - match: <
-          scope: punctuation.section.generic.begin.c++
+          scope: punctuation.definition.generic.begin.c++
           set:
             - meta_content_scope: meta.template.c++
             - match: '>'
-              scope: meta.template.c++ punctuation.section.generic.end.c++
+              scope: meta.template.c++ punctuation.definition.generic.end.c++
               pop: true
             - match: \.{3}
               scope: keyword.operator.variadic.c++
@@ -738,10 +753,10 @@ contexts:
           captures:
             1: punctuation.accessor.double-colon.c++
             2: variable.function.c++
-            3: punctuation.section.generic.begin.c++
+            3: punctuation.definition.generic.begin.c++
           push:
             - match: '>'
-              scope: punctuation.section.generic.end.c++
+              scope: punctuation.definition.generic.end.c++
               pop: true
             - include: expressions-minus-generic-type-function-call
         - match: (?:(::)\s*)?({{identifier}})\s*(\()
@@ -792,19 +807,19 @@ contexts:
       push:
         - include: identifiers
         - match: '<'
-          scope: punctuation.section.generic.begin.c++
+          scope: punctuation.definition.generic.begin.c++
           set:
             - match: '>'
-              scope: punctuation.section.generic.end.c++
+              scope: punctuation.definition.generic.end.c++
               pop: true
             - include: expressions-minus-generic-type-function-call
 
   angle-brackets:
     - match: '<(?!<)'
-      scope: punctuation.section.generic.begin.c++
+      scope: punctuation.definition.generic.begin.c++
       push:
         - match: '>'
-          scope: punctuation.section.generic.end.c++
+          scope: punctuation.definition.generic.end.c++
           pop: true
         - include: expressions-minus-generic-type-function-call
 
@@ -901,11 +916,11 @@ contexts:
       set:
         - meta_scope: meta.method-call.c++
         - match: <
-          scope: punctuation.section.generic.begin.c++
+          scope: punctuation.definition.generic.begin.c++
           set:
             - meta_content_scope: meta.method-call.c++
             - match: '>'
-              scope: punctuation.section.generic.end.c++
+              scope: punctuation.definition.generic.end.c++
               set:
                 - meta_content_scope: meta.method-call.c++
                 - include: comments
@@ -1382,7 +1397,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.c++ meta.block.c++ punctuation.section.block.end.c++
           pop: true
-        - include: statements
+        - include: statements-enum
 
   data-structures-union-definition:
     - meta_scope: meta.union.c++

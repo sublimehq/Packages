@@ -6,8 +6,10 @@ scope: source.ruby.rails
 extends: Packages/Ruby/Ruby.sublime-syntax
 
 file_extensions:
+  - ruby.rail
   - rxml
   - builder
+  - arb
 
 contexts:
 
@@ -97,6 +99,7 @@ contexts:
         | validates_associated
         | validates_confirmation_of
         | validates_each
+        | validates_with
         | validates_format_of
         | validates_inclusion_of
         | validates_exclusion_of

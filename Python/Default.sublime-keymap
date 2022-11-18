@@ -1,25 +1,110 @@
 [
-    // Auto-pair quotes even after string modifiers.
-    // Copied over from the default bindings with modifications to `preceding_text`
-    // and an added selector condition.
-    { "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\""}, "context":
+    // Suppress default auto-pairing bindings to avoid unwanted interference
+    { "keys": ["\""], "command": "insert", "args": {"characters": "\""}, "context":
         [
-            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?i)\\b[bfru]+$", "match_all": true },
-            { "key": "selector", "operator": "equal", "operand": "source.python" },
-            { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true }
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python - string.quoted.double" },
+            { "key": "selection_empty", "match_all": true }
         ]
     },
+    // Auto-pair double quotes
+    // - not after escape \| -> \"|
+    // - not after quote "| -> ""|
+    // - after string modifiers: f| -> f"|"
+    // - in front of dots: |.join() -> "|".join()
+    // - in front of commas: |, -> "|",
+    // - in front of colons: |: -> "|":
+    // - in front of semicolons: |; -> "|";
+    { "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\""}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python - string.quoted.double" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?i:^|[^\"\\w\\\\]|\\b[bfru]+)$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|\\.|,|:|;|$)", "match_all": true }
+        ]
+    },
+
+    // Suppress default auto-pairing bindings to avoid unwanted interference
+    { "keys": ["'"], "command": "insert", "args": {"characters": "'"}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python - string.quoted.single" },
+            { "key": "selection_empty", "match_all": true }
+        ]
+    },
+    // Auto-pair single quotes
+    // - not after escape \| -> \"|
+    // - not after quote '| -> ''|
+    // - after string modifiers: f| -> f"|"
+    // - in front of dots: |.join() -> "|".join()
+    // - in front of commas: |, -> "|",
+    // - in front of colons: |: -> "|":
+    // - in front of semicolons: |; -> "|";
     { "keys": ["'"], "command": "insert_snippet", "args": {"contents": "'$0'"}, "context":
         [
-            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?i)\\b[bfru]+$", "match_all": true },
-            { "key": "selector", "operator": "equal", "operand": "source.python" },
-            { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.single - punctuation.definition.string.end", "match_all": true }
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python - string.quoted.single" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?i:^|[^'\\w\\\\]|\\b[bfru]+)$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|\\.|,|:|;|$)", "match_all": true }
+        ]
+    },
+
+    // Suppress default auto-pairing bindings to avoid unwanted interference
+    { "keys": ["("], "command": "insert", "args": {"characters": "("}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python" },
+            { "key": "selection_empty", "match_all": true }
+        ]
+    },
+    // Auto-pair parens: | -> (|)
+    { "keys": ["("], "command": "insert_snippet", "args": {"contents": "($0)"}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
+        ]
+    },
+
+    // Suppress default auto-pairing bindings to avoid unwanted interference
+    { "keys": ["["], "command": "insert", "args": {"characters": "["}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python" },
+            { "key": "selection_empty", "match_all": true }
+        ]
+    },
+    // Auto-pair brackets: | -> [|]
+    { "keys": ["["], "command": "insert_snippet", "args": {"contents": "[$0]"}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
+        ]
+    },
+
+    // Suppress default auto-pairing bindings to avoid unwanted interference
+    { "keys": ["{"], "command": "insert", "args": {"characters": "{"}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python" },
+            { "key": "selection_empty", "match_all": true }
+        ]
+    },
+    // Auto-pair braces: | -> {|},
+    { "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selector", "operand": "source.python" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
         ]
     },
 ]

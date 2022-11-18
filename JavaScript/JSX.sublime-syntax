@@ -45,7 +45,7 @@ contexts:
           captures:
             1: punctuation.definition.comment.end.js
             2: punctuation.definition.interpolation.end.js
-          pop: true
+          pop: 1
         - match: (?=\*/)
           fail: jsx-interpolation-comment
 
@@ -57,14 +57,14 @@ contexts:
           - meta_content_scope: source.js.embedded.jsx
           - match: '}'
             scope: punctuation.definition.interpolation.end.js
-            pop: true
+            pop: 1
         - expression
 
   jsx-expect-tag-end:
     - meta_content_scope: meta.tag.js
     - match: '>'
       scope: meta.tag.js punctuation.definition.tag.end.js
-      pop: true
+      pop: 1
     - include: else-pop
 
   jsx-meta:
@@ -132,7 +132,7 @@ contexts:
         - meta_scope: string.quoted.single.js
         - match: \'
           scope: punctuation.definition.string.end.js
-          pop: true
+          pop: 1
         - include: jsx-html-escapes
     - match: '"'
       scope: punctuation.definition.string.begin.js
@@ -141,7 +141,7 @@ contexts:
         - meta_scope: string.quoted.double.js
         - match: \"
           scope: punctuation.definition.string.end.js
-          pop: true
+          pop: 1
         - include: jsx-html-escapes
 
     - include: else-pop
@@ -176,13 +176,13 @@ contexts:
   jsx-tag-name-component:
     - match: '{{jsx_identifier}}'
       scope: entity.name.tag.js
-      pop: true
+      pop: 1
     - include: else-pop
 
   jsx-tag-name-component-possibly-native:
     - match: '[[:lower:]]{{jsx_identifier_part}}*{{jsx_identifier_break}}(?!{{nothing}}[.:])'
       scope: entity.name.tag.native.js
-      pop: true
+      pop: 1
     - include: jsx-tag-name-component
 
   jsx-body:

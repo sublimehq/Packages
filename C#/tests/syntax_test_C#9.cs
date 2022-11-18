@@ -5,7 +5,7 @@
 
 public record Person
 /// ^^ storage.modifier.access
-///    ^^^^^^ storage.type.class
+///    ^^^^^^ keyword.declaration.class
 ///           ^^^^^^ entity.name.class
 {
     private readonly string lastName;
@@ -21,6 +21,7 @@ public record Person
 ///     ^^^^ keyword.declaration.function.accessor.set
 ///          ^^ keyword.declaration.function.arrow
 ///             ^^^^^^^^ variable.other
+///                               ^^ keyword.operator.null-coalescing
     }
 }
 
@@ -91,7 +92,7 @@ var message = myValue switch
 ///            ^^ constant.numeric.value
 ///               ^^ punctuation.separator.case-expression
     _ => "More than 10"
-/// ^ variable.language.deconstruction.discard
+/// ^ variable.language.anonymous
 ///   ^^ punctuation.separator.case-expression
 } + ".";
 /// <- punctuation.section.block.end
@@ -137,7 +138,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 ///                      ^ punctuation.accessor.dot
 ///                       ^^^^ variable.other
 ///                           ^ punctuation.separator.sequence
-///                             ^ variable.language.deconstruction.discard
+///                             ^ variable.language.anonymous
 ///                              ^ punctuation.section.sequence.end
 ///                                ^^ punctuation.separator.case-expression
 ///                                   ^^^^ constant.language
@@ -210,7 +211,7 @@ public class TollCalculator
 ///                        ^ keyword.operator.assignment
 ///                          ^ constant.numeric.value
 ///                                    ^^ punctuation.separator.case-expression
-            
+
             Car {Passengers: 1}        => 2.0m,
             Car {Passengers: 2}        => 2.0m - 0.50m,
             Car c                      => 2.00m - 1.0m,
@@ -235,7 +236,7 @@ public class TollCalculator
             { }     => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
             null    => throw new ArgumentNullException(nameof(vehicle))
         };
-    
+
     public decimal CalculateToll(object vehicle) =>
         vehicle switch
         {
@@ -300,33 +301,41 @@ if (e is not Customer) { }
 ///          ^^^^^^^^ support.type
 
 public record A(int Num);
-///    ^^^^^^^^^^^^^^^^^ meta.class
-///                     ^ punctuation.terminator.statement
-///           ^ meta.class.record entity.name.class
-///            ^ punctuation.section.group.begin
-///             ^^^^^^^^ meta.method.parameters
+///    ^^^^^^^^ meta.class.record
+///            ^^^^^^^^^ meta.class.record.parameters
+///                     ^ - meta.class
+///    ^^^^^^ keyword.declaration.class.record
+///           ^ entity.name.class
+///            ^ punctuation.section.parameters.begin
 ///             ^^^ storage.type
 ///                 ^^^ variable.parameter
 ///                    ^ punctuation.section.parameters.end
-public record B<T>(T Num);
+///                     ^ punctuation.terminator.statement
+public record B<T>(T Num)<NoGeneric>;
 ///    ^^^^^^^^^^^ meta.class.record
-///    ^^^^^^ storage.type.class.record
+///               ^^^^^^^ meta.class.record.parameters
+///                      ^^^^^^^^^^^ meta.class.record - meta.generic
+///                                 ^ - meta.class
+///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^^^ meta.generic
 ///            ^ punctuation.definition.generic.begin
 ///             ^ support.type
 ///              ^ punctuation.definition.generic.end
-///               ^ punctuation.section.group.begin
-///                ^^^^^ meta.method.parameters
+///               ^ punctuation.section.parameters.begin
 ///                     ^ punctuation.section.parameters.end
-///                      ^ punctuation.terminator.statement
+///                                 ^ punctuation.terminator.statement
 public record C<TNum> (TNum Num) where TNum : class;
-///    ^^^^^^ storage.type.class.record
+///    ^^^^^^^^^^^^^^^ meta.class.record.cs
+///                   ^^^^^^^^^^ meta.class.record.parameters.cs
+///                             ^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
+///                                                ^ - meta.class
+///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
 ///             ^^^^ support.type
 ///                 ^ punctuation.definition.generic.end
-///                   ^ punctuation.section.group.begin
+///                   ^ punctuation.section.parameters.begin
 ///                    ^^^^ support.type
 ///                         ^^^ variable.parameter
 ///                            ^ punctuation.section.parameters.end
@@ -336,12 +345,16 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///                                           ^^^^^ storage.type
 ///                                                ^ punctuation.terminator.statement
 public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4; }
-///    ^^^^^^ storage.type.class.record
+///    ^^^^^^^^^^^^^^^ meta.class.record.cs
+///                   ^^^^^^^^^^ meta.class.record.parameters.cs
+///                             ^^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
+///                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record.body.cs meta.block.cs
+///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
 ///             ^^^^ support.type
 ///                 ^ punctuation.definition.generic.end
-///                   ^ punctuation.section.group.begin
+///                   ^ punctuation.section.parameters.begin
 ///                    ^^^^ support.type
 ///                         ^^^ variable.parameter
 ///                            ^ punctuation.section.parameters.end
@@ -361,9 +374,9 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///                                                                              ^ punctuation.section.block.end
 public record Person(
 ///^^^ storage.modifier.access
-///    ^^^^^^ meta.class.record storage.type.class.record
+///    ^^^^^^ meta.class.record keyword.declaration.class.record
 ///           ^^^^^^ meta.class.record entity.name.class
-///                 ^ punctuation.section.group.begin
+///                 ^ punctuation.section.parameters.begin
     [property: JsonPropertyName("firstName")]string FirstName,
 /// ^ punctuation.definition.annotation.begin
 ///                                         ^ punctuation.definition.annotation.end
@@ -372,8 +385,40 @@ public record Person(
 ///                                                          ^ punctuation.separator.parameter.function
     [property: JsonPropertyName("lastName")]string LastName);
 /// ^ punctuation.definition.annotation.begin
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.method.parameters meta.annotation
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record.parameters meta.annotation
 ///                                         ^^^^^^ storage.type
 ///                                                ^^^^^^^^ variable.parameter
 ///                                                        ^ punctuation.section.parameters.end
 ///                                                         ^ punctuation.terminator.statement
+
+public class MyClass { public record MyRecord <T> (int nums) { public const int TEST = 4; } }
+///^^^^ - meta.class
+///    ^^^^^^^^^^^^^^ meta.class - meta.class.body
+///                  ^^^^^^^^^ meta.class.body meta.block
+///                           ^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record - meta.class.record.parameters
+///                                               ^^^^^^^^^^ meta.class.body meta.block meta.class.record.parameters
+///                                                         ^ meta.class.body meta.block meta.class.record - meta.class.record.parameters
+///                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record.body meta.block
+///                                                                                        ^^ meta.class.body meta.block - meta.class meta.class
+///                                                                                          ^ - meta.class
+///^^^ storage.modifier.access
+///    ^^^^^ keyword.declaration.class
+///          ^^^^^^^ entity.name.class
+///                  ^ punctuation.section.block.begin
+///                    ^^^^^^ storage.modifier.access
+///                           ^^^^^^ keyword.declaration.class.record
+///                                  ^^^^^^^^ entity.name.class
+///                                           ^ punctuation.definition.generic.begin
+///                                            ^ support.type
+///                                             ^ punctuation.definition.generic.end
+///                                               ^ meta.class.record.parameters punctuation.section.parameters.begin
+///                                                ^^^ storage.type
+///                                                    ^^^^ variable.parameter
+///                                                        ^ punctuation.section.parameters.end
+///                                                          ^ punctuation.section.block.begin
+///                                                            ^^^^^^ storage.modifier.access
+///                                                                   ^^^^^ storage.modifier
+///                                                                         ^^^ storage.type
+///                                                                             ^^^^ variable.other.member
+///                                                                                       ^ punctuation.section.block.end
+///                                                                                         ^ punctuation.section.block.end

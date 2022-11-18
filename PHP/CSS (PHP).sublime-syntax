@@ -1,0 +1,45 @@
+%YAML 1.2
+---
+name: CSS (PHP)
+scope: source.css.php
+version: 2
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+file_extensions:
+  - css.php
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: php-embedded
+
+  string-content:
+    - meta_prepend: true
+    - include: php-interpolations
+
+  php-interpolations:
+    - meta_include_prototype: false
+    - match: (?=<\?)
+      push: php-interpolation-body
+
+  php-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: php-embedded
+    - include: immediately-pop
+
+  php-embedded:
+    - meta_include_prototype: false
+    - match: <\?(?i:(?!php)ph?)
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+    - match: <\?(?i:php\b|=)?
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+      embed: Packages/PHP/PHP Source.sublime-syntax
+      embed_scope: meta.embedded.php source.php.embedded.css
+      escape: (\?>)(\s*\n)?
+      escape_captures:
+        0: meta.embedded.php
+        1: punctuation.section.embedded.end.php
+        2: meta.html-newline-after-php.php

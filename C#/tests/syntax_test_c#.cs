@@ -1,7 +1,7 @@
 // SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 class X
-// ^ storage.type.class
+// ^ keyword.declaration.class
 {
     X () {
 //  ^ entity.name.function.constructor

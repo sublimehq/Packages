@@ -34,7 +34,7 @@ contexts:
   separator:
     - meta_scope: meta.mapping.git.link
     - match: ':'
-      scope: punctuation.separator.mapping.key-value.git.link
+      scope: punctuation.separator.key-value.git.link
       set: [mapping-value-meta, expect-path]
     - match: \n
       pop: 1

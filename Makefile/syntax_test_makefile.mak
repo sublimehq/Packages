@@ -200,6 +200,18 @@ endef
 endef
 # <- invalid.illegal.stray
 
+override \
+# <- keyword.control.makefile
+#        ^ punctuation.separator.continuation.line.makefile
+
+override \
+	define foo
+# ^^^^^ keyword.control.makefile
+#       ^^^^ variable.other.makefile
+endef
+# <- keyword.control.makefile
+
+
 ########################################
 # 6.11 target-specific variable values #
 ########################################
@@ -210,6 +222,13 @@ prog : CFLAGS = -g
 #             ^ keyword
 #              ^ - string
 #               ^^ string - meta.function.arguments
+
+$(prog) : CFLAGS = -g
+#       ^ keyword.operator
+#         ^ variable - string
+#                ^ keyword
+#                 ^ - string
+#                  ^^ string - meta.function.arguments
 
 #########################################
 # 6.12 pattern-specific variable values #

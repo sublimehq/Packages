@@ -91,6 +91,9 @@ variables:
 contexts:
 
   main:
+    - include: html
+
+  html:
     - include: preprocessor
     - include: doctype
     - include: comment
@@ -110,7 +113,7 @@ contexts:
 
   cdata-content:
     - meta_scope: meta.tag.sgml.cdata.html
-    - meta_content_scope: string.unquoted.cdata.html
+    - meta_content_scope: meta.string.html string.unquoted.cdata.html
     - match: ']]>'
       scope: punctuation.definition.tag.end.html
       pop: 1

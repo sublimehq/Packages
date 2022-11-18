@@ -5,7 +5,7 @@
 
    REM I'm a (com|ment)
 :: ^^^ keyword.declaration.rem.dosbatch - comment
-::    ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::     ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
    ( rem comment )
 :: ^^^^^^^^^^^^^^^^ meta.block.dosbatch
@@ -19,13 +19,18 @@
    I'm a (com|ment)
 :: ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
+   REM ^
+   I'm a (com|ment) ^
+   not a comment
+:: ^^^^^^^^^^^^^ - comment
+
 REM
    not a comment
 :: ^^^^^^^^^^^^^ - comment
 
 REM This follows a REM command
 :: <- keyword.declaration.rem.dosbatch - comment
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
@@ -511,7 +516,7 @@ ECHO : Not a comment ^
 ::    ^^^ keyword.operator.logical.dosbatch
 ::        ^^^^^ support.function.builtin.dosbatch
 ::              ^^^^^^^^^^^^^ string.quoted.double.dosbatch
-   
+
    IF^
 :: ^^ - keyword.control.conditional
 ::   ^^ punctuation.separator.continuation.line.dosbatch
@@ -675,14 +680,14 @@ ECHO : Not a comment ^
 :: ^^ variable.parameter.option.dosbatch
 
    IF DEFINED ^& ECHO EXISTS
-::            ^^ variable.other.readwrite.dosbatch   
+::            ^^ variable.other.readwrite.dosbatch
 
    IF DEFINED ^
    ^& ECHO EXISTS
-:: ^^ variable.other.readwrite.dosbatch   
+:: ^^ variable.other.readwrite.dosbatch
 
    IF DEFINED -t ECHO EXISTS
-::            ^^ variable.other.readwrite.dosbatch   
+::            ^^ variable.other.readwrite.dosbatch
 
 :::: [ Loops ] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -959,7 +964,7 @@ ECHO : Not a comment ^
 ::               ^ punctuation.section.set.begin.dosbatch
 ::                ^^^  string.unquoted.dosbatch
 ::                ^^ constant.character.escape.dosbatch
-::                   ^ punctuation.section.set.end.dosbatch 
+::                   ^ punctuation.section.set.end.dosbatch
 ::                     ^^ keyword.control.loop.do.dosbatch
 ::                        ^ punctuation.section.block.begin.dosbatch
       )
@@ -2374,7 +2379,7 @@ put arg1 arg2
 
    set foo="bar^
    baz & echo !foo!"
-:: ^^^ meta.function-call.identifier.dosbatch 
+:: ^^^ meta.function-call.identifier.dosbatch
 ::    ^^^ - meta.command - meta.string
 ::       ^^^^^^^^^^^ meta.command.echo.dosbatch
 ::       ^^^^ meta.function-call.identifier.dosbatch - meta.string - meta.interpolation
@@ -2389,7 +2394,7 @@ put arg1 arg2
 :: ^^^ meta.function-call.identifier.dosbatch
 ::    ^^^^^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch
 ::             ^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
-::                  ^ meta.function-call.identifier.dosbatch meta.string.dosbatch 
+::                  ^ meta.function-call.identifier.dosbatch meta.string.dosbatch
 ::                   ^ - meta.function-call - meta.string
 :: ^^^^^^^^^^^^ variable.function.dosbatch
 ::             ^ punctuation.section.interpolation.begin.dosbatch
@@ -2731,7 +2736,7 @@ put arg1 arg2
 ::                                         ^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                                                ^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
 ::                                                     ^ - meta.command - meta.string
-:: ^^^ support.function.builtin.dosbatch   
+:: ^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.definition.string.begin
 ::      ^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch
@@ -3213,8 +3218,8 @@ put arg1 arg2
 ::              ^^^^^^ string.unquoted.dosbatch
 ::                    ^^^^^^ - string
 ::                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                                         ^ - punctuation 
-::                                         
+::                                         ^ - punctuation
+::
 
    :: even number of quotes in l-value
    :: unquoted value with even number of literal quotes
@@ -3228,9 +3233,9 @@ put arg1 arg2
 ::              ^^^^^^ string.unquoted.dosbatch
 ::                    ^^^^^^ - string
 ::                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                                         ^ - punctuation 
-::                                                      ^ - punctuation 
-::                                         
+::                                         ^ - punctuation
+::                                                      ^ - punctuation
+::
 
    :: even number of quotes in l-value
    :: unquoted value with even number of literal quotes in the middle
@@ -3245,8 +3250,8 @@ put arg1 arg2
 ::              ^^^^^^ string.unquoted.dosbatch
 ::                    ^^^^^^ - string
 ::                          ^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                            ^ - punctuation 
-::                                          ^ - punctuation 
+::                            ^ - punctuation
+::                                          ^ - punctuation
 ::                                            ^ keyword.operator.logical.dosbatch
 ::                                              ^^^^ support.function.builtin.dosbatch
 
@@ -3317,7 +3322,7 @@ put arg1 arg2
 ::                            ^^ string.quoted.double.dosbatch
 ::                             ^ punctuation.definition.string.end.dosbatch
 ::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
-   
+
    :: odd number of quotes in l-value
    :: unquoted value
    set /p today"=enter %date%: ^not a comment & echo done
@@ -3368,7 +3373,7 @@ put arg1 arg2
 ::               ^^^^^^ string.unquoted.dosbatch
 ::                     ^^^^^^ - string
 ::                           ^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                                          ^ - punctuation 
+::                                          ^ - punctuation
 ::                                            ^ keyword.operator.logical.dosbatch
 ::                                              ^^^^ support.function.builtin.dosbatch
 
@@ -3384,8 +3389,8 @@ put arg1 arg2
 ::               ^^^^^^ string.unquoted.dosbatch
 ::                     ^^^^^^ - string
 ::                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                                          ^ - punctuation 
-::                                                       ^ - punctuation 
+::                                          ^ - punctuation
+::                                                       ^ - punctuation
 
    :: odd number of quotes in l-value
    :: quoted value with missing end quotation markd
@@ -3657,8 +3662,8 @@ put arg1 arg2
 ::               ^^^^^^ string.unquoted.dosbatch
 ::                     ^^^^^^ - string
 ::                           ^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                             ^ - punctuation 
-::                                          ^ punctuation.definition.prompt.end.dosbatch - string 
+::                             ^ - punctuation
+::                                          ^ punctuation.definition.prompt.end.dosbatch - string
 ::                                            ^ keyword.operator.logical.dosbatch
 ::                                              ^^^^ support.function.builtin.dosbatch
 
@@ -3731,9 +3736,9 @@ put arg1 arg2
 ::                                                           ^ - meta.command
 ::               ^^^^^^^ string.quoted.double.dosbatch
 ::               ^ punctuation.definition.string.begin.dosbatch
-::                     ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch 
+::                     ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch
 ::                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
-   
+
    :: quoted prompt, odd number of quotes in l-value
    :: unquoted value
    set /p "today"=enter %date%: ^not a comment & echo done
@@ -3787,7 +3792,7 @@ put arg1 arg2
 ::                ^^^^^^ string.unquoted.dosbatch
 ::                      ^^^^^^ - string
 ::                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                                           ^ - punctuation 
+::                                           ^ - punctuation
 ::                                             ^ - keyword
 ::                                                        ^ punctuation.definition.prompt.end.dosbatch - string
 

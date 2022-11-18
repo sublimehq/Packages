@@ -1,0 +1,13 @@
+%YAML 1.2
+---
+scope: source.js.embedded.string.quoted.double.php
+version: 2
+hidden: true
+
+extends: Packages/PHP/JavaScript (PHP).sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - match: (?=")
+      pop: 1

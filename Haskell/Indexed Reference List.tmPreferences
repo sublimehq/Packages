@@ -4,6 +4,7 @@
 	<key>scope</key>
 	<string>
 		source.haskell keyword.operator - meta.function.identifier,
+		source.haskell storage.type,
 		source.haskell variable.other
 	</string>
 	<key>settings</key>

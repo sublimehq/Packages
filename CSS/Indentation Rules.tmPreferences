@@ -16,11 +16,11 @@
 			# optionally followed by...
 			(?<balanced>
 			# balanced parentheses
-			  \( (?: \g<balanced> | [^)] )* \)
+			  \( \g<balanced>* \)
 			# balanced brackets
-		  	| \[ (?: \g<balanced> | [^]] )* \]
+		  	| \[ \g<balanced>* \]
 			# balanced braces
-			| \{ (?: \g<balanced> | [^}] )* \}
+			| \{ \g<balanced>* \}
 			# double quoted string with ignored escaped quotation marks
 			| \" .*? (?<![^\\]\\)(?<![\\]{3})\"
 			# single quoted string with ignored escaped quotation marks

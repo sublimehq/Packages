@@ -16,6 +16,33 @@ public class HelloWorld {
         System.out.println("Hello World"); // ; "comment" ()
     }
 
+    public void testIndentBrackets()
+    {
+        var foo = [
+            [
+                [
+                    0, 1,
+                    2, 3
+                ],
+                [0, 1, 2, 3],
+                [
+                    0, 1,
+                    2, 3
+                ]
+            ]
+        ];
+
+        var foo = {
+            {
+                "key": "value"
+            },
+            { "key": "value" },
+            {
+                "key": "value"
+            }
+        }
+    }
+
     public boolean testIfElseIndentationNoBraces(String[] v)
     {
         /**
@@ -707,6 +734,14 @@ public class HelloWorld {
         for (
             int i = 0;
             i < 10;
+            i++) {
+            int j = 0;
+            int k = 0;
+        }
+
+        for (
+            int i = 0;
+            i < 10;
             i++)
         {
             int j = 0;
@@ -716,7 +751,8 @@ public class HelloWorld {
         for (
             int i = 0;
             i < 10;
-            i++) {
+            i++
+        ) {
             int j = 0;
             int k = 0;
         }
@@ -916,7 +952,7 @@ public class HelloWorld {
         }
         while (
             v == foo( bar("") + "" )
-            )
+        )
         {
             v++
             v++
@@ -928,7 +964,7 @@ public class HelloWorld {
         }
         while (
             v == foo( bar("") + "" )
-            ) {
+        ) {
             v++
             v++
         }

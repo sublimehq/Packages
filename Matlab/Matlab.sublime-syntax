@@ -438,12 +438,22 @@ contexts:
     - include: variables
     - include: invalid-variables
 
+  expect-expression:
+    - match: (?=\s*[;,])
+      pop: 1
+    - include: eol-pop
+    - include: expressions
+
   eol-pop:
     - match: '{{eol}}'
       pop: 1
 
   else-pop:
     - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
       pop: 1
 
 ###[ COMMENTS AND LINE CONTINUATION ]###########################################
@@ -772,10 +782,23 @@ contexts:
     - include: line-continuations
     - match: '{{eol}}'
       set: class-body
+    - match: (?={{identifier}}\.)
+      push: qualified-superclass
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.matlab
     - match: \&
       scope: punctuation.separator.sequence.matlab
+
+  qualified-superclass:
+    - meta_scope: meta.path.matlab
+    - match: '({{identifier}})(\.)'
+      captures:
+        1: variable.namespace.matlab
+        2: punctuation.accessor.dot.matlab
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.matlab
+      pop: 1
+    - include: immediately-pop
 
   class-attributes-list:
     - meta_scope: meta.attributes.matlab
@@ -960,7 +983,26 @@ contexts:
   switch-blocks:
     - match: \bswitch\b
       scope: keyword.control.conditional.switch.matlab
-      push: switch-block-content
+      push:
+        - switch-block-content
+        - expect-first-case-statement
+        - expect-expression
+
+  expect-first-case-statement:
+    # Disable dedentation of first case statement by special indentation rule.
+    - match: ^\s*(case)\b
+      captures:
+        1: keyword.control.conditional.case.matlab
+      set:
+        - meta-disable-dedentation
+        - expect-expression
+    - include: comments
+    - include: else-pop
+
+  meta-disable-dedentation:
+    - meta_include_prototype: false
+    - meta_scope: meta.disable-dedentation.matlab
+    - include: immediately-pop
 
   switch-block-content:
     - meta_scope: meta.block.switch.matlab

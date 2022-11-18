@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+scope: text.xml.interpolated.php
+version: 2
+hidden: true
+
+extends: Packages/XML/XML.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations

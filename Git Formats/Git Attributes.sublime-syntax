@@ -156,10 +156,10 @@ contexts:
   attribute-maybe-value-list:
     - meta_content_scope: meta.mapping.git.attributes
     - match: =(?=\S)
-      scope: meta.mapping.git.attributes punctuation.separator.mapping.key-value.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.key-value.git.attributes
       set: [attribute-value-list, attribute-value-content]
     - match: =
-      scope: meta.mapping.git.attributes punctuation.separator.mapping.key-value.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.key-value.git.attributes
       set: attribute-value-expected
     - include: attribute-separator
     - include: immediately-pop
@@ -168,10 +168,10 @@ contexts:
     - meta_content_scope: meta.mapping.value.git.attributes
     - include: attribute-separator
     - match: ',(?=\S)'
-      scope: punctuation.separator.mapping.values.git.attributes
+      scope: punctuation.separator.sequence.git.attributes
       push: attribute-value-content
     - match: ','
-      scope: meta.mapping.git.attributes punctuation.separator.mapping.values.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
       set: attribute-value-expected
     - match: \S
       scope: invalid.illegal.value.git.attributes
@@ -192,14 +192,14 @@ contexts:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
-      scope: meta.mapping.expect-value.git.attributes punctuation.separator.mapping.pair.git.attributes
+      scope: meta.mapping.expect-value.git.attributes punctuation.separator.sequence.git.attributes
       pop: 1
 
   attribute-separator:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
-      scope: meta.mapping.git.attributes punctuation.separator.mapping.pair.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
       pop: 1
 
 ##[ PROTOTYPES ]#######################################################

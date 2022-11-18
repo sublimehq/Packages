@@ -46,7 +46,7 @@ variables:
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
   definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
-  definitely_declaration_lookahead: '(?=(?:{{name}}\.)*{{name}}(\s+|\s*\*+\s*|\**\[.*\]\s*){{name}}|\b{{type_qualifier}}\b)'
+  definitely_declaration_lookahead: '(?=(?:{{name}}\.)*{{name}}(\s+|\s*\*+\s*|\**\[.*\]\s*){{name}}|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
@@ -74,15 +74,31 @@ contexts:
     - include: comment-in
 
   main:
-    - match: '^#!'
-      scope: punctuation.definition.comment.number-sign.d
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.number-sign.d
-        - match: '$\n?'
-          pop: true
+    - meta_include_prototype: false
+    - match: ''
+      set: [d, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.d
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.d
+    # Note: Keep sync with first_line_match!
+    - match: \bg?dmd\b
+      scope: constant.language.shebang.d
+    - match: \n
+      pop: 1
+
+  d:
     - include: module-in
     - include: statement-list-in
+
   module-in:
     - match: \bmodule\b
       scope: keyword.declaration.namespace.d
@@ -770,7 +786,7 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [basic-type2, basic-type2-after-parens, value]
+          set: [basic-type2, basic-type2-after-parens, value-list]
     - match: '{{name_lookahead}}'
       set: [basic-type2, type-identifier-ref]
     - match: '(?=\S)'
@@ -786,13 +802,13 @@ contexts:
       scope: keyword.other.d
       set: [basic-type2, function-type]
     - match: '!(?!=|is\b)'
-      scope: meta.function-call.d keyword.operator.d
+      scope: meta.function-call.template.d keyword.operator.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [basic-type2, basic-type2-after-call, value-list]
         - match: '(?=\S)'
-          set: [basic-type2, meta-function-call, value-template-single]
+          set: [basic-type2, meta-function-call-template, value-template-single]
     - match: '\.(?!\.\.)'
       scope: storage.type.d
       set:
@@ -812,7 +828,7 @@ contexts:
       pop: true
     - include: not-whitespace-illegal-pop
   basic-type2-after-call:
-    - meta_scope: meta.function-call.d
+    - meta_scope: meta.function-call.template.d
     - include: basic-type2-after-parens
 
   typeof-value:
@@ -1024,11 +1040,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: variable-definition-begin
+    - match: '(?=\))'
+      pop: true
     - include: expect-end-of-line
 
   value-or-declaration-in:
     - match: '{{definitely_value_lookahead}}'
-      push: [maybe-end-of-line, value-list]
+      push: [maybe-end-of-line, value-array-list]
     - match: '{{definitely_declaration_lookahead}}'
       push: [function-or-variable-after-type, type]
     - match: '(?=\S)'
@@ -1050,28 +1068,33 @@ contexts:
       captures:
         1: keyword.control.d
         2: punctuation.section.parens.begin.d
-      set: [first-value-parens-after, value]
+      set: [first-value-parens-after, value-list]
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
-      set: value-list
+      set: value-array-list
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+      set: first-value-after
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+      set: first-value-after
     - match: '{{name_lookahead}}'
-      scope: variable.other.d
       set: [first-value-after, value-identifier]
     - match: '(?=\S)'
-      set: value-list
+      set: value-array-list
   first-value-after:
     - match: '\.'
       scope: meta.path.d punctuation.accessor.dot.d
       push: value-identifier
     - match: '!(?!=|is\b)'
-      scope: meta.function-call.d keyword.operator.d
+      scope: meta.function-call.template.d keyword.operator.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [first-value-call-after, value-list]
         - match: '(?=\S)'
-          set: [first-value-after, meta-function-call, value-template-single]
+          set: [first-value-after, meta-function-call-template, value-template-single]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [first-value-bracket-after, value-list]
@@ -1101,17 +1124,10 @@ contexts:
       set: first-value-after
     - include: not-whitespace-illegal-pop
   first-value-call-after:
-    - meta_scope: meta.function-call.d
+    - meta_scope: meta.function-call.template.d
     - include: first-value-parens-after
 
   value:
-    - match: '\b({{name}})\s*(:)'
-      captures:
-        1: variable.other.d
-        2: punctuation.separator.mapping.key-value.d
-      set: value
-    - include: value-no-mapping-key
-  value-no-mapping-key:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
@@ -1272,7 +1288,7 @@ contexts:
     - meta_scope: meta.function-call.d
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [value-call-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, value-list]
     - match: (?=\S)
       set: value-after
   new-anonymous-after-args:
@@ -1365,7 +1381,10 @@ contexts:
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
-    - match: '\b{{name}}\b(?=\s*(\(|!(?!=|is\b)))'
+    - match: '\b{{name}}\b(?=\s*!(?!=|is\b))'
+      scope: meta.function-call.template.d meta.path.d variable.function.d
+      pop: true
+    - match: '\b{{name}}\b(?=\s*\()'
       scope: meta.function-call.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
@@ -1386,7 +1405,7 @@ contexts:
       set: [value-after, value-identifier]
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [value-call-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, value-list]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [value-bracket-after, value-list]
@@ -1415,13 +1434,13 @@ contexts:
       scope: keyword.operator.assignment.d
       set: value
     - match: '!'
-      scope: meta.function-call.d punctuation.section.generic.begin.d
+      scope: meta.function-call.template.d punctuation.section.generic.begin.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [value-call-parens-after, value-list]
+          set: [meta-function-call-template, value-parens-after, value-list]
         - match: '(?=\S)'
-          set: [value-after, meta-function-call, value-template-single]
+          set: [value-after, meta-function-call-template, value-template-single]
     - match: \*(?=\s*[\),;\]\*])
       scope: keyword.operator.pointer.d
       set: value-maybe-pointer-after
@@ -1464,21 +1483,18 @@ contexts:
       set: value
   value-condition:
     - match: (?=:)
-      pop: 1
-    - include: value-no-mapping-key
+      pop: true
+    - include: value
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d
-      set: value-no-mapping-key
+      set: value
     - include: not-whitespace-illegal-pop
   value-parens-after:
     - match: '\)'
       scope: punctuation.section.parens.end.d
       set: value-after
     - include: not-whitespace-illegal-pop
-  value-call-parens-after:
-    - meta_scope: meta.function-call.d
-    - include: value-parens-after
   value-bracket-after:
     - match: '\]'
       scope: punctuation.section.brackets.end.d
@@ -1498,31 +1514,18 @@ contexts:
       set: value-list
     - include: not-whitespace-illegal-pop
 
-  value-list-no-mapping-key:
-    - match: '(?=\)|}|]|;|:)'
-      pop: true
-    - match: '(?=\S)'
-      set: [value-list-after-no-mapping-key, value-no-mapping-key]
-  value-list-after-no-mapping-key:
-    - match: '(?=\)|}|]|;|:)'
-      pop: true
-    - match: ','
-      scope: punctuation.separator.sequence.d
-      set: value-list-no-mapping-key
-    - include: not-whitespace-illegal-pop
-
   value-array-list:
-    - match: '(?=\])'
+    - match: '(?=\)|}|]|;)'
       pop: true
     - match: '(?=\S)'
       set: [value-array-list-after, value]
   value-array-list-after:
     - match: ':'
-      scope: punctuation.separator.mapping.key-value.d
+      scope: punctuation.separator.key-value.d
       set: [value-array-list-after-value, value]
     - include: value-array-list-after-value
   value-array-list-after-value:
-    - match: '(?=\])'
+    - match: '(?=\)|}|]|;)'
       pop: true
     - match: ','
       scope: punctuation.separator.sequence.d
@@ -1607,9 +1610,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: base-class-list
-    - match: '(?={)'
+    - match: '(?=\S)'
       pop: true
-    - include: not-whitespace-illegal-pop
 
   interface-in:
     - match: '\b(interface)\b'
@@ -1875,7 +1877,7 @@ contexts:
       scope: punctuation.section.group.end.d
       set: function-definition-after-first-argument-list
     - match: '(?=\S)'
-      set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument]
+      set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument, function-argument-or-type]
   destructor-arguments:
     - match: '\('
       scope: meta.function.parameters.d punctuation.section.group.begin.d
@@ -2098,7 +2100,7 @@ contexts:
         - include: not-whitespace-illegal-pop
     - match: '\bcase\b'
       scope: keyword.control.flow.d
-      push: [case-after, value-list-no-mapping-key]
+      push: [case-after, value-list]
     - match: '\bdefault\b'
       scope: keyword.control.flow.d
       push:
@@ -2120,7 +2122,7 @@ contexts:
           set:
             - match: '\bcase\b'
               scope: keyword.control.flow.d
-              set: [case-after, value-no-mapping-key]
+              set: [case-after, value]
             - include: not-whitespace-illegal-pop
         - match: '(?=\S)'
           pop: true
@@ -2188,9 +2190,10 @@ contexts:
   condition:
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [condition-after, value]
+      set: [condition-after, first-value]
     - include: not-whitespace-illegal-pop
   condition-after:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       pop: true
@@ -2215,7 +2218,7 @@ contexts:
 
   type-identifier:
     - match: '\b{{name}}\b(?=\s*!)'
-      scope: meta.function-call.d meta.path.d variable.function.d
+      scope: meta.function-call.template.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
       scope: meta.path.d storage.type.d
@@ -2292,6 +2295,11 @@ contexts:
 
   meta-function-call:
     - meta_scope: meta.function-call.d
+    - match: ''
+      pop: true
+
+  meta-function-call-template:
+    - meta_scope: meta.function-call.template.d
     - match: ''
       pop: true
 

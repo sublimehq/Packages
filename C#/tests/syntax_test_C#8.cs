@@ -7,7 +7,7 @@ List<int> numbers = null;
 int? i = null;
 
 numbers ??= new List<int>();
-///     ^^^ keyword.operator
+///     ^^^ keyword.operator.assignment.augmented
 numbers.Add(i ??= 17);
 numbers.Add(i ??= 20);
 
@@ -48,7 +48,7 @@ public static decimal CalculateToll(object vehicle) =>
 ///                     ^^ meta.method meta.block punctuation.separator.case-expression
 
         _ => throw new ArgumentException("Not a known vehicle type", nameof(vehicle))
-///     ^ variable.language.deconstruction.discard
+///     ^ variable.language.anonymous
 ///       ^^ punctuation.separator.case-expression
     };
 
@@ -239,12 +239,58 @@ static Quadrant GetQuadrant(Point point) => point switch
     var (_, _) => Quadrant.OnBorder,
 /// ^^^ storage.type.variable
 ///     ^^^^^^ meta.sequence.tuple
-///      ^ variable.language.deconstruction.discard
+///      ^ variable.language.anonymous
 ///       ^ punctuation.separator.sequence
-///         ^ variable.language.deconstruction.discard
+///         ^ variable.language.anonymous
     _ => Quadrant.Unknown
-/// ^ variable.language.deconstruction.discard
+/// ^ variable.language.anonymous
 ///   ^^ punctuation.separator.case-expression
 };
 /// <- punctuation.section.block.end
 /// ^ - meta.block
+
+    using var socket = new ClientWebSocket();
+/// ^^^^^ keyword.control.using
+///       ^^^ storage.type.variable
+///           ^^^^^^ variable.other
+///                  ^ keyword.operator.assignment
+///                    ^^^ keyword.operator.new
+///                        ^^^^^^^^^^^^^^^ support.type
+///                                       ^ punctuation.section.group.begin
+///                                        ^ punctuation.section.group.end
+///                                         ^ punctuation.terminator.statement
+    if (true) {
+        using var socket = new ClientWebSocket();
+///     ^^^^^ keyword.control.using
+///           ^^^ storage.type.variable
+///               ^^^^^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^ keyword.operator.new
+///                            ^^^^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.section.group.begin
+///                                            ^ punctuation.section.group.end
+///                                             ^ punctuation.terminator.statement
+    } else {
+        using var socket = new ClientWebSocket();
+///     ^^^^^ keyword.control.using
+///           ^^^ storage.type.variable
+///               ^^^^^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^ keyword.operator.new
+///                            ^^^^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.section.group.begin
+///                                            ^ punctuation.section.group.end
+///                                             ^ punctuation.terminator.statement
+    }
+    try {
+        using var socket = new ClientWebSocket();
+///     ^^^^^ keyword.control.using
+///           ^^^ storage.type.variable
+///               ^^^^^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^ keyword.operator.new
+///                            ^^^^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.section.group.begin
+///                                            ^ punctuation.section.group.end
+///                                             ^ punctuation.terminator.statement
+    }

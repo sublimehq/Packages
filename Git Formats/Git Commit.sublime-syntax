@@ -6,13 +6,14 @@ name: Git Commit
 scope: text.git.commit
 version: 2
 
+extends: Git Commit Message.sublime-syntax
+
 file_extensions:
   - COMMIT_EDITMSG
   - MERGE_MSG
   - TAG_EDITMSG
 
 variables:
-  comment_char: '[#;]'
   hash: \b\h{7,}\b
   # Rebase operations
   shortcut: '[defprsx]'
@@ -44,61 +45,16 @@ variables:
 
 contexts:
   prototype:
+    - meta_prepend: true
     - include: dropped-content
-    - include: comments
 
-  main:
-    - match: ^\s*(?=\S)
-      set: commit-subject
-
-##[ COMMITS ]##########################################################
-
-  commit-subject:
-    # first none empty none comment line is commit subject
-    - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
-    - match: $\n?
-      set: commit-separator
-    - include: Git Common.sublime-syntax#references
-
-  commit-separator:
-    # empty line between subject and message
-    - match: \n
-      set: commit-message
-    - match: \S.*
-      scope: invalid.illegal.empty-line-expected.git.commit
-
-  commit-message:
-    # all none comment lines after subject belong to the message
-    - match: ^
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.message.git.commit
-        - match: ^(?=#)
-          pop: 1
-        - include: Git Common.sublime-syntax#references
-        - include: signed-off
-
-  signed-off:
-    - match: ^\s*(Signed-off-by)\s*(:)
-      captures:
-        1: keyword.other.signed-off-by.git.commit
-        2: punctuation.separator.mapping.pair.git.commit
-
-##[ COMMENTS ]#########################################################
-
-  comments:
-    - match: ^{{comment_char}}
-      scope: punctuation.definition.comment.git.commit
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.git.commit
-        - match: $\n?
-          pop: 1
-        - include: branch-line
-        - include: change-list
-        - include: commands-line
-        - include: date-line
-        - include: heading
+  comment-content:
+    - meta_append: true
+    - include: branch-line
+    - include: change-list
+    - include: commands-line
+    - include: date-line
+    - include: heading
 
   branch-line:
     - match: \b({{on_branch}})\s+(.*)
@@ -112,40 +68,40 @@ contexts:
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.inserted.file.git.commit
     - match: \b({{copied}}|{{renamed}})\s*(:)\s*((.+)\s+(->)\s+(.+))
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit
         4: markup.changed.file.name.git.commit
-        5: punctuation.separator.mapping.pair.path.git.commit
+        5: punctuation.separator.key-value.path.git.commit
         6: markup.changed.file.name.git.commit
     - match: \b({{typechange}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.changed.file.name.git.commit
     - match: \b({{modified}}|{{both_modified}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.changed.file.content.git.commit
     - match: \b({{deleted}}|{{deleted_by_them}}|{{deleted_by_us}}|{{both_deleted}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.deleted.file.git.commit
     - match: \b({{unknown}}|{{unmerged}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
-        2: punctuation.separator.mapping.pair.change-list.git.commit
+        2: punctuation.separator.key-value.change-list.git.commit
         3: string.unquoted.git.commit markup.ignored.file.git.commit
 
   commands-line:
@@ -162,7 +118,7 @@ contexts:
     - match: \b({{date}})\s*(:)\s*(.*)
       captures:
         1: markup.heading.git.commit
-        2: punctuation.separator.mapping.pair.date.git.commit
+        2: punctuation.separator.key-value.date.git.commit
         3: constant.language.timestamp.git.commit
 
   heading:
