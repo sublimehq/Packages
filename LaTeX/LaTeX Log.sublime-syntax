@@ -11,13 +11,8 @@ contexts:
   main:
     - include: log-entries
     - include: file-paths
-    - include: doc-comments
     - include: under-over-full
     - include: strings
-
-  doc-comments:
-    - match: ".*FiXme:"
-      scope: meta.log.latex.fixme
 
   under-over-full:
     - match: (?:Overfull|Underfull)
@@ -59,6 +54,7 @@ contexts:
     - include: error-log-entries
     - include: warning-log-entries
     - include: info-log-entries
+    - include: fixme-log-entries
 
   error-log-entries:
     - match: '.*Error|^!.*'
@@ -73,6 +69,10 @@ contexts:
   info-log-entries:
     - match: '.*Info.*'
       scope: comment.block.documentation
+
+  fixme-log-entries:
+    - match: ".*FiXme:"
+      scope: meta.log.latex.fixme
 
 ###[ Strings ]##################################################################
 
