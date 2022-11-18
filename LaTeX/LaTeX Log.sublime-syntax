@@ -5,21 +5,21 @@ scope: text.log.latex
 
 first_line_match: "This is (pdf|pdfe)?TeXk?, Version "
 
+################################################################################
+
 contexts:
-  eol-pop:
-    - match: '$\n?'
-      pop: 1
-
   main:
-    - include: invalids
-    - include: functions
-    - include: types
-    - include: tags
-    - include: comments
+    - include: log-entries
+    - include: file-paths
+    - include: doc-comments
+    - include: under-over-full
+    - include: strings
 
+  doc-comments:
     - match: ".*FiXme:"
       scope: meta.log.latex.fixme
 
+  under-over-full:
     - match: (?:Overfull|Underfull)
       scope: keyword.control.hyphenation.latex
       push:
@@ -32,36 +32,49 @@ contexts:
         - match: '[0-9]+\-\-[0-9]+'
           scope: variable.parameter.hyphenation.latex2
 
-    - include: strings
+###[ File paths ]###############################################################
 
-  invalids:
-    - match: ".*Warning:"
-      scope: invalid.deprecated
+  file-paths:
+    - include: function-file-paths
+    - include: tag-file-paths
+    - include: type-file-paths
 
-    - match: '[^:]*:\d*:.*'
-      scope: invalid.deprecated
-
-    - match: .*Error|^!.*
-      scope: invalid.illegal
-
-  functions:
+  function-file-paths:
     - match: .*\.sty
       scope: entity.name.function
 
-  types:
-    - match: .*\.cls
-      scope: entity.name.type.class
-
-  tags:
+  tag-file-paths:
     - match: .*\.cfg
       scope: entity.name.tag.configuration
-
     - match: .*\.def
       scope: entity.name.tag.definition
 
-  comments:
-    - match: .*Info.*
+  type-file-paths:
+    - match: .*\.cls
+      scope: entity.name.type.class
+
+###[ Log entries ]##############################################################
+
+  log-entries:
+    - include: error-log-entries
+    - include: warning-log-entries
+    - include: info-log-entries
+
+  error-log-entries:
+    - match: '.*Error|^!.*'
+      scope: invalid.illegal
+
+  warning-log-entries:
+    - match: '.*Warning:'
+      scope: invalid.deprecated
+    - match: '[^:]*:\d*:.*'
+      scope: invalid.deprecated
+
+  info-log-entries:
+    - match: '.*Info.*'
       scope: comment.block.documentation
+
+###[ Strings ]##################################################################
 
   strings:
     - include: angle-bracket-strings
@@ -79,8 +92,14 @@ contexts:
       pop: 1
 
     - match: '.*/.*\.pdf'
-      scope:
+      scope: >-
         support.function.with-arg.latex
         entity.name.function.filename.latex
 
     - include: eol-pop
+
+###[ Helpers ]##################################################################
+
+  eol-pop:
+    - match: '$\n?'
+      pop: 1
