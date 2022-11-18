@@ -944,7 +944,7 @@ contexts:
     - match: (?=(?:{{dot_accessor}})?\()
       push: function-call-arguments
 
-    - match: (?={{line_ending_ahead}})
+    - match: '{{line_ending_ahead}}'
       branch_point: decorator-expression-continuation
       branch:
         - decorator-expression-continuation
