@@ -71,7 +71,7 @@ contexts:
       scope: comment.block.documentation
 
   fixme-log-entries:
-    - match: ".*FiXme:"
+    - match: '.*FiXme:'
       scope: meta.log.latex.fixme
 
 ###[ Strings ]##################################################################
