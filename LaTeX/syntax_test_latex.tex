@@ -27,7 +27,7 @@
 % line comment
 % <- comment.line.percentage.tex
 
-\newcommand{\foo}{\bar}
+\newcommand{\foo}{\baz}
 %^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^ meta.function.identifier.latex
@@ -42,7 +42,7 @@
 %                 ^ punctuation.definition.backslash.latex
 %                     ^ punctuation.definition.group.brace.end
 
-\newcommand{\foo}[1]{\bar #1}
+\newcommand{\foo}[1]{\baz #1}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^ meta.function.identifier.latex
@@ -56,7 +56,7 @@
 %                         ^^ variable.parameter.tex
 %                          ^ meta.number.integer.decimal constant.numeric.value.tex
 
-\newcommand{\foo}[2][default]{\bar #1 #2}
+\newcommand{\foo}[2][default]{\baz #1 #2}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^ meta.function.identifier.latex
@@ -68,7 +68,7 @@
 %                 ^ constant.numeric.value.latex
 %                             ^^^^ support.function.general.latex
 
-\renewcommand{\foo}[1]{\bar #1}
+\renewcommand{\foo}[1]{\baz #1}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^^^ meta.function.latex
 %            ^^^^^^ meta.function.identifier.latex
@@ -78,7 +78,7 @@
 %             ^^^^ entity.name.newcommand.latex
 %                      ^^^^ support.function.general.latex
 
-  \providecommand{\f@o}[2][default]{\bar #1 #2}
+  \providecommand{\f@o}[2][default]{\baz #1 #2}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 % ^^^^^^^^^^^^^^^ meta.function.latex
 %                ^^^^^^ meta.function.identifier.latex
@@ -91,7 +91,7 @@
 %                       ^ constant.numeric.value.latex
 %                                   ^^^^ support.function.general.latex
 
-\newcommand\foo{\bar}
+\newcommand\foo{\baz}
 %^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^ meta.function.identifier.latex
@@ -100,7 +100,7 @@
 %          ^^^^ entity.name.newcommand.latex
 %               ^^^ support.function.general.latex
 
-\newcommand{ \foo }{\bar}
+\newcommand{ \foo }{\baz}
 %^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^^^ meta.function.identifier.latex
@@ -108,7 +108,7 @@
 %            ^^^^ entity.name.newcommand.latex
 %                   ^^^^ support.function.general.latex
 
-\newcommand* {\foo }{\bar}
+\newcommand* {\foo }{\baz}
 %^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^^^ meta.function.latex
 %            ^^^^^^^ meta.function.identifier.latex
@@ -116,7 +116,7 @@
 %             ^^^^ entity.name.newcommand.latex
 %                      ^ support.function.general.latex
 
-\newcommand \foo {\bar}
+\newcommand \foo {\baz}
 %^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^^ meta.function.latex
 %           ^^^^ meta.function.identifier.latex
@@ -131,7 +131,7 @@
 %           ^^^^ meta.function.identifier.latex
 %               ^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
 %           ^^^^ entity.name.newcommand.latex
- {\bar}
+ {\baz}
 %^^^^^^ - meta.function meta.function
 % <- meta.function.latex
 %^^^^^^ meta.function.body
@@ -141,7 +141,7 @@
 % note: with an actual empty line in-between, this is a new paragraph
 \newcommand \foo
 
- {\bar}
+ {\baz}
 %^^^^^^ - meta.function
 
 
