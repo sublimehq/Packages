@@ -7754,6 +7754,18 @@ Visit www.commonmark.org#
 |     ^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet.markdown markup.underline.link
 |                        ^ - markup.underline.link
 
+www.google.com/search?q=(business'
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+|                                ^ - markup.underline.link
+
+www.google.com/search?q=(business"
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
+|             ^ punctuation.separator.path.markdown
+|                    ^ punctuation.separator.path.markdown
+|                                ^ - markup.underline.link
+
 www.google.com/search?q=(business))+ok
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inet.markdown markup.underline.link
 |             ^ punctuation.separator.path.markdown

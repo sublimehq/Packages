@@ -2883,7 +2883,7 @@ contexts:
   autolink-inet-group:
     - match: \)
       pop: 1
-    - match: (?=(?:{{html_entity}})*[?!.,:*_~]*[\s<])
+    - match: (?=(?:{{html_entity}})*[?!.,:;*_~'"]*[\s<])
       pop: 1
     - include: autolink-inet-common
 
