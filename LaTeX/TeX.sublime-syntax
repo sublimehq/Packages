@@ -382,10 +382,12 @@ contexts:
   math-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.tex
-        - include: brace-group-end
-        - include: math-content
+      push: math-brace-group-body
+
+  math-brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: math-content
 
   math-brackets:
     - match: '[\(\)]'
@@ -419,22 +421,32 @@ contexts:
   inline-math:
     - match: \$
       scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push:
-        - meta_scope: meta.environment.math.inline.dollar.tex
-        - match: \$
-          scope: string.other.math.tex punctuation.definition.string.end.tex
-          pop: true
-        - include: math-content
+      push: inline-math-dollar-body
+
+  inline-math-dollar-body:
+    - meta_scope: meta.environment.math.inline.dollar.tex
+    - include: inline-math-dollar-end
+    - include: math-content
+
+  inline-math-dollar-end:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: true
 
   block-math:
     - match: \$\$
       scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push:
-        - meta_scope: meta.environment.math.block.dollar.tex
-        - match: \$\$
-          scope: string.other.math.tex punctuation.definition.string.end.tex
-          pop: true
-        - include: math-content
+      push: block-math-dollar-body
+
+  block-math-dollar-body:
+    - meta_scope: meta.environment.math.block.dollar.tex
+    - include: block-math-dollar-end
+    - include: math-content
+
+  block-math-dollar-end:
+    - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: true
 
 ###[ PROTOTYPES ]##############################################################
 
