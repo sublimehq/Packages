@@ -218,21 +218,6 @@ contexts:
       scope: punctuation.definition.group.brace.end.tex
       pop: true
 
-  # within macros, it is possible that only part of some nested struture
-  # is present. To prevent this from causing problems, here we only match
-  # elements that are simple, i.e. that do not push to the stack.
-  macro-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: macro-brace-group-body
-
-  macro-brace-group-body:
-    - meta_scope: meta.group.brace.tex
-    - include: brace-group-end
-    - include: general-constants
-    - include: general-commands
-    - include: macro-braces
-
   boxes:
     - match: ((\\)[hv]box)\s*(\{)
       captures:
@@ -245,6 +230,8 @@ contexts:
     - meta_scope: meta.function.box.tex
     - include: brace-group-end
     - include: main
+
+###[ MACROS ]##################################################################
 
   macros:
     # Note \edef and \xdef have slightly different syntax, in that they do not
@@ -298,6 +285,18 @@ contexts:
 
   def-definition-body:
     - meta_scope: meta.function.body.tex meta.group.brace.tex
+    - include: macro-brace-group-body
+
+  # within macros, it is possible that only part of some nested struture
+  # is present. To prevent this from causing problems, here we only match
+  # elements that are simple, i.e. that do not push to the stack.
+  macro-braces:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: macro-brace-group-body
+
+  macro-brace-group-body:
+    - meta_scope: meta.group.brace.tex
     - include: brace-group-end
     - include: general-constants
     - include: general-commands
