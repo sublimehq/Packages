@@ -122,17 +122,19 @@ contexts:
   newcommand-optarg:
     - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
-      push:
-        - clear_scopes: 1
-        - meta_scope: meta.function.parameters.default-value.latex
-        - match: \]
-          scope: punctuation.definition.group.bracket.end.latex
-          pop: 2
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+      push: newcommand-optarg-body
     - include: paragraph-pop
     - include: else-pop
+
+  newcommand-optarg-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex
+    - match: \]
+      scope: punctuation.definition.group.bracket.end.latex
+      pop: 2
+    - include: general-constants
+    - include: general-commands
+    - include: macro-braces
 
   newcommand-commandname:
     # version one: brace-wrapped command name
@@ -168,26 +170,14 @@ contexts:
   newcommand-definition:
     - meta_scope: meta.function.latex
     - match: (?=\{)
-      set: newcommand-block
+      set:
+        - def-function-body-meta
+        - macro-braces-begin
     - match: (?=\\)
       set: newcommand-expression
     - include: paragraph-pop
     - include: else-pop
 
-  newcommand-block:
-    # usually, a command definition is a brace-enclosed group of tokens
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      set: newcommand-block-body
-
-  newcommand-block-body:
-    - meta_scope: meta.function.body.latex meta.group.brace.latex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.latex
-      pop: 1
-    - include: general-constants
-    - include: general-commands
-    - include: macro-braces
 
   newcommand-expression:
     - meta_scope: meta.function.body.latex
