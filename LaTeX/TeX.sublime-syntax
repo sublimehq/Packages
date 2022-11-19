@@ -283,6 +283,10 @@ contexts:
     - meta_scope: meta.function.body.tex
     - include: immediately-pop
 
+  macro-braces:
+    - match: (?=\{)
+      push: macro-braces-begin
+
   macro-braces-begin:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
@@ -298,12 +302,12 @@ contexts:
   # only partially matched.
   macro-braces-content:
     - meta_scope: meta.group.brace.tex
-    - match: (?=\{)
-      push: macro-braces-begin
+    - include: macro-braces
     - include: macro-braces-end
     - include: macro-placeholders
     - include: controls
     - include: registers
+    - include: math-builtin
     - include: general-constants
     - include: general-commands
 

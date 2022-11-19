@@ -31,27 +31,30 @@
 %^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^ meta.function.identifier.latex
-%                ^^^^^^ meta.function.body.latex
+%                ^^^^^^ meta.function.body
 %^^^^^^^^^^ keyword.declaration.function.latex
-%          ^ punctuation.definition.group.brace.begin.latex
+%          ^ punctuation.definition.group.brace.begin
 %           ^^^^ entity.name.newcommand.latex
 %           ^ punctuation.definition.backslash.latex
-%               ^ punctuation.definition.group.brace.end.latex
-%                ^ punctuation.definition.group.brace.begin.latex
+%               ^ punctuation.definition.group.brace.end
+%                ^ punctuation.definition.group.brace.begin
 %                 ^^^^ support.function.general.latex
 %                 ^ punctuation.definition.backslash.latex
-%                     ^ punctuation.definition.group.brace.end.latex
+%                     ^ punctuation.definition.group.brace.end
 
 \newcommand{\foo}[1]{\bar #1}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^ meta.function.identifier.latex
 %                ^^^ meta.function.parameters.latex
-%                   ^^^^^^^^^ meta.function.body.latex
+%                   ^^^^^^^^^ meta.function.body
 %^^^^^^^^^^ keyword.declaration.function.latex
 %           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                    ^^^^ support.function.general.latex
+%                         ^ punctuation.definition.placeholder.tex
+%                         ^^ variable.parameter.tex
+%                          ^ meta.number.integer.decimal constant.numeric.value.tex
 
 \newcommand{\foo}[2][default]{\bar #1 #2}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -59,7 +62,7 @@
 %          ^^^^^^ meta.function.identifier.latex
 %                ^^^ meta.function.parameters.latex
 %                   ^^^^^^^^^ meta.function.parameters.default-value.latex
-%                            ^^^^^^^^^^^^ meta.function.body.latex
+%                            ^^^^^^^^^^^^ meta.function.body
 %^^^^^^^^^^ keyword.declaration.function.latex
 %           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
@@ -70,7 +73,7 @@
 %^^^^^^^^^^^^ meta.function.latex
 %            ^^^^^^ meta.function.identifier.latex
 %                  ^^^ meta.function.parameters.latex
-%                     ^^^^^^^^^ meta.function.body.latex
+%                     ^^^^^^^^^ meta.function.body
 %^^^^^^^^^^^^ keyword.declaration.function.latex
 %             ^^^^ entity.name.newcommand.latex
 %                      ^^^^ support.function.general.latex
@@ -81,7 +84,7 @@
 %                ^^^^^^ meta.function.identifier.latex
 %                      ^^^ meta.function.parameters.latex
 %                         ^^^^^^^^^ meta.function.parameters.default-value.latex
-%                                  ^^^^^^^^^^^^ meta.function.body.latex
+%                                  ^^^^^^^^^^^^ meta.function.body
 % ^^^^^^^^^^^^^^^ keyword.declaration.function.latex
 % ^ punctuation.definition.backslash.latex
 %                 ^^^^ entity.name.newcommand.latex
@@ -92,7 +95,7 @@
 %^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^ meta.function.identifier.latex
-%              ^^^^^^ meta.function.body.latex
+%              ^^^^^^ meta.function.body
 %^^^^^^^^^^ keyword.declaration.function.latex
 %          ^^^^ entity.name.newcommand.latex
 %               ^^^ support.function.general.latex
@@ -101,7 +104,7 @@
 %^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^ meta.function.latex
 %          ^^^^^^^^ meta.function.identifier.latex
-%                  ^^^^^^ meta.function.body.latex
+%                  ^^^^^^ meta.function.body
 %            ^^^^ entity.name.newcommand.latex
 %                   ^^^^ support.function.general.latex
 
@@ -109,7 +112,7 @@
 %^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %^^^^^^^^^^^^ meta.function.latex
 %            ^^^^^^^ meta.function.identifier.latex
-%                   ^^^^^^ meta.function.body.latex
+%                   ^^^^^^ meta.function.body
 %             ^^^^ entity.name.newcommand.latex
 %                      ^ support.function.general.latex
 
@@ -118,7 +121,7 @@
 %^^^^^^^^^^^ meta.function.latex
 %           ^^^^ meta.function.identifier.latex
 %               ^ meta.function.latex
-%                ^^^^^^ meta.function.body.latex
+%                ^^^^^^ meta.function.body
 %           ^^^^ entity.name.newcommand.latex
 %                 ^^^^ support.function.general.latex
 
@@ -131,7 +134,7 @@
  {\bar}
 %^^^^^^ - meta.function meta.function
 % <- meta.function.latex
-%^^^^^^ meta.function.body.latex
+%^^^^^^ meta.function.body
 %      ^ - meta.function
 % ^^^^ support.function.general.latex
 
@@ -143,11 +146,31 @@
 
 
 \newcommand \baz [1] [def] {\textbf{#1}}
-%   ^ meta.function.latex
-%           ^^^^ entity.name.newcommand.latex
-%                 ^ constant.numeric.value.latex
-%                     ^^^ meta.function.parameters.default-value.latex
-%                               ^ support.function.general.latex
+%^^^^^^^^^^^ meta.function.latex
+%^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%           ^^^^ meta.function.identifier.latex entity.name.newcommand.latex
+%           ^ punctuation.definition.backslash.latex
+%               ^ meta.function.latex
+%                ^^^ meta.function.parameters.latex
+%                ^ punctuation.definition.group.bracket.begin.latex
+%                 ^ meta.number.integer.decimal.latex constant.numeric.value.latex
+%                  ^ punctuation.definition.group.bracket.end.latex
+%                   ^ meta.function.latex
+%                    ^^^^^ meta.function.parameters.default-value.latex
+%                    ^ punctuation.definition.group.bracket.begin.latex
+%                        ^ punctuation.definition.group.bracket.end.latex
+%                         ^ meta.function.latex
+%                          ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                          ^ punctuation.definition.group.brace.begin.tex
+%                           ^^^^^^^ support.function.general.latex
+%                           ^ punctuation.definition.backslash.latex
+%                                  ^^^^ meta.group.brace.tex
+%                                  ^ punctuation.definition.group.brace.begin.tex
+%                                   ^^ variable.parameter.tex
+%                                   ^ punctuation.definition.placeholder.tex
+%                                    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
+%                                      ^ punctuation.definition.group.brace.end.tex
 
 % This example checks that we can split over multiple lines, including with comments
 \newcommand\baz %
@@ -161,7 +184,7 @@
 %      ^^^^^^^^ meta.function.parameters.default-value.latex comment.line.percentage.tex
   cu{]}t] {\textbf{#1}}
 % ^^^^^^^ meta.function.parameters.default-value.latex
-%         ^^^^^^^^^^^^^ meta.function.body.latex
+%         ^^^^^^^^^^^^^ meta.function.body
 
 % The argument count can also be based on another macro. Check that we accept this
 \def\one{1}
@@ -173,13 +196,13 @@
 %                          ^ meta.function.latex
 %                           ^^^^^^^^^ meta.function.parameters.default-value.latex
 %                                    ^ meta.function.latex
-%                                     ^^^^^^^^^^^^^^^^ meta.function.body.latex
+%                                     ^^^^^^^^^^^^^^^^ meta.function.body
 
 % newcommand entirely without braces
 \newcommand\cmd\src
 %^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 %          ^^^^ meta.function.identifier.latex entity.name.newcommand.latex
-%              ^^^^ meta.function.body.latex support.function.general.latex
+%              ^^^^ meta.function.body support.function.general.latex
 
 \DeclareMathOperator{\op } {op}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -187,7 +210,7 @@
 %^^^^^^^^^^^^^^^^^^^ meta.function.latex
 %                   ^^^^^^ meta.function.identifier.latex
 %                         ^ meta.function.latex
-%                          ^^^^ meta.function.body.latex
+%                          ^^^^ meta.function.body
 %                    ^^^ entity.name.newcommand.latex
 %                           ^^ text.tex.latex
 
@@ -380,10 +403,10 @@
 %         ^ punctuation.definition.group.bracket.begin.latex
 %         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
 %             ^ punctuation.definition.group.bracket.end.latex
-%               ^ punctuation.definition.group.brace.begin.latex
+%               ^ punctuation.definition.group.brace.begin
 %               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.latex
 %                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-%                                                                 ^ punctuation.definition.group.brace.end.latex
+%                                                                 ^ punctuation.definition.group.brace.end
 
 \footnotetext{Footnote text without creating a mark}
 % ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
@@ -469,9 +492,9 @@ The \emph{verbatim} environment sets everything in verbatim.
 %                        ^ meta.group.bracket.latex
 %                          ^ support.function.general.latex
 %                               ^ meta.group.bracket.latex
-%                                     ^ punctuation.definition.group.brace.begin.latex
+%                                     ^ punctuation.definition.group.brace.begin
 %                                        ^ meta.group.brace.latex
-%                                         ^ punctuation.definition.group.brace.end.latex
+%                                         ^ punctuation.definition.group.brace.end
 
 
 % MATH
@@ -585,9 +608,9 @@ class MyClass() {
 \lstinline{var x = 15;}
 % ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
 %         ^^^^^^^^^^^^^ meta.group.brace.latex
-%         ^ punctuation.definition.group.brace.begin.latex
+%         ^ punctuation.definition.group.brace.begin
 %          ^^^^^^^^^^^ markup.raw.verb.latex
-%                     ^ punctuation.definition.group.brace.end.latex
+%                     ^ punctuation.definition.group.brace.end
 %                      ^ - meta.environment.verbatim.lstinline.latex
 
 \lstinline|var x = 15;|

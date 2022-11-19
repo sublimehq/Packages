@@ -132,12 +132,13 @@ some other text
 
 
 % testing registers and nested braces
-\def\test{\dimen5 {#2}}
+\def\test{\dimen5 {#2} \alpha}
 %        ^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %        ^ punctuation.definition.group.brace.begin.tex
 %         ^^^^^^^ meta.register.tex
 %                 ^^^^ meta.group.brace.tex
 %                  ^^ variable.parameter.tex
+%                      ^^^^^^ keyword.other.math.greek.tex
 
 
 % testing incomplete register specification
