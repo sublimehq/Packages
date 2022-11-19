@@ -234,11 +234,6 @@ contexts:
 ###[ MACROS ]##################################################################
 
   macros:
-    # Note \edef and \xdef have slightly different syntax, in that they do not
-    # allow for arguments. However, every valid \edef could be a valid \def,
-    # so syntax highlighting will work properly with correct code.
-    # we need to make sure to match only full commands, so we look-ahead for
-    # any following non-letter
     - match: (\\)[gex]?def{{endcs}}
       scope: keyword.declaration.function.tex storage.modifier.definition.tex
       captures:
@@ -277,30 +272,47 @@ contexts:
     - include: paragraph-pop
 
   def-definition:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      set: def-definition-body
+    - match: (?=\{)
+      set:
+        - def-scope-as-body
+        - macro-braces-begin
     - include: paragraph-pop
     - include: else-pop
 
-  def-definition-body:
-    - meta_scope: meta.function.body.tex meta.group.brace.tex
-    - include: macro-brace-group-body
+  def-scope-as-body:
+    - meta_scope: meta.function.body.tex
+    - include: immediately-pop
 
-  # within macros, it is possible that only part of some nested struture
-  # is present. To prevent this from causing problems, here we only match
-  # elements that are simple, i.e. that do not push to the stack.
-  macro-braces:
+  macro-braces-begin:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: macro-brace-group-body
+      set: macro-braces-content
 
-  macro-brace-group-body:
+  macro-braces-end:
+     - match: \}
+       scope: punctuation.definition.group.brace.end.tex
+       pop: 1
+
+  # within macros, it is possible that only part of some nested struture
+  # is present. Don't include any context's here that break if they are
+  # only partially matched.
+  macro-braces-content:
     - meta_scope: meta.group.brace.tex
-    - include: brace-group-end
+    - match: (?=\{)
+      push: macro-braces-begin
+    - include: macro-braces-end
+    - include: macro-placeholders
+    - include: controls
+    - include: registers
     - include: general-constants
     - include: general-commands
-    - include: macro-braces
+
+  macro-placeholders:
+    - match: '(#+)(\d)'
+      scope: variable.parameter.tex
+      captures:
+        1: punctuation.definition.placeholder.tex
+        2: meta.number.integer.decimal.tex constant.numeric.value.tex
 
 ###[ MATH ]####################################################################
 
