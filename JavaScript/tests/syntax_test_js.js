@@ -738,8 +738,27 @@ class MyClass extends TheirClass {
 //   ^^^ variable.annotation
 //      ^^^^^^^^^^^^ meta.function - meta.annotation
 
-    ['foo']() {}
+    @foo
+//  ^^^^ meta.annotation
+//      ^ - meta.annotation
+    bar() {}
+//  ^^^^^^^^ meta.function
+
+    @foo
+//  ^^^^ meta.annotation
+//      ^ - meta.annotation
+    ['bar']() {}
 //  ^^^^^^^^^^^^ meta.function
+
+    @foo()
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
+    @(foo)
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
 
     static ['foo']() {}
 //         ^^^^^^^^^^^^ meta.function
@@ -970,6 +989,7 @@ sources.DOM
 // <- variable.other.readwrite
     .status()
     // ^ meta.function-call.method variable.function
+    //       ^ - meta.function-call
 
     foo.#bar();
 //  ^^^^^^^^^^ meta.function-call.method.js
@@ -1024,7 +1044,7 @@ baz(foo(x => x('bar')));
 //                   ^ meta.function-call meta.function-call punctuation.section.group.end
 //                    ^ meta.function-call punctuation.section.group.end
 
-func(a, b);
+func(a, b) ;
 //^^^^^^^^ meta.function-call
 // ^ variable.function
 //  ^^^^^^ meta.group
@@ -1033,6 +1053,7 @@ func(a, b);
 //    ^ punctuation.separator.comma
 //      ^ variable.other.readwrite
 //       ^ punctuation.section.group.end
+//        ^ - meta.function-call
 
 var instance = new Constructor(param1, param2)
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
