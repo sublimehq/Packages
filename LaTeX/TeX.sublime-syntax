@@ -134,7 +134,7 @@ contexts:
   def-registername:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: inside-register-name-group
+      push: register-name-group-body
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
@@ -143,7 +143,7 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-  inside-register-name-group:
+  register-name-group-body:
     - meta_scope: meta.group.brace.latex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
