@@ -4,6 +4,8 @@
 name: LaTeX
 scope: text.tex.latex
 
+extends: TeX.sublime-syntax
+
 file_extensions:
   - tex
   - ltx
@@ -14,18 +16,13 @@ first_line_match: |-
   )
 
 contexts:
-  prototype:
-    - include: comments
 
   main:
-    - include: unique-latex
+    - meta_prepend: true
+    - include: latex
     - include: packages
-    - include: plain-tex
-    - include: begin-end-commands
-    - include: general-commands
-    - include: global-braces
 
-  unique-latex:
+  latex:
     - include: preamble
     - include: structure
     - include: includes
@@ -39,27 +36,20 @@ contexts:
     - include: graphics
     - include: lists
 
-  plain-tex:
-    - include: macros
-    - include: scope:text.tex#controls
-    - include: scope:text.tex#catcode
-    - include: boxes
-    - include: block-math
-    - include: inline-math
-    - include: general-constants
-
-  comments:
-    - include: scope:text.tex#comments
-
-  global-braces:
+  braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: main
+      push: brace-group-body
+
+  brace-group-body:
+    - meta_scope: meta.group.brace.latex
+    - include: brace-group-end
+    - include: main
+
+  brace-group-end:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.latex
+      pop: true
 
   # these are used to identify arguments in commands
   general-optional-arguments:
@@ -72,7 +62,7 @@ contexts:
           pop: true
         - include: general-constants
         - include: general-commands
-        - include: global-braces
+        - include: braces
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
 
@@ -82,20 +72,6 @@ contexts:
       scope: punctuation.definition.group.brace.end.latex
       pop: true
     - include: main
-
-  # matches any nospace and pops the context
-  else-pop:
-    - match: (?=\S)
-      pop: true
-
-  immediately-pop:
-    - match: ''
-      pop: true
-
-  # pops out of the current context if there is a new paragraph
-  paragraph-pop:
-    - match: ^(?=\s*$)
-      pop: true
 
   argument:
     - match: \{
@@ -107,21 +83,8 @@ contexts:
     - include: general-optional-arguments
     - include: else-pop
 
-  # used in macros to prevent matching of \begin{env}...\end{env}
-  macro-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
-
   macros:
-    - include: scope:text.tex#macros
+    - meta_append: true
     - match: (\\)(?:new|renew|provide)command(?:\*|(?![A-Za-z@]))
       scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
@@ -246,6 +209,7 @@ contexts:
     - include: else-pop
 
   general-constants:
+    - meta_prepend: true
     - match: (\\\\)(?:(\[)\s*-?((?:[[:digit:]]|\.)*)\s*(\w*)\s*(\]))?
       captures:
         1: constant.character.newline.latex
@@ -253,9 +217,9 @@ contexts:
         3: constant.numeric.newline.latex
         4: keyword.other.newline.latex
         5: punctuation.definition.group.bracket.begin.newline.latex
-    - include: scope:text.tex#general-constants
 
   general-commands:
+    - include: begin-end-commands
     - match: (\\)[A-Za-z@]+
       scope: support.function.general.latex
       captures:
@@ -347,9 +311,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.include.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
 
   sections:
     - match: |-
@@ -378,9 +340,7 @@ contexts:
       push:
         - meta_scope: meta.section.latex
         - meta_content_scope: entity.name.section.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
 
   structure:
@@ -484,112 +444,103 @@ contexts:
           pop: true
         - include: main
 
-  math-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: math-content
-
-  math-content:
-    # unique to latex
-    - include: verb
-    - include: text-decorators
-    - include: references
-    - include: begin-end-commands
-    # extended from tex
-    - include: scope:text.tex#math-builtin
-    - include: scope:text.tex#math-brackets
-    - include: math-braces
-    - include: boxes
-    - include: scope:text.tex#math-commands
-    - include: scope:text.tex#math-operators
-    - include: scope:text.tex#math-characters
-    - include: scope:text.tex#math-numerics
-    - include: general-constants
-    - match: (?=\})
-      pop: true
+###[ MATH ]####################################################################
 
   inline-math:
-    - match: \$
-      scope: string.other.math.latex punctuation.definition.string.begin.latex
-      push:
-        - meta_scope: meta.environment.math.inline.dollar.latex
-        - match: \$
-          scope: string.other.math.latex punctuation.definition.string.end.latex
-          pop: true
-        - include: math-content
+    - meta_append: true
+    - include: inline-math-parens
+    - include: inline-math-ensuremath
+
+  inline-math-ensuremath:
     - match: ((\\)ensuremath)(\{)
       captures:
         1: support.function.ensuremath.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.function.ensuremath.latex
-        - meta_content_scope: meta.environment.math.inline.ensuremath.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: math-content
+      push: inline-math-ensuremath-body
 
-    - match: (\\\()
-      scope: string.other.math.latex
-      captures:
-        1: punctuation.definition.string.begin.latex
-      push:
-        - meta_scope: meta.environment.math.inline.paren.latex
-        - match: (\\\))
-          scope: string.other.math.latex punctuation.definition.string.end.latex
-          pop: true
-        - include: math-content
+  inline-math-ensuremath-body:
+    - meta_scope: meta.function.ensuremath.latex
+    - meta_content_scope: meta.environment.math.inline.ensuremath.latex
+    - include: brace-group-end
+    - include: math-content
+
+  inline-math-parens:
+    - match: \\\(
+      scope: string.other.math.latex punctuation.definition.string.begin.latex
+      push: inline-math-parens-body
+
+  inline-math-parens-body:
+    - meta_scope: meta.environment.math.inline.paren.latex
+    - include: inline-math-parens-end
+    - include: math-content
+
+  inline-math-parens-end:
+    - match: \\\)
+      scope: string.other.math.latex punctuation.definition.string.end.latex
+      pop: true
 
   block-math:
-    - match: \$\$
-      scope: string.other.math.latex punctuation.definition.string.begin.latex
-      push:
-        - meta_scope: meta.environment.math.block.dollar.latex
-        - match: \$\$
-          scope: string.other.math.latex punctuation.definition.string.end.latex
-          pop: true
-        - include: math-content
+    - meta_append: true
+    - include: block-math-brackets
+    - include: block-math-begin-end-command
 
-    - match: (\\\[)
-      scope: string.other.math.latex punctuation.definition.string.begin.latex
-      push:
-        - meta_scope: meta.environment.math.block.bracket.latex
-        - match: (\\\])
-          scope: string.other.math.latex punctuation.definition.string.end.latex
-          pop: true
-        - include: math-content
-
+  block-math-begin-end-command:
     - match: |-
         (?x)
-        ((\\)begin)(\{)\s*((?:
-          align|alignat|aligned|alignedat|displaymath
-          |eqnarray|equation|flalign|gather|gathered
-          |math|multline|x?xalignat|split
-          |dmath|dseries|dgroup|darray|dsuspend
-        )\*?)\s*(\})
+        ((\\)begin) (\{) \s* (
+          (?: align | alignat | aligned | alignedat | displaymath | eqnarray
+          | equation | flalign | gather | gathered | math | multline | x?xalignat
+          | split | dmath | dseries | dgroup | darray | dsuspend )\*?
+        ) \s* (\})
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.group.brace.end.latex
-      push:
-        - meta_content_scope: meta.environment.math.block.be.latex
-        - match: ((\\)end)(\{)\s*(\4)\s*(\})
-          captures:
-            1: support.function.end.latex keyword.control.flow.begin.latex
-            2: punctuation.definition.backslash.latex
-            3: punctuation.definition.group.brace.begin.latex
-            4: variable.parameter.function.latex
-            5: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: math-content
+      push: block-math-begin-end-command-body
+
+  block-math-begin-end-command-body:
+    - meta_content_scope: meta.environment.math.block.be.latex
+    - include: block-math-begin-end-command-end
+    - include: math-content
+
+  block-math-begin-end-command-end:
+    - match: ((\\)end)(\{)\s*(\4)\s*(\})
+      captures:
+        1: support.function.end.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      pop: true
+
+  block-math-brackets:
+    - match: \\\[
+      scope: string.other.math.latex punctuation.definition.string.begin.latex
+      push: block-math-brackets-body
+
+  block-math-brackets-body:
+    - meta_scope: meta.environment.math.block.bracket.latex
+    - include: block-math-brackets-end
+    - include: math-content
+
+  block-math-brackets-end:
+    - match: \\\]
+      scope: string.other.math.latex punctuation.definition.string.end.latex
+      pop: true
+
+  math-content:
+    - meta_prepend: true
+    - match: (?=\})
+      pop: true
+    - include: verb
+    - include: text-decorators
+    - include: references
+    - include: begin-end-commands
+
+###[ OTHER ]###################################################################
 
   graphics:
     - match: ((\\)includegraphics)\b
@@ -635,9 +586,7 @@ contexts:
       push:
         - meta_scope: meta.function.emph.latex
         - meta_content_scope: markup.italic.emph.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
     - match: ((\\)textit)(\{)
       captures:
@@ -647,9 +596,7 @@ contexts:
       push:
         - meta_scope: meta.function.textit.latex
         - meta_content_scope: markup.italic.textit.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
     - match: ((\\)textbf)(\{)
       captures:
@@ -659,9 +606,7 @@ contexts:
       push:
         - meta_scope: meta.function.textbf.latex
         - meta_content_scope: markup.bold.textbf.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
     - match: ((\\)texttt)(\{)
       captures:
@@ -671,9 +616,7 @@ contexts:
       push:
         - meta_scope: meta.function.texttt.latex
         - meta_content_scope: markup.raw.texttt.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
     - match: ((\\)textsl)(\{)
       captures:
@@ -683,9 +626,7 @@ contexts:
       push:
         - meta_scope: meta.function.textsl.latex
         - meta_content_scope: markup.italic.textsl.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
     - match: ((\\)text)(\{)
       captures:
@@ -693,9 +634,7 @@ contexts:
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
       push:
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
     - match: ((\\)underline)(\{)
       captures:
@@ -705,9 +644,7 @@ contexts:
       push:
         - meta_scope: meta.function.underline.latex
         - meta_content_scope: markup.underline.underline.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: main
 
   footnote:
@@ -723,9 +660,7 @@ contexts:
           set:
             - meta_scope: meta.function.footnote.latex meta.group.brace.latex
             - meta_content_scope: markup.italic.footnote.latex
-            - match: \}
-              scope: punctuation.definition.group.brace.end.latex
-              pop: true
+            - include: brace-group-end
             - include: main
         - match: (?=\S)
           pop: true
@@ -777,9 +712,7 @@ contexts:
             - meta_scope: meta.group.brace.latex
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.citation.latex
-            - match: \}
-              scope: punctuation.definition.group.brace.end.latex
-              pop: true
+            - include: brace-group-end
         - match: ''
           pop: true
     - match: |-
@@ -801,9 +734,7 @@ contexts:
             - meta_scope: meta.function.reference.latex meta.group.brace.latex
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.reference.latex
-            - match: \}
-              scope: punctuation.definition.group.brace.end.latex
-              pop: true
+            - include: brace-group-end
         - match: ''
           pop: true
     - match: ((\\)label)(\{)
@@ -815,9 +746,7 @@ contexts:
         - meta_scope: meta.function.label.latex
         - match: '[a-zA-Z0-9\.:/*!^_-]+'
           scope: entity.name.label.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
 
   begin-end-commands:
     - match: ((\\)begin)(\{)\s*(\w*)\*?\s*(\})
@@ -1644,9 +1573,7 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: meta.function.newcolumntype.latex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: array-preamble
 
 
@@ -1690,9 +1617,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.group.brace.begin.latex
       push:
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: array-preamble
@@ -1712,9 +1637,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.before-column-decl.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -1725,9 +1648,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.after-column-decl.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -1741,9 +1662,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.inter-column-decl.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces
@@ -1754,9 +1673,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.inter-column-decl.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
+        - include: brace-group-end
         - include: general-constants
         - include: general-commands
         - include: macro-braces

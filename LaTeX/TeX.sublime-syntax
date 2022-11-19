@@ -87,16 +87,6 @@ contexts:
     - include: general-constants
     - include: general-commands
 
-  # matches any nospace and pops the context
-  else-pop:
-    - match: (?=\S)
-      pop: true
-
-  # pops out of the current context if there is a new paragraph
-  paragraph-pop:
-    - match: ^(?=\s*$)
-      pop: true
-
   general-commands:
     - match: (\\){{letter}}+
       scope: support.function.general.tex
@@ -144,7 +134,7 @@ contexts:
   def-registername:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: inside-register-name-group
+      push: register-name-group-body
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
@@ -153,7 +143,7 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-  inside-register-name-group:
+  register-name-group-body:
     - meta_scope: meta.group.brace.latex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
@@ -216,27 +206,17 @@ contexts:
   braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
-        - include: main
+      push: brace-group-body
 
-  # within macros, it is possible that only part of some nested struture
-  # is present. To prevent this from causing problems, here we only match
-  # elements that are simple, i.e. that do not push to the stack.
-  macro-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+  brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: main
+
+  brace-group-end:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: true
 
   boxes:
     - match: ((\\)[hv]box)\s*(\{)
@@ -244,12 +224,14 @@ contexts:
         1: support.function.box.tex
         2: punctuation.definition.backslash.tex
         3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.box.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
-        - include: main
+      push: box-body
+
+  box-body:
+    - meta_scope: meta.function.box.tex
+    - include: brace-group-end
+    - include: main
+
+###[ MACROS ]##################################################################
 
   macros:
     # Note \edef and \xdef have slightly different syntax, in that they do not
@@ -261,21 +243,23 @@ contexts:
       scope: keyword.declaration.function.tex storage.modifier.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
-      push: def-commandname
+      push: def-maybe-commandname
 
-  def-commandname:
+  def-maybe-commandname:
     - meta_scope: meta.function.tex
     - match: (?=\\)
-      set:
-        - clear_scopes: 1
-        - meta_scope: meta.function.identifier.tex
-        - match: (\\){{cmdname}}
-          scope: entity.name.definition.tex
-          captures:
-            1: punctuation.definition.backslash.tex
-          set: def-argspec
-        - include: paragraph-pop
-        - include: else-pop
+      set: def-commandname
+    - include: paragraph-pop
+    - include: else-pop
+
+  def-commandname:
+    - clear_scopes: 1
+    - meta_scope: meta.function.identifier.tex
+    - match: (\\){{cmdname}}
+      scope: entity.name.definition.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      set: def-argspec
     - include: paragraph-pop
     - include: else-pop
 
@@ -301,13 +285,65 @@ contexts:
 
   def-definition-body:
     - meta_scope: meta.function.body.tex meta.group.brace.tex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 1
+    - include: macro-brace-group-body
+
+  # within macros, it is possible that only part of some nested struture
+  # is present. To prevent this from causing problems, here we only match
+  # elements that are simple, i.e. that do not push to the stack.
+  macro-braces:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: macro-brace-group-body
+
+  macro-brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
     - include: general-constants
     - include: general-commands
     - include: macro-braces
 
+###[ MATH ]####################################################################
+
+  inline-math:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push: inline-math-dollar-body
+
+  inline-math-dollar-body:
+    - meta_scope: meta.environment.math.inline.dollar.tex
+    - include: inline-math-dollar-end
+    - include: math-content
+
+  inline-math-dollar-end:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: true
+
+  block-math:
+    - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push: block-math-dollar-body
+
+  block-math-dollar-body:
+    - meta_scope: meta.environment.math.block.dollar.tex
+    - include: block-math-dollar-end
+    - include: math-content
+
+  block-math-dollar-end:
+    - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: true
+
+  math-content:
+    - include: math-builtin
+    - include: math-brackets
+    - include: math-braces
+    - include: boxes
+    - include: math-commands
+    - include: math-operators
+    - include: math-characters
+    - include: math-numerics
+    - include: general-constants
 
   math-builtin:
     - include: math-greeks
@@ -387,12 +423,12 @@ contexts:
   math-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.tex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: true
-        - include: math-content
+      push: math-brace-group-body
+
+  math-brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: math-content
 
   math-brackets:
     - match: '[\(\)]'
@@ -412,33 +448,18 @@ contexts:
     - match: '[A-Za-z]+'
       scope: variable.other.math.tex
 
-  math-content:
-    - include: math-builtin
-    - include: math-brackets
-    - include: math-braces
-    - include: boxes
-    - include: math-commands
-    - include: math-operators
-    - include: math-characters
-    - include: math-numerics
-    - include: general-constants
+###[ PROTOTYPES ]##############################################################
 
-  inline-math:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push:
-        - meta_scope: meta.environment.math.inline.dollar.tex
-        - match: \$
-          scope: string.other.math.tex punctuation.definition.string.end.tex
-          pop: true
-        - include: math-content
+  # matches any nospace and pops the context
+  else-pop:
+    - match: (?=\S)
+      pop: true
 
-  block-math:
-    - match: \$\$
-      scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push:
-        - meta_scope: meta.environment.math.block.dollar.tex
-        - match: \$\$
-          scope: string.other.math.tex punctuation.definition.string.end.tex
-          pop: true
-        - include: math-content
+  immediately-pop:
+    - match: ''
+      pop: true
+
+  # pops out of the current context if there is a new paragraph
+  paragraph-pop:
+    - match: ^(?=\s*$)
+      pop: true
