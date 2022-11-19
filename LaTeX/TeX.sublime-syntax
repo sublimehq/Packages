@@ -53,6 +53,9 @@ variables:
     (?x: lbrack | lbrace | langle | rbrack | rbrace | rangle
     | vert | lfloor | lceil | Vert | rfloor | rceil)
 
+  registers: |-
+    (?x: box | count | dimen | muskip | skip | toks)
+
   # letters in the sense of macro names. Whether @ is a letter or not can vary
   # from a syntax-highlighting perspective, however, we are much safer to
   # assume it is a letter. Situations where we have `\macro` followed immediately
@@ -64,6 +67,8 @@ variables:
   nonletter: '[^A-Za-z@]'
   # look-ahead for end of command sequence
   endcs: '(?!{{letter}})'
+  # a command name: either a sequence of letters, or a single non-letter
+  cmdname: '(?x: {{letter}}+ | {{nonletter}})'
 
 contexts:
   prototype:
@@ -77,6 +82,8 @@ contexts:
     - include: boxes
     - include: block-math
     - include: inline-math
+    - include: registers
+    - include: register-allocations
     - include: general-constants
     - include: general-commands
 
@@ -98,6 +105,51 @@ contexts:
   escaped-character:
     - match: (\\){{nonletter}}
       scope: constant.character.escape.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  registers:
+    - match: (\\)({{registers}}){{endcs}}
+      captures:
+        1: punctuation.definition.backslash.tex
+        2: storage.type.tex
+      push: register-id
+
+  register-id:
+    - meta_scope: meta.register.tex
+    - match: \d+
+      scope: meta.number.integer.decimal constant.numeric.value.tex
+      pop: 1
+    - include: general-commands
+    - include: paragraph-pop
+    - include: else-pop
+
+  register-allocations:
+    - match: (\\)new{{registers}}{{endcs}}
+      scope: keyword.declaration.register.tex storage.modifier.register.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: def-registername
+
+  def-registername:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: inside-register-name-group
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
+
+  inside-register-name-group:
+    - meta_scope: meta.group.brace.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
       captures:
         1: punctuation.definition.backslash.tex
 
@@ -208,12 +260,7 @@ contexts:
       set:
         - clear_scopes: 1
         - meta_scope: meta.function.identifier.tex
-        - match: (\\){{letter}}+
-          scope: entity.name.definition.tex
-          captures:
-            1: punctuation.definition.backslash.tex
-          set: def-argspec
-        - match: (\\){{nonletter}}
+        - match: (\\){{cmdname}}
           scope: entity.name.definition.tex
           captures:
             1: punctuation.definition.backslash.tex

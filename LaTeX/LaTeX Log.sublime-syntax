@@ -1,6 +1,5 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
 name: LaTeX Log
 scope: text.log.latex
 
@@ -38,13 +37,11 @@ contexts:
         - match: '[0-9]+\-\-[0-9]+'
           scope: variable.parameter.hyphenation.latex2
     - match: (<)
-      captures:
-        0: punctuation.definition.string.begin.log.latex
+      scope: punctuation.definition.string.begin.log.latex
       push:
         - meta_scope: string.unquoted.other.filename.log.latex
         - match: (>)
-          captures:
-            0: punctuation.definition.string.end.log.latex
+          scope: punctuation.definition.string.end.log.latex
           pop: true
         - match: (.*/.*\.pdf)
           scope: support.function.with-arg.latex

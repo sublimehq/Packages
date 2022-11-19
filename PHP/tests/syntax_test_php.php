@@ -2290,6 +2290,26 @@ function testGenerator1()
 //  ^^^^^ keyword.control.flow.yield.php
 //        ^ constant.numeric.value.php
 //         ^ punctuation.terminator.statement.php
+
+   (yield);
+// ^^^^^^^ meta.group.php
+// ^ punctuation.section.group.begin.php
+//  ^^^^^ keyword.control.flow.yield.php
+//       ^ punctuation.section.group.end.php
+//        ^ punctuation.terminator.statement.php
+
+   [yield];
+// ^^^^^^^ meta.sequence.array.php
+// ^ punctuation.section.sequence.begin.php
+//  ^^^^^ keyword.control.flow.yield.php
+//       ^ punctuation.section.sequence.end.php
+//        ^ punctuation.terminator.statement.php
+
+    $send = yield $value;
+//  ^^^^^ variable.other.php
+//        ^ keyword.operator.assignment.php
+//          ^^^^^ keyword.control.flow.yield.php
+//                ^^^^^^ variable.other.php
 }
 
 function testGenerator2()
@@ -2301,6 +2321,14 @@ function testGenerator2()
 //                           ^ punctuation.section.group.begin.php
 //                            ^ punctuation.section.group.end.php
 //                             ^ punctuation.terminator.statement.php
+
+    $a = yield from test(1);
+//  ^^ variable.other.php
+//     ^ keyword.operator.assignment.php
+//       ^^^^^ keyword.control.flow.yield.php
+//             ^^^^ keyword.control.flow.yield.php
+//                  ^^^^ meta.function-call.identifier.php variable.function.php
+//                      ^^^ meta.function-call.arguments.php meta.group.php
 }
 
 
@@ -4137,7 +4165,7 @@ $var4 = 0b0_1_1_1;
 //                                                              ^^ constant.character.escape.php - punctuation
 //                                                                ^ - constant
 
-    'format: %5$- .9f | %-.9g | %+0d | %'ff'
+    'format: %5$- .9f | %-.9g | %+0d | %\'ff'
 //           ^ punctuation.definition.placeholder.php
 //           ^^^^^^^^ constant.other.placeholder.php
 //                   ^^^ - constant
@@ -4149,7 +4177,7 @@ $var4 = 0b0_1_1_1;
 //                              ^^^^ constant.other.placeholder.php
 //                                  ^^^ - constant
 //                                     ^ punctuation.definition.placeholder.php
-//                                     ^^^^ constant.other.placeholder.php
+//                                     ^^^^^ constant.other.placeholder.php
 
     "format: %5$- .9f | %-.9g | %+0d | %'ff"
 //           ^ punctuation.definition.placeholder.php
@@ -4179,6 +4207,11 @@ $var4 = 0b0_1_1_1;
 //   ^^^^^^ constant.other.placeholder.php
    "[%-10.9s]"  // left-justification but with a cutoff of 8 characters
 //   ^^^^^^^ constant.other.placeholder.php
+
+    'foo "%'.urldecode($_REQUEST['searchterm']);
+//  ^^^^^^^^ meta.string.php string.quoted.single.php - constant.other.placeholder
+//          ^ keyword.operator.concatenation.php
+//           ^^^^^^^^^ support.function.url.php
 
     '$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}'
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation
@@ -4779,6 +4812,36 @@ $sql = "
 ";
 // <- meta.string.php string.quoted.double.php punctuation.definition.string.end.php - meta.interpolation - string string
 
+$sql = "SELECT * FROM users where first_name = $user_name";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                             ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                       ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = '$user_name'";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                              ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                        ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = `$user_name`";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                              ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                        ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = %r{^$user_name}";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                 ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                           ^^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name LIKE $user_name";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                          ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name LIKE '$user_name'";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                 ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                           ^ meta.string.php - meta.interpolation
+
 $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "GROUP BY" ;
 //     ^ meta.string.php - meta.interpolation
 //      ^^^^^^^ meta.string.php source.sql.embedded.php
@@ -4825,6 +4888,11 @@ $sql = "WITH RECURSION SELECT *";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                             ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
+
+
+/******************************************************************************
+ * SQL String Tests without interpolation
+ *****************************************************************************/
 
 $non_sql = 'NO SELECT HIGHLIGHTING!';
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php - meta.interpolation - string string

@@ -1,10 +1,9 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 name: NAnt Build File
-file_extensions:
-  - build
 scope: source.nant-build
+
 contexts:
   main:
     - match: <!--
