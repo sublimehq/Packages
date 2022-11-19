@@ -236,7 +236,7 @@ contexts:
     - match: (\\)(?:cat|math|uc|lc|del|sf)code{{endcs}}
       scope: keyword.control.character-code.tex
       captures:
-        1 : punctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
       push:
         - character-code-scope
         - character-code-value
