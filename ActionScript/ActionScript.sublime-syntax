@@ -696,13 +696,6 @@ variables:
 ###[ Contexts ]#########################################################################################################
 
 contexts:
-  prototype:
-    - include: comments
-
-  eol-pop:
-    - match: '$\n?'
-      pop: 1
-
   main:
     - match: \b(?:{{classes}})\b
       scope: support.class.actionscript
@@ -719,56 +712,9 @@ contexts:
     - match: \b(?:{{types}})\b
       scope: storage.type.actionscript
 
-    - match: |-
-        (?x:
-          \b(?:
-            null | undefined
-          | true | false
-          )\b
-        )
-      scope: constant.language.actionscript
-
-    - match: |-
-        (?x:
-          \b
-          (?:
-            (?:0(?:x|X)[0-9a-fA-F]*)
-          | (?:
-              (?:[0-9]+\.?[0-9]*)
-            | (?:\.[0-9]+)
-            )
-            (?:
-              (?:e|E)
-              (?:\+|-)?
-              [0-9]+
-            )?
-          )
-          (?:L|l|UL|ul|u|U|F|f)?
-          \b
-        )
-      scope: constant.numeric.actionscript
+    - include: constants
 
     - include: strings
-
-    - match: |-
-        (?x:
-          \b(?:
-            BACKSPACE
-          | CAPSLOCK | CONTROL
-          | DELETEKEY | DOWN
-          | END | ENTER
-          | HOME
-          | INSERT
-          | LEFT | LN10 | LN2 | LOG10E | LOG2E
-          | MAX_VALUE | MIN_VALUE
-          | NEGATIVE_INFINITY | NaN
-          | PGDN | PGUP | PI | POSITIVE_INFINITY
-          | RIGHT
-          | SPACE | SQRT1_2 | SQRT2
-          | UP
-          )\b
-        )
-      scope: support.constant.actionscript
 
     - match: \b(?:instanceof)\b
       scope: keyword.operator.actionscript
@@ -788,9 +734,11 @@ contexts:
         3: punctuation.definition.parameters.begin.actionscript
       push:
         - meta_scope: meta.function.actionscript
+
         - match: \)
           scope: punctuation.definition.parameters.end.actionscript
           pop: 1
+
         - match: '[^,)\n]+'
           scope: variable.parameter.function.actionscript
 
@@ -802,9 +750,14 @@ contexts:
         3: storage.modifier.extends.actionscript
         4: entity.other.inherited-class.actionscript
 
+  prototype:
+    - include: comments
+
+###[ Comments ]#########################################################################################################
+
   comments:
-    - include: block-comments
     - include: line-comments
+    - include: block-comments
 
   block-comments:
     - include: block-comment-basic
@@ -839,6 +792,8 @@ contexts:
     - meta_scope: comment.line.double-slash.actionscript
 
     - include: eol-pop
+
+###[ Strings ]##########################################################################################################
 
   strings:
     - include: double-quoted-strings
@@ -875,3 +830,68 @@ contexts:
 
     - match: \\.
       scope: constant.character.escape.actionscript
+
+###[ Constants ]########################################################################################################
+
+  constants:
+    - include: language-constants
+    - include: numeric-constants
+    - include: keyboard-input-constants
+
+  language-constants:
+    - match: |-
+        (?x:
+          \b(?:
+            null | undefined
+          | true | false
+          )\b
+        )
+      scope: constant.language.actionscript
+
+  numeric-constants:
+    - match: |-
+        (?x:
+          \b
+          (?:
+            (?:0(?:x|X)[0-9a-fA-F]*)
+          | (?:
+              (?:[0-9]+\.?[0-9]*)
+            | (?:\.[0-9]+)
+            )
+            (?:
+              (?:e|E)
+              (?:\+|-)?
+              [0-9]+
+            )?
+          )
+          (?:L|l|UL|ul|u|U|F|f)?
+          \b
+        )
+      scope: constant.numeric.actionscript
+
+  keyboard-input-constants:
+    - match: |-
+        (?x:
+          \b(?:
+            BACKSPACE
+          | CAPSLOCK | CONTROL
+          | DELETEKEY | DOWN
+          | END | ENTER
+          | HOME
+          | INSERT
+          | LEFT | LN10 | LN2 | LOG10E | LOG2E
+          | MAX_VALUE | MIN_VALUE
+          | NEGATIVE_INFINITY | NaN
+          | PGDN | PGUP | PI | POSITIVE_INFINITY
+          | RIGHT
+          | SPACE | SQRT1_2 | SQRT2
+          | UP
+          )\b
+        )
+      scope: support.constant.actionscript
+
+###[ Prototypes ]#######################################################################################################
+
+  eol-pop:
+    - match: '$\n?'
+      pop: 1
