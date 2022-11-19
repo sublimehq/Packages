@@ -69,6 +69,12 @@ variables:
   endcs: '(?!{{letter}})'
   # a command name: either a sequence of letters, or a single non-letter
   cmdname: '(?x: {{letter}}+ | {{nonletter}})'
+  # hexadecimal digits in different casing
+  lchexdigit: (?:[0-9a-f])
+  uchexdigit: (?:[0-9A-F])
+  anyhexdigit: (?:[0-9a-fA-F])
+  # special notation to refer to (non-printable) characters in TeX
+  charbycode: '(?x: \^\^(?:{{lchexdigit}}{{lchexdigit}}|.))'
 
 contexts:
   prototype:
@@ -77,7 +83,7 @@ contexts:
   main:
     - include: macros
     - include: controls
-    - include: catcode
+    - include: character-codes
     - include: braces
     - include: boxes
     - include: block-math
@@ -195,14 +201,6 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-  catcode:
-    - match: ((\\)catcode)`(?:\\)?.=(\d+)
-      scope: meta.function.catcode.tex
-      captures:
-        1: keyword.control.catcode.tex
-        2: punctuation.definition.backslash.tex
-        3: constant.numeric.category.tex
-
   braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
@@ -230,6 +228,55 @@ contexts:
     - meta_scope: meta.function.box.tex
     - include: brace-group-end
     - include: main
+
+
+###[ CHARACTER CODES ]##########################################################
+
+  character-codes:
+    - match: (\\)(?:cat|math|uc|lc|del|sf)code{{endcs}}
+      scope: keyword.control.character-code.tex
+      captures:
+        1 : punctuation.definition.backslash.tex
+      push:
+        - character-code-scope
+        - character-code-value
+        - character-code-assignment
+        - character-code-number
+
+  character-code-scope:
+    - meta_scope: meta.function.character-code.tex
+    - include: immediately-pop
+
+  character-code-number:
+    - match: '(`)(\\)?({{charbycode}}|.)'
+      scope: meta.number.integer.tex
+      captures:
+        1: keyword.operator.tex
+        2: punctuation.definition.backslash.tex
+        3: constant.character.tex
+      pop: 1
+    - match: \d+
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+      set: character-code-assignment
+    - include: else-pop
+    - include: paragraph-pop
+
+  character-code-assignment:
+    - match: =
+      scope: keyword.operator.assignment.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
+
+  character-code-value:
+    - match: \d+
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+      pop: 1
+    - match: '"{{anyhexdigit}}+'
+      scope: meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
 
 ###[ MACROS ]##################################################################
 
