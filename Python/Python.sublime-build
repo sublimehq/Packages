@@ -6,7 +6,7 @@
 	"env": {"PYTHONIOENCODING": "utf-8"},
 
 	"windows": {
-		"cmd": ["py", "-u", "$file"],
+		"cmd": ["python", "-u", "$file"],
 	},
 
 	"variants":
@@ -16,7 +16,7 @@
 			"cmd": ["python3", "-m", "py_compile", "$file"],
 
 			"windows": {
-				"cmd": ["py", "-m", "py_compile", "$file"],
+				"cmd": ["python", "-m", "py_compile", "$file"],
 			}
 		}
 	]
