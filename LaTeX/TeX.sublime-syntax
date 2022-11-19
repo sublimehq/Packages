@@ -238,26 +238,26 @@ contexts:
       scope: keyword.declaration.function.tex storage.modifier.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
-      push: def-maybe-commandname
+      push: def-function-expect-identifier
 
-  def-maybe-commandname:
+  def-function-expect-identifier:
     - meta_scope: meta.function.tex
     - match: (?=\\)
-      set: def-commandname
+      set: def-function-identifier
     - include: paragraph-pop
     - include: else-pop
 
-  def-commandname:
+  def-function-identifier:
     - meta_scope: meta.function.identifier.tex
     - match: (\\){{cmdname}}
       scope: entity.name.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
-      set: def-argspec
+      set: def-function-parameters
     - include: paragraph-pop
     - include: else-pop
 
-  def-argspec:
+  def-function-parameters:
     - meta_content_scope: meta.function.parameters.tex
     - match: (?=\{)
       set:
