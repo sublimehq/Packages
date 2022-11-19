@@ -259,16 +259,15 @@ contexts:
 
   def-argspec:
     - meta_content_scope: meta.function.parameters.tex
-    - include: escaped-character
     - match: (?=\{)
       set:
         - def-function-body-meta
         - macro-braces-begin
-
     - match: (\#)[0-9]
       scope: variable.parameter.tex
       captures:
         1: punctuation.definition.variable.tex
+    - include: escaped-character
     - include: paragraph-pop
 
   def-function-body-meta:
@@ -277,8 +276,9 @@ contexts:
     - include: immediately-pop
 
   macro-braces:
-    - match: (?=\{)
-      push: macro-braces-begin
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: macro-braces-body
 
   macro-braces-begin:
     - match: \{

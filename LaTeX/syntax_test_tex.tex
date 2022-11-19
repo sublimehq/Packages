@@ -119,7 +119,12 @@ some other text
 
 % testing control keywords, parameter placeholders, and escaping of placeholders
 \def\test{\ifmmode #2 \#2}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^ meta.function.tex
+%   ^^^^^ meta.function.identifier.tex
 %        ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%   ^^^^^ entity.name.definition.tex
 %        ^ punctuation.definition.group.brace.begin.tex
 %         ^^^^^^^^ keyword.control.conditional.if.tex
 %         ^ punctuation.definition.backslash.tex
@@ -133,16 +138,24 @@ some other text
 
 % testing registers and nested braces
 \def\test{\dimen5 {#2} \alpha}
-%        ^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
-%        ^ punctuation.definition.group.brace.begin.tex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^ meta.function.tex
+%   ^^^^^ meta.function.identifier.tex
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %         ^^^^^^^ meta.register.tex
-%                 ^^^^ meta.group.brace.tex
+%                 ^^^^ meta.group.brace.tex meta.group.brace.tex
+%^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%   ^^^^^ entity.name.definition.tex
+%        ^ punctuation.definition.group.brace.begin.tex
 %                  ^^ variable.parameter.tex
 %                      ^^^^^^ keyword.other.math.greek.tex
 
 
 % testing incomplete register specification
 \def\test{\dimen} other text
+%^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^ meta.function.tex
+%   ^^^^^ meta.function.identifier.tex
 %        ^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %         ^^^^^^ meta.register.tex
 %                ^^^^^^^^^^^ - meta.function.body
