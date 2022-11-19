@@ -150,7 +150,7 @@ contexts:
     - include: else-pop
 
   register-name-group-body:
-    - meta_scope: meta.group.brace.latex
+    - meta_scope: meta.group.brace.tex
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
       pop: 2
