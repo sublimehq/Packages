@@ -239,3 +239,79 @@ some other text
 %^^^^ storage.type.tex
 %     ^^^^^ support.function.general.tex
 %     ^ punctuation.definition.backslash.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Character Codes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\catcode65=12
+%^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%         ^ keyword.operator.assignment.tex
+%          ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+
+% here are some assignments that happen in `plain.tex`
+
+\catcode`@=11
+%^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ constant.character.tex
+%         ^ keyword.operator.assignment.tex
+%          ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\catcode`\^^K=7
+%^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^^^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ punctuation.definition.backslash.tex
+%         ^^^ constant.character.tex
+%            ^ keyword.operator.assignment.tex
+%             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\mathcode`\^^D="225E
+%^^^^^^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^^ keyword.control.character-code.tex
+%        ^^^^^ meta.number.integer.tex
+%        ^ keyword.operator.tex
+%         ^ punctuation.definition.backslash.tex
+%          ^^^ constant.character.tex
+%             ^ keyword.operator.assignment.tex
+%              ^^^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+\delcode`\\="26E30F
+%^^^^^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ punctuation.definition.backslash.tex
+%         ^ constant.character.tex
+%          ^ keyword.operator.assignment.tex
+%           ^^^^^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+% some other assignments
+
+% skip the = sign
+\catcode`@11
+%^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ constant.character.tex
+%         ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+% hex-specifier
+\catcode`\^^ab=11
+%^^^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^^^^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ punctuation.definition.backslash.tex
+%         ^^^^ constant.character.tex
+%             ^ keyword.operator.assignment.tex
+%              ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
