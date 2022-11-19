@@ -171,7 +171,7 @@ contexts:
     - meta_scope: meta.function.latex
     - match: (?=\{)
       set:
-        - def-scope-as-body
+        - def-function-body-meta
         - macro-braces-begin
     - match: (?=\\)
       set: newcommand-expression

@@ -248,7 +248,6 @@ contexts:
     - include: else-pop
 
   def-commandname:
-    - clear_scopes: 1
     - meta_scope: meta.function.identifier.tex
     - match: (\\){{cmdname}}
       scope: entity.name.definition.tex
@@ -259,27 +258,21 @@ contexts:
     - include: else-pop
 
   def-argspec:
-    - clear_scopes: 1
     - meta_content_scope: meta.function.parameters.tex
     - include: escaped-character
     - match: (?=\{)
-      scope: punctuation.definition.group.bracket.end.tex
-      set: def-definition
+      set:
+        - def-function-body-meta
+        - macro-braces-begin
+
     - match: (\#)[0-9]
       scope: variable.parameter.tex
       captures:
         1: punctuation.definition.variable.tex
     - include: paragraph-pop
 
-  def-definition:
-    - match: (?=\{)
-      set:
-        - def-scope-as-body
-        - macro-braces-begin
-    - include: paragraph-pop
-    - include: else-pop
-
-  def-scope-as-body:
+  def-function-body-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.function.body.tex
     - include: immediately-pop
 
@@ -290,20 +283,23 @@ contexts:
   macro-braces-begin:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      set: macro-braces-content
+      set: macro-braces-body
 
   macro-braces-end:
      - match: \}
        scope: punctuation.definition.group.brace.end.tex
        pop: 1
 
+  macro-braces-body:
+    - meta_scope: meta.group.brace.tex
+    - include: macro-braces-end
+    - include: macro-braces-content
+
   # within macros, it is possible that only part of some nested struture
   # is present. Don't include any context's here that break if they are
   # only partially matched.
   macro-braces-content:
-    - meta_scope: meta.group.brace.tex
     - include: macro-braces
-    - include: macro-braces-end
     - include: macro-placeholders
     - include: controls
     - include: registers
