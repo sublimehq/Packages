@@ -444,24 +444,7 @@ contexts:
           pop: true
         - include: main
 
-  math-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      push: math-brace-group-body
-
-  math-brace-group-body:
-    - meta_scope: meta.group.brace.latex
-    - include: brace-group-end
-    - include: math-content
-
-  math-content:
-    - meta_prepend: true
-    - match: (?=\})
-      pop: true
-    - include: verb
-    - include: text-decorators
-    - include: references
-    - include: begin-end-commands
+###[ MATH ]####################################################################
 
   inline-math:
     - meta_append: true
@@ -547,6 +530,17 @@ contexts:
     - match: \\\]
       scope: string.other.math.latex punctuation.definition.string.end.latex
       pop: true
+
+  math-content:
+    - meta_prepend: true
+    - match: (?=\})
+      pop: true
+    - include: verb
+    - include: text-decorators
+    - include: references
+    - include: begin-end-commands
+
+###[ OTHER ]###################################################################
 
   graphics:
     - match: ((\\)includegraphics)\b

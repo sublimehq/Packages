@@ -303,6 +303,48 @@ contexts:
     - include: general-commands
     - include: macro-braces
 
+###[ MATH ]####################################################################
+
+  inline-math:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push: inline-math-dollar-body
+
+  inline-math-dollar-body:
+    - meta_scope: meta.environment.math.inline.dollar.tex
+    - include: inline-math-dollar-end
+    - include: math-content
+
+  inline-math-dollar-end:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: true
+
+  block-math:
+    - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push: block-math-dollar-body
+
+  block-math-dollar-body:
+    - meta_scope: meta.environment.math.block.dollar.tex
+    - include: block-math-dollar-end
+    - include: math-content
+
+  block-math-dollar-end:
+    - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: true
+
+  math-content:
+    - include: math-builtin
+    - include: math-brackets
+    - include: math-braces
+    - include: boxes
+    - include: math-commands
+    - include: math-operators
+    - include: math-characters
+    - include: math-numerics
+    - include: general-constants
 
   math-builtin:
     - include: math-greeks
@@ -406,47 +448,6 @@ contexts:
   math-characters:
     - match: '[A-Za-z]+'
       scope: variable.other.math.tex
-
-  math-content:
-    - include: math-builtin
-    - include: math-brackets
-    - include: math-braces
-    - include: boxes
-    - include: math-commands
-    - include: math-operators
-    - include: math-characters
-    - include: math-numerics
-    - include: general-constants
-
-  inline-math:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push: inline-math-dollar-body
-
-  inline-math-dollar-body:
-    - meta_scope: meta.environment.math.inline.dollar.tex
-    - include: inline-math-dollar-end
-    - include: math-content
-
-  inline-math-dollar-end:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.end.tex
-      pop: true
-
-  block-math:
-    - match: \$\$
-      scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push: block-math-dollar-body
-
-  block-math-dollar-body:
-    - meta_scope: meta.environment.math.block.dollar.tex
-    - include: block-math-dollar-end
-    - include: math-content
-
-  block-math-dollar-end:
-    - match: \$\$
-      scope: string.other.math.tex punctuation.definition.string.end.tex
-      pop: true
 
 ###[ PROTOTYPES ]##############################################################
 
