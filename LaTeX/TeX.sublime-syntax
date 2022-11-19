@@ -74,7 +74,7 @@ variables:
   uchexdigit: (?:[0-9A-F])
   anyhexdigit: (?:[0-9a-fA-F])
   # special notation to refer to (non-printable) characters in TeX
-  charbycode: '(?x: \^\^(?:{{lchexdigit}}{{lchexdigit}}|.))'
+  charbycode: (?:\^\^(?:{{lchexdigit}}{{lchexdigit}}|.))
 
 contexts:
   prototype:
