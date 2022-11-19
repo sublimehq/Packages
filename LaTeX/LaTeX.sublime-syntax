@@ -39,12 +39,17 @@ contexts:
   braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: main
+      push: brace-group-body
+
+  brace-group-body:
+    - meta_scope: meta.group.brace.latex
+    - include: brace-group-end
+    - include: main
+
+  brace-group-end:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.latex
+      pop: true
 
   # these are used to identify arguments in commands
   general-optional-arguments:

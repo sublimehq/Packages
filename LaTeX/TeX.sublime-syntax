@@ -154,10 +154,17 @@ contexts:
   braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.tex
-        - include: brace-group-end
-        - include: main
+      push: brace-group-body
+
+  brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: main
+
+  brace-group-end:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: true
 
   # within macros, it is possible that only part of some nested struture
   # is present. To prevent this from causing problems, here we only match
@@ -381,12 +388,6 @@ contexts:
   # matches any nospace and pops the context
   else-pop:
     - match: (?=\S)
-      pop: true
-
-  # matches a closing brace and pops the context
-  brace-group-end:
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
       pop: true
 
   immediately-pop:
