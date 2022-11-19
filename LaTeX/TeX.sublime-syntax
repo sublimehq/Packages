@@ -224,12 +224,14 @@ contexts:
   macro-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.group.brace.tex
-        - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+      push: macro-brace-group-body
+
+  macro-brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: general-constants
+    - include: general-commands
+    - include: macro-braces
 
   boxes:
     - match: ((\\)[hv]box)\s*(\{)
@@ -237,10 +239,12 @@ contexts:
         1: support.function.box.tex
         2: punctuation.definition.backslash.tex
         3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.box.tex
-        - include: brace-group-end
-        - include: main
+      push: box-body
+
+  box-body:
+    - meta_scope: meta.function.box.tex
+    - include: brace-group-end
+    - include: main
 
   macros:
     # Note \edef and \xdef have slightly different syntax, in that they do not
@@ -252,21 +256,23 @@ contexts:
       scope: keyword.declaration.function.tex storage.modifier.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
-      push: def-commandname
+      push: def-maybe-commandname
 
-  def-commandname:
+  def-maybe-commandname:
     - meta_scope: meta.function.tex
     - match: (?=\\)
-      set:
-        - clear_scopes: 1
-        - meta_scope: meta.function.identifier.tex
-        - match: (\\){{cmdname}}
-          scope: entity.name.definition.tex
-          captures:
-            1: punctuation.definition.backslash.tex
-          set: def-argspec
-        - include: paragraph-pop
-        - include: else-pop
+      set: def-commandname
+    - include: paragraph-pop
+    - include: else-pop
+
+  def-commandname:
+    - clear_scopes: 1
+    - meta_scope: meta.function.identifier.tex
+    - match: (\\){{cmdname}}
+      scope: entity.name.definition.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      set: def-argspec
     - include: paragraph-pop
     - include: else-pop
 
