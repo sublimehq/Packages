@@ -238,12 +238,13 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       push:
-        - character-code-scope
+        - character-code-meta
         - character-code-value
         - character-code-assignment
         - character-code-number
 
-  character-code-scope:
+  character-code-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.function.character-code.tex
     - include: immediately-pop
 
