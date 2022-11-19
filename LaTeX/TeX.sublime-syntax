@@ -249,7 +249,7 @@ contexts:
     - include: immediately-pop
 
   character-code-number:
-    - match: '(`)(\\)?({{charbycode}}|.)'
+    - match: (`)(\\)?({{charbycode}}|.)
       scope: meta.number.integer.tex
       captures:
         1: keyword.operator.tex
