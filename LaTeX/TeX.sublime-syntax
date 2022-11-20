@@ -175,11 +175,6 @@ contexts:
     - include: paragraph-pop
 
   tex-dimension-value:
-    - include: tex-dimension-value-content
-    - include: else-pop
-    - include: paragraph-pop
-
-  tex-dimension-value-content:
     - match: (-?)\d+(\.)\d*
       scope: constant.numeric.value.tex
       captures:
@@ -203,6 +198,8 @@ contexts:
       set:
         - tex-dimension-glue
         - decimal-integer
+    - include: else-pop
+    - include: paragraph-pop
 
     - match: (`)(\\)?({{charbycode}}|.)
       captures:
