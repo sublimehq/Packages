@@ -175,30 +175,50 @@ contexts:
     - include: paragraph-pop
 
   tex-constant-value:
-    - match: ((-?)\d+(\.)\d*)({{dimunits}}?)
-      scope: meta.number.float.decimal.tex
+    - match: (-?)\d+(\.)\d*
+      scope: constant.numeric.value.tex
       captures:
-        1: constant.numeric.value.tex
-        2: keyword.operator.arithmetic.tex
-        3: punctuation.separator.decimal.tex
-        4: constant.numeric.suffix.tex
-    - match: ((-?)\d+)({{dimunits}}?)
-      scope: meta.number.integer.decimal.tex
+        1: keyword.operator.arithmetic.tex
+        2: punctuation.separator.decimal.tex
+      push:
+        - decimal-float-meta
+        - tex-dimension-suffix
+    - match: ((-?)\d+)
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
       captures:
-        1: constant.numeric.value.tex
-        2: keyword.operator.arithmetic.tex
-        3: constant.numeric.suffix.tex
+        1: keyword.operator.arithmetic.tex
+        2: constant.numeric.suffix.tex
+      push:
+        - decimal-integer-meta
+        - tex-dimension-suffix
+
     - match: (`)(\\)?({{charbycode}}|.)
       scope: meta.number.integer.tex
       captures:
         1: keyword.operator.tex
         2: punctuation.definition.backslash.tex
         3: constant.character.tex
-    - match: '{{dimunits}}'
-      scope: constant.numeric.suffix.tex
 
     - match: plus|minus
       scope: keyword.operator.arithmetic.tex
+
+    - include: else-pop
+    - include: paragraph-pop
+
+  decimal-float-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.float.decimal.tex
+    - include: immediately-pop
+
+  decimal-integer-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.decimal.tex
+    - include: immediately-pop
+
+  tex-dimension-suffix:
+    - match: '{{dimunits}}'
+      scope: constant.numeric.suffix.tex
+      pop: 1
 
     - include: else-pop
     - include: paragraph-pop

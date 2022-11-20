@@ -449,19 +449,23 @@ some other text
 %      ^^^ constant.numeric.value.tex
 %       ^ punctuation.separator.decimal.tex
 %         ^^ constant.numeric.suffix.tex
-\vfuzz=0.1pt
+\vfuzz=0.1 pt
 %^^^^^ constant.language.tex
 %     ^ keyword.operator.assignment.tex
-%      ^^^^^ meta.number.float.decimal.tex
+%      ^^^^^^ meta.number.float.decimal.tex
 %      ^^^ constant.numeric.value.tex
 %       ^ punctuation.separator.decimal.tex
-%         ^^ constant.numeric.suffix.tex
-\overfullrule=5pt
+%          ^^ constant.numeric.suffix.tex
+
+% check that we can put comment-based line breaks here
+\overfullrule=%
 %^^^^^^^^^^^^ constant.language.tex
 %            ^ keyword.operator.assignment.tex
-%             ^^^ meta.number.integer.decimal.tex
-%             ^ constant.numeric.value.tex
-%              ^^ constant.numeric.suffix.tex
+   5pt
+%  ^^^ meta.number.integer.decimal.tex
+%  ^ constant.numeric.value.tex
+%   ^^ constant.numeric.suffix.tex
+
 \hsize=6.5in
 %^^^^^ constant.language.tex
 %     ^ keyword.operator.assignment.tex
@@ -519,7 +523,7 @@ some other text
 %       ^ keyword.operator.assignment.tex
 %        ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %         ^^ constant.numeric.suffix.tex
-%            ^^^^ keyword.operator.tex
+%            ^^^^ keyword.operator.arithmetic.tex
 %                 ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                  ^^ constant.numeric.suffix.tex
 
@@ -528,10 +532,10 @@ some other text
 %                ^ keyword.operator.assignment.tex
 %                 ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                   ^^ constant.numeric.suffix.tex
-%                      ^^^^ keyword.operator.tex
+%                      ^^^^ keyword.operator.arithmetic.tex
 %                           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                            ^^ constant.numeric.suffix.tex
-%                               ^^^^^ keyword.operator.tex
+%                               ^^^^^ keyword.operator.arithmetic.tex
 %                                     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                                      ^^ constant.numeric.suffix.tex
 \abovedisplayshortskip=0pt plus 3pt
@@ -559,7 +563,7 @@ some other text
 %           ^ keyword.operator.assignment.tex
 %            ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %             ^^ constant.numeric.suffix.tex
-%                ^^^^ keyword.operator.tex
+%                ^^^^ keyword.operator.arithmetic.tex
 %                     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                      ^^^ constant.numeric.suffix.tex
 
@@ -575,10 +579,10 @@ some other text
 %         ^ keyword.operator.assignment.tex
 %          ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %           ^^ constant.numeric.suffix.tex
-%              ^^^^ keyword.operator.tex
+%              ^^^^ keyword.operator.arithmetic.tex
 %                   ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                    ^^ constant.numeric.suffix.tex
-%                       ^^^^^ keyword.operator.tex
+%                       ^^^^^ keyword.operator.arithmetic.tex
 %                             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                              ^^ constant.numeric.suffix.tex
 \thickmuskip=5mu plus 5mu
@@ -703,6 +707,12 @@ some other text
 % check that we don't pick it up if it is just the beginning of a word
 \jota
 %^^^^ - constant.language.tex
+
+% Check that a number is required
+\jot=pt
+%    ^^ - constant.numeric.suffix.tex
+\jot=5pt pt
+%        ^^ - constant.numeric.suffix.tex
 
 % \relax is a no-op that can be used to ensure that the following characters
 % will not be parsed as part of the quantity
