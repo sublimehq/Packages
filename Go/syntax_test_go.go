@@ -4522,35 +4522,35 @@ by accident, but if necessary, such support could be sacrificed.
 /* # Operators */
 
     !=
-//  ^^ keyword.operator.comparison.go
+//  ^^ keyword.operator.comparison.not-equal.value.go
     !
-//  ^ keyword.operator.logical.go
+//  ^ keyword.operator.logical.not.go
     %=
 //  ^^ keyword.operator.assignment.augmented.go
     %
 //  ^ keyword.operator.arithmetic.go
     &&
-//  ^^ keyword.operator.logical.go
+//  ^^ keyword.operator.logical.and.go
     &=
 //  ^^ keyword.operator.assignment.augmented.go
     &^=
 //  ^^^ keyword.operator.assignment.augmented.go
     &^
-//  ^^ keyword.operator.bitwise.go
+//  ^^ keyword.operator.bitwise.and_not.go
     &
-//  ^ keyword.operator.go
+//  ^ keyword.operator.bitwise.and.go
     *=
 //  ^^ keyword.operator.assignment.augmented.go
     *
-//  ^ keyword.operator.go
+//  ^ keyword.operator.arithmetic.go
     ++
-//  ^^ keyword.operator.assignment.augmented.go
+//  ^^ keyword.operator.arithmetic.increment.go
     +=
 //  ^^ keyword.operator.assignment.augmented.go
     +
 //  ^ keyword.operator.arithmetic.go
     --
-//  ^^ keyword.operator.assignment.augmented.go
+//  ^^ keyword.operator.arithmetic.decrement.go
     -=
 //  ^^ keyword.operator.assignment.augmented.go
     -
@@ -4564,37 +4564,37 @@ by accident, but if necessary, such support could be sacrificed.
     <-
 //  ^^ keyword.operator.assignment.go
     <
-//  ^ keyword.operator.comparison.go
+//  ^ keyword.operator.relational.less.go
     <<=
 //  ^^^ keyword.operator.assignment.augmented.go
     <<
-//  ^^ keyword.operator.bitwise.go
+//  ^^ keyword.operator.bitwise.shift.left.go
     <=
-//  ^^ keyword.operator.comparison.go
+//  ^^ keyword.operator.relational.less-equal.go
     ==
-//  ^^ keyword.operator.comparison.go
+//  ^^ keyword.operator.comparison.equal.value.go
     =
 //  ^ keyword.operator.assignment.go
     >=
-//  ^^ keyword.operator.comparison.go
+//  ^^ keyword.operator.relational.greater-equal.go
     >>=
 //  ^^^ keyword.operator.assignment.augmented.go
     >>
-//  ^^ keyword.operator.bitwise.go
+//  ^^ keyword.operator.bitwise.shift.right.go
     >
-//  ^ keyword.operator.comparison.go
+//  ^ keyword.operator.relational.greater.go
     ^=
 //  ^^ keyword.operator.assignment.augmented.go
     ^
-//  ^ keyword.operator.bitwise.go
+//  ^ keyword.operator.bitwise.xor.go
     |=
 //  ^^ keyword.operator.assignment.augmented.go
     ||
-//  ^^ keyword.operator.logical.go
+//  ^^ keyword.operator.logical.or.go
     |
-//  ^ keyword.operator.bitwise.go
+//  ^ keyword.operator.bitwise.or.go
     ~
-//  ^ keyword.operator.go
+//  ^ keyword.operator.bitwise.not.go
 
 
 /* # Punctuation */
