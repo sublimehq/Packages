@@ -411,11 +411,13 @@ contexts:
         2: keyword.operator.bitwise.xor.go
         3: keyword.operator.bitwise.and.go
         4: keyword.operator.bitwise.not.go
-    - match: '(\+\+)|(--)|([-+*/%])'
+    - match: '(\+\+)|(--)|([-+/%])'
       captures:
         1: keyword.operator.arithmetic.increment.go
         2: keyword.operator.arithmetic.decrement.go
         3: keyword.operator.arithmetic.go
+    - match: '[*]'
+      scope: keyword.operator.go
 
   # Special characters that in some contexts may precede a type.
   # Not all of them are allowed in all contexts.
