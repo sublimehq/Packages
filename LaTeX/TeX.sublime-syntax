@@ -180,17 +180,13 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.tex
         2: punctuation.separator.decimal.tex
-      push:
-        - decimal-float-meta
-        - tex-dimension-suffix
+      push: decimal-float
     - match: ((-?)\d+)
       scope: meta.number.integer.decimal.tex constant.numeric.value.tex
       captures:
         1: keyword.operator.arithmetic.tex
         2: constant.numeric.suffix.tex
-      push:
-        - decimal-integer-meta
-        - tex-dimension-suffix
+      push: decimal-integer
 
     - match: (`)(\\)?({{charbycode}}|.)
       scope: meta.number.integer.tex
