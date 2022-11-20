@@ -379,24 +379,43 @@ contexts:
   # Note: pipe "|" is not always bitwise. In type unions
   # it should be scoped differently.
   match-operators:
-    - match: '<<=|>>=|&\^=|&=|\^=|\|=|%=|\+=|-=|\*=|/=|\+\+|--'
+    - match: '<<=|>>=|&\^=|&=|\^=|\|=|%=|\+=|-=|\*=|/='
       scope: keyword.operator.assignment.augmented.go
     - match: '<-|:='
       scope: keyword.operator.assignment.go
-    - match: '&\^|<<|>>'
-      scope: keyword.operator.bitwise.go
-    - match: '==|!=|<=|>=|<|>'
-      scope: keyword.operator.comparison.go
+    - match: '(&\^)|(<<)|(>>)'
+      captures:
+        1: keyword.operator.bitwise.and_not.go
+        2: keyword.operator.bitwise.shift.left.go
+        3: keyword.operator.bitwise.shift.right.go
+    - match: '(==)|(!=)'
+      captures:
+        1: keyword.operator.comparison.equal.value.go
+        2: keyword.operator.comparison.not-equal.value.go
+    - match: '(<=)|(>=)|(<)|(>)'
+      captures:
+        1: keyword.operator.relational.less-equal.go
+        2: keyword.operator.relational.greater-equal.go
+        3: keyword.operator.relational.less.go
+        4: keyword.operator.relational.greater.go
     - match: '='
       scope: keyword.operator.assignment.go
-    - match: '&&|\|\||!'
-      scope: keyword.operator.logical.go
-    - match: '[|^]'
-      scope: keyword.operator.bitwise.go
-    - match: '[-+/%]'
-      scope: keyword.operator.arithmetic.go
-    - match: '[*&~]'
-      scope: keyword.operator.go
+    - match: '(&&)|(\|\|)|(!)'
+      captures:
+        1: keyword.operator.logical.and.go
+        2: keyword.operator.logical.or.go
+        3: keyword.operator.logical.not.go
+    - match: '(\|)|(\^)|(&)|(~)'
+      captures:
+        1: keyword.operator.bitwise.or.go
+        2: keyword.operator.bitwise.xor.go
+        3: keyword.operator.bitwise.and.go
+        4: keyword.operator.bitwise.not.go
+    - match: '(\+\+)|(--)|([-+*/%])'
+      captures:
+        1: keyword.operator.arithmetic.increment.go
+        2: keyword.operator.arithmetic.decrement.go
+        3: keyword.operator.arithmetic.go
 
   # Special characters that in some contexts may precede a type.
   # Not all of them are allowed in all contexts.
