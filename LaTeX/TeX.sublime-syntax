@@ -200,6 +200,10 @@ contexts:
       scope: meta.function.input.tex keyword.control.input.tex
       captures:
         1: punctuation.definition.backslash.tex
+    - match: (\\)relax{{endcs}}
+      scope: keyword.control.flow.relax.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
   braces:
     - match: \{
