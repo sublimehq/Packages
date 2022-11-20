@@ -56,6 +56,51 @@ variables:
   registers: |-
     (?x: box | count | dimen | muskip | skip | toks)
 
+  # here, we define variables for the names of the constants and parameters
+  # of the TeX algorithm. Some of these are defined in terms of pre-reserved
+  # registers instead of built-ins, but in terms of syntax highlighting this
+  # should not make a difference
+  penalties: |-
+    (?x: line | hyphen | exhyphen | binop | rel | club | widow
+    | displaywidow | broken | predisplay | postdisplay | interline
+    | floating | output | inter(?:display|footnote)line)
+
+  tracings: |-
+    (?x: online | macros | stats | paragraphs | pages | output | lostchars
+    | commands | restores)
+
+  skips: |-
+    (?x: baseline | line | par | (?:above|below)display(?:short)?
+    | left | right | top | splittop | tab | space | xspace | parfill
+    | (?:thin|med|thick)mu | normalbaseline | normalline | hide)
+
+  constants: |-
+    (?x: (?:pre)?tolerance | [hv]badness
+    | (?:doublehyphen|finalhyphen|adj)demerits
+    | looseness | pausing | holdinginserts | language | uchyph | lefthyphenmin
+    | righthyphenmin | globaldefs | maxdeadcycles | hangafter | fam | mag
+    | (?:escape|defaulthyphen|defaultskew|endline|newline)char
+    | delimiterfactor | time | day | month | year
+    | showboxbreadth | showboxdepth | errorcontextlines
+    | [hv]fuzz | overfullrule | [hv]size | maxdepth | splitmaxdepth
+    | boxmaxdepth | lineskiplimit | delimitershortfall | nulldelimiterspace
+    | scriptspace | mathsurround | predisplaysize | displaywidth | displayindent
+    | parindent | hangindent | [hv]offset | (?:small|med|big)skipamount
+    | normallineskiplimit | jot | {{skips}}skip | tracing{{tracings}}
+    | {{penalties}}penalty | maxdimen | centering | p@ | z@ | z@skip | voidb@x
+    | magstephalf | magstep\d | @ne | tw@ | thr@@ | sixt@@n | @cclv | @cclvi
+    | @m | @M | @MM | m@ne | count@ | dimen@ | dimen@i | dimen@ii | skip@
+    | toks@ | insc@unt | allocationnumber)
+
+  # These constants are implemented as macros, and thus cannot be = assigned
+  macroconst: |-
+    (?x: (?:thin|negthin|en)space | enskip | q?quad | (?:small|med|big)skip
+    | [lr]q | [lr]brack | space | empty | null )
+
+  dimunits: |-
+    (?x: pt | pc | bp | in | cm | mm | dd | cc | sp | ex | em
+    | fil | fill | filll | mu)
+
   # letters in the sense of macro names. Whether @ is a letter or not can vary
   # from a syntax-highlighting perspective, however, we are much safer to
   # assume it is a letter. Situations where we have `\macro` followed immediately
@@ -90,6 +135,7 @@ contexts:
     - include: inline-math
     - include: registers
     - include: register-allocations
+    - include: tex-constants
     - include: general-constants
     - include: general-commands
 
@@ -107,6 +153,77 @@ contexts:
     - match: '~'
       scope: constant.character.space.tex
     - include: escaped-character
+
+  tex-constants:
+    - match: (\\){{constants}}{{endcs}}
+      scope: constant.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push:
+        - tex-dimension-value
+        - tex-constant-assignment
+    - match: (\\){{macroconst}}{{endcs}}
+      scope: constant.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  tex-constant-assignment:
+    - match: =
+      scope: keyword.operator.assignment.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
+
+  tex-dimension-value:
+    - match: (-?)(?:\d+(\.)\d*|(\.)\d+)
+      scope: constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+        2: punctuation.separator.decimal.tex
+        3: punctuation.separator.decimal.tex
+      set:
+        - tex-dimension-glue
+        - decimal-float
+    - match: (-?)\d+
+      scope: constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+      set:
+        - tex-dimension-glue
+        - decimal-integer
+    - match: (`)(\\)?({{charbycode}}|.)
+      captures:
+        1: keyword.operator.tex
+        2: punctuation.definition.backslash.tex
+        3: constant.character.tex
+      set:
+        - tex-dimension-glue
+        - decimal-integer
+    - include: else-pop
+    - include: paragraph-pop
+
+  tex-dimension-glue:
+    - match: (?:plus|minus){{endcs}}
+      scope: keyword.operator.arithmetic.tex
+      set: tex-dimension-value
+    - include: else-pop
+    - include: paragraph-pop
+
+  decimal-float:
+    - meta_scope: meta.number.float.decimal.tex
+    - include: tex-dimension-suffix
+
+  decimal-integer:
+    - meta_scope: meta.number.integer.decimal.tex
+    - include: tex-dimension-suffix
+
+  tex-dimension-suffix:
+    - match: '{{dimunits}}'
+      scope: constant.numeric.suffix.tex
+      pop: 1
+
+    - include: else-pop
+    - include: paragraph-pop
 
   escaped-character:
     - match: (\\){{nonletter}}
@@ -352,6 +469,7 @@ contexts:
     - include: controls
     - include: registers
     - include: math-builtin
+    - include: tex-constants
     - include: general-constants
     - include: general-commands
 
