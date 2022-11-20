@@ -1,9 +1,9 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 
 # The structure and lexicon of this syntax reflects the Go spec:
-# https://golang.org/ref/spec
+# https://go.dev/ref/spec
 
 # The following is a simplified model of Sublime Text's syntax engine, reverse-
 # engineered through experience. This model uses assertive language for brevity,
@@ -66,14 +66,14 @@ first_line_match: |-
   )
 
 variables:
-  # https://golang.org/ref/spec#Keywords
+  # https://go.dev/ref/spec#Keywords
   # These are the only words that can't be used as identifiers.
   keyword: \b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go|goto|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b
 
-  # https://golang.org/ref/spec#Predeclared_identifiers
+  # https://go.dev/ref/spec#Predeclared_identifiers
   predeclared_type: \b(?:any|bool|byte|comparable|complex64|complex128|error|float32|float64|int|int8|int16|int32|int64|rune|string|uint|uint8|uint16|uint32|uint64|uintptr)\b
 
-  # https://golang.org/ref/spec#Predeclared_identifiers
+  # https://go.dev/ref/spec#Predeclared_identifiers
   predeclared_func: \b(?:append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover)\b
 
   ident_anon: \b_\b
@@ -150,7 +150,7 @@ contexts:
   match-any:
     - include: match-tokens
 
-  # https://golang.org/ref/spec#Comments
+  # https://go.dev/ref/spec#Comments
   match-comments:
     - include: match-comment-magic
     - include: match-comment-line
@@ -253,7 +253,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.go
 
-  # https://golang.org/ref/spec#Tokens
+  # https://go.dev/ref/spec#Tokens
   #
   # Nominally, this should include `match-call-or-type-conversion`; instead,
   # it's specified in `match-parens` to ensure proper ordering.
@@ -264,7 +264,7 @@ contexts:
     - include: match-operators
     - include: match-punctuation
 
-  # https://golang.org/ref/spec#Keywords
+  # https://go.dev/ref/spec#Keywords
   match-keywords:
     - include: match-keyword-break
     - include: match-keyword-case
@@ -301,7 +301,7 @@ contexts:
     - match: '{{ident}}'
       scope: variable.other.go
 
-  # https://golang.org/ref/spec#Predeclared_identifiers
+  # https://go.dev/ref/spec#Predeclared_identifiers
   #
   # In Go, the predeclared constants are not keywords, and can be redefined. In
   # many places such as variable declarations, types, function names, etc, we
@@ -313,7 +313,7 @@ contexts:
     - match: \b(?:true|false|nil)\b
       scope: constant.language.go
 
-  # Reference: https://golang.org/ref/spec#Predeclared_identifiers
+  # Reference: https://go.dev/ref/spec#Predeclared_identifiers
   #
   # Note: in Go, calls and type conversions are syntactically identical.
   # Detecting type conversions and scoping them as types is beyond the
@@ -374,7 +374,7 @@ contexts:
       scope: variable.language.anonymous.go
       pop: 1
 
-  # https://golang.org/ref/spec#Operators_and_punctuation
+  # https://go.dev/ref/spec#Operators_and_punctuation
   #
   # Note: pipe "|" is not always bitwise. In type unions
   # it should be scoped differently.
@@ -434,7 +434,7 @@ contexts:
     - match: \|{{operator_break}}
       scope: keyword.operator.go
 
-  # https://golang.org/ref/spec#Operators_and_punctuation
+  # https://go.dev/ref/spec#Operators_and_punctuation
   match-punctuation:
     - include: match-comma
     - include: match-ellipsis
@@ -536,8 +536,8 @@ contexts:
   #
   # For future reference:
   #
-  #   https://golang.org/ref/spec#Composite_literals
-  #   https://golang.org/ref/spec#Labeled_statements
+  #   https://go.dev/ref/spec#Composite_literals
+  #   https://go.dev/ref/spec#Labeled_statements
   match-braces:
     - match: \{
       scope: punctuation.section.braces.begin.go
@@ -648,7 +648,7 @@ contexts:
     - match: '({{dec_digits}})'
       scope: meta.number.integer.decimal.go constant.numeric.value.go
 
-  # https://golang.org/ref/spec#Rune_literals
+  # https://go.dev/ref/spec#Rune_literals
   match-runes:
     # Note: Scope constants as `string` to prevent ST' bracket matching from
     #       failing in case the character contains '{', '}', '[', ']', etc.
@@ -1007,7 +1007,7 @@ contexts:
       set: pop-func-parameter-list
     - include: pop-type
 
-  # https://golang.org/ref/spec#Function_types
+  # https://go.dev/ref/spec#Function_types
   #
   # Go has two parameter syntaxes: unnamed and named.
   #
@@ -1382,7 +1382,7 @@ contexts:
 
   # Note: this doesn't support multiline expressions.
   #
-  # Note on `iota`. See https://golang.org/ref/spec#Iota. `iota` is a regular
+  # Note on `iota`. See https://go.dev/ref/spec#Iota. `iota` is a regular
   # identifier that happens to be predeclared in constant initialization
   # expressions, but not anywhere else. Just like `true|false|nil`, you can
   # redefine it. Doing so in the root scope makes the magic constant unavailable
