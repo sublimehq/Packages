@@ -175,19 +175,12 @@ contexts:
     - include: paragraph-pop
 
   tex-dimension-value:
-    - match: (-?)\d+(\.)\d*
+    - match: (-?)(?:\d+(\.)\d*|(\.)\d+)
       scope: constant.numeric.value.tex
       captures:
         1: keyword.operator.arithmetic.tex
         2: punctuation.separator.decimal.tex
-      set:
-        - tex-dimension-glue
-        - decimal-float
-    - match: (-?)(\.)\d+
-      scope: constant.numeric.value.tex
-      captures:
-        1: keyword.operator.arithmetic.tex
-        2: punctuation.separator.decimal.tex
+        3: punctuation.separator.decimal.tex
       set:
         - tex-dimension-glue
         - decimal-float
