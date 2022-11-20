@@ -411,7 +411,7 @@ some other text
 \escapechar=`\\
 %^^^^^^^^^^ constant.language.tex
 %          ^ keyword.operator.assignment.tex
-%           ^^^ meta.number.integer.tex
+%           ^^^ meta.number.integer
 %           ^ keyword.operator.tex
 %            ^ punctuation.definition.backslash.tex
 %             ^ constant.character.tex
@@ -480,8 +480,15 @@ some other text
 %      ^^^ constant.numeric.value.tex
 %       ^ punctuation.separator.decimal.tex
 %         ^^ constant.numeric.suffix.tex
-\maxdepth=4pt
+\maxdepth=.4pt
 %^^^^^^^^ constant.language.tex
+%        ^ keyword.operator.assignment.tex
+%         ^^^^ meta.number.float.decimal.tex
+%         ^^ constant.numeric.value.tex
+%         ^ punctuation.separator.decimal.tex
+%           ^^ constant.numeric.suffix.tex
+
+
 \splitmaxdepth=\maxdimen
 %^^^^^^^^^^^^^ constant.language.tex
 %             ^ keyword.operator.assignment.tex
@@ -667,6 +674,25 @@ some other text
 %                 ^^^ constant.language.tex
 %                 ^ punctuation.definition.backslash.tex
 
+% Using weird ways to specify a number
+\abovedisplayskip=`\^^Z ex
+%^^^^^^^^^^^^^^^^ constant.language.tex
+%                ^ keyword.operator.assignment.tex
+%                 ^^^^^^^ meta.number.integer.decimal.tex
+%                 ^ keyword.operator.tex
+%                  ^ punctuation.definition.backslash.tex
+%                   ^^^ constant.character.tex
+%                       ^^ constant.numeric.suffix.tex
+
+\abovedisplayskip=`\a ex
+%^^^^^^^^^^^^^^^^ constant.language.tex
+%                ^ keyword.operator.assignment.tex
+%                 ^^^^^^ meta.number.integer.decimal.tex
+%                 ^ keyword.operator.tex
+%                  ^ punctuation.definition.backslash.tex
+%                   ^ constant.character.tex
+%                     ^^ constant.numeric.suffix.tex
+
 
 % The macro-type constants. They cannot be assigned using =
 \thinspace=5pt
@@ -713,6 +739,15 @@ some other text
 %    ^^ - constant.numeric.suffix.tex
 \jot=5pt pt
 %        ^^ - constant.numeric.suffix.tex
+
+\jot=5pt plus plus 
+%             ^^^^ - keyword
+
+\jot=5pt plusword
+%        ^^^^ - keyword
+
+\jot=plus
+%    ^^^^ - keyword
 
 % \relax is a no-op that can be used to ensure that the following characters
 % will not be parsed as part of the quantity

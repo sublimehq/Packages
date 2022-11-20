@@ -160,7 +160,8 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       push:
-        - tex-constant-value
+        - tex-dimension-glue
+        - tex-dimension-value
         - tex-constant-assignment
     - match: (\\){{macroconst}}{{endcs}}
       scope: constant.language.tex
@@ -174,28 +175,43 @@ contexts:
     - include: else-pop
     - include: paragraph-pop
 
-  tex-constant-value:
+  tex-dimension-value:
+    - include: tex-dimension-value-content
+    # if we don't find a valid value, we also need to pop the enclosing glue
+    # context.
+    - match: (?=\S|^\s*$)
+      pop: 2
+
+  tex-dimension-value-content:
     - match: (-?)\d+(\.)\d*
       scope: constant.numeric.value.tex
       captures:
         1: keyword.operator.arithmetic.tex
         2: punctuation.separator.decimal.tex
-      push: decimal-float
+      set: decimal-float
+    - match: (-?)(\.)\d+
+      scope: constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+        2: punctuation.separator.decimal.tex
+      set: decimal-float
     - match: (-?)\d+
       scope: constant.numeric.value.tex
       captures:
         1: keyword.operator.arithmetic.tex
-      push: decimal-integer
+      set: decimal-integer
 
     - match: (`)(\\)?({{charbycode}}|.)
-      scope: meta.number.integer.tex
       captures:
         1: keyword.operator.tex
         2: punctuation.definition.backslash.tex
         3: constant.character.tex
+      set: decimal-integer
 
-    - match: plus|minus
+  tex-dimension-glue:
+    - match: (?:plus|minus){{endcs}}
       scope: keyword.operator.arithmetic.tex
+      push: tex-dimension-value
 
     - include: else-pop
     - include: paragraph-pop
