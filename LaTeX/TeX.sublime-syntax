@@ -181,11 +181,10 @@ contexts:
         1: keyword.operator.arithmetic.tex
         2: punctuation.separator.decimal.tex
       push: decimal-float
-    - match: ((-?)\d+)
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+    - match: (-?)\d+
+      scope: constant.numeric.value.tex
       captures:
         1: keyword.operator.arithmetic.tex
-        2: constant.numeric.suffix.tex
       push: decimal-integer
 
     - match: (`)(\\)?({{charbycode}}|.)
