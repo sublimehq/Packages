@@ -371,9 +371,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^ keyword.declaration.chan.go
 //       ^ keyword.operator.go
 //        ^^^^ keyword.declaration.chan.go
-//             ^^ keyword.operator.arithmetic.go
+//             ^^ keyword.operator.go
 //               ^^^^ keyword.declaration.chan.go
-//                    ^^^ keyword.operator.arithmetic.go
+//                    ^^^ keyword.operator.go
 //                       ^^^ storage.type.go
 
     chan struct{}
@@ -779,7 +779,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                       ^ keyword.operator.go
 //                                        ^^^ storage.type.go
 //                                            ^ keyword.operator.go
-//                                              ^ keyword.operator.go
+//                                              ^ keyword.operator.bitwise.not.go
 //                                               ^^^ storage.type.go
 //                                                  ^ punctuation.section.parens.end.go
 
@@ -1605,7 +1605,7 @@ by accident, but if necessary, such support could be sacrificed.
 
     struct {
         ** /**/ ident . /**/ ident . /**/ embed
-//      ^^ meta.type.go keyword.operator.arithmetic.go
+//      ^^ meta.type.go keyword.operator.go
 //         ^^^^ meta.type.go comment.block.go
 //              ^^^^^ meta.type.go variable.other.go
 //                    ^ meta.type.go punctuation.accessor.dot.go
@@ -1616,7 +1616,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                        ^^^^^ meta.type.go entity.other.inherited-class.go
 
         ** ident . /**/
-//      ^^ meta.type.go keyword.operator.arithmetic.go
+//      ^^ meta.type.go keyword.operator.go
 //         ^^^^^ meta.type.go variable.other.go
 //               ^ meta.type.go punctuation.accessor.dot.go
 //                 ^^^^ meta.type.go comment.block.go
@@ -4673,14 +4673,14 @@ by accident, but if necessary, such support could be sacrificed.
 //              ^^^ storage.type.go
 
     ident.(***ident)
-//         ^^^ keyword.operator.arithmetic.go
+//         ^^^ keyword.operator.go
 //            ^^^^^ storage.type.go
 
     ident.((***ident))
 //  ^^^^^ variable.other.go
 //       ^ punctuation.accessor.dot.go
 //        ^^ punctuation.section.parens.begin.go
-//          ^^^ keyword.operator.arithmetic.go
+//          ^^^ keyword.operator.go
 //             ^^^^^ storage.type.go
 //                  ^^ punctuation.section.parens.end.go
 
