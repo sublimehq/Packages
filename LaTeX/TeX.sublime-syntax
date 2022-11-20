@@ -198,9 +198,6 @@ contexts:
       set:
         - tex-dimension-glue
         - decimal-integer
-    - include: else-pop
-    - include: paragraph-pop
-
     - match: (`)(\\)?({{charbycode}}|.)
       captures:
         1: keyword.operator.tex
@@ -209,6 +206,8 @@ contexts:
       set:
         - tex-dimension-glue
         - decimal-integer
+    - include: else-pop
+    - include: paragraph-pop
 
   tex-dimension-glue:
     - match: (?:plus|minus){{endcs}}
