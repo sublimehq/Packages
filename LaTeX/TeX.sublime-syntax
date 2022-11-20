@@ -97,7 +97,6 @@ variables:
     (?x: (?:thin|negthin|en)space | enskip | q?quad | (?:small|med|big)skip
     | [lr]q | [lr]brack | space | empty | null )
 
-
   dimunits: |-
     (?x: pt | pc | bp | in | cm | mm | dd | cc | sp | ex | em
     | fil | fill | filll | mu)
@@ -167,7 +166,6 @@ contexts:
       scope: constant.language.tex
       captures:
         1: punctuation.definition.backslash.tex
-
 
   tex-constant-assignment:
     - match: =
