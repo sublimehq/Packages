@@ -205,15 +205,13 @@ contexts:
     - include: else-pop
     - include: paragraph-pop
 
-  decimal-float-meta:
-    - meta_include_prototype: false
+  decimal-float:
     - meta_scope: meta.number.float.decimal.tex
-    - include: immediately-pop
+    - include: tex-dimension-suffix
 
-  decimal-integer-meta:
-    - meta_include_prototype: false
+  decimal-integer:
     - meta_scope: meta.number.integer.decimal.tex
-    - include: immediately-pop
+    - include: tex-dimension-suffix
 
   tex-dimension-suffix:
     - match: '{{dimunits}}'
