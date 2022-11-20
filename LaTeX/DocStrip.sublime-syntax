@@ -70,7 +70,7 @@ contexts:
 
   docstrip-file-argument-path:
     - meta_content_scope: meta.path.tex.docstrip
-    - include: macro-brace-content
+    - include: macro-braces-body
 
   docstrip-config:
     - match: (\\)(?:usedir|showdirectory|BaseDirectory|DeclareDir|UseTDS|maxfiles|maxoutfiles){{endcs}}
