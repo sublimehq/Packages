@@ -198,7 +198,7 @@ contexts:
       scope: constant.numeric.suffix.tex
 
     - match: plus|minus
-      scope: keyword.operator.tex
+      scope: keyword.operator.arithmetic.tex
 
     - include: else-pop
     - include: paragraph-pop
