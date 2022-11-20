@@ -175,10 +175,19 @@ contexts:
     - include: paragraph-pop
 
   tex-constant-value:
-    - match: -?\d+\.\d*
-      scope: meta.number.float.decimal.tex constant.numeric.value.tex
-    - match: -?\d+
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+    - match: ((-?)\d+(\.)\d*)({{dimunits}}?)
+      scope: meta.number.float.decimal.tex
+      captures:
+        1: constant.numeric.value.tex
+        2: keyword.operator.arithmetic.tex
+        3: punctuation.separator.decimal.tex
+        4: constant.numeric.suffix.tex
+    - match: ((-?)\d+)({{dimunits}}?)
+      scope: meta.number.integer.decimal.tex
+      captures:
+        1: constant.numeric.value.tex
+        2: keyword.operator.arithmetic.tex
+        3: constant.numeric.suffix.tex
     - match: (`)(\\)?({{charbycode}}|.)
       scope: meta.number.integer.tex
       captures:
