@@ -237,10 +237,33 @@ some other text
 % we just scope the macro like we would any other.
 \def\five{5}
 \toks \five = 8
-%^^^^^^^^^^^ meta.register.tex
+%^^^^^^^^^^ meta.register.tex
 %^^^^ storage.type.tex
 %     ^^^^^ support.function.general.tex
 %     ^ punctuation.definition.backslash.tex
+%           ^ keyword.operator.assignment.tex
+%             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+
+\count255 = 1
+%^^^^^^^^ meta.register.tex
+%^^^^^ storage.type.tex
+%     ^^^ meta.number.integer.decimal constant.numeric.value.tex
+%         ^ keyword.operator.assignment.tex
+%           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\dimen\dim50em plus 1ex
+%^^^^^^^^^ meta.register.tex
+%^^^^^ storage.type.tex
+%     ^^^^ support.function.general.tex
+%     ^ punctuation.definition.backslash.tex
+%         ^^^^ meta.number.integer.decimal.tex
+%         ^^ constant.numeric.value.tex
+%           ^^ constant.numeric.suffix.tex
+%              ^^^^ keyword.operator.arithmetic.tex
+%                   ^^^ meta.number.integer.decimal.tex
+%                   ^ constant.numeric.value.tex
+%                    ^^ constant.numeric.suffix.tex
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

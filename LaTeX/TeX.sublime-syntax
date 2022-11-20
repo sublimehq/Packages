@@ -154,6 +154,58 @@ contexts:
       scope: constant.character.space.tex
     - include: escaped-character
 
+  escaped-character:
+    - match: (\\){{nonletter}}
+      scope: constant.character.escape.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  comments:
+    - match: '%.*$\n?'
+      scope: comment.line.percentage.tex
+
+  controls:
+    - match: (\\)ifcase{{endcs}}
+      scope: keyword.control.conditional.switch.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)or{{endcs}}
+      scope: keyword.control.conditional.case.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)loop{{endcs}}
+      scope: keyword.control.loop.do-while.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)repeat{{endcs}}
+      scope: keyword.control.loop.end.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)expandafter{{endcs}}
+      scope: keyword.control.flow.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)if(?:cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?{{endcs}}
+      scope: keyword.control.conditional.if.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)else{{endcs}}
+      scope: keyword.control.conditional.else.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)fi{{endcs}}
+      scope: keyword.control.conditional.end.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)input{{endcs}}
+      scope: meta.function.input.tex keyword.control.input.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)relax{{endcs}}
+      scope: keyword.control.flow.relax.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
   tex-constants:
     - match: (\\){{constants}}{{endcs}}
       scope: constant.language.tex
@@ -161,18 +213,105 @@ contexts:
         1: punctuation.definition.backslash.tex
       push:
         - tex-dimension-value
-        - tex-constant-assignment
+        - tex-assignment
     - match: (\\){{macroconst}}{{endcs}}
       scope: constant.language.tex
       captures:
         1: punctuation.definition.backslash.tex
 
-  tex-constant-assignment:
+  braces:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: brace-group-body
+
+  brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: main
+
+  brace-group-end:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: true
+
+  boxes:
+    - match: ((\\)[hv]box)\s*(\{)
+      captures:
+        1: support.function.box.tex
+        2: punctuation.definition.backslash.tex
+        3: punctuation.definition.group.brace.begin.tex
+      push: box-body
+
+  box-body:
+    - meta_scope: meta.function.box.tex
+    - include: brace-group-end
+    - include: main
+
+###[ Registers ]################################################################
+
+  registers:
+    - match: (\\)({{registers}}){{endcs}}
+      captures:
+        1: punctuation.definition.backslash.tex
+        2: storage.type.tex
+      push: register-id
+
+  register-id:
+    - meta_scope: meta.register.tex
+    - match: \d+
+      scope: meta.number.integer.decimal constant.numeric.value.tex
+      set:
+        - tex-dimension-value
+        - tex-assignment
+    - match: (\\){{letter}}+
+      scope: support.function.general.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      set:
+        - tex-dimension-value
+        - tex-assignment
+    - include: paragraph-pop
+    - include: else-pop
+
+  register-allocations:
+    - match: (\\)new{{registers}}{{endcs}}
+      scope: keyword.declaration.register.tex storage.modifier.register.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: def-registername
+
+  def-registername:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: register-name-group-body
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
+
+  register-name-group-body:
+    - meta_scope: meta.group.brace.tex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+
+###[ Dimensions ]###############################################################
+
+  tex-assignment:
     - match: =
       scope: keyword.operator.assignment.tex
       pop: 1
     - include: else-pop
     - include: paragraph-pop
+
 
   tex-dimension-value:
     - match: (-?)(?:\d+(\.)\d*|(\.)\d+)
@@ -224,132 +363,6 @@ contexts:
 
     - include: else-pop
     - include: paragraph-pop
-
-  escaped-character:
-    - match: (\\){{nonletter}}
-      scope: constant.character.escape.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
-  registers:
-    - match: (\\)({{registers}}){{endcs}}
-      captures:
-        1: punctuation.definition.backslash.tex
-        2: storage.type.tex
-      push: register-id
-
-  register-id:
-    - meta_scope: meta.register.tex
-    - match: \d+
-      scope: meta.number.integer.decimal constant.numeric.value.tex
-      pop: 1
-    - include: general-commands
-    - include: paragraph-pop
-    - include: else-pop
-
-  register-allocations:
-    - match: (\\)new{{registers}}{{endcs}}
-      scope: keyword.declaration.register.tex storage.modifier.register.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      push: def-registername
-
-  def-registername:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: register-name-group-body
-    - match: (\\){{cmdname}}
-      scope: entity.name.constant.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      pop: 1
-    - include: paragraph-pop
-    - include: else-pop
-
-  register-name-group-body:
-    - meta_scope: meta.group.brace.tex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 2
-    - match: (\\){{cmdname}}
-      scope: entity.name.constant.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
-  comments:
-    - match: '%.*$\n?'
-      scope: comment.line.percentage.tex
-
-  controls:
-    - match: (\\)ifcase{{endcs}}
-      scope: keyword.control.conditional.switch.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)or{{endcs}}
-      scope: keyword.control.conditional.case.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)loop{{endcs}}
-      scope: keyword.control.loop.do-while.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)repeat{{endcs}}
-      scope: keyword.control.loop.end.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)expandafter{{endcs}}
-      scope: keyword.control.flow.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)if(?:cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|true|undefined|vbox|vmode|void|x)?{{endcs}}
-      scope: keyword.control.conditional.if.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)else{{endcs}}
-      scope: keyword.control.conditional.else.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)fi{{endcs}}
-      scope: keyword.control.conditional.end.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)input{{endcs}}
-      scope: meta.function.input.tex keyword.control.input.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-    - match: (\\)relax{{endcs}}
-      scope: keyword.control.flow.relax.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
-  braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: brace-group-body
-
-  brace-group-body:
-    - meta_scope: meta.group.brace.tex
-    - include: brace-group-end
-    - include: main
-
-  brace-group-end:
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: true
-
-  boxes:
-    - match: ((\\)[hv]box)\s*(\{)
-      captures:
-        1: support.function.box.tex
-        2: punctuation.definition.backslash.tex
-        3: punctuation.definition.group.brace.begin.tex
-      push: box-body
-
-  box-body:
-    - meta_scope: meta.function.box.tex
-    - include: brace-group-end
-    - include: main
-
 
 ###[ CHARACTER CODES ]##########################################################
 
