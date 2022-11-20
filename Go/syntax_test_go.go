@@ -371,9 +371,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^ keyword.declaration.chan.go
 //       ^ keyword.operator.go
 //        ^^^^ keyword.declaration.chan.go
-//             ^^ keyword.operator.go
+//             ^^ keyword.operator.arithmetic.go
 //               ^^^^ keyword.declaration.chan.go
-//                    ^^^ keyword.operator.go
+//                    ^^^ keyword.operator.arithmetic.go
 //                       ^^^ storage.type.go
 
     chan struct{}
@@ -1280,7 +1280,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^^^^^^ keyword.declaration.interface.go
 //           ^^^^^^^^ meta.type.go
 //           ^ punctuation.section.braces.begin.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.bitwise.not.go
 //             ^^^^^ storage.type.go
 //                  ^ punctuation.section.braces.end.go
 
@@ -1299,13 +1299,13 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^^^^^^ keyword.declaration.interface.go
 //           ^^^^^^^^^^^^^^^^^^ meta.type.go
 //           ^ punctuation.section.braces.begin.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.bitwise.not.go
 //             ^^^ storage.type.go
 //                ^ keyword.operator.go
-//                 ^ keyword.operator.go
+//                 ^ keyword.operator.bitwise.not.go
 //                  ^^^ storage.type.go
 //                     ^ keyword.operator.go
-//                      ^ keyword.operator.go
+//                      ^ keyword.operator.bitwise.not.go
 //                       ^^^^^ storage.type.go
 //                            ^ punctuation.section.braces.end.go
 
@@ -1605,7 +1605,7 @@ by accident, but if necessary, such support could be sacrificed.
 
     struct {
         ** /**/ ident . /**/ ident . /**/ embed
-//      ^^ meta.type.go keyword.operator.go
+//      ^^ meta.type.go keyword.operator.arithmetic.go
 //         ^^^^ meta.type.go comment.block.go
 //              ^^^^^ meta.type.go variable.other.go
 //                    ^ meta.type.go punctuation.accessor.dot.go
@@ -1616,7 +1616,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                        ^^^^^ meta.type.go entity.other.inherited-class.go
 
         ** ident . /**/
-//      ^^ meta.type.go keyword.operator.go
+//      ^^ meta.type.go keyword.operator.arithmetic.go
 //         ^^^^^ meta.type.go variable.other.go
 //               ^ meta.type.go punctuation.accessor.dot.go
 //                 ^^^^ meta.type.go comment.block.go
@@ -3347,7 +3347,7 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^^ entity.name.type.go
 //             ^^^^^ storage.type.go
 //                   ^ keyword.operator.go
-//                     ^ keyword.operator.go
+//                     ^ keyword.operator.bitwise.not.go
 //                      ^^^^^ storage.type.go
 //                            ^ keyword.operator.go
 //                              ^ keyword.operator.go
@@ -3359,7 +3359,7 @@ by accident, but if necessary, such support could be sacrificed.
 //             ^ keyword.operator.assignment.go
 //               ^^^^^ storage.type.go
 //                     ^ keyword.operator.go
-//                       ^ keyword.operator.go
+//                       ^ keyword.operator.bitwise.not.go
 //                        ^^^^^ storage.type.go
 //                              ^ keyword.operator.go
 //                                ^ keyword.operator.go
@@ -3404,7 +3404,7 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^ entity.name.type.go
 //            ^ punctuation.section.brackets.begin.go
 //             ^ variable.other.go
-//               ^ keyword.operator.go
+//               ^ keyword.operator.arithmetic.go
 //                 ^ variable.other.go
 //                  ^ punctuation.section.brackets.end.go
 //                    ^ storage.type.go
@@ -3423,7 +3423,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^ keyword.declaration.type.go
 //       ^^^^ entity.name.type.go
 //            ^ punctuation.section.brackets.begin.go
-//               ^ keyword.operator.go
+//               ^ keyword.operator.arithmetic.go
 //                  ^ punctuation.separator.go
 //                   ^ punctuation.section.brackets.end.go
 //                     ^ storage.type.go
@@ -3541,7 +3541,7 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^^ entity.name.type.go
 //             ^ punctuation.section.brackets.begin.go
 //              ^^^^^ variable.parameter.type.go
-//                    ^ keyword.operator.go
+//                    ^ keyword.operator.bitwise.not.go
 //                     ^^^^^ storage.type.go
 //                          ^ punctuation.section.brackets.end.go
 //                            ^^^^^ storage.type.go
@@ -3551,7 +3551,7 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^^ entity.name.type.go
 //             ^ punctuation.section.brackets.begin.go
 //              ^^^^^ variable.parameter.type.go
-//                    ^ keyword.operator.go
+//                    ^ keyword.operator.bitwise.not.go
 //                     ^^^^^ variable.other.go
 //                          ^ punctuation.accessor.dot.go
 //                           ^^^^^ storage.type.go
@@ -3566,7 +3566,7 @@ by accident, but if necessary, such support could be sacrificed.
 //             ^ punctuation.section.brackets.begin.go
         Ident ~ident.Ident,
 //      ^^^^^ variable.parameter.type.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.bitwise.not.go
 //             ^^^^^ variable.other.go
 //                  ^ punctuation.accessor.dot.go
 //                   ^^^^^ storage.type.go
@@ -3681,7 +3681,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^ punctuation.section.brackets.end.go
 //    ^ punctuation.section.brackets.begin.go
 //     ^^^^^ variable.other.go
-//           ^ keyword.operator.go
+//           ^ keyword.operator.arithmetic.go
 //             ^^^^^ variable.other.go
 //                  ^ punctuation.section.brackets.end.go
 //                    ^^^^^ variable.other.go
@@ -4673,14 +4673,14 @@ by accident, but if necessary, such support could be sacrificed.
 //              ^^^ storage.type.go
 
     ident.(***ident)
-//         ^^^ keyword.operator.go
+//         ^^^ keyword.operator.arithmetic.go
 //            ^^^^^ storage.type.go
 
     ident.((***ident))
 //  ^^^^^ variable.other.go
 //       ^ punctuation.accessor.dot.go
 //        ^^ punctuation.section.parens.begin.go
-//          ^^^ keyword.operator.go
+//          ^^^ keyword.operator.arithmetic.go
 //             ^^^^^ storage.type.go
 //                  ^^ punctuation.section.parens.end.go
 
@@ -4819,7 +4819,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^ punctuation.section.parens.end.go
 
     (*chan typ)(ident)
-//   ^ keyword.operator.go
+//   ^ keyword.operator.arithmetic.go
 //    ^^^^ keyword.declaration.chan.go
 //         ^^^ storage.type.go
 //              ^^^^^ variable.other.go
