@@ -776,10 +776,10 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                            ^^^^ comment.block.go
 //                                 ^^^ storage.type.go
 //                                     ^ keyword.operator.go
-//                                       ^ keyword.operator.go
+//                                       ^ keyword.operator.bitwise.not.go
 //                                        ^^^ storage.type.go
 //                                            ^ keyword.operator.go
-//                                              ^ keyword.operator.bitwise.not.go
+//                                              ^ keyword.operator.go
 //                                               ^^^ storage.type.go
 //                                                  ^ punctuation.section.parens.end.go
 
@@ -3404,7 +3404,7 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^ entity.name.type.go
 //            ^ punctuation.section.brackets.begin.go
 //             ^ variable.other.go
-//               ^ keyword.operator.arithmetic.go
+//               ^ keyword.operator.go
 //                 ^ variable.other.go
 //                  ^ punctuation.section.brackets.end.go
 //                    ^ storage.type.go
@@ -3423,7 +3423,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^ keyword.declaration.type.go
 //       ^^^^ entity.name.type.go
 //            ^ punctuation.section.brackets.begin.go
-//               ^ keyword.operator.arithmetic.go
+//               ^ keyword.operator.go
 //                  ^ punctuation.separator.go
 //                   ^ punctuation.section.brackets.end.go
 //                     ^ storage.type.go
@@ -3681,7 +3681,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^ punctuation.section.brackets.end.go
 //    ^ punctuation.section.brackets.begin.go
 //     ^^^^^ variable.other.go
-//           ^ keyword.operator.arithmetic.go
+//           ^ keyword.operator.go
 //             ^^^^^ variable.other.go
 //                  ^ punctuation.section.brackets.end.go
 //                    ^^^^^ variable.other.go
@@ -4542,7 +4542,7 @@ by accident, but if necessary, such support could be sacrificed.
     *=
 //  ^^ keyword.operator.assignment.augmented.go
     *
-//  ^ keyword.operator.arithmetic.go
+//  ^ keyword.operator.go
     ++
 //  ^^ keyword.operator.arithmetic.increment.go
     +=
@@ -4819,7 +4819,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^ punctuation.section.parens.end.go
 
     (*chan typ)(ident)
-//   ^ keyword.operator.arithmetic.go
+//   ^ keyword.operator.go
 //    ^^^^ keyword.declaration.chan.go
 //         ^^^ storage.type.go
 //              ^^^^^ variable.other.go
