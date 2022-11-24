@@ -3,7 +3,7 @@
 name: LaTeX Log
 scope: text.log.latex
 
-first_line_match: "This is (pdf|pdfe)?TeXk?, Version "
+first_line_match: 'This is (pdf|pdfe)?TeXk?, Version '
 
 ################################################################################
 
@@ -17,15 +17,15 @@ contexts:
   under-over-full:
     - match: (?:Overfull|Underfull)
       scope: keyword.control.hyphenation.latex
-      push:
-        - meta_scope: meta.log.latex.hyphenation
+      push: under-over-full-body
 
-        - match: \[\]\n
-          scope: keyword.control.hyphenation.latex
-          pop: 1
-
-        - match: '[0-9]+\-\-[0-9]+'
-          scope: variable.parameter.hyphenation.latex2
+  under-over-full-body:
+    - meta_scope: meta.log.latex.hyphenation
+    - match: \[\]\n
+      scope: keyword.control.hyphenation.latex
+      pop: 1
+    - match: '[0-9]+\-\-[0-9]+'
+      scope: variable.parameter.hyphenation.latex
 
 ###[ File paths ]###############################################################
 
@@ -86,20 +86,17 @@ contexts:
 
   angle-bracket-string-content:
     - meta_scope: string.unquoted.other.filename.log.latex
-
     - match: '>'
       scope: punctuation.definition.string.end.log.latex
       pop: 1
-
-    - match: '.*/.*\.pdf'
-      scope: >-
+    - match: .*/.*\.pdf
+      scope:
         support.function.with-arg.latex
         entity.name.function.filename.latex
-
     - include: eol-pop
 
 ###[ Helpers ]##################################################################
 
   eol-pop:
-    - match: '$\n?'
+    - match: $\n?
       pop: 1
