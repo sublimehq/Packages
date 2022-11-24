@@ -407,7 +407,7 @@ contexts:
         - match: ':(?!=)'
           scope: invalid.illegal.missing-in.python
           pop: true
-        - include: target-list
+        - include: target-lists
     # async with ... as ...:
     - match: \b(async +)?(with)\b
       captures:
@@ -434,7 +434,7 @@ contexts:
               scope: meta.statement.exception.catch.python punctuation.section.block.exception.catch.python
               pop: true
             - include: name
-        - include: target-list
+        - include: target-lists
     - match: \bif\b
       scope: keyword.control.conditional.if.python
       push:
@@ -2837,17 +2837,19 @@ contexts:
       captures:
         1: storage.modifier.async.python
         2: keyword.control.loop.for.generator.python
-      push:
-        - include: comments
-        - meta_scope: meta.expression.generator.python
-        - match: \bin\b
-          scope: keyword.control.loop.for.in.python
-          pop: true
-        - match: '(?=[)\]}])'
-          scope: invalid.illegal.missing-in.python
-          pop: true
-        - include: illegal-name
-        - include: target-list
+      push: inside-inline-for
+
+  inside-inline-for:
+    - meta_scope: meta.expression.generator.python
+    - match: \bin\b
+      scope: keyword.control.loop.for.in.python
+      pop: true
+    - match: (?=[)\]}])
+      scope: invalid.illegal.missing-in.python
+      pop: true
+    - include: comments
+    - include: illegal-name
+    - include: target-lists
 
   inline-if:
     - match: \bif\b
@@ -2855,18 +2857,18 @@ contexts:
     - match: \belse\b
       scope: keyword.control.conditional.else.python
 
-  target-list:
-    - match: ','
-      scope: punctuation.separator.target-list.python
+  target-lists:
     - match: \(
-      scope: punctuation.section.target-list.begin.python
-      push:
-        - include: comments
-        - match: ','
-          scope: punctuation.separator.target-list.python
-        - match: \)
-          scope: punctuation.section.target-list.end.python
-          pop: true
-        - include: target-list
-        - include: name
+      scope: punctuation.section.tuple.begin.python
+      push: inside-target-list
+    - match: ','
+      scope: punctuation.separator.sequence.python
     - include: name
+
+  inside-target-list:
+    - meta_scope: meta.sequence.tuple.python
+    - match: \)
+      scope: punctuation.section.tuple.end.python
+      pop: true
+    - include: comments
+    - include: target-lists
