@@ -291,7 +291,7 @@ contexts:
 
   xparse-args-token:
     # either a command
-    - match: '(\\){{cmdname}}{{endcs}}'
+    - match: (\\){{cmdname}}{{endcs}}
       scope: constant.other.token.latex
       captures:
         1: punctuation.definition.backslash.latex
@@ -311,18 +311,26 @@ contexts:
     - include: else-pop
 
   xparse-optarg-value:
-    - match: '\{'
+    - match: \{
       scope: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.parameters.default-value.latex
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.group.brace.end.latex
           pop: 2
         - include: general-constants
         - include: general-commands
         - include: macro-braces
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: meta.function.parameters.default-value.latex support.function.latex
+      captures:
+        1: punctuation.definition.backslash.latex
     - match: (?=\})
       pop: 1
+    - match: '\S'
+      scope: meta.function.parameters.default-value.latex
+      pop: 1
+    - include: paragraph-pop
 
   general-constants:
     - meta_prepend: true
