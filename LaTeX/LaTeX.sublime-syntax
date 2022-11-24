@@ -253,14 +253,14 @@ contexts:
     - match: '[RD]'
       scope: string.unquoted.latex meta.annotation.parameters.latex
       push:
-        - xparse-optarg-value
+        - xparse-optarg-value-meta
         - xparse-args-token
         - xparse-args-token
 
     # optional argument with default
     - match: O
       scope: string.unquoted.latex meta.annotation.parameters.latex
-      push: xparse-optarg-value
+      push: xparse-optarg-value-meta
 
     # embellishment argument
     - match: e
@@ -271,7 +271,7 @@ contexts:
     - match: E
       scope: string.unquoted.latex meta.annotation.parameters.latex
       push:
-        - xparse-optarg-value
+        - xparse-optarg-value-meta
         - xparse-embellishment
 
   xparse-embellishment:
@@ -310,27 +310,36 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
+  xparse-optarg-value-meta:
+    - meta_include_prototype: false
+    - match: ''
+      set: xparse-optarg-value
+
   xparse-optarg-value:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex
     - match: \{
       scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.function.parameters.default-value.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: 2
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+      push: xparse-optarg-brace-body
     - match: (\\){{cmdname}}{{endcs}}
-      scope: meta.function.parameters.default-value.latex support.function.latex
+      scope:  support.function.latex
       captures:
         1: punctuation.definition.backslash.latex
     - match: (?=\})
       pop: 1
     - match: '\S'
-      scope: meta.function.parameters.default-value.latex
       pop: 1
     - include: paragraph-pop
+
+  xparse-optarg-brace-body:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.latex
+      pop: 2
+    - include: general-constants
+    - include: general-commands
+    - include: macro-braces
+    # The optional value is a long argument (can span paragraphs), so no
+    # paragraph-pop here!
 
   general-constants:
     - meta_prepend: true

@@ -103,28 +103,33 @@
 \NewDocumentCommand{\delimsix}{R(){a complicated{default} \test{value}}}{arg #1}
 %^^^^^^^^^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^^^^ meta.function.parameters.latex - meta.function.latex
+%                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex - meta.function.parameters.latex
+%                                                                      ^ meta.function.parameters.latex
+%                                                                       ^^^^^^^^ meta.function.body meta.group.brace
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.latex - meta.function.latex
 %                              ^ string.unquoted.latex meta.annotation.parameters.latex
 %                               ^^ constant.character.latex constant.other.token.latex
-%                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex
-%                                                                       ^^^^^^^^ meta.function.body meta.group.brace
+%                                                                      ^ punctuation.definition.group.brace.end.latex
 
 
 \NewDocumentCommand{\optional}{O{default}}{function body}
 %^^^^^^^^^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                  ^^^^^^^^^^^ meta.function.identifier.latex
-%                   ^^^^^^^^^ entity.name.newcommand.latex
-%                             ^^^^^^^^^^^^ meta.function.parameters.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                             ^^ meta.function.parameters.latex
 %                               ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                                        ^ meta.function.parameters.latex punctuation.definition.group.brace.end.latex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                              ^ string.unquoted.latex meta.annotation.parameters.latex
 %                                         ^^^^^^^^^^^^^^^ meta.function.body
 
 % Check that default values can include paragraph breaks
 \NewDocumentCommand{\optionaltwo}{O{default
+%                                ^^ meta.function.parameters.latex
+%                                  ^^^^^^^^ meta.function.parameters.default-value.latex
 
 with paragraph}}{function body}
-%^^^^^^^^^^^^^^^ meta.function.parameters.latex
+%              ^ meta.function.parameters.latex
 %^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex
 %               ^^^^^^^^^^^^^^^ meta.function.body
 
@@ -132,16 +137,18 @@ with paragraph}}{function body}
 %^^^^^^^^^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                  ^^^^^^^^^^^ meta.function.identifier.latex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                             ^^^^ meta.function.parameters.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                             ^^ meta.function.parameters.latex
 %                               ^ meta.function.parameters.default-value.latex
+%                                ^ meta.function.parameters.latex
+%                              ^ string.unquoted.latex meta.annotation.parameters.latex
 %                                 ^^^^^^^^^^^^^^^ meta.function.body
 
 \NewDocumentCommand{\optional}{O\{}{function body}
 %^^^^^^^^^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                  ^^^^^^^^^^^ meta.function.identifier.latex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                             ^^^^ meta.function.parameters.latex
+%                             ^ meta.function.parameters.latex
+%                                 ^ meta.function.parameters.latex
 %                              ^ string.unquoted.latex meta.annotation.parameters.latex
 %                               ^^ meta.function.parameters.default-value.latex
 %                                ^ -punctuation.definition.group
@@ -191,11 +198,12 @@ with paragraph}}{function body}
 \NewDocumentCommand{\embellish}{E{_^}{default}}{body}
 %^^^^^^^^^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                  ^^^^^^^^^^^^ meta.function.identifier.latex
-%                   ^^^^^^^^^^ entity.name.newcommand.latex
-%                              ^^^^^^^^^^^^^^^^ meta.function.parameters.latex
-%                                 ^^ constant.character.latex constant.other.token.latex
+%                              ^^^^^^  meta.function.parameters.latex
 %                                    ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                                             ^ meta.function.parameters.latex
 %                                              ^^^^^^ meta.function.body
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                                 ^^ constant.character.latex constant.other.token.latex
 
 
 % Now for some broken and incomplete examples
