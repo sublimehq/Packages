@@ -102,7 +102,7 @@ contexts:
         - newcommand-definition
         - newcommand-commandname
 
-    - match: '(\\)(?:(?:New|Renew|Provide|Declare)(:?Expandable)?DocumentCommand)'
+    - match: (\\)(?:(?:New|Renew|Provide|Declare)(:?Expandable)?DocumentCommand){{endcs}}
       scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
