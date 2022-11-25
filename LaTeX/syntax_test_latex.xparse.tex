@@ -32,7 +32,7 @@
 %                   ^ punctuation.definition.backslash.latex
 %                             ^ punctuation.definition.group.brace.end.latex
 %                              ^ punctuation.definition.group.brace.begin.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
 %                                ^ punctuation.definition.group.brace.end.latex
 %                                 ^ punctuation.definition.group.brace.begin.tex
 %                                          ^^ variable.parameter.tex
@@ -47,7 +47,7 @@
 %                                      ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^ entity.name.newcommand.latex
-%                           ^ string.unquoted.latex meta.annotation.parameters.latex
+%                           ^ storage.type.latex
 
 \NewDocumentCommand{\many@args}{o +m s !v}{content}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -58,10 +58,12 @@
 %                                                  ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
-%                                 ^^ string.unquoted.latex meta.annotation.parameters.latex
-%                                    ^ string.unquoted.latex meta.annotation.parameters.latex
-%                                      ^^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
+%                                 ^ storage.modifier.latex
+%                                  ^ storage.type.latex
+%                                    ^ storage.type.latex
+%                                      ^ storage.modifier.latex
+%                                       ^ storage.type.latex
 
 \NewDocumentCommand{\delimone}{d{a}{b}}{arg #1}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -72,7 +74,7 @@
 %                                              ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                              ^ storage.type.latex
 %                                ^ constant.character.latex constant.other.token.latex
 %                                   ^ constant.character.latex constant.other.token.latex
 
@@ -86,7 +88,7 @@
 %                                                        ^ - meta.function
 %^^^^^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                       ^^^^^^^^^ entity.name.newcommand.latex
-%                                  ^ string.unquoted.latex meta.annotation.parameters.latex
+%                                  ^ storage.type.latex
 %                                   ^^^^^^ constant.other.token.latex
 %                                           ^^^ constant.other.token.latex
 
@@ -96,7 +98,7 @@
 %                       ^^^^^^^^^^^ entity.name.newcommand.latex
 {d()}{arg #1}
 %^^^^ meta.function.parameters.latex  - meta.function.latex
-%^ string.unquoted.latex meta.annotation.parameters.latex
+%^ storage.type.latex
 % ^^ constant.character.latex constant.other.token.latex
 %    ^^^^^^^^ meta.function.body - meta.function.parameters.latex
 
@@ -105,7 +107,7 @@
 \RenewDocumentCommand{\delimfour}%
  {r\{\}}{body}
 %^^^^^^^ meta.function.parameters.latex - meta.function.latex
-% ^ string.unquoted.latex meta.annotation.parameters.latex
+% ^ storage.type.latex
 %  ^^^^ constant.other.token.latex
 %  ^ punctuation.definition.backslash.latex
 %    ^ punctuation.definition.backslash.latex
@@ -122,7 +124,7 @@
 %                                               ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
 %                                 ^ constant.character.latex constant.other.token.latex
 %                                    ^ constant.character.latex constant.other.token.latex
 
@@ -136,7 +138,7 @@
 %                                                                       ^^^^^^^^ meta.function.body meta.group.brace
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                              ^ storage.type.latex
 %                               ^^ constant.character.latex constant.other.token.latex
 %                                                                      ^ punctuation.definition.group.brace.end.latex
 
@@ -152,7 +154,7 @@
 %                                                        ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                              ^ storage.type.latex
 
 % Check that default values can include paragraph breaks
 \NewDocumentCommand{\optionaltwo}{O{default
@@ -175,7 +177,7 @@ with paragraph}}{function body}
 %                                                ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                              ^ storage.type.latex
 
 \NewDocumentCommand{\optional}{O\{}{function body}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -191,7 +193,7 @@ with paragraph}}{function body}
 %                   ^^^^^^^^^ entity.name.newcommand.latex
 %                            ^ punctuation.definition.group.brace.end.latex
 %                             ^ punctuation.definition.group.brace.begin.latex
-%                              ^ string.unquoted.latex meta.annotation.parameters.latex
+%                              ^ storage.type.latex
 %                                ^ - punctuation.definition.group
 %                                 ^ punctuation.definition.group.brace.end.latex
 %                                  ^ punctuation.definition.group.brace.begin.tex
@@ -207,7 +209,7 @@ with paragraph}}{function body}
 %                                                ^^^^^^^^^^^^^^^ meta.function.body
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.modifier.newcommand.latex
 %                             ^^^^^^^^^^ entity.name.newcommand.latex
-%                                         ^ string.unquoted.latex meta.annotation.parameters.latex
+%                                         ^ storage.type.latex
 %                                          ^^^^^ constant.other.token.latex
 
 
@@ -220,7 +222,7 @@ with paragraph}}{function body}
 %                                      ^^^^^^ meta.function.body
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
 %                                ^^^^^ constant.other.token.latex
 
 \NewDocumentCommand{\embellish}{e{\test}}{body}
@@ -231,7 +233,7 @@ with paragraph}}{function body}
 %                                        ^^^^^^ meta.function.body
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
 %                                 ^^^^^ constant.other.token.latex
 
 
@@ -243,7 +245,7 @@ with paragraph}}{function body}
 %                                     ^^^^^^ meta.function.body
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
 %                                 ^^ constant.character.latex constant.other.token.latex
 
 \NewDocumentCommand{\embellish}{E{_^}{default}}{body}
@@ -288,7 +290,7 @@ other stuff
 %                   ^ punctuation.definition.backslash.latex
 %                          ^ punctuation.definition.group.brace.end.latex
 %                           ^ punctuation.definition.group.brace.begin.latex
-%                            ^ string.unquoted.latex meta.annotation.parameters.latex
+%                            ^ storage.type.latex
 %                             ^ punctuation.definition.group.brace.begin.tex
 %                                     ^ punctuation.definition.group.brace.end.tex
 %                                      ^ punctuation.definition.group.brace.end.latex
@@ -310,7 +312,7 @@ other stuff
 %                   ^ punctuation.definition.backslash.latex
 %                             ^ punctuation.definition.group.brace.end.latex
 %                              ^ punctuation.definition.group.brace.begin.latex
-%                               ^ string.unquoted.latex meta.annotation.parameters.latex
+%                               ^ storage.type.latex
 %                                ^^^^^ constant.other.token.latex
 %                                ^ punctuation.definition.backslash.latex
 %                                     ^^^^^^ support.function.general.latex

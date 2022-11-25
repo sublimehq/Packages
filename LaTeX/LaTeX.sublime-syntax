@@ -228,24 +228,24 @@ contexts:
 
   xparse-single-argspec:
     # modifiers and simple specs
-    - match: '[+!movsb]'
-      scope: string.unquoted.latex meta.annotation.parameters.latex
-
+    - match: '[+!]'
+      scope: storage.modifier.latex
+    - match: '[movsb]'
+      scope: storage.type.latex
     - match: t
-      scope: string.unquoted.latex meta.annotation.parameters.latex
-      push:
-        - xparse-args-token
+      scope: storage.type.latex
+      push: xparse-args-token
 
     # delimited arguments without default
     - match: '[rd]'
-      scope: string.unquoted.latex meta.annotation.parameters.latex
+      scope: storage.type.latex
       push:
         - xparse-args-token
         - xparse-args-token
 
     # delimited arguments with default
     - match: '[RD]'
-      scope: string.unquoted.latex meta.annotation.parameters.latex
+      scope: storage.type.latex
       push:
         - xparse-optarg-value-meta
         - xparse-args-token
@@ -253,17 +253,17 @@ contexts:
 
     # optional argument with default
     - match: O
-      scope: string.unquoted.latex meta.annotation.parameters.latex
+      scope: storage.type.latex
       push: xparse-optarg-value-meta
 
     # embellishment argument
     - match: e
-      scope: string.unquoted.latex meta.annotation.parameters.latex
+      scope: storage.type.latex
       push: xparse-embellishment
 
     # embellishment argument with default
     - match: E
-      scope: string.unquoted.latex meta.annotation.parameters.latex
+      scope: storage.type.latex
       push:
         - xparse-optarg-value-meta
         - xparse-embellishment
