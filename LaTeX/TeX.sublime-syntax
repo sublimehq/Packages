@@ -327,6 +327,12 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push: brace-group-body
 
+  brace-group-begin:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.latex
+      pop: true
+
   brace-group-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end

@@ -210,14 +210,8 @@ contexts:
   xparse-argspec:
     - match: (?=\{)
       set:
-        # deliberately using an anonymous scope here. we need two match the `{`
-        # in two stages, so we can apply the `clear_scopes`, and still be able
-        # to push `xparse-argspec` onto the stack without messing up scoping.
-        - clear_scopes: 1
-        - match: '\{'
-          scope: punctuation.definition.group.brace.begin.latex
-          set: xparse-argspec-content
-
+        - xparse-argspec-content
+        - brace-group-begin
     - include: paragraph-pop
     - include: else-pop
 
