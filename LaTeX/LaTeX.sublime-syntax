@@ -102,6 +102,7 @@ contexts:
         - newcommand-definition
         - newcommand-commandname
 
+    # https://www.ctan.org/pkg/xparse
     - match: (\\)(?:(?:New|Renew|Provide|Declare)(:?Expandable)?DocumentCommand){{endcs}}
       scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
