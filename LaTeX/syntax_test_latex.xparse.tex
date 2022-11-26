@@ -295,6 +295,34 @@ with paragraph}}{function body}
 %                                          ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 
 
+% Argument processors: example from 
+% https://www.nic.funet.fi/pub/TeX/CTAN/macros/latex/contrib/l3packages/xparse.pdf
+\NewDocumentCommand \foo { O{,} >{\SplitList{#1}} m } { \foobar{#2} }
+%                        ^^^   meta.function.parameters.latex
+%                           ^^^ meta.function.parameters.default-value.latex meta.group.brace.latex
+%                              ^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.latex
+%                                                    ^ meta.function.latex
+%                                                     ^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                        ^ punctuation.definition.group.brace.begin.latex
+%                          ^ storage.type.latex
+%                           ^ punctuation.definition.group.brace.begin.latex
+%                             ^ punctuation.definition.group.brace.end.latex
+%                               ^ storage.modifier.latex
+%                                ^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%                                ^ punctuation.definition.group.brace.begin.tex
+%                                 ^^^^^^^^^^ support.function.general.latex
+%                                 ^ punctuation.definition.backslash.latex
+%                                           ^^^^ meta.group.brace.tex
+%                                           ^ punctuation.definition.group.brace.begin.tex
+%                                            ^^ variable.parameter.tex
+%                                            ^ punctuation.definition.placeholder.tex
+%                                             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                              ^ punctuation.definition.group.brace.end.tex
+%                                               ^ punctuation.definition.group.brace.end.tex
+%                                                 ^ storage.type.latex
+%                                                   ^ punctuation.definition.group.brace.end.latex
+
+
 
 % Now for some broken and incomplete examples
 \NewDocumentCommand{\incomplete}
@@ -368,3 +396,33 @@ other stuff
 %                                                        ^ punctuation.definition.placeholder.tex
 %                                                         ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                                                           ^ punctuation.definition.group.brace.end.tex
+
+
+% Currently unsupported syntax versions:
+% These are very rare, so at this point we have opted for reduced complexity
+% of the syntax highlighting, with the cost that some syntactially valid patterns
+% get suboptimal highlighting. 
+
+\NewDocumentCommand{\braces}{{m}}{content}
+%                           ^^^^^ meta.function.parameters.latex
+%                           ^ punctuation.definition.group.brace.begin.latex
+%                            ^^^ meta.group.brace.tex
+%                            ^ punctuation.definition.group.brace.begin.tex
+%                              ^ punctuation.definition.group.brace.end.tex
+%                               ^ punctuation.definition.group.brace.end.latex
+%                                ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+\NewDocumentCommand{\braces}{m {O}{value} m}{content}
+%                           ^^^^^^^^^^^^^^^^ meta.function.parameters.latex
+%                           ^ punctuation.definition.group.brace.begin.latex
+%                            ^ storage.type.latex
+%                              ^^^^^^^^^^ meta.group.brace.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ punctuation.definition.group.brace.begin.tex
+%                                       ^ punctuation.definition.group.brace.end.tex
+%                                         ^ storage.type.latex
+%                                          ^ punctuation.definition.group.brace.end.latex
+%                                           ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                                           ^ punctuation.definition.group.brace.begin.tex
+%                                                   ^ punctuation.definition.group.brace.end.tex

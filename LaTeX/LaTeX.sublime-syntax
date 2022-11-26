@@ -273,6 +273,10 @@ contexts:
       push:
         - xparse-newcommand-optarg-value
         - xparse-newcommand-args-token
+    # argument processors
+    - match: '>'
+      scope: storage.modifier.latex
+
 
   xparse-newcommand-args-token:
     - meta_include_prototype: false
