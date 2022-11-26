@@ -326,7 +326,7 @@ contexts:
       scope: constant.character.latex constant.other.token.latex
     - include: paragraph-pop
 
-  xparse-optarg-value:
+  xparse-optarg-value-meta:
     - meta_include_prototype: false
     - match: (?={)
       set:
