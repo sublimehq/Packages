@@ -316,14 +316,6 @@ contexts:
       set: xparse-optarg-bare-value
     - include: paragraph-pop
 
-  xparse-optarg-wrapped-value:
-    - clear_scopes: 1
-    - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.latex
-    - include: brace-group-end
-    - include: macro-braces-content
-    # The optional value is a long argument (can span paragraphs), so no
-    # paragraph-pop here!
-
   xparse-optarg-bare-value:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex
@@ -335,6 +327,12 @@ contexts:
     - match: \S
       pop: 1
     - include: paragraph-pop
+
+  xparse-optarg-wrapped-value:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.latex
+    - include: brace-group-end
+    - include: macro-braces-content
 
   general-constants:
     - meta_prepend: true
