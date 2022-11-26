@@ -167,7 +167,7 @@ contexts:
   latex-newcommand-bare-commandname:
     - clear_scopes: 1
     - meta_scope: meta.function.identifier.latex
-    - match: (\\){{letter}}+
+    - match: (\\){{cmdname}}
       scope: entity.name.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
@@ -179,7 +179,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.identifier.latex
     - include: brace-group-end
-    - match: (\\){{letter}}+
+    - match: (\\){{cmdname}}
       scope: entity.name.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
@@ -201,14 +201,14 @@ contexts:
     - meta_scope: meta.function.body.latex
     # but in principle, a single token is also valid,
     # thus either a command sequence ...
-    - match: (\\){{letter}}+
+    - match: (\\){{cmdname}}
       scope: support.function.general.latex
       captures:
         1: punctuation.definition.backslash.latex
       pop: 1
-    # or a single, potentially escaped character. no further effort at
+    # or a single character. no further effort at
     # differentiation here
-    - match: (\\)?\S\b
+    - match: \S\b
       scope: constant.character.escape.latex
       captures:
         1: punctuation.definition.backslash.latex
