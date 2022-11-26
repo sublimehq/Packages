@@ -112,6 +112,27 @@ some other text
 \deftext
 %^^^^^^^ support.function.general.tex
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Modifiers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ \long\def\test#1{#1}
+%^^^^^ storage.modifier.definition.tex
+%^ punctuation.definition.backslash.tex
+%     ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+
+ \outer\def\test#1{#1}
+%^^^^^^ storage.modifier.definition.tex
+%^ punctuation.definition.backslash.tex
+%      ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+
+ \global\def\test#1{#1}
+%^^^^^^^ storage.modifier.definition.tex
+%^ punctuation.definition.backslash.tex
+%       ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 Macro definition contents

@@ -409,6 +409,11 @@ contexts:
         1: punctuation.definition.backslash.tex
       push: def-function-expect-identifier
 
+    - match: (\\)(:?outer|long|global){{endcs}}
+      scope: storage.modifier.definition.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
   def-function-expect-identifier:
     - meta_scope: meta.function.tex
     - match: (?=\\)
