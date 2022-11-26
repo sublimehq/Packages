@@ -309,7 +309,6 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-
   xparse-args-wrapped-token:
     - meta_scope: meta.group.brace.latex
     - include: brace-group-end
