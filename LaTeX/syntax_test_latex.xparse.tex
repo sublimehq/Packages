@@ -209,6 +209,21 @@ with paragraph}}{function body}
 %                                      ^ storage.type.latex
 %                                       ^ punctuation.definition.group.brace.end.latex
 
+\NewDocumentCommand{\optional}{O{#1: \year \parskip1em }}{function body}
+%                              ^ storage.type.latex
+%                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.latex
+%                               ^ punctuation.definition.group.brace.begin.latex
+%                                ^^ variable.parameter.tex
+%                                ^ punctuation.definition.placeholder.tex
+%                                 ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                    ^^^^^ constant.language.tex
+%                                          ^^^^^^^^ constant.language.tex
+%                                    ^ punctuation.definition.backslash.tex
+%                                          ^ punctuation.definition.backslash.tex
+%                                                  ^^^ meta.number.integer.decimal.tex
+%                                                  ^ constant.numeric.value.tex
+%                                                   ^^ constant.numeric.suffix.tex
+
 
 % A "token" argument
 \NewExpandableDocumentCommand{\withtoken}{t\test}{function body}

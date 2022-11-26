@@ -320,10 +320,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.latex
     - include: brace-group-end
-    - include: general-constants
-    - include: general-commands
-    - include: macro-braces
-    - include: macro-placeholders
+    - include: macro-braces-content
     # The optional value is a long argument (can span paragraphs), so no
     # paragraph-pop here!
 
