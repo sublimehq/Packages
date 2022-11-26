@@ -305,36 +305,38 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-  xparse-optarg-value-meta:
-    - meta_include_prototype: false
-    - match: ''
-      set: xparse-optarg-value
-
   xparse-optarg-value:
-    - clear_scopes: 1
-    - meta_scope: meta.function.parameters.default-value.latex
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      push: xparse-optarg-brace-body
-    - match: (\\){{cmdname}}{{endcs}}
-      scope:  support.function.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-    - match: (?=\})
-      pop: 1
-    - match: '\S'
-      pop: 1
+    - meta_include_prototype: false
+    - match: (?={)
+      set:
+        - xparse-optarg-group-body
+        - brace-group-begin
+    - match: (?=\S)
+      set: xparse-optarg-value-body
     - include: paragraph-pop
 
-  xparse-optarg-brace-body:
-    - match: \}
-      scope: punctuation.definition.group.brace.end.latex
-      pop: 2
+  xparse-optarg-group-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.latex
+    - include: brace-group-end
     - include: general-constants
     - include: general-commands
     - include: macro-braces
     # The optional value is a long argument (can span paragraphs), so no
     # paragraph-pop here!
+
+  xparse-optarg-value-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: support.function.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+    - match: (?=\})
+      pop: 1
+    - match: \S
+      pop: 1
+    - include: paragraph-pop
 
   general-constants:
     - meta_prepend: true
