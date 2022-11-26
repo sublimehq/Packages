@@ -260,29 +260,14 @@ contexts:
     # embellishment argument
     - match: e
       scope: storage.type.latex
-      push: xparse-embellishment
+      push: xparse-args-token
 
     # embellishment argument with default
     - match: E
       scope: storage.type.latex
       push:
         - xparse-optarg-value
-        - xparse-embellishment
-
-  xparse-embellishment:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      set: xparse-embellishment-content
-    - match: (?=\S)
-      set: xparse-args-token
-    - include: paragraph-pop
-
-  xparse-embellishment-content:
-    - match: (?!\})
-      push: xparse-args-token
-    - include: brace-group-end
-    - include: paragraph-pop
-    - include: else-pop
+        - xparse-args-token
 
   xparse-args-token:
     - meta_include_prototype: false
@@ -307,7 +292,6 @@ contexts:
       scope: constant.character.latex constant.other.token.latex
       pop: 1
     - include: paragraph-pop
-    - include: else-pop
 
   xparse-args-wrapped-token:
     - meta_scope: meta.group.brace.latex
@@ -320,7 +304,6 @@ contexts:
     # or a single character
     - match: \S
       scope: constant.character.latex constant.other.token.latex
-    - include: paragraph-pop
 
   xparse-optarg-value:
     - meta_include_prototype: false
@@ -723,6 +706,14 @@ contexts:
           scope: punctuation.definition.verb.latex
           pop: true
 
+  xparse-args-bare-tokens:
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: constant.other.token.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+    # or a single character
+    - match: '\S'
+      scope: constant.character.latex constant.other.token.latex
 
   text-decorators:
     - match: ((\\)emph)(\{)

@@ -148,7 +148,7 @@
 %^^^^^^^^^^^^^^^^^^ meta.function.latex
 %                  ^^^^^^^^^^^ meta.function.identifier.latex
 %                             ^^ meta.function.parameters.latex
-%                               ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                               ^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.latex
 %                                        ^ meta.function.parameters.latex punctuation.definition.group.brace.end.latex
 %                                         ^^^^^^^^^^^^^^^ meta.function.body
 %                                                        ^ - meta.function
@@ -198,6 +198,16 @@ with paragraph}}{function body}
 %                                 ^ punctuation.definition.group.brace.end.latex
 %                                  ^ punctuation.definition.group.brace.begin.tex
 %                                                ^ punctuation.definition.group.brace.end.tex
+
+\NewDocumentCommand{\optional}{O\value m}{function body}
+%                             ^^ meta.function.parameters.latex
+%                             ^ punctuation.definition.group.brace.begin.latex
+%                              ^ storage.type.latex
+%                               ^^^^^^ meta.function.parameters.default-value.latex support.function.latex
+%                               ^ punctuation.definition.backslash.latex
+%                                     ^^^ meta.function.parameters.latex
+%                                      ^ storage.type.latex
+%                                       ^ punctuation.definition.group.brace.end.latex
 
 
 % A "token" argument
@@ -259,6 +269,17 @@ with paragraph}}{function body}
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
 %                                 ^^ constant.character.latex constant.other.token.latex
 
+\NewDocumentCommand{\MyMacro}{e{\up \down}}{up: #1 down: #2}
+%                             ^ storage.type.latex
+%                              ^ punctuation.definition.group.brace.begin.latex
+%                               ^^^
+%                                   ^^^^^ constant.other.token.latex
+%                               ^ punctuation.definition.backslash.latex
+%                                   ^ punctuation.definition.backslash.latex
+%                                        ^^ punctuation.definition.group.brace.end.latex
+%                                          ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+
 
 % Now for some broken and incomplete examples
 \NewDocumentCommand{\incomplete}
@@ -275,6 +296,15 @@ other stuff
 
 other stuff
 %<- - meta.fuction
+
+\NewDocumentCommand{\optional}{O}{sdfsdf}
+%                                ^^^^^^^^ - meta.function.parameters
+
+% missing token
+\NewDocumentCommand {\conjugate} { t } {(#1,#2,#3)}
+%                                ^^^^^ meta.function.parameters
+%                                     ^^^^^^^^^^^^^ - meta.function.parameters
+
 
 % This is not a valid command, but we still want to make sure we get reasonable
 % highlighting, e.g. scoping of all braces, grouping etc.
