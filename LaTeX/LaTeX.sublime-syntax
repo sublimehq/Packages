@@ -119,19 +119,21 @@ contexts:
   latex-newcommand-argspec:
     - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
-      push:
-        - clear_scopes: 1
-        - meta_scope: meta.function.parameters.latex
-        - match: \]
-          scope: punctuation.definition.group.bracket.end.latex
-          pop: 2
-        - match: \d+\b
-          scope: meta.number.integer.decimal.latex constant.numeric.value.latex
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+      push: latex-newcommand-argspec-body
     - include: paragraph-pop
     - include: else-pop
+
+  latex-newcommand-argspec-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.latex
+    - match: \]
+      scope: punctuation.definition.group.bracket.end.latex
+      pop: 2
+    - match: \d+\b
+      scope: meta.number.integer.decimal.latex constant.numeric.value.latex
+    - include: general-constants
+    - include: general-commands
+    - include: macro-braces
 
   latex-newcommand-optarg:
     - match: \[
@@ -152,32 +154,35 @@ contexts:
 
   latex-newcommand-commandname:
     # version one: brace-wrapped command name
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - clear_scopes: 1
-        - meta_scope: meta.function.identifier.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.latex
-          pop: 2
-        - match: (\\)[A-Za-z@]+
-          scope: entity.name.newcommand.latex
-          captures:
-            1: punctuation.definition.backslash.latex
+    - match: (?=\{)
+      set:
+        - latex-newcommand-wrapped-commandname
+        - brace-group-begin
     # version two: directly written
     - match: (?=\\)
-      set:
-        - clear_scopes: 1
-        - meta_scope: meta.function.identifier.latex
-        - match: (\\)[A-Za-z@]+
-          scope: entity.name.newcommand.latex
-          captures:
-            1: punctuation.definition.backslash.latex
-          pop: 1
-        - include: paragraph-pop
-        - include: else-pop
+      set: latex-newcommand-bare-commandname
     - include: paragraph-pop
     - include: else-pop
+
+  latex-newcommand-bare-commandname:
+    - clear_scopes: 1
+    - meta_scope: meta.function.identifier.latex
+    - match: (\\){{letter}}+
+      scope: entity.name.newcommand.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
+
+  latex-newcommand-wrapped-commandname:
+    - clear_scopes: 1
+    - meta_scope: meta.function.identifier.latex
+    - include: brace-group-end
+    - match: (\\){{letter}}+
+      scope: entity.name.newcommand.latex
+      captures:
+        1: punctuation.definition.backslash.latex
 
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.
@@ -196,7 +201,7 @@ contexts:
     - meta_scope: meta.function.body.latex
     # but in principle, a single token is also valid,
     # thus either a command sequence ...
-    - match: (\\)[A-Za-z@]+
+    - match: (\\){{letter}}+
       scope: support.function.general.latex
       captures:
         1: punctuation.definition.backslash.latex
@@ -286,7 +291,7 @@ contexts:
   xparse-newcommand-args-token:
     - meta_include_prototype: false
     - include: unmatched-brace-pop
-    - match: (?={)
+    - match: (?=\{)
       set:
         - xparse-newcommand-args-wrapped-token
         - brace-group-begin
@@ -322,7 +327,7 @@ contexts:
   xparse-newcommand-optarg-value:
     - meta_include_prototype: false
     - include: unmatched-brace-pop
-    - match: (?={)
+    - match: (?=\{)
       set:
         - xparse-newcommand-optarg-wrapped-value
         - brace-group-begin
