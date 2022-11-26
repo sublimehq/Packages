@@ -277,7 +277,6 @@ contexts:
     - match: '>'
       scope: storage.modifier.latex
 
-
   xparse-newcommand-args-token:
     - meta_include_prototype: false
     - include: unmatched-brace-pop
