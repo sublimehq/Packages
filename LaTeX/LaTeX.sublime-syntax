@@ -221,12 +221,12 @@ contexts:
   xparse-newcommand-argspec:
     - match: (?=\{)
       set:
-        - xparse-newcommand-argspec-content
+        - xparse-newcommand-argspec-body
         - brace-group-begin
     - include: paragraph-pop
     - include: else-pop
 
-  xparse-newcommand-argspec-content:
+  xparse-newcommand-argspec-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.latex
     - include: brace-group-end
