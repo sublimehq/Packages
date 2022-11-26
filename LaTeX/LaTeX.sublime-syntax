@@ -248,14 +248,14 @@ contexts:
     - match: '[RD]'
       scope: storage.type.latex
       push:
-        - xparse-optarg-value-meta
+        - xparse-optarg-value
         - xparse-args-token
         - xparse-args-token
 
     # optional argument with default
     - match: O
       scope: storage.type.latex
-      push: xparse-optarg-value-meta
+      push: xparse-optarg-value
 
     # embellishment argument
     - match: e
@@ -266,7 +266,7 @@ contexts:
     - match: E
       scope: storage.type.latex
       push:
-        - xparse-optarg-value-meta
+        - xparse-optarg-value
         - xparse-embellishment
 
   xparse-embellishment:
@@ -303,40 +303,38 @@ contexts:
         1: punctuation.definition.backslash.latex
       pop: 1
     # or a single character
-    - match: '\S'
+    - match: \S
       scope: constant.character.latex constant.other.token.latex
       pop: 1
-
     - include: paragraph-pop
     - include: else-pop
 
 
   xparse-args-wrapped-token:
     - meta_scope: meta.group.brace.latex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 1
+    - include: brace-group-end
     # either a command
     - match: (\\){{cmdname}}{{endcs}}
       scope: constant.other.token.latex
       captures:
         1: punctuation.definition.backslash.latex
     # or a single character
-    - match: '\S'
+    - match: \S
       scope: constant.character.latex constant.other.token.latex
     - include: paragraph-pop
 
-  xparse-optarg-value-meta:
+  xparse-optarg-value:
     - meta_include_prototype: false
+    - include: unmatched-brace-pop
     - match: (?={)
       set:
-        - xparse-optarg-group-body
+        - xparse-optarg-wrapped-value
         - brace-group-begin
     - match: (?=\S)
-      set: xparse-optarg-value-body
+      set: xparse-optarg-bare-value
     - include: paragraph-pop
 
-  xparse-optarg-group-body:
+  xparse-optarg-wrapped-value:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.latex
     - include: brace-group-end
@@ -346,14 +344,13 @@ contexts:
     # The optional value is a long argument (can span paragraphs), so no
     # paragraph-pop here!
 
-  xparse-optarg-value-body:
+  xparse-optarg-bare-value:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex
     - match: (\\){{cmdname}}{{endcs}}
       scope: support.function.latex
       captures:
         1: punctuation.definition.backslash.latex
-    - match: (?=\})
       pop: 1
     - match: \S
       pop: 1
