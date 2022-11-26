@@ -41,6 +41,12 @@ contexts:
       scope: punctuation.definition.group.brace.begin.latex
       push: brace-group-body
 
+  brace-group-begin:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.latex
+      pop: true
+
   brace-group-body:
     - meta_scope: meta.group.brace.latex
     - include: brace-group-end
@@ -83,26 +89,34 @@ contexts:
     - include: general-optional-arguments
     - include: else-pop
 
+###[ MACROS ]##################################################################
+
   macros:
     - meta_append: true
+    - include: latex-newcommand-macros
+    - include: xparse-newcommand-macros
+
+###[ LATEX NEWCOMMAND MACROS ]#################################################
+
+  latex-newcommand-macros:
     - match: (\\)(?:new|renew|provide)command(?:\*|(?![A-Za-z@]))
       scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:
-        - newcommand-definition
-        - newcommand-optarg
-        - newcommand-argspec
-        - newcommand-commandname
+        - latex-newcommand-definition
+        - latex-newcommand-optarg
+        - latex-newcommand-argspec
+        - latex-newcommand-commandname
     - match: (\\)DeclareMathOperator(?:\*|(?![A-Za-z@]))
       scope: support.function.declare-math-operator.latex storage.modifier.newcommand.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:
-        - newcommand-definition
-        - newcommand-commandname
+        - latex-newcommand-definition
+        - latex-newcommand-commandname
 
-  newcommand-argspec:
+  latex-newcommand-argspec:
     - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
       push:
@@ -119,14 +133,14 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-  newcommand-optarg:
+  latex-newcommand-optarg:
     - match: \[
       scope: punctuation.definition.group.bracket.begin.latex
-      push: newcommand-optarg-body
+      push: latex-newcommand-optarg-body
     - include: paragraph-pop
     - include: else-pop
 
-  newcommand-optarg-body:
+  latex-newcommand-optarg-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex
     - match: \]
@@ -136,7 +150,7 @@ contexts:
     - include: general-commands
     - include: macro-braces
 
-  newcommand-commandname:
+  latex-newcommand-commandname:
     # version one: brace-wrapped command name
     - match: \{
       scope: punctuation.definition.group.brace.begin.latex
@@ -167,19 +181,18 @@ contexts:
 
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.
-  newcommand-definition:
+  latex-newcommand-definition:
     - meta_scope: meta.function.latex
     - match: (?=\{)
       set:
         - def-function-body-meta
         - macro-braces-begin
     - match: (?=\\)
-      set: newcommand-expression
+      set: latex-newcommand-expression
     - include: paragraph-pop
     - include: else-pop
 
-
-  newcommand-expression:
+  latex-newcommand-expression:
     - meta_scope: meta.function.body.latex
     # but in principle, a single token is also valid,
     # thus either a command sequence ...
@@ -197,6 +210,145 @@ contexts:
       pop: 1
     - include: paragraph-pop
     - include: else-pop
+
+###[ XPARSE NEWCOMMAND MACROS ]################################################
+
+  xparse-newcommand-macros:
+    # https://www.ctan.org/pkg/xparse
+    - match: (\\)(?:(?:New|Renew|Provide|Declare)(:?Expandable)?DocumentCommand){{endcs}}
+      scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - latex-newcommand-definition
+        - xparse-newcommand-argspec
+        - latex-newcommand-commandname
+
+  xparse-newcommand-argspec:
+    - match: (?=\{)
+      set:
+        - xparse-newcommand-argspec-body
+        - brace-group-begin
+    - include: paragraph-pop
+    - include: else-pop
+
+  xparse-newcommand-argspec-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.latex
+    - include: brace-group-end
+    - include: macro-braces
+    - include: xparse-newcommand-single-argspec
+    # not actually allowed, but included here to future-proof highlighting
+    - include: general-constants
+    - include: general-commands
+    - include: paragraph-pop
+
+  xparse-newcommand-single-argspec:
+    # modifiers and simple specs
+    - match: '[+!]'
+      scope: storage.modifier.latex
+    - match: '[movsb]'
+      scope: storage.type.latex
+    - match: t
+      scope: storage.type.latex
+      push: xparse-newcommand-args-token
+    # delimited arguments without default
+    - match: '[rd]'
+      scope: storage.type.latex
+      push:
+        - xparse-newcommand-args-token
+        - xparse-newcommand-args-token
+    # delimited arguments with default
+    - match: '[RD]'
+      scope: storage.type.latex
+      push:
+        - xparse-newcommand-optarg-value
+        - xparse-newcommand-args-token
+        - xparse-newcommand-args-token
+    # optional argument with default
+    - match: O
+      scope: storage.type.latex
+      push: xparse-newcommand-optarg-value
+    # embellishment argument
+    - match: e
+      scope: storage.type.latex
+      push: xparse-newcommand-args-token
+    # embellishment argument with default
+    - match: E
+      scope: storage.type.latex
+      push:
+        - xparse-newcommand-optarg-value
+        - xparse-newcommand-args-token
+    # argument processors
+    - match: '>'
+      scope: storage.modifier.latex
+
+  xparse-newcommand-args-token:
+    - meta_include_prototype: false
+    - include: unmatched-brace-pop
+    - match: (?={)
+      set:
+        - xparse-newcommand-args-wrapped-token
+        - brace-group-begin
+    - match: (?=\S)
+      set: xparse-newcommand-args-bare-token
+    - include: paragraph-pop
+
+  xparse-newcommand-args-bare-token:
+    # either a command
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: constant.other.token.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+    # or a single character
+    - match: \S
+      scope: constant.character.latex constant.other.token.latex
+      pop: 1
+    - include: paragraph-pop
+
+  xparse-newcommand-args-wrapped-token:
+    - meta_scope: meta.group.brace.latex
+    - include: brace-group-end
+    # either a command
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: constant.other.token.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+    # or a single character
+    - match: \S
+      scope: constant.character.latex constant.other.token.latex
+
+  xparse-newcommand-optarg-value:
+    - meta_include_prototype: false
+    - include: unmatched-brace-pop
+    - match: (?={)
+      set:
+        - xparse-newcommand-optarg-wrapped-value
+        - brace-group-begin
+    - match: (?=\S)
+      set: xparse-newcommand-optarg-bare-value
+    - include: paragraph-pop
+
+  xparse-newcommand-optarg-bare-value:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: support.function.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+    - match: \S
+      pop: 1
+    - include: paragraph-pop
+
+  xparse-newcommand-optarg-wrapped-value:
+    - clear_scopes: 1
+    - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.latex
+    - include: brace-group-end
+    - include: macro-braces-content
+
+###[ CONSTANTS ]###############################################################
 
   general-constants:
     - meta_prepend: true
@@ -565,7 +717,6 @@ contexts:
         - match: \3
           scope: punctuation.definition.verb.latex
           pop: true
-
 
   text-decorators:
     - match: ((\\)emph)(\{)

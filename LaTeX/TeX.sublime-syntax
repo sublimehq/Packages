@@ -327,6 +327,12 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push: brace-group-body
 
+  brace-group-begin:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      pop: true
+
   brace-group-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
@@ -644,4 +650,8 @@ contexts:
   # pops out of the current context if there is a new paragraph
   paragraph-pop:
     - match: ^(?=\s*$)
+      pop: true
+
+  unmatched-brace-pop:
+    - match: (?=})
       pop: true
