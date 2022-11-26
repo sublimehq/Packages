@@ -285,25 +285,46 @@ contexts:
     - include: else-pop
 
   xparse-args-token:
+    - meta_include_prototype: false
+    - include: unmatched-brace-pop
+    - match: (?={)
+      set:
+        - xparse-args-wrapped-token
+        - brace-group-begin
+    - match: (?=\S)
+      set: xparse-args-bare-token
+    - include: paragraph-pop
+
+  xparse-args-bare-token:
     # either a command
     - match: (\\){{cmdname}}{{endcs}}
       scope: constant.other.token.latex
       captures:
         1: punctuation.definition.backslash.latex
       pop: 1
-    # or the token wrapped in a group
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: xparse-args-token
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 1
     # or a single character
     - match: '\S'
       scope: constant.character.latex constant.other.token.latex
       pop: 1
+
     - include: paragraph-pop
     - include: else-pop
+
+
+  xparse-args-wrapped-token:
+    - meta_scope: meta.group.brace.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 1
+    # either a command
+    - match: (\\){{cmdname}}{{endcs}}
+      scope: constant.other.token.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+    # or a single character
+    - match: '\S'
+      scope: constant.character.latex constant.other.token.latex
+    - include: paragraph-pop
 
   xparse-optarg-value:
     - meta_include_prototype: false
