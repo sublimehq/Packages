@@ -323,6 +323,7 @@ contexts:
     - include: general-constants
     - include: general-commands
     - include: macro-braces
+    - include: macro-placeholders
     # The optional value is a long argument (can span paragraphs), so no
     # paragraph-pop here!
 
