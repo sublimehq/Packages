@@ -330,7 +330,7 @@ contexts:
   brace-group-begin:
     - meta_include_prototype: false
     - match: \{
-      scope: punctuation.definition.group.brace.begin.latex
+      scope: punctuation.definition.group.brace.begin.tex
       pop: true
 
   brace-group-body:
