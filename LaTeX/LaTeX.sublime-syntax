@@ -707,15 +707,6 @@ contexts:
           scope: punctuation.definition.verb.latex
           pop: true
 
-  xparse-args-bare-tokens:
-    - match: (\\){{cmdname}}{{endcs}}
-      scope: constant.other.token.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-    # or a single character
-    - match: '\S'
-      scope: constant.character.latex constant.other.token.latex
-
   text-decorators:
     - match: ((\\)emph)(\{)
       captures:
