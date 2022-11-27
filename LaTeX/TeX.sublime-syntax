@@ -224,6 +224,12 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push: brace-group-body
 
+  brace-group-begin:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      pop: true
+
   brace-group-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
@@ -421,6 +427,11 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       push: def-function-expect-identifier
+
+    - match: (\\)(?:outer|long|global){{endcs}}
+      scope: storage.modifier.definition.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
   def-function-expect-identifier:
     - meta_scope: meta.function.tex
@@ -657,4 +668,8 @@ contexts:
   # pops out of the current context if there is a new paragraph
   paragraph-pop:
     - match: ^(?=\s*$)
+      pop: true
+
+  unmatched-brace-pop:
+    - match: (?=})
       pop: true
