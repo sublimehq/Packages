@@ -253,7 +253,7 @@ contexts:
     - include: brace-group-end
     - include: main
 
-###[ Registers ]################################################################
+###[ REGISTERS ]################################################################
 
   registers:
     - match: (\\)({{registers}}){{endcs}}
@@ -308,8 +308,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-
-###[ Dimensions ]###############################################################
+###[ DIMENSIONS ]###############################################################
 
   tex-assignment:
     - match: =
@@ -317,7 +316,6 @@ contexts:
       pop: 1
     - include: else-pop
     - include: paragraph-pop
-
 
   tex-dimension-value:
     - match: (-?)(?:\d+(\.)\d*|(\.)\d+)
@@ -366,7 +364,6 @@ contexts:
     - match: '{{dimunits}}'
       scope: constant.numeric.suffix.tex
       pop: 1
-
     - include: else-pop
     - include: paragraph-pop
 
