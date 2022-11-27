@@ -138,15 +138,17 @@ contexts:
     - include: general-constants
     - include: general-commands
 
+###[ COMMENTS ]#################################################################
+
+  comments:
+    - match: '%.*$\n?'
+      scope: comment.line.percentage.tex
+
   general-commands:
     - match: (\\){{letter}}+
       scope: support.function.general.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  comments:
-    - match: '%.*$\n?'
-      scope: comment.line.percentage.tex
 
   controls:
     - match: (\\)ifcase{{endcs}}
