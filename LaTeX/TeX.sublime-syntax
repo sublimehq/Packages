@@ -380,14 +380,14 @@ contexts:
         3: punctuation.separator.decimal.tex
       set:
         - tex-dimension-glue
-        - decimal-float
+        - tex-dimension-decimal-float
     - match: (-?)\d+
       scope: constant.numeric.value.tex
       captures:
         1: keyword.operator.arithmetic.tex
       set:
         - tex-dimension-glue
-        - decimal-integer
+        - tex-dimension-decimal-integer
     - match: (`)(\\)?({{charbycode}}|.)
       captures:
         1: keyword.operator.tex
@@ -395,7 +395,7 @@ contexts:
         3: constant.character.tex
       set:
         - tex-dimension-glue
-        - decimal-integer
+        - tex-dimension-decimal-integer
     - include: else-pop
     - include: paragraph-pop
 
@@ -406,11 +406,11 @@ contexts:
     - include: else-pop
     - include: paragraph-pop
 
-  decimal-float:
+  tex-dimension-decimal-float:
     - meta_scope: meta.number.float.decimal.tex
     - include: tex-dimension-suffix
 
-  decimal-integer:
+  tex-dimension-decimal-integer:
     - meta_scope: meta.number.integer.decimal.tex
     - include: tex-dimension-suffix
 
