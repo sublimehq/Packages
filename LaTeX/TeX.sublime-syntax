@@ -224,6 +224,55 @@ contexts:
     - include: brace-group-end
     - include: main
 
+###[ CHARACTER CODES ]##########################################################
+
+  character-codes:
+    - match: (\\)(?:cat|math|uc|lc|del|sf)code{{endcs}}
+      scope: keyword.control.character-code.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push:
+        - character-code-meta
+        - character-code-value
+        - character-code-assignment
+        - character-code-number
+
+  character-code-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.character-code.tex
+    - include: immediately-pop
+
+  character-code-number:
+    - match: (`)(\\)?({{charbycode}}|.)
+      scope: meta.number.integer.tex
+      captures:
+        1: keyword.operator.tex
+        2: punctuation.definition.backslash.tex
+        3: constant.character.tex
+      pop: 1
+    - match: \d+
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+      set: character-code-assignment
+    - include: else-pop
+    - include: paragraph-pop
+
+  character-code-assignment:
+    - match: =
+      scope: keyword.operator.assignment.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
+
+  character-code-value:
+    - match: \d+
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+      pop: 1
+    - match: '"{{anyhexdigit}}+'
+      scope: meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
+
 ###[ CONSTANTS ]################################################################
 
   general-constants:
@@ -368,55 +417,6 @@ contexts:
   tex-dimension-suffix:
     - match: '{{dimunits}}'
       scope: constant.numeric.suffix.tex
-      pop: 1
-    - include: else-pop
-    - include: paragraph-pop
-
-###[ CHARACTER CODES ]##########################################################
-
-  character-codes:
-    - match: (\\)(?:cat|math|uc|lc|del|sf)code{{endcs}}
-      scope: keyword.control.character-code.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      push:
-        - character-code-meta
-        - character-code-value
-        - character-code-assignment
-        - character-code-number
-
-  character-code-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.character-code.tex
-    - include: immediately-pop
-
-  character-code-number:
-    - match: (`)(\\)?({{charbycode}}|.)
-      scope: meta.number.integer.tex
-      captures:
-        1: keyword.operator.tex
-        2: punctuation.definition.backslash.tex
-        3: constant.character.tex
-      pop: 1
-    - match: \d+
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
-      set: character-code-assignment
-    - include: else-pop
-    - include: paragraph-pop
-
-  character-code-assignment:
-    - match: =
-      scope: keyword.operator.assignment.tex
-      pop: 1
-    - include: else-pop
-    - include: paragraph-pop
-
-  character-code-value:
-    - match: \d+
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
-      pop: 1
-    - match: '"{{anyhexdigit}}+'
-      scope: meta.number.integer.hexadecimal.tex constant.numeric.value.tex
       pop: 1
     - include: else-pop
     - include: paragraph-pop
