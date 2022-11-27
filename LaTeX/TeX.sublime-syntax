@@ -1,11 +1,12 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 name: TeX
+scope: text.tex
+
 file_extensions:
   - sty
   - cls
-scope: text.tex
 
 variables:
   greeks: |-

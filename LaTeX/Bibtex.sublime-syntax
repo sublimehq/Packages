@@ -1,11 +1,11 @@
 %YAML 1.2
 ---
+# Grammar based on description from
+# http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html#comment
+#
+# TODO: Does not support @preamble
 name: BibTeX
 scope: text.bibtex
-comment: |
-  Grammar based on description from http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html#comment
-
-      TODO: Does not support @preamble
 
 file_extensions:
   - bib
