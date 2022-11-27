@@ -144,21 +144,6 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-  general-constants:
-    - match: \\\\
-      scope: constant.character.newline.tex
-    - match: '&'
-      scope: constant.character.ampersand.tex
-    - match: '~'
-      scope: constant.character.space.tex
-    - include: escaped-character
-
-  escaped-character:
-    - match: (\\){{nonletter}}
-      scope: constant.character.escape.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
   comments:
     - match: '%.*$\n?'
       scope: comment.line.percentage.tex
@@ -205,19 +190,6 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-  tex-constants:
-    - match: (\\){{constants}}{{endcs}}
-      scope: constant.language.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      push:
-        - tex-dimension-value
-        - tex-assignment
-    - match: (\\){{macroconst}}{{endcs}}
-      scope: constant.language.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
   braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
@@ -251,6 +223,36 @@ contexts:
     - meta_scope: meta.function.box.tex
     - include: brace-group-end
     - include: main
+
+###[ CONSTANTS ]################################################################
+
+  general-constants:
+    - match: \\\\
+      scope: constant.character.newline.tex
+    - match: '&'
+      scope: constant.character.ampersand.tex
+    - match: '~'
+      scope: constant.character.space.tex
+    - include: escaped-character
+
+  escaped-character:
+    - match: (\\){{nonletter}}
+      scope: constant.character.escape.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  tex-constants:
+    - match: (\\){{constants}}{{endcs}}
+      scope: constant.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push:
+        - tex-dimension-value
+        - tex-assignment
+    - match: (\\){{macroconst}}{{endcs}}
+      scope: constant.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
 ###[ REGISTERS ]################################################################
 
