@@ -255,32 +255,8 @@ contexts:
 ###[ REGISTERS ]################################################################
 
   registers:
-    - include: register-definitions
     - include: register-allocations
-
-  register-definitions:
-    - match: (\\)({{registers}}){{endcs}}
-      captures:
-        1: punctuation.definition.backslash.tex
-        2: storage.type.tex
-      push: register-definition-identifier
-
-  register-definition-identifier:
-    - meta_scope: meta.register.tex
-    - match: \d+
-      scope: meta.number.integer.decimal constant.numeric.value.tex
-      set:
-        - tex-dimension-value
-        - tex-assignment
-    - match: (\\){{letter}}+
-      scope: support.function.general.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      set:
-        - tex-dimension-value
-        - tex-assignment
-    - include: paragraph-pop
-    - include: else-pop
+    - include: register-definitions
 
   register-allocations:
     - match: (\\)new{{registers}}{{endcs}}
@@ -308,6 +284,30 @@ contexts:
       scope: entity.name.constant.tex
       captures:
         1: punctuation.definition.backslash.tex
+
+  register-definitions:
+    - match: (\\)({{registers}}){{endcs}}
+      captures:
+        1: punctuation.definition.backslash.tex
+        2: storage.type.tex
+      push: register-definition-identifier
+
+  register-definition-identifier:
+    - meta_scope: meta.register.tex
+    - match: \d+
+      scope: meta.number.integer.decimal constant.numeric.value.tex
+      set:
+        - tex-dimension-value
+        - tex-assignment
+    - match: (\\){{letter}}+
+      scope: support.function.general.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      set:
+        - tex-dimension-value
+        - tex-assignment
+    - include: paragraph-pop
+    - include: else-pop
 
 ###[ DIMENSIONS ]###############################################################
 
