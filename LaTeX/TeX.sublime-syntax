@@ -134,7 +134,6 @@ contexts:
     - include: block-math
     - include: inline-math
     - include: registers
-    - include: register-allocations
     - include: tex-constants
     - include: general-constants
     - include: general-commands
@@ -256,13 +255,17 @@ contexts:
 ###[ REGISTERS ]################################################################
 
   registers:
+    - include: register-definitions
+    - include: register-allocations
+
+  register-definitions:
     - match: (\\)({{registers}}){{endcs}}
       captures:
         1: punctuation.definition.backslash.tex
         2: storage.type.tex
-      push: register-id
+      push: register-definition-identifier
 
-  register-id:
+  register-definition-identifier:
     - meta_scope: meta.register.tex
     - match: \d+
       scope: meta.number.integer.decimal constant.numeric.value.tex
@@ -284,12 +287,12 @@ contexts:
       scope: keyword.declaration.register.tex storage.modifier.register.tex
       captures:
         1: punctuation.definition.backslash.tex
-      push: def-registername
+      push: register-allocation-identifier
 
-  def-registername:
+  register-allocation-identifier:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: register-name-group-body
+      set: register-allocation-wrapped-identifier
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
@@ -298,11 +301,9 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-  register-name-group-body:
+  register-allocation-wrapped-identifier:
     - meta_scope: meta.group.brace.tex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 2
+    - include: brace-group-end
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
