@@ -266,9 +266,11 @@ contexts:
       push: register-allocation-identifier
 
   register-allocation-identifier:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      set: register-allocation-wrapped-identifier
+    - meta_scope: meta.register.tex
+    - match: (?=\{)
+      set:
+        - register-allocation-wrapped-identifier
+        - brace-group-begin
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
@@ -278,7 +280,7 @@ contexts:
     - include: else-pop
 
   register-allocation-wrapped-identifier:
-    - meta_scope: meta.group.brace.tex
+    - meta_scope: meta.register.tex meta.group.brace.tex
     - include: brace-group-end
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
