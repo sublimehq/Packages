@@ -134,7 +134,6 @@ contexts:
     - include: block-math
     - include: inline-math
     - include: registers
-    - include: register-allocations
     - include: tex-constants
     - include: general-constants
     - include: general-commands
@@ -142,137 +141,6 @@ contexts:
   general-commands:
     - match: (\\){{letter}}+
       scope: support.function.general.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
-  general-constants:
-    - match: \\\\
-      scope: constant.character.newline.tex
-    - match: '&'
-      scope: constant.character.ampersand.tex
-    - match: '~'
-      scope: constant.character.space.tex
-    - include: escaped-character
-
-  tex-constants:
-    - match: (\\){{constants}}{{endcs}}
-      scope: constant.language.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      push:
-        - tex-dimension-value
-        - tex-constant-assignment
-    - match: (\\){{macroconst}}{{endcs}}
-      scope: constant.language.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
-  tex-constant-assignment:
-    - match: =
-      scope: keyword.operator.assignment.tex
-      pop: 1
-    - include: else-pop
-    - include: paragraph-pop
-
-  tex-dimension-value:
-    - match: (-?)(?:\d+(\.)\d*|(\.)\d+)
-      scope: constant.numeric.value.tex
-      captures:
-        1: keyword.operator.arithmetic.tex
-        2: punctuation.separator.decimal.tex
-        3: punctuation.separator.decimal.tex
-      set:
-        - tex-dimension-glue
-        - decimal-float
-    - match: (-?)\d+
-      scope: constant.numeric.value.tex
-      captures:
-        1: keyword.operator.arithmetic.tex
-      set:
-        - tex-dimension-glue
-        - decimal-integer
-    - match: (`)(\\)?({{charbycode}}|.)
-      captures:
-        1: keyword.operator.tex
-        2: punctuation.definition.backslash.tex
-        3: constant.character.tex
-      set:
-        - tex-dimension-glue
-        - decimal-integer
-    - include: else-pop
-    - include: paragraph-pop
-
-  tex-dimension-glue:
-    - match: (?:plus|minus){{endcs}}
-      scope: keyword.operator.arithmetic.tex
-      set: tex-dimension-value
-    - include: else-pop
-    - include: paragraph-pop
-
-  decimal-float:
-    - meta_scope: meta.number.float.decimal.tex
-    - include: tex-dimension-suffix
-
-  decimal-integer:
-    - meta_scope: meta.number.integer.decimal.tex
-    - include: tex-dimension-suffix
-
-  tex-dimension-suffix:
-    - match: '{{dimunits}}'
-      scope: constant.numeric.suffix.tex
-      pop: 1
-
-    - include: else-pop
-    - include: paragraph-pop
-
-  escaped-character:
-    - match: (\\){{nonletter}}
-      scope: constant.character.escape.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-
-  registers:
-    - match: (\\)({{registers}}){{endcs}}
-      captures:
-        1: punctuation.definition.backslash.tex
-        2: storage.type.tex
-      push: register-id
-
-  register-id:
-    - meta_scope: meta.register.tex
-    - match: \d+
-      scope: meta.number.integer.decimal constant.numeric.value.tex
-      pop: 1
-    - include: general-commands
-    - include: paragraph-pop
-    - include: else-pop
-
-  register-allocations:
-    - match: (\\)new{{registers}}{{endcs}}
-      scope: keyword.declaration.register.tex storage.modifier.register.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      push: def-registername
-
-  def-registername:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: register-name-group-body
-    - match: (\\){{cmdname}}
-      scope: entity.name.constant.tex
-      captures:
-        1: punctuation.definition.backslash.tex
-      pop: 1
-    - include: paragraph-pop
-    - include: else-pop
-
-  register-name-group-body:
-    - meta_scope: meta.group.brace.tex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 2
-    - match: (\\){{cmdname}}
-      scope: entity.name.constant.tex
       captures:
         1: punctuation.definition.backslash.tex
 
@@ -356,7 +224,6 @@ contexts:
     - include: brace-group-end
     - include: main
 
-
 ###[ CHARACTER CODES ]##########################################################
 
   character-codes:
@@ -402,6 +269,154 @@ contexts:
       pop: 1
     - match: '"{{anyhexdigit}}+'
       scope: meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
+
+###[ CONSTANTS ]################################################################
+
+  general-constants:
+    - match: \\\\
+      scope: constant.character.newline.tex
+    - match: '&'
+      scope: constant.character.ampersand.tex
+    - match: '~'
+      scope: constant.character.space.tex
+    - include: escaped-character
+
+  escaped-character:
+    - match: (\\){{nonletter}}
+      scope: constant.character.escape.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  tex-constants:
+    - match: (\\){{constants}}{{endcs}}
+      scope: constant.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push:
+        - tex-dimension-value
+        - tex-assignment
+    - match: (\\){{macroconst}}{{endcs}}
+      scope: constant.language.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+###[ REGISTERS ]################################################################
+
+  registers:
+    - include: register-allocations
+    - include: register-definitions
+
+  register-allocations:
+    - match: (\\)new{{registers}}{{endcs}}
+      scope: keyword.declaration.register.tex storage.modifier.register.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: register-allocation-identifier
+
+  register-allocation-identifier:
+    - meta_scope: meta.register.tex
+    - match: (?=\{)
+      set:
+        - register-allocation-wrapped-identifier
+        - brace-group-begin
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      pop: 1
+    - include: paragraph-pop
+    - include: else-pop
+
+  register-allocation-wrapped-identifier:
+    - meta_scope: meta.register.tex meta.group.brace.tex
+    - include: brace-group-end
+    - match: (\\){{cmdname}}
+      scope: entity.name.constant.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  register-definitions:
+    - match: (\\)({{registers}}){{endcs}}
+      captures:
+        1: punctuation.definition.backslash.tex
+        2: storage.type.tex
+      push: register-definition-identifier
+
+  register-definition-identifier:
+    - meta_scope: meta.register.tex
+    - match: \d+
+      scope: meta.number.integer.decimal constant.numeric.value.tex
+      set:
+        - tex-dimension-value
+        - tex-assignment
+    - match: (\\){{letter}}+
+      scope: support.function.general.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      set:
+        - tex-dimension-value
+        - tex-assignment
+    - include: paragraph-pop
+    - include: else-pop
+
+###[ DIMENSIONS ]###############################################################
+
+  tex-assignment:
+    - match: =
+      scope: keyword.operator.assignment.tex
+      pop: 1
+    - include: else-pop
+    - include: paragraph-pop
+
+  tex-dimension-value:
+    - match: (-?)(?:\d+(\.)\d*|(\.)\d+)
+      scope: constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+        2: punctuation.separator.decimal.tex
+        3: punctuation.separator.decimal.tex
+      set:
+        - tex-dimension-glue
+        - tex-dimension-decimal-float
+    - match: (-?)\d+
+      scope: constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+      set:
+        - tex-dimension-glue
+        - tex-dimension-decimal-integer
+    - match: (`)(\\)?({{charbycode}}|.)
+      captures:
+        1: keyword.operator.tex
+        2: punctuation.definition.backslash.tex
+        3: constant.character.tex
+      set:
+        - tex-dimension-glue
+        - tex-dimension-decimal-integer
+    - include: else-pop
+    - include: paragraph-pop
+
+  tex-dimension-glue:
+    - match: (?:plus|minus){{endcs}}
+      scope: keyword.operator.arithmetic.tex
+      set: tex-dimension-value
+    - include: else-pop
+    - include: paragraph-pop
+
+  tex-dimension-decimal-float:
+    - meta_scope: meta.number.float.decimal.tex
+    - include: tex-dimension-suffix
+
+  tex-dimension-decimal-integer:
+    - meta_scope: meta.number.integer.decimal.tex
+    - include: tex-dimension-suffix
+
+  tex-dimension-suffix:
+    - match: '{{dimunits}}'
+      scope: constant.numeric.suffix.tex
       pop: 1
     - include: else-pop
     - include: paragraph-pop
