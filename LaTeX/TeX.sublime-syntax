@@ -144,6 +144,44 @@ contexts:
     - match: '%.*$\n?'
       scope: comment.line.percentage.tex
 
+###[ BLOCKS ]###################################################################
+
+  braces:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: brace-group-body
+
+  brace-group-begin:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      pop: true
+
+  brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: main
+
+  brace-group-end:
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: true
+
+  boxes:
+    - match: ((\\)[hv]box)\s*(\{)
+      captures:
+        1: support.function.box.tex
+        2: punctuation.definition.backslash.tex
+        3: punctuation.definition.group.brace.begin.tex
+      push: box-body
+
+  box-body:
+    - meta_scope: meta.function.box.tex
+    - include: brace-group-end
+    - include: main
+
+###[ COMMANDS ]#################################################################
+
   general-commands:
     - match: (\\){{letter}}+
       scope: support.function.general.tex
@@ -191,40 +229,6 @@ contexts:
       scope: keyword.control.flow.relax.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: brace-group-body
-
-  brace-group-begin:
-    - meta_include_prototype: false
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      pop: true
-
-  brace-group-body:
-    - meta_scope: meta.group.brace.tex
-    - include: brace-group-end
-    - include: main
-
-  brace-group-end:
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: true
-
-  boxes:
-    - match: ((\\)[hv]box)\s*(\{)
-      captures:
-        1: support.function.box.tex
-        2: punctuation.definition.backslash.tex
-        3: punctuation.definition.group.brace.begin.tex
-      push: box-body
-
-  box-body:
-    - meta_scope: meta.function.box.tex
-    - include: brace-group-end
-    - include: main
 
 ###[ CHARACTER CODES ]##########################################################
 
