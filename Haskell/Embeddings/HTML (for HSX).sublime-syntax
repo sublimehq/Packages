@@ -1,5 +1,11 @@
 %YAML 1.2
 ---
+# HSX (Haskell Source with XML) allows literal XML syntax in Haskell source code.
+# - https://hackage.haskell.org/package/hsx
+#
+# Note:
+# This package uses HTML instead as it is what other editors seem to use.
+# It's probably the most common use case for Haskell Web Devs.
 scope: text.html.embedded.haskell
 version: 2
 hidden: true
