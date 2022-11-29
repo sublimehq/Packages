@@ -10,12 +10,12 @@
 %                               ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %                                        ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
-%                  ^ punctuation.definition.group.brace.begin.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
 %                   ^ punctuation.definition.backslash.latex
-%                            ^ punctuation.definition.group.brace.end.latex
-%                             ^ punctuation.definition.group.brace.begin.latex
-%                              ^ punctuation.definition.group.brace.end.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                              ^ punctuation.definition.group.brace.end.tex
 %                               ^ punctuation.definition.group.brace.begin.tex
 %                                       ^ punctuation.definition.group.brace.end.tex
 
@@ -27,13 +27,13 @@
 %                                 ^^^^^^^^^^^^ meta.function.body meta.group.brace
 %                                             ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
-%                  ^ punctuation.definition.group.brace.begin.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
 %                   ^ punctuation.definition.backslash.latex
-%                             ^ punctuation.definition.group.brace.end.latex
-%                              ^ punctuation.definition.group.brace.begin.latex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
 %                               ^ storage.type.latex
-%                                ^ punctuation.definition.group.brace.end.latex
+%                                ^ punctuation.definition.group.brace.end.tex
 %                                 ^ punctuation.definition.group.brace.begin.tex
 %                                          ^^ variable.parameter.tex
 %                                            ^ punctuation.definition.group.brace.end.tex
@@ -140,7 +140,7 @@
 %                   ^^^^^^^^^ entity.name.newcommand.latex
 %                              ^ storage.type.latex
 %                               ^^ constant.character.latex constant.other.token.latex
-%                                                                      ^ punctuation.definition.group.brace.end.latex
+%                                                                      ^ punctuation.definition.group.brace.end.tex
 
 
 \NewDocumentCommand{\optional}{O{default}}{function body}
@@ -148,8 +148,8 @@
 %^^^^^^^^^^^^^^^^^^ meta.function.latex
 %                  ^^^^^^^^^^^ meta.function.identifier.latex
 %                             ^^ meta.function.parameters.latex
-%                               ^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.latex
-%                                        ^ meta.function.parameters.latex punctuation.definition.group.brace.end.latex
+%                               ^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.tex
+%                                        ^ meta.function.parameters.latex punctuation.definition.group.brace.end.tex
 %                                         ^^^^^^^^^^^^^^^ meta.function.body
 %                                                        ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
@@ -189,30 +189,30 @@ with paragraph}}{function body}
 %                                  ^^^^^^^^^^^^^^^ meta.function.body
 %                                                 ^ - meta.function
 %^^^^^^^^^^^^^^^^^^ storage.modifier.newcommand.latex
-%                  ^ punctuation.definition.group.brace.begin.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
 %                   ^^^^^^^^^ entity.name.newcommand.latex
-%                            ^ punctuation.definition.group.brace.end.latex
-%                             ^ punctuation.definition.group.brace.begin.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.begin.tex
 %                              ^ storage.type.latex
 %                                ^ - punctuation.definition.group
-%                                 ^ punctuation.definition.group.brace.end.latex
+%                                 ^ punctuation.definition.group.brace.end.tex
 %                                  ^ punctuation.definition.group.brace.begin.tex
 %                                                ^ punctuation.definition.group.brace.end.tex
 
 \NewDocumentCommand{\optional}{O\value m}{function body}
 %                             ^^ meta.function.parameters.latex
-%                             ^ punctuation.definition.group.brace.begin.latex
+%                             ^ punctuation.definition.group.brace.begin.tex
 %                              ^ storage.type.latex
 %                               ^^^^^^ meta.function.parameters.default-value.latex support.function.latex
 %                               ^ punctuation.definition.backslash.latex
 %                                     ^^^ meta.function.parameters.latex
 %                                      ^ storage.type.latex
-%                                       ^ punctuation.definition.group.brace.end.latex
+%                                       ^ punctuation.definition.group.brace.end.tex
 
 \NewDocumentCommand{\optional}{O{#1: \year \parskip1em }}{function body}
 %                              ^ storage.type.latex
-%                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.latex
-%                               ^ punctuation.definition.group.brace.begin.latex
+%                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.tex
+%                               ^ punctuation.definition.group.brace.begin.tex
 %                                ^^ variable.parameter.tex
 %                                ^ punctuation.definition.placeholder.tex
 %                                 ^ meta.number.integer.decimal.tex constant.numeric.value.tex
@@ -286,27 +286,27 @@ with paragraph}}{function body}
 
 \NewDocumentCommand{\MyMacro}{e{\up \down}}{up: #1 down: #2}
 %                             ^ storage.type.latex
-%                              ^ punctuation.definition.group.brace.begin.latex
+%                              ^ punctuation.definition.group.brace.begin.tex
 %                               ^^^ constant.other.token.latex
 %                                   ^^^^^ constant.other.token.latex
 %                               ^ punctuation.definition.backslash.latex
 %                                   ^ punctuation.definition.backslash.latex
-%                                        ^^ punctuation.definition.group.brace.end.latex
+%                                        ^^ punctuation.definition.group.brace.end.tex
 %                                          ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 
 
-% Argument processors: example from 
+% Argument processors: example from
 % https://www.nic.funet.fi/pub/TeX/CTAN/macros/latex/contrib/l3packages/xparse.pdf
 \NewDocumentCommand \foo { O{,} >{\SplitList{#1}} m } { \foobar{#2} }
 %                        ^^^   meta.function.parameters.latex
-%                           ^^^ meta.function.parameters.default-value.latex meta.group.brace.latex
+%                           ^^^ meta.function.parameters.default-value.latex meta.group.brace.tex
 %                              ^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.latex
 %                                                    ^ meta.function.latex
 %                                                     ^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
-%                        ^ punctuation.definition.group.brace.begin.latex
+%                        ^ punctuation.definition.group.brace.begin.tex
 %                          ^ storage.type.latex
-%                           ^ punctuation.definition.group.brace.begin.latex
-%                             ^ punctuation.definition.group.brace.end.latex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                             ^ punctuation.definition.group.brace.end.tex
 %                               ^ storage.modifier.latex
 %                                ^^^^^^^^^^^^^^^^ meta.group.brace.tex
 %                                ^ punctuation.definition.group.brace.begin.tex
@@ -320,7 +320,7 @@ with paragraph}}{function body}
 %                                              ^ punctuation.definition.group.brace.end.tex
 %                                               ^ punctuation.definition.group.brace.end.tex
 %                                                 ^ storage.type.latex
-%                                                   ^ punctuation.definition.group.brace.end.latex
+%                                                   ^ punctuation.definition.group.brace.end.tex
 
 
 
@@ -358,15 +358,15 @@ other stuff
 %                           ^^^^^^^^^^^^ meta.function.parameters.latex
 %                             ^^^^^^^^^ meta.group.brace.tex
 %                                       ^^^^^^ meta.function.body.tex meta.group.brace.tex
-%                  ^ punctuation.definition.group.brace.begin.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
 %                   ^^^^^^^ entity.name.newcommand.latex
 %                   ^ punctuation.definition.backslash.latex
-%                          ^ punctuation.definition.group.brace.end.latex
-%                           ^ punctuation.definition.group.brace.begin.latex
+%                          ^ punctuation.definition.group.brace.end.tex
+%                           ^ punctuation.definition.group.brace.begin.tex
 %                            ^ storage.type.latex
 %                             ^ punctuation.definition.group.brace.begin.tex
 %                                     ^ punctuation.definition.group.brace.end.tex
-%                                      ^ punctuation.definition.group.brace.end.latex
+%                                      ^ punctuation.definition.group.brace.end.tex
 %                                       ^ punctuation.definition.group.brace.begin.tex
 %                                            ^ punctuation.definition.group.brace.end.tex
 
@@ -380,17 +380,17 @@ other stuff
 %                              ^^^^^^^^^^^^^^^^ meta.function.parameters.latex
 %                                              ^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %                                                            ^ - meta.function
-%                  ^ punctuation.definition.group.brace.begin.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
 %                   ^^^^^^^^^^ entity.name.newcommand.latex
 %                   ^ punctuation.definition.backslash.latex
-%                             ^ punctuation.definition.group.brace.end.latex
-%                              ^ punctuation.definition.group.brace.begin.latex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
 %                               ^ storage.type.latex
 %                                ^^^^^ constant.other.token.latex
 %                                ^ punctuation.definition.backslash.latex
 %                                     ^^^^^^ support.function.general.latex
 %                                     ^ punctuation.definition.backslash.latex
-%                                             ^ punctuation.definition.group.brace.end.latex
+%                                             ^ punctuation.definition.group.brace.end.tex
 %                                              ^ punctuation.definition.group.brace.begin.tex
 %                                                        ^^ variable.parameter.tex
 %                                                        ^ punctuation.definition.placeholder.tex
@@ -401,20 +401,20 @@ other stuff
 % Currently unsupported syntax versions:
 % These are very rare, so at this point we have opted for reduced complexity
 % of the syntax highlighting, with the cost that some syntactially valid patterns
-% get suboptimal highlighting. 
+% get suboptimal highlighting.
 
 \NewDocumentCommand{\braces}{{m}}{content}
 %                           ^^^^^ meta.function.parameters.latex
-%                           ^ punctuation.definition.group.brace.begin.latex
+%                           ^ punctuation.definition.group.brace.begin.tex
 %                            ^^^ meta.group.brace.tex
 %                            ^ punctuation.definition.group.brace.begin.tex
 %                              ^ punctuation.definition.group.brace.end.tex
-%                               ^ punctuation.definition.group.brace.end.latex
+%                               ^ punctuation.definition.group.brace.end.tex
 %                                ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 
 \NewDocumentCommand{\braces}{m {O}{value} m}{content}
 %                           ^^^^^^^^^^^^^^^^ meta.function.parameters.latex
-%                           ^ punctuation.definition.group.brace.begin.latex
+%                           ^ punctuation.definition.group.brace.begin.tex
 %                            ^ storage.type.latex
 %                              ^^^^^^^^^^ meta.group.brace.tex
 %                              ^ punctuation.definition.group.brace.begin.tex
@@ -422,7 +422,7 @@ other stuff
 %                                 ^ punctuation.definition.group.brace.begin.tex
 %                                       ^ punctuation.definition.group.brace.end.tex
 %                                         ^ storage.type.latex
-%                                          ^ punctuation.definition.group.brace.end.latex
+%                                          ^ punctuation.definition.group.brace.end.tex
 %                                           ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %                                           ^ punctuation.definition.group.brace.begin.tex
 %                                                   ^ punctuation.definition.group.brace.end.tex
