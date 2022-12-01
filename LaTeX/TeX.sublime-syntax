@@ -559,7 +559,7 @@ contexts:
     - include: math-commands
     - include: math-operators
     - include: math-characters
-    - include: math-numerics
+    - include: math-numbers
     - include: general-constants
 
   math-builtin:
@@ -663,9 +663,13 @@ contexts:
       captures:
         1: punctuation.definition.backslash.brace.escape.tex
 
-  math-numerics:
-    - match: (([[:digit:]]*\.[[:digit:]]+)|[[:digit:]]+)
-      scope: constant.numeric.math.tex
+  math-numbers:
+    - match: \d*(\.)\d+
+      scope: meta.number.float.decimal.tex constant.numeric.value.tex
+      captures:
+        1: punctuation.separator.decimal.tex
+    - match: \d+
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
 
   math-characters:
     - match: '[A-Za-z]+'

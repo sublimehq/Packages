@@ -8039,20 +8039,20 @@ foo = 1 + 2 * \sqrt{a^2+b^2}
 | <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar variable.other.math
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
 |   ^ keyword.operator.assignment
-|     ^ constant.numeric.math
+|     ^ constant.numeric.value
 |       ^ keyword.operator.arithmetic
-|         ^ constant.numeric.math
+|         ^ constant.numeric.value
 |           ^ keyword.operator.arithmetic
 |             ^^^^^ support.function.math
 |                  ^^^^^^^^^ meta.group.brace
 |                  ^ punctuation.definition.group.brace.begin
 |                   ^ variable.other.math
 |                    ^ keyword.operator.arithmetic
-|                     ^ constant.numeric.math
+|                     ^ constant.numeric.value
 |                      ^ keyword.operator.arithmetic
 |                       ^ variable.other.math
 |                        ^ keyword.operator.arithmetic
-|                         ^ constant.numeric.math
+|                         ^ constant.numeric.value
 |                          ^ punctuation.definition.group.brace.end
 $$
 | <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex punctuation.definition.math.end.latex
@@ -8170,9 +8170,9 @@ Math $1+1$ setext heading
 This is math $1+1$ expression, but $ 1+1 $ ,$ 1+1$, $1+1 $ and 1+1$ or $1+1 are not.
 |            ^^^^^ meta.paragraph.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
 |            ^ punctuation.definition.math.begin.latex
-|             ^ constant.numeric.math.tex
+|             ^ constant.numeric.value.tex
 |              ^ keyword.operator.arithmetic.tex
-|               ^ constant.numeric.math.tex
+|               ^ constant.numeric.value.tex
 |                ^ punctuation.definition.math.end.latex
 |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown - markup.math
 
