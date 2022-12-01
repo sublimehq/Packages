@@ -8038,20 +8038,20 @@ $$
 foo = 1 + 2 * \sqrt{a^2+b^2}
 | <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar variable.other.math
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
-|   ^ keyword.operator.math
+|   ^ keyword.operator.assignment
 |     ^ constant.numeric.math
-|       ^ keyword.operator.math
+|       ^ keyword.operator.arithmetic
 |         ^ constant.numeric.math
-|           ^ keyword.operator.math
+|           ^ keyword.operator.arithmetic
 |             ^^^^^ support.function.math
 |                  ^^^^^^^^^ meta.group.brace
 |                  ^ punctuation.definition.group.brace.begin
 |                   ^ variable.other.math
-|                    ^ keyword.operator.math
+|                    ^ keyword.operator.arithmetic
 |                     ^ constant.numeric.math
-|                      ^ keyword.operator.math
+|                      ^ keyword.operator.arithmetic
 |                       ^ variable.other.math
-|                        ^ keyword.operator.math
+|                        ^ keyword.operator.arithmetic
 |                         ^ constant.numeric.math
 |                          ^ punctuation.definition.group.brace.end
 $$
@@ -8171,7 +8171,7 @@ This is math $1+1$ expression, but $ 1+1 $ ,$ 1+1$, $1+1 $ and 1+1$ or $1+1 are 
 |            ^^^^^ meta.paragraph.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
 |            ^ punctuation.definition.math.begin.latex
 |             ^ constant.numeric.math.tex
-|              ^ keyword.operator.math.tex
+|              ^ keyword.operator.arithmetic.tex
 |               ^ constant.numeric.math.tex
 |                ^ punctuation.definition.math.end.latex
 |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown - markup.math

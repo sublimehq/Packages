@@ -825,3 +825,48 @@ some other text
 \def\macro{\abovedisplayskip=}5
 %                             ^ - meta.number
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+$$
+% <- meta.environment.math.block.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%^^ meta.environment.math.block.dollar.tex
+%^ string.other.math.tex punctuation.definition.string.begin.tex
+
+  c = a + b - d * f / g!
+% ^ variable.other.math.tex
+%   ^ keyword.operator.assignment.tex
+%     ^ variable.other.math.tex
+%       ^ keyword.operator.arithmetic.tex
+%         ^ variable.other.math.tex
+%           ^ keyword.operator.arithmetic.tex
+%             ^ variable.other.math.tex
+%               ^ keyword.operator.arithmetic.tex
+%                 ^ variable.other.math.tex
+%                   ^ keyword.operator.arithmetic.tex
+%                     ^ variable.other.math.tex
+%                      ^ keyword.operator.arithmetic.tex
+
+  a < b <= c
+% ^ variable.other.math.tex
+%   ^ keyword.operator.comparison.tex
+%     ^ variable.other.math.tex
+%       ^^ keyword.operator.comparison.tex
+%          ^ variable.other.math.tex
+
+  a > b >= c
+% ^ variable.other.math.tex
+%   ^ keyword.operator.comparison.tex
+%     ^ variable.other.math.tex
+%       ^^ keyword.operator.comparison.tex
+%          ^ variable.other.math.tex
+
+  a_n^2
+% ^ variable.other.math.tex
+%  ^ punctuation.separator.indice.tex
+%   ^ variable.other.math.tex
+%    ^ keyword.operator.arithmetic.tex
+
+$$

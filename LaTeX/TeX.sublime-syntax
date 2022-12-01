@@ -634,8 +634,14 @@ contexts:
         1: punctuation.definition.backslash.tex
 
   math-operators:
-    - match: \+|\-|=|-|\*|/|\^|_|<|>
-      scope: keyword.operator.math.tex
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.tex
+    - match: '[-+*/^!]'
+      scope: keyword.operator.arithmetic.tex
+    - match: =
+      scope: keyword.operator.assignment.tex
+    - match: _
+      scope: punctuation.separator.indice.tex
 
   math-braces:
     - match: \{
