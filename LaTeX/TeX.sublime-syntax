@@ -357,7 +357,7 @@ contexts:
   register-definition-identifier:
     - meta_scope: meta.register.tex
     - match: \d+
-      scope: meta.number.integer.decimal constant.numeric.value.tex
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
       set:
         - tex-dimension-value
         - tex-assignment
