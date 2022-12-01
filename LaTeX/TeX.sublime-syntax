@@ -654,14 +654,18 @@ contexts:
     - include: math-content
 
   math-brackets:
-    - match: '[\(\)]'
-      scope: constant.character.parenthesis.tex
-    - match: '[\[\]]'
-      scope: constant.character.bracket.tex
-    - match: (\\)[\{\}]
-      scope: constant.character.brace.escape.tex
+    - match: \(
+      scope: punctuation.section.parens.begin.tex
+    - match: \)
+      scope: punctuation.section.parens.end.tex
+    - match: \[
+      scope: punctuation.section.brackets.begin.tex
+    - match: \]
+      scope: punctuation.section.brackets.end.tex
+    - match: (\\)[{}]
+      scope: constant.character.escape.tex
       captures:
-        1: punctuation.definition.backslash.brace.escape.tex
+        1: punctuation.definition.escape.tex
 
   math-numbers:
     - match: \d*(\.)\d+
