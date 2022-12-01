@@ -558,7 +558,7 @@ contexts:
     - include: boxes
     - include: math-commands
     - include: math-operators
-    - include: math-characters
+    - include: math-variables
     - include: math-numbers
     - include: general-constants
 
@@ -671,7 +671,7 @@ contexts:
     - match: \d+
       scope: meta.number.integer.decimal.tex constant.numeric.value.tex
 
-  math-characters:
+  math-variables:
     - match: '[A-Za-z]+'
       scope: variable.other.math.tex
 
