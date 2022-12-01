@@ -830,6 +830,35 @@ some other text
 %                 Math
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+$f(x) = x^2$
+% <- meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%^^^^^^^^^^ meta.environment.math.inline.dollar.tex - string
+%          ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.end.tex
+
+$$f(x) = x^2$$
+% <- meta.environment.math.block.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%^ meta.environment.math.block.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+% ^^^^^^^^^^ meta.environment.math.block.dollar.tex - string
+%           ^^ meta.environment.math.block.dollar.tex string.other.math.tex punctuation.definition.string.end.tex
+
+$\iota$
+%^^^^^ keyword.other.math.greek.tex
+%^ punctuation.definition.backslash.tex
+
+$\Iota$
+%^^^^^ support.function.math.tex - keyword.other
+%^ punctuation.definition.backslash.tex
+
+$\alpha _$
+%^^^^^^ keyword.other.math.greek.tex
+%^ punctuation.definition.backslash.tex
+%       ^ punctuation.separator.indice.tex
+
+$\alpha_$
+%^^^^^^ keyword.other.math.greek.tex
+%^ punctuation.definition.backslash.tex
+%      ^ punctuation.separator.indice.tex
+
 $$
 % <- meta.environment.math.block.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
 %^^ meta.environment.math.block.dollar.tex
