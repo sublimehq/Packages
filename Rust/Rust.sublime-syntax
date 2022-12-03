@@ -525,7 +525,6 @@ contexts:
       scope: keyword.operator.arithmetic.rust
     - include: integers
     - include: block
-    - match: '{{identifier}}'
     - match: ':|,'
       scope: punctuation.separator.rust
     - match: '\+|='
@@ -638,7 +637,7 @@ contexts:
       pop: true
     - match: '!'
       scope: keyword.operator.negated-type.rust
-    - include: type-identifiers
+    - include: type-any-identifiers
 
   type-any-identifiers:
     - match: '!'
@@ -650,6 +649,7 @@ contexts:
     - match: '{{type_identifier}}'
       scope: storage.type.rust
     - match: '{{identifier}}'
+      scope: meta.identifier.expected-type.rust
 
   support-type:
     - match: '(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\s*(?=<)'
@@ -661,6 +661,7 @@ contexts:
   type:
     # A low-level type. Typically you want types-any for the full type grammar.
     - match: '{{identifier}}(?=<)'
+      scope: storage.type.rust
       push: generic-angles
     - match: \b(Self|{{int_suffixes}}|{{float_suffixes}}|bool|char|str)\b
       scope: storage.type.rust

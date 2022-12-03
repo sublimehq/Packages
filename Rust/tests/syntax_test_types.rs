@@ -158,8 +158,22 @@ type Snail = Vec<SnailNum>;
 //                       ^ punctuation.definition.generic.end.rust
 
 type ExampleRawPointer = HashMap<*const i32, Option<i32>, BuildHasherDefault<FnvHasher>>;
-//                               ^^^^^^ meta.generic storage.modifier
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
+//                               ^^^^^^ storage.modifier
 //                                      ^^^ meta.generic storage.type
+//                                         ^ punctuation.separator.rust
+//                                           ^^^^^^^^^^^ meta.generic.rust meta.generic.rust
+//                                           ^^^^^^ support.type.rust
+//                                                 ^ punctuation.definition.generic.begin.rust
+//                                                  ^^^ storage.type.rust
+//                                                     ^ punctuation.definition.generic.end.rust
+//                                                      ^ punctuation.separator.rust
+//                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust meta.generic.rust
+//                                                        ^^^^^^^^^^^^^^^^^^ storage.type
+//                                                                          ^ punctuation.definition.generic.begin.rust
+//                                                                           ^^^^^^^^^ storage.type.rust
+//                                                                                    ^^ punctuation.definition.generic.end.rust
+//                                                                                      ^ punctuation.terminator.rust
 
 
 // Anonymous lifetimes.
