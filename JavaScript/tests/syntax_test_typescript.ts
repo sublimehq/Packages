@@ -344,6 +344,25 @@ import foo;
 //                     ^ keyword.operator.assignment
 //                       ^^^ meta.type-alias support.type.any
 
+    // ensure fixed deadlock caused by incomplete/invalid type expressions
+    // https://github.com/sublimehq/Packages/issues/3598
+    type x = {
+        bar: (cb: (
+//     ^^^^^^ meta.type-alias.js meta.mapping.js - meta.group
+//           ^^^ meta.type-alias.js meta.mapping.js meta.type.js meta.group.js
+//              ^^ meta.type-alias.js meta.mapping.js - meta.group
+//                ^ meta.type-alias.js meta.function.parameters.js
+//      ^^^ variable.other.readwrite.js
+//         ^ punctuation.separator.type.js
+//           ^ punctuation.section.group.begin.js
+//            ^^ support.class.js
+//                ^ punctuation.section.group.begin.js
+    };
+//  ^ meta.type-alias.js meta.mapping.js
+//   ^ - meta.type-alias - meta.mapping
+//  ^ punctuation.section.mapping.end.js
+//   ^ punctuation.terminator.statement.empty.js
+
     class Foo {
         foo: any = 42;
 //      ^^^ variable.other.readwrite
