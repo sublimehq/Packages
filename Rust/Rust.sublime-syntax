@@ -211,12 +211,13 @@ contexts:
         - include: statements
 
     - include: return-type
-    - include: symbols
     - include: keywords
 
     - match: ','
       scope: punctuation.separator.rust
       push: after-operator
+
+    - include: symbols
 
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*(?=\()'
       scope: variable.function.rust
@@ -482,11 +483,13 @@ contexts:
     - match: '(?=\{)'
       set: closure-explicit-body
     - match: (?=\S)
-      set:
-        - meta_scope: meta.function.closure.rust
-        - match: '(?=[};)\]\n])'
-          pop: true
-        - include: statements
+      set: closure-implicit-body
+
+  closure-implicit-body:
+    - meta_scope: meta.function.closure.rust
+    - match: '(?=[};)\]\n,])'
+      pop: true
+    - include: statements
 
   closure-explicit-body:
     - meta_scope: meta.function.closure.rust
