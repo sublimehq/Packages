@@ -211,12 +211,13 @@ contexts:
         - include: statements
 
     - include: return-type
-    - include: symbols
     - include: keywords
 
     - match: ','
       scope: punctuation.separator.rust
       push: after-operator
+
+    - include: symbols
 
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*(?=\()'
       scope: variable.function.rust
