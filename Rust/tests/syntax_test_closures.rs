@@ -32,8 +32,9 @@ call_func(|c| 1 + 2 + c);
 //        ^^^^^^^^^^^^^ meta.function.closure
 //        ^^^ meta.function.parameters
 
-call_func_2nd_param(0, |c| 1 + 2 + c);
+call_func_2nd_param(0, |c| 1 + 2 + c, 3);
 //                     ^^^^^^^^^^^^^ meta.function.closure
+//                                  ^^^ - meta.function.closure
 //                     ^^^ meta.function.parameters
 
 fn lambdas() {
