@@ -148,7 +148,7 @@ contexts:
       push: macro-block
 
     - include: comments
-    - include: attribute
+    - include: attributes
     - include: strings
     - include: chars
 
@@ -245,7 +245,7 @@ contexts:
     - match: '\bpub\b'
       scope: storage.modifier.rust
 
-  attribute:
+  attributes:
     - match: '(#)\s*(!?)\s*(\[)'
       captures:
         1: punctuation.definition.annotation.rust
@@ -321,7 +321,7 @@ contexts:
     - match: '(?=\})'
       pop: true
     - include: statements
-    - include: attribute
+    - include: attributes
 
   group:
     - match: '\)'
@@ -505,7 +505,7 @@ contexts:
 
   generic-angles-contents:
     - include: comments
-    - include: attribute
+    - include: attributes
     - match: '(?=>)'
       pop: true
     - match: '<'
@@ -758,7 +758,7 @@ contexts:
       pop: true
     - meta_scope: meta.group.rust
     - include: comments
-    - include: attribute
+    - include: attributes
     - include: visibility
     - include: types-any
     - match: ','
@@ -781,7 +781,7 @@ contexts:
     - match: '(?=\})'
       pop: true
     - include: comments
-    - include: attribute
+    - include: attributes
     - include: visibility
     - match: '{{identifier}}(?=\s*:)'
       scope: variable.other.member.rust
@@ -861,7 +861,7 @@ contexts:
   enum-body:
     - meta_scope: meta.block.rust meta.enum.rust
     - include: comments
-    - include: attribute
+    - include: attributes
     - match: '\}'
       scope: punctuation.section.block.end.rust
       pop: true
