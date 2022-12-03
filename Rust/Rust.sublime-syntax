@@ -148,7 +148,7 @@ contexts:
       push: macro-block
 
     - include: comments
-    - include: attribute
+    - include: attributes
     - include: strings
     - include: chars
 
@@ -245,43 +245,44 @@ contexts:
     - match: '\bpub\b'
       scope: storage.modifier.rust
 
-  attribute:
+  attributes:
     - match: '(#)\s*(!?)\s*(\[)'
       captures:
         1: punctuation.definition.annotation.rust
         2: punctuation.definition.annotation.rust
         3: punctuation.section.group.begin.rust
-      push:
-        # https://github.com/sublimehq/Packages/issues/709#issuecomment-266835130
-        - meta_scope: meta.annotation.rust
-        - match: '(?:{{identifier}}\s*::\s*)*({{identifier}})'
-          scope: meta.path.rust
-          captures:
-            1: variable.annotation.rust
-        - match: '\('
-          scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.begin.rust
-          push:
-            - meta_content_scope: meta.annotation.parameters.rust meta.group.rust
-            - match: \)
-              scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.end.rust
-              pop: true
-            - include: attribute-call
-        - match: '='
-          scope: keyword.operator.assignment.rust
-          set:
-            - meta_content_scope: meta.annotation.rust
-            - include: strings
-            - include: chars
-            - include: numbers
-            - include: comments
-            - match: '\]'
-              scope: meta.annotation.rust punctuation.section.group.end.rust
-              pop: true
+      push: inside-attribute
 
-        - match: '\]'
-          scope: punctuation.section.group.end.rust
+  inside-attribute:
+    # https://github.com/sublimehq/Packages/issues/709#issuecomment-266835130
+    - meta_scope: meta.annotation.rust
+    - match: '(?:{{identifier}}\s*::\s*)*({{identifier}})'
+      scope: meta.path.rust
+      captures:
+        1: variable.annotation.rust
+    - match: '\('
+      scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.begin.rust
+      push:
+        - meta_content_scope: meta.annotation.parameters.rust meta.group.rust
+        - match: \)
+          scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.end.rust
           pop: true
+        - include: attribute-call
+    - match: '='
+      scope: keyword.operator.assignment.rust
+      set:
+        - meta_content_scope: meta.annotation.rust
+        - include: strings
+        - include: chars
+        - include: numbers
         - include: comments
+        - match: '\]'
+          scope: meta.annotation.rust punctuation.section.group.end.rust
+          pop: true
+    - match: '\]'
+      scope: punctuation.section.group.end.rust
+      pop: true
+    - include: comments
 
   attribute-call:
     - match: \)
@@ -320,7 +321,7 @@ contexts:
     - match: '(?=\})'
       pop: true
     - include: statements
-    - include: attribute
+    - include: attributes
 
   group:
     - match: '\)'
@@ -504,7 +505,7 @@ contexts:
 
   generic-angles-contents:
     - include: comments
-    - include: attribute
+    - include: attributes
     - match: '(?=>)'
       pop: true
     - match: '<'
@@ -751,15 +752,18 @@ contexts:
       pop: true
     - match: '\('
       scope: punctuation.section.group.begin.rust
-      push:
-        - match: '(?=\))'
-          pop: true
-        - meta_scope: meta.group.rust
-        - include: comments
-        - include: visibility
-        - include: types-any
-        - match: ','
-          scope: punctuation.separator.rust
+      push: inside-struct-tuple
+
+  inside-struct-tuple:
+    - match: '(?=\))'
+      pop: true
+    - meta_scope: meta.group.rust
+    - include: comments
+    - include: attributes
+    - include: visibility
+    - include: types-any
+    - match: ','
+      scope: punctuation.separator.rust
 
   struct-classic:
     - meta_scope: meta.struct.rust
@@ -778,7 +782,7 @@ contexts:
     - match: '(?=\})'
       pop: true
     - include: comments
-    - include: attribute
+    - include: attributes
     - include: visibility
     - match: '{{identifier}}(?=\s*:)'
       scope: variable.other.member.rust
@@ -858,7 +862,7 @@ contexts:
   enum-body:
     - meta_scope: meta.block.rust meta.enum.rust
     - include: comments
-    - include: attribute
+    - include: attributes
     - match: '\}'
       scope: punctuation.section.block.end.rust
       pop: true

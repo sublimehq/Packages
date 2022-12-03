@@ -64,7 +64,12 @@ enum E {
 //  ^^^^^^^^^^^^^^^^^^^ meta.enum meta.annotation
 //    ^^^^^ variable.annotation
     A(i32),
-//    ^^^ meta.enum meta.struct meta.group storage.type
+//  ^^^^^^^^ meta.block.rust meta.enum.rust
+//    ^^^ storage.type
+    BadInt(#[from] ParseIntError),
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.rust meta.enum.rust
+//         ^^^^^^^ meta.annotation
+
 }
 
 // Generic parameters.
