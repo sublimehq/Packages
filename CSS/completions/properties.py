@@ -726,7 +726,7 @@ def get_properties():
         ],
         "min-width": ["<calc>", "fit-content"],
         "min-zoom": ["<calc>", "auto"],
-        "mix-blend-mode": ["<blend-mode>"],
+        "mix-blend-mode": ["<blend-mode>", "plus-lighter"],
         "motion": [["path()", "path($1)"], "auto", "none", "reverse"],
         "motion-offset": [
             "<calc>",

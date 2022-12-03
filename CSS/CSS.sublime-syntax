@@ -1665,8 +1665,12 @@ contexts:
   # https://drafts.csswg.org/css-color
   color-functions:
     # rgb(), rgba()
-    # https://drafts.csswg.org/css-color/#rgb-functions
-    - match: \b(?i:rgba?)(?=\()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
+    # lab()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lab
+    # lch()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch
+    - match: \b(?i:rgba?|lab|lch)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - meta_include_prototype: false
@@ -1675,15 +1679,16 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: alpha-delimiters
             - include: comma-delimiters
             - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
     # hsl(), hsla()
-    # https://drafts.csswg.org/css-color/#the-hsl-notation
-    # hwb() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-hwb
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl
+    # hwb()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb
     - match: \b(?i:hsla?|hwb)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
@@ -1693,6 +1698,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: alpha-delimiters
             - include: comma-delimiters
             - include: calc-functions
             - include: angle-constants
@@ -2923,6 +2929,10 @@ contexts:
     - include: immediately-pop
 
 ###[ PUNCTUATION ]#############################################################
+
+  alpha-delimiters:
+    - match: /
+      scope: punctuation.separator.alpha.css
 
   comma-delimiters:
     - match: ','
