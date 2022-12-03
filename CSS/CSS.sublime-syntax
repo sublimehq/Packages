@@ -2368,23 +2368,15 @@ contexts:
   calc-functions:
     # calc()
     # https://www.w3.org/TR/css3-values/#funcdef-calc
-    - match: \b(?i:calc)(?=\()
-      scope: meta.function-call.identifier.css support.function.calc.css
-      push:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: calc-function-arguments-content
-
     # clamp()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()
     # max()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/max()
     # min()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/min()
-    - match: \b(?i:clamp|max|min)(?=\()
+    - match: |-
+        \b(?xi: acos | asin | atan2 | atan | calc | clamp | cos | exp | hypot
+        | log | max | min | mod | pow | rem | round | sign | sin | sqrt | tan )(?=\()
       scope: meta.function-call.identifier.css support.function.calc.css
       push:
         - meta_include_prototype: false
@@ -2393,7 +2385,6 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: calc-function-arguments-content
-            - include: comma-delimiters
 
   calc-function-arguments-content:
     - meta_scope: meta.group.css
@@ -2425,6 +2416,7 @@ contexts:
       push: maybe-illegal-operator
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
+    - include: comma-delimiters
 
   toggle-functions:
     # toggle()
