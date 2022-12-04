@@ -237,6 +237,32 @@ some other text
 \skip5 10
 %^^^^^ meta.register.tex
 %      ^^ - meta.register.tex
+%    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\count"AB 10
+%^^^^^^^^ meta.register.tex
+%         ^^ - meta.register.tex
+%     ^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+
+% tricky case: 9 is not an octal digit
+\dimen'569
+%^^^^^^^^ meta.register.tex
+%        ^ - meta.register.tex
+%     ^^^ meta.number.integer.octal.tex constant.numeric.value.tex
+%        ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+% tricky case: 9 is not an octal digit
+\dimen`\a  
+%^^^^^^^^ meta.register.tex
+%        ^ - meta.register.tex
+%     ^^^ meta.number.integer.tex constant.numeric.value.tex
+
+% tricky case: 9 is not an octal digit
+\dimen`16 
+%^^^^^^^ meta.register.tex
+%       ^ - meta.register.tex
+%     ^^ meta.number.integer.tex constant.numeric.value.tex
 
 \counting
 %^^^^^^^^ - meta.register.tex
@@ -341,6 +367,20 @@ some other text
 %         ^ constant.character.tex
 %          ^ keyword.operator.assignment.tex
 %           ^^^^^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+\lccode65='123
+%^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^ keyword.control.character-code.tex
+%      ^^ meta.number.integer.decimal.tex
+%        ^ keyword.operator.assignment.tex
+%          ^^^ meta.number.integer.octal.tex constant.numeric.value.tex
+
+\lccode"AB=`\a
+%^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^ keyword.control.character-code.tex
+%      ^^^ meta.number.integer.hexadecimal.tex
+%         ^ keyword.operator.assignment.tex
+%          ^^^ meta.number.integer.tex constant.numeric.value.tex
 
 % some other assignments
 
