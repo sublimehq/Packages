@@ -40,6 +40,7 @@ first_line_match: |-
   (?xi:
     ^ \#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b            # shebang
   | ^ \s* \# .*? -\*- .*? \bshell(-script)?\b .*? -\*-  # editorconfig
+  | ^ \#(autoload|compdef)\b                            # zsh completions
   )
 
 ###############################################################################
