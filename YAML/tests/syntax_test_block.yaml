@@ -13,17 +13,73 @@
 - |
 # ^ keyword.control.flow.block-scalar.literal
 
-- >
-# ^ keyword.control.flow.block-scalar.folded
-
-- >1
+- |-
 # ^ keyword.control.flow.block-scalar
-#  ^ constant.numeric.indentation-indicator
+#  ^ storage.modifier.chomping-indicator.yaml
 
 - |1-
 # ^ keyword.control.flow.block-scalar
 #  ^ constant.numeric.indentation-indicator
 #   ^ storage.modifier.chomping-indicator
+
+- |-1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- |+
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator.yaml
+
+- |1+
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ storage.modifier.chomping-indicator
+
+- |+1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- |1
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+
+- >
+# ^ keyword.control.flow.block-scalar.folded
+
+- >-
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator.yaml
+
+- >1-
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ storage.modifier.chomping-indicator
+
+- >-1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- >+
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator.yaml
+
+- >1+
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ storage.modifier.chomping-indicator
+
+- >+1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- >1
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+
 
 # Headers and content ################
 - |
