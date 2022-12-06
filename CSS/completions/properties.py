@@ -262,7 +262,12 @@ def get_properties():
             "auto",
         ],
         "columns": ["<calc>", "auto"],
-        "contain": ["content", "layout", "none", "paint", "size", "strict", "style"],
+        "contain": ["content", "layout", "none", "paint", "inline-size", "size", "strict", "style"],
+        "contain-intrinsic-size": ["none", "auto"],
+        "contain-intrinsic-block-size": ["none", "auto"],
+        "contain-intrinsic-height": ["none", "auto"],
+        "contain-intrinsic-inline-size": ["none", "auto"],
+        "contain-intrinsic-width": ["none", "auto"],
         "content": [
             "none",
             "normal",
