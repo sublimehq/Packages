@@ -82,6 +82,7 @@ def get_func_args():
         "scaleX": ["<calc>"],
         "scaleY": ["<calc>"],
         "scaleZ": ["<calc>"],
+        "scroll": ["<axis>", "<scroller>"],
         "skew": ["<calc>"],
         "skewX": ["<calc>"],
         "skewY": ["<calc>"],

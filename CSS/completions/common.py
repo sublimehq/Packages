@@ -23,6 +23,7 @@ def get_common_values():
             "normal",
             "bold",
         ],
+        "axis": ["block", "inline", "vertical", "horizontal"],
         "basic-shape": [
             ["circle()", "circle($1)"],
             ["ellipse()", "ellipse($1)"],
@@ -421,6 +422,7 @@ def get_common_values():
             "round",
             "no-repeat",
         ],
+        "scroller": ["root", "nearest"],
         "self-position": [
             "center",
             "start",

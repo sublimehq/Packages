@@ -2500,6 +2500,18 @@
 /*                                          ^ punctuation.terminator.rule.css */
 }
 
+.test-animation-timeline {
+
+    animation-timeline: scroll(horizontal nearest);
+/*  ^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
+/*                    ^ punctuation.separator.key-value.css */
+/*                      ^^^^^^ variable.function.css */
+/*                            ^ punctuation.section.group.begin.css */
+/*                             ^^^^^^^^^^ support.constant.property-value.css */
+/*                                        ^^^^^^^ support.constant.property-value.css */
+/*                                               ^ punctuation.section.group.end.css */
+}
+
 .test-color-functions {
     color: rgb(1, 4.5%);
 /*         ^^^^^^^^^^^^ - meta.function-call meta.function-call */

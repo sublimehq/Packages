@@ -62,7 +62,11 @@ def get_properties():
         ],
         "animation-play-state": ["running", "paused"],
         "animation-timing-function": ["<calc>", "<timing>"],
-        "animation-timeline": ["auto", "none"],
+        "animation-timeline": [
+            "auto",
+            "none",
+            ["scroll()", "scroll($1)"]
+        ],
         "appearance": ["auto", "menulist-button", "none", "textfield"],
         "aspect-ratio": ["auto"],
         "azimuth": [
