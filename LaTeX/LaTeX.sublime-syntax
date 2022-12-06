@@ -581,16 +581,22 @@ contexts:
     - include: inline-math-ensuremath
 
   inline-math-ensuremath:
-    - match: ((\\)ensuremath)(\{)
+    - match: (\\)ensuremath{{endcs}}
+      scope: support.function.ensuremath.latex
       captures:
-        1: support.function.ensuremath.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-      push: inline-math-ensuremath-body
+        1: punctuation.definition.backslash.latex
+      push: inline-math-ensuremath-begin
+
+  inline-math-ensuremath-begin:
+    - meta_scope: meta.function.ensuremath.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      set: inline-math-ensuremath-body
+    - include: paragraph-pop
 
   inline-math-ensuremath-body:
     - meta_scope: meta.function.ensuremath.latex
-    - meta_content_scope: meta.environment.math.inline.ensuremath.latex
+    - meta_content_scope: meta.environment.math.inline.ensuremath.latex markup.math.inline
     - include: brace-group-end
     - include: math-content
 
@@ -601,6 +607,7 @@ contexts:
 
   inline-math-parens-body:
     - meta_scope: meta.environment.math.inline.paren.latex
+    - meta_content_scope: markup.math.inline
     - include: inline-math-parens-end
     - include: math-content
 
@@ -631,7 +638,7 @@ contexts:
       push: block-math-begin-end-command-body
 
   block-math-begin-end-command-body:
-    - meta_content_scope: meta.environment.math.block.be.latex
+    - meta_content_scope: meta.environment.math.block.be.latex markup.math.block
     - include: block-math-begin-end-command-end
     - include: math-content
 
@@ -652,6 +659,7 @@ contexts:
 
   block-math-brackets-body:
     - meta_scope: meta.environment.math.block.bracket.latex
+    - meta_content_scope: markup.math.block
     - include: block-math-brackets-end
     - include: math-content
 

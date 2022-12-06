@@ -8038,7 +8038,7 @@ $$
 foo = 1 + 2 * \sqrt{a^2+b^2}
 | <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar variable.other.math
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
-|   ^ keyword.operator.assignment
+|   ^ keyword.operator.comparison
 |     ^ constant.numeric.value
 |       ^ keyword.operator.arithmetic
 |         ^ constant.numeric.value
@@ -8047,11 +8047,11 @@ foo = 1 + 2 * \sqrt{a^2+b^2}
 |                  ^^^^^^^^^ meta.group.brace
 |                  ^ punctuation.definition.group.brace.begin
 |                   ^ variable.other.math
-|                    ^ keyword.operator.arithmetic
+|                    ^ punctuation.separator.superscript.tex
 |                     ^ constant.numeric.value
 |                      ^ keyword.operator.arithmetic
 |                       ^ variable.other.math
-|                        ^ keyword.operator.arithmetic
+|                        ^ punctuation.separator.superscript.tex
 |                         ^ constant.numeric.value
 |                          ^ punctuation.definition.group.brace.end
 $$

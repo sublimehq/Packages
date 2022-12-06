@@ -543,6 +543,7 @@ contexts:
 
   inline-math-dollar-body:
     - meta_scope: meta.environment.math.inline.dollar.tex
+    - meta_content_scope: markup.math.inline
     - include: inline-math-dollar-end
     - include: math-content
 
@@ -558,6 +559,7 @@ contexts:
 
   block-math-dollar-body:
     - meta_scope: meta.environment.math.block.dollar.tex
+    - meta_content_scope: markup.math.block
     - include: block-math-dollar-end
     - include: math-content
 
@@ -649,14 +651,16 @@ contexts:
         1: punctuation.definition.backslash.tex
 
   math-operators:
-    - match: '[<>]=?'
+    # note: in math notation, = usually denotes that two terms are equal, instead
+    # of an assignment.
+    - match: '[<>]=?|='
       scope: keyword.operator.comparison.tex
-    - match: '[-+*/^!]'
+    - match: '[-+*/!]'
       scope: keyword.operator.arithmetic.tex
-    - match: =
-      scope: keyword.operator.assignment.tex
     - match: _
-      scope: punctuation.separator.indice.tex
+      scope: punctuation.separator.subscript.tex
+    - match: \^
+      scope: punctuation.separator.superscript.tex
 
   math-braces:
     - match: \{
@@ -677,10 +681,14 @@ contexts:
       scope: punctuation.section.brackets.begin.tex
     - match: \]
       scope: punctuation.section.brackets.end.tex
-    - match: (\\)[{}]
-      scope: constant.character.escape.tex
+    - match: (\\){
+      scope: punctuation.section.braces.begin.tex constant.character.escape.tex
       captures:
-        1: punctuation.definition.escape.tex
+        1: punctuation.definition.backslash.tex
+    - match: (\\)}
+      scope: punctuation.section.braces.end.tex constant.character.escape.tex
+      captures:
+        1: punctuation.definition.backslash.tex
 
   math-numbers:
     - match: \d*(\.)\d+
@@ -692,7 +700,7 @@ contexts:
 
   math-variables:
     - match: '[A-Za-z]+'
-      scope: variable.other.math.tex
+      scope: variable.other.math.tex markup.italic.math.tex
 
 ###[ PROTOTYPES ]##############################################################
 
