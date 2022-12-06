@@ -721,6 +721,8 @@ def get_properties():
         "mask-size": ["<calc>", "auto", "contain", "cover"],
         "mask-type": ["luminance", "alpha"],
         "masonry-auto-flow": ["definite-first", "next", "ordered", "pack"],
+        "math-depth": ["auto-add", ["add()", "add($1)"]],
+        "math-shift": ["compact", "normal"],
         "math-style": ["compact", "normal"],
         "max-block-size": ["<calc>", "none"],
         "max-height": ["<calc>", "fit-content", "none"],
