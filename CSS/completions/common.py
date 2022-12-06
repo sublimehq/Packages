@@ -94,6 +94,8 @@ def get_common_values():
             ["sqrt()", "sqrt($1)"],
             ["tan()", "tan($1)"],
         ],
+        "caret-color": ["auto", "<color>"],
+        "caret-shape": ["auto", "bar", "block", "underscore"],
         "color": [
             "currentColor",
             "transparent",
