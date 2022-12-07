@@ -595,7 +595,7 @@ contexts:
     - match: (\\){{largeops}}{{endcs}}
       scope: keyword.other.math.large-operator.tex
       captures:
-        1: punctuation.definition.backslash.texpunctuation.definition.backslash.tex
+        1: punctuation.definition.backslash.tex
 
   math-binops:
     - match: (\\){{binops}}{{endcs}}
