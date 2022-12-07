@@ -12,7 +12,7 @@ first_line_match: |-
     ^ \s* // .*? -\*- .*? \baction-?script\b .*? -\*-  # editorconfig
   )
 
-###[ Variables ]########################################################################################################
+##[ Variables ]#########################################################################################################
 
 variables:
   classes: |-
@@ -692,8 +692,37 @@ variables:
     | String
     | Void
     )
+  constant_numeric_exponent: |-
+    (?x:
+      [eE]
+      [-+]??
+      \d+
+    )
+  constant_keyboard_inputs: |-
+    (?x:
+      BACKSPACE
+    | CAPSLOCK | CONTROL
+    | DELETEKEY | DOWN
+    | END | ENTER
+    | HOME
+    | INSERT
+    | LEFT | LN10 | LN2 | LOG10E | LOG2E
+    | MAX_VALUE | MIN_VALUE
+    | NEGATIVE_INFINITY | NaN
+    | PGDN | PGUP | PI | POSITIVE_INFINITY
+    | RIGHT
+    | SPACE | SQRT1_2 | SQRT2
+    | UP
+    )
+  constant_language: |-
+    (?x:
+      null
+    | undefined
+    | true
+    | false
+    )
 
-###[ Contexts ]#########################################################################################################
+##[ Contexts ]##########################################################################################################
 
 contexts:
   main:
@@ -719,7 +748,7 @@ contexts:
     - match: \b(?:instanceof)\b
       scope: keyword.operator.actionscript
 
-    - match: "[-!%&*+=/?:]"
+    - match: '[-!%&*+=/?:]'
       scope: keyword.operator.symbolic.actionscript
 
     - match: '^[ \t]*(#)[a-zA-Z]+'
@@ -753,7 +782,7 @@ contexts:
   prototype:
     - include: comments
 
-###[ Comments ]#########################################################################################################
+##[ Comments ]##########################################################################################################
 
   comments:
     - include: line-comments
@@ -793,7 +822,7 @@ contexts:
 
     - include: eol-pop
 
-###[ Strings ]##########################################################################################################
+##[ Strings ]###########################################################################################################
 
   strings:
     - include: double-quoted-strings
@@ -831,7 +860,7 @@ contexts:
     - match: \\.
       scope: constant.character.escape.actionscript
 
-###[ Constants ]########################################################################################################
+##[ Constants ]#########################################################################################################
 
   constants:
     - include: language-constants
@@ -839,58 +868,35 @@ contexts:
     - include: keyboard-input-constants
 
   language-constants:
-    - match: |-
-        (?x:
-          \b(?:
-            null | undefined
-          | true | false
-          )\b
-        )
+    - match: \b{{constant_language}}\b
       scope: constant.language.actionscript
 
   numeric-constants:
+    - match: ([-+]??)(0[xX])(\h*)(L|l|UL|ul|u|U|F|f)?
+      scope: meta.number.integer.hexadecimal.actionscript
+      captures:
+        1: constant.numeric.sign.actionscript
+        2: constant.numeric.base.actionscript
+        3: constant.numeric.value.actionscript
+        4: constant.numeric.suffix.actionscript
+
     - match: |-
         (?x:
-          \b
-          (?:
-            (?:0(?:x|X)[0-9a-fA-F]*)
-          | (?:
-              (?:[0-9]+\.?[0-9]*)
-            | (?:\.[0-9]+)
-            )
-            (?:
-              (?:e|E)
-              (?:\+|-)?
-              [0-9]+
-            )?
-          )
-          (?:L|l|UL|ul|u|U|F|f)?
-          \b
+          (\d+\.?\d*|\.\d+)
+          ({{constant_numeric_exponent}})?
+          (L|l|UL|ul|u|U|F|f)?
         )
-      scope: constant.numeric.actionscript
+      scope: meta.number.actionscript
+      captures:
+        1: constant.numeric.value.actionscript
+        2: constant.numeric.actionscript
+        3: constant.numeric.suffix.actionscript
 
   keyboard-input-constants:
-    - match: |-
-        (?x:
-          \b(?:
-            BACKSPACE
-          | CAPSLOCK | CONTROL
-          | DELETEKEY | DOWN
-          | END | ENTER
-          | HOME
-          | INSERT
-          | LEFT | LN10 | LN2 | LOG10E | LOG2E
-          | MAX_VALUE | MIN_VALUE
-          | NEGATIVE_INFINITY | NaN
-          | PGDN | PGUP | PI | POSITIVE_INFINITY
-          | RIGHT
-          | SPACE | SQRT1_2 | SQRT2
-          | UP
-          )\b
-        )
+    - match: \b{{constant_keyboard_inputs}}\b
       scope: support.constant.actionscript
 
-###[ Prototypes ]#######################################################################################################
+##[ Prototypes ]########################################################################################################
 
   eol-pop:
     - match: '$\n?'
