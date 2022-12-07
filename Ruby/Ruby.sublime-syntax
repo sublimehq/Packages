@@ -542,7 +542,7 @@ contexts:
       push: after-keyword
     # other functions
     - match: \b(?:BEGIN|END)\b(?![?!])
-      scope: entity.name.function.prepocessor.ruby
+      scope: entity.name.function.preprocessor.ruby
     - match: \b(?:defined|block_given)\?
       scope: support.function.builtin.ruby
       push: after-keyword

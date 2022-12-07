@@ -503,7 +503,7 @@ contexts:
     - match: (::)?(BEGIN|CHECK|END|INIT|UNITCHECK)(?=\s*(?:[;#{]|$))
       captures:
         1: invalid.illegal.accessor.perl
-        2: entity.name.function.prepocessor.perl
+        2: entity.name.function.preprocessor.perl
       push: [sub-end, sub-parameters]
 
   sub-path:
@@ -526,7 +526,7 @@ contexts:
       pop: true
     # special functions which are executed at compile time
     - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
-      scope: entity.name.function.prepocessor.perl
+      scope: entity.name.function.preprocessor.perl
       pop: true
     # ordinary function identifier
     - match: (?!{{reserved_words}}){{identifier}}
