@@ -3807,21 +3807,21 @@ state
 
   BEGIN {
 # ^^^^^^ meta.function.perl
-# ^^^^^ entity.name.function.prepocessor.perl
+# ^^^^^ entity.name.function.preprocessor.perl
 #       ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   ::BEGIN {
 # ^^^^^^^^ meta.function.perl
 # ^^ invalid.illegal.accessor.perl
-#   ^^^^^ entity.name.function.prepocessor.perl
+#   ^^^^^ entity.name.function.preprocessor.perl
 #         ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   sub BEGIN {
 # ^^^^^^^^^^ meta.function.perl
 # ^^^ keyword.declaration.function.perl
-#     ^^^^^ entity.name.function.prepocessor.perl
+#     ^^^^^ entity.name.function.preprocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
@@ -3831,59 +3831,59 @@ state
 #            ^ meta.function.perl - meta.path.perl - meta.block
 # ^^^ keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^^^ entity.name.function.prepocessor.perl
+#       ^^^^^ entity.name.function.preprocessor.perl
 #             ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   CHECK {
 # ^^^^^^ meta.function.perl
-# ^^^^^ entity.name.function.prepocessor.perl
+# ^^^^^ entity.name.function.preprocessor.perl
 #       ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   sub CHECK {
 # ^^^^^^^^^^ meta.function.perl
 # ^^^ keyword.declaration.function.perl
-#     ^^^^^ entity.name.function.prepocessor.perl
+#     ^^^^^ entity.name.function.preprocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   END {
 # ^^^^ meta.function.perl
-# ^^^ entity.name.function.prepocessor.perl
+# ^^^ entity.name.function.preprocessor.perl
 #     ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   sub END {
 # ^^^^^^^^ meta.function.perl
 # ^^^ keyword.declaration.function.perl
-#     ^^^ entity.name.function.prepocessor.perl
+#     ^^^ entity.name.function.preprocessor.perl
 #         ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   INIT {
 # ^^^^^ meta.function.perl
-# ^^^^ entity.name.function.prepocessor.perl
+# ^^^^ entity.name.function.preprocessor.perl
 #      ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   sub INIT {
 # ^^^^^^^^^ meta.function.perl
 # ^^^ keyword.declaration.function.perl
-#     ^^^^ entity.name.function.prepocessor.perl
+#     ^^^^ entity.name.function.preprocessor.perl
 #          ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   UNITCHECK {
 # ^^^^^^^^^^ meta.function.perl
-# ^^^^^^^^^ entity.name.function.prepocessor.perl
+# ^^^^^^^^^ entity.name.function.preprocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
   sub UNITCHECK {
 # ^^^^^^^^^^^^^^ meta.function.perl
 # ^^^ keyword.declaration.function.perl
-#     ^^^^^^^^^ entity.name.function.prepocessor.perl
+#     ^^^^^^^^^ entity.name.function.preprocessor.perl
 #               ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
