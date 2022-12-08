@@ -191,7 +191,7 @@ contexts:
       push:
         - character-code-meta
         - character-code-value
-        - character-code-assignment
+        - tex-assignment
         - character-code-number
 
   character-code-meta:
@@ -200,16 +200,7 @@ contexts:
     - include: immediately-pop
 
   character-code-number:
-    - match: (`)(\\)?({{charbycode}}|.)
-      scope: meta.number.integer.tex
-      captures:
-        1: keyword.operator.tex
-        2: punctuation.definition.backslash.tex
-        3: constant.character.tex
-      pop: 1
-    - match: \d+
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
-      set: character-code-assignment
+    - include: tex-simple-integer
     - include: else-pop
     - include: paragraph-pop
 
@@ -221,12 +212,7 @@ contexts:
     - include: paragraph-pop
 
   character-code-value:
-    - match: \d+
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
-      pop: 1
-    - match: '"{{anyhexdigit}}+'
-      scope: meta.number.integer.hexadecimal.tex constant.numeric.value.tex
-      pop: 1
+    - include: tex-simple-integer
     - include: else-pop
     - include: paragraph-pop
 
@@ -352,24 +338,53 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
         2: storage.type.tex
-      push: register-definition-identifier
+      push: 
+        - tex-dimension-value
+        - tex-assignment
+        - register-definition-identifier
 
   register-definition-identifier:
     - meta_scope: meta.register.tex
-    - match: \d+
-      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
-      set:
-        - tex-dimension-value
-        - tex-assignment
-    - match: (\\){{letter}}+
+    - match: (\\){{cmdname}}
       scope: support.function.general.tex
       captures:
         1: punctuation.definition.backslash.tex
-      set:
-        - tex-dimension-value
-        - tex-assignment
+      pop: 1
+    - include: tex-simple-integer
     - include: paragraph-pop
     - include: else-pop
+
+###[ NUMBERS ]##################################################################
+
+  # These match integers/floats that are written in a simple form, i.e. not extending
+  # across lines
+  # we are also not handling the case where there are multiple signs
+
+  tex-simple-integer:
+    - match: ([+-]?)\s*\d+
+      scope: meta.number.integer.decimal.tex constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+      pop: 1
+    - match: ([+-]?)\s*"{{uchexdigit}}+
+      scope: meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+      pop: 1
+    - match: ([+-]?)\s*'[0-7]+
+      scope: meta.number.integer.octal.tex constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+      pop: 1
+    - match: ([+-]?)\s*(`)(\\)?({{charbycode}}|.)
+      scope: meta.number.integer.tex constant.numeric.value.tex
+      captures:
+        1: keyword.operator.arithmetic.tex
+        2: keyword.operator.tex
+        3: punctuation.definition.backslash.tex
+        4: constant.character.tex
+      pop: 1
+
 
 ###[ DIMENSIONS ]###############################################################
 
