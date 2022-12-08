@@ -36,7 +36,7 @@ contexts:
     - match: ^\s*(?=\[)
       push: [key-value-pair, section-header]
 
-##[ SECTION HEADERS ]##################################################
+###[ SECTION HEADERS ]#########################################################
 
   section-header:
     - match: \[
@@ -108,7 +108,7 @@ contexts:
     - match: \]
       scope: invalid.illegal.stray-bracket.git.config
 
-##[ SECTION BODY ]#####################################################
+###[ SECTION BODY ]############################################################
 
   # changed = red
   # untracked = bold green
@@ -141,7 +141,7 @@ contexts:
         - include: line-end
     - include: expect-section
 
-##[ VALUES ]###########################################################
+###[ VALUES ]##################################################################
 
   color-value:
     # example: bold, italic, underline
@@ -205,7 +205,7 @@ contexts:
         - include: line-end
         - include: Git Common.sublime-syntax#pretty-formats-as-arg-minimal
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
 
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
@@ -235,7 +235,7 @@ contexts:
     - match: \S
       scope: invalid.illegal.expected.eol.git.config
 
-##[ ILLEGAL ]##########################################################
+###[ ILLEGAL ]#################################################################
 
   illegal-line-end:
     - match: $\n?
