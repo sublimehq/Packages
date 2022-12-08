@@ -872,13 +872,12 @@ contexts:
       scope: constant.language.actionscript
 
   numeric-constants:
-    - match: ([-+]??)(0[xX])(\h*)(L|l|UL|ul|u|U|F|f)?
+    - match: (0[xX])(\h*)(L|l|UL|ul|u|U|F|f)?
       scope: meta.number.integer.hexadecimal.actionscript
       captures:
-        1: constant.numeric.sign.actionscript
-        2: constant.numeric.base.actionscript
-        3: constant.numeric.value.actionscript
-        4: constant.numeric.suffix.actionscript
+        1: constant.numeric.base.actionscript
+        2: constant.numeric.value.actionscript
+        3: constant.numeric.suffix.actionscript
 
     - match: |-
         (?x:
