@@ -547,6 +547,8 @@ contexts:
     - include: illegal-names
     - include: qualified-name
     - include: illegal-stray-brackets
+    - include: illegal-stray-braces
+    - include: illegal-stray-parens
     - include: line-continuation
 
   case-pattern-capture-targets:
@@ -834,6 +836,8 @@ contexts:
     - include: dictionaries-and-sets
     - include: generators-groups-and-tuples
     - include: illegal-stray-brackets
+    - include: illegal-stray-braces
+    - include: illegal-stray-parens
     - include: line-continuation
 
   # Always include these last and only one at a time!
@@ -1704,13 +1708,17 @@ contexts:
         2: punctuation.section.mapping.end.python
       push: after-expression
 
-  illegal-stray-brackets:
+  illegal-stray-parens:
     - match: \)
-      scope: invalid.illegal.stray.brace.round.python
+      scope: invalid.illegal.stray.python
+
+  illegal-stray-brackets:
     - match: \]
-      scope: invalid.illegal.stray.brace.square.python
+      scope: invalid.illegal.stray.python
+
+  illegal-stray-braces:
     - match: \}
-      scope: invalid.illegal.stray.brace.curly.python
+      scope: invalid.illegal.stray.python
 
   builtin-exceptions:
     - match: '{{builtin_exceptions}}'
@@ -2085,8 +2093,7 @@ contexts:
     - match: \{\s*\}
       scope: invalid.illegal.empty-expression.python
     - include: f-string-replacements
-    - match: \}
-      scope: invalid.illegal.stray-brace.python
+    - include: illegal-stray-braces
 
   f-string-content-with-regex:
     # Same as f-string-content, but will reset the entire scope stack
@@ -2100,8 +2107,7 @@ contexts:
     - match: \{\s*\}
       scope: invalid.illegal.empty-expression.python
     - include: f-string-replacements-reset
-    - match: \}
-      scope: invalid.illegal.stray-brace.python
+    - include: illegal-stray-braces
 
   f-string-replacements:
     - match: \{

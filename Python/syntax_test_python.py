@@ -2193,15 +2193,15 @@ raise KeyError() from z
 
 
 ##################
-# Stray braces
+# Stray brackets
 ##################
 
 )
-# <- invalid.illegal.stray.brace.round
+# <- invalid.illegal.stray
 ]
-# <- invalid.illegal.stray.brace.square
+# <- invalid.illegal.stray
 }
-# <- invalid.illegal.stray.brace.curly
+# <- invalid.illegal.stray
 
 
 
@@ -2368,7 +2368,7 @@ with open(x) as y:
 #            ^^ - invalid
 
 ]
-#<- invalid.illegal.stray.brace.square
+#<- invalid.illegal.stray
 
 class Class(object
     def __init__(self):
