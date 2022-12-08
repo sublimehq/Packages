@@ -702,57 +702,23 @@ contexts:
           scope: punctuation.definition.verb.latex
           pop: true
 
+###[ FONTS ]####################################################################
+
+  # https://en.wikibooks.org/wiki/LaTeX/Fonts#Font_styles
   text-decorators:
-    - match: ((\\)emph)(\{)
+    - match: (\\)textnormal{{endcs}}
+      scope: support.function.textnormal.latex
       captures:
-        1: support.function.emph.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
+        1: punctuation.definition.backslash.latex
       push:
-        - meta_scope: meta.function.emph.latex
-        - meta_content_scope: markup.italic.emph.latex
-        - include: brace-group-end
-        - include: main
-    - match: ((\\)textit)(\{)
-      captures:
-        1: support.function.textit.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.textit.latex
-        - meta_content_scope: markup.italic.textit.latex
-        - include: brace-group-end
-        - include: main
-    - match: ((\\)textbf)(\{)
-      captures:
-        1: support.function.textbf.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.textbf.latex
-        - meta_content_scope: markup.bold.textbf.latex
-        - include: brace-group-end
-        - include: main
-    - match: ((\\)texttt)(\{)
-      captures:
-        1: support.function.texttt.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.texttt.latex
-        - meta_content_scope: markup.raw.texttt.latex
-        - include: brace-group-end
-        - include: main
-    - match: ((\\)textsl)(\{)
-      captures:
-        1: support.function.textsl.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.textsl.latex
-        - meta_content_scope: markup.italic.textsl.latex
-        - include: brace-group-end
-        - include: main
+        - textnormal-meta
+        - text-normal-body
+        - expect-text-markup-open-brace
+
+    - include: text-normal-select-font-family
+    - include: text-normal-select-font-shape
+    - include: text-normal-select-font-weight
+
     - match: ((\\)text)(\{)
       captures:
         1: support.function.text.latex
@@ -761,6 +727,7 @@ contexts:
       push:
         - include: brace-group-end
         - include: main
+
     - match: ((\\)underline)(\{)
       captures:
         1: support.function.text.latex
@@ -771,6 +738,346 @@ contexts:
         - meta_content_scope: markup.underline.underline.latex
         - include: brace-group-end
         - include: main
+
+  text-normal-select-font-family:
+    - match: (\\)textrm{{endcs}}
+      scope: support.function.textrm.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textrm-meta
+        - text-normal-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsf{{endcs}}
+      scope: support.function.textsf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsf-meta
+        - text-normal-body
+        - expect-text-markup-open-brace
+    - match: (\\)texttt{{endcs}}
+      scope: support.function.texttt.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - texttt-meta
+        - texttt-body
+        - expect-text-markup-open-brace
+
+  text-normal-select-font-shape:
+    - match: (\\)textup{{endcs}}
+      scope: support.function.textup.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textup-meta
+        - text-normal-body
+        - expect-text-markup-open-brace
+    - match: (\\)textit{{endcs}}
+      scope: support.function.textit.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textit-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsl{{endcs}}
+      scope: support.function.textsl.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsl-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsc{{endcs}}
+      scope: support.function.textsc.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsc-meta
+        - texttt-body
+        - expect-text-markup-open-brace
+    - match: (\\)emph{{endcs}}
+      scope: support.function.emph.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - emph-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+
+  text-normal-select-font-weight:
+    - match: (\\)textbf{{endcs}}
+      scope: support.function.textbf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textbf-meta
+        - text-bold-body
+        - expect-text-markup-open-brace
+    - match: (\\)textmd{{endcs}}
+      scope: support.function.textmd.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textmd-meta
+        - text-normal-body
+        - expect-text-markup-open-brace
+    - match: (\\)textlf{{endcs}}
+      scope: support.function.textlf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textlf-meta
+        - text-normal-body
+        - expect-text-markup-open-brace
+
+  # utility that waits for the brace, and pops the three contexts
+  # we push for each \text... command otherwise
+  expect-text-markup-open-brace:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      pop: true
+    - match: (?=\S)
+      pop: 3
+
+  textnormal-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textnormal.latex
+    - include: immediately-pop
+
+  textbf-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textbf.latex
+    - include: immediately-pop
+
+  textmd-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textmd.latex
+    - include: immediately-pop
+
+  textlf-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textlf.latex
+    - include: immediately-pop
+
+  textsf-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textsf.latex
+    - include: immediately-pop
+
+  textup-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textup.latex
+    - include: immediately-pop
+
+  textsc-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textsc.latex
+    - include: immediately-pop
+
+  textrm-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textrm.latex
+    - include: immediately-pop
+
+  textit-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textit.latex
+    - include: immediately-pop
+
+  texttt-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.texttt.latex
+    - include: immediately-pop
+
+  textsl-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textsl.latex
+    - include: immediately-pop
+
+  emph-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.emph.latex
+    - include: immediately-pop
+
+  text-normal-body:
+    - include: brace-group-end
+    - include: main
+
+  text-bold-body:
+    - include: brace-group-end
+    - include: text-bold-select-font-family
+    - include: text-bold-select-font-shape
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: text-bold-brace-group-body
+    - include: main
+    - match: .
+      scope: markup.bold.latex
+
+  text-bold-select-font-family:
+    - match: (\\)textrm{{endcs}}
+      scope: support.function.textrm.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textrm-meta
+        - text-bold-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsf{{endcs}}
+      scope: support.function.textsf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsf-meta
+        - text-bold-body
+        - expect-text-markup-open-brace
+    - match: (\\)texttt{{endcs}}
+      scope: support.function.texttt.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - texttt-meta
+        - texttt-body
+        - expect-text-markup-open-brace
+
+  text-bold-select-font-shape:
+    - match: (\\)textup{{endcs}}
+      scope: support.function.textup.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textup-meta
+        - text-bold-body
+        - expect-text-markup-open-brace
+    - match: (\\)textit{{endcs}}
+      scope: support.function.textit.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textit-meta
+        - text-it-and-bf-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsl{{endcs}}
+      scope: support.function.textsl.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsl-meta
+        - text-it-and-bf-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsc{{endcs}}
+      scope: support.function.textsc.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsc-meta
+        - texttt-body
+        - expect-text-markup-open-brace
+    - match: (\\)emph{{endcs}}
+      scope: support.function.emph.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - emph-meta
+        - text-it-and-bf-body
+        - expect-text-markup-open-brace
+
+  text-bold-brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: text-bold-body
+
+  text-italic-body:
+    - include: brace-group-end
+    - include: text-italic-select-font-family
+    - include: text-italic-select-font-weight
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: text-italic-brace-group-body
+    # special support for nested \emph-asis
+    - match: (\\)emph{{endcs}}
+      scope: support.function.emph.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - emph-meta
+        - text-normal-body
+        - brace-group-begin
+    - include: main
+    - match: .
+      scope: markup.italic.latex
+
+  text-italic-select-font-family:
+    - match: (\\)textrm{{endcs}}
+      scope: support.function.textrm.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textrm-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+    - match: (\\)textsf{{endcs}}
+      scope: support.function.textsf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textsf-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+    - match: (\\)texttt{{endcs}}
+      scope: support.function.texttt.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - texttt-meta
+        - texttt-body
+        - expect-text-markup-open-brace
+
+  text-italic-select-font-weight:
+    - match: (\\)textbf{{endcs}}
+      scope: support.function.textbf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textbf-meta
+        - text-it-and-bf-body
+        - expect-text-markup-open-brace
+    - match: (\\)textmd{{endcs}}
+      scope: support.function.textmd.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textmd-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+    - match: (\\)textlf{{endcs}}
+      scope: support.function.textlf.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push:
+        - textlf-meta
+        - text-italic-body
+        - expect-text-markup-open-brace
+
+  text-italic-brace-group-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: text-italic-body
+
+  text-it-and-bf-body:
+    - include: brace-group-end
+    - include: main
+    - match: .
+      scope: markup.bold.latex markup.italic.latex
+
+  texttt-body:
+    - include: brace-group-end
+    - include: main
+    - match: .
+      scope: markup.raw.inline.latex
 
   footnote:
     - match: ((\\)footnote(?:text)?)\b
