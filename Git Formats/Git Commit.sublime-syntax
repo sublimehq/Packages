@@ -8,7 +8,7 @@ version: 2
 
 extends: Git Commit Message.sublime-syntax
 
-file_extensions:
+hidden_file_extensions:
   - COMMIT_EDITMSG
   - MERGE_MSG
   - TAG_EDITMSG

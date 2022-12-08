@@ -11,9 +11,11 @@ scope: text.git.attributes
 version: 2
 
 file_extensions:
-  - attributes                # .git/info/attributes
   - gitattributes             # *.gitattributes
+
+hidden_file_extensions:
   - .gitattributes            # ~/.gitattributes
+  - attributes                # .git/info/attributes
 
 contexts:
 

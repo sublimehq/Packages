@@ -9,7 +9,7 @@ scope: text.git.codeowners
 version: 2
 
 file_extensions:
-  - CODEOWNERS
+  - CODEOWNERS                # *.codeowners, ./CODEOWNERS
 
 contexts:
 
