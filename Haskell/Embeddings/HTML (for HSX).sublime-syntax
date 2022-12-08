@@ -20,7 +20,6 @@ contexts:
 
   cdata-content:
     - meta_prepend: true
-    - meta_include_prototype: false
     - include: haskell-string-interpolations
 
   tag-attribute-value-content:

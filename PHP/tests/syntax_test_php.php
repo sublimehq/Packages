@@ -5598,6 +5598,11 @@ h1 {
 //          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call.js
 //                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
 
+<![CDATA[Text with <? $php ?> interpolation.]]>
+//       ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+//                 ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.embedded.php - string
+//                           ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+
   <?phpzzzz
 //^^ punctuation.section.embedded.begin.php
 //  ^^^^^^^ constant.other.php

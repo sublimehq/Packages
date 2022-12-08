@@ -49,6 +49,10 @@ contexts:
     - include: tag-jsp-other
     - include: tag-jstl
 
+  cdata-content:
+    - meta_prepend: true
+    - include: jsp-interpolations
+
   script-javascript-content:
     - meta_include_prototype: false
     - match: \s*((<!\[)(CDATA)(\[))
