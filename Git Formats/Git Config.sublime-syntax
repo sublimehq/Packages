@@ -8,7 +8,9 @@ scope: text.git.config
 version: 2
 
 file_extensions:
-  - gitconfig                # /etc/gitconfig
+  - gitconfig                # *.gitconfig, /etc/gitconfig
+
+hidden_file_extensions:
   - .gitconfig               # ~/.gitconfig
   - .gitmodules              # ~/.gitmodules
 

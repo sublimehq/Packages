@@ -6,7 +6,7 @@ name: Git Rebase Todo
 scope: text.git.rebase
 version: 2
 
-file_extensions:
+hidden_file_extensions:
   - git-rebase-todo
 
 first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
