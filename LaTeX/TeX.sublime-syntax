@@ -200,7 +200,7 @@ contexts:
     - include: immediately-pop
 
   character-code-number:
-    - include: tex-simple-integer-content
+    - include: tex-simple-integer
     - include: else-pop
     - include: paragraph-pop
 
@@ -212,7 +212,7 @@ contexts:
     - include: paragraph-pop
 
   character-code-value:
-    - include: tex-simple-integer-content
+    - include: tex-simple-integer
     - include: else-pop
     - include: paragraph-pop
 
@@ -350,7 +350,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       pop: 1
-    - include: tex-simple-integer-content
+    - include: tex-simple-integer
     - include: paragraph-pop
     - include: else-pop
 
@@ -360,7 +360,7 @@ contexts:
   # across lines
   # we are also not handling the case where there are multiple signs
 
-  tex-simple-integer-content:
+  tex-simple-integer:
     - match: ([+-]?)\s*\d+
       scope: meta.number.integer.decimal.tex constant.numeric.value.tex
       captures:
