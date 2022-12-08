@@ -807,7 +807,7 @@ F""" {} {\} }
 #^^^ punctuation.definition.string.begin
 #    ^^ invalid.illegal.empty-expression
 #        ^ invalid.illegal.backslash-in-fstring
-#           ^ invalid.illegal.stray-brace
+#           ^ invalid.illegal.stray
 """
 
 fr'''

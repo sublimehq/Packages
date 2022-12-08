@@ -11,9 +11,11 @@ scope: text.git.attributes
 version: 2
 
 file_extensions:
-  - attributes                # .git/info/attributes
   - gitattributes             # *.gitattributes
+
+hidden_file_extensions:
   - .gitattributes            # ~/.gitattributes
+  - attributes                # .git/info/attributes
 
 contexts:
 
@@ -22,7 +24,7 @@ contexts:
     - include: macro
     - include: pattern
 
-##[ MACROS ]###########################################################
+###[ MACROS ]##################################################################
 
   macro:
     - match: (\[)([^-!]\S*)(\])
@@ -33,7 +35,7 @@ contexts:
         3: punctuation.definition.brackets.end.git.attributes
       push: attributes-list
 
-##[ PATH PATTERN ]#####################################################
+###[ PATH PATTERN ]############################################################
 
   pattern:
     # ignore whitespace at the beginning of a line
@@ -69,7 +71,7 @@ contexts:
     - match: ''
       set: attributes-list
 
-##[ ATTRIBUTES LIST ]##################################################
+###[ ATTRIBUTES LIST ]#########################################################
 
   attributes-list:
     - meta_content_scope: meta.attributes-list.git.attributes
@@ -145,7 +147,7 @@ contexts:
     - meta_scope: meta.attribute.other.git.attributes
     - include: immediately-pop
 
-##[ ATTRIBUTE KEY VALUE ]##############################################
+###[ ATTRIBUTE KEY VALUE ]#####################################################
 
   attribute-key:
     - match: \w+[-\w]*\b
@@ -202,7 +204,7 @@ contexts:
       scope: meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
       pop: 1
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
 
   string-content:
     - meta_include_prototype: false

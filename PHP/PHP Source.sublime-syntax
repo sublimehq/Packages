@@ -53,6 +53,7 @@ variables:
     | {{builtin_variables}}
     | function\b
     | as\b
+    | yield\b
     )
 
   keywords: |-
@@ -71,7 +72,7 @@ variables:
     (?xi: case | catch | default | do | (?: end )? (?: for(?:each)? | if | switch | while )
     | else | elseif | finally | switch | try )\b
   flow_keywords: |-
-    (?xi: break | continue | die | exit | finally | goto | return | throw | yield )\b
+    (?xi: break | continue | die | exit | finally | goto | return | throw )\b
 
   # Expression Level Keywords
   builtin_functions: |-
@@ -622,8 +623,6 @@ contexts:
     - meta_scope: comment.block.documentation.phpdoc.php
     - match: \*/
       scope: punctuation.definition.comment.end.php
-      pop: 1
-    - match: (?=\?>)
       pop: 1
 
   phpdoc-block-tag:
@@ -1279,21 +1278,10 @@ contexts:
       scope: keyword.control.flow.return.php
     - match: (?i:throw)\b
       scope: keyword.control.flow.throw.php
-    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
-    - match: (?i:yield)\b
-      scope: keyword.control.flow.yield.php
-      push: yield-from
 
   goto-label:
     - match: '{{guarded_identifier}}'
       scope: variable.label.php
-    - include: comments
-    - include: else-pop
-
-  yield-from:
-    - match: (?i:from)\b
-      scope: keyword.control.flow.yield.php
-      pop: 1
     - include: comments
     - include: else-pop
 
@@ -2164,6 +2152,17 @@ contexts:
       scope: keyword.other.clone.php
     - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
+    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
+    - match: (?i:yield)\b
+      scope: keyword.control.flow.yield.php
+      push: yield-from
+
+  yield-from:
+    - match: (?i:from)\b
+      scope: keyword.control.flow.yield.php
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
@@ -2647,7 +2646,7 @@ contexts:
     - meta_scope: meta.string.php
     - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
-    - include: string-placeholders
+    - include: string-single-quoted-placeholders
     - match: \\[\\'']
       scope: constant.character.escape.php
 
@@ -2697,6 +2696,24 @@ contexts:
         (%)                         # punctuation
         (?: \d+\$ )?                # argnum
         [-+]? (?: [ 0] | '. )?      # flags
+        \d*                         # width
+        (?: (\.) \d* )?             # precision
+        [bcdeEfFgGhHosuxX]          # specifier
+      scope: constant.other.placeholder.php
+      captures:
+        1: punctuation.definition.placeholder.php
+        2: punctuation.separator.decimal.php
+
+  string-single-quoted-placeholders:
+    # https://www.php.net/manual/en/function.printf.php
+    - match: '%%'
+      scope: constant.character.escape.php
+    # %[argnum$][flags][width][.precision]specifier
+    - match: |-
+        (?x)
+        (%)                         # punctuation
+        (?: \d+\$ )?                # argnum
+        [-+]? (?: [ 0] | \\'. )?    # flags
         \d*                         # width
         (?: (\.) \d* )?             # precision
         [bcdeEfFgGhHosuxX]          # specifier

@@ -86,6 +86,20 @@ contexts:
         - ts-namespace-name
     - include: else-pop
 
+  parenthesized-expression:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - meta_scope: meta.group.js
+        - match: \)
+          scope: punctuation.section.group.end.js
+          pop: true
+        # Bail early when we see what looks like a type annotation.
+        - match: '\??:'
+          fail: arrow-function
+        - match: (?=\S)
+          push: expression
+
   branch-possible-arrow-function:
     - meta_prepend: true
     - match: (?=\()
@@ -874,20 +888,8 @@ contexts:
     - include: ts-type-special
     - include: ts-type-primitive
     - include: ts-type-basic
-
-    - match: (?=\<)
-      set:
-        - ts-type-function
-        - ts-generic-function-type-check
-        - ts-type-parameter-list
-
-    - match: (?=\()
-      pop: 1
-      branch_point: ts-function-type
-      branch:
-        - ts-type-function
-        - ts-type-parenthesized
-
+    - include: ts-type-generic-function
+    - include: ts-type-function-or-group
     - include: literal-string
     - include: literal-number
     - include: ts-type-template-string
@@ -896,12 +898,6 @@ contexts:
       scope: keyword.operator.arithmetic.js
 
     - include: else-pop
-
-  ts-generic-function-type-check:
-    - match: (?=\()
-      pop: 1
-    - match: (?=\S)
-      pop: 2
 
   ts-type-tuple:
     - match: \[
@@ -1001,46 +997,82 @@ contexts:
               - ts-type-expression-begin
         - include: string-content
 
-  ts-type-parenthesized:
+  ts-type-generic-function:
+    - match: (?=\<)
+      set:
+        - ts-type-generic-function-parameter-list
+        - ts-type-parameter-list
+
+  ts-type-generic-function-parameter-list:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
-        - - meta_scope: meta.group.js
-          - match: \)
-            scope: punctuation.section.group.end.js
-            pop: 1
-          - match: (?=\S)
-            fail: ts-function-type
+        - ts-type-generic-function-body
+        - ts-type-function-parameter-list-body
+    - include: else-pop
+
+  ts-type-generic-function-body:
+    - include: ts-type-function-arrow
+    - include: else-pop
+
+  ts-type-function-or-group:
+    - match: (?=\()
+      pop: 1
+      branch_point: ts-function-type
+      branch:
+        - ts-type-function-parameter-list
+        - ts-type-group
+
+  ts-type-function-parameter-list:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - ts-type-function-body
+        - ts-type-function-parameter-list-body
+
+  ts-type-function-parameter-list-body:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
+    - match: \.\.\.
+      scope: keyword.operator.spread.js
+    - match: '{{identifier_name}}'
+      scope: variable.parameter.js
+      push:
+        - ts-type-annotation
+        - ts-type-annotation-optional
+    - include: comma-separator
+    - include: else-pop
+
+  ts-type-function-body:
+    - include: ts-type-function-arrow
+    - match: (?=\S)
+      fail: ts-function-type
+
+  ts-type-function-arrow:
+    - match: =>
+      scope: keyword.declaration.function.js
+      set:
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
 
-  ts-type-function:
+  ts-type-group:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
-        - meta_scope: meta.group.js
-        - match: \)
-          scope: punctuation.section.group.end.js
-          set:
-            - match: =>
-              scope: keyword.declaration.function.js
-              set:
-                - ts-type-expression-end
-                - ts-type-expression-end-no-line-terminator
-                - ts-type-expression-begin
-            - match: (?=\S)
-              fail: ts-function-type
-        - include: comma-separator
-        - match: '\.\.\.'
-          scope: keyword.operator.spread.js
-        - match: '{{identifier_name}}'
-          scope: variable.parameter.js
-          push:
-            - ts-type-annotation
-            - ts-type-annotation-optional
-        - match: (?=\S)
-          fail: ts-function-type
+        - ts-type-group-end
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
+  ts-type-group-end:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
+    - include: else-pop
 
   object-literal-contents:
     - meta_prepend: true

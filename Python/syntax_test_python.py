@@ -1970,9 +1970,9 @@ generator = ((k1, k2, v) for ((k1, k2), v) in xs)
 #            ^^^^^^^^^^^ meta.sequence.tuple.python
 #           ^^ punctuation.section.sequence.begin.python
 #                      ^ punctuation.section.sequence.end.python
-#                            ^^ punctuation.section.target-list.begin.python
-#                                    ^ punctuation.section.target-list.end.python
-#                                        ^ punctuation.section.target-list.end.python
+#                            ^^ punctuation.section.tuple.begin.python
+#                                    ^ punctuation.section.tuple.end.python
+#                                        ^ punctuation.section.tuple.end.python
 #                                               ^ punctuation.section.sequence.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
@@ -1982,9 +1982,9 @@ list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #       ^ punctuation.section.sequence.begin.python
 #        ^ punctuation.section.sequence.begin.python
 #                  ^ punctuation.section.sequence.end.python
-#                        ^^ punctuation.section.target-list.begin.python
-#                                ^ punctuation.section.target-list.end.python
-#                                    ^ punctuation.section.target-list.end.python
+#                        ^^ punctuation.section.tuple.begin.python
+#                                ^ punctuation.section.tuple.end.python
+#                                    ^ punctuation.section.tuple.end.python
 #                                           ^ punctuation.section.sequence.end.python
 
 dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
@@ -1993,9 +1993,9 @@ dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 #            ^^^^^^^ meta.sequence.tuple.python
 #            ^ punctuation.section.sequence.begin.python
 #                  ^ punctuation.section.sequence.end.python
-#                        ^^ punctuation.section.target-list.begin.python
-#                                ^ punctuation.section.target-list.end.python
-#                                    ^ punctuation.section.target-list.end.python
+#                        ^^ punctuation.section.tuple.begin.python
+#                                ^ punctuation.section.tuple.end.python
+#                                    ^ punctuation.section.tuple.end.python
 #                                           ^ punctuation.section.mapping.end.python
 
 list_ = [lambda: 1 for i in range(10)]
@@ -2161,7 +2161,7 @@ except (KeyError, NameError) as e:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch
 #^^^^^ keyword.control.exception.catch
 #       ^^^^^^^^ support.type.exception
-#               ^ punctuation.separator.target-list
+#               ^ punctuation.separator.sequence
 #                 ^^^^^^^^^ support.type.exception
 #                            ^^ keyword.control.exception.catch.as
 #                                ^ punctuation.section.block
@@ -2193,15 +2193,15 @@ raise KeyError() from z
 
 
 ##################
-# Stray braces
+# Stray brackets
 ##################
 
 )
-# <- invalid.illegal.stray.brace.round
+# <- invalid.illegal.stray
 ]
-# <- invalid.illegal.stray.brace.square
+# <- invalid.illegal.stray
 }
-# <- invalid.illegal.stray.brace.curly
+# <- invalid.illegal.stray
 
 
 
@@ -2368,7 +2368,7 @@ with open(x) as y:
 #            ^^ - invalid
 
 ]
-#<- invalid.illegal.stray.brace.square
+#<- invalid.illegal.stray
 
 class Class(object
     def __init__(self):

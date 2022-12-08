@@ -695,12 +695,14 @@ contexts:
   block-scalar:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/scalar
     # c-l+literal(n) | c-l+folded(n)
-    - match: (?:(\|)|(>))([1-9])?([-+])?  # c-b-block-header(m,t)
+    - match: (?:(\|)|(>))(?:([1-9])([-+])|([-+])?([1-9])?)  # c-b-block-header(m,t)
       captures:
         1: keyword.control.flow.block-scalar.literal.yaml
         2: keyword.control.flow.block-scalar.folded.yaml
         3: constant.numeric.indentation-indicator.yaml
         4: storage.modifier.chomping-indicator.yaml
+        5: storage.modifier.chomping-indicator.yaml
+        6: constant.numeric.indentation-indicator.yaml
       push: block-scalar-begin
 
   block-scalar-begin:

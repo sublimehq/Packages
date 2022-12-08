@@ -40,7 +40,7 @@ jobs:
           # latest stable build
           # https://www.sublimetext.com/download
           - sublime-channel: stable
-            sublime-build: 4126
+            sublime-build: 4143
             optional: true
 
           # latest dev build

@@ -52,6 +52,7 @@ variables:
 contexts:
   prototype:
     - include: comments
+    - include: preprocessor_region
     - match: '^\s*((#)\s*)'
       captures:
         1: keyword.other.preprocessor.cs
@@ -118,14 +119,6 @@ contexts:
       captures:
         1: keyword.other.preprocessor.cs
         2: string.unquoted.cs
-    - match: '\b(region)\b\s*(.*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: entity.name.section.cs
-    - match: '\b(endregion)\b\s*(.*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: variable.other.section.cs
 
     - match: '\b(line)\s+(default|hidden)\b'
       captures:
@@ -183,6 +176,26 @@ contexts:
       scope: invalid.illegal.cs
     - match: $
       pop: true
+
+  preprocessor_region:
+    - match: '^\s*(#)\s*(region)\b\s*(\S.*)'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+        3: entity.name.section.cs meta.fold.begin.cs
+    - match: '^\s*(#)\s*(region)\b\s*'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs meta.fold.begin.cs
+    - match: '^\s*(#)\s*(endregion)\b[^\S\n]*(.*)($\n?)'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+        3: variable.other.section.cs
+        4: meta.fold.end.cs
 
   # Pops out at the end of the line and handles comments.
   # Marks the rest of the line as invalid.
