@@ -851,7 +851,7 @@ contexts:
 
   single-quoted-string-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.single.actionscript
+    - meta_scope: meta.string.actionscript string.quoted.single.actionscript
 
     - match: \'
       scope: punctuation.definition.string.end.actionscript
