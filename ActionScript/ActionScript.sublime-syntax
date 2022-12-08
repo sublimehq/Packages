@@ -835,7 +835,7 @@ contexts:
 
   double-quoted-string-content:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.actionscript
+    - meta_scope: meta.string.actionscript string.quoted.double.actionscript
 
     - match: \"
       scope: punctuation.definition.string.end.actionscript
