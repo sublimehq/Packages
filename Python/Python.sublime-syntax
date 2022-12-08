@@ -2845,7 +2845,6 @@ contexts:
       scope: keyword.control.loop.for.in.python
       pop: true
     - match: (?=[)\]}])
-      scope: invalid.illegal.missing-in.python
       pop: true
     - include: comments
     - include: illegal-name
