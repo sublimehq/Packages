@@ -149,7 +149,7 @@ variables:
     | issubclass | iter | len | locals | map | max | min | next | oct | open
     | ord | pow | property | range | repr | reversed | round | setattr | sorted
     | staticmethod | sum | super | type | vars | zip
-      # Python 2 functions
+    # Python 2 functions
     | apply | cmp | coerce | execfile | intern | raw_input | reduce | reload
     | unichr | xrange
     # Python 3 functions
@@ -165,6 +165,73 @@ variables:
     # Python 2 types prone to conflicts
     # | buffer | file
     )\b
+
+  magic_functions: |-
+    (?x: \b__(?:
+    # unary operators
+    invert | neg | pos | abs
+    # binary operators
+    | add | and | contains | div | divmod | floordiv | lshift | mod | mul | or
+    | pow | rshift | sub | truediv | xor
+    # right-hand binary operators
+    | radd | rand | rdiv | rdivmod | rfloordiv | rlshift | rmod | rmul | ror
+    | rpow | rrshift | rsub | rtruediv | rxor
+    # in-place operator assignments
+    | iadd | iand | idiv | ifloordiv | ilshift | imod | imul | ior | ipow
+    | irshift | isub | itruediv | ixor
+    # comparisons
+    | eq | ge | gt | le | lt | ne
+    | cmp | rcmp  # py2
+    # primary coercion
+    | bool | str
+    | nonzero | unicode  # py2
+    # number coercion (converts something to a number)
+    | bytes | complex | float | index | int | round
+    | long  # py2
+    # other "coercion"
+    | format | len | length_hint | hash | repr | reversed
+    | coerce | hex | oct  # py2
+    | fspath
+    # iterator (and 'await')
+    | iter | next
+    | aiter | anext
+    | await
+    # attribute and item access
+    | delattr | delitem | delslice
+    | getattr | getattribute | getitem | getslice
+    | setattr | setitem | setslice
+    | dir | missing
+    # context manager
+    | enter | exit
+    | aenter | aexit
+    # other class magic
+    | call | del | init | new | init_subclass
+    | instancecheck | subclasscheck
+    # pickling
+    | getnewargs | getnewargs_ex | getstate | setstate | reduce | reduce_ex
+    # descriptors
+    | delete | get | set | set_name
+    # class-specific
+    | subclasses
+    # dataclasses (PEP 557)
+    | post_init
+    # for typing core support (PEP 560)
+    | class_getitem | mro_entries
+    )__\b )
+
+  magic_variables: |-
+    (?x: \b__(?:
+    # generic object
+    class | dict | doc | module | name
+    # module-specific / global
+    | all | file | package
+    # functions & methods
+    | annotations | closure | code | defaults | func | globals | kwdefaults | self | qualname
+    # classes (attributes)
+    | bases | prepare | slots | metaclass | mro
+    # Python 2
+    | members | methods
+    )__\b )
 
 contexts:
   main:
@@ -1884,59 +1951,10 @@ contexts:
       pop: true
 
   magic-function-names:
+    # these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
     # https://docs.python.org/2/reference/datamodel.html
     # https://docs.python.org/3/reference/datamodel.html
-    - match: |-
-        (?x)\b__(?:
-          # unary operators
-          invert|neg|pos|abs|
-          # binary operators
-          add|and|div|divmod|floordiv|lshift|mod|mul|or|pow|rshift|sub|truediv|xor|
-          contains|
-          # right-hand binary operators
-          radd|rand|rdiv|rdivmod|rfloordiv|rlshift|rmod|rmul|ror|rpow|rrshift|rsub|rtruediv|rxor|
-          # in-place operator assignments
-          iadd|iand|idiv|ifloordiv|ilshift|imod|imul|ior|ipow|irshift|isub|itruediv|ixor|
-          # comparisons
-          eq|ge|gt|le|lt|ne|
-          cmp|rcmp| # py2
-          # primary coercion
-          bool|str|
-          nonzero|unicode| # py2
-          # number coercion (converts something to a number)
-          bytes|complex|float|index|int|round|
-          long| # py2
-          # other "coercion"
-          format|len|length_hint|hash|repr|reversed|
-          coerce|hex|oct| # py2
-          fspath|
-          # iterator (and 'await')
-          iter|next|
-          aiter|anext|
-          await|
-          # attribute and item access
-          delattr|delitem|delslice|
-          getattr|getattribute|getitem|getslice|
-          setattr|setitem|setslice|
-          dir|missing|
-          # context manager
-          enter|exit|
-          aenter|aexit|
-          # other class magic
-          call|del|init|new|init_subclass|
-          instancecheck|subclasscheck|
-          # pickling
-          getnewargs|getnewargs_ex|getstate|setstate|reduce|reduce_ex|
-          # descriptors
-          delete|get|set|set_name|
-          # class-specific
-          subclasses|
-          # dataclasses (PEP 557)
-          post_init|
-          # for typing core support (PEP 560)
-          class_getitem|mro_entries
-        )__\b
-      comment: these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
+    - match: '{{magic_functions}}'
       scope: support.function.magic.python
 
   magic-variable-names:
@@ -1944,19 +1962,7 @@ contexts:
     # https://docs.python.org/3/library/inspect.html#types-and-members
     # https://docs.python.org/3/reference/datamodel.html#object.__slots__
     # https://docs.python.org/3/reference/datamodel.html#preparing-the-class-namespace
-    - match: |-
-        (?x)\b__(?:
-          # generic object
-          class|dict|doc|module|name|
-          # module-specific / global
-          all|file|package|
-          # functions & methods
-          annotations|closure|code|defaults|func|globals|kwdefaults|self|qualname|
-          # classes (attributes)
-          bases|prepare|slots|metaclass|mro|
-          # Python 2
-          members|methods
-        )__\b
+    - match: '{{magic_variables}}'
       scope: support.variable.magic.python
 
 ###[ DOCSTRINGS ]#############################################################
