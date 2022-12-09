@@ -201,6 +201,15 @@ contexts:
       scope: punctuation.terminator.statement.python
     - include: expression-as-a-statement
 
+  block-statements:
+    - include: case-statements
+    - include: conditional-statements
+    - include: exception-statements
+    - include: for-statements
+    - include: match-statements
+    - include: while-statements
+    - include: with-statements
+
   line-statements:
     - include: imports
     - include: decorators
@@ -237,7 +246,7 @@ contexts:
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
 
-###[ IMPORTS ]################################################################
+###[ IMPORT STATEMENTS ]######################################################
 
   imports:
     - match: \bimport\b
@@ -383,97 +392,6 @@ contexts:
       scope: meta.import-path.python keyword.control.import.relative.python
     - match: (?=\S)
       pop: true
-
-###[ STATEMENTS ]#############################################################
-
-  block-statements:
-    # async for ... in ...:
-    - match: \b(async +)?(for)\b
-      captures:
-        1: storage.modifier.async.python
-        2: keyword.control.loop.for.python
-      push:
-        - meta_scope: meta.statement.loop.for.python
-        - include: line-continuation-or-pop
-        - match: \bin\b
-          scope: keyword.control.loop.for.in.python
-          set:
-            - meta_content_scope: meta.statement.loop.for.python
-            - include: line-continuation-or-pop
-            - match: ':(?!=)'
-              scope: meta.statement.loop.for.python punctuation.section.block.loop.for.python
-              pop: true
-            - include: expression-in-a-statement
-        - match: ':(?!=)'
-          scope: invalid.illegal.missing-in.python
-          pop: true
-        - include: target-lists
-    # async with ... as ...:
-    - include: with-statements
-    # except ... as ...:
-    - match: \bexcept\b
-      scope: keyword.control.exception.catch.python
-      push:
-        - meta_scope: meta.statement.exception.catch.python
-        - include: line-continuation-or-pop
-        - match: ':(?!=)'
-          scope: punctuation.section.block.exception.catch.python
-          pop: true
-        - match: '\bas\b'
-          scope: keyword.control.exception.catch.as.python
-          set:
-            - meta_content_scope: meta.statement.exception.catch.python
-            - include: line-continuation-or-pop
-            - match: ':'
-              scope: meta.statement.exception.catch.python punctuation.section.block.exception.catch.python
-              pop: true
-            - include: name
-        - include: target-lists
-    - match: \bif\b
-      scope: keyword.control.conditional.if.python
-      push:
-        - meta_scope: meta.statement.conditional.if.python
-        - include: line-continuation-or-pop
-        - match: ':(?!=)'
-          scope: punctuation.section.block.conditional.if.python
-          pop: true
-        - include: expression-in-a-statement
-    - match: \bwhile\b
-      scope: keyword.control.loop.while.python
-      push:
-        - meta_scope: meta.statement.loop.while.python
-        - include: line-continuation-or-pop
-        - match: ':(?!=)'
-          scope: punctuation.section.block.loop.while.python
-          pop: true
-        - include: expression-in-a-statement
-    - match: \b(else)\b(?:\s*(:))?
-      scope: meta.statement.conditional.else.python
-      captures:
-        1: keyword.control.conditional.else.python
-        2: punctuation.section.block.conditional.else.python
-    - match: \b(try)\b(?:\s*(:))?
-      scope: meta.statement.exception.try.python
-      captures:
-        1: keyword.control.exception.try.python
-        2: punctuation.section.block.exception.try.python
-    - match: \b(finally)\b(?:\s*(:))?
-      scope: meta.statement.exception.finally.python
-      captures:
-        1: keyword.control.exception.finally.python
-        2: punctuation.section.block.exception.finally.python
-    - match: \belif\b
-      scope: keyword.control.conditional.elseif.python
-      push:
-        - meta_scope: meta.statement.conditional.elseif.python
-        - match: ':(?!=)'
-          scope: punctuation.section.block.conditional.elseif.python
-          pop: true
-        - match: $\n?
-          pop: true
-        - include: expression-in-a-statement
-    - include: case-statements
-    - include: match-statements
 
 ###[ CASE STATEMENTS ]########################################################
 
@@ -694,6 +612,101 @@ contexts:
       pop: true
     - include: case-pattern-expressions
 
+###[ CONDITIONAL STATEMENTS ]#################################################
+
+  conditional-statements:
+    - match: \bif\b
+      scope: keyword.control.conditional.if.python
+      push: if-statement-condition
+    - match: \belif\b
+      scope: keyword.control.conditional.elseif.python
+      push: elif-statement-condition
+    - match: \b(else)\b(?:\s*(:))?
+      scope: meta.statement.conditional.else.python
+      captures:
+        1: keyword.control.conditional.else.python
+        2: punctuation.section.block.conditional.else.python
+
+  if-statement-condition:
+    - meta_scope: meta.statement.conditional.if.python
+    - match: ':(?!=)'
+      scope: punctuation.section.block.conditional.if.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: expression-in-a-statement
+
+  elif-statement-condition:
+    - meta_scope: meta.statement.conditional.elseif.python
+    - match: ':(?!=)'
+      scope: punctuation.section.block.conditional.elseif.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: expression-in-a-statement
+
+###[ EXCEPTION STATEMENTS ]###################################################
+
+  exception-statements:
+    - match: \b(try)\b(?:\s*(:))?
+      scope: meta.statement.exception.try.python
+      captures:
+        1: keyword.control.exception.try.python
+        2: punctuation.section.block.exception.try.python
+    - match: \b(finally)\b(?:\s*(:))?
+      scope: meta.statement.exception.finally.python
+      captures:
+        1: keyword.control.exception.finally.python
+        2: punctuation.section.block.exception.finally.python
+    - match: \bexcept\b
+      scope: keyword.control.exception.catch.python
+      push: except-statement-exception-list
+
+  except-statement-exception-list:
+    - meta_scope: meta.statement.exception.catch.python
+    - match: ':(?!=)'
+      scope: punctuation.section.block.exception.catch.python
+      pop: true
+    - match: \bas\b
+      scope: keyword.control.exception.catch.as.python
+      set: except-statement-as
+    - include: line-continuation-or-pop
+    - include: target-lists
+
+  except-statement-as:
+    - meta_content_scope: meta.statement.exception.catch.python
+    - match: ':'
+      scope: meta.statement.exception.catch.python punctuation.section.block.exception.catch.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: name
+
+###[ FOR STATEMENTS ]#########################################################
+
+  for-statements:
+    - match: \b(?:(async)\s+)?(for)\b
+      captures:
+        1: storage.modifier.async.python
+        2: keyword.control.loop.for.python
+      push: for-statement-target-list
+
+  for-statement-target-list:
+    - meta_scope: meta.statement.loop.for.python
+    - match: ':(?!=)'
+      scope: invalid.illegal.missing-in.python
+      pop: true
+    - match: \bin\b
+      scope: keyword.control.loop.for.in.python
+      set: for-statement-in
+    - include: line-continuation-or-pop
+    - include: target-lists
+
+  for-statement-in:
+    - meta_content_scope: meta.statement.loop.for.python
+    - match: ':(?!=)'
+      scope: meta.statement.loop.for.python punctuation.section.block.loop.for.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: expression-in-a-statement
+
 ###[ MATCH STATEMENTS ]#######################################################
 
   match-statements:
@@ -757,10 +770,25 @@ contexts:
         - qualified-name-until-leaf
     - include: generic-name
 
+###[ WHILE STATEMENTS ]#######################################################
+
+  while-statements:
+    - match: \bwhile\b
+      scope: keyword.control.loop.while.python
+      push: while-statement-condition
+
+  while-statement-condition:
+    - meta_scope: meta.statement.loop.while.python
+    - match: ':(?!=)'
+      scope: punctuation.section.block.loop.while.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: expression-in-a-statement
+
 ###[ WITH STATEMENTS ]########################################################
 
   with-statements:
-    - match: \b(?:(async) +)?(with)\b
+    - match: \b(?:(async)\s+)?(with)\b
       captures:
         1: storage.modifier.async.python
         2: keyword.control.flow.with.python
