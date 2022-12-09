@@ -257,15 +257,13 @@ contexts:
         - meta_content_scope: variable.annotation.python
         - include: dotted-name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
     - match: ''
       set:
         - meta_scope: meta.qualified-name.python variable.annotation.python
         - include: name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
 
   decorator-function-call-wrapper:
     - meta_scope: meta.annotation.function.python
@@ -283,15 +281,13 @@ contexts:
         - meta_content_scope: variable.annotation.function.python
         - include: dotted-name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
     - match: ''
       push:
         - meta_scope: meta.qualified-name.python variable.annotation.function.python
         - include: name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
 
   decorator-function-call-arguments:
     - clear_scopes: 1
@@ -344,8 +340,7 @@ contexts:
       captures:
         0: meta.import-path.python
         1: invalid.illegal.name.python
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   imports-from-import:
     - meta_include_prototype: false
@@ -389,8 +384,7 @@ contexts:
     - match: (?={{identifier}})
       set: name-content
     - include: import-illegal-names-inlist
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   import-illegal-names-inlist:
     - match: '[^\s,)]+'
@@ -413,8 +407,7 @@ contexts:
     - match: (?={{identifier}})
       set: name-content
     - include: import-illegal-names
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   import-illegal-names:
     - match: '[^\s,]+'
@@ -437,15 +430,13 @@ contexts:
     - include: line-continuation-or-pop
     - match: \.+
       scope: invalid.illegal.unexpected-relative-import.python
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   maybe-relative-import:
     - include: line-continuation-or-pop
     - match: \.+
       scope: meta.import-path.python keyword.control.import.relative.python
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
 ###[ CASE STATEMENTS ]########################################################
 
@@ -526,8 +517,7 @@ contexts:
     - include: wildcard-variable
     - include: illegal-name
     - include: generic-name
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   case-pattern-classes:
     - match: (?=(\.\s*)?{{path}}\s*\()
@@ -1001,8 +991,7 @@ contexts:
         - include: magic-variable-names
         - include: illegal-names
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
 
   after-expression:
     # direct function call
@@ -1036,10 +1025,8 @@ contexts:
         - include: magic-variable-names
         - include: illegal-names
         - include: generic-names
-        - match: ''
-          pop: true
-    - match: ''
-      pop: true
+        - include: immediately-pop
+    - include: immediately-pop
 
   constants:
     - include: booleans
@@ -1224,8 +1211,7 @@ contexts:
     - match: \*
       scope: keyword.operator.unpacking.sequence.python
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
     - match: ^(?!\s*[#*])
       pop: true
 
@@ -1243,8 +1229,7 @@ contexts:
           push:
             - meta_content_scope: entity.name.class.python
             - include: entity-name-class
-            - match: ''
-              pop: true
+            - include: immediately-pop
         - match: \(
           scope: punctuation.section.inheritance.begin.python
           set:
@@ -1256,8 +1241,7 @@ contexts:
                 - match: ':'
                   scope: meta.class.python punctuation.section.class.begin.python
                   pop: true
-                - match: (?=\S)
-                  pop: true
+                - include: else-pop
             - match: ':'
               scope: invalid.illegal.no-closing-parens.python
               pop: true
@@ -1279,8 +1263,7 @@ contexts:
                 - match: '{{identifier}}'
                   scope: entity.other.inherited-class.python
                   pop: true
-                - match: ''
-                  pop: true
+                - include: immediately-pop
             - match: '{{identifier}}'
               scope: entity.other.inherited-class.python
             - include: expression-in-a-group
@@ -1300,8 +1283,7 @@ contexts:
           push:
             - meta_content_scope: entity.name.function.python
             - include: entity-name-function
-            - match: ''
-              pop: true
+            - include: immediately-pop
         - match: '(?=\()'
           set:
             - match: \(
@@ -1447,15 +1429,13 @@ contexts:
         - meta_content_scope: variable.function.python
         - include: dotted-name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
     - match: (?={{identifier}})
       push:
         - meta_scope: meta.qualified-name.python variable.function.python
         - include: name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
 
   function-call-arguments:
     - meta_scope: meta.function-call.arguments.python
@@ -1792,8 +1772,7 @@ contexts:
     - match: '{{identifier_constant}}'
       scope: variable.other.constant.python
     - include: generic-names
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   dotted-name:
     - match: \s*(\.)\s*(?={{identifier}})
@@ -1806,8 +1785,7 @@ contexts:
     - match: '{{identifier_constant}}'
       scope: variable.other.constant.python
     - include: generic-names
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   qualified-name:
     - match: (?={{path}})
@@ -1819,8 +1797,7 @@ contexts:
     - meta_scope: meta.qualified-name.python
     - include: name
     - include: dotted-name
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   qualified-name-until-leaf:
     # Push this together with another context to match a qualified name
@@ -1832,16 +1809,14 @@ contexts:
       push:
         - include: name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
     - match: (\.)\s*(?={{identifier}}\s*(\.|\\))
       captures:
         1: punctuation.accessor.dot.python
       push:
         - include: dotted-name-specials
         - include: generic-names
-        - match: ''
-          pop: true
+        - include: immediately-pop
     - match: \.(?!\s*{{identifier}})  # don't match last dot
       scope: punctuation.accessor.dot.python
     - match: (?=\S|$)
@@ -1900,27 +1875,6 @@ contexts:
   wildcard-variable:
     - match: _(?!{{identifier_continue}})
       scope: variable.language.anonymous.python
-      pop: true
-
-  line-continuation:
-    - match: (\\)(.*)$\n?
-      captures:
-        1: punctuation.separator.continuation.line.python
-        2: invalid.illegal.unexpected-text.python
-    # make sure to resume parsing at next line
-      push:
-        # This prevents strings after a continuation from being a docstring
-        - include: strings
-        - match: (?=\S|^\s*$|\n)  # '\n' for when we matched a string earlier
-          pop: true
-
-  line-continuation-or-pop:
-    - include: line-continuation
-    - match: (?=\s*($|;|#))
-      pop: true
-
-  else-pop:
-    - match: (?=\S)
       pop: true
 
   magic-function-names:
@@ -3073,8 +3027,7 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.python
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   f-string-replacement-expression:
     - meta_content_scope: source.python.embedded
@@ -3115,8 +3068,7 @@ contexts:
     - clear_scopes: true
     - meta_include_prototype: false
     - meta_scope: source.python meta.string.interpolated.python meta.interpolation.python
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
   f-string-replacement-regexp-expression:
     - meta_content_scope: source.python.embedded
@@ -3192,3 +3144,33 @@ contexts:
       pop: true
     - include: comments
     - include: target-lists
+
+###[ PROTOTYPES ]#############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+  line-continuation-or-pop:
+    - include: line-continuation
+    - match: (?=\s*(\n|;|#))
+      pop: true
+
+  line-continuation:
+    - match: (\\)(.*)$\n?
+      captures:
+        1: punctuation.separator.continuation.line.python
+        2: invalid.illegal.unexpected-text.python
+    # make sure to resume parsing at next line
+      push: inside-line-continuation
+
+  inside-line-continuation:
+    - meta_include_prototype: false
+    # This prevents strings after a continuation from being a docstring
+    - include: strings
+    - match: (?=\S|^\s*$|\n)  # '\n' for when we matched a string earlier
+      pop: true
