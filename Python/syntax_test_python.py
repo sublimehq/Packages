@@ -1675,9 +1675,9 @@ def name(p1, p2, /): pass
 ##################
 
 class MyClass():
-#^^^^^^^^^^^^^^^ meta.class
-#            ^^ meta.class.inheritance
-#              ^ punctuation.section.class.begin
+#^^^^^^^^^^^^ meta.class.python - meta.class meta.class
+#            ^^ meta.class.inheritance.python - meta.class meta.class
+#              ^ meta.class.python - meta.class meta.class punctuation.section.class.begin
     def my_func(self, param1, # Multi-line function definition
 #                             ^ comment.line.number-sign
         # This is defaulted

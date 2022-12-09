@@ -176,7 +176,7 @@ contexts:
     - include: docstrings
     - include: line-statements
     - include: block-statements
-    - include: classes
+    - include: class-definitions
     - include: functions
     - include: modifiers
     - include: assignments
@@ -437,6 +437,69 @@ contexts:
     - match: \.+
       scope: meta.import-path.python keyword.control.import.relative.python
     - include: else-pop
+
+###[ CLASS DEFINITIONS ]######################################################
+
+  class-definitions:
+    - match: ^\s*(class)\b
+      captures:
+        1: keyword.declaration.class.python
+      push: class-definition-name
+
+  class-definition-name:
+    - meta_scope: meta.class.python
+    - match: (?=\()
+      set: class-definition-base-list
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: entity.name.class.python
+    - include: class-definition-end
+
+  class-definition-base-list:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.inheritance.begin.python
+      set: inside-class-definition-base-list
+
+  inside-class-definition-base-list:
+    - meta_scope: meta.class.inheritance.python
+    - match: \)
+      scope: punctuation.section.inheritance.end.python
+      set: class-definition-end
+    - match: ':'
+      scope: invalid.illegal.no-closing-parens.python
+      pop: true
+    - match: ','
+      scope: punctuation.separator.inheritance.python
+    - include: illegal-name
+    - include: constants
+    - match: (?:({{identifier}}) *)(=)
+      captures:
+        1: variable.parameter.class-inheritance.python
+        2: keyword.operator.assignment.python
+    - match: (?={{identifier}} *\.)
+      push: qualified-base-class-name
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.python
+    - include: expression-in-a-group
+
+  qualified-base-class-name:
+    - meta_scope: meta.path.python
+    - match: '({{identifier}}) *(\.) *'
+      captures:
+        1: variable.namespace.python
+        2: punctuation.accessor.dot.python
+    - match: '{{identifier}}'
+      scope: entity.other.inherited-class.python
+      pop: true
+    - include: immediately-pop
+
+  class-definition-end:
+    - meta_content_scope: meta.class.python
+    - match: ':'
+      scope: meta.class.python punctuation.section.class.begin.python
+      pop: true
+    - include: line-continuation-or-pop
 
 ###[ CASE STATEMENTS ]########################################################
 
@@ -1215,59 +1278,6 @@ contexts:
     - match: ^(?!\s*[#*])
       pop: true
 
-  classes:
-    - match: '^\s*(class)\b'
-      captures:
-        1: keyword.declaration.class.python
-      push:
-        - meta_scope: meta.class.python
-        - include: line-continuation-or-pop
-        - match: ':'
-          scope: punctuation.section.class.begin.python
-          pop: true
-        - match: "(?={{identifier}})"
-          push:
-            - meta_content_scope: entity.name.class.python
-            - include: entity-name-class
-            - include: immediately-pop
-        - match: \(
-          scope: punctuation.section.inheritance.begin.python
-          set:
-            - meta_scope: meta.class.inheritance.python
-            - match: \)
-              scope: punctuation.section.inheritance.end.python
-              set:
-                - include: line-continuation-or-pop
-                - match: ':'
-                  scope: meta.class.python punctuation.section.class.begin.python
-                  pop: true
-                - include: else-pop
-            - match: ':'
-              scope: invalid.illegal.no-closing-parens.python
-              pop: true
-            - match: ','
-              scope: punctuation.separator.inheritance.python
-            - include: illegal-name
-            - include: constants
-            - match: (?:({{identifier}}) *)(=)
-              captures:
-                1: variable.parameter.class-inheritance.python
-                2: keyword.operator.assignment.python
-            - match: (?={{identifier}} *\.)
-              push:
-                - meta_scope: meta.path.python
-                - match: '({{identifier}}) *(\.) *'
-                  captures:
-                    1: variable.namespace.python
-                    2: punctuation.accessor.dot.python
-                - match: '{{identifier}}'
-                  scope: entity.other.inherited-class.python
-                  pop: true
-                - include: immediately-pop
-            - match: '{{identifier}}'
-              scope: entity.other.inherited-class.python
-            - include: expression-in-a-group
-
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
@@ -1836,10 +1846,6 @@ contexts:
     - include: magic-function-names
     - include: magic-variable-names
     - include: illegal-names
-
-  entity-name-class:
-    - include: illegal-names
-    - include: generic-names
 
   entity-name-function:
     - include: magic-function-names
