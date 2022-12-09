@@ -244,7 +244,7 @@ contexts:
     - include: line-statements
     - include: block-statements
     - include: class-definitions
-    - include: functions
+    - include: function-definitions
     - include: modifiers
     - include: assignments
     - match: ;
@@ -565,6 +565,149 @@ contexts:
     - meta_content_scope: meta.class.python
     - match: ':'
       scope: meta.class.python punctuation.section.class.begin.python
+      pop: true
+    - include: line-continuation-or-pop
+
+###[ FUNCTION DEFINITIONS ]###################################################
+
+  function-definitions:
+    - match: ^\s*(?:(async)\s+)?(def)\b
+      captures:
+        1: keyword.declaration.async.python
+        2: keyword.declaration.function.python
+      push: function-definition-name
+
+  function-definition-name:
+    - meta_scope: meta.function.python
+    - match: (?=\()
+      set: function-parameter-list
+    - include: illegal-names
+    - match: '{{magic_functions}}'
+      scope: entity.name.function.python support.function.magic.python
+    - match: '{{identifier}}'
+      scope: entity.name.function.python
+    - include: function-definition-end
+
+  function-parameter-list:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.parameters.begin.python
+      set:
+        - inside-function-parameter-list
+        - allow-unpack-operators
+
+  inside-function-parameter-list:
+    - meta_scope: meta.function.parameters.python
+    - match: \)
+      scope: punctuation.section.parameters.end.python
+      set: function-after-parameters
+    - match: ','
+      scope: punctuation.separator.parameters.python
+      push: allow-unpack-operators
+    - match: /
+      scope: storage.modifier.positional-args-only.python
+      push: function-parameter-expect-comma
+    - match: (?==)
+      set:
+        - meta_include_prototype: false
+        - match: '='
+          scope: keyword.operator.assignment.python
+          set: function-parameter-default-value
+    - match: (?=:)
+      set:
+        - meta_include_prototype: false
+        - match: ':'
+          scope: punctuation.separator.annotation.parameter.python
+          set: function-parameter-annotation
+    - include: function-parameter-tuples
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.python
+    - include: line-continuation
+
+  function-parameter-expect-comma:
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=[,)])
+      pop: true
+    - match: '[^\s,)]+'
+      scope: invalid.illegal.expected-comma.python
+
+  function-parameter-annotation:
+    - meta_scope: meta.function.parameters.annotation.python
+    - match: (?=[,)=])
+      set: inside-function-parameter-list
+    - match: \bNone\b
+      scope: constant.language.null.python
+    - include: illegal-assignment-expression
+    - include: expression-in-a-group
+
+  function-parameter-default-value:
+    - meta_scope: meta.function.parameters.default-value.python
+    - match: (?=[,)])
+      set: inside-function-parameter-list
+    - include: illegal-assignment-expression
+    - include: expression-in-a-group
+
+  function-parameter-tuples:
+    # python 2 style tuple arguments
+    # removed from python 3 since PEP-3113
+    - match: \(
+      scope: punctuation.section.group.begin.python
+      push: inside-function-parameter-tuple
+
+  inside-function-parameter-tuple:
+    - meta_scope: meta.group.python
+    - match: \)
+      scope: punctuation.section.group.end.python
+      set: after-expression
+    - match: ','
+      scope: punctuation.separator.parameters.python
+      push: allow-unpack-operators
+    # default values should follow the argument
+    - match: '='
+      push: function-parameter-illegal-annotation
+    # python 2 does not support type annotations
+    - match: ':'
+      push: function-parameter-illegal-default-value
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.python
+    - include: line-continuation
+
+  function-parameter-illegal-annotation:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.default-value.python
+    - match: (?=[,)=])
+      pop: true
+
+  function-parameter-illegal-default-value:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.annotation.python
+    - match: (?=[,)=])
+      pop: true
+
+  function-after-parameters:
+    - meta_content_scope: meta.function.python
+    - match: (?=->)
+      set: [function-return-type, function-return-type-separator]
+    - include: function-definition-end
+
+  function-return-type:
+    - meta_content_scope: meta.function.annotation.return.python
+    - include: illegal-assignment-expression
+    - include: function-definition-end
+    - include: expression-in-a-statement
+
+  function-return-type-separator:
+    - meta_include_prototype: false
+    - match: ->
+      scope: punctuation.separator.annotation.return.python
+      pop: true
+
+  function-definition-end:
+    - match: ':'
+      scope: meta.function.python punctuation.section.function.begin.python
       pop: true
     - include: line-continuation-or-pop
 
@@ -1345,126 +1488,6 @@ contexts:
     - match: ^(?!\s*[#*])
       pop: true
 
-  functions:
-    - match: '^\s*(?:(async)\s+)?(def)\b'
-      captures:
-        1: keyword.declaration.async.python
-        2: keyword.declaration.function.python
-      push:
-        - meta_scope: meta.function.python
-        - include: line-continuation-or-pop
-        - match: ':'
-          scope: punctuation.section.function.begin.python
-          pop: true
-        - match: "(?={{identifier}})"
-          push:
-            - meta_content_scope: entity.name.function.python
-            - include: entity-name-function
-            - include: immediately-pop
-        - match: '(?=\()'
-          set:
-            - match: \(
-              scope: meta.function.parameters.python punctuation.section.parameters.begin.python
-              set: [function-parameters, allow-unpack-operators]
-
-  function-parameters:
-    - meta_content_scope: meta.function.parameters.python
-    - match: \)
-      scope: punctuation.section.parameters.end.python
-      set: function-after-parameters
-    - include: comments
-    - match: ','
-      scope: punctuation.separator.parameters.python
-      push: allow-unpack-operators
-    - match: /
-      scope: storage.modifier.positional-args-only.python
-      push:
-        - match: (?=[,)])
-          pop: true
-        - match: \S
-          scope: invalid.illegal.expected-comma.python
-    - match: '(?==)'
-      set:
-        - match: '='
-          scope: keyword.operator.assignment.python
-          set:
-            - meta_scope: meta.function.parameters.default-value.python
-            - match: '(?=[,)])'
-              set: [function-parameters, allow-unpack-operators]
-            - include: illegal-assignment-expression
-            - include: expression-in-a-group
-    - match: '(?=:)'
-      set:
-        - match: ':'
-          scope: punctuation.separator.annotation.parameter.python
-          set:
-            - meta_scope: meta.function.parameters.annotation.python
-            - match: '(?=[,)=])'
-              set: function-parameters
-            - match: \bNone\b
-              scope: constant.language.null.python
-            - include: illegal-assignment-expression
-            - include: expression-in-a-group
-    - include: function-parameters-tuple
-    - include: illegal-names
-    - match: '{{identifier}}'
-      scope: variable.parameter.python
-    - include: line-continuation
-
-  function-parameters-tuple:
-    # python 2 style tuple arguments
-    # removed from python 3 since PEP-3113
-    - match: \(
-      scope: punctuation.section.group.begin.python
-      push:
-        - meta_scope: meta.group.python
-        - match: \)
-          scope: punctuation.section.group.end.python
-          set: after-expression
-        - include: comments
-        - match: ','
-          scope: punctuation.separator.parameters.python
-          push: allow-unpack-operators
-        # default values should follow the argument
-        - match: '='
-          push:
-            - meta_scope: invalid.illegal.default-value.python
-            - match: '(?=[,)=])'
-              pop: true
-        # python 2 does not support type annotations
-        - match: '(?=:)'
-          push:
-            - meta_scope: invalid.illegal.annotation.python
-            - match: '(?=[,)=])'
-              pop: true
-        - include: illegal-names
-        - match: '{{identifier}}'
-          scope: variable.parameter.python
-        - include: line-continuation
-
-  function-after-parameters:
-    - meta_content_scope: meta.function.python
-    - match: (?=->)
-      set: [function-return-type, function-return-type-separator]
-    - include: function-terminator
-
-  function-return-type:
-    - meta_content_scope: meta.function.annotation.return.python
-    - include: illegal-assignment-expression
-    - include: function-terminator
-    - include: expression-in-a-statement
-
-  function-return-type-separator:
-    - match: ->
-      scope: punctuation.separator.annotation.return.python
-      pop: true
-
-  function-terminator:
-    - match: ':'
-      scope: meta.function.python punctuation.section.function.begin.python
-      pop: true
-    - include: line-continuation-or-pop
-
   item-access:
     - match: '(?={{path}}\s*\[)'
       push:
@@ -1601,7 +1624,7 @@ contexts:
       push: allow-unpack-operators
     - include: line-continuation-or-pop
     - include: keyword-arguments
-    - include: function-parameters-tuple
+    - include: function-parameter-tuples
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python

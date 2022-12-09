@@ -1493,14 +1493,21 @@ def my_func(): # comment
 #              ^^^^^^^^^ comment.line.number-sign.python
 
 def my_func(param1, # Multi-line function definition
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^^^^^^ meta.function.python
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.python
 #                 ^ punctuation.separator.parameters
-#                   ^ comment.line.number-sign
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
     # This is defaulted
 #   ^ comment.line.number-sign
     param2='#1' \
+#  ^^^^^^^^^^^^^^^ meta.function.parameters - meta.function meta.function
 #               ^ punctuation.separator.continuation.line.python
-):
-# <- punctuation.section.parameters.end
+) :
+# <- meta.function.parameters.python punctuation.section.parameters.end
+#^^ meta.function.python - meta.function meta.function
+#  ^ - meta.function
+# ^ punctuation.section.function.begin.python
     print('Hi!')
 
 
@@ -1508,10 +1515,11 @@ def func(from='me'):
 #        ^^^^ invalid.illegal.name
     pass
 
-def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
-#                                                                                                  ^^^^^^ meta.function.annotation.return
+def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int :
+#^^^^^^^^^^^^^^^^^^^ meta.function.python - meta.function meta.function
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters - meta.function meta.function
+#                                                                                                  ^^^^^^^ meta.function.annotation.return.python - meta.function meta.function
+#                                                                                                         ^ meta.function.python - meta.function meta.function
 #                   ^ - meta.function meta.function.parameters
 #                    ^^^^^^ variable.parameter
 #                          ^^^^^ meta.function.parameters.annotation
@@ -1538,7 +1546,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                ^ punctuation.section.parameters.end
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
-#                                                                                                        ^ punctuation.section.function.begin
+#                                                                                                         ^ punctuation.section.function.begin
 
 def type_annotations_line_continuation_without_terminator() \
       -> int
