@@ -216,6 +216,78 @@ contexts:
     - include: flow-statements
     - include: other-statements
 
+###[ DECORATORS ]#############################################################
+
+  decorators:
+    - match: ^\s*(?=@)
+      push: decorator-body
+
+  decorator-body:
+    # Due to line continuations, we don't know whether this is a "function call" yet
+    - meta_content_scope: meta.annotation.python
+    - include: line-continuation-or-pop
+    - match: (?=\.?\s*{{path}}\s*\() # now we do
+      set: [after-expression, decorator-function-call-wrapper, qualified-name-until-leaf]
+    - match: (?=\.?\s*{{path}})
+      push: [decorator-wrapper, qualified-name-until-leaf]
+    - match: '@'
+      scope: punctuation.definition.annotation.python
+    - match: \S
+      scope: invalid.illegal.character.python
+      pop: true
+
+  decorator-wrapper:
+    - match: (\.)\s*
+      captures:
+        1: punctuation.accessor.dot.python
+      set:
+        - meta_scope: meta.qualified-name.python
+        - meta_content_scope: variable.annotation.python
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+    - match: ''
+      set:
+        - meta_scope: meta.qualified-name.python variable.annotation.python
+        - include: name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+
+  decorator-function-call-wrapper:
+    - meta_scope: meta.annotation.function.python
+    - match: \)
+      scope: punctuation.section.arguments.end.python
+      pop: true
+    - match: \(
+      scope: meta.annotation.function.python punctuation.section.arguments.begin.python
+      push: [decorator-function-call-arguments, allow-unpack-operators]
+    - match: (\.)\s*
+      captures:
+        1: punctuation.accessor.dot.python
+      push:
+        - meta_scope: meta.qualified-name.python
+        - meta_content_scope: variable.annotation.function.python
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+    - match: ''
+      push:
+        - meta_scope: meta.qualified-name.python variable.annotation.function.python
+        - include: name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+
+  decorator-function-call-arguments:
+    - clear_scopes: 1
+    - meta_content_scope: meta.annotation.arguments.python
+    - match: (?=\))
+      pop: true
+    - include: arguments
+
 ###[ IMPORT STATEMENTS ]######################################################
 
   import-statements:
@@ -1329,76 +1401,6 @@ contexts:
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
     - include: line-continuation-or-pop
-
-  decorators:
-    - match: ^\s*(?=@)
-      push:
-        # Due to line continuations, we don't know whether this is a "function call" yet
-        - meta_content_scope: meta.annotation.python
-        - match: '@'
-          scope: punctuation.definition.annotation.python
-        - match: $
-          pop: true
-        - include: line-continuation-or-pop
-        - match: (?=\.?\s*{{path}}\s*\() # now we do
-          set: [after-expression, decorator-function-call-wrapper, qualified-name-until-leaf]
-        - match: (?=\.?\s*{{path}})
-          push: [decorator-wrapper, qualified-name-until-leaf]
-        - match: \S
-          scope: invalid.illegal.character.python
-          pop: true
-
-  decorator-wrapper:
-    - match: (\.)\s*
-      captures:
-        1: punctuation.accessor.dot.python
-      set:
-        - meta_scope: meta.qualified-name.python
-        - meta_content_scope: variable.annotation.python
-        - include: dotted-name-specials
-        - include: generic-names
-        - match: ''
-          pop: true
-    - match: ''
-      set:
-        - meta_scope: meta.qualified-name.python variable.annotation.python
-        - include: name-specials
-        - include: generic-names
-        - match: ''
-          pop: true
-
-  decorator-function-call-wrapper:
-    - meta_scope: meta.annotation.function.python
-    - match: \)
-      scope: punctuation.section.arguments.end.python
-      pop: true
-    - match: \(
-      scope: meta.annotation.function.python punctuation.section.arguments.begin.python
-      push: [decorator-function-call-arguments, allow-unpack-operators]
-    - match: (\.)\s*
-      captures:
-        1: punctuation.accessor.dot.python
-      push:
-        - meta_scope: meta.qualified-name.python
-        - meta_content_scope: variable.annotation.function.python
-        - include: dotted-name-specials
-        - include: generic-names
-        - match: ''
-          pop: true
-    - match: ''
-      push:
-        - meta_scope: meta.qualified-name.python variable.annotation.function.python
-        - include: name-specials
-        - include: generic-names
-        - match: ''
-          pop: true
-
-  decorator-function-call-arguments:
-    - clear_scopes: 1
-    - meta_content_scope: meta.annotation.arguments.python
-    - match: (?=\))
-      pop: true
-    - include: arguments
 
   item-access:
     - match: '(?={{path}}\s*\[)'
