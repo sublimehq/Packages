@@ -746,8 +746,78 @@ def _():
         x:
 #       ^^ meta.statement.with
 
-    with open(), open() as x, open() as y:
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
+    with (folder / "file.txt").open() as x:
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
+#        ^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#                             ^^^^^ meta.function-call.python meta.qualified-name.python
+#                                  ^^ meta.function-call.arguments.python
+#   ^^^^ keyword.control.flow.with.python
+#        ^ punctuation.section.group.begin.python
+#         ^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                ^ keyword.operator.arithmetic.python
+#                  ^^^^^^^^^^ meta.string.python string.quoted.double.python
+#                            ^ punctuation.section.group.end.python
+#                             ^ punctuation.accessor.dot.python
+#                              ^^^^ variable.function.python
+#                                  ^ punctuation.section.arguments.begin.python
+#                                   ^ punctuation.section.arguments.end.python
+#                                     ^^ keyword.control.flow.with.as.python
+#                                        ^ meta.generic-name.python
+#                                         ^ punctuation.section.block.with.python
+
+    with ((folder / "file.txt").open() as x):
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
+#        ^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python meta.group.python - meta.sequence meta.sequence
+#                              ^^^^^^^^^^^^^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
+#                               ^^^^ meta.function-call.python meta.qualified-name.python
+#                                   ^^ meta.function-call.arguments.python
+#                                           ^ - meta.sequence
+#   ^^^^ keyword.control.flow.with.python
+#        ^ punctuation.section.sequence.begin.python
+#         ^ punctuation.section.group.begin.python
+#          ^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                 ^ keyword.operator.arithmetic.python
+#                   ^^^^^^^^^^ meta.string.python string.quoted.double.python
+#                             ^ punctuation.section.group.end.python
+#                              ^ meta.function-call.python meta.qualified-name.python punctuation.accessor.dot.python
+#                               ^^^^ meta.qualified-name.python variable.function.python
+#                                   ^ punctuation.section.arguments.begin.python
+#                                    ^ punctuation.section.arguments.end.python
+#                                      ^^ keyword.control.flow.with.as.python
+#                                         ^ meta.generic-name.python
+#                                          ^ punctuation.section.sequence.end.python
+#                                           ^ punctuation.section.block.with.python
+#
+
+    # multiple nesting is not allowed
+    with (((folder / "file.txt").open() as x)):
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
+#        ^ meta.group.python - meta.group meta.group
+#         ^ meta.group.python meta.group.python - meta.group meta.group meta.group
+#          ^^^^^^^^^^^^^^^^^^^^^ meta.group.python meta.group.python meta.group.python
+#                               ^^^^^^^^^^ meta.group.python meta.group.python - meta.group meta.group meta.group
+#                                         ^^^ meta.group.python - meta.group meta.group
+#                                            ^ - meta.group
+#   ^^^^ keyword.control.flow.with.python
+#        ^ punctuation.section.group.begin.python
+#         ^^ punctuation.section.group.begin.python
+#           ^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                  ^ keyword.operator.arithmetic.python
+#                    ^^^^^^^^^^ meta.string.python string.quoted.double.python
+#                              ^ punctuation.section.group.end.python
+#                               ^ meta.function-call.python meta.qualified-name.python punctuation.accessor.dot.python
+#                                ^^^^ variable.function.python
+#                                    ^ punctuation.section.arguments.begin.python
+#                                     ^ punctuation.section.arguments.end.python
+#                                       ^^ invalid.illegal.name.python
+#                                          ^ meta.qualified-name.python meta.generic-name.python
+#                                           ^ punctuation.section.group.end.python
+#                                            ^ invalid.illegal.stray.python
+#                                             ^ punctuation.section.block.with.python
+
+    with open(), open() as x, open() as as:
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #   ^^^^ keyword.control.flow.with
 #        ^^^^ support.function
 #              ^ punctuation.separator.sequence
@@ -755,6 +825,7 @@ def _():
 #                           ^ punctuation.separator.sequence
 #                             ^^^^ support.function
 #                                    ^^ keyword.control.flow.with.as
+#                                       ^^ invalid.illegal.name.python
 
     with (
 #   ^^^^^^^ - meta.statement.with meta.statement.with

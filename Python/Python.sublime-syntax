@@ -409,13 +409,7 @@ contexts:
           pop: true
         - include: target-lists
     # async with ... as ...:
-    - match: \b(async +)?(with)\b
-      captures:
-        1: storage.modifier.async.python
-        2: keyword.control.flow.with.python
-      push:
-        - with-meta
-        - with-body
+    - include: with-statements
     # except ... as ...:
     - match: \bexcept\b
       scope: keyword.control.exception.catch.python
@@ -765,58 +759,71 @@ contexts:
 
 ###[ WITH STATEMENTS ]########################################################
 
-  with-meta:
-    - meta_include_prototype: false
+  with-statements:
+    - match: \b(?:(async) +)?(with)\b
+      captures:
+        1: storage.modifier.async.python
+        2: keyword.control.flow.with.python
+      branch_point: with-statement-tuple
+      branch:
+        - with-statement-tuple
+        - with-statement-plain
+
+  with-statement-plain:
     - meta_scope: meta.statement.with.python
-    - match: ''
-      pop: true
-
-  with-body:
-    - match: \(
-      scope: punctuation.section.sequence.begin.python
-      set: with-tuple-body
-    - match: (?=\S)
-      set: with-plain-body
-
-  with-tuple-body:
-    - meta_scope: meta.sequence.tuple.python
-    - match: \)
-      scope: punctuation.section.sequence.end.python
-      set: with-end
-    - match: \bas\b
-      scope: keyword.control.flow.with.as.python
-      push: with-tuple-as
-    - include: expression-in-a-group
-
-  with-tuple-as:
-    - match: (?=[,)])
-      pop: true
-    - include: comments
-    - include: name
-    - include: generators-groups-and-tuples
-    - include: lists
-
-  with-plain-body:
-    - match: \bas\b
-      scope: keyword.control.flow.with.as.python
-      set: with-plain-as
-    - include: with-end
-    - include: expression-in-a-statement
-
-  with-plain-as:
-    - match: ','
-      scope: punctuation.separator.sequence.python
-      set: with-plain-body
-    - include: with-end
-    - include: name
-    - include: generators-groups-and-tuples
-    - include: lists
-
-  with-end:
     - match: ':(?!=)'
       scope: punctuation.section.block.with.python
       pop: true
+    - match: \bas\b
+      scope: keyword.control.flow.with.as.python
+      push: with-statement-plain-as
     - include: line-continuation-or-pop
+    - include: expression-in-a-statement
+
+  with-statement-plain-as:
+    - include: line-continuation-or-pop
+    - include: generators-groups-and-tuples
+    - include: lists
+    - include: name
+    - include: else-pop
+
+  with-statement-tuple:
+    - meta_scope: meta.statement.with.python
+    - match: \(
+      scope: punctuation.section.sequence.begin.python
+      set:
+        - with-statement-tuple-end
+        - with-statement-tuple-body
+    - include: with-statement-tuple-else-fail
+
+  with-statement-tuple-body:
+    - meta_scope: meta.sequence.tuple.python
+    - match: \)
+      scope: punctuation.section.sequence.end.python
+      pop: 1
+    - match: \bas\b
+      scope: keyword.control.flow.with.as.python
+      push: with-statement-tuple-as
+    - include: expression-in-a-group
+
+  with-statement-tuple-as:
+    - include: comments
+    - include: generators-groups-and-tuples
+    - include: lists
+    - include: name
+    - include: else-pop
+
+  with-statement-tuple-end:
+    - meta_content_scope: meta.statement.with.python
+    - match: ':(?!=)'
+      scope: meta.statement.with.python punctuation.section.block.with.python
+      pop: true
+    - include: with-statement-tuple-else-fail
+
+  with-statement-tuple-else-fail:
+    - include: line-continuation
+    - match: (?=\S|$)
+      fail: with-statement-tuple
 
 ###[ EXPRESSIONS ]############################################################
 
