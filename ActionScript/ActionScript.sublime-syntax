@@ -712,7 +712,7 @@ variables:
 
 contexts:
   main:
-    - match: \b(?:{{classes}})\b
+    - match: \b{{classes}}\b
       scope: support.class.actionscript
 
     - match: \b(?:{{functions}})\b
