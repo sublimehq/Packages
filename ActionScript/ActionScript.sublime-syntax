@@ -698,6 +698,10 @@ variables:
       [-+]?
       \d+
     )
+  constant_numeric_suffix: |-
+    (?x:
+      L|l|UL|ul|u|U|F|f
+    )
   constant_keyboard_inputs: |-
     (?x:
       BACKSPACE
@@ -819,7 +823,9 @@ contexts:
 
   double-quoted-string-content:
     - meta_include_prototype: false
-    - meta_scope: meta.string.actionscript string.quoted.double.actionscript
+    - meta_scope: >-
+        meta.string.actionscript
+        string.quoted.double.actionscript
 
     - match: \"
       scope: punctuation.definition.string.end.actionscript
@@ -835,7 +841,9 @@ contexts:
 
   single-quoted-string-content:
     - meta_include_prototype: false
-    - meta_scope: meta.string.actionscript string.quoted.single.actionscript
+    - meta_scope: >-
+        meta.string.actionscript
+        string.quoted.single.actionscript
 
     - match: \'
       scope: punctuation.definition.string.end.actionscript
@@ -865,7 +873,7 @@ contexts:
       scope: support.constant.actionscript
 
   numeric-constants:
-    - match: (0[xX])(\h*)(L|l|UL|ul|u|U|F|f)?
+    - match: (0[xX])(\h*)({{constant_numeric_suffix}})?
       scope: meta.number.integer.hexadecimal.actionscript
       captures:
         1: constant.numeric.base.actionscript
@@ -876,7 +884,7 @@ contexts:
         (?x:
           (\d+\.?\d*|\.\d+)
           ({{constant_numeric_exponent}})?
-          (L|l|UL|ul|u|U|F|f)?
+          ({{constant_numeric_suffix}})?
         )
       scope: meta.number.actionscript
       captures:
