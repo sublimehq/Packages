@@ -686,12 +686,7 @@ variables:
     | while
     )
   types: |-
-    (?x:
-      Boolean
-    | Number
-    | String
-    | Void
-    )
+    (?x: Boolean | Number | String | Void )
   constant_numeric_exponent: |-
     (?x:
       [eE]
