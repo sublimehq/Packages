@@ -1242,7 +1242,7 @@ contexts:
     - include: inline-if
     - include: strings
     - include: function-calls
-    - include: item-access
+    - include: items
     - include: lists
     - include: dictionaries-and-sets
     - include: generators-groups-and-tuples
@@ -1286,38 +1286,14 @@ contexts:
         - include: immediately-pop
 
   after-expression:
-    # direct function call
-    - match: '\s*(\()'
+    - match: \s*(?=\()
+      set: function-call-argument-list
+    - match: \s*(?=\[)
+      set: item-access
+    - match: \s*(\\)\s*$
       captures:
-        1: punctuation.section.arguments.begin.python
-      push: [inside-function-call-argument-list, allow-unpack-operators]
-    # item access
-    - match: '\s*(\[)'
-      captures:
-        1: meta.item-access.python punctuation.section.brackets.begin.python
-      push:
-        - meta_content_scope: meta.item-access.arguments.python
-        - match: \]
-          scope: meta.item-access.python punctuation.section.brackets.end.python
-          pop: true
-        - include: illegal-assignment-expression
-        - match: ':'
-          scope: punctuation.separator.slice.python
-        - include: expression-in-a-group
-    # indirect function call following attribute access
-    - match: (?={{illegal_names}})
-      pop: true
-    - include: function-calls
-    # arbitrary attribute access
-    - match: '\s*(\.)'
-      captures:
-        1: punctuation.accessor.dot.python
-      push:
-        - include: magic-function-names
-        - include: magic-variable-names
-        - include: illegal-names
-        - include: generic-names
-        - include: immediately-pop
+        1: punctuation.separator.continuation.line.python
+      push: inside-line-continuation
     - include: immediately-pop
 
   yields:
@@ -1394,28 +1370,6 @@ contexts:
     - include: else-pop
     - match: ^(?!\s*[#*])
       pop: true
-
-  item-access:
-    - match: '(?={{path}}\s*\[)'
-      push:
-        - match: \]
-          scope: meta.item-access.python punctuation.section.brackets.end.python
-          set: after-expression
-        - match: '(?={{path}}\s*\[)'
-          push:
-            - meta_content_scope: meta.item-access.python
-            - match: '(?=\s*\[)'
-              pop: true
-            - include: qualified-name
-        - match: \[
-          scope: meta.item-access.python punctuation.section.brackets.begin.python
-          push:
-            - meta_content_scope: meta.item-access.arguments.python
-            - match: '(?=\])'
-              pop: true
-            - match: ':'
-              scope: punctuation.separator.slice.python
-            - include: expression-in-a-group
 
 ###[ FUNCTION CALLS ]#########################################################
 
@@ -1802,6 +1756,29 @@ contexts:
     - match: \}
       scope: invalid.illegal.stray.python
 
+###[ ITEM ACCESS ]############################################################
+
+  items:
+    - match: (?={{path}}\s*\[)
+      push:
+        - item-access
+        - qualified-name-content
+
+  item-access:
+    - match: \[
+      scope: meta.item-access.python punctuation.section.brackets.begin.python
+      set: inside-maybe-item-access
+
+  inside-maybe-item-access:
+    - meta_content_scope: meta.item-access.python
+    - match: \]
+      scope: punctuation.section.brackets.end.python
+      set: after-expression
+    - include: illegal-assignment-expression
+    - match: ':'
+      scope: punctuation.separator.slice.python
+    - include: expression-in-a-group
+
 ###[ IDENTIFIERS ]############################################################
 
   builtin-exceptions:
@@ -1914,7 +1891,7 @@ contexts:
       pop: true
 
   class-variables:
-    - match: \b(self|cls)\b
+    - match: \b(?:self|cls)\b
       scope: variable.language.python
 
   wildcard-variables:
@@ -3246,15 +3223,13 @@ contexts:
 
   line-continuation-or-pop:
     - include: line-continuation
-    - match: (?=\s*(\n|;|#))
+    - match: (?=\s*(?:\n|;|#))
       pop: true
 
   line-continuation:
-    - match: (\\)(.*)$\n?
+    - match: (\\)\s*$
       captures:
         1: punctuation.separator.continuation.line.python
-        2: invalid.illegal.unexpected-text.python
-    # make sure to resume parsing at next line
       push: inside-line-continuation
 
   inside-line-continuation:

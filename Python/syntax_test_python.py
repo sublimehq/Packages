@@ -456,6 +456,10 @@ def _():
 #     ^^ keyword.control.conditional.if
 #          ^^^^ keyword.control.conditional.else
 
+    a[0] if b[1] else c[3]
+#        ^^ keyword.control.conditional.if
+#                ^^^^ keyword.control.conditional.else
+
     c = lambda: pass
 #       ^^^^^^^^^^^^ meta.function.inline
 #       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
@@ -605,28 +609,49 @@ func()(1, 2)
 #^^^^^^^^^^^ - meta.function-call meta.function-call
 
 myobj[1](True)
-#^^^^^^^ meta.item-access
-#    ^ punctuation.section.brackets.begin - meta.item-access.arguments
-#     ^ meta.item-access.arguments
-#      ^ punctuation.section.brackets.end - meta.item-access.arguments
-#       ^^^^^^ meta.function-call
+#^^^^ - meta.item-access
+#    ^ punctuation.section.brackets.begin.python
+#    ^^^ meta.item-access.python
+#      ^ punctuation.section.brackets.end.python
+#       ^^^^^^ meta.function-call.arguments.python
 
 myobj[1][2](0)
-#^^^^^^^^^^ meta.item-access
-#    ^ punctuation.section.brackets.begin - meta.item-access.arguments
-#     ^ meta.item-access.arguments
-#      ^ punctuation.section.brackets.end - meta.item-access.arguments
-#       ^ punctuation.section.brackets.begin - meta.item-access.arguments
-#        ^ meta.item-access.arguments
-#         ^ punctuation.section.brackets.end - meta.item-access.arguments
-#          ^^^ meta.function-call
+#^^^^ - meta.item-access
+#    ^ punctuation.section.brackets.begin.python
+#    ^^^^^^ meta.item-access.python
+#      ^ punctuation.section.brackets.end.python
+#       ^ punctuation.section.brackets.begin.python
+#         ^ punctuation.section.brackets.end.python
+#          ^^^ meta.function-call.arguments.python
+
+a[0].b[1].d[2](e[3])[f[g[4].h[5]]]
+# <- - meta.item-access
+#^^^ meta.item-access.python
+#   ^^ - meta.item-access
+#     ^^^ meta.item-access.python
+#        ^^ - meta.item-access
+#          ^^^ meta.item-access.python
+#             ^^ - meta.item-access
+#               ^^^ meta.item-access.python
+#                  ^ - meta.item-access
+#                   ^^ meta.item-access.python - meta.item-access meta.item-access
+#                     ^^ meta.item-access.python meta.item-access.python - meta.item-access meta.item-access meta.item-access
+#                       ^^^ meta.item-access.python meta.item-access.python meta.item-access.python
+#                          ^^ meta.item-access.python meta.item-access.python - meta.item-access meta.item-access meta.item-access
+#                            ^^^ meta.item-access.python meta.item-access.python meta.item-access.python
+#                               ^ meta.item-access.python meta.item-access.python - meta.item-access meta.item-access meta.item-access
+#                                ^ meta.item-access.python - meta.item-access meta.item-access
+#                                 ^ - meta.item-access
+
+self[5] = 0
+#   ^^^ meta.item-access.python
 
 range(20)[10:2:-2]
 #           ^ punctuation.separator.slice
 #             ^ punctuation.separator.slice
 
 "string"[12]
-#       ^^^^ meta.item-access - meta.structure
+#       ^^^^ meta.item-access - meta.sequence
 
 "string".
 #       ^ punctuation.accessor.dot.python
@@ -636,11 +661,15 @@ range(20)[10:2:-2]
 #       ^ punctuation.accessor.dot.python
 
 (i for i in range(10))[5]
-#                     ^^^ meta.item-access - meta.structure
+#                     ^^^ meta.item-access - meta.sequence
 
 [1, 2, 3][2]
 #^^^^^^^^ meta.sequence
-#        ^^^ meta.item-access - meta.structure
+#        ^^^ meta.item-access - meta.sequence
+
+[1, 2, 3] \
+    [2]
+#   ^^^ meta.item-access - meta.sequence
 
 [a.b., a., .][2]
 #^^^^^^^^^^^^ meta.sequence
@@ -648,7 +677,7 @@ range(20)[10:2:-2]
 #   ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #          ^ punctuation.accessor.dot.python
-#            ^^^ meta.item-access - meta.structure
+#            ^^^ meta.item-access - meta.sequence
 
 {foo.: bar.baz.}.
 #   ^ punctuation.accessor.dot.python
