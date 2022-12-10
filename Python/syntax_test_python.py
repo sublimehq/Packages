@@ -1460,6 +1460,7 @@ def _():
 
 def abc():
     global from, for, variable, .
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.modifier.python
 #   ^^^^^^ storage.modifier.global
 #          ^^^^ invalid.illegal.name
 #                ^^^ invalid.illegal.name

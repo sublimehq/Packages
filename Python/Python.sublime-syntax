@@ -245,7 +245,6 @@ contexts:
     - include: block-statements
     - include: class-definitions
     - include: function-definitions
-    - include: modifiers
     - include: assignments
     - match: ;
       scope: punctuation.terminator.statement.python
@@ -263,6 +262,7 @@ contexts:
   line-statements:
     - include: decorators
     - include: import-statements
+    - include: modifier-statements
     - include: flow-statements
     - include: other-statements
 
@@ -1087,6 +1087,25 @@ contexts:
         - qualified-name-until-leaf
     - include: generic-name
 
+###[ MODIFIER STATEMENTS ]####################################################
+
+  modifier-statements:
+    - match: \bglobal\b
+      scope: storage.modifier.global.python
+      push: modifier-statement-body
+    - match: \bnonlocal\b
+      scope: storage.modifier.nonlocal.python
+      push: modifier-statement-body
+
+  modifier-statement-body:
+    - meta_scope: meta.statement.modifier.python
+    - include: line-continuation-or-pop
+    - include: name
+    - match: ','
+      scope: punctuation.separator.storage-list.python
+    - match: \S+
+      scope: invalid.illegal.name.storage.python
+
 ###[ WHILE STATEMENTS ]#######################################################
 
   while-statements:
@@ -1406,19 +1425,6 @@ contexts:
         2: constant.numeric.suffix.python
     - match: \b([1-9][\d_]*|0)\b
       scope: meta.number.integer.decimal.python constant.numeric.value.python
-
-  modifiers:
-    - match: \b(?:(global)|(nonlocal))\b
-      captures:
-        1: storage.modifier.global.python
-        2: storage.modifier.nonlocal.python
-      push:
-        - include: line-continuation-or-pop
-        - match: ','
-          scope: punctuation.separator.storage-list.python
-        - include: name
-        - match: \S+
-          scope: invalid.illegal.name.storage.python
 
   yields:
     - match: \b(yield)(?:\s+(from))?\b
