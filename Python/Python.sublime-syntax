@@ -1320,112 +1320,6 @@ contexts:
         - include: immediately-pop
     - include: immediately-pop
 
-  constants:
-    - include: booleans
-    - include: nones
-    - match: \b(?:Ellipsis|NotImplemented|__debug__)\b
-      scope: constant.language.python
-      push: illegal-assignment
-    - match: \.{3}(?!\w)
-      scope: constant.language.python
-
-  booleans:
-    - match: \b(?:True|False)\b
-      scope: constant.language.boolean.python
-      push: illegal-assignment
-
-  nones:
-    - match: \bNone\b
-      scope: constant.language.null.python
-      push: illegal-assignment
-
-  illegal-assignment:
-    - match: \:?=
-      scope: invalid.illegal.not-allowed-here.python
-      pop: true
-    - include: line-continuation-or-pop
-    - include: else-pop
-
-  numbers:
-    # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
-    # hexadecimal
-    - match: \b(0[xX])(\h*)([lL]) # py2
-      scope: meta.number.integer.hexadecimal.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-        3: constant.numeric.suffix.python
-    - match: \b(0[xX])((?:_?\h)+)
-      scope: meta.number.integer.hexadecimal.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-    # octal
-    - match: \b(0[oO]?)((?=[oO]|[0-7])[0-7]*)([lL]) # py2
-      scope: meta.number.integer.octal.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-        3: constant.numeric.suffix.python
-    - match: \b(0)([0-7]+) # py2
-      scope: meta.number.integer.octal.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-    - match: \b(0[oO])((?:_?[0-7])+)
-      scope: meta.number.integer.octal.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-    # binary
-    - match: \b(0[bB])([01]*)([lL]) # py2
-      scope: meta.number.integer.binary.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-        3: constant.numeric.suffix.python
-    - match: \b(0[bB])((?:_?[01])*)
-      scope: meta.number.integer.binary.python
-      captures:
-        1: constant.numeric.base.python
-        2: constant.numeric.value.python
-    # complex
-    - match: |-
-        (?x)
-        (
-          # 1.j, 1.1j, 1.1e1j, 1.1e-1j, 1.e1j, 1.e-1 | 1e1j, 1e-1j
-          \b{{digits}} (\.)? {{digits}}? {{exponent}}?
-          # .1j, .1e1j, .1e-1j
-          | (\.) {{digits}} {{exponent}}?
-        )
-        ([jJ])
-      scope: meta.number.imaginary.decimal.python
-      captures:
-        1: constant.numeric.value.python
-        2: punctuation.separator.decimal.python
-        3: punctuation.separator.decimal.python
-        4: constant.numeric.suffix.python
-    # floating point
-    - match: |-
-        (?x:
-          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
-          \b{{digits}} (?: (\.) {{digits}}? {{exponent}}? | {{exponent}} )
-          # .1, .1e1, .1e-1
-          | (\.) {{digits}} {{exponent}}?
-        )
-      scope: meta.number.float.decimal.python constant.numeric.value.python
-      captures:
-        1: punctuation.separator.decimal.python
-        2: punctuation.separator.decimal.python
-    # integer
-    - match: \b([1-9]\d*|0)([lL])\b # py2
-      scope: meta.number.integer.decimal.python
-      captures:
-        1: constant.numeric.value.python
-        2: constant.numeric.suffix.python
-    - match: \b([1-9][\d_]*|0)\b
-      scope: meta.number.integer.decimal.python constant.numeric.value.python
-
   yields:
     - match: \b(yield)(?:\s+(from))?\b
       captures:
@@ -1439,6 +1333,13 @@ contexts:
   illegal-assignment-expression:
     - match: :=
       scope: invalid.illegal.not-allowed-here.python
+
+  illegal-assignment:
+    - match: \:?=
+      scope: invalid.illegal.not-allowed-here.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: else-pop
 
   assignments:
     - include: illegal-assignment-expression
@@ -1993,6 +1894,107 @@ contexts:
     # https://docs.python.org/3/reference/datamodel.html#preparing-the-class-namespace
     - match: '{{magic_variables}}'
       scope: support.variable.magic.python
+
+###[ LITERALS ]###############################################################
+
+  constants:
+    - include: booleans
+    - include: nones
+    - match: \b(?:Ellipsis|NotImplemented|__debug__)\b
+      scope: constant.language.python
+      push: illegal-assignment
+    - match: \.{3}(?!\w)
+      scope: constant.language.python
+
+  booleans:
+    - match: \b(?:True|False)\b
+      scope: constant.language.boolean.python
+      push: illegal-assignment
+
+  nones:
+    - match: \bNone\b
+      scope: constant.language.null.python
+      push: illegal-assignment
+
+  numbers:
+    # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
+    # hexadecimal
+    - match: \b(0[xX])(\h*)([lL]) # py2
+      scope: meta.number.integer.hexadecimal.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+        3: constant.numeric.suffix.python
+    - match: \b(0[xX])((?:_?\h)+)
+      scope: meta.number.integer.hexadecimal.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+    # octal
+    - match: \b(0[oO]?)((?=[oO]|[0-7])[0-7]*)([lL]) # py2
+      scope: meta.number.integer.octal.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+        3: constant.numeric.suffix.python
+    - match: \b(0)([0-7]+) # py2
+      scope: meta.number.integer.octal.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+    - match: \b(0[oO])((?:_?[0-7])+)
+      scope: meta.number.integer.octal.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+    # binary
+    - match: \b(0[bB])([01]*)([lL]) # py2
+      scope: meta.number.integer.binary.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+        3: constant.numeric.suffix.python
+    - match: \b(0[bB])((?:_?[01])*)
+      scope: meta.number.integer.binary.python
+      captures:
+        1: constant.numeric.base.python
+        2: constant.numeric.value.python
+    # complex
+    - match: |-
+        (?x)
+        (
+          # 1.j, 1.1j, 1.1e1j, 1.1e-1j, 1.e1j, 1.e-1 | 1e1j, 1e-1j
+          \b{{digits}} (\.)? {{digits}}? {{exponent}}?
+          # .1j, .1e1j, .1e-1j
+          | (\.) {{digits}} {{exponent}}?
+        )
+        ([jJ])
+      scope: meta.number.imaginary.decimal.python
+      captures:
+        1: constant.numeric.value.python
+        2: punctuation.separator.decimal.python
+        3: punctuation.separator.decimal.python
+        4: constant.numeric.suffix.python
+    # floating point
+    - match: |-
+        (?x:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
+          \b{{digits}} (?: (\.) {{digits}}? {{exponent}}? | {{exponent}} )
+          # .1, .1e1, .1e-1
+          | (\.) {{digits}} {{exponent}}?
+        )
+      scope: meta.number.float.decimal.python constant.numeric.value.python
+      captures:
+        1: punctuation.separator.decimal.python
+        2: punctuation.separator.decimal.python
+    # integer
+    - match: \b([1-9]\d*|0)([lL])\b # py2
+      scope: meta.number.integer.decimal.python
+      captures:
+        1: constant.numeric.value.python
+        2: constant.numeric.suffix.python
+    - match: \b([1-9][\d_]*|0)\b
+      scope: meta.number.integer.decimal.python constant.numeric.value.python
 
 ###[ DOCSTRINGS ]#############################################################
 
