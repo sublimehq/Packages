@@ -1253,7 +1253,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
-    - include: lambda
+    - include: lambdas
     - include: expressions-common
     - include: qualified-name
 
@@ -1261,7 +1261,7 @@ contexts:
     # Differs from expression-as-a-statement in that:
     # - invalid-name matches will pop the current context
     # - assignment expressions
-    - include: lambda
+    - include: lambdas
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
@@ -1476,6 +1476,8 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.parameter.python
 
+###[ LAMBDAS ]################################################################
+
   lambda-in-groups:
     # A lambda keyword within a group may be part of a generator expression
     # Hence pop contexts off stack if `for` keyword is matched in order to
@@ -1485,7 +1487,9 @@ contexts:
         meta.function.inline.python
         storage.type.function.inline.python
         keyword.declaration.function.inline.python
-      push: [lambda-in-group-parameters, allow-unpack-operators]
+      push:
+        - lambda-in-group-parameters
+        - allow-unpack-operators
 
   lambda-in-group-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
@@ -1507,13 +1511,15 @@ contexts:
     - match: (?=for\b)
       pop: true
 
-  lambda:
+  lambdas:
     - match: \blambda(?=\s|:|$)
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
         keyword.declaration.function.inline.python
-      push: [lambda-parameters, allow-unpack-operators]
+      push:
+        - lambda-parameters
+        - allow-unpack-operators
 
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
