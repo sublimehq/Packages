@@ -715,15 +715,15 @@ contexts:
     - match: \b{{classes}}\b
       scope: support.class.actionscript
 
-    - match: \b(?:{{functions}})\b
+    - match: \b{{functions}}\b
       scope: support.function.actionscript
 
     - include: constants
 
-    - match: \b(?:{{keywords}})\b
+    - match: \b{{keywords}}\b
       scope: keyword.control.actionscript
 
-    - match: \b(?:{{types}})\b
+    - match: \b{{types}}\b
       scope: storage.type.actionscript
 
     - include: strings
@@ -855,10 +855,10 @@ contexts:
     - match: \b(?:undefined)\b
       scope: constant.language.undefined.actionscript
 
-    - match: \b(?:{{constants}})\b
+    - match: \b{{constants}}\b
       scope: support.constant.actionscript
 
-    - match: \b(?:{{constant_keyboard_inputs}})\b
+    - match: \b{{constant_keyboard_inputs}}\b
       scope: support.constant.actionscript
 
   numeric-constants:
