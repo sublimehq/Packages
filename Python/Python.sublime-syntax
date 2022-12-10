@@ -1549,6 +1549,8 @@ contexts:
       pop: true
     - include: expression-in-a-statement
 
+###[ GENERATORS GROUPS TUBLES ]###############################################
+
   generators-groups-and-tuples:
     - include: empty-tuples
     - match: (?=\()
@@ -1610,20 +1612,26 @@ contexts:
         2: punctuation.section.sequence.end.python
       push: after-expression
 
+  illegal-stray-parens:
+    - match: \)
+      scope: invalid.illegal.stray.python
+
+###[ LISTS ]##################################################################
+
   lists:
     - include: empty-lists
     - match: \[
       scope: punctuation.section.sequence.begin.python
-      push: [inside-list, allow-unpack-operators]
+      push:
+        - inside-list
+        - allow-unpack-operators
 
   inside-list:
     - meta_scope: meta.sequence.list.python
     - match: \]
       scope: punctuation.section.sequence.end.python
       set: after-expression
-    - match: ','
-      scope: punctuation.separator.sequence.python
-      push: allow-unpack-operators
+    - include: sequence-separators
     - include: inline-for
     - include: expression-in-a-group
 
@@ -1634,6 +1642,12 @@ contexts:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
       push: after-expression
+
+  illegal-stray-brackets:
+    - match: \]
+      scope: invalid.illegal.stray.python
+
+###[ DICTIONARIES AND SETS ]##################################################
 
   dictionaries-and-sets:
     - include: empty-dictionaries
@@ -1661,21 +1675,25 @@ contexts:
       scope: invalid.illegal.expected-colon.python
     - match: \*\*
       scope: keyword.operator.unpacking.mapping.python
-      push:
-        - match: (?=\})
-          pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.python
-          pop: true
-        - include: expression-in-a-group
+      push: inside-dictionary-unpacking-expression
     - include: comments
     - match: (?=\S)
-      push:
-        - clear_scopes: 1
-        - meta_scope: meta.mapping.key.python
-        - match: \s*(?=\}|,|:)
-          pop: true
-        - include: expression-in-a-group
+      push: inside-directory-key
+
+  inside-dictionary-unpacking-expression:
+    - match: (?=\})
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.python
+      pop: true
+    - include: expression-in-a-group
+
+  inside-directory-key:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.key.python
+    - match: \s*(?=\}|,|:)
+      pop: true
+    - include: expression-in-a-group
 
   inside-directory-value:
     - meta_content_scope: meta.mapping.python
@@ -1727,16 +1745,16 @@ contexts:
       scope: punctuation.separator.set.python
     - match: \*
       scope: keyword.operator.unpacking.sequence.python
-      push:
-        - match: (?=\})
-          pop: true
-        - match: (?=,)
-          pop: true
-        - include: expression-in-a-group
+      push: inside-set-unpacking-expression
     - include: inline-for
     - include: expression-in-a-group
     - match: ':'
       scope: invalid.illegal.colon-inside-set.python
+
+  inside-set-unpacking-expression:
+    - match: (?=[,}])
+      pop: true
+    - include: expression-in-a-group
 
   empty-dictionaries:
     - match: (\{)\s*(\})
@@ -1746,17 +1764,11 @@ contexts:
         2: punctuation.section.mapping.end.python
       push: after-expression
 
-  illegal-stray-parens:
-    - match: \)
-      scope: invalid.illegal.stray.python
-
-  illegal-stray-brackets:
-    - match: \]
-      scope: invalid.illegal.stray.python
-
   illegal-stray-braces:
     - match: \}
       scope: invalid.illegal.stray.python
+
+###[ IDENTIFIERS ]############################################################
 
   builtin-exceptions:
     - match: '{{builtin_exceptions}}'
