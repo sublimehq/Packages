@@ -1938,15 +1938,33 @@ mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
 #                                      ^ punctuation.separator.sequence
 #                                           ^ punctuation.section.sequence.end
 #                                            ^ punctuation.separator.sequence.python
-#                                              ^ invalid.illegal.expected-colon.python
+#                                              ^ invalid.illegal.unexpected-comma.python
 #                                               ^ punctuation.section.mapping.end - meta.mapping.key
 
 mydict = { 'a' : xform, 'b' : form, 'c' : frm }
 #                                 ^ meta.mapping.python punctuation.separator.sequence.python
 #                                       ^ punctuation.separator.key-value.python
 
+mydict = { a : b for b in { 'foo', 'bar', 'baz' } }
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping
+#        ^^ meta.mapping.python
+#          ^ meta.mapping.key.python
+#           ^^^ meta.mapping.python
+#              ^ meta.mapping.value.python - meta.set
+#               ^^^^^^^^^^ meta.mapping.python - meta.set
+#                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python meta.set.python
+#                                                ^^ meta.mapping.python - meta.set
+#                ^^^ keyword.control.loop.for.generator.python
+
 mydict = { a : b async for b in range(1, 2) }
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping
+#        ^^ meta.mapping.python
+#          ^ meta.mapping.key.python
+#           ^^^ meta.mapping.python
+#              ^ meta.mapping.value.python
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
 #                ^^^^^ storage.modifier.async.python
+#                      ^^^ keyword.control.loop.for.generator.python
 
 myset = {"key", True, key2, [-1], {}:1}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set
@@ -2027,10 +2045,11 @@ set_ = {i for i in range(100)}
 #               ^^ keyword.control.loop.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#       ^ meta.mapping.python
 #        ^ meta.mapping.key.python
-#         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.key.python
+#         ^^ meta.mapping.python - meta.mapping.key - meta.mapping.value
 #           ^ meta.mapping.value.python
-#            ^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.value
+#            ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
 #             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.loop.for.generator
 #                   ^^ keyword.control.loop.for.in

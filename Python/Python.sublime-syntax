@@ -1662,66 +1662,74 @@ contexts:
       scope: punctuation.section.mapping.begin.python
       set: inside-dictionary
 
-  inside-dictionary:
-    - meta_scope: meta.mapping.python
+  dictionary-end:
     - match: \}
       scope: punctuation.section.mapping.end.python
       set: after-expression
-    - include: illegal-assignment-expression
-    - match: ':'
-      scope: punctuation.separator.key-value.python
-      set: inside-directory-value
-    - match: ','
-      scope: invalid.illegal.expected-colon.python
-    - match: \*\*
-      scope: keyword.operator.unpacking.mapping.python
-      push: inside-dictionary-unpacking-expression
-    - include: comments
-    - match: (?=\S)
-      push: inside-directory-key
 
-  inside-dictionary-unpacking-expression:
-    - match: (?=\})
-      pop: true
-    - match: ','
-      scope: punctuation.separator.sequence.python
-      pop: true
-    - include: expression-in-a-group
-
-  inside-directory-key:
-    - clear_scopes: 1
-    - meta_scope: meta.mapping.key.python
-    - match: \s*(?=\}|,|:)
-      pop: true
-    - include: expression-in-a-group
-
-  inside-directory-value:
-    - meta_content_scope: meta.mapping.python
-    - match: \}
-      scope: punctuation.section.mapping.end.python
-      set: after-expression
+  dictionary-separator:
     - match: (?=,)
       set:
-        # clear meta scope from this match, because 'inside-directory' has it in meta_scope
+        - meta_include_prototype: false
         - match: ','
           scope: punctuation.separator.sequence.python
           set: inside-dictionary
-    - match: (?=(?:async|for)\b)
-      push:
-        - match: (?=\})
-          pop: true
-        - match: ','
-          scope: invalid.illegal.unexpected-comma.python
-        - include: inline-for
-        - include: expression-in-a-group
+
+  inside-dictionary:
+    - meta_scope: meta.mapping.python
+    - include: dictionary-end
     - include: comments
+    - include: illegal-assignment-expression
+    - include: illegal-commas
+    - match: ':'
+      scope: punctuation.separator.key-value.python
+      set: expect-dictionary-value
+    - match: \*\*
+      scope: keyword.operator.unpacking.mapping.python
+      set: inside-dictionary-unpacking-expression
     - match: (?=\S)
-      push:
-        - clear_scopes: 1
-        - meta_content_scope: meta.mapping.value.python
-        - match: (?=\s*(\}|,|(?:async|for)\b))
-          pop: true
-        - include: expression-in-a-group
+      set: inside-directory-key
+
+  inside-dictionary-unpacking-expression:
+    - meta_content_scope: meta.mapping.python
+    - include: dictionary-end
+    - include: dictionary-separator
+    - include: expression-in-a-group
+
+  inside-directory-key:
+    - meta_scope: meta.mapping.key.python
+    - match: (?=\s*[,:}])
+      set: inside-dictionary
+    - include: expression-in-a-group
+
+  expect-dictionary-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.python
+    - include: dictionary-end
+    - include: dictionary-separator
+    - match: (?=\S)
+      set: inside-directory-value
+
+  inside-directory-value:
+    - meta_content_scope: meta.mapping.value.python
+    - match: (?=\s*[,}])
+      set: after-dictionary-value
+    - match: (?=\s*(?:async|for)\b)
+      set: inside-dictionary-generator
+    - include: expression-in-a-group
+
+  after-dictionary-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.python
+    - include: dictionary-end
+    - include: dictionary-separator
+
+  inside-dictionary-generator:
+    - meta_content_scope: meta.mapping.python
+    - include: dictionary-end
+    - include: illegal-commas
+    - include: inline-for
+    - include: expression-in-a-group
 
   maybe-set:
     - match: \{
@@ -1763,6 +1771,10 @@ contexts:
         1: punctuation.section.mapping.begin.python
         2: punctuation.section.mapping.end.python
       push: after-expression
+
+  illegal-commas:
+    - match: ','
+      scope: invalid.illegal.unexpected-comma.python
 
   illegal-stray-braces:
     - match: \}
