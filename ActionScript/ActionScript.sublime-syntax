@@ -688,11 +688,7 @@ variables:
   types: |-
     (?x: Boolean | Number | String | Void )
   constant_numeric_exponent: |-
-    (?x:
-      [eE]
-      [-+]?
-      \d+
-    )
+    (?x: [eE] [-+]? \d+ )
   constant_numeric_suffix: |-
     (?x:
       L|l|UL|ul|u|U|F|f
