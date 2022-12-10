@@ -728,7 +728,7 @@ contexts:
 
     - include: strings
 
-    - match: \b(?:instanceof)\b
+    - match: \binstanceof\b
       scope: keyword.operator.actionscript
 
     - match: '[-!%&*+=/?:]'
