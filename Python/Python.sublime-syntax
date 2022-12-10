@@ -1290,7 +1290,7 @@ contexts:
     - match: '\s*(\()'
       captures:
         1: punctuation.section.arguments.begin.python
-      push: [function-call-arguments, allow-unpack-operators]
+      push: [inside-function-call-argument-list, allow-unpack-operators]
     # item access
     - match: '\s*(\[)'
       captures:
@@ -1417,17 +1417,18 @@ contexts:
               scope: punctuation.separator.slice.python
             - include: expression-in-a-group
 
+###[ FUNCTION CALLS ]#########################################################
+
   function-calls:
-    - match: '(?=(\.\s*)?{{path}}\s*\()'
-      push: [function-call-wrapper, qualified-name-until-leaf]
+    - match: (?=(\.\s*)?{{path}}\s*\()
+      push:
+        - function-call-wrapper
+        - qualified-name-until-leaf
 
   function-call-wrapper:
     - meta_scope: meta.function-call.python
     - match: (?=\()  # need to remove meta.function-call.python from opening parens
-      set:
-        - match: \(
-          scope: punctuation.section.arguments.begin.python
-          set: [after-expression, function-call-arguments, allow-unpack-operators]
+      set: function-call-argument-list
     - match: (\.)\s*(?={{identifier}})
       captures:
         1: punctuation.accessor.dot.python
@@ -1444,16 +1445,24 @@ contexts:
         - include: generic-names
         - include: immediately-pop
 
-  function-call-arguments:
+  function-call-argument-list:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.arguments.begin.python
+      set:
+        - inside-function-call-argument-list
+        - allow-unpack-operators
+
+  inside-function-call-argument-list:
     - meta_scope: meta.function-call.arguments.python
     - match: \)
       scope: punctuation.section.arguments.end.python
-      pop: true
+      set: after-expression
     - include: arguments
 
   arguments:
-    - include: keyword-arguments
     - include: argument-separators
+    - include: keyword-arguments
     - include: inline-for
     - include: expression-in-a-group
 
@@ -1463,18 +1472,22 @@ contexts:
       push: allow-unpack-operators
 
   keyword-arguments:
-    - match: '(?={{identifier}}\s*=(?!=))'
-      push:
-        - match: '='
-          scope: keyword.operator.assignment.python
-          set:
-            - include: illegal-assignment-expression
-            - match: (?=[,):])
-              pop: true
-            - include: expression-in-a-group
-        - include: illegal-names
-        - match: '{{identifier}}'
-          scope: variable.parameter.python
+    - match: (?={{identifier}}\s*=(?!=))
+      push: keyword-argument-name
+
+  keyword-argument-name:
+    - match: =
+      scope: keyword.operator.assignment.python
+      set: keyword-argument-value
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.python
+
+  keyword-argument-value:
+    - include: illegal-assignment-expression
+    - match: (?=[,:)])
+      pop: true
+    - include: expression-in-a-group
 
 ###[ LAMBDAS ]################################################################
 
