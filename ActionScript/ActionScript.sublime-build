@@ -1,8 +1,4 @@
 {
-    "selector": "source.actionscript",
-    "file_patterns": [
-        "*.as"
-    ],
     "cmd": [
         "mxmlc", 
         "${file}",
@@ -11,6 +7,6 @@
         "-debug=false",
         "-static-link-runtime-shared-libraries=true"
     ],
-    "cancel": { "kill": true },
+    "selector": "source.actionscript",
     "file_regex": "^(.+?)\\(([0-9]+)\\): col: (([0-9]+))(.*)$"
 }
