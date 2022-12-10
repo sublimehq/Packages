@@ -1756,8 +1756,7 @@ contexts:
       push: inside-set-unpacking-expression
     - include: inline-for
     - include: expression-in-a-group
-    - match: ':'
-      scope: invalid.illegal.colon-inside-set.python
+    - include: illegal-colons
 
   inside-set-unpacking-expression:
     - match: (?=[,}])
@@ -1771,6 +1770,10 @@ contexts:
         1: punctuation.section.mapping.begin.python
         2: punctuation.section.mapping.end.python
       push: after-expression
+
+  illegal-colons:
+    - match: ':'
+      scope: invalid.illegal.unexpected-colon.python
 
   illegal-commas:
     - match: ','

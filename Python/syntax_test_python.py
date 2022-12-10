@@ -1978,7 +1978,7 @@ myset = {"key", True, key2, [-1], {}:1}
 #                             ^ constant.numeric
 #                               ^ punctuation.separator.set
 #                                 ^^ meta.mapping.empty.python
-#                                   ^ invalid.illegal.colon-inside-set.python
+#                                   ^ invalid.illegal.unexpected-colon.python
 #                                     ^ punctuation.section.set.end.python
 
 myset = {a := 1, b := 2}
@@ -1995,7 +1995,7 @@ myset = {a := 1, b := 2}
 # <- meta.set.python punctuation.section.set.begin.python
 #^^^^^^^^^^ meta.set.python
 #  ^^ keyword.operator.assignment.inline.python
-#      ^ invalid.illegal.colon-inside-set.python
+#      ^ invalid.illegal.unexpected-colon.python
 #         ^ punctuation.section.set.end.python
 
 {1, b := 2}
@@ -2026,7 +2026,7 @@ more_complex_set = {
     *{1}, 2: 2}
 #   ^ meta.set.python
 #       ^ meta.set.python punctuation.separator.set.python
-#          ^ meta.set.python invalid.illegal.colon-inside-set.python
+#          ^ meta.set.python invalid.illegal.unexpected-colon.python
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
