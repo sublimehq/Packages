@@ -12,7 +12,7 @@ first_line_match: |-
     ^ \s* // .*? -\*- .*? \baction-?script\b .*? -\*-  # editorconfig
   )
 
-##[ VARIABLES ]################################################################
+###[ VARIABLES ]################################################################
 
 variables:
   classes: |-
@@ -695,7 +695,7 @@ variables:
   constant_numeric_exponent: |-
     (?x:
       [eE]
-      [-+]??
+      [-+]?
       \d+
     )
   constant_keyboard_inputs: |-
@@ -714,15 +714,8 @@ variables:
     | SPACE | SQRT1_2 | SQRT2
     | UP
     )
-  constant_language: |-
-    (?x:
-      null
-    | undefined
-    | true
-    | false
-    )
 
-##[ Contexts ]##########################################################################################################
+###[ CONTEXTS ]#################################################################
 
 contexts:
   main:
@@ -732,16 +725,13 @@ contexts:
     - match: \b(?:{{functions}})\b
       scope: support.function.actionscript
 
-    - match: \b(?:{{constants}})\b
-      scope: support.constant.actionscript
+    - include: constants
 
     - match: \b(?:{{keywords}})\b
       scope: keyword.control.actionscript
 
     - match: \b(?:{{types}})\b
       scope: storage.type.actionscript
-
-    - include: constants
 
     - include: strings
 
@@ -782,21 +772,18 @@ contexts:
   prototype:
     - include: comments
 
-##[ Comments ]##########################################################################################################
+###[ COMMENTS ]#################################################################
 
   comments:
-    - include: line-comments
-    - include: block-comments
+    - include: line-comment
+    - include: block-comment
 
-  block-comments:
-    - include: block-comment-basic
-
-  block-comment-basic:
+  block-comment:
     - match: /\*
       scope: punctuation.definition.comment.begin.actionscript
-      push: block-comment-basic-content
+      push: block-comment-content
 
-  block-comment-basic-content:
+  block-comment-content:
     - meta_include_prototype: false
     - meta_scope: comment.block.actionscript
 
@@ -808,21 +795,18 @@ contexts:
       captures:
         1: punctuation.definition.comment.actionscript
 
-  line-comments:
-    - include: line-comment-double-slash
-
-  line-comment-double-slash:
+  line-comment:
     - match: //
       scope: punctuation.definition.comment.actionscript
-      push: line-comment-double-slash-content
+      push: line-comment-content
 
-  line-comment-double-slash-content:
+  line-comment-content:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-slash.actionscript
 
     - include: eol-pop
 
-##[ Strings ]###########################################################################################################
+###[ STRINGS ]##################################################################
 
   strings:
     - include: double-quoted-strings
@@ -860,16 +844,25 @@ contexts:
     - match: \\.
       scope: constant.character.escape.actionscript
 
-##[ Constants ]#########################################################################################################
+###[ CONSTANTS ]################################################################
 
   constants:
     - include: language-constants
     - include: numeric-constants
-    - include: keyboard-input-constants
 
   language-constants:
-    - match: \b{{constant_language}}\b
-      scope: constant.language.actionscript
+    - match: \b(?:false|true)\b
+      scope: constant.language.boolean.actionscript
+    - match: \b(?:null)\b
+      scope: constant.language.null.actionscript
+    - match: \b(?:undefined)\b
+      scope: constant.language.undefined.actionscript
+
+    - match: \b(?:{{constants}})\b
+      scope: support.constant.actionscript
+
+    - match: \b(?:{{constant_keyboard_inputs}})\b
+      scope: support.constant.actionscript
 
   numeric-constants:
     - match: (0[xX])(\h*)(L|l|UL|ul|u|U|F|f)?
@@ -891,11 +884,7 @@ contexts:
         2: constant.numeric.actionscript
         3: constant.numeric.suffix.actionscript
 
-  keyboard-input-constants:
-    - match: \b{{constant_keyboard_inputs}}\b
-      scope: support.constant.actionscript
-
-##[ Prototypes ]########################################################################################################
+###[ PROTOTYPES ]###############################################################
 
   eol-pop:
     - match: '$\n?'
