@@ -2707,6 +2707,21 @@ y0 = y1 := f(x)
 y0 = (y1 := f(x))
 #        ^^ keyword.operator.assignment.inline.python
 
+y0 = (y1 := f1(x), y2 := f2(x))
+#        ^^ keyword.operator.assignment.inline.python
+#                     ^^ keyword.operator.assignment.inline.python
+
+y0 = (y := f(x) for y, x in values)
+#       ^^ keyword.operator.assignment.inline.python
+
+y0 = [y1 := f1(x), y2 := f2(x)]
+#        ^^ keyword.operator.assignment.inline.python
+#                     ^^ keyword.operator.assignment.inline.python
+
+y0 = {y1 := f1(x), y2 := f2(x)}
+#        ^^ keyword.operator.assignment.inline.python
+#                     ^^ keyword.operator.assignment.inline.python
+
 foo(x=(y := f(x)))
 #        ^^ keyword.operator.assignment.inline.python
 
@@ -2750,22 +2765,40 @@ if any(len(longline := line) >= 100 for line in lines):
 
 # These are all invalid. We could let linters handle them,
 # but these weren't hard to implement.
+
+def foo := :
+#       ^^ invalid.illegal.assignment.python
+#          ^ punctuation.section.function.begin.python
+
+def foo() := :
+#         ^^ invalid.illegal.assignment.python
+#            ^ punctuation.section.function.begin.python
+
+def foo(x = y := 42): pass
+#             ^^ invalid.illegal.assignment.python
+
 def foo(x: y:=f(x), y:=foo, (a:=b)) -> a:=None: pass
 #           ^^ invalid.illegal.assignment.python
 #                    ^^ invalid.illegal.assignment.python
 #                             ^ invalid.illegal.annotation.python
 #                              ^^ invalid.illegal.default-value.python
 #                                       ^^ invalid.illegal.assignment.python
-def bar() := :
-#         ^^ invalid.illegal.assignment.python
-#            ^ punctuation.section.function.begin.python
+
 foo(x = y := f(x), y=x:=2)
 #         ^^ invalid.illegal.assignment.python
 #                     ^^ invalid.illegal.assignment.python
+
+{k1: y1 := f(x)}
+#       ^^ invalid.illegal.assignment.python
+
+foo[x:=0]
+#    ^^ invalid.illegal.assignment.python
+
 [1][x:=0]
 #    ^^ invalid.illegal.assignment.python
-def foo(answer = p := 42):  pass
-#                  ^^ invalid.illegal.assignment.python
+
+lambda: x := 1
+
 (lambda: x := 1)
 #          ^^ invalid.illegal.assignment.python
 

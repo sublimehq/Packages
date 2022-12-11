@@ -272,6 +272,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
+    - include: illegal-assignment-expressions
     - include: lambdas
     - include: expressions-common
     - include: qualified-name
@@ -280,20 +281,31 @@ contexts:
     # Differs from expression-as-a-statement in that:
     # - invalid-name matches will pop the current context
     # - assignment expressions
+    - include: assignment-expressions
     - include: lambdas
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
-    - include: assignment-expressions
 
   expression-in-a-group:  # Always include this last!
     # Differs from expression-in-a-statement in that:
-    # - accessor matching continues into the next line
+    # - no assignment expressions allowed
+    # - accessor and lambda matching continues into the next line
+    - include: illegal-assignment-expressions
     - include: lambda-in-groups
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
+
+  expression-in-a-sequence:  # Always include this last!
+    # Differs from expression-in-a-statement in that:
+    # - accessor and lambda matching continues into the next line
+    - include: for-expressions
     - include: assignment-expressions
+    - include: lambda-in-groups
+    - include: expressions-common
+    - include: illegal-name
+    - include: qualified-name
 
   expressions-common:
     - include: dictionaries-and-sets
@@ -686,14 +698,12 @@ contexts:
       set: inside-function-parameter-list
     - match: \bNone\b
       scope: constant.language.null.python
-    - include: illegal-assignment-expressions
     - include: expression-in-a-group
 
   function-parameter-default-value:
     - meta_scope: meta.function.parameters.default-value.python
     - match: (?=[,)])
       set: inside-function-parameter-list
-    - include: illegal-assignment-expressions
     - include: expression-in-a-group
 
   function-parameter-tuples:
@@ -761,8 +771,7 @@ contexts:
 ###[ ASSIGNMENT STATEMENTS ]##################################################
 
   assignment-statements:
-    - include: illegal-assignment-expressions
-    - match: ':'
+    - match: ':(?!=)'
       scope: punctuation.separator.annotation.variable.python
       push: variable-annotation
     - match: '{{augmented_assignment_operators}}'
@@ -783,7 +792,6 @@ contexts:
       pop: 1
     - match: \bNone\b
       scope: constant.language.null.python
-    - include: illegal-assignment-expressions
     - include: expression-in-a-group
 
 ###[ CASE STATEMENTS ]########################################################
@@ -1243,7 +1251,7 @@ contexts:
     - match: \bas\b
       scope: keyword.control.flow.with.as.python
       push: with-statement-tuple-as
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   with-statement-tuple-as:
     - include: comments
@@ -1399,8 +1407,7 @@ contexts:
   arguments:
     - include: argument-separators
     - include: keyword-arguments
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   argument-separators:
     - match: ','
@@ -1420,8 +1427,7 @@ contexts:
       scope: variable.parameter.python
 
   keyword-argument-value:
-    - include: illegal-assignment-expressions
-    - match: (?=[,:)])
+    - match: (?=[,)]|:(?!=))
       pop: true
     - include: expression-in-a-group
 
@@ -1527,7 +1533,7 @@ contexts:
       set: after-expression
     - match: (?=,|\bfor\b)
       fail: generators-groups-and-tuples
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   maybe-generator:
     - match: \(
@@ -1539,8 +1545,7 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.python
       set: after-expression
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   maybe-tuple:
     - match: \(
@@ -1554,8 +1559,7 @@ contexts:
       set: after-expression
     - match: (?=\bfor\b)
       fail: generators-groups-and-tuples
-    - include: sequence-separators
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   empty-tuples:
     - match: (\()\s*(\))
@@ -1584,9 +1588,7 @@ contexts:
     - match: \]
       scope: punctuation.section.sequence.end.python
       set: after-expression
-    - include: sequence-separators
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   empty-lists:
     - match: (\[)\s*(\])
@@ -1681,8 +1683,7 @@ contexts:
     - meta_content_scope: meta.mapping.python
     - include: dictionary-end
     - include: illegal-commas
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   maybe-set:
     - match: \{
@@ -1707,8 +1708,7 @@ contexts:
     - match: \*
       scope: keyword.operator.unpacking.sequence.python
       push: inside-set-unpacking-expression
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
     - include: illegal-colons
 
   inside-set-unpacking-expression:
@@ -1754,8 +1754,7 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.python
       set: after-expression
-    - include: illegal-assignment-expressions
-    - match: ':'
+    - match: ':(?!=)'
       scope: punctuation.separator.slice.python
     - include: expression-in-a-group
 
@@ -3139,8 +3138,7 @@ contexts:
       pop: 1
     - match: \\
       scope: invalid.illegal.backslash-in-fstring.python
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   f-string-replacement-modifier:
     - include: f-string-replacement-end
@@ -3180,8 +3178,7 @@ contexts:
       pop: 1
     - match: \\
       scope: invalid.illegal.backslash-in-fstring.python
-    - include: for-expressions
-    - include: expression-in-a-group
+    - include: expression-in-a-sequence
 
   f-string-replacement-regexp-modifier:
     - include: f-string-replacement-end
