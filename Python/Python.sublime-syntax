@@ -236,6 +236,8 @@ variables:
     | members | methods
     )__\b )
 
+##############################################################################
+
 contexts:
   main:
     - meta_include_prototype: false
@@ -267,6 +269,48 @@ contexts:
     - include: modifier-statements
     - include: flow-statements
     - include: other-statements
+
+  # Always include these last and only one at a time!
+  expression-as-a-statement:
+    - include: lambdas
+    - include: expressions-common
+    - include: qualified-name
+
+  expression-in-a-statement:
+    # Differs from expression-as-a-statement in that:
+    # - invalid-name matches will pop the current context
+    # - assignment expressions
+    - include: lambdas
+    - include: expressions-common
+    - include: illegal-name
+    - include: qualified-name
+    - include: assignment-expressions
+
+  expression-in-a-group:  # Always include this last!
+    # Differs from expression-in-a-statement in that:
+    # - accessor matching continues into the next line
+    - include: lambda-in-groups
+    - include: expressions-common
+    - include: illegal-name
+    - include: qualified-name
+    - include: assignment-expressions
+
+  expressions-common:
+    - include: dictionaries-and-sets
+    - include: generators-groups-and-tuples
+    - include: lists
+    - include: comments
+    - include: constants
+    - include: numbers
+    - include: strings
+    - include: keywords
+    - include: operators
+    - include: function-calls
+    - include: items
+    - include: line-continuation
+    - include: illegal-stray-brackets
+    - include: illegal-stray-braces
+    - include: illegal-stray-parens
 
 ###[ COMMENTS ]###############################################################
 
@@ -1259,61 +1303,6 @@ contexts:
       scope: keyword.other.exec.python
     - match: \bprint\b(?! *([,.()\]}]))
       scope: keyword.other.print.python
-
-###[ EXPRESSIONS ]############################################################
-
-  expressions-common:
-    - include: comments
-    - include: constants
-    - include: numbers
-    - include: keywords
-    - include: operators
-    - include: strings
-    - include: function-calls
-    - include: items
-    - include: lists
-    - include: dictionaries-and-sets
-    - include: generators-groups-and-tuples
-    - include: illegal-stray-brackets
-    - include: illegal-stray-braces
-    - include: illegal-stray-parens
-    - include: line-continuation
-
-  # Always include these last and only one at a time!
-  expression-as-a-statement:
-    - include: lambdas
-    - include: expressions-common
-    - include: qualified-name
-
-  expression-in-a-statement:
-    # Differs from expression-as-a-statement in that:
-    # - invalid-name matches will pop the current context
-    # - assignment expressions
-    - include: lambdas
-    - include: expressions-common
-    - include: illegal-name
-    - include: qualified-name
-    - include: assignment-expressions
-
-  expression-in-a-group:  # Always include this last!
-    # Differs from expression-in-a-statement in that:
-    # - accessor matching continues into the next line
-    - include: lambda-in-groups
-    - include: expressions-common
-    - include: illegal-name
-    - include: qualified-name
-    - include: assignment-expressions
-
-  after-expression:
-    - match: \s*(?=\()
-      set: function-call-argument-list
-    - match: \s*(?=\[)
-      set: item-access
-    - match: \s*(\\)\s*$
-      captures:
-        1: punctuation.separator.continuation.line.python
-      push: inside-line-continuation
-    - include: immediately-pop
 
 ###[ FOR EXPRESSIONS ]########################################################
 
@@ -3219,6 +3208,17 @@ contexts:
       pop: 2
 
 ###[ PROTOTYPES ]#############################################################
+
+  after-expression:
+    - match: \s*(?=\()
+      set: function-call-argument-list
+    - match: \s*(?=\[)
+      set: item-access
+    - match: \s*(\\)\s*$
+      captures:
+        1: punctuation.separator.continuation.line.python
+      push: inside-line-continuation
+    - include: immediately-pop
 
   else-pop:
     - match: (?=\S)
