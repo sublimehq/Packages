@@ -939,7 +939,7 @@ def _():
 #                                ^^ keyword.control.flow.with.as
 #                                    ^ punctuation.section.block.with
         await something()
-#       ^^^^^ keyword.other.await
+#       ^^^^^ keyword.control.flow.await
 
     assert foo == bar
 #   ^^^^^^ keyword.control.flow.assert.python
@@ -2207,7 +2207,7 @@ _ = [m
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async
 result = [await fun() for fun in funcs]
-#         ^^^^^ keyword.other.await.python
+#         ^^^^^ keyword.control.flow.await.python
 
 foo, bar = get_vars()
 #  ^ punctuation.separator.sequence.python

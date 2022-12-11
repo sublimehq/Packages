@@ -1266,10 +1266,8 @@ contexts:
     - include: comments
     - include: constants
     - include: numbers
-    - include: yields
+    - include: keywords
     - include: operators
-    - match: \bawait\b
-      scope: keyword.other.await.python
     - include: inline-if
     - include: strings
     - include: function-calls
@@ -1327,7 +1325,11 @@ contexts:
       push: inside-line-continuation
     - include: immediately-pop
 
-  yields:
+###[ FLOW EXPRESSIONS ]#######################################################
+
+  keywords:
+    - match: \bawait\b
+      scope: keyword.control.flow.await.python
     - match: \b(yield)(?:\s+(from))?\b
       captures:
         1: keyword.control.flow.yield.python
