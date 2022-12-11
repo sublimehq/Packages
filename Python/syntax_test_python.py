@@ -294,6 +294,13 @@ import .str
 import str
 #      ^^^ support.type.python
 
+from importlib import import_module
+# <- meta.statement.import.python keyword.control.import.from.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import.python
+#^^^ keyword.control.import.from.python
+#    ^^^^^^^^^ - keyword
+#              ^^^^^^ keyword.control.import.python
+#                     ^^^^^^^^^^^^^ - keyword
 
 ##################
 # Identifiers
@@ -2406,10 +2413,12 @@ unintuitive = 0B101 + 0O101 + 10l
 
 illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #           ^ - meta.number - constant.numeric
-#                 ^ - meta.number - constant.numeric
+#                ^^ meta.number.integer.decimal.python constant.numeric.value.python
+#                ^ invalid.illegal.digits.python
 #                     ^^ meta.number.integer.binary.python constant.numeric.base.python
 #                       ^^^ meta.number.integer.binary.python constant.numeric.value.python
-#                          ^^^^^^ - meta.number - constant.numeric
+#                          ^^^ invalid.illegal.digit.python
+#                             ^^^ - meta.number - constant.numeric
 #                                ^^ meta.number.integer.hexadecimal.python constant.numeric.base.python
 #                                  ^^ meta.number.integer.hexadecimal.python constant.numeric.value.python
 #                                    ^^^^^^^^^ - meta.number- constant.numeric
@@ -2445,7 +2454,20 @@ flags = 0b_0011_1111_0100_1110 | 0b_1 & 0b_0_
 octoct = 0o_2 ^ 0o_
 #        ^^ meta.number.integer.octal.python constant.numeric.base.python
 #          ^^ meta.number.integer.octal.python constant.numeric.value.python
-#               ^^^ - constant
+#               ^ meta.number.integer.decimal.python constant.numeric.value.python
+#                ^^ - constant
+
+if 5in range(10):
+#^^^^^^^^^^^^^^^ meta.statement.conditional.if.python
+#  ^ meta.number.integer.decimal.python constant.numeric.value.python
+#   ^^ keyword.operator.logical.python
+
+   5if 0else 6
+#  ^ meta.number.integer.decimal.python constant.numeric.value.python
+#   ^^ keyword.control.conditional.if.python
+#      ^ meta.number.integer.decimal.python constant.numeric.value.python
+#       ^^^^ keyword.control.conditional.else.python
+
 
 ##################
 # Operators
