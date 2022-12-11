@@ -57,6 +57,9 @@ variables:
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
 
+  augmented_assignment_operators: |-
+    (?x: >>= | <<= | \*\*= | //= | \+= | -= | \*= | /= | %= | @= | &= | \|= | \^= )
+
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
@@ -245,7 +248,6 @@ contexts:
     - include: block-statements
     - include: class-definitions
     - include: function-definitions
-    - include: assignments
     - include: statement-terminators
     - include: expression-as-a-statement
 
@@ -260,6 +262,7 @@ contexts:
 
   line-statements:
     - include: decorators
+    - include: assignment-statements
     - include: import-statements
     - include: modifier-statements
     - include: flow-statements
@@ -709,6 +712,34 @@ contexts:
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
     - include: line-continuation-or-pop
+
+###[ ASSIGNMENT STATEMENTS ]##################################################
+
+  assignment-statements:
+    - include: illegal-assignment-expression
+    - match: ':'
+      scope: punctuation.separator.annotation.variable.python
+      push: variable-annotation
+    - match: '{{augmented_assignment_operators}}'
+      scope: keyword.operator.assignment.augmented.python
+      push: assignment-statement-value
+    - match: =(?!=)
+      scope: keyword.operator.assignment.python
+      push: assignment-statement-value
+
+  assignment-statement-value:
+    - include: illegal-assignment-expression
+    - include: expression-in-a-statement
+    - include: line-continuation-or-pop
+
+  variable-annotation:
+    - meta_scope: meta.variable.annotation.python
+    - match: (?=$|=|#|;)
+      pop: 1
+    - match: \bNone\b
+      scope: constant.language.null.python
+    - include: illegal-assignment-expression
+    - include: expression-in-a-group
 
 ###[ CASE STATEMENTS ]########################################################
 
@@ -1504,8 +1535,6 @@ contexts:
       fail: generators-groups-and-tuples
     - include: sequence-separators
     - include: expression-in-a-group
-    - match: '='
-      scope: invalid.illegal.unexpected-assignment-in-tuple.python
 
   empty-tuples:
     - match: (\()\s*(\))
@@ -1726,32 +1755,17 @@ contexts:
     - include: line-continuation-or-pop
     - include: else-pop
 
-  assignments:
-    - include: illegal-assignment-expression
-    - match: ':'
-      scope: punctuation.separator.annotation.variable.python
-      push: variable-annotation
-    - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
-      scope: keyword.operator.assignment.augmented.python
-    - match: '=(?!=)'
-      scope: keyword.operator.assignment.python
-
-  variable-annotation:
-    - meta_scope: meta.variable.annotation.python
-    - match: (?=$|=|#|;)
-      pop: 1
-    - match: \bNone\b
-      scope: constant.language.null.python
-    - include: illegal-assignment-expression
-    - include: expression-in-a-group
-
   operators:
+    - match: '{{augmented_assignment_operators}}'
+      scope: invalid.illegal.assignment.python
     - match: <>
       scope: invalid.deprecated.operator.python
     - match: <\=|>\=|\=\=|<|>|\!\=
       scope: keyword.operator.comparison.python
     - match: \+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~
       scope: keyword.operator.arithmetic.python
+    - match: =(?!=)
+      scope: invalid.illegal.assignment.python
     - match: \b(?:and|in|is|not|or)\b
       comment: keyword operators that evaluate to True or False
       scope: keyword.operator.logical.python

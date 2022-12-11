@@ -1918,8 +1918,8 @@ tuple_expression = ()and()
 
 not_a_tuple = (a = 2, b += 3)
 #             ^^^^^^^^^^^^^^^ meta.sequence
-#                ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
-#                        ^ invalid.illegal.unexpected-assignment-in-tuple - keyword
+#                ^ invalid.illegal.assignment.python
+#                       ^^ invalid.illegal.assignment.python
 
 just_a_group = (1)
 #              ^^^ meta.group.python
@@ -2457,16 +2457,61 @@ foo = bar()
 #   ^ keyword.operator.assignment.python
 foo == bar()
 #   ^^ keyword.operator.comparison.python
-#
-foo <<= bar
+
+foo <<= bar <<= baz
 #   ^^^ keyword.operator.assignment.augmented.python
+#           ^^^ invalid.illegal.assignment.python
+
+foo >>= bar >>= baz
+#   ^^^ keyword.operator.assignment.augmented.python
+#           ^^^ invalid.illegal.assignment.python
+
+foo **= bar **= baz
+#   ^^^ keyword.operator.assignment.augmented.python
+#           ^^^ invalid.illegal.assignment.python
+
+foo *= bar *= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo //= bar //= baz
+#   ^^^ keyword.operator.assignment.augmented.python
+#           ^^^ invalid.illegal.assignment.python
+
+foo /= bar /= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo += bar += baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo -= bar -= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo %= bar %= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo @= bar @= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo &= bar &= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo |= bar |= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
+
+foo ^= bar ^= baz
+#   ^^ keyword.operator.assignment.augmented.python
+#          ^^ invalid.illegal.assignment.python
 
 matrix @ multiplication
 #      ^ keyword.operator.matrix.python
-
-a @= b
-# ^^ keyword.operator.assignment.augmented.python
-
 
 ##################
 # Context "Fail Early"
