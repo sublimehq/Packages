@@ -1303,15 +1303,6 @@ contexts:
     - include: illegal-name
     - include: qualified-name
     - include: assignment-expressions
-    - match: '(\.) *(?={{identifier}})'
-      captures:
-        1: punctuation.accessor.dot.python
-      push:
-        - include: magic-function-names
-        - include: magic-variable-names
-        - include: illegal-names
-        - include: generic-names
-        - include: immediately-pop
 
   after-expression:
     - match: \s*(?=\()
