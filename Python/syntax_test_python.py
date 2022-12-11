@@ -475,9 +475,11 @@ def _():
 
     {key: lambda x, y: 10}
 #   ^ punctuation.section.mapping.begin
-#         ^^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^ meta.function.inline.python
+#               ^^^^^ meta.function.inline.parameters.python
+#                    ^ meta.function.inline.python
+#                     ^^^ meta.function.inline.body.python
 #         ^^^^^^ keyword.declaration.function.inline.python
-#                ^^^^^ meta.function.inline.parameters
 #                ^ variable.parameter
 #                 ^ punctuation.separator.parameters
 #                   ^ variable.parameter
@@ -486,9 +488,11 @@ def _():
 
     {lambda x, y: 10}
 #   ^ punctuation.section.set.begin
-#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ meta.function.inline.python
+#          ^^^^^ meta.function.inline.parameters.python
+#               ^ meta.function.inline.python
+#                ^^^ meta.function.inline.body.python
 #    ^^^^^^ keyword.declaration.function.inline.python
-#           ^^^^^ meta.function.inline.parameters
 #           ^ variable.parameter
 #            ^ punctuation.separator.parameters
 #              ^ variable.parameter
@@ -497,9 +501,11 @@ def _():
 
     [lambda x, y: 10]
 #   ^ punctuation.section.sequence.begin
-#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ meta.function.inline.python
+#          ^^^^^ meta.function.inline.parameters.python
+#               ^ meta.function.inline.python
+#                ^^^ meta.function.inline.body.python
 #    ^^^^^^ keyword.declaration.function.inline.python
-#           ^^^^^ meta.function.inline.parameters
 #           ^ variable.parameter
 #            ^ punctuation.separator.parameters
 #              ^ variable.parameter
@@ -531,7 +537,8 @@ def _():
     lambda *a, **kwa, ab*, * *: (a, kwa)
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
 #   ^^^^^^ meta.function.inline.python
-#         ^^^^^^^^^^^^^^^^^^^^^ meta.function.inline.parameters.python
+#         ^^^^^^^^^^^^^^^^^^^^ meta.function.inline.parameters.python
+#                             ^ meta.function.inline.python
 #                              ^^^^^^^^^ meta.function.inline.body.python
 #          ^ keyword.operator.unpacking.sequence.python
 #           ^ variable.parameter.python
@@ -546,8 +553,9 @@ def _():
     lambda (x, y): 0
 #   ^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
 #   ^^^^^^ meta.function.inline.python
-#         ^^^^^^^^ meta.function.inline.parameters.python
-#          ^^^^^^ meta.group.python
+#         ^ meta.function.inline.parameters.python - meta.group
+#          ^^^^^^ meta.function.inline.parameters.python meta.group.python
+#                ^ meta.function.inline.python
 #                 ^^ meta.function.inline.body.python
 #          ^ punctuation.section.group.begin.python
 #           ^ variable.parameter.python
@@ -1503,7 +1511,7 @@ def abc():
 #                               ^ invalid.illegal.name.storage
 
 def my_func # comment
-#^^^^^^^^^^ meta.function.python
+#^^^^^^^^^^ meta.function.python - meta.function meta.function
 #          ^^^^^^^^^^^ - meta.function
 #   ^^^^^^^ entity.name.function.python
 #           ^^^^^^^^^ comment.line.number-sign.python
@@ -1519,6 +1527,7 @@ def my_func() # comment
 #             ^^^^^^^^^ comment.line.number-sign.python
 
 def my_func(): # comment
+#^^^^^^^^^^^^^ - meta.function meta.function
 #^^^^^^^^^^ meta.function.python
 #          ^^ meta.function.parameters.python
 #            ^ meta.function.python
@@ -1549,6 +1558,7 @@ def my_func(param1, # Multi-line function definition
 
 
 def func(from='me'):
+#^^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
 #        ^^^^ invalid.illegal.name
     pass
 
@@ -2136,7 +2146,7 @@ dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 list_ = [lambda: 1 for i in range(10)]
 #       ^ meta.sequence.list.python - meta.function
 #        ^^^^^^ meta.sequence.list.python meta.function.inline.python
-#              ^ meta.sequence.list.python meta.function.inline.parameters.python
+#              ^ meta.sequence.list.python meta.function.inline.python
 #               ^^^ meta.sequence.list.python meta.function.inline.body.python
 #                  ^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python - meta.function
 #                                     ^ - meta.sequence
@@ -2156,7 +2166,7 @@ list_ = [lambda: 1 for i in range(10)]
 generator_ = (lambda: 1 for i in range(10))
 #            ^ meta.sequence.generator.python - meta.function
 #             ^^^^^^ meta.sequence.generator.python meta.function.inline.python
-#                   ^ meta.sequence.generator.python meta.function.inline.parameters.python
+#                   ^ meta.sequence.generator.python meta.function.inline.python
 #                    ^^^ meta.sequence.generator.python meta.function.inline.body.python
 #                       ^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python - meta.function
 #                                          ^ - meta.sequence
@@ -2176,7 +2186,7 @@ generator_ = (lambda: 1 for i in range(10))
 set_ = {lambda: 1 for i in range(10)}
 #      ^ meta.set.python - meta.function
 #       ^^^^^^ meta.set.python meta.function.inline.python
-#             ^ meta.set.python meta.function.inline.parameters.python
+#             ^ meta.set.python meta.function.inline.python
 #              ^^^ meta.set.python meta.function.inline.body.python
 #                 ^^^^^^^^^^^^^^^^^^^ meta.set.python - meta.function
 #                                    ^ - meta.set

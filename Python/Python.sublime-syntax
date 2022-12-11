@@ -2,6 +2,7 @@
 ---
 name: Python
 scope: source.python
+version: 2
 
 file_extensions:
   - py
@@ -448,11 +449,10 @@ contexts:
   imports-from-body:
     - meta_scope: meta.statement.import.python
     - meta_content_scope: meta.import-source.python
-    - include: line-continuation-or-pop
-    - match: (?=as\b)
+    - include: imports-from-import
+    - match: as\b
+      scope: keyword.control.import.as.python
       set: imports-from-import-names
-    - match: (?=import\b)
-      set: imports-from-import
     - match: '{{illegal_names}}\b'
       scope: meta.import-path.python invalid.illegal.name.python
     - match: '{{identifier}}'
@@ -465,6 +465,7 @@ contexts:
       captures:
         0: meta.import-path.python
         1: invalid.illegal.name.python
+    - include: line-continuation-or-pop
     - include: else-pop
 
   imports-from-import:
@@ -630,15 +631,15 @@ contexts:
 
   function-definitions:
     - match: ^\s*(?:(async)\s+)?(def)\b
+      scope: meta.function.python
       captures:
         1: keyword.declaration.async.python
         2: keyword.declaration.function.python
       push: function-definition-name
 
   function-definition-name:
-    - meta_scope: meta.function.python
-    - match: (?=\()
-      set: function-parameter-list
+    - meta_content_scope: meta.function.python
+    - include: function-parameter-list
     - include: illegal-names
     - match: '{{magic_functions}}'
       scope: entity.name.function.python support.function.magic.python
@@ -649,15 +650,15 @@ contexts:
   function-parameter-list:
     - meta_include_prototype: false
     - match: \(
-      scope: punctuation.section.parameters.begin.python
+      scope: meta.function.parameters.python punctuation.section.parameters.begin.python
       set:
         - inside-function-parameter-list
         - allow-unpack-operators
 
   inside-function-parameter-list:
-    - meta_scope: meta.function.parameters.python
+    - meta_content_scope: meta.function.parameters.python
     - match: \)
-      scope: punctuation.section.parameters.end.python
+      scope: meta.function.parameters.python punctuation.section.parameters.end.python
       set: function-after-parameters
     - match: ','
       scope: punctuation.separator.parameters.python
@@ -665,19 +666,13 @@ contexts:
     - match: /
       scope: storage.modifier.positional-args-only.python
       push: function-parameter-expect-comma
-    - match: (?==)
-      set:
-        - meta_include_prototype: false
-        - match: '='
-          scope: keyword.operator.assignment.python
-          set: function-parameter-default-value
+    - match: '='
+      scope: keyword.operator.assignment.python
+      set: function-parameter-default-value
     - include: illegal-assignment-expressions
-    - match: (?=:)
-      set:
-        - meta_include_prototype: false
-        - match: ':'
-          scope: punctuation.separator.annotation.parameter.python
-          set: function-parameter-annotation
+    - match: ':'
+      scope: punctuation.separator.annotation.parameter.python
+      set: function-parameter-annotation
     - include: function-parameter-tuples
     - include: illegal-names
     - match: '{{identifier}}'
@@ -746,20 +741,15 @@ contexts:
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
-    - match: (?=->)
-      set: [function-return-type, function-return-type-separator]
+    - match: ->
+      scope: meta.function.annotation.return.python punctuation.separator.annotation.return.python
+      set: function-return-type
     - include: function-definition-end
 
   function-return-type:
     - meta_content_scope: meta.function.annotation.return.python
     - include: function-definition-end
     - include: expression-in-a-statement
-
-  function-return-type-separator:
-    - meta_include_prototype: false
-    - match: ->
-      scope: punctuation.separator.annotation.return.python
-      pop: 1
 
   function-definition-end:
     - include: illegal-assignment-expressions
@@ -1370,9 +1360,8 @@ contexts:
         - qualified-name-until-leaf
 
   function-call-wrapper:
-    - meta_scope: meta.function-call.python
-    - match: (?=\()  # need to remove meta.function-call.python from opening parens
-      set: function-call-argument-list
+    - meta_content_scope: meta.function-call.python
+    - include: function-call-argument-list
     - match: (\.)\s*(?={{identifier}})
       captures:
         1: punctuation.accessor.dot.python
@@ -1449,7 +1438,7 @@ contexts:
   lambda-in-group-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
     - match: ':'
-      scope: punctuation.section.function.begin.python
+      scope: meta.function.inline.python punctuation.section.function.begin.python
       set:
         - meta_include_prototype: false
         - match: ''
@@ -1479,7 +1468,7 @@ contexts:
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
     - match: ':'
-      scope: punctuation.section.function.begin.python
+      scope: meta.function.inline.python punctuation.section.function.begin.python
       set:
         - meta_include_prototype: false
         - match: ''
@@ -1614,33 +1603,30 @@ contexts:
 
   maybe-dictionary:
     - match: \{
-      scope: punctuation.section.mapping.begin.python
+      scope: meta.mapping.python punctuation.section.mapping.begin.python
       set: inside-dictionary
 
   dictionary-end:
     - match: \}
-      scope: punctuation.section.mapping.end.python
+      scope: meta.mapping.python punctuation.section.mapping.end.python
       set: after-expression
 
   dictionary-separator:
-    - match: (?=,)
-      set:
-        - meta_include_prototype: false
-        - match: ','
-          scope: punctuation.separator.sequence.python
-          set: inside-dictionary
+    - match: ','
+      scope: meta.mapping.python punctuation.separator.sequence.python
+      set: inside-dictionary
 
   inside-dictionary:
-    - meta_scope: meta.mapping.python
+    - meta_content_scope: meta.mapping.python
     - include: dictionary-end
     - include: comments
     - include: illegal-assignment-expressions
     - include: illegal-commas
     - match: ':'
-      scope: punctuation.separator.key-value.python
+      scope: meta.mapping.python punctuation.separator.key-value.python
       set: expect-dictionary-value
     - match: \*\*
-      scope: keyword.operator.unpacking.mapping.python
+      scope: meta.mapping.python keyword.operator.unpacking.mapping.python
       set: inside-dictionary-unpacking-expression
     - match: (?=\S)
       set: inside-directory-key
@@ -1746,11 +1732,11 @@ contexts:
 
   item-access:
     - match: \[
-      scope: meta.item-access.python punctuation.section.brackets.begin.python
+      scope: punctuation.section.brackets.begin.python
       set: inside-maybe-item-access
 
   inside-maybe-item-access:
-    - meta_content_scope: meta.item-access.python
+    - meta_scope: meta.item-access.python
     - match: \]
       scope: punctuation.section.brackets.end.python
       set: after-expression
@@ -2113,7 +2099,9 @@ contexts:
 
   triple-double-quoted-string-end:
     - match: '"""'
-      scope: punctuation.definition.string.end.python
+      scope:
+        meta.string.python string.quoted.double.block.python
+        punctuation.definition.string.end.python
       set: after-expression
 
   triple-double-quoted-string-pop:
@@ -2154,12 +2142,12 @@ contexts:
     - match: ([fF]R|R[fF])(""")
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push: inside-triple-double-quoted-plain-raw-f-string
 
   inside-triple-double-quoted-plain-raw-f-string:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
     - include: f-string-replacements
 
@@ -2168,12 +2156,12 @@ contexts:
     - match: ([fF]r|r[fF])(""")
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push: inside-triple-double-quoted-raw-f-string
 
   inside-triple-double-quoted-raw-f-string:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
     - match: ''
       push: scope:source.regexp.python
@@ -2218,9 +2206,7 @@ contexts:
   inside-triple-double-quoted-sql-raw-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: '"""'
-      scope: string.quoted.double.block.python punctuation.definition.string.end.python
-      set: after-expression
+    - include: triple-double-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2232,9 +2218,7 @@ contexts:
   inside-triple-double-quoted-regexp-raw-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
-    - match: '"""'
-      scope: punctuation.definition.string.end.python
-      set: after-expression
+    - include: triple-double-quoted-string-end
     - match: ''
       push: scope:source.regexp.python
       with_prototype:
@@ -2263,12 +2247,12 @@ contexts:
     - match: ([fF])(""")
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push: inside-triple-double-quoted-f-string
 
   inside-triple-double-quoted-f-string:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
     - include: string-continuations
     - include: escaped-f-string-braces
@@ -2306,9 +2290,7 @@ contexts:
   inside-triple-double-quoted-sql-u-strings:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: '"""'
-      scope: string.quoted.double.block.python punctuation.definition.string.end.python
-      set: after-expression
+    - include: triple-double-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2337,7 +2319,7 @@ contexts:
 
   double-quoted-string-end:
     - match: '"'
-      scope: punctuation.definition.string.end.python
+      scope: meta.string.python string.quoted.double.python punctuation.definition.string.end.python
       set: after-expression
     - include: illegal-string-end
     - include: string-continuations
@@ -2396,12 +2378,12 @@ contexts:
     - match: (r[fF]|[fF]r)(")
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push: inside-double-quoted-raw-f-string
 
   inside-double-quoted-raw-f-string:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
     - match: ''
       push: scope:source.regexp.python
@@ -2455,11 +2437,7 @@ contexts:
   inside-double-quoted-sql-raw-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: '"'
-      scope: string.quoted.double.python punctuation.definition.string.end.python
-      set: after-expression
-    - include: illegal-string-end
-    - include: string-continuations
+    - include: double-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2530,11 +2508,7 @@ contexts:
   inside-double-quoted-sql-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: '"'
-      scope: string.quoted.double.python punctuation.definition.string.end.python
-      set: after-expression
-    - include: illegal-string-end
-    - include: string-continuations
+    - include: double-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2562,7 +2536,7 @@ contexts:
 
   triple-single-quoted-string-end:
     - match: "'''"
-      scope: punctuation.definition.string.end.python
+      scope: meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
       set: after-expression
 
   triple-single-quoted-string-pop:
@@ -2676,9 +2650,7 @@ contexts:
   inside-triple-single-quoted-sql-raw-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: "'''"
-      scope: string.quoted.single.block.python punctuation.definition.string.end.python
-      set: after-expression
+    - include: triple-single-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2753,9 +2725,7 @@ contexts:
   inside-triple-single-quoted-sql-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: "'''"
-      scope: string.quoted.single.block.python punctuation.definition.string.end.python
-      set: after-expression
+    - include: triple-single-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2784,7 +2754,7 @@ contexts:
 
   single-quoted-string-end:
     - match: "'"
-      scope: punctuation.definition.string.end.python
+      scope: meta.string.python string.quoted.single.python punctuation.definition.string.end.python
       set: after-expression
     - include: illegal-string-end
     - include: string-continuations
@@ -2871,11 +2841,7 @@ contexts:
   inside-single-quoted-sql-raw-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: "'"
-      scope: string.quoted.single.python punctuation.definition.string.end.python
-      set: after-expression
-    - include: illegal-string-end
-    - include: string-continuations
+    - include: single-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2978,11 +2944,7 @@ contexts:
   inside-single-quoted-sql-u-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
-    - match: "'"
-      scope: string.quoted.single.python punctuation.definition.string.end.python
-      set: after-expression
-    - include: illegal-string-end
-    - include: string-continuations
+    - include: single-quoted-string-end
     - match: ''
       push: scope:source.sql
       with_prototype:

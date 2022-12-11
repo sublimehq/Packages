@@ -430,7 +430,7 @@ datetime.strftime(datetime.now(), '%Y%V%uT')
 #      ^^^^ - constant.other.placeholder.python
 #            ^ invalid.illegal.unclosed-string.python
 '{0:%Y}-{0:%
-# ^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
 #      ^^^^^ - constant.other.placeholder.python
 #           ^ invalid.illegal.unclosed-string.python
