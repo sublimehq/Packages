@@ -1761,17 +1761,15 @@ contexts:
       scope: invalid.illegal.assignment.python
     - match: <>
       scope: invalid.deprecated.operator.python
-    - match: <\=|>\=|\=\=|<|>|\!\=
-      scope: keyword.operator.comparison.python
-    - match: \+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~
+    - match: <<|>>|\*\*|//|[-%&*+/@^|~]
       scope: keyword.operator.arithmetic.python
+    - match: <=|>=|==|\!=|<|>
+      scope: keyword.operator.comparison.python
     - match: =(?!=)
       scope: invalid.illegal.assignment.python
     - match: \b(?:and|in|is|not|or)\b
       comment: keyword operators that evaluate to True or False
       scope: keyword.operator.logical.python
-    - match: '@'
-      scope: keyword.operator.matrix.python
     - include: sequence-separators
 
   allow-unpack-operators:

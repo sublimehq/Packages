@@ -2510,8 +2510,64 @@ foo ^= bar ^= baz
 #   ^^ keyword.operator.assignment.augmented.python
 #          ^^ invalid.illegal.assignment.python
 
-matrix @ multiplication
-#      ^ keyword.operator.matrix.python
+# arithmetic operators
+
+  << >> ** * // / - + & % | ~ ^ @
+# ^^ keyword.operator.arithmetic.python
+#   ^ - keyword
+#    ^^ keyword.operator.arithmetic.python
+#      ^ - keyword
+#       ^^ keyword.operator.arithmetic.python
+#         ^ - keyword
+#          ^ keyword.operator.arithmetic.python
+#           ^ - keyword
+#            ^^ keyword.operator.arithmetic.python
+#              ^ - keyword
+#               ^ keyword.operator.arithmetic.python
+#                ^ - keyword
+#                 ^ keyword.operator.arithmetic.python
+#                  ^ - keyword
+#                   ^ keyword.operator.arithmetic.python
+#                    ^ - keyword
+#                     ^ keyword.operator.arithmetic.python
+#                      ^ - keyword
+#                       ^ keyword.operator.arithmetic.python
+#                        ^ - keyword
+#                         ^ keyword.operator.arithmetic.python
+#                          ^ - keyword
+#                           ^ keyword.operator.arithmetic.python
+#                            ^ - keyword
+#                             ^ keyword.operator.arithmetic.python
+#                              ^ - keyword
+#                               ^ keyword.operator.arithmetic.python
+#                                ^ - keyword
+
+# comparison operators
+
+  <= >= == != < > <>
+# ^^ keyword.operator.comparison.python
+#   ^ - keyword
+#    ^^ keyword.operator.comparison.python
+#      ^ - keyword
+#       ^^ keyword.operator.comparison.python
+#         ^ - keyword
+#          ^^ keyword.operator.comparison.python
+#            ^ - keyword
+#             ^ keyword.operator.comparison.python
+#              ^ - keyword
+#               ^ keyword.operator.comparison.python
+#                ^ - keyword
+#                 ^^ invalid.deprecated.operator.python
+
+# locical keywords
+
+  and in is not or
+# ^^^ keyword.operator.logical.python
+#     ^^ keyword.operator.logical.python
+#        ^^ keyword.operator.logical.python
+#           ^^^ keyword.operator.logical.python
+#               ^^ keyword.operator.logical.python
+
 
 ##################
 # Context "Fail Early"
