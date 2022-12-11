@@ -246,8 +246,7 @@ contexts:
     - include: class-definitions
     - include: function-definitions
     - include: assignments
-    - match: ;
-      scope: punctuation.terminator.statement.python
+    - include: statement-terminators
     - include: expression-as-a-statement
 
   block-statements:
@@ -1302,75 +1301,6 @@ contexts:
         1: keyword.control.flow.yield.python
         2: keyword.control.flow.yield-from.python
 
-  assignment-expression:
-    - match: :=
-      scope: keyword.operator.assignment.inline.python
-
-  illegal-assignment-expression:
-    - match: :=
-      scope: invalid.illegal.not-allowed-here.python
-
-  illegal-assignment:
-    - match: \:?=
-      scope: invalid.illegal.not-allowed-here.python
-      pop: true
-    - include: line-continuation-or-pop
-    - include: else-pop
-
-  assignments:
-    - include: illegal-assignment-expression
-    - match: ':'
-      scope: punctuation.separator.annotation.variable.python
-      push: variable-annotation
-    - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
-      scope: keyword.operator.assignment.augmented.python
-    - match: '=(?!=)'
-      scope: keyword.operator.assignment.python
-
-  variable-annotation:
-    - meta_scope: meta.variable.annotation.python
-    - match: (?=$|=|#|;)
-      pop: 1
-    - match: \bNone\b
-      scope: constant.language.null.python
-    - include: illegal-assignment-expression
-    - include: expression-in-a-group
-
-  operators:
-    - match: <>
-      scope: invalid.deprecated.operator.python
-    - match: <\=|>\=|\=\=|<|>|\!\=
-      scope: keyword.operator.comparison.python
-    - match: \+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~
-      scope: keyword.operator.arithmetic.python
-    - match: \b(and|in|is|not|or)\b
-      comment: keyword operators that evaluate to True or False
-      scope: keyword.operator.logical.python
-    - match: '@'
-      scope: keyword.operator.matrix.python
-    - include: sequence-separators
-
-  sequence-separators:
-    - match: ','
-      scope: punctuation.separator.sequence.python
-      push: allow-unpack-operators
-
-  allow-unpack-operators:
-    # Match unpacking operators, if present
-    - include: comments
-    - match: \*{3,}
-      scope: invalid.illegal.syntax.python
-      pop: true
-    - match: \*\*
-      scope: keyword.operator.unpacking.mapping.python
-      pop: true
-    - match: \*
-      scope: keyword.operator.unpacking.sequence.python
-      pop: true
-    - include: else-pop
-    - match: ^(?!\s*[#*])
-      pop: true
-
 ###[ FUNCTION CALLS ]#########################################################
 
   function-calls:
@@ -1778,6 +1708,81 @@ contexts:
     - match: ':'
       scope: punctuation.separator.slice.python
     - include: expression-in-a-group
+
+###[ OPERATORS ]##############################################################
+
+  assignment-expression:
+    - match: :=
+      scope: keyword.operator.assignment.inline.python
+
+  illegal-assignment-expression:
+    - match: :=
+      scope: invalid.illegal.not-allowed-here.python
+
+  illegal-assignment:
+    - match: \:?=
+      scope: invalid.illegal.not-allowed-here.python
+      pop: true
+    - include: line-continuation-or-pop
+    - include: else-pop
+
+  assignments:
+    - include: illegal-assignment-expression
+    - match: ':'
+      scope: punctuation.separator.annotation.variable.python
+      push: variable-annotation
+    - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
+      scope: keyword.operator.assignment.augmented.python
+    - match: '=(?!=)'
+      scope: keyword.operator.assignment.python
+
+  variable-annotation:
+    - meta_scope: meta.variable.annotation.python
+    - match: (?=$|=|#|;)
+      pop: 1
+    - match: \bNone\b
+      scope: constant.language.null.python
+    - include: illegal-assignment-expression
+    - include: expression-in-a-group
+
+  operators:
+    - match: <>
+      scope: invalid.deprecated.operator.python
+    - match: <\=|>\=|\=\=|<|>|\!\=
+      scope: keyword.operator.comparison.python
+    - match: \+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~
+      scope: keyword.operator.arithmetic.python
+    - match: \b(?:and|in|is|not|or)\b
+      comment: keyword operators that evaluate to True or False
+      scope: keyword.operator.logical.python
+    - match: '@'
+      scope: keyword.operator.matrix.python
+    - include: sequence-separators
+
+  allow-unpack-operators:
+    # Match unpacking operators, if present
+    - include: comments
+    - match: \*{3,}
+      scope: invalid.illegal.syntax.python
+      pop: true
+    - match: \*\*
+      scope: keyword.operator.unpacking.mapping.python
+      pop: true
+    - match: \*
+      scope: keyword.operator.unpacking.sequence.python
+      pop: true
+    - include: else-pop
+    - match: ^(?!\s*[#*])
+      pop: true
+
+  sequence-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.python
+      push: allow-unpack-operators
+
+  statement-terminators:
+    - match: ;
+      scope: punctuation.terminator.statement.python
 
 ###[ IDENTIFIERS ]############################################################
 
