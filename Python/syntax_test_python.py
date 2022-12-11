@@ -1775,7 +1775,7 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                                      ^^^^^ constant.language.boolean.python
 #                                           ^ punctuation.separator.inheritance.python
 #                                             ^^^^ constant.language.boolean.python
-#                                                 ^ invalid.illegal.not-allowed-here.python
+#                                                 ^ invalid.illegal.assignment.python
 #                                                  ^^^^^ constant.language.boolean.python
 
 
@@ -2629,24 +2629,24 @@ class Starship:
 ##################
 
 True = False
-#    ^ invalid.illegal.not-allowed-here.python
+#    ^ invalid.illegal.assignment.python
 
 False = True
-#     ^ invalid.illegal.not-allowed-here.python
+#     ^ invalid.illegal.assignment.python
 
 None = True
-#    ^ invalid.illegal.not-allowed-here.python
+#    ^ invalid.illegal.assignment.python
 
 # Examples from https://www.python.org/dev/peps/pep-0572/
 
 y := f(x)
-# ^^ invalid.illegal.not-allowed-here.python
+# ^^ invalid.illegal.assignment.python
 
 (y := f(x))
 #  ^^ keyword.operator.assignment.inline.python
 
 y0 = y1 := f(x)
-#       ^^ invalid.illegal.not-allowed-here.python
+#       ^^ invalid.illegal.assignment.python
 
 y0 = (y1 := f(x))
 #        ^^ keyword.operator.assignment.inline.python
@@ -2694,18 +2694,24 @@ if any(len(longline := line) >= 100 for line in lines):
 
 # These are all invalid. We could let linters handle them,
 # but these weren't hard to implement.
-def foo(x: y:=f(x)) -> a:=None: pass
-#           ^^ invalid.illegal.not-allowed-here.python
-#                       ^^ invalid.illegal.not-allowed-here.python
+def foo(x: y:=f(x), y:=foo, (a:=b)) -> a:=None: pass
+#           ^^ invalid.illegal.assignment.python
+#                    ^^ invalid.illegal.assignment.python
+#                             ^ invalid.illegal.annotation.python
+#                              ^^ invalid.illegal.default-value.python
+#                                       ^^ invalid.illegal.assignment.python
+def bar() := :
+#         ^^ invalid.illegal.assignment.python
+#            ^ punctuation.section.function.begin.python
 foo(x = y := f(x), y=x:=2)
-#         ^^ invalid.illegal.not-allowed-here.python
-#                     ^^ invalid.illegal.not-allowed-here.python
+#         ^^ invalid.illegal.assignment.python
+#                     ^^ invalid.illegal.assignment.python
 [1][x:=0]
-#    ^^ invalid.illegal.not-allowed-here.python
+#    ^^ invalid.illegal.assignment.python
 def foo(answer = p := 42):  pass
-#                  ^^ invalid.illegal.not-allowed-here.python
+#                  ^^ invalid.illegal.assignment.python
 (lambda: x := 1)
-#          ^^ invalid.illegal.not-allowed-here.python
+#          ^^ invalid.illegal.assignment.python
 
 
 # <- - meta

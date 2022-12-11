@@ -615,6 +615,7 @@ contexts:
         - match: '='
           scope: keyword.operator.assignment.python
           set: function-parameter-default-value
+    - include: illegal-assignment-expressions
     - match: (?=:)
       set:
         - meta_include_prototype: false
@@ -641,14 +642,14 @@ contexts:
       set: inside-function-parameter-list
     - match: \bNone\b
       scope: constant.language.null.python
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - include: expression-in-a-group
 
   function-parameter-default-value:
     - meta_scope: meta.function.parameters.default-value.python
     - match: (?=[,)])
       set: inside-function-parameter-list
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - include: expression-in-a-group
 
   function-parameter-tuples:
@@ -697,7 +698,6 @@ contexts:
 
   function-return-type:
     - meta_content_scope: meta.function.annotation.return.python
-    - include: illegal-assignment-expression
     - include: function-definition-end
     - include: expression-in-a-statement
 
@@ -708,6 +708,7 @@ contexts:
       pop: true
 
   function-definition-end:
+    - include: illegal-assignment-expressions
     - match: ':'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
@@ -716,7 +717,7 @@ contexts:
 ###[ ASSIGNMENT STATEMENTS ]##################################################
 
   assignment-statements:
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - match: ':'
       scope: punctuation.separator.annotation.variable.python
       push: variable-annotation
@@ -728,7 +729,7 @@ contexts:
       push: assignment-statement-value
 
   assignment-statement-value:
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - include: expression-in-a-statement
     - include: line-continuation-or-pop
 
@@ -738,7 +739,7 @@ contexts:
       pop: 1
     - match: \bNone\b
       scope: constant.language.null.python
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - include: expression-in-a-group
 
 ###[ CASE STATEMENTS ]########################################################
@@ -1295,7 +1296,7 @@ contexts:
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
-    - include: assignment-expression
+    - include: assignment-expressions
 
   expression-in-a-group:  # Always include this last!
     # Differs from expression-in-a-statement in that:
@@ -1304,7 +1305,7 @@ contexts:
     - include: expressions-common
     - include: illegal-name
     - include: qualified-name
-    - include: assignment-expression
+    - include: assignment-expressions
     - match: '(\.) *(?={{identifier}})'
       captures:
         1: punctuation.accessor.dot.python
@@ -1399,7 +1400,7 @@ contexts:
       scope: variable.parameter.python
 
   keyword-argument-value:
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - match: (?=[,:)])
       pop: true
     - include: expression-in-a-group
@@ -1474,7 +1475,7 @@ contexts:
 
   lambda-body:
     - meta_scope: meta.function.inline.body.python
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     # We don't know whether we are within a grouped
     # or line-statement context at this point.
     # If we're in a group, the underlying context will take over
@@ -1611,7 +1612,7 @@ contexts:
     - meta_scope: meta.mapping.python
     - include: dictionary-end
     - include: comments
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - include: illegal-commas
     - match: ':'
       scope: punctuation.separator.key-value.python
@@ -1733,24 +1734,24 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.python
       set: after-expression
-    - include: illegal-assignment-expression
+    - include: illegal-assignment-expressions
     - match: ':'
       scope: punctuation.separator.slice.python
     - include: expression-in-a-group
 
 ###[ OPERATORS ]##############################################################
 
-  assignment-expression:
+  assignment-expressions:
     - match: :=
       scope: keyword.operator.assignment.inline.python
 
-  illegal-assignment-expression:
+  illegal-assignment-expressions:
     - match: :=
-      scope: invalid.illegal.not-allowed-here.python
+      scope: invalid.illegal.assignment.python
 
   illegal-assignment:
     - match: \:?=
-      scope: invalid.illegal.not-allowed-here.python
+      scope: invalid.illegal.assignment.python
       pop: true
     - include: line-continuation-or-pop
     - include: else-pop
