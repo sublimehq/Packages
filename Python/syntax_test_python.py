@@ -1242,45 +1242,62 @@ def _():
 #                     ^^^^ constant.language.boolean.python
 #                         ^ punctuation.section.block.conditional.case.python
 
-    case {s_key: 'value', num.key: 100, **pattern} if foo in {'foo', 'bar'}:
+    case { s_key : 'value' , num.key: 100, **pattern} if foo in {'foo', 'bar'}:
 #   ^^^^ meta.statement.conditional.case.python - meta.mapping
 #       ^ meta.statement.conditional.case.patterns.python - meta.mapping
-#        ^ meta.statement.conditional.case.patterns.python meta.mapping.python
-#         ^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.key.python
-#              ^ meta.statement.conditional.case.patterns.python meta.mapping.python
-#               ^^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.value.python
-#                       ^^ meta.statement.conditional.case.patterns.python meta.mapping.python
-#                         ^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.key.python
-#                                ^ meta.statement.conditional.case.patterns.python meta.mapping.python
-#                                 ^^^^ meta.statement.conditional.case.patterns.python meta.mapping.value.python
-#                                     ^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
-#                                                 ^ meta.statement.conditional.case.patterns.python - meta.mapping
-#                                                  ^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.set
-#                                                            ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python meta.set.python
-#                                                                          ^ meta.statement.conditional.case.python - meta.set
+#        ^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#          ^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.key.python
+#               ^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                  ^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.value.python
+#                         ^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                            ^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.key.python
+#                                   ^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                                     ^^^ meta.statement.conditional.case.patterns.python meta.mapping.value.python
+#                                        ^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#                                                    ^ meta.statement.conditional.case.patterns.python - meta.mapping
+#                                                     ^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.set
+#                                                               ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python meta.set.python
+#                                                                             ^ meta.statement.conditional.case.python - meta.set
 #   ^^^^ keyword.control.conditional.case.python
 #        ^ punctuation.section.mapping.begin.python
-#         ^^^^^ meta.qualified-name.python meta.generic-name.python
-#              ^ punctuation.separator.key-value.python
-#                ^^^^^^^ string.quoted.single.python
-#                       ^ punctuation.separator.sequence.python
-#                         ^^^^^^^ meta.qualified-name.python
-#                                ^ punctuation.separator.key-value.python
-#                                  ^^^ constant.numeric.value.python
-#                                     ^ punctuation.separator.sequence.python
-#                                       ^^ keyword.operator.unpacking.mapping.python
-#                                         ^^^^^^^ meta.generic-name.python
-#                                                ^ punctuation.section.mapping.end.python
-#                                                  ^^ keyword.control.conditional.if.python
-#                                                     ^^^ meta.generic-name.python
-#                                                         ^^ keyword.operator.logical.python
-#                                                            ^ punctuation.section.set.begin.python
-#                                                             ^^^^^ string.quoted.single.python
-#                                                                  ^ punctuation.separator.set.python
-#                                                                    ^^^^^ string.quoted.single.python
-#                                                                         ^ punctuation.section.set.end.python
-#                                                                          ^ punctuation.section.block.conditional.case.python
+#          ^^^^^ meta.qualified-name.python meta.generic-name.python
+#                ^ punctuation.separator.key-value.python
+#                  ^^^^^^^ string.quoted.single.python
+#                          ^ punctuation.separator.sequence.python
+#                            ^^^^^^^ meta.qualified-name.python
+#                                   ^ punctuation.separator.key-value.python
+#                                     ^^^ constant.numeric.value.python
+#                                        ^ punctuation.separator.sequence.python
+#                                          ^^ keyword.operator.unpacking.mapping.python
+#                                            ^^^^^^^ meta.generic-name.python
+#                                                   ^ punctuation.section.mapping.end.python
+#                                                     ^^ keyword.control.conditional.if.python
+#                                                        ^^^ meta.generic-name.python
+#                                                            ^^ keyword.operator.logical.python
+#                                                               ^ punctuation.section.set.begin.python
+#                                                                ^^^^^ string.quoted.single.python
+#                                                                     ^ punctuation.separator.set.python
+#                                                                       ^^^^^ string.quoted.single.python
+#                                                                            ^ punctuation.section.set.end.python
+#                                                                             ^ punctuation.section.block.conditional.case.python
 
+    case {
+        'key'    # comment
+#      ^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python
+#      ^ meta.mapping.python
+#       ^^^^^ meta.mapping.key.python meta.string.python string.quoted.single.python
+#            ^^^^^^^^^^^^^^ meta.mapping.key.python
+        :        # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+        'value'  # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python
+# ^^^^^^ meta.mapping.python
+#       ^^^^^^^ meta.mapping.value.python meta.string.python string.quoted.single.python
+#              ^^^^^^^^^^^^ meta.mapping.value.python
+    }:
+# ^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
+#    ^ meta.statement.conditional.case.python punctuation.section.block.conditional.case.python
+#
     case int():
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
@@ -2822,6 +2839,10 @@ foo(x = y := f(x), y=x:=2)
 
 {k1: y1 := f(x)}
 #       ^^ invalid.illegal.assignment.python
+
+case {k1: y1 := f(x), k1 := f(x)}:
+#            ^^ invalid.illegal.assignment.python
+#                        ^^ invalid.illegal.assignment.python
 
 foo[x:=0]
 #    ^^ invalid.illegal.assignment.python

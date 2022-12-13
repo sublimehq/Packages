@@ -841,6 +841,7 @@ contexts:
     - include: case-pattern-groups-or-tuples
     - include: case-pattern-lists
     - include: case-pattern-operators
+    - include: illegal-assignment-expressions
     - include: sequence-separators
     - include: comments
     - include: booleans
@@ -917,38 +918,52 @@ contexts:
       scope: punctuation.section.mapping.begin.python
       push: case-pattern-dictionary-body
 
-  case-pattern-dictionary-body:
-    - meta_scope: meta.mapping.python
-    - include: comments
+  case-pattern-dictionary-end:
     - match: \}
       scope: punctuation.section.mapping.end.python
       pop: 1
+
+  case-pattern-dictionary-body:
+    - meta_scope: meta.mapping.python
+    - include: case-pattern-dictionary-end
+    - include: comments
+    - include: illegal-assignment-expressions
     - match: ','
       scope: punctuation.separator.sequence.python
     - match: \*\*
       scope: keyword.operator.unpacking.mapping.python
-      push: case-pattern-dictionary-patterns
+      set: case-pattern-dictionary-unpacking
     - match: ':'
-      scope: meta.mapping.python punctuation.separator.key-value.python
-      push:
-        - case-pattern-dictionary-value
-        - allow-unpack-operators
+      scope: punctuation.separator.key-value.python
+      set: case-pattern-dictionary-expect-value
     - match: (?=\S)
-      push: case-pattern-dictionary-key
+      set: case-pattern-dictionary-key
+
+  case-pattern-dictionary-unpacking:
+    - meta_content_scope: meta.mapping.python
+    - match: (?=\s*[,:}])
+      set: case-pattern-dictionary-body
+    - include: case-pattern-expressions
 
   case-pattern-dictionary-key:
-    - clear_scopes: 1
     - meta_content_scope: meta.mapping.key.python
-    - include: case-pattern-dictionary-patterns
+    - match: (?=\s*[,:}])
+      set: case-pattern-dictionary-body
+    - include: case-pattern-expressions
+
+  case-pattern-dictionary-expect-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.python
+    - include: comments
+    - match: (?=\S)
+      set:
+        - case-pattern-dictionary-value
+        - allow-unpack-operators
 
   case-pattern-dictionary-value:
-    - clear_scopes: 1
     - meta_content_scope: meta.mapping.value.python
-    - include: case-pattern-dictionary-patterns
-
-  case-pattern-dictionary-patterns:
-    - match: (?=[,:}])
-      pop: 1
+    - match: (?=\s*[,}])
+      set: case-pattern-dictionary-body
     - include: case-pattern-expressions
 
   case-pattern-groups-or-tuples:
@@ -1622,16 +1637,16 @@ contexts:
     - include: comments
     - include: illegal-assignment-expressions
     - include: illegal-commas
+    - match: \*\*
+      scope: meta.mapping.python keyword.operator.unpacking.mapping.python
+      set: inside-dictionary-unpacking
     - match: ':'
       scope: meta.mapping.python punctuation.separator.key-value.python
       set: expect-dictionary-value
-    - match: \*\*
-      scope: meta.mapping.python keyword.operator.unpacking.mapping.python
-      set: inside-dictionary-unpacking-expression
     - match: (?=\S)
       set: inside-directory-key
 
-  inside-dictionary-unpacking-expression:
+  inside-dictionary-unpacking:
     - meta_content_scope: meta.mapping.python
     - include: dictionary-end
     - include: dictionary-separator
