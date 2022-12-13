@@ -51,7 +51,7 @@ class RunShellScriptCommand(Default.exec.ExecCommand):
 
         # Delegate to the super class
         super().run(
-            cmd=shell + ["./" + os.path.basename(file_name)],
+            cmd=shell + [os.path.basename(file_name)],
             working_dir=working_dir,
             encoding=encoding,
             env=env,
