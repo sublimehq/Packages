@@ -1026,7 +1026,7 @@ contexts:
     - match: elif\b
       scope: keyword.control.conditional.elseif.python
       push: elif-statement-condition
-    - match: (else)\b(?:\s*(:))?
+    - match: (else)(?:\s*(:)|\b)
       scope: meta.statement.conditional.else.python
       captures:
         1: keyword.control.conditional.else.python
@@ -1051,12 +1051,12 @@ contexts:
 ###[ EXCEPTION STATEMENTS ]###################################################
 
   exception-statements:
-    - match: (try)\b(?:\s*(:))?
+    - match: (try)(?:\s*(:)|\b)
       scope: meta.statement.exception.try.python
       captures:
         1: keyword.control.exception.try.python
         2: punctuation.section.block.exception.try.python
-    - match: (finally)\b(?:\s*(:))?
+    - match: (finally)(?:\s*(:)|\b)
       scope: meta.statement.exception.finally.python
       captures:
         1: keyword.control.exception.finally.python
