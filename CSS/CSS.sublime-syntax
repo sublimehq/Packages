@@ -1095,6 +1095,7 @@ contexts:
 ###[ SELECTORS / ATTRIBUTE SELECTORS ]#########################################
 
   attribute-selector-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-selector.css meta.brackets.css
     - include: immediately-pop
 
