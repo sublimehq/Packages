@@ -1735,6 +1735,21 @@ contexts:
             - include: at-supports-group-content
 
   at-supports-functions:
+    # font-format()
+    # font-tech()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
+    - match: \b(?i:font-(?:format|tech))(?=\()
+      scope: meta.function-call.identifier.css support.function.font.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - meta_content_scope: meta.selector.css
+            - include: group-end
+            - include: at-rule-end
+            - include: other-constants
     # selector()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
     - match: \b(?i:selector)(?=\()
