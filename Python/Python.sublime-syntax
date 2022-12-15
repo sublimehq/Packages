@@ -61,6 +61,8 @@ variables:
   augmented_assignment_operators: |-
     (?x: >>= | <<= | \*\*= | //= | \+= | -= | \*= | /= | %= | @= | &= | \|= | \^= )
 
+  colon: ':(?!=)'
+
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
@@ -592,7 +594,7 @@ contexts:
     - match: \)
       scope: punctuation.section.inheritance.end.python
       set: class-definition-end
-    - match: ':'
+    - match: '{{colon}}'
       scope: invalid.illegal.no-closing-parens.python
       pop: 1
     - match: ','
@@ -622,7 +624,7 @@ contexts:
 
   class-definition-end:
     - meta_content_scope: meta.class.python
-    - match: ':'
+    - match: '{{colon}}'
       scope: meta.class.python punctuation.section.class.begin.python
       pop: 1
     - include: line-continuation-or-pop
@@ -669,13 +671,13 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.python
       set: function-parameter-default-value
-    - include: illegal-assignment-expressions
-    - match: ':'
+    - match: '{{colon}}'
       scope: punctuation.separator.annotation.parameter.python
       set: function-parameter-annotation
     - include: function-parameter-tuples
     - include: parameter-names
     - include: line-continuation
+    - include: illegal-assignment-expressions
 
   function-parameter-expect-comma:
     - meta_include_prototype: false
@@ -718,10 +720,11 @@ contexts:
     - match: '='
       push: function-parameter-illegal-annotation
     # python 2 does not support type annotations
-    - match: ':'
+    - match: '{{colon}}'
       push: function-parameter-illegal-default-value
     - include: parameter-names
     - include: line-continuation
+    - include: illegal-assignment-expressions
 
   function-parameter-illegal-annotation:
     - meta_include_prototype: false
@@ -748,16 +751,16 @@ contexts:
     - include: expression-in-a-statement
 
   function-definition-end:
-    - include: illegal-assignment-expressions
-    - match: ':'
+    - match: '{{colon}}'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: 1
+    - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
 
 ###[ ASSIGNMENT STATEMENTS ]##################################################
 
   assignment-statements:
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.separator.annotation.variable.python
       push: variable-annotation
     - match: '{{augmented_assignment_operators}}'
@@ -806,7 +809,7 @@ contexts:
     - include: allow-unpack-operators
 
   case-statement-end:
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope:
         meta.statement.conditional.case.python
         punctuation.section.block.conditional.case.python
@@ -934,7 +937,7 @@ contexts:
     - match: \*\*
       scope: keyword.operator.unpacking.mapping.python
       set: case-pattern-dictionary-unpacking
-    - match: ':'
+    - match: '{{colon}}'
       scope: punctuation.separator.key-value.python
       set: case-pattern-dictionary-value
     - match: (?=\S)
@@ -1035,7 +1038,7 @@ contexts:
 
   if-statement-condition:
     - meta_scope: meta.statement.conditional.if.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.section.block.conditional.if.python
       pop: 1
     - include: line-continuation-or-pop
@@ -1043,7 +1046,7 @@ contexts:
 
   elif-statement-condition:
     - meta_scope: meta.statement.conditional.elseif.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.section.block.conditional.elseif.python
       pop: 1
     - include: line-continuation-or-pop
@@ -1068,20 +1071,22 @@ contexts:
 
   except-statement-exception-list:
     - meta_scope: meta.statement.exception.catch.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.section.block.exception.catch.python
       pop: 1
     - match: as\b
       scope: keyword.control.exception.catch.as.python
       set: except-statement-as
+    - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
     - include: target-lists
 
   except-statement-as:
     - meta_content_scope: meta.statement.exception.catch.python
-    - match: ':'
+    - match: '{{colon}}'
       scope: meta.statement.exception.catch.python punctuation.section.block.exception.catch.python
       pop: 1
+    - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
     - include: name
 
@@ -1096,7 +1101,7 @@ contexts:
 
   for-statement-target-list:
     - meta_scope: meta.statement.loop.for.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: invalid.illegal.missing-in.python
       pop: 1
     - match: in\b
@@ -1107,7 +1112,7 @@ contexts:
 
   for-statement-in:
     - meta_content_scope: meta.statement.loop.for.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: meta.statement.loop.for.python punctuation.section.block.loop.for.python
       pop: 1
     - include: line-continuation-or-pop
@@ -1144,7 +1149,7 @@ contexts:
     - include: expression-in-a-statement
 
   match-statement-end:
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.section.block.conditional.match.python
       set: maybe-first-case-statement
 
@@ -1204,7 +1209,7 @@ contexts:
 
   while-statement-condition:
     - meta_scope: meta.statement.loop.while.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.section.block.loop.while.python
       pop: 1
     - include: line-continuation-or-pop
@@ -1224,7 +1229,7 @@ contexts:
 
   with-statement-plain:
     - meta_scope: meta.statement.with.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.section.block.with.python
       pop: 1
     - match: as\b
@@ -1268,7 +1273,7 @@ contexts:
 
   with-statement-tuple-end:
     - meta_content_scope: meta.statement.with.python
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: meta.statement.with.python punctuation.section.block.with.python
       pop: 1
     - include: with-statement-tuple-else-fail
@@ -1453,7 +1458,7 @@ contexts:
 
   lambda-in-group-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
-    - match: ':'
+    - match: '{{colon}}'
       scope: meta.function.inline.python punctuation.section.function.begin.python
       set:
         - meta_include_prototype: false
@@ -1483,7 +1488,7 @@ contexts:
 
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
-    - match: ':'
+    - match: '{{colon}}'
       scope: meta.function.inline.python punctuation.section.function.begin.python
       set:
         - meta_include_prototype: false
@@ -1502,6 +1507,7 @@ contexts:
         - allow-unpack-operators
     - include: function-parameter-tuples
     - include: parameter-names
+    - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
     - match: \S
       scope: invalid.illegal.expected-parameter.python
@@ -1643,7 +1649,7 @@ contexts:
     - match: \*\*
       scope: meta.mapping.python keyword.operator.unpacking.mapping.python
       set: dictionary-unpacking-body
-    - match: ':'
+    - match: '{{colon}}'
       scope: meta.mapping.python punctuation.separator.key-value.python
       set: dictionary-value
     - match: (?=\S)
@@ -1729,7 +1735,7 @@ contexts:
       push: after-expression
 
   illegal-colons:
-    - match: ':'
+    - match: '{{colon}}'
       scope: invalid.illegal.unexpected-colon.python
 
   illegal-commas:
@@ -1758,7 +1764,7 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.python
       set: after-expression
-    - match: ':(?!=)'
+    - match: '{{colon}}'
       scope: punctuation.separator.slice.python
     - include: expression-in-a-group
 

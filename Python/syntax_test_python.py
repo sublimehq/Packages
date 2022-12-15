@@ -2839,8 +2839,7 @@ def foo(x = y := 42): pass
 def foo(x: y:=f(x), y:=foo, (a:=b)) -> a:=None: pass
 #           ^^ invalid.illegal.assignment.python
 #                    ^^ invalid.illegal.assignment.python
-#                             ^ invalid.illegal.annotation.python
-#                              ^^ invalid.illegal.default-value.python
+#                             ^^ invalid.illegal.assignment.python
 #                                       ^^ invalid.illegal.assignment.python
 
 foo(x = y := f(x), y=x:=2)
