@@ -674,9 +674,7 @@ contexts:
       scope: punctuation.separator.annotation.parameter.python
       set: function-parameter-annotation
     - include: function-parameter-tuples
-    - include: illegal-names
-    - match: '{{identifier}}'
-      scope: variable.parameter.python
+    - include: parameter-names
     - include: line-continuation
 
   function-parameter-expect-comma:
@@ -722,9 +720,7 @@ contexts:
     # python 2 does not support type annotations
     - match: ':'
       push: function-parameter-illegal-default-value
-    - include: illegal-names
-    - match: '{{identifier}}'
-      scope: variable.parameter.python
+    - include: parameter-names
     - include: line-continuation
 
   function-parameter-illegal-annotation:
@@ -897,14 +893,19 @@ contexts:
     - match: \)
       scope: punctuation.section.arguments.end.python
       pop: 1
-    - match: (?:({{illegal_names}})|({{identifier}}))\s*(=)
-      captures:
-        1: invalid.illegal.name.python
-        2: variable.parameter.python
-        3: keyword.operator.assignment.python
-      push: allow-unpack-operators
     - include: argument-separators
+    - include: case-pattern-keyword-arguments
     - include: case-pattern-expressions
+
+  case-pattern-keyword-arguments:
+    - match: (?={{identifier}}\s*=(?!=))
+      push: case-pattern-keyword-argument-name
+
+  case-pattern-keyword-argument-name:
+    - match: =
+      scope: keyword.operator.assignment.python
+      set: allow-unpack-operators
+    - include: parameter-names
 
   case-pattern-operators:
     - match: '[-+]'
@@ -1425,10 +1426,10 @@ contexts:
   keyword-argument-name:
     - match: =
       scope: keyword.operator.assignment.python
-      set: keyword-argument-value
-    - include: illegal-names
-    - match: '{{identifier}}'
-      scope: variable.parameter.python
+      set:
+        - keyword-argument-value
+        - allow-unpack-operators
+    - include: parameter-names
 
   keyword-argument-value:
     - match: (?=[,)]|:(?!=))
@@ -1494,12 +1495,14 @@ contexts:
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
-    - include: line-continuation-or-pop
-    - include: keyword-arguments
+    - match: '='
+      scope: keyword.operator.assignment.python
+      push:
+        - keyword-argument-value
+        - allow-unpack-operators
     - include: function-parameter-tuples
-    - include: illegal-names
-    - match: '{{identifier}}'
-      scope: variable.parameter.python
+    - include: parameter-names
+    - include: line-continuation-or-pop
     - match: \S
       scope: invalid.illegal.expected-parameter.python
 
@@ -1931,6 +1934,11 @@ contexts:
   class-variables:
     - match: (?:self|cls)\b
       scope: variable.language.python
+
+  parameter-names:
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.python
 
   wildcard-variables:
     - match: _(?!{{identifier_continue}})

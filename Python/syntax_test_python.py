@@ -473,6 +473,16 @@ def _():
 #             ^ punctuation.section.function.begin
 #               ^^^^ invalid.illegal.name.python
 
+    c = lambda x, y=0: x + y
+#       ^^^^^^ meta.function.inline.python
+#             ^^^^^^^ meta.function.inline.parameters.python
+#                    ^ meta.function.inline.python
+#                     ^^^^^^ meta.function.inline.body.python
+#       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
+#              ^ meta.function.inline.parameters.python variable.parameter.python
+#                    ^ punctuation.section.function.begin
+#                        ^ keyword.operator.arithmetic.python
+
     {key: lambda x, y: 10}
 #   ^ punctuation.section.mapping.begin
 #         ^^^^^^ meta.function.inline.python
