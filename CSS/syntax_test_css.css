@@ -1142,6 +1142,12 @@
 /*  ^^^^^^^^^ keyword.control.directive.css */
 /*            ^^^^^ entity.other.custom-property.css */
 
+    @property  /* comment */ --foo
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.property.css */
+/*  ^^^^^^^^^ keyword.control.directive.css */
+/*             ^^^^^^^^^^^^^ meta.at-rule.property.css comment.block.css */
+/*                           ^^^^^ entity.other.custom-property.css */
+
     @property --foo ;
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.property.css */
 /*                  ^ - meta.at-rule */
@@ -1157,6 +1163,18 @@
 /*            ^^^^^ entity.other.custom-property.css */
 /*                  ^ punctuation.section.block.begin.css */
 /*                     ^ punctuation.section.block.end.css */
+
+    @property /**/ --foo /**/ { /**/ }
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.property.css */
+/*                            ^^^^^^^^ meta.at-rule.property.css meta.property-list.css meta.block.css */
+/*                                    ^ - meta.at-rule */
+/*  ^^^^^^^^^ keyword.control.directive.css */
+/*            ^^^^ comment.block.css */
+/*                 ^^^^^ entity.other.custom-property.css */
+/*                       ^^^^ comment.block.css */
+/*                            ^ punctuation.section.block.begin.css */
+/*                              ^^^^ comment.block.css */
+/*                                   ^ punctuation.section.block.end.css */
 
     @property --my-color {
       syntax: '<color>';
@@ -1213,6 +1231,17 @@
 /*   ^^^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                   ^^^^^^^^ entity.other.scroll-timeline.css */
 /*                           ^ punctuation.terminator.rule.css */
+
+    @scroll-timeline /**/ timeline /**/ { /**/ }
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.scroll-timeline.css - meta.block */
+/*                                      ^^^^^^^^ meta.at-rule.scroll-timeline.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^^^^^^^ keyword.control.directive.css */
+/*                   ^^^^ comment.block.css */
+/*                        ^^^^^^^^ entity.other.scroll-timeline.css */
+/*                                 ^^^^ comment.block.css */
+/*                                      ^ punctuation.section.block.begin.css */
+/*                                        ^^^^ comment.block.css */
+/*                                             ^ punctuation.section.block.end.css */
 
     @scroll-timeline timeline {
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.scroll-timeline.css - meta.block */

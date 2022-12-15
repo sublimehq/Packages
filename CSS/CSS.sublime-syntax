@@ -764,6 +764,7 @@ contexts:
 
   at-property-name:
     - include: custom-property
+    - include: comments
     - include: else-pop
 
   at-property-property-list:
@@ -771,6 +772,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.css
       push: at-property-property-list-content
+    - include: comments
     - include: else-pop
 
   at-property-property-list-content:
@@ -804,6 +806,7 @@ contexts:
     - match: '{{ident}}'
       scope: entity.other.scroll-timeline.css
       pop: 1
+    - include: comments
     - include: else-pop
 
   at-scroll-timeline-property-list:
@@ -811,6 +814,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.css
       push: at-scroll-timeline-property-list-content
+    - include: comments
     - include: else-pop
 
   at-scroll-timeline-property-list-content:
@@ -983,6 +987,7 @@ contexts:
         ){{break}}
       scope: support.constant.property-value.css
       pop: 1
+    - include: comments
     - include: else-pop
 
   media-query-media-types:
