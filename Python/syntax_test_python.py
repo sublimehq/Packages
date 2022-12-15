@@ -807,12 +807,12 @@ def _():
 #                                  ^^ meta.function-call.arguments.python
 #   ^^^^ keyword.control.flow.with.python
 #        ^ punctuation.section.group.begin.python
-#         ^^^^^^ meta.qualified-name.python meta.generic-name.python
+#         ^^^^^^ meta.generic-name.python
 #                ^ keyword.operator.arithmetic.python
 #                  ^^^^^^^^^^ meta.string.python string.quoted.double.python
 #                            ^ punctuation.section.group.end.python
 #                             ^ punctuation.accessor.dot.python
-#                              ^^^^ variable.function.python
+#                              ^^^^ variable.function.python - support
 #                                  ^ punctuation.section.arguments.begin.python
 #                                   ^ punctuation.section.arguments.end.python
 #                                     ^^ keyword.control.flow.with.as.python
@@ -824,18 +824,18 @@ def _():
 #        ^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
 #         ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python meta.group.python - meta.sequence meta.sequence
 #                              ^^^^^^^^^^^^^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
-#                               ^^^^ meta.function-call.python meta.qualified-name.python
+#                               ^^^^ meta.function-call.python
 #                                   ^^ meta.function-call.arguments.python
 #                                           ^ - meta.sequence
 #   ^^^^ keyword.control.flow.with.python
 #        ^ punctuation.section.sequence.begin.python
 #         ^ punctuation.section.group.begin.python
-#          ^^^^^^ meta.qualified-name.python meta.generic-name.python
+#          ^^^^^^ meta.generic-name.python
 #                 ^ keyword.operator.arithmetic.python
 #                   ^^^^^^^^^^ meta.string.python string.quoted.double.python
 #                             ^ punctuation.section.group.end.python
-#                              ^ meta.function-call.python meta.qualified-name.python punctuation.accessor.dot.python
-#                               ^^^^ meta.qualified-name.python variable.function.python
+#                              ^ meta.function-call.python punctuation.accessor.dot.python
+#                               ^^^^ variable.function.python - support
 #                                   ^ punctuation.section.arguments.begin.python
 #                                    ^ punctuation.section.arguments.end.python
 #                                      ^^ keyword.control.flow.with.as.python
@@ -856,16 +856,16 @@ def _():
 #   ^^^^ keyword.control.flow.with.python
 #        ^ punctuation.section.group.begin.python
 #         ^^ punctuation.section.group.begin.python
-#           ^^^^^^ meta.qualified-name.python meta.generic-name.python
+#           ^^^^^^ meta.generic-name.python
 #                  ^ keyword.operator.arithmetic.python
 #                    ^^^^^^^^^^ meta.string.python string.quoted.double.python
 #                              ^ punctuation.section.group.end.python
-#                               ^ meta.function-call.python meta.qualified-name.python punctuation.accessor.dot.python
-#                                ^^^^ variable.function.python
+#                               ^ meta.function-call.python punctuation.accessor.dot.python
+#                                ^^^^ variable.function.python - support
 #                                    ^ punctuation.section.arguments.begin.python
 #                                     ^ punctuation.section.arguments.end.python
 #                                       ^^ invalid.illegal.name.python
-#                                          ^ meta.qualified-name.python meta.generic-name.python
+#                                          ^ meta.generic-name.python
 #                                           ^ punctuation.section.group.end.python
 #                                            ^ invalid.illegal.stray.python
 #                                             ^ punctuation.section.block.with.python
