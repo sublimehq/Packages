@@ -1397,6 +1397,7 @@ contexts:
       set: counter-property-value
 
   counter-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-property-value-content
@@ -1420,6 +1421,7 @@ contexts:
       push: counter-style-fallback-property-value
 
   counter-style-fallback-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-style-fallback-property-value-content
@@ -1448,6 +1450,7 @@ contexts:
       push: counter-style-system-property-value
 
   counter-style-system-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-style-system-property-value-content
@@ -1483,6 +1486,7 @@ contexts:
       push: counter-style-speak-as-property-value
 
   counter-style-speak-as-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-style-speak-as-property-value-content
@@ -1508,6 +1512,7 @@ contexts:
       set: font-family-value
 
   font-family-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: font-family-value-content
@@ -1536,6 +1541,7 @@ contexts:
       set: font-property-value
 
   font-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: font-property-value-content
