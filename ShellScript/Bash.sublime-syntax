@@ -1520,21 +1520,25 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-quoted-double-body
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-ansi-c-body
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-quoted-double-body
     - include: expansions-variables
@@ -1545,21 +1549,25 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-quoted-double-body
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-ansi-c-body
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-quoted-double-body
     - include: expansions-variables
@@ -1888,21 +1896,25 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.shell
-        - include:  string-quoted-double-body
+        - include: string-quoted-double-body
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.ansi-c.shell
         - include: string-ansi-c-body
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.locale.shell
         - include: string-quoted-double-body
     - include: any-escapes
@@ -1916,17 +1928,20 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.single.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.double.shell
-        - include:  string-quoted-double-body
+        - include: string-quoted-double-body
     # [Bash] 3.1.2.4
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
         - include: string-ansi-c-body
     # [Bash] 3.1.2.5
@@ -1934,6 +1949,7 @@ contexts:
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.double.locale.shell
         - include: string-quoted-double-body
 
@@ -1941,6 +1957,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
+    - include: string-prototype
     - include: line-continuations
     - include: string-escapes
     - include: string-interpolations
@@ -1949,6 +1966,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
+    - include: string-prototype
     - include: line-continuations
     - include: string-escapes-ansi-c
 
@@ -1956,6 +1974,11 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
+    - include: string-prototype
+
+  # for use by inheriting syntaxes to easily inject string interpolation
+  # in any kind of quoted or unquoted string
+  string-prototype: []
 
   any-escapes:
     - match: \\.
