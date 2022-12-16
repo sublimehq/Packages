@@ -2151,6 +2151,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-plain-raw-b-string-content
+
+  triple-double-quoted-plain-raw-b-string-content:
     - include: string-prototype
 
   triple-double-quoted-raw-b-strings:
@@ -2169,7 +2172,10 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-double-quoted-string-pop
-        - include: string-prototype
+        - include: triple-double-quoted-raw-b-string-content
+
+  triple-double-quoted-raw-b-string-content:
+    - include: string-prototype
 
   triple-double-quoted-plain-raw-f-strings:
     # Triple-quoted raw f-string
@@ -2183,6 +2189,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-plain-raw-f-string-content
+
+  triple-double-quoted-plain-raw-f-string-content:
     - include: string-prototype
     - include: f-string-replacements
 
@@ -2202,8 +2211,11 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-double-quoted-string-pop
-        - include: string-prototype
-        - include: f-string-replacements-regexp
+        - include: triple-double-quoted-raw-f-string-content
+
+  triple-double-quoted-raw-f-string-content:
+    - include: string-prototype
+    - include: f-string-replacements-regexp
 
   triple-double-quoted-plain-raw-u-strings:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -2217,6 +2229,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-plain-raw-u-string-content
+
+  triple-double-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: escaped-unicode-chars
 
@@ -2248,10 +2263,13 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: triple-double-quoted-string-pop
-        - include: string-prototype
-        - include: escaped-unicode-chars
-        - include: string-placeholders
-        - include: string-replacements
+        - include: triple-double-quoted-sql-raw-u-string-content
+
+  triple-double-quoted-sql-raw-u-string-content:
+    - include: string-prototype
+    - include: escaped-unicode-chars
+    - include: string-placeholders
+    - include: string-replacements
 
   triple-double-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
@@ -2261,8 +2279,11 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-double-quoted-string-pop
-        - include: string-prototype
-        - include: escaped-unicode-chars
+        - include: triple-double-quoted-regexp-raw-u-string-content
+
+  triple-double-quoted-regexp-raw-u-string-content:
+    - include: string-prototype
+    - include: escaped-unicode-chars
 
   triple-double-quoted-b-strings:
     # Triple-quoted string, bytes, no syntax embedding
@@ -2276,6 +2297,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-b-string-content
+
+  triple-double-quoted-b-string-content:
     - include: string-prototype
     - include: string-continuations
     - include: escaped-chars
@@ -2294,6 +2318,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-f-string-content
+
+  triple-double-quoted-f-string-content:
     - include: string-prototype
     - include: string-continuations
     - include: escaped-f-string-braces
@@ -2326,7 +2353,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
-    - include: triple-double-quoted-plain-u-string-content
+    - include: triple-double-quoted-u-string-content
 
   triple-double-quoted-sql-u-strings-body:
     - meta_include_prototype: false
@@ -2336,9 +2363,9 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: triple-double-quoted-string-pop
-        - include: triple-double-quoted-plain-u-string-content
+        - include: triple-double-quoted-u-string-content
 
-  triple-double-quoted-plain-u-string-content:
+  triple-double-quoted-u-string-content:
     - include: string-prototype
     - include: string-continuations
     - include: escaped-unicode-chars
@@ -2384,6 +2411,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: double-quoted-plain-raw-b-string-content
+
+  double-quoted-plain-raw-b-string-content:
     - include: string-prototype
 
   double-quoted-raw-b-strings:
@@ -2402,7 +2432,10 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: double-quoted-string-pop
-        - include: string-prototype
+        - include: double-quoted-raw-b-string-content
+
+  double-quoted-raw-b-string-content:
+    - include: string-prototype
 
   double-quoted-plain-raw-f-strings:
     # Single-line raw f-string
@@ -2416,6 +2449,9 @@ contexts:
     - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
     - meta_include_prototype: false
     - include: double-quoted-string-end
+    - include: double-quoted-plain-raw-f-string-content
+
+  double-quoted-plain-raw-f-string-content:
     - include: string-prototype
     - include: f-string-replacements
 
@@ -2435,8 +2471,11 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: double-quoted-string-pop
-        - include: string-prototype
-        - include: f-string-replacements-regexp
+        - include: double-quoted-raw-f-string-content
+
+  double-quoted-raw-f-string-content:
+    - include: string-prototype
+    - include: f-string-replacements-regexp
 
   double-quoted-plain-raw-u-strings:
     # Single-line capital R raw string, unicode or not, no syntax embedding
@@ -2450,6 +2489,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: double-quoted-plain-raw-u-string-content
+
+  double-quoted-plain-raw-u-string-content:
     - include: string-prototype
 
   double-quoted-raw-u-strings:
@@ -2481,7 +2523,10 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: double-quoted-string-pop
-        - include: string-prototype
+        - include: double-quoted-regexp-raw-u-string-content
+
+  double-quoted-regexp-raw-u-string-content:
+    - include: string-prototype
 
   double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2491,9 +2536,12 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: double-quoted-string-pop
-        - include: string-prototype
-        - include: string-placeholders
-        - include: string-replacements
+        - include: double-quoted-sql-raw-u-string-content
+
+  double-quoted-sql-raw-u-string-content:
+    - include: string-prototype
+    - include: string-placeholders
+    - include: string-replacements
 
   double-quoted-b-strings:
     # Single-line string, bytes
@@ -2507,6 +2555,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: double-quoted-b-string-content
+
+  double-quoted-b-string-content:
     - include: string-prototype
     - include: escaped-chars
     - include: string-placeholders
@@ -2524,6 +2575,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: double-quoted-f-string-content
+
+  double-quoted-f-string-content:
     - include: string-prototype
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
@@ -2608,6 +2662,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-plain-raw-b-string-content
+
+  triple-single-quoted-plain-raw-b-string-content:
     - include: string-prototype
 
   triple-single-quoted-raw-b-strings:
@@ -2626,7 +2683,10 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-single-quoted-string-pop
-        - include: string-prototype
+        - include: triple-single-quoted-raw-b-string-content
+
+  triple-single-quoted-raw-b-string-content:
+    - include: string-prototype
 
   triple-single-quoted-plain-raw-f-strings:
     # Triple-quoted raw f-string
@@ -2640,6 +2700,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-plain-raw-f-string-content
+
+  triple-single-quoted-plain-raw-f-string-content:
     - include: string-prototype
     - include: f-string-replacements
 
@@ -2659,8 +2722,11 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-single-quoted-string-pop
-        - include: string-prototype
-        - include: f-string-replacements-regexp
+        - include: triple-single-quoted-raw-f-string-content
+
+  triple-single-quoted-raw-f-string-content:
+    - include: string-prototype
+    - include: f-string-replacements-regexp
 
   triple-single-quoted-plain-raw-u-strings:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -2674,6 +2740,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-plain-raw-u-string-content
+
+  triple-single-quoted-plain-raw-u-string-content:
     - include: string-prototype
 
   triple-single-quoted-raw-u-strings:
@@ -2704,8 +2773,11 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-single-quoted-string-pop
-        - include: string-prototype
-        - include: escaped-unicode-chars
+        - include: triple-single-quoted-regexp-raw-u-string-content
+
+  triple-single-quoted-regexp-raw-u-string-content:
+    - include: string-prototype
+    - include: escaped-unicode-chars
 
   triple-single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2715,11 +2787,13 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: triple-single-quoted-string-pop
-        - include: string-prototype
-        - include: escaped-unicode-chars
-        - include: escaped-chars
-        - include: string-placeholders
-        - include: string-replacements
+        - include: triple-single-quoted-sql-raw-u-string-content
+
+  triple-single-quoted-sql-raw-u-string-content:
+    - include: string-prototype
+    - include: escaped-unicode-chars
+    - include: string-placeholders
+    - include: string-replacements
 
   triple-single-quoted-b-strings:
     # Triple-quoted string, bytes, no syntax embedding
@@ -2733,6 +2807,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-b-string-content
+
+  triple-single-quoted-b-string-content:
     - include: string-prototype
     - include: string-continuations
     - include: escaped-chars
@@ -2751,6 +2828,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-f-string-content
+
+  triple-single-quoted-f-string-content:
     - include: string-prototype
     - include: string-continuations
     - include: escaped-f-string-braces
@@ -2841,6 +2921,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: single-quoted-plain-raw-b-string-content
+
+  single-quoted-plain-raw-b-string-content:
     - include: string-prototype
 
   single-quoted-raw-b-strings:
@@ -2859,7 +2942,10 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: single-quoted-string-pop
-        - include: string-prototype
+        - include: single-quoted-raw-b-string-content
+
+  single-quoted-raw-b-string-content:
+    - include: string-prototype
 
   single-quoted-plain-raw-u-strings:
     # Single-line capital R raw string, unicode or not, no syntax embedding
@@ -2873,6 +2959,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: single-quoted-plain-raw-u-string-content
+
+  single-quoted-plain-raw-u-string-content:
     - include: string-prototype
 
   single-quoted-raw-u-strings:
@@ -2904,7 +2993,10 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: single-quoted-string-pop
-        - include: string-prototype
+        - include: single-quoted-regexp-raw-u-string-content
+
+  single-quoted-regexp-raw-u-string-content:
+    - include: string-prototype
 
   single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2914,9 +3006,12 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: single-quoted-string-pop
-        - include: string-prototype
-        - include: string-placeholders
-        - include: string-replacements
+        - include: single-quoted-sql-raw-u-string-content
+
+  single-quoted-sql-raw-u-string-content:
+    - include: string-prototype
+    - include: string-placeholders
+    - include: string-replacements
 
   single-quoted-plain-raw-f-strings:
     # Single-line raw f-string
@@ -2930,6 +3025,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: single-quoted-plain-raw-f-string-content
+
+  single-quoted-plain-raw-f-string-content:
     - include: string-prototype
     - include: f-string-replacements
 
@@ -2949,8 +3047,11 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: single-quoted-string-pop
-        - include: string-prototype
-        - include: f-string-replacements-regexp
+        - include: single-quoted-raw-f-string-content
+
+  single-quoted-raw-f-string-content:
+    - include: string-prototype
+    - include: f-string-replacements-regexp
 
   single-quoted-b-strings:
     # Single-line string, bytes
@@ -2964,6 +3065,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: single-quoted-b-string-content
+
+  single-quoted-b-string-content:
     - include: string-prototype
     - include: escaped-chars
     - include: string-placeholders
@@ -2981,6 +3085,9 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: single-quoted-f-string-content
+
+  single-quoted-f-string-content:
     - include: string-prototype
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
