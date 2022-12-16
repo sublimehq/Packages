@@ -2255,6 +2255,20 @@ contexts:
     - match: (?=\S)
       set: triple-double-quoted-regexp-raw-u-string-body
 
+  triple-double-quoted-regexp-raw-u-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
+    - match: ''
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: triple-double-quoted-regexp-raw-u-string-content
+
+  triple-double-quoted-regexp-raw-u-string-content:
+    - include: string-prototype
+    - include: escaped-unicode-chars
+
   triple-double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python
@@ -2270,20 +2284,6 @@ contexts:
     - include: escaped-unicode-chars
     - include: string-placeholders
     - include: string-replacements
-
-  triple-double-quoted-regexp-raw-u-string-body:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
-    - include: triple-double-quoted-string-end
-    - match: ''
-      push: scope:source.regexp.python
-      with_prototype:
-        - include: triple-double-quoted-string-pop
-        - include: triple-double-quoted-regexp-raw-u-string-content
-
-  triple-double-quoted-regexp-raw-u-string-content:
-    - include: string-prototype
-    - include: escaped-unicode-chars
 
   triple-double-quoted-b-strings:
     # Triple-quoted string, bytes, no syntax embedding
