@@ -2151,6 +2151,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: string-prototype
 
   triple-double-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
@@ -2165,8 +2166,10 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
     - match: ''
-      embed: scope:source.regexp.python
-      escape: (?=""")
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: string-prototype
 
   triple-double-quoted-plain-raw-f-strings:
     # Triple-quoted raw f-string
@@ -2180,6 +2183,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: string-prototype
     - include: f-string-replacements
 
   triple-double-quoted-raw-f-strings:
@@ -2198,6 +2202,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-double-quoted-string-pop
+        - include: string-prototype
         - include: f-string-replacements-regexp
 
   triple-double-quoted-plain-raw-u-strings:
@@ -2212,6 +2217,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: string-prototype
     - include: escaped-unicode-chars
 
   triple-double-quoted-raw-u-strings:
@@ -2242,6 +2248,7 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: triple-double-quoted-string-pop
+        - include: string-prototype
         - include: escaped-unicode-chars
         - include: string-placeholders
         - include: string-replacements
@@ -2254,6 +2261,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-double-quoted-string-pop
+        - include: string-prototype
         - include: escaped-unicode-chars
 
   triple-double-quoted-b-strings:
@@ -2268,6 +2276,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: string-prototype
     - include: string-continuations
     - include: escaped-chars
     - include: string-placeholders
@@ -2285,6 +2294,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: string-prototype
     - include: string-continuations
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
@@ -2329,6 +2339,7 @@ contexts:
         - include: triple-double-quoted-plain-u-string-content
 
   triple-double-quoted-plain-u-string-content:
+    - include: string-prototype
     - include: string-continuations
     - include: escaped-unicode-chars
     - include: escaped-chars
@@ -2373,6 +2384,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: string-prototype
 
   double-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
@@ -2387,8 +2399,10 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
     - match: ''
-      embed: scope:source.regexp.python
-      escape: (?="|\n)
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: double-quoted-string-pop
+        - include: string-prototype
 
   double-quoted-plain-raw-f-strings:
     # Single-line raw f-string
@@ -2402,6 +2416,7 @@ contexts:
     - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
     - meta_include_prototype: false
     - include: double-quoted-string-end
+    - include: string-prototype
     - include: f-string-replacements
 
   double-quoted-raw-f-strings:
@@ -2420,6 +2435,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: double-quoted-string-pop
+        - include: string-prototype
         - include: f-string-replacements-regexp
 
   double-quoted-plain-raw-u-strings:
@@ -2434,6 +2450,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: string-prototype
 
   double-quoted-raw-u-strings:
     - match: ([uU]?r)(")
@@ -2464,6 +2481,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: double-quoted-string-pop
+        - include: string-prototype
 
   double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2473,6 +2491,7 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: double-quoted-string-pop
+        - include: string-prototype
         - include: string-placeholders
         - include: string-replacements
 
@@ -2488,6 +2507,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: string-prototype
     - include: escaped-chars
     - include: string-placeholders
     - include: string-replacements
@@ -2504,6 +2524,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: string-prototype
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
     - include: escaped-chars
@@ -2547,6 +2568,7 @@ contexts:
         - include: double-quoted-u-string-content
 
   double-quoted-u-string-content:
+    - include: string-prototype
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
@@ -2586,6 +2608,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: string-prototype
 
   triple-single-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
@@ -2600,8 +2623,10 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
     - match: ''
-      embed: scope:source.regexp.python
-      escape: (?=''')
+      push: scope:source.regexp.python
+      with_prototype:
+        - include: triple-single-quoted-string-pop
+        - include: string-prototype
 
   triple-single-quoted-plain-raw-f-strings:
     # Triple-quoted raw f-string
@@ -2615,6 +2640,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: string-prototype
     - include: f-string-replacements
 
   triple-single-quoted-raw-f-strings:
@@ -2633,6 +2659,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-single-quoted-string-pop
+        - include: string-prototype
         - include: f-string-replacements-regexp
 
   triple-single-quoted-plain-raw-u-strings:
@@ -2647,6 +2674,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: string-prototype
 
   triple-single-quoted-raw-u-strings:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -2676,6 +2704,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: triple-single-quoted-string-pop
+        - include: string-prototype
         - include: escaped-unicode-chars
 
   triple-single-quoted-sql-raw-u-string-body:
@@ -2686,6 +2715,7 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: triple-single-quoted-string-pop
+        - include: string-prototype
         - include: escaped-unicode-chars
         - include: escaped-chars
         - include: string-placeholders
@@ -2703,6 +2733,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: string-prototype
     - include: string-continuations
     - include: escaped-chars
     - include: string-placeholders
@@ -2720,6 +2751,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: string-prototype
     - include: string-continuations
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
@@ -2764,6 +2796,7 @@ contexts:
         - include: triple-single-quoted-u-string-content
 
   triple-single-quoted-u-string-content:
+    - include: string-prototype
     - include: string-continuations
     - include: escaped-unicode-chars
     - include: escaped-chars
@@ -2808,6 +2841,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: string-prototype
 
   single-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
@@ -2825,6 +2859,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: single-quoted-string-pop
+        - include: string-prototype
 
   single-quoted-plain-raw-u-strings:
     # Single-line capital R raw string, unicode or not, no syntax embedding
@@ -2838,6 +2873,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: string-prototype
 
   single-quoted-raw-u-strings:
     - match: ([uU]?r)(')
@@ -2868,6 +2904,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: single-quoted-string-pop
+        - include: string-prototype
 
   single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2877,6 +2914,7 @@ contexts:
       push: scope:source.sql
       with_prototype:
         - include: single-quoted-string-pop
+        - include: string-prototype
         - include: string-placeholders
         - include: string-replacements
 
@@ -2892,6 +2930,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: string-prototype
     - include: f-string-replacements
 
   single-quoted-raw-f-strings:
@@ -2910,6 +2949,7 @@ contexts:
       push: scope:source.regexp.python
       with_prototype:
         - include: single-quoted-string-pop
+        - include: string-prototype
         - include: f-string-replacements-regexp
 
   single-quoted-b-strings:
@@ -2924,6 +2964,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: string-prototype
     - include: escaped-chars
     - include: string-placeholders
     - include: string-replacements
@@ -2940,6 +2981,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: string-prototype
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
     - include: escaped-chars
@@ -2983,6 +3025,7 @@ contexts:
         - include: single-quoted-u-string-content
 
   single-quoted-u-string-content:
+    - include: string-prototype
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
@@ -3201,6 +3244,10 @@ contexts:
     - match: \}
       scope: punctuation.section.interpolation.end.python
       pop: 2
+
+  # for use by inheriting syntaxes to easily inject string interpolation
+  # in any kind of quoted or unquoted string
+  string-prototype: []
 
 ###[ PROTOTYPES ]#############################################################
 
