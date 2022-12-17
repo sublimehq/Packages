@@ -60,17 +60,16 @@ contexts:
   embedded-html:
     - match: '<'
       scope: punctuation.section.embedded.begin.dot
-      push:
-        - meta_content_scope: source.dot.embedded.html
-        - match: '((>)?\s*)(>)'
-          captures:
-            1: source.dot.embedded.html
-            2: meta.tag punctuation.definition.tag.end.html
-            3: punctuation.section.embedded.end.dot
-          pop: true
-        - match: ''
-          embed: scope:text.html.basic
-          escape: (?=>\s*>)
+      push: embedded-html-body
+
+  embedded-html-body:
+    - meta_scope: meta.embedded.html.dot
+    - meta_content_scope: text.html.embedded.dot
+    - match: '>'
+      scope: punctuation.section.embedded.end.dot
+      pop: true
+    - include: scope:text.html.basic#html
+      apply_prototype: true
 
   braces:
     - match: \{
