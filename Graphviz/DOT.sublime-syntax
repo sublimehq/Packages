@@ -68,7 +68,7 @@ contexts:
     - match: '>'
       scope: punctuation.section.embedded.end.dot
       pop: true
-    - include: scope:text.html.basic#html
+    - include: scope:text.html.plain#html
       apply_prototype: true
 
   braces:
