@@ -277,6 +277,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
+    - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambdas
     - include: expressions-common
@@ -296,6 +297,7 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - no assignment expressions allowed
     # - accessor and lambda matching continues into the next line
+    - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambda-in-groups
     - include: expressions-common
@@ -306,6 +308,7 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - accessor and lambda matching continues into the next line
     - include: for-expressions
+    - include: line-continuations
     - include: assignment-expressions
     - include: lambda-in-groups
     - include: expressions-common
@@ -324,7 +327,6 @@ contexts:
     - include: operators
     - include: function-calls
     - include: items
-    - include: line-continuation
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
@@ -672,7 +674,7 @@ contexts:
       set: function-parameter-annotation
     - include: function-parameter-tuples
     - include: parameter-names
-    - include: line-continuation
+    - include: line-continuations
     - include: illegal-assignment-expressions
 
   function-parameter-expect-comma:
@@ -719,7 +721,7 @@ contexts:
     - match: '{{colon}}'
       push: function-parameter-illegal-default-value
     - include: parameter-names
-    - include: line-continuation
+    - include: line-continuations
     - include: illegal-assignment-expressions
 
   function-parameter-illegal-annotation:
@@ -767,9 +769,9 @@ contexts:
       push: assignment-statement-value
 
   assignment-statement-value:
+    - include: line-continuation-or-pop
     - include: illegal-assignment-expressions
     - include: expression-in-a-statement
-    - include: line-continuation-or-pop
 
   variable-annotation:
     - meta_scope: meta.variable.annotation.python
@@ -819,6 +821,7 @@ contexts:
     - meta_content_scope: meta.statement.conditional.case.guard.python
     - include: case-statement-end
     - include: case-statement-fail
+    - include: line-continuations
     - include: expression-in-a-statement
 
   case-statement-pattern:
@@ -848,7 +851,7 @@ contexts:
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
-    - include: line-continuation
+    - include: line-continuations
 
   case-pattern-capture-targets:
     - match: as\b
@@ -869,7 +872,7 @@ contexts:
 
   case-pattern-class-wrapper:
     - meta_scope: meta.function-call.python meta.qualified-name.python
-    - include: line-continuation
+    - include: line-continuations
     - match: (?:({{illegal_names}})|({{builtin_types}})|({{identifier}}))\s*(?=\()
       captures:
         1: invalid.illegal.name.python
@@ -1134,7 +1137,7 @@ contexts:
     # fail if match is directly followed by `:` or end of statement
     - match: (?=$|#|;|:)
       fail: match-statements
-    - include: line-continuation
+    - include: line-continuations
     - include: allow-unpack-operators
 
   match-statement-body:
@@ -1142,6 +1145,7 @@ contexts:
     - match: (?=$|#|;)
       fail: match-statements
     - include: match-statement-end
+    - include: line-continuations
     - include: expression-in-a-statement
 
   match-statement-end:
@@ -1275,7 +1279,7 @@ contexts:
     - include: with-statement-tuple-else-fail
 
   with-statement-tuple-else-fail:
-    - include: line-continuation
+    - include: line-continuations
     - match: (?=\S|$)
       fail: with-statement-tuple
 
@@ -1515,6 +1519,7 @@ contexts:
     # at the end of the line.
     - match: (?=[,:)}\]])|$
       pop: 1
+    - include: line-continuation-or-pop
     - include: expression-in-a-statement
 
 ###[ GENERATORS GROUPS TUBLES ]###############################################
@@ -3361,11 +3366,11 @@ contexts:
       pop: 1
 
   line-continuation-or-pop:
-    - include: line-continuation
+    - include: line-continuations
     - match: (?=\s*(?:\n|;|#))
       pop: 1
 
-  line-continuation:
+  line-continuations:
     - match: (\\)\s*$
       captures:
         1: punctuation.separator.continuation.line.python
