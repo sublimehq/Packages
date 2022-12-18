@@ -656,7 +656,7 @@ F'''string'''
 #               ^ meta.string.python string.quoted.double.python - meta.interpolation
 #    ^ punctuation.definition.string.begin.python
 #     ^ punctuation.section.interpolation.begin.python
-#      ^^^^ meta.qualified-name.python meta.generic-name.python
+#      ^^^^ meta.path.python meta.generic-name.python
 #          ^^^^ constant.other.format-spec.python
 #          ^ punctuation.separator.format-spec.python
 #              ^ punctuation.section.interpolation.end.python
@@ -681,7 +681,7 @@ expr = fr"^\s*({label}|{notlabel})"
 #         ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
 #             ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
 #              ^^^^^^^ source.python meta.string.python meta.interpolation.python
-#               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python
+#               ^^^^^ source.python.embedded meta.path.python meta.generic-name.python
 #                                ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
 
 line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)

@@ -260,11 +260,11 @@ import a as .b, .b
 #               ^ invalid.illegal.unexpected-relative-import.python
 #                ^ meta.generic-name.python
 import a.b as c, a.e as f
-#      ^^^ meta.qualified-name.python
+#      ^^^ meta.path.python
 #          ^^ keyword.control.import.as.python
 #             ^ meta.generic-name.python
 #              ^ punctuation.separator.import-list.python
-#                ^^^ meta.qualified-name.python
+#                ^^^ meta.path.python
 #                    ^^ keyword.control.import.as.python
 #                       ^ meta.generic-name.python
 from a import b as c, d as  # comment
@@ -307,7 +307,7 @@ from importlib import import_module
 ##################
 
 identifier
-#^^^^^^^^^ meta.qualified-name meta.generic-name
+#^^^^^^^^^ meta.path meta.generic-name
 
 class
 #^^^^ keyword.declaration.class.python
@@ -319,7 +319,7 @@ async
 #^^^^ - invalid.illegal.name
 
 __all__
-#^^^^^^ meta.qualified-name support.variable.magic - meta.generic-name
+#^^^^^^ meta.path support.variable.magic - meta.generic-name
 __file__
 #^^^^^^^ support.variable.magic
 __missing__
@@ -344,7 +344,7 @@ open.open.open.
 #            ^^^^^^^^^ constant.language.python
 
 CONSTANT._13_
-#^^^^^^^ meta.qualified-name.python variable.other.constant.python
+#^^^^^^^ meta.path.python variable.other.constant.python
 #        ^^^^ - variable.other.constant
 
  _A_B A1
@@ -352,10 +352,10 @@ CONSTANT._13_
 #     ^^ - variable.other.constant
 
 some.NO
-#    ^^ meta.qualified-name.python variable.other.constant.python
+#    ^^ meta.path.python variable.other.constant.python
 
 NO_SWEAT NO AA1
-# <- meta.qualified-name.python variable.other.constant.python
+# <- meta.path.python variable.other.constant.python
 #        ^^ variable.other.constant
 #           ^^^ variable.other.constant
 
@@ -369,35 +369,52 @@ _ self
 ##################
 
 identifier()
-#^^^^^^^^^^^ meta.function-call
-#^^^^^^^^^ meta.qualified-name variable.function
+# <- meta.function-call.identifier.python variable.function.python
+#^^^^^^^^^ meta.function-call.identifier.python
+#         ^^ meta.function-call.arguments.python
+#^^^^^^^^^ variable.function.python
 #         ^ punctuation.section.arguments.begin
 #          ^ punctuation.section.arguments.end
 
 IDENTIFIER()
-#^^^^^^^^^ meta.qualified-name variable.function - variable.other.constant
+# <- meta.function-call.identifier.python variable.function.python
+#^^^^^^^^^ meta.function-call.identifier.python
+#         ^^ meta.function-call.arguments.python
+#^^^^^^^^^ variable.function.python
+#         ^ punctuation.section.arguments.begin
+#          ^ punctuation.section.arguments.end
 
 dotted.
+# <- meta.path.python - meta.function-call
+#^^^^^^^ - meta.function-call
 #     ^ punctuation.accessor.dot
 
 dotted .
+# <- meta.path.python - meta.function-call
+#^^^^^^^^ - meta.function-call
 #      ^ punctuation.accessor.dot
 
 dotted . identifier(12, True)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call
-#                  ^^^^^^^^^^ meta.function-call.arguments
-#^^^^^^^^^^^^^^^^^^ meta.qualified-name
-#^^^^^^ - variable.function
+# <- meta.path.python - meta.function-call
+#^^^^^^^^ - meta.function-call
+#        ^^^^^^^^^^ meta.function-call.identifier.python - meta.function-call meta.function-call
+#                  ^^^^^^^^^^ meta.function-call.arguments.python - meta.function-call meta.function-call
+#^^^^^^^^^^^^^^^^^^ meta.path
+#^^^^^^^^ - variable.function
 #      ^ punctuation.accessor.dot
 #        ^^^^^^^^^^ variable.function
 
 open.__new__(12, \
-#^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+# <- - meta.function-call
+#^^^^ - meta.function-call
+#    ^^^^^^^ meta.function-call.identifier.python
+#           ^^^^^^^ meta.function-call.arguments.python
 #^^^ support.function.builtin
 #   ^ punctuation.accessor.dot
-#    ^^^^^^^ variable.function support.function.magic
+#    ^^^^^^^ support.function.magic
 #                ^ punctuation.separator.continuation.line.python
              True)
+#           ^^^^^^ meta.function-call.arguments.python
 
 iter()
 #^^^ support.function.builtin
@@ -414,8 +431,15 @@ TypeError()
 #^^^^^^^^ support.type.exception
 #
 module.TypeError()
-#^^^^^^^^^^^^^^^ meta.function-call
+# <- - meta.function-call
+#^^^^^^ - meta.function-call
+#      ^^^^^^^^^ meta.function-call.identifier.python
+#               ^^ meta.function-call.arguments.python
+#^^^^^^^^^^^^^^^ meta.path.python
+#     ^ punctuation.accessor.dot.python
 #      ^^^^^^^^^ variable.function - support
+#               ^ punctuation.section.arguments.begin.python
+#                ^ punctuation.section.arguments.end.python
 
 open.open.open()
 #^^^ support.function.builtin
@@ -609,18 +633,22 @@ def _():
 ##################
 
 myobj.method().attribute
-#^^^^^^^^^^^^^ meta.function-call
+#^^^^^ - meta.function-call
+#     ^^^^^^^^ meta.function-call
+#             ^^^^^^^^^^ - meta.function-call
 #    ^ punctuation.accessor.dot
 #     ^^^^^^ variable.function
 #             ^ punctuation.accessor.dot
 
 'foo'. upper()
-#    ^^^^^^^^^ meta.function-call
+#^^^^^^ - meta.function-call
+#      ^^^^^^^ meta.function-call
 #    ^ punctuation.accessor.dot
 #      ^^^^^ variable.function
 
 'foo'.and()
-#    ^^^^^^ meta.function-call
+#^^^^^ - meta.function-call
+#     ^^^^^ meta.function-call
 #    ^ punctuation.accessor.dot
 #     ^^^ invalid.illegal.name.python
 
@@ -682,7 +710,8 @@ range(20)[10:2:-2]
 #       ^ punctuation.accessor.dot.python
 
 "string".upper()
-#       ^^^^^^^^ meta.function-call
+#^^^^^^^^ - meta.function-call
+#        ^^^^^^^ meta.function-call
 #       ^ punctuation.accessor.dot.python
 
 (i for i in range(10))[5]
@@ -712,7 +741,8 @@ range(20)[10:2:-2]
 #               ^ punctuation.accessor.dot.python
 
 {True: False}.get(True)
-#            ^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^^^^ - meta.function-call
+#             ^^^^^^^^^ meta.function-call
 #            ^ punctuation.accessor.dot.python
 
 1[12]
@@ -803,7 +833,7 @@ def _():
     with (folder / "file.txt").open() as x:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #        ^^^^^^^^^^^^^^^^^^^^^ meta.group.python
-#                             ^^^^^ meta.function-call.python meta.qualified-name.python
+#                              ^^^^ meta.function-call.identifier.python meta.path.python
 #                                  ^^ meta.function-call.arguments.python
 #   ^^^^ keyword.control.flow.with.python
 #        ^ punctuation.section.group.begin.python
@@ -823,8 +853,8 @@ def _():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #        ^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
 #         ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python meta.group.python - meta.sequence meta.sequence
-#                              ^^^^^^^^^^^^^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
-#                               ^^^^ meta.function-call.python
+#                               ^^^^^^^^^^^^ meta.sequence.tuple.python - meta.sequence meta.sequence - meta.sequence meta.group
+#                               ^^^^ meta.function-call.identifier.python
 #                                   ^^ meta.function-call.arguments.python
 #                                           ^ - meta.sequence
 #   ^^^^ keyword.control.flow.with.python
@@ -834,7 +864,7 @@ def _():
 #                 ^ keyword.operator.arithmetic.python
 #                   ^^^^^^^^^^ meta.string.python string.quoted.double.python
 #                             ^ punctuation.section.group.end.python
-#                              ^ meta.function-call.python punctuation.accessor.dot.python
+#                              ^ punctuation.accessor.dot.python
 #                               ^^^^ variable.function.python - support
 #                                   ^ punctuation.section.arguments.begin.python
 #                                    ^ punctuation.section.arguments.end.python
@@ -860,7 +890,7 @@ def _():
 #                  ^ keyword.operator.arithmetic.python
 #                    ^^^^^^^^^^ meta.string.python string.quoted.double.python
 #                              ^ punctuation.section.group.end.python
-#                               ^ meta.function-call.python punctuation.accessor.dot.python
+#                               ^ punctuation.accessor.dot.python
 #                                ^^^^ variable.function.python - support
 #                                    ^ punctuation.section.arguments.begin.python
 #                                     ^ punctuation.section.arguments.end.python
@@ -1064,12 +1094,12 @@ def _():
     match expr
 #   ^^^^^^^^^^ - meta.statement.conditional
 #   ^^^^^ meta.generic-name.python
-#         ^^^^ meta.qualified-name.python meta.generic-name.python
+#         ^^^^ meta.path.python meta.generic-name.python
 
     match expr:
 #   ^^^^^^^^^^^ meta.statement.conditional.match.python
 #   ^^^^^ keyword.control.conditional.match.python
-#         ^^^^ meta.qualified-name.python meta.generic-name.python
+#         ^^^^ meta.path.python meta.generic-name.python
 #             ^ punctuation.section.block.conditional.match.python
 
     match(expr,)
@@ -1082,7 +1112,7 @@ def _():
 #        ^^^^^^^ meta.statement.conditional.match.python meta.sequence.tuple.python
 #               ^ meta.statement.conditional.match.python - meta.sequence
 #   ^^^^^ keyword.control.conditional.match.python
-#         ^^^^ meta.qualified-name.python meta.generic-name.python
+#         ^^^^ meta.path.python meta.generic-name.python
 #             ^ punctuation.separator.sequence.python
 #              ^ punctuation.section.sequence.end.python
 #               ^ punctuation.section.block.conditional.match.python
@@ -1091,15 +1121,15 @@ def _():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.match.python
 #   ^^^^^ keyword.control.conditional.match.python
 #         ^ keyword.operator.unpacking.sequence.python
-#          ^^^^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#          ^^^^^^^^^^ meta.path.python meta.generic-name.python
 #                    ^ punctuation.separator.sequence.python
-#                      ^^^^^ meta.qualified-name.python meta.generic-name.python
+#                      ^^^^^ meta.path.python meta.generic-name.python
 #                           ^ punctuation.section.block.conditional.match.python
 
     match http_code:
 #   ^^^^^^^^^^^^^^^^ meta.statement.conditional.match.python
 #   ^^^^^ keyword.control.conditional.match.python
-#         ^^^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#         ^^^^^^^^^ meta.path.python meta.generic-name.python
 #                  ^ punctuation.section.block.conditional.match.python
     case "200":
 #   ^^^^^^^^^^^^ meta.disable-dedentation.python
@@ -1270,11 +1300,11 @@ def _():
 #                                                                             ^ meta.statement.conditional.case.python - meta.set
 #   ^^^^ keyword.control.conditional.case.python
 #        ^ punctuation.section.mapping.begin.python
-#          ^^^^^ meta.qualified-name.python meta.generic-name.python
+#          ^^^^^ meta.path.python meta.generic-name.python
 #                ^ punctuation.separator.key-value.python
 #                  ^^^^^^^ string.quoted.single.python
 #                          ^ punctuation.separator.sequence.python
-#                            ^^^^^^^ meta.qualified-name.python
+#                            ^^^^^^^ meta.path.python
 #                                   ^ punctuation.separator.key-value.python
 #                                     ^^^ constant.numeric.value.python
 #                                        ^ punctuation.separator.sequence.python
@@ -1311,7 +1341,7 @@ def _():
     case int():
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
-#        ^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#        ^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #           ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #             ^ meta.statement.conditional.case.python - meta.function-call
 #   ^^^^ keyword.control.conditional.case.python
@@ -1323,7 +1353,7 @@ def _():
     case else():
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
-#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #            ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #              ^ meta.statement.conditional.case.python - meta.function-call
 #   ^^^^ keyword.control.conditional.case.python
@@ -1335,12 +1365,12 @@ def _():
     case name(*pattern, *expr):
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
-#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #            ^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #                             ^ meta.statement.conditional.case.python - meta.function-call
 #                              ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
-#        ^^^^ storage.type.class.python
+#        ^^^^ support.class.python
 #            ^ punctuation.section.arguments.begin.python
 #             ^ keyword.operator.unpacking.sequence.python
 #              ^^^^^^^ meta.generic-name.python
@@ -1353,35 +1383,35 @@ def _():
     case name(key = pattern):
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
-#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#        ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #            ^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #                           ^ meta.statement.conditional.case.python - meta.function-call
 #                            ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
-#        ^^^^ storage.type.class.python
+#        ^^^^ support.class.python
 #            ^ punctuation.section.arguments.begin.python
 #             ^^^ variable.parameter.python
 #                 ^ keyword.operator.assignment.python
-#                   ^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                   ^^^^^^^ meta.path.python meta.generic-name.python
 #                          ^ punctuation.section.arguments.end.python
 #                           ^ punctuation.section.block.conditional.case.python
 
     case path.name(key = pattern):
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
-#       ^ meta.statement.conditional.case.patterns.python - meta.function-call
-#        ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#       ^^^^^^ meta.statement.conditional.case.patterns.python - meta.function-call
+#             ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #                 ^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #                                ^ meta.statement.conditional.case.python - meta.function-call
 #                                 ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
-#        ^^^^^^^^^ meta.qualified-name.python
+#        ^^^^^^^^^ meta.path.python
 #        ^^^^ meta.generic-name.python
 #            ^ punctuation.accessor.dot.python
-#             ^^^^ storage.type.class.python
+#             ^^^^ support.class.python
 #                 ^ punctuation.section.arguments.begin.python
 #                  ^^^ variable.parameter.python
 #                      ^ keyword.operator.assignment.python
-#                        ^^^^^^^ meta.qualified-name.python meta.generic-name.python
+#                        ^^^^^^^ meta.path.python meta.generic-name.python
 #                               ^ punctuation.section.arguments.end.python
 #                                ^ punctuation.section.block.conditional.case.python
 
@@ -1389,10 +1419,10 @@ def _():
         . \
         name(key = pattern):
 #   ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python
-#       ^^^^ meta.function-call.python meta.qualified-name.python
+#       ^^^^ meta.function-call.identifier.python
 #           ^^^^^^^^^^^^^^^ meta.function-call.arguments.python
 #                          ^ meta.statement.conditional.case.python
-#       ^^^^ storage.type.class.python
+#       ^^^^ support.class.python
 #           ^ punctuation.section.arguments.begin.python
 #            ^^^ variable.parameter.python
 #                ^ keyword.operator.assignment.python
@@ -1404,15 +1434,15 @@ def _():
 #  ^ - meta.statement
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
 #       ^ meta.statement.conditional.case.patterns.python - meta.function-call
-#        ^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#        ^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #           ^^ meta.statement.conditional.case.patterns.python  meta.function-call.arguments.python
 #             ^^ meta.statement.conditional.case.patterns.python - meta.function-call
-#               ^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#               ^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #                      ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python - meta.group
 #                               ^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python meta.group.python
 #                                        ^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python - meta.group
 #                                                          ^^ meta.statement.conditional.case.patterns.python - meta.function-call
-#                                                            ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.python
+#                                                            ^^^^ meta.statement.conditional.case.patterns.python meta.function-call.identifier.python
 #                                                                ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #                                                                  ^ meta.statement.conditional.case.patterns.python - meta.function-call
 #                                                                   ^^^^^^^^^^^^^^ meta.statement.conditional.case.guard.python - meta.function-call
@@ -1423,7 +1453,7 @@ def _():
 #           ^ punctuation.section.arguments.begin.python
 #            ^ punctuation.section.arguments.end.python
 #             ^ punctuation.separator.sequence.python
-#               ^^^^^^^ storage.type.class.python
+#               ^^^^^^^ support.class.python
 #                      ^ punctuation.section.arguments.begin.python
 #                       ^^^^^^^ variable.parameter.python
 #                              ^ keyword.operator.assignment.python
@@ -1480,7 +1510,7 @@ def _():
     case: int = 0
 #   ^^^^ meta.generic-name.python - keyword
 #       ^ punctuation.separator.annotation.variable.python
-#         ^^^ meta.qualified-name.python support.type.python
+#         ^^^ meta.path.python support.type.python
 #             ^ keyword.operator.assignment.python
 #               ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1489,13 +1519,13 @@ def _():
 #        ^ punctuation.separator.continuation.line.python
     : int = 0
 #   ^ punctuation.separator.annotation.variable.python
-#     ^^^ meta.qualified-name.python support.type.python
+#     ^^^ meta.path.python support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
     match = re.match(r"^.*$")
 #   ^^^^^ meta.generic-name.python - keyword
-#              ^^^^^ meta.function-call.python variable.function.python
+#              ^^^^^ meta.function-call.identifier.python variable.function.python
     if match:
 #      ^^^^^ meta.generic-name.python - keyword
         g = match.group(1)
@@ -1512,7 +1542,7 @@ def _():
     match: int = 0
 #   ^^^^^ meta.generic-name.python - keyword
 #        ^ punctuation.separator.annotation.variable.python
-#          ^^^ meta.qualified-name.python support.type.python
+#          ^^^ meta.path.python support.type.python
 #              ^ keyword.operator.assignment.python
 #                ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1521,7 +1551,7 @@ def _():
 #         ^ punctuation.separator.continuation.line.python
     : int = 0
 #   ^ punctuation.separator.annotation.variable.python
-#     ^^^ meta.qualified-name.python support.type.python
+#     ^^^ meta.path.python support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1846,7 +1876,7 @@ class Unterminated(Inherited:
 @ normal . decorator
 # <- meta.annotation punctuation.definition.annotation
 #^^^^^^^^^^^^^^^^^^^ meta.annotation
-# ^^^^^^^^^^^^^^^^^^ meta.qualified-name
+# ^^^^^^^^^^^^^^^^^^ meta.path
 # ^^^^^^ meta.generic-name - variable.annotation
 #          ^^^^^^^^^ variable.annotation
 #        ^ punctuation.accessor.dot - variable
@@ -1859,7 +1889,7 @@ class Class():
 #                    ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.arguments
 #   ^ punctuation.definition.annotation
 #    ^^^^^^^^^^^^^^^^ meta.annotation.function
-#    ^^^^^^^^^^^^^^^ meta.qualified-name
+#    ^^^^^^^^^^^^^^^ meta.path
 #    ^^^^^^^^^ meta.generic-name - variable.annotation
 #             ^ punctuation.accessor.dot
 #              ^^^^^ variable.annotation.function meta.generic-name
@@ -1884,7 +1914,7 @@ class Class():
     @deco #comment
 #^^^ - meta.annotation
 #   ^^^^^ meta.annotation
-#    ^^^^ meta.qualified-name variable.annotation
+#    ^^^^ variable.annotation
 #        ^^ - meta.annotation
 #         ^^^^^^^^ comment
 
@@ -1917,7 +1947,7 @@ class Class():
 #         ^^^^^ variable.annotation.function
 
     @ deco \
-#     ^^^^ meta.qualified-name meta.generic-name - variable.annotation
+#     ^^^^ meta.path meta.generic-name - variable.annotation
 #          ^ punctuation.separator.continuation.line
 
     @deco \
@@ -2001,7 +2031,7 @@ mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
 #              ^ punctuation.separator.key-value
 #                ^^^^ meta.mapping.value.python constant.language
 #                    ^ punctuation.separator.sequence.python
-#                      ^^^^ meta.mapping.key.python meta.qualified-name
+#                      ^^^^ meta.mapping.key.python meta.path
 #                          ^ punctuation.separator.key-value.python
 #                            ^^^^^^^^^^^^^^^^ meta.sequence.tuple
 #                            ^ punctuation.section.sequence.begin
@@ -2280,7 +2310,7 @@ d = {**d, **dict()}
 #   ^^^^^^^^^^^^^^^ meta.mapping.python
 #    ^^^ - meta.mapping.key
 #    ^^ keyword.operator.unpacking.mapping.python
-#      ^ meta.qualified-name.python
+#      ^ meta.path.python
 #       ^ punctuation.separator.sequence.python
 #         ^^^^^^^^ - meta.mapping.key
 #         ^^ keyword.operator.unpacking.mapping.python
@@ -2289,7 +2319,7 @@ d = {**d, **dict()}
 s = {*d, *set()}
 #   ^^^^^^^^^^^^ meta.set.python
 #    ^ keyword.operator.unpacking.sequence.python
-#     ^ meta.qualified-name.python
+#     ^ meta.path.python
 #      ^ punctuation.separator.set.python
 #        ^ keyword.operator.unpacking.sequence.python
 #         ^^^ support.type.python
@@ -2678,14 +2708,14 @@ foo.bar(baz., True)
 primes: List[int] = []
 #     ^ punctuation.separator.annotation.variable.python
 #     ^^^^^^^^^^^^ meta.variable.annotation.python
-#       ^^^^ meta.qualified-name.python
+#       ^^^^ meta.path.python
 #                 ^ keyword.operator.assignment
 
 captain: str  # Note: no initial value!
 #      ^ punctuation.separator.annotation.variable.python
 #      ^^^^^^^ meta.variable.annotation.python
 #             ^^^^^^^ comment
-#        ^^^ meta.qualified-name.python
+#        ^^^ meta.path.python
 
 foo: str | None = None
 #  ^^^^^^^^^^^^^ meta.variable.annotation.python
