@@ -363,64 +363,79 @@ contexts:
 ###[ DECORATORS ]#############################################################
 
   decorators:
-    - match: ^\s*(?=@)
+    - match: ^\s*(@)
+      captures:
+        1: meta.annotation.python punctuation.definition.annotation.python
       push: decorator-body
 
   decorator-body:
-    # Due to line continuations, we don't know whether this is a "function call" yet
     - meta_content_scope: meta.annotation.python
     - include: line-continuation-or-pop
-    - match: (?=\.?\s*{{path}}\s*\() # now we do
-      set: [after-expression, decorator-function-call-wrapper, qualified-name-until-leaf]
-    - match: (?=\.?\s*{{path}})
-      push: [decorator-wrapper, qualified-name-until-leaf]
-    - match: '@'
-      scope: punctuation.definition.annotation.python
-    - match: \S
-      scope: invalid.illegal.character.python
-      pop: 1
+    - include: assignment-expressions
+    - include: lambdas
+    - include: dictionaries-and-sets
+    - include: generators-groups-and-tuples
+    - include: lists
+    - include: constants
+    - include: numbers
+    - include: strings
+    - include: keywords
+    - include: operators
+    - include: decorator-function-calls
+    - include: decorator-variables
+    - include: illegal-stray-brackets
+    - include: illegal-stray-braces
+    - include: illegal-stray-parens
 
-  decorator-wrapper:
+  decorator-function-calls:
+    - match: (?=(?:\.\s*)?{{path}}\s*\() # now we do
+      push:
+        - function-call-argument-list
+        - decorator-function-call-name
+        - qualified-name-until-leaf
+
+  decorator-function-call-name:
+    - meta_content_scope: meta.function-call.identifier.python
     - match: (\.)\s*
       captures:
         1: punctuation.accessor.dot.python
-      set:
-        - meta_scope: meta.path.python
-        - meta_content_scope: variable.annotation.python
-        - include: dotted-name-content
+      set: qualified-decorator-function-call-name
     - match: ''
-      set:
-        - meta_scope: variable.annotation.python
-        - include: name-content
+      set: unqualified-decorator-function-call-name
 
-  decorator-function-call-wrapper:
-    - meta_scope: meta.annotation.function.python
-    - match: \)
-      scope: punctuation.section.arguments.end.python
-      pop: 1
-    - match: \(
-      scope: meta.annotation.function.python punctuation.section.arguments.begin.python
-      push: [decorator-function-call-arguments, allow-unpack-operators]
+  qualified-decorator-function-call-name:
+    - meta_scope: meta.function-call.identifier.python meta.path.python
+    - include: unqualified-decorator-variable-name
+
+  unqualified-decorator-function-call-name:
+    - meta_scope: meta.function-call.identifier.python
+    - include: unqualified-decorator-variable-name
+
+  decorator-variables:
+    - match: (?=(?:\.\s*)?{{identifier}})
+      push:
+        - after-expression
+        - decorator-variable-name
+        - qualified-name-until-leaf
+
+  decorator-variable-name:
     - match: (\.)\s*
       captures:
         1: punctuation.accessor.dot.python
-      push:
-        - meta_scope: meta.path.python
-        - meta_content_scope: variable.annotation.function.python
-        - include: dotted-name-content
+      set: qualified-decorator-variable-name
     - match: ''
-      push:
-        - meta_scope: meta.path.python variable.annotation.function.python
-        - include: name-specials
-        - include: generic-names
-        - include: immediately-pop
+      set: unqualified-decorator-variable-name
 
-  decorator-function-call-arguments:
-    - clear_scopes: 1
-    - meta_content_scope: meta.annotation.arguments.python
-    - match: (?=\))
+  qualified-decorator-variable-name:
+    - meta_scope: meta.path.python
+    - include: unqualified-decorator-variable-name
+
+  unqualified-decorator-variable-name:
+    - include: illegal-name
+    - match: '{{identifier}}'
+      scope: variable.annotation.python
       pop: 1
-    - include: arguments
+    - include: immediately-pop
 
 ###[ IMPORT STATEMENTS ]######################################################
 

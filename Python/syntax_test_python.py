@@ -1853,7 +1853,6 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                                                  ^^^^^ constant.language.boolean.python
 
 
-
 class MyClass:
     def foo():
         return None
@@ -1867,6 +1866,15 @@ class MyClass:
 class Unterminated(Inherited:
 # <- meta.class.python keyword.declaration.class.python
 #                           ^ invalid.illegal
+
+
+class AClass:
+    # `def` immediately after a line-continued string within a class
+    x =  "Type help() for interactive help, " \
+         "or help(object) for help about object."
+    def __call__(self, *args, **kwds):
+#   ^^^ - invalid.illegal
+        pass
 
 
 ##################
@@ -1885,22 +1893,21 @@ class Class():
 
     @functools.wraps(method, 12, kwarg=None)# comment
 #^^^ - meta.annotation
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - meta.annotation meta.annotation
-#                    ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.arguments
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.python
+#    ^^^^^^^^^^^^^^^ meta.function-call.identifier.python meta.path.python
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.python
 #   ^ punctuation.definition.annotation
-#    ^^^^^^^^^^^^^^^^ meta.annotation.function
-#    ^^^^^^^^^^^^^^^ meta.path
 #    ^^^^^^^^^ meta.generic-name - variable.annotation
 #             ^ punctuation.accessor.dot
-#              ^^^^^ variable.annotation.function meta.generic-name
+#              ^^^^^ variable.annotation.python
 #                   ^ punctuation.section.arguments.begin
 #                          ^ punctuation.separator.arguments
 #                            ^^ constant.numeric
+#                              ^ punctuation.separator.arguments
 #                                ^^^^^ variable.parameter
 #                                     ^ keyword.operator
 #                                      ^^^^ constant.language
-#                              ^ punctuation.separator.arguments
-#                                          ^ meta.annotation.function punctuation.section.arguments.end
+#                                          ^ punctuation.section.arguments.end
 #                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
         return self.__class__(method)
@@ -1920,7 +1927,7 @@ class Class():
 
     @staticmethod
 #   ^^^^^^^^^^^^^ meta.annotation
-#    ^^^^^^^^^^^^ variable.annotation support.function.builtin
+#    ^^^^^^^^^^^^ variable.annotation - support
 #                ^ - meta.annotation
 
     @not_a.staticmethod
@@ -1930,11 +1937,27 @@ class Class():
 
     @not_a.__init__()
 #   ^^^^^^^^^^^^^^^ meta.annotation
-#          ^^^^^^^^ variable.annotation support.function.magic
 #         ^ punctuation.accessor.dot
+#          ^^^^^^^^ variable.annotation.python - support
 
     @deco[4]
-#        ^ invalid.illegal.character
+#        ^^^ meta.item-access.python
+#        ^ punctuation.section.brackets.begin.python
+#         ^ meta.number.integer.decimal.python constant.numeric.value.python
+#          ^ punctuation.section.brackets.end.python
+
+    @deco[4].foo.bar
+#   ^^^^^^^^^^^^^^^^ meta.annotation.python
+#   ^ punctuation.definition.annotation.python
+#    ^^^^ variable.annotation.python
+#        ^^^ meta.item-access.python
+#        ^ punctuation.section.brackets.begin.python
+#         ^ meta.number.integer.decimal.python constant.numeric.value.python
+#          ^ punctuation.section.brackets.end.python
+#           ^ punctuation.accessor.dot.python
+#            ^^^ meta.generic-name.python
+#               ^ punctuation.accessor.dot.python
+#                ^^^ variable.annotation.python
 
     @deco \
         . rator
@@ -1943,8 +1966,9 @@ class Class():
 
     @ deco \
         . rator()
-#       ^^^^^^^^^ meta.annotation.function
-#         ^^^^^ variable.annotation.function
+#       ^^^^^^^ meta.annotation.python meta.function-call.identifier.python meta.path.python
+#              ^^ meta.annotation.python meta.function-call.arguments.python
+#         ^^^^^ variable.annotation
 
     @ deco \
 #     ^^^^ meta.path meta.generic-name - variable.annotation
@@ -1953,17 +1977,59 @@ class Class():
     @deco \
 
     def f(): pass
-#   ^^^ keyword.declaration.function.python - meta.decorator
+#   ^^^ keyword.declaration.function.python - meta.decorator - invalid
 
+    @(y := _)
+#  ^ - meta.annotation
+#   ^ meta.annotation.python punctuation.definition.annotation.python
+#    ^^^^^^^^ meta.annotation.python meta.group.python
+#            ^ - meta.annotation
+#    ^ punctuation.section.group.begin.python
+#     ^ meta.generic-name.python
+#       ^^ keyword.operator.assignment.inline.python
+#          ^ variable.language.anonymous.python
+#           ^ punctuation.section.group.end.python
 
-class AClass:
-    # `def` immediately after a line-continued string within a class
-    x =  "Type help() for interactive help, " \
-         "or help(object) for help about object."
-    def __call__(self, *args, **kwds):
-#   ^^^ - invalid.illegal
-        pass
+    @z := _
+#  ^ - meta.annotation
+#   ^^^^^^^ meta.annotation.python
+#          ^ - meta.annotation
+#   ^ punctuation.definition.annotation.python
+#    ^ variable.annotation.python
+#      ^^ keyword.operator.assignment.inline.python
+#         ^ variable.annotation.python
 
+    @[k for k in buttons()].clicked
+#   ^ meta.annotation.python punctuation.definition.annotation.python
+#    ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.python meta.sequence.list.python
+#                          ^^^^^^^^ meta.annotation.python meta.path.python
+#    ^ punctuation.section.sequence.begin.python
+#     ^ meta.generic-name.python
+#       ^^^ keyword.control.loop.for.generator.python
+#           ^ meta.generic-name.python
+#             ^^ keyword.control.loop.for.in.python
+#                ^^^^^^^ meta.function-call.identifier.python variable.function.python
+#                       ^^ meta.function-call.arguments.python
+#                         ^ punctuation.section.sequence.end.python
+#                          ^ punctuation.accessor.dot.python
+#                           ^^^^^^^ variable.annotation.python
+#
+
+    @(k for k in buttons()).clicked
+#   ^ meta.annotation.python punctuation.definition.annotation.python
+#    ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.python meta.sequence.generator.python
+#                          ^^^^^^^^ meta.annotation.python meta.path.python
+#    ^ punctuation.section.sequence.begin.python
+#     ^ meta.generic-name.python
+#       ^^^ keyword.control.loop.for.generator.python
+#           ^ meta.generic-name.python
+#             ^^ keyword.control.loop.for.in.python
+#                ^^^^^^^ meta.function-call.identifier.python variable.function.python
+#                       ^^ meta.function-call.arguments.python
+#                         ^ punctuation.section.sequence.end.python
+#                          ^ punctuation.accessor.dot.python
+#                           ^^^^^^^ variable.annotation.python
+#
 
 ##################
 # Collection literals and generators
