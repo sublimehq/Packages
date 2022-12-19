@@ -12,10 +12,6 @@ contexts:
     - meta_prepend: true
     - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
 
-  string-ansi-c-body:
-    - meta_append: true
-    - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
-
-  string-quoted-single-body:
+  string-prototype:
     - meta_append: true
     - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
