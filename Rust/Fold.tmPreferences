@@ -27,6 +27,12 @@
                 <key>end</key>
                 <string>punctuation.section.parameters.end</string>
             </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.string.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.string.end</string>
+            </dict>
         </array>
     </dict>
 </dict>
