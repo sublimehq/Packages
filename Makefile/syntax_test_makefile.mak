@@ -994,3 +994,20 @@ html:
 #                                          ^^ variable.parameter.option.shell
 #                                             ^^^^^^^^^^^ variable.parameter.makefile
 #                                                         ^^^^^^^^^^^^^^ variable.parameter.makefile
+
+shell_string_interpolation:
+    var1="double nquoted $(string) value"
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.shell string.quoted.double.shell
+    #                    ^^^^^^^^^ variable.parameter.makefile
+    #                    ^^ keyword.other.block.begin.makefile
+    #                            ^ keyword.other.block.end.makefile
+    var1='single nquoted $(string) value'
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.shell string.quoted.single.shell
+    #                    ^^^^^^^^^ variable.parameter.makefile
+    #                    ^^ keyword.other.block.begin.makefile
+    #                            ^ keyword.other.block.end.makefile
+    var1=unquoted\ $(string)\ value
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.shell string.unquoted.shell
+    #              ^^^^^^^^^ variable.parameter.makefile
+    #              ^^ keyword.other.block.begin.makefile
+    #                      ^ keyword.other.block.end.makefile
