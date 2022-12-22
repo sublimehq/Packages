@@ -896,25 +896,25 @@ contexts:
 ###[ KEYWORD OPERATORS ]########################################################
 
   keyword-operators:
-    - include: keyword-operator-assignment-bitwise-shift
+    - include: keyword-operator-assignment-augmented-bitwise-shift
     - include: keyword-operator-bitwise-shift
     - include: keyword-operator-relational
     - include: keyword-operator-arithmetic
     - include: keyword-operator-logical
-    - include: keyword-operator-assignment-bitwise
+    - include: keyword-operator-assignment-augmented-bitwise
     - include: keyword-operator-bitwise
     - include: keyword-operator-comparison
     - include: keyword-operator-assignment
 
-  keyword-operator-assignment-bitwise-shift:
+  keyword-operator-assignment-augmented-bitwise-shift:
     - match: '<<<='
-      scope: keyword.operator.assignment.bitwise.shift.left.unsigned.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.shift.left.unsigned.actionscript
     - match: '<<='
-      scope: keyword.operator.assignment.bitwise.shift.left.signed.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.shift.left.signed.actionscript
     - match: '>>>='
-      scope: keyword.operator.assignment.bitwise.shift.right.unsigned.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.shift.right.unsigned.actionscript
     - match: '>>='
-      scope: keyword.operator.assignment.bitwise.shift.right.signed.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.shift.right.signed.actionscript
 
   keyword-operator-bitwise-shift:
     - match: '<<<'
@@ -952,15 +952,15 @@ contexts:
     - match: '!(?!=)'
       scope: keyword.operator.logical.not.actionscript
 
-  keyword-operator-assignment-bitwise:
+  keyword-operator-assignment-augmented-bitwise:
     - match: '~='
-      scope: keyword.operator.assignment.bitwise.not.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.not.actionscript
     - match: '\^='
-      scope: keyword.operator.assignment.bitwise.xor.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.xor.actionscript
     - match: '&='
-      scope: keyword.operator.assignment.bitwise.and.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.and.actionscript
     - match: '\|='
-      scope: keyword.operator.assignment.bitwise.or.actionscript
+      scope: keyword.operator.assignment.augmented.bitwise.or.actionscript
 
   keyword-operator-bitwise:
     - match: '~'
