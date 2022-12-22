@@ -2699,7 +2699,7 @@ contexts:
         [-+]? (?: [ 0] | '. )?      # flags
         \d*                         # width
         (?: (\.) \d* )?             # precision
-        [aAbBCcdDeEFfgGhHIjklmMnopPrRSsTtuUVwWXxyYzZ] # specifier
+        [ABCDEFGHIMPRSTUVWXYZabcdefghjklmnoprstuwxyz] # specifier
       scope: constant.other.placeholder.php
       captures:
         1: punctuation.definition.placeholder.php
@@ -2718,7 +2718,7 @@ contexts:
         [-+]? (?: [ 0] | \\'. )?    # flags
         \d*                         # width
         (?: (\.) \d* )?             # precision
-        [aAbBCcdDeEFfgGhHIjklmMnopPrRSsTtuUVwWXxyYzZ] # specifier
+        [ABCDEFGHIMPRSTUVWXYZabcdefghjklmnoprstuwxyz] # specifier
       scope: constant.other.placeholder.php
       captures:
         1: punctuation.definition.placeholder.php
