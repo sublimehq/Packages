@@ -24,6 +24,7 @@ def get_common_values():
             "bold",
         ],
         "axis": ["block", "inline", "vertical", "horizontal"],
+        "baseline-position": ["firstbaseline", "lastbaseline", "baseline"],
         "basic-shape": [
             ["circle()", "circle($1)"],
             ["ellipse()", "ellipse($1)"],
@@ -256,6 +257,8 @@ def get_common_values():
             "yellow",
             "yellowgreen",
         ],
+        "content-distribution": ["space-between", "space-around", "space-evenly", "stretch"],
+        "content-position": ["center", "start", "end", "flex-start", "flex-end"],
         "counter-style": [["symbols()", "symbols($1)"]],
         "counter-symbols": [
             "cyclic",
@@ -413,6 +416,7 @@ def get_common_values():
             "hiragana-iroha",
             "katakana-iroha",
         ],
+        "overflow-position": ["unsafe", "safe"],
         "position": ["<side-or-corner>", "center"],
         "relative-size": ["larger", "smaller"],
         "relative-weight": ["bolder", "lighter"],
