@@ -52,9 +52,8 @@
         {
             var txtHello: TextField = this.createTextField("txtHello", 0, 0, 0, 100, 100);
 //          ^^^ keyword.control
-//                      ^ keyword.operator.symbolic
 //                        ^^^^^^^^^ support.class
-//                                  ^ keyword.operator.symbolic
+//                                  ^ keyword.operator.assignment
 //                                    ^^^^ support.function
 //                                         ^^^^^^^^^^^^^^^ support.function
 //                                                         ^^^^^^^^^^ string.quoted.double
@@ -68,7 +67,6 @@
 
     private function getFunctionName(e:Error):String {
 //                                   ^^^^^^^ meta.function variable.parameter
-//                                           ^ keyword.operator.symbolic
 //                                            ^^^^^^ storage.type
         var stackTrace:String = e.getStackTrace();                              // entire stack trace
         var startIndex:int = stackTrace.indexOf("at ");                         // start of first line
