@@ -3,7 +3,8 @@ name: ci
 on:
   push:
     branches:
-      - '*'
+      - 'master'
+      - 'develop/**'
     tags-ignore:
       - '*'
     paths:
@@ -15,7 +16,8 @@ on:
       - '.github/workflows/ci.yml'
   pull_request:
     branches:
-      - '*'
+      - 'master'
+      - 'develop/**'
     paths:
       - '**/syntax_test_*'
       - '**/*.hidden-tmLanguage'
