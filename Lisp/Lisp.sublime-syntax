@@ -19,6 +19,7 @@ file_extensions:
   - ss
   - lsp
   - fasl # Scheme dialect of Lisp
+  - sld  # Scheme r7rs library
 
 first_line_match: |-
   (?xi:
