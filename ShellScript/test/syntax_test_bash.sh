@@ -1740,6 +1740,31 @@ export -f foo
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^ meta.variable.shell variable.function.shell
 
+export PATH="$PATH:$HOME/.local/bin"
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^^ meta.variable variable.other.readwrite
+#          ^ keyword.operator.assignment
+#           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
+#           ^ string.quoted.double punctuation.definition.string.begin
+#            ^^^^^ meta.interpolation.parameter variable.other.readwrite
+#            ^ punctuation.definition.variable
+#                 ^ string.quoted.double punctuation.separator.sequence
+#                  ^^^^^ meta.interpolation.parameter variable.other.readwrite
+#                  ^ punctuation.definition.variable
+#                       ^^^^^^^^^^^^ string.quoted.double
+#                                  ^ punctuation.definition.string.end
+
+export SOMETHING='/etc/test:/var/test'
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^^^^^^^ meta.variable variable.other.readwrite
+#               ^ keyword.operator.assignment
+#                ^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
+#                ^ punctuation.definition.string.begin
+#                          ^ punctuation.separator.sequence
+#                                    ^ punctuation.definition.string.end
+
 ####################################################################
 # local builtin                                                    #
 ####################################################################

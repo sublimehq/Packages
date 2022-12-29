@@ -1332,6 +1332,7 @@ contexts:
     # characters ‘\’, ‘$’, and ‘`’.
     - include: string-escapes
     - include: string-interpolations
+    - include: string-commons
 
   heredocs-body-no-expansion:
     - meta_scope: meta.string.heredoc.shell
@@ -1966,6 +1967,7 @@ contexts:
     - include: line-continuations
     - include: string-escapes
     - include: string-interpolations
+    - include: string-commons
 
   string-ansi-c-body:
     - match: \'
@@ -1980,6 +1982,7 @@ contexts:
       scope: punctuation.definition.string.end.shell
       pop: 1
     - include: string-prototype
+    - include: string-commons
 
   any-escapes:
     - match: \\.
@@ -1990,6 +1993,10 @@ contexts:
       scope: constant.character.escape.color.shell
     - match: \\[$`"\\]
       scope: constant.character.escape.shell
+
+  string-commons:
+    - match: ':'
+      scope: punctuation.separator.sequence.shell
 
   string-escapes-ansi-c:
     - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
