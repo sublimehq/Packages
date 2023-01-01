@@ -1332,7 +1332,7 @@ contexts:
     # characters ‘\’, ‘$’, and ‘`’.
     - include: string-escapes
     - include: string-interpolations
-    - include: string-commons
+    - include: string-path-separators
 
   heredocs-body-no-expansion:
     - meta_scope: meta.string.heredoc.shell
@@ -1925,7 +1925,7 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.locale.shell
         - include: string-quoted-double-body
-    - include: string-commons
+    - include: string-path-separators
     - match: (?!{{cmd_literal_char}})
       pop: 1
 
@@ -1968,7 +1968,7 @@ contexts:
     - include: line-continuations
     - include: string-escapes
     - include: string-interpolations
-    - include: string-commons
+    - include: string-path-separators
 
   string-ansi-c-body:
     - match: \'
@@ -1983,7 +1983,7 @@ contexts:
       scope: punctuation.definition.string.end.shell
       pop: 1
     - include: string-prototype
-    - include: string-commons
+    - include: string-path-separators
 
   any-escapes:
     - match: \\.
@@ -1995,7 +1995,7 @@ contexts:
     - match: \\[$`"\\]
       scope: constant.character.escape.shell
 
-  string-commons:
+  string-path-separators:
     - match: ':(?!$|\s|//)'
       scope: punctuation.separator.sequence.shell
 
