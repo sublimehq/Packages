@@ -1765,6 +1765,14 @@ export SOMETHING='/etc/test:/var/test'
 #                          ^ punctuation.separator.sequence
 #                                    ^ punctuation.definition.string.end
 
+export SOMETHING=/etc/test:/var/test
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^^^^^^^ meta.variable variable.other.readwrite
+#               ^ keyword.operator.assignment
+#                ^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted
+#                         ^ punctuation.separator.sequence
+
 msg="Count: ${count}"
 #         ^ meta.string string.quoted.double - punctuation.separator
 
@@ -5635,3 +5643,6 @@ else remotefilter="grep"
      # <- keyword.control.loop.end.shell
 fi
 # <- keyword.control.conditional.end.shell
+
+curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments - punctuation.separator

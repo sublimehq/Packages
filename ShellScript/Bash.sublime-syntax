@@ -1925,6 +1925,7 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.locale.shell
         - include: string-quoted-double-body
+    - include: string-commons
     - match: (?!{{cmd_literal_char}})
       pop: 1
 
