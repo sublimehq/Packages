@@ -1765,6 +1765,12 @@ export SOMETHING='/etc/test:/var/test'
 #                          ^ punctuation.separator.sequence
 #                                    ^ punctuation.definition.string.end
 
+msg="Count: ${count}"
+#         ^ meta.string string.quoted.double - punctuation.separator
+
+url="https://sublimetext.com/"
+#         ^ meta.string string.quoted.double - punctuation.separator
+
 ####################################################################
 # local builtin                                                    #
 ####################################################################

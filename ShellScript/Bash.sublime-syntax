@@ -1995,7 +1995,7 @@ contexts:
       scope: constant.character.escape.shell
 
   string-commons:
-    - match: ':'
+    - match: ':(?!$|\s|//)'
       scope: punctuation.separator.sequence.shell
 
   string-escapes-ansi-c:
