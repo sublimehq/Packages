@@ -129,6 +129,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.structure.any.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.structure.any.html
         - include: tag-end
         - include: tag-attributes
@@ -137,6 +138,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.any.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.block.any.html
         - include: tag-end
         - include: tag-attributes
@@ -145,6 +147,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.any.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.block.any.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
@@ -153,6 +156,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.form.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.block.form.html
         - include: tag-end
         - include: tag-attributes
@@ -161,6 +165,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.any.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.inline.any.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
@@ -169,6 +174,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.form.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.inline.form.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
@@ -177,6 +183,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.a.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.inline.a.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
@@ -185,6 +192,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.table.html
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.inline.table.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
@@ -199,14 +207,15 @@ contexts:
         - tag-other-name
 
   tag-other-name:
-      - meta_content_scope: entity.name.tag.other.html
-      - match: '{{tag_name_break}}'
-        pop: 1
+    - meta_content_scope: entity.name.tag.other.html
+    - match: '{{tag_name_break}}'
+      pop: 1
 
   tag-other-content:
-      - meta_scope: meta.tag.other.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.other.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
 
 ###[ SCRIPT TAG ]#############################################################
 
@@ -230,10 +239,12 @@ contexts:
       set: script-close-tag-content
 
   script-close-tag-content:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.script.end.html
     - include: tag-end
 
   script-javascript:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
@@ -268,6 +279,7 @@ contexts:
         4: comment.block.html punctuation.definition.comment.end.html
 
   script-json:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
@@ -302,6 +314,7 @@ contexts:
         4: comment.block.html punctuation.definition.comment.end.html
 
   script-html:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - include: tag-end
@@ -324,6 +337,7 @@ contexts:
       set: script-type-attribute-assignment
 
   script-type-attribute-assignment:
+    - meta_include_prototype: false
     - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
     - match: =
       scope: punctuation.separator.key-value.html
@@ -390,10 +404,12 @@ contexts:
       set: style-close-tag-content
 
   style-close-tag-content:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.style.end.html
     - include: tag-end
 
   style-css:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
@@ -428,6 +444,7 @@ contexts:
         4: comment.block.html punctuation.definition.comment.end.html
 
   style-other:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
@@ -445,6 +462,7 @@ contexts:
       set: style-type-attribute-assignment
 
   style-type-attribute-assignment:
+    - meta_include_prototype: false
     - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
     - match: =
       scope: punctuation.separator.key-value.html
@@ -519,6 +537,7 @@ contexts:
     - include: immediately-pop
 
   tag-class-attribute-assignment:
+    - meta_include_prototype: false
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-class-attribute-value
@@ -585,6 +604,7 @@ contexts:
     - include: immediately-pop
 
   tag-event-attribute-assignment:
+    - meta_include_prototype: false
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-event-attribute-value
@@ -622,6 +642,7 @@ contexts:
     - include: immediately-pop
 
   tag-href-attributes-assignment:
+    - meta_include_prototype: false
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-href-attribute-value
@@ -692,6 +713,7 @@ contexts:
     - include: immediately-pop
 
   tag-id-attribute-assignment:
+    - meta_include_prototype: false
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-id-attribute-value
@@ -758,6 +780,7 @@ contexts:
     - include: immediately-pop
 
   tag-style-attribute-assignment:
+    - meta_include_prototype: false
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-style-attribute-value

@@ -246,14 +246,15 @@ contexts:
         - tag-html-name
 
   tag-html-name:
-      - meta_content_scope: entity.name.tag.html
-      - match: '{{tag_name_break}}'
-        pop: 1
+    - meta_content_scope: entity.name.tag.html
+    - match: '{{tag_name_break}}'
+      pop: 1
 
   tag-html-content:
-      - meta_scope: meta.tag.html
-      - include: tag-end-maybe-self-closing
-      - include: tag-attributes
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.html
+    - include: tag-end-maybe-self-closing
+    - include: tag-attributes
 
 ###[ ATTRIBUTES ]#############################################################
 
@@ -293,6 +294,7 @@ contexts:
     - include: immediately-pop
 
   tag-generic-attribute-assignment:
+    - meta_include_prototype: false
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-generic-attribute-value
