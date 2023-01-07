@@ -246,10 +246,10 @@ contexts:
   script-javascript:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-javascript-content
+    - include: script-common
 
   script-javascript-content:
     - meta_include_prototype: false
@@ -281,10 +281,10 @@ contexts:
   script-json:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-json-content
+    - include: script-common
 
   script-json-content:
     - meta_include_prototype: false
@@ -316,15 +316,15 @@ contexts:
   script-html:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - include: tag-end
+    - include: script-common
 
   script-other:
     - meta_scope: meta.tag.script.begin.html
-    - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-close-tag
+    - include: script-common
 
   script-common:
     - include: script-type-attribute
@@ -411,10 +411,10 @@ contexts:
   style-css:
     - meta_include_prototype: false
     - meta_scope: meta.tag.style.begin.html
-    - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-css-content
+    - include: style-common
 
   style-css-content:
     - meta_include_prototype: false
@@ -446,10 +446,10 @@ contexts:
   style-other:
     - meta_include_prototype: false
     - meta_scope: meta.tag.style.begin.html
-    - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-close-tag
+    - include: style-common
 
   style-common:
     - include: style-type-attribute
