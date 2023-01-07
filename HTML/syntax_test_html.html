@@ -930,6 +930,15 @@ class="foo"></div>
         ##                      ^^^^^^^^^ meta.string.html string.unquoted.html
         ##                                ^^ punctuation.definition.tag.end.html
 
+
+        <A{{template}} ={{value}} />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+        ## ^^^^^^^^^^^ entity.name.tag.other.html
+        ##             ^^^^^^^^^^ meta.attribute-with-value.html
+        ##             ^ punctuation.separator.key-value.html
+        ##              ^^^^^^^^^ meta.string.html string.unquoted.html
+        ##                        ^^ punctuation.definition.tag.end.html
+
         <!-- Note: Templating syntaxes must handle the following cases on their own! -->
 
         <{{template}} {{attr}}={{value}} />

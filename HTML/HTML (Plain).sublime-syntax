@@ -274,6 +274,11 @@ contexts:
 ###[ GENERIC ATTRIBUTE ]######################################################
 
   tag-generic-attribute:
+    - match: =
+      scope: punctuation.separator.key-value.html
+      push:
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
     - match: '{{attribute_name_start}}'
       push:
         - tag-generic-attribute-meta
