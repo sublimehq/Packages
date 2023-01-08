@@ -2140,7 +2140,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: escaped-chars
     - include: string-placeholders
     - include: string-replacements
@@ -2157,7 +2157,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
     - include: escaped-chars
@@ -2175,7 +2175,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: triple-double-quoted-u-string-syntax
 
   triple-double-quoted-u-string-syntax:
@@ -2203,7 +2203,7 @@ contexts:
         - include: triple-double-quoted-plain-u-string-content
 
   triple-double-quoted-plain-u-string-content:
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
@@ -2226,12 +2226,12 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.python
       set: after-expression
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
 
   double-quoted-string-pop:
     - match: (?="|\n)
       pop: true
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
 
   double-quoted-plain-raw-b-strings:
     # Single-line capital R raw string, bytes, no syntax embedding
@@ -2343,7 +2343,7 @@ contexts:
     - match: '"'
       scope: string.quoted.double.python punctuation.definition.string.end.python
       set: after-expression
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2417,7 +2417,7 @@ contexts:
     - match: '"'
       scope: string.quoted.double.python punctuation.definition.string.end.python
       set: after-expression
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2583,7 +2583,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: escaped-chars
     - include: string-placeholders
     - include: string-replacements
@@ -2600,7 +2600,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: escaped-f-string-braces
     - include: escaped-unicode-chars
     - include: escaped-chars
@@ -2618,7 +2618,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: triple-single-quoted-u-string-syntax
 
   triple-single-quoted-u-string-syntax:
@@ -2646,7 +2646,7 @@ contexts:
         - include: triple-single-quoted-u-string-content
 
   triple-single-quoted-u-string-content:
-    - include: line-continuation-inside-block-string
+    - include: string-continuations
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
@@ -2669,12 +2669,12 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.end.python
       set: after-expression
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
 
   single-quoted-string-pop:
     - match: (?='|\n)
       pop: true
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
 
   single-quoted-plain-raw-b-strings:
     # Single-line capital R raw string, bytes, no syntax embedding
@@ -2755,7 +2755,7 @@ contexts:
     - match: "'"
       scope: string.quoted.single.python punctuation.definition.string.end.python
       set: after-expression
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2861,7 +2861,7 @@ contexts:
     - match: "'"
       scope: string.quoted.single.python punctuation.definition.string.end.python
       set: after-expression
-    - include: line-continuation-inside-string
+    - include: string-continuation-or-illegal-end
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2876,11 +2876,11 @@ contexts:
 
 ###[ STRING CONTENTS ]########################################################
 
-  line-continuation-inside-block-string:
+  string-continuations:
     - match: \\$
       scope: punctuation.separator.continuation.line.python
 
-  line-continuation-inside-string:
+  string-continuation-or-illegal-end:
     - match: (\\)$\n?
       captures:
         1: punctuation.separator.continuation.line.python
