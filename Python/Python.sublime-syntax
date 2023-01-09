@@ -2226,12 +2226,14 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.python
       set: after-expression
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
 
   double-quoted-string-pop:
     - match: (?="|\n)
       pop: true
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
 
   double-quoted-plain-raw-b-strings:
     # Single-line capital R raw string, bytes, no syntax embedding
@@ -2343,7 +2345,8 @@ contexts:
     - match: '"'
       scope: string.quoted.double.python punctuation.definition.string.end.python
       set: after-expression
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2417,7 +2420,8 @@ contexts:
     - match: '"'
       scope: string.quoted.double.python punctuation.definition.string.end.python
       set: after-expression
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2669,12 +2673,14 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.end.python
       set: after-expression
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
 
   single-quoted-string-pop:
     - match: (?='|\n)
       pop: true
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
 
   single-quoted-plain-raw-b-strings:
     # Single-line capital R raw string, bytes, no syntax embedding
@@ -2755,7 +2761,8 @@ contexts:
     - match: "'"
       scope: string.quoted.single.python punctuation.definition.string.end.python
       set: after-expression
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2861,7 +2868,8 @@ contexts:
     - match: "'"
       scope: string.quoted.single.python punctuation.definition.string.end.python
       set: after-expression
-    - include: string-continuation-or-illegal-end
+    - include: illegal-string-end
+    - include: string-continuations
     - match: ''
       push: scope:source.sql
       with_prototype:
@@ -2876,17 +2884,18 @@ contexts:
 
 ###[ STRING CONTENTS ]########################################################
 
-  string-continuations:
-    - match: \\$
-      scope: punctuation.separator.continuation.line.python
-
-  string-continuation-or-illegal-end:
-    - match: (\\)$\n?
-      captures:
-        1: punctuation.separator.continuation.line.python
+  illegal-string-end:
     - match: \n
       scope: invalid.illegal.unclosed-string.python
       set: after-expression
+
+  string-continuations:
+    - match: \\$
+      scope: punctuation.separator.continuation.line.python
+      push:
+        - meta_include_prototype: false
+        - match: ^
+          pop: 1
 
   escaped-chars:
     - match: \\x\h{2}
