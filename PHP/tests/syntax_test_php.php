@@ -5688,6 +5688,13 @@ function embedHtml() {
 //                                                 ^^ punctuation.section.embedded.end
 //                                                             ^^ punctuation.definition.tag.end.html
 
+<tag <? echo $attr; ?> = <? echo $value; ?> >
+//^^^ meta.tag - meta.attribute-with-value
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.html
+//                                         ^^ meta.tag - meta.attribute-with-value
+//   ^^^^^^^^^^^^^^^^^ meta.embedded.php
+//                     ^ punctuation.separator.key-value.html
+//                       ^^^^^^^^^^^^^^^^^^ meta.string.html meta.embedded.php
 
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
