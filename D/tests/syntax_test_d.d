@@ -1898,6 +1898,28 @@ extern(1)
 //               ^ punctuation.section.block.begin.d
 //                ^ punctuation.section.block.end.d
 
+  if (a in b) {}
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.parens.begin.d
+//    ^ variable.other.d
+//      ^^ keyword.operator.comparison.d
+//         ^ variable.other.d
+//          ^ punctuation.section.parens.end.d
+//            ^^ meta.block.d
+//            ^ punctuation.section.block.begin.d
+//             ^ punctuation.section.block.end.d
+
+  if (a !in b) {}
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.parens.begin.d
+//    ^ variable.other.d
+//       ^^ keyword.operator.comparison.d
+//          ^ variable.other.d
+//           ^ punctuation.section.parens.end.d
+//             ^^ meta.block.d
+//             ^ punctuation.section.block.begin.d
+//              ^ punctuation.section.block.end.d
+
   while (2) 1;
 //^^^^^ keyword.control.loop.d
 //      ^ punctuation.section.parens.begin.d
