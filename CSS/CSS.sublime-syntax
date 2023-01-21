@@ -414,8 +414,8 @@ contexts:
   # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
   at-charset:
     - match: (@)(?i:charset){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-charset-content
 
@@ -428,8 +428,8 @@ contexts:
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
     - match: (@)(?i:counter-style){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-counter-style-content
 
@@ -468,8 +468,8 @@ contexts:
   # https://??
   at-custom-media:
     - match: (@)(?i:custom-media){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-custom-media-content
@@ -491,8 +491,8 @@ contexts:
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
   at-document:
     - match: (@)(?i:document){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-document-content
 
@@ -508,8 +508,8 @@ contexts:
   # https://www.w3.org/TR/css-fonts-4/#at-font-face-rule
   at-font-face:
     - match: (@)(?i:font-face){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-font-face-content
 
@@ -542,8 +542,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
   at-import:
     - match: (@)(?i:import){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-import-content
 
@@ -559,8 +559,8 @@ contexts:
   # https://www.w3.org/TR/css3-animations/#at-ruledef-keyframes
   at-keyframes:
     - match: (@)(?i:keyframes){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-keyframe-content
 
@@ -606,8 +606,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@layer
   at-layer:
     - match: (@)(?i:layer){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-layer-content
 
@@ -642,8 +642,8 @@ contexts:
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
   at-media:
     - match: (@)(?i:media){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-media-content
 
@@ -657,8 +657,8 @@ contexts:
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
     - match: (@)(?i:namespace){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-namespace-content
@@ -683,8 +683,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   at-page:
     - match: (@)(?i:page){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-page-content
 
@@ -697,12 +697,12 @@ contexts:
 
   at-page-names:
     - match: (:)(?i:blank|first|left|right|recto|verso){{break}}
+      scope: entity.other.pseudo-class.css
       captures:
-        0: entity.other.pseudo-class.css
         1: punctuation.definition.entity.css
     - match: (:){{nmchar}}*
+      # scope: invalid.illegal.pseudo-class.css
       captures:
-        # 0: invalid.illegal.pseudo-class.css
         1: punctuation.definition.entity.css
     - match: '{{ident}}'
       scope: entity.other.page-name.css
@@ -720,8 +720,8 @@ contexts:
 
   at-page-margin:
     - match: (@){{page_margin_names}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-page-margin-content
 
@@ -755,8 +755,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
   at-property:
     - match: (@)(?i:property){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-property-property-list
@@ -795,8 +795,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
   at-scroll-timeline:
     - match: (@)(?i:scroll-timeline){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-scroll-timeline-property-list
@@ -837,8 +837,8 @@ contexts:
   # https://drafts.csswg.org/css-conditional-3/#at-supports
   at-supports:
     - match: (@)(?i:supports){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-supports-content
 
