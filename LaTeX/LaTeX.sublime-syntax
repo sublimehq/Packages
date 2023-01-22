@@ -15,6 +15,9 @@ first_line_match: |-
     ^ \s* \%+ .*? -\*- .*? \blatex\b .*? -\*-  # editorconfig
   )
 
+variables:
+  simpletext: '.[^\\{}%$~&#_^]+'
+
 contexts:
 
   main:
@@ -914,7 +917,7 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push: text-bold-brace-group-body
     - include: main
-    - match: .
+    - match: .{{simpletext}}
       scope: markup.bold.latex
 
   text-bold-select-font-family:
@@ -1007,7 +1010,7 @@ contexts:
         - text-normal-body
         - brace-group-begin
     - include: main
-    - match: .
+    - match: .{{simpletext}}
       scope: markup.italic.latex
 
   text-italic-select-font-family:
@@ -1070,13 +1073,13 @@ contexts:
   text-it-and-bf-body:
     - include: brace-group-end
     - include: main
-    - match: .
+    - match: .{{simpletext}}
       scope: markup.bold.latex markup.italic.latex
 
   texttt-body:
     - include: brace-group-end
     - include: main
-    - match: .
+    - match: .{{simpletext}}
       scope: markup.raw.inline.latex
 
   footnote:

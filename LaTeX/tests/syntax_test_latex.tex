@@ -623,6 +623,20 @@
 %              ^ punctuation.definition.group.brace.end.tex - markup
 
 
+% Check math in markup
+\textbf{bold $normal math$}
+%            ^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex - markup.bold.latex
+%            ^ string.other.math.tex punctuation.definition.string.begin.tex
+%                        ^ string.other.math.tex punctuation.definition.string.end.tex
+
+\textbf{bold %with comment}
+%            ^^^^^^^^^^^^^^ comment.line.percentage.tex -markup.bold.latex
+}
+
+\textit{italics~with~nbsp}
+%              ^ constant.character.space.tex -markup.italic.latex
+%                   ^ constant.character.space.tex -markup.italic.latex
+
 % check that incomplete code does not break too much
 \textbf no braces here
 %^^^^^^^ meta.function.textbf.latex
