@@ -68,8 +68,8 @@
     var typeArray:Array = [1, 2, 3];
 //                ^^^^^ storage.type
 
-    var typeArray:Object = { one: 1, two: 2 };
-//                ^^^^^^ storage.type
+    var typeObject:Object = { one: 1, two: 2 };
+//                 ^^^^^^ storage.type
 
 
 
