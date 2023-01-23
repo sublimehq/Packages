@@ -9,7 +9,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \baction-?script\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \baction-?script\b .*? -\*-                           # editorconfig
   )
 
 ###[ VARIABLES ]################################################################
@@ -711,6 +711,10 @@ variables:
 ###[ CONTEXTS ]#################################################################
 
 contexts:
+
+  prototype:
+    - include: comments
+
   main:
     - match: \b{{classes}}\b
       scope: support.class.actionscript
@@ -723,13 +727,9 @@ contexts:
     - match: \b{{keywords}}\b
       scope: keyword.control.actionscript
 
-    - match: \b{{types}}\b
-      scope: storage.type.actionscript
+    - include: types
 
     - include: strings
-
-    - match: \binstanceof\b
-      scope: keyword.operator.actionscript
 
     - include: keyword-operators
 
@@ -761,16 +761,13 @@ contexts:
         3: storage.modifier.extends.actionscript
         4: entity.other.inherited-class.actionscript
 
-  prototype:
-    - include: comments
-
 ###[ COMMENTS ]#################################################################
 
   comments:
-    - include: line-comment
-    - include: block-comment
+    - include: line-comments
+    - include: block-comments
 
-  line-comment:
+  line-comments:
     - match: //
       scope: punctuation.definition.comment.actionscript
       push: line-comment-content
@@ -781,7 +778,7 @@ contexts:
 
     - include: eol-pop
 
-  block-comment:
+  block-comments:
     - match: /\*
       scope: punctuation.definition.comment.begin.actionscript
       push: block-comment-content
@@ -849,29 +846,47 @@ contexts:
     - include: numeric-constants
 
   language-constants:
+    - include: valid-language-constants
+    - include: invalid-language-constants
+
+  valid-language-constants:
     - match: \b(?:false|true)\b
       scope: constant.language.boolean.actionscript
+
     - match: \b(?:null)\b
       scope: constant.language.null.actionscript
+
     - match: \b(?:undefined)\b
       scope: constant.language.undefined.actionscript
 
-    - match: ([-]?)(Infinity)
-      scope: meta.number.float.decimal.actionscript
-      captures:
-        1: constant.numeric.sign.actionscript
-        2: constant.language.infinity.actionscript
     - match: \b(?:NaN)\b
       scope: constant.language.nan.actionscript
 
+    - match: (?:(\+)|([-]?))(Infinity)
+      scope: meta.number.float.decimal.actionscript
+      captures:
+        1: invalid.illegal.constant-numeric-sign.actionscript
+        2: constant.numeric.sign.actionscript
+        3: constant.language.infinity.actionscript
+
+    - match: |-
+        (?x:
+          \b(?:
+            {{constants}}
+          | {{properties_global}}
+          | {{constant_keyboard_inputs}}
+          )\b
+        )
+      scope: support.constant.actionscript
+
+  invalid-language-constants:
     - match: \b{{deprecated_properties_global}}\b
       scope: invalid.deprecated.properties-global.actionscript
 
-    - match: \b(?:{{constants}}|{{properties_global}})\b
-      scope: support.constant.actionscript
-
-    - match: \b{{constant_keyboard_inputs}}\b
-      scope: support.constant.actionscript
+    # when erroneously containing upper or lower case letters
+    # where they don't belong
+    - match: \b(?i:false|true|null|undefined|nan)\b
+      scope: invalid.illegal.expected-language-constant.actionscript
 
   numeric-constants:
     - match: (0[xX])(\h*)({{constant_numeric_suffix}})?
@@ -896,6 +911,9 @@ contexts:
 ###[ KEYWORD OPERATORS ]########################################################
 
   keyword-operators:
+    - match: \b(?:instanceof)\b
+      scope: keyword.operator.actionscript
+
     - include: keyword-operator-assignment-augmented-bitwise-shift
     - include: keyword-operator-bitwise-shift
     - include: keyword-operator-relational
@@ -906,87 +924,131 @@ contexts:
     - include: keyword-operator-comparison
     - include: keyword-operator-assignment
 
+    - include: invalid-operators
+
+  invalid-operators:
+    - match: \b(?:and|not|or)\b
+      scope: invalid.deprecated.keyword-operator-logical.actionscript
+
+    - match: \b(?:le|lt|ge|gt)\b
+      scope: invalid.deprecated.keyword-operator-relational.actionscript
+
+    - match: \b(?:eq|ne)\b
+      scope: invalid.deprecated.keyword-operator-comparison.actionscript
+
+    - match: \b(?:add)\b
+      scope: invalid.deprecated.keyword-operator-arithmetic.actionscript
+
   keyword-operator-assignment-augmented-bitwise-shift:
     - match: '<<<='
       scope: keyword.operator.assignment.augmented.bitwise.shift.left.unsigned.actionscript
+
     - match: '<<='
       scope: keyword.operator.assignment.augmented.bitwise.shift.left.signed.actionscript
+
     - match: '>>>='
       scope: keyword.operator.assignment.augmented.bitwise.shift.right.unsigned.actionscript
+
     - match: '>>='
       scope: keyword.operator.assignment.augmented.bitwise.shift.right.signed.actionscript
 
   keyword-operator-bitwise-shift:
     - match: '<<<'
       scope: keyword.operator.bitwise.shift.left.unsigned.actionscript
+
     - match: '<<'
       scope: keyword.operator.bitwise.shift.left.signed.actionscript
+
     - match: '>>>'
       scope: keyword.operator.bitwise.shift.right.unsigned.actionscript
+
     - match: '>>'
       scope: keyword.operator.bitwise.shift.right.signed.actionscript
 
   keyword-operator-relational:
     - match: '<='
       scope: keyword.operator.relational.less-equal.actionscript
+
     - match: '>='
       scope: keyword.operator.relational.greater-equal.actionscript
+
     - match: '<'
       scope: keyword.operator.relational.less.actionscript
+
     - match: '>'
       scope: keyword.operator.relational.greater.actionscript
 
   keyword-operator-arithmetic:
     - match: '\+\+'
       scope: keyword.operator.arithmetic.increment.actionscript
+
     - match: '\-\-'
       scope: keyword.operator.arithmetic.decrement.actionscript
-    - match: '[%*+\/\-]'
+
+    - match: '[%*+\/\-](?!=)'
       scope: keyword.operator.arithmetic.actionscript
 
   keyword-operator-logical:
     - match: '&&'
       scope: keyword.operator.logical.and.actionscript
+
     - match: '\|\|'
       scope: keyword.operator.logical.or.actionscript
+
     - match: '!(?!=)'
       scope: keyword.operator.logical.not.actionscript
 
   keyword-operator-assignment-augmented-bitwise:
     - match: '~='
       scope: keyword.operator.assignment.augmented.bitwise.not.actionscript
+
     - match: '\^='
       scope: keyword.operator.assignment.augmented.bitwise.xor.actionscript
+
     - match: '&='
       scope: keyword.operator.assignment.augmented.bitwise.and.actionscript
+
     - match: '\|='
       scope: keyword.operator.assignment.augmented.bitwise.or.actionscript
 
   keyword-operator-bitwise:
     - match: '~'
       scope: keyword.operator.bitwise.not.actionscript
+
     - match: '\^'
       scope: keyword.operator.bitwise.xor.actionscript
+
     - match: '&'
       scope: keyword.operator.bitwise.and.actionscript
+
     - match: '\|'
       scope: keyword.operator.bitwise.or.actionscript
 
   keyword-operator-comparison:
     - match: '==='
       scope: keyword.operator.comparison.equal.value.strict.actionscript
+
     - match: '=='
       scope: keyword.operator.comparison.equal.value.actionscript
+
     - match: '!=='
       scope: keyword.operator.comparison.not-equal.value.strict.actionscript
+
     - match: '!='
       scope: keyword.operator.comparison.not-equal.value.actionscript
 
   keyword-operator-assignment:
     - match: '[%*+\/\-]='
       scope: keyword.operator.assignment.augmented.actionscript
+
     - match: '='
       scope: keyword.operator.assignment.actionscript
+
+###[ TYPES ]####################################################################
+
+  types:
+    - match: \b(?:{{types}})\b
+      scope: storage.type.actionscript
 
 ###[ PROTOTYPES ]###############################################################
 
