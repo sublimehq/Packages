@@ -66,10 +66,10 @@
 //               ^^^^ storage.type
 
     var typeArray:Array = [1, 2, 3];
-//                ^^^^^ support.class
+//                ^^^^^ storage.type
 
     var typeArray:Object = { one: 1, two: 2 };
-//                ^^^^^^ support.class
+//                ^^^^^^ storage.type
 
 
 
