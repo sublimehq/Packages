@@ -686,7 +686,7 @@ variables:
     | while
     )
   types: |-
-    (?x: Boolean | Number | String | Void )
+    (?x: Array | Boolean | Number | Object | String | Void )
   constant_numeric_exponent: |-
     (?x: [eE] [-+]? \d+ )
   constant_numeric_suffix: |-
@@ -1047,8 +1047,10 @@ contexts:
 ###[ TYPES ]####################################################################
 
   types:
-    - match: \b(?:{{types}})\b
-      scope: storage.type.actionscript
+    - match: (:)({{types}})
+      captures:
+        1: punctuation.separator.actionscript
+        2: storage.type.actionscript
 
 ###[ PROTOTYPES ]###############################################################
 
