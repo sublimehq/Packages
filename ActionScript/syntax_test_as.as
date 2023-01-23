@@ -2,6 +2,12 @@
 
 // <- source.actionscript
 
+
+
+///[ COMMENTS ]/////////////////////////////////////////////////////////////////
+
+
+
     // this is a comment
 //  ^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash
 //  ^^ comment.line.double-slash punctuation.definition.comment
@@ -35,6 +41,103 @@
 
 
 
+///[ STRINGS ]//////////////////////////////////////////////////////////////////
+
+
+
+    // strings
+
+
+
+///[ TYPES ]//////////////////////////////////////////////////////////////////
+
+
+
+    var typeBoolean:Boolean = true;
+//                  ^^^^^^^ storage.type
+
+    var typeNumber:Number = 0;
+//                 ^^^^^^ storage.type
+
+    var typeString:String = "some text";
+//                 ^^^^^^ storage.type
+
+    var typeVoid:Void;
+//               ^^^^ storage.type
+
+    var typeArray:Array = [1, 2, 3];
+//                ^^^^^ support.class
+
+    var typeArray:Object = { one: 1, two: 2 };
+//                ^^^^^^ support.class
+
+
+
+///[ CONSTANTS ]////////////////////////////////////////////////////////////////
+
+
+
+    var isFalse:Boolean = false;
+//                        ^^^^^ constant.language.boolean
+
+    var isTrue:Boolean = true;
+//                       ^^^^ constant.language.boolean
+
+    var isUndefined = undefined;
+//                    ^^^^^^^^^ constant.language.undefined
+
+    var isNull = null;
+//               ^^^^ constant.language.null
+
+    var isNan = NaN;
+//              ^^^ constant.language.nan
+
+    var isInfinity = Infinity;
+//                   ^^^^^^^^ meta.number.float.decimal
+//                   ^^^^^^^^ constant.language.infinity
+
+    var isNegInfinity = -Infinity;
+//                      ^^^^^^^^^ meta.number.float.decimal
+//                      ^ constant.numeric.sign
+//                       ^^^^^^^^ constant.language.infinity
+
+    var isPosInfinity = +Infinity;
+//                      ^^^^^^^^^ meta.number.float.decimal
+//                      ^ invalid.illegal.constant-numeric-sign
+//                       ^^^^^^^^ constant.language.infinity
+
+
+
+///[ NUMBERS ]//////////////////////////////////////////////////////////////////
+
+
+
+    var intZero:Number = 0;
+    var intNine:Number = 9;
+
+    var intNegZero:Number = -0;
+    var intNegNine:Number = -9;
+
+    var floatZero:Number = 0.0;
+    var floatNine:Number = 9.0;
+
+    var floatNegZero:Number = -0.0;
+    var floatNegNine:Number = -9.0;
+
+
+
+///[ OPERATORS ]////////////////////////////////////////////////////////////////
+
+
+
+    // operators
+
+
+
+///[ CLASSES ]//////////////////////////////////////////////////////////////////
+
+
+
     class com.example.Greeter extends MovieClip
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //  ^^^^^ meta.class keyword.declaration.class
@@ -63,6 +166,11 @@
             txtHello.text = "Hello, world";
         }
     }
+
+
+
+///[ FUNCTIONS ]////////////////////////////////////////////////////////////////
+
 
 
     private function getFunctionName(e:Error):String {
