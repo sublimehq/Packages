@@ -9,8 +9,6 @@ on:
     branches:
       - 'master'
       - 'develop/**'
-    branches-ignore:
-      - 'st3'
     paths:
       - '**/syntax_test_*'
       - '**/*.hidden-tmLanguage'
@@ -22,8 +20,6 @@ on:
     branches:
       - 'master'
       - 'develop/**'
-    branches-ignore:
-      - 'st3'
     tags-ignore:
       - '*'
     paths:
