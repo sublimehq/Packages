@@ -4,8 +4,9 @@ on:
   pull_request:
     types:
       - opened
-      - reopened
       - ready_for_review
+      - reopened
+      - synchronize
     branches:
       - 'master'
       - 'develop/**'
