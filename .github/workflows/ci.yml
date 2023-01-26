@@ -1,12 +1,15 @@
 name: ci
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
     branches:
       - 'master'
       - 'develop/**'
-    tags-ignore:
-      - '*'
     paths:
       - '**/syntax_test_*'
       - '**/*.hidden-tmLanguage'
@@ -14,10 +17,12 @@ on:
       - '**/*.tmLanguage'
       - '**/*.tmPreferences'
       - '.github/workflows/ci.yml'
-  pull_request:
+  push:
     branches:
       - 'master'
       - 'develop/**'
+    tags-ignore:
+      - '*'
     paths:
       - '**/syntax_test_*'
       - '**/*.hidden-tmLanguage'
