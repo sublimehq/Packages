@@ -32,6 +32,7 @@ hidden_file_extensions:
   - .zprofile
   - .zshenv
   - .zshrc
+  - APKBUILD  # https://wiki.alpinelinux.org/wiki/APKBUILD_Reference
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
   - eclass
