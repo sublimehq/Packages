@@ -16,7 +16,7 @@ first_line_match: |-
   )
 
 variables:
-  simpletext: '.[^\\{}%$~&#_^]+'
+  simpletext: '[^\\{}%$~&#_^]*'
 
 contexts:
 
