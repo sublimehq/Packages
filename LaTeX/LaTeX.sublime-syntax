@@ -727,20 +727,25 @@ contexts:
         1: support.function.text.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.tex
-      push:
-        - include: brace-group-end
-        - include: main
+      push: text-body
 
     - match: ((\\)underline)(\{)
       captures:
         1: support.function.text.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.function.underline.latex
-        - meta_content_scope: markup.underline.underline.latex
-        - include: brace-group-end
-        - include: main
+      push: text-underline-body
+
+  text-body:
+    - meta_scope: meta.function.text.latex
+    - include: brace-group-end
+    - include: main
+
+  text-underline-body:
+    - meta_scope: meta.function.underline.latex
+    - meta_content_scope: markup.underline.other.latex
+    - include: brace-group-end
+    - include: main
 
   text-normal-select-font-family:
     - match: (\\)textrm{{endcs}}
