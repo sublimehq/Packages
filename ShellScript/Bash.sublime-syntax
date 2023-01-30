@@ -1332,7 +1332,6 @@ contexts:
     # characters ‘\’, ‘$’, and ‘`’.
     - include: string-escapes
     - include: string-interpolations
-    - include: string-path-separators
 
   heredocs-body-no-expansion:
     - meta_scope: meta.string.heredoc.shell
@@ -1996,7 +1995,7 @@ contexts:
       scope: constant.character.escape.shell
 
   string-path-separators:
-    - match: ':(?!$|\s|//)'
+    - match: ':(?=\$|/(?!/))'
       scope: punctuation.separator.sequence.shell
 
   string-escapes-ansi-c:

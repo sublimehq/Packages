@@ -3638,6 +3638,9 @@ status="${status#"${status%%[![:space:]]*}"}"
 #                           ^ punctuation.definition.set.begin.regexp.shell
 #                            ^ keyword.operator.logical.regexp.shell
 #                             ^ punctuation.definition.set.begin.regexp.shell
+#                              ^ punctuation.definition.class.begin.regexp
+#                               ^^^^^^ constant.other.posix-class.regexp
+#                                     ^ punctuation.definition.set.end.regexp
 #                                     ^^ punctuation.definition.set.end.regexp.shell
 #                                       ^ keyword.operator.quantifier.regexp.shell
 status="${status#${status%%[![:space:]]*}}"
@@ -3953,6 +3956,8 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #     ^^ keyword.operator.comparison.shell
 #        ^^ meta.pattern.regexp.shell - variable.parameter
 
+echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
+#          ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - punctuation.separator.sequence
 
 ####################################################################
 # Bash Numeric Constants                                           #
