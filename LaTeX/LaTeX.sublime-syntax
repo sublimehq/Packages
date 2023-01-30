@@ -709,6 +709,10 @@ contexts:
 
   # https://en.wikibooks.org/wiki/LaTeX/Fonts#Font_styles
   text-decorators:
+    - include: text-normal-select-font-family
+    - include: text-normal-select-font-shape
+    - include: text-normal-select-font-weight
+
     - match: (\\)textnormal{{endcs}}
       scope: support.function.textnormal.latex
       captures:
@@ -717,10 +721,6 @@ contexts:
         - textnormal-meta
         - text-normal-body
         - expect-text-markup-open-brace
-
-    - include: text-normal-select-font-family
-    - include: text-normal-select-font-shape
-    - include: text-normal-select-font-weight
 
     - match: ((\\)text)(\{)
       captures:
