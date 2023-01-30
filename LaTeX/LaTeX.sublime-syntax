@@ -836,75 +836,6 @@ contexts:
         - text-normal-body
         - expect-text-markup-open-brace
 
-  # utility that waits for the brace, and pops the three contexts
-  # we push for each \text... command otherwise
-  expect-text-markup-open-brace:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      pop: true
-    - match: (?=\S)
-      pop: 3
-
-  textnormal-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textnormal.latex
-    - include: immediately-pop
-
-  textbf-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textbf.latex
-    - include: immediately-pop
-
-  textmd-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textmd.latex
-    - include: immediately-pop
-
-  textlf-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textlf.latex
-    - include: immediately-pop
-
-  textsf-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textsf.latex
-    - include: immediately-pop
-
-  textup-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textup.latex
-    - include: immediately-pop
-
-  textsc-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textsc.latex
-    - include: immediately-pop
-
-  textrm-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textrm.latex
-    - include: immediately-pop
-
-  textit-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textit.latex
-    - include: immediately-pop
-
-  texttt-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.texttt.latex
-    - include: immediately-pop
-
-  textsl-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.textsl.latex
-    - include: immediately-pop
-
-  emph-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.emph.latex
-    - include: immediately-pop
-
   text-normal-body:
     - include: brace-group-end
     - include: main
@@ -1081,6 +1012,75 @@ contexts:
     - include: main
     - match: .{{simpletext}}
       scope: markup.raw.inline.latex
+
+  # utility that waits for the brace, and pops the three contexts
+  # we push for each \text... command otherwise
+  expect-text-markup-open-brace:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      pop: true
+    - match: (?=\S)
+      pop: 3
+
+  textnormal-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textnormal.latex
+    - include: immediately-pop
+
+  textbf-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textbf.latex
+    - include: immediately-pop
+
+  textmd-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textmd.latex
+    - include: immediately-pop
+
+  textlf-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textlf.latex
+    - include: immediately-pop
+
+  textsf-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textsf.latex
+    - include: immediately-pop
+
+  textup-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textup.latex
+    - include: immediately-pop
+
+  textsc-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textsc.latex
+    - include: immediately-pop
+
+  textrm-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textrm.latex
+    - include: immediately-pop
+
+  textit-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textit.latex
+    - include: immediately-pop
+
+  texttt-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.texttt.latex
+    - include: immediately-pop
+
+  textsl-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.textsl.latex
+    - include: immediately-pop
+
+  emph-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.emph.latex
+    - include: immediately-pop
 
   footnote:
     - match: ((\\)footnote(?:text)?)\b
