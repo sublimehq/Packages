@@ -1755,7 +1755,17 @@ export PATH="$PATH:$HOME/.local/bin"
 #                       ^^^^^^^^^^^^ string.quoted.double
 #                                  ^ punctuation.definition.string.end
 
-export SOMETHING='/etc/test:/var/test'
+export PATH="$PATH:~/.local/bin"
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^ meta.variable variable.other.readwrite
+#          ^ keyword.operator.assignment
+#           ^ string.quoted.double punctuation.definition.string.begin
+#            ^^^^^ meta.interpolation.parameter variable.other.readwrite
+#            ^ punctuation.definition.variable
+#                 ^ string.quoted.double punctuation.separator.sequence
+#                              ^ punctuation.definition.string.end
+
+export SOMETHING='/etc/test:/var/test:../foo:./foo'
 # ^^^^ meta.function-call.identifier.shell support.function.export.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
 #      ^^^^^^^^^ meta.variable variable.other.readwrite
@@ -1763,7 +1773,9 @@ export SOMETHING='/etc/test:/var/test'
 #                ^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
 #                ^ punctuation.definition.string.begin
 #                          ^ punctuation.separator.sequence
-#                                    ^ punctuation.definition.string.end
+#                                    ^ punctuation.separator.sequence
+#                                           ^ punctuation.separator.sequence
+#                                                 ^ punctuation.definition.string.end
 
 export SOMETHING=/etc/test:/var/test
 # ^^^^ meta.function-call.identifier.shell support.function.export.shell
