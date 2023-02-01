@@ -660,18 +660,20 @@ contexts:
   match-interpreted-string:
     - match: '"'
       scope: punctuation.definition.string.begin.go
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.go
-        - match: '"'
-          scope: punctuation.definition.string.end.go
-          pop: 1
-        - include: match-template-string
-        - match: '{{char_escape}}'
-          scope: constant.character.escape.go
-        - match: \%%
-          scope: constant.character.escape.go
-        - include: match-fmt
+      push: inside-interpreted-string
+
+  inside-interpreted-string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.go
+    - match: '"'
+      scope: punctuation.definition.string.end.go
+      pop: 1
+    - include: match-template-string
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.go
+    - match: \%%
+      scope: constant.character.escape.go
+    - include: match-fmt
 
   match-template-string:
    - match: '{{(?=.*}})'
@@ -1257,7 +1259,36 @@ contexts:
       scope: variable.other.member.declaration.go
       push: pop-struct-field-meta
 
-    - include: match-any
+    - include: struct-tag-annotation
+    - include: match-semicolon
+    - include: match-comma
+    - include: match-operators
+
+  struct-tag-annotation:
+    - match: '`'
+      scope: punctuation.definition.string.begin.go punctuation.definition.annotation.begin.go
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.backtick.go meta.annotation.go
+        - match: '`'
+          scope: punctuation.definition.string.end.go punctuation.definition.annotation.end.go
+          pop: 1
+        - match: (\w+)(:)
+          captures:
+            1: meta.annotation.identifier.go variable.annotation.go
+            2: meta.annotation.go punctuation.separator.key-value.go
+          push:
+            - clear_scopes: 1
+            - match: '"'
+              scope: punctuation.definition.string.begin.go
+              push:
+                - meta_include_prototype: false
+                - meta_scope: string.quoted.double.go meta.annotation.parameters.go
+                - include: inside-interpreted-string
+                - match: ','
+                  scope: punctuation.separator.sequence.go
+            - match: ''
+              pop: true
 
   pop-struct-field-meta:
     - include: pop-before-brace-end

@@ -1539,10 +1539,23 @@ by accident, but if necessary, such support could be sacrificed.
 
     struct {
 //  ^^^^^^ keyword.declaration.struct.go
-        field typ `json:"field"`
+        field typ `json:"field,omitempty" xml:"name"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^ meta.type.go storage.type.go
-//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.backtick.go meta.annotation
+//                 ^^^^ meta.annotation.identifier variable.annotation
+//                     ^ punctuation.separator.key-value
+//                      ^^^^^^^^^^^^^^^^^ meta.annotation.parameters
+//                      ^^^^^^^^^^^^^^^^^ string.quoted.double
+//                      ^ punctuation.definition.string.begin
+//                            ^ punctuation.separator.sequence
+//                                      ^ punctuation.definition.string.end
+//                                        ^^^ meta.annotation.identifier variable.annotation
+//                                           ^ punctuation.separator.key-value
+//                                            ^^^^^^ string.quoted.double meta.annotation.parameters
+//                                            ^ punctuation.definition.string.begin
+//                                                 ^ punctuation.definition.string.end
+//                                                  ^ punctuation.definition.string.end punctuation.definition.annotation.end
         field /**/ typ /**/ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^^ meta.type.go comment.block.go
