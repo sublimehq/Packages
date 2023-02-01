@@ -381,23 +381,274 @@
 
 % MARKUP COMMANDS
 
-\emph{text}
-%     ^ markup.italic.emph.latex
-\textbf{text}
-%       ^ markup.bold.textbf.latex
-\textit{text}
-%       ^ markup.italic.textit.latex
-\texttt{text}
-%       ^ markup.raw.texttt.latex
-\textsl{text}
-%       ^ markup.italic.textsl.latex
-\textbf{\textit{text}}
-%               ^ markup.bold.textbf.latex markup.italic.textit.latex
-\textit{\textbf{text}}
-%               ^ markup.italic.textit.latex markup.bold.textbf.latex
-\underline{text}
-%          ^ markup.underline.underline.latex
+\textnormal{text}
+%^^^^^^^^^^^^^^^^ meta.function.textnormal.latex
+%^^^^^^^^^^ support.function.textnormal.latex
+%          ^ punctuation.definition.group.brace.begin.tex
+%               ^ punctuation.definition.group.brace.end.tex
 
+\textrm{text}
+%^^^^^^^^^^^^ meta.function.textrm.latex
+%^^^^^^ support.function.textrm.latex
+%      ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\textsf{text}
+%^^^^^^^^^^^^ meta.function.textsf.latex
+%^^^^^^ support.function.textsf.latex
+%      ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\emph{text}
+%^^^^^^^^^^ meta.function.emph.latex
+%^^^^ support.function.emph.latex
+%    ^ punctuation.definition.group.brace.begin.tex - markup
+%     ^^^^ markup.italic.latex
+%         ^ punctuation.definition.group.brace.end.tex - markup
+
+\emph{text \emph{nested} emph}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.emph.latex
+%^^^^ support.function.emph.latex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^ markup.italic.latex
+%          ^^^^^^^^^^^^^ meta.function.emph.latex - markup
+%          ^^^^^ support.function.emph.latex
+%          ^ punctuation.definition.backslash.latex
+%               ^ punctuation.definition.group.brace.begin.tex
+%                      ^ punctuation.definition.group.brace.end.tex
+%                       ^^^^^ markup.italic.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+
+\textbf{a}
+%^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%      ^ punctuation.definition.group.brace.begin.tex
+%       ^ markup.bold.latex
+%        ^ punctuation.definition.group.brace.end.tex
+
+\textbf{text}
+%^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^ markup.bold.latex
+%           ^ punctuation.definition.group.brace.end.tex - markup
+
+\textbf{text \command and text}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%       ^^^^ markup.bold.latex
+%            ^^^^^^^^ support.function.general.latex - markup
+%                     ^^^^^^^^ markup.bold.latex
+
+
+\textit{text@"special"}
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%^^^^^^ support.function.textit.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^^^^^^^^ markup.italic.latex
+%                     ^ punctuation.definition.group.brace.end.tex - markup
+
+\texttt{text 123}
+%^^^^^^^^^^^^^^^^ meta.function.texttt.latex
+%^^^^^^ support.function.texttt.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^^ markup.raw.inline.latex
+%               ^ punctuation.definition.group.brace.end.tex - markup
+
+\textsc{smallcaps}
+%^^^^^^^^^^^^^^^^^ meta.function.textsc.latex
+%^^^^^^ support.function.textsc.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^^^ markup.raw.inline.latex
+%                ^ punctuation.definition.group.brace.end.tex - markup
+
+\textup{upright}
+%^^^^^^^^^^^^^^^ meta.function.textup.latex
+%^^^^^^ support.function.textup.latex
+%       ^^^^^^^ - markup
+
+\textlf{upright}
+%^^^^^^^^^^^^^^^ meta.function.textlf.latex
+%^^^^^^ support.function.textlf.latex
+%       ^^^^^^^ - markup
+
+\textmd{upright}
+%^^^^^^^^^^^^^^^ meta.function.textmd.latex
+%^^^^^^ support.function.textmd.latex
+%       ^^^^^^^ - markup
+
+%% combinations
+
+\textbf{text \textrm{roman font}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%       ^^^^^ markup.bold.latex
+%            ^^^^^^^^^^^^^^^^^^^ meta.function.textrm.latex
+%            ^^^^^^^ support.function.textrm.latex
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{\textit{text} just bold \textsl{slanted}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%       ^^^^^^^^^^^^^ meta.function.textit.latex
+%                               ^^^^^^^^^^^^^^^^ meta.function.textsl.latex
+%^^^^^^ support.function.textbf.latex - markup
+%       ^^^^^^^ support.function.textit.latex - markup
+%                               ^^^^^^^ support.function.textsl.latex - markup
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^ punctuation.definition.backslash.latex - markup
+%               ^^^^ markup.bold.latex markup.italic.latex
+%                    ^^^^^^^^^^^ markup.bold.latex
+%                                       ^^^^^^^ markup.bold.latex markup.italic.latex
+%              ^ punctuation.definition.group.brace.begin.tex - markup
+%                   ^ punctuation.definition.group.brace.end.tex - markup
+%                               ^ punctuation.definition.backslash.latex - markup
+%                                      ^ punctuation.definition.group.brace.begin.tex - markup
+%                                              ^ punctuation.definition.group.brace.end.tex - markup
+%                                               ^ punctuation.definition.group.brace.end.tex - markup
+
+
+\textbf{bold \textnormal{not bold}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%            ^^^^^^^^^^^ support.function.textnormal.latex
+%       ^^^^^ markup.bold.latex
+%            ^^^^^^^^^^^^^^^^^^^^^ meta.function.textnormal.latex - markup
+
+
+\textbf{bold \textsf{still bold}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%            ^^^^^^^ support.function.textsf.latex
+%       ^^^^^ markup.bold.latex
+%            ^^^^^^^^^^^^^^^^^^^ meta.function.textsf.latex
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{bold \textup{still bold}}
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{bold \textmd{not bold}}
+%                    ^^^^^^^^ - markup.bold.latex
+
+\textbf{bold \textlf{not bold}}
+%                    ^^^^^^^^ - markup.bold.latex
+
+\textbf{bold \textbf{still bold}}
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{bold \texttt{not bold}}
+%                    ^^^^^^^^ markup.raw.inline.latex
+
+\textbf{bold \textsc{not bold}}
+%                    ^^^^^^^^ markup.raw.inline.latex
+
+\textbf{bold \emph{and italic}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex - markup
+%       ^^^^^ markup.bold.latex
+%            ^^^^^ support.function.emph.latex - markup
+%            ^^^^^^^^^^^^^^^^^ meta.function.emph.latex
+%                  ^^^^^^^^^^ markup.bold.latex markup.italic.latex
+
+\textbf{text {in braces} still bold}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%             ^^^^^^^^^ markup.bold.latex
+%                        ^^^^^^^^^^ markup.bold.latex
+
+\textit{italic \textbf{bold} italic}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%^^^^^^ support.function.textit.latex - markup
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^ markup.italic.latex
+%              ^^^^^^^^^^^^^ meta.function.textbf.latex
+%              ^^^^^^^ support.function.textbf.latex - markup
+%              ^ punctuation.definition.backslash.latex - markup
+%                     ^ punctuation.definition.group.brace.begin.tex - markup
+%                      ^^^^ markup.bold.latex markup.italic.latex
+%                          ^ punctuation.definition.group.brace.end.tex - markup
+%                           ^^^^^^^ markup.italic.latex
+%                                  ^ punctuation.definition.group.brace.end.tex - markup
+
+\textit{italic \textup{upright}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%^^^^^^ support.function.textit.latex
+%       ^^^^^^^ markup.italic.latex
+%              ^^^^^^^^^^^^^^^^ meta.function.textup.latex
+%              ^^^^^^^ support.function.textup.latex
+%                      ^^^^^^^ - markup
+
+\textsl{text \textbf{bold} slanted}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textsl.latex
+%^^^^^^ support.function.textsl.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^ markup.italic.latex
+%                    ^^^^ markup.bold.latex markup.italic.latex
+%                        ^ punctuation.definition.group.brace.end.tex - markup
+%                         ^^^^^^^^ markup.italic.latex - markup.bold
+%                                 ^ punctuation.definition.group.brace.end.tex - markup
+
+\textit{italic \textmd{upright}}
+%                      ^^^^^^^ markup.italic.latex
+
+\textit{italic \emph{upright}}
+%                    ^^^^^^^ - markup.italic.latex
+
+\textit{italic \textsf{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textlf{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textrm{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textsl{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textsl{italic \textit{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textsc{upright}}
+%                      ^^^^^^^ markup.raw.inline.latex
+
+\textsl{italic \texttt{upright}}
+%                      ^^^^^^^ markup.raw.inline.latex
+
+\textit{italic \textnormal{upright}}
+%              ^^^^^^^^^^^^^^^^^^^^ meta.function.textnormal.latex
+%              ^^^^^^^^^^^ support.function.textnormal.latex
+%                          ^^^^^^^ - markup
+
+\textit{text {in braces} still italic}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%             ^^^^^^^^^ markup.italic.latex
+%                        ^^^^^^^^^^^^ markup.italic.latex
+
+\underline{text}
+%^^^^^^^^^^^^^^^ meta.function.underline.latex
+%^^^^^^^^^ support.function.text.latex
+%         ^ punctuation.definition.group.brace.begin.tex - markup
+%          ^^^^ markup.underline.other.latex
+%              ^ punctuation.definition.group.brace.end.tex - markup
+
+
+% Check math in markup
+\textbf{bold $normal math$}
+%            ^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex - markup.bold.latex
+%            ^ string.other.math.tex punctuation.definition.string.begin.tex
+%                        ^ string.other.math.tex punctuation.definition.string.end.tex
+
+\textbf{bold %with comment}
+%            ^^^^^^^^^^^^^^ comment.line.percentage.tex -markup.bold.latex
+}
+
+\textit{italics~with~nbsp}
+%              ^ constant.character.space.tex -markup.italic.latex
+%                   ^ constant.character.space.tex -markup.italic.latex
+
+% check that incomplete code does not break too much
+\textbf no braces here
+%^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%       ^^^^^^^^^^^^^^^ - meta.function
 
 % FOOTNOTE COMMANDS
 
