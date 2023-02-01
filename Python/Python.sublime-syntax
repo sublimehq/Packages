@@ -2430,11 +2430,11 @@ contexts:
     - match: (R[fF]|[fF]R)(")
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push: double-quoted-plain-raw-f-string-body
 
   double-quoted-plain-raw-f-string-body:
-    - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python
     - meta_include_prototype: false
     - include: double-quoted-string-end
     - include: double-quoted-plain-raw-f-string-content
@@ -2556,12 +2556,12 @@ contexts:
     - match: ([fF])(")
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push: double-quoted-f-string-body
 
   double-quoted-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
     - include: double-quoted-f-string-content
 
@@ -2681,12 +2681,12 @@ contexts:
     - match: ([fF]R|R[fF])(''')
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push: triple-single-quoted-plain-raw-f-string-body
 
   triple-single-quoted-plain-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
     - include: triple-single-quoted-plain-raw-f-string-content
 
@@ -2699,12 +2699,12 @@ contexts:
     - match: ([fF]r|r[fF])(''')
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push: triple-single-quoted-raw-f-string-body
 
   triple-single-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
     - match: ''
       push: scope:source.regexp.python
@@ -2809,12 +2809,12 @@ contexts:
     - match: ([fF])(''')
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push: triple-single-quoted-f-string-body
 
   triple-single-quoted-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
     - include: triple-single-quoted-f-string-content
 
@@ -3006,12 +3006,12 @@ contexts:
     - match: ([fF]R|R[fF])(')
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push: single-quoted-plain-raw-f-string-body
 
   single-quoted-plain-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
     - include: single-quoted-plain-raw-f-string-content
 
@@ -3024,12 +3024,12 @@ contexts:
     - match: ([fF]r|r[fF])(')
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push: single-quoted-raw-f-string-body
 
   single-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
     - match: ''
       push: scope:source.regexp.python
@@ -3066,12 +3066,12 @@ contexts:
     - match: ([fF])(')
       captures:
         1: storage.type.string.python
-        2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push: single-quoted-f-string-body
 
   single-quoted-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
     - include: single-quoted-f-string-content
 
@@ -3305,7 +3305,7 @@ contexts:
     # Same as f-string-replacement, but with clear_scopes: true
     - clear_scopes: true
     - meta_include_prototype: false
-    - meta_scope: source.python meta.string.interpolated.python meta.interpolation.python
+    - meta_scope: source.python meta.string.python meta.interpolation.python
     - include: immediately-pop
 
   f-string-replacement-regexp-expression:

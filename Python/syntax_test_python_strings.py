@@ -640,20 +640,20 @@ f"string"
 
  RF"""string"""
 #^^ storage.type.string - string
-#  ^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block
+#  ^^^^^^^^^^^^ meta.string string.quoted.double.block
 
 F'''string'''
 # <- storage.type.string
-#^^^^^^^^^^^^ meta.string.interpolated string.quoted.single.block
-#^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
-#         ^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.end.python
+#^^^^^^^^^^^^ meta.string string.quoted.single.block
+#^ meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
+#         ^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
 
     f"{size:.2f}"
-#    ^ meta.string.interpolated.python - meta.interpolation
-#     ^^^^^ meta.string.interpolated.python meta.interpolation.python - meta.format-spec
-#          ^^^^ meta.string.interpolated.python meta.interpolation.python meta.format-spec.python - meta.format-spec meta.format-spec
-#              ^ meta.string.interpolated.python meta.interpolation.python - meta.format-spec
-#               ^ meta.string.interpolated.python string.quoted.double.python - meta.interpolation
+#    ^ meta.string.python - meta.interpolation
+#     ^^^^^ meta.string.python meta.interpolation.python - meta.format-spec
+#          ^^^^ meta.string.python meta.interpolation.python meta.format-spec.python - meta.format-spec meta.format-spec
+#              ^ meta.string.python meta.interpolation.python - meta.format-spec
+#               ^ meta.string.python string.quoted.double.python - meta.interpolation
 #    ^ punctuation.definition.string.begin.python
 #     ^ punctuation.section.interpolation.begin.python
 #      ^^^^ meta.qualified-name.python meta.generic-name.python
@@ -664,7 +664,7 @@ F'''string'''
 
  rf'string'
 #^^ storage.type.string - string
-#  ^^^^^^^^ meta.string.interpolated string.quoted.single
+#  ^^^^^^^^ meta.string string.quoted.single
 
 rf'\r\n' f'\r\n' Rf'\r\n'
 #  ^^^^ source.regexp constant.character.escape.regexp
@@ -677,10 +677,10 @@ rf"\r\n" f"\r\n" Rf'\r\n'
 #                   ^^^^ - constant
 
 expr = fr"^\s*({label}|{notlabel})"
-#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.python
-#         ^ meta.string.interpolated.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#         ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
 #             ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
-#              ^^^^^^^ source.python meta.string.interpolated.python meta.interpolation.python
+#              ^^^^^^^ source.python meta.string.python meta.interpolation.python
 #               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python
 #                                ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
 
@@ -756,7 +756,7 @@ f"\{{{x}\}} test"
 #    ^ punctuation.section.interpolation.begin.python
 
 f"{something}"
-#^^^^^^^^^^^^ meta.string.interpolated
+#^^^^^^^^^^^^ meta.string
 # <- storage.type.string
 #^ punctuation.definition.string.begin
 # ^ punctuation.section.interpolation.begin
@@ -766,7 +766,7 @@ f"{something}"
 #              ^ source - meta, string, source source
 
 f"{True!a:02f}"
-#^^^^^^^^^^^^^^ meta.string.interpolated
+#^^^^^^^^^^^^^^ meta.string
 # ^ - source source.python.embedded
 #  ^^^^ source source.python.embedded constant.language
 #      ^^^^^^^ - source source.python.embedded
@@ -797,13 +797,13 @@ f"result: {value:{width}.{precision}}\n"
 #                                   ^^^ - meta.interpolation.python meta.interpolation.python
 rf"{value:{width!s:d}}"
 # <- storage.type.string.python - string
-# ^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+# ^^^^^^^^^^^^^^^^^^^^^ meta.string
 #          ^^^^^ source source.python.embedded
 #               ^^ storage.modifier.conversion
 #                 ^^ constant.other.format-spec
 
 F""" {} {\} }
-#^^^^^^^^^^^ meta.string.interpolated
+#^^^^^^^^^^^ meta.string
 #^^^ punctuation.definition.string.begin
 #    ^^ invalid.illegal.empty-expression
 #        ^ invalid.illegal.backslash-in-fstring
@@ -831,24 +831,24 @@ f'{x=!s:*^20}'
 f'{"Σ"=}'
 #     ^ storage.modifier.debug.python
 f'{"Σ"= }'
-# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
-#     ^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+# ^ meta.string.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
+#     ^^^ meta.string.python meta.interpolation.python - source.python.embedded
 #     ^ storage.modifier.debug.python
 f'{"Σ" =}'
-# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
-#     ^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+# ^ meta.string.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
+#     ^^^ meta.string.python meta.interpolation.python - source.python.embedded
 #      ^ storage.modifier.debug.python
 f'{"Σ" = }'
-# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
-#     ^^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+# ^ meta.string.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
+#     ^^^^ meta.string.python meta.interpolation.python - source.python.embedded
 #      ^ storage.modifier.debug.python
 f'{"Σ" = !s}'
-# ^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.interpolated.python meta.interpolation.python source.python.embedded
-#     ^^^^^^ meta.string.interpolated.python meta.interpolation.python - source.python.embedded
+# ^ meta.string.python meta.interpolation.python - source.python.embedded
+#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
+#     ^^^^^^ meta.string.python meta.interpolation.python - source.python.embedded
 #      ^ storage.modifier.debug.python
 #        ^^ storage.modifier.conversion.python
 f'{0==1}'
@@ -869,7 +869,7 @@ f" {
 
 f'   \
  {1 + 2!a:02f}'
-#^^^^^^^^^^^^^^ meta.string.interpolated
+#^^^^^^^^^^^^^^ meta.string
 # ^^^^^ source source.python.embedded
 
 f"{d for d in range(10)}"  # yes, this doesn't make sense
