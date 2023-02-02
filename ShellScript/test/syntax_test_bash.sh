@@ -1740,6 +1740,57 @@ export -f foo
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^ meta.variable.shell variable.function.shell
 
+export PATH="$PATH:$HOME/.local/bin"
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^^ meta.variable variable.other.readwrite
+#          ^ keyword.operator.assignment
+#           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
+#           ^ string.quoted.double punctuation.definition.string.begin
+#            ^^^^^ meta.interpolation.parameter variable.other.readwrite
+#            ^ punctuation.definition.variable
+#                 ^ string.quoted.double punctuation.separator.sequence
+#                  ^^^^^ meta.interpolation.parameter variable.other.readwrite
+#                  ^ punctuation.definition.variable
+#                       ^^^^^^^^^^^^ string.quoted.double
+#                                  ^ punctuation.definition.string.end
+
+export PATH="$PATH:~/.local/bin"
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^ meta.variable variable.other.readwrite
+#          ^ keyword.operator.assignment
+#           ^ string.quoted.double punctuation.definition.string.begin
+#            ^^^^^ meta.interpolation.parameter variable.other.readwrite
+#            ^ punctuation.definition.variable
+#                 ^ string.quoted.double punctuation.separator.sequence
+#                              ^ punctuation.definition.string.end
+
+export SOMETHING='/etc/test:/var/test:../foo:./foo'
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^^^^^^^ meta.variable variable.other.readwrite
+#               ^ keyword.operator.assignment
+#                ^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
+#                ^ punctuation.definition.string.begin
+#                          ^ punctuation.separator.sequence
+#                                    ^ punctuation.separator.sequence
+#                                           ^ punctuation.separator.sequence
+#                                                 ^ punctuation.definition.string.end
+
+export SOMETHING=/etc/test:/var/test
+# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^^^^^^^ meta.variable variable.other.readwrite
+#               ^ keyword.operator.assignment
+#                ^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted
+#                         ^ punctuation.separator.sequence
+
+msg="Count: ${count}"
+#         ^ meta.string string.quoted.double - punctuation.separator
+
+url="https://sublimetext.com/"
+#         ^ meta.string string.quoted.double - punctuation.separator
+
 ####################################################################
 # local builtin                                                    #
 ####################################################################
@@ -3599,6 +3650,9 @@ status="${status#"${status%%[![:space:]]*}"}"
 #                           ^ punctuation.definition.set.begin.regexp.shell
 #                            ^ keyword.operator.logical.regexp.shell
 #                             ^ punctuation.definition.set.begin.regexp.shell
+#                              ^ punctuation.definition.class.begin.regexp
+#                               ^^^^^^ constant.other.posix-class.regexp
+#                                     ^ punctuation.definition.set.end.regexp
 #                                     ^^ punctuation.definition.set.end.regexp.shell
 #                                       ^ keyword.operator.quantifier.regexp.shell
 status="${status#${status%%[![:space:]]*}}"
@@ -3914,6 +3968,8 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #     ^^ keyword.operator.comparison.shell
 #        ^^ meta.pattern.regexp.shell - variable.parameter
 
+echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
+#          ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - punctuation.separator.sequence
 
 ####################################################################
 # Bash Numeric Constants                                           #
@@ -5604,3 +5660,6 @@ else remotefilter="grep"
      # <- keyword.control.loop.end.shell
 fi
 # <- keyword.control.conditional.end.shell
+
+curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments - punctuation.separator
