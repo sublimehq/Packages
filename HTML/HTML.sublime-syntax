@@ -40,11 +40,14 @@ variables:
   javascript_mime_type: |-
     (?xi:
       (?:
+      # default JS MIME types
       # https://mimesniff.spec.whatwg.org/#javascript-mime-type
         (?:application|text)/(?:x-)?(?:java|ecma)script
       | text/javascript1\.[0-5]
       | text/jscript
       | text/livescript
+      # non-standard JS MIME types
+      | text/babel
       )
       {{mime_type_parameters}}?
     )

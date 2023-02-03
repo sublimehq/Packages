@@ -92,6 +92,11 @@
         ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
         ##           ^ - meta.tag
 
+        <script type="text/babel">var foo</script>
+        ## ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
+        ##                        ^^^^^^^ source.js.embedded.html
+        ##                               ^^^^^^^^^ meta.tag.script.end.html
+
         <script type="text/javascript"> <!--
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
         ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value - source
