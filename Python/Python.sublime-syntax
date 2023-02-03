@@ -473,12 +473,12 @@ contexts:
     - match: '{{identifier}}'
       scope: meta.import-path.python meta.import-name.python
     - match: \s*(\.) *(?={{identifier}}|$)
+      scope: meta.import-path.python
       captures:
-        0: meta.import-path.python
         1: punctuation.accessor.dot.python
     - match: \s*(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+      scope: meta.import-path.python
       captures:
-        0: meta.import-path.python
         1: invalid.illegal.name.python
     - include: line-continuation-or-pop
     - include: else-pop
