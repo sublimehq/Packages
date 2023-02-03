@@ -1830,7 +1830,6 @@ contexts:
     - match: =
       scope: invalid.illegal.assignment.python
     - match: (?:and|in|is|not|or)\b
-      comment: keyword operators that evaluate to True or False
       scope: keyword.operator.logical.python
     - include: sequence-separators
 
