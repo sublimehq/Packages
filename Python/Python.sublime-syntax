@@ -2159,9 +2159,7 @@ contexts:
 
   triple-double-quoted-string-end:
     - match: '"""'
-      scope:
-        meta.string.python string.quoted.double.block.python
-        punctuation.definition.string.end.python
+      scope: meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
       set: after-expression
 
   triple-double-quoted-string-pop:
