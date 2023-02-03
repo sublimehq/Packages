@@ -472,11 +472,11 @@ contexts:
       scope: meta.import-path.python invalid.illegal.name.python
     - match: '{{identifier}}'
       scope: meta.import-path.python meta.import-name.python
-    - match: \s*(\.) *(?={{identifier}}|$)
+    - match: \s*(\.)\s*(?={{identifier}}|$)
       scope: meta.import-path.python
       captures:
         1: punctuation.accessor.dot.python
-    - match: \s*(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+    - match: \s*(\.\s*\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
       scope: meta.import-path.python
       captures:
         1: invalid.illegal.name.python
@@ -618,7 +618,7 @@ contexts:
       captures:
         1: variable.parameter.class-inheritance.python
         2: keyword.operator.assignment.python
-    - match: (?={{identifier}} *\.)
+    - match: (?={{identifier}}\s*\.)
       push: qualified-base-class-name
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.python
@@ -626,7 +626,7 @@ contexts:
 
   qualified-base-class-name:
     - meta_scope: meta.path.python
-    - match: '({{identifier}}) *(\.) *'
+    - match: '({{identifier}})\s*(\.)\s*'
       captures:
         1: variable.namespace.python
         2: punctuation.accessor.dot.python
@@ -1346,9 +1346,9 @@ contexts:
   other-statements:
     - match: del\b
       scope: keyword.other.del.python
-    - match: exec\b(?! *($|[,.()\]}]))
+    - match: exec\b(?!\s*($|[,.()\]}]))
       scope: keyword.other.exec.python
-    - match: print\b(?! *([,.()\]}]))
+    - match: print\b(?!\s*([,.()\]}]))
       scope: keyword.other.print.python
 
 ###[ FOR EXPRESSIONS ]########################################################

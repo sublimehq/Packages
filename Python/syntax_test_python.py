@@ -125,8 +125,7 @@ from collections.abc import Iterable
 from a.b.c.
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path
-#    ^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
-#          ^ - meta.statement
+#    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
 #     ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
