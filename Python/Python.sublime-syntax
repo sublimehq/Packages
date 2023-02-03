@@ -2419,13 +2419,14 @@ contexts:
     - match: '"'
       scope: meta.string.python string.quoted.double.python punctuation.definition.string.end.python
       set: after-expression
-    - include: illegal-string-end
+    - match: \n
+      scope: meta.string.python string.quoted.double.python invalid.illegal.unclosed-string.python
+      set: after-expression
     - include: string-continuations
 
   double-quoted-string-pop:
     - match: (?="|\n)
       pop: 1
-    - include: illegal-string-end
     - include: string-continuations
 
   double-quoted-plain-raw-b-strings:
@@ -2929,13 +2930,14 @@ contexts:
     - match: "'"
       scope: meta.string.python string.quoted.single.python punctuation.definition.string.end.python
       set: after-expression
-    - include: illegal-string-end
+    - match: \n
+      scope: meta.string.python string.quoted.single.python invalid.illegal.unclosed-string.python
+      set: after-expression
     - include: string-continuations
 
   single-quoted-string-pop:
     - match: (?='|\n)
       pop: 1
-    - include: illegal-string-end
     - include: string-continuations
 
   single-quoted-plain-raw-b-strings:
@@ -3168,11 +3170,6 @@ contexts:
     - include: string-replacements
 
 ###[ STRING CONTENTS ]########################################################
-
-  illegal-string-end:
-    - match: \n
-      scope: invalid.illegal.unclosed-string.python
-      set: after-expression
 
   string-continuations:
     - match: \\$
