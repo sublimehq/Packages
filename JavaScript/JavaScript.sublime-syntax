@@ -222,6 +222,10 @@ contexts:
     - match: (?=\S)
       pop: 1
 
+  else-pop-2:
+    - match: (?=\S)
+      pop: 2
+
   immediately-pop:
     - match: ''
       pop: 1
@@ -682,8 +686,7 @@ contexts:
     # see: https://github.com/sublimehq/sublime_text/issues/5853
     - meta_include_prototype: false
     - include: comments
-    - match: (?=\S)
-      pop: 2
+    - include: else-pop-2
 
   restricted-production:
     - meta_include_prototype: false
@@ -974,8 +977,7 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - include: comments
-    - match: (?=\S)
-      pop: 2
+    - include: else-pop-2
 
   decorator-expression-begin:
     - include: decorator-name
