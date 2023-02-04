@@ -226,11 +226,6 @@ contexts:
     - match: ''
       pop: 1
 
-  immediately-pop-2:
-    - meta_include_prototype: false
-    - match: ''
-      pop: 2
-
   comma-separator:
     - match: ','
       scope: punctuation.separator.comma.js
@@ -663,7 +658,7 @@ contexts:
       branch_point: expression-statement-continuation
       branch:
         - expression-statement-continuation
-        - immediately-pop-2
+        - expression-statement-pop
     - include: expression-end
 
   expression-statement-continuation:
@@ -678,6 +673,16 @@ contexts:
       pop: true
     - match: (?=\S)
       fail: expression-statement-continuation
+
+  expression-statement-pop:
+    # Consume only comments (ignore patterns from inheriting syntaxes) and
+    # pop `expression-statement-end` at the same text point the previous branch
+    # fails at in order to prevent ST's syntax engine to lock up.
+    # see: https://github.com/sublimehq/sublime_text/issues/5853
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      pop: 2
 
   restricted-production:
     - meta_include_prototype: false
@@ -948,15 +953,28 @@ contexts:
       branch_point: decorator-expression-continuation
       branch:
         - decorator-expression-continuation
-        - immediately-pop-2
+        - decorator-expression-pop
 
     - include: else-pop
 
   decorator-expression-continuation:
     - match: (?=[.`(])
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: decorator-expression-continuation
+
+  decorator-expression-pop:
+    # Consume only comments (ignore patterns from inheriting syntaxes)
+    # and clear `meta.annotation` scope so it looks like the comment not being
+    # part of the annotation anymore.
+    # Pop `decorator-expression-end` at the same text point the previous branch
+    # fails at in order to prevent ST's syntax engine to lock up.
+    # see: https://github.com/sublimehq/sublime_text/issues/5853
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      pop: 2
 
   decorator-expression-begin:
     - include: decorator-name
