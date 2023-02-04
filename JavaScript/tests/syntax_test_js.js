@@ -760,6 +760,14 @@ class MyClass extends TheirClass {
 //        ^ - meta.annotation
     bar() {}
 
+    @foo // comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.line - meta.annotation
+    bar() {}
+//^^ - meta.annotation
+//  ^^^^^^^^ meta.function - meta.annotation
+
     @foo /* comment
 //  ^^^^ meta.annotation - comment
 //      ^ - comment - meta.annotation.js
