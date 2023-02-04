@@ -12,10 +12,6 @@
 			(?:
 			# dedent closing braces
 			  \}
-			# detent `case ... :`
-			| case\b
-			# detent `default:`
-			| default\b
 			)
 		]]></string>
 
@@ -27,10 +23,6 @@
 			# indent after opening braces (may be followed by whitespace or comments)
 			# but exclude lines such as `extern "C" {`
 			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
-			# indent after `case ... :`
-			| case\b
-			# indent after `default:`
-			| default\b
 			)
 		]]></string>
 

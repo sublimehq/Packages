@@ -548,52 +548,52 @@ function testIfElseIndentationWithBracesAndComment(v) {
 
 function testSwitchCaseIndentation(v) {
     switch (s) {
-    case
-    case:
-    case break
-    case: break
-    case "(": break
-    case ")": break;
-    case ":": break;
-    case ";": break;
-    case
+        case
+        case:
+        case break
+        case: break
+        case "(": break
+        case ")": break;
+        case ":": break;
+        case ";": break;
+        case
         break;
-    case:
+        case:
         break;
-    case ":"
+        case ":"
         break;
-    case ':':
+        case ':':
         break;
-    case NestedIfStatement:
+        case NestedIfStatement:
         if (s.endsWith() = '(')
             return;
         break;
-    case NestedSwitchCase:
+        case NestedSwitchCase:
         switch (v) {
-        case 0: break;
-        case 2:
+            case 0: break;
+            case 2:
             break;
         }
         break;
-    case NestedSwitchCaseBlock:
+        case NestedSwitchCaseBlock:
         {
             switch (v) {
-            case 0: break;
-            case 2:
+                case 0: break;
+                case 2:
                 break;
             }
             break;
         }
-    case NestedSwitchCaseBlock2:
+        case NestedSwitchCaseBlock2:
         {
             switch (v) {
-            case 0: break;
-            case 2:
+                case 0: break;
+                case 2:
                 break;
             }
         }
         break;
-    default:
+        default:
         break;
     }
 }
