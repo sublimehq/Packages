@@ -749,6 +749,10 @@ contexts:
     - match: \bend\b
       scope: keyword.declaration.function.end.matlab
       pop: 1
+    # Heuristic to pop context when another `function` keyword appears directly at the start of a line, which is
+    # unlikely to indicate a nested function (the `end` keyword is sometimes optional).
+    - match: ^(?=function\b)
+      pop: 1
     - include: function-declarations
     - include: keywords
     - include: expressions

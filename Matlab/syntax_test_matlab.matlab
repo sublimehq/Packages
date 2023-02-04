@@ -1040,3 +1040,12 @@ X = inf(n)
 
 X = nan(n)
 %   ^^^ support.function.builtin.matlab
+
+
+%---------------------------------------------
+% Pop function context if another function appears at the start of a line
+
+function myFunction(x)
+
+function notNestedFunction(x)
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
