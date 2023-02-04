@@ -11,14 +11,6 @@
 			(.*\*/)?                             # optionally followed by the end of a block comment
 			\s*                                  # followed by any amount of whitespace
 			\}                                   # followed by a closing brace
-			(                                    # followed by
-			    [^}{"']* \{                      # - anything thats not a brace or a string (or nothing), followed by an opening brace
-			|   \s* while \s* \( .*              # - or any whitespace followed by `while` followed by any whitespace followed by an opening paren
-			|   ,                                # - or a comma
-			)?                                   # optional
-			[;\s]*                               # followed by any number of semi-colons or whitespace characters
-			(//.*|/\*.*\*/\s*)?                  # optionally followed by a comment
-			$                                    # the end of the line
 		</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
