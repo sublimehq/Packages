@@ -665,12 +665,13 @@ contexts:
     - match: (?=\+\+|--)
       fail: expression-statement-continuation
     - match: |-
-        (?x:(?=
-          != |
-          [-+*/%><=&|^\[(;,.:?] |
-          (?:in|instanceof){{identifier_break}}
-        ))
-      pop: true
+        (?x)
+        (?=
+          !=
+        | [-+*/%><=&|^\[(;,.:?]
+        | (?:in|instanceof){{identifier_break}}
+        )
+      pop: 1
     - match: (?=\S)
       fail: expression-statement-continuation
 
