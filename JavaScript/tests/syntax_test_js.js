@@ -760,6 +760,46 @@ class MyClass extends TheirClass {
 //        ^ - meta.annotation
     bar() {}
 
+    @foo // comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.line - meta.annotation
+    bar() {}
+//^^ - meta.annotation
+//  ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.block.js - meta.annotation
+    */bar() {}
+//^^^^ comment.block.js - meta.annotation
+//    ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* block */ /* comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^^^^^^^^^^^^^  - meta.annotation
+//       ^^^^^^^^^^^ comment.block.js
+//                   ^^^^^^^^^^^ comment.block.js
+    bar() {}
+//  ^^^^^^^^^ comment.block.js
+    */bar() {}
+//^^^^ comment.block.js - meta.annotation
+//    ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* block */ /* comment
+//  ^^^^^ meta.annotation.js - comment
+//       ^^^^^^^^^^^ meta.annotation.js comment.block.js
+//                  ^ meta.annotation.js - comment
+//                   ^^^^^^^^^^^ meta.annotation.js comment.block.js
+    bar() {}
+//  ^^^^^^^^^meta.annotation.js comment.block.js
+    */ . bar baz() {}
+//^^^^ meta.annotation.js comment.block.js
+//    ^^^^^^ meta.annotation.js - comment
+//           ^^^^^^^^ meta.function - meta.annotation
+
     static ['foo']() {}
 //         ^^^^^^^^^^^^ meta.function
 
