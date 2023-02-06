@@ -1266,20 +1266,22 @@ contexts:
 
   match-struct-tag-annotation:
     - match: '`'
-      scope: punctuation.definition.string.begin.go punctuation.definition.annotation.begin.go
+      scope: punctuation.definition.annotation.begin.go
       push: match-struct-tag-annotation-inner
 
   match-struct-tag-annotation-inner:
     - meta_include_prototype: false
-    - meta_scope: meta.annotation.go string.quoted.backtick.go
+    - meta_scope: meta.annotation.go
     - match: '`'
-      scope: punctuation.definition.string.end.go punctuation.definition.annotation.end.go
+      scope: punctuation.definition.annotation.end.go
       pop: 1
     - match: (\w+)(:)
       captures:
         1: meta.annotation.identifier.go variable.annotation.go
         2: meta.annotation.go punctuation.separator.key-value.go
       push: match-struct-tag-annotation-value
+    - match: (\w+)(?=[\s`])
+      scope: meta.annotation.identifier.go variable.annotation.go
 
   match-struct-tag-annotation-value:
     - match: '"'
