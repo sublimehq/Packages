@@ -1542,7 +1542,7 @@ by accident, but if necessary, such support could be sacrificed.
         field typ `json:"field,omitempty" xml:"name"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^ meta.type.go storage.type.go
-//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - meta.annotation meta.annotation
 //                ^ punctuation.definition.annotation.begin
 //                 ^^^^ meta.annotation.identifier variable.annotation
 //                     ^ punctuation.separator.key-value
@@ -1562,7 +1562,7 @@ by accident, but if necessary, such support could be sacrificed.
 //            ^^^^ meta.type.go comment.block.go
 //                 ^^^ meta.type.go storage.type.go
 //                     ^^^^ meta.type.go comment.block.go
-//                          ^^^^^^^^^^^^^^ meta.type.go meta.annotation
+//                          ^^^^^^^^^^^^^^ meta.type.go meta.annotation - meta.annotation meta.annotation
         typ       `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
 //                ^^^^^^^^^^ meta.type.go meta.annotation
