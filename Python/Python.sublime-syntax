@@ -2110,30 +2110,82 @@ contexts:
 ###[ DOCSTRINGS ]#############################################################
 
   docstrings:
-    - match: ^\s*(?i)(u)?("""|''')
-      captures:
-        1: storage.type.string.python
-        2: punctuation.definition.comment.begin.python
-      push: docstring-body
-    - match: ^\s*(?i)(ur|ru?)("""|''')
-      captures:
-        1: storage.type.string.python
-        2: punctuation.definition.comment.begin.python
-      push: raw-docstring-body
+    - include: double-quoted-docstrings
+    - include: single-quoted-docstrings
 
-  docstring-body:
-    - meta_scope: comment.block.documentation.python
-    - match: \2
-      scope: punctuation.definition.comment.end.python
+  double-quoted-docstrings:
+    - match: ^\s*(?i)(u)?(""")
+      captures:
+        1: storage.type.string.python
+        2: comment.block.documentation.python punctuation.definition.comment.begin.python
+      push:
+        - double-quoted-docstring-summery
+        - else-pop
+    - match: ^\s*(?i)(ur|ru?)(""")
+      captures:
+        1: storage.type.string.python
+        2: comment.block.documentation.python punctuation.definition.comment.begin.python
+      push:
+        - double-quoted-docstring-summery
+        - else-pop
+
+  double-quoted-docstring-summery:
+    - meta_content_scope: comment.block.documentation.summary.python
+    - match: $
+      set: double-quoted-docstring-body
+    - include: double-quoted-docstring-end
+
+  double-quoted-docstring-end:
+    - match: '"""'
+      scope: comment.block.documentation.python punctuation.definition.comment.end.python
       pop: 1
+
+  double-quoted-docstring-body:
+    - meta_content_scope: comment.block.documentation.python
+    - include: double-quoted-docstring-end
     - include: escaped-unicode-chars
     - include: escaped-chars
 
-  raw-docstring-body:
-    - meta_scope: comment.block.documentation.python
-    - match: \2
-      scope: punctuation.definition.comment.end.python
+  double-quoted-raw-docstring-body:
+    - meta_content_scope: comment.block.documentation.python
+    - include: double-quoted-docstring-end
+
+  single-quoted-docstrings:
+    - match: ^\s*(?i)(u)?(''')
+      captures:
+        1: storage.type.string.python
+        2: comment.block.documentation.python punctuation.definition.comment.begin.python
+      push:
+        - single-quoted-docstring-summery
+        - else-pop
+    - match: ^\s*(?i)(ur|ru?)(''')
+      captures:
+        1: storage.type.string.python
+        2: comment.block.documentation.python punctuation.definition.comment.begin.python
+      push:
+        - single-quoted-docstring-summery
+        - else-pop
+
+  single-quoted-docstring-end:
+    - match: "'''"
+      scope: comment.block.documentation.python punctuation.definition.comment.end.python
       pop: 1
+
+  single-quoted-docstring-summery:
+    - meta_content_scope: comment.block.documentation.summary.python
+    - match: $
+      set: single-quoted-docstring-body
+    - include: single-quoted-docstring-end
+
+  single-quoted-docstring-body:
+    - meta_content_scope: comment.block.documentation.python
+    - include: single-quoted-docstring-end
+    - include: escaped-unicode-chars
+    - include: escaped-chars
+
+  single-quoted-raw-docstring-body:
+    - meta_content_scope: comment.block.documentation.python
+    - include: single-quoted-docstring-end
 
 ###[ STRINGS ]################################################################
 

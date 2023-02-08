@@ -2,22 +2,28 @@
 # <- source.python comment.line.number-sign punctuation.definition.comment
 
 r"""This is a syntax test file.
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
-#^^^ punctuation.definition.comment.begin
-# <- storage.type.string
+# <- storage.type.string - comment
+#^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
 
 And this right here, where we're writing in, is a docstring.
+# <- comment.block.documentation.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
 """
+# <- comment.block.documentation.python punctuation.definition.comment.end.python
 
 ur"""Raw docstring \"""
-# <- storage.type.string.python
-# ^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
-#                   ^^^ punctuation.definition.comment.end.python
+# <- storage.type.string.python - comment
+# ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
+#    ^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                   ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 """Normal docstring \""""
-# ^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
-#                   ^^ constant.character.escape.python
-#                     ^^^ punctuation.definition.comment.end.python
+# <- comment.block.documentation.python punctuation.definition.comment.begin.python
+#^^ comment.block.documentation.python punctuation.definition.comment.begin.python
+#  ^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
+#                       ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
 
 debug = False
 """
