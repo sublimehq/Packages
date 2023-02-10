@@ -1422,7 +1422,6 @@ contexts:
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
-    - include: comments
     - include: booleans
     - include: numbers
     - include: strings
@@ -1619,7 +1618,7 @@ contexts:
     - include: expansions-tilde
 
   expansions-arithmetic:
-    - match: (\$)(\(\((?=.+\)\)))
+    - match: (\$)(\(\()
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell

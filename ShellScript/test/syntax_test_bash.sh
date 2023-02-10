@@ -86,19 +86,13 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 ]]
 # <- - comment - string
 
-$(( # ' comment ))
-#^^^ - comment
-#   ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-))
-# <- - comment - string
+$(( # comment ))
+#^^^^^^^^^^^^^^^ - comment
 
 $((
-  # ' comment
-# ^^^^^^^^^^^^ meta.compound.shell comment.line.number-sign.shell
-
-# <- meta.compound.shell - comment - string
+  # comment
+# ^^^^^^^^^^ - comment
 ))
-# <- - comment - string
 
 
 ####################################################################
