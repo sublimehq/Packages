@@ -69,6 +69,31 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 #                                                        ^ punctuation.section.interpolation.begin.shell
 #                                                                        ^^ punctuation.separator.continuation.line.shell
 
+# https://github.com/sublimehq/Packages/issues/3661
+
+[[ # ' ]]
+# <- meta.conditional.shell - comment
+#^^ meta.conditional.shell - comment
+#  ^^^^^^^ meta.conditional.shell comment.line.number-sign.shell
+]]
+# <- meta.conditional.shell support.function.test.end.shell
+
+[[
+    # '
+#   ^^^ comment
+
+# <- - comment - string
+]]
+# <- - comment - string
+
+$(( # comment ))
+#^^^^^^^^^^^^^^^ - comment
+
+$((
+  # comment
+# ^^^^^^^^^^ - comment
+))
+
 
 ####################################################################
 # The basics                                                       #
