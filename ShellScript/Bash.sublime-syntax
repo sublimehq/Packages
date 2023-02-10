@@ -789,6 +789,7 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: '='
       scope: keyword.operator.assignment.shell
+    - include: comments
     - include: booleans
     - include: numbers
     - include: strings
@@ -1421,6 +1422,7 @@ contexts:
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
+    - include: comments
     - include: booleans
     - include: numbers
     - include: strings
