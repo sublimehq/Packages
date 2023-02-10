@@ -762,14 +762,21 @@ contexts:
   test-pattern-common:
     - match: (?=\s)
       pop: 1
-    - match: \(
-      scope:
-        meta.group.regexp.shell
-        punctuation.definition.group.begin.regexp.shell
+    - match: ([?*+@!])?(\()
+      captures:
+        1: keyword.operator.quantifier.regexp.shell
+        2: meta.group.regexp.shell
+           punctuation.definition.group.begin.regexp.shell
       push: expansions-pattern-group-body
+    - match: (\[)(?:([!^])|-)?(?=((?!\s\]\]).)*?\])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-pattern-set-body
+    - match: '[*?]'
+      scope: keyword.operator.quantifier.regexp.shell
     - include: boolean
     - include: strings
-    - include: expansions-pattern
     - include: expansions-job
     - include: expansions-variables
 
