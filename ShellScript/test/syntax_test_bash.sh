@@ -3875,6 +3875,47 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #            ^ - keyword.control
 #                ^ punctuation.section.interpolation.end.shell
 
+[[ a == { ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.interpolation
+#        ^^^ - meta.pattern.regexp
+#         ^^ support.function.test.end.shell
+
+
+[[ a == } ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.interpolation
+#        ^^^ - meta.pattern.regexp
+#         ^^ support.function.test.end.shell
+
+[[ a == \${* ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^ meta.pattern.regexp.shell - meta.interpolation
+#           ^^^ - meta.pattern.regexp
+#       ^^ constant.character.escape.shell
+#          ^ keyword.operator.quantifier.regexp.shell
+
+[[ a == ${* ]]} ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^^ meta.pattern.regexp.shell meta.interpolation.parameter.shell
+#              ^^^ - meta.pattern.regexp
+#       ^ punctuation.definition.variable.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#           ^^ - support.function
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^ support.function.test.end.shell
+
+[[ a == %1* ]]
+#^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^ meta.pattern.regexp.shell meta.interpolation.job.shell variable.language.job.shell
+#         ^ meta.pattern.regexp.shell keyword.operator.quantifier.regexp.shell
+#          ^^^ - meta.pattern.regexp
+
 [[ a == [abc[]* ]]
 #^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #^^^^^^^ - meta.pattern.regexp

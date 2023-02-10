@@ -768,7 +768,10 @@ contexts:
         punctuation.definition.group.begin.regexp.shell
       push: expansions-pattern-group-body
     - include: boolean
-    - include: expansions-and-strings
+    - include: strings
+    - include: expansions-pattern
+    - include: expansions-job
+    - include: expansions-variables
 
   test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))
