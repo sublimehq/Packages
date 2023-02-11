@@ -1887,6 +1887,13 @@ contexts:
         2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
 
+  expansions-pattern-set-end:
+    - match: -?(\])([*?+]*)
+      captures:
+        1: punctuation.definition.set.end.regexp.shell
+        2: keyword.operator.quantifier.regexp.shell
+      pop: 1
+
   expansions-pattern-set-common:
     - match: ((\.)[[:word:]](\.))(\])
       captures:
@@ -1918,13 +1925,6 @@ contexts:
     - include: any-escapes
     - include: expansions-variables
     - include: eol-pop
-
-  expansions-pattern-set-end:
-    - match: -?(\])([*?+]*)
-      captures:
-        1: punctuation.definition.set.end.regexp.shell
-        2: keyword.operator.quantifier.regexp.shell
-      pop: 1
 
   expansions-tilde:
     - match: '~'
