@@ -772,17 +772,43 @@ contexts:
         2: meta.group.regexp.shell
            punctuation.definition.group.begin.regexp.shell
       push: expansions-pattern-group-body
-    - match: (\[)(?:([!^])|-)?(?=((?!\s\]\]).)*?\])
-      captures:
-        1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.regexp.shell
-      push: expansions-pattern-set-body
-    - match: '[*?]'
-      scope: keyword.operator.quantifier.regexp.shell
+    - match: (?=\[)
+      branch_point: test-pattern-set
+      branch:
+        - test-pattern-set
+        - test-pattern-set-fallback
     - include: boolean
     - include: strings
     - include: expansions-job
     - include: expansions-variables
+    - include: expansions-pattern-quantifiers
+
+  test-pattern-set:
+    - meta_include_prototype: false
+    # Inherited from `expansions-pattern-set` to fail in case of premature
+    # termination by test expression end ` ]]`.
+    - match: (\[)(?:([!^])|-)?
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      set: test-pattern-set-body
+
+  test-pattern-set-body:
+    - meta_scope: meta.set.regexp.shell
+    - include: expansions-pattern-set-end
+    - include: expansions-pattern-set-common
+    - match: (\[)([!^])?(?=[\.=:])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: test-pattern-set-body
+    - match: (?=\s\]\])
+      fail: test-pattern-set
+
+  test-pattern-set-fallback:
+    - meta_include_prototype: false
+    - match: \[
+      pop: 1
 
   test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))

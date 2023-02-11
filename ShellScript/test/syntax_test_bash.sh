@@ -3930,23 +3930,66 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 [[ a == [ ]]
 #^^^^^^^^^^^ meta.conditional.shell
 #^^^^^^^ - meta.pattern.regexp
-#       ^ meta.pattern.regexp.shell - meta.interpolation
+#       ^ meta.pattern.regexp.shell - meta.set.regexp
 #        ^^^ - meta.pattern.regexp
 #         ^^ support.function.test.end.shell
 
 [[ a == ] ]]
 #^^^^^^^^^^^ meta.conditional.shell
 #^^^^^^^ - meta.pattern.regexp
-#       ^ meta.pattern.regexp.shell - meta.interpolation
+#       ^ meta.pattern.regexp.shell - meta.set.regexp
 #        ^^^ - meta.pattern.regexp
 #         ^^ support.function.test.end.shell
+
+[[ a == [\]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.pattern.regexp
+#            ^^ support.function.test.end.shell
+
+[[ a == [^\]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#            ^^^ - meta.pattern.regexp
+#             ^^ support.function.test.end.shell
+
+[[ a == [\\\]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#             ^^^ - meta.pattern.regexp
+#              ^^ support.function.test.end.shell
+
+[[ a == [\\\] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^ meta.pattern.regexp.shell - meta.set.regexp
+#            ^^^ - meta.pattern.regexp
+#             ^^ support.function.test.end.shell
+
+[[ a == [[:alpha:] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.set.regexp
+#        ^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#                 ^^^ - meta.pattern.regexp
+#                  ^^ support.function.test.end.shell
 
 [[ a == [[:alpha:]] ]]
 #^^^^^^^^^^^ meta.conditional.shell
 #^^^^^^^ - meta.pattern.regexp
-#       ^^^^^^^^^^^ meta.pattern.regexp.shell - meta.interpolation
+#       ^^^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
 #                  ^^^ - meta.pattern.regexp
 #                   ^^ support.function.test.end.shell
+
+[[ a == [[:alpha: ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^^^^ meta.pattern.regexp.shell - meta.set.regexp
+#                ^^^ - meta.pattern.regexp
+#                 ^^ support.function.test.end.shell
 
 [[ a == { ]]
 #^^^^^^^^^^^ meta.conditional.shell
