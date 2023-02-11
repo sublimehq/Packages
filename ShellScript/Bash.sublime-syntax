@@ -1105,7 +1105,7 @@ contexts:
           pop: 1
         - include: case-clause-patterns-body
     - include: case-end-ahead
-    - include: expansions-pattern-common
+    - include: expansions-pattern-group-common
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -1855,18 +1855,10 @@ contexts:
     - match: '[*?]'
       scope: keyword.operator.quantifier.regexp.shell
 
-  expansions-pattern-common:
-    - match: \|
-      scope: keyword.operator.logical.regexp.shell
-    - include: strings
-    - include: expansions-pattern
-    - include: expansions-variables
-    - include: eol-pop
-
   expansions-pattern-group-body:
     - meta_content_scope: meta.group.regexp.shell
     - include: expansions-pattern-group-end
-    - include: expansions-pattern-common
+    - include: expansions-pattern-group-common
 
   expansions-pattern-group-end:
     - match: \)
@@ -1874,6 +1866,14 @@ contexts:
         meta.group.regexp.shell
         punctuation.definition.group.end.regexp.shell
       pop: 1
+
+  expansions-pattern-group-common:
+    - match: \|
+      scope: keyword.operator.logical.regexp.shell
+    - include: strings
+    - include: expansions-pattern
+    - include: expansions-variables
+    - include: eol-pop
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
