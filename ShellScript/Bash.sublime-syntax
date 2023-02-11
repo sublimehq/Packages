@@ -1794,8 +1794,7 @@ contexts:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       push: expansions-parameter-pattern-set-body
-    - match: '[*?]'
-      scope: keyword.operator.quantifier.regexp.shell
+    - include: expansions-pattern-quantifiers
 
   expansions-parameter-pattern-common:
     - match: \|
@@ -1852,6 +1851,9 @@ contexts:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
+    - include: expansions-pattern-quantifiers
+
+  expansions-pattern-quantifiers:
     - match: '[*?]'
       scope: keyword.operator.quantifier.regexp.shell
 
