@@ -716,7 +716,7 @@ contexts:
     - match: '!(?![.=])'
       scope: keyword.operator.type.js
 
-    - match: as{{identifier_break}}
+    - match: (?:satisfies|as){{identifier_break}}
       scope: keyword.operator.type.js
       push:
         - match: const{{identifier_break}}
