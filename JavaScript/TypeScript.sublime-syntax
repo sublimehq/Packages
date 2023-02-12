@@ -46,7 +46,7 @@ variables:
       (?:=>|:)
     )
 
-  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
+  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override|accessor){{identifier_break}})
 
 contexts:
   main:

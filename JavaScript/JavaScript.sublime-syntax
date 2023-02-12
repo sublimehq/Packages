@@ -75,7 +75,7 @@ variables:
       | \#{{identifier_name}}
     )
 
-  modifier: (?:static{{identifier_break}})
+  modifier: (?:(?:static|accessor){{identifier_break}})
 
   # Newline not permitted between `async` and `function`.
   func_lookahead: |-
