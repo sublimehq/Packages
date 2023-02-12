@@ -716,7 +716,7 @@ contexts:
     - match: '!(?![.=])'
       scope: keyword.operator.type.js
 
-    - match: (?:satisfies|as){{identifier_break}}
+    - match: as{{identifier_break}}
       scope: keyword.operator.type.js
       push:
         - match: const{{identifier_break}}
@@ -728,6 +728,14 @@ contexts:
             - ts-type-expression-end
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
+
+    - match: satisfies{{identifier_break}}
+      scope: keyword.operator.type.js
+      push:
+        - ts-type-meta
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
 
   ts-type-annotation:
     - match: ':'
