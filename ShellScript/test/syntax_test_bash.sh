@@ -2092,6 +2092,47 @@ test var[0] != var[^0-9]*$
 #           ^^ keyword.operator.comparison.shell
 #              ^^^^^^^^^^^ meta.pattern.regexp.shell
 
+test var == [
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ meta.pattern.regexp.shell - meta.set
+
+test var == ]
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ meta.pattern.regexp.shell - meta.set
+
+test var == [[:alpha:
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^^^^^ meta.pattern.regexp.shell - meta.set
+
+test var == [[:alpha:]
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ meta.pattern.regexp.shell - meta.set
+#            ^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+
+test var == [[:alpha:]]
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+
 test expr -a expr -o expr -- | cmd |& cmd
 # <- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell

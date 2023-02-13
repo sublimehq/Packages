@@ -795,6 +795,8 @@ contexts:
 
   test-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
+    - match: $|(?=\s\]\])
+      fail: test-pattern-set
     - include: expansions-pattern-set-end
     - include: expansions-pattern-set-common
     - match: (\[)([!^])?(?=[\.=:])
@@ -802,8 +804,6 @@ contexts:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       push: test-pattern-set-body
-    - match: (?=\s\]\])
-      fail: test-pattern-set
 
   test-pattern-set-fallback:
     - meta_include_prototype: false
