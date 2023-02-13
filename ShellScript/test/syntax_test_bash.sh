@@ -3272,6 +3272,15 @@ ${foo:=bar}
 #             ^ punctuation.definition.string.end.shell
 #              ^ punctuation.section.interpolation.end.shell
 
+: ${foo//}/foo}
+# ^^^^^^^^ meta.interpolation.parameter.shell
+#         ^^^^^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^ keyword.operator.substitution.shell
+#       ^ variable.parameter.switch.shell
+#        ^ punctuation.section.interpolation.end.shell
+
 : ${foo//\}/foo}
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
@@ -3281,6 +3290,49 @@ ${foo:=bar}
 #        ^^ constant.character.escape.shell
 #          ^ keyword.operator.substitution.shell
 #              ^ punctuation.section.interpolation.end.shell
+
+: ${foo//:/[}]
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+#            ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^ variable.parameter.switch.shell
+#         ^ keyword.operator.substitution.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${foo//:/[\}]}
+# ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^ variable.parameter.switch.shell
+#         ^ keyword.operator.substitution.shell
+#           ^^ constant.character.escape.shell
+#              ^ punctuation.section.interpolation.end.shell
+
+: ${^foo//:/[}]
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#             ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.shell
+#    ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
+
+: ${^foo//:/[\}]}
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#           ^^^^ meta.set.regexp.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.shell
+#    ^^^ variable.other.readwrite.shell
+#           ^ punctuation.definition.set.begin.regexp.shell
+#            ^^ constant.character.escape.shell
+#              ^ punctuation.definition.set.end.regexp.shell
+#               ^ punctuation.section.interpolation.end.shell
 
 : ${foo//%/}
 #        ^ - keyword
@@ -3970,6 +4022,17 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^ punctuation.definition.group.end.regexp.shell
 #                          ^ punctuation.section.group.end.shell
 #                            ^^ support.function.test.end.shell
+
+[[ foo =~ ^foo//:/[}] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^ - meta.pattern.regexp.shell
+#         ^^^^^^^^ meta.pattern.regexp.shell - meta.set
+#                 ^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#                    ^^^ - meta.pattern.regexp.shell
+#      ^^ keyword.operator.comparison.shell
+#                 ^ punctuation.definition.set.begin.regexp.shell
+#                   ^ punctuation.definition.set.end.regexp.shell
+#                     ^^ support.function.test.end.shell
 
 [[ ' foobar' == [\ ]foo* ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell

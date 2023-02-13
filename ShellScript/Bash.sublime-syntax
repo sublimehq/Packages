@@ -130,6 +130,10 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
+  brace-pop:
+    - match: (?=\})
+      pop: 1
+
   else-pop:
     - match: (?=\S)
       pop: 1
@@ -1104,7 +1108,8 @@ contexts:
           pop: 1
         - include: case-clause-patterns-body
     - include: case-end-ahead
-    - include: expansions-pattern-common
+    - include: expansions-pattern
+    - include: expansions-pattern-group-common
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -1765,7 +1770,7 @@ contexts:
       captures:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
-      set: expansions-parameter-pattern
+      set: expansions-parameter-regexp
     - match: ([@*]?)(@)([QEPAa])(?=})
       captures:
         1: variable.language.shell
@@ -1783,16 +1788,49 @@ contexts:
     - include: line-continuations
     - include: strings
 
-  expansions-parameter-pattern:
+  expansions-parameter-regexp:
     - include: expansions-parameter-common
-    - include: expansions-pattern
+    - include: expansions-parameter-pattern
     - include: expansions-variables
+
+  expansions-parameter-pattern:
+    # [3.5.8.1] Pattern Matching
+    - match: ([?*+@!])(\()
+      captures:
+        1: keyword.operator.quantifier.regexp.shell
+        2: meta.group.regexp.shell
+           punctuation.definition.group.begin.regexp.shell
+      push: expansions-parameter-pattern-group-body
+    - match: (\[)(?:([!^])|-)?(?=.*])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-parameter-pattern-set-body
+    - include: expansions-pattern-quantifiers
+
+  expansions-parameter-pattern-group-body:
+    - meta_content_scope: meta.group.regexp.shell
+    - include: expansions-pattern-group-end
+    - include: expansions-parameter-pattern
+    - include: expansions-pattern-group-common
+    - include: brace-pop
+
+  expansions-parameter-pattern-set-body:
+    - meta_scope: meta.set.regexp.shell
+    - include: expansions-pattern-set-end
+    - include: expansions-pattern-set-common
+    - match: (\[)([!^])?(?=[\.=:])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-parameter-pattern-set-body
+    - include: brace-pop
 
   expansions-parameter-substitution:
     - match: /
       scope: keyword.operator.substitution.shell
       set: expressions-parameter-variable
-    - include: expansions-parameter-pattern
+    - include: expansions-parameter-regexp
 
   expansions-parameter-switch:
     - match: '[/#%]'
@@ -1818,33 +1856,50 @@ contexts:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
+    - include: expansions-pattern-quantifiers
+
+  expansions-pattern-quantifiers:
     - match: '[*?]'
       scope: keyword.operator.quantifier.regexp.shell
 
-  expansions-pattern-common:
-    - match: \|
-      scope: keyword.operator.logical.regexp.shell
-    - include: strings
-    - include: expansions-pattern
-    - include: expansions-variables
-    - include: eol-pop
-
   expansions-pattern-group-body:
     - meta_content_scope: meta.group.regexp.shell
+    - include: expansions-pattern-group-end
+    - include: expansions-pattern
+    - include: expansions-pattern-group-common
+
+  expansions-pattern-group-end:
     - match: \)
       scope:
         meta.group.regexp.shell
         punctuation.definition.group.end.regexp.shell
       pop: 1
-    - include: expansions-pattern-common
+
+  expansions-pattern-group-common:
+    - match: \|
+      scope: keyword.operator.logical.regexp.shell
+    - include: strings
+    - include: expansions-variables
+    - include: eol-pop
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
+    - include: expansions-pattern-set-end
+    - include: expansions-pattern-set-common
+    - match: (\[)([!^])?(?=[\.=:])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-pattern-set-body
+
+  expansions-pattern-set-end:
     - match: -?(\])([*?+]*)
       captures:
         1: punctuation.definition.set.end.regexp.shell
         2: keyword.operator.quantifier.regexp.shell
       pop: 1
+
+  expansions-pattern-set-common:
     - match: ((\.)[[:word:]](\.))(\])
       captures:
         1: constant.character.collate.regexp.shell
@@ -1870,11 +1925,6 @@ contexts:
       pop: 1
     - match: \-
       scope: punctuation.separator.range.regexp.shell
-    - match: (\[)([!^])?(?=[\.=:])
-      captures:
-        1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.regexp.shell
-      push: expansions-pattern-set-body
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
     - include: any-escapes
