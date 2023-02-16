@@ -2092,6 +2092,47 @@ test var[0] != var[^0-9]*$
 #           ^^ keyword.operator.comparison.shell
 #              ^^^^^^^^^^^ meta.pattern.regexp.shell
 
+test var == [
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ meta.pattern.regexp.shell - meta.set
+
+test var == ]
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ meta.pattern.regexp.shell - meta.set
+
+test var == [[:alpha:
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^^^^^ meta.pattern.regexp.shell - meta.set
+
+test var == [[:alpha:]
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ meta.pattern.regexp.shell - meta.set
+#            ^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+
+test var == [[:alpha:]]
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+
 test expr -a expr -o expr -- | cmd |& cmd
 # <- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
@@ -3926,6 +3967,111 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 : ${foo//[abc[]/x}
 #            ^ - keyword.control
 #                ^ punctuation.section.interpolation.end.shell
+
+[[ a == [ ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.set.regexp
+#        ^^^ - meta.pattern.regexp
+#         ^^ support.function.test.end.shell
+
+[[ a == ] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.set.regexp
+#        ^^^ - meta.pattern.regexp
+#         ^^ support.function.test.end.shell
+
+[[ a == [\]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.pattern.regexp
+#            ^^ support.function.test.end.shell
+
+[[ a == [^\]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#            ^^^ - meta.pattern.regexp
+#             ^^ support.function.test.end.shell
+
+[[ a == [\\\]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#             ^^^ - meta.pattern.regexp
+#              ^^ support.function.test.end.shell
+
+[[ a == [\\\] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^ meta.pattern.regexp.shell - meta.set.regexp
+#            ^^^ - meta.pattern.regexp
+#             ^^ support.function.test.end.shell
+
+[[ a == [[:alpha:] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.set.regexp
+#        ^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#                 ^^^ - meta.pattern.regexp
+#                  ^^ support.function.test.end.shell
+
+[[ a == [[:alpha:]] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#                  ^^^ - meta.pattern.regexp
+#                   ^^ support.function.test.end.shell
+
+[[ a == [[:alpha: ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^^^^ meta.pattern.regexp.shell - meta.set.regexp
+#                ^^^ - meta.pattern.regexp
+#                 ^^ support.function.test.end.shell
+
+[[ a == { ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.interpolation
+#        ^^^ - meta.pattern.regexp
+#         ^^ support.function.test.end.shell
+
+
+[[ a == } ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^ meta.pattern.regexp.shell - meta.interpolation
+#        ^^^ - meta.pattern.regexp
+#         ^^ support.function.test.end.shell
+
+[[ a == \${* ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^ meta.pattern.regexp.shell - meta.interpolation
+#           ^^^ - meta.pattern.regexp
+#       ^^ constant.character.escape.shell
+#          ^ keyword.operator.quantifier.regexp.shell
+
+[[ a == ${* ]]} ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^^ meta.pattern.regexp.shell meta.interpolation.parameter.shell
+#              ^^^ - meta.pattern.regexp
+#       ^ punctuation.definition.variable.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#           ^^ - support.function
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^ support.function.test.end.shell
+
+[[ a == %1* ]]
+#^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^ meta.pattern.regexp.shell meta.interpolation.job.shell variable.language.job.shell
+#         ^ meta.pattern.regexp.shell keyword.operator.quantifier.regexp.shell
+#          ^^^ - meta.pattern.regexp
 
 [[ a == [abc[]* ]]
 #^^^^^^^^^^^^^^^^^ meta.conditional.shell
