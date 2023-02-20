@@ -660,18 +660,20 @@ contexts:
   match-interpreted-string:
     - match: '"'
       scope: punctuation.definition.string.begin.go
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.go
-        - match: '"'
-          scope: punctuation.definition.string.end.go
-          pop: 1
-        - include: match-template-string
-        - match: '{{char_escape}}'
-          scope: constant.character.escape.go
-        - match: \%%
-          scope: constant.character.escape.go
-        - include: match-fmt
+      push: match-interpreted-string-inner
+
+  match-interpreted-string-inner:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.go
+    - match: '"'
+      scope: punctuation.definition.string.end.go
+      pop: 1
+    - include: match-template-string
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.go
+    - match: \%%
+      scope: constant.character.escape.go
+    - include: match-fmt
 
   match-template-string:
    - match: '{{(?=.*}})'
@@ -1117,6 +1119,10 @@ contexts:
       scope: variable.other.type.go
     - include: match-any
 
+  pop-now-clear-scope:
+    - clear_scopes: 1
+    - include: pop-now
+
   pop-now:
     - match: ''
       pop: 1
@@ -1257,7 +1263,44 @@ contexts:
       scope: variable.other.member.declaration.go
       push: pop-struct-field-meta
 
-    - include: match-any
+    - include: match-struct-tag-annotation
+    - include: match-semicolon
+    - include: match-comma
+    - include: match-operators
+
+  match-struct-tag-annotation:
+    - match: '`'
+      scope: punctuation.definition.annotation.begin.go
+      push: match-struct-tag-annotation-inner
+
+  match-struct-tag-annotation-inner:
+    - meta_include_prototype: false
+    - meta_scope: meta.annotation.go
+    - match: '`'
+      scope: punctuation.definition.annotation.end.go
+      pop: 1
+    - match: (\w+)(:)
+      captures:
+        1: meta.annotation.identifier.go variable.annotation.go
+        2: meta.annotation.go punctuation.separator.key-value.go
+      push: match-struct-tag-annotation-value
+    - match: (\w+)(?=[\s`])
+      scope: meta.annotation.identifier.go variable.annotation.go
+      push: pop-now-clear-scope
+
+  match-struct-tag-annotation-value:
+    - clear_scopes: 1
+    - match: '"'
+      scope: punctuation.definition.string.begin.go
+      push: match-struct-tag-annotation-value-inner
+    - include: pop-now
+
+  match-struct-tag-annotation-value-inner:
+    - meta_include_prototype: false
+    - meta_scope: meta.annotation.parameters.go string.quoted.double.go
+    - include: match-interpreted-string-inner
+    - match: ','
+      scope: punctuation.separator.sequence.go
 
   pop-struct-field-meta:
     - include: pop-before-brace-end

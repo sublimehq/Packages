@@ -1539,23 +1539,37 @@ by accident, but if necessary, such support could be sacrificed.
 
     struct {
 //  ^^^^^^ keyword.declaration.struct.go
-        field typ `json:"field"`
+        field typ `json:"field,omitempty" xml:"name"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^ meta.type.go storage.type.go
-//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - meta.annotation meta.annotation
+//                ^ punctuation.definition.annotation.begin
+//                 ^^^^ meta.annotation.identifier variable.annotation
+//                     ^ punctuation.separator.key-value
+//                      ^^^^^^^^^^^^^^^^^ meta.annotation.parameters
+//                      ^^^^^^^^^^^^^^^^^ string.quoted.double
+//                      ^ punctuation.definition.string.begin
+//                            ^ punctuation.separator.sequence
+//                                      ^ punctuation.definition.string.end
+//                                        ^^^ meta.annotation.identifier variable.annotation
+//                                           ^ punctuation.separator.key-value
+//                                            ^^^^^^ meta.annotation.parameters string.quoted.double
+//                                            ^ punctuation.definition.string.begin
+//                                                 ^ punctuation.definition.string.end
+//                                                  ^ punctuation.definition.annotation.end
         field /**/ typ /**/ `json:"field"`
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^^ meta.type.go comment.block.go
 //                 ^^^ meta.type.go storage.type.go
 //                     ^^^^ meta.type.go comment.block.go
-//                          ^^^^^^^^^^^^^^ meta.type.go string.quoted.backtick.go
+//                          ^^^^^^^^^^^^^^ meta.type.go meta.annotation - meta.annotation meta.annotation
         typ       `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
-//                ^^^^^^^^^^ meta.type.go string.quoted.backtick.go
+//                ^^^^^^^^^^ meta.type.go meta.annotation
         typ /**/  `json:"-"`
 //      ^^^ meta.type.go entity.other.inherited-class.go
 //          ^^^^ meta.type.go comment.block.go
-//                ^^^^^^^^^^ meta.type.go string.quoted.backtick.go
+//                ^^^^^^^^^^ meta.type.go meta.annotation
         typ
 //      ^^^ meta.type.go entity.other.inherited-class.go
 
@@ -1785,9 +1799,9 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.backtick.go
-//                     ^ punctuation.definition.string.begin.go
-//                         ^ punctuation.definition.string.end.go
+//                     ^^^^^ meta.annotation
+//                     ^ punctuation.definition.annotation.begin.go
+//                         ^ punctuation.definition.annotation.end.go
 //                           ^ punctuation.section.braces.end.go
 
     struct{ embed[typ] `tag`; }
@@ -1798,9 +1812,9 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.backtick.go
-//                     ^ punctuation.definition.string.begin.go
-//                         ^ punctuation.definition.string.end.go
+//                     ^^^^^ meta.annotation
+//                     ^ punctuation.definition.annotation.begin.go
+//                         ^ punctuation.definition.annotation.end.go
 //                          ^ punctuation.terminator.go
 //                            ^ punctuation.section.braces.end.go
 
@@ -1842,9 +1856,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                    ^ punctuation.terminator.go
 //                      ^^^^^ variable.other.member.declaration.go
 //                            ^^^ storage.type.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                      ^ punctuation.section.braces.end.go
 
     struct{ embed[typ]; field typ `tag`; }
@@ -1858,9 +1872,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                    ^ punctuation.terminator.go
 //                      ^^^^^ variable.other.member.declaration.go
 //                            ^^^ storage.type.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^ punctuation.section.braces.end.go
 
@@ -1872,9 +1886,9 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.backtick.go
-//                     ^ punctuation.definition.string.begin.go
-//                         ^ punctuation.definition.string.end.go
+//                     ^^^^^ meta.annotation
+//                     ^ punctuation.definition.annotation.begin.go
+//                         ^ punctuation.definition.annotation.end.go
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
@@ -1888,9 +1902,9 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.backtick.go
-//                     ^ punctuation.definition.string.begin.go
-//                         ^ punctuation.definition.string.end.go
+//                     ^^^^^ meta.annotation
+//                     ^ punctuation.definition.annotation.begin.go
+//                         ^ punctuation.definition.annotation.end.go
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
@@ -1905,15 +1919,15 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.backtick.go
-//                     ^ punctuation.definition.string.begin.go
-//                         ^ punctuation.definition.string.end.go
+//                     ^^^^^ meta.annotation
+//                     ^ punctuation.definition.annotation.begin.go
+//                         ^ punctuation.definition.annotation.end.go
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                            ^ punctuation.section.braces.end.go
 
     struct{ embed[typ] `tag`; field typ `tag`; }
@@ -1924,15 +1938,15 @@ by accident, but if necessary, such support could be sacrificed.
 //               ^ punctuation.section.brackets.begin.go
 //                ^^^ variable.other.type.go
 //                   ^ punctuation.section.brackets.end.go
-//                     ^^^^^ string.quoted.backtick.go
-//                     ^ punctuation.definition.string.begin.go
-//                         ^ punctuation.definition.string.end.go
+//                     ^^^^^ meta.annotation
+//                     ^ punctuation.definition.annotation.begin.go
+//                         ^ punctuation.definition.annotation.end.go
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^ punctuation.section.braces.end.go
 
@@ -1971,9 +1985,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.backtick.go
-//                           ^ punctuation.definition.string.begin.go
-//                               ^ punctuation.definition.string.end.go
+//                           ^^^^^ meta.annotation
+//                           ^ punctuation.definition.annotation.begin.go
+//                               ^ punctuation.definition.annotation.end.go
 //                                 ^ punctuation.section.braces.end.go
 
     struct{ ident.embed[typ] `tag`; }
@@ -1986,9 +2000,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.backtick.go
-//                           ^ punctuation.definition.string.begin.go
-//                               ^ punctuation.definition.string.end.go
+//                           ^^^^^ meta.annotation
+//                           ^ punctuation.definition.annotation.begin.go
+//                               ^ punctuation.definition.annotation.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^ punctuation.section.braces.end.go
 
@@ -2036,9 +2050,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                            ^ punctuation.section.braces.end.go
 
     struct{ ident.embed[typ]; field typ `tag`; }
@@ -2054,9 +2068,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.terminator.go
 //                            ^^^^^ variable.other.member.declaration.go
 //                                  ^^^ storage.type.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^ punctuation.section.braces.end.go
 
@@ -2070,9 +2084,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.backtick.go
-//                           ^ punctuation.definition.string.begin.go
-//                               ^ punctuation.definition.string.end.go
+//                           ^^^^^ meta.annotation
+//                           ^ punctuation.definition.annotation.begin.go
+//                               ^ punctuation.definition.annotation.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^^^^^ variable.other.member.declaration.go
 //                                        ^^^ storage.type.go
@@ -2088,9 +2102,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.backtick.go
-//                           ^ punctuation.definition.string.begin.go
-//                               ^ punctuation.definition.string.end.go
+//                           ^^^^^ meta.annotation
+//                           ^ punctuation.definition.annotation.begin.go
+//                               ^ punctuation.definition.annotation.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^^^^^ variable.other.member.declaration.go
 //                                        ^^^ storage.type.go
@@ -2107,15 +2121,15 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.backtick.go
-//                           ^ punctuation.definition.string.begin.go
-//                               ^ punctuation.definition.string.end.go
+//                           ^^^^^ meta.annotation
+//                           ^ punctuation.definition.annotation.begin.go
+//                               ^ punctuation.definition.annotation.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^^^^^ variable.other.member.declaration.go
 //                                        ^^^ storage.type.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                  ^ punctuation.section.braces.end.go
 
     struct{ ident.embed[typ] `tag`; field typ `tag`; }
@@ -2128,15 +2142,15 @@ by accident, but if necessary, such support could be sacrificed.
 //                     ^ punctuation.section.brackets.begin.go
 //                      ^^^ variable.other.type.go
 //                         ^ punctuation.section.brackets.end.go
-//                           ^^^^^ string.quoted.backtick.go
-//                           ^ punctuation.definition.string.begin.go
-//                               ^ punctuation.definition.string.end.go
+//                           ^^^^^ meta.annotation
+//                           ^ punctuation.definition.annotation.begin.go
+//                               ^ punctuation.definition.annotation.end.go
 //                                ^ punctuation.terminator.go
 //                                  ^^^^^ variable.other.member.declaration.go
 //                                        ^^^ storage.type.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^ punctuation.section.braces.end.go
 
@@ -2178,9 +2192,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                      ^ punctuation.section.braces.end.go
 
     struct{ field typ; embed[typ] `tag`; }
@@ -2194,9 +2208,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^ punctuation.section.braces.end.go
 
@@ -2247,9 +2261,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                               ^ punctuation.terminator.go
 //                                 ^^^^^ variable.other.member.declaration.go
 //                                       ^^^ storage.type.go
-//                                           ^^^^^ string.quoted.backtick.go
-//                                           ^ punctuation.definition.string.begin.go
-//                                               ^ punctuation.definition.string.end.go
+//                                           ^^^^^ meta.annotation
+//                                           ^ punctuation.definition.annotation.begin.go
+//                                               ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.section.braces.end.go
 
     struct{ field typ; embed[typ]; field typ `tag`; }
@@ -2266,9 +2280,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                               ^ punctuation.terminator.go
 //                                 ^^^^^ variable.other.member.declaration.go
 //                                       ^^^ storage.type.go
-//                                           ^^^^^ string.quoted.backtick.go
-//                                           ^ punctuation.definition.string.begin.go
-//                                               ^ punctuation.definition.string.end.go
+//                                           ^^^^^ meta.annotation
+//                                           ^ punctuation.definition.annotation.begin.go
+//                                               ^ punctuation.definition.annotation.end.go
 //                                                ^ punctuation.terminator.go
 //                                                  ^ punctuation.section.braces.end.go
 
@@ -2283,9 +2297,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
@@ -2302,9 +2316,10 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                 ^^^ meta.annotation.identifier variable.annotation
+//                                    ^ punctuation.definition.annotation.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
@@ -2322,15 +2337,15 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.backtick.go
-//                                                 ^ punctuation.definition.string.begin.go
-//                                                     ^ punctuation.definition.string.end.go
+//                                                 ^^^^^ meta.annotation
+//                                                 ^ punctuation.definition.annotation.begin.go
+//                                                     ^ punctuation.definition.annotation.end.go
 //                                                       ^ punctuation.section.braces.end.go
 
     struct{ field typ; embed[typ] `tag`; field typ `tag`; }
@@ -2344,15 +2359,15 @@ by accident, but if necessary, such support could be sacrificed.
 //                          ^ punctuation.section.brackets.begin.go
 //                           ^^^ variable.other.type.go
 //                              ^ punctuation.section.brackets.end.go
-//                                ^^^^^ string.quoted.backtick.go
-//                                ^ punctuation.definition.string.begin.go
-//                                    ^ punctuation.definition.string.end.go
+//                                ^^^^^ meta.annotation
+//                                ^ punctuation.definition.annotation.begin.go
+//                                    ^ punctuation.definition.annotation.end.go
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.backtick.go
-//                                                 ^ punctuation.definition.string.begin.go
-//                                                     ^ punctuation.definition.string.end.go
+//                                                 ^^^^^ meta.annotation
+//                                                 ^ punctuation.definition.annotation.begin.go
+//                                                     ^ punctuation.definition.annotation.end.go
 //                                                      ^ punctuation.terminator.go
 //                                                        ^ punctuation.section.braces.end.go
 
@@ -2362,9 +2377,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
@@ -2378,9 +2393,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
@@ -2395,17 +2410,17 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                            ^ punctuation.section.braces.end.go
 
     struct{ field typ `tag`; embed[typ] `tag`; }
@@ -2414,17 +2429,17 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^ punctuation.section.braces.end.go
 
@@ -2434,9 +2449,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
@@ -2453,9 +2468,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
@@ -2473,9 +2488,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
@@ -2484,9 +2499,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.backtick.go
-//                                                 ^ punctuation.definition.string.begin.go
-//                                                     ^ punctuation.definition.string.end.go
+//                                                 ^^^^^ meta.annotation
+//                                                 ^ punctuation.definition.annotation.begin.go
+//                                                     ^ punctuation.definition.annotation.end.go
 //                                                       ^ punctuation.section.braces.end.go
 
     struct{ field typ `tag`; embed[typ]; field typ `tag`; }
@@ -2495,9 +2510,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
@@ -2506,9 +2521,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                     ^ punctuation.terminator.go
 //                                       ^^^^^ variable.other.member.declaration.go
 //                                             ^^^ storage.type.go
-//                                                 ^^^^^ string.quoted.backtick.go
-//                                                 ^ punctuation.definition.string.begin.go
-//                                                     ^ punctuation.definition.string.end.go
+//                                                 ^^^^^ meta.annotation
+//                                                 ^ punctuation.definition.annotation.begin.go
+//                                                     ^ punctuation.definition.annotation.end.go
 //                                                      ^ punctuation.terminator.go
 //                                                        ^ punctuation.section.braces.end.go
 
@@ -2518,17 +2533,17 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
@@ -2540,17 +2555,17 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
@@ -2563,23 +2578,23 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.backtick.go
-//                                                       ^ punctuation.definition.string.begin.go
-//                                                           ^ punctuation.definition.string.end.go
+//                                                       ^^^^^ meta.annotation
+//                                                       ^ punctuation.definition.annotation.begin.go
+//                                                           ^ punctuation.definition.annotation.end.go
 //                                                             ^ punctuation.section.braces.end.go
 
     struct{ field typ `tag`; embed[typ] `tag`; field typ `tag`; }
@@ -2588,23 +2603,23 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ entity.other.inherited-class.go
 //                                ^ punctuation.section.brackets.begin.go
 //                                 ^^^ variable.other.type.go
 //                                    ^ punctuation.section.brackets.end.go
-//                                      ^^^^^ string.quoted.backtick.go
-//                                      ^ punctuation.definition.string.begin.go
-//                                          ^ punctuation.definition.string.end.go
+//                                      ^^^^^ meta.annotation
+//                                      ^ punctuation.definition.annotation.begin.go
+//                                          ^ punctuation.definition.annotation.end.go
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.backtick.go
-//                                                       ^ punctuation.definition.string.begin.go
-//                                                           ^ punctuation.definition.string.end.go
+//                                                       ^^^^^ meta.annotation
+//                                                       ^ punctuation.definition.annotation.begin.go
+//                                                           ^ punctuation.definition.annotation.end.go
 //                                                            ^ punctuation.terminator.go
 //                                                              ^ punctuation.section.braces.end.go
 
@@ -2614,9 +2629,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2632,9 +2647,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2651,9 +2666,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2661,9 +2676,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                  ^ punctuation.section.braces.end.go
 
     struct{ field typ `tag`; ident.embed[typ] `tag`; }
@@ -2672,9 +2687,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2682,9 +2697,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^ punctuation.section.braces.end.go
 
@@ -2694,9 +2709,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2715,9 +2730,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2737,9 +2752,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2750,9 +2765,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.backtick.go
-//                                                       ^ punctuation.definition.string.begin.go
-//                                                           ^ punctuation.definition.string.end.go
+//                                                       ^^^^^ meta.annotation
+//                                                       ^ punctuation.definition.annotation.begin.go
+//                                                           ^ punctuation.definition.annotation.end.go
 //                                                             ^ punctuation.section.braces.end.go
 
     struct{ field typ `tag`; ident.embed[typ]; field typ `tag`; }
@@ -2761,9 +2776,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2774,9 +2789,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                           ^ punctuation.terminator.go
 //                                             ^^^^^ variable.other.member.declaration.go
 //                                                   ^^^ storage.type.go
-//                                                       ^^^^^ string.quoted.backtick.go
-//                                                       ^ punctuation.definition.string.begin.go
-//                                                           ^ punctuation.definition.string.end.go
+//                                                       ^^^^^ meta.annotation
+//                                                       ^ punctuation.definition.annotation.begin.go
+//                                                           ^ punctuation.definition.annotation.end.go
 //                                                            ^ punctuation.terminator.go
 //                                                              ^ punctuation.section.braces.end.go
 
@@ -2786,9 +2801,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2796,9 +2811,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^^^^^ variable.other.member.declaration.go
 //                                                         ^^^ storage.type.go
@@ -2810,9 +2825,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2820,9 +2835,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^^^^^ variable.other.member.declaration.go
 //                                                         ^^^ storage.type.go
@@ -2835,9 +2850,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2845,15 +2860,15 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^^^^^ variable.other.member.declaration.go
 //                                                         ^^^ storage.type.go
-//                                                             ^^^^^ string.quoted.backtick.go
-//                                                             ^ punctuation.definition.string.begin.go
-//                                                                 ^ punctuation.definition.string.end.go
+//                                                             ^^^^^ meta.annotation
+//                                                             ^ punctuation.definition.annotation.begin.go
+//                                                                 ^ punctuation.definition.annotation.end.go
 //                                                                   ^ punctuation.section.braces.end.go
 
     struct{ field typ `tag`; ident.embed[typ] `tag`; field typ `tag`; }
@@ -2862,9 +2877,9 @@ by accident, but if necessary, such support could be sacrificed.
 //        ^ punctuation.section.braces.begin.go
 //          ^^^^^ variable.other.member.declaration.go
 //                ^^^ storage.type.go
-//                    ^^^^^ string.quoted.backtick.go
-//                    ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                    ^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
 //                         ^ punctuation.terminator.go
 //                           ^^^^^ variable.other.go
 //                                ^ punctuation.accessor.dot.go
@@ -2872,15 +2887,15 @@ by accident, but if necessary, such support could be sacrificed.
 //                                      ^ punctuation.section.brackets.begin.go
 //                                       ^^^ variable.other.type.go
 //                                          ^ punctuation.section.brackets.end.go
-//                                            ^^^^^ string.quoted.backtick.go
-//                                            ^ punctuation.definition.string.begin.go
-//                                                ^ punctuation.definition.string.end.go
+//                                            ^^^^^ meta.annotation
+//                                            ^ punctuation.definition.annotation.begin.go
+//                                                ^ punctuation.definition.annotation.end.go
 //                                                 ^ punctuation.terminator.go
 //                                                   ^^^^^ variable.other.member.declaration.go
 //                                                         ^^^ storage.type.go
-//                                                             ^^^^^ string.quoted.backtick.go
-//                                                             ^ punctuation.definition.string.begin.go
-//                                                                 ^ punctuation.definition.string.end.go
+//                                                             ^^^^^ meta.annotation
+//                                                             ^ punctuation.definition.annotation.begin.go
+//                                                                 ^ punctuation.definition.annotation.end.go
 //                                                                  ^ punctuation.terminator.go
 //                                                                    ^ punctuation.section.braces.end.go
 
@@ -2907,9 +2922,9 @@ by accident, but if necessary, such support could be sacrificed.
 //           ^ punctuation.section.brackets.begin.go
 //            ^^^ variable.other.type.go
 //               ^ punctuation.section.brackets.end.go
-//                 ^^ string.quoted.backtick.go
-//                 ^ punctuation.definition.string.begin.go
-//                  ^ punctuation.definition.string.end.go
+//                 ^^ meta.annotation
+//                 ^ punctuation.definition.annotation.begin.go
+//                  ^ punctuation.definition.annotation.end.go
         embed /**/ [typ]
 //^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
 //      ^^^^^ entity.other.inherited-class.go
@@ -2928,9 +2943,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                 ^ punctuation.section.brackets.begin.go
 //                  ^^^ variable.other.type.go
 //                     ^ punctuation.section.brackets.end.go
-//                       ^^ string.quoted.backtick.go
-//                       ^ punctuation.definition.string.begin.go
-//                        ^ punctuation.definition.string.end.go
+//                       ^^ meta.annotation
+//                       ^ punctuation.definition.annotation.begin.go
+//                        ^ punctuation.definition.annotation.end.go
         embed /**/ [typ] /**/
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
 //      ^^^^^ entity.other.inherited-class.go
@@ -2955,9 +2970,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                       ^^^^ comment.block.go
 //                       ^^ punctuation.definition.comment.begin.go
 //                         ^^ punctuation.definition.comment.end.go
-//                            ^^ string.quoted.backtick.go
-//                            ^ punctuation.definition.string.begin.go
-//                             ^ punctuation.definition.string.end.go
+//                            ^^ meta.annotation
+//                            ^ punctuation.definition.annotation.begin.go
+//                             ^ punctuation.definition.annotation.end.go
         embed /**/ [typ] ; field typ
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.go
 //      ^^^^^ entity.other.inherited-class.go
@@ -2997,9 +3012,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                       ^^^^ comment.block.go
 //                       ^^ punctuation.definition.comment.begin.go
 //                         ^^ punctuation.definition.comment.end.go
-//                            ^^ string.quoted.backtick.go
-//                            ^ punctuation.definition.string.begin.go
-//                             ^ punctuation.definition.string.end.go
+//                            ^^ meta.annotation
+//                            ^ punctuation.definition.annotation.begin.go
+//                             ^ punctuation.definition.annotation.end.go
 //                              ^ punctuation.terminator.go
 //                                ^^^^^ variable.other.member.declaration.go
 //                                      ^^^ storage.type.go
@@ -3041,9 +3056,9 @@ by accident, but if necessary, such support could be sacrificed.
 //                        ^^ punctuation.definition.comment.begin.go
 //                          ^^ punctuation.definition.comment.end.go
 //                             ^^^ storage.type.go
-//                                 ^^^^^ string.quoted.backtick.go
-//                                 ^ punctuation.definition.string.begin.go
-//                                     ^ punctuation.definition.string.end.go
+//                                 ^^^^^ meta.annotation
+//                                 ^ punctuation.definition.annotation.begin.go
+//                                     ^ punctuation.definition.annotation.end.go
     }
 //^^^ meta.type.go
 //  ^ punctuation.section.braces.end.go
