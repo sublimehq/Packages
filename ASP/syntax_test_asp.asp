@@ -53,6 +53,16 @@
     '                        ^^^ comment.block.html punctuation.definition.comment.end.html
     '
 
+    <script> var i = <%=value%>; </script>
+    '  ^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html
+    '                ^^^^^^^^^^ meta.embedded.asp
+    '                ^^^ punctuation.section.embedded.begin.asp
+    '                   ^^^^^ source.asp.embedded.html variable.other.asp
+    '                        ^^ punctuation.section.embedded.end.asp
+    '                            ^^^^^^^^^ meta.tag - source
+    '
+
     <script>
 
 ' <- source.js.embedded.html
@@ -167,6 +177,22 @@
     '                                     ^ - meta.tag - comment - source
     '                                      ^^^^^^^^ meta.tag - comment - source
 
+    <style>.<%=selector%> { <%=attr%>: <%=value%>; }</style>
+    '^^^^^^ meta.tag.style.begin.html
+    '      ^^^^^^^^^^^^^^^ source.css.embedded.html - meta.property-list - meta.block
+    '                     ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css
+    '                                               ^^^^^^^^ meta.tag.style.end.html
+    '      ^ meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css
+    '       ^^^^^^^^^^^^^ meta.selector.css entity.other.attribute-name.class.css meta.embedded.asp
+    '       ^^^ punctuation.section.embedded.begin.asp
+    '          ^^^^^^^^ source.asp.embedded.html variable.other.asp
+    '                  ^^ punctuation.section.embedded.end.asp
+    '                     ^ punctuation.section.block.begin.css
+    '                       ^^^^^^^^^ meta.embedded.asp
+    '                                ^ punctuation.separator.key-value.css
+    '                                  ^^^^^^^^^^ meta.property-value.css meta.embedded.asp
+    '                                            ^ punctuation.terminator.rule.css
+    '                                              ^ punctuation.section.block.end.css
     <style>
 
 ' <- source.css.embedded.html
