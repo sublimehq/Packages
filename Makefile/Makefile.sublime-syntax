@@ -10,6 +10,7 @@
 # All number references refer to the "Make manual" (see link above).
 name: Makefile
 scope: source.makefile
+version: 2
 
 file_extensions:
   - mk
@@ -604,33 +605,53 @@ contexts:
   variable-sub-common:
     - match: ':'
       scope: punctuation.definition.substitution.makefile
+      set: variable-substitution-reference
+    - include: highlight-percentage-sign
+    - include: variable-substitutions
+
+  variable-substitution-reference:
+    - match: '[)}]'
+      scope: keyword.other.block.end.makefile
+      pop: true
     - match: =
-      scope: punctuation.definition.assignment.makefile
+      scope: keyword.operator.assignment.makefile
     - include: highlight-percentage-sign
     - include: variable-substitutions
 
   variable-substitutions:
     - include: function-invocations
-    - match: \$\$?\(
+    - match: \$\(
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: variable.parameter.makefile
+        - meta_scope: meta.interpolation.makefile
+        - meta_content_scope: variable.parameter.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-sub-common
-    - match: \$\$?{
+    - match: \${
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: variable.parameter.makefile
+        - meta_scope: meta.interpolation.makefile
+        - meta_content_scope: variable.parameter.makefile
         - match: \}
           scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-sub-common
     - match: \$\$?[@%<?^+|*]
       scope: variable.language.automatic.makefile
-    - match: \$\$
+    - match: \$(?=\$[{\w])
       scope: constant.character.escape.makefile
+      push:
+        - include: scope:source.shell.bash#expansions-parameter
+        - match: ''
+          pop: true
+    - match: \$(?=\$\()
+      scope: constant.character.escape.makefile
+      push:
+        - include: scope:source.shell.embedded.makefile#expansions-command
+        - match: ''
+          pop: true
     - match: (\$)[[:alpha:]]
       captures:
         0: variable.parameter.makefile
