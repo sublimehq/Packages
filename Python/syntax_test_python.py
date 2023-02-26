@@ -25,6 +25,17 @@ ur"""Raw docstring \"""
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 #                       ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
 
+"""
+#^^^ comment.block.documentation.python
+docstring starting on the second line
+"""
+
+"""
+docstring starting on the second line
+# <- comment.block.documentation.summary.python
+#^^^ comment.block.documentation.summary.python
+"""
+
 debug = False
 """
 This is a variable docstring, as supported by sphinx and epydoc
