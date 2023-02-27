@@ -409,6 +409,10 @@ import foo;
 //               ^^^^^^^^ meta.function
 //               ^^^ entity.name.function
 
+        accessor foo;
+//      ^^^^^^^^ storage.modifier
+//               ^^^ variable.other.readwrite
+
         readonly;
 //      ^^^^^^^^ variable.other.readwrite
 

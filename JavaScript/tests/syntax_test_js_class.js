@@ -125,6 +125,10 @@ class MyClass extends TheirClass {
 //  ^^^^^^^^^^^ meta.function
 //  ^^^^^^ entity.name.function
 
+    accessor foo;
+//  ^^^^^^^^ storage.modifier
+//           ^^^ variable.other.readwrite
+
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
 //  ^^ meta.class meta.block meta.function
