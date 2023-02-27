@@ -2118,16 +2118,18 @@ contexts:
       captures:
         1: storage.type.string.python
         2: comment.block.documentation.python punctuation.definition.comment.begin.python
-      push:
-        - double-quoted-docstring-summery
-        - else-pop
+      push: maybe-double-quoted-docstring-summery
     - match: ^\s*(?i)(ur|ru?)(""")
       captures:
         1: storage.type.string.python
         2: comment.block.documentation.python punctuation.definition.comment.begin.python
-      push:
-        - double-quoted-docstring-summery
-        - else-pop
+      push: maybe-double-quoted-docstring-summery
+
+  maybe-double-quoted-docstring-summery:
+    - meta_content_scope: comment.block.documentation.python
+    - include: double-quoted-docstring-end
+    - match: (?=\S)
+      set: double-quoted-docstring-summery
 
   double-quoted-docstring-summery:
     - meta_content_scope: comment.block.documentation.summary.python
