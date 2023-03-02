@@ -8,6 +8,7 @@ version: 2
 file_extensions:
   - js
   - mjs
+  - cjs
   - htc
 
 first_line_match: |-
