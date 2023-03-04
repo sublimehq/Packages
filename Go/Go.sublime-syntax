@@ -719,11 +719,20 @@ contexts:
 
   match-keyword-break:
     - match: \bbreak\b
-      scope: keyword.control.go
+      scope: keyword.control.flow.break.go
 
   match-keyword-case:
     - match: \bcase\b
-      scope: keyword.control.go
+      scope: keyword.control.switch.case.go
+      push: match-case-value
+
+  match-case-value:
+    - match: '{{predeclared_type}}'
+      scope: support.type.go
+    - match: ':'
+      scope: punctuation.separator.case-statement.go
+      pop: true
+    - include: match-any
 
   match-keyword-chan:
     - match: (?=\bchan\b)
@@ -774,11 +783,13 @@ contexts:
 
   match-keyword-continue:
     - match: \bcontinue\b
-      scope: keyword.control.go
+      scope: keyword.control.flow.break.go
 
   match-keyword-default:
-    - match: \bdefault\b
-      scope: keyword.control.go
+    - match: \b(default)\b(:)?
+      captures:
+        1: keyword.control.switch.case.go
+        2: punctuation.separator.case-statement.go
 
   match-keyword-defer:
     - match: \bdefer\b
@@ -819,11 +830,11 @@ contexts:
 
   match-keyword-goto:
     - match: \bgoto\b
-      scope: keyword.control.go
+      scope: keyword.control.flow.goto.go
 
   match-keyword-if:
     - match: \bif\b
-      scope: keyword.control.go
+      scope: keyword.control.conditional.if.go
 
   match-keyword-import:
     - match: \bimport\b
@@ -866,7 +877,7 @@ contexts:
 
   match-keyword-switch:
     - match: \bswitch\b
-      scope: keyword.control.go
+      scope: keyword.control.flow.switch.go
 
   match-keyword-type:
     - match: \btype\b
@@ -1207,6 +1218,8 @@ contexts:
 
     - match: (?={{ident}})
       set: pop-type-identifier
+    - match: \btype\b
+      scope: keyword.operator.type.go
 
     - match: \[
       scope: punctuation.section.brackets.begin.go
