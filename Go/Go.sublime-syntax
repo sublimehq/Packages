@@ -723,15 +723,15 @@ contexts:
 
   match-keyword-case:
     - match: \bcase\b
-      scope: keyword.control.switch.case.go
+      scope: keyword.control.conditional.case.go
       push: match-case-value
 
   match-case-value:
-    - match: '{{predeclared_type}}'
-      scope: support.type.go
     - match: ':'
       scope: punctuation.separator.case-statement.go
       pop: true
+    - match: '{{predeclared_type}}'
+      scope: support.type.go
     - include: match-any
 
   match-keyword-chan:
@@ -788,7 +788,7 @@ contexts:
   match-keyword-default:
     - match: \b(default)\b(:)?
       captures:
-        1: keyword.control.switch.case.go
+        1: keyword.control.conditional.default.go
         2: punctuation.separator.case-statement.go
 
   match-keyword-defer:
@@ -877,7 +877,7 @@ contexts:
 
   match-keyword-switch:
     - match: \bswitch\b
-      scope: keyword.control.flow.switch.go
+      scope: keyword.control.conditional.switch.go
 
   match-keyword-type:
     - match: \btype\b
