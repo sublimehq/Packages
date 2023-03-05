@@ -4892,11 +4892,11 @@ by accident, but if necessary, such support could be sacrificed.
     break
 //  ^^^^^ keyword.control.flow.break.go
     case
-//  ^^^^ keyword.control.switch.case.go
+//  ^^^^ keyword.control.conditional.case.go
     continue
 //  ^^^^^^^^ keyword.control.flow.break.go
     default
-//  ^^^^^^^ keyword.control.switch.case.go
+//  ^^^^^^^ keyword.control.conditional.default.go
     defer
 //  ^^^^^ keyword.control.go
     else
@@ -4918,7 +4918,7 @@ by accident, but if necessary, such support could be sacrificed.
     select
 //  ^^^^^^ keyword.control.go
     switch
-//  ^^^^^^ keyword.control.flow.switch.go
+//  ^^^^^^ keyword.control.conditional.switch.go
 
 /* ## func */
 
@@ -5376,17 +5376,17 @@ func main() {
     fmt.Print("Go runs on ")
     switch os := runtime.GOOS; os {
     case "darwin":
-//  ^^^^ keyword.control.switch.case
+//  ^^^^ keyword.control.conditional.case
 //       ^^^^^^^^ string.quoted.double
 //               ^ punctuation.separator.case-statement
         fmt.Println("OS X.")
     case "linux":
-//  ^^^^ keyword.control.switch.case
+//  ^^^^ keyword.control.conditional.case
 //       ^^^^^^^ string.quoted.double
 //              ^ punctuation.separator.case-statement
         fmt.Println("Linux.")
     default:
-//  ^^^^^^^ keyword.control.switch.case
+//  ^^^^^^^ keyword.control.conditional.default
 //         ^ punctuation.separator.case-statement
         // freebsd, openbsd,
         // plan9, windows...
@@ -5396,7 +5396,7 @@ func main() {
 
 func do(i interface{}) {
     switch v := i.(type) {
-//  ^^^^^^ keyword.control.flow.switch
+//  ^^^^^^ keyword.control.conditional.switch
 //         ^ variable.other.readwrite.declaration
 //           ^^ keyword.operator.assignment
 //              ^ variable.other
@@ -5406,18 +5406,18 @@ func do(i interface{}) {
 //                     ^ punctuation.section.parens.end
 //                       ^ punctuation.section.braces.begin
     case int:
-//  ^^^^ keyword.control.switch.case
+//  ^^^^ keyword.control.conditional.case
 //       ^^^ support.type
 //          ^ punctuation.separator.case-statement
         fmt.Printf("Twice %v is %v\n", v, v*2)
 //          ^^^^^^ variable.function
     case string:
-//  ^^^^ keyword.control.switch.case
+//  ^^^^ keyword.control.conditional.case
 //       ^^^^^^ support.type
 //             ^ punctuation.separator.case-statement
         fmt.Printf("%q is %v bytes long\n", v, len(v))
     default:
-//  ^^^^^^^ keyword.control.switch.case
+//  ^^^^^^^ keyword.control.conditional.default
 //         ^ punctuation.separator.case-statement
         fmt.Printf("I don't know about type %T!\n", v)
     }
