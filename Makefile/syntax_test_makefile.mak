@@ -1043,3 +1043,10 @@ foo:
 	#           ^ constant.character.escape.makefile
 	#            ^ punctuation.definition.variable.shell
 	#            ^^^^^ variable.other.readwrite.shell
+
+	test "$$abc" = "$$def"
+	# ^ support.function.test.shell
+	#    ^^^^^^^ string.quoted.double.shell
+	#     ^ constant.character.escape.makefile
+	#      ^ punctuation.definition.variable.shell
+	#       ^^^ variable.other.readwrite.shell
