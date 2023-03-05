@@ -137,7 +137,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -147,7 +147,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -156,7 +156,7 @@ contexts:
       push:
         - match: \)
           scope: punctuation.section.group.end.makefile
-          pop: true
+          pop: 1
         - include: variable-substitutions
         - match: \,
           scope: punctuation.separator.makefile
@@ -266,7 +266,7 @@ contexts:
     - match: ^(?=\t([-@]{1,2})?)
       set: recipe-with-tabs
     - match: ^
-      pop: true
+      pop: 1
 
   recipe-inline:
     - meta_content_scope: meta.function.body.makefile source.shell.embedded.makefile
@@ -288,7 +288,7 @@ contexts:
         2: constant.language.makefile
     - include: recipe-common
     - match: ^(?![ ]+)
-      pop: true
+      pop: 1
 
   recipe-with-tabs:
     - meta_content_scope: meta.function.body.makefile
@@ -302,7 +302,7 @@ contexts:
         2: constant.language.makefile
     - include: recipe-common
     - match: ^(?!\t)
-      pop: true
+      pop: 1
 
   recipe-common:
     - include: control-flow
@@ -324,11 +324,11 @@ contexts:
       # make sure to resume parsing at next line
       push:
         - match: (?=\S|^\s*$)
-          pop: true
+          pop: 1
 
   pop-on-line-end:
     - match: $
-      pop: true
+      pop: 1
 
   continuation-or-pop-on-line-end:
     - include: line-continuation
@@ -342,7 +342,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -353,7 +353,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -388,13 +388,13 @@ contexts:
     - include: line-continuation
     - match: \\\\
     - match: \n
-      pop: true
+      pop: 1
 
   inside-function-call:
     - meta_content_scope: meta.function-call.arguments.makefile
     - match: \)
       scope: keyword.other.block.end.makefile
-      pop: true
+      pop: 1
     - match: \(
       push: textual-parenthesis-balancer
     - match: \,
@@ -451,7 +451,7 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
-          pop: true
+          pop: 1
         - match: \(
           push: textual-parenthesis-balancer
         - match: \,
@@ -505,7 +505,7 @@ contexts:
         - meta_content_scope: source.shell.embedded.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
-          pop: true
+          pop: 1
         - include: shell-content
 
   variable-definitions:
@@ -545,13 +545,13 @@ contexts:
 
   textual-parenthesis-balancer:
     - match: \)
-      pop: true
+      pop: 1
     - include: variable-substitutions
 
   eat-whitespace-then-pop:
     - clear_scopes: 1
     - match: \s*
-      pop: true
+      pop: 1
 
   value-maybe-shellscript:
     - match: ((?:bash|sh|zsh)\s+-c\s+)(['"`])
@@ -594,13 +594,13 @@ contexts:
     - match: ^\s*(endef)\b
       captures:
         1: keyword.control.makefile
-      pop: true
+      pop: 1
     # keep in balance with nested define statements
     # see: https://github.com/sublimehq/Packages/issues/1998
     - match: ^\s*define\b
       push:
         - match: ^\s*endef\b
-          pop: true
+          pop: 1
 
   variable-sub-common:
     - include: highlight-percentage-sign
@@ -610,14 +610,14 @@ contexts:
     - meta_scope: meta.interpolation.makefile
     - match: \)
       scope: keyword.other.block.end.makefile
-      pop: true
+      pop: 1
     - include: variable-substitution-reference-common
 
   variable-substitution-reference-inside-brace:
     - meta_scope: meta.interpolation.makefile
     - match: \}
       scope: keyword.other.block.end.makefile
-      pop: true
+      pop: 1
     - include: variable-substitution-reference-common
 
   variable-substitution-reference-common:
@@ -635,7 +635,7 @@ contexts:
         - meta_content_scope: variable.parameter.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
-          pop: true
+          pop: 1
         - include: variable-sub-common
         - match: ':'
           scope: punctuation.definition.substitution.makefile
@@ -647,7 +647,7 @@ contexts:
         - meta_content_scope: variable.parameter.makefile
         - match: \}
           scope: keyword.other.block.end.makefile
-          pop: true
+          pop: 1
         - include: variable-sub-common
         - match: ':'
           scope: punctuation.definition.substitution.makefile
@@ -659,13 +659,13 @@ contexts:
       push:
         - include: scope:source.shell.bash#expansions-parameter
         - match: ''
-          pop: true
+          pop: 1
     - match: \$(?=\$\()
       scope: constant.character.escape.makefile
       push:
         - include: scope:source.shell.embedded.makefile#expansions-command
         - match: ''
-          pop: true
+          pop: 1
     - match: (\$)[[:alpha:]]
       captures:
         0: variable.parameter.makefile
