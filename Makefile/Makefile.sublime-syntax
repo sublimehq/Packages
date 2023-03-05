@@ -603,16 +603,24 @@ contexts:
           pop: true
 
   variable-sub-common:
-    - match: ':'
-      scope: punctuation.definition.substitution.makefile
-      set: variable-substitution-reference
     - include: highlight-percentage-sign
     - include: variable-substitutions
 
-  variable-substitution-reference:
-    - match: '[)}]'
+  variable-substitution-reference-inside-paren:
+    - meta_scope: meta.interpolation.makefile
+    - match: \)
       scope: keyword.other.block.end.makefile
       pop: true
+    - include: variable-substitution-reference-common
+
+  variable-substitution-reference-inside-brace:
+    - meta_scope: meta.interpolation.makefile
+    - match: \}
+      scope: keyword.other.block.end.makefile
+      pop: true
+    - include: variable-substitution-reference-common
+
+  variable-substitution-reference-common:
     - match: =
       scope: keyword.operator.assignment.makefile
     - include: highlight-percentage-sign
@@ -629,6 +637,9 @@ contexts:
           scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-sub-common
+        - match: ':'
+          scope: punctuation.definition.substitution.makefile
+          set: variable-substitution-reference-inside-paren
     - match: \${
       scope: keyword.other.block.begin.makefile
       push:
@@ -638,6 +649,9 @@ contexts:
           scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-sub-common
+        - match: ':'
+          scope: punctuation.definition.substitution.makefile
+          set: variable-substitution-reference-inside-brace
     - match: \$\$?[@%<?^+|*]
       scope: variable.language.automatic.makefile
     - match: \$(?=\$[{\w])
