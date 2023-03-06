@@ -783,7 +783,7 @@ contexts:
 
   match-keyword-continue:
     - match: \bcontinue\b
-      scope: keyword.control.flow.break.go
+      scope: keyword.control.flow.continue.go
 
   match-keyword-default:
     - match: \b(default)\b(:)?
