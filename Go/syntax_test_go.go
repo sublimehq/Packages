@@ -4894,7 +4894,7 @@ by accident, but if necessary, such support could be sacrificed.
     case
 //  ^^^^ keyword.control.conditional.case.go
     continue
-//  ^^^^^^^^ keyword.control.flow.break.go
+//  ^^^^^^^^ keyword.control.flow.continue.go
     default
 //  ^^^^^^^ keyword.control.conditional.default.go
     defer
