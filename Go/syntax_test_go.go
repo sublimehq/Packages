@@ -4890,13 +4890,13 @@ by accident, but if necessary, such support could be sacrificed.
 // Some keywords are covered elsewhere in the test.
 
     break
-//  ^^^^^ keyword.control.go
+//  ^^^^^ keyword.control.flow.break.go
     case
-//  ^^^^ keyword.control.go
+//  ^^^^ keyword.control.conditional.case.go
     continue
-//  ^^^^^^^^ keyword.control.go
+//  ^^^^^^^^ keyword.control.flow.continue.go
     default
-//  ^^^^^^^ keyword.control.go
+//  ^^^^^^^ keyword.control.conditional.default.go
     defer
 //  ^^^^^ keyword.control.go
     else
@@ -4908,9 +4908,9 @@ by accident, but if necessary, such support could be sacrificed.
     go
 //  ^^ keyword.control.go
     goto
-//  ^^^^ keyword.control.go
+//  ^^^^ keyword.control.flow.goto.go
     if
-//  ^^ keyword.control.go
+//  ^^ keyword.control.conditional.if.go
     range
 //  ^^^^^ keyword.other.go
     return
@@ -4918,7 +4918,7 @@ by accident, but if necessary, such support could be sacrificed.
     select
 //  ^^^^^^ keyword.control.go
     switch
-//  ^^^^^^ keyword.control.go
+//  ^^^^^^ keyword.control.conditional.switch.go
 
 /* ## func */
 
@@ -5370,3 +5370,61 @@ func template() {
     //                               ^ meta.interpolation.go keyword.operator.assignment.go
     t = "{{slice x 1 2}}"
     //     ^^^^^ meta.interpolation.go variable.function.go support.function.builtin.go
+}
+
+func main() {
+    fmt.Print("Go runs on ")
+    switch os := runtime.GOOS; os {
+    case "darwin":
+//  ^^^^ keyword.control.conditional.case
+//       ^^^^^^^^ string.quoted.double
+//               ^ punctuation.separator.case-statement
+        fmt.Println("OS X.")
+    case "linux":
+//  ^^^^ keyword.control.conditional.case
+//       ^^^^^^^ string.quoted.double
+//              ^ punctuation.separator.case-statement
+        fmt.Println("Linux.")
+    default:
+//  ^^^^^^^ keyword.control.conditional.default
+//         ^ punctuation.separator.case-statement
+        // freebsd, openbsd,
+        // plan9, windows...
+        fmt.Printf("%s.\n", os)
+    }
+}
+
+func do(i interface{}) {
+    switch v := i.(type) {
+//  ^^^^^^ keyword.control.conditional.switch
+//         ^ variable.other.readwrite.declaration
+//           ^^ keyword.operator.assignment
+//              ^ variable.other
+//               ^ punctuation.accessor.dot
+//                ^ punctuation.section.parens.begin
+//                 ^^^^ keyword.operator.type
+//                     ^ punctuation.section.parens.end
+//                       ^ punctuation.section.braces.begin
+    case int:
+//  ^^^^ keyword.control.conditional.case
+//       ^^^ support.type
+//          ^ punctuation.separator.case-statement
+        fmt.Printf("Twice %v is %v\n", v, v*2)
+//          ^^^^^^ variable.function
+    case string:
+//  ^^^^ keyword.control.conditional.case
+//       ^^^^^^ support.type
+//             ^ punctuation.separator.case-statement
+        fmt.Printf("%q is %v bytes long\n", v, len(v))
+    default:
+//  ^^^^^^^ keyword.control.conditional.default
+//         ^ punctuation.separator.case-statement
+        fmt.Printf("I don't know about type %T!\n", v)
+    }
+}
+
+func main() {
+    do(21)
+    do("hello")
+    do(true)
+}
