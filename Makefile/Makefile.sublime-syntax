@@ -602,7 +602,7 @@ contexts:
         - match: ^\s*endef\b
           pop: 1
 
-  variable-sub-common:
+  variable-substitution-common:
     - match: ':'
       scope: punctuation.definition.substitution.makefile
       pop: 1
@@ -614,7 +614,7 @@ contexts:
     - match: \)
       scope: keyword.other.block.end.makefile
       pop: 2
-    - include: variable-sub-common
+    - include: variable-substitution-common
 
   variable-substitution-reference-inside-paren:
     - meta_scope: meta.interpolation.makefile
@@ -628,7 +628,7 @@ contexts:
     - match: \}
       scope: keyword.other.block.end.makefile
       pop: 2
-    - include: variable-sub-common
+    - include: variable-substitution-common
 
   variable-substitution-reference-inside-brace:
     - meta_scope: meta.interpolation.makefile
