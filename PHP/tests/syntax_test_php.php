@@ -3688,6 +3688,49 @@ $a = $b ? $c ? foo : bar : baz;
 //                 ^ keyword.operator.ternary.php
 //                       ^ keyword.operator.ternary.php
 
+$a = ($b ? fn () => 1 : 2);
+//   ^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//         ^^^ meta.function.anonymous.php
+//            ^^ meta.function.anonymous.parameters.php meta.group.php
+//              ^^^^^^ meta.function.anonymous.php
+//                    ^^^^ - meta.function
+//   ^ punctuation.section.group.begin.php
+//    ^^ variable.other.php
+//       ^ keyword.operator.ternary.php
+//         ^^ keyword.declaration.function.php
+//            ^ punctuation.section.group.begin.php
+//             ^ punctuation.section.group.end.php
+//               ^^ keyword.declaration.function.arrow.php
+//                  ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                    ^ keyword.operator.ternary.php
+//                      ^ constant.numeric.value.php
+//                       ^ punctuation.section.group.end.php
+//                        ^ punctuation.terminator.statement.php
+
+$a = ($b ? fn ($c) => $c ? 1 : 2 : 3);
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.php
+//         ^^^ meta.function.anonymous.php
+//            ^^^^ meta.function.anonymous.parameters.php meta.group.php
+//                ^^^^^^^^^^^^^^^ meta.function.anonymous.php
+//                               ^^^^^ - meta.function
+//   ^ punctuation.section.group.begin.php
+//    ^^ variable.other.php
+//       ^ keyword.operator.ternary.php
+//         ^^ keyword.declaration.function.php
+//            ^ punctuation.section.group.begin.php
+//             ^^ variable.parameter.php
+//               ^ punctuation.section.group.end.php
+//                 ^^ keyword.declaration.function.arrow.php
+//                    ^^ variable.other.php
+//                       ^ keyword.operator.ternary.php
+//                         ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                           ^ keyword.operator.ternary.php
+//                             ^ meta.number.integer.decimal.php constant.numeric.value.php
+//                               ^ keyword.operator.ternary.php
+//                                 ^ constant.numeric.value.php
+//                                  ^ punctuation.section.group.end.php
+//                                   ^ punctuation.terminator.statement.php
+
 /******************************************************************************
  * Qualified Identifier and Member Access Tests
  *****************************************************************************/
