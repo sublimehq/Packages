@@ -602,9 +602,19 @@ contexts:
         - match: ^\s*endef\b
           pop: 1
 
-  variable-sub-common:
+  variable-substitution-common:
+    - match: ':'
+      scope: punctuation.definition.substitution.makefile
+      pop: 1
     - include: highlight-percentage-sign
     - include: variable-substitutions
+
+  variable-substitution-name-inside-paren:
+    - meta_content_scope: variable.parameter.makefile
+    - match: \)
+      scope: keyword.other.block.end.makefile
+      pop: 2
+    - include: variable-substitution-common
 
   variable-substitution-reference-inside-paren:
     - meta_scope: meta.interpolation.makefile
@@ -612,6 +622,13 @@ contexts:
       scope: keyword.other.block.end.makefile
       pop: 1
     - include: variable-substitution-reference-common
+
+  variable-substitution-name-inside-brace:
+    - meta_content_scope: variable.parameter.makefile
+    - match: \}
+      scope: keyword.other.block.end.makefile
+      pop: 2
+    - include: variable-substitution-common
 
   variable-substitution-reference-inside-brace:
     - meta_scope: meta.interpolation.makefile
@@ -631,27 +648,13 @@ contexts:
     - match: \$\(
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: meta.interpolation.makefile
-        - meta_content_scope: variable.parameter.makefile
-        - match: \)
-          scope: keyword.other.block.end.makefile
-          pop: 1
-        - include: variable-sub-common
-        - match: ':'
-          scope: punctuation.definition.substitution.makefile
-          set: variable-substitution-reference-inside-paren
+        - variable-substitution-reference-inside-paren
+        - variable-substitution-name-inside-paren
     - match: \${
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: meta.interpolation.makefile
-        - meta_content_scope: variable.parameter.makefile
-        - match: \}
-          scope: keyword.other.block.end.makefile
-          pop: 1
-        - include: variable-sub-common
-        - match: ':'
-          scope: punctuation.definition.substitution.makefile
-          set: variable-substitution-reference-inside-brace
+        - variable-substitution-reference-inside-brace
+        - variable-substitution-name-inside-brace
     - match: \$\$?[@%<?^+|*]
       scope: variable.language.automatic.makefile
     - match: \$(?=\$[{\w])

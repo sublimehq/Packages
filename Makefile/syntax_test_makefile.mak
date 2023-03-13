@@ -51,6 +51,15 @@ foo := a.o b.o c.o
 # <- variable
 #   ^^ keyword
 #      ^^^^^^^^^^^ string
+
+bar := $(foo)
+#     ^ - meta.string - meta.interpolation - string.unquoted
+#      ^^^^^^ meta.string.makefile meta.interpolation.makefile
+#      ^^ keyword.other.block.begin.makefile
+#        ^^^ variable.parameter.makefile
+#           ^ keyword.other.block.end.makefile
+#            ^ - meta.string - meta.interpolation - string.unquoted
+
 bar := $(foo:.o=.c)
 # <- variable
 #   ^^ keyword
@@ -59,16 +68,27 @@ bar := $(foo:.o=.c)
 #           ^ punctuation.definition.substitution
 #              ^ keyword.operator.assignment
 #                 ^ keyword.other.block.end
+
 bar := $(foo:%.o=%.c)
 # <- variable
 #   ^^ keyword
-#     ^ - string.unquoted
+#     ^ - meta.string - meta.interpolation - string.unquoted
+#      ^^^^^^^^^^^^^^ meta.string.makefile meta.interpolation.makefile - meta.interpolation meta.interpolation
+#                    ^ - meta.string - meta.interpolation - string.unquoted
 #      ^^ keyword.other.block.begin
 #           ^ punctuation
 #            ^ variable.language
 #               ^ keyword.operator
 #                ^ variable.language
 #                   ^ keyword.other.block.end
+
+bar := ${foo}
+#     ^ - meta.string - meta.interpolation - string.unquoted
+#      ^^^^^^ meta.string.makefile meta.interpolation.makefile
+#      ^^ keyword.other.block.begin.makefile
+#        ^^^ variable.parameter.makefile
+#           ^ keyword.other.block.end.makefile
+#            ^ - meta.string - meta.interpolation - string.unquoted
 
 bar := ${foo:%.o=%.c}
 # <- variable
@@ -260,9 +280,9 @@ ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
     # <- keyword.control
     #      ^ - string
     #       ^ string
-    # IMPORTANT NOTE: Extra spaces are allowed and ignored at the beginning of 
-    # the line, but the first character must not be a tab (or the value of 
-    # .RECIPEPREFIX) — if the line begins with a tab, it will be considered a 
+    # IMPORTANT NOTE: Extra spaces are allowed and ignored at the beginning of
+    # the line, but the first character must not be a tab (or the value of
+    # .RECIPEPREFIX) — if the line begins with a tab, it will be considered a
     # recipe line.
 endif
 # <- keyword.control
@@ -307,7 +327,7 @@ all: foo.o # a comment
 #    ^ string
 #        ^ meta.function.arguments string.unquoted
 #         ^ string
-#          ^ comment.line. punctuation - meta.function.arguments - string.unquoted 
+#          ^ comment.line. punctuation - meta.function.arguments - string.unquoted
 #           ^ comment.line - punctuation - meta.function.arguments - string.unquoted
 	rm -rf /
 # <- meta.function.body
@@ -364,7 +384,7 @@ lib: foo.o bar.o lose.o win.o
 	# <- meta.function.body
 	# BIG NOTE: This comment is actually a shell comment, not a makefile
 	# comment. Everything on a recipe line is passed to the shell; even lines
-	# starting with a numbrer sign! It depends on the particular shell if it 
+	# starting with a numbrer sign! It depends on the particular shell if it
 	# gets treated as comments, but for all intents and purposes it should.
 
 all: $(SOURCES) $(EXECUTABLE)
@@ -519,7 +539,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
              --exclude CVS --exclude .pc --exclude .hg --exclude .git
 
 # Use spaces instead of tabs... This complicates matters.
-.RECIPEPREFIX += 
+.RECIPEPREFIX +=
 
 help::
 	@echo "Excutable is $(EXECUTABLE)"
@@ -540,7 +560,7 @@ deps:
 	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
 	#               ^ keyword.other.block.end
-all: 
+all:
 # ^ meta.function entity.name.function
 #  ^ keyword.operator.assignment
 	asdf
