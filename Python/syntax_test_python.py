@@ -2629,6 +2629,11 @@ foo = bar()
 foo == bar()
 #   ^^ keyword.operator.comparison.python
 
+foo = bar = baz = 0
+#   ^ keyword.operator.assignment.python
+#         ^ keyword.operator.assignment.python
+#               ^ keyword.operator.assignment.python
+
 foo <<= bar <<= baz
 #   ^^^ keyword.operator.assignment.augmented.python
 #           ^^^ invalid.illegal.assignment.python
