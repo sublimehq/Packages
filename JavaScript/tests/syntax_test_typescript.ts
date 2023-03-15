@@ -644,6 +644,12 @@ function f<T, U>() {}
 //          ^ punctuation.separator.comma
 //            ^ variable.parameter.generic
 
+function f<const T>() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^^^^^^^ meta.generic
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+
 function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ punctuation.separator.type
