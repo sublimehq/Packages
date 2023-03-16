@@ -564,6 +564,8 @@ contexts:
     - include: else-pop
 
   ts-type-parameter-list-head:
+    - match: const{{identifier_break}}
+      scope: storage.modifier.const.js
     - match: '{{identifier_name}}'
       scope: variable.parameter.generic.js
       set:
