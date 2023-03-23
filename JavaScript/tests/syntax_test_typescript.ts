@@ -1104,6 +1104,21 @@ let x: ( ... foo : any ) => any;
 //               ^ punctuation.separator.type
 //                 ^^^ support.type.any
 
+let x: ({ foo }: any) => any;
+//    ^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//      ^^^^^^^ meta.binding.destructuring.mapping
+//      ^ punctuation.section.mapping.begin
+//        ^^^ meta.mapping.key meta.binding.name variable.parameter.function
+//            ^ punctuation.section.mapping.end
+//             ^ punctuation.separator.type
+//               ^^^ support.type.any
+//                  ^ punctuation.section.group.end
+//                    ^^ keyword.declaration.function
+//                       ^^^ support.type.any
+//                          ^ punctuation.terminator.statement
+
 let x: < T > ( ... foo : any ) => any;
 //     ^^^^^ meta.generic
 //       ^ variable.parameter.generic

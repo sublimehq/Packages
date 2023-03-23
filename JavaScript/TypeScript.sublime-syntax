@@ -1047,11 +1047,15 @@ contexts:
       pop: 1
     - match: \.\.\.
       scope: keyword.operator.spread.js
-    - match: '{{identifier_name}}'
-      scope: variable.parameter.js
       push:
         - ts-type-annotation
         - ts-type-annotation-optional
+    - match: (?={{identifier_start}}|\[|\{)
+      push:
+        - ts-type-annotation
+        - ts-type-annotation-optional
+        - function-parameter-binding-pattern
+
     - include: comma-separator
     - include: else-pop
 
