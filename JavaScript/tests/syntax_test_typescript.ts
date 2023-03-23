@@ -1096,13 +1096,14 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
 
-let x: ( ... foo : any ) => any;
-//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
-//     ^^^^^^^^^^^^^^^^^ meta.group
+let x: ( ... foo ? : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^ keyword.operator.spread
 //           ^^^ variable.parameter
-//               ^ punctuation.separator.type
-//                 ^^^ support.type.any
+//               ^ storage.modifier.optional
+//                 ^ punctuation.separator.type
+//                   ^^^ support.type.any
 
 let x: ({ foo }: any) => any;
 //    ^^^^^^^^^^^^^^^^^^^^^^ meta.type
