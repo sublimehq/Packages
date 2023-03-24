@@ -2122,7 +2122,7 @@ contexts:
       captures:
         1: storage.type.string.python
         2: comment.block.documentation.python punctuation.definition.comment.begin.python
-      push: maybe-double-quoted-docstring-summery
+      push: maybe-double-quoted-raw-docstring-summery
 
   maybe-double-quoted-docstring-summery:
     - meta_content_scope: comment.block.documentation.python
@@ -2147,6 +2147,18 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
 
+  maybe-double-quoted-raw-docstring-summery:
+    - meta_content_scope: comment.block.documentation.python
+    - include: double-quoted-docstring-end
+    - match: (?=\S)
+      set: double-quoted-raw-docstring-summery
+
+  double-quoted-raw-docstring-summery:
+    - meta_content_scope: comment.block.documentation.summary.python
+    - match: $
+      set: double-quoted-raw-docstring-body
+    - include: double-quoted-docstring-end
+
   double-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
     - include: double-quoted-docstring-end
@@ -2156,21 +2168,23 @@ contexts:
       captures:
         1: storage.type.string.python
         2: comment.block.documentation.python punctuation.definition.comment.begin.python
-      push:
-        - single-quoted-docstring-summery
-        - else-pop
+      push: maybe-single-quoted-docstring-summery
     - match: ^\s*(?i)(ur|ru?)(''')
       captures:
         1: storage.type.string.python
         2: comment.block.documentation.python punctuation.definition.comment.begin.python
-      push:
-        - single-quoted-docstring-summery
-        - else-pop
+      push: maybe-single-quoted-raw-docstring-summery
 
   single-quoted-docstring-end:
     - match: "'''"
       scope: comment.block.documentation.python punctuation.definition.comment.end.python
       pop: 1
+
+  maybe-single-quoted-docstring-summery:
+    - meta_content_scope: comment.block.documentation.python
+    - include: single-quoted-docstring-end
+    - match: (?=\S)
+      set: single-quoted-docstring-summery
 
   single-quoted-docstring-summery:
     - meta_content_scope: comment.block.documentation.summary.python
@@ -2183,6 +2197,18 @@ contexts:
     - include: single-quoted-docstring-end
     - include: escaped-unicode-chars
     - include: escaped-chars
+
+  maybe-single-quoted-raw-docstring-summery:
+    - meta_content_scope: comment.block.documentation.python
+    - include: single-quoted-docstring-end
+    - match: (?=\S)
+      set: single-quoted-raw-docstring-summery
+
+  single-quoted-raw-docstring-summery:
+    - meta_content_scope: comment.block.documentation.summary.python
+    - match: $
+      set: single-quoted-raw-docstring-body
+    - include: single-quoted-docstring-end
 
   single-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
