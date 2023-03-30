@@ -1996,6 +1996,15 @@ FROM TableName
 | <- meta.code-fence.definition.end.sql.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |^^ meta.code-fence.definition.end.sql.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
+```terraform
+resource "aws_vpc" "example" {
+  cidr_block = "10.0.0.0/16"
+}
+| <- markup.raw.code-fence.terraform.markdown-gfm source.terraform
+```
+| <- meta.code-fence.definition.end.terraform.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.terraform.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
 ```ts
 declare type foo = 'bar'
 | <- markup.raw.code-fence.typescript.markdown-gfm source.ts

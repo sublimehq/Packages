@@ -1001,6 +1001,7 @@ contexts:
     - include: fenced-shell
     - include: fenced-shell-script
     - include: fenced-sql
+    - include: fenced-terraform
     - include: fenced-tsx
     - include: fenced-typescript
     - include: fenced-xml
@@ -1726,6 +1727,25 @@ contexts:
       escape: '{{fenced_code_block_escape}}'
       escape_captures:
         0: meta.code-fence.definition.end.sql.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+
+  fenced-terraform:
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:terraform|hcl|tf))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.terraform.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:source.terraform
+      embed_scope:
+        markup.raw.code-fence.terraform.markdown-gfm
+        source.yaml
+      escape: '{{fenced_code_block_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.terraform.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
 
   fenced-tsx:
