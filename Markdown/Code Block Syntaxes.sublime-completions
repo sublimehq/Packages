@@ -526,6 +526,20 @@
 			"details": "Specifies <code>SQL</code> code highlighting"
 		},
 
+		// Terraform
+		{
+			"trigger": "terraform",
+			"annotation": "Terraform",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Terraform</code> code highlighting"
+		},
+		{
+			"trigger": "tf",
+			"annotation": "Terraform",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Terraform</code> code highlighting"
+		},
+
 		// XML
 		{
 			"trigger": "atom",
