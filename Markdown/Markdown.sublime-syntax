@@ -1823,7 +1823,6 @@ contexts:
         0: meta.code-fence.definition.end.yaml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
 
-
   fenced-raw:
     - match: |-
          (?x)
