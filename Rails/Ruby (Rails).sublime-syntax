@@ -47,6 +47,7 @@ contexts:
         | render_without_layout
         | rescue_from
         | url_for
+        | redirect_back_or_to
         | redirect_to
         | redirect_to_path
         | redirect_to_url
