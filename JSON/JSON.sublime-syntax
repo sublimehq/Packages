@@ -21,6 +21,7 @@ file_extensions:
   - sublime-workspace
   - ipynb
   - gltf
+  - avsc
 
 hidden_file_extensions:
   - Pipfile.lock
