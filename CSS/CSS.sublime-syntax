@@ -296,6 +296,16 @@ variables:
   page_property_names: |-
     \b(?xi: bleed | margin | marks | size ){{break}}
 
+  # @property Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+  property_property_names: |-
+    \b(?xi: syntax | inherits | initial-value ){{break}}
+
+  # @scroll-timeline Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
+  scroll_timeline_property_names: |-
+    \b(?xi: source | orientation | scroll-offsets ){{break}}
+
   global_property_constants:  |-
     \b(?xi: inherit | initial | revert | revert-layer | unset ){{break}}
 
@@ -395,6 +405,8 @@ contexts:
     - include: at-namespace
     - include: at-page
     - include: at-page-margin
+    - include: at-property
+    - include: at-scroll-timeline
     - include: at-supports
     - include: at-other
 
@@ -402,8 +414,8 @@ contexts:
   # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
   at-charset:
     - match: (@)(?i:charset){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-charset-content
 
@@ -416,8 +428,8 @@ contexts:
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
     - match: (@)(?i:counter-style){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-counter-style-content
 
@@ -456,8 +468,8 @@ contexts:
   # https://??
   at-custom-media:
     - match: (@)(?i:custom-media){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-custom-media-content
@@ -479,8 +491,8 @@ contexts:
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
   at-document:
     - match: (@)(?i:document){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-document-content
 
@@ -496,8 +508,8 @@ contexts:
   # https://www.w3.org/TR/css-fonts-4/#at-font-face-rule
   at-font-face:
     - match: (@)(?i:font-face){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-font-face-content
 
@@ -530,8 +542,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
   at-import:
     - match: (@)(?i:import){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-import-content
 
@@ -547,8 +559,8 @@ contexts:
   # https://www.w3.org/TR/css3-animations/#at-ruledef-keyframes
   at-keyframes:
     - match: (@)(?i:keyframes){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-keyframe-content
 
@@ -594,8 +606,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@layer
   at-layer:
     - match: (@)(?i:layer){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-layer-content
 
@@ -630,8 +642,8 @@ contexts:
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
   at-media:
     - match: (@)(?i:media){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-media-content
 
@@ -645,8 +657,8 @@ contexts:
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
     - match: (@)(?i:namespace){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-namespace-content
@@ -671,8 +683,8 @@ contexts:
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   at-page:
     - match: (@)(?i:page){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-page-content
 
@@ -685,12 +697,12 @@ contexts:
 
   at-page-names:
     - match: (:)(?i:blank|first|left|right|recto|verso){{break}}
+      scope: entity.other.pseudo-class.css
       captures:
-        0: entity.other.pseudo-class.css
         1: punctuation.definition.entity.css
     - match: (:){{nmchar}}*
+      # scope: invalid.illegal.pseudo-class.css
       captures:
-        # 0: invalid.illegal.pseudo-class.css
         1: punctuation.definition.entity.css
     - match: '{{ident}}'
       scope: entity.other.page-name.css
@@ -708,8 +720,8 @@ contexts:
 
   at-page-margin:
     - match: (@){{page_margin_names}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-page-margin-content
 
@@ -739,12 +751,94 @@ contexts:
     # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'
 
+  # @property Property Names
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+  at-property:
+    - match: (@)(?i:property){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-property-property-list
+        - at-property-name
+
+  at-property-name:
+    - include: custom-property
+    - include: comments
+    - include: else-pop
+
+  at-property-property-list:
+    - meta_scope: meta.at-rule.property.css
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-property-property-list-content
+    - include: comments
+    - include: else-pop
+
+  at-property-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-property-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-property-property-names:
+    - match: '{{property_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
+
+  # @scroll-timeline
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
+  at-scroll-timeline:
+    - match: (@)(?i:scroll-timeline){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-scroll-timeline-property-list
+        - at-scroll-timeline-name
+
+  at-scroll-timeline-name:
+    - match: '{{ident}}'
+      scope: entity.other.scroll-timeline.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  at-scroll-timeline-property-list:
+    - meta_scope: meta.at-rule.scroll-timeline.css
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-scroll-timeline-property-list-content
+    - include: comments
+    - include: else-pop
+
+  at-scroll-timeline-property-list-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - include: block-end2
+    - include: comments
+    - include: at-scroll-timeline-property-names
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-blocks
+    - include: illegal-groups
+
+  at-scroll-timeline-property-names:
+    - match: '{{scroll_timeline_property_names}}'
+      scope: meta.property-name.css support.type.property-name.css
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{generic_ident}}'
+
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
   at-supports:
     - match: (@)(?i:supports){{break}}
+      scope: keyword.control.directive.css
       captures:
-        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-supports-content
 
@@ -893,6 +987,7 @@ contexts:
         ){{break}}
       scope: support.constant.property-value.css
       pop: 1
+    - include: comments
     - include: else-pop
 
   media-query-media-types:
@@ -1005,6 +1100,7 @@ contexts:
 ###[ SELECTORS / ATTRIBUTE SELECTORS ]#########################################
 
   attribute-selector-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-selector.css meta.brackets.css
     - include: immediately-pop
 
@@ -1301,6 +1397,7 @@ contexts:
       set: counter-property-value
 
   counter-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-property-value-content
@@ -1324,6 +1421,7 @@ contexts:
       push: counter-style-fallback-property-value
 
   counter-style-fallback-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-style-fallback-property-value-content
@@ -1352,6 +1450,7 @@ contexts:
       push: counter-style-system-property-value
 
   counter-style-system-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-style-system-property-value-content
@@ -1387,6 +1486,7 @@ contexts:
       push: counter-style-speak-as-property-value
 
   counter-style-speak-as-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: counter-style-speak-as-property-value-content
@@ -1412,6 +1512,7 @@ contexts:
       set: font-family-value
 
   font-family-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: font-family-value-content
@@ -1440,6 +1541,7 @@ contexts:
       set: font-property-value
 
   font-property-value:
+    - meta_include_prototype: false
     - match: ':'
       scope: punctuation.separator.key-value.css
       set: font-property-value-content
@@ -1474,6 +1576,7 @@ contexts:
   builtin-functions:
     - include: at-counter-functions
     - include: at-font-functions
+    - include: at-supports-functions
     - include: attr-functions
     - include: calc-functions
     - include: color-adjuster-functions
@@ -1644,6 +1747,21 @@ contexts:
             - include: at-supports-group-content
 
   at-supports-functions:
+    # font-format()
+    # font-tech()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
+    - match: \b(?i:font-(?:format|tech))(?=\()
+      scope: meta.function-call.identifier.css support.function.font.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - meta_content_scope: meta.selector.css
+            - include: group-end
+            - include: at-rule-end
+            - include: other-constants
     # selector()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
     - match: \b(?i:selector)(?=\()
@@ -1657,6 +1775,7 @@ contexts:
             - meta_content_scope: meta.selector.css
             - include: group-end
             - include: at-rule-end
+            - include: quoted-strings
             - include: selector-content
 
 ###[ BUILTIN COLOR FUNCTIONS ]#################################################
@@ -1665,8 +1784,12 @@ contexts:
   # https://drafts.csswg.org/css-color
   color-functions:
     # rgb(), rgba()
-    # https://drafts.csswg.org/css-color/#rgb-functions
-    - match: \b(?i:rgba?)(?=\()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
+    # lab()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lab
+    # lch()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch
+    - match: \b(?i:rgba?|lab|lch)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - meta_include_prototype: false
@@ -1675,15 +1798,16 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: alpha-delimiters
             - include: comma-delimiters
             - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
     # hsl(), hsla()
-    # https://drafts.csswg.org/css-color/#the-hsl-notation
-    # hwb() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-hwb
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl
+    # hwb()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb
     - match: \b(?i:hsla?|hwb)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
@@ -1693,6 +1817,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: alpha-delimiters
             - include: comma-delimiters
             - include: calc-functions
             - include: angle-constants
@@ -2362,23 +2487,15 @@ contexts:
   calc-functions:
     # calc()
     # https://www.w3.org/TR/css3-values/#funcdef-calc
-    - match: \b(?i:calc)(?=\()
-      scope: meta.function-call.identifier.css support.function.calc.css
-      push:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: calc-function-arguments-content
-
     # clamp()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()
     # max()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/max()
     # min()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/min()
-    - match: \b(?i:clamp|max|min)(?=\()
+    - match: |-
+        \b(?xi: acos | asin | atan2 | atan | calc | clamp | cos | exp | hypot
+        | log | max | min | mod | pow | rem | round | sign | sin | sqrt | tan )(?=\()
       scope: meta.function-call.identifier.css support.function.calc.css
       push:
         - meta_include_prototype: false
@@ -2387,7 +2504,6 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: calc-function-arguments-content
-            - include: comma-delimiters
 
   calc-function-arguments-content:
     - meta_scope: meta.group.css
@@ -2419,6 +2535,7 @@ contexts:
       push: maybe-illegal-operator
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
+    - include: comma-delimiters
 
   toggle-functions:
     # toggle()
@@ -2923,6 +3040,10 @@ contexts:
     - include: immediately-pop
 
 ###[ PUNCTUATION ]#############################################################
+
+  alpha-delimiters:
+    - match: /
+      scope: punctuation.separator.alpha.css
 
   comma-delimiters:
     - match: ','
