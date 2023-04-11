@@ -2274,6 +2274,13 @@
 .test-attribute-selectors-flags[a="" i] {}
 /*                                   ^ keyword.other.flag.css */
 
+.test-attribute-selectors:not( [title="identifier"] ) {}
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css - meta.group */
+/*                           ^^ meta.selector.css meta.function-call.arguments.css meta.group.css - meta.brackets */
+/*                             ^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.group.css meta.attribute-selector.css meta.brackets.css - meta.selector meta.selector */
+/*                                                 ^^ meta.selector.css meta.function-call.arguments.css meta.group.css - meta.brackets */
+/*                                                   ^ meta.selector.css - meta.group */
+
    *.test-universal-selector {}
 /* ^ variable.language.wildcard.asterisk.css */
 
