@@ -2962,7 +2962,6 @@ contexts:
         meta.string.css string.quoted.double.css
         punctuation.definition.string.end.css
       pop: 1
-    - include: string-content
     - include: url-content
 
   single-quoted-url-content:
@@ -2975,7 +2974,6 @@ contexts:
         meta.string.css string.quoted.single.css
         punctuation.definition.string.end.css
       pop: 1
-    - include: string-content
     - include: url-content
 
   # Unquoted URL token
