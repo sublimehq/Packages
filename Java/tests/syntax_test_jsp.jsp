@@ -17,9 +17,10 @@
 
         tr.<% print(myClass); %> {
 //      ^^^ meta.selector.css - meta.embedded
-//         ^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.embedded.scriptlet.jsp
+//         ^^^^^^^^^^^^^^^^^^^^^ meta.selector.css entity.other.attribute-name.class.css meta.embedded.scriptlet.jsp
 //                               ^ - meta.selector - meta.embedded
 //         ^^ punctuation.section.embedded.begin.jsp
+//           ^^^^^^^^^^^^^^^^^ source.java.embedded.jsp
 //                            ^^ punctuation.section.embedded.end.jsp
             color: <% print("<\%foo%\>"); %>;
 //          ^^^^^ support.type.property-name.css
@@ -41,6 +42,37 @@
 //                                           ^^^ - string
 //                                              ^^ string.quoted.double.css
         }
+
+        .my-<%=selector%>--class { my-<%=attr%>--prop: a-<%=value%>-const; }
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.selector.css - meta.property-list - meta.block
+//                               ^^ source.css.embedded.html meta.property-list.css meta.block.css - meta.selector - meta.property-name
+//                                 ^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css meta.property-name.css
+//                                                   ^ source.css.embedded.html meta.property-list.css meta.block.css - meta.selector - meta.property-name - meta.property-value
+//                                                    ^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css meta.property-value.css
+//                                                                       ^^^ source.css.embedded.html meta.property-list.css meta.block.css - meta.selector - meta.property-name - meta.property-value
+//      ^^^^ entity.other.attribute-name.class.css - meta.embedded
+//      ^ punctuation.definition.entity.css
+//          ^^^^^^^^^^^^^ entity.other.attribute-name.class.css meta.embedded.expression.jsp
+//          ^^^ punctuation.section.embedded.begin.jsp
+//             ^^^^^^^^ source.java.embedded.jsp meta.variable.identifier.java variable.other.java
+//                     ^^ punctuation.section.embedded.end.jsp
+//                       ^^^^^^^ entity.other.attribute-name.class.css - meta.embedded
+//                               ^ punctuation.section.block.begin.css
+//                                 ^^^ support.type.property-name.css - meta.embedded
+//                                    ^^^^^^^^^ support.type.property-name.css meta.embedded.expression.jsp
+//                                    ^^^ punctuation.section.embedded.begin.jsp
+//                                       ^^^^ source.java.embedded.jsp meta.variable.identifier.java variable.other.java
+//                                           ^^ punctuation.section.embedded.end.jsp
+//                                             ^^^^^^ support.type.property-name.css - meta.embedded
+//                                                   ^ punctuation.separator.key-value.css
+//                                                     ^^ support.constant.property-value.css - meta.embedded
+//                                                       ^^^^^^^^^^ support.constant.property-value.css meta.embedded.expression.jsp
+//                                                       ^^^ punctuation.section.embedded.begin.jsp
+//                                                          ^^^^^ source.java.embedded.jsp meta.variable.identifier.java variable.other.java
+//                                                               ^^ punctuation.section.embedded.end.jsp
+//                                                                 ^^^^^^ support.constant.property-value.css - meta.embedded
+//                                                                       ^ punctuation.terminator.rule.css
+//                                                                         ^ punctuation.section.block.end.css
     </style>
 //  ^^^^^^^^ meta.tag.style.end.html
 

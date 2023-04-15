@@ -6,6 +6,10 @@ hidden: true
 
 extends: Packages/CSS/CSS.sublime-syntax
 
+variables:
+
+    ident_start: (?:{{nmstart}}|#[@${])
+
 contexts:
 
   prototype:

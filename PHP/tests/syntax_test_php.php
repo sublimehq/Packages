@@ -5862,6 +5862,38 @@ h1 {
 }
 // <- text.html.php source.css.embedded punctuation.section.block.end.css
 
+@counter-style <?php $counter; ?> {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block
+//                                ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css
+//^^^^^^^^^^^^ keyword.control.directive.css - punctuation
+//             ^^^^^^^^^^^^^^^^^^ entity.other.counter-style-name.css meta.embedded.php
+//             ^^^^^ punctuation.section.embedded.begin.php
+//                  ^^^^^^^^^^^ source.php.embedded.css
+//                             ^^ punctuation.section.embedded.end.php
+
+@counter-style my-<?php $counter; ?> {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block
+//                                   ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css
+//^^^^^^^^^^^^ keyword.control.directive.css - punctuation
+//             ^^^ entity.other.counter-style-name.css - meta.embedded
+//                ^^^^^^^^^^^^^^^^^^ entity.other.counter-style-name.css meta.embedded.php
+//                ^^^^^ punctuation.section.embedded.begin.php
+//                     ^^^^^^^^^^^ source.php.embedded.css
+//                                ^^ punctuation.section.embedded.end.php
+
+.my-<?php echo $class;?>-name:my-<?php echo $class;?>-class { my-<?php echo $class;?>-name: black }
+// <- meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.selector.css
+//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css
+//^^ entity.other.attribute-name.class.css - meta.embedded.php
+//  ^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.class.css meta.embedded.php
+//                      ^^^^^ entity.other.attribute-name.class.css - meta.embedded.php
+//                           ^ punctuation.definition.pseudo-class.css
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.pseudo-class.css
+//                                                          ^ punctuation.section.block.begin.css
+//                                                            ^^^ meta.property-name.css support.type.property-name.css - meta.embedded
+//                                                               ^^^^^^^^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.embedded.php
+//                                                                                   ^^^^^ meta.property-name.css support.type.property-name.css - meta.embedded
 </style>
 
 <p style="color: <?php echo "red" ?>">text</p>

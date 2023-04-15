@@ -28,6 +28,14 @@ variables:
   #    matching (?!{{escape}}) which also effects performance negative.
   break: (?=[[^-_[:alnum:]\\]&&[[:ascii:]]]|\Z)
 
+  # Interpolateable Identifiers
+  ident_begin: (?=--|-?{{ident_start}})
+  custom_ident_begin: (?=--)
+  generic_ident_begin: (?=-?{{ident_start}})
+  # This alias may be used by inheriting syntaxes to add interpolation begin
+  # punctuation patterns to enable interpolation at the beginning of identifiers.
+  ident_start: '{{nmstart}}'
+
   # Identifiers
   # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
   # https://www.w3.org/TR/css3-selectors/#lex
@@ -73,30 +81,16 @@ variables:
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
   combinators: (?:>{1,3}|[~+]|\|{2})
+  combinator_char: '[+>|~]'
 
   vendor_prefix: -(?:webkit|moz|ms|o)-
 
-  # Custom Element Names
-  # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
-  custom_element_tags: \b[a-z]{{custom_element_chars}}*-{{custom_element_chars}}*{{break}}
-  # Note: Excludes `.` as it is used to identify attribute access
-  custom_element_chars: |-
-    (?x:
-      [-_a-z0-9\x{00B7}]
-    | [\x{00C0}-\x{00D6}]
-    | [\x{00D8}-\x{00F6}]
-    | [\x{00F8}-\x{02FF}]
-    | [\x{0300}-\x{037D}]
-    | [\x{037F}-\x{1FFF}]
-    | [\x{200C}-\x{200D}]
-    | [\x{203F}-\x{2040}]
-    | [\x{2070}-\x{218F}]
-    | [\x{2C00}-\x{2FEF}]
-    | [\x{3001}-\x{D7FF}]
-    | [\x{F900}-\x{FDCF}]
-    | [\x{FDF0}-\x{FFFD}]
-    | [\x{10000}-\x{EFFFF}]
-    )
+  # Foreign Tags
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+  tag_name_begin: (?=[[:alpha:]])
+  tag_name_break: (?!{{tag_name_char}})
+  # tags may consist of any char valid in html but not being of special meaning in CSS
+  tag_name_char: '[^ \t\n\f.:#&*</:;(){}\[\]{{combinator_char}}]'
 
   # HTML tags
   # https://developer.mozilla.org/en-US/docs/Web/HTML/Element
@@ -437,6 +431,7 @@ contexts:
       push: at-counter-style-content
 
   at-counter-style-content:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.counter-style.css
     - match: \{
       scope: punctuation.section.block.begin.css
@@ -457,8 +452,12 @@ contexts:
   at-counter-style-names:
     - match: '{{counter_style_illegal_names}}'
       scope: invalid.illegal.identifier.css
-    - match: '{{ident}}'
-      scope: entity.other.counter-style-name.css
+    - match: '{{generic_ident_begin}}'
+      push: at-counter-style-name-content
+
+  at-counter-style-name-content:
+    - meta_scope: entity.other.counter-style-name.css
+    - include: identifier-content
 
   at-counter-style-property-names:
     - include: counter-style-fallback-properties
@@ -479,11 +478,15 @@ contexts:
         - at-custom-media-identifier
 
   at-custom-media-identifier:
-    - match: '{{custom_ident}}'
-      scope: entity.other.custom-media.css
-      pop: 1
+    - meta_include_prototype: false
+    - match: '{{ident_begin}}'
+      set: at-custom-media-identifier-content
     - include: comments
     - include: else-pop
+
+  at-custom-media-identifier-content:
+    - meta_scope: entity.other.custom-media.css
+    - include: identifier-content
 
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css
@@ -575,11 +578,18 @@ contexts:
     - include: at-rule-end
 
   at-keyframe-names:
+    - meta_include_prototype: false
     - match: '{{illegal_custom_ident}}'
       scope: invalid.illegal.identifier.css
-    - match: '{{ident}}'
-      scope: entity.other.animation-name.css
+    - match: '{{ident_begin}}'
+      push: at-keyframe-name-content
     - include: quoted-strings
+    - include: comments
+    - include: else-pop
+
+  at-keyframe-name-content:
+    - meta_scope: entity.other.animation-name.css
+    - include: identifier-content
 
   at-keyframe-block:
     - match: \{
@@ -708,8 +718,12 @@ contexts:
       # scope: invalid.illegal.pseudo-class.css
       captures:
         1: punctuation.definition.entity.css
-    - match: '{{ident}}'
-      scope: entity.other.page-name.css
+    - match: '{{ident_begin}}'
+      push: at-page-name-content
+
+  at-page-name-content:
+    - meta_scope: entity.other.page-name.css
+    - include: identifier-content
 
   at-page-block:
     - match: \{
@@ -767,9 +781,8 @@ contexts:
         - at-property-name
 
   at-property-name:
-    - match: '{{custom_ident}}'
-      scope: entity.other.custom-property.css
-      pop: 1
+    - match: '{{custom_ident_begin}}'
+      set: custom-property-content
     - include: comments
     - include: else-pop
 
@@ -809,11 +822,15 @@ contexts:
         - at-scroll-timeline-name
 
   at-scroll-timeline-name:
-    - match: '{{ident}}'
-      scope: entity.other.scroll-timeline.css
-      pop: 1
+    - meta_include_prototype: false
+    - match: '{{ident_begin}}'
+      set: at-scroll-timeline-name-content
     - include: comments
     - include: else-pop
+
+  at-scroll-timeline-name-content:
+    - meta_scope: entity.other.scroll-timeline.css
+    - include: identifier-content
 
   at-scroll-timeline-property-list:
     - meta_scope: meta.at-rule.scroll-timeline.css
@@ -1048,39 +1065,50 @@ contexts:
   # https://drafts.csswg.org/selectors-4/#class-html
   selector-classes:
     - match: \.
-      scope: punctuation.definition.entity.css
+      scope: entity.other.attribute-name.class.css punctuation.definition.entity.css
       push: selector-class-identifier
 
   selector-class-identifier:
     - meta_include_prototype: false
-    - meta_scope: entity.other.attribute-name.class.css
-    - match: '{{generic_ident}}'
-      pop: 1
+    - match: '{{generic_ident_begin}}'
+      set: selector-class-identifier-content
     - include: immediately-pop
+
+  selector-class-identifier-content:
+    - meta_scope: entity.other.attribute-name.class.css
+    - include: identifier-content
 
   # Id Selectors
   # https://drafts.csswg.org/selectors-4/#id-selectors
   selector-ids:
     - match: \#
-      scope: punctuation.definition.entity.css
+      scope: entity.other.attribute-name.id.css punctuation.definition.entity.css
       push: selector-id-identifier
 
   selector-id-identifier:
     - meta_include_prototype: false
-    - meta_scope: entity.other.attribute-name.id.css
-    - match: '{{generic_ident}}'
-      pop: 1
+    - match: '{{generic_ident_begin}}'
+      set: selector-id-identifier-content
     - include: immediately-pop
 
+  selector-id-identifier-content:
+    - meta_scope: entity.other.attribute-name.id.css
+    - include: identifier-content
+
   # Tags and Custom Elements
-  # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
   selector-tags:
     - match: '{{html_tags}}'
       scope: entity.name.tag.html.css
     - match: '{{svg_tags}}'
       scope: entity.name.tag.svg.css
-    - match: '{{custom_element_tags}}'
-      scope: entity.name.tag.custom.css
+    - match: '{{tag_name_begin}}'
+      push: selector-tag-content
+
+  selector-tag-content:
+    - meta_scope: entity.name.tag.other.css
+    - match: '{{tag_name_break}}'
+      pop: 1
 
   selector-variables:
     - match: \*
@@ -1117,13 +1145,18 @@ contexts:
 
   attribute-selector-key:
     - include: namespace-prefixes
-    - match: '{{ident}}'
-      scope: entity.other.attribute-name.css
-      set: attribute-selector-operator
+    - match: '{{ident_begin}}'
+      set:
+        - attribute-selector-operator
+        - attribute-selector-key-content
     - match: \*
       scope: variable.language.wildcard.asterisk.css
       set: attribute-selector-operator
     - include: attribute-selector-operator
+
+  attribute-selector-key-content:
+    - meta_scope: entity.other.attribute-name.css
+    - include: identifier-content
 
   attribute-selector-operator:
     - match: '[~*|^$]?='
@@ -1134,12 +1167,21 @@ contexts:
     - include: attribute-selector-flag
 
   attribute-selector-value:
+    - meta_include_prototype: false
+    - match: (?=\])
+      pop: 1
     - include: comments
     - include: quoted-string
-    - match: '[^\s\]\[''"]+'
-      scope: meta.string.css string.unquoted.css
+    - include: attribute-selector-unquoted-value
+
+  attribute-selector-unquoted-value:
+    - match: (?=\S)
+      set: attribute-selector-unquoted-value-content
+
+  attribute-selector-unquoted-value-content:
+    - meta_scope: meta.string.css string.unquoted.css
+    - match: (?=[\s\]])
       pop: 1
-    - include: else-pop
 
   attribute-selector-flag:
     - match: \b[iI]{{break}}
@@ -1169,18 +1211,15 @@ contexts:
     - meta_include_prototype: false
     - include: vendor-prefixes
     - include: pseudo-element-css2
-    - include: pseudo-class-function
-    - include: pseudo-class-regular
+    - include: pseudo-class-builtin
+    - include: pseudo-class-other
     - include: immediately-pop
 
-  # Functional Pseudo Classes
-  # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
-  pseudo-class-function:
+  pseudo-class-builtin:
     - include: pseudo-class-function-dir
     - include: pseudo-class-function-lang
     - include: pseudo-class-function-with-anb-args
     - include: pseudo-class-function-with-selector-args
-    - include: pseudo-class-function-with-generic-args
 
   # Special :dir() pseudo-class
   # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
@@ -1265,18 +1304,28 @@ contexts:
             - include: function-arguments-common
             - include: selector-content
 
+  pseudo-class-other:
+    - match: '{{ident_begin}}'
+      branch_point: pseudo-class
+      branch:
+        - pseudo-class-regular
+        - pseudo-class-function
+      pop: 1
+
   # Functional Pseudo Classes with generic arguments
-  pseudo-class-function-with-generic-args:
-    - match: '{{ident}}(?=\()'
-      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
-      set: other-functions-arguments
+  # https://drafts.csswg.org/selectors-4/#pseudo-classes
+  pseudo-class-function:
+    - meta_content_scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+    - include: other-function-arguments-list
+    - include: identifier-content
 
   # Regular Pseudo Classes
   # https://drafts.csswg.org/selectors-4/#pseudo-classes
   pseudo-class-regular:
-    - match: '{{ident}}'
-      scope: entity.other.pseudo-class.css
-      pop: 1
+    - meta_content_scope: entity.other.pseudo-class.css
+    - match: (?=\()
+      fail: pseudo-class
+    - include: identifier-content
 
 ###[ SELECTORS / PSEUDO ELEMENTS ]#############################################
 
@@ -1290,8 +1339,7 @@ contexts:
   selector-pseudo-element:
     - meta_include_prototype: false
     - include: vendor-prefixes
-    - include: pseudo-element-function
-    - include: pseudo-element-regular
+    - include: pseudo-element-other
     - include: immediately-pop
 
   # Legacy Pseudo Elements
@@ -1302,19 +1350,28 @@ contexts:
       scope: entity.other.pseudo-element.css
       pop: 1
 
-  # Functional Pseudo Elements
+  pseudo-element-other:
+    - match: '{{ident_begin}}'
+      branch_point: pseudo-element
+      branch:
+        - pseudo-element-regular
+        - pseudo-element-function
+      pop: 1
+
+  # Functional Pseudo Elements with generic arguments
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
   pseudo-element-function:
-    - match: '{{ident}}(?=\()'
-      scope: meta.function-call.identifier.css entity.other.pseudo-element.css
-      set: other-functions-arguments
+    - meta_content_scope: meta.function-call.identifier.css entity.other.pseudo-element.css
+    - include: other-function-arguments-list
+    - include: identifier-content
 
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
   pseudo-element-regular:
-    - match: '{{ident}}'
-      scope: entity.other.pseudo-element.css
-      pop: 1
+    - meta_content_scope: entity.other.pseudo-element.css
+    - match: (?=\()
+      fail: pseudo-element
+    - include: identifier-content
 
 ###[ PROPERTY LISTS ]##########################################################
 
@@ -1346,6 +1403,7 @@ contexts:
       push: property-identifier-content
 
   property-identifier-content:
+    - meta_include_prototype: false
     - meta_scope: meta.property-name.css
     - include: vendor-prefixes
     # specific properties with special treatment
@@ -1362,23 +1420,35 @@ contexts:
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-property:
-    # custom property definition
-    - match: '{{custom_ident}}'
-      scope: entity.other.custom-property.css
-      set: property-value
+    - match: '{{custom_ident_begin}}'
+      set:
+        - property-value
+        - custom-property-content
+
+  custom-property-content:
+    - meta_scope: meta.property-name.css entity.other.custom-property.css
+    - include: identifier-content
 
   deprecated-property:
-    - match: \b(var-)({{ident}})
-      scope: invalid.deprecated.custom-property.css
-      captures:
-        1: entity.other.custom-property.prefix.css
-        2: entity.other.custom-property.name.css
-      set: property-value
+    - match: var-{{generic_ident_begin}}
+      scope: entity.other.custom-property.prefix.css
+      set:
+        - property-value
+        - deprecated-property-content
+
+  deprecated-property-content:
+    - meta_scope: meta.property-name.css invalid.deprecated.custom-property.css
+    - include: identifier-content
 
   other-property:
-    - match: '{{generic_ident}}'
-      scope: support.type.property-name.css
-      set: property-value
+    - match: '{{generic_ident_begin}}'
+      set:
+        - property-value
+        - other-property-content
+
+  other-property-content:
+    - meta_scope: meta.property-name.css support.type.property-name.css
+    - include: identifier-content
 
 ###[ PROPERTY VALUES ]#########################################################
 
@@ -1401,8 +1471,7 @@ contexts:
     - include: comma-delimiters
     - include: common-operators
     - include: builtin-values
-    - include: other-functions
-    - include: other-constants
+    - include: constants-or-functions
 
   builtin-values:
     - include: quoted-strings
@@ -1456,9 +1525,13 @@ contexts:
   counter-property-value-content:
     - include: global-constants
     - include: none-constants
-    - match: '{{ident}}'
-      scope: entity.other.counter-name.css
+    - match: '{{ident_begin}}'
+      push: counter-identifier-content
     - include: property-value-content
+
+  counter-identifier-content:
+    - meta_scope: entity.other.counter-name.css
+    - include: identifier-content
 
 ###[ COUNTER STYLE FALLBACK PROPERTY ]#########################################
 
@@ -1486,8 +1559,12 @@ contexts:
   counter-style-identifiers:
     - match: '{{counter_style_names}}'
       scope: support.constant.counter-style-name.css
-    - match: '{{ident}}'
-      scope: entity.other.counter-style-name.css
+    - match: '{{ident_begin}}'
+      push: counter-style-identifier-content
+
+  counter-style-identifier-content:
+    - meta_scope: entity.other.counter-style-name.css
+    - include: identifier-content
 
 ###[ COUNTER STYLE SYSTEM PROPERTY ]###########################################
 
@@ -1516,12 +1593,12 @@ contexts:
       push: counter-style-identifier
 
   counter-style-identifier:
+    - meta_include_prototype: false
     - match: '{{counter_style_names}}'
       scope: support.constant.counter-style-name.css
       pop: 1
-    - match: '{{ident}}'
-      scope: entity.other.counter-style-name.css
-      pop: 1
+    - match: '{{ident_begin}}'
+      set: counter-style-identifier-content
     - include: comments
     - include: else-pop
 
@@ -1689,9 +1766,9 @@ contexts:
     - include: quoted-strings
 
   counter-identifier:
-    - match: '{{ident}}'
-      scope: entity.other.counter-name.css
-      pop: 1
+    - meta_include_prototype: false
+    - match: '{{ident_begin}}'
+      set: counter-identifier-content
     - include: comments
     - include: else-pop
 
@@ -2495,14 +2572,18 @@ contexts:
             - attr-function-arguments-identifier
 
   attr-function-arguments-identifier:
+    - meta_include_prototype: false
     - include: namespace-prefixes
     - include: quoted-string
     - include: var-function
-    - match: '{{ident}}'
-      scope: entity.other.attribute-name.css
-      pop: 1
+    - match: '{{ident_begin}}'
+      set: attr-function-arguments-identifier-content
     - include: comments
     - include: else-pop
+
+  attr-function-arguments-identifier-content:
+    - meta_scope: entity.other.attribute-name.css
+    - include: identifier-content
 
   attr-function-arguments-value:
     - meta_scope: meta.function-call.arguments.css meta.group.css
@@ -2630,31 +2711,59 @@ contexts:
     - include: font-property-value-content
 
   var-function-arguments-identifier:
-    - match: '{{custom_ident}}'
-      scope: variable.other.custom-property.css
-      pop: 1
+    - meta_include_prototype: false
+    - match: '{{custom_ident_begin}}'
+      set: custom-property-variable-content
     - include: comments
     - include: else-pop
 
-###[ OTHER FUNCTIONS ]#########################################################
+  custom-property-variable-content:
+    - meta_scope: variable.other.custom-property.css
+    - include: identifier-content
 
-  other-functions:
-    - match: '{{ident}}(?=\()'
-      scope: meta.function-call.identifier.css variable.function.css
-      push: other-functions-arguments
+###[ CONSTANTS OR FUNCTIONS ]##################################################
 
-  other-functions-arguments:
+  constants-or-functions:
+    - match: '{{ident_begin}}'
+      branch_point: constant-or-function
+      branch:
+        - other-constant
+        - other-function
+
+  other-constant:
+    - meta_content_scope: support.constant.property-value.css
+    - match: (?=\()
+      fail: constant-or-function
+    - include: identifier-content
+
+  other-function:
+    - meta_content_scope: meta.function-call.identifier.css variable.function.css
+    - include: other-function-arguments-list
+    - include: identifier-content
+
+  other-function-arguments-list:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.css
-      set:
-        - meta_scope: meta.function-call.arguments.css meta.group.css
-        - include: function-arguments-common
-        - include: comma-delimiters
-        - include: calc-functions
-        - include: quoted-strings
-        - include: numeric-constants
-        - include: other-constants
+      set: other-function-arguments-list-content
+
+  other-function-arguments-list-content:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: function-arguments-common
+    - include: comma-delimiters
+    - include: calc-functions
+    - include: quoted-strings
+    - include: numeric-constants
+    - include: constants-or-functions
+
+###[ IDENTIFIERS ]#############################################################
+
+  identifier-content:
+    # also pop parent context
+    - match: '{{break}}'
+      pop: 1
+    # consume unicode escapes and possibly following whitespace
+    - match: '{{unicode}}'
 
 ###[ CONSTANTS ]###############################################################
 
@@ -2741,8 +2850,12 @@ contexts:
       scope: constant.language.null.css
 
   other-constants:
-    - match: '{{ident}}'
-      scope: support.constant.property-value.css
+    - match: '{{ident_begin}}'
+      push: other-constant-content
+
+  other-constant-content:
+    - meta_scope: support.constant.property-value.css
+    - include: identifier-content
 
 ###[ NUMERIC CONSTANTS ]#######################################################
 
@@ -2913,7 +3026,7 @@ contexts:
     - include: string-content
     - match: \*
       scope: variable.language.wildcard.asterisk.css
-    - match: (?!{{nmchar}})
+    - match: '{{break}}'
       pop: 1
 
   # Named Grid Lines
@@ -2924,13 +3037,18 @@ contexts:
       push: line-names-content
 
   line-names-content:
+    - meta_include_prototype: false
     - meta_scope: meta.line-names.css meta.brackets.css
     - match: \]
       scope: punctuation.section.brackets.end.css
       pop: 1
-    - match: '{{ident}}'
-      scope: meta.string.css string.unquoted.line-name.css
+    - match: '{{ident_begin}}'
+      push: line-name-content
     - include: terminator-pop
+
+  line-name-content:
+    - meta_scope: meta.string.css string.unquoted.line-name.css
+    - include: identifier-content
 
   quoted-strings:
     - match: \"
