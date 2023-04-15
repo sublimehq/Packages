@@ -767,7 +767,9 @@ contexts:
         - at-property-name
 
   at-property-name:
-    - include: custom-property
+    - match: '{{custom_ident}}'
+      scope: entity.other.custom-property.css
+      pop: 1
     - include: comments
     - include: else-pop
 
@@ -1363,7 +1365,7 @@ contexts:
     # custom property definition
     - match: '{{custom_ident}}'
       scope: entity.other.custom-property.css
-      pop: 1
+      set: property-value
 
   deprecated-property:
     - match: \b(var-)({{ident}})
@@ -1371,14 +1373,21 @@ contexts:
       captures:
         1: entity.other.custom-property.prefix.css
         2: entity.other.custom-property.name.css
-      pop: 1
+      set: property-value
 
   other-property:
     - match: '{{generic_ident}}'
       scope: support.type.property-name.css
-      pop: 1
+      set: property-value
 
 ###[ PROPERTY VALUES ]#########################################################
+
+  property-value:
+    - meta_include_prototype: false
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: property-value-content
+    - include: else-pop
 
   property-values:
     - match: ':'
