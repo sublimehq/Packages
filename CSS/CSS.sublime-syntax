@@ -1190,9 +1190,7 @@ contexts:
     - include: attribute-selector-end
 
   attribute-selector-end:
-    - match: \]
-      scope: punctuation.section.brackets.end.css
-      pop: 1
+    - include: brackets-end
     - include: selector-end
     - include: comments
     - match: \S
@@ -1382,9 +1380,7 @@ contexts:
 
   property-list-content:
     - meta_scope: meta.property-list.css meta.block.css
-    - match: \}
-      scope: punctuation.section.block.end.css
-      pop: 1
+    - include: block-end
     - include: rule-list-body
 
   rule-list-body:
@@ -3039,9 +3035,7 @@ contexts:
   line-names-content:
     - meta_include_prototype: false
     - meta_scope: meta.line-names.css meta.brackets.css
-    - match: \]
-      scope: punctuation.section.brackets.end.css
-      pop: 1
+    - include: brackets-end
     - match: '{{ident_begin}}'
       push: line-name-content
     - include: terminator-pop
@@ -3201,10 +3195,20 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.css
 
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 1
+
   block-end2:
     - match: \}
       scope: punctuation.section.block.end.css
       pop: 2
+
+  brackets-end:
+    - match: \]
+      scope: punctuation.section.brackets.end.css
+      pop: 1
 
   group-end:
     - match: \)
