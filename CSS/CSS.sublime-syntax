@@ -1236,7 +1236,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
-            - include: selectors
+            - include: selector-content
 
   # Functional Pseudo Classes with generic arguments
   pseudo-class-function-with-generic-args:
