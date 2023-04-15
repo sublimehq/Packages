@@ -78,6 +78,11 @@ variables:
   frequency_units: (?i:Hz|kHz)\b
   resolution_units: (?i:dpi|dpcm|dppx)\b
 
+  # Selectors
+  selector_begin: (?={{selector_start}})
+  selector_end: (?=[;@(){}])
+  selector_start: '[[:alpha:].:#&*\[{{combinator_char}}]'
+
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
   combinators: (?:>{1,3}|[~+]|\|{2})
@@ -1031,7 +1036,7 @@ contexts:
 ###[ SELECTORS ]###############################################################
 
   selectors:
-    - match: (?=[:.*#[:alpha:]\[]|{{combinators}})
+    - match: '{{selector_begin}}'
       push: selector-content
 
   selector-content:
@@ -1049,7 +1054,7 @@ contexts:
     - include: selector-combinators
 
   selector-end:
-    - match: (?=[;@(){}])
+    - match: '{{selector_end}}'
       pop: 1
 
   # Combinators
