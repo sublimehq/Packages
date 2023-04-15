@@ -535,6 +535,7 @@ contexts:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
     - include: comments
+    - include: font-family-properties
     - include: at-font-face-property-names
     - include: property-values
     - include: rule-terminators
@@ -542,9 +543,6 @@ contexts:
     - include: illegal-groups
 
   at-font-face-property-names:
-    - match: \b(?i:font-family){{break}}
-      scope: meta.property-name.css support.type.property-name.css
-      push: font-family-value
     - match: '{{font_face_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
 
@@ -1400,29 +1398,20 @@ contexts:
 ###[ PROPERTY IDENTIFIERS ]####################################################
 
   property-identifiers:
-    - match: (?=[-[:alpha:]])
-      push: property-identifier-content
-
-  property-identifier-content:
-    - meta_include_prototype: false
-    - meta_scope: meta.property-name.css
-    - include: vendor-prefixes
     # specific properties with special treatment
-    - include: counter-property
-    - include: font-family-property
-    - include: font-property
+    - include: counter-properties
+    - include: font-family-properties
+    - include: font-properties
     # common properties
-    - include: custom-property
-    - include: deprecated-property
-    - include: other-property
-    # bailout
-    - include: immediately-pop
+    - include: custom-properties
+    - include: deprecated-properties
+    - include: other-properties
 
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
-  custom-property:
-    - match: '{{custom_ident_begin}}'
-      set:
+  custom-properties:
+    - match: '--'
+      push:
         - property-value
         - custom-property-content
 
@@ -1430,10 +1419,10 @@ contexts:
     - meta_scope: meta.property-name.css entity.other.custom-property.css
     - include: identifier-content
 
-  deprecated-property:
-    - match: var-{{generic_ident_begin}}
+  deprecated-properties:
+    - match: var-
       scope: entity.other.custom-property.prefix.css
-      set:
+      push:
         - property-value
         - deprecated-property-content
 
@@ -1441,14 +1430,16 @@ contexts:
     - meta_scope: meta.property-name.css invalid.deprecated.custom-property.css
     - include: identifier-content
 
-  other-property:
-    - match: '{{generic_ident_begin}}'
-      set:
+  other-properties:
+    - match: (?:{{vendor_prefix}}|{{generic_ident_begin}})
+      scope: support.type.vendor-prefix.css
+      push:
         - property-value
         - other-property-content
 
   other-property-content:
-    - meta_scope: meta.property-name.css support.type.property-name.css
+    - meta_scope: meta.property-name.css
+    - meta_content_scope: support.type.property-name.css
     - include: identifier-content
 
 ###[ PROPERTY VALUES ]#########################################################
@@ -1510,11 +1501,11 @@ contexts:
 
 ###[ COUNTER PROPERTY ]########################################################
 
-  counter-property:
+  counter-properties:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
     - match: \b(?i:counter-(increment|reset|set)){{break}}
-      scope: support.type.property-name.css
-      set: counter-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: counter-property-value
 
   counter-property-value:
     - meta_include_prototype: false
@@ -1633,10 +1624,10 @@ contexts:
   # Font-Family Property
   # https://drafts.csswg.org/css-fonts-3/#font-family-prop
   # https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
-  font-family-property:
+  font-family-properties:
     - match: \b(?i:font-family){{break}}
-      scope: support.type.property-name.css
-      set: font-family-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: font-family-value
 
   font-family-value:
     - meta_include_prototype: false
@@ -1662,10 +1653,10 @@ contexts:
   # Font Property
   # https://drafts.csswg.org/css-fonts-3/#font-prop
   # https://developer.mozilla.org/en-US/docs/Web/CSS/font
-  font-property:
+  font-properties:
     - match: \b(?i:font){{break}}
-      scope: support.type.property-name.css
-      set: font-property-value
+      scope: meta.property-name.css support.type.property-name.css
+      push: font-property-value
 
   font-property-value:
     - meta_include_prototype: false

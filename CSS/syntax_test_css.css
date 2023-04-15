@@ -1842,6 +1842,38 @@
 /*  ^^^^^^^^ support.type.vendor-prefix.css */
 /*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^^ meta.property-value.css support.constant.property-value.css */
+
+    --custon-prop-name: value;
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^^^^^^^^^ meta.property-name.css entity.other.custom-property.css */
+/*                    ^ punctuation.separator.key-value.css */
+/*                     ^ meta.property-value.css - support */
+/*                      ^^^^^ meta.property-value.css support.constant.property-value.css */
+/*                           ^ punctuation.terminator.rule.css */
+
+    -ℜ: value;
+/* ^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^ meta.property-name.css support.type.property-name.css */
+/*    ^ punctuation.separator.key-value.css */
+/*     ^ meta.property-value.css - support */
+/*      ^^^^^ meta.property-value.css support.constant.property-value.css */
+/*           ^ punctuation.terminator.rule.css */
+
+    ℜ-: value;
+/* ^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^ meta.property-name.css support.type.property-name.css */
+/*    ^ punctuation.separator.key-value.css */
+/*     ^ meta.property-value.css - support */
+/*      ^^^^^ meta.property-value.css support.constant.property-value.css */
+/*           ^ punctuation.terminator.rule.css */
+
+    \211C \7B-: value;
+/* ^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*            ^ punctuation.separator.key-value.css */
+/*             ^ meta.property-value.css - support */
+/*              ^^^^^ meta.property-value.css support.constant.property-value.css */
+/*                   ^ punctuation.terminator.rule.css */
 }
 
 .test-operators {
@@ -1948,7 +1980,6 @@
 /*                                             ^ keyword.operator.arithmetic.css */
 /*                                               ^ constant.numeric.value.css */
 }
-
 
 .test-important {
     top: 1px !important;
