@@ -2309,7 +2309,7 @@ contexts:
             - include: scalar-constants
 
     # transform functions with comma separated <number> or <percentage> types
-    # scale() scale3d()
+    # scale(), scale3d()
     - match: \b(?i:scale(?:3d)?)(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
