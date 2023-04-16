@@ -2745,21 +2745,6 @@
 /*         ^^^ support.function.color.css */
 /*                        ^ punctuation.separator.alpha.css */
 
-    color: gray(1, 4.5%);
-/*         ^^^^ support.function.color.css */
-/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*               ^ punctuation.separator.sequence.css */
-/*                 ^^^ meta.number.float.decimal.css constant.numeric.value.css */
-/*                    ^ meta.number.float.decimal.css constant.numeric.suffix.css */
-
-    top: device-cmyk(0.5, 1%, red());
-/*       ^^^^^^^^^^^ support.function.color.css */
-/*                   ^^^ meta.number.float.decimal.css constant.numeric.value.css */
-/*                      ^ punctuation.separator.sequence.css */
-/*                        ^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*                         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                            ^^^ support.function.color.css */
-
     top: color(w(var()) s(var()) () ));
 /*       ^^^^^ support.function.color.css */
 /*            ^ punctuation.section.group.begin.css */
