@@ -1787,9 +1787,7 @@ contexts:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
     # lab()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lab
-    # lch()
-    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch
-    - match: \b(?i:rgba?|lab|lch)(?=\()
+    - match: \b(?i:rgba?|lab)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - meta_include_prototype: false
@@ -1808,7 +1806,10 @@ contexts:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl
     # hwb()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb
-    - match: \b(?i:hsla?|hwb)(?=\()
+    # lch()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch
+    # https://drafts.csswg.org/css-color/#funcdef-lch
+    - match: \b(?i:hsla?|hwb|lch)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - meta_include_prototype: false
@@ -1824,8 +1825,8 @@ contexts:
             - include: percentage-constants
             - include: scalar-constants
 
-    # color-mod() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-color-mod
+    # color()
+    # https://drafts.csswg.org/css-color/#color-function
     - match: \b(?i:color)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
@@ -2735,7 +2736,7 @@ contexts:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-    - match: \b0\b(?!%)
+    - match: \b0\b(?![.%])
       scope: meta.number.integer.decimal.css constant.numeric.value.css
 
   frequency-constants:

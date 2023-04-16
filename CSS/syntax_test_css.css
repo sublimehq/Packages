@@ -2743,7 +2743,28 @@
 
     color: lch(0% 0.0 0.0 / 1.0);
 /*         ^^^ support.function.color.css */
+/*             ^^ meta.number.integer.decimal.css */
+/*             ^ constant.numeric.value.css */
+/*                ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                    ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                        ^ punctuation.separator.alpha.css */
+/*                          ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+
+    color: lch(20% 10% 20grad / 100%);
+/*         ^^^ support.function.color.css */
+/*             ^^^ meta.number.integer.decimal.css */
+/*             ^^ constant.numeric.value.css */
+/*               ^ constant.numeric.suffix.css */
+/*                 ^^^ meta.number.integer.decimal.css */
+/*                 ^^ constant.numeric.value.css */
+/*                   ^ constant.numeric.suffix.css */
+/*                     ^^^^^^ meta.number.integer.decimal.css */
+/*                     ^^ constant.numeric.value.css */
+/*                       ^^^^ constant.numeric.suffix.css */
+/*                            ^ punctuation.separator.alpha.css */
+/*                              ^^^^ meta.number.integer.decimal.css */
+/*                              ^^^ constant.numeric.value.css */
+/*                                 ^ constant.numeric.suffix.css */
 
     top: color(w(var()) s(var()) () ));
 /*       ^^^^^ support.function.color.css */
