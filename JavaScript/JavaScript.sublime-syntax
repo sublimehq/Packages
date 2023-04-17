@@ -776,7 +776,7 @@ contexts:
       set:
         - catch-meta
         - block-scope
-        - expect-parenthesized-expression
+        - catch-binding
 
   expect-parenthesized-expression:
     - include: parenthesized-expression
@@ -922,6 +922,20 @@ contexts:
       scope: keyword.control.loop.while.js
       set: parenthesized-expression
     - include: else-pop
+
+  catch-binding:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - catch-binding-end
+        - variable-binding-pattern
+    - include: else-pop
+
+  catch-binding-end:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
 
   decorator:
     - match: '@'

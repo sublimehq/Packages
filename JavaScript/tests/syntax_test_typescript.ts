@@ -1354,3 +1354,13 @@ const f = (x): (y) => 42 => z;
 //                       ^^ keyword.declaration.function.arrow
 //                          ^ meta.block variable.other.readwrite
 //                           ^ punctuation.terminator.statement
+
+try {} catch (e: any) {}
+//     ^^^^^^^^^^^^^^^^^ meta.catch
+//     ^^^^^ keyword.control.exception.catch
+//           ^^^^^^^^ meta.group
+//            ^ variable.other.readwrite
+//             ^ punctuation.separator.type
+//              ^^^^ meta.type
+//               ^^^ support.type.any
+//                    ^^ meta.block
