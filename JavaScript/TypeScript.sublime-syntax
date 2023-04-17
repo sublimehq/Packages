@@ -86,6 +86,27 @@ contexts:
         - ts-namespace-name
     - include: else-pop
 
+  conditional:
+    - meta_prepend: true
+    - match: catch{{identifier_break}}
+      scope: keyword.control.exception.catch.js
+      set:
+        - catch-meta
+        - block-scope
+        - ts-expect-catch-parens
+
+  ts-expect-catch-parens:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - - meta_scope: meta.group.js
+          - match: \)
+            scope: punctuation.section.group.end.js
+            pop: 1
+        - ts-type-annotation
+        - expression
+    - include: else-pop
+
   parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.begin.js
