@@ -16,8 +16,8 @@ variables:
   # https://www.w3.org/TR/css3-selectors/#lex
   unicode: \\\h{1,6}[ \t\n\f]?
   escape: (?:{{unicode}}|\\[^\n\f\h])
-  nmstart: (?:[_[:alpha:][:^ascii:]]|{{escape}})
-  nmchar: (?:[-_[:alnum:][:^ascii:]]|{{escape}})
+  nmstart: (?:[_[:alpha:][^\x{0}-\x{127}]]|{{escape}})
+  nmchar: (?:[-_[:alnum:][^\x{0}-\x{127}]]|{{escape}})
 
   # Identifier Break
   # The proper pattern would be (?!{{nmchar}}), but its impact on performance
@@ -26,7 +26,7 @@ variables:
   # 2. Breaks are ascii characters other than denoted by {{nmchar}}.
   # 3. Assume unicode or escape character if backslash is matched, instead of
   #    matching (?!{{escape}}) which also effects performance negative.
-  break: (?=[[^-_[:alnum:]\\]&&[[:ascii:]]]|\Z)
+  break: (?=[[^-_[:alnum:]\\]&&[\x{0}-\x{127}]]|\Z)
 
   # Interpolateable Identifiers
   ident_begin: (?=--|-?{{ident_start}})
