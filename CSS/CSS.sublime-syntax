@@ -739,7 +739,7 @@ contexts:
   at-page-block-content:
     - meta_scope: meta.property-list.css meta.block.css
     - include: at-page-margin
-    - include: at-page-property-list-content
+    - include: at-page-property-list-body
     - include: at-other
 
   at-page-margin:
@@ -757,9 +757,9 @@ contexts:
   at-page-property-lists:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-page-property-list-content
+      push: at-page-property-list-body
 
-  at-page-property-list-content:
+  at-page-property-list-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
     - include: comments
@@ -796,11 +796,11 @@ contexts:
     - meta_scope: meta.at-rule.property.css
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-property-property-list-content
+      push: at-property-property-list-body
     - include: comments
     - include: else-pop
 
-  at-property-property-list-content:
+  at-property-property-list-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
     - include: comments
@@ -842,11 +842,11 @@ contexts:
     - meta_scope: meta.at-rule.scroll-timeline.css
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-scroll-timeline-property-list-content
+      push: at-scroll-timeline-property-list-body
     - include: comments
     - include: else-pop
 
-  at-scroll-timeline-property-list-content:
+  at-scroll-timeline-property-list-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
     - include: comments
@@ -883,9 +883,9 @@ contexts:
   at-supports-groups:
     - match: \(
       scope: punctuation.section.group.begin.css
-      push: at-supports-group-content
+      push: at-supports-group-body
 
-  at-supports-group-content:
+  at-supports-group-body:
     - meta_scope: meta.group.css
     - include: group-end
     - include: at-rule-end
@@ -944,13 +944,13 @@ contexts:
   media-query-conditions:
     - match: \(
       scope: punctuation.section.group.begin.css
-      push: media-query-group-content
+      push: media-query-group-body
     - match: '[<>]=?|='
       scope: keyword.operator.comparison.css
     - match: \b(?i:and|or|not|only){{break}}
       scope: keyword.operator.logical.css
 
-  media-query-group-content:
+  media-query-group-body:
     - meta_scope: meta.group.css
     - match: (?=[,;{}])
       pop: 1
@@ -1382,9 +1382,9 @@ contexts:
   property-lists:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: property-list-content
+      push: property-list-body
 
-  property-list-content:
+  property-list-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
     - include: rule-list-body
@@ -1472,7 +1472,7 @@ contexts:
     - include: quoted-strings
     - include: builtin-functions
     - include: color-values
-    - include: line-names
+    - include: line-name-lists
     - include: unicode-ranges
     - include: numeric-constants
     - include: vendor-prefixes
@@ -2150,7 +2150,7 @@ contexts:
     - include: length-constants
     - include: percentage-constants
     - include: scalar-integer-constants
-    - include: line-names
+    - include: line-name-lists
 
 ###[ BUILTIN IMAGE FUNCTIONS ]#################################################
 
@@ -3091,18 +3091,21 @@ contexts:
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
-  line-names:
+  line-name-lists:
     - match: \[
       scope: punctuation.section.brackets.begin.css
-      push: line-names-content
+      push: line-name-list-body
 
-  line-names-content:
+  line-name-list-body:
     - meta_include_prototype: false
     - meta_scope: meta.line-names.css meta.brackets.css
     - include: brackets-end
+    - include: line-names
+    - include: terminator-pop
+
+  line-names:
     - match: '{{ident_begin}}'
       push: line-name-content
-    - include: terminator-pop
 
   line-name-content:
     - meta_scope: meta.string.css string.unquoted.line-name.css
