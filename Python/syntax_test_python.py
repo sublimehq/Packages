@@ -1662,11 +1662,33 @@ def my_func(param1, # Multi-line function definition
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.python
 #                 ^ punctuation.separator.parameters
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+
     # This is defaulted
-#   ^ comment.line.number-sign
+#   ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
+
     param2='#1' \
 #  ^^^^^^^^^^^^^^^ meta.function.parameters - meta.function meta.function
 #               ^ punctuation.separator.continuation.line.python
+
+    ,
+#   ^ punctuation.separator.parameters.python
+
+    ( arg1 # comment )
+#  ^ meta.function.parameters.python - meta.group
+#   ^^^^^^^ meta.function.parameters.python meta.group.python - comment
+#          ^^^^^^^^^^^^ meta.function.parameters.python meta.group.python comment.line.number-sign.python
+
+    # comment
+#   ^^^^^^^^^^ comment.line.number-sign.python
+        ,
+
+    # comment
+#   ^^^^^^^^^^ comment.line.number-sign.python
+    )
+#  ^^ meta.function.parameters.python meta.group.python
+#   ^ punctuation.section.group.end.python
+#    ^ meta.function.parameters.python - meta.group
+
 ) :
 # <- meta.function.parameters.python punctuation.section.parameters.end
 #^^ meta.function.python - meta.function meta.function
