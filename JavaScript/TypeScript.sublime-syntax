@@ -566,6 +566,8 @@ contexts:
   ts-type-parameter-list-head:
     - match: const{{identifier_break}}
       scope: storage.modifier.const.js
+    - match: (?:in|out){{identifier_break}}
+      scope: storage.modifier.variance.js
     - match: '{{identifier_name}}'
       scope: variable.parameter.generic.js
       set:

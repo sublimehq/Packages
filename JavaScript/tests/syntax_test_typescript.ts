@@ -1364,3 +1364,11 @@ try {} catch (e: any) {}
 //              ^^^^ meta.type
 //               ^^^ support.type.any
 //                    ^^ meta.block
+
+type T<in out U> = V;
+//    ^^^^^^^^^^ meta.generic
+//    ^ punctuation.definition.generic.begin
+//     ^^ storage.modifier.variance
+//        ^^^ storage.modifier.variance
+//            ^ variable.parameter.generic
+//             ^ punctuation.definition.generic.end
