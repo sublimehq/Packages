@@ -687,6 +687,7 @@ contexts:
     - match: '{{colon}}'
       scope: punctuation.separator.annotation.parameter.python
       set: function-parameter-annotation
+    - include: comments
     - include: function-parameter-tuples
     - include: parameter-names
     - include: line-continuations
@@ -735,6 +736,7 @@ contexts:
     # python 2 does not support type annotations
     - match: '{{colon}}'
       push: function-parameter-illegal-default-value
+    - include: comments
     - include: parameter-names
     - include: line-continuations
     - include: illegal-assignment-expressions
