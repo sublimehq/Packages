@@ -2789,12 +2789,8 @@ contexts:
 
   other-function-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
-    - include: function-arguments-prototype
-    - include: comma-delimiters
-    - include: calc-functions
-    - include: quoted-strings
-    - include: numeric-constants
-    - include: constants-or-functions
+    - include: function-arguments-list-end
+    - include: property-value-content
 
 ###[ FUNCTION ARGUMENTS ]######################################################
 
