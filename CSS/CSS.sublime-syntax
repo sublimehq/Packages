@@ -1,7 +1,6 @@
 %YAML 1.2
 ---
 # https://www.sublimetext.com/docs/syntax.html
-# Derived from https://github.com/i-akhmadullin/Sublime-CSS3
 name: CSS
 scope: source.css
 version: 2
