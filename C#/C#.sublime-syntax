@@ -243,14 +243,11 @@ contexts:
     - match: \b(using)\s+(?={{name}}\s*=\s*)
       captures:
         1: keyword.control.import.cs
-        2: meta.path.cs
-        3: keyword.operator.assignment.cs
       push: using_namespace
-    - match: '\b(using)(?!\s*\()(?:\s+(static))?\b'
+    - match: \b(using)(?:\s+(static)|(?!\s*\())\b
       captures:
         1: keyword.control.import.cs
         2: keyword.control.import.cs
-        3: meta.path.cs
       push: using_namespace
 
   namespace_variables:
