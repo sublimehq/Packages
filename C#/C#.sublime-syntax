@@ -236,7 +236,11 @@ contexts:
   using:
     - match: \bglobal\b
       scope: storage.modifier.cs
-    - match: '\b(using)\s+(?={{name}}\s*=\s*)'
+    - match: \b(using)\s+(?=var\b)
+      captures:
+        1: keyword.control.using.cs
+      push: var_declaration
+    - match: \b(using)\s+(?={{name}}\s*=\s*)
       captures:
         1: keyword.control.import.cs
         2: meta.path.cs

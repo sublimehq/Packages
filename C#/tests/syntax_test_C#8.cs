@@ -3,6 +3,26 @@
 // https://devblogs.microsoft.com/dotnet/take-c-8-0-for-a-spin/
 // https://devblogs.microsoft.com/dotnet/building-c-8-0/
 
+using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
+/// <- keyword.control.using.cs
+///   ^^^ storage.type.variable.cs
+///       ^^^^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^^^^^ keyword.control.other.cs
+///                    ^^^^^^ variable.other.cs
+///                          ^ punctuation.accessor.dot.cs
+///                           ^^^^^^^^ meta.function-call.cs variable.function.cs
+///                                   ^ meta.function-call.cs meta.group.cs punctuation.section.group.begin.cs
+///                                    ^^^^^^^ meta.function-call.cs meta.group.cs meta.instance.cs - meta.group meta.group
+///                                    ^^^ keyword.operator.new.cs
+///                                        ^^^ support.type.cs
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs meta.instance.cs meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///                                                                                                   ^ punctuation.section.group.end.cs
+///                                                                                                    ^ meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
+///                                                                                                     ^ punctuation.terminator.statement.cs
+
 List<int> numbers = null;
 int? i = null;
 
