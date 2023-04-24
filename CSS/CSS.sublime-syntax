@@ -934,7 +934,7 @@ contexts:
 
 ###[ MEDIA QUERIES ]###########################################################
 
-  # https://drafts.csswg.org/mediaqueries-5/#media
+  # https://drafts.csswg.org/mediaqueries-4/#media
   media-queries:
     - include: comma-delimiters
     - include: media-query-conditions
@@ -1017,7 +1017,7 @@ contexts:
         ){{break}}
       scope: support.constant.property-value.css
       pop: 1
-    - include: comments
+    - include: value-prototype
     - include: else-pop
 
   media-query-media-types:
@@ -1460,46 +1460,7 @@ contexts:
 
   property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: terminator-pop
-    - include: comments
-    - include: comma-delimiters
-    - include: common-operators
-    - include: builtin-values
-    - include: constants-or-functions
-
-  builtin-values:
-    - include: quoted-strings
-    - include: builtin-functions
-    - include: color-values
-    - include: line-name-lists
-    - include: unicode-ranges
-    - include: numeric-constants
-    - include: vendor-prefixes
-
-  # When including `color-values` and `color-adjuster-functions`, make sure it is
-  # included after the color adjustors to prevent `color-values` from consuming
-  # conflicting function names & color constants such as `red`, `green`, or `blue`.
-  color-values:
-    - include: color-functions
-    - include: color-constants
-
-  # Counter Symbol Values
-  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
-  # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
-  counter-symbol-values:
-    - include: image-values
-    - include: counter-system-constants
-    - include: scalar-integer-constants
-    - include: quoted-strings
-
-  # 2D Image Values
-  # https://drafts.csswg.org/css-images-4/#image-values
-  image-values:
-    - include: cross-fade-functions
-    - include: gradient-functions
-    - include: image-functions
-    - include: image-set-functions
-    - include: url-functions
+    - include: values
 
 ###[ COUNTER PROPERTY ]########################################################
 
@@ -1545,9 +1506,7 @@ contexts:
 
   counter-style-fallback-property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: terminator-pop
-    - include: comments
-    - include: var-functions
+    - include: value-prototype
     - include: counter-style-identifiers
 
   counter-style-identifiers:
@@ -1578,9 +1537,7 @@ contexts:
 
   counter-style-system-property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: terminator-pop
-    - include: comments
-    - include: var-functions
+    - include: value-prototype
     - include: counter-symbol-values
     - match: \b(?i:extends){{break}}
       scope: keyword.declaration.extends.css
@@ -1614,9 +1571,7 @@ contexts:
 
   counter-style-speak-as-property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: terminator-pop
-    - include: comments
-    - include: var-functions
+    - include: value-prototype
     - include: quoted-strings
     - include: counter-speak-as-constants
     - include: counter-style-identifiers
@@ -1640,11 +1595,9 @@ contexts:
 
   font-family-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: terminator-pop
-    - include: comments
+    - include: value-prototype
     - include: comma-delimiters
     - include: important-operators
-    - include: var-functions
     - include: quoted-strings
     - include: global-constants
     - include: generic-font-names
@@ -1669,17 +1622,15 @@ contexts:
 
   font-property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: terminator-pop
-    - include: comments
+    - include: value-prototype
     - include: comma-delimiters
     - include: arithmetic-operators
     - include: important-operators
-    - include: var-functions
+    - include: vendor-prefixes
     - include: calc-functions
     - include: color-values
     - include: numeric-constants
     - include: quoted-strings
-    - include: vendor-prefixes
     - include: global-constants
     - include: generic-font-names
     - include: font-display-constants
@@ -1690,6 +1641,52 @@ contexts:
     - include: font-variant-constants
     - include: font-weight-constants
     - include: font-family-names
+
+###[ VALUE EXPRESSIONS ]#######################################################
+
+  values:
+    - include: value-prototype
+    - include: comma-delimiters
+    - include: arithmetic-operators
+    - include: important-operators
+    - include: vendor-prefixes
+    - include: builtin-functions
+    - include: color-values
+    - include: line-name-lists
+    - include: unicode-ranges
+    - include: numeric-constants
+    - include: quoted-strings
+    - include: constants-or-functions
+
+  value-prototype:
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
+
+  # When including `color-values` and `color-adjuster-functions`, make sure it is
+  # included after the color adjustors to prevent `color-values` from consuming
+  # conflicting function names & color constants such as `red`, `green`, or `blue`.
+  color-values:
+    - include: color-functions
+    - include: color-constants
+
+  # Counter Symbol Values
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
+  counter-symbol-values:
+    - include: image-values
+    - include: counter-system-constants
+    - include: scalar-integer-constants
+    - include: quoted-strings
+
+  # 2D Image Values
+  # https://drafts.csswg.org/css-images-4/#image-values
+  image-values:
+    - include: cross-fade-functions
+    - include: gradient-functions
+    - include: image-functions
+    - include: image-set-functions
+    - include: url-functions
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
 
@@ -1723,7 +1720,6 @@ contexts:
     - include: toggle-functions
     - include: transform-functions
     - include: url-functions
-    - include: var-functions
 
 ###[ BUILTIN AT RULE FUNCTIONS ]###############################################
 
@@ -2683,11 +2679,9 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.css
       push: calc-function-arguments-group-body
-    - include: terminator-pop
-    - include: comments
+    - include: value-prototype
     - include: attr-functions
     - include: calc-functions
-    - include: var-functions
     - match: '{{float}}({{units}})?'
       scope: meta.number.float.decimal.css
       captures:
@@ -2790,7 +2784,7 @@ contexts:
   other-function-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
     - include: function-arguments-list-end
-    - include: property-value-content
+    - include: values
 
 ###[ FUNCTION ARGUMENTS ]######################################################
 
@@ -3218,10 +3212,6 @@ contexts:
       scope: punctuation.separator.path.css
 
 ###[ OPERATORS ]###############################################################
-
-  common-operators:
-    - include: arithmetic-operators
-    - include: important-operators
 
   arithmetic-operators:
     - match: /
