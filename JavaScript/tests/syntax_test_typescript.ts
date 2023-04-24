@@ -1255,6 +1255,14 @@ const f = <T,>(): U => {};
 //                ^ support.class
 //                  ^^ keyword.declaration.function.arrow
 
+const f = <T, U = V<any>>() => {};
+//        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^^^^^^^^^^^^^ meta.generic
+//                       ^^ meta.function.parameters
+//                         ^^^^^^ meta.function
+//                          ^^ keyword.declaration.function.arrow
+//                             ^^ meta.block
+
     a != b;
 //    ^^ keyword.operator.comparison
 

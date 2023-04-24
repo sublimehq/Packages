@@ -707,6 +707,11 @@ contexts:
     - match: \>
       scope: punctuation.definition.assertion.end.js
       pop: 1
+    - match: (?=\S) # Cover ts-type-parameter-list-head
+      push:
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
 
   ts-old-type-assertion-check:
     - match: (?=\()
