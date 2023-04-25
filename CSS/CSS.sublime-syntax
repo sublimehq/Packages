@@ -1306,7 +1306,7 @@ contexts:
 
   pseudo-class-selector-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
-    - include: function-arguments-prototype
+    - include: function-arguments-list-end
     - include: selector-content
 
   pseudo-class-other:
@@ -1827,7 +1827,7 @@ contexts:
 
   selector-function-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css meta.selector.css
-    - include: function-arguments-prototype
+    - include: function-arguments-list-end
     - include: quoted-strings
     - include: selector-content
 
