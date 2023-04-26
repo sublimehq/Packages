@@ -1657,6 +1657,7 @@ contexts:
     - include: numeric-constants
     - include: quoted-strings
     - include: constants-or-functions
+    - include: illegal-groups
 
   value-prototype:
     - include: terminator-pop
@@ -2730,7 +2731,6 @@ contexts:
         - var-function-arguments-defaults
         - var-function-arguments-identifier
         - function-arguments-list-begin
-    - include: illegal-groups
 
   var-function:
     - match: \b(?i:var)(?=\()
@@ -2739,7 +2739,6 @@ contexts:
         - var-function-arguments-defaults
         - var-function-arguments-identifier
         - function-arguments-list-begin
-    - include: illegal-groups
 
   var-function-arguments-defaults:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
@@ -2804,6 +2803,7 @@ contexts:
       pop: 1
     - include: comments
     - include: var-functions
+    - include: illegal-groups
 
 ###[ IDENTIFIERS ]#############################################################
 
