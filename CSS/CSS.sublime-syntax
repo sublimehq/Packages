@@ -2665,7 +2665,6 @@ contexts:
 
   calc-function-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
-    - include: function-arguments-list-end
     - include: calc-function-arguments-content
 
   calc-function-arguments-group-body:
@@ -2679,7 +2678,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.css
       push: calc-function-arguments-group-body
-    - include: value-prototype
+    - include: function-arguments-prototype
+    - include: comma-delimiters
     - include: attr-functions
     - include: calc-functions
     - match: '{{float}}({{units}})?'
@@ -2699,7 +2699,6 @@ contexts:
       push: maybe-illegal-operator
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
-    - include: comma-delimiters
 
   toggle-functions:
     # toggle()
@@ -2801,7 +2800,8 @@ contexts:
 
   function-arguments-prototype:
     - include: function-arguments-list-end
-    - include: terminator-pop
+    - match: (?=[;{}])
+      pop: 1
     - include: comments
     - include: var-functions
 
