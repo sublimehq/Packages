@@ -1656,6 +1656,7 @@ contexts:
     - include: unicode-ranges
     - include: numeric-constants
     - include: quoted-strings
+    - include: none-constants
     - include: constants-or-functions
     - include: illegal-groups
 
