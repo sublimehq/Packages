@@ -2998,7 +2998,7 @@ contexts:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
-    - match: \b0\b(?!%)
+    - match: \b0\b(?![.%])
       scope: meta.number.integer.decimal.css constant.numeric.value.css
 
   resolution-constants:
