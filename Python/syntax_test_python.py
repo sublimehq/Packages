@@ -1800,6 +1800,14 @@ async def coroutine(param1):
 #         ^ entity.name.function
    pass
 
+def func(*): pass
+#       ^^^ meta.function.parameters.python
+#        ^ keyword.operator.unpacking.sequence.python
+
+def func(p1, p2, *): pass
+#                ^ keyword.operator.unpacking.sequence.python
+#                 ^ punctuation.section.parameters.end.python
+
 def func(*args, other_arg=2**10, **kwargs):
 #        ^ keyword.operator.unpacking.sequence.python
 #                          ^^ keyword.operator.arithmetic.python
@@ -1813,6 +1821,29 @@ def func(
 #              ^^ keyword.operator.arithmetic
     **kwargs
 #   ^^ keyword.operator.unpacking.mapping
+):
+    pass
+
+def func(
+
+    *
+#   ^ keyword.operator.unpacking.sequence.python
+
+    args,
+#   ^^^^ variable.parameter.python
+
+    other_arg
+    = 2
+
+    **
+#   ^^ keyword.operator.arithmetic.python
+    10,
+
+    **
+#   ^^ keyword.operator.unpacking.mapping.python
+
+    kwargs
+#   ^^^^^^ variable.parameter.python
 ):
     pass
 
@@ -1840,29 +1871,60 @@ def func(args, (x, y)=(0,0)):
 #                          ^ punctuation.section.parameters.end.python
     pass
 
-def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
-#                     ^^^^^^^^^^^^^^^^ meta.group.python
-#                                     ^^^ - meta.group.python
-#                                        ^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
-#                     ^ punctuation.section.group.begin.python
-#                      ^ variable.parameter.python
-#                       ^^^^^^^ invalid.illegal.annotation.python
-#                              ^ punctuation.separator.parameters.python
-#                                ^ variable.parameter.python
-#                                 ^^^ invalid.illegal.default-value.python
-#                                    ^ punctuation.section.group.end.python
-#                                      ^ keyword.operator.assignment.python
-#                                        ^ punctuation.section.sequence.begin.python
-#                                                       ^ punctuation.section.sequence.end.python
+def func(arg: int = 0, (x: float, y=20) = (0.0, "default")):
+#                      ^^^^^^^^^^^^^^^^ meta.group.python
+#                                      ^^^ - meta.group.python
+#                                         ^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
+#                      ^ punctuation.section.group.begin.python
+#                       ^ variable.parameter.python
+#                        ^^^^^^^ invalid.illegal.annotation.python
+#                               ^ punctuation.separator.parameters.python
+#                                 ^ variable.parameter.python
+#                                  ^^^ invalid.illegal.default-value.python
+#                                     ^ punctuation.section.group.end.python
+#                                       ^ keyword.operator.assignment.python
+#                                         ^ punctuation.section.sequence.begin.python
+#                                                        ^ punctuation.section.sequence.end.python
     pass
 
-def name(p1, p2=None, /, p_or_kw=None, *, kw): pass
+def func(p1, p2=None, /, p_or_kw=None, *, kw): pass
 #                     ^ storage.modifier.positional-args-only.python
 #                      ^ punctuation.separator.parameters.python
-#                                      ^ keyword.operator.unpacking.sequence.python
-def name(p1, p2, /): pass
+#                                    ^ punctuation.separator.parameters.python
+#                                      ^ storage.modifier.named-args-only.python
+#                                       ^ punctuation.separator.parameters.python
+
+def func(p1, p2, /): pass
 #                ^ storage.modifier.positional-args-only.python
 #                 ^ punctuation.section.parameters.end.python
+
+def func(p1, p2, *,): pass
+#                ^ storage.modifier.named-args-only.python
+#                 ^ punctuation.separator.parameters.python
+#                  ^ punctuation.section.parameters.end.python
+
+def func(*,): pass
+#       ^^^^ meta.function.parameters.python
+#        ^ storage.modifier.named-args-only.python
+
+def func(
+    bar: str,
+
+    *
+#  ^^^ meta.function.parameters.python
+#   ^ storage.modifier.named-args-only.python
+
+    ,
+#  ^^^ meta.function.parameters.python
+#   ^ punctuation.separator.parameters.python
+
+    baz: str,
+#  ^^^^^^^^^^^ meta.function.parameters
+#   ^^^ variable.parameter.python
+#      ^ punctuation.separator.annotation.parameter.python
+#        ^^^ support.type.python
+#           ^ punctuation.separator.parameters.python
+): pass
 
 
 ##################
