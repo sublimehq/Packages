@@ -1101,7 +1101,7 @@
 /*                  ^ punctuation.separator.sequence.css */
 /*                    ^^^^^^^^^^^^^^^^ meta.path.css */
 /*                    ^^^^^^^^^ entity.other.layer.css */
-/*                             ^ punctuation.accessor.dot.css */
+/*                             ^ punctuation.accessor.dot.css - entity.other.layer */
 /*                              ^^^^^^ entity.other.layer.css */
 /*                                    ^ punctuation.separator.sequence.css */
 /*                                      ^ punctuation.section.block.begin.css */

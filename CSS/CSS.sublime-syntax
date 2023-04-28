@@ -638,24 +638,26 @@ contexts:
     - include: at-rule-end
 
   at-layer-names:
-    - match: ({{ident}})(\.)
-      captures:
-        1: entity.other.layer.css
-        2: punctuation.accessor.dot.css
-      push: at-layer-qualified-name
-    - match: '{{ident}}'
-      scope: entity.other.layer.css
+    - match: '{{ident_begin}}'
+      branch_point: at-layer-names
+      branch:
+        - at-layer-unqualified-name
+        - at-layer-qualified-name
+
+  at-layer-unqualified-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.other.layer.css
+    - match: (?=\.)
+      fail: at-layer-names
+    - include: identifier-content
 
   at-layer-qualified-name:
-    - meta_scope: meta.path.css
-    - match: ({{ident}})(\.)
-      captures:
-        1: entity.other.layer.css
-        2: punctuation.accessor.dot.css
-    - match: '{{ident}}'
-      scope: entity.other.layer.css
-      pop: 1
-    - include: immediately-pop
+    - meta_include_prototype: false
+    - meta_scope: meta.path.css entity.other.layer.css
+    - match: \.
+      scope: punctuation.accessor.dot.css
+      push: clear-pop
+    - include: identifier-content
 
   # @media
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
@@ -3295,6 +3297,11 @@ contexts:
       scope: invalid.illegal.unexpected-token.css
 
 ###[ PROTOTYPES ]##############################################################
+
+  clear-pop:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: immediately-pop
 
   else-pop:
     - match: (?=\S)
