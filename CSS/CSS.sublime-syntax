@@ -439,11 +439,11 @@ contexts:
     - meta_scope: meta.at-rule.counter-style.css
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-counter-style-block-content
+      push: at-counter-style-block-body
     - include: at-counter-style-names
     - include: at-rule-end
 
-  at-counter-style-block-content:
+  at-counter-style-block-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
     - include: comments
@@ -529,10 +529,10 @@ contexts:
     - meta_scope: meta.at-rule.font-face.css
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-font-face-block-content
+      push: at-font-face-block-body
     - include: at-rule-end
 
-  at-font-face-block-content:
+  at-font-face-block-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end2
     - include: comments
@@ -599,9 +599,9 @@ contexts:
   at-keyframe-block:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-keyframe-block-content
+      push: at-keyframe-block-body
 
-  at-keyframe-block-content:
+  at-keyframe-block-body:
     - meta_scope: meta.block.css
     - include: block-end2
     - include: comments
@@ -735,9 +735,9 @@ contexts:
   at-page-block:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-page-block-content
+      push: at-page-block-body
 
-  at-page-block-content:
+  at-page-block-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: at-page-margin
     - include: at-page-property-list-body
@@ -912,19 +912,19 @@ contexts:
     - meta_scope: meta.at-rule.other.css
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-other-block-content
+      push: at-other-block-body
     - include: at-rule-end
 
-  at-other-block-content:
+  at-other-block-body:
     - meta_scope: meta.block.css
     - include: block-end2
 
   at-rule-block:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-rule-block-content
+      push: at-rule-block-body
 
-  at-rule-block-content:
+  at-rule-block-body:
     - meta_scope: meta.block.css
     - include: block-end2
     - include: stylesheet
