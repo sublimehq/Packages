@@ -1,0 +1,6 @@
+<snippet>
+	<description>std::begin($1), std::end($1)</description>
+	<content><![CDATA[std::begin(${1:v}${1/^.*?(-)?(>)?$/(?2::)/}), std::end(${1:v}${1/^.*?(-)?(>)?$/(?2::)/})]]></content>
+	<tabTrigger>beginend</tabTrigger>
+	<scope>(source.c++ | source.objc++) - meta.preprocessor.include - comment - string</scope>
+</snippet>
