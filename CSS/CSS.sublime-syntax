@@ -1123,15 +1123,6 @@ contexts:
     - match: \*
       scope: variable.language.wildcard.asterisk.css
 
-  # Qualified Names
-  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
-  namespace-prefixes:
-    - match: (?:({{ident}})|(\*))?(\|)(?!=)
-      captures:
-        1: entity.other.namespace-prefix.css
-        2: variable.language.wildcard.asterisk.css
-        3: punctuation.separator.namespace.css
-
   vendor-prefixes:
     - match: '{{vendor_prefix}}'
       scope: support.type.vendor-prefix.css
@@ -1145,6 +1136,7 @@ contexts:
       scope: punctuation.section.brackets.begin.css
       push:
         - attribute-selector-meta
+        - attribute-selector-operator
         - attribute-selector-key
 
   attribute-selector-meta:
@@ -1153,19 +1145,10 @@ contexts:
     - include: immediately-pop
 
   attribute-selector-key:
-    - include: namespace-prefixes
-    - match: '{{ident_begin}}'
-      set:
-        - attribute-selector-operator
-        - attribute-selector-key-content
-    - match: \*
-      scope: variable.language.wildcard.asterisk.css
-      set: attribute-selector-operator
-    - include: attribute-selector-operator
-
-  attribute-selector-key-content:
-    - meta_scope: entity.other.attribute-name.css
-    - include: identifier-content
+    - meta_include_prototype: false
+    - include: attr-name
+    - include: comments
+    - include: else-pop
 
   attribute-selector-operator:
     - match: '[~*|^$]?='
@@ -2628,17 +2611,11 @@ contexts:
 
   attr-function-arguments-identifier:
     - meta_include_prototype: false
-    - include: namespace-prefixes
-    - include: quoted-string
     - include: var-function
-    - match: '{{ident_begin}}'
-      set: attr-function-arguments-identifier-content
+    - include: quoted-string
+    - include: attr-name
     - include: comments
     - include: else-pop
-
-  attr-function-arguments-identifier-content:
-    - meta_scope: entity.other.attribute-name.css
-    - include: identifier-content
 
   attr-function-arguments-value:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
@@ -2809,6 +2786,38 @@ contexts:
     - include: illegal-groups
 
 ###[ IDENTIFIERS ]#############################################################
+
+  # Qualified Names
+  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
+  attr-name:
+    - match: (?=[*|]|--|-?{{ident_start}})
+      set: attr-name-content
+
+  attr-name-content:
+    - meta_include_prototype: false
+    - match: '{{ident_begin}}'
+      branch_point: attr-name
+      branch:
+        - attr-name-identifier-content
+        - attr-name-namespace-content
+    - match: \*(?!=)
+      scope: variable.language.wildcard.asterisk.css
+    - match: \|(?!=)
+      scope: punctuation.separator.namespace.css
+    - include: immediately-pop
+
+  attr-name-identifier-content:
+    - meta_content_scope: entity.other.attribute-name.css
+    - match: \|(?!=)
+      fail: attr-name
+    - include: identifier-content
+
+  attr-name-namespace-content:
+    - meta_content_scope: entity.other.namespace-prefix.css
+    - match: \|(?!=)
+      scope: punctuation.separator.namespace.css
+      pop: 1
+    - include: identifier-content
 
   identifier-content:
     # also pop parent context

@@ -2301,6 +2301,22 @@
 /*                                                              ^^ keyword.operator.logical.css */
 /*                                                                     ^^ keyword.operator.logical.css */
 
+.test-attribute-selectors-operators[n|=""][n|~=""][n||=""][n|^=""][n|$=""][n|*=""] {}
+/*                                   ^^ keyword.operator.logical.css */
+/*                                           ^^ keyword.operator.logical.css */
+/*                                                   ^^ keyword.operator.logical.css */
+/*                                                           ^^ keyword.operator.logical.css */
+/*                                                                   ^^ keyword.operator.logical.css */
+/*                                                                           ^^ keyword.operator.logical.css */
+
+.test-attribute-selectors-operators[*|a=""][*|a~=""][*|a|=""][*|a^=""][*|a$=""][*|a*=""] {}
+/*                                     ^ keyword.operator.logical.css */
+/*                                             ^^ keyword.operator.logical.css */
+/*                                                      ^^ keyword.operator.logical.css */
+/*                                                               ^^ keyword.operator.logical.css */
+/*                                                                        ^^ keyword.operator.logical.css */
+/*                                                                                 ^^ keyword.operator.logical.css */
+
 .test-attribute-selectors-whitespace[a = ""] {}
 /*                                   ^ entity.other.attribute-name.css */
 /*                                     ^ keyword.operator.logical.css */
@@ -3172,6 +3188,12 @@
 /*                 ^^ keyword.other.unit.css */
 /*                   ^ punctuation.separator.sequence.css */
 /*                     ^^^^ support.constant.property-value.css */
+
+    top: attr( /**/ size /**/ px /**/ , /**/ auto );
+/*                  ^^^^ entity.other.attribute-name.css */
+/*                            ^^ keyword.other.unit.css */
+/*                                    ^ punctuation.separator.sequence.css */
+/*                                           ^^^^ support.constant.property-value.css */
 
     top: attr(preserve-3d);
 /*            ^^^^^^^^^^^ entity.other.attribute-name.css */
