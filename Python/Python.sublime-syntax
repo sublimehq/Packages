@@ -668,7 +668,7 @@ contexts:
       scope: meta.function.parameters.python punctuation.section.parameters.begin.python
       set:
         - function-parameter-list-body
-        - allow-unpack-operators
+        - function-parameter-allow-unpack-operators
 
   function-parameter-list-body:
     - meta_content_scope: meta.function.parameters.python
@@ -677,7 +677,7 @@ contexts:
       set: function-after-parameters
     - match: ','
       scope: punctuation.separator.parameters.python
-      push: allow-unpack-operators
+      push: function-parameter-allow-unpack-operators
     - match: /
       scope: storage.modifier.positional-args-only.python
       push: function-parameter-expect-comma
@@ -692,6 +692,34 @@ contexts:
     - include: parameter-names
     - include: line-continuations
     - include: illegal-assignment-expressions
+
+  function-parameter-allow-unpack-operators:
+    - match: (?=\*(?!\*))
+      branch_point: unpack-or-separator
+      branch:
+        - function-parameter-unpack-operator
+        - function-parameter-named-only-operator
+    - include: allow-unpack-operators
+
+  function-parameter-named-only-operator:
+    - meta_include_prototype: false
+    - match: \*
+      scope: storage.modifier.named-args-only.python
+      pop: 2
+
+  function-parameter-unpack-operator:
+    - meta_include_prototype: false
+    - match: \*
+      scope: keyword.operator.unpacking.sequence.python
+      set: function-parameter-unpack-operator-check
+
+  function-parameter-unpack-operator-check:
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=,)
+      fail: unpack-or-separator
+    - match: ^(?!\s*([#,]|$))|(?=\S)
+      pop: 2
 
   function-parameter-expect-comma:
     - meta_include_prototype: false
@@ -720,7 +748,9 @@ contexts:
     # removed from python 3 since PEP-3113
     - match: \(
       scope: punctuation.section.group.begin.python
-      push: function-parameter-tuple-body
+      push:
+        - function-parameter-tuple-body
+        - allow-unpack-operators
 
   function-parameter-tuple-body:
     - meta_scope: meta.group.python
@@ -1847,7 +1877,7 @@ contexts:
       scope: keyword.operator.unpacking.sequence.python
       pop: 1
     - include: else-pop
-    - match: ^(?!\s*[#*])
+    - match: ^(?!\s*([#*]|$))
       pop: 1
 
   sequence-separators:
