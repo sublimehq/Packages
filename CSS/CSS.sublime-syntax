@@ -2861,7 +2861,7 @@ contexts:
       scope: support.constant.symbol-type.css
 
   direction-constants:
-    - match: \b(ltr|rtl){{break}}
+    - match: \b(?i:ltr|rtl){{break}}
       scope: support.constant.property-value.css
 
   font-display-constants:
