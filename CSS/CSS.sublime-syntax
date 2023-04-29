@@ -1041,9 +1041,9 @@ contexts:
 
   selectors:
     - match: '{{selector_begin}}'
-      push: selector-content
+      push: selector-body
 
-  selector-content:
+  selector-body:
     - meta_scope: meta.selector.css
     - include: selector-end
     - include: comments
@@ -1292,7 +1292,7 @@ contexts:
   pseudo-class-selector-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
     - include: function-arguments-list-end
-    - include: selector-content
+    - include: selector-body
 
   pseudo-class-other:
     - match: '{{ident_begin}}'
@@ -1816,7 +1816,7 @@ contexts:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css meta.selector.css
     - include: function-arguments-list-end
     - include: quoted-strings
-    - include: selector-content
+    - include: selector-body
 
   supports-functions:
     # supports()
