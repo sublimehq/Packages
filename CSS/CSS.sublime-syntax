@@ -3131,24 +3131,34 @@ contexts:
   double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.css string.quoted.double.css
+    - include: double-quoted-string-end
+    - include: string-content
+
+  double-quoted-string-end:
     - match: \"
       scope: punctuation.definition.string.end.css
       pop: 1
-    - include: string-content
+    - include: illegal-string-end
 
   single-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.css string.quoted.single.css
+    - include: single-quoted-string-end
+    - include: string-content
+
+  single-quoted-string-end:
     - match: \'
       scope: punctuation.definition.string.end.css
       pop: 1
-    - include: string-content
+    - include: illegal-string-end
 
-  string-content:
-    - meta_include_prototype: false
+  illegal-string-end:
     - match: \n
       scope: invalid.illegal.newline.css
       pop: 1
+
+  string-content:
+    - meta_include_prototype: false
     - match: \\\s*\n
       scope: constant.character.escape.newline.css
     - match: \\(?:\h{1,6}|.)
@@ -3178,6 +3188,7 @@ contexts:
         meta.string.css string.quoted.double.css
         punctuation.definition.string.end.css
       pop: 1
+    - include: illegal-string-end
     - include: url-content
 
   single-quoted-url-body:
@@ -3190,6 +3201,7 @@ contexts:
         meta.string.css string.quoted.single.css
         punctuation.definition.string.end.css
       pop: 1
+    - include: illegal-string-end
     - include: url-content
 
   # Unquoted URL token
@@ -3207,10 +3219,10 @@ contexts:
       scope: invalid.illegal.unexpected-token.css
       set:
         - meta_include_prototype: false
-        - match: (?=\))
+        - match: (?=[)\n])
           pop: 1
         - include: string-content
-    - match: (?=\))
+    - match: (?=[)\n])
       pop: 1
     - include: url-content
 

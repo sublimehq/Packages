@@ -3252,6 +3252,24 @@
 /*          ^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^ support.function.url.css */
 /*           ^ meta.string.css string.unquoted.css */
+    top: url(url;
+/*       ^^^ meta.function-call.identifier.css support.function.url.css */
+/*          ^^^^^ meta.function-call.arguments.css meta.group.css */
+/*           ^^^^ meta.path.url.css meta.string.css string.unquoted.css */
+        );
+/*     ^^ meta.function-call.arguments.css meta.group.css */
+/*      ^ punctuation.section.group.end.css */
+/*       ^ punctuation.terminator.rule.css */
+
+    top: url(");
+/*       ^^^ meta.function-call.identifier.css support.function.url.css */
+/*          ^^^^^ meta.function-call.arguments.css meta.group.css */
+/*           ^^^ meta.string.css string.quoted.double.css */
+/*              ^ invalid.illegal.newline.css */
+        );
+/*     ^^ meta.function-call.arguments.css meta.group.css */
+/*      ^ punctuation.section.group.end.css */
+/*       ^ punctuation.terminator.rule.css */
 
     top: url("foo/bar%20baz.php?page=10&func=test()#ancor");
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
