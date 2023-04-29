@@ -3115,20 +3115,20 @@ contexts:
   quoted-strings:
     - match: \"
       scope: punctuation.definition.string.begin.css
-      push: double-quoted-string-content
+      push: double-quoted-string-body
     - match: \'
       scope: punctuation.definition.string.begin.css
-      push: single-quoted-string-content
+      push: single-quoted-string-body
 
   quoted-string:
     - match: \"
       scope: punctuation.definition.string.begin.css
-      set: double-quoted-string-content
+      set: double-quoted-string-body
     - match: \'
       scope: punctuation.definition.string.begin.css
-      set: single-quoted-string-content
+      set: single-quoted-string-body
 
-  double-quoted-string-content:
+  double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.css string.quoted.double.css
     - match: \"
@@ -3136,7 +3136,7 @@ contexts:
       pop: 1
     - include: string-content
 
-  single-quoted-string-content:
+  single-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.css string.quoted.single.css
     - match: \'
@@ -3161,14 +3161,14 @@ contexts:
       scope:
         meta.string.css string.quoted.double.css
         punctuation.definition.string.begin.css
-      push: double-quoted-url-content
+      push: double-quoted-url-body
     - match: \'
       scope:
         meta.string.css string.quoted.single.css
         punctuation.definition.string.begin.css
-      push: single-quoted-url-content
+      push: single-quoted-url-body
 
-  double-quoted-url-content:
+  double-quoted-url-body:
     - meta_include_prototype: false
     - meta_content_scope:
         meta.path.url.css
@@ -3180,7 +3180,7 @@ contexts:
       pop: 1
     - include: url-content
 
-  single-quoted-url-content:
+  single-quoted-url-body:
     - meta_include_prototype: false
     - meta_content_scope:
         meta.path.url.css
@@ -3196,9 +3196,9 @@ contexts:
   # https://drafts.csswg.org/css-syntax-3/#consume-a-url-token
   unquoted-urls:
     - match: (?=[[:alnum:]/])
-      push: unquoted-url-content
+      push: unquoted-url-body
 
-  unquoted-url-content:
+  unquoted-url-body:
     - meta_include_prototype: false
     - meta_content_scope:
         meta.path.url.css
