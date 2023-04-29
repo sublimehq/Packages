@@ -418,9 +418,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-charset-content
+      push: at-charset-body
 
-  at-charset-content:
+  at-charset-body:
     - meta_scope: meta.at-rule.charset.css
     - include: quoted-strings
     - include: at-rule-end
@@ -432,9 +432,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-counter-style-content
+      push: at-counter-style-body
 
-  at-counter-style-content:
+  at-counter-style-body:
     - meta_include_prototype: false
     - meta_scope: meta.at-rule.counter-style.css
     - match: \{
@@ -478,7 +478,7 @@ contexts:
       captures:
         1: punctuation.definition.keyword.css
       push:
-        - at-custom-media-content
+        - at-custom-media-body
         - at-custom-media-identifier
 
   at-custom-media-identifier:
@@ -492,7 +492,7 @@ contexts:
     - meta_scope: entity.other.custom-media.css
     - include: identifier-content
 
-  at-custom-media-content:
+  at-custom-media-body:
     - meta_scope: meta.at-rule.custom-media.css
     - include: media-queries
     - include: at-rule-end
@@ -504,9 +504,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-document-content
+      push: at-document-body
 
-  at-document-content:
+  at-document-body:
     - meta_scope: meta.at-rule.document.css
     - include: comma-delimiters
     - include: url-functions
@@ -523,9 +523,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-font-face-content
+      push: at-font-face-body
 
-  at-font-face-content:
+  at-font-face-body:
     - meta_scope: meta.at-rule.font-face.css
     - match: \{
       scope: punctuation.section.block.begin.css
@@ -555,9 +555,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-import-content
+      push: at-import-body
 
-  at-import-content:
+  at-import-body:
     - meta_scope: meta.at-rule.import.css
     - include: quoted-strings
     - include: url-functions
@@ -573,9 +573,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-keyframe-content
+      push: at-keyframe-body
 
-  at-keyframe-content:
+  at-keyframe-body:
     - meta_scope: meta.at-rule.keyframe.css
     - include: comma-delimiters
     - include: at-keyframe-block
@@ -610,9 +610,9 @@ contexts:
 
   at-keyframe-selectors:
     - match: (?=[[:alnum:].,%])
-      push: at-keyframe-selector-content
+      push: at-keyframe-selector-body
 
-  at-keyframe-selector-content:
+  at-keyframe-selector-body:
     - meta_scope: meta.selector.css
     - include: selector-end
     - include: comments
@@ -628,9 +628,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-layer-content
+      push: at-layer-body
 
-  at-layer-content:
+  at-layer-body:
     - meta_scope: meta.at-rule.layer.css
     - include: comma-delimiters
     - include: at-layer-names
@@ -666,9 +666,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-media-content
+      push: at-media-body
 
-  at-media-content:
+  at-media-body:
     - meta_scope: meta.at-rule.media.css
     - include: media-queries
     - include: at-rule-block
@@ -682,7 +682,7 @@ contexts:
       captures:
         1: punctuation.definition.keyword.css
       push:
-        - at-namespace-content
+        - at-namespace-body
         - at-namespace-identifier
 
   at-namespace-identifier:
@@ -692,7 +692,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  at-namespace-content:
+  at-namespace-body:
     - meta_scope: meta.at-rule.namespace.css
     - include: var-functions
     - include: url-functions
@@ -707,9 +707,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-page-content
+      push: at-page-body
 
-  at-page-content:
+  at-page-body:
     - meta_scope: meta.at-rule.page.css
     - include: comma-delimiters
     - include: at-page-block
@@ -748,9 +748,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-page-margin-content
+      push: at-page-margin-body
 
-  at-page-margin-content:
+  at-page-margin-body:
     - meta_scope: meta.at-rule.margin.css
     - include: at-page-property-lists
     - include: at-rule-end
@@ -870,9 +870,9 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-supports-content
+      push: at-supports-body
 
-  at-supports-content:
+  at-supports-body:
     - meta_scope: meta.at-rule.supports.css
     - include: at-supports-groups
     - include: at-supports-operators
@@ -906,9 +906,9 @@ contexts:
   # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
   at-other:
     - match: (@){{ident}}
-      push: at-other-content
+      push: at-other-body
 
-  at-other-content:
+  at-other-body:
     - meta_scope: meta.at-rule.other.css
     - match: \{
       scope: punctuation.section.block.begin.css
