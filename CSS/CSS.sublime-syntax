@@ -380,9 +380,9 @@ contexts:
     # normal block comment
     - match: /\*+
       scope: punctuation.definition.comment.begin.css
-      push: comments-content
+      push: block-comment-body
 
-  comments-content:
+  block-comment-body:
     - meta_scope: comment.block.css
     - match: \*+/
       scope: punctuation.definition.comment.end.css
