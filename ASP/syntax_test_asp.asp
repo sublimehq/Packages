@@ -168,31 +168,6 @@
     </script>
     ' ^^^^^^^ meta.tag - source
 
-    <style type="text/css"> <!-- h1 {} --> </style>
-    '  ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
-    '                      ^ - meta.tag - comment - source
-    '                       ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
-    '                           ^^^^^^^ source.css.embedded.html
-    '                                  ^^^ comment.block.html punctuation.definition.comment.end.html - source
-    '                                     ^ - meta.tag - comment - source
-    '                                      ^^^^^^^^ meta.tag - comment - source
-
-    <style>.<%=selector%> { <%=attr%>: <%=value%>; }</style>
-    '^^^^^^ meta.tag.style.begin.html
-    '      ^^^^^^^^^^^^^^^ source.css.embedded.html - meta.property-list - meta.block
-    '                     ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css
-    '                                               ^^^^^^^^ meta.tag.style.end.html
-    '      ^ meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css
-    '       ^^^^^^^^^^^^^ meta.selector.css entity.other.attribute-name.class.css meta.embedded.asp
-    '       ^^^ punctuation.section.embedded.begin.asp
-    '          ^^^^^^^^ source.asp.embedded.html variable.other.asp
-    '                  ^^ punctuation.section.embedded.end.asp
-    '                     ^ punctuation.section.block.begin.css
-    '                       ^^^^^^^^^ meta.embedded.asp
-    '                                ^ punctuation.separator.key-value.css
-    '                                  ^^^^^^^^^^ meta.property-value.css meta.embedded.asp
-    '                                            ^ punctuation.terminator.rule.css
-    '                                              ^ punctuation.section.block.end.css
     <style>
 
 ' <- source.css.embedded.html
@@ -212,6 +187,65 @@
     '      ^ - meta.tag - comment - source
     </style>
     '  ^^^^^ meta.tag - comment - source
+
+
+    <style type="text/css"> <!-- h1 {} --> </style>
+    '  ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+    '                      ^ - meta.tag - comment - source
+    '                       ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+    '                           ^^^^^^^ source.css.embedded.html
+    '                                  ^^^ comment.block.html punctuation.definition.comment.end.html - source
+    '                                     ^ - meta.tag - comment - source
+    '                                      ^^^^^^^^ meta.tag - comment - source
+
+    <style>
+        .<%=selector%> { <%=attr%>: <%=value%>; }
+    '   ^^^^^^^^^^^^^^^ source.css.embedded.html - meta.property-list - meta.block
+    '                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css
+    '   ^ meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css
+    '    ^^^^^^^^^^^^^ meta.selector.css entity.other.attribute-name.class.css meta.embedded.asp
+    '    ^^^ punctuation.section.embedded.begin.asp
+    '       ^^^^^^^^ source.asp.embedded.html variable.other.asp
+    '               ^^ punctuation.section.embedded.end.asp
+    '                  ^ punctuation.section.block.begin.css
+    '                    ^^^^^^^^^ meta.embedded.asp
+    '                             ^ punctuation.separator.key-value.css
+    '                               ^^^^^^^^^^ meta.property-value.css meta.embedded.asp
+    '                                         ^ punctuation.terminator.rule.css
+    '                                           ^ punctuation.section.block.end.css
+
+        .my-<%=selector%>--class { my-<%=attr%>--prop: a-<%=value%>-const; }
+    '   ^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.selector.css - meta.property-list - meta.block
+    '                            ^^ source.css.embedded.html meta.property-list.css meta.block.css - meta.selector - meta.property-name
+    '                              ^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css meta.property-name.css
+    '                                                ^ source.css.embedded.html meta.property-list.css meta.block.css - meta.selector - meta.property-name - meta.property-value
+    '                                                 ^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css meta.property-value.css
+    '                                                                    ^^^ source.css.embedded.html meta.property-list.css meta.block.css - meta.selector - meta.property-name - meta.property-value
+    '   ^^^^ entity.other.attribute-name.class.css - meta.embedded.asp
+    '   ^ punctuation.definition.entity.css
+    '       ^^^^^^^^^^^^^ entity.other.attribute-name.class.css meta.embedded.asp
+    '       ^^^ punctuation.section.embedded.begin.asp
+    '          ^^^^^^^^ source.asp.embedded.html variable.other.asp
+    '                  ^^ punctuation.section.embedded.end.asp
+    '                    ^^^^^^^ entity.other.attribute-name.class.css - meta.embedded.asp
+    '                            ^ punctuation.section.block.begin.css
+    '                              ^^^ support.type.property-name.css - meta.embedded
+    '                                 ^^^^^^^^^ support.type.property-name.css meta.embedded.asp
+    '                                 ^^^ punctuation.section.embedded.begin.asp
+    '                                    ^^^^ source.asp.embedded.html variable.other.asp
+    '                                        ^^ punctuation.section.embedded.end.asp
+    '                                          ^^^^^^ support.type.property-name.css - meta.embedded
+    '                                                ^ punctuation.separator.key-value.css
+    '                                                  ^^ support.constant.property-value.css - meta.embedded
+    '                                                    ^^^^^^^^^^ support.constant.property-value.css meta.embedded.asp
+    '                                                    ^^^ punctuation.section.embedded.begin.asp
+    '                                                       ^^^^^ source.asp.embedded.html variable.other.asp
+    '                                                            ^^ punctuation.section.embedded.end.asp
+    '                                                              ^^^^^^ support.constant.property-value.css - meta.embedded
+    '                                                                    ^ punctuation.terminator.rule.css
+    '                                                                      ^ punctuation.section.block.end.css
+    </style>
+
 </head>
 <body>
     <%
