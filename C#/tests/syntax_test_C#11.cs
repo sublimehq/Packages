@@ -39,6 +39,13 @@ var location = $$"""
 var pointMessage = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
 ///                ^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
 ///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                    ^^^^^^^^^^^ string.quoted.triple - meta.interpolation
+///                               ^^^ meta.interpolation - string
+///                                  ^^ string.quoted.triple - meta.interpolation
+///                                    ^^^ meta.interpolation - string
+///                                       ^^^^^ string.quoted.triple - meta.interpolation
+///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation - string
+///                                                                      ^^^^^^^^^^^^^^^^^^^ string.quoted.triple - meta.interpolation
 ///                               ^ punctuation.section.interpolation.begin
 ///                                ^ variable.other
 ///                                 ^ punctuation.section.interpolation.end
