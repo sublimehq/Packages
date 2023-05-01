@@ -236,17 +236,18 @@ contexts:
   using:
     - match: \bglobal\b
       scope: storage.modifier.cs
-    - match: '\b(using)\s+(?={{name}}\s*=\s*)'
+    - match: \b(using)\s+(?=var\b)
+      captures:
+        1: keyword.control.using.cs
+      push: var_declaration
+    - match: \b(using)\s+(?={{name}}\s*=\s*)
       captures:
         1: keyword.control.import.cs
-        2: meta.path.cs
-        3: keyword.operator.assignment.cs
       push: using_namespace
-    - match: '\b(using)(?!\s*\()(?:\s+(static))?\b'
+    - match: \b(using)(?:\s+(static)|(?!\s*\())\b
       captures:
         1: keyword.control.import.cs
         2: keyword.control.import.cs
-        3: meta.path.cs
       push: using_namespace
 
   namespace_variables:
