@@ -152,7 +152,7 @@ contexts:
               pop: true
         - match: '"'
           scope: punctuation.definition.string.begin.cs
-          push: string
+          push: inside_string
         - include: option_done
 
     - match: '(pragma)\s+(warning)\b'
@@ -1683,36 +1683,36 @@ contexts:
   strings:
     - match: '("""+)'
       scope: punctuation.definition.string.begin.cs
-      push: raw_string_literal
+      push: inside_raw_string_literal
     - match: '"'
       scope: punctuation.definition.string.begin.cs
-      push: string
+      push: inside_string
     # interpolated strings
     - match: '\$("""+)'
       scope: punctuation.definition.string.begin.cs
-      push: raw_format_string
+      push: inside_raw_format_string
     - match: '\$\$("""+)'
       scope: punctuation.definition.string.begin.cs
-      push: raw_format_string_2
+      push: inside_raw_format_string_2
     - match: '@\$("""+)'
       scope: punctuation.definition.string.begin.cs
-      push: raw_format_string_literal
+      push: inside_raw_format_string_literal
     - match: '@\$\$("""+)'
       scope: punctuation.definition.string.begin.cs
-      push: raw_format_string_literal_2
+      push: inside_raw_format_string_literal_2
     - match: '\$"'
       scope: punctuation.definition.string.begin.cs
-      push: format_string
+      push: inside_format_string
     # multi-line strings
     - match: '@"'
       scope: punctuation.definition.string.begin.cs
-      push: long_string
+      push: inside_long_string
     # interpolated multi-line strings
     - match: '(@\$|\$@)"'
       scope: punctuation.definition.string.begin.cs
-      push: long_format_string
+      push: inside_long_format_string
 
-  raw_string_literal:
+  inside_raw_string_literal:
     - meta_include_prototype: false
     - meta_scope: string.quoted.triple.cs
     - include: string_escaped
@@ -1724,9 +1724,9 @@ contexts:
       captures:
         1: punctuation.definition.placeholder.begin.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: string_placeholder
+      push: inside_string_placeholder
 
-  string:
+  inside_string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.cs
     - include: string_escaped
@@ -1738,12 +1738,12 @@ contexts:
       captures:
         1: punctuation.definition.placeholder.begin.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: string_placeholder
+      push: inside_string_placeholder
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
 
-  format_string:
+  inside_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.cs
     - match: '"'
@@ -1763,7 +1763,7 @@ contexts:
       scope: invalid.illegal.unclosed-string.cs
       pop: true
 
-  raw_format_string:
+  inside_raw_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
     - match: '\1'
@@ -1783,7 +1783,7 @@ contexts:
       scope: invalid.illegal.unclosed-string.cs
       pop: true
 
-  raw_format_string_literal:
+  inside_raw_format_string_literal:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
     - match: '\1'
@@ -1802,7 +1802,7 @@ contexts:
       scope: invalid.illegal.unclosed-string.cs
       pop: true
 
-  raw_format_string_2:
+  inside_raw_format_string_2:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
     - match: '\1'
@@ -1819,7 +1819,7 @@ contexts:
         - include: string_placeholder_format
         - include: string_interpolation_2
 
-  raw_format_string_literal_2:
+  inside_raw_format_string_literal_2:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
     - match: '\1'
@@ -1835,7 +1835,7 @@ contexts:
         - include: string_placeholder_format
         - include: string_interpolation_2
 
-  long_format_string:
+  inside_long_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
     - include: long_string_escaped
@@ -1867,6 +1867,20 @@ contexts:
         2: meta.number.integer.decimal.cs constant.numeric.value.cs invalid.illegal.unclosed-string-placeholder.cs
 
   inside_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  inside_long_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: long_string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  string_placeholder_end:
     - match: '(\})(\}(?!\}))?'
       captures:
         1: punctuation.definition.placeholder.end.cs
@@ -1874,20 +1888,6 @@ contexts:
       pop: true
     - match: (?=[}"])
       pop: true
-
-  string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: inside_string_placeholder
-    - include: string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
-
-  long_string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: inside_string_placeholder
-    - include: long_string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
 
   string_placeholder_format_before_colon:
     - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
@@ -1948,7 +1948,7 @@ contexts:
       pop: true
     - include: line_of_code_in
 
-  long_string:
+  inside_long_string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.raw.cs
     - include: long_string_escaped
@@ -1957,7 +1957,7 @@ contexts:
       captures:
         1: punctuation.definition.placeholder.begin.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: long_string_placeholder
+      push: inside_long_string_placeholder
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
