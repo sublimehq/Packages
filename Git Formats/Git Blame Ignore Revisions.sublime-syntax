@@ -21,14 +21,14 @@ variables:
 
 contexts:
   prototype:
-    - include: comment-start
+    - include: comments
 
-  comment-start:
+  comments:
     - match: '[{{comment_char}}]'
       scope: punctuation.definition.comment.git.blame.ignorerevs
-      push: comment-content
+      push: comment-body
 
-  comment-content:
+  comment-body:
     - meta_scope: comment.line.git.blame.ignorerevs
     - match: \n
       pop: 1
