@@ -28,7 +28,7 @@ contexts:
     - include: illegal
 
   comments:
-    - match: ({{comment_char}}).*
+    - match: ({{comment_char}}).*\n?
       scope: comment.line.git.blame.ignorerevs
       captures:
         1: punctuation.definition.comment.git.blame.ignorerevs
