@@ -16,7 +16,7 @@ hidden_file_extensions:
   - .git-blame-ignore-revs    # ~/.git-blame-ignore-revs
 
 variables:
-  comment_char: '[#]'         # Can't use Git Common here - ';' is not allowed
+  comment_char: \#            # Can't use Git Common here - ';' is not allowed
   object_name: \b\h{40}\b
 
 contexts:

@@ -35,9 +35,10 @@ the-best-thing-we've-ever-done 3897d1b4465ae8f45c62b2da88cf90033764226c 13 # Hi
 # Migrate to black
 # <- comment.line.git.blame.ignorerevs punctuation.definition.comment.git.blame.ignorerevs
 #^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
-264b2c9c72691c5937b80e84e061c52dd2d8861a 950d9a0751d79b92d78ea44344ce3e3c5b3948f9# one per line please
+264b2c9c72691c5937b80e84e061c52dd2d8861a 950d9a0751d79b92d78ea44344ce3e3c5b3948f9## 1 per line please
 # <- constant.other.hash.git.blame.ignorerevs
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.blame.ignorerevs
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.stray-character.git.blame.ignorerevs
 #                                                                                ^ punctuation.definition.comment.git.blame.ignorerevs
-#                                                                                ^^^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
+#                                                                                 ^ - punctuation.definition.comment.git.blame.ignorerevs
+#                                                                                ^^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
