@@ -718,6 +718,7 @@ END
 
 select A.A
     , CASE WHEN B.B IS NOT NULL THEN B.B ELSE DATEADD(d, 1 - DATEPART(d, GETDATE()), DATEADD(m, B.MonthsInFuture, DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0))) END AS FirstDayOfFutureMonth
+    --                                                ^ constant.language.tsql
 --  ^ punctuation.separator.sequence
 --    ^^^^ keyword.control.conditional.case
     , B.*
@@ -1705,7 +1706,9 @@ SELECT a.*
 --                               ^ meta.table-alias-name
 
 DECLARE @Data NVARCHAR(MAX)
+--            ^^^^^^^^^^^^^ storage.type.sql
 --                    ^ punctuation.section.group.begin
+--                     ^^^ constant.language.max.sql
 --                        ^ punctuation.section.group.end
 SELECT @Data = (
     SELECT [CustomerID] as "@CustomerID",
@@ -2036,3 +2039,190 @@ END
 --               ^^^^^^^^^^^^ support.function.scalar.sql
 --                            ^^^^^^^^^^^ support.function.scalar.sql
 --                                        ^^^^ support.function.scalar.sql
+
+GRANT CREATE TABLE TO MelanieK;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^^^^^ constant.language.sql
+--                 ^^ keyword.context.sql
+--                    ^^^^^^^^ meta.username.sql
+--                            ^ punctuation.terminator.statement.sql
+
+GRANT SHOWPLAN TO AuditMonitor;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^ constant.language.sql
+--             ^^ keyword.context.sql
+--                ^^^^^^^^^^^^ meta.username.sql
+--                            ^ punctuation.terminator.statement.sql
+
+GRANT CREATE VIEW TO CarmineEs WITH GRANT OPTION;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^^^^ constant.language.sql
+--                ^^ keyword.context.sql
+--                   ^^^^^^^^^ meta.username.sql
+--                             ^^^^ keyword.other.dml.sql
+--                                  ^^^^^ constant.language.with.tsql
+--                                        ^^^^^^ constant.language.with.tsql
+
+GRANT CONTROL ON DATABASE::AdventureWorks2012 TO Sarah;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^ constant.language.tsql
+--            ^^ keyword.context.resource.tsql
+--               ^^^^^^^^ storage.type.tsql
+--                       ^^ punctuation.accessor.double-colon.tsql
+--                         ^^^^^^^^^^^^^^^^^^ meta.database-name.sql
+--                                            ^^ keyword.context.sql
+--                                               ^^^^^ meta.username.sql
+
+ALTER ROLE buyers WITH NAME = purchasing;
+--^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^ keyword.other.ddl.sql
+--         ^^^^^^ meta.other-name.sql
+--                ^^^^ keyword.other.dml.sql
+--                     ^^^^ constant.language.with.tsql
+--                          ^ keyword.operator.assignment.tsql
+--                            ^^^^^^^^^^ string.unquoted.tsql
+--                                      ^ punctuation.terminator.statement.sql
+
+ALTER ROLE Sales ADD MEMBER Barry;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--    ^^^^ keyword.other.ddl.sql
+--         ^^^^^ meta.other-name.sql
+--               ^^^ keyword.other.ddl.sql
+--                   ^^^^^^ keyword.other.ddl.sql
+--                          ^^^^^ meta.username.sql
+--                               ^ punctuation.terminator.statement.sql
+ALTER ROLE Sales DROP MEMBER Barry;
+--^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--^^^ keyword.other.ddl.sql
+--    ^^^^ keyword.other.ddl.sql
+--               ^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+--               ^^^^ keyword.other.ddl.sql
+--                    ^^^^^^ keyword.other.ddl.sql
+--                           ^^^^^ meta.other-name.sql
+--                                ^ punctuation.terminator.statement.sql
+
+CREATE USER "some-name-here" FROM external provider with OBJECT_ID="ba5615a6-f2ca-4517-97d1-36fc8a595fc9";
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^^^^^ entity.name
+--                           ^^^^^^^^^^^^^^^^^^^^^^ constant.language.tsql
+--                                                  ^^^^ keyword.other.dml.sql
+--                                                       ^^^^^^^^^ constant.language.with.tsql
+--                                                                ^ keyword.operator.assignment.tsql
+--                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.tsql
+ALTER ROLE "db_datareader" ADD MEMBER "some-name-here";
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^^^^^^ meta.other-name.sql
+--                         ^^^ keyword.other.ddl.sql
+--                             ^^^^^^ keyword.other.ddl.sql
+--                                    ^^^^^^^^^^^^^^^^ meta.username.sql
+--                                                    ^ punctuation.terminator.statement.sql
+ALTER USER [yourUser] WITH DEFAULT_SCHEMA = myschema;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^ meta.other-name.sql
+--                    ^^^^ keyword.other.dml.sql
+--                         ^^^^^^^^^^^^^^ constant.language.with.tsql
+--                                        ^ keyword.operator.assignment.tsql
+--                                          ^^^^^^^^ string.unquoted.tsql
+--                                                  ^ punctuation.terminator.statement.sql
+
+create user user_name_in_sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^^^^^ entity.name
+  with sid = 0x67453e129be8d312a456426614174000,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.dml.sql
+--     ^^^ constant.language.with.tsql
+--         ^ keyword.operator.assignment.tsql
+--           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.tsql
+--                                             ^ punctuation.separator.sequence.sql
+  type = E;
+--^^^^^^^^ meta.statement.create.sql
+-- ^^^ constant.language.with.tsql
+--     ^ keyword.operator.assignment.tsql
+--       ^ string.unquoted.tsql
+--        ^ punctuation.terminator.statement.sql
+
+DROP USER IF EXISTS "some-name-here";
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^ keyword.other.ddl.sql
+--        ^^ keyword.control.conditional.if.sql
+--           ^^^^^^ keyword.operator.logical.sql
+--                  ^ punctuation.definition.identifier.begin.sql
+--                                 ^ punctuation.definition.identifier.end.sql
+--                                  ^ punctuation.terminator.statement.sql
+
+-- https://stackoverflow.com/a/14860368/4473405
+SELECT  a,
+        b,
+        COUNT(*) OVER (ORDER BY a
+                         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS [Rows],
+--                       ^^^^^^^^^^^^ keyword.other.sql
+--                                    ^^^^^^^^^ keyword.other.sql
+--                                              ^^^^^^^^^ keyword.other.sql
+--                                                        ^^^ keyword.operator.logical.sql
+--                                                            ^^^^^^^^^^^ keyword.other.sql
+        COUNT(*) OVER (ORDER BY a
+                         RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS [Range],
+--                       ^^^^^^^^^^^^^ keyword.other.sql
+--                                     ^^^^^^^^^ keyword.other.sql
+--                                               ^^^^^^^^^ keyword.other.sql
+--                                                         ^^^ keyword.operator.logical.sql
+--                                                             ^^^^^^^^^^^ keyword.other.sql
+        COUNT(*) OVER() AS [Over()]
+    FROM    t;
+
+SELECT STRING_AGG (CONVERT(NVARCHAR(max),FirstName), CHAR(13)) AS csv
+--                         ^^^^^^^^ storage.type.sql
+--                                 ^
+--                                  ^^^ constant.language.max.sql
+FROM Person.Person;
+
+SELECT STRING_AGG(CONVERT(NVARCHAR(max), ISNULL(FirstName,'N/A')), ',') AS csv
+FROM Person.Person;
+
+SELECT TOP 10 City, STRING_AGG(CONVERT(NVARCHAR(max), EmailAddress), ';') WITHIN GROUP (ORDER BY EmailAddress ASC) AS Emails
+--                                                                        ^^^^^^^^^^^^ keyword.other.tsql
+--                                                                                     ^ meta.group.sql punctuation.section.group.begin.sql
+--                                                                                      ^^^^^^^^ meta.group.sql keyword.other.dml.sql
+--                                                                                               ^^^^^^^^^^^^ meta.group.sql meta.column-name.sql
+--                                                                                                            ^^^ meta.group.sql keyword.other.order.sql
+--                                                                                                               ^ meta.group.sql punctuation.section.group.end.sql
+--                                                                                                                 ^^ keyword.operator.assignment.alias.sql
+--                                                                                                                    ^^^^^^ meta.column-alias.sql
+FROM Person.BusinessEntityAddress AS BEA
+INNER JOIN Person.Address AS A ON BEA.AddressID = A.AddressID
+INNER JOIN Person.EmailAddress AS EA ON BEA.BusinessEntityID = EA.BusinessEntityID
+GROUP BY City;
+
+DECLARE @g geography;
+SET @g = geography::Point(47.65100, -122.34900, 4326)
+--       ^^^^^^^^^ storage.type.tsql
+--                ^^ punctuation.accessor.double-colon.tsql
+--                  ^^^^^ meta.function-call.sql support.function.sql
+SELECT @g.ToString();
+-- ^^^ keyword.other.dml.sql
+--     ^ variable.other.readwrite.sql punctuation.definition.variable.sql
+--      ^ variable.other.readwrite.sql
+--       ^ punctuation.accessor.dot.tsql
+--        ^^^^^^^^ meta.function-call.sql support.function.sql
+--                ^ meta.function-call.sql meta.group.sql punctuation.section.arguments.begin.sql
+--                 ^ meta.function-call.sql meta.group.sql punctuation.section.arguments.end.sql
+--                  ^ punctuation.terminator.statement.sql
+
+DECLARE @FromTimeUTC DATETIME2, @ToTimeUTC DATETIME2
+-- ^^^^ keyword.declaration.variable.sql
+--      ^^^^^^^^^^^^ variable.other.readwrite.declaration.tsql
+--                   ^^^^^^^^^ storage.type.sql
+--                            ^ punctuation.separator.sequence.tsql
+--                              ^^^^^^^^^^ variable.other.readwrite.declaration.tsql
+--                                         ^^^^^^^^^ storage.type.sql

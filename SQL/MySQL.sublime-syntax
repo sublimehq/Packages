@@ -199,6 +199,11 @@ contexts:
     - meta_scope: meta.user.sql
     - include: user-options
 
+  create-other-args:
+    - meta_prepend: true
+    - match: (?=\()
+      push: column-declaration-list
+
 ###[ DDL DROP STATEMENTS ]#####################################################
 
   drop-target:

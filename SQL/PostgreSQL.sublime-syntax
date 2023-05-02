@@ -94,6 +94,7 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
       scope: keyword.other.psql
+      push: maybe-on-table
     - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
       scope: keyword.other.psql
 

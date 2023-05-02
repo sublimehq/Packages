@@ -58,7 +58,9 @@ contexts:
       scope: variable.other.readwrite.declaration.tsql
       captures:
         1: punctuation.definition.variable.tsql
-      set: expect-type
+      push: expect-type
+    - match: ','
+      scope: punctuation.separator.sequence.tsql
     - include: else-pop
 
 ###[ DDL CREATE STATEMENTS ]###################################################
@@ -81,6 +83,16 @@ contexts:
     - include: target-options
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
+
+  alter-common:
+    - meta_prepend: true
+    - include: with-options
+    - match: \b(?i:(add)\s+(member))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      push:
+        - expect-user-name
 
   target-options:
     - meta_prepend: true
@@ -234,6 +246,8 @@ contexts:
       push: [maybe-table-alias, maybe-group]
     - match: \b(?i:for)\b
       scope: keyword.other.tsql
+    - match: \b\w+(?=::)
+      scope: storage.type.tsql
     - match: \b(\w+)(:)
       captures:
         1: entity.name.label.tsql
@@ -299,6 +313,8 @@ contexts:
       scope: storage.modifier.output.tsql
     - match: \b(?i:over|partition\s+by)\b
       scope: keyword.other.sql
+    - match: \b(?i:unbounded|preceding|following|current\s+row|(?:rows|range)\s+between)\b
+      scope: keyword.other.sql
     - match: \b(?i:cursor)\b
       scope: support.type.tsql
       push: inside-cursor-declaration
@@ -307,6 +323,8 @@ contexts:
       push: merge-condition
     - match: \b(?i:include)\b
       scope: keyword.other.sql
+    - match: \b(?i:within\s+group)\b
+      scope: keyword.other.tsql
 
   built-in-scalar-function-calls:
     - meta_append: true
@@ -352,6 +370,10 @@ contexts:
     - match: ','
       scope: punctuation.separator.arguments.sql
     - include: expressions-or-column-names
+
+  inside-function-call-arguments:
+    - meta_prepend: true
+    - include: datepart-units
 
   user-defined-function-calls:
     - meta_append: true
@@ -479,12 +501,22 @@ contexts:
         1: keyword.other.tsql
         2: keyword.operator.assignment.tsql
       push: expect-table-name
+    - include: with-simple-options
+
+  with-options:
+    - match: \b(?i:with)\b
+      scope: keyword.other.dml.sql
+      set: with-simple-options
+
+  with-simple-options:
     - match: '{{simple_identifier}}'
       scope: constant.language.with.tsql
     - match: '='
       scope: keyword.operator.assignment.tsql
       push: with-other-assignment
     - include: comma-separators
+    - match: (?=;)
+      pop: true
 
   maybe-filegroup:
     - match: \b(?i:on)\b(?!\s*{{identifier_for_lookahead}}\s*=)
@@ -521,6 +553,18 @@ contexts:
       pop: 1
     - include: onoff-constants
     - include: expressions
+    - match: (?=")
+      set:
+        - generic-identifier-name
+        - single-identifier
+    - match: \w+
+      scope: string.unquoted.tsql
+
+  generic-identifier-name:
+    - meta_include_prototype: false
+    - meta_content_scope: string.quoted.tsql
+    - include: immediately-pop
+
 
 ###[ LIKE EXPRESSIONS ]########################################################
 
@@ -758,14 +802,8 @@ contexts:
         {{enclosed_type_begin}}
         {{types_with_optional_number}}
         {{enclosed_type_end}}
-        (?:\s*\(\s*(?:(\d+)|(max))\s*(?:(,)\s*(\d+))?\))?
       scope: storage.type.sql
-      captures:
-        1: constant.numeric.sql
-        2: constant.language.max.sql
-        3: punctuation.separator.sequence.sql
-        4: constant.numeric.sql
-      pop: 1
+      set: optional-number-after-type
     - match: |-
         (?xi)
         (?:{{enclosed_type_begin}}|\b)
@@ -773,6 +811,31 @@ contexts:
         (?:{{enclosed_type_end}}|\b)
       scope: storage.type.sql
       pop: 1
+    - match: |-
+        (?xi)
+        {{types_with_optional_number}}
+      scope: storage.type.sql
+      set: optional-number-after-type
+
+  optional-number-after-type:
+    - match: |-
+        (?x)
+        \s*
+        (\()\s*
+        (?i:(\d+)|(max))
+        \s*(?:(,)\s*(\d+))?
+        (\))
+      scope: storage.type.sql
+      captures:
+        1: punctuation.section.group.begin.tsql
+        2: constant.numeric.sql
+        3: constant.language.max.sql
+        4: punctuation.separator.sequence.sql
+        5: constant.numeric.sql
+        6: punctuation.section.group.end.tsql
+      pop: true
+    - match: (?=\S)
+      pop: true
 
   inside-user-type:
     - meta_prepend: true
@@ -898,6 +961,7 @@ contexts:
       scope: variable.other.readwrite.sql
       captures:
         1: punctuation.definition.variable.sql
+      push: maybe-variable-scoped-function-call
     - match: |-
         (?xi)(@@)
         (?: cursor_rows | connections | cpu_busy | datefirst | dbts | error
@@ -910,13 +974,53 @@ contexts:
       captures:
         1: punctuation.definition.variable.sql
 
+  maybe-variable-scoped-function-call:
+    - match: \s*\.(?=\s*\w+\s*\()
+      scope: punctuation.accessor.dot.tsql
+    - include: immediately-pop
+
+  datepart-units:
+    # https://learn.microsoft.com/en-us/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
+    - match: \b(?i:DAY|MONTH|YEAR|QUARTER|DAYOFYEAR|WEEK|HOUR|MINUTE|SECOND|MILLISECOND|MICROSECOND|NANOSECOND)\b(?!\s*\.)
+      scope: constant.language.tsql
+    - match: \b(?i:D?D|YYYY|YY?|Q?Q|M?M|DY|WK|WW|HH|MI|N|SS?|MS|MCS|NS)\b(?!\s*\.)
+      scope: constant.language.tsql
+
 ###[ OPERATORS ]###############################################################
 
   operators:
     - meta_append: true
     - match: '%'
       scope: keyword.operator.arithmetic.tsql
+    - match: '::'
+      scope: punctuation.accessor.double-colon.tsql
 
   augmented-assignment-operators:
     - match: '[-+/*%^|]='
       scope: keyword.operator.assignment.tsql
+
+###[ USERS AND PERMISSIONS ]###################################################
+
+  grant:
+    - meta_prepend: true
+    - match: \b(?i:from\s+external\s+provider)\b
+      scope: constant.language.tsql
+    - include: with-options
+    - match: \b(?i:control)\b
+      scope: constant.language.tsql
+    - match: \b(?i:on)\b
+      scope: keyword.context.resource.tsql
+      push: qualified-identifier
+
+  qualified-identifier:
+    - match: \b(?i:(database))(::)
+      captures:
+        1: storage.type.tsql
+        2: punctuation.accessor.double-colon.tsql
+      set:
+        - database-name
+        - single-identifier
+    - match: (?=\S)
+      set:
+        - generic-identifier-name
+        - single-identifier

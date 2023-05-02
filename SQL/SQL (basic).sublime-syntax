@@ -26,7 +26,7 @@ variables:
     (?xi: procedure | function )
   ddl_target_other: |-
     (?xi: aggregate | constraint | conversion | database | domain | group
-    | language | operator\s+class | operator | rule | schema | sequence
+    | language | member | operator\s+class | operator | role | rule | schema | sequence
     | tablespace | trigger | type | user | view )
 
   ddl_target_function_modifier: |-
@@ -195,6 +195,7 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.context.block.sql
       pop: 1
+    - include: grant
     - include: on-tables
     - include: create-common-args
 
@@ -276,6 +277,12 @@ contexts:
     - include: immediately-pop
 
   drop-other:
+    - match: \b(?i:user)\b(?!\s+(?i:if)\b)
+      scope: storage.type.sql
+      set:
+        - grant
+        - user-name
+        - single-identifier
     - match: \b{{ddl_target_other}}\b
       scope: keyword.other.ddl.sql
       set:
@@ -492,6 +499,7 @@ contexts:
   other-statements:
     - match: \b(?i:grant(?:\s+with\s+grant\s+option)?|revoke)\b
       scope: keyword.other.authorization.sql
+      push: grant
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -1275,6 +1283,32 @@ contexts:
   statement-terminators:
     - match: ';'
       scope: punctuation.terminator.statement.sql
+
+###[ USERS AND PERMISSIONS ]###################################################
+
+  grant:
+    - match: \b(?i:showplan)\b
+      scope: constant.language.sql
+    - match: \b(?i:create\s*{{ddl_target}})\b
+      scope: constant.language.sql
+    - match: \b(?i:to)\b
+      scope: keyword.context.sql
+      push:
+        - user-name
+        - single-identifier
+    - include: pop-on-top-level-reserved-word
+
+  user-name:
+    - meta_content_scope: meta.username.sql
+    - match: ''
+      pop: true
+
+  expect-user-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [user-name, single-identifier]
 
 ###[ PROTOTYPES ]##############################################################
 
