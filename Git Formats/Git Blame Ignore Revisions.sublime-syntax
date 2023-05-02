@@ -32,7 +32,6 @@ contexts:
       scope: comment.line.git.blame.ignorerevs
       captures:
         1: punctuation.definition.comment.git.blame.ignorerevs
-    - include: eol-pop
 
   revision:
     - match: '{{object_name}}'
