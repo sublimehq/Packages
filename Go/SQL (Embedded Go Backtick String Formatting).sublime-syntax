@@ -2,7 +2,7 @@
 ---
 name: SQL inside Go backtick string
 scope: source.sql.go-embedded-backtick-string
-version: 2
+version: 1
 extends: Packages/SQL/SQL.sublime-syntax
 hidden: true
 
