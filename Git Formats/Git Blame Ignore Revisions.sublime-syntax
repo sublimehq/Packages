@@ -29,6 +29,7 @@ contexts:
       push: comment-body
 
   comment-body:
+    - meta_include_prototype: false
     - meta_scope: comment.line.git.blame.ignorerevs
     - match: \n
       pop: 1
