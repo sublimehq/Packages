@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+name: SQL inside Go backtick string
+scope: source.sql.go-embedded-backtick-string
+version: 2
+extends: Packages/SQL/SQL.sublime-syntax
+hidden: true
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go.embedded-backtick-string#match-backtick-string-formatting

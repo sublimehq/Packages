@@ -5428,3 +5428,60 @@ func main() {
     do("hello")
     do(true)
 }
+
+func lang_embedding() {
+    //language=sql
+    // <- comment.line.double-slash.go punctuation.definition.comment.go
+    //^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^ meta.annotation.identifier.go
+    //        ^ meta.annotation keyword.operator.assignment.go
+    //         ^^^ meta.annotation.parameters.go constant.language.go
+    sqlQuery := `
+        update schema.table
+    //  ^^^^^^ source.sql keyword.other
+        set
+          some_field = null
+        where
+          another_field = 123
+        and test_no_interpolation = 'some_value\n' and another = '%% %s'
+    // --                                      ^^ constant.character-escape.sql
+    // --                                                         ^^^^ - constant.character-escape.sql
+        `
+    not_sql_string := `select not sql`
+    //                ^^^^^^^^^^^^^^^^ string.quoted.backtick.go - source.sql
+
+    //language=sql
+    require.Equal(t, 1, testdb.QueryInt(env.testDb, `select count(*) from schema.table_or_view`))
+    //                                               ^^^^^^ meta.block source.go.embedded-backtick-string source.sql.embedded keyword.other
+    not_sql_string = `select not sql`
+    //               ^^^^^^^^^^^^^^^^ string.quoted.backtick.go - source.sql
+
+    response := &http.Response{
+        StatusCode: http.StatusUnauthorized,
+        //language=json
+        Body: io.NopCloser(strings.NewReader(`
+            {
+                "foo": ["bar\n", 123]
+                // ^^^^^^^^^^^^^^^^^ source.go.embedded-backtick-string.json source.json.embedded.go
+                //          ^^ constant.character.escape.json
+            }
+        `))
+    }
+
+    fmt.Printf(`%s
+        %s
+        %s %% \n`, x, y, z)
+    //  ^^ string.quoted.backtick.go constant.other.placeholder.go
+    //     ^^ string.quoted.backtick.go constant.character.escape.go
+    //        ^^ - punctuation - constant
+    //          ^ string.quoted.backtick.go punctuation.definition.string.end.go
+    //           ^ punctuation.separator.go - string
+
+    // language=regexp
+    pattern := `ab?c+`
+    //         ^^^^^^^ source.go.embedded-backtick-string
+    //          ^^^^^ source.regexp.embedded meta.mode.basic
+    //            ^ keyword.operator.quantifier
+    //               ^ source.go.embedded-backtick-string punctuation.definition.string.end - source.regexp
+
+}

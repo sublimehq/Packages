@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+name: Go (Embedded SQL)
+scope: source.go.embedded-backtick-string.sql
+version: 2
+extends: Packages/Go/Go (Embedded Backtick String).sublime-syntax
+hidden: true
+
+contexts:
+  embedded-language:
+    - match: ''
+      embed: scope:source.sql
+      embed_scope: source.sql.embedded.go
+      escape: (?!)
