@@ -16,15 +16,17 @@ hidden_file_extensions:
   - .git-blame-ignore-revs    # ~/.git-blame-ignore-revs
 
 variables:
-  comment_char: \#            # Can't use Git Common here - ';' is not allowed
   object_name: \b\h{40}\b
 
 contexts:
-  prototype:
+
+  main:
     - include: comments
+    - include: revision
+    - include: illegal
 
   comments:
-    - match: '[{{comment_char}}]'
+    - match: \#+
       scope: punctuation.definition.comment.git.blame.ignorerevs
       push: comment-body
 
@@ -34,21 +36,18 @@ contexts:
     - match: \n
       pop: 1
 
-  main:
-    - include: revision
-    - include: illegal
-
   revision:
     - match: '{{object_name}}'
       scope: constant.other.hash.git.blame.ignorerevs
       push: rest
 
   rest:
+    - include: comments
     - include: illegal
     - include: eol-pop
 
   illegal:
-    - match: '[^\s{{comment_char}}]+'
+    - match: '[^\s#]+'
       scope: invalid.illegal.stray-character.git.blame.ignorerevs
 
   eol-pop:
