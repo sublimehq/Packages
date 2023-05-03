@@ -22,7 +22,7 @@ contexts:
 
   main:
     - include: comments
-    - include: revision
+    - include: revisions
     - include: illegal
 
   comments:
@@ -36,12 +36,12 @@ contexts:
     - match: \n
       pop: 1
 
-  revision:
+  revisions:
     - match: '{{object_name}}'
       scope: constant.other.hash.git.blame.ignorerevs
-      push: rest
+      push: expect-eol
 
-  rest:
+  expect-eol:
     - include: comments
     - include: illegal
     - include: eol-pop
