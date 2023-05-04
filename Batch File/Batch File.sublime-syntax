@@ -9,10 +9,14 @@ file_extensions:
   - bat
   - cmd
 
+hidden_file_extensions:
+  - .bat
+  - .cmd
+
 first_line_match: |-
   (?xi:
-    ^ \s* (?:\:|rem) .*? -\*- .*? \bbat\b .*? -\*-  # editorconfig
-  | ^ \s* @echo\s+(?:on|off)\b
+    ^ [@\s]* (?:\:|rem) .*? -\*- .*? \b(?:bat|cmd)\b .*? -\*-  # editorconfig
+  | ^ [@\s]* (?:if \s+ \S .*? =?=? .*? \S \s+)? [@(\s]* echo \s+ (?:on|off|=) \b
   )
 
 ###############################################################################
