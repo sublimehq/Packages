@@ -33,7 +33,7 @@ def get_properties():
         ],
         "align-self": [
             "auto",
-            "normal"
+            "normal",
             "stretch",
             "<baseline-position>",
             "<overflow-position>",
