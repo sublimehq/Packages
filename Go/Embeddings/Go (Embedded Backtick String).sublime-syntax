@@ -10,6 +10,7 @@ extends: Packages/Go/Go.sublime-syntax
 
 contexts:
   main:
+    - meta_include_prototype: false
     - meta_content_scope: comment.line.double-slash.go
     # TODO: support prefix and suffix
     - match: $\n?
@@ -18,7 +19,8 @@ contexts:
         - consume-comments-at-beginning-of-line
 
   consume-comments-at-beginning-of-line:
-    - include: match-comments
+    # Comments are included here via `prototype`.
+    # Pop context off stack, if line starts with anything else.
     - match: ^(?!\s*/[/*])
       pop: true
 
