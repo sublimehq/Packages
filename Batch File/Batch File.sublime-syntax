@@ -172,6 +172,14 @@ contexts:
         2: punctuation.definition.label.dosbatch
       push: ignored-tail-outer
 
+  maybe-label:
+    - match: ((:){{label_name}})
+      captures:
+        1: entity.name.label.dosbatch
+        2: punctuation.definition.label.dosbatch
+      set: ignored-tail-outer
+    - include: else-pop
+
 ###[ BLOCKS ]#################################################################
 
   embedded:
@@ -1456,8 +1464,9 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
-    - match: \@(?=\S)
+    - match: \@
       scope: keyword.operator.at.dosbatch
+      push: maybe-label
     - match: \&\&?|\|\|
       scope: keyword.operator.logical.dosbatch
     - match: \|

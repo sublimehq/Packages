@@ -104,13 +104,58 @@ ECHO : Not a comment ^
 :: <- - comment
 ::^^^^^^^^^^^^  - comment
 
+:::: [ @ Operator ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+   @
+:: ^ keyword.operator.at.dosbatch
+
+   @::comment
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^^^^^^^ comment.line.colon.dosbatch
+
+   @:label
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^^^ entity.name.label.dosbatch
+::  ^ punctuation.definition.label.dosbatch
+
+   @ :label
+:: ^ keyword.operator.at.dosbatch
+::   ^^^^^^ entity.name.label.dosbatch
+::   ^ punctuation.definition.label.dosbatch
 
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
+::  ^^^^ support.function.builtin.dosbatch
 
-   @
-:: ^ - keyword.operator.at.dosbatch
+   @ ECHO OFF
+:: ^ keyword.operator.at.dosbatch
+::   ^^^^ support.function.builtin.dosbatch
 
+   @ @ @@ ECHO OFF
+:: ^ keyword.operator.at.dosbatch
+::   ^ keyword.operator.at.dosbatch
+::     ^^ keyword.operator.at.dosbatch
+::        ^^^^ support.function.builtin.dosbatch
+
+   IF "%1"=="--debug" (@echo off) ELSE (@ @ GOTO :EOF)
+::                     ^ keyword.operator.at.dosbatch
+::                      ^^^^ support.function.builtin.dosbatch
+::                                      ^ keyword.operator.at.dosbatch
+::                                        ^ keyword.operator.at.dosbatch
+::                                          ^^^^ keyword.control.flow.goto.dosbatch
+
+   E@CHO john.doe@email.com
+::  ^ - keyword-operator
+::               ^ - keyword-operator
+
+   dir @logs
+::     ^ - keyword-operator
+
+   dir C:\@logs
+::        ^ - keyword-operator
+
+   my @
+::    ^ - keyword-operator
 
 :::: [ Labels ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -1479,9 +1524,6 @@ put arg1 arg2
 
 
 :::: [ ECHO Command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-   @
-:: ^ - keyword.operator.at.dosbatch
 
    ECHO || ECHO && ECHO &
 :: ^^^^ support.function.builtin.dosbatch
