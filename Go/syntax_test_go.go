@@ -5430,6 +5430,16 @@ func main() {
 }
 
 func lang_embedding() {
+    //language=html prefix=<body> suffix=</body>
+    // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
+    html_string := `<h1 style="color:red">Title</h2>`
+    //             ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
+    //              ^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go text.html.embedded.go meta.tag
+    //                                    ^^^^^ meta.string.go meta.embedded.go text.html.embedded.go - meta.tag
+    //                                         ^^^^^ meta.string.go meta.embedded.go text.html.embedded.go meta.tag
+    //                                              ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
+
     //language=sql prefix=foo suffix=bar
     // <- comment.line.double-slash.go punctuation.definition.comment.go
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go

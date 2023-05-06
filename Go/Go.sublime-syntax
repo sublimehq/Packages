@@ -234,6 +234,9 @@ contexts:
 
   match-comment-magic-language-injection-language-id:
     - meta_scope: comment.line.double-slash.go
+    - match: (?i)html\b
+      scope: meta.annotation.parameters.go constant.language.go
+      set: scope:source.go.embedded-backtick-string.html#match-comment-magic-language-injection-inner
     - match: (?i)sql\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
