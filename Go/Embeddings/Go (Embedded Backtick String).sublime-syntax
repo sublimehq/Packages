@@ -19,11 +19,7 @@ contexts:
 
   consume-comments-at-beginning-of-line:
     - include: match-comments
-    - match: ^\s*(?=/[/*])
-    - include: pop-at-bol
-
-  pop-at-bol:
-    - match: ^
+    - match: ^(?!\s*/[/*])
       pop: true
 
   match-any:
