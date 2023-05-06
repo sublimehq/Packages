@@ -18,6 +18,8 @@
         <string>punctuation.definition.comment.begin.go</string>
         <key>end</key>
         <string>punctuation.definition.comment.end.go</string>
+        <key>excludeTrailingNewlines</key>
+        <false/>
       </dict>
     </array>
   </dict>
