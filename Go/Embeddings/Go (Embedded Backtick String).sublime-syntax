@@ -14,7 +14,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: comment.line.double-slash.go
     # TODO: support prefix and suffix
-    - match: $\n?
+    - match: '{{newline}}'
       scope: comment.line.double-slash.go
       set:
         - match-any
@@ -28,8 +28,7 @@ contexts:
 
   match-any:
     - meta_prepend: true
-    - match: $\n?
-      pop: true
+    - include: pop-on-eol
 
   match-parens:
     - meta_prepend: true
