@@ -678,6 +678,9 @@ contexts:
     - match: '`'
       scope: punctuation.definition.string.end.go
       pop: 1
+    - include: match-backtick-string-formatting
+
+  match-backtick-string-formatting:
     - include: match-template-string
     - match: \%%
       scope: constant.character.escape.go

@@ -44,9 +44,3 @@ contexts:
     - meta_prepend: true
     - match: (?=\})
       pop: true
-
-  match-backtick-string-formatting:
-    - include: match-template-string
-    - match: \%%
-      scope: constant.character.escape.go
-    - include: match-fmt
