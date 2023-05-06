@@ -16,6 +16,11 @@ contexts:
         - match-any
         - consume-comments-at-beginning-of-line
 
+  consume-comments-at-beginning-of-line:
+    - include: match-comments
+    - match: ^\s*(?=/[/*])
+    - include: pop-at-bol
+
   pop-at-bol:
     - match: ^
       pop: true
@@ -24,11 +29,6 @@ contexts:
     - meta_prepend: true
     - match: $\n?
       pop: true
-
-  consume-comments-at-beginning-of-line:
-    - include: match-comments
-    - match: ^\s*(?=/[/*])
-    - include: pop-at-bol
 
   match-parens:
     - meta_prepend: true
