@@ -13,14 +13,14 @@ contexts:
     # TODO: support prefix and suffix
     - match: $\n?
       set:
-        - main
+        - match-any
         - consume-comments-at-beginning-of-line
 
   pop-at-bol:
     - match: ^
       pop: true
 
-  main:
+  match-any:
     - meta_prepend: true
     - match: $\n?
       pop: true
