@@ -13,7 +13,7 @@ contexts:
     - match: '`'
       scope: meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
       embed: scope:source.regexp
-      embed_scope: meta.string.go meta.embedded.go source.regexp.embedded.go
+      embed_scope: meta.string.regexp.go source.regexp.embedded.go
       escape: '`'
       escape_captures:
         0: meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go

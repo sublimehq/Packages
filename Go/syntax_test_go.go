@@ -5487,7 +5487,7 @@ func lang_embedding() {
     // language=regexp
     pattern := `ab?c+`
     //         ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.regexp
-    //          ^^^^^ meta.string.go meta.embedded.go source.regexp.embedded.go meta.mode.basic.regexp
+    //          ^^^^^ meta.string.regexp.go source.regexp.embedded.go meta.mode.basic.regexp
     //            ^ keyword.operator.quantifier
     //               ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 
