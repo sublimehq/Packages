@@ -17,7 +17,7 @@ scope: source.java.embedded.jsp
 version: 2
 hidden: true
 
-extends: Java.sublime-syntax
+extends: Packages/Java/Java.sublime-syntax
 
 contexts:
 

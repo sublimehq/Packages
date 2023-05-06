@@ -18,13 +18,13 @@ scope: source.java.embedded.html
 version: 2
 hidden: true
 
-extends: Java.sublime-syntax
+extends: Packages/Java/Java.sublime-syntax
 
 contexts:
 
   prototype:
     - meta_append: true
-    - include: HTML (Plain).sublime-syntax#entities
+    - include: Packages/HTML/HTML (Plain).sublime-syntax#entities
     - match: (<!\[)(CDATA)(\[)
       captures:
         0: meta.tag.sgml.cdata.html

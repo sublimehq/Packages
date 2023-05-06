@@ -25,8 +25,8 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: HTML (JSP).sublime-syntax#jsp-embedded
+    - include: Packages/Java/HTML (JSP).sublime-syntax#jsp-embedded
 
   string-content:
     - meta_prepend: true
-    - include: HTML (JSP).sublime-syntax#jsp-interpolations
+    - include: Packages/Java/HTML (JSP).sublime-syntax#jsp-interpolations

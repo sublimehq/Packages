@@ -184,7 +184,7 @@ contexts:
       scope:
         comment.block.documentation.java
         punctuation.definition.comment.begin.java
-      embed: Packages/Java/JavaDoc.sublime-syntax#javadoc
+      embed: Packages/Java/Embeddings/JavaDoc.sublime-syntax#javadoc
       embed_scope: comment.block.documentation.java
       escape: \*+/
       escape_captures:
