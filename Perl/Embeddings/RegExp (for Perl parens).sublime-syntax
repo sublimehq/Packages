@@ -5,7 +5,7 @@ scope: source.regexp.perl.parens
 version: 2
 hidden: true
 
-extends: RegExp (Perl brackets).sublime-syntax
+extends: RegExp (for Perl brackets).sublime-syntax
 
 variables:
   terminator: \)
