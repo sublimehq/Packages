@@ -5,7 +5,7 @@ scope: source.regexp.perl.brackets
 version: 2
 hidden: true
 
-extends: RegExp (Perl).sublime-syntax
+extends: RegExp (for Perl).sublime-syntax
 
 variables:
   interpolation_begin: (?=[@$%][^{{terminator}}])
