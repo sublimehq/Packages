@@ -3,7 +3,7 @@
 scope: source.ruby.rails.embedded.haml
 hidden: true
 
-extends: Ruby (Rails).sublime-syntax
+extends: Packages/Rails/Ruby (Rails).sublime-syntax
 
 contexts:
 
