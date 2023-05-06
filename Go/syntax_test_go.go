@@ -5507,4 +5507,9 @@ func lang_embedding() {
     //            ^ keyword.operator.quantifier
     //               ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 
+    //language=xml prefix=<svg> suffix=</svg>
+    image := `<path d="M 0.0 10.0" fill="#000" />`
+    //       ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
+    //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go text.xml.embedded.go meta.tag.xml
+    //                                           ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 }
