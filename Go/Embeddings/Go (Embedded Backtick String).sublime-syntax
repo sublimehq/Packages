@@ -4,8 +4,9 @@
 name: Go (Embedded Backtick String)
 scope: source.go.embedded-backtick-string
 version: 2
-extends: Packages/Go/Go.sublime-syntax
 hidden: true
+
+extends: Packages/Go/Go.sublime-syntax
 
 contexts:
   main:
