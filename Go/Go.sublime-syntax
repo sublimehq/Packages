@@ -240,6 +240,9 @@ contexts:
     - match: (?i)html\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.html#match-comment-magic-language-injection-inner
+    - match: (?i)js\b
+      scope: meta.annotation.parameters.go constant.language.go
+      set: scope:source.go.embedded-backtick-string.js#match-comment-magic-language-injection-inner
     - match: (?i)json\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.json#match-comment-magic-language-injection-inner

@@ -5452,6 +5452,12 @@ func lang_embedding() {
     //                                         ^^^^^ meta.string.go meta.embedded.go text.html.embedded.go meta.tag
     //                                              ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 
+    //language=js
+    js_string := `var i = 0`
+    //           ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.js
+    //            ^^^^^^^^^ meta.string.go meta.embedded.go source.js.embedded.go - string.quoted.backtick
+    //                     ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go - source.js
+
     //language=sql prefix=foo suffix=bar
     // <- comment.line.double-slash.go punctuation.definition.comment.go
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
