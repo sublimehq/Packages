@@ -670,16 +670,18 @@ contexts:
   match-raw-string:
     - match: '`'
       scope: punctuation.definition.string.begin.go
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.backtick.go
-        - match: '`'
-          scope: punctuation.definition.string.end.go
-          pop: 1
-        - include: match-template-string
-        - match: \%%
-          scope: constant.character.escape.go
-        - include: match-fmt
+      push: match-raw-string-inner
+
+  match-raw-string-inner:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.go string.quoted.backtick.go
+    - match: '`'
+      scope: punctuation.definition.string.end.go
+      pop: 1
+    - include: match-template-string
+    - match: \%%
+      scope: constant.character.escape.go
+    - include: match-fmt
 
   match-interpreted-string:
     - match: '"'

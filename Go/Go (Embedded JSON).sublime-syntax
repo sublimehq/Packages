@@ -7,8 +7,12 @@ extends: Packages/Go/Go (Embedded Backtick String).sublime-syntax
 hidden: true
 
 contexts:
-  embedded-language:
-    - match: ''
+  match-raw-string:
+    # replaces Go.sublime-syntax#match-raw-string
+    - match: '`'
+      scope: meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
       embed: scope:source.json
-      embed_scope: source.json.embedded.go
-      escape: (?!)
+      embed_scope: meta.string.go meta.embedded.go source.json.embedded.go
+      escape: '`'
+      escape_captures:
+        0: meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go

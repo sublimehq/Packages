@@ -30,17 +30,6 @@ contexts:
     - match: ^\s*(?=/[/*])
     - include: pop-at-bol
 
-  match-raw-string:
-    - match: '`'
-      scope: punctuation.definition.string.begin.go
-      embed: embedded-language
-      escape: '`'
-      escape_captures:
-        0: punctuation.definition.string.end.go
-
-  embedded-language:
-    - meta_include_prototype: false
-
   match-parens:
     - meta_prepend: true
     - match: (?=\))

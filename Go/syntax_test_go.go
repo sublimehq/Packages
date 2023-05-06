@@ -5437,8 +5437,10 @@ func lang_embedding() {
     //        ^ meta.annotation keyword.operator.assignment.go
     //         ^^^ meta.annotation.parameters.go constant.language.go
     sqlQuery := `
+    //          ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
+    //           ^ meta.string.go meta.embedded.go source.sql.embedded.go
         update schema.table
-    //  ^^^^^^ source.sql keyword.other
+    //  ^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go keyword.other.DML.sql
         set
           some_field = null
         where
@@ -5452,17 +5454,22 @@ func lang_embedding() {
 
     //language=sql
     require.Equal(t, 1, testdb.QueryInt(env.testDb, `select count(*) from schema.table_or_view`))
-    //                                               ^^^^^^ meta.block source.go.embedded-backtick-string source.sql.embedded keyword.other
+    //                                              ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
+    //                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go
+    //                                                                                        ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
+    //                                               ^^^^^^ keyword.other
     not_sql_string = `select not sql`
-    //               ^^^^^^^^^^^^^^^^ string.quoted.backtick.go - source.sql
+    //               ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go - source.sql
 
     response := &http.Response{
         StatusCode: http.StatusUnauthorized,
         //language=json
         Body: io.NopCloser(strings.NewReader(`
+        //                                   ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
+        //                                    ^ meta.string.go meta.embedded.go source.json.embedded.go
             {
                 "foo": ["bar\n", 123]
-                // ^^^^^^^^^^^^^^^^^ source.go.embedded-backtick-string.json source.json.embedded.go
+                //^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.json.embedded.go
                 //          ^^ constant.character.escape.json
             }
         `))
@@ -5479,9 +5486,9 @@ func lang_embedding() {
 
     // language=regexp
     pattern := `ab?c+`
-    //         ^^^^^^^ source.go.embedded-backtick-string
-    //          ^^^^^ source.regexp.embedded meta.mode.basic
+    //         ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.regexp
+    //          ^^^^^ meta.string.go meta.embedded.go source.regexp.embedded.go meta.mode.basic.regexp
     //            ^ keyword.operator.quantifier
-    //               ^ source.go.embedded-backtick-string punctuation.definition.string.end - source.regexp
+    //               ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 
 }
