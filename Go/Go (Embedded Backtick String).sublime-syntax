@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+# https://www.jetbrains.com/help/go/using-language-injections.html#use-language-injection-comments
 name: Go (Embedded Backtick String)
 scope: source.go.embedded-backtick-string
 version: 2
@@ -7,8 +8,7 @@ extends: Packages/Go/Go.sublime-syntax
 hidden: true
 
 contexts:
-  # https://www.jetbrains.com/help/go/using-language-injections.html#use-language-injection-comments
-  inside-comment-magic-language-injection-language-after-language-identifier:
+  main:
     - meta_content_scope: comment.line.double-slash.go
     # TODO: support prefix and suffix
     - match: $\n?
