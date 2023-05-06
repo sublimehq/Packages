@@ -237,15 +237,15 @@ contexts:
     - match: (?i)html\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.html#match-comment-magic-language-injection-inner
-    - match: (?i)sql\b
-      scope: meta.annotation.parameters.go constant.language.go
-      set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
     - match: (?i)json\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.json#match-comment-magic-language-injection-inner
     - match: (?i)regexp\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.regexp#match-comment-magic-language-injection-inner
+    - match: (?i)sql\b
+      scope: meta.annotation.parameters.go constant.language.go
+      set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
     - match: $
       pop: true
 
