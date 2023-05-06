@@ -5436,6 +5436,12 @@ func lang_embedding() {
     //        ^ comment.line.double-slash.go meta.annotation.identifier.go keyword.operator.assignment.go
     //         ^^^^ comment.line.double-slash.go
 
+    //language=css
+    css_string := `.class { color: #fff }`
+    //            ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.css
+    //             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.css.embedded.go - string.quoted.backtick
+    //                                   ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go - source.css
+
     //language=html prefix=<body> suffix=</body>
     // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
