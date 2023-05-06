@@ -5430,6 +5430,12 @@ func main() {
 }
 
 func lang_embedding() {
+    //language=any
+    // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
+    //^^^^^^^^ comment.line.double-slash.go meta.annotation.identifier.go support.other.go
+    //        ^ comment.line.double-slash.go meta.annotation.identifier.go keyword.operator.assignment.go
+    //         ^^^^ comment.line.double-slash.go
+
     //language=html prefix=<body> suffix=</body>
     // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go

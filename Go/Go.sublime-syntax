@@ -246,7 +246,7 @@ contexts:
     - match: (?i)sql\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
-    - match: $
+    - match: \n
       pop: true
 
   pop-line-annotation:
