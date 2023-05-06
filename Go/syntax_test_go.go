@@ -5430,9 +5430,9 @@ func main() {
 }
 
 func lang_embedding() {
-    //language=sql
+    //language=sql prefix=foo suffix=bar
     // <- comment.line.double-slash.go punctuation.definition.comment.go
-    //^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
     //^^^^^^^^ meta.annotation.identifier.go
     //        ^ meta.annotation keyword.operator.assignment.go
     //         ^^^ meta.annotation.parameters.go constant.language.go
