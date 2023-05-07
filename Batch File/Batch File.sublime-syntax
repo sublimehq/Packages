@@ -16,7 +16,7 @@ hidden_file_extensions:
 first_line_match: |-
   (?xi:
     ^ [@\s]* (?:\:|rem) .*? -\*- .*? \b(?:bat|cmd)\b .*? -\*-  # editorconfig
-  | ^ [@\s]* (?:if \s .*? [@(\s])? echo \s+ (?:on|off|=) \b
+  | ^ [@\s]* (?:if \s .*? [@(\s])? (?:echo \s+ (?:on|off|=)|(?:set|end)local) \b
   )
 
 ###############################################################################
