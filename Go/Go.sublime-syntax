@@ -255,6 +255,8 @@ contexts:
     - match: (?i)xml\b
       scope: meta.annotation.parameters.go constant.language.go
       set: scope:source.go.embedded-backtick-string.xml#match-comment-magic-language-injection-inner
+    - match: (?=\S)
+      set: pop-comment-line-normal
     - include: pop-on-eol
 
   pop-line-annotation:
