@@ -123,6 +123,16 @@ ECHO : Not a comment ^
 ::   ^^^^^^ entity.name.label.dosbatch
 ::   ^ punctuation.definition.label.dosbatch
 
+   @:@@@@@
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^^^ entity.name.label.dosbatch
+::  ^ punctuation.definition.label.dosbatch
+
+   @ :@@@@@
+:: ^ keyword.operator.at.dosbatch
+::   ^^^^^^ entity.name.label.dosbatch
+::   ^ punctuation.definition.label.dosbatch
+
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
@@ -143,6 +153,12 @@ ECHO : Not a comment ^
 ::                                      ^ keyword.operator.at.dosbatch
 ::                                        ^ keyword.operator.at.dosbatch
 ::                                          ^^^^ keyword.control.flow.goto.dosbatch
+
+   @(goto) 2>nul || @(title %ComSpec%)
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^^^ meta.block.dosbatch
+::                  ^ keyword.operator.at.dosbatch
+::                   ^^^^^^^^^^^^^^^^^ meta.block.dosbatch
 
    E@CHO john.doe@email.com
 ::  ^ - keyword-operator
