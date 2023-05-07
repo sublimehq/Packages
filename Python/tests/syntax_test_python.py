@@ -2986,6 +2986,203 @@ class Starship:
 
 
 ##################
+# Type comments - type: ignore must be by itself.
+##################
+
+value = 3  # type: # type: # rest
+#          ^^ comment.line.number-sign.python - meta.type
+#            ^^^^^ comment.line.number-sign.python meta.type.python
+#                 ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+
+# This is not a type-ignore comment.
+value = 3  # type: ignore_class_starting_with_ignore
+#          ^^ comment.line.number-sign.python - meta.type
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.type meta.type
+#                                                   ^ comment.line.number-sign.python - meta.type
+#          ^ punctuation.definition.comment.python
+#            ^^^^ keyword.other.type.python
+#                ^ punctuation.separator.type.python
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic-name.python
+
+# Mypy ignore extension
+value = 3  # type: ignore[error-code-1, 4noint][error] # foo
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#          ^^ comment.line.number-sign.python - meta.type
+#            ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
+#                        ^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.sequence.list.python
+#                                              ^^^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+#                  ^^^^^^ keyword.other.ignore.python
+#                        ^ punctuation.section.sequence.begin.python
+#                         ^^^^^^^^^^^^ constant.other.error-code
+#                                     ^ punctuation.separator.sequence.python
+#                                       ^^^^^^ - constant
+#                                             ^ punctuation.section.sequence.end.python
+#                                              ^^^^^^^ - meta.sequence - meta.brackets - meta.item-access
+
+primes = 5  # type: ignore  # type: str  # technically ok but weird
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#           ^^ comment.line.number-sign.python - meta.type
+#             ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
+#                         ^^^^ comment.line.number-sign.python - meta.type
+#                             ^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+#           ^ punctuation.definition.comment.python
+#             ^^^^ keyword.other.type.python
+#                 ^ punctuation.separator.type.python
+#                   ^^^^^^ keyword.other.ignore.python
+#                             ^^^^ keyword.other.type.python
+#                                 ^ punctuation.separator.type.python
+#                                   ^^^ support.type.python
+
+primes = 5  # type: str  # type: ignore  # typical
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#           ^^ comment.line.number-sign.python - meta.type
+#             ^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
+#                      ^^^^ comment.line.number-sign.python - meta.type
+#                          ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                                      ^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+
+primes = 5  # type: str  # type: str  # invalid
+#           ^^ comment.line.number-sign.python - meta.type
+#             ^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
+#                      ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+
+dct = {}  # type: Dict[str, (int, float)] # illegal parens
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#         ^^ comment.line.number-sign.python - meta.type
+#           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.brackets
+#                     ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python
+#                     ^ punctuation.section.brackets.begin.python
+#                      ^^^ support.type.python
+#                         ^ punctuation.separator.sequence.python
+#                           ^ invalid.illegal.parens.begin.python
+#                            ^^^ support.type.python
+#                               ^ punctuation.separator.sequence.python
+#                                 ^^^^^ support.type.python
+#                                      ^ invalid.illegal.parens.end.python
+#                                       ^ punctuation.section.brackets.end.python
+
+dct = {}  # type: Dict[str, str | int]
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#         ^^ comment.line.number-sign.python - meta.type
+#           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.brackets
+#                     ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python
+#                     ^ punctuation.section.brackets.begin.python
+#                      ^^^ support.type.python
+#                         ^ punctuation.separator.sequence.python
+#                           ^^^ support.type.python
+#                               ^ punctuation.separator.type.union.python
+#                                 ^^^ support.type.python
+#                                    ^ punctuation.section.brackets.end.python
+
+lst = []  # type: List[Dict[Any, ...]] # comment
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#         ^^ comment.line.number-sign.python - meta.type
+#           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.brackets
+#                     ^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python - meta.brackets meta.brackets
+#                          ^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python meta.brackets.python
+#                                    ^ comment.line.number-sign.python meta.type.python meta.brackets.python - meta.brackets meta.brackets
+#                                     ^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+#         ^ punctuation.definition.comment.python
+#           ^^^^ keyword.other.type.python
+#               ^ punctuation.separator.type.python
+#                 ^^^^ meta.generic-name.python
+#                     ^ punctuation.section.brackets.begin
+#                      ^^^^ meta.generic-name.python
+#                          ^ punctuation.section.brackets.begin.python
+#                           ^^^ meta.generic-name.python
+#                              ^ punctuation.separator.sequence.python
+#                                ^^^ constant.language.python
+#                                   ^^ punctuation.section.brackets.end.python
+
+# incomplete list
+lst = []  # type: List[ # type: ignore
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#         ^^ comment.line.number-sign.python - meta.type
+#           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
+#                     ^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python punctuation.section.sequence.begin.python
+#                      ^^^ comment.line.number-sign.python - meta.type
+#                         ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+
+
+# incomplete list and illegal group
+lst = []  # type: List[( # type: ignore
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#         ^^ comment.line.number-sign.python - meta.type
+#           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
+#                     ^^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python
+#                       ^^^ comment.line.number-sign.python - meta.type
+#                          ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+
+view = None  # type: sublime.View
+#            ^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#            ^^ comment.line.number-sign.python - meta.type
+#              ^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                                ^ comment.line.number-sign.python - meta.type
+#            ^ punctuation.definition.comment.python
+#              ^^^^ keyword.other.type.python
+#                  ^ punctuation.separator.type.python
+#                    ^^^^^^^^^^^^ meta.path.python
+#                    ^^^^^^^ meta.generic-name.python
+#                           ^ punctuation.accessor.dot.python
+#                            ^^^^ meta.generic-name.python
+
+for a, b in lst: # type: str, int
+#                ^^^^^^^^^^^^^^^^ - meta.type meta.type
+#                ^^ comment.line.number-sign.python - meta.type
+#                  ^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                  ^^^^ keyword.other.type.python
+#                      ^ punctuation.separator.type.python
+#                        ^^^ support.type.python
+#                           ^ punctuation.separator.sequence.python
+#                             ^^^ support.type.python
+
+# Python 2.7 function annotations.
+def function(a, b, *c, **d):
+    # type: (int, str, List[str], bool) -> Dict[str, str] # type: noncomment
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#   ^^ comment.line.number-sign.python - meta.type
+#     ^^^^^^ comment.line.number-sign.python meta.type.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.function.parameters.python
+#                                      ^ comment.line.number-sign.python meta.type.function.python
+#                                       ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.function.return-type.python
+#                                                        ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
+#           ^ punctuation.section.parameters.begin.python
+#            ^^^ support.type.python
+#               ^ punctuation.separator.sequence.python
+#                 ^^^ support.type.python
+#                    ^ punctuation.separator.sequence.python
+#                      ^^^^ meta.path.python meta.generic-name.python
+#                          ^^^^^ meta.brackets.python
+#                          ^ punctuation.section.brackets.begin.python
+#                           ^^^ support.type.python
+#                              ^ punctuation.section.brackets.end.python
+#                               ^ punctuation.separator.sequence.python
+#                                 ^^^^ support.type.python
+#                                     ^ punctuation.section.parameters.end.python
+#                                       ^^ punctuation.separator.return-type.python
+#                                          ^^^^ meta.path.python meta.generic-name.python
+#                                              ^^^^^^^^^^ meta.brackets.python
+#                                              ^ punctuation.section.brackets.begin.python
+#                                               ^^^ support.type.python
+#                                                  ^ punctuation.separator.sequence.python
+#                                                    ^^^ support.type.python
+#                                                       ^ punctuation.section.brackets.end.python
+
+class TypeCommentTest:
+    member = []  # type: List[dict]
+#                ^^ comment.line.number-sign.python - meta.type
+#                  ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                  ^^^^ keyword.other.type.python
+#                      ^ punctuation.separator.type.python
+#                        ^^^^ meta.path.python meta.generic-name.python
+#                            ^^^^^^ meta.sequence.list.members.python
+#                            ^ punctuation.section.sequence.begin.python
+#                             ^^^^ support.type.python
+#                                 ^ punctuation.section.sequence.end.python
+
+
+##################
 # Assignment Expressions
 ##################
 

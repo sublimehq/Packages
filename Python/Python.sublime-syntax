@@ -336,7 +336,9 @@ contexts:
   comments:
     - match: \#
       scope: punctuation.definition.comment.python
-      push: comment-body
+      push:
+        - comment-body
+        - type-hint
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
@@ -359,6 +361,152 @@ contexts:
       scope: constant.language.shebang.python
     - match: \n
       pop: 1
+
+###[ TYPE HINTS ]#############################################################
+
+  type-hint:
+    # 1st type hint may be of any type
+    - match: (type)(:)
+      captures:
+        1: keyword.other.type.python
+        2: punctuation.separator.type.python
+      set: type-hint-any
+    - include: else-pop
+    - include: eol-pop
+
+  type-hint-any:
+    - meta_scope: meta.type.python
+    - include: type-hint-end
+    - match: ignore\b
+      scope: keyword.other.ignore.python
+      set:
+        - type-hint-type
+        - type-hint-error-list
+    - match: (?=\S)
+      set:
+        - type-hint-ignore
+        - type-hint-begin
+
+  type-hint-ignore:
+    # 2nd type hint may only be a `type: ignore`
+    # As it isn't a real start of a comment `#` is not scoped punctuation.
+    - match: \s*\#\s*((type)(:)\s*(ignore\b))
+      captures:
+        1: meta.type.python
+        2: keyword.other.type.python
+        3: punctuation.separator.type.python
+        4: keyword.other.ignore.python
+      set: type-hint-error-list
+    - include: immediately-pop
+
+  type-hint-type:
+    # 2nd type hint must not be a `type: ignore`
+    # As it isn't a real start of a comment `#` is not scoped punctuation.
+    - match: \s*\#\s*((type)(:)(?!\s*ignore\b))
+      captures:
+        1: meta.type.python
+        2: keyword.other.type.python
+        3: punctuation.separator.type.python
+      set: type-hint-begin
+    - include: immediately-pop
+
+  type-hint-error-list:
+    - meta_content_scope: meta.type.python
+    - match: \[
+      scope: punctuation.section.sequence.begin.python
+      set: type-hint-error-list-body
+    - include: type-hint-end
+
+  type-hint-error-list-body:
+    - meta_scope: meta.type.python meta.sequence.list.python
+    - match: \]
+      scope: punctuation.section.sequence.end.python
+      pop: 1
+    - include: type-hint-end
+    - include: sequence-separators
+    - match: \b[[:alpha:]_-][[:alnum:]_-]+\b
+      scope: constant.other.error-code.python
+
+  type-hint-begin:
+    - meta_content_scope: meta.type.python
+    - match: \(
+      scope: punctuation.section.parameters.begin.python
+      set: type-hint-function-parameter-list-body
+    - match: (?=\S)
+      set: type-hint-body
+
+  type-hint-function-parameter-list-body:
+    - meta_scope: meta.type.function.parameters.python
+    - match: \)
+      scope: punctuation.section.parameters.end.python
+      set: type-hint-function-return-type
+    - include: type-hint-body
+
+  type-hint-function-return-type:
+    - meta_content_scope: meta.type.function.python
+    - match: ->
+      scope: punctuation.separator.return-type.python
+      set: type-hint-function-return-type-body
+    - include: type-hint-end
+
+  type-hint-function-return-type-body:
+    - meta_scope: meta.type.function.return-type.python
+    - include: type-hint-body
+
+  type-hint-body:
+    - meta_scope: meta.type.python
+    - include: type-hint-end
+    - include: type-hint-expressions
+
+  type-hint-end:
+    - match: (?=\s*[\n#):;=\]}])
+      pop: 1
+
+  type-hint-expressions:
+    - include: type-hint-brackets
+    - include: type-hint-groups
+    - include: type-separators
+    - include: type-constants
+    - include: double-quoted-strings
+    - include: single-quoted-strings
+    - include: builtin-exceptions
+    - include: builtin-types
+    - include: illegal-function-calls
+    - include: illegal-name
+    - include: qualified-name
+
+  type-hint-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.python
+      push: type-hint-brackets-body
+
+  type-hint-brackets-body:
+    - meta_scope: meta.brackets.python
+    - match: \]
+      scope: punctuation.section.brackets.end.python
+      pop: 1
+    - include: type-hint-body
+
+  type-hint-groups:
+    - match: \(
+      scope: invalid.illegal.parens.begin.python
+      push: type-hint-groups-body
+
+  type-hint-groups-body:
+    - match: \)
+      scope: invalid.illegal.parens.end.python
+      pop: 1
+    - include: type-hint-body
+
+  type-constants:
+    - match: None\b
+      scope: constant.language.null.python
+    - include: constants
+
+  type-separators:
+    - match: \|
+      scope: punctuation.separator.type.union.python
+    - include: sequence-separators
 
 ###[ DECORATORS ]#############################################################
 
@@ -1503,6 +1651,16 @@ contexts:
     - match: (?=[,)]|:(?!=))
       pop: 1
     - include: expression-in-a-group
+
+  illegal-function-calls:
+    - match: (?:\.\s*)?{{path}}\s*\(
+      push: illegal-function-call-arguments
+
+  illegal-function-call-arguments:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.function.python
+    - match: \)
+      pop: 1
 
 ###[ LAMBDAS ]################################################################
 
@@ -3506,6 +3664,10 @@ contexts:
 
   else-pop:
     - match: (?=\S)
+      pop: 1
+
+  eol-pop:
+    - match: $
       pop: 1
 
   immediately-pop:
