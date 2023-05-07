@@ -235,25 +235,25 @@ contexts:
   match-comment-magic-language-injection-language-id:
     - meta_scope: comment.line.double-slash.go
     - match: (?i)css\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.css#match-comment-magic-language-injection-inner
     - match: (?i)html\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.html#match-comment-magic-language-injection-inner
     - match: (?i)js\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.js#match-comment-magic-language-injection-inner
     - match: (?i)json\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.json#match-comment-magic-language-injection-inner
     - match: (?i)regexp\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.regexp#match-comment-magic-language-injection-inner
     - match: (?i)sql\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
     - match: (?i)xml\b
-      scope: meta.annotation.parameters.go constant.language.go
+      scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.xml#match-comment-magic-language-injection-inner
     - match: (?=\S)
       set: pop-comment-line-normal

@@ -5434,7 +5434,7 @@ func lang_embedding() {
     // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
     //^^^^^^^^ comment.line.double-slash.go meta.annotation.identifier.go support.other.go
     //        ^ comment.line.double-slash.go meta.annotation.identifier.go keyword.operator.assignment.go
-    //         ^^^^ comment.line.double-slash.go
+    //         ^^^^ comment.line.double-slash.go - constant
 
     //language=any css
     // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
@@ -5443,6 +5443,10 @@ func lang_embedding() {
     //         ^^^^^^^^ comment.line.double-slash.go - constant
 
     //language=css
+    //^^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^ meta.annotation.identifier.go support.other.go
+    //        ^ meta.annotation.identifier.go keyword.operator.assignment.go
+    //         ^^^ meta.annotation.parameters.go constant.other.language-name.go
     css_string := `.class { color: #fff }`
     //            ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.css
     //             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.css.embedded.go - string.quoted.backtick
@@ -5451,6 +5455,9 @@ func lang_embedding() {
     //language=html prefix=<body> suffix=</body>
     // <- comment.line.double-slash.go meta.annotation.identifier.go punctuation.definition.comment.go
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^ meta.annotation.identifier.go support.other.go
+    //        ^ meta.annotation.identifier.go keyword.operator.assignment.go
+    //         ^^^^ meta.annotation.parameters.go constant.other.language-name.go
     html_string := `<h1 style="color:red">Title</h2>`
     //             ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
     //              ^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go text.html.embedded.go meta.tag
@@ -5459,6 +5466,10 @@ func lang_embedding() {
     //                                              ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 
     //language=js
+    //^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^ meta.annotation.identifier.go support.other.go
+    //        ^ meta.annotation.identifier.go keyword.operator.assignment.go
+    //         ^^ meta.annotation.parameters.go constant.other.language-name.go
     js_string := `var i = 0`
     //           ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.js
     //            ^^^^^^^^^ meta.string.go meta.embedded.go source.js.embedded.go - string.quoted.backtick
@@ -5469,7 +5480,7 @@ func lang_embedding() {
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
     //^^^^^^^^ meta.annotation.identifier.go
     //        ^ meta.annotation keyword.operator.assignment.go
-    //         ^^^ meta.annotation.parameters.go constant.language.go
+    //         ^^^ meta.annotation.parameters.go constant.other.language-name.go
     sqlQuery := `
     //          ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
     //           ^ meta.string.go meta.embedded.go source.sql.embedded.go
@@ -5519,6 +5530,10 @@ func lang_embedding() {
     //           ^ punctuation.separator.go - string
 
     // language=regexp
+    //^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
+    // ^^^^^^^^ meta.annotation.identifier.go support.other.go
+    //         ^ meta.annotation.identifier.go keyword.operator.assignment.go
+    //          ^^^^^^ meta.annotation.parameters.go constant.other.language-name.go
     pattern := `ab?c+`
     //         ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.regexp
     //          ^^^^^ meta.string.regexp.go source.regexp.embedded.go meta.mode.basic.regexp
@@ -5526,6 +5541,10 @@ func lang_embedding() {
     //               ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 
     //language=xml prefix=<svg> suffix=</svg>
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^ meta.annotation.identifier.go support.other.go
+    //        ^ meta.annotation.identifier.go keyword.operator.assignment.go
+    //         ^^^ meta.annotation.parameters.go constant.other.language-name.go
     image := `<path d="M 0.0 10.0" fill="#000" />`
     //       ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
     //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go text.xml.embedded.go meta.tag.xml
