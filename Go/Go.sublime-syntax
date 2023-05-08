@@ -224,7 +224,7 @@ contexts:
         5: meta.annotation.parameters.go
 
   match-comment-magic-language-injection:
-    - match: (//)\s*(language)\s*(=)
+    - match: (//)\s*(language)(=)
       captures:
         0: meta.annotation.identifier.go
         1: punctuation.definition.comment.go
@@ -255,9 +255,8 @@ contexts:
     - match: (?i)xml\b
       scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.xml#match-comment-magic-language-injection-inner
-    - match: (?=\S)
+    - match: ''
       set: pop-comment-line-normal
-    - include: pop-on-eol
 
   pop-line-annotation:
     - meta_scope: comment.line.double-slash.go
