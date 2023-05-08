@@ -968,12 +968,9 @@ contexts:
     - include: expression-in-a-statement
 
   variable-annotation:
-    - meta_scope: meta.variable.annotation.python
-    - match: (?=$|=|#|;)
-      pop: 1
-    - match: None\b
-      scope: constant.language.null.python
-    - include: expression-in-a-group
+    - meta_scope: meta.type.python
+    - include: line-continuations
+    - include: type-hint-body
 
 ###[ CASE STATEMENTS ]########################################################
 

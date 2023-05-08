@@ -1571,7 +1571,7 @@ def _():
     case: int = 0
 #   ^^^^ meta.generic-name.python - keyword
 #       ^ punctuation.separator.annotation.variable.python
-#         ^^^ meta.path.python support.type.python
+#         ^^^ support.type.python
 #             ^ keyword.operator.assignment.python
 #               ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1580,7 +1580,7 @@ def _():
 #        ^ punctuation.separator.continuation.line.python
     : int = 0
 #   ^ punctuation.separator.annotation.variable.python
-#     ^^^ meta.path.python support.type.python
+#     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1603,7 +1603,7 @@ def _():
     match: int = 0
 #   ^^^^^ meta.generic-name.python - keyword
 #        ^ punctuation.separator.annotation.variable.python
-#          ^^^ meta.path.python support.type.python
+#          ^^^ support.type.python
 #              ^ keyword.operator.assignment.python
 #                ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1612,7 +1612,7 @@ def _():
 #         ^ punctuation.separator.continuation.line.python
     : int = 0
 #   ^ punctuation.separator.annotation.variable.python
-#     ^^^ meta.path.python support.type.python
+#     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -2923,65 +2923,78 @@ foo.bar(baz., True)
 
 primes: List[int] = []
 #     ^ punctuation.separator.annotation.variable.python
-#     ^^^^^^^^^^^^ meta.variable.annotation.python
+#     ^^^^^^^^^^^ meta.type.python
+#                ^^^^^^ - meta.type
 #       ^^^^ meta.path.python
 #                 ^ keyword.operator.assignment
 
 captain: str  # Note: no initial value!
 #      ^ punctuation.separator.annotation.variable.python
-#      ^^^^^^^ meta.variable.annotation.python
+#      ^^^^^ meta.type.python
+#           ^^ - meta.type - comment
 #             ^^^^^^^ comment
-#        ^^^ meta.path.python
+#        ^^^ support.type.python
 
 foo: str | None = None
-#  ^^^^^^^^^^^^^ meta.variable.annotation.python
-#               ^^^^^^^ - meta.variable
+#  ^^^^^^^^^^^^ meta.type.python
+#              ^^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.variable.python
 #    ^^^ support.type.python
-#        ^ keyword.operator.arithmetic.python
+#        ^ punctuation.separator.type.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
 #                 ^^^^ constant.language.null.python
 
 bar: str | None = 'b'
-#  ^^^^^^^^^^^^^ meta.variable.annotation.python
-#               ^^^^^^ - meta.variable
+#  ^^^^^^^^^^^^ meta.type.python
+#              ^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.variable.python
 #    ^^^ support.type.python
-#        ^ keyword.operator.arithmetic.python
+#        ^ punctuation.separator.type.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
 #                 ^^^ string.quoted.single.python
 
 foo: \
-#  ^^^ meta.variable.annotation.python
+#  ^^^ meta.type.python
 foo: \
     bar = zoo
-# <- meta.variable.annotation.python
-#^^^^^^^ meta.variable.annotation.python
+# <- meta.type.python
+#^^^^^^ meta.type.python
+#      ^^^^^^^ - meta.type
 #       ^ keyword.operator.assignment
 
 zoo: \
-#  ^^^ meta.variable.annotation.python
+#  ^^^ meta.type.python
 zoo: \
     loo \
-# <- meta.variable.annotation.python
-#^^^^^^^^^ meta.variable.annotation.python
+# <- meta.type.python
+#^^^^^^^^^ meta.type.python
 zoo: \
     loo \
     = too
-# <- meta.variable.annotation.python
-#^^^ meta.variable.annotation.python
+# <- meta.type.python
+#^^^ meta.type.python
 #   ^ keyword.operator.assignment
 
 foo: int; print("foo")
 #       ^ punctuation.terminator.statement.python
-#       ^^^^^^^^^^^^^^ - meta.variable.annotation.python
+#       ^^^^^^^^^^^^^^ - meta.type.python
+
+foo: (int, float) # illegal parens
+#   ^^^^^^^^^^^^^ meta.type.python - meta.group
+#    ^ invalid.illegal.parens.begin.python
+#     ^^^ support.type.python
+#        ^ punctuation.separator.sequence.python
+#          ^^^^^ support.type.python
+#               ^ invalid.illegal.parens.end.python
+#                 ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.annotation.python
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.python
+#                                  ^^^^^^ - meta.type
 #                                   ^ keyword.operator.assignment
 
 
