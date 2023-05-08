@@ -878,16 +878,16 @@ contexts:
       scope: invalid.illegal.expected-comma.python
 
   function-parameter-annotation:
-    - meta_scope: meta.function.parameters.annotation.python
+    - meta_scope: meta.function.parameters.annotation.python meta.type.python
     - match: (?=[,)=])
       set: function-parameter-list-body
-    - match: None\b
-      scope: constant.language.null.python
-    - include: expression-in-a-group
+    - include: line-continuations
+    - include: illegal-assignment-expressions
+    - include: type-hint-expressions
 
   function-parameter-default-value:
     - meta_scope: meta.function.parameters.default-value.python
-    - match: (?=[,)])
+    - match: (?=[,)=])
       set: function-parameter-list-body
     - include: expression-in-a-group
 

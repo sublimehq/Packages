@@ -1718,11 +1718,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                               ^ punctuation.separator.parameters
 #                                                 ^^^^^^ variable.parameter
 #                                                       ^ punctuation.separator.annotation
-#                                                         ^^^^^^^^^ meta.function-call
-#                                                            ^ punctuation.section.arguments.begin
-#                                                             ^ constant.numeric
-#                                                                ^ constant.numeric
-#                                                                 ^ punctuation.section.arguments.end
+#                                                         ^^^^^^^^^ invalid.illegal.function.python
 #                                                                  ^ punctuation.separator.parameters
 #                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
@@ -1787,7 +1783,7 @@ def type_annotation_with_defaults(foo: str | None = None)
 #                                    ^^^^^^^^^^^^^ meta.function.parameters.annotation.python - meta.function.parameters.default-value
 #                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.annotation
 #                                      ^^^ support.type.python
-#                                          ^ keyword.operator.arithmetic.python
+#                                          ^ punctuation.separator.type.union.python
 #                                            ^^^^ constant.language.null.python
 #                                                 ^ keyword.operator.assignment.python
 #                                                   ^^^^ constant.language.null.python
@@ -2880,8 +2876,17 @@ foo ^= bar ^= baz
 
 # Pop contexts gracefully
 def func(unclosed, parameters: if else
+#                            ^^^^ meta.function.parameters.annotation.python
+#                                ^^^^^^ - meta.function
+#                              ^^ invalid.illegal.name.python
+#                                 ^^^^ keyword.control.conditional.else.python
     pass
-#   ^^^^ invalid.illegal.name
+#   ^^^^ keyword.control.flow.pass.python
+
+# Pop contexts gracefully
+def func(unclosed, parameters: if else
+    pass
+#   ^^^^ keyword.control.flow.pass.python
 
 # The following function should be matched as normal
 # despite the above definition not being closed correctly
