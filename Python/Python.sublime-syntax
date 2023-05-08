@@ -939,9 +939,9 @@ contexts:
     - include: function-definition-end
 
   function-return-type:
-    - meta_content_scope: meta.function.annotation.return.python
+    - meta_content_scope: meta.function.annotation.return.python meta.type.python
     - include: function-definition-end
-    - include: expression-in-a-statement
+    - include: type-hint-expressions
 
   function-definition-end:
     - match: '{{colon}}'
