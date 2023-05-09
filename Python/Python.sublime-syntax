@@ -878,8 +878,16 @@ contexts:
       scope: invalid.illegal.expected-comma.python
 
   function-parameter-annotation:
-    - meta_scope: meta.function.parameters.type.python meta.type.python
-    - match: (?=[,)=])
+    - meta_include_prototype: false
+    - meta_scope: meta.function.parameters.type.python
+    - include: line-continuations
+    - match: (?=\S)
+      set: function-parameter-annotation-body
+
+  function-parameter-annotation-body:
+    - meta_scope: meta.function.parameters.type.python
+    - meta_content_scope: meta.type.python
+    - match: \s*(?=[,)=])
       set: function-parameter-list-body
     - include: line-continuations
     - include: illegal-assignment-expressions
@@ -934,21 +942,34 @@ contexts:
   function-after-parameters:
     - meta_content_scope: meta.function.python
     - match: ->
-      scope: meta.function.return-type.python punctuation.separator.return-type.python
+      scope: punctuation.separator.return-type.python
       set: function-return-type
     - include: function-definition-end
 
   function-return-type:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.return-type.python
+    - include: line-continuation-or-pop
+    - match: (?=\S)
+      set: function-return-type-body
+
+  function-return-type-body:
     - meta_content_scope: meta.function.return-type.python meta.type.python
-    - include: function-definition-end
+    - match: (\s*)({{colon}})
+      captures:
+        1: meta.function.return-type.python
+        2: meta.function.python punctuation.section.function.begin.python
+      pop: 1
+    - include: line-continuation-or-pop
+    - include: illegal-assignment-expressions
     - include: type-hint-expressions
 
   function-definition-end:
     - match: '{{colon}}'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: 1
-    - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
+    - include: illegal-assignment-expressions
 
 ###[ ASSIGNMENT STATEMENTS ]##################################################
 
@@ -968,7 +989,13 @@ contexts:
     - include: expression-in-a-statement
 
   variable-annotation:
-    - meta_scope: meta.type.python
+    - meta_include_prototype: false
+    - include: line-continuation-or-pop
+    - match: (?=\S)
+      set: variable-annotation-body
+
+  variable-annotation-body:
+    - meta_content_scope: meta.type.python
     - include: line-continuations
     - include: type-hint-body
 
@@ -3686,5 +3713,5 @@ contexts:
     - meta_include_prototype: false
     # This prevents strings after a continuation from being a docstring
     - include: strings
-    - match: (?=\S|^\s*$|\n)  # '\n' for when we matched a string earlier
+    - match: (?=\S|^(?!\s*[[:alpha:]]*['"]))
       pop: 1
