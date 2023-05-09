@@ -160,6 +160,7 @@ contexts:
     - include: match-comment-magic-general
     - include: match-comment-magic-line-renum
     - include: match-comment-magic-line-extern
+    - include: match-comment-magic-language-injection
 
   # Go has magic comments in the form of:
   #
@@ -221,6 +222,41 @@ contexts:
         3: meta.variable.function.go
         4: meta.punctuation.separator.space.go
         5: meta.annotation.parameters.go
+
+  match-comment-magic-language-injection:
+    - match: (//)\s*(language)(=)
+      captures:
+        0: meta.annotation.identifier.go
+        1: punctuation.definition.comment.go
+        2: support.other.go
+        3: keyword.operator.assignment.go
+      push: match-comment-magic-language-injection-language-id
+
+  match-comment-magic-language-injection-language-id:
+    - meta_scope: comment.line.double-slash.go
+    - match: (?i)css\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.css#match-comment-magic-language-injection-inner
+    - match: (?i)html\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.html#match-comment-magic-language-injection-inner
+    - match: (?i)js\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.js#match-comment-magic-language-injection-inner
+    - match: (?i)json\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.json#match-comment-magic-language-injection-inner
+    - match: (?i)regexp\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.regexp#match-comment-magic-language-injection-inner
+    - match: (?i)sql\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
+    - match: (?i)xml\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.xml#match-comment-magic-language-injection-inner
+    - match: ''
+      set: pop-comment-line-normal
 
   pop-line-annotation:
     - meta_scope: comment.line.double-slash.go
@@ -646,16 +682,21 @@ contexts:
   match-raw-string:
     - match: '`'
       scope: punctuation.definition.string.begin.go
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.backtick.go
-        - match: '`'
-          scope: punctuation.definition.string.end.go
-          pop: 1
-        - include: match-template-string
-        - match: \%%
-          scope: constant.character.escape.go
-        - include: match-fmt
+      push: match-raw-string-inner
+
+  match-raw-string-inner:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.go string.quoted.backtick.go
+    - match: '`'
+      scope: punctuation.definition.string.end.go
+      pop: 1
+    - include: match-backtick-string-formatting
+
+  match-backtick-string-formatting:
+    - include: match-template-string
+    - match: \%%
+      scope: constant.character.escape.go
+    - include: match-fmt
 
   match-interpreted-string:
     - match: '"'
