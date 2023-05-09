@@ -833,7 +833,7 @@ contexts:
       scope: keyword.operator.assignment.python
       set: function-parameter-default-value
     - match: '{{colon}}'
-      scope: punctuation.separator.annotation.parameter.python
+      scope: punctuation.separator.type.python
       set: function-parameter-annotation
     - include: comments
     - include: function-parameter-tuples
@@ -878,7 +878,7 @@ contexts:
       scope: invalid.illegal.expected-comma.python
 
   function-parameter-annotation:
-    - meta_scope: meta.function.parameters.annotation.python meta.type.python
+    - meta_scope: meta.function.parameters.type.python meta.type.python
     - match: (?=[,)=])
       set: function-parameter-list-body
     - include: line-continuations
@@ -934,12 +934,12 @@ contexts:
   function-after-parameters:
     - meta_content_scope: meta.function.python
     - match: ->
-      scope: meta.function.annotation.return.python punctuation.separator.annotation.return.python
+      scope: meta.function.return-type.python punctuation.separator.return-type.python
       set: function-return-type
     - include: function-definition-end
 
   function-return-type:
-    - meta_content_scope: meta.function.annotation.return.python meta.type.python
+    - meta_content_scope: meta.function.return-type.python meta.type.python
     - include: function-definition-end
     - include: type-hint-expressions
 
@@ -954,7 +954,7 @@ contexts:
 
   assignment-statements:
     - match: '{{colon}}'
-      scope: punctuation.separator.annotation.variable.python
+      scope: punctuation.separator.type.python
       push: variable-annotation
     - match: '{{augmented_assignment_operators}}'
       scope: keyword.operator.assignment.augmented.python

@@ -1570,7 +1570,7 @@ def _():
 
     case: int = 0
 #   ^^^^ meta.generic-name.python - keyword
-#       ^ punctuation.separator.annotation.variable.python
+#       ^ punctuation.separator.type.python
 #         ^^^ support.type.python
 #             ^ keyword.operator.assignment.python
 #               ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1579,7 +1579,7 @@ def _():
 #   ^^^^ meta.generic-name.python - keyword
 #        ^ punctuation.separator.continuation.line.python
     : int = 0
-#   ^ punctuation.separator.annotation.variable.python
+#   ^ punctuation.separator.type.python
 #     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1602,7 +1602,7 @@ def _():
 
     match: int = 0
 #   ^^^^^ meta.generic-name.python - keyword
-#        ^ punctuation.separator.annotation.variable.python
+#        ^ punctuation.separator.type.python
 #          ^^^ support.type.python
 #              ^ keyword.operator.assignment.python
 #                ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1611,7 +1611,7 @@ def _():
 #   ^^^^^ meta.generic-name.python - keyword
 #         ^ punctuation.separator.continuation.line.python
     : int = 0
-#   ^ punctuation.separator.annotation.variable.python
+#   ^ punctuation.separator.type.python
 #     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1705,29 +1705,29 @@ def func(from='me'):
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int :
 #^^^^^^^^^^^^^^^^^^^ meta.function.python - meta.function meta.function
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters - meta.function meta.function
-#                                                                                                  ^^^^^^^ meta.function.annotation.return.python - meta.function meta.function
+#                                                                                                  ^^^^^^^ meta.function.return-type.python - meta.function meta.function
 #                                                                                                         ^ meta.function.python - meta.function meta.function
 #                   ^ - meta.function meta.function.parameters
 #                    ^^^^^^ variable.parameter
-#                          ^^^^^ meta.function.parameters.annotation
-#                          ^ punctuation.separator.annotation
+#                          ^^^^^ meta.function.parameters.type
+#                          ^ punctuation.separator.type
 #                            ^^^ support.type
 #                               ^ punctuation.separator.parameters
 #                                 ^^^^^^ variable.parameter
-#                                       ^ punctuation.separator.annotation
+#                                       ^ punctuation.separator.type
 #                                               ^ punctuation.separator.parameters
 #                                                 ^^^^^^ variable.parameter
-#                                                       ^ punctuation.separator.annotation
+#                                                       ^ punctuation.separator.type
 #                                                         ^^^^^^^^^ invalid.illegal.function.python
 #                                                                  ^ punctuation.separator.parameters
 #                                                                    ^^^^^^ variable.parameter
-#                                                                          ^ punctuation.separator.annotation
+#                                                                          ^ punctuation.separator.type
 #                                                                            ^^^^^^^^ string.quoted.double
 #                                                                                     ^^^^^^^^^^^ meta.function.parameters.default-value
 #                                                                                     ^ keyword.operator.assignment
 #                                                                                       ^^^^^^^^^ string.quoted.double
 #                                                                                                ^ punctuation.section.parameters.end
-#                                                                                                  ^^ punctuation.separator.annotation
+#                                                                                                  ^^ punctuation.separator.return-type.python
 #                                                                                                     ^^^ support.type
 #                                                                                                         ^ punctuation.section.function.begin
 
@@ -1736,8 +1736,8 @@ def type_annotations_line_continuation_without_terminator() \
 #^^^^^^^^^^^ - meta.function meta.function
 #           ^ - meta.function
 #^^^^^ meta.function.python
-#     ^^^^^^ meta.function.annotation.return
-#     ^^ punctuation.separator.annotation
+#     ^^^^^^ meta.function.return-type
+#     ^^ punctuation.separator.return-type.python
 #        ^^^ support.type
     pass
 
@@ -1746,8 +1746,8 @@ def type_annotations_line_continuation_without_terminator_but_comment() \
 #^^^^^^^^^^^ - meta.function meta.function
 #           ^^^^^^^^^^ - meta.function
 #^^^^^ meta.function.python
-#     ^^^^^^ meta.function.annotation.return
-#     ^^ punctuation.separator.annotation
+#     ^^^^^^ meta.function.return-type
+#     ^^ punctuation.separator.return-type.python
 #        ^^^ support.type
     pass
 
@@ -1755,9 +1755,9 @@ def type_annotations_line_continuation() \
       -> int:
 #^^^^^^^^^^^^ - meta.function meta.function
 #^^^^^ meta.function.python
-#     ^^^^^^ meta.function.annotation.return
+#     ^^^^^^ meta.function.return-type
 #           ^ meta.function.python
-#     ^^ punctuation.separator.annotation
+#     ^^ punctuation.separator.return-type.python
 #        ^^^ support.type
 #           ^ punctuation.section.function.begin
     pass
@@ -1765,7 +1765,7 @@ def type_annotations_line_continuation() \
 def type_annotations_line_continuation() \
       -> \
       int:
-#^^^^^^^^ meta.function.annotation.return
+#^^^^^^^^ meta.function.return-type
 #        ^ meta.function.python
 #     ^^^ support.type
 #        ^ punctuation.section.function.begin
@@ -1775,13 +1775,13 @@ def type_annotations_line_continuation() \
       -> \
       int \
       :
-#^^^^^ meta.function.annotation.return
+#^^^^^ meta.function.return-type
 #     ^ meta.function.python punctuation.section.function.begin.python
     pass
 
 def type_annotation_with_defaults(foo: str | None = None)
-#                                    ^^^^^^^^^^^^^ meta.function.parameters.annotation.python - meta.function.parameters.default-value
-#                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.annotation
+#                                    ^^^^^^^^^^^^^ meta.function.parameters.type.python - meta.function.parameters.default-value
+#                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.type
 #                                      ^^^ support.type.python
 #                                          ^ punctuation.separator.type.union.python
 #                                            ^^^^ constant.language.null.python
@@ -1917,7 +1917,7 @@ def func(
     baz: str,
 #  ^^^^^^^^^^^ meta.function.parameters
 #   ^^^ variable.parameter.python
-#      ^ punctuation.separator.annotation.parameter.python
+#      ^ punctuation.separator.type
 #        ^^^ support.type.python
 #           ^ punctuation.separator.parameters.python
 ): pass
@@ -2876,7 +2876,7 @@ foo ^= bar ^= baz
 
 # Pop contexts gracefully
 def func(unclosed, parameters: if else
-#                            ^^^^ meta.function.parameters.annotation.python
+#                            ^^^^ meta.function.parameters.type.python
 #                                ^^^^^^ - meta.function
 #                              ^^ invalid.illegal.name.python
 #                                 ^^^^ keyword.control.conditional.else.python
@@ -2927,14 +2927,14 @@ foo.bar(baz., True)
 ##################
 
 primes: List[int] = []
-#     ^ punctuation.separator.annotation.variable.python
+#     ^ punctuation.separator.type.python
 #     ^^^^^^^^^^^ meta.type.python
 #                ^^^^^^ - meta.type
 #       ^^^^ meta.path.python
 #                 ^ keyword.operator.assignment
 
 captain: str  # Note: no initial value!
-#      ^ punctuation.separator.annotation.variable.python
+#      ^ punctuation.separator.type.python
 #      ^^^^^ meta.type.python
 #           ^^ - meta.type - comment
 #             ^^^^^^^ comment
@@ -2943,7 +2943,7 @@ captain: str  # Note: no initial value!
 foo: str | None = None
 #  ^^^^^^^^^^^^ meta.type.python
 #              ^^^^^^^^ - meta.type
-#  ^ punctuation.separator.annotation.variable.python
+#  ^ punctuation.separator.type.python
 #    ^^^ support.type.python
 #        ^ punctuation.separator.type.union.python
 #          ^^^^ constant.language.null.python
@@ -2953,7 +2953,7 @@ foo: str | None = None
 bar: str | None = 'b'
 #  ^^^^^^^^^^^^ meta.type.python
 #              ^^^^^^^ - meta.type
-#  ^ punctuation.separator.annotation.variable.python
+#  ^ punctuation.separator.type.python
 #    ^^^ support.type.python
 #        ^ punctuation.separator.type.union.python
 #          ^^^^ constant.language.null.python
@@ -2997,7 +2997,7 @@ foo: (int, float) # illegal parens
 
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
-#        ^ punctuation.separator.annotation.variable.python
+#        ^ punctuation.separator.type.python
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.python
 #                                  ^^^^^^ - meta.type
 #                                   ^ keyword.operator.assignment
