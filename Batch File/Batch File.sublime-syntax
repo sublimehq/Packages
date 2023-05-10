@@ -687,7 +687,7 @@ contexts:
       pop: 1
     - match: $
       pop: 2
-    - match: '%%|\^[\W&&\S]'
+    - match: '%%'
       scope: constant.character.escape.dosbatch
     - include: variable-interpolations
 
@@ -1653,7 +1653,7 @@ contexts:
     - include: quoted-eol-pop
 
   escaped-characters:
-    - match: '%%|\^\^!|\^.'
+    - match: '%%|\^.'
       scope: constant.character.escape.dosbatch
 
 ###[ INTERPOLATIONS ]#########################################################

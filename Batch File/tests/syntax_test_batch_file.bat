@@ -1780,7 +1780,8 @@ put arg1 arg2
    ECHO %% ^^! ^& ^| ^( ^)
 ::      ^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::      ^^ constant.character.escape.dosbatch
-::         ^^^ constant.character.escape.dosbatch
+::         ^^ constant.character.escape.dosbatch
+::           ^ - constant.character
 ::             ^^ constant.character.escape.dosbatch
 ::                ^^ constant.character.escape.dosbatch
 ::                   ^^ constant.character.escape.dosbatch
@@ -1813,12 +1814,22 @@ put arg1 arg2
    ECHO "%% ^^! ^& ^| ^( ^)"
 ::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - punctuation
 ::       ^^ constant.character.escape.dosbatch
-::          ^^ constant.character.escape.dosbatch
-::              ^^ constant.character.escape.dosbatch
-::                 ^^ constant.character.escape.dosbatch
-::                    ^^ constant.character.escape.dosbatch
-::                       ^^ constant.character.escape.dosbatch
+::         ^^^^^^^^^^^^^^^^ - constant.character
 
+   ECHO cd = @( ^
+   for %%^^^^ in ("") do @for /f "delims=" %%a in (^^""$*%%~^^"^") do @( ^
+:: ^^^^ - constant
+::     ^^^^^^ constant.character.escape.dosbatch
+::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+::                                         ^^ constant.character.escape.dosbatch
+::                                           ^^^^^^ - constant
+::                                                 ^^ constant.character.escape.dosbatch
+::                                                   ^^^^ - constant
+::                                                       ^^ constant.character.escape.dosbatch
+::                                                         ^ - constant
+::                                                          ^^ constant.character.escape.dosbatch
+::                                                            ^^^^^^^^^^^^ - constant
+::                                                                       ^ punctuation.separator.continuation.line.dosbatch
 
 :::: [ ECHO variables ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
