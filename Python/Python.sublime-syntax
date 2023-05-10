@@ -418,7 +418,7 @@ contexts:
     - include: type-hint-end
 
   type-hint-error-list-body:
-    - meta_scope: meta.type.python meta.sequence.list.python
+    - meta_scope: meta.type.python meta.sequence.list.errors.python
     - match: \]
       scope: punctuation.section.sequence.end.python
       pop: 1
@@ -463,8 +463,8 @@ contexts:
       pop: 1
 
   type-hint-expressions:
-    - include: type-hint-brackets
     - include: type-hint-groups
+    - include: type-hint-lists
     - include: type-separators
     - include: type-constants
     - include: double-quoted-strings
@@ -475,18 +475,6 @@ contexts:
     - include: illegal-name
     - include: qualified-name
 
-  type-hint-brackets:
-    - match: \[
-      scope: punctuation.section.brackets.begin.python
-      push: type-hint-brackets-body
-
-  type-hint-brackets-body:
-    - meta_scope: meta.brackets.python
-    - match: \]
-      scope: punctuation.section.brackets.end.python
-      pop: 1
-    - include: type-hint-body
-
   type-hint-groups:
     - match: \(
       scope: invalid.illegal.parens.begin.python
@@ -495,6 +483,18 @@ contexts:
   type-hint-groups-body:
     - match: \)
       scope: invalid.illegal.parens.end.python
+      pop: 1
+    - include: type-hint-body
+
+  type-hint-lists:
+    - match: \[
+      scope: punctuation.section.sequence.begin.python
+      push: type-hint-list-body
+
+  type-hint-list-body:
+    - meta_scope: meta.sequence.list.members.python
+    - match: \]
+      scope: punctuation.section.sequence.end.python
       pop: 1
     - include: type-hint-body
 
