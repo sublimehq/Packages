@@ -2964,7 +2964,7 @@ foo.bar(baz., True)
 primes: List[int] = []
 #     ^ punctuation.separator.type.python
 #     ^^ - meta.type
-#       ^^^^ meta.type.python meta.generic-name.python
+#       ^^^^ meta.type.python support.class.typing.python
 #           ^^^^^ meta.type.python meta.sequence.list.members.python
 #           ^ punctuation.section.sequence.begin.python
 #            ^^^ support.type.python
@@ -3175,11 +3175,11 @@ lst = []  # type: List[Dict[Any, ...]] # comment
 #         ^ punctuation.definition.comment.python
 #           ^^^^ keyword.other.type.python
 #               ^ punctuation.separator.type.python
-#                 ^^^^ meta.generic-name.python
+#                 ^^^^ support.class.typing.python
 #                     ^ punctuation.section.sequence.begin
-#                      ^^^^ meta.generic-name.python
+#                      ^^^^ support.class.typing.python
 #                          ^ punctuation.section.sequence.begin.python
-#                           ^^^ meta.generic-name.python
+#                           ^^^ support.class.typing.python
 #                              ^ punctuation.separator.sequence.python
 #                                ^^^ constant.language.python
 #                                   ^^ punctuation.section.sequence.end.python
@@ -3241,7 +3241,7 @@ def function(a, b, *c, **d):
 #               ^ punctuation.separator.sequence.python
 #                 ^^^ support.type.python
 #                    ^ punctuation.separator.sequence.python
-#                      ^^^^ meta.path.python meta.generic-name.python
+#                      ^^^^ support.class.typing.python
 #                          ^^^^^ meta.sequence.list.members.python
 #                          ^ punctuation.section.sequence.begin.python
 #                           ^^^ support.type.python
@@ -3250,7 +3250,7 @@ def function(a, b, *c, **d):
 #                                 ^^^^ support.type.python
 #                                     ^ punctuation.section.parameters.end.python
 #                                       ^^ punctuation.separator.return-type.python
-#                                          ^^^^ meta.path.python meta.generic-name.python
+#                                          ^^^^ support.class.typing.python
 #                                              ^^^^^^^^^^ meta.sequence.list.members.python
 #                                              ^ punctuation.section.sequence.begin.python
 #                                               ^^^ support.type.python
@@ -3264,7 +3264,7 @@ class TypeCommentTest:
 #                  ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
 #                  ^^^^ keyword.other.type.python
 #                      ^ punctuation.separator.type.python
-#                        ^^^^ meta.path.python meta.generic-name.python
+#                        ^^^^ support.class.typing.python
 #                            ^^^^^^ meta.sequence.list.members.python
 #                            ^ punctuation.section.sequence.begin.python
 #                             ^^^^ support.type.python
