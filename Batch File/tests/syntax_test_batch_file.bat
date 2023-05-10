@@ -1815,6 +1815,7 @@ put arg1 arg2
 ::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - punctuation
 ::       ^^ constant.character.escape.dosbatch
 ::         ^^^^^^^^^^^^^^^^ - constant.character
+
    ECHO cd = @( ^
    for %%^^^^ in ("") do @for /f "delims=" %%a in (^^""$*%%~^^"^") do @( ^
 :: ^^^^ - constant
