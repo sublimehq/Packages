@@ -78,10 +78,12 @@
 //^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
 
     <foo />;
-//  ^^^^^^^ meta.jsx meta.tag
-//  ^ punctuation.definition.tag.begin
-//   ^^^ meta.tag.name entity.name.tag.native
-//       ^^ punctuation.definition.tag.end
+//  ^ meta.jsx.js meta.tag.js
+//   ^^^^ meta.jsx.js meta.tag.name.js
+//       ^^ meta.jsx.js meta.tag.js
+//  ^ punctuation.definition.tag.begin.js
+//   ^^^ entity.name.tag.native.js
+//       ^^ punctuation.definition.tag.end.js
 
     <foo>Hello!</foo>;
 //  ^^^^^^^^^^^^^^^^^ meta.jsx
@@ -283,4 +285,4 @@
 </foo>;
 
     <Class />;
-//   ^^^^^ entity.name.tag - entity.name.tag.native
+//   ^^^^^ entity.name.tag.component - entity.name.tag.native
