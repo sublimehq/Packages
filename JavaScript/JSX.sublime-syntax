@@ -175,7 +175,7 @@ contexts:
 
   jsx-tag-name-component:
     - match: '{{jsx_identifier}}'
-      scope: entity.name.tag.js
+      scope: entity.name.tag.component.js
       pop: 1
     - include: else-pop
 

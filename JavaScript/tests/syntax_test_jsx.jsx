@@ -99,15 +99,19 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
 //  ^^^^^^^^^^^^^ meta.tag
 //   ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
+//   ^^^ entity.name.tag.component
 //      ^ punctuation.accessor
+//       ^^^ entity.name.tag.component
 //          ^ punctuation.accessor
-//           ^^^ entity.name.tag
+//           ^^^ entity.name.tag.component
 //               ^^^^^^ - meta.tag
 //                     ^^^^^^^^^^^^^^ meta.tag
 //                       ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
+//                       ^^^ entity.name.tag.component
 //                          ^ punctuation.accessor
+//                           ^^^ entity.name.tag.component
 //                              ^ punctuation.accessor
-//                               ^^^ entity.name.tag
+//                               ^^^ entity.name.tag.component
 
     <foo>Hello!<bar/>World!</foo>;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
