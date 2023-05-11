@@ -78,12 +78,35 @@
 //^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
 
     <foo />;
-//  ^ meta.jsx.js meta.tag.js
-//   ^^^^ meta.jsx.js meta.tag.name.js
-//       ^^ meta.jsx.js meta.tag.js
-//  ^ punctuation.definition.tag.begin.js
-//   ^^^ entity.name.tag.native.js
-//       ^^ punctuation.definition.tag.end.js
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^ punctuation.definition.tag.end
+
+    <foo attr= />;
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^^^^^ meta.jsx meta.tag.attributes
+//             ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^^^ entity.other.attribute-name
+//           ^ punctuation.separator.key-value
+//             ^^ punctuation.definition.tag.end
+
+    <foo attr="val" />;
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^^^^^^^^^^ meta.jsx meta.tag.attributes
+//                  ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^^^ entity.other.attribute-name
+//           ^ punctuation.separator.key-value
+//            ^^^^^ string.quoted.double
+//                  ^^ punctuation.definition.tag.end
 
     <foo>Hello!</foo>;
 //  ^^^^^^^^^^^^^^^^^ meta.jsx
