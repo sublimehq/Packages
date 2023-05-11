@@ -723,49 +723,49 @@ func()(1, 2)
 #^^^^^^^^^^^ - meta.function-call meta.function-call
 
 myobj[1](True)
-#^^^^ - meta.item-access
+#^^^^ - meta.brackets
 #    ^ punctuation.section.brackets.begin.python
-#    ^^^ meta.item-access.python
+#    ^^^ meta.brackets.python
 #      ^ punctuation.section.brackets.end.python
 #       ^^^^^^ meta.function-call.arguments.python
 
 myobj[1][2](0)
-#^^^^ - meta.item-access
+#^^^^ - meta.brackets
 #    ^ punctuation.section.brackets.begin.python
-#    ^^^^^^ meta.item-access.python
+#    ^^^^^^ meta.brackets.python
 #      ^ punctuation.section.brackets.end.python
 #       ^ punctuation.section.brackets.begin.python
 #         ^ punctuation.section.brackets.end.python
 #          ^^^ meta.function-call.arguments.python
 
 a[0].b[1].d[2](e[3])[f[g[4].h[5]]]
-# <- - meta.item-access
-#^^^ meta.item-access.python
-#   ^^ - meta.item-access
-#     ^^^ meta.item-access.python
-#        ^^ - meta.item-access
-#          ^^^ meta.item-access.python
-#             ^^ - meta.item-access
-#               ^^^ meta.item-access.python
-#                  ^ - meta.item-access
-#                   ^^ meta.item-access.python - meta.item-access meta.item-access
-#                     ^^ meta.item-access.python meta.item-access.python - meta.item-access meta.item-access meta.item-access
-#                       ^^^ meta.item-access.python meta.item-access.python meta.item-access.python
-#                          ^^ meta.item-access.python meta.item-access.python - meta.item-access meta.item-access meta.item-access
-#                            ^^^ meta.item-access.python meta.item-access.python meta.item-access.python
-#                               ^ meta.item-access.python meta.item-access.python - meta.item-access meta.item-access meta.item-access
-#                                ^ meta.item-access.python - meta.item-access meta.item-access
-#                                 ^ - meta.item-access
+# <- - meta.brackets
+#^^^ meta.brackets.python
+#   ^^ - meta.brackets
+#     ^^^ meta.brackets.python
+#        ^^ - meta.brackets
+#          ^^^ meta.brackets.python
+#             ^^ - meta.brackets
+#               ^^^ meta.brackets.python
+#                  ^ - meta.brackets
+#                   ^^ meta.brackets.python - meta.brackets meta.brackets
+#                     ^^ meta.brackets.python meta.brackets.python - meta.brackets meta.brackets meta.brackets
+#                       ^^^ meta.brackets.python meta.brackets.python meta.brackets.python
+#                          ^^ meta.brackets.python meta.brackets.python - meta.brackets meta.brackets meta.brackets
+#                            ^^^ meta.brackets.python meta.brackets.python meta.brackets.python
+#                               ^ meta.brackets.python meta.brackets.python - meta.brackets meta.brackets meta.brackets
+#                                ^ meta.brackets.python - meta.brackets meta.brackets
+#                                 ^ - meta.brackets
 
 self[5] = 0
-#   ^^^ meta.item-access.python
+#   ^^^ meta.brackets.python
 
 range(20)[10:2:-2]
 #           ^ punctuation.separator.slice
 #             ^ punctuation.separator.slice
 
 "string"[12]
-#       ^^^^ meta.item-access - meta.sequence
+#       ^^^^ meta.brackets - meta.sequence
 
 "string".
 #       ^ punctuation.accessor.dot.python
@@ -776,15 +776,15 @@ range(20)[10:2:-2]
 #       ^ punctuation.accessor.dot.python
 
 (i for i in range(10))[5]
-#                     ^^^ meta.item-access - meta.sequence
+#                     ^^^ meta.brackets - meta.sequence
 
 [1, 2, 3][2]
 #^^^^^^^^ meta.sequence
-#        ^^^ meta.item-access - meta.sequence
+#        ^^^ meta.brackets - meta.sequence
 
 [1, 2, 3] \
     [2]
-#   ^^^ meta.item-access - meta.sequence
+#   ^^^ meta.brackets - meta.sequence
 
 [a.b., a., .][2]
 #^^^^^^^^^^^^ meta.sequence
@@ -792,7 +792,7 @@ range(20)[10:2:-2]
 #   ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #          ^ punctuation.accessor.dot.python
-#            ^^^ meta.item-access - meta.sequence
+#            ^^^ meta.brackets - meta.sequence
 
 {foo.: bar.baz.}.
 #   ^ punctuation.accessor.dot.python
@@ -807,7 +807,7 @@ range(20)[10:2:-2]
 #            ^ punctuation.accessor.dot.python
 
 1[12]
-#^^^^ - meta.item-access
+#^^^^ - meta.brackets
 
 
 ##################
@@ -1570,7 +1570,7 @@ def _():
 
     case: int = 0
 #   ^^^^ meta.generic-name.python - keyword
-#       ^ punctuation.separator.type.python
+#       ^ punctuation.separator.annotation.python
 #         ^^^ support.type.python
 #             ^ keyword.operator.assignment.python
 #               ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1579,7 +1579,7 @@ def _():
 #   ^^^^ meta.generic-name.python - keyword
 #        ^ punctuation.separator.continuation.line.python
     : int = 0
-#   ^ punctuation.separator.type.python
+#   ^ punctuation.separator.annotation.python
 #     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1602,7 +1602,7 @@ def _():
 
     match: int = 0
 #   ^^^^^ meta.generic-name.python - keyword
-#        ^ punctuation.separator.type.python
+#        ^ punctuation.separator.annotation.python
 #          ^^^ support.type.python
 #              ^ keyword.operator.assignment.python
 #                ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1611,7 +1611,7 @@ def _():
 #   ^^^^^ meta.generic-name.python - keyword
 #         ^ punctuation.separator.continuation.line.python
     : int = 0
-#   ^ punctuation.separator.type.python
+#   ^ punctuation.separator.annotation.python
 #     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -1712,23 +1712,26 @@ def type_annotations(param1: int, param2: MyType | None , param3: max(2, 3), par
 #                                                                                                                 ^ meta.function.python - meta.function meta.function
 #                   ^ - meta.function meta.function.parameters
 #                    ^^^^^^ variable.parameter
-#                          ^^^^^ meta.function.parameters.type
-#                          ^ punctuation.separator.type
+#                          ^^^^^ meta.function.parameters.annotation
+#                          ^ punctuation.separator.annotation
 #                            ^^^ meta.type.python support.type.python
 #                               ^ punctuation.separator.parameters
 #                                 ^^^^^^ variable.parameter
-#                                       ^ punctuation.separator.type
+#                                       ^ punctuation.separator.annotation
 #                                         ^^^^^^^^^^^^^ meta.type.python
 #                                         ^^^^^^ meta.path.python meta.generic-name.python
 #                                                ^ punctuation.separator.type.union.python
 #                                                  ^^^^ constant.language.null.python
 #                                                       ^ punctuation.separator.parameters
 #                                                         ^^^^^^ variable.parameter
-#                                                               ^ punctuation.separator.type
-#                                                                 ^^^^^^^^^ meta.type.python invalid.illegal.function.python
-#                                                                          ^ punctuation.separator.parameters
+#                                                               ^ punctuation.separator.annotation
+#                                                                 ^^^^^^^^^ meta.function-call
+#                                                                    ^ punctuation.section.arguments.begin
+#                                                                     ^ constant.numeric
+#                                                                        ^ constant.numeric
+#                                                                         ^ punctuation.section.arguments.end
 #                                                                            ^^^^^^ variable.parameter
-#                                                                                  ^ punctuation.separator.type
+#                                                                                  ^ punctuation.separator.annotation
 #                                                                                    ^^^^^^^^ meta.type.python meta.string.python string.quoted.double.python
 #                                                                                             ^^^^^^^^^^^ meta.function.parameters.default-value
 #                                                                                             ^ keyword.operator.assignment
@@ -1813,10 +1816,10 @@ def type_annotations_line_continuation() \
     pass
 
 def type_annotation_with_defaults(foo: str | None = None)
-#                                    ^^ meta.function.parameters.type.python - meta.function.parameters.default-value - meta.type
-#                                      ^^^^^^^^^^ meta.function.parameters.type.python meta.type.python - meta.function.parameters.default-value
-#                                                ^ meta.function.parameters.type.python - meta.function.parameters.default-value - meta.type
-#                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.type
+#                                    ^^ meta.function.parameters.annotation.python - meta.function.parameters.default-value - meta.type
+#                                      ^^^^^^^^^^ meta.function.parameters.annotation.python meta.type.python - meta.function.parameters.default-value
+#                                                ^ meta.function.parameters.annotation.python - meta.function.parameters.default-value - meta.type
+#                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.annotation
 #                                      ^^^ support.type.python
 #                                          ^ punctuation.separator.type.union.python
 #                                            ^^^^ constant.language.null.python
@@ -1952,7 +1955,7 @@ def func(
     baz: str,
 #  ^^^^^^^^^^^ meta.function.parameters
 #   ^^^ variable.parameter.python
-#      ^ punctuation.separator.type
+#      ^ punctuation.separator.annotation
 #        ^^^ support.type.python
 #           ^ punctuation.separator.parameters.python
 ): pass
@@ -2117,7 +2120,7 @@ class Class():
 #          ^^^^^^^^ variable.annotation.python - support
 
     @deco[4]
-#        ^^^ meta.item-access.python
+#        ^^^ meta.brackets.python
 #        ^ punctuation.section.brackets.begin.python
 #         ^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^ punctuation.section.brackets.end.python
@@ -2126,7 +2129,7 @@ class Class():
 #   ^^^^^^^^^^^^^^^^ meta.annotation.python
 #   ^ punctuation.definition.annotation.python
 #    ^^^^ variable.annotation.python
-#        ^^^ meta.item-access.python
+#        ^^^ meta.brackets.python
 #        ^ punctuation.section.brackets.begin.python
 #         ^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^ punctuation.section.brackets.end.python
@@ -2225,7 +2228,7 @@ mytuple = ("this", 'is', 4, tuple)
 
 also_a_tuple = ()[-1]
 #              ^^ meta.sequence.tuple.empty.python
-#                ^^^^ meta.item-access
+#                ^^^^ meta.brackets
 
 tuple_expression = ()and()
 #                  ^^ meta.sequence.tuple.empty.python
@@ -2911,17 +2914,11 @@ foo ^= bar ^= baz
 
 # Pop contexts gracefully
 def func(unclosed, parameters: if else
-#                            ^^^^ meta.function.parameters.type.python
-#                                ^^^^^^ - meta.function
-#                              ^^ invalid.illegal.name.python
+#                            ^^^^^^^^^^ meta.function.parameters.annotation.python
+#                              ^^ keyword.control.conditional.if.python
 #                                 ^^^^ keyword.control.conditional.else.python
     pass
-#   ^^^^ keyword.control.flow.pass.python
-
-# Pop contexts gracefully
-def func(unclosed, parameters: if else
-    pass
-#   ^^^^ keyword.control.flow.pass.python
+#   ^^^^ invalid.illegal.name.python
 
 # The following function should be matched as normal
 # despite the above definition not being closed correctly
@@ -2962,18 +2959,18 @@ foo.bar(baz., True)
 ##################
 
 primes: List[int] = []
-#     ^ punctuation.separator.type.python
+#     ^ punctuation.separator.annotation.python
 #     ^^ - meta.type
 #       ^^^^ meta.type.python support.class.typing.python
-#           ^^^^^ meta.type.python meta.sequence.list.members.python
-#           ^ punctuation.section.sequence.begin.python
+#           ^^^^^ meta.type.python meta.brackets.python
+#           ^ punctuation.section.brackets.begin.python
 #            ^^^ support.type.python
-#               ^ punctuation.section.sequence.end.python
+#               ^ punctuation.section.brackets.end.python
 #                ^^^^^^ - meta.type
 #                 ^ keyword.operator.assignment
 
 captain: str  # Note: no initial value!
-#      ^ punctuation.separator.type.python
+#      ^ punctuation.separator.annotation.python
 #      ^^ - meta.type
 #        ^^^ meta.type.python support.type.python
 #           ^^ - meta.type - comment
@@ -2983,7 +2980,7 @@ foo: str | None = None
 #  ^^ - meta.type
 #    ^^^^^^^^^^ meta.type.python
 #              ^^^^^^^^ - meta.type
-#  ^ punctuation.separator.type.python
+#  ^ punctuation.separator.annotation.python
 #    ^^^ support.type.python
 #        ^ punctuation.separator.type.union.python
 #          ^^^^ constant.language.null.python
@@ -2994,12 +2991,19 @@ bar: str | None = 'b'
 #  ^^ - meta.type
 #    ^^^^^^^^^^ meta.type.python
 #              ^^^^^^^ - meta.type
-#  ^ punctuation.separator.type.python
+#  ^ punctuation.separator.annotation.python
 #    ^^^ support.type.python
 #        ^ punctuation.separator.type.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
 #                 ^^^ string.quoted.single.python
+
+foo: int := 0
+#  ^ punctuation.separator.annotation.python
+#    ^^^ meta.type.python meta.path.python support.type.python
+#       ^^^^^^ - meta.type
+#        ^^ invalid.illegal.assignment.python
+#           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
 foo:
     bar = baz
@@ -3052,21 +3056,21 @@ foo: int ; print("foo")
 #       ^^^^^^^^^^^^^^^^ - meta.type
 #        ^ punctuation.terminator.statement.python
 
-foo: (int, float) # illegal parens
+foo: (int, float) # illegal type, but python likes them
 # <- - meta.type
 #^^^^ - meta.type
-#    ^^^^^^^^^^^^ meta.type.python - meta.group
+#    ^^^^^^^^^^^^ meta.type.python meta.sequence.tuple.python
 #                ^^^^^^^^^^^^^^^^^^ - meta.type
-#    ^ invalid.illegal.parens.begin.python
+#    ^ punctuation.section.sequence.begin.python
 #     ^^^ support.type.python
 #        ^ punctuation.separator.sequence.python
 #          ^^^^^ support.type.python
-#               ^ invalid.illegal.parens.end.python
+#               ^ punctuation.section.sequence.end.python
 #                 ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 
 class Starship:
     stats: ClassVar[Dict[str, int]] = {}
-#        ^ punctuation.separator.type.python
+#        ^ punctuation.separator.annotation.python
 #        ^^ - meta.type
 #          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.python
 #                                  ^^^^^^ - meta.type
@@ -3105,7 +3109,7 @@ value = 3  # type: ignore[error-code-1, 4noint][error] # foo
 #                                     ^ punctuation.separator.sequence.python
 #                                       ^^^^^^ - constant
 #                                             ^ punctuation.section.sequence.end.python
-#                                              ^^^^^^^ - meta.sequence - meta.sequence - meta.item-access
+#                                              ^^^^^^^ - meta.sequence - meta.sequence - meta.brackets
 
 primes = 5  # type: ignore  # type: str  # technically ok but weird
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
@@ -3139,56 +3143,56 @@ dct = {}  # type: Dict[str, (int, float)] # illegal parens
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
 #         ^^ comment.line.number-sign.python - meta.type
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
-#                     ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python
-#                     ^ punctuation.section.sequence.begin.python
+#                     ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python
+#                     ^ punctuation.section.brackets.begin.python
 #                      ^^^ support.type.python
 #                         ^ punctuation.separator.sequence.python
-#                           ^ invalid.illegal.parens.begin.python
+#                           ^ - punctuation
 #                            ^^^ support.type.python
 #                               ^ punctuation.separator.sequence.python
 #                                 ^^^^^ support.type.python
-#                                      ^ invalid.illegal.parens.end.python
-#                                       ^ punctuation.section.sequence.end.python
+#                                      ^ - punctuation
+#                                       ^ punctuation.section.brackets.end.python
 
 dct = {}  # type: Dict[str, str | int]
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
 #         ^^ comment.line.number-sign.python - meta.type
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
-#                     ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python
-#                     ^ punctuation.section.sequence.begin.python
+#                     ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python
+#                     ^ punctuation.section.brackets.begin.python
 #                      ^^^ support.type.python
 #                         ^ punctuation.separator.sequence.python
 #                           ^^^ support.type.python
 #                               ^ punctuation.separator.type.union.python
 #                                 ^^^ support.type.python
-#                                    ^ punctuation.section.sequence.end.python
+#                                    ^ punctuation.section.brackets.end.python
 
 lst = []  # type: List[Dict[Any, ...]] # comment
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
 #         ^^ comment.line.number-sign.python - meta.type
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
-#                     ^^^^^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python - meta.sequence meta.sequence
-#                          ^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python meta.sequence.list.members.python
-#                                    ^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python - meta.sequence meta.sequence
+#                     ^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python - meta.sequence meta.sequence
+#                          ^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python meta.brackets.python
+#                                    ^ comment.line.number-sign.python meta.type.python meta.brackets.python - meta.sequence meta.sequence
 #                                     ^^^^^^^^^^^ comment.line.number-sign.python - meta.type
 #         ^ punctuation.definition.comment.python
 #           ^^^^ keyword.other.type.python
 #               ^ punctuation.separator.type.python
 #                 ^^^^ support.class.typing.python
-#                     ^ punctuation.section.sequence.begin
+#                     ^ punctuation.section.brackets.begin
 #                      ^^^^ support.class.typing.python
-#                          ^ punctuation.section.sequence.begin.python
+#                          ^ punctuation.section.brackets.begin.python
 #                           ^^^ support.class.typing.python
 #                              ^ punctuation.separator.sequence.python
 #                                ^^^ constant.language.python
-#                                   ^^ punctuation.section.sequence.end.python
+#                                   ^^ punctuation.section.brackets.end.python
 
 # incomplete list
 lst = []  # type: List[ # type: ignore
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
 #         ^^ comment.line.number-sign.python - meta.type
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
-#                     ^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python punctuation.section.sequence.begin.python
+#                     ^ comment.line.number-sign.python meta.type.python meta.brackets.python punctuation.section.brackets.begin.python
 #                      ^^^ comment.line.number-sign.python - meta.type
 #                         ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
 
@@ -3198,7 +3202,7 @@ lst = []  # type: List[( # type: ignore
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
 #         ^^ comment.line.number-sign.python - meta.type
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
-#                     ^^ comment.line.number-sign.python meta.type.python meta.sequence.list.members.python
+#                     ^^ comment.line.number-sign.python meta.type.python meta.brackets.python
 #                       ^^^ comment.line.number-sign.python - meta.type
 #                          ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
 
@@ -3241,21 +3245,21 @@ def function(a, b, *c, **d):
 #                 ^^^ support.type.python
 #                    ^ punctuation.separator.sequence.python
 #                      ^^^^ support.class.typing.python
-#                          ^^^^^ meta.sequence.list.members.python
-#                          ^ punctuation.section.sequence.begin.python
+#                          ^^^^^ meta.brackets.python
+#                          ^ punctuation.section.brackets.begin.python
 #                           ^^^ support.type.python
-#                              ^ punctuation.section.sequence.end.python
+#                              ^ punctuation.section.brackets.end.python
 #                               ^ punctuation.separator.sequence.python
 #                                 ^^^^ support.type.python
 #                                     ^ punctuation.section.parameters.end.python
 #                                       ^^ punctuation.separator.return-type.python
 #                                          ^^^^ support.class.typing.python
-#                                              ^^^^^^^^^^ meta.sequence.list.members.python
-#                                              ^ punctuation.section.sequence.begin.python
+#                                              ^^^^^^^^^^ meta.brackets.python
+#                                              ^ punctuation.section.brackets.begin.python
 #                                               ^^^ support.type.python
 #                                                  ^ punctuation.separator.sequence.python
 #                                                    ^^^ support.type.python
-#                                                       ^ punctuation.section.sequence.end.python
+#                                                       ^ punctuation.section.brackets.end.python
 
 class TypeCommentTest:
     member = []  # type: List[dict]
@@ -3264,10 +3268,10 @@ class TypeCommentTest:
 #                  ^^^^ keyword.other.type.python
 #                      ^ punctuation.separator.type.python
 #                        ^^^^ support.class.typing.python
-#                            ^^^^^^ meta.sequence.list.members.python
-#                            ^ punctuation.section.sequence.begin.python
+#                            ^^^^^^ meta.brackets.python
+#                            ^ punctuation.section.brackets.begin.python
 #                             ^^^^ support.type.python
-#                                 ^ punctuation.section.sequence.end.python
+#                                 ^ punctuation.section.brackets.end.python
 
 
 ##################

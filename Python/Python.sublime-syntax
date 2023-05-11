@@ -485,49 +485,37 @@ contexts:
     - include: type-hint-expressions
 
   type-hint-end:
-    - match: (?=\s*[\n#):;=\]}])
+    - match: (?=\s*[\n#])
       pop: 1
 
   type-hint-expressions:
-    - include: type-hint-groups
     - include: type-hint-lists
     - include: type-separators
     - include: type-constants
+    - include: constants
     - include: double-quoted-strings
     - include: single-quoted-strings
     - include: builtin-exceptions
     - include: builtin-types
-    - include: illegal-function-calls
-    - include: illegal-name
     - include: qualified-name
-
-  type-hint-groups:
-    - match: \(
-      scope: invalid.illegal.parens.begin.python
-      push: type-hint-groups-body
-
-  type-hint-groups-body:
-    - match: \)
-      scope: invalid.illegal.parens.end.python
-      pop: 1
-    - include: type-hint-body
 
   type-hint-lists:
     - match: \[
-      scope: punctuation.section.sequence.begin.python
+      scope: punctuation.section.brackets.begin.python
       push: type-hint-list-body
 
   type-hint-list-body:
-    - meta_scope: meta.sequence.list.members.python
+    # As annotations contain normal expressions use a generic `meta.brackets`
+    # for sake of consistent scoping/highlighting.
+    - meta_scope: meta.brackets.python
     - match: \]
-      scope: punctuation.section.sequence.end.python
+      scope: punctuation.section.brackets.end.python
       pop: 1
     - include: type-hint-body
 
   type-constants:
     - match: None\b
       scope: constant.language.null.python
-    - include: constants
 
   type-separators:
     - match: \|
@@ -859,7 +847,7 @@ contexts:
       scope: keyword.operator.assignment.python
       set: function-parameter-default-value
     - match: '{{colon}}'
-      scope: punctuation.separator.type.python
+      scope: punctuation.separator.annotation.python
       set: function-parameter-annotation
     - include: comments
     - include: function-parameter-tuples
@@ -905,19 +893,19 @@ contexts:
 
   function-parameter-annotation:
     - meta_include_prototype: false
-    - meta_scope: meta.function.parameters.type.python
+    - meta_scope: meta.function.parameters.annotation.python
     - include: line-continuations
     - match: (?=\S)
       set: function-parameter-annotation-body
 
   function-parameter-annotation-body:
-    - meta_scope: meta.function.parameters.type.python
+    - meta_scope: meta.function.parameters.annotation.python
     - meta_content_scope: meta.type.python
     - match: \s*(?=[,)=])
       set: function-parameter-list-body
-    - include: line-continuations
-    - include: illegal-assignment-expressions
-    - include: type-hint-expressions
+    - include: type-constants
+    - include: type-separators
+    - include: expression-in-a-group
 
   function-parameter-default-value:
     - meta_scope: meta.function.parameters.default-value.python
@@ -988,7 +976,9 @@ contexts:
       pop: 1
     - include: line-continuation-or-pop
     - include: illegal-assignment-expressions
-    - include: type-hint-expressions
+    - include: type-constants
+    - include: type-separators
+    - include: expression-in-a-statement
 
   function-definition-end:
     - match: '{{colon}}'
@@ -1001,7 +991,7 @@ contexts:
 
   assignment-statements:
     - match: '{{colon}}'
-      scope: punctuation.separator.type.python
+      scope: punctuation.separator.annotation.python
       push: variable-annotation
     - match: '{{augmented_assignment_operators}}'
       scope: keyword.operator.assignment.augmented.python
@@ -1022,8 +1012,12 @@ contexts:
 
   variable-annotation-body:
     - meta_content_scope: meta.type.python
+    - match: (?=\s*[\n#):;=\]}])
+      pop: 1
+    - include: type-constants
+    - include: type-separators
     - include: line-continuations
-    - include: type-hint-body
+    - include: expression-in-a-statement
 
 ###[ CASE STATEMENTS ]########################################################
 
@@ -1702,16 +1696,6 @@ contexts:
       pop: 1
     - include: expression-in-a-group
 
-  illegal-function-calls:
-    - match: (?:\.\s*)?{{path}}\s*\(
-      push: illegal-function-call-arguments
-
-  illegal-function-call-arguments:
-    - meta_include_prototype: false
-    - meta_scope: invalid.illegal.function.python
-    - match: \)
-      pop: 1
-
 ###[ LAMBDAS ]################################################################
 
   lambda-in-groups:
@@ -2032,7 +2016,7 @@ contexts:
       set: maybe-item-access-body
 
   maybe-item-access-body:
-    - meta_scope: meta.item-access.python
+    - meta_scope: meta.brackets.python
     - match: \]
       scope: punctuation.section.brackets.end.python
       set: after-expression
@@ -3728,7 +3712,7 @@ contexts:
 
   line-continuation-or-pop:
     - include: line-continuations
-    - match: (?=\s*(?:\n|;|#))
+    - match: (?=\s*[\n;#])
       pop: 1
 
   line-continuations:
