@@ -2978,7 +2978,6 @@ captain: str  # Note: no initial value!
 #        ^^^ meta.type.python support.type.python
 #           ^^ - meta.type - comment
 #             ^^^^^^^ comment
-#        ^^^ support.type.python
 
 foo: str | None = None
 #  ^^ - meta.type
