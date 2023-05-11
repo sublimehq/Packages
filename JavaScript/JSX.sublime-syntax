@@ -102,14 +102,14 @@ contexts:
     - include: immediately-pop
 
   jsx-tag-attributes:
-    - meta_scope: meta.tag.attributes.js
+    - meta_content_scope: meta.tag.attributes.js
 
     - match: '>'
-      scope: punctuation.definition.tag.end.js
+      scope: meta.tag.js punctuation.definition.tag.end.js
       set: jsx-body
 
     - match: '/'
-      scope: punctuation.definition.tag.end.js
+      scope: meta.tag.js punctuation.definition.tag.end.js
       set: jsx-expect-tag-end
 
     - include: jsx-interpolation
