@@ -101,8 +101,8 @@ variables:
   # Note: Sections are sorted by expected frequency.
   html_tags:  |-
     (?x:
-      {{html_inline_tags}}
-    | {{html_text_tags}}
+      {{html_text_semantic_tags}}
+    | {{html_text_content_tags}}
     | {{html_section_tags}}
     | {{html_table_tags}}
     | {{html_embedded_tags}}
@@ -113,80 +113,77 @@ variables:
     | {{html_web_tags}}
     | {{html_markup_tags}}
     | {{html_header_tags}}
-    | {{html_root_tags}}
-    | {{html_deprecated_tags}}
+    | {{html_structure_tags}}
+    | {{html_deprecated_block_tags}}
+    | {{html_deprecated_inline_tags}}
     )
 
-  html_root_tags: |-
-    \b(?xi: html | body ){{break}}
+  # Aggregates structural root notes from
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element#main_root
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element#document_metadata
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element#sectioning_root
+  html_structure_tags: |-
+    (?xi: html | head | body ){{break}}
 
+  # Note: <head> is moved to `html_structure_tags`
   html_header_tags: |-
-    \b(?xi: base | head | link | meta | script | style | title ){{break}}
+    (?xi: base | link | meta | script | style | title ){{break}}
 
   html_section_tags: |-
-    \b(?xi:
-      address | article | aside | footer | header | h1 | h2 | h3 | h4 | h5 | h6
-    | hgroup | main | nav | section
-    ){{break}}
+    (?xi: address | article | aside | footer | header | h[1-6] | hgroup | main
+    | nav | section ){{break}}
 
-  html_text_tags: |-
-    \b(?xi:
-      blockquote | cite | dd | dt | dl | div | figcaption | figure | hr | li
-    | ol | p | pre | ul
-    ){{break}}
+  html_text_content_tags: |-
+    (?xi: blockquote | cite | dd | dt | dl | div | figcaption | figure | hr
+    | li | ol | p | pre | ul ){{break}}
 
-  html_inline_tags: |-
-    \b(?xi:
-      a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i | kbd
-    | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
-    | sub | sup | u | var | wbr
-    ){{break}}
+  html_text_semantic_tags: |-
+    (?xi: a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i
+    | kbd | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span
+    | strong | sub | sup | u | var | wbr ){{break}}
 
   html_media_tags: |-
-    \b(?xi: area | audio | source | img | map | track | video ){{break}}
+    (?xi: area | audio | source | img | map | track | video ){{break}}
 
   html_embedded_tags: |-
-    \b(?xi: embed | iframe | object | param | picture | source ){{break}}
+    (?xi: embed | iframe | object | param | picture | source ){{break}}
 
   html_script_tags: |-
-    \b(?xi: canvas | noscript | script ){{break}}
+    (?xi: canvas | noscript (?# | script ) ){{break}}
 
   html_markup_tags: |-
-    \b(?xi: del | ins ){{break}}
+    (?xi: del | ins ){{break}}
 
   html_table_tags: |-
-    \b(?xi:
-        caption | col | colgroup | table | tbody | tr | td | tfoot | th | thead
-    ){{break}}
+    (?xi: caption | col | colgroup | table | tbody | tr | td | tfoot
+    | th | thead ){{break}}
 
   html_forms_tags: |-
-    \b(?xi:
-      button | datalist | option | fieldset | label | form | input | legend
-    | meter | optgroup | select | output | progress | textarea
-    ){{break}}
+    (?xi: button | datalist | fieldset | form |  input | label | legend | meter
+    | optgroup | option | output | progress | select | textarea ){{break}}
 
   html_interactive_tags: |-
-    \b(?xi: details | dialog | menu | summary ){{break}}
+    (?xi: details | dialog | menu | summary ){{break}}
 
   html_web_tags: |-
-    \b(?xi: slot | template ){{break}}
+    (?xi: slot | template ){{break}}
 
-  html_deprecated_tags: |-
-    \b(?xi:
-      acronym | applet | basefont | bgsound | big | blink | center | command
-    | content | dir | element | font | frame | frameset | image | isindex
-    | keygen | listing | marquee | menuitem | multicol | nextid | nobr
-    | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
-    ){{break}}
+  html_deprecated_block_tags: |-
+    (?xi: applet | bgsound | content | dir | element | frame | frameset
+    | marquee | noembed | noframes | plaintext | xmp ){{break}}
+
+  html_deprecated_inline_tags: |-
+    (?xi: acronym | basefont | big | blink | center | command | font | image
+    | keygen | menuitem | nobr | param | rb | rtc | shadow | spacer | strike
+    | tt ){{break}}
 
   # SVG tag names
   # maintained from previous CSS.sublime-syntax
   svg_tags: |-
-    \b(?xi:
-      circle | clipPath | defs | ellipse | eventsource | filter | foreignObject
-    | g | glyph | glyphRef | line | linearGradient | marker | mask | path
-    | pattern | polygon | polyline | radialGradient | rect | stop | svg
-    | switch | symbol | text | textPath | tref | tspan | use
+    (?xi: circle | clipPath | defs | ellipse | eventsource | filter
+    | foreignObject | g | glyph | glyphRef | line | linearGradient | marker
+    | mask | path | pattern | polygon | polyline | radialGradient | rect | stop
+    | svg | switch | symbol | text | textPath | tref | tspan | use
     # custom element like tags reserved for SVG/MathML
     | annotation-xml | color-profile | missing-glyph
     | font-face(?: -src | -uri | -format | -name )?
