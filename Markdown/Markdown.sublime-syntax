@@ -149,7 +149,7 @@ variables:
       (
         \s*          # any whitespace, or ..
       |
-        \s[^`]*      # any characters (except backticks), separated by whitespace ...
+        [\s:][^`]*   # any characters (except backticks), separated by whitespace or colon ...
       )
       $\n?           # ... until EOL
     )
