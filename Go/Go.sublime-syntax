@@ -712,6 +712,17 @@ contexts:
       scope: constant.character.escape.go
     - include: match-fmt
 
+  # https://godoc.org/fmt
+  #
+  # Tries to match known patterns without being too specific. We want to avoid
+  # false positives in non-fmt strings that just happen to contain %, but don't
+  # want too much coupling with the current version of fmt.
+  match-fmt:
+    - match: \%%
+      scope: constant.character.escape.go
+    - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
+      scope: constant.other.placeholder.go
+
   match-template-string:
    - match: '{{(?=.*}})'
      scope: punctuation.section.interpolation.begin.go
@@ -744,17 +755,6 @@ contexts:
        - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
          scope: variable.function.go support.function.builtin.go
        - include: match-strings
-
-  # https://godoc.org/fmt
-  #
-  # Tries to match known patterns without being too specific. We want to avoid
-  # false positives in non-fmt strings that just happen to contain %, but don't
-  # want too much coupling with the current version of fmt.
-  match-fmt:
-    - match: \%%
-      scope: constant.character.escape.go
-    - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
-      scope: constant.other.placeholder.go
 
   match-keyword-break:
     - match: \bbreak\b
