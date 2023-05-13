@@ -680,14 +680,14 @@ contexts:
     - include: match-interpreted-string
 
   match-raw-string:
-    - match: '`'
+    - match: \`
       scope: punctuation.definition.string.begin.go
       push: match-raw-string-inner
 
   match-raw-string-inner:
     - meta_include_prototype: false
     - meta_scope: meta.string.go string.quoted.backtick.go
-    - match: '`'
+    - match: \`
       scope: punctuation.definition.string.end.go
       pop: 1
     - include: match-backtick-string-formatting
@@ -699,14 +699,14 @@ contexts:
     - include: match-fmt
 
   match-interpreted-string:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.go
       push: match-interpreted-string-inner
 
   match-interpreted-string-inner:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.go
-    - match: '"'
+    - meta_scope: meta.string.go string.quoted.double.go
+    - match: \"
       scope: punctuation.definition.string.end.go
       pop: 1
     - include: match-template-string

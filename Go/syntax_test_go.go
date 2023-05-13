@@ -201,30 +201,30 @@ You may have to disable Go-specific linters when working on this file.
 
     import "module"
 //  ^^^^^^ keyword.other.import.go
-//         ^^^^^ string.quoted.double.go
+//         ^^^^^ meta.string.go string.quoted.double.go
 
     import (ident "module")
 //  ^^^^^^ keyword.other.import.go
 //         ^ punctuation.section.parens.begin.go
 //          ^^^^^ variable.other.go
-//                ^ string.quoted.double.go punctuation.definition.string.begin.go
-//                 ^^^^^^ string.quoted.double.go
-//                       ^ string.quoted.double.go punctuation.definition.string.end.go
+//                ^ meta.string.go string.quoted.double.go punctuation.definition.string.begin.go
+//                 ^^^^^^ meta.string.go string.quoted.double.go
+//                       ^ meta.string.go string.quoted.double.go punctuation.definition.string.end.go
 //                        ^ punctuation.section.parens.end.go
 
     import (
 //  ^^^^^^ keyword.other.import.go
         ident "module"      // comment
 //      ^^^^^ variable.other.go
-//            ^ string.quoted.double.go punctuation.definition.string.begin.go
-//             ^^^^^^ string.quoted.double.go
-//                   ^ string.quoted.double.go punctuation.definition.string.end.go
+//            ^ meta.string.go string.quoted.double.go punctuation.definition.string.begin.go
+//             ^^^^^^ meta.string.go string.quoted.double.go
+//                   ^ meta.string.go string.quoted.double.go punctuation.definition.string.end.go
 //                          ^^^^^^^^^^^ comment.line.double-slash.go
         ident "module"      // comment
 //      ^^^^^ variable.other.go
-//            ^ string.quoted.double.go punctuation.definition.string.begin.go
-//             ^^^^^^ string.quoted.double.go
-//                   ^ string.quoted.double.go punctuation.definition.string.end.go
+//            ^ meta.string.go string.quoted.double.go punctuation.definition.string.begin.go
+//             ^^^^^^ meta.string.go string.quoted.double.go
+//                   ^ meta.string.go string.quoted.double.go punctuation.definition.string.end.go
 //                          ^^^^^^^^^^^ comment.line.double-slash.go
     )
 
@@ -3838,7 +3838,7 @@ by accident, but if necessary, such support could be sacrificed.
 //      ^^^^^ variable.other.constant.declaration.go
 //            ^ keyword.operator.assignment.go
         "blah"
-//      ^^^^^^ string.quoted.double.go
+//      ^^^^^^ meta.string.go string.quoted.double.go
 
         ident =
 //      ^^^^^ variable.other.constant.declaration.go
@@ -4404,81 +4404,81 @@ by accident, but if necessary, such support could be sacrificed.
 
     "one two"
 //  ^ punctuation.definition.string.begin.go
-//  ^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^ meta.string.go string.quoted.double.go
 //          ^ punctuation.definition.string.end.go
     "one \\ \n two"
-//  ^^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^ constant.character.escape.go
     "one %% two"
-//  ^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^ constant.character.escape.go
     "one % two"
-//  ^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^ constant.other.placeholder.go
     "one %v two"
-//  ^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^ constant.other.placeholder.go
     "one %+v two"
-//  ^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^ constant.other.placeholder.go
     "one %1.2d two"
-//  ^^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
     "one %[1] two"
-//  ^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^^ constant.other.placeholder.go
     "one %[1]v two"
-//  ^^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
     "one %[1]+v two"
-//  ^^^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^^ constant.other.placeholder.go
     "one %[1]1.2d two"
-//  ^^^^^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^^^^ constant.other.placeholder.go
     "foo %*f bar"
-//  ^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^ constant.other.placeholder.go
     "foo %.*f bar"
-//  ^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^ constant.other.placeholder.go
     "foo %*.*f bar"
-//  ^^^^^^^^^^^^^^^ string.quoted.double.go
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
     "%"
-//  ^^^ string.quoted.double.go
+//  ^^^ meta.string.go string.quoted.double.go
 //   ^ -constant.other.placeholder
 
     "one /* two */ three"
-//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.go -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go -comment
 
     "_\n_"
-//  ^^^^^^ string.quoted.double.go
-//    ^^ string.quoted.double.go constant.character.escape.go
+//  ^^^^^^ meta.string.go string.quoted.double.go
+//    ^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ -constant.character.escape
 //      ^ -constant.character.escape
 
     "_\x00_"
-//  ^^^^^^^^ string.quoted.double.go
-//    ^^^^ string.quoted.double.go constant.character.escape.go
+//  ^^^^^^^^ meta.string.go string.quoted.double.go
+//    ^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ -constant.character.escape
 //        ^ -constant.character.escape
 
     "_\u0000_"
-//  ^^^^^^^^^^ string.quoted.double.go
-//    ^^^^^^ string.quoted.double.go constant.character.escape.go
+//  ^^^^^^^^^^ meta.string.go string.quoted.double.go
+//    ^^^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ -constant.character.escape
 //          ^ -constant.character.escape
 
     "_\U00000000_"
-//  ^^^^^^^^^^^^^^ string.quoted.double.go
-//    ^^^^^^^^^^ string.quoted.double.go constant.character.escape.go
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//    ^^^^^^^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ -constant.character.escape
 //              constant.character.escape
 
     "_\000_"
-//  ^^^^^^^^ string.quoted.double.go
-//    ^^^^ string.quoted.double.go constant.character.escape.go
+//  ^^^^^^^^ meta.string.go string.quoted.double.go
+//    ^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ -constant.character.escape
 //        ^ -constant.character.escape
 
