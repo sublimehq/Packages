@@ -100,8 +100,6 @@ variables:
   # This should only be used for lookahead, not for capturing / scoping.
   noise: (?:\s|{{inline_comment}})*
 
-  char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
-
   dec_exponent: (?:[eE][-+]??{{dec_digits}})
   hex_exponent: (?:[pP][-+]??{{dec_digits}})
 
@@ -667,13 +665,22 @@ contexts:
   match-runes:
     # Note: Scope constants as `string` to prevent ST' bracket matching from
     #       failing in case the character contains '{', '}', '[', ']', etc.
-    - match: (\')(?:({{char_escape}})|([^']*))(\')
+    - match: |-
+        (?x)
+        (\')
+        (?: (\\[0-7]{1,3}) | (\\x\h{2}) | (\\u\h{4}) | (\\U\h{8}) | (\\[\\'abfnrtv]) | (\\.) | ([^']*) )
+        (\')
       scope: meta.string.go string.quoted.single.go
       captures:
         1: punctuation.definition.string.begin.go
-        2: constant.character.escape.go
-        3: constant.character.literal.go
-        4: punctuation.definition.string.end.go
+        2: constant.character.escape.octal.go
+        3: constant.character.escape.hex.go
+        4: constant.character.escape.unicode.16bit.go
+        5: constant.character.escape.unicode.32bit.go
+        6: constant.character.escape.go
+        7: invalid.illegal.escape.go
+        8: constant.character.literal.go
+        9: punctuation.definition.string.end.go
 
   match-strings:
     - include: match-raw-string
@@ -707,10 +714,24 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.go
       pop: 1
-    - match: '{{char_escape}}'
-      scope: constant.character.escape.go
+    - include: match-interpreted-string-content
+
+  match-interpreted-string-content:
+    - include: match-escaped-chars
     - include: match-placeholders
     - include: match-string-templates
+
+  match-escaped-chars:
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.octal.go
+    - match: \\x\h{2}
+      scope: constant.character.escape.hex.go
+    - match: \\u\h{4}
+      scope: constant.character.escape.unicode.16bit.go
+    - match: \\U\h{8}
+      scope: constant.character.escape.unicode.32bit.go
+    - match: \\.
+      scope: constant.character.escape.go
 
   # https://godoc.org/fmt
   #

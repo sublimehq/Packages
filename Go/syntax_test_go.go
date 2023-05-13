@@ -4370,34 +4370,94 @@ by accident, but if necessary, such support could be sacrificed.
 
 // Escapes:
 
+    '\a'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\b'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\f'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
     '\n'
 //  ^^^ meta.string.go string.quoted.single.go
 //  ^ punctuation.definition.string.begin.go - constant
 //   ^^ constant.character.escape.go
 //     ^ punctuation.definition.string.end.go - constant
 
+    '\r'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\t'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\v'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\\'
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\'' // valid only in rune literals
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\"' // valid only in string literals
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ invalid.illegal.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
+    '\c' // unrecognized char is illegal in rune literals
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ invalid.illegal.escape.go
+//     ^ punctuation.definition.string.end.go - constant
+
     '\x00'
 //  ^^^^^^ meta.string.go string.quoted.single.go
 //  ^ punctuation.definition.string.begin.go - constant
-//   ^^^^ constant.character.escape.go
+//   ^^^^ constant.character.escape.hex.go
 //       ^ punctuation.definition.string.end.go - constant
 
     '\u0000'
 //  ^^^^^^^^ meta.string.go string.quoted.single.go
 //  ^ punctuation.definition.string.begin.go - constant
-//   ^^^^^^ constant.character.escape.go
+//   ^^^^^^ constant.character.escape.unicode.16bit.go
 //         ^ punctuation.definition.string.end.go - constant
 
     '\U00000000'
 //  ^^^^^^^^^^^^ meta.string.go string.quoted.single.go
 //  ^ punctuation.definition.string.begin.go - constant
-//   ^^^^^^^^^^ constant.character.escape.go
+//   ^^^^^^^^^^ constant.character.escape.unicode.32bit.go
 //             ^ punctuation.definition.string.end.go - constant
 
     '\000'
 //  ^^^^^^ meta.string.go string.quoted.single.go
 //  ^ punctuation.definition.string.begin.go - constant
-//   ^^^^ constant.character.escape.go
+//   ^^^^ constant.character.escape.octal.go
 //       ^ punctuation.definition.string.end.go - constant
 
 /* ## Strings */
@@ -4454,32 +4514,32 @@ by accident, but if necessary, such support could be sacrificed.
 
     "_\n_"
 //  ^^^^^^ meta.string.go string.quoted.double.go
-//    ^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ - constant.character.escape
+//    ^^ constant.character.escape.go
 //      ^ - constant.character.escape
 
     "_\x00_"
 //  ^^^^^^^^ meta.string.go string.quoted.double.go
-//    ^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ - constant.character.escape
+//    ^^^^ constant.character.escape.hex.go
 //        ^ - constant.character.escape
 
     "_\u0000_"
 //  ^^^^^^^^^^ meta.string.go string.quoted.double.go
-//    ^^^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ - constant.character.escape
+//    ^^^^^^ constant.character.escape.unicode.16bit.go
 //          ^ - constant.character.escape
 
     "_\U00000000_"
 //  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
-//    ^^^^^^^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ - constant.character.escape
+//    ^^^^^^^^^^ constant.character.escape.unicode.32bit.go
 //              constant.character.escape
 
     "_\000_"
 //  ^^^^^^^^ meta.string.go string.quoted.double.go
-//    ^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
 //   ^ - constant.character.escape
+//    ^^^^ constant.character.escape.octal.go
 //        ^ - constant.character.escape
 
     `one two`
