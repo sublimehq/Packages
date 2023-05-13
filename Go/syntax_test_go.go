@@ -5422,22 +5422,22 @@ func template() {
     t = "{{printf "%q" "output"}}"
     //     ^^^^^^ support.function.builtin
     t = "{{"output" | printf "%q"}}"
-    //              ^ keyword.operator.template
+    //              ^ keyword.operator.assignment.pipe
     //                ^^^^^^ support.function.builtin
     t = "{{printf "%q" (print "out" "put")}}"
     //     ^^^^^^ support.function.builtin
     //                  ^^^^^ support.function.builtin
     t = "{{"put" | printf "%s%s" "out" | printf "%q"}}"
-    //           ^ keyword.operator.template
+    //           ^ keyword.operator.assignment.pipe
     //             ^^^^^^ support.function.builtin
-    //                                 ^ keyword.operator.template
+    //                                 ^ keyword.operator.assignment.pipe
     //                                   ^^^^^^ support.function.builtin
     t = "{{"output" | printf "%s" | printf "%q"}}"
     //     ^^^^^^^^ string.quoted.double
-    //              ^ keyword.operator.template
+    //              ^ keyword.operator.assignment.pipe
     //                ^^^^^^ support.function.builtin
     //                       ^^^^ string.quoted.double
-    //                            ^ keyword.operator.template
+    //                            ^ keyword.operator.assignment.pipe
     //                              ^^^^^^ support.function.builtin
     //                                     ^^^^ string.quoted.double
     t = "{{with "output"}}{{printf "%q" .}}{{end}}"
@@ -5449,7 +5449,7 @@ func template() {
     //                                          ^^ variable.other.template
     t = "{{with $x := "output"}}{{$x | printf "%q"}}{{end}}"
     //                            ^^ variable.other.template
-    //                               ^ keyword.operator.template.pipe
+    //                               ^ keyword.operator.assignment.pipe
     //                                 ^^^^^^ support.function.builtin
     t = "{{with $x := "output"}}{{$x = "new value"}}{{$x | printf "%q"}}{{end}}"
     //                            ^ meta.interpolation.go variable.other.template.go punctuation.definition.variable.go

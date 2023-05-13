@@ -784,7 +784,7 @@ contexts:
       pop: 1
     # https://pkg.go.dev/text/template#hdr-Pipelines
     - match: \|
-      scope: keyword.operator.template.pipe.go
+      scope: keyword.operator.assignment.pipe.go
       push:
         - match-template-function
         - match-template-keyword
