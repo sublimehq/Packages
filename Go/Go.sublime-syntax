@@ -777,6 +777,7 @@ contexts:
 
   match-template-inner:
     - meta_scope: meta.interpolation.go
+    - meta_content_scope: source.go.template
     - match: (-?)(}})
       captures:
         1: keyword.operator.template.trim.right.go
