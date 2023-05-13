@@ -5325,19 +5325,35 @@ Templates
 */
 func template() {
     t := "\{{ foo }} bar }} {{baz} foo {{baz "
-    //    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go - meta.interpolation
     t := "{{.Count}} items are made of {{.Material}}"
-    //    ^^^^^^^^^^ meta.interpolation
-    //    ^^ punctuation.section.interpolation.begin
+    //   ^ meta.string.go string.quoted.double.go - meta.interpolation
+    //    ^^^^^^^^^^ meta.string.go meta.interpolation.go - string
+    //              ^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go - meta.interpolation
+    //                                 ^^^^^^^^^^^^^ meta.string.go meta.interpolation.go - string
+    //                                              ^ meta.string.go string.quoted.double.go - meta.interpolation
+    //    ^^ punctuation.section.interpolation.begin.go
     //      ^ punctuation.accessor.dot
-    //       ^^^^^ variable.other.member
-    //            ^^ punctuation.section.interpolation.end
+    //       ^^^^^ variable.other.member.go
+    //            ^^ punctuation.section.interpolation.end.go
+    //                                 ^^ punctuation.section.interpolation.begin.go
+    //                                   ^ punctuation.accessor.dot.go
+    //                                    ^^^^^^^^ variable.other.member.go
+    //                                            ^^ punctuation.section.interpolation.end.go
     t := `{{.Count}} items are made of {{.Material}}`
-    //    ^^^^^^^^^^ meta.interpolation
-    //    ^^ punctuation.section.interpolation.begin
+    //   ^ meta.string.go string.quoted.backtick.go - meta.interpolation
+    //    ^^^^^^^^^^ meta.string.go meta.interpolation.go - string
+    //              ^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go - meta.interpolation
+    //                                 ^^^^^^^^^^^^^ meta.string.go meta.interpolation.go - string
+    //                                              ^ meta.string.go string.quoted.backtick.go - meta.interpolation
+    //    ^^ punctuation.section.interpolation.begin.go
     //      ^ punctuation.accessor.dot
-    //       ^^^^^ variable.other.member
-    //            ^^ punctuation.section.interpolation.end
+    //       ^^^^^ variable.other.member.go
+    //            ^^ punctuation.section.interpolation.end.go
+    //                                 ^^ punctuation.section.interpolation.begin.go
+    //                                   ^ punctuation.accessor.dot.go
+    //                                    ^^^^^^^^ variable.other.member.go
+    //                                            ^^ punctuation.section.interpolation.end.go
     t = "{{23 -}} < {{- 45}}"
     //   ^^^^^^^^ meta.interpolation
     //   ^^ punctuation.section.interpolation.begin
@@ -5421,7 +5437,7 @@ func template() {
     //                                     ^^^^ string.quoted.double
     t = "{{with "output"}}{{printf "%q" .}}{{end}}"
     //     ^^^^ keyword.control
-    //                                  ^ variable.other.template
+    //                                  ^ variable.language.template.go
     t = "{{with $x := "output" | printf "%q"}}{{$x}}{{end}}"
     //          ^^ variable.other.template
     //             ^^ keyword.operator.assignment
@@ -5435,7 +5451,13 @@ func template() {
     //                             ^ meta.interpolation.go variable.other.template.go
     //                               ^ meta.interpolation.go keyword.operator.assignment.go
     t = "{{slice x 1 2}}"
-    //     ^^^^^ meta.interpolation.go variable.function.go support.function.builtin.go
+    //     ^^^^^ meta.interpolation.go support.function.builtin.go
+    t = "{{ if or (isset .Params "alt") (isset .Params "caption") }} Caption {{ end }}"
+    //   ^^^^^^^^^ meta.string.go meta.interpolation.go - meta.group
+    //            ^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
+    //                                 ^ meta.string.go meta.interpolation.go - meta.group
+    //                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
+    //                                                           ^^^ meta.string.go meta.interpolation.go - meta.group
 }
 
 func main() {
