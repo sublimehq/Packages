@@ -5341,9 +5341,15 @@ func template() {
     t = "{{23 -}} < {{- 45}}"
     //   ^^^^^^^^ meta.interpolation
     //   ^^ punctuation.section.interpolation.begin
-    //        ^ keyword.operator.template.right.trim
+    //        ^ keyword.operator.template.trim.right.go
     //         ^^ punctuation.section.interpolation.end
-    //                ^ keyword.operator.template.left.trim
+    //                ^ keyword.operator.template.trim.left.go
+    t = "{{23- }} < {{ -45}}"
+    //   ^^^^^^^^ meta.interpolation
+    //   ^^ punctuation.section.interpolation.begin
+    //       ^ - keyword.operator.template.trim
+    //         ^^ punctuation.section.interpolation.end
+    //                 ^ - keyword.operator.template.trim
     t = "{{/* a comment */}}"
     //     ^^ punctuation.definition.comment
     //                  ^^ punctuation.definition.comment

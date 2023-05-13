@@ -745,20 +745,20 @@ contexts:
       scope: constant.other.placeholder.go
 
   match-string-templates:
-    - match: '{{(?=.*}})'
-      scope: punctuation.section.interpolation.begin.go
+    - match: ({{)(-?)(?=.*?}})
+      captures:
+        1: punctuation.section.interpolation.begin.go
+        2: keyword.operator.template.trim.left.go
       push: match-string-template-inner
 
   match-string-template-inner:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.go
-    - match: "}}"
-      scope: punctuation.section.interpolation.end.go
+    - match: (-?)(}})
+      captures:
+        1: keyword.operator.template.trim.right.go
+        2: punctuation.section.interpolation.end.go
       pop: 1
-    - match: "\\s-"
-      scope: keyword.operator.template.right.trim.go
-    - match: "-\\s"
-      scope: keyword.operator.template.left.trim.go
     - match: ":=|="
       scope: keyword.operator.assignment.go
     - match: \|
