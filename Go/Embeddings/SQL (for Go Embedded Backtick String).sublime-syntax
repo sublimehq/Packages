@@ -9,4 +9,4 @@ hidden: true
 contexts:
   prototype:
     - meta_prepend: true
-    - include: scope:source.go.embedded-backtick-string#match-backtick-string-formatting
+    - include: scope:source.go.embedded-backtick-string#match-raw-string-content

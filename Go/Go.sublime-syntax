@@ -690,11 +690,11 @@ contexts:
     - match: \`
       scope: punctuation.definition.string.end.go
       pop: 1
-    - include: match-backtick-string-formatting
+    - include: match-raw-string-content
 
-  match-backtick-string-formatting:
-    - include: match-template-string
-    - include: match-fmt
+  match-raw-string-content:
+    - include: match-placeholders
+    - include: match-string-templates
 
   match-interpreted-string:
     - match: \"
@@ -707,28 +707,28 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.go
       pop: 1
-    - include: match-template-string
     - match: '{{char_escape}}'
       scope: constant.character.escape.go
-    - include: match-fmt
+    - include: match-placeholders
+    - include: match-string-templates
 
   # https://godoc.org/fmt
   #
   # Tries to match known patterns without being too specific. We want to avoid
   # false positives in non-fmt strings that just happen to contain %, but don't
   # want too much coupling with the current version of fmt.
-  match-fmt:
+  match-placeholders:
     - match: \%%
       scope: constant.character.escape.go
     - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
       scope: constant.other.placeholder.go
 
-  match-template-string:
+  match-string-templates:
     - match: '{{(?=.*}})'
       scope: punctuation.section.interpolation.begin.go
-      push: match-template-string-inner
+      push: match-string-template-inner
 
-  match-template-string-inner:
+  match-string-template-inner:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.go
     - match: "}}"
