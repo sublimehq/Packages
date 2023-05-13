@@ -1816,7 +1816,7 @@ put arg1 arg2
 ::       ^^ constant.character.escape.dosbatch
 ::         ^^^^^^^^^^^^^^^^ - constant.character
 
-   ECHO cd = @( ^
+   doskey cd = @( ^
    for %%^^^^ in ("") do @for /f "delims=" %%a in (^^""$*%%~^^"^") do @( ^
 :: ^^^^ - constant
 ::     ^^^^^^ constant.character.escape.dosbatch
@@ -1824,12 +1824,20 @@ put arg1 arg2
 ::                                         ^^ constant.character.escape.dosbatch
 ::                                           ^^^^^^ - constant
 ::                                                 ^^ constant.character.escape.dosbatch
-::                                                   ^^^^ - constant
+::                                                   ^^^ - constant
+::                                                      ^ constant.other.placeholder.dosbatch
 ::                                                       ^^ constant.character.escape.dosbatch
 ::                                                         ^ - constant
 ::                                                          ^^ constant.character.escape.dosbatch
 ::                                                            ^^^^^^^^^^^^ - constant
 ::                                                                       ^ punctuation.separator.continuation.line.dosbatch
+
+   doskey for /f "delims=" %%p in ('"zoxide query --execute "%%CD%%\." -- "%%~1""')
+::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::                         ^^ constant.character.escape.dosbatch
+::                                                           ^^ constant.character.escape.dosbatch
+::                                                               ^^ constant.character.escape.dosbatch
+::                                                                         ^^ constant.character.escape.dosbatch
 
 :::: [ ECHO variables ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
