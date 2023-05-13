@@ -724,37 +724,39 @@ contexts:
       scope: constant.other.placeholder.go
 
   match-template-string:
-   - match: '{{(?=.*}})'
-     scope: punctuation.section.interpolation.begin.go
-     push:
-       - meta_scope: meta.interpolation.go
-       - clear_scopes: 1
-       - match: "}}"
-         scope: punctuation.section.interpolation.end.go
-         pop: 1
-       - match: "\\s-"
-         scope: keyword.operator.template.right.trim.go
-       - match: "-\\s"
-         scope: keyword.operator.template.left.trim.go
-       - match: ":=|="
-         scope: keyword.operator.assignment.go
-       - match: \|
-         scope: keyword.operator.template.pipe.go
-       - match: '(\.)([\w]+)'
-         captures:
-           1: punctuation.accessor.dot.go
-           2: variable.other.member.go
-       - match: '(\$)[\w]+'
-         scope: variable.other.template.go
-         captures:
-           1: punctuation.definition.variable.go
-       - match: '[.$]'
-         scope: variable.other.template.go
-       - match: \b(if|else|range|template|with|end|nil|define|block)\b
-         scope: keyword.control.go
-       - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
-         scope: variable.function.go support.function.builtin.go
-       - include: match-strings
+    - match: '{{(?=.*}})'
+      scope: punctuation.section.interpolation.begin.go
+      push: match-template-string-inner
+
+  match-template-string-inner:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.go
+    - match: "}}"
+      scope: punctuation.section.interpolation.end.go
+      pop: 1
+    - match: "\\s-"
+      scope: keyword.operator.template.right.trim.go
+    - match: "-\\s"
+      scope: keyword.operator.template.left.trim.go
+    - match: ":=|="
+      scope: keyword.operator.assignment.go
+    - match: \|
+      scope: keyword.operator.template.pipe.go
+    - match: '(\.)([\w]+)'
+      captures:
+        1: punctuation.accessor.dot.go
+        2: variable.other.member.go
+    - match: '(\$)[\w]+'
+      scope: variable.other.template.go
+      captures:
+        1: punctuation.definition.variable.go
+    - match: '[.$]'
+      scope: variable.other.template.go
+    - match: \b(if|else|range|template|with|end|nil|define|block)\b
+      scope: keyword.control.go
+    - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+      scope: variable.function.go support.function.builtin.go
+    - include: match-strings
 
   match-keyword-break:
     - match: \bbreak\b
