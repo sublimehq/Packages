@@ -13,28 +13,28 @@ You may have to disable Go-specific linters when working on this file.
 /* # Comments */
 
     //
-// ^ -comment -punctuation
+// ^ - comment - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^ comment.line.double-slash.go
 
     // comment // comment
-// ^ -comment -punctuation
+// ^ - comment - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go
-//             ^^ -punctuation
+//             ^^ - punctuation
 
     /* comment // comment */  // comment
-// ^ -comment -punctuation
+// ^ - comment - punctuation
 //  ^^ punctuation.definition.comment.begin.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.go
-//             ^^ -punctuation
+//             ^^ - punctuation
 //                        ^^ punctuation.definition.comment.end.go
-//                          ^^ -comment -punctuation
+//                          ^^ - comment - punctuation
 //                            ^^ punctuation.definition.comment.go
 //                            ^^^^^^^^^^^ comment.line.double-slash.go
 
     /*
-// ^ -comment
+// ^ - comment
 //  ^^ comment.block.go punctuation.definition.comment.begin.go
 //    ^^ comment.block.go - punctuation
 //  ^^^^ comment.block.go
@@ -43,153 +43,153 @@ You may have to disable Go-specific linters when working on this file.
     */
 //^^ comment.block.go - punctuation
 //  ^^ comment.block.go punctuation.definition.comment.end.go
-//    ^ -comment
+//    ^ - comment
 
     /* * */
-// ^ -comment
+// ^ - comment
 //  ^^^^^^^ comment.block.go
 //  ^^ punctuation.definition.comment.begin.go
-//    ^^^ -punctuation.definition.comment.go
+//    ^^^ - punctuation.definition.comment.go
 //       ^^ punctuation.definition.comment.end.go
-//         ^ -comment
+//         ^ - comment
 
     /*
     *
-//  ^ -punctuation.definition.comment.go
+//  ^ - punctuation.definition.comment.go
 
         *
-//      ^ -punctuation.definition.comment.go
+//      ^ - punctuation.definition.comment.go
 
      *
 //   ^ punctuation.definition.comment.go
     */
 
     //go
-// ^ -comment -punctuation
+// ^ - comment - punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^ comment.line.double-slash.go -meta.annotation
+//  ^^^^ comment.line.double-slash.go - meta.annotation
 
     //go:
-// ^ -comment -punctuation
+// ^ - comment - punctuation
 //  ^^ punctuation.definition.comment.go
-//  ^^^^^ comment.line.double-slash.go -meta.annotation
+//  ^^^^^ comment.line.double-slash.go - meta.annotation
 
     //go:generate one two three
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^ meta.keyword.annotation.go
 //       ^^^^^^^^ meta.variable.function.go
 //                ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                             ^ comment.line.double-slash.go -meta.annotation
+//                             ^ comment.line.double-slash.go - meta.annotation
 
     //go-sumtype:decl MySumType
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^^^^^^^ meta.keyword.annotation.go
 //               ^^^^ meta.variable.function.go
 //                    ^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                             ^ comment.line.double-slash.go -meta.annotation
+//                             ^ comment.line.double-slash.go - meta.annotation
 
     //lint:ignore U1000 Reason.
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^ meta.variable.function.go
 //                ^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                             ^ comment.line.double-slash.go -meta.annotation
+//                             ^ comment.line.double-slash.go - meta.annotation
 
     //lint:file-ignore Reason.
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.keyword.annotation.go
 //         ^^^^^^^^^^^ meta.variable.function.go
 //                     ^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                            ^ comment.line.double-slash.go -meta.annotation
+//                            ^ comment.line.double-slash.go - meta.annotation
 
     //line :10
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//            ^ comment.line.double-slash.go -meta.annotation
+//            ^ comment.line.double-slash.go - meta.annotation
 
     //line file.rl:10
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                   ^ comment.line.double-slash.go -meta.annotation
+//                   ^ comment.line.double-slash.go - meta.annotation
 
     //line file.rl:100:10
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^ comment.line.double-slash.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                       ^ comment.line.double-slash.go -meta.annotation
+//                       ^ comment.line.double-slash.go - meta.annotation
 
     /*line :10*/
-// ^ -comment
+// ^ - comment
 //  ^^^^^^ comment.block.go meta.annotation.go
 //    ^^^^ meta.variable.function.go
 //         ^^^ comment.block.go meta.annotation.parameters.go
 //            ^^ comment.block.go punctuation.definition.comment.end.go
-//              ^ -comment.block.go -meta.annotation
+//              ^ - comment.block.go - meta.annotation
 
     /*line file.rl:10*/
-// ^ -comment
+// ^ - comment
 //  ^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
 //                   ^^ comment.block.go punctuation.definition.comment.end.go
-//                     ^ -comment.block.go -meta.annotation
+//                     ^ - comment.block.go - meta.annotation
 
     /*line file.rl:100:10*/
-// ^ -comment
+// ^ - comment
 //  ^^^^^^ comment.block.go meta.annotation.go
 //  ^^ punctuation.definition.comment.begin.go
 //    ^^^^ meta.variable.function.go
 //         ^^^^^^^^^^^^^^ comment.block.go meta.annotation.parameters.go
 //                       ^^ comment.block.go punctuation.definition.comment.end.go
-//                         ^ -comment.block.go -meta.annotation
+//                         ^ - comment.block.go - meta.annotation
 
     /*line :10 */
-// ^ -comment
-//  ^^^^^^^^^^^^^ comment.block.go -meta.annotation
+// ^ - comment
+//  ^^^^^^^^^^^^^ comment.block.go - meta.annotation
 //  ^^ punctuation.definition.comment.begin.go
 //             ^^ punctuation.definition.comment.end.go
-//               ^ -comment
+//               ^ - comment
 
     /*line file.rl:10 */
-// ^ -comment
-//  ^^^^^^^^^^^^^^^^^^^^ comment.block.go -meta.annotation
-//                      ^ -comment
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^ comment.block.go - meta.annotation
+//                      ^ - comment
 
     /*line file.rl:100:10 */
-// ^ -comment
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.go -meta.annotation
-//                          ^ -comment
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.go - meta.annotation
+//                          ^ - comment
 
     //export myfunc
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //           ^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                 ^ comment.line.double-slash.go -meta.annotation
+//                 ^ comment.line.double-slash.go - meta.annotation
 
     //extern myfunc
-// ^ -comment -meta -punctuation
+// ^ - comment - meta - punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^ comment.line.double-slash.go meta.annotation.go
 //           ^^^^^^ comment.line.double-slash.go meta.annotation.parameters.go
-//                 ^ comment.line.double-slash.go -meta.annotation
+//                 ^ comment.line.double-slash.go - meta.annotation
 
 
 /* # Imports */
@@ -459,7 +459,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     func()
 //  ^^^^ keyword.declaration.function.go
     ident
-//  ^^^^^ variable.other.go -storage
+//  ^^^^^ variable.other.go - storage
 
     func(true false) (nil iota)
 //  ^^^^ keyword.declaration.function.go
@@ -1146,7 +1146,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                                   ^ punctuation.section.brackets.end.go
 //                                                    ^ punctuation.section.parens.end.go
 //                                                      ^^^^ storage.type.go
-//                                                          ^ -meta.function.declaration.go
+//                                                          ^ - meta.function.declaration.go
 
     func(ident ident[ident, ident]) ident(ident ident[ident, ident]) (ident ident[ident, ident])
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
@@ -1179,7 +1179,7 @@ by accident, but if necessary, such support could be sacrificed.
 //                                                                                       ^^^^^ variable.other.type.go
 //                                                                                            ^ punctuation.section.brackets.end.go
 //                                                                                             ^ punctuation.section.parens.end.go
-//                                                                                              ^ -meta.function.declaration.go
+//                                                                                              ^ - meta.function.declaration.go
 
 /* ## interface */
 
@@ -1335,7 +1335,7 @@ by accident, but if necessary, such support could be sacrificed.
 //      ^^^ storage.type.go
 //         ^ punctuation.section.brackets.end.go
 //          ^^^ storage.type.go
-//              ^^^^^ variable.other.go -storage
+//              ^^^^^ variable.other.go - storage
 
     map /**/ [/**/ typ /**/] /**/ typ
 //  ^^^ keyword.declaration.map.go
@@ -3161,7 +3161,7 @@ by accident, but if necessary, such support could be sacrificed.
 
     [0]
     ident
-//  ^^^^^ variable.other.go -storage
+//  ^^^^^ variable.other.go - storage
 
     [/**/
 //   ^^^^ comment.block.go
@@ -3172,7 +3172,7 @@ by accident, but if necessary, such support could be sacrificed.
 
     []
     ident
-//  ^^^^^ variable.other.go -storage
+//  ^^^^^ variable.other.go - storage
 
     []func(
 //    ^^^^ keyword.declaration.function.go
@@ -3907,7 +3907,7 @@ by accident, but if necessary, such support could be sacrificed.
 //      ^^^ keyword.declaration.var.go
 //          ^ variable.language.anonymous.go
 //            ^ keyword.operator.assignment.go
-//              ^^^^ variable.other.go -constant
+//              ^^^^ variable.other.go - constant
     }
 
     var _ = log.Println
@@ -4447,47 +4447,47 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^^ constant.other.placeholder.go
     "%"
 //  ^^^ meta.string.go string.quoted.double.go
-//   ^ -constant.other.placeholder
+//   ^ - constant.other.placeholder
 
     "one /* two */ three"
-//  ^^^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go - comment
 
     "_\n_"
 //  ^^^^^^ meta.string.go string.quoted.double.go
 //    ^^ meta.string.go string.quoted.double.go constant.character.escape.go
-//   ^ -constant.character.escape
-//      ^ -constant.character.escape
+//   ^ - constant.character.escape
+//      ^ - constant.character.escape
 
     "_\x00_"
 //  ^^^^^^^^ meta.string.go string.quoted.double.go
 //    ^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
-//   ^ -constant.character.escape
-//        ^ -constant.character.escape
+//   ^ - constant.character.escape
+//        ^ - constant.character.escape
 
     "_\u0000_"
 //  ^^^^^^^^^^ meta.string.go string.quoted.double.go
 //    ^^^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
-//   ^ -constant.character.escape
-//          ^ -constant.character.escape
+//   ^ - constant.character.escape
+//          ^ - constant.character.escape
 
     "_\U00000000_"
 //  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //    ^^^^^^^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
-//   ^ -constant.character.escape
+//   ^ - constant.character.escape
 //              constant.character.escape
 
     "_\000_"
 //  ^^^^^^^^ meta.string.go string.quoted.double.go
 //    ^^^^ meta.string.go string.quoted.double.go constant.character.escape.go
-//   ^ -constant.character.escape
-//        ^ -constant.character.escape
+//   ^ - constant.character.escape
+//        ^ - constant.character.escape
 
     `one two`
 //  ^ punctuation.definition.string.begin.go
 //  ^^^^^^^^^ string.quoted.backtick.go
 //          ^ punctuation.definition.string.end.go
     `one \\ \n two`
-//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go -constant.character.escape
+//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go - constant.character.escape
     `one %% two`
 //  ^^^^^^^^^^^^ string.quoted.backtick.go
 //       ^^ constant.character.escape.go
@@ -4517,7 +4517,7 @@ by accident, but if necessary, such support could be sacrificed.
 //       ^^^^^^^^ constant.other.placeholder.go
     `%`
 //  ^^^ string.quoted.backtick.go
-//   ^ -constant.other.placeholder
+//   ^ - constant.other.placeholder
 
     `
 //  ^ string.quoted.backtick.go punctuation.definition.string.begin.go
@@ -4531,7 +4531,7 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^ string.quoted.backtick.go punctuation.definition.string.end.go
 
     `one /* two */ three`
-//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.backtick.go -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.backtick.go - comment
 
 
 /* # Operators */
@@ -5029,7 +5029,7 @@ every type individually.
 
     chan typ
 //  ^^^^ keyword.declaration.chan.go
-//       ^^^ storage.type.go -support
+//       ^^^ storage.type.go - support
 
     chan int
 //  ^^^^ keyword.declaration.chan.go
@@ -5037,7 +5037,7 @@ every type individually.
 
     func(typ)
 //  ^^^^ keyword.declaration.function.go
-//       ^^^ storage.type.go -support
+//       ^^^ storage.type.go - support
 
     func(int)
 //  ^^^^ keyword.declaration.function.go
@@ -5045,8 +5045,8 @@ every type individually.
 
     map[typ]typ
 //  ^^^ keyword.declaration.map.go
-//      ^^^ storage.type.go -support
-//          ^^^ storage.type.go -support
+//      ^^^ storage.type.go - support
+//          ^^^ storage.type.go - support
 
     map[int]int
 //  ^^^ keyword.declaration.map.go
@@ -5056,8 +5056,8 @@ every type individually.
     struct { ident typ; typ }
 //  ^^^^^^ keyword.declaration.struct.go
 //           ^^^^^ meta.type.go variable.other.member.declaration.go
-//                 ^^^ meta.type.go storage.type.go -support
-//                      ^^^ meta.type.go entity.other.inherited-class.go -support
+//                 ^^^ meta.type.go storage.type.go - support
+//                      ^^^ meta.type.go entity.other.inherited-class.go - support
 
     struct { ident int; int }
 //  ^^^^^^ keyword.declaration.struct.go
@@ -5067,7 +5067,7 @@ every type individually.
 
     interface { typ }
 //  ^^^^^^^^^ keyword.declaration.interface.go
-//              ^^^ meta.type.go storage.type.go -support
+//              ^^^ meta.type.go storage.type.go - support
 
     interface { error }
 //  ^^^^^^^^^ keyword.declaration.interface.go
@@ -5075,14 +5075,14 @@ every type individually.
 
     [...]typ
 //   ^^^ keyword.operator.variadic.go
-//       ^^^ storage.type.go -support
+//       ^^^ storage.type.go - support
 
     [...]int
 //   ^^^ keyword.operator.variadic.go
 //       ^^^ storage.type.go support.type.builtin.go
 
     []typ
-//    ^^^ storage.type.go -support
+//    ^^^ storage.type.go - support
 
     []int
 //    ^^^ storage.type.go support.type.builtin.go
@@ -5090,7 +5090,7 @@ every type individually.
     type _ typ
 //  ^^^^ keyword.declaration.type.go
 //       ^ variable.language.anonymous.go
-//         ^^^ storage.type.go -support
+//         ^^^ storage.type.go - support
 
     type _ int
 //  ^^^^ keyword.declaration.type.go
@@ -5100,7 +5100,7 @@ every type individually.
     const ident typ
 //  ^^^^^ keyword.declaration.const.go
 //        ^^^^^ variable.other.constant.declaration.go
-//              ^^^ storage.type.go -support
+//              ^^^ storage.type.go - support
 
     const ident int
 //  ^^^^^ keyword.declaration.const.go
@@ -5110,7 +5110,7 @@ every type individually.
     var ident typ
 //  ^^^ keyword.declaration.var.go
 //      ^^^^^ variable.other.readwrite.declaration.go
-//            ^^^ storage.type.go -support
+//            ^^^ storage.type.go - support
 
     var ident int
 //  ^^^ keyword.declaration.var.go
@@ -5119,14 +5119,14 @@ every type individually.
 
     ident.(typ)
 //  ^^^^^ variable.other.go
-//         ^^^ storage.type.go -support
+//         ^^^ storage.type.go - support
 
     ident.(int)
 //  ^^^^^ variable.other.go
 //         ^^^ storage.type.go support.type.builtin.go
 
     (typ)(ident)
-//   ^^^ variable.function.go -support
+//   ^^^ variable.function.go - support
 //        ^^^^^ variable.other.go
 
     (int)(ident)
@@ -5141,7 +5141,7 @@ every type individually.
     make(typ)
 //  ^^^^ variable.function.go support.function.builtin.go
 //      ^ punctuation.section.parens.begin.go
-//       ^^^ storage.type.go -support
+//       ^^^ storage.type.go - support
 //          ^ punctuation.section.parens.end.go
 
     make(int)
@@ -5156,7 +5156,7 @@ every type individually.
 //            ^ punctuation.section.parens.begin.go
         /**/ typ /**/,
 //      ^^^^ comment.block.go
-//           ^^^ storage.type.go -support
+//           ^^^ storage.type.go - support
 //               ^^^^ comment.block.go
 //                   ^ punctuation.separator.go
         ident,
@@ -5182,11 +5182,11 @@ every type individually.
     )
 
     make
-//  ^^^^ variable.other.go -support
+//  ^^^^ variable.other.go - support
 
     var make
 //  ^^^ keyword.declaration.var.go
-//      ^^^^ variable.other.readwrite.declaration.go -support
+//      ^^^^ variable.other.readwrite.declaration.go - support
 
     new(typ, ident)
 //  ^^^ variable.function.go support.function.builtin.go
@@ -5206,7 +5206,7 @@ every type individually.
 //      ^^^^ comment.block.go
         /**/ typ /**/ ,
 //      ^^^^ comment.block.go
-//           ^^^ storage.type.go -support
+//           ^^^ storage.type.go - support
 //               ^^^^ comment.block.go
     )
 
@@ -5220,11 +5220,11 @@ every type individually.
     )
 
     new
-//  ^^^ variable.other.go -support
+//  ^^^ variable.other.go - support
 
     var new
 //  ^^^ keyword.declaration.var.go
-//      ^^^ variable.other.readwrite.declaration.go -support
+//      ^^^ variable.other.readwrite.declaration.go - support
 
 /* ## Other Functions */
 
@@ -5237,7 +5237,7 @@ every function individually.
 */
 
     ident(ident)
-//  ^^^^^ variable.function.go -support
+//  ^^^^^ variable.function.go - support
 //        ^^^^^ variable.other.go
 
     close(ident)
@@ -5245,7 +5245,7 @@ every function individually.
 //        ^^^^^ variable.other.go
 
     ((ident))(ident)
-//    ^^^^^ variable.function.go -support
+//    ^^^^^ variable.function.go - support
 //            ^^^^^ variable.other.go
 
     ((close))(ident)
@@ -5253,11 +5253,11 @@ every function individually.
 //            ^^^^^ variable.other.go
 
     close
-//  ^^^^^ variable.other.go -support
+//  ^^^^^ variable.other.go - support
 
     var close
 //  ^^^ keyword.declaration.var.go
-//      ^^^^^ variable.other.readwrite.declaration.go -support
+//      ^^^^^ variable.other.readwrite.declaration.go - support
 
 
 /*
