@@ -20,10 +20,10 @@ var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SP
 #                                               ^^ constant.character.escape
 #                                                  ^^ constant.character.escape
 #                                                     ^^ constant.character.escape
-#                                                        ^^^^^^ constant.character.escape.unicode
-#                                                               ^^^^^^^^^^ constant.character.escape.unicode
-#                                                                          ^^^^^^^^^ constant.character.escape.unicode
-#                                                                                    ^^^^^^^^^^^^^^^ constant.character.escape.unicode
+#                                                        ^^^^^^ constant.character.escape.unicode.16bit
+#                                                               ^^^^^^^^^^ constant.character.escape.unicode.32bit
+#                                                                          ^^^^^^^^^ constant.character.escape.unicode.name
+#                                                                                    ^^^^^^^^^^^^^^^ constant.character.escape.unicode.name
 
 invalid_escapes = "\.  \-"
 #                  ^^ invalid.deprecated.character.escape.python

@@ -3299,10 +3299,10 @@ contexts:
       scope: invalid.deprecated.character.escape.python
 
   escaped-unicode-chars:
-    - match: \\U\h{8}
-      scope: constant.character.escape.unicode.16-bit-hex.python
     - match: \\u\h{4}
-      scope: constant.character.escape.unicode.32-bit-hex.python
+      scope: constant.character.escape.unicode.16bit.python
+    - match: \\U\h{8}
+      scope: constant.character.escape.unicode.32bit.python
     - match: \\N\{[-a-zA-Z ]+\}
       scope: constant.character.escape.unicode.name.python
 
