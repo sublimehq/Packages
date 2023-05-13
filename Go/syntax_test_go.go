@@ -5357,15 +5357,19 @@ func template() {
     t = "{{23 -}} < {{- 45}}"
     //   ^^^^^^^^ meta.interpolation
     //   ^^ punctuation.section.interpolation.begin
+    //     ^^ constant.numeric
     //        ^ keyword.operator.template.trim.right.go
     //         ^^ punctuation.section.interpolation.end
+    //                  ^^ constant.numeric
     //                ^ keyword.operator.template.trim.left.go
     t = "{{23- }} < {{ -45}}"
     //   ^^^^^^^^ meta.interpolation
     //   ^^ punctuation.section.interpolation.begin
+    //     ^^ constant.numeric
     //       ^ - keyword.operator.template.trim
     //         ^^ punctuation.section.interpolation.end
     //                 ^ - keyword.operator.template.trim
+    //                  ^^ constant.numeric
     t = "{{/* a comment */}}"
     //     ^^ punctuation.definition.comment
     //                  ^^ punctuation.definition.comment
@@ -5411,6 +5415,7 @@ func template() {
     t = "{{range $index, $element := pipeline}}"
     //     ^^^^^ keyword.control.
     //           ^^^^^^ variable.other.template
+    //                 ^ punctuation.separator
     //                   ^^^^^^^^ variable.other.template
     //                            ^^ keyword.operator.assignment
     t = "{{`"output"`}}"
@@ -5451,13 +5456,29 @@ func template() {
     //                             ^ meta.interpolation.go variable.other.template.go
     //                               ^ meta.interpolation.go keyword.operator.assignment.go
     t = "{{slice x 1 2}}"
-    //     ^^^^^ meta.interpolation.go support.function.builtin.go
+    //   ^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^^ support.function.builtin.go
+    //           ^ - variable.function
+    //             ^ constant.numeric.value.go
+    //               ^ constant.numeric.value.go
     t = "{{ if or (isset .Params "alt") (isset .Params "caption") }} Caption {{ end }}"
     //   ^^^^^^^^^ meta.string.go meta.interpolation.go - meta.group
     //            ^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
     //                                 ^ meta.string.go meta.interpolation.go - meta.group
     //                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
     //                                                           ^^^ meta.string.go meta.interpolation.go - meta.group
+    //            ^ punctuation.section.group.begin.go
+    //             ^^^^^ variable.function.go
+    //                   ^ punctuation.accessor.dot.go
+    //                    ^^^^^^ variable.other.member.go
+    //                           ^^^^^ meta.string.go meta.string.go string.quoted.double.go
+    //                                  ^ punctuation.section.group.begin.go
+    //                                   ^^^^^ variable.function.go
+    //                                         ^ punctuation.accessor.dot.go
+    //                                          ^^^^^^ variable.other.member.go
+    //                                                 ^^^^^^^^^ meta.string.go meta.string.go string.quoted.double.go
+    //                                                          ^ punctuation.section.group.end.go
+    //                                                            ^^ punctuation.section.interpolation.end.go
 }
 
 func main() {

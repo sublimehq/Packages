@@ -757,12 +757,11 @@ contexts:
       captures:
         1: punctuation.section.interpolation.begin.go
         2: keyword.operator.template.trim.left.go
-      push: match-string-template-inner
-
-  match-string-template-inner:
-    - clear_scopes: 1 # clear string scope
-    - meta_scope: meta.interpolation.go
-    - include: match-template-inner
+      push:
+        - pop-now-clear-scope
+        - match-template-inner
+        - match-template-function
+        - match-template-keyword
 
   match-text-templates:
     # This context is used for interpolation in text or normal content.
@@ -771,7 +770,10 @@ contexts:
       captures:
         1: punctuation.section.interpolation.begin.go
         2: keyword.operator.template.trim.left.go
-      push: match-template-inner
+      push:
+        - match-template-inner
+        - match-template-function
+        - match-template-keyword
 
   match-template-inner:
     - meta_scope: meta.interpolation.go
@@ -780,12 +782,64 @@ contexts:
         1: keyword.operator.template.trim.right.go
         2: punctuation.section.interpolation.end.go
       pop: 1
+    # https://pkg.go.dev/text/template#hdr-Pipelines
+    - match: \|
+      scope: keyword.operator.template.pipe.go
+      push:
+        - match-template-function
+        - match-template-keyword
     - include: match-template-expressions
+
+  match-template-function:
+    # https://pkg.go.dev/text/template#hdr-Functions
+    - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+      scope: support.function.builtin.go
+      pop: 1
+    - match: '[a-z]\w+\s+(?![-)}])' # requires arguments
+      scope: variable.function.go
+      pop: 1
+    - include: pop-before-nonblank
+
+  match-template-keyword:
+    - match: (?:block|define|end|partial|template|with)\b
+      scope: keyword.control.context.go
+      pop: 1
+    - match: if\b
+      scope: keyword.control.conditional.if.go
+      pop: 1
+    - match: else\s+if\b
+      scope: keyword.control.conditional.elseif.go
+      pop: 1
+    - match: else\b
+      scope: keyword.control.conditional.else.go
+      pop: 1
+    - match: range\b
+      scope: keyword.control.loop.range.go
+      pop: 1
+    - match: break\b
+      scope: keyword.control.flow.break.go
+      pop: 1
+    - match: continue\b
+      scope: keyword.control.flow.continue.go
+      pop: 1
+    - match: nil\b
+      scope: keyword.control.nil.go
+      pop: 1
+    - include: pop-before-nonblank
+
+  match-template-expressions:
+    - include: match-template-groups
+    - include: match-template-operators
+    - include: match-template-variables
+    - include: match-comma
+    - include: match-literals
 
   match-template-groups:
     - match: \(
       scope: punctuation.section.group.begin.go
-      push: match-template-group-body
+      push:
+        - match-template-group-body
+        - match-template-function
 
   match-template-group-body:
     - meta_scope: meta.group.go
@@ -795,45 +849,9 @@ contexts:
     - include: pop-before-brace-end
     - include: match-template-expressions
 
-  match-template-expressions:
-    - include: match-template-groups
-    - include: match-template-functions
-    - include: match-template-keywords
-    - include: match-template-operators
-    - include: match-template-variables
-    - include: match-strings
-
-  match-template-functions:
-    - match: \b(?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
-      scope: support.function.builtin.go
-
-  match-template-keywords:
-    # declarations
-    - match: (?:define|partial|template)\b
-      scope: keyword.control.declaration.go
-    - match: (?:block|with|end)\b
-      scope: keyword.control.context.go
-    # control flow
-    - match: if\b
-      scope: keyword.control.conditional.if.go
-    - match: else\s+if\b
-      scope: keyword.control.conditional.elseif.go
-    - match: else\b
-      scope: keyword.control.conditional.else.go
-    - match: range\b
-      scope: keyword.control.loop.range.go
-    - match: break\b
-      scope: keyword.control.flow.break.go
-    - match: continue\b
-      scope: keyword.control.flow.continue.go
-    - match: nil\b
-      scope: keyword.control.nil.go
-
   match-template-operators:
     - match: \:?=
       scope: keyword.operator.assignment.go
-    - match: \|
-      scope: keyword.operator.template.pipe.go
 
   match-template-variables:
     - match: (\.)(\w+)
