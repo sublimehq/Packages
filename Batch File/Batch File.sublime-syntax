@@ -380,11 +380,16 @@ contexts:
       scope: variable.parameter.option.recursive.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-      push: path-pattern
+      push: ctl-for-maybe-r-args
     - match: (?i:/\S+){{arg_break}}
       scope: invalid.illegal.parameter.dosbatch
       pop: 1
     - include: else-pop
+
+  ctl-for-maybe-r-args:
+    - match: (?={{var_parameter}})
+      pop: 1
+    - include: path-pattern
 
   ctl-for-maybe-f-args:
     - match: \"
@@ -1591,7 +1596,7 @@ contexts:
       set:
         - path-pattern-quoted-body
         - path-pattern-relative
-    - match: (?=(?!%%)\S)
+    - match: (?=\S)
       set:
         - path-pattern-unquoted-body
         - path-pattern-relative
