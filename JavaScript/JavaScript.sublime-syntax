@@ -193,16 +193,16 @@ contexts:
       pop: 1
     - match: '^\s*\*'
     - match: \.
-      scope: support.type.js punctuation.accessor.js
+      scope: meta.type.js punctuation.accessor.js
     - match: '\{'
-      scope: support.type.js
+      scope: meta.type.js
       push: jsdoc-type-expression-body-nested
     - match: '(?:(?!\*\/|^\s*\*|\}|\{|\.).)*'
-      scope: support.type.js
+      scope: meta.type.js
 
   jsdoc-type-expression-body-nested:
     - match: '\}'
-      scope: support.type.js
+      scope: meta.type.js
       pop: 1
     - include: jsdoc-type-expression-body
 

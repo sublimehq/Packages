@@ -42,36 +42,36 @@
 //   ^^ punctuation.definition.comment.end
 
 /** @type {string[]} */
-//         ^^^^^^^^ support.type
-//                 ^^^^ - support.type
+//         ^^^^^^^^ meta.type
+//                 ^^^^ - meta.type
 //        ^ punctuation.definition.type.begin
 //                 ^ punctuation.definition.type.end
 
 /** @type {import('fs').FSWatcher} */
-//         ^^^^^^^^^^^^^^^^^^^^^^ support.type
-//                               ^^^^ - support.type
+//         ^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//                               ^^^^ - meta.type
 //                     ^ punctuation.accessor
 //                               ^ punctuation.definition.type.end
 
   /**
    * @param {{
-//           ^ support.type
+//           ^ meta.type
    *   foo: A.B
-//^^ - support.type
-//  ^^^^^^^^^^^ support.type
+//^^ - meta.type
+//  ^^^^^^^^^^^ meta.type
 //           ^ punctuation.accessor
    * }} foo
-//  ^^ support.type
-//    ^^^^^ - support.type
+//  ^^ meta.type
+//    ^^^^^ - meta.type
    */
 
 /** @type{string} */
-//       ^^^^^^^^ - support.type
+//       ^^^^^^^^ - meta.type
 
 /** @type {string */
-//         ^^^^^^^ support.type
-//                ^^ punctuation.definition.comment.end - support.type
+//         ^^^^^^^ meta.type
+//                ^^ punctuation.definition.comment.end - meta.type
 
 /** @type {{foo: number */
-//         ^^^^^^^^^^^^^ support.type
-//                      ^^ punctuation.definition.comment.end - support.type
+//         ^^^^^^^^^^^^^ meta.type
+//                      ^^ punctuation.definition.comment.end - meta.type
