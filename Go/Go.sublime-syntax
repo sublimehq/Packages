@@ -694,8 +694,6 @@ contexts:
 
   match-backtick-string-formatting:
     - include: match-template-string
-    - match: \%%
-      scope: constant.character.escape.go
     - include: match-fmt
 
   match-interpreted-string:
@@ -711,8 +709,6 @@ contexts:
       pop: 1
     - include: match-template-string
     - match: '{{char_escape}}'
-      scope: constant.character.escape.go
-    - match: \%%
       scope: constant.character.escape.go
     - include: match-fmt
 
@@ -755,6 +751,8 @@ contexts:
   # false positives in non-fmt strings that just happen to contain %, but don't
   # want too much coupling with the current version of fmt.
   match-fmt:
+    - match: \%%
+      scope: constant.character.escape.go
     - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
       scope: constant.other.placeholder.go
 
