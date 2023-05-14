@@ -18,12 +18,7 @@ contexts:
     - include: scope:source.go#match-text-templates
 
   cdata-content:
-    - meta_include_prototype: false
-    - meta_scope: meta.tag.sgml.cdata.html
-    - meta_content_scope: meta.string.html string.unquoted.cdata.html
-    - match: ']]>'
-      scope: punctuation.definition.tag.end.html
-      pop: 1
+    - meta_prepend: true
     - include: scope:source.go#match-string-templates
 
   style-css-content:
