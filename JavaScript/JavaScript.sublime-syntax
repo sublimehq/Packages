@@ -191,7 +191,9 @@ contexts:
   jsdoc-type-expression-body:
     - match: (?=\*/)
       pop: 1
-    - match: '^\s*\*'
+    - match: '^\s*(\*)'
+      captures:
+        1: punctuation.definition.comment.js
     - match: \.
       scope: meta.type.js punctuation.accessor.dot.js
     - match: '\{'

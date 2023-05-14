@@ -56,13 +56,17 @@
   /**
    * @param {{
 //           ^ meta.type
+// ^ comment.block.documentation punctuation.definition.comment
    *   foo: A.B
+// ^ comment.block.documentation punctuation.definition.comment
 //^^ - meta.type
 //  ^^^^^^^^^^^ meta.type
 //           ^ punctuation.accessor.dot
    * }} foo
 //  ^^ meta.type
 //    ^^^^^ - meta.type
+   *
+// ^ comment.block.documentation punctuation.definition.comment
    */
 
 /** @type{string} */
