@@ -107,7 +107,7 @@ variables:
   # '@' followed by a pattern like \S but excluding literal '*' and '@'.
   jsdoc_block_tag: \@[^\n\t\f\v *@]+
   # Tags that are optionally followed by a type expression.
-  jsdoc_block_tag_with_type: \@(?:arg(?:ument|)|param|type(?:def|)|returns?|prop(?:erty|)|enum|implements|member|module|namespace|(?:pr(?:ivate|otected))|template|this|throws|exception|yields?|var)\b
+  jsdoc_block_tag_with_type: \@(?:arg(?:ument)?|param|typedef|type|returns?|prop(?:erty)?|enum|implements|member|module|namespace|private|protected|template|this|throws|exception|yields?|var)\b
 
 contexts:
   main:
