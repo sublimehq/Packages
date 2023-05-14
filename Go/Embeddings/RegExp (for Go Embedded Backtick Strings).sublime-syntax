@@ -1,0 +1,15 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: RegExp inside Go backtick string
+scope: source.regexp.go-embedded-backtick-string
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-text-content

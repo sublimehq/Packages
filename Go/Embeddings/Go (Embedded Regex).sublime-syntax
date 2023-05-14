@@ -12,7 +12,7 @@ contexts:
     # replaces Go.sublime-syntax#match-raw-string
     - match: '`'
       scope: meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
-      embed: scope:source.regexp
+      embed: scope:source.regexp.go-embedded-backtick-string
       embed_scope: meta.string.regexp.go source.regexp.embedded.go
       escape: '`'
       escape_captures:
