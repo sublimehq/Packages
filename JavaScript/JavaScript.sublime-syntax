@@ -184,7 +184,7 @@ contexts:
       scope: punctuation.definition.type.begin.js, meta.tag.jsdoc
       set:
         - match: '\}'
-          scope: punctuation.definition.type.end.js, meta.tag.jsdoc
+          scope: meta.tag.jsdoc punctuation.definition.type.end.js
           pop: 1
         - include: jsdoc-type-expression-body
 
