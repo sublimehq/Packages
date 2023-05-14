@@ -5560,6 +5560,10 @@ func lang_embedding() {
     //language =css
     // <- comment.line.double-slash.go punctuation.definition.comment.go - meta.annotation
     //^^^^^^^^^^^^^^ comment.line.double-slash.go - meta.annotation
+    css_string := `.class { color: {{.color}} }`
+    //            ^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go - meta.interpolation
+    //                             ^^^^^^^^^^ meta.string.go meta.interpolation.go - string
+    //                                       ^^^ meta.string.go string.quoted.backtick.go - meta.interpolation
 
     //language=css
     //^^^^^^^^^^^^^ comment.line.double-slash.go
