@@ -2159,7 +2159,7 @@ contexts:
 
   builtin-types:
     - match: '{{builtin_types}}'
-      scope: support.type.python
+      scope: storage.type.python
     - match: '{{typing_types}}'
       scope: support.class.typing.python
 
