@@ -75,3 +75,8 @@
 /** @type {{foo: number */
 //         ^^^^^^^^^^^^^ meta.type
 //                      ^^ punctuation.definition.comment.end - meta.type
+
+// Mostly just for visual inspection to ensure that ligatures are not broken.
+/** @type {p: number => string} */
+//         ^^^^^^^^^^^^^^^^^^^ meta.type
+//                              ^^ punctuation.definition.comment.end - meta.type

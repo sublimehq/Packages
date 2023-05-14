@@ -197,7 +197,17 @@ contexts:
     - match: '\{'
       scope: meta.type.js
       push: jsdoc-type-expression-body-nested
-    - match: '(?:(?!\*\/|^\s*\*|\}|\{|\.).)*'
+    - match: |-
+        (?x:
+          (?! # break on patterns handled explicitly above
+            \*\/|
+            ^\s*\*|
+            \}|
+            \{|
+            \.
+          ).
+        # consume as many consecutive characters as possible to not break the ligatures
+        )*
       scope: meta.type.js
 
   jsdoc-type-expression-body-nested:
