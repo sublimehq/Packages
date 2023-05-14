@@ -193,7 +193,7 @@ contexts:
       pop: 1
     - match: '^\s*\*'
     - match: \.
-      scope: meta.type.js punctuation.accessor.js
+      scope: meta.type.js punctuation.accessor.dot.js
     - match: '\{'
       scope: meta.type.js
       push: jsdoc-type-expression-body-nested

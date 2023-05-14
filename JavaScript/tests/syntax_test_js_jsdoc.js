@@ -50,7 +50,7 @@
 /** @type {import('fs').FSWatcher} */
 //         ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //                               ^^^^ - meta.type
-//                     ^ punctuation.accessor
+//                     ^ punctuation.accessor.dot
 //                               ^ punctuation.definition.type.end
 
   /**
@@ -59,7 +59,7 @@
    *   foo: A.B
 //^^ - meta.type
 //  ^^^^^^^^^^^ meta.type
-//           ^ punctuation.accessor
+//           ^ punctuation.accessor.dot
    * }} foo
 //  ^^ meta.type
 //    ^^^^^ - meta.type
