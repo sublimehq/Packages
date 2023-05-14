@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: Markdown (Go)
+scope: text.html.markdown.go
+version: 2
+
+extends: Packages/Markdown/Markdown.sublime-syntax
+
+file_extensions:
+  - gomd
+  - go.md
+  - hugo
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-text-templates
+
+  html-content:
+    - include: scope:text.html.go#html

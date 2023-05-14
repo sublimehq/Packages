@@ -1,0 +1,100 @@
+| SYNTAX TEST "Packages/Go/HTML (Go).sublime-syntax"
+
+<!-- Base Templates -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ block "title" . }} {{ .Site.Title }} {{ end }}</title>
+|          ^^^^^^^^^^^^^^^^^^^^^ text.html meta.interpolation.go
+|                                ^^^^^^^^^^^^^^^^^ text.html meta.interpolation.go
+|                                                  ^^^^^^^^^ text.html meta.interpolation.go
+    <style>
+        .class {
+           color: {{ .Site.Color }};
+        |         ^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.go
+        |         ^^ punctuation.section.interpolation.begin.go - source.go.template
+        |           ^^^^^^^^^^^^^ source.go.template
+        |            ^ punctuation.accessor.dot.go
+        |             ^^^^ variable.other.member.go
+        |                 ^ punctuation.accessor.dot.go
+        |                  ^^^^^ variable.other.member.go
+        |                        ^^ punctuation.section.interpolation.end.go - source.go.template
+        |                          ^ punctuation.terminator.rule.css
+        }
+    </style>
+  </head>
+
+  <body>
+    {{ block "main" . }}
+|   ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.go
+|   ^^ punctuation.section.interpolation.begin.go
+|      ^^^^^ keyword.control.context.go
+|            ^^^^^^ meta.string.go string.quoted.double.go
+|                   ^ variable.language.template.go
+|                     ^^ punctuation.section.interpolation.end.go
+
+    {{ end }}
+|   ^^^^^^^^^ meta.interpolation.go
+|   ^^ punctuation.section.interpolation.begin.go
+|      ^^^ keyword.control.context.go
+|          ^^ punctuation.section.interpolation.end.go
+
+    <hr style="color: {{.Site.Color}}"/>
+|   ^^^^ meta.tag - meta.attribute-with-value
+|       ^^^^^^ meta.tag meta.attribute-with-value.style.html - meta.string
+|             ^^^^^^^^ meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+|                     ^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.style.html meta.string.html meta.embedded.html source.css.embedded.html meta.property-value.css meta.interpolation.go
+|                                    ^ meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+|                                     ^^ meta.tag - meta.attribute-with-value
+|                     ^^ punctuation.section.interpolation.begin.go - source.go.template
+|                       ^^^^^^^^^^^ source.go.template
+|                                  ^^ punctuation.section.interpolation.end.go - source.go.template
+</html>
+
+<!-- Page Templates -->
+
+{{ define "main" }}
+| <- meta.interpolation.go punctuation.section.interpolation.begin.go
+|^^^^^^^^^^^^^^^^^^ meta.interpolation.go
+|  ^^^^^^ keyword.control.context.go
+|         ^^^^^^ meta.string.go string.quoted.double.go
+
+  <h1>Posts</h1>
+| ^^^^ meta.tag
+|          ^^^^^ meta.tag
+
+  {{ range .Pages }}
+| ^^^^^^^^^^^^^^^^^^ meta.interpolation.go
+| ^^ punctuation.section.interpolation.begin.go
+|    ^^^^^ keyword.control.loop.range.go
+|          ^ punctuation.accessor.dot.go
+|           ^^^^^ variable.other.member.go
+|                 ^^ punctuation.section.interpolation.end.go
+    <article>
+|   ^^^^^^^^^ meta.tag
+
+      <h2>{{ .Title }}</h2>
+|     ^^^^ meta.tag
+|         ^^^^^^^^^^^^ meta.interpolation.go
+|                     ^^^^^ meta.tag
+      {{ .Content }}
+|     ^^^^^^^^^^^^^^ meta.interpolation.go
+|     ^^ punctuation.section.interpolation.begin.go
+|                 ^^ punctuation.section.interpolation.end.go
+
+    </article>
+|   ^^^^^^^^^^ meta.tag
+
+  {{ end }}
+| ^^^^^^^^^ meta.interpolation.go
+| ^^ punctuation.section.interpolation.begin.go
+|    ^^^ keyword.control.context.go
+|        ^^ punctuation.section.interpolation.end.go
+
+{{ end }}
+| <- meta.interpolation.go punctuation.section.interpolation.begin.go
+|^^^^^^^^ meta.interpolation.go
+|^ punctuation.section.interpolation.begin.go
+|  ^^^ keyword.control.context.go
+|      ^^ punctuation.section.interpolation.end.go
