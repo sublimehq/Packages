@@ -390,7 +390,7 @@ __bool__ abc.__nonzero__
 #            ^^^^^^^^^^^ support.function.magic
 
 TypeError module.TypeError
-#^^^^^^^^ support.type.exception
+#^^^^^^^^ support.class.exception
 #                ^^^^^^^^^ - support
 
 open.open.open.
@@ -489,7 +489,7 @@ anext()
 
 
 TypeError()
-#^^^^^^^^ support.type.exception
+#^^^^^^^^ support.class.exception
 #
 module.TypeError()
 # <- - meta.function-call
@@ -1069,7 +1069,7 @@ def _():
     except Exception as x:
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.python - meta.statement.exception.catch.python meta.statement.exception.catch.python
 #   ^^^^^^ keyword.control.exception.catch.python
-#          ^^^^^^^^^ support.type.exception.python
+#          ^^^^^^^^^ support.class.exception.python
 #                    ^^ keyword.control.exception.catch.as.python
 #                       ^ meta.generic-name.python
 #                        ^ punctuation.section.block.exception.catch.python
@@ -2602,14 +2602,14 @@ class Cls:
 except Exception:
 #^^^^^^^^^^^^^^^^ meta.statement.exception.catch
 #^^^^^ keyword.control.exception.catch
-#      ^^^^^^^^^ support.type.exception
+#      ^^^^^^^^^ support.class.exception
 #               ^ punctuation.section.block
 except (KeyError, NameError) as e:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch
 #^^^^^ keyword.control.exception.catch
-#       ^^^^^^^^ support.type.exception
+#       ^^^^^^^^ support.class.exception
 #               ^ punctuation.separator.sequence
-#                 ^^^^^^^^^ support.type.exception
+#                 ^^^^^^^^^ support.class.exception
 #                            ^^ keyword.control.exception.catch.as
 #                                ^ punctuation.section.block
 except \
@@ -2634,7 +2634,7 @@ raise Ellipsis
 raise KeyError() from z
 #^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise - meta.statement.raise meta.statement.raise
 #^^^^ keyword.control.flow.raise
-#     ^^^^^^^^ support.type.exception
+#     ^^^^^^^^ support.class.exception
 #                ^^^^ keyword.control.flow.raise.from
 
 

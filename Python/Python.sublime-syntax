@@ -2151,7 +2151,7 @@ contexts:
 
   builtin-exceptions:
     - match: '{{builtin_exceptions}}'
-      scope: support.type.exception.python
+      scope: support.class.exception.python
 
   builtin-functions:
     - match: '{{builtin_functions}}'
