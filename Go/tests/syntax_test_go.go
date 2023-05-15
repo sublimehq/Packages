@@ -5472,6 +5472,14 @@ func template() {
     //      ^^^^^^ variable.function.method.go
     //             ^ punctuation.accessor.dot.go
     //              ^^^^^ variable.other.member.go
+    t = "{{.Site.Method .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^ punctuation.accessor.dot.go
+    //      ^^^^ variable.other.member.go
+    //          ^ punctuation.accessor.dot.go
+    //           ^^^^^^ variable.function.method.go
+    //                  ^ punctuation.accessor.dot.go
+    //                   ^^^^^ variable.other.member.go
     t = "{{ if or (isset .Params "alt") (.Method .Params "caption") }} Caption {{ end }}"
     //   ^^^^^^^^^ meta.string.go meta.interpolation.go - meta.group
     //            ^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go

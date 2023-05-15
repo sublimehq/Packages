@@ -796,16 +796,21 @@ contexts:
     - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
       scope: support.function.builtin.go
       pop: 1
-    - match: ([[:alpha:]]\w+)\s+(?![-)}]) # requires arguments
-      captures:
-        1: variable.function.go
+    - match: '{{ident}}(?=\s+[^-)}])' # requires arguments
+      scope: variable.function.go
       pop: 1
-    - match: (\.)([[:alpha:]]\w+)\s+(?![-)}]) # requires arguments
+    - match: (?=\.)
+      set: match-template-method
+    - include: pop-before-nonblank
+
+  match-template-method:
+    - match: (\.)({{ident}})(?=\s+[^-)}]) # requires arguments
       captures:
         1: punctuation.accessor.dot.go
         2: variable.function.method.go
       pop: 1
-    - include: pop-before-nonblank
+    - include: match-template-members
+    - include: pop-now
 
   match-template-keyword:
     - match: (?:block|define|end|partial|template|with)\b
@@ -834,6 +839,7 @@ contexts:
   match-template-expressions:
     - include: match-template-groups
     - include: match-template-operators
+    - include: match-template-members
     - include: match-template-variables
     - include: match-comma
     - include: match-literals
@@ -858,12 +864,14 @@ contexts:
     - match: \:?=
       scope: keyword.operator.assignment.go
 
-  match-template-variables:
-    - match: (\.)(\w+)
+  match-template-members:
+    - match: (\.)({{ident}})
       captures:
         1: punctuation.accessor.dot.go
         2: variable.other.member.go
-    - match: (\$)\w+
+
+  match-template-variables:
+    - match: (\$){{ident}}
       scope: variable.other.template.go
       captures:
         1: punctuation.definition.variable.go
