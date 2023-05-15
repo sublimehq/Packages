@@ -59,6 +59,9 @@ class Foo {
 ///                                              ^ storage.type
 ///                                                   ^ variable.parameter
     {
+        usingFoo = 0;
+///     ^^^^^^^^ variable.other.cs - keyword
+
         using (Font font3 = new Font("Arial", 10.0f))
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///     ^ keyword.control.using
