@@ -161,17 +161,25 @@ ECHO : Not a comment ^
 ::                   ^^^^^^^^^^^^^^^^^ meta.block.dosbatch
 
    E@CHO john.doe@email.com
-::  ^ - keyword-operator
-::               ^ - keyword-operator
+::  ^ - keyword.operator
+::               ^ - keyword.operator
+
+   E^@CHO john.doe^@email.com
+::  ^^ constant.character.escape.dosbatch
+::                ^^ constant.character.escape.dosbatch
+
+   "E^@CHO" "john.doe^@email.com"
+::   ^^ - constant.character - keyword.operator
+::                   ^^ - constant.character - keyword.operator
 
    dir @logs
-::     ^ - keyword-operator
+::     ^ - keyword.operator
 
    dir C:\@logs
-::        ^ - keyword-operator
+::        ^ - keyword.operator
 
    my @
-::    ^ - keyword-operator
+::    ^ - keyword.operator
 
 :::: [ Labels ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -187,16 +195,18 @@ ECHO : Not a comment ^
 
 :::: [ Control Flow ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-   CALL:This is a #@$虎 strange label
+   CALL:This is a #@$虎 ^strange %%label
 ::^ - meta.function-call
 :: ^^^^  meta.function-call.dosbatch
 ::     ^^^^^ meta.function-call.identifier.dosbatch
-::          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
-::                                  ^ - meta.function-call
+::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::                                     ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^^ variable.label.dosbatch - keyword
-::          ^^^^^^^^^^^^^^^^^^^^^^^^ - variable
+::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - variable
+::                     ^^ constant.character.escape.dosbatch
+::                              ^^ constant.character.escape.dosbatch
 
    CALL:EOF
 ::^ - meta.function-call
@@ -451,6 +461,12 @@ ECHO : Not a comment ^
 ::     ^ meta.command.goto.dosbatch - keyword - meta.interpolation
 ::      ^^^^^ meta.command.goto.dosbatch meta.interpolation.dosbatch
 
+   GOTO <target.txt
+:: ^^^^^ meta.command.goto.dosbatch - meta.redirection
+::      ^^^^^^^^^^^ meta.command.goto.dosbatch meta.redirection.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^ keyword.operator.assignment.redirection.dosbatch
+::       ^^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 
 :::: [ Conditionals ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -713,6 +729,16 @@ ECHO : Not a comment ^
 ::                     ^^^^^^^^^^^^^^ meta.block.dosbatch
 ::                                  ^ punctuation.section.block.end.dosbatch
 ::                               ^^ string.unquoted
+
+   if foo == (<file.txt) ( foo >nul )
+::           ^ meta.group.dosbatch - meta.redirection
+::            ^^^^^^^^^ meta.group.dosbatch meta.redirection.dosbatch
+::                     ^ meta.group.dosbatch - meta.redirection
+::                       ^^^^^^^^^^^^ meta.block.dosbatch
+::                             ^^^^ meta.redirection.dosbatch
+
+   IF <file.txt==""
+::    ^^^^^^^^^^^^^ invalid.illegal.unexpected.dosbatch
 
    IF ^
    DEFINED foo (ECHO bar)
@@ -1408,36 +1434,49 @@ put arg1 arg2
 ::                   ^ keyword.operator.assignment.redirection.dosbatch
 
    ECHO >> NUL
+:: ^^^^^^^^^^^ meta.command.echo.dosbatch
 ::     ^ - meta.redirection
 ::      ^^^^^^ meta.redirection.dosbatch
 ::            ^ - meta.redirection
 ::      ^^ keyword.operator.assignment.redirection.dosbatch
 ::         ^^^ constant.language.null.dosbatch
 
-   dir > f.txt 2>&1
+   ECHO <contet.txt and others
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch - string string
+
+   ECHO "<contet.txt and others"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - meta.redirection
+
+   dir > f.txt 2>&1 /b
+:: ^^^^^^^^^^^^^^^^^^^ meta.function-call
 ::    ^ - meta.redirection
 ::     ^^^^^^^ meta.redirection.dosbatch
 ::            ^ - meta.redirection
 ::             ^^^^ meta.redirection.dosbatch
-::                 ^ - meta.redirection
+::                 ^^^ - meta.redirection
 ::     ^ keyword.operator.assignment.redirection.dosbatch
 ::       ^^^^^ string.unquoted.dosbatch
 ::             ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::              ^^ keyword.operator.assignment.redirection.dosbatch
 ::                ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
+::                  ^^ variable.parameter.option.dosbatch
 
-   dir foo 1>nul 2>nul
+   dir foo 1>nul /b 2>nul
+:: ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 ::        ^ - meta.redirection
 ::         ^^^^^ meta.redirection.dosbatch
-::              ^ - meta.redirection
-::               ^^^^^ meta.redirection.dosbatch
-::                    ^ - meta.redirection
+::              ^^^^ - meta.redirection
+::                  ^^^^^ meta.redirection.dosbatch
+::                       ^ - meta.redirection
 ::         ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
 ::          ^ keyword.operator.assignment.redirection.dosbatch
 ::           ^^^ constant.language.null.dosbatch
-::               ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
-::                ^ keyword.operator.assignment.redirection.dosbatch
-::                 ^^^ constant.language.null.dosbatch
+::               ^^ variable.parameter.option.dosbatch
+::                  ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
+::                   ^ keyword.operator.assignment.redirection.dosbatch
+::                    ^^^ constant.language.null.dosbatch
 
 :: Redirect any error message into a file
    command 2> filename
@@ -1523,20 +1562,31 @@ put arg1 arg2
 
 :: Redirect all output to stdout using variables
    command >%STDOUT% %STDERR%>&%STDOUT%
-:: ^^^^^^^^ - meta.redirection
-::         ^^^^^^^^^ meta.redirection.dosbatch
-::                  ^^^^^^^^^ - meta.redirection
-::                           ^^^^^^^^^^ meta.redirection.dosbatch
-:: ^^^^^^^^^ - meta.interpolation
-::          ^^^^^^^^ meta.interpolation.dosbatch
-::                  ^ - meta.interpolation
-::                   ^^^^^^^^ meta.interpolation.dosbatch
-::                           ^^ - meta.interpolation
-::                             ^^^^^^^^ meta.interpolation.dosbatch
-::                                     ^ - meta.interpolation
+:: ^^^^^^^^ - meta.redirection - meta.interpolation
+::         ^ meta.redirection.dosbatch keyword.operator.assignment.redirection.dosbatch - meta.interpolation
+::          ^^^^^^^^ meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                  ^ - meta.string - meta.redirection - meta.interpolation
+::                   ^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch - meta.redirection
+::                           ^^ meta.string.dosbatch meta.redirection.dosbatch - meta.interpolation
+::                             ^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 :: ^^^^^^^ variable.function.dosbatch
 ::         ^ keyword.operator.assignment.redirection.dosbatch
 ::                           ^^ keyword.operator.assignment.redirection.dosbatch
+
+   (command >nul 2>&1)
+::  ^^^^^^^ variable.function.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^ constant.language.null.dosbatch
+::               ^ constant.numeric.value.dosbatch
+::                ^^ keyword.operator.assignment.redirection.dosbatch
+::                  ^ constant.numeric.value.dosbatch
+
+   (>nul 2>&1)
+::  ^ keyword.operator.assignment.redirection.dosbatch
+::   ^^^ constant.language.null.dosbatch
+::       ^ constant.numeric.value.dosbatch
+::        ^^ keyword.operator.assignment.redirection.dosbatch
+::          ^ constant.numeric.value.dosbatch
 
 
 :::: [ ECHO Command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -2235,7 +2285,7 @@ put arg1 arg2
 
    ECHO if /i "%%PROCESSOR%%"=="AMD64" goto x64>custom\SetAria2EnvVars.cmd
 ::      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.string.dosbatch string.unquoted.dosbatch - meta.redirection
-::                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.redirection.dosbatch - meta.command
+::                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command meta.redirection.dosbatch
 ::                                             ^ keyword.operator.assignment.redirection.dosbatch
 ::             ^^ constant.character.escape.dosbatch
 ::                        ^^ constant.character.escape.dosbatch
@@ -2747,6 +2797,49 @@ put arg1 arg2
 ::                           ^ punctuation.definition.string.end.dosbatch - string
 ::                             ^^^^^^^ comment.line.ignored.dosbatch
 
+   set "foo"=ba"r & echo !foo" ignored >nul ignored
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                            ^^^^^^^^^ meta.command.set.dosbatch - meta.redirection - meta.string
+::                                     ^^^^ meta.redirection.dosbatch
+::                                         ^^^^^^^^ meta.command.set.dosbatch - meta.redirection - meta.string
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite.dosbatch
+::         ^ - punctuation
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::              ^ - punctuation
+::                ^ - keyword
+::                  ^^^^ - support
+::                           ^ punctuation.definition.string.end.dosbatch - string
+::                             ^^^^^^^ comment.line.ignored.dosbatch
+::                                     ^ keyword.operator.assignment.redirection.dosbatch
+::                                      ^^^ constant.language.null.dosbatch
+
+   set "foo"=ba"r & echo !foo" ignored 2>nul ignored
+:: ^^^^ meta.command.set.dosbatch - meta.string
+::     ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
+::                            ^^^^^^^^^ meta.command.set.dosbatch - meta.redirection - meta.string
+::                                     ^^^^^ meta.command.set.dosbatch meta.redirection.dosbatch
+::                                          ^^^^^^^^ meta.command.set.dosbatch - meta.redirection - meta.string
+::                                                  ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite.dosbatch
+::         ^ - punctuation
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::              ^ - punctuation
+::                ^ - keyword
+::                  ^^^^ - support
+::                           ^ punctuation.definition.string.end.dosbatch - string
+::                             ^^^^^^^ comment.line.ignored.dosbatch
+::                                    ^^^^^^ meta.command.set.dosbatch
+::                                     ^ constant.numeric.value.dosbatch
+::                                      ^ keyword.operator.assignment.redirection.dosbatch
+::                                       ^^^ constant.language.null.dosbatch
+
    set "foo"=b"ar ba"z & echo !foo"!
 :: ^^^^ meta.command.set.dosbatch - meta.string
 ::     ^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation
@@ -2795,6 +2888,12 @@ put arg1 arg2
 :: ^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch
 :: ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::                   ^ punctuation.definition.string.end.dosbatch
+
+   set "foo"=<file.txt>nul
+::           ^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch meta.redirection.dosbatch
+
+   set "foo"="<file.txt>nul"
+::           ^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.string.dosbatch - meta.interpolation - meta.redirection
 
    set "foo=b"ar^
    b)a"z & echo !foo"
@@ -3721,7 +3820,7 @@ put arg1 arg2
 ::               ^^^^^^ string.unquoted.dosbatch
 ::                     ^^^^^^ - string
 ::                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::                             ^^ constant.character.escape.dosbatch
+::                             ^^ - constant.character.escape
 ::                                            ^ - keyword
 ::                                                       ^ - string
 
@@ -3986,7 +4085,7 @@ put arg1 arg2
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch - meta.interpolation
-::                    ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.interpolation.dosbatch meta.redirection.dosbatch
+::                    ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.redirection.dosbatch
 ::                              ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch - meta.interpolation
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -4000,8 +4099,8 @@ put arg1 arg2
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                    ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.interpolation.dosbatch meta.redirection.dosbatch
-::                      ^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch
+::                    ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.redirection.dosbatch
+::                      ^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch
 ::                                     ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -4031,7 +4130,8 @@ put arg1 arg2
    set /p "today="<today.txt
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
-::                ^^^^^^^^^^^ - meta.command
+::                ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.redirection.dosbatch
+::                          ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
@@ -4042,11 +4142,12 @@ put arg1 arg2
 ::               ^ punctuation.definition.prompt.end.dosbatch
 ::                ^ keyword.operator.assignment.redirection.dosbatch
 
-   set /p "today=" this is ignored <today.txt
+   set /p "today=" this is ignored <today.txt also ignored
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
-::                ^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
-::                                ^^^^^^^^^^^^ - meta.command
+::                ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.redirection
+::                                 ^^^^^^^^^^ meta.command.set.dosbatch meta.redirection.dosbatch - comment
+::                                           ^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.redirection
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch
@@ -4056,14 +4157,14 @@ put arg1 arg2
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.definition.prompt.end.dosbatch
 ::                ^ - comment - string
-::                 ^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
-::                                ^ - comment - keyword
+::                 ^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                                 ^ keyword.operator.assignment.redirection.dosbatch
+::                                  ^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 
    set /p "today="<"c:\this week\to day.txt"
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
-::                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.redirection.dosbatch - meta.command
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.redirection.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch

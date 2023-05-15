@@ -25,7 +25,7 @@ variables:
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters:
   # ‘|’, ‘&’, ‘,’, ‘;’, ‘<’, or ‘>’.
-  metachar: '[\s=,;{{command_terminator_chars}}]'
+  metachar: '[\s=,;{{redirection_or_eoc}}]'
 
   # Keywords
   keyword_break: (?![^{{metachar}}(.:\\/])
@@ -42,29 +42,31 @@ variables:
   arg_break: (?!{{arg_char}})
   arg_char: '[^{{metachar}}:]'
 
-  command_terminator_chars: '[|&<>]'
-  command_terminators: (?:$|(?=\s*[{{command_terminator_chars}}]))
+  # Command statement terminators and redirections
+  redirection_or_eoc: '[<>{{eoc_char}}]'
+  eoc: (?=\s*{{eoc_char}})
+  eoc_char: '[\n|&]'
 
   label_comment: ':[^{{label_start}}]'
   label_name: '{{label_start}}{{label_char}}*'
-  label_start: '[^\s+=,;:%!{{command_terminator_chars}}]'
+  label_start: '[^{{metachar}}:%!+]'
   label_char: '[^{{metachar}}(%!]'
 
-  path_terminator_chars: '[\s,;"{{command_terminator_chars}}]'
+  path_terminator_chars: '[\s,;"{{redirection_or_eoc}}]'
   path_terminators: (?={{path_terminator_chars}})
 
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
-  set_quoted_end: \"(?![^"{{command_terminator_chars}}]*\")
+  set_quoted_end: \"(?![^"{{redirection_or_eoc}}]*\")
 
   expansion_begin: |-
     (?x:
       %
       (?=
         # anything but no colon, percentage or command terminator char
-        ( [^:%{{command_terminator_chars}}]
+        ( [^:%{{redirection_or_eoc}}]
         # otherwise must not look like followed by a command
-        | [{{command_terminator_chars}}](?!\s*\w+[\s{{command_terminator_chars}}])
+        | [{{redirection_or_eoc}}](?!\s*\w+[\s{{redirection_or_eoc}}])
         )+
         # don't check substrings and substitutions
         (:~?[^%]*)? %
@@ -76,9 +78,9 @@ variables:
       !
       (?=
         # anything but no colon, exclamation mark or command terminator char
-        ( [^:!{{command_terminator_chars}}]
+        ( [^:!{{redirection_or_eoc}}]
         # otherwise must not look like followed by a command
-        | [{{command_terminator_chars}}](?!\s*\w+[\s{{command_terminator_chars}}])
+        | [{{redirection_or_eoc}}](?!\s*\w+[\s{{redirection_or_eoc}}])
         )+
         # don't check substrings and substitutions
         (:~?[^!]*)? !
@@ -92,7 +94,7 @@ variables:
   var_break: (?![^%{{metachar}}])
   var_char:  (?:{{var_literal}}|{{var_escape}})
   var_escape: \^[^=\s]
-  var_literal: '[^="\^\s{{command_terminator_chars}}]'
+  var_literal: '[^=\s"^{{redirection_or_eoc}}]'
 
   builtin_commands: |-
     \b(?xi:
@@ -159,12 +161,14 @@ contexts:
       pop: 1
 
   ignored-tail-outer:
+    - include: redirections
     - include: unquoted-eoc-pop
     - match: (?=\S)
       set: ignored-tail-body
 
   ignored-tail-body:
     - meta_scope: comment.line.ignored.dosbatch
+    - include: redirection-interpolations
     - include: unquoted-eoc-pop
 
 ###[ LABELS ]#################################################################
@@ -191,14 +195,14 @@ contexts:
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
       embed: commands
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
-      escape: \'(?=\s*($|['{{command_terminator_chars}}]))
+      escape: \'(?=\s*['{{redirection_or_eoc}}])
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
     - match: \`
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
       embed: commands
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
-      escape: \`(?=\s*($|[`{{command_terminator_chars}}]))
+      escape: \`(?=\s*[`{{redirection_or_eoc}}])
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
 
@@ -473,7 +477,7 @@ contexts:
       set:
         - cmd-args-meta
         - cmd-args-common
-    - include: variable-interpolations
+    - include: unquoted-escapes-and-interpolations
 
 ###[ CONTROL EXIT ]###########################################################
 
@@ -599,8 +603,8 @@ contexts:
       push:
         - cmd-other-identifier-quoted-common
         - path-pattern-relative
+    - include: path-pattern-unquoted-content
     - include: line-continuations
-    - include: path-pattern-common
 
   cmd-other-identifier-quoted-common:
     - clear_scopes: 1
@@ -615,9 +619,9 @@ contexts:
 
   cmd-args-common:
     - include: redirections
+    - include: unquoted-eoc-pop
     - include: cmd-args-options
     - include: cmd-args-values
-    - include: unquoted-eoc-pop
 
   cmd-args-options:
     - match: (?:^|\s*)((/)\?){{arg_break}}
@@ -644,8 +648,8 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push: cmd-args-option-identifier-quoted-common
+    - include: unquoted-escapes-and-interpolations
     - include: line-continuations
-    - include: variable-interpolations
     - match: '{{arg_break}}'
       pop: 1
 
@@ -673,9 +677,9 @@ contexts:
     - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
     - match: (?=(\.\.?|\:)[\\%{{metachar}}]|[?*]|\\(?!"))
       fail: cmd-args-values
-    - include: cmd-args-quoted
-    - include: escapes-and-interpolations
+    - include: unquoted-escapes-and-interpolations
     - include: line-continuations
+    - include: cmd-args-quoted
     - match: '{{arg_break}}'
       pop: 1
 
@@ -692,9 +696,7 @@ contexts:
       pop: 1
     - match: $
       pop: 2
-    - match: '%%'
-      scope: constant.character.escape.dosbatch
-    - include: variable-interpolations
+    - include: quoted-escapes-and-interpolations
 
   cmd-arg-illegal-options:
     - match: /{{arg_char}}+
@@ -719,7 +721,7 @@ contexts:
         1: variable.parameter.option.help.dosbatch
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
-    - match: \s*((?i:on|off)){{command_terminators}}
+    - match: \s*((?i:on|off)){{eoc}}
       captures:
         1: constant.language.dosbatch
       push: ignored-tail-outer
@@ -733,7 +735,7 @@ contexts:
     - meta_scope: meta.command.echo.dosbatch meta.function-call.arguments.dosbatch
     - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
     - include: cmd-args-quoted
-    - include: escapes-and-interpolations
+    - include: unquoted-escapes-and-interpolations
     - include: unquoted-eoc-pop
 
 ###[ COMMAND MODE ]###########################################################
@@ -748,6 +750,8 @@ contexts:
   cmd-mode-args:
     - meta_scope: meta.command.mode.dosbatch
     - meta_content_scope: meta.function-call.arguments.dosbatch
+    - include: redirections
+    - include: unquoted-eoc-pop
     - match: (?i:COM\d+|CON|LPT\d+):?{{arg_break}}
       scope: variable.language.device.dosbatch
     # known option values
@@ -763,7 +767,6 @@ contexts:
       scope: keyword.operator.assignment.dosbatch
     - include: cmd-args-options
     - include: cmd-args-values
-    - include: unquoted-eoc-pop
 
 ###[ COMMAND REM ]############################################################
 
@@ -782,6 +785,7 @@ contexts:
       set: cmd-rem-comment-body
 
   cmd-rem-comment-body:
+    - meta_include_prototype: false
     - meta_scope: meta.command.rem.dosbatch
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
@@ -806,6 +810,7 @@ contexts:
     - include: immediately-pop
 
   cmd-set-type:
+    - include: redirections
     - include: unquoted-eoc-pop
     - include: cmd-set-arithmetic
     - include: cmd-set-prompt
@@ -886,7 +891,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-value-outer
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: quoted-eol-pop
 
   cmd-set-quoted-value-inner-continue:
@@ -898,9 +903,9 @@ contexts:
     - meta_include_prototype: false
     - match: '{{set_quoted_end}}'
       pop: 1
-    - match: '{{command_terminators}}'
+    - match: '{{eoc}}'
       fail: cmd-set-quoted-value-inner
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: line-continuations
 
   cmd-set-quoted-value-inner-end:
@@ -922,7 +927,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-value-inner
-    - include: escapes-and-interpolations
+    - include: unquoted-escapes-and-interpolations
     - include: unquoted-eoc-pop
 
 ###[ COMMAND SET VARIABLE=VALUE ]##############################################
@@ -964,7 +969,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-outer
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: quoted-eol-pop
 
   cmd-set-unquoted-value-outer:
@@ -973,7 +978,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-inner
-    - include: escapes-and-interpolations
+    - include: unquoted-escapes-and-interpolations
     - include: unquoted-eoc-pop
 
 ###[ COMMAND SET /A ]#########################################################
@@ -1132,12 +1137,11 @@ contexts:
     - include: cmd-set-unquoted-prompt
 
   cmd-set-prompt-value-inner-common:
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: quoted-eol-pop
 
   cmd-set-prompt-value-outer-common:
-    - include: redirection-interpolations
-    - include: escapes-and-interpolations
+    - include: unquoted-escapes-and-interpolations
     - include: unquoted-eoc-pop
 
 ###[ COMMAND SET /P "VARIABLE=PROMPT" ]#######################################
@@ -1239,9 +1243,9 @@ contexts:
     - meta_include_prototype: false
     - match: '{{set_quoted_end}}'
       pop: 1
-    - match: '{{command_terminators}}'
+    - match: '{{eoc}}'
       fail: cmd-set-quoted-prompt-quoted-value-inner
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: line-continuations
 
   cmd-set-quoted-prompt-quoted-value-inner-end:
@@ -1292,9 +1296,9 @@ contexts:
     - meta_include_prototype: false
     - match: '{{set_quoted_end}}'
       pop: 1
-    - match: '{{command_terminators}}'
+    - match: '{{eoc}}'
       fail: cmd-set-quoted-prompt-unquoted-value-inner
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: line-continuations
 
   cmd-set-quoted-prompt-unquoted-value-inner-end:
@@ -1399,9 +1403,9 @@ contexts:
       scope: punctuation.definition.string.end.dosbatch
       pop: 2
       set: ignored-tail-inner
-    - match: '{{command_terminators}}'
+    - match: '{{eoc}}'
       fail: cmd-set-unquoted-prompt-inner
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
     - include: line-continuations
 
   cmd-set-unquoted-prompt-quoted-value-inner-end:
@@ -1491,7 +1495,7 @@ contexts:
       scope: punctuation.separator.semicolon.dosbatch
 
   invalid-operators:
-    - match: '[{{command_terminator_chars}}]'
+    - match: '{{redirection_or_eoc}}'
       scope: invalid.illegal.operator.dosbatch
 
 ###[ CONSTANTS ]##############################################################
@@ -1540,38 +1544,28 @@ contexts:
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
-    - match: \s*(?=\d?(?:<&?|>[&>]?))
-      push: redirection-interpolations-body
-
-  redirection-interpolations-body:
-    - meta_include_prototype: false
-    - match: (\d)?(<&?|>[&>]?)
+    - match: (\b\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
         2: keyword.operator.assignment.redirection.dosbatch
-      set:
-        - redirection-interpolations-meta
+      push:
+        - redirection-interpolation-meta
         - redirection-path
 
-  redirection-interpolations-meta:
+  redirection-interpolation-meta:
     - clear_scopes: 1
     - meta_include_prototype: false
-    - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
+    - meta_scope: meta.redirection.dosbatch
     - include: immediately-pop
 
   redirections:
-    - match: (?=\d?(?:<&?|>[&>]?))
-      push: redirection-body
-
-  redirection-body:
-    - meta_include_prototype: false
-    - match: (\d)?(<&?|>[&>]?)
+    - match: (\b\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
         2: keyword.operator.assignment.redirection.dosbatch
-      set:
+      push:
         - redirection-meta
         - redirection-path
 
@@ -1600,16 +1594,23 @@ contexts:
       set:
         - path-pattern-unquoted-body
         - path-pattern-relative
-    - include: any-pop
 
   path-pattern-quoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
     - include: string-end
+    - include: path-pattern-quoted-content
+
+  path-pattern-quoted-content:
+    - include: quoted-escapes-and-interpolations
     - include: path-pattern-common
 
   path-pattern-unquoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
     - include: path-pattern-unquoted-end
+    - include: path-pattern-unquoted-content
+
+  path-pattern-unquoted-content:
+    - include: unquoted-escapes-and-interpolations
     - include: path-pattern-common
 
   path-pattern-unquoted-end:
@@ -1618,7 +1619,6 @@ contexts:
     - include: line-continuations
 
   path-pattern-common:
-    - include: escapes-and-interpolations
     - match: '[:\\/]'
       scope: punctuation.separator.path.dosbatch
       push: path-pattern-relative
@@ -1649,7 +1649,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - include: string-end
-    - include: escapes-and-interpolations
+    - include: quoted-escapes-and-interpolations
 
   string-end:
     - match: \"
@@ -1658,17 +1658,22 @@ contexts:
     - include: quoted-eol-pop
 
   escaped-characters:
-    - match: '%%|\^.'
+    - match: \^.
+      scope: constant.character.escape.dosbatch
+
+  escaped-variables:
+    - match: '%%'
       scope: constant.character.escape.dosbatch
 
 ###[ INTERPOLATIONS ]#########################################################
 
-  escapes-and-interpolations:
+  unquoted-escapes-and-interpolations:
     - include: escaped-characters
-    - include: variable-interpolations
+    - include: redirection-interpolations
+    - include: quoted-escapes-and-interpolations
 
-  # NOTE: To be used in strings to remove `string` scope.
-  variable-interpolations:
+  quoted-escapes-and-interpolations:
+    - include: escaped-variables
     - include: parameter-interpolations
     - include: expansion-interpolations
     - include: delayed-interpolations
@@ -1708,6 +1713,7 @@ contexts:
 ###[ VARIABLES ]##############################################################
 
   variables:
+    - include: escaped-variables
     - include: variable-parameters
     - include: variable-expansions
     - include: variable-delayed
@@ -1850,7 +1856,7 @@ contexts:
         1: keyword.operator.arithmetic.dosbatch
         2: constant.numeric.value.dosbatch
     # Note: This makes the whole expansion being handled as plain text.
-    - match: ':[^%!{{command_terminator_chars}}]*'
+    - match: ':[^%!{{redirection_or_eoc}}]*'
       scope: invalid.illegal.unexpected.dosbatch
 
 ###[ ILLEGALS ]###############################################################
@@ -1874,10 +1880,6 @@ contexts:
 
 ###[ PROTOTYPES ]#############################################################
 
-  any-pop:
-    - match: (?=\S)
-      pop: 1
-
   bol-pop:
     # Note: empty lines are ignored
     - match: ^(?!$)
@@ -1885,7 +1887,8 @@ contexts:
 
   else-pop:
     - include: unquoted-eol-pop
-    - include: any-pop
+    - match: (?=\S)
+      pop: 1
 
   immediately-pop:
     - match: ''
@@ -1897,7 +1900,7 @@ contexts:
       push: bol-pop
 
   quoted-eoc-pop:
-    - match: '{{command_terminators}}'
+    - match: '{{eoc}}'
       pop: 1
 
   quoted-eol-pop:
