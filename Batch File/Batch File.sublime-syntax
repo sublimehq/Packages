@@ -1561,7 +1561,7 @@ contexts:
     - include: immediately-pop
 
   redirections:
-    - match: (?=(?:\d)?(?:<&?|>[&>]?))
+    - match: (?=\d?(?:<&?|>[&>]?))
       push: redirection-body
 
   redirection-body:
