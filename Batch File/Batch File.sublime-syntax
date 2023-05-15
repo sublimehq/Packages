@@ -1540,12 +1540,12 @@ contexts:
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
-    - match: \s*(?=\d*(?:<&?|>[&>]?))
+    - match: \s*(?=(?:\d)?(?:<&?|>[&>]?))
       push: redirection-interpolations-body
 
   redirection-interpolations-body:
     - meta_include_prototype: false
-    - match: (\d*)(<&?|>[&>]?)
+    - match: (\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
@@ -1561,12 +1561,12 @@ contexts:
     - include: immediately-pop
 
   redirections:
-    - match: (?=\d*(<&?|>[&>]?))
+    - match: (?=(?:\d)?(?:<&?|>[&>]?))
       push: redirection-body
 
   redirection-body:
     - meta_include_prototype: false
-    - match: (\d*)(<&?|>[&>]?)
+    - match: (\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch

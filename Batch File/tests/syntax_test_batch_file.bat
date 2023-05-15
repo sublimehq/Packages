@@ -2388,6 +2388,14 @@ put arg1 arg2
    set ^=
 ::     ^^ invalid.illegal.parameter.dosbatch
 
+   set 12>nul
+::     ^^ variable.other.readwrite.dosbatch
+::     ^^ - meta.redirection
+::       ^^^^ meta.redirection.dosbatch
+::           ^ - meta.redirection
+::       ^ keyword.operator.assignment.redirection.dosbatch
+::        ^^^ constant.language.null.dosbatch
+
    set foo_bar & echo %foo_bar%
 :: ^^^^^^^^^^^ meta.command.set.dosbatch
 ::            ^ - meta.command
@@ -2840,6 +2848,16 @@ put arg1 arg2
 ::     ^^^^^^^ variable.other.readwrite
 ::            ^ keyword.operator.assignment - meta.expression.dosbatch
 ::              ^^^ string.unquoted
+
+   set abc /a = 1+2>nul
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^^^^^ variable.other.readwrite
+::            ^ keyword.operator.assignment - meta.expression.dosbatch
+::              ^^^ string.unquoted
+::              ^^^ - meta.redirection
+::                 ^^^^ meta.redirection.dosbatch
+::                 ^ keyword.operator.assignment.redirection.dosbatch
+::                  ^^^ constant.language.null.dosbatch
 
    set /A hello_world
 :: ^^^ support.function.builtin.dosbatch
