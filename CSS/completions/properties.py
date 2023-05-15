@@ -95,7 +95,7 @@ def get_properties():
             "right-side",
             "rightwards",
         ],
-        "backdrop-filter": ["none"],
+        "backdrop-filter": ["none", "<url>", "<filter-function>"],
         "backface-visibility": ["visible", "hidden"],
         "background": [
             "<calc>",
