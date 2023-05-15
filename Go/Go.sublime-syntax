@@ -829,9 +829,6 @@ contexts:
     - match: continue\b
       scope: keyword.control.flow.continue.go
       pop: 1
-    - match: nil\b
-      scope: keyword.control.nil.go
-      pop: 1
     - include: pop-before-nonblank
 
   match-template-expressions:
@@ -840,6 +837,7 @@ contexts:
     - include: match-template-variables
     - include: match-comma
     - include: match-literals
+    - include: match-predeclared-constants
 
   match-template-groups:
     - match: \(

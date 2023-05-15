@@ -5491,6 +5491,10 @@ func template() {
     //                                                   ^^^^^^^^^ meta.string.go meta.string.go string.quoted.double.go
     //                                                            ^ punctuation.section.group.end.go
     //                                                              ^^ punctuation.section.interpolation.end.go
+    t = "{{nil}} {{true}} {{false}}"
+    //     ^^^ constant.language
+    //             ^^^^ constant.language
+    //                      ^^^^^ constant.language
 }
 
 func main() {
