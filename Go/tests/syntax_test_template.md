@@ -59,7 +59,7 @@
 | ^^^^^^^^^^^^^ meta.paragraph.markdown meta.interpolation.go
 | ^^ punctuation.section.interpolation.begin.go
 |   ^^^^^^^^^ source.go.template
-|    ^^^^ variable.function.go
+|    ^^^ variable.function.go
 |        ^ meta.number.integer.decimal.go constant.numeric.value.go
 |          ^ meta.number.integer.decimal.go constant.numeric.value.go
 |            ^^ punctuation.section.interpolation.end.go
@@ -78,13 +78,13 @@
 |    ^^ keyword.control.conditional.if.go
 |       ^^ support.function.builtin.go
 |          ^ punctuation.section.group.begin.go
-|           ^^^^^^ variable.function.go
+|           ^^^^^ variable.function.go
 |                 ^ punctuation.accessor.dot.go
 |                  ^^^^^^ variable.other.member.go
 |                         ^^^^^ meta.string.go string.quoted.double.go
 |                              ^ punctuation.section.group.end.go
 |                                ^ punctuation.section.group.begin.go
-|                                 ^^^^^^ variable.function.go
+|                                 ^^^^^ variable.function.go
 |                                       ^ punctuation.accessor.dot.go
 |                                        ^^^^^^ variable.other.member.go
 |                                               ^^^^^^^^^ meta.string.go string.quoted.double.go

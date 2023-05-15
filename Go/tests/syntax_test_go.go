@@ -5461,24 +5461,36 @@ func template() {
     //           ^ - variable.function
     //             ^ constant.numeric.value.go
     //               ^ constant.numeric.value.go
-    t = "{{ if or (isset .Params "alt") (isset .Params "caption") }} Caption {{ end }}"
+    t = "{{function .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^^^^^ variable.function.go
+    //              ^ punctuation.accessor.dot.go
+    //               ^^^^^ variable.other.member.go
+    t = "{{.Method .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^ punctuation.accessor.dot.go
+    //      ^^^^^^ variable.function.method.go
+    //             ^ punctuation.accessor.dot.go
+    //              ^^^^^ variable.other.member.go
+    t = "{{ if or (isset .Params "alt") (.Method .Params "caption") }} Caption {{ end }}"
     //   ^^^^^^^^^ meta.string.go meta.interpolation.go - meta.group
     //            ^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
     //                                 ^ meta.string.go meta.interpolation.go - meta.group
-    //                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
-    //                                                           ^^^ meta.string.go meta.interpolation.go - meta.group
+    //                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
+    //                                                             ^^^ meta.string.go meta.interpolation.go - meta.group
     //            ^ punctuation.section.group.begin.go
     //             ^^^^^ variable.function.go
     //                   ^ punctuation.accessor.dot.go
     //                    ^^^^^^ variable.other.member.go
     //                           ^^^^^ meta.string.go meta.string.go string.quoted.double.go
     //                                  ^ punctuation.section.group.begin.go
-    //                                   ^^^^^ variable.function.go
-    //                                         ^ punctuation.accessor.dot.go
-    //                                          ^^^^^^ variable.other.member.go
-    //                                                 ^^^^^^^^^ meta.string.go meta.string.go string.quoted.double.go
-    //                                                          ^ punctuation.section.group.end.go
-    //                                                            ^^ punctuation.section.interpolation.end.go
+    //                                   ^ punctuation.accessor.dot.go
+    //                                    ^^^^^^ variable.function.method.go
+    //                                           ^ punctuation.accessor.dot.go
+    //                                            ^^^^^^ variable.other.member.go
+    //                                                   ^^^^^^^^^ meta.string.go meta.string.go string.quoted.double.go
+    //                                                            ^ punctuation.section.group.end.go
+    //                                                              ^^ punctuation.section.interpolation.end.go
 }
 
 func main() {
