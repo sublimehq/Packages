@@ -82,21 +82,44 @@ contexts:
     # set/unset operators
     - match: '[-!](?=\w)'
       scope: keyword.operator.logical.git.attributes
-    # known attributes
+    # known attributes (builtin)
+    - match: (?=conflict-marker-size\b)
+      push: [meta-conflict-marker-size, attribute-key]
+    - match: (?=delta\b)
+      push: [meta-delta, attribute-key]
     - match: (?=diff\b)
       push: [meta-diff, attribute-key]
     - match: (?=encoding\b)
       push: [meta-encoding, attribute-key]
     - match: (?=eol\b)
       push: [meta-eol, attribute-key]
+    - match: (?=export-ignore\b)
+      push: [meta-export-ignore, attribute-key]
+    - match: (?=export-subst\b)
+      push: [meta-export-subst, attribute-key]
     - match: (?=filter\b)
       push: [meta-filter, attribute-key]
+    - match: (?=ident\b)
+      push: [meta-ident, attribute-key]
     - match: (?=merge\b)
       push: [meta-merge, attribute-key]
     - match: (?=text\b)
       push: [meta-text, attribute-key]
     - match: (?=whitespace\b)
       push: [meta-whitespace, attribute-key]
+    - match: (?=working-tree-encoding\b)
+      push: [meta-working-tree-encoding, attribute-key]
+    # known attributes (linguist)
+    - match: (?=linguist-detectable\b)
+      push: [meta-linguist-detectable, attribute-key]
+    - match: (?=linguist-documentation\b)
+      push: [meta-linguist-documentation, attribute-key]
+    - match: (?=linguist-generated\b)
+      push: [meta-linguist-generated, attribute-key]
+    - match: (?=linguist-language\b)
+      push: [meta-linguist-language, attribute-key]
+    - match: (?=linguist-vendored\b)
+      push: [meta-linguist-vendored, attribute-key]
     # unknown/other attribute
     - match: (?=\w)
       push: [meta-other, attribute-key]
@@ -106,6 +129,16 @@ contexts:
     # invalid attribute name
     - match: \S+
       scope: invalid.illegal.attribute-name.git.attributes
+
+  meta-conflict-marker-size:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.conflict-marker-size.git.attributes
+    - include: immediately-pop
+
+  meta-delta:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.delta.git.attributes
+    - include: immediately-pop
 
   meta-diff:
     - meta_include_prototype: false
@@ -122,9 +155,24 @@ contexts:
     - meta_scope: meta.attribute.builtin.eol.git.attributes
     - include: immediately-pop
 
+  meta-export-ignore:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.export-ignore.git.attributes
+    - include: immediately-pop
+
+  meta-export-subst:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.export-subst.git.attributes
+    - include: immediately-pop
+
   meta-filter:
     - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.filter.git.attributes
+    - include: immediately-pop
+
+  meta-ident:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.ident.git.attributes
     - include: immediately-pop
 
   meta-merge:
@@ -140,6 +188,36 @@ contexts:
   meta-whitespace:
     - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.whitespace.git.attributes
+    - include: immediately-pop
+
+  meta-working-tree-encoding:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.working-tree-encoding.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-detectable:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-detectable.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-documentation:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-documentation.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-generated:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-generated.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-language:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-language.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-vendored:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-vendored.git.attributes
     - include: immediately-pop
 
   meta-other:

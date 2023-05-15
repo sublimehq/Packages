@@ -2,11 +2,11 @@
 # <- comment.line.git punctuation.definition.comment.git
 
 # valid macro definition
-[macro-name] binary -diff !merge filter=none
+[macro-name] binary -diff !merge filter=none working-tree-encoding="utf-16le-bom"
 # <- meta.brackets.git.attributes punctuation.definition.brackets.begin.git.attributes
 #^^^^^^^^^^ meta.brackets.git.attributes entity.name.macro.git.attributes
 #          ^ meta.brackets.git.attributes punctuation.definition.brackets.end.git.attributes - meta.attributes-list.git.attributes
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.brackets.git.attributes
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.brackets.git.attributes
 #            ^^^^^^ variable.language.attribute.git.attributes
 #                   ^ keyword.operator.logical.git.attributes
 #                    ^^^^ variable.language.attribute.git.attributes
@@ -15,6 +15,11 @@
 #                                ^^^^^^ variable.language.attribute.git.attributes
 #                                      ^ punctuation.separator.key-value.git.attributes
 #                                       ^^^^ string.unquoted.git.attributes
+#                                            ^^^^^^^^^^^^^^^^^^^^^ variable.language.attribute.git.attributes
+#                                                                 ^ punctuation.separator.key-value.git.attributes
+#                                                                  ^^^^^^^^^^^^^^  string.quoted.double.git.attributes
+#                                                                  ^ punctuation.definition.string.begin.git.attributes
+#                                                                               ^ punctuation.definition.string.end.git.attributes
 [macro\tws]attr
 # <- meta.brackets.git.attributes punctuation.definition.brackets.begin.git.attributes
 #^^^^^^^^^ meta.brackets.git.attributes entity.name.macro.git.attributes
