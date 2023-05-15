@@ -1540,7 +1540,7 @@ contexts:
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
-    - match: \s*(?=(?:\d)?(?:<&?|>[&>]?))
+    - match: \s*(?=\d?(?:<&?|>[&>]?))
       push: redirection-interpolations-body
 
   redirection-interpolations-body:
