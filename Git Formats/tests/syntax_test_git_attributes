@@ -27,7 +27,7 @@
 #          ^^^^^ meta.attributes-list.git.attributes - meta.brackets.git.attributes
 #          ^^^^ variable.language.attribute.git.attributes
 
-# invlid whitespace in macro name are handled as invalid pattern
+# invalid whitespace in macro name is handled as an invalid pattern
 [macro ] attr
 # <- invalid.illegal.operator.git.attributes - meta.attributes-list.git.attributes
 #^^^^^ string.unquoted.git.attributes - meta.attributes-list.git.attributes
