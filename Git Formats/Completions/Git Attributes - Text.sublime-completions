@@ -1,5 +1,5 @@
 {
-    "scope": "meta.mapping.expect-value & meta.attribute.builtin.text.git.attributes",
+    "scope": "(meta.mapping.expect-value | meta.mapping.value) & meta.attribute.builtin.text.git.attributes",
     "completions": [
         {
             "trigger": "auto",
