@@ -96,6 +96,12 @@ variables:
   var_escape: \^[^=\s]
   var_literal: '[^=\s"^{{redirection_or_eoc}}]'
 
+  # An unquoted word, which may contain escapes or interpolation,
+  # but no redirections. It is terminated by meta-chars or quoted words
+  unquoted_word_begin: (?={{unquoted_word_char}})
+  unquoted_word_break: (?!{{unquoted_word_char}})
+  unquoted_word_char: '[^"{{metachar}}]'
+
   builtin_commands: |-
     \b(?xi:
       assoc | break | cd | chdir | cls | color | copy | date | del | dir
@@ -162,14 +168,14 @@ contexts:
 
   ignored-tail-outer:
     - include: redirections
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: (?=\S)
       set: ignored-tail-body
 
   ignored-tail-body:
     - meta_scope: comment.line.ignored.dosbatch
     - include: redirection-interpolations
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
 
 ###[ LABELS ]#################################################################
 
@@ -210,7 +216,7 @@ contexts:
     - match: \(
       scope: punctuation.section.block.begin.dosbatch
       set: Packages/Batch File/Batch File (Compound).sublime-syntax#block-common
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - include: statements
 
   blocks:
@@ -261,7 +267,7 @@ contexts:
     - include: immediately-pop
 
   ctl-if-condition:
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: (?i:(/)i){{arg_break}}
       scope: variable.parameter.option.dosbatch
       captures:
@@ -281,7 +287,7 @@ contexts:
         - maybe-operator-not
 
   ctl-if-checks:
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: (?i:errorlevel|cmdextversion){{keyword_break}}
       scope: variable.language.dosbatch
       set:
@@ -513,7 +519,7 @@ contexts:
     - include: immediately-pop
 
   ctl-goto-args:
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: (:)(?i:(eof)){{cmd_break}}
       scope: variable.label.dosbatch
       captures:
@@ -619,7 +625,7 @@ contexts:
 
   cmd-args-common:
     - include: redirections
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - include: cmd-args-options
     - include: cmd-args-values
 
@@ -677,26 +683,11 @@ contexts:
     - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
     - match: (?=(\.\.?|\:)[\\%{{metachar}}]|[?*]|\\(?!"))
       fail: cmd-args-values
+    - include: quoted-words
     - include: unquoted-escapes-and-interpolations
     - include: line-continuations
-    - include: cmd-args-quoted
     - match: '{{arg_break}}'
       pop: 1
-
-  cmd-args-quoted:
-    - match: \"
-      push: cmd-args-quoted-body
-
-  cmd-args-quoted-body:
-    # echo "text" outputs quotation marks no matter where they are located.
-    # Hence no `punctuation` nor `string.quoted` scopes are applied.
-    # This context is needed as a limited set of escaped chars and no line
-    # continuation operators are supported within quotes.
-    - match: \"
-      pop: 1
-    - match: $
-      pop: 2
-    - include: quoted-escapes-and-interpolations
 
   cmd-arg-illegal-options:
     - match: /{{arg_char}}+
@@ -715,7 +706,7 @@ contexts:
 
   cmd-echo-args:
     - meta_content_scope: meta.command.echo.dosbatch meta.function-call.arguments.dosbatch
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: \s*((/)\?){{arg_break}}
       captures:
         1: variable.parameter.option.help.dosbatch
@@ -734,9 +725,10 @@ contexts:
   cmd-echo-output:
     - meta_scope: meta.command.echo.dosbatch meta.function-call.arguments.dosbatch
     - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-    - include: cmd-args-quoted
-    - include: unquoted-escapes-and-interpolations
-    - include: unquoted-eoc-pop
+    - include: quoted-words
+    - include: redirection-interpolations
+    - include: unquoted-words
+    - include: eoc-pop
 
 ###[ COMMAND MODE ]###########################################################
 
@@ -751,7 +743,7 @@ contexts:
     - meta_scope: meta.command.mode.dosbatch
     - meta_content_scope: meta.function-call.arguments.dosbatch
     - include: redirections
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: (?i:COM\d+|CON|LPT\d+):?{{arg_break}}
       scope: variable.language.device.dosbatch
     # known option values
@@ -811,17 +803,34 @@ contexts:
 
   cmd-set-type:
     - include: redirections
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - include: cmd-set-arithmetic
     - include: cmd-set-prompt
     - include: cmd-arg-illegal-options
     - include: cmd-set-quoted
     - include: cmd-set-unquoted
 
+  cmd-set-variable-inner-common:
+    - include: cmd-set-variable-common
+    - include: quoted-eol-pop
+
+  cmd-set-variable-outer-common:
+    - include: cmd-set-variable-common
+    - include: unquoted-var-pop
+
   cmd-set-variable-common:
     - match: \^=
       scope: invalid.illegal.parameter.dosbatch
     - match: \^\S
+
+  cmd-set-value-inner-common:
+    - include: quoted-escapes-and-interpolations
+    - include: quoted-eol-pop
+
+  cmd-set-value-outer-common:
+    - include: redirection-interpolations
+    - include: unquoted-words
+    - include: eoc-pop
 
 ###[ COMMAND SET "VARIABLE=VALUE" ]############################################
 
@@ -864,8 +873,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch variable.other.readwrite.dosbatch
       set: cmd-set-quoted-variable-outer
-    - include: cmd-set-variable-common
-    - include: quoted-eoc-pop
+    - include: cmd-set-variable-inner-common
 
   cmd-set-quoted-variable-outer:
     - meta_include_prototype: false
@@ -876,8 +884,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch variable.other.readwrite.dosbatch
       set: cmd-set-quoted-variable-inner
-    - include: cmd-set-variable-common
-    - include: unquoted-eoc-pop
+    - include: cmd-set-variable-outer-common
 
   cmd-set-quoted-value-inner:
     - meta_include_prototype: false
@@ -891,8 +898,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-value-outer
-    - include: quoted-escapes-and-interpolations
-    - include: quoted-eol-pop
+    - include: cmd-set-value-inner-common
 
   cmd-set-quoted-value-inner-continue:
     - meta_include_prototype: false
@@ -927,8 +933,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-value-inner
-    - include: unquoted-escapes-and-interpolations
-    - include: unquoted-eoc-pop
+    - include: cmd-set-value-outer-common
 
 ###[ COMMAND SET VARIABLE=VALUE ]##############################################
 
@@ -948,8 +953,7 @@ contexts:
     - match: \"
       scope: variable.other.readwrite.dosbatch
       set: cmd-set-unquoted-variable-outer
-    - include: cmd-set-variable-common
-    - include: quoted-eoc-pop
+    - include: cmd-set-variable-inner-common
 
   cmd-set-unquoted-variable-outer:
     - meta_include_prototype: false
@@ -960,8 +964,7 @@ contexts:
     - match: \"
       scope: variable.other.readwrite.dosbatch
       set: cmd-set-unquoted-variable-inner
-    - include: cmd-set-variable-common
-    - include: unquoted-eoc-pop
+    - include: cmd-set-variable-outer-common
 
   cmd-set-unquoted-value-inner:
     - meta_include_prototype: false
@@ -969,8 +972,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-outer
-    - include: quoted-escapes-and-interpolations
-    - include: quoted-eol-pop
+    - include: cmd-set-value-inner-common
 
   cmd-set-unquoted-value-outer:
     - meta_include_prototype: false
@@ -978,8 +980,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-value-inner
-    - include: unquoted-escapes-and-interpolations
-    - include: unquoted-eoc-pop
+    - include: cmd-set-value-outer-common
 
 ###[ COMMAND SET /A ]#########################################################
 
@@ -1077,12 +1078,12 @@ contexts:
       scope: meta.group.dosbatch punctuation.section.group.begin.dosbatch
       push: cmd-set-arithmetic-unquoted-group
     - include: cmd-set-arithmetic-unquoted-common
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
 
   cmd-set-arithmetic-unquoted-group:
     - meta_content_scope: meta.group.dosbatch
     # Note: must be included before \) pattern to support compound termination
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: \"
       scope: meta.group.dosbatch punctuation.definition.string.begin.dosbatch
       set: cmd-set-arithmetic-quoted-first-group
@@ -1136,14 +1137,6 @@ contexts:
     - include: cmd-set-quoted-prompt
     - include: cmd-set-unquoted-prompt
 
-  cmd-set-prompt-value-inner-common:
-    - include: quoted-escapes-and-interpolations
-    - include: quoted-eol-pop
-
-  cmd-set-prompt-value-outer-common:
-    - include: unquoted-escapes-and-interpolations
-    - include: unquoted-eoc-pop
-
 ###[ COMMAND SET /P "VARIABLE=PROMPT" ]#######################################
 
   cmd-set-quoted-prompt:
@@ -1175,8 +1168,7 @@ contexts:
     - match: \"
       scope: variable.other.readwrite.dosbatch
       set: cmd-set-quoted-prompt-variable-outer
-    - include: cmd-set-variable-common
-    - include: quoted-eoc-pop
+    - include: cmd-set-variable-inner-common
 
   cmd-set-quoted-prompt-variable-outer:
     - meta_include_prototype: false
@@ -1187,8 +1179,7 @@ contexts:
     - match: \"
       scope: variable.other.readwrite.dosbatch
       set: cmd-set-quoted-prompt-variable-inner
-    - include: cmd-set-variable-common
-    - include: unquoted-eoc-pop
+    - include: cmd-set-variable-outer-common
 
 
   cmd-set-quoted-prompt-value-inner-start:
@@ -1232,7 +1223,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.quoted.double.dosbatch
       set: cmd-set-quoted-prompt-quoted-value-outer
-    - include: cmd-set-prompt-value-inner-common
+    - include: cmd-set-value-inner-common
 
   cmd-set-quoted-prompt-quoted-value-inner-continue:
     - meta_include_prototype: false
@@ -1270,7 +1261,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.quoted.double.dosbatch
       set: cmd-set-quoted-prompt-quoted-value-inner
-    - include: cmd-set-prompt-value-outer-common
+    - include: cmd-set-value-outer-common
 
 
   cmd-set-quoted-prompt-unquoted-value-inner:
@@ -1285,7 +1276,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-prompt-unquoted-value-outer
-    - include: cmd-set-prompt-value-inner-common
+    - include: cmd-set-value-inner-common
 
   cmd-set-quoted-prompt-unquoted-value-inner-continue:
     - meta_include_prototype: false
@@ -1319,7 +1310,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-quoted-prompt-unquoted-value-inner
-    - include: cmd-set-prompt-value-outer-common
+    - include: cmd-set-value-outer-common
 
 ###[ COMMAND SET /P VARIABLE=PROMPT ]#########################################
 
@@ -1341,8 +1332,7 @@ contexts:
     - match: \"
       scope: variable.other.readwrite.dosbatch
       set: cmd-set-unquoted-prompt-variable-outer
-    - include: cmd-set-variable-common
-    - include: quoted-eoc-pop
+    - include: cmd-set-variable-inner-common
 
   cmd-set-unquoted-prompt-variable-outer:
     - meta_include_prototype: false
@@ -1353,8 +1343,7 @@ contexts:
     - match: \"
       scope: variable.other.readwrite.dosbatch
       set: cmd-set-unquoted-prompt-variable-inner
-    - include: cmd-set-variable-common
-    - include: unquoted-eoc-pop
+    - include: cmd-set-variable-outer-common
 
 
   cmd-set-unquoted-prompt-value-inner-start:
@@ -1390,7 +1379,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.quoted.double.dosbatch
       set: cmd-set-unquoted-prompt-quoted-value-outer
-    - include: cmd-set-prompt-value-inner-common
+    - include: cmd-set-value-inner-common
 
   cmd-set-unquoted-prompt-quoted-value-inner-continue:
     - meta_include_prototype: false
@@ -1427,7 +1416,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.quoted.double.dosbatch
       set: cmd-set-unquoted-prompt-quoted-value-inner
-    - include: cmd-set-prompt-value-outer-common
+    - include: cmd-set-value-outer-common
 
 
   cmd-set-unquoted-prompt-unquoted-value-inner:
@@ -1436,7 +1425,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-prompt-unquoted-value-outer
-    - include: cmd-set-prompt-value-inner-common
+    - include: cmd-set-value-inner-common
 
   cmd-set-unquoted-prompt-unquoted-value-outer:
     - meta_include_prototype: false
@@ -1444,7 +1433,7 @@ contexts:
     - match: \"
       scope: meta.string.dosbatch string.unquoted.dosbatch
       set: cmd-set-unquoted-prompt-unquoted-value-inner
-    - include: cmd-set-prompt-value-outer-common
+    - include: cmd-set-value-outer-common
 
 ###[ COMMAND TITLE ]##########################################################
 
@@ -1458,7 +1447,7 @@ contexts:
   cmd-title-args:
     - meta_scope: meta.command.title.dosbatch
     - meta_content_scope: meta.function-call.arguments.dosbatch
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: \s*((/)\?){{arg_break}}
       captures:
         1: variable.parameter.option.help.dosbatch
@@ -1472,7 +1461,9 @@ contexts:
         meta.command.title.dosbatch
         meta.function-call.arguments.dosbatch
         meta.string.dosbatch string.unquoted.dosbatch
-    - include: unquoted-eoc-pop
+    - include: redirection-interpolations
+    - include: unquoted-words
+    - include: eoc-pop
 
 ###[ OPERATORS ]##############################################################
 
@@ -1544,7 +1535,7 @@ contexts:
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
-    - match: (\b\d)?(<&?|>[&>]?)
+    - match: (\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
@@ -1560,7 +1551,7 @@ contexts:
     - include: immediately-pop
 
   redirections:
-    - match: (\b\d)?(<&?|>[&>]?)
+    - match: (\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
@@ -1665,11 +1656,37 @@ contexts:
     - match: '%%'
       scope: constant.character.escape.dosbatch
 
+###[ WORDS ]##################################################################
+
+  quoted-words:
+    - match: \"
+      push: quoted-word-body
+
+  quoted-word-body:
+    # echo "text" outputs quotation marks no matter where they are located.
+    # Hence no `punctuation` nor `string.quoted` scopes are applied.
+    # This context is needed as a limited set of escaped chars and no line
+    # continuation operators are supported within quotes.
+    - match: \"
+      pop: 1
+    - match: $
+      pop: 2
+    - include: quoted-escapes-and-interpolations
+
+  unquoted-words:
+    - match: '{{unquoted_word_begin}}'
+      push: unquoted-word-body
+
+  unquoted-word-body:
+    - match: '{{unquoted_word_break}}'
+      pop: 1
+    - include: line-continuations
+    - include: unquoted-escapes-and-interpolations
+
 ###[ INTERPOLATIONS ]#########################################################
 
   unquoted-escapes-and-interpolations:
     - include: escaped-characters
-    - include: redirection-interpolations
     - include: quoted-escapes-and-interpolations
 
   quoted-escapes-and-interpolations:
@@ -1862,7 +1879,7 @@ contexts:
 ###[ ILLEGALS ]###############################################################
 
   expect-eoc:
-    - include: unquoted-eoc-pop
+    - include: eoc-pop
     - match: \S
       scope: invalid.illegal.expect-end-of-command.dosbatch
 
@@ -1873,10 +1890,10 @@ contexts:
     - include: else-pop
 
   illegal-token-pop:
+    - include: unquoted-eol-pop
     - match: \S+
       scope: invalid.illegal.unexpected.dosbatch
       set: else-pop
-    - include: unquoted-eol-pop
 
 ###[ PROTOTYPES ]#############################################################
 
@@ -1899,18 +1916,22 @@ contexts:
       scope: punctuation.separator.continuation.line.dosbatch
       push: bol-pop
 
-  quoted-eoc-pop:
+  eoc-pop:
+    # Note: An end of command appears in unquoted regions only!
+    #       `&` or `|` are literals in quoted words.
     - match: '{{eoc}}'
       pop: 1
+    - include: line-continuations
 
   quoted-eol-pop:
     - match: $
       pop: 1
 
-  unquoted-eoc-pop:
-    - include: quoted-eoc-pop
-    - include: line-continuations
-
   unquoted-eol-pop:
     - include: quoted-eol-pop
+    - include: line-continuations
+
+  unquoted-var-pop:
+    - match: (?=\s*{{redirection_or_eoc}})
+      pop: 1
     - include: line-continuations

@@ -1567,8 +1567,8 @@ put arg1 arg2
 ::          ^^^^^^^^ meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                  ^ - meta.string - meta.redirection - meta.interpolation
 ::                   ^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch - meta.redirection
-::                           ^^ meta.string.dosbatch meta.redirection.dosbatch - meta.interpolation
-::                             ^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
+::                           ^^ meta.redirection.dosbatch - meta.string - meta.interpolation
+::                             ^^^^^^^^ meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 :: ^^^^^^^ variable.function.dosbatch
 ::         ^ keyword.operator.assignment.redirection.dosbatch
 ::                           ^^ keyword.operator.assignment.redirection.dosbatch
@@ -2439,12 +2439,25 @@ put arg1 arg2
 ::     ^^ invalid.illegal.parameter.dosbatch
 
    set 12>nul
-::     ^^ variable.other.readwrite.dosbatch
 ::     ^^ - meta.redirection
 ::       ^^^^ meta.redirection.dosbatch
 ::           ^ - meta.redirection
+::     ^^ variable.other.readwrite.dosbatch
 ::       ^ keyword.operator.assignment.redirection.dosbatch
 ::        ^^^ constant.language.null.dosbatch
+
+   set var=12>nul 3
+::     ^^^^ - meta.string - meta.redirection
+::         ^^ meta.string.dosbatch - meta.redirection
+::           ^^^^ meta.string.dosbatch meta.redirection.dosbatch
+::               ^^ meta.string.dosbatch - meta.redirection
+::                 ^ - meta.string - meta.redirection
+::     ^^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.assignment.dosbatch
+::         ^^ string.unquoted.dosbatch
+::           ^ keyword.operator.assignment.redirection.dosbatch
+::            ^^^ constant.language.null.dosbatch
+::               ^^ string.unquoted.dosbatch
 
    set foo_bar & echo %foo_bar%
 :: ^^^^^^^^^^^ meta.command.set.dosbatch
@@ -2695,6 +2708,13 @@ put arg1 arg2
 ::      ^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch
 ::          ^ punctuation.definition.string.end.dosbatch
+
+   set "foo & echo on
+:: ^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^^^^^^^^^^^^ meta.string.dosbatch
+::     ^ punctuation.definition.string.begin.dosbatch
+::      ^^^^^^^^^^^^^ variable.other.readwrite.dosbatch - keyword - punctuation
 
 :: "bar is output as no quote follows.
    set "foo="bar" & echo !foo!
