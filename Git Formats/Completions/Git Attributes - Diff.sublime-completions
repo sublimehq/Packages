@@ -12,6 +12,11 @@
             "kind": ["variable", "d", "Diff"]
         },
         {
+            "trigger": "bash",
+            "contents": "bash",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
             "trigger": "bibtex",
             "contents": "bibtex",
             "kind": ["variable", "d", "Diff"]
@@ -32,6 +37,16 @@
             "kind": ["variable", "d", "Diff"]
         },
         {
+            "trigger": "dts",
+            "contents": "dts",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
+            "trigger": "elixir",
+            "contents": "elixir",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
             "trigger": "exif",
             "contents": "exif",
             "kind": ["variable", "d", "Diff"]
@@ -47,6 +62,11 @@
             "kind": ["variable", "d", "Diff"]
         },
         {
+            "trigger": "golang",
+            "contents": "golang",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
             "trigger": "html",
             "contents": "html",
             "kind": ["variable", "d", "Diff"]
@@ -54,6 +74,16 @@
         {
             "trigger": "java",
             "contents": "java",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
+            "trigger": "kotlin",
+            "contents": "kotlin",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
+            "trigger": "markdown",
+            "contents": "markdown",
             "kind": ["variable", "d", "Diff"]
         },
         {
@@ -89,6 +119,16 @@
         {
             "trigger": "ruby",
             "contents": "ruby",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
+            "trigger": "rust",
+            "contents": "rust",
+            "kind": ["variable", "d", "Diff"]
+        },
+        {
+            "trigger": "scheme",
+            "contents": "scheme",
             "kind": ["variable", "d", "Diff"]
         },
         {
