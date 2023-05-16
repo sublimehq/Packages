@@ -272,14 +272,18 @@ contexts:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
-      scope: meta.mapping.expect-value.git.attributes punctuation.separator.sequence.git.attributes
+      scope:
+        meta.mapping.expect-value.git.attributes
+        punctuation.separator.sequence.git.attributes
       pop: 1
 
   attribute-separator:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
-      scope: meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
+      scope:
+        meta.mapping.git.attributes
+        punctuation.separator.sequence.git.attributes
       pop: 1
 
 ###[ PROTOTYPES ]##############################################################
