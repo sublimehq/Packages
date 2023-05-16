@@ -43,6 +43,9 @@ variables:
     (?xi: year | quarter | month | day | hour | minute | week | second | year_month
     | day_hour | day_minute | day_second | hour_minute | hour_second | minute_second )
 
+  builtin_user_functions: |-
+    \b(?xi: (?: current | session | system )_(?: role | user ))\b
+
 contexts:
   sql:
     - meta_append: true
@@ -589,16 +592,6 @@ contexts:
     - match: \b(?i:using)\b
       scope: keyword.other.mysql
 
-  built-in-user-function-calls:
-    - match: \b(?i:(?:current|session|system)_(?:role|user))\b
-      scope: support.function.scalar.sql
-      push: function-call-arguments
-
-  built-in-user-function-call:
-    - match: \b(?i:(?:current|session|system)_(?:role|user))\b
-      scope: support.function.scalar.sql
-      set: function-call-arguments
-
   table-name-or-subquery:
     - meta_prepend: true
     - meta_include_prototype: false
@@ -1053,72 +1046,6 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
-  expect-user-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - include: built-in-user-function-call
-    - match: (?=\S)
-      set: [user-name, user-identifier]
-
-  user-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.user-name.sql
-    - include: immediately-pop
-
-  expect-user-name-declaration:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [user-name-declaration, user-identifier]
-
-  user-name-declaration:
-    - meta_include_prototype: false
-    - meta_content_scope: entity.name.user.sql
-    - include: immediately-pop
-
-  user-identifier:
-    # https://mariadb.com/kb/en/grant/#account-names
-    - meta_include_prototype: false
-    - include: pop-on-top-level-reserved-word
-    - match: ''
-      set:
-        - identifier-host-accessor
-        - identifier-part
-
-  identifier-host-accessor:
-    - meta_include_prototype: false
-    - match: \s*(@)
-      captures:
-        1: punctuation.accessor.at.sql
-      set: identifier-host-part
-    - include: immediately-pop
-
-  identifier-host-part:
-    - meta_include_prototype: false
-    - match: \%
-      scope: constant.other.wildcard.percent.sql
-      pop: 1
-    - match: (')(%)(')
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        2: constant.other.wildcard.percent.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-    - match: (")(%)(")
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        2: constant.other.wildcard.percent.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-    - match: (`)(%)(`)
-      captures:
-        1: punctuation.definition.identifier.begin.sql
-        2: constant.other.wildcard.percent.sql
-        3: punctuation.definition.identifier.end.sql
-      pop: 1
-    - include: identifier-part
 
 ###[ LITERALS ]################################################################
 

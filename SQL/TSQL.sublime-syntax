@@ -37,6 +37,9 @@ variables:
   types_with_optional_number: |-
     (?xi: n?char | n?varchar | binary | varbinary | decimal | money | numeric )
 
+  builtin_user_functions: |-
+    \b(?xi: (?: current_ | session_ | system_ )? user )\b
+
 contexts:
 
   sql:
@@ -342,8 +345,6 @@ contexts:
     - match: \b(?i:getdate)(?=\s*\()
       scope: support.function.scalar.sql
       push: function-call-arguments
-    - match: \b(?i:user)\b
-      scope: support.function.scalar.sql
 
   cast-arguments:
     - meta_scope: meta.function-call.sql
@@ -564,7 +565,6 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: string.quoted.tsql
     - include: immediately-pop
-
 
 ###[ LIKE EXPRESSIONS ]########################################################
 

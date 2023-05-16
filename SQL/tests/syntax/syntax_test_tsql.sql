@@ -2035,10 +2035,10 @@ END
 -- <- keyword.control.flow.end
 
     CURRENT_USER SESSION_USER SYSTEM_USER USER
---  ^^^^^^^^^^^^ support.function.scalar.sql
---               ^^^^^^^^^^^^ support.function.scalar.sql
---                            ^^^^^^^^^^^ support.function.scalar.sql
---                                        ^^^^ support.function.scalar.sql
+--  ^^^^^^^^^^^^ support.function.user.sql
+--               ^^^^^^^^^^^^ support.function.user.sql
+--                            ^^^^^^^^^^^ support.function.user.sql
+--                                        ^^^^ support.function.user.sql
 
 GRANT CREATE TABLE TO MelanieK;
 -- ^^ keyword.other.authorization.sql

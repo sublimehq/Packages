@@ -151,7 +151,7 @@ CREATE DEFINER = user@host EVENT event_name
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^^ variable.parameter.definer.sql
 --             ^ keyword.operator.assignment.sql
---               ^^^^^^^^^ meta.user-name.sql
+--               ^^^^^^^^^ meta.username.sql
 --                         ^^^^^ keyword.other.ddl.sql
 --                               ^^^^^^^^^^ entity.name.event.sql
 
@@ -309,7 +309,7 @@ CREATE DEFINER = CURRENT_ROLE AGGREGATE FUNCTION foo
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^^ variable.parameter.definer.sql
 --             ^ keyword.operator.assignment.sql
---               ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--               ^^^^^^^^^^^^ meta.function-call.sql support.function.user.sql
 --                            ^^^^^^^^^ keyword.other.ddl.sql
 --                                      ^^^^^^^^ keyword.other.ddl.sql
 --                                               ^^^ entity.name.function.sql
@@ -687,7 +687,7 @@ CREATE OR REPLACE ROLE with WITH ADMIN lorinda@localhost
 --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 --                          ^^^^ keyword.other.ddl.sql
 --                               ^^^^^ keyword.other.ddl.sql
---                                     ^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                                     ^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                            ^ punctuation.accessor.at.sql
 
 CREATE ROLE role WITH ADMIN CURRENT_ROLE
@@ -696,7 +696,7 @@ CREATE ROLE role WITH ADMIN CURRENT_ROLE
 --     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 --               ^^^^ keyword.other.ddl.sql
 --                    ^^^^^ keyword.other.ddl.sql
---                          ^^^^^^^^^^^^ support.function.scalar.sql
+--                          ^^^^^^^^^^^^ support.function.user.sql
 
 
 -- ----------------------------------------------------------------------------
@@ -1631,7 +1631,7 @@ ALTER DEFINER = user@host EVENT event_name
 -- ^^ keyword.other.ddl.sql
 --    ^^^^^^^ variable.parameter.definer.sql
 --            ^ keyword.operator.assignment.sql
---              ^^^^^^^^^ meta.user-name.sql
+--              ^^^^^^^^^ meta.username.sql
 --                        ^^^^^ keyword.other.ddl.sql
 --                              ^^^^^^^^^^ meta.event-name.sql
 
@@ -1809,13 +1809,13 @@ ALTER USER IF EXISTS
     user1,
 -- <- meta.statement.alter.sql meta.user.sql
 -- ^^^^^^^^ meta.statement.alter.sql meta.user.sql
---  ^^^^^ meta.user-name.sql
+--  ^^^^^ meta.username.sql
 --       ^ punctuation.separator.sequence.sql
 
     user2 IDENTIFIED BY 'password',
 -- <- meta.statement.alter.sql meta.user.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
---  ^^^^^ meta.user-name.sql
+--  ^^^^^ meta.username.sql
 --        ^^^^^^^^^^ keyword.other.ddl.sql
 --                   ^^ keyword.other.ddl.sql
 --                      ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
@@ -1824,7 +1824,7 @@ ALTER USER IF EXISTS
     user3 IDENTIFIED BY PASSWORD 'password_hash',
 -- <- meta.statement.alter.sql meta.user.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
---  ^^^^^ meta.user-name.sql
+--  ^^^^^ meta.username.sql
 --        ^^^^^^^^^^ keyword.other.ddl.sql
 --                   ^^ keyword.other.ddl.sql
 --                      ^^^^^^^^ storage.modifier.sql
@@ -1834,7 +1834,7 @@ ALTER USER IF EXISTS
     user4 IDENTIFIED VIA
 -- <- meta.statement.alter.sql meta.user.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql meta.user.sql
---  ^^^^^ meta.user-name.sql
+--  ^^^^^ meta.username.sql
 --        ^^^^^^^^^^ keyword.other.ddl.sql
 --                   ^^^ keyword.other.ddl.sql
 
@@ -2086,7 +2086,7 @@ DROP ROLE role ;
 --  ^ - keyword
 --   ^^^^ keyword.other.ddl.sql
 --       ^ - keyword
---        ^^^^ meta.user-name.sql
+--        ^^^^ meta.username.sql
 --             ^ punctuation.terminator.statement.sql
 
 DROP ROLE IF EXISTS role1, role2, role3;
@@ -2101,11 +2101,11 @@ DROP ROLE IF EXISTS role1, role2, role3;
 --          ^ - keyword
 --           ^^^^^^ keyword.operator.logical.sql
 --                 ^ - keyword
---                  ^^^^^ meta.user-name.sql
+--                  ^^^^^ meta.username.sql
 --                       ^ punctuation.separator.sequence.sql
---                         ^^^^^ meta.user-name.sql
+--                         ^^^^^ meta.username.sql
 --                              ^ punctuation.separator.sequence.sql
---                                ^^^^^ meta.user-name.sql
+--                                ^^^^^ meta.username.sql
 --                                     ^ punctuation.terminator.statement.sql
 
 
@@ -2122,7 +2122,7 @@ DROP USER bob@'%' ;
 --   ^^^^^^^^^^^^^ meta.statement.drop.sql meta.user.sql
 -- ^ keyword.other.ddl.sql
 --   ^^^^ keyword.other.ddl.sql
---        ^^^^^^^ meta.user-name.sql
+--        ^^^^^^^ meta.username.sql
 --           ^ punctuation.accessor.at.sql
 --                ^ punctuation.terminator.statement.sql
 
@@ -2134,9 +2134,9 @@ DROP USER IF EXISTS bob, clara@localhost ;
 --   ^^^^ keyword.other.ddl.sql
 --        ^^ keyword.control.conditional.if.sql
 --           ^^^^^^ keyword.operator.logical.sql
---                  ^^^ meta.user-name.sql
+--                  ^^^ meta.username.sql
 --                     ^ punctuation.separator.sequence.sql
---                       ^^^^^^^^^^^^^^^ meta.user-name.sql
+--                       ^^^^^^^^^^^^^^^ meta.username.sql
 --                            ^ punctuation.accessor.at.sql
 --                                       ^ punctuation.terminator.statement.sql
 
@@ -2269,7 +2269,7 @@ GRANT CREATE INDEX ON TABLE * TO user1@% IDENTIFIED BY 'password' ;
 --                    ^^^^^ storage.type.sql
 --                          ^ meta.other-name.sql constant.other.wildcard.asterisk.sql
 --                            ^^ keyword.other.ddl.sql
---                               ^^^^^^^ meta.user-name.sql
+--                               ^^^^^^^ meta.username.sql
 --                                    ^ punctuation.accessor.at.sql
 --                                     ^ constant.other.wildcard.percent.sql
 --                                       ^^^^^^^^^^ keyword.other.ddl.sql
@@ -2285,7 +2285,7 @@ GRANT CREATE INDEX ON PROCEDURE *.* TO user1 IDENTIFIED BY PASSWORD 'password_ha
 --                    ^^^^^^^^^ storage.type.sql
 --                              ^^^ meta.other-name.sql
 --                                  ^^ keyword.other.ddl.sql
---                                     ^^^^^ meta.user-name.sql
+--                                     ^^^^^ meta.username.sql
 --                                           ^^^^^^^^^^ keyword.other.ddl.sql
 --                                                      ^^ keyword.other.ddl.sql
 --                                                         ^^^^^^^^ storage.modifier.sql
@@ -2300,7 +2300,7 @@ GRANT CREATE INDEX ON PACKAGE *.* TO "user1" IDENTIFIED VIA auth1 or auth2 ;
 --                    ^^^^^^^ storage.type.sql
 --                            ^^^ meta.other-name.sql
 --                                ^^ keyword.other.ddl.sql
---                                   ^^^^^^^ meta.user-name.sql
+--                                   ^^^^^^^ meta.username.sql
 --                                           ^^^^^^^^^^ keyword.other.ddl.sql
 --                                                      ^^^ keyword.other.ddl.sql
 --                                                          ^^^^^ meta.other-name.sql
@@ -2317,12 +2317,12 @@ GRANT PROXY
 -- <- meta.statement.grant.sql
 -- ^^^^^^^^^^^^^ meta.statement.grant.sql
 --  ^^ keyword.other.ddl.sql
---     ^^^^^^^^ meta.user-name.sql
+--     ^^^^^^^^ meta.username.sql
     TO user1 IDENTIFIED BY 'password',
 -- <- meta.statement.grant.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 --  ^^ keyword.other.ddl.sql
---     ^^^^^ meta.user-name.sql
+--     ^^^^^ meta.username.sql
 --           ^^^^^^^^^^ keyword.other.ddl.sql
 --                      ^^ keyword.other.ddl.sql
 --                         ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
@@ -2330,7 +2330,7 @@ GRANT PROXY
        user2 IDENTIFIED VIA auth USING PASSWORD('passord')
 -- <- meta.statement.grant.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---     ^^^^^ meta.user-name.sql
+--     ^^^^^ meta.username.sql
 --           ^^^^^^^^^^ keyword.other.ddl.sql
 --                      ^^^ keyword.other.ddl.sql
 --                          ^^^^ meta.other-name.sql
@@ -2352,11 +2352,11 @@ GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 -- ^^ keyword.other.ddl.sql
---    ^^^^^^^^ meta.user-name.sql
+--    ^^^^^^^^ meta.username.sql
 --             ^^ keyword.other.ddl.sql
---                ^^^^ meta.user-name.sql
+--                ^^^^ meta.username.sql
 --                    ^ punctuation.separator.sequence.sql
---                      ^^^^ meta.user-name.sql
+--                      ^^^^ meta.username.sql
 --                           ^^^^^^^^^^ keyword.other.ddl.sql
 --                                      ^^ keyword.other.ddl.sql
 --                                         ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
@@ -2396,13 +2396,13 @@ RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
 --    ^ - keyword
 --     ^^^^ keyword.other.ddl.sql
 --         ^ - keyword
---          ^^^^^^^^ meta.user-name.sql
+--          ^^^^^^^^ meta.username.sql
 --                   ^^ keyword.other.ddl.sql
---                      ^^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                      ^^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                        ^ punctuation.separator.sequence.sql
---                                          ^^^^^^^^ meta.user-name.sql
+--                                          ^^^^^^^^ meta.username.sql
 --                                                   ^^ keyword.other.ddl.sql
---                                                      ^^^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                                                      ^^^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                                                         ^ punctuation.terminator.statement.sql
 
 
@@ -2447,9 +2447,9 @@ REVOKE ALL PRIVILEGES, GRANT OPTION FROM user@'%', user2 ;
 --                   ^ punctuation.separator.sequence.sql
 --                     ^^^^^^^^^^^^ constant.language.sql
 --                                  ^^^^ keyword.other.ddl.sql
---                                       ^^^^^^^^ meta.user-name.sql
+--                                       ^^^^^^^^ meta.username.sql
 --                                               ^ punctuation.separator.sequence.sql
---                                                 ^^^^^ meta.user-name.sql
+--                                                 ^^^^^ meta.username.sql
 --                                                       ^ punctuation.terminator.statement.sql
 
 REVOKE SUPER ON *.* FROM 'alexander'@'localhost';
@@ -2462,7 +2462,7 @@ REVOKE SUPER ON *.* FROM 'alexander'@'localhost';
 --               ^ punctuation.accessor.dot.sql
 --                ^ constant.other.wildcard.asterisk.sql
 --                  ^^^^ keyword.other.ddl.sql
---                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.user-name.sql
+--                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                              ^ punctuation.terminator.statement.sql
 
 REVOKE ADMIN OPTION FOR role FROM grantee, grantee2 ;
@@ -2471,20 +2471,20 @@ REVOKE ADMIN OPTION FOR role FROM grantee, grantee2 ;
 -- ^^^ keyword.other.ddl.sql
 --     ^^^^^^^^^^^^ constant.language.sql
 --                  ^^^ keyword.other.ddl.sql
---                      ^^^^ meta.user-name.sql
+--                      ^^^^ meta.username.sql
 --                           ^^^^ keyword.other.ddl.sql
---                                ^^^^^^^ meta.user-name.sql
+--                                ^^^^^^^ meta.username.sql
 --                                       ^ punctuation.separator.sequence.sql
---                                         ^^^^^^^^ meta.user-name.sql
+--                                         ^^^^^^^^ meta.username.sql
 --                                                  ^ punctuation.terminator.statement.sql
 
 REVOKE role1, role2 FROM grantee, grantee2 ;
 -- <- meta.statement.revoke.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
 --                  ^^^^ keyword.other.ddl.sql
---                       ^^^^^^^ meta.user-name.sql
+--                       ^^^^^^^ meta.username.sql
 --                              ^ punctuation.separator.sequence.sql
---                                ^^^^^^^^ meta.user-name.sql
+--                                ^^^^^^^^ meta.username.sql
 --                                         ^ punctuation.terminator.statement.sql
 
 
@@ -2521,7 +2521,7 @@ SET PASSWORD FOR user1@localhost =
 --  ^^^^^^^^ keyword.other.dml.sql
 --          ^ - keyword
 --           ^^^ keyword.other.dml.sql
---               ^^^^^^^^^^^^^^^ meta.user-name.sql
+--               ^^^^^^^^^^^^^^^ meta.username.sql
 --                    ^ punctuation.accessor.at.sql
 --                               ^ keyword.operator.assignment.sql
 
@@ -2555,7 +2555,7 @@ SET PASSWORD for `user@`@'%' = 'encrypted password';
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
 --  ^^^^^^^^ keyword.other.dml.sql
 --           ^^^ keyword.other.dml.sql
---               ^^^^^^^^^^^ meta.user-name.sql
+--               ^^^^^^^^^^^ meta.username.sql
 --               ^ punctuation.definition.identifier.begin.sql
 --                     ^ punctuation.definition.identifier.end.sql
 --                      ^ punctuation.accessor.at.sql
@@ -2586,7 +2586,7 @@ SET ROLE role
 -- <- meta.statement.set.sql keyword.other.dml.sql
 -- ^^^^^^^^^^ meta.statement.set.sql
 --  ^^^^ keyword.other.dml.sql
---       ^^^^ meta.user-name.sql
+--       ^^^^ meta.username.sql
 
 SET DEFAULT ROLE NONE
 -- <- meta.statement.set.sql keyword.other.dml.sql
@@ -2600,7 +2600,7 @@ SET DEFAULT ROLE role
 -- ^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
 --  ^^^^^^^ keyword.other.dml.sql
 --          ^^^^ keyword.other.dml.sql
---               ^^^^ meta.user-name.sql
+--               ^^^^ meta.username.sql
 
 SET DEFAULT ROLE NONE FOR user@host
 -- <- meta.statement.set.sql keyword.other.dml.sql
@@ -2609,16 +2609,16 @@ SET DEFAULT ROLE NONE FOR user@host
 --          ^^^^ keyword.other.dml.sql
 --               ^^^^ constant.language.null.sql
 --                    ^^^ keyword.other.dml.sql
---                        ^^^^^^^^^ meta.user-name.sql
+--                        ^^^^^^^^^ meta.username.sql
 
 SET DEFAULT ROLE role FOR user@host
 -- <- meta.statement.set.sql keyword.other.dml.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
 --  ^^^^^^^ keyword.other.dml.sql
 --          ^^^^ keyword.other.dml.sql
---               ^^^^ meta.user-name.sql
+--               ^^^^ meta.username.sql
 --                    ^^^ keyword.other.dml.sql
---                        ^^^^^^^^^ meta.user-name.sql
+--                        ^^^^^^^^^ meta.username.sql
 
 
 -- ----------------------------------------------------------------------------
@@ -2650,7 +2650,7 @@ SHOW CREATE USER user_name
 -- ^ keyword.other.dml.sql
 --   ^^^^^^ keyword.other.ddl.sql
 --          ^^^^ keyword.other.ddl.sql
---               ^^^^^^^^^ meta.user-name.sql
+--               ^^^^^^^^^ meta.username.sql
 
 
 -- ----------------------------------------------------------------------------
@@ -2678,7 +2678,7 @@ SHOW GRANTS FOR user@host
 --   ^^^^^^ keyword.other.dml.sql
 --         ^ - keyword
 --          ^^^ keyword.other.dml.sql
---              ^^^^^^^^^ meta.user-name.sql
+--              ^^^^^^^^^ meta.username.sql
 
 SHOW GRANTS FOR role
 -- <- meta.statement.show.sql keyword.other.dml.sql
@@ -2688,17 +2688,17 @@ SHOW GRANTS FOR role
 --   ^^^^^^ keyword.other.dml.sql
 --         ^ - keyword
 --          ^^^ keyword.other.dml.sql
---              ^^^^ meta.user-name.sql
+--              ^^^^ meta.username.sql
 
 SHOW GRANTS FOR CURRENT_USER;
 -- <- meta.statement.show.sql keyword.other.dml.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
---              ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--              ^^^^^^^^^^^^ meta.function-call.sql support.function.user.sql
 
 SHOW GRANTS FOR CURRENT_USER();
 -- <- meta.statement.show.sql keyword.other.dml.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
---              ^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--              ^^^^^^^^^^^^ meta.function-call.sql support.function.user.sql
 --                          ^^ meta.function-call.sql meta.group.sql
 
 
