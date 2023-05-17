@@ -32,6 +32,15 @@ REM This follows a REM command
 :: <- keyword.declaration.rem.dosbatch - comment
 ::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
+REM This & and | echo "is commented out" ^
+:: <- keyword.declaration.rem.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
+REM No line ^
+continuation
+:: <- - comment
+:: ^^^^^^^^^ - comment
+
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch

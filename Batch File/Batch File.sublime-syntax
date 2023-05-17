@@ -770,10 +770,8 @@ contexts:
       push: cmd-rem-body
 
   cmd-rem-body:
+    - meta_include_prototype: false
     - include: unquoted-eol-pop
-    - match: \^\n
-      scope: punctuation.separator.continuation.line.dosbatch
-      set: cmd-rem-comment-body
     - match: (?=\S)
       set: cmd-rem-comment-body
 
