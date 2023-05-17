@@ -3497,8 +3497,17 @@
 /*                           ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                              ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
-    top: repeating-linear-gradient();
-/*       ^^^^^^^^^^^^^^^^^^^^^^^^^ support.function.gradient.css */
+    top: repeating-linear-gradient(transparent 0 var(--height), green var(--height) calc(var(--height) * 2));
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.css support.function.gradient.css */
+/*                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                                 ^^^^^^^^^^^ support.constant.color.w3c.special.css */
+/*                                             ^ constant.numeric.value.css */
+/*                                               ^^^^^^^^^^^^^ meta.function-call meta.function-call */
+/*                                                            ^ punctuation.separator.sequence.css */
+/*                                                              ^^^^^ support.constant.color.w3c.standard.css */
+/*                                                                    ^^^^^^^^^^^^^ meta.function-call meta.function-call */
+/*                                                                                  ^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*                                                                                       ^^^^^^^^^^^^^ meta.function-call meta.function-call meta.function-call */
 
     top: radial-gradient();
 /*       ^^^^^^^^^^^^^^^ support.function.gradient.css */
