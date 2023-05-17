@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.matlab</string>
+    <key>settings</key>
+    <dict>
+        <key>cancelCompletion</key>
+        <string>^.*\b(?:arguments|break|case|catch|classdef|continue|else|elseif|end|enumeration|events|for|function|global|if|methods|otherwise|parfor|persistent|properties|return|spmd|switch|try|while)$</string>
+    </dict>
+</dict>
+</plist>
