@@ -4234,12 +4234,16 @@ put arg1 arg2
 ::               ^ punctuation.definition.prompt.end.dosbatch
 ::                ^ keyword.operator.assignment.redirection.dosbatch
 
-   set /p "today=" this is ignored <today.txt also ignored
+   set /p "today=" this is ignored <today.txt not 2>nul, but 12>1 is ignored
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.redirection
 ::                                 ^^^^^^^^^^ meta.command.set.dosbatch meta.redirection.dosbatch - comment
-::                                           ^^^^^^^^^^^^^ meta.command.set.dosbatch - meta.redirection
+::                                           ^^^^^ meta.command.set.dosbatch - meta.redirection
+::                                                ^^^^^ meta.command.set.dosbatch meta.redirection.dosbatch - comment
+::                                                     ^^^^^^^^ comment.line.ignored.dosbatch - meta.redirection
+::                                                             ^^ meta.command.set.dosbatch meta.redirection.dosbatch
+::                                                               ^^^^^^^^^^^ comment.line.ignored.dosbatch - meta.redirection
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
 ::     ^ punctuation.definition.variable.dosbatch

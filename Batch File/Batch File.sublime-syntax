@@ -177,6 +177,8 @@ contexts:
     - meta_scope: comment.line.ignored.dosbatch
     - include: redirection-interpolations
     - include: eoc-pop
+    - match: '{{unquoted_word_begin}}'
+      push: unquoted-word-end
 
 ###[ LABELS ]#################################################################
 
@@ -1677,10 +1679,13 @@ contexts:
       push: unquoted-word-body
 
   unquoted-word-body:
+    - include: unquoted-word-end
+    - include: unquoted-escapes-and-interpolations
+
+  unquoted-word-end:
     - match: '{{unquoted_word_break}}'
       pop: 1
     - include: line-continuations
-    - include: unquoted-escapes-and-interpolations
 
 ###[ INTERPOLATIONS ]#########################################################
 
