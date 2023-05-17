@@ -471,14 +471,16 @@ ECHO : Not a comment ^
 :::: [ Conditionals ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    IF foo EQU bar echo "equal"
-:: ^^  keyword.control.conditional.if.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
+:: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
 ::            ^^^ string.unquoted.dosbatch
 ::                ^^^^ support.function.builtin.dosbatch
 
    IF NOT foo EQU bar echo "equal"
-:: ^^  keyword.control.conditional.if.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
+:: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ keyword.operator.logical.dosbatch
 ::        ^^^ string.unquoted.dosbatch
 ::            ^^^ keyword.operator.comparison.dosbatch
@@ -486,6 +488,7 @@ ECHO : Not a comment ^
 ::                    ^^^^ support.function.builtin.dosbatch
 
    IF NEQ == NEQ echo "equal"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^ keyword.operator.comparison.dosbatch
@@ -493,6 +496,7 @@ ECHO : Not a comment ^
 ::               ^^^^ support.function.builtin.dosbatch
 
    IF NEQ NEQ NEQ echo "equal"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
@@ -500,6 +504,7 @@ ECHO : Not a comment ^
 ::                ^^^^ support.function.builtin.dosbatch
 
    IF foo == bar echo "equal"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^ keyword.operator.comparison.dosbatch
@@ -507,6 +512,7 @@ ECHO : Not a comment ^
 ::               ^^^^ support.function.builtin.dosbatch
 
    IF foo==bar echo "equal"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::       ^^ keyword.operator.comparison.dosbatch
@@ -514,6 +520,7 @@ ECHO : Not a comment ^
 ::             ^^^^ support.function.builtin.dosbatch
 
    IF %foo%=="bar" echo "equal"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^ meta.interpolation.dosbatch
 ::         ^^ keyword.operator.comparison.dosbatch
@@ -523,6 +530,7 @@ ECHO : Not a comment ^
 ::                 ^^^^ support.function.builtin.dosbatch
 
    IF (2) GEQ (15) echo "bigger"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ meta.group.dosbatch
 ::    ^ punctuation.section.group.begin.dosbatch
@@ -537,6 +545,7 @@ ECHO : Not a comment ^
 ::                      ^^^^^^^^ string.unquoted.dosbatch
 
    IF "2" GEQ "15" echo "bigger"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
@@ -544,7 +553,41 @@ ECHO : Not a comment ^
 ::                 ^^^^ support.function.builtin.dosbatch
 ::                      ^^^^^^^^ string.unquoted.dosbatch
 
+   IF ^
+   "2" GEQ "15" echo "bigger"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
+:: ^^^ meta.string.dosbatch string.unquoted.dosbatch
+::     ^^^ keyword.operator.comparison.dosbatch
+::         ^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::              ^^^^^^^^^^^^^ meta.command.echo.dosbatch
+
+   IF ^
+   "2" ^
+   GEQ "15" echo "bigger"
+:: ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
+:: ^^^ keyword.operator.comparison.dosbatch
+::     ^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::          ^^^^^^^^^^^^^ meta.command.echo.dosbatch
+
+   IF ^
+   "2" ^
+   GEQ ^
+   "15" echo "bigger"
+:: ^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
+:: ^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::      ^^^^^^^^^^^^^ meta.command.echo.dosbatch
+
+   IF ^
+   "2" ^
+   GEQ ^
+   "15" ^
+   echo "bigger"
+:: ^^^^^^^^^^^^^ meta.statement.conditional.dosbatch meta.command.echo.dosbatch
+:: ^^^^ support.function.builtin.dosbatch
+::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+
    IF errorlevel 0 echo "ok"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
 ::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -552,6 +595,7 @@ ECHO : Not a comment ^
 ::                      ^^^^ string.unquoted.dosbatch
 
    IF errorlevel==0 echo "ok"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
 ::              ^^ keyword.operator.comparison.dosbatch
@@ -560,6 +604,7 @@ ECHO : Not a comment ^
 ::                       ^^^^ string.unquoted.dosbatch
 
    IF not errorlevel == 0 echo "error"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ keyword.operator.logical.dosbatch
 ::        ^^^^^^^^^^ variable.language.dosbatch
@@ -569,6 +614,7 @@ ECHO : Not a comment ^
 ::                             ^^^^^^^ string.unquoted.dosbatch
 
    IF errorlevel NEQ 0 echo "ok"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
 ::               ^^^ invalid.illegal.unexpected.dosbatch
@@ -577,6 +623,7 @@ ECHO : Not a comment ^
 ::                          ^^^^ string.unquoted.dosbatch
 
    IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^^^ meta.interpolation.dosbatch
 ::    ^ punctuation.section.interpolation.begin.dosbatch - variable
@@ -584,15 +631,17 @@ ECHO : Not a comment ^
 ::               ^ punctuation.section.interpolation.end.dosbatch - variable
 
    IF EXIST "C:\file.log"
+:: ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^ support.function.builtin.dosbatch
 ::          ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
    IF NOT EXIST "C:\file.log"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ keyword.operator.logical.dosbatch
 ::        ^^^^^ support.function.builtin.dosbatch
-::              ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+::              ^^^^^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
 
    IF^
 :: ^^ - keyword.control.conditional
@@ -600,30 +649,34 @@ ECHO : Not a comment ^
 
    IF ^
    NOT EXIST "C:\file.log"
+:: ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^^ keyword.operator.logical.dosbatch
 ::     ^^^^^ support.function.builtin.dosbatch
-::           ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+::           ^^^^^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
 
    IF ^
    NOT ^
    EXIST "C:\file.log"
+:: ^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^^^^ support.function.builtin.dosbatch
-::       ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+::       ^^^^^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
 
    IF ^
    NOT ^
    EXIST ^
    "C:\file.log"
-:: ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+:: ^^^^^^^^^^^^^ meta.statement.conditional.dosbatch meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
 
 :: See http://ss64.com/nt/syntax-brackets.html
    IF EXIST file.txt ECHO Some(more)Potatoes
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
 ::                   ^^^^ support.function.builtin.dosbatch
 ::                        ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch - meta.block - meta.group
 
    IF EXIST file.txt (ECHO Some(more)Potatoes)
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
 ::                   ^^^^^^^^^^^^^^^^ meta.block.dosbatch
@@ -634,6 +687,7 @@ ECHO : Not a comment ^
 ::                                   ^^^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    IF EXIST file.txt (ECHO Some[more]Potatoes)
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
 ::                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.dosbatch
@@ -644,6 +698,7 @@ ECHO : Not a comment ^
 ::                                           ^ punctuation.section.block.end.dosbatch
 
    IF EXIST file.txt (ECHO Some^(more^)Potatoes)
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if
 ::    ^^^^^ support.function.builtin.dosbatch
 ::                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.dosbatch
@@ -656,6 +711,7 @@ ECHO : Not a comment ^
 ::                                             ^ punctuation.section.block.end.dosbatch
 
    IF foo GTR (2) (ECHO bar) ELSE (ECHO baz)
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
@@ -674,6 +730,7 @@ ECHO : Not a comment ^
 ::                                         ^ punctuation.section.block.end.dosbatch
 
    IF foo GTR (2) (
+:: ^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ string.unquoted.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
@@ -694,6 +751,7 @@ ECHO : Not a comment ^
 ::                        ^^^ string.unquoted.dosbatch
 ::                            ^ punctuation.section.block.end.dosbatch
    ) ELSE (
+::^^^^^^^^^^ meta.statement.conditional.dosbatch
 ::^^ meta.block.dosbatch
 ::  ^^^^^^ - meta.block
 ::        ^^ meta.block.dosbatch
@@ -713,11 +771,12 @@ ECHO : Not a comment ^
 ::                         ^^^ string.unquoted.dosbatch
 ::                             ^ punctuation.section.block.end.dosbatch
    )
-::^^ meta.block.dosbatch
-::  ^ - meta.block
+::^^ meta.statement.conditional.dosbatch meta.block.dosbatch
+::  ^ - meta.statement - meta.block
 :: ^ punctuation.section.block.end.dosbatch
 
    ) ELSE echo baz
+:: ^^^^^^^^^^^^^^^ - meta.statement.conditional
 :: ^ invalid.illegal.stray.dosbatch
 ::  ^ - invalid
 ::   ^^^^ invalid.illegal.stray.dosbatch
@@ -725,12 +784,14 @@ ECHO : Not a comment ^
 ::             ^^^ string.unquoted.dosbatch
 
    IF "%FOO%" == "BAR" ( SET BAZ=42 )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 ::                     ^ punctuation.section.block.begin.dosbatch
 ::                     ^^^^^^^^^^^^^^ meta.block.dosbatch
 ::                                  ^ punctuation.section.block.end.dosbatch
 ::                               ^^ string.unquoted
 
    if foo == (<file.txt) ( foo >nul )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 ::           ^ meta.group.dosbatch - meta.redirection
 ::            ^^^^^^^^^ meta.group.dosbatch meta.redirection.dosbatch
 ::                     ^ meta.group.dosbatch - meta.redirection
@@ -742,6 +803,7 @@ ECHO : Not a comment ^
 
    IF ^
    DEFINED foo (ECHO bar)
+:: ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^^^^^^ support.function.builtin.dosbatch
 ::         ^^^ variable.other.readwrite.dosbatch
 ::             ^^^^^^^^^^ meta.block.dosbatch
@@ -750,6 +812,7 @@ ECHO : Not a comment ^
    IF ^
    DEFINED ^
    foo (ECHO bar)
+:: ^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
 :: ^^^ variable.other.readwrite.dosbatch
 ::     ^^^^^^^^^^ meta.block.dosbatch
 ::      ^^^^ support.function.builtin.dosbatch
@@ -758,13 +821,13 @@ ECHO : Not a comment ^
    DEFINED ^
    foo ^
    (ECHO bar)
-:: ^^^^^^^^^^ meta.block.dosbatch
+:: ^^^^^^^^^^ meta.statement.conditional.dosbatch meta.block.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
 
    IF ^
    /i
+:: ^^ meta.statement.conditional.dosbatch variable.parameter.option.dosbatch
 :: ^ punctuation.definition.variable.dosbatch
-:: ^^ variable.parameter.option.dosbatch
 
    IF DEFINED ^& ECHO EXISTS
 ::            ^^ variable.other.readwrite.dosbatch
