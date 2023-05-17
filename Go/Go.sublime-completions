@@ -1,5 +1,5 @@
 {
-    "scope": "source.go",
+    "scope": "source.go - source.go.template",
     "completions": [
          // https://golang.org/ref/spec#Keywords
         {

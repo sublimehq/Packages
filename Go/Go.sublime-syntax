@@ -100,8 +100,6 @@ variables:
   # This should only be used for lookahead, not for capturing / scoping.
   noise: (?:\s|{{inline_comment}})*
 
-  char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
-
   dec_exponent: (?:[eE][-+]??{{dec_digits}})
   hex_exponent: (?:[pP][-+]??{{dec_digits}})
 
@@ -667,96 +665,218 @@ contexts:
   match-runes:
     # Note: Scope constants as `string` to prevent ST' bracket matching from
     #       failing in case the character contains '{', '}', '[', ']', etc.
-    - match: (\')(?:({{char_escape}})|([^']*))(\')
+    - match: |-
+        (?x)
+        (\')
+        (?: (\\[0-7]{1,3}) | (\\x\h{2}) | (\\u\h{4}) | (\\U\h{8}) | (\\[\\'abfnrtv]) | (\\.) | ([^']*) )
+        (\')
       scope: meta.string.go string.quoted.single.go
       captures:
         1: punctuation.definition.string.begin.go
-        2: constant.character.escape.go
-        3: constant.character.literal.go
-        4: punctuation.definition.string.end.go
+        2: constant.character.escape.octal.go
+        3: constant.character.escape.hex.go
+        4: constant.character.escape.unicode.16bit.go
+        5: constant.character.escape.unicode.32bit.go
+        6: constant.character.escape.go
+        7: invalid.illegal.escape.go
+        8: constant.character.literal.go
+        9: punctuation.definition.string.end.go
 
   match-strings:
     - include: match-raw-string
     - include: match-interpreted-string
 
   match-raw-string:
-    - match: '`'
+    - match: \`
       scope: punctuation.definition.string.begin.go
       push: match-raw-string-inner
 
   match-raw-string-inner:
     - meta_include_prototype: false
     - meta_scope: meta.string.go string.quoted.backtick.go
-    - match: '`'
+    - match: \`
       scope: punctuation.definition.string.end.go
       pop: 1
-    - include: match-backtick-string-formatting
+    - include: match-raw-string-content
 
-  match-backtick-string-formatting:
-    - include: match-template-string
-    - match: \%%
-      scope: constant.character.escape.go
-    - include: match-fmt
+  match-raw-string-content:
+    # Note: used by language injection comment syntaxes
+    - include: match-placeholders
+    - include: match-string-templates
+
+  match-raw-text-content:
+    # Note: used by language injection comment syntaxes
+    - include: match-placeholders
+    - include: match-text-templates
 
   match-interpreted-string:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.go
       push: match-interpreted-string-inner
 
   match-interpreted-string-inner:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.go
-    - match: '"'
+    - meta_scope: meta.string.go string.quoted.double.go
+    - match: \"
       scope: punctuation.definition.string.end.go
       pop: 1
-    - include: match-template-string
-    - match: '{{char_escape}}'
-      scope: constant.character.escape.go
-    - match: \%%
-      scope: constant.character.escape.go
-    - include: match-fmt
+    - include: match-interpreted-string-content
 
-  match-template-string:
-   - match: '{{(?=.*}})'
-     scope: punctuation.section.interpolation.begin.go
-     push:
-       - meta_scope: meta.interpolation.go
-       - clear_scopes: 1
-       - match: "}}"
-         scope: punctuation.section.interpolation.end.go
-         pop: 1
-       - match: "\\s-"
-         scope: keyword.operator.template.right.trim.go
-       - match: "-\\s"
-         scope: keyword.operator.template.left.trim.go
-       - match: ":=|="
-         scope: keyword.operator.assignment.go
-       - match: \|
-         scope: keyword.operator.template.pipe.go
-       - match: '(\.)([\w]+)'
-         captures:
-           1: punctuation.accessor.dot.go
-           2: variable.other.member.go
-       - match: '(\$)[\w]+'
-         scope: variable.other.template.go
-         captures:
-           1: punctuation.definition.variable.go
-       - match: '[.$]'
-         scope: variable.other.template.go
-       - match: \b(if|else|range|template|with|end|nil|define|block)\b
-         scope: keyword.control.go
-       - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
-         scope: variable.function.go support.function.builtin.go
-       - include: match-strings
+  match-interpreted-string-content:
+    - include: match-escaped-chars
+    - include: match-placeholders
+    - include: match-string-templates
+
+  match-escaped-chars:
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.octal.go
+    - match: \\x\h{2}
+      scope: constant.character.escape.hex.go
+    - match: \\u\h{4}
+      scope: constant.character.escape.unicode.16bit.go
+    - match: \\U\h{8}
+      scope: constant.character.escape.unicode.32bit.go
+    - match: \\.
+      scope: constant.character.escape.go
 
   # https://godoc.org/fmt
   #
   # Tries to match known patterns without being too specific. We want to avoid
   # false positives in non-fmt strings that just happen to contain %, but don't
   # want too much coupling with the current version of fmt.
-  match-fmt:
+  match-placeholders:
+    - match: \%%
+      scope: constant.character.escape.go
     - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
       scope: constant.other.placeholder.go
+
+  match-string-templates:
+    # This context is used for interpolation within quoted or unquoted strings.
+    # It clears the `string` scope of the owning context.
+    - match: ({{)(-?)(?=.*?}})
+      captures:
+        1: punctuation.section.interpolation.begin.go
+        2: keyword.operator.template.trim.left.go
+      push:
+        - pop-now-clear-scope
+        - match-template-inner
+        - match-template-function
+        - match-template-keyword
+
+  match-text-templates:
+    # This context is used for interpolation in text or normal content.
+    # It does not clear scopes of the owning context.
+    - match: ({{)(-?)
+      captures:
+        1: punctuation.section.interpolation.begin.go
+        2: keyword.operator.template.trim.left.go
+      push:
+        - match-template-inner
+        - match-template-function
+        - match-template-keyword
+
+  match-template-inner:
+    - meta_scope: meta.interpolation.go
+    - meta_content_scope: source.go.template
+    - match: (-?)(}})
+      captures:
+        1: keyword.operator.template.trim.right.go
+        2: punctuation.section.interpolation.end.go
+      pop: 1
+    # https://pkg.go.dev/text/template#hdr-Pipelines
+    - match: \|
+      scope: keyword.operator.assignment.pipe.go
+      push:
+        - match-template-function
+        - match-template-keyword
+    - include: match-template-expressions
+
+  match-template-function:
+    # https://pkg.go.dev/text/template#hdr-Functions
+    - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+      scope: support.function.builtin.go
+      pop: 1
+    - match: '{{ident}}(?=\s+[^-)}])' # requires arguments
+      scope: variable.function.go
+      pop: 1
+    - match: (?=\.)
+      set: match-template-method
+    - include: pop-before-nonblank
+
+  match-template-method:
+    - match: (\.)({{ident}})(?=\s+[^-)}]) # requires arguments
+      captures:
+        1: punctuation.accessor.dot.go
+        2: variable.function.method.go
+      pop: 1
+    - include: match-template-members
+    - include: pop-now
+
+  match-template-keyword:
+    - match: (?:block|define|end|partial|template|with)\b
+      scope: keyword.control.context.go
+      pop: 1
+    - match: if\b
+      scope: keyword.control.conditional.if.go
+      pop: 1
+    - match: else\s+if\b
+      scope: keyword.control.conditional.elseif.go
+      pop: 1
+    - match: else\b
+      scope: keyword.control.conditional.else.go
+      pop: 1
+    - match: range\b
+      scope: keyword.control.loop.range.go
+      pop: 1
+    - match: break\b
+      scope: keyword.control.flow.break.go
+      pop: 1
+    - match: continue\b
+      scope: keyword.control.flow.continue.go
+      pop: 1
+    - include: pop-before-nonblank
+
+  match-template-expressions:
+    - include: match-template-groups
+    - include: match-template-operators
+    - include: match-template-members
+    - include: match-template-variables
+    - include: match-comma
+    - include: match-literals
+    - include: match-predeclared-constants
+
+  match-template-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.go
+      push:
+        - match-template-group-body
+        - match-template-function
+
+  match-template-group-body:
+    - meta_scope: meta.group.go
+    - match: \)
+      scope: punctuation.section.group.end.go
+      pop: 1
+    - include: pop-before-brace-end
+    - include: match-template-expressions
+
+  match-template-operators:
+    - match: \:?=
+      scope: keyword.operator.assignment.go
+
+  match-template-members:
+    - match: (\.)({{ident}})
+      captures:
+        1: punctuation.accessor.dot.go
+        2: variable.other.member.go
+
+  match-template-variables:
+    - match: (\$){{ident}}
+      scope: variable.other.template.go
+      captures:
+        1: punctuation.definition.variable.go
+    - match: '[.$]'
+      scope: variable.language.template.go
 
   match-keyword-break:
     - match: \bbreak\b
