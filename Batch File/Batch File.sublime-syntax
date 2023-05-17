@@ -25,7 +25,7 @@ variables:
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters:
   # ‘|’, ‘&’, ‘,’, ‘;’, ‘<’, or ‘>’.
-  metachar: '[\s=,;{{redirection_or_eoc}}]'
+  metachar: '[\s=,;{{redir_or_eoc_char}}]'
 
   # Keywords
   keyword_break: (?![^{{metachar}}(.:\\/])
@@ -43,7 +43,8 @@ variables:
   arg_char: '[^{{metachar}}:]'
 
   # Command statement terminators and redirections
-  redirection_or_eoc: '[<>{{eoc_char}}]'
+  redir_or_eoc: (?=\s*{{redir_or_eoc_char}})
+  redir_or_eoc_char: '[<>{{eoc_char}}]'
   eoc: (?=\s*{{eoc_char}})
   eoc_char: '[\n|&]'
 
@@ -52,21 +53,21 @@ variables:
   label_start: '[^{{metachar}}:%!+]'
   label_char: '[^{{metachar}}(%!]'
 
-  path_terminator_chars: '[\s,;"{{redirection_or_eoc}}]'
+  path_terminator_chars: '[\s,;"{{redir_or_eoc_char}}]'
   path_terminators: (?={{path_terminator_chars}})
 
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
-  set_quoted_end: \"(?![^"{{redirection_or_eoc}}]*\")
+  set_quoted_end: \"(?![^"{{redir_or_eoc_char}}]*\")
 
   expansion_begin: |-
     (?x:
       %
       (?=
         # anything but no colon, percentage or command terminator char
-        ( [^:%{{redirection_or_eoc}}]
+        ( [^:%{{redir_or_eoc_char}}]
         # otherwise must not look like followed by a command
-        | [{{redirection_or_eoc}}](?!\s*\w+[\s{{redirection_or_eoc}}])
+        | [{{redir_or_eoc_char}}](?!\s*\w+[\s{{redir_or_eoc_char}}])
         )+
         # don't check substrings and substitutions
         (:~?[^%]*)? %
@@ -78,9 +79,9 @@ variables:
       !
       (?=
         # anything but no colon, exclamation mark or command terminator char
-        ( [^:!{{redirection_or_eoc}}]
+        ( [^:!{{redir_or_eoc_char}}]
         # otherwise must not look like followed by a command
-        | [{{redirection_or_eoc}}](?!\s*\w+[\s{{redirection_or_eoc}}])
+        | [{{redir_or_eoc_char}}](?!\s*\w+[\s{{redir_or_eoc_char}}])
         )+
         # don't check substrings and substitutions
         (:~?[^!]*)? !
@@ -94,7 +95,7 @@ variables:
   var_break: (?![^%{{metachar}}])
   var_char:  (?:{{var_literal}}|{{var_escape}})
   var_escape: \^[^=\s]
-  var_literal: '[^=\s"^{{redirection_or_eoc}}]'
+  var_literal: '[^=\s"^{{redir_or_eoc_char}}]'
 
   # An unquoted word, which may contain escapes or interpolation,
   # but no redirections. It is terminated by meta-chars or quoted words
@@ -201,14 +202,14 @@ contexts:
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
       embed: commands
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
-      escape: \'(?=\s*['{{redirection_or_eoc}}])
+      escape: \'(?=\s*['{{redir_or_eoc_char}}])
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
     - match: \`
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
       embed: commands
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
-      escape: \`(?=\s*[`{{redirection_or_eoc}}])
+      escape: \`(?=\s*[`{{redir_or_eoc_char}}])
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
 
@@ -1486,7 +1487,7 @@ contexts:
       scope: punctuation.separator.semicolon.dosbatch
 
   invalid-operators:
-    - match: '{{redirection_or_eoc}}'
+    - match: '{{redir_or_eoc_char}}'
       scope: invalid.illegal.operator.dosbatch
 
 ###[ CONSTANTS ]##############################################################
@@ -1873,7 +1874,7 @@ contexts:
         1: keyword.operator.arithmetic.dosbatch
         2: constant.numeric.value.dosbatch
     # Note: This makes the whole expansion being handled as plain text.
-    - match: ':[^%!{{redirection_or_eoc}}]*'
+    - match: ':[^%!{{redir_or_eoc_char}}]*'
       scope: invalid.illegal.unexpected.dosbatch
 
 ###[ ILLEGALS ]###############################################################
@@ -1932,6 +1933,6 @@ contexts:
     - include: line-continuations
 
   unquoted-var-pop:
-    - match: (?=\s*{{redirection_or_eoc}})
+    - match: '{{redir_or_eoc}}'
       pop: 1
     - include: line-continuations
