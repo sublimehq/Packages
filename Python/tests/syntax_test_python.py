@@ -1826,6 +1826,15 @@ def type_annotation_with_defaults(foo: str | None = None)
 #                                                 ^ keyword.operator.assignment.python
 #                                                   ^^^^ constant.language.null.python
 
+def last_type_annotation(
+    foo: str | None
+#   ^^^ meta.function.parameters.python
+#      ^^ meta.function.parameters.annotation.python - meta.type
+#        ^^^^^^^^^^ meta.function.parameters.annotation.python meta.type.python
+#                  ^ meta.function.parameters.python - meta.type
+): pass
+# <- meta.function.parameters.python punctuation.section.parameters.end.python
+
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                  ^^^^^^^^ meta.function.parameters - meta.function meta.function

@@ -903,9 +903,29 @@ contexts:
     - meta_content_scope: meta.type.python
     - match: \s*(?=[,)=])
       set: function-parameter-list-body
+    # Scope newline `meta.type` only, if type continues on next line.
+    # Note: This is required to workaround ST's line blindness.
+    - match: (?=\s*\n)
+      branch_point: function-parameter-annotation-end
+      branch:
+        - function-parameter-annotation-continue
+        - function-parameter-annotation-end
     - include: type-constants
     - include: type-separators
     - include: expression-in-a-group
+
+  function-parameter-annotation-continue:
+    - meta_include_prototype: false
+    - match: \s*(?=[,)=])
+      fail: function-parameter-annotation-end
+    - include: comments
+    - include: else-pop
+
+  function-parameter-annotation-end:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+      push: function-parameter-list-body
 
   function-parameter-default-value:
     - meta_scope: meta.function.parameters.default-value.python
