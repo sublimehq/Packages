@@ -487,9 +487,7 @@ contexts:
   ctl-call-label:
     - meta_scope: meta.function-call.identifier.dosbatch variable.label.dosbatch
     - match: '{{word_break}}'
-      set:
-        - cmd-args-meta
-        - cmd-args-common
+      set: cmd-args-body
     - include: line-continuations
     - include: escaped-characters
     - include: variables
@@ -595,9 +593,7 @@ contexts:
       scope:
         meta.function-call.identifier.dosbatch
         support.function.builtin.dosbatch
-      push:
-        - cmd-args-meta
-        - cmd-args-common
+      push: cmd-args-body
 
   cmd-other:
     - match: '{{cmd_begin}}'
@@ -610,9 +606,7 @@ contexts:
         meta.function-call.identifier.dosbatch
         variable.function.dosbatch
     - match: '{{cmd_break}}'
-      set:
-        - cmd-args-meta
-        - cmd-args-common
+      set: cmd-args-body
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push:
@@ -627,12 +621,8 @@ contexts:
     - meta_scope: meta.string.dosbatch variable.function.dosbatch
     - include: path-pattern-quoted-body
 
-  cmd-args-meta:
-    - meta_include_prototype: false
+  cmd-args-body:
     - meta_content_scope: meta.function-call.arguments.dosbatch
-    - include: immediately-pop
-
-  cmd-args-common:
     - include: redirections
     - include: eoc-pop
     - include: cmd-args-options
