@@ -37,7 +37,7 @@ variables:
   cmd_char: '[^{{metachar}}(]'
 
   # Command arguments are identifiers, which may start with interpolation.
-  opt_punctuation: (?:\s+|^)(--?|//?){{arg_begin}}
+  opt_punctuation: (--?|//?){{arg_begin}}
   arg_begin: (?={{arg_char}})
   arg_break: (?!{{arg_char}})
   arg_char: '[^{{metachar}}:]'
@@ -629,10 +629,23 @@ contexts:
     - include: cmd-args-values
 
   cmd-args-options:
-    - match: (?:^|\s*)((/)\?){{arg_break}}
+    # The shell basically just passes words to a called command.
+    # The command is responsible to parse and interpret each word.
+    #
+    # A word may be
+    # - an option `/b` or `-b`
+    # - a value `foo`
+    # - a key-value pair `/key:value` or `--key=value`
+    #
+    # Interpretation includes whether quotation marks
+    # are treated literal or whether they are removed.
+    #
+    # This context applies various heuristics to try to highlight
+    # different kinds of command line arguments and their values.
+    - match: (/)\?{{arg_break}}
+      scope: variable.parameter.option.help.dosbatch
       captures:
-        1: variable.parameter.option.help.dosbatch
-        2: punctuation.definition.variable.dosbatch
+        1: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
     - match: '{{opt_punctuation}}'
       captures:
@@ -650,19 +663,9 @@ contexts:
         meta.parameter.dosbatch
         keyword.operator.assignment.dosbatch
       set: cmd-args-option-value
-    - match: \"
-      scope: punctuation.definition.string.begin.dosbatch
-      push: cmd-args-option-identifier-quoted-common
+    - include: quoted-words
     - include: unquoted-escapes-and-interpolations
-    - include: line-continuations
-    - match: '{{arg_break}}'
-      pop: 1
-
-  cmd-args-option-identifier-quoted-common:
-    - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_scope: meta.string.dosbatch variable.parameter.option.dosbatch
-    - include: string-common
+    - include: unquoted-word-end
 
   cmd-args-option-value:
     - meta_content_scope: meta.parameter.value.dosbatch

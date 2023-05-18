@@ -1980,17 +1980,15 @@ put arg1 arg2
 :: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::        ^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::         ^ meta.parameter.option.dosbatch - meta.string - meta.interpolation
-::          ^^^^^^^^ meta.parameter.option.dosbatch meta.string.dosbatch - meta.interpolation
-::                  ^^^^ meta.parameter.option.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
-::                      ^ meta.parameter.option.dosbatch meta.string.dosbatch - meta.interpolation
-::         ^^^^^^^^^ variable.parameter.option.dosbatch
-::                  ^^^^ - variable.parameter
+::          ^^^^^^^^ meta.parameter.option.dosbatch - meta.interpolation
+::                  ^^^^ meta.parameter.option.dosbatch meta.interpolation.dosbatch
+::                      ^ meta.parameter.option.dosbatch - meta.interpolation
 ::         ^ punctuation.definition.variable.dosbatch
-::          ^ punctuation.definition.string.begin.dosbatch
+::          ^ - punctuation
 ::                  ^ punctuation.section.interpolation.begin.dosbatch
 ::                   ^^ variable.other.readwrite.dosbatch
 ::                     ^ punctuation.section.interpolation.end.dosbatch
-::                      ^ variable.parameter.option.dosbatch punctuation.definition.string.end.dosbatch
+::                      ^ - punctuation
 
    command ..\folder2\ /type:*.txt
 :: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
@@ -2022,7 +2020,8 @@ put arg1 arg2
 ::                         ^^^^^^^ meta.interpolation.dosbatch
 ::                               ^ punctuation.section.interpolation.end.dosbatch
 
-   powershell get-date -uformat "%%Y%%m%%d" > today.txt
+   powershell get-date -uformat "%%Y%%m%%d">today.txt
+::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::            ^^^^^^^^ - variable.parameter
 ::                     ^^^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
 ::                     ^ punctuation.definition.variable.dosbatch
@@ -2033,7 +2032,25 @@ put arg1 arg2
 ::                                    ^ - constant.character.escape.dosbatch
 ::                                     ^^ constant.character.escape.dosbatch
 ::                                       ^ - constant.character.escape.dosbatch
+::                                         ^^^^^^^^^^ meta.redirection.dosbatch
+::                                         ^ keyword.operator.assignment.redirection.dosbatch
+::                                          ^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 
+   powershell get-date>today.txt -uformat "%%Y%%m%%d"
+::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
+::            ^^^^^^^^ - variable.parameter
+::                    ^^^^^^^^^^ meta.redirection.dosbatch
+::                    ^ keyword.operator.assignment.redirection.dosbatch
+::                     ^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                               ^^^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
+::                               ^ punctuation.definition.variable.dosbatch
+::                                        ^^^^^^^^^^^ string.unquoted.dosbatch
+::                                         ^^ constant.character.escape.dosbatch
+::                                           ^ - constant.character.escape.dosbatch
+::                                            ^^ constant.character.escape.dosbatch
+::                                              ^ - constant.character.escape.dosbatch
+::                                               ^^ constant.character.escape.dosbatch
+::                                                 ^ - constant.character.escape.dosbatch
 
 :::: [ Redirections ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
