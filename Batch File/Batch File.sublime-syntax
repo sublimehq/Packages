@@ -37,7 +37,7 @@ variables:
   cmd_char: '[^{{metachar}}(]'
 
   # Command arguments are identifiers, which may start with interpolation.
-  opt_punctuation: (--?|//?){{arg_begin}}
+  opt_punctuation: (?:--?|//?){{arg_begin}}
   arg_begin: (?={{arg_char}})
   arg_break: (?!{{arg_char}})
   arg_char: '[^{{metachar}}:]'
@@ -400,7 +400,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.dosbatch
       push: ctl-for-maybe-r-args
-    - match: (?i:/\S+){{arg_break}}
+    - match: /{{arg_char}}+
       scope: invalid.illegal.parameter.dosbatch
       pop: 1
     - include: else-pop
@@ -648,10 +648,10 @@ contexts:
         1: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
     - match: '{{opt_punctuation}}'
-      captures:
-        1: meta.parameter.option.dosbatch
-           variable.parameter.option.dosbatch
-           punctuation.definition.variable.dosbatch
+      scope:
+        meta.parameter.option.dosbatch
+        variable.parameter.option.dosbatch
+        punctuation.definition.variable.dosbatch
       push: cmd-args-option-identifier
 
   cmd-args-option-identifier:
