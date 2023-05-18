@@ -397,7 +397,7 @@ contexts:
             scope: variable.other.readwrite.js
             push:
               - match: in{{identifier_break}}
-                scope: keyword.operator.type.js
+                scope: keyword.operator.type.in.js
                 set:
                   - ts-type-expression-end
                   - ts-type-expression-end-no-line-terminator
@@ -726,7 +726,7 @@ contexts:
       scope: keyword.operator.type.js
 
     - match: as{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.as.js
       push:
         - match: const{{identifier_break}}
           scope: storage.modifier.const.js
@@ -739,7 +739,7 @@ contexts:
             - ts-type-expression-begin
 
     - match: satisfies{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.satisfies.js
       push:
         - ts-type-meta
         - ts-type-expression-end
@@ -786,7 +786,7 @@ contexts:
       scope: keyword.operator.word.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
     - match: as{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.as.js
       push:
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
@@ -869,11 +869,11 @@ contexts:
 
   ts-type-expression-begin:
     - match: keyof{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.keyof.js
     - match: typeof{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.typeof.js
     - match: infer{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.infer.js
     - match: new{{identifier_break}}
       scope: keyword.operator.new.js
 
@@ -887,7 +887,7 @@ contexts:
       scope: storage.modifier.abstract.js
 
     - match: import{{identifier_break}}
-      scope: keyword.operator.type.js
+      scope: keyword.operator.type.import.js
       set:
         - match: \(
           scope: punctuation.section.group.begin.js

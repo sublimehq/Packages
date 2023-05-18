@@ -723,15 +723,15 @@ function f(this : any) {}
 /* Assertions */
 
 x as boolean;
-//^^ keyword.operator.type
+//^^ keyword.operator.type.as
 //   ^^^^^^^ meta.type support.type.primitive.boolean
 
 x satisfies boolean;
-//^^^^^^^^^ keyword.operator.type
+//^^^^^^^^^ keyword.operator.type.satisfies
 //          ^^^^^^^ meta.type support.type.primitive.boolean
 
 x as const;
-//^^ keyword.operator.type
+//^^ keyword.operator.type.as
 //   ^^^^^ storage.modifier.const
 
     foo!.bar;
@@ -900,11 +900,11 @@ let x: 0xabc;
 
 let x: typeof Foo;
 //     ^^^^^^^^^^ meta.type
-//     ^^^^^ keyword.operator.type
+//     ^^^^^ keyword.operator.type.typeof
 //            ^^^ support.class
 let x: keyof Foo;
 //     ^^^^^^^^^ meta.type
-//     ^^^^^ keyword.operator.type
+//     ^^^^^ keyword.operator.type.keyof
 //           ^^^ support.class
 
 let x: Foo.bar;
@@ -1038,8 +1038,8 @@ let x: {
 //  ^^^^^^^^^^^^^^^^ meta.brackets
 //  ^ punctuation.section.brackets.begin
 //    ^ variable.other.readwrite
-//      ^^ keyword.operator.type
-//         ^^^^^ keyword.operator.type
+//      ^^ keyword.operator.type.in
+//         ^^^^^ keyword.operator.type.keyof
 //               ^ meta.brackets support.class
 //                 ^ punctuation.section.brackets.end
 //                   ^ punctuation.separator.type
@@ -1054,10 +1054,10 @@ let x: {
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.brackets
 //  ^ punctuation.section.brackets.begin
 //    ^ variable.other.readwrite
-//      ^^ keyword.operator.type
-//         ^^^^^ keyword.operator.type
+//      ^^ keyword.operator.type.in
+//         ^^^^^ keyword.operator.type.keyof
 //               ^ meta.brackets support.class
-//                 ^^ keyword.operator.type
+//                 ^^ keyword.operator.type.as
 //                    ^ meta.brackets support.class
 //                      ^ punctuation.section.brackets.end
 
@@ -1067,8 +1067,8 @@ let x: {
 //             ^^^^^^^^^^^^^^^^ meta.brackets
 //             ^ punctuation.section.brackets.begin
 //               ^ variable.other.readwrite
-//                 ^^ keyword.operator.type
-//                    ^^^^^ keyword.operator.type
+//                 ^^ keyword.operator.type.in
+//                    ^^^^^ keyword.operator.type.keyof
 //                          ^ meta.brackets support.class
 //                            ^ punctuation.section.brackets.end
 //                              ^ storage.modifier
@@ -1186,7 +1186,7 @@ let x: T extends infer U ? V : W;
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^ support.class
 //       ^^^^^^^ keyword.operator.type.extends
-//               ^^^^^ keyword.operator.type
+//               ^^^^^ keyword.operator.type.infer
 //                     ^ support.class
 //                       ^ keyword.operator.type
 //                         ^ support.class
@@ -1195,7 +1195,7 @@ let x: T extends infer U ? V : W;
 
 let x: import ( "foo" ) . Bar ;
 //     ^^^^^^^^^^^^^^^^^^^^^^^ meta.type
-//     ^^^^^^ keyword.operator.type
+//     ^^^^^^ keyword.operator.type.import
 //            ^^^^^^^^^ meta.group
 //            ^ punctuation.section.group.begin
 //              ^^^^^ meta.string string.quoted.double
