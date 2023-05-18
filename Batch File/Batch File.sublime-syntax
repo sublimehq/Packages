@@ -687,9 +687,7 @@ contexts:
       fail: cmd-args-values
     - include: quoted-words
     - include: unquoted-escapes-and-interpolations
-    - include: line-continuations
-    - match: '{{arg_break}}'
-      pop: 1
+    - include: unquoted-word-end
 
   cmd-arg-illegal-options:
     - match: /{{arg_char}}+

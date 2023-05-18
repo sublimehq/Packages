@@ -1990,6 +1990,15 @@ put arg1 arg2
 ::                     ^ punctuation.section.interpolation.end.dosbatch
 ::                      ^ - punctuation
 
+   command /param:va^l:u%var%e
+::         ^^^^^^ meta.parameter.option.dosbatch variable.parameter.option.dosbatch
+::               ^ meta.parameter.dosbatch keyword.operator.assignment.dosbatch
+::                ^^^^^^ meta.parameter.value.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                  ^^ constant.character.escape.dosbatch
+::                      ^^^^^ meta.parameter.value.dosbatch meta.string.dosbatch meta.interpolation.dosbatch - string
+::                           ^ meta.parameter.value.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                            ^ - meta.parameter
+
    command ..\folder2\ /type:*.txt
 :: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
