@@ -49,9 +49,7 @@ variables:
   eoc_char: '[\n|&]'
 
   label_comment: ':[^{{label_start}}]'
-  label_name: '{{label_start}}{{label_char}}*'
-  label_start: '[^{{metachar}}:%!+]'
-  label_char: '[^{{metachar}}(%!]'
+  label_start: '[^{{metachar}}:+]'
 
   path_terminator_chars: '[\s,;"{{redir_or_eoc_char}}]'
   path_terminators: (?={{path_terminator_chars}})
@@ -102,6 +100,11 @@ variables:
   unquoted_word_begin: (?={{unquoted_word_char}})
   unquoted_word_break: (?!{{unquoted_word_char}})
   unquoted_word_char: '[^"{{metachar}}]'
+
+  # Words are separated by meta-chars, only.
+  # They may contain quoted regions, escaped chars or interpolations.
+  word_break: (?!{{word_char}})
+  word_char: '[^{{metachar}}]'
 
   builtin_commands: |-
     \b(?xi:
@@ -182,20 +185,23 @@ contexts:
 
 ###[ LABELS ]#################################################################
 
-  labels:
-    - match: ^\s*((:){{label_name}})
-      captures:
-        1: entity.name.label.dosbatch
-        2: punctuation.definition.label.dosbatch
-      push: ignored-tail-outer
-
   maybe-label:
-    - match: ((:){{label_name}})
-      captures:
-        1: entity.name.label.dosbatch
-        2: punctuation.definition.label.dosbatch
-      set: ignored-tail-outer
+    - match: \:(?={{label_start}})
+      scope: entity.name.label.dosbatch punctuation.definition.label.dosbatch
+      set: label-name
     - include: else-pop
+
+  labels:
+    - match: ^\s*(:)(?={{label_start}})
+      captures:
+        1: entity.name.label.dosbatch punctuation.definition.label.dosbatch
+      push: label-name
+
+  label-name:
+    - meta_content_scope: entity.name.label.dosbatch
+    - match: '{{word_break}}'
+      set: ignored-tail-outer
+    - include: escaped-characters
 
 ###[ BLOCKS ]#################################################################
 
@@ -479,14 +485,14 @@ contexts:
     - include: else-pop
 
   ctl-call-label:
-    - meta_scope:
-        meta.function-call.identifier.dosbatch
-        variable.label.dosbatch
-    - match: '{{cmd_break}}'
+    - meta_scope: meta.function-call.identifier.dosbatch variable.label.dosbatch
+    - match: '{{word_break}}'
       set:
         - cmd-args-meta
         - cmd-args-common
-    - include: unquoted-escapes-and-interpolations
+    - include: line-continuations
+    - include: escaped-characters
+    - include: variables
 
 ###[ CONTROL EXIT ]###########################################################
 
@@ -522,22 +528,22 @@ contexts:
     - include: immediately-pop
 
   ctl-goto-args:
+    - include: redirections
     - include: eoc-pop
-    - match: (:)(?i:(eof)){{cmd_break}}
+    - match: (:)(?i:(eof)){{word_break}}
       scope: variable.label.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
         2: keyword.control.flow.return.dosbatch
       pop: 1
-    - match: (:)?(?=\S)
-      scope: punctuation.definition.variable.dosbatch
+    - match: (:)?(?={{label_start}})
+      scope: punctuation.definition.label.dosbatch
       set: clt-goto-label
 
   clt-goto-label:
     - meta_scope: variable.label.dosbatch
-    - match: '{{cmd_break}}'
-      set: ignored-tail-outer
-    - include: escaped-characters
+    - include: line-continuations
+    - include: label-name
     - include: variables
 
 ###[ CONTROL PAUSE ]##########################################################

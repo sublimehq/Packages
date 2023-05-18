@@ -73,17 +73,21 @@ continuation
    Me too!
 :: ^^^^^^^ comment.line.colon.dosbatch
 
+   :> ignored content ( & | )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
+
+   :< ignored content ( & | )
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
+
    :& ignored content ( & | )
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
    :| ignored content ( & | )
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-
-   :%var% ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-
-   :!var! ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
 ECHO &&:: A comment
 ::   ^^ keyword.operator.logical.dosbatch
@@ -192,21 +196,168 @@ ECHO : Not a comment ^
 
 :::: [ Labels ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  :This is a #@$虎 strange label
-::^ punctuation.definition.label.dosbatch
-::^^^^^ entity.name.label.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+   :l
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
 
-  :End
-::^ punctuation.definition.label.dosbatch
-::^^^^ entity.name.label.dosbatch
+   :(
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
 
+   :)
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
+
+   :[
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
+
+   :]
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
+
+   :{
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
+
+   :}
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - punctuation
+::   ^ - entity
+
+   :^(
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^)
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^[
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^]
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^{
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^}
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^>
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^<
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^&
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^|
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :%%
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch - constant.character.escape - punctuation
+::    ^ - entity
+
+   :%
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - constant.character.escape - punctuation
+::   ^ - entity
+
+   :%var% ignored content ( & echo foo
+::^ - entity
+:: ^^^^^^ entity.name.label.dosbatch
+:: ^ punctuation.definition.label.dosbatch
+::       ^ - entity - comment
+::        ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                          ^ keyword.operator.logical.dosbatch
+::                            ^^^^^^^^ meta.command.echo.dosbatch
+
+   :!
+::^ - entity
+:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::  ^ entity.name.label.dosbatch - constant.character.escape - punctuation
+::   ^ - entity
+
+   :!var! ignored content ( | echo foo
+::^ - entity
+:: ^^^^^^ entity.name.label.dosbatch
+:: ^ punctuation.definition.label.dosbatch
+::       ^ - entity - comment
+::        ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                          ^ keyword.operator.assignment.pipe.dosbatch
+::                            ^^^^^^^^ meta.command.echo.dosbatch
+
+   :This is a #@$虎 strange label
+::^ - entity
+:: ^ punctuation.definition.label.dosbatch
+:: ^^^^^ entity.name.label.dosbatch
+::      ^ - entity - comment
+::       ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   :This" is a #@$虎" strange label
+::^ - entity
+:: ^^^^^^ entity.name.label.dosbatch
+::       ^ - entity - comment
+::        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   :"This is a #@$虎" strange label
+::^ - entity
+:: ^^^^^^ entity.name.label.dosbatch
+::       ^ - entity - comment
+::        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
 :::: [ Control Flow ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    CALL:This is a #@$虎 ^strange %%label
 ::^ - meta.function-call
-:: ^^^^  meta.function-call.dosbatch
+:: ^^^^ meta.function-call.dosbatch
 ::     ^^^^^ meta.function-call.identifier.dosbatch
 ::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                                     ^ - meta.function-call
@@ -219,7 +370,7 @@ ECHO : Not a comment ^
 
    CALL:EOF
 ::^ - meta.function-call
-:: ^^^^  meta.function-call.dosbatch
+:: ^^^^ meta.function-call.dosbatch
 ::     ^^^^ meta.function-call.identifier.dosbatch
 ::         ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
@@ -235,7 +386,7 @@ ECHO : Not a comment ^
 
    CALL :foo 10 %1
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^ meta.function-call.identifier.dosbatch
 ::          ^^^^^^ meta.function-call.arguments.dosbatch
 ::                ^ - meta.function-call
@@ -247,7 +398,7 @@ ECHO : Not a comment ^
 
    CALL :foo%bar% 10
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^^^^^^ meta.function-call.identifier.dosbatch
 ::                ^^ meta.function-call.arguments.dosbatch
 ::                  ^ - meta.function-call
@@ -258,7 +409,7 @@ ECHO : Not a comment ^
 
    CALL :foo %bar% 10
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^ meta.function-call.identifier.dosbatch
 ::           ^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                   ^ - meta.function-call
@@ -268,9 +419,162 @@ ECHO : Not a comment ^
 ::           ^^^^^ meta.interpolation.dosbatch - variable.label - keyword
 ::                 ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
+   CALL :( 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^ meta.function-call.identifier.dosbatch
+::        ^^^ meta.function-call.arguments.dosbatch
+::           ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.label.dosbatch - keyword
+::         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^( 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :) 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^ meta.function-call.identifier.dosbatch
+::        ^^^ meta.function-call.arguments.dosbatch
+::           ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.label.dosbatch - keyword
+::         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^) 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^> 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^< 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^& 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^| 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :%% 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :%label% 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^^^^^^ meta.function-call.identifier.dosbatch
+::              ^^^ meta.function-call.arguments.dosbatch
+::                 ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.variable.dosbatch
+::       ^^^^^^^ variable.label.dosbatch meta.interpolation.dosbatch
+::       ^ punctuation.section.interpolation.begin.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ punctuation.section.interpolation.end.dosbatch
+::               ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^! 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :!label! 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^^^^^^ meta.function-call.identifier.dosbatch
+::              ^^^ meta.function-call.arguments.dosbatch
+::                 ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.variable.dosbatch
+::       ^^^^^^^ variable.label.dosbatch meta.interpolation.dosbatch
+::       ^ punctuation.section.interpolation.begin.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ punctuation.section.interpolation.end.dosbatch
+::               ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :foo^
+bar baz
+:: <- meta.function-call.identifier.dosbatch variable.label.dosbatch
+::^ meta.function-call.identifier.dosbatch variable.label.dosbatch
+:: ^^^^ meta.function-call.arguments.dosbatch
+::  ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
    CALL foo %bar%
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^ meta.function-call.identifier.dosbatch
 ::         ^^^^^^ meta.function-call.arguments.dosbatch
 ::               ^ - meta.function-call
@@ -280,8 +584,13 @@ ECHO : Not a comment ^
 ::          ^^^^^ meta.interpolation.dosbatch
 
    CALL ^
-   foo
+   foo %bar%
 :: ^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
+::    ^^^^^^ meta.function-call.arguments.dosbatch
+::     ^^^^^ meta.string.dosbatch meta.interpolation.dosbatch
+::     ^ punctuation.section.interpolation.begin.dosbatch
+::      ^^^ variable.other.readwrite.dosbatch
+::         ^ punctuation.section.interpolation.end.dosbatch
 
    CALL SET _str=%%_var:~%_start%,%_length%%%
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -301,7 +610,7 @@ ECHO : Not a comment ^
 
    CALL ..\foo\bar.exe /param:10
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^^^^^^^^^^^ meta.function-call.identifier.dosbatch
 ::                    ^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                              ^ - meta.function-call
@@ -317,7 +626,7 @@ ECHO : Not a comment ^
 
    CALL ..\%foo%\bar.exe /param:str
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
 ::         ^^^^^ meta.function-call.identifier.dosbatch meta.interpolation.dosbatch
 ::              ^^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
@@ -337,7 +646,7 @@ ECHO : Not a comment ^
 
    CALL foo\bar.exe /pa_am:%var%
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::                 ^^^^^^^^ meta.function-call.arguments.dosbatch - meta.interpolation
 ::                         ^^^^^ meta.function-call.arguments.dosbatch meta.interpolation.dosbatch
@@ -351,7 +660,7 @@ ECHO : Not a comment ^
 
    CALL %foo%\bar.exe /pa-am:-10
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^^ meta.function-call.identifier.dosbatch meta.interpolation.dosbatch
 ::           ^^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch - meta.interpolation
 ::                   ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
@@ -369,7 +678,7 @@ ECHO : Not a comment ^
 
    CALL "d:\foo %bar%\baz.exe" /par-am=10 /D
 ::^ - meta.function-call
-:: ^^^^^  meta.function-call.dosbatch
+:: ^^^^^ meta.function-call.dosbatch
 ::      ^^^^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch - meta.interpolation
 ::              ^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                   ^^^^^^^^^ meta.function-call.identifier.dosbatch meta.string.dosbatch - meta.interpolation
@@ -433,19 +742,225 @@ ECHO : Not a comment ^
    GOTO :End
 :: ^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 
    GOTO:End
 :: ^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
-::     ^ punctuation.definition.variable.dosbatch
+::     ^ punctuation.definition.label.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
+
+   GOTO l
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO (
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO )
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO [
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO ]
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO {
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO }
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO ^(
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^)
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^[
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^]
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^{
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^}
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^>
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^<
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^&
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO ^|
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO %%
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch constant.character.escape.dosbatch
+::        ^ - variable
+
+   GOTO %
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO %var% ignored content ( & echo foo
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::                             ^^^ - meta.command
+::                                ^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^ variable.label.dosbatch meta.interpolation.dosbatch
+::      ^ punctuation.section.interpolation.begin.dosbatch
+::       ^^^ variable.other.readwrite.dosbatch
+::          ^ punctuation.section.interpolation.end.dosbatch
+::            ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                              ^ keyword.operator.logical.dosbatch
+
+   GOTO %%var%% ignored content ( & echo foo
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::                               ^^^ - meta.command
+::                                  ^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^^^ variable.label.dosbatch
+::      ^^ constant.character.escape.dosbatch
+::           ^^ constant.character.escape.dosbatch
+::              ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                ^ keyword.operator.logical.dosbatch
+
+   GOTO !
+:: ^^^^^^ meta.command.goto.dosbatch
+::       ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch
+::       ^ - variable
+
+   GOTO !var! ignored content ( | echo foo
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::                             ^^^ - meta.command
+::                                ^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^ variable.label.dosbatch meta.interpolation.dosbatch
+::      ^ punctuation.section.interpolation.begin.dosbatch
+::       ^^^ variable.other.readwrite.dosbatch
+::          ^ punctuation.section.interpolation.end.dosbatch
+::            ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                              ^ keyword.operator.assignment.pipe.dosbatch
+
+   GOTO ^!var^! ignored content ( | echo foo
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::                               ^^^ - meta.command
+::                                  ^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^^^ variable.label.dosbatch
+::      ^^ constant.character.escape.dosbatch
+::           ^^ constant.character.escape.dosbatch
+::              ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                ^ keyword.operator.assignment.pipe.dosbatch
 
    GOTO:This is a #@$虎 strange label
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
-::     ^ punctuation.definition.variable.dosbatch
+::     ^ punctuation.definition.label.dosbatch
 ::     ^^^^^ variable.label.dosbatch - keyword
 ::           ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
@@ -455,9 +970,33 @@ ECHO : Not a comment ^
 ::      ^^^^ variable.label.dosbatch - keyword
 ::           ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
+   GOTO This^
+is a #@$虎" strange label
+:: <- meta.command.goto.dosbatch variable.label.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   GOTO This^
+   is a #@$虎" strange label
+:: <- meta.command.goto.dosbatch - variable.label.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
    GOTO This is^
    a #%@$虎 strange label
 :: ^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   GOTO This" is a #@$虎" strange label
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^ variable.label.dosbatch - keyword
+::           ^ - variable - comment
+::            ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   GOTO "This is a #@$虎" strange label
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^ variable.label.dosbatch - keyword
+::           ^ - variable - comment
+::            ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    GOTO %%i
 :: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.interpolation
