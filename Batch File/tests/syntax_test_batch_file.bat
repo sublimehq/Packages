@@ -2246,6 +2246,19 @@ put arg1 arg2
 ::  ^^^^ support.function.builtin.dosbatch
 ::       ^^^ constant.language.dosbatch
 
+   @ECHO OFF > nul
+:: ^ - meta.command
+::  ^^^^^^^^ meta.command.echo.dosbatch
+::  ^^^^ meta.function-call.identifier.dosbatch
+::      ^^^^^ meta.function-call.arguments.dosbatch
+::           ^^^^^ meta.function-call.arguments.dosbatch meta.redirection.dosbatch
+::                ^ - meta.command
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^ support.function.builtin.dosbatch
+::       ^^^ constant.language.dosbatch
+::           ^ keyword.operator.assignment.redirection.dosbatch
+::             ^^^ constant.language.null.dosbatch
+
    @ECHO OFF :: no (comment) & :: comment
 :: ^ - meta.command
 ::  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch

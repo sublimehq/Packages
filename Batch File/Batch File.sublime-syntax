@@ -712,7 +712,7 @@ contexts:
         1: variable.parameter.option.help.dosbatch
         2: punctuation.definition.variable.dosbatch
       push: ignored-tail-outer
-    - match: \s*((?i:on|off)){{eoc}}
+    - match: \s*((?i:on|off)){{redir_or_eoc}}
       captures:
         1: constant.language.dosbatch
       push: ignored-tail-outer
