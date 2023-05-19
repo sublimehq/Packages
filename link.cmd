@@ -14,8 +14,10 @@
 :is_directory (object) -> Result
     for /f "tokens=1,2 delims=d" %%a in ("-%~a1") do if not "%%~b"=="" (
         exit /b 0 &@rem Directory
+    ) else if not "%%~a"=="-" (
+        exit /b 1 &@rem File
     ) else (
-        exit /b 1 &@rem File or something else...
+        exit /b 2 &@rem Who knows...
     )
 
 :link #[io] (sublime_path, package) -> Result
