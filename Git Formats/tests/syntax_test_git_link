@@ -6,7 +6,7 @@ gitdir: c:/data/sublime/packages/.git
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
 #      ^ - string.unquoted.git
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
-#        ^ punctuation.separator.drive.git
+#        ^ punctuation.separator.path.git
 #         ^ punctuation.separator.path.git
 #              ^ punctuation.separator.path.git
 #                               ^ punctuation.separator.path.git
@@ -17,7 +17,7 @@ gitdir: c:\data\sublime\packages\.git
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
 #      ^ - string.unquoted.git
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
-#        ^ punctuation.separator.drive.git
+#        ^ punctuation.separator.path.git
 #         ^ punctuation.separator.path.git
 #              ^ punctuation.separator.path.git
 #                                    ^ - string.unquoted.git
