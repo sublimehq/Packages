@@ -3,12 +3,30 @@
 
 :::: [ Comments ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+   REM/? ignored
+:: ^^^^^^^^^^^^^ meta.command.rem.dosbatch
+:: ^^^ keyword.declaration.rem.dosbatch
+::    ^^ variable.parameter.option.help.dosbatch
+::       ^^^^^^^ comment.line.ignored.dosbatch
+   REM ^
+   /? ignored
+:: ^^^^^^^^^^ meta.command.rem.dosbatch
+:: ^^ variable.parameter.option.help.dosbatch
+::    ^^^^^^^ comment.line.ignored.dosbatch
+
+   REM/?/a
+:: ^^^^^^^^ meta.command.rem.dosbatch
+:: ^^^ keyword.declaration.rem.dosbatch
+::    ^^^^^ comment.line.rem.dosbatch
+
    REM I'm a (com|ment)
+:: ^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch
 :: ^^^ keyword.declaration.rem.dosbatch - comment
 ::     ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
    ( rem comment )
-:: ^^^^^^^^^^^^^^^^ meta.block.dosbatch
+:: ^^ meta.block.dosbatch - meta.command
+::   ^^^^^^^^^^^^^^ meta.block.dosbatch meta.command.rem.dosbatch
 :: ^ punctuation.section.block.begin.dosbatch
 ::   ^^^ keyword.declaration.rem.dosbatch
 ::       ^^^^^^^^^^ comment.line.rem.dosbatch
@@ -354,6 +372,14 @@ ECHO : Not a comment ^
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
 :::: [ Control Flow ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+   CALL/?
+:: ^^^^ meta.function-call.dosbatch keyword.control.flow.call.dosbatch
+::     ^^ variable.parameter.option.help.dosbatch
+
+   CALL /?
+:: ^^^^ meta.function-call.dosbatch keyword.control.flow.call.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
 
    CALL:This is a #@$虎 ^strange %%label
 ::^ - meta.function-call
@@ -709,6 +735,28 @@ bar baz
    EXIT
 :: ^^^^ meta.command.exit.dosbatch keyword.control.flow.exit.dosbatch
 
+   EXIT /?
+:: ^^^^^^^ meta.command.exit.dosbatch
+:: ^^^^ keyword.control.flow.exit.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
+
+   :: all arguments are ignored, if /? is present
+   EXIT /? /b > help.txt
+:: ^^^^^^^^^^^^^^^^^^^^^ meta.command.exit.dosbatch
+:: ^^^^ keyword.control.flow.exit.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
+::         ^^ meta.command.exit.dosbatch comment.line.ignored.dosbatch
+::            ^^^^^^^^^^ meta.redirection.dosbatch
+::            ^ keyword.operator.assignment.redirection.dosbatch
+::              ^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+
+   :: /b is ignored, but it's not handled
+   EXIT /b /?
+:: ^^^^^^^^^^ meta.command.exit.dosbatch
+:: ^^^^ keyword.control.flow.exit.dosbatch
+::      ^^ variable.parameter.option.dosbatch
+::         ^^ variable.parameter.option.help.dosbatch
+
    EXIT /b 12 illegal
 :: ^^^^^^^^^^^^^^^^^^ meta.command.exit.dosbatch
 :: ^^^^ keyword.control.flow.exit.dosbatch
@@ -724,6 +772,17 @@ bar baz
 ::      ^^ variable.parameter.option.dosbatch
 ::         ^^^^^ meta.interpolation.dosbatch
 ::               ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
+
+   GOTO/?
+:: ^^^^^^ meta.command.goto.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^^ variable.parameter.option.help.dosbatch
+
+   GOTO /? ignored
+:: ^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^ variable.parameter.option.help.dosbatch
+::         ^^^^^^^ comment.line.ignored.dosbatch
 
    GOTO:EOF
 :: ^^^^^^^^ meta.command.goto.dosbatch
@@ -1017,6 +1076,17 @@ is a #@$虎" strange label
 ::       ^^^^^^^^^^ meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 
 :::: [ Conditionals ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+   IF/?
+:: ^^^^ meta.statement.conditional.dosbatch
+:: ^^ keyword.control.conditional.if.dosbatch
+::   ^^ variable.parameter.option.help.dosbatch
+
+   IF /? /i
+:: ^^^^^^^^ meta.statement.conditional.dosbatch
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^ variable.parameter.option.help.dosbatch
+::       ^^ comment.line.ignored.dosbatch
 
    IF foo EQU bar echo "equal"
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.dosbatch
@@ -1389,6 +1459,11 @@ is a #@$虎" strange label
 
 :::: [ Loops ] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+   FOR /?
+:: ^^^^^^ meta.statement.loop.for.dosbatch
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^^ variable.parameter.option.help.dosbatch
+
    FOR %%# IN (0,1) DO md %%#
 ::     ^^^ variable.other.readwrite.dosbatch
 ::                        ^^^ string.unquoted.dosbatch
@@ -1676,6 +1751,16 @@ is a #@$虎" strange label
 :: ^^^^^^^^ meta.command.setlocal.dosbatch keyword.context.setlocal.dosbatch
    ENDLOCAL
 :: ^^^^^^^^ meta.command.endlocal.dosbatch keyword.context.endlocal.dosbatch
+
+   SETLOCAL /? >nul
+:: ^^^^^^^^^^^^ meta.command.setlocal.dosbatch
+::             ^^^^ meta.command.setlocal.dosbatch meta.redirection.dosbatch
+::          ^^ variable.parameter.option.help.dosbatch
+
+   ENDLOCAL /? >nul
+:: ^^^^^^^^^^^^ meta.command.endlocal.dosbatch
+::             ^^^^ meta.command.endlocal.dosbatch meta.redirection.dosbatch
+::          ^^ variable.parameter.option.help.dosbatch
 
    setlocal endlocal & echo hello & endlocal illegal
 :: ^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
@@ -3035,6 +3120,12 @@ put arg1 arg2
 
 :::: [ SET variable=string ] ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+   set /? ignored
+:: ^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^^ variable.parameter.option.help.dosbatch
+::        ^^^^^^^ comment.line.ignored.dosbatch
+
    set # & echo %#%
 ::     ^ variable.other.readwrite.dosbatch
 ::       ^ keyword.operator.logical.dosbatch
@@ -3628,6 +3719,19 @@ put arg1 arg2
 ::                 ^ keyword.operator.assignment.redirection.dosbatch
 ::                  ^^^ constant.language.null.dosbatch
 
+   set /? /a ignored
+:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^^ variable.parameter.option.help.dosbatch
+::        ^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   set /A /? ignored
+:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^^ variable.parameter.option.expression.dosbatch
+::        ^^ variable.parameter.option.help.dosbatch
+::           ^^^^^^^ comment.line.ignored.dosbatch
+
    set /A hello_world
 :: ^^^ support.function.builtin.dosbatch
 ::        ^^^^^^^^^^^ meta.expression.dosbatch
@@ -4007,6 +4111,19 @@ put arg1 arg2
 ::                      ^ punctuation.section.block.end.dosbatch
 
 :::: [ SET /P variable=promptString ]::::::::::::::::::::::::::::::::::::::::::
+
+   set /? /p ignored
+:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^^ variable.parameter.option.help.dosbatch
+::        ^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   set /p /? ignored
+:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^^ variable.parameter.option.prompt.dosbatch
+::        ^^ variable.parameter.option.help.dosbatch
+::           ^^^^^^^ comment.line.ignored.dosbatch
 
    set /p today=
 :: ^^^^^^^ meta.command.set.dosbatch - meta.prompt

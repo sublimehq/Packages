@@ -277,6 +277,7 @@ contexts:
 
   ctl-if-condition:
     - include: eoc-pop
+    - include: cmd-arg-help
     - match: (?i:(/)i){{arg_break}}
       scope: variable.parameter.option.dosbatch
       captures:
@@ -378,6 +379,7 @@ contexts:
     - include: immediately-pop
 
   ctl-for-switches:
+    - include: cmd-arg-help
     # https://ss64.com/nt/for_d.html
     - match: (?i:(/)d){{arg_break}}
       scope: variable.parameter.option.dir.dosbatch
@@ -408,6 +410,7 @@ contexts:
   ctl-for-maybe-r-args:
     - match: (?={{var_parameter}})
       pop: 1
+    - include: cmd-arg-help
     - include: path-pattern
 
   ctl-for-maybe-f-args:
@@ -482,12 +485,15 @@ contexts:
     - match: ':'
       scope: punctuation.definition.variable.dosbatch
       set: ctl-call-label
+    - include: cmd-arg-help
     - include: else-pop
 
   ctl-call-label:
     - meta_scope: meta.function-call.identifier.dosbatch variable.label.dosbatch
     - match: '{{word_break}}'
-      set: cmd-args-body
+      set:
+        - cmd-args-meta
+        - cmd-args-body
     - include: line-continuations
     - include: escaped-characters
     - include: variables
@@ -498,14 +504,21 @@ contexts:
     # https://ss64.com/nt/exit.html
     - match: (?i:exit){{keyword_break}}
       scope: keyword.control.flow.exit.dosbatch
-      push: ctl-exit-args
+      push:
+        - ctl-exit-meta
+        - ctl-exit-args
+
+  ctl-exit-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.command.exit.dosbatch
+    - include: immediately-pop
 
   ctl-exit-args:
-    - meta_scope: meta.command.exit.dosbatch
     - match: (?i:(/)b){{arg_break}}
       scope: variable.parameter.option.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
+    - include: cmd-arg-help
     - include: numbers
     - include: variables
     - include: expect-eoc
@@ -527,6 +540,7 @@ contexts:
 
   ctl-goto-args:
     - include: redirections
+    - include: cmd-arg-help
     - include: eoc-pop
     - match: (:)(?i:(eof)){{word_break}}
       scope: variable.label.dosbatch
@@ -550,10 +564,17 @@ contexts:
     # https://ss64.com/nt/pause.html
     - match: (?i:pause){{keyword_break}}
       scope: keyword.control.flow.pause.dosbatch
-      push: ctl-pause-args
+      push:
+        - ctl-pause-meta
+        - ctl-pause-args
+
+  ctl-pause-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.command.pause.dosbatch
+    - include: immediately-pop
 
   ctl-pause-args:
-    - meta_scope: meta.command.pause.dosbatch
+    - include: cmd-arg-help
     - include: expect-eoc
 
 ###[ CONTEXT SETLOCAL ]#######################################################
@@ -562,16 +583,23 @@ contexts:
     # https://ss64.com/nt/setlocal.html
     - match: (?i:setlocal){{keyword_break}}
       scope: keyword.context.setlocal.dosbatch
-      push: ctl-setlocal-args
+      push:
+        - ctl-setlocal-meta
+        - ctl-setlocal-args
+
+  ctl-setlocal-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.command.setlocal.dosbatch
+    - include: immediately-pop
 
   ctl-setlocal-args:
-    - meta_scope: meta.command.setlocal.dosbatch
     - match: |-
         \b(?xi:
           EnableDelayedExpansion | DisableDelayedExpansion |
           EnableExtensions | DisableExtensions
         ){{arg_break}}
       scope: constant.language.dosbatch
+    - include: cmd-arg-help
     - include: expect-eoc
 
 ###[ CONTEXT ENDLOCAL ]#######################################################
@@ -580,10 +608,17 @@ contexts:
     # https://ss64.com/nt/endlocal.html
     - match: (?i:endlocal){{keyword_break}}
       scope: keyword.context.endlocal.dosbatch
-      push: ctl-endlocal-args
+      push:
+        - ctl-endlocal-meta
+        - ctl-endlocal-args
+
+  ctl-endlocal-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.command.endlocal.dosbatch
+    - include: immediately-pop
 
   ctl-endlocal-args:
-    - meta_scope: meta.command.endlocal.dosbatch
+    - include: cmd-arg-help
     - include: expect-eoc
 
 ###[ COMMANDS ]###############################################################
@@ -593,7 +628,9 @@ contexts:
       scope:
         meta.function-call.identifier.dosbatch
         support.function.builtin.dosbatch
-      push: cmd-args-body
+      push:
+        - cmd-args-meta
+        - cmd-args-body
 
   cmd-other:
     - match: '{{cmd_begin}}'
@@ -606,7 +643,9 @@ contexts:
         meta.function-call.identifier.dosbatch
         variable.function.dosbatch
     - match: '{{cmd_break}}'
-      set: cmd-args-body
+      set:
+        - cmd-args-meta
+        - cmd-args-body
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push:
@@ -621,12 +660,24 @@ contexts:
     - meta_scope: meta.string.dosbatch variable.function.dosbatch
     - include: path-pattern-quoted-body
 
-  cmd-args-body:
+  cmd-args-meta:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.dosbatch
+    - include: immediately-pop
+
+  cmd-args-body:
     - include: redirections
     - include: eoc-pop
+    - include: cmd-arg-help
     - include: cmd-args-options
     - include: cmd-args-values
+
+  cmd-arg-help:
+    - match: (/)\?{{arg_break}}
+      scope: variable.parameter.option.help.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      set: ignored-tail-outer
 
   cmd-args-options:
     # The shell basically just passes words to a called command.
@@ -642,11 +693,6 @@ contexts:
     #
     # This context applies various heuristics to try to highlight
     # different kinds of command line arguments and their values.
-    - match: (/)\?{{arg_break}}
-      scope: variable.parameter.option.help.dosbatch
-      captures:
-        1: punctuation.definition.variable.dosbatch
-      push: ignored-tail-outer
     - match: '{{opt_punctuation}}'
       scope:
         meta.parameter.option.dosbatch
@@ -737,11 +783,17 @@ contexts:
       scope:
         meta.function-call.identifier.dosbatch
         support.function.external.dosbatch
-      push: cmd-mode-args
+      push:
+        - cmd-mode-meta
+        - cmd-mode-args
 
-  cmd-mode-args:
+  cmd-mode-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.command.mode.dosbatch
     - meta_content_scope: meta.function-call.arguments.dosbatch
+    - include: immediately-pop
+
+  cmd-mode-args:
     - include: redirections
     - include: eoc-pop
     - match: (?i:COM\d+|CON|LPT\d+):?{{arg_break}}
@@ -757,6 +809,7 @@ contexts:
       scope: variable.parameter.option.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
+    - include: cmd-arg-help
     - include: cmd-args-options
     - include: cmd-args-values
 
@@ -766,17 +819,24 @@ contexts:
     # https://ss64.com/nt/rem.html
     - match: (?i:rem){{keyword_break}}
       scope: keyword.declaration.rem.dosbatch
-      push: cmd-rem-body
+      push:
+        - cmd-rem-meta
+        - cmd-rem-body
+
+  cmd-rem-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.command.rem.dosbatch
+    - include: immediately-pop
 
   cmd-rem-body:
     - meta_include_prototype: false
+    - include: cmd-arg-help
     - include: unquoted-eol-pop
     - match: (?=\S)
       set: cmd-rem-comment-body
 
   cmd-rem-comment-body:
     - meta_include_prototype: false
-    - meta_scope: meta.command.rem.dosbatch
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
     - meta_content_scope: comment.line.rem.dosbatch
@@ -804,6 +864,7 @@ contexts:
     - include: eoc-pop
     - include: cmd-set-arithmetic
     - include: cmd-set-prompt
+    - include: cmd-arg-help
     - include: cmd-arg-illegal-options
     - include: cmd-set-quoted
     - include: cmd-set-unquoted
@@ -1011,6 +1072,7 @@ contexts:
     - include: immediately-pop
 
   cmd-set-arithmetic-start:
+    - include: cmd-arg-help
     - match: \"
       scope: meta.string.dosbatch punctuation.definition.string.begin.dosbatch
       set:
@@ -1132,6 +1194,7 @@ contexts:
     - include: immediately-pop
 
   cmd-set-prompt-start:
+    - include: cmd-arg-help
     - include: cmd-set-quoted-prompt
     - include: cmd-set-unquoted-prompt
 
