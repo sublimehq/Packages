@@ -519,7 +519,7 @@ contexts:
 
   type-separators:
     - match: \|
-      scope: punctuation.separator.type.union.python
+      scope: keyword.operator.logical.union.python
     - include: sequence-separators
 
 ###[ DECORATORS ]#############################################################

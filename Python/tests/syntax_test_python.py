@@ -1720,7 +1720,7 @@ def type_annotations(param1: int, param2: MyType | None , param3: max(2, 3), par
 #                                       ^ punctuation.separator.annotation
 #                                         ^^^^^^^^^^^^^ meta.type.python
 #                                         ^^^^^^ meta.path.python meta.generic-name.python
-#                                                ^ punctuation.separator.type.union.python
+#                                                ^ keyword.operator.logical.union.python
 #                                                  ^^^^ constant.language.null.python
 #                                                       ^ punctuation.separator.parameters
 #                                                         ^^^^^^ variable.parameter
@@ -1821,7 +1821,7 @@ def type_annotation_with_defaults(foo: str | None = None)
 #                                                ^ meta.function.parameters.annotation.python - meta.function.parameters.default-value - meta.type
 #                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.annotation
 #                                      ^^^ storage.type.python
-#                                          ^ punctuation.separator.type.union.python
+#                                          ^ keyword.operator.logical.union.python
 #                                            ^^^^ constant.language.null.python
 #                                                 ^ keyword.operator.assignment.python
 #                                                   ^^^^ constant.language.null.python
@@ -2991,7 +2991,7 @@ foo: str | None = None
 #              ^^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.python
 #    ^^^ storage.type.python
-#        ^ punctuation.separator.type.union.python
+#        ^ keyword.operator.logical.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
 #                 ^^^^ constant.language.null.python
@@ -3002,7 +3002,7 @@ bar: str | None = 'b'
 #              ^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.python
 #    ^^^ storage.type.python
-#        ^ punctuation.separator.type.union.python
+#        ^ keyword.operator.logical.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
 #                 ^^^ string.quoted.single.python
@@ -3172,7 +3172,7 @@ dct = {}  # type: Dict[str, str | int]
 #                      ^^^ storage.type.python
 #                         ^ punctuation.separator.sequence.python
 #                           ^^^ storage.type.python
-#                               ^ punctuation.separator.type.union.python
+#                               ^ keyword.operator.logical.union.python
 #                                 ^^^ storage.type.python
 #                                    ^ punctuation.section.brackets.end.python
 
