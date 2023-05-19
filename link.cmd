@@ -92,7 +92,7 @@
     for /f %%E in ('echo(prompt $E^| "%ComSpec%" /d /q 2^>nul') do (set \E=%%~E)
 
     if defined sublime_path call :is_directory "%sublime_path%\Local" || (
-        call :die 1 "SUBLIME_PATH does not point to a Sublime Text data directory: '%sublime_path%'"
+        call :die 1 "SUBLIME_PATH does not point to a Sublime data directory: '%sublime_path%'"
     )
 
     if not "%~2"=="" (
