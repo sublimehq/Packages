@@ -2610,7 +2610,7 @@ put arg1 arg2
 ::                                           ^^^^^^ - constant
 ::                                                 ^^ constant.character.escape.dosbatch
 ::                                                   ^^^ - constant
-::                                                      ^ constant.other.placeholder.dosbatch
+::                                                      ^ keyword.operator.wildcard.dosbatch
 ::                                                       ^^ constant.character.escape.dosbatch
 ::                                                         ^ - constant
 ::                                                          ^^ constant.character.escape.dosbatch

@@ -1679,7 +1679,7 @@ contexts:
     - match: \.
       scope: punctuation.separator.path.dosbatch
     - match: '[*?]'
-      scope: constant.other.placeholder.dosbatch
+      scope: keyword.operator.wildcard.dosbatch
 
   path-pattern-relative:
     - match: \.\.(?=[\\/])
