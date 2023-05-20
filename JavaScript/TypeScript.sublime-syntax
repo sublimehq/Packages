@@ -1052,19 +1052,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.js
       pop: 1
-    - match: \.\.\.
-      scope: keyword.operator.spread.js
-      push:
-        - ts-type-annotation
-        - ts-type-annotation-optional
-    - match: (?={{identifier_start}}|\[|\{)
-      push:
-        - ts-type-annotation
-        - ts-type-annotation-optional
-        - function-parameter-binding-pattern
-
-    - include: comma-separator
-    - include: else-pop
+    - include: function-parameter-binding-list
 
   ts-type-function-body:
     - include: ts-type-function-arrow
