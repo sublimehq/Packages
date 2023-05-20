@@ -5254,11 +5254,33 @@ esac
 # select loops                                                     #
 ####################################################################
 
+select var in 1 2 3 4 5; do echo $i; done;
+# <- keyword.control.loop.select.shell
+#      ^^^ variable.other.readwrite.shell
+#          ^^ keyword.control.in.shell
+#            ^ - string
+#             ^ meta.string.shell string.unquoted.shell
+#              ^ - string
+#               ^ meta.string.shell string.unquoted.shell
+#                ^ - string
+#                 ^ meta.string.shell string.unquoted.shell
+#                  ^ - string
+#                   ^ meta.string.shell string.unquoted.shell
+#                    ^ - string
+#                     ^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.terminator.statement.shell
+#                        ^^ keyword.control.loop.do.shell
+#                           ^^^^ support.function.echo.shell
+#                                ^^ variable.other.readwrite.shell
+#                                  ^ punctuation.terminator.statement.shell
+#                                    ^^^^ keyword.control.loop.end.shell
+#                                        ^ punctuation.terminator.statement.shell
+
 select fname in *;
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
 #            ^^ keyword.control.in.shell
-#               ^ keyword.operator.quantifier.regexp.shell
+#               ^ meta.string.shell string.unquoted.shell
 #                ^ punctuation.terminator.statement.shell
 do
 # <- keyword.control.loop.do.shell

@@ -1082,7 +1082,7 @@ contexts:
       push: for-args
     - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
-      push: select-args
+      push: loop-iterator-var
     - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
     - match: while{{cmd_break}}
@@ -1167,42 +1167,36 @@ contexts:
     - include: cmd-args-boilerplate
 
   for-args:
-    - include: for-end
+    - include: loop-end
     - match: \(\(
       scope: punctuation.section.arithmetic.begin.shell
       set: cmd-arithmetic-body
     - match: (?=\S)
-      set: for-var
+      set: loop-iterator-var
 
-  for-var:
+  loop-iterator-var:
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
-      set: for-iterator
-    - include: for-end
+      set: loop-iterator-range
+    - include: loop-end
     - include: variables
 
-  for-iterator:
-    - include: for-end
+  loop-iterator-range:
+    - include: loop-end
     - include: number-range
     - match: (?=\S)
-      set: for-wordlist
+      set: loop-iterator-wordlist
 
-  for-wordlist:
-    - include: for-end
+  loop-iterator-wordlist:
+    - include: loop-end
     - include: booleans
     - include: strings-unquoted
 
-  for-end:
+  loop-end:
     - match: (?=(?:do|done){{cmd_break}})
       pop: 1
     - include: redirections
     - include: eoc-pop
-
-  select-args:
-    - include: cmd-args-boilerplate
-    - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
-    - include: variables
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
