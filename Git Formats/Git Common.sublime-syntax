@@ -175,16 +175,20 @@ contexts:
   # fnmatch-body as include in a scope, which defines the desired meta
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
-  fnmatch-body:
+  fnmatch-quoted-body:
     - include: fnmatch-char-classes
+    - include: fnmatch-quoted-file-extensions
+    - include: fnmatch-common
+
+  fnmatch-unquoted-body:
+    - include: fnmatch-char-classes
+    - include: fnmatch-unquoted-file-extensions
     - include: fnmatch-common
 
   fnmatch-common:
     - match: '/'          # path separators
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
-    - match: \.(?!.*[./]) # the last dot not followed by path sep
-      scope: punctuation.separator.path.extension.fnmatch.git
     - match: '[*?]'       # unescapable operators
       scope: keyword.operator.path.asterisk.fnmatch.git
     - match: '\\[^$*?]'   # backslash escapes nearly everything
@@ -238,6 +242,14 @@ contexts:
       scope: invalid.illegal.unexpected.char-class.fnmatch.git
     - match: \S
       scope: constant.character.char-class.fnmatch.git
+
+  fnmatch-quoted-file-extensions:
+    - match: \.(?![^./"]*[./]) # the last dot not followed by path sep
+      scope: punctuation.separator.path.fnmatch.git
+
+  fnmatch-unquoted-file-extensions:
+    - match: \.(?!(?:\\\s|\S)*[./]) # the last dot not followed by path sep
+      scope: punctuation.separator.path.fnmatch.git
 
 ###[ PRETTY FORMATS ]##########################################################
 

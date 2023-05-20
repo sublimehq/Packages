@@ -57,14 +57,14 @@ contexts:
     - meta_scope: string.quoted.double.git.attributes
     - meta_content_scope: entity.name.pattern.git.attributes
     - include: string-end
-    - include: Git Common.sublime-syntax#fnmatch-body
+    - include: Git Common.sublime-syntax#fnmatch-quoted-body
 
   pattern-content-unquoted:
     - meta_scope: string.unquoted.git.attributes
     - meta_content_scope: entity.name.pattern.git.attributes
     - match: (?=\s)
       pop: 1
-    - include: Git Common.sublime-syntax#fnmatch-body
+    - include: Git Common.sublime-syntax#fnmatch-unquoted-body
 
   pattern-attributes:
     - meta_include_prototype: false

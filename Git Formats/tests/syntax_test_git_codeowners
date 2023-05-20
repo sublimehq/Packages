@@ -21,6 +21,7 @@
 *.js    @js-owner
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners keyword.operator.path.asterisk.fnmatch.git
 #^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#^ punctuation.separator.path.fnmatch.git
 #   ^^^^ - meta.path - meta.owners
 #       ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
 #       ^ punctuation.definition.reference.username.git
@@ -31,6 +32,7 @@
 *.go docs@example.com
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners keyword.operator.path.asterisk.fnmatch.git
 #^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#^ punctuation.separator.path.fnmatch.git
 #   ^ - meta.path - meta.owners
 #    ^^^^^^^^^^^^^^^^ meta.owners.git.codeowners meta.reference.email.git entity.name.reference.email.git
 
