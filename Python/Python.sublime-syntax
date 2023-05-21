@@ -3745,5 +3745,6 @@ contexts:
     - meta_include_prototype: false
     # This prevents strings after a continuation from being a docstring
     - include: strings
-    - match: (?=\S|^(?!\s*[[:alpha:]]*['"]))
+    - include: else-pop
+    - match: ^(?!\s*[[:alpha:]]*['"])
       pop: 1
