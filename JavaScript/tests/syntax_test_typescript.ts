@@ -1120,6 +1120,16 @@ let x: ({ foo }: any) => any;
 //                       ^^^ support.type.any
 //                          ^ punctuation.terminator.statement
 
+let x: (this: any) => any;
+//    ^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^ meta.group
+//      ^^^^ variable.language.this
+//          ^ punctuation.separator.type
+//            ^^^ support.type.any
+//                 ^^ keyword.declaration.function
+//                    ^^^ support.type.any
+//                       ^ punctuation.terminator.statement
+
 let x: < T > ( ... foo : any ) => any;
 //     ^^^^^ meta.generic
 //       ^ variable.parameter.generic

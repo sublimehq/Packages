@@ -604,14 +604,8 @@ contexts:
 
   function-parameter-binding-list:
     - meta_prepend: true
-
     - include: decorator
-
     - include: function-parameter-modifiers
-
-    - match: this{{identifier_break}}
-      scope: variable.language.this.js
-      push: ts-type-annotation
 
   function-parameter-modifiers:
     - match: (?={{modifier}})
@@ -628,6 +622,12 @@ contexts:
           pop: 1
         - match: (?=\S)
           fail: function-parameter-modifier
+
+  function-parameter-binding-pattern:
+    - meta_prepend: true
+    - match: this{{identifier_break}}
+      scope: variable.language.this.js
+      pop: 1
 
   class-field:
     - meta_include_prototype: false
@@ -1052,19 +1052,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.js
       pop: 1
-    - match: \.\.\.
-      scope: keyword.operator.spread.js
-      push:
-        - ts-type-annotation
-        - ts-type-annotation-optional
-    - match: (?={{identifier_start}}|\[|\{)
-      push:
-        - ts-type-annotation
-        - ts-type-annotation-optional
-        - function-parameter-binding-pattern
-
-    - include: comma-separator
-    - include: else-pop
+    - include: function-parameter-binding-list
 
   ts-type-function-body:
     - include: ts-type-function-arrow
