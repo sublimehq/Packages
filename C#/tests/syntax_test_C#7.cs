@@ -669,6 +669,14 @@ public readonly struct S
     }
 }
 
+public readonly partial struct MyStruct
+/// ^^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^^ storage.modifier
+///                     ^^^^^^ keyword.declaration.struct
+///                            ^^^^^^^^ entity.name.struct
+{}
+
 // "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be
 // accessed inside the current assembly.
 class BaseClass           { private protected void Foo() {} }
