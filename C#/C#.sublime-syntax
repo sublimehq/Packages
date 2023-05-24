@@ -346,12 +346,13 @@ contexts:
         3: keyword.declaration.struct.record.cs
         4: entity.name.class.cs
       push: [record_signature, data_type_constraint, record_parameters, data_type_signature]
-    - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
+    - match: (?:\b(readonly)\s+)?(?:\b(partial)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})
       captures:
         1: storage.modifier.cs
         2: storage.modifier.cs
-        3: keyword.declaration.struct.cs
-        4: entity.name.struct.cs
+        3: storage.modifier.cs
+        4: keyword.declaration.struct.cs
+        5: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs

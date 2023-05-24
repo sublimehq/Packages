@@ -162,7 +162,7 @@ contexts:
     # windows drive letter and separator
     - match: '[A-Za-z](:)(?=/)'
       captures:
-        1: punctuation.separator.drive.fnmatch.git
+        1: punctuation.separator.path.fnmatch.git
       pop: 1
     # homedir tilde operator
     - match: ~(?=/)
@@ -190,13 +190,13 @@ contexts:
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
     - match: '[*?]'       # unescapable operators
-      scope: keyword.operator.path.asterisk.fnmatch.git
+      scope: keyword.operator.wildcard.fnmatch.git
     - match: '\\[^$*?]'   # backslash escapes nearly everything
       scope: constant.character.escape.path.fnmatch.git
     - match: \$\w+
       scope: variable.language.environment.other.fnmatch.git
     - match: ':'          # drive separators
-      scope: invalid.illegal.separator.drive.fnmatch.git
+      scope: invalid.illegal.separator.path.fnmatch.git
     - match: '\\(?=\s)'   # single backslash is invalid
       scope: invalid.illegal.escape.path.fnmatch.git
 
