@@ -1674,6 +1674,41 @@ class Foo extends Bar
 //  ^^^^ storage.modifier.with.scala
 //       ^^^ entity.other.inherited-class.scala
 
+class c()
+    extends a()
+
+    with foo with bar {}
+//  ^^^^ invalid.keyword.dangling-with.scala
+//           ^^^^ invalid.keyword.dangling-with.scala
+
+class c()
+    extends a()
+    /* some comment */
+    with foo with bar {}
+//  ^^^^ invalid.keyword.dangling-with.scala
+//           ^^^^ invalid.keyword.dangling-with.scala
+
+class c()
+    extends a()
+    // some comment
+    with foo with bar {}
+//  ^^^^ storage.modifier.with.scala
+//       ^^^ entity.other.inherited-class.scala
+//           ^^^^ storage.modifier.with.scala
+//                ^^^ entity.other.inherited-class.scala
+//                    ^^ meta.class.body.scala
+
+class c()
+    extends a()
+    // some comment
+    // some comment
+    with foo with bar {}
+//  ^^^^ storage.modifier.with.scala
+//       ^^^ entity.other.inherited-class.scala
+//           ^^^^ storage.modifier.with.scala
+//                ^^^ entity.other.inherited-class.scala
+//                    ^^ meta.class.body.scala
+
 def foo
    42
 // ^^ meta.number.integer.decimal.scala
