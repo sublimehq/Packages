@@ -29,5 +29,5 @@ contexts:
     - meta_scope: string.unquoted.git.ignore entity.name.pattern.git.ignore
     - match: $
       pop: 1
-    - include: Git Common.sublime-syntax#fnmatch-body
+    - include: Git Common.sublime-syntax#fnmatch-unquoted-body
 
