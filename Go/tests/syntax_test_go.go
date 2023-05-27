@@ -5563,21 +5563,25 @@ func template() {
     //      ^ punctuation.accessor.dot.go
     //       ^^^^^^ variable.other.member.go
     //              ^ keyword.operator.assignment.pipe.go
+    //                ^^^^ variable.function.go
     t = "{{ $foo := .Member | func }}"
     //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //              ^ punctuation.accessor.dot.go
     //               ^^^^^^ variable.other.member.go
     //                      ^ keyword.operator.assignment.pipe.go
+    //                        ^^^^ variable.function.go
     t = "{{ $foo = .Member | func }}"
     //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //             ^ punctuation.accessor.dot.go
     //              ^^^^^^ variable.other.member.go
     //                     ^ keyword.operator.assignment.pipe.go
+    //                       ^^^^ variable.function.go
     t = "{{ $foo = (.Member | func) }}"
     //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //              ^ punctuation.accessor.dot.go
     //               ^^^^^^ variable.other.member.go
     //                      ^ keyword.operator.assignment.pipe.go
+    //                        ^^^^ variable.function.go
     t = "{{ (printf "text/html" ($url | htmlEscape)) | safeHTML }}"
     //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //      ^^^^^^^^^^^^^^^^^^^^ source.go.template meta.group.go - meta.group meta.group
