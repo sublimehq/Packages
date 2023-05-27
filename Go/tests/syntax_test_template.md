@@ -174,3 +174,38 @@
 | ^^^^^^^ meta.interpolation.go
 |         ^ punctuation.separator.table-cell.markdown
 |           ^^^^^^^ meta.interpolation.go
+
+<!-- Indented Code Blocks -->
+
+      code block
+|     ^^^^^^^^^^^ markup.raw.block.markdown
+
+      code {{.Content}} block
+|     ^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block.markdown
+|          ^^^^^^^^^^^^ meta.interpolation.go
+|          ^^ punctuation.section.interpolation.begin.go
+|            ^^^^^^^^ source.go.template
+|                    ^^ punctuation.section.interpolation.end.go
+
+      {{.T}}
+|     ^^^^^^ markup.raw.block.markdown meta.interpolation.go
+
+<!-- Indented Statements -->
+
+{{ if $var true }}
+    {{ if $var true }}
+|   ^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.interpolation.go - markup.raw
+|   ^^ punctuation.section.interpolation.begin.go
+|     ^^^^^^^^^^^^^^ source.go.template
+|                   ^^ punctuation.section.interpolation.end.go
+        {{ print $var }}
+|       ^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.interpolation.go - markup.raw
+|       ^^ punctuation.section.interpolation.begin.go
+|         ^^^^^^^^^^^^ source.go.template
+|                     ^^ punctuation.section.interpolation.end.go
+    {{ end }}
+|   ^^^^^^^^^ meta.paragraph.markdown meta.interpolation.go - markup.raw
+|   ^^ punctuation.section.interpolation.begin.go
+|     ^^^^^ source.go.template
+|          ^^ punctuation.section.interpolation.end.go
+{{ end }}
