@@ -5564,6 +5564,27 @@ func template() {
     //             ^ punctuation.accessor.dot.go
     //              ^^^^^^ variable.other.member.go
     //                     ^ keyword.operator.assignment.pipe.go
+    t = "{{ $foo = (.Member | func) }}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //              ^ punctuation.accessor.dot.go
+    //               ^^^^^^ variable.other.member.go
+    //                      ^ keyword.operator.assignment.pipe.go
+    t = "{{ (printf "text/html" ($url | htmlEscape)) | safeHTML }}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //      ^^^^^^^^^^^^^^^^^^^^ source.go.template meta.group.go - meta.group meta.group
+    //                          ^^^^^^^^^^^^^^^^^^^ source.go.template meta.group.go meta.group.go
+    //                                             ^ source.go.template meta.group.go - meta.group meta.group
+    //                                              ^^^^^^^^^^^^ source.go.template - meta.group
+    //                                ^ keyword.operator.assignment.pipe.go
+    //                                               ^ keyword.operator.assignment.pipe.go
+    t = "{{ (printf "text/html" ($url | .Site.htmlEscape)) | .Site.safeHTML }}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //      ^^^^^^^^^^^^^^^^^^^^ source.go.template meta.group.go - meta.group meta.group
+    //                          ^^^^^^^^^^^^^^^^^^^^^^^^^ source.go.template meta.group.go meta.group.go
+    //                                                   ^ source.go.template meta.group.go - meta.group meta.group
+    //                                                    ^^^^^^^^^^^^^^^^^^ source.go.template - meta.group
+    //                                ^ keyword.operator.assignment.pipe.go
+    //                                                     ^ keyword.operator.assignment.pipe.go
     t = "{{nil}} {{true}} {{false}}"
     //     ^^^ constant.language
     //             ^^^^ constant.language
