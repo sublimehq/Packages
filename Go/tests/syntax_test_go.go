@@ -5480,6 +5480,56 @@ func template() {
     //           ^^^^^^ variable.function.method.go
     //                  ^ punctuation.accessor.dot.go
     //                   ^^^^^ variable.other.member.go
+    t = "{{$foo = function .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^ variable.other.template.go
+    //          ^ keyword.operator.assignment.go
+    //            ^^^^^^^^ variable.function.go
+    //                     ^ punctuation.accessor.dot.go
+    //                      ^^^^^ variable.other.member.go
+    t = "{{$foo = .Method .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^ variable.other.template.go
+    //          ^ keyword.operator.assignment.go
+    //            ^ punctuation.accessor.dot.go
+    //             ^^^^^^ variable.function.method.go
+    //                    ^ punctuation.accessor.dot.go
+    //                     ^^^^^ variable.other.member.go
+    t = "{{$foo = .Site.Method .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^ variable.other.template.go
+    //          ^ keyword.operator.assignment.go
+    //            ^ punctuation.accessor.dot.go
+    //             ^^^^ variable.other.member.go
+    //                 ^ punctuation.accessor.dot.go
+    //                  ^^^^^^ variable.function.method.go
+    //                         ^ punctuation.accessor.dot.go
+    //                          ^^^^^ variable.other.member.go
+    t = "{{$foo := function .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^ variable.other.template.go
+    //          ^^ keyword.operator.assignment.go
+    //             ^^^^^^^^ variable.function.go
+    //                      ^ punctuation.accessor.dot.go
+    //                       ^^^^^ variable.other.member.go
+    t = "{{$foo := .Method .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^ variable.other.template.go
+    //          ^^ keyword.operator.assignment.go
+    //             ^ punctuation.accessor.dot.go
+    //              ^^^^^^ variable.function.method.go
+    //                     ^ punctuation.accessor.dot.go
+    //                      ^^^^^ variable.other.member.go
+    t = "{{$foo := .Site.Method .Param}}"
+    //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^ variable.other.template.go
+    //          ^^ keyword.operator.assignment.go
+    //             ^ punctuation.accessor.dot.go
+    //              ^^^^ variable.other.member.go
+    //                  ^ punctuation.accessor.dot.go
+    //                   ^^^^^^ variable.function.method.go
+    //                          ^ punctuation.accessor.dot.go
+    //                           ^^^^^ variable.other.member.go
     t = "{{ if or (isset .Params "alt") (.Method .Params "caption") }} Caption {{ end }}"
     //   ^^^^^^^^^ meta.string.go meta.interpolation.go - meta.group
     //            ^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go meta.group.go
