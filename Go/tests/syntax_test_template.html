@@ -98,3 +98,11 @@
 |^ punctuation.section.interpolation.begin.go
 |  ^^^ keyword.control.context.go
 |      ^^ punctuation.section.interpolation.end.go
+
+{{return .Param}}
+| <- meta.interpolation.go punctuation.section.interpolation.begin.go
+|^^^^^^^^^^^^^^^^ meta.interpolation.go
+| ^^^^^^ variable.function.go
+|        ^ punctuation.accessor.dot.go
+|         ^^^^^ variable.other.member.go
+|              ^^ punctuation.section.interpolation.end.go

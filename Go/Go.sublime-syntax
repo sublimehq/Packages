@@ -790,7 +790,7 @@ contexts:
     - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
       scope: support.function.builtin.go
       pop: 1
-    - match: '{{ident}}(?=\s+[^-:=|)}])' # requires arguments
+    - match: '{{keyword_or_ident}}(?=\s+[^-:=|)}])' # requires arguments
       scope: variable.function.go
       pop: 1
     - match: (?=\.)
@@ -798,7 +798,7 @@ contexts:
     - include: pop-before-nonblank
 
   match-template-method:
-    - match: (\.)({{ident}})(?=\s+[^-:=|)}]) # requires arguments
+    - match: (\.)({{keyword_or_ident}})(?=\s+[^-:=|)}]) # requires arguments
       captures:
         1: punctuation.accessor.dot.go
         2: variable.function.method.go
@@ -867,13 +867,13 @@ contexts:
       push: match-template-function
 
   match-template-members:
-    - match: (\.)({{ident}})
+    - match: (\.)({{keyword_or_ident}})
       captures:
         1: punctuation.accessor.dot.go
         2: variable.other.member.go
 
   match-template-variables:
-    - match: (\$){{ident}}
+    - match: (\$){{keyword_or_ident}}
       scope: variable.other.template.go
       captures:
         1: punctuation.definition.variable.go

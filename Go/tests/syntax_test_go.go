@@ -5455,12 +5455,21 @@ func template() {
     //                            ^ meta.interpolation.go variable.other.template.go punctuation.definition.variable.go
     //                             ^ meta.interpolation.go variable.other.template.go
     //                               ^ meta.interpolation.go keyword.operator.assignment.go
+    t = "{{index $array 0}}"
+    //   ^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^^ support.function.builtin.go
+    //           ^^^^^^ variable.other.template.go
+    //                  ^ meta.number.integer.decimal.go constant.numeric.value.go
     t = "{{slice x 1 2}}"
     //   ^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //     ^^^^^ support.function.builtin.go
     //           ^ - variable.function
     //             ^ constant.numeric.value.go
     //               ^ constant.numeric.value.go
+    t = "{{return . }}"
+    //   ^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
+    //     ^^^^^^ variable.function.go
+    //            ^ variable.language.template.go
     t = "{{function .Param}}"
     //   ^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //     ^^^^^^^^ variable.function.go
