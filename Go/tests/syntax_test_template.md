@@ -124,6 +124,12 @@
 |                      ^^^^ keyword.control.conditional.else.go
 |                                  ^^^ keyword.control.context.go
 
+<!-- Functions -->
+
+{{ $foo := partial "template.html" }}
+|          ^^^^^^^ variable.function.go
+|                  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+
 <!-- Interpolation in embedded HTML/CSS -->
 
   <style>

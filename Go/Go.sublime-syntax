@@ -807,7 +807,7 @@ contexts:
     - include: pop-now
 
   match-template-keyword:
-    - match: (?:block|define|end|partial|template|with)\b
+    - match: (?:block|define|end|template|with)\b
       scope: keyword.control.context.go
       pop: 1
     - match: if\b
