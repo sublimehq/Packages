@@ -786,24 +786,27 @@ contexts:
     - include: match-template-expressions
 
   match-template-function:
-    # https://pkg.go.dev/text/template#hdr-Functions
-    - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
-      scope: support.function.builtin.go
-      pop: 1
+    - include: match-template-builtin-function
     - match: '{{keyword_or_ident}}(?=\s+[^-:=|)}])' # requires arguments
       scope: variable.function.go
       pop: 1
     - match: (?=\.)
-      set: match-template-method
+      set: match-template-members
     - include: pop-before-nonblank
 
-  match-template-method:
+  match-template-builtin-function:
+    # https://pkg.go.dev/text/template#hdr-Functions
+    - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+      scope: support.function.builtin.go
+      pop: 1
+
+  match-template-members:
     - match: (\.)({{keyword_or_ident}})(?=\s+[^-:=|)}]) # requires arguments
       captures:
         1: punctuation.accessor.dot.go
         2: variable.function.method.go
       pop: 1
-    - include: match-template-members
+    - include: match-template-attributes
     - include: pop-now
 
   match-template-keyword:
@@ -834,7 +837,7 @@ contexts:
     - include: match-template-groups
     - include: match-template-operators
     - include: match-template-pipes
-    - include: match-template-members
+    - include: match-template-attributes
     - include: match-template-variables
     - include: match-comma
     - include: match-literals
@@ -864,9 +867,27 @@ contexts:
     # https://pkg.go.dev/text/template#hdr-Pipelines
     - match: \|
       scope: keyword.operator.assignment.pipe.go
-      push: match-template-function
+      push: match-template-function-after-pipe
 
-  match-template-members:
+  match-template-function-after-pipe:
+    - include: match-template-builtin-function
+    - match: '{{keyword_or_ident}}(?!\.)'
+      scope: variable.function.go
+      pop: 1
+    - match: (?=\.)
+      set: match-template-members-after-pipe
+    - include: pop-before-nonblank
+
+  match-template-members-after-pipe:
+    - match: (\.)({{keyword_or_ident}})(?!\.)
+      captures:
+        1: punctuation.accessor.dot.go
+        2: variable.function.method.go
+      pop: 1
+    - include: match-template-attributes
+    - include: pop-now
+
+  match-template-attributes:
     - match: (\.)({{keyword_or_ident}})
       captures:
         1: punctuation.accessor.dot.go

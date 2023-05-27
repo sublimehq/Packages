@@ -5585,7 +5585,9 @@ func template() {
     //                                             ^ source.go.template meta.group.go - meta.group meta.group
     //                                              ^^^^^^^^^^^^ source.go.template - meta.group
     //                                ^ keyword.operator.assignment.pipe.go
+    //                                  ^^^^^^^^^^ variable.function.go
     //                                               ^ keyword.operator.assignment.pipe.go
+    //                                                 ^^^^^^^^ variable.function.go
     t = "{{ (printf "text/html" ($url | .Site.htmlEscape)) | .Site.safeHTML }}"
     //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.interpolation.go
     //      ^^^^^^^^^^^^^^^^^^^^ source.go.template meta.group.go - meta.group meta.group
@@ -5593,7 +5595,15 @@ func template() {
     //                                                   ^ source.go.template meta.group.go - meta.group meta.group
     //                                                    ^^^^^^^^^^^^^^^^^^ source.go.template - meta.group
     //                                ^ keyword.operator.assignment.pipe.go
+    //                                  ^ punctuation.accessor.dot.go
+    //                                   ^^^^ variable.other.member.go
+    //                                       ^ punctuation.accessor.dot.go
+    //                                        ^^^^^^^^^^ variable.function.method.go
     //                                                     ^ keyword.operator.assignment.pipe.go
+    //                                                       ^ punctuation.accessor.dot.go
+    //                                                        ^^^^ variable.other.member.go
+    //                                                            ^ punctuation.accessor.dot.go
+    //                                                             ^^^^^^^^ variable.function.method.go
     t = "{{nil}} {{true}} {{false}}"
     //     ^^^ constant.language
     //             ^^^^ constant.language
