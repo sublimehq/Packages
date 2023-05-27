@@ -9,6 +9,25 @@
 |          ^^^^^^^^^^^^^^^^^^^^^ text.html meta.interpolation.go
 |                                ^^^^^^^^^^^^^^^^^ text.html meta.interpolation.go
 |                                                  ^^^^^^^^^ text.html meta.interpolation.go
+    <script>
+        window.themeUseOpenapi = {
+            css: {{ $urlOpenapi }},
+        |        ^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.mapping.js meta.interpolation.go
+        |        ^^ punctuation.section.interpolation.begin.go
+        |          ^^^^^^^^^^^^^ source.go.template
+        |           ^^^^^^^^^^^ variable.other.template.go
+        |                       ^^ punctuation.section.interpolation.end.go
+        |                         ^ punctuation.separator.comma.js
+            assetsBuster: {{ cond (not .Site.Params.disableAssetsBusting) now.Unix 0 }}
+        |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.mapping.js meta.interpolation.go
+        |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.go
+        |                 ^^ punctuation.section.interpolation.begin.go
+        |                    ^^^^ variable.function.go
+        |                                                                            ^^ punctuation.section.interpolation.end.go
+        };
+        | <- source.js.embedded.html meta.mapping.js punctuation.section.mapping.end.js
+    </script>
+
     <style>
         .class {
            color: {{ .Site.Color }};

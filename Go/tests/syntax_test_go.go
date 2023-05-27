@@ -5736,10 +5736,14 @@ func lang_embedding() {
     //^^^^^^^^ meta.annotation.identifier.go support.other.go
     //        ^ meta.annotation.identifier.go keyword.operator.assignment.go
     //         ^^ meta.annotation.parameters.go constant.other.language-name.go
-    js_string := `var i = 0`
+    js_string := `var i = {{ $var }}`
     //           ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go - source.js
-    //            ^^^^^^^^^ meta.string.go meta.embedded.go source.js.embedded.go - string.quoted.backtick
-    //                     ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go - source.js
+    //            ^^^^^^^^ meta.string.go meta.embedded.go source.js.embedded.go - meta.interpolation - string.quoted.backtick
+    //                    ^^^^^^^^^^ meta.string.go meta.embedded.go source.js.embedded.go meta.interpolation.go - string.quoted.backtick
+    //                              ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go - source.js
+    //                    ^^ punctuation.section.interpolation.begin.go
+    //                       ^^^^ variable.other.template.go
+    //                            ^^ punctuation.section.interpolation.end.go
 
     //language=sql prefix=foo suffix=bar
     // <- comment.line.double-slash.go punctuation.definition.comment.go
