@@ -783,37 +783,34 @@ contexts:
         1: keyword.operator.template.trim.right.go
         2: punctuation.section.interpolation.end.go
       pop: 1
-    # https://pkg.go.dev/text/template#hdr-Pipelines
-    - match: \|
-      scope: keyword.operator.assignment.pipe.go
-      push:
-        - match-template-function
-        - match-template-keyword
     - include: match-template-expressions
 
   match-template-function:
+    - include: match-template-builtin-function
+    - match: '{{keyword_or_ident}}(?=\s+[^-:=|)}])' # requires arguments
+      scope: variable.function.go
+      pop: 1
+    - match: (?=\.)
+      set: match-template-members
+    - include: pop-before-nonblank
+
+  match-template-builtin-function:
     # https://pkg.go.dev/text/template#hdr-Functions
     - match: (?:and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
       scope: support.function.builtin.go
       pop: 1
-    - match: '{{ident}}(?=\s+[^-)}])' # requires arguments
-      scope: variable.function.go
-      pop: 1
-    - match: (?=\.)
-      set: match-template-method
-    - include: pop-before-nonblank
 
-  match-template-method:
-    - match: (\.)({{ident}})(?=\s+[^-)}]) # requires arguments
+  match-template-members:
+    - match: (\.)({{keyword_or_ident}})(?=\s+[^-:=|)}]) # requires arguments
       captures:
         1: punctuation.accessor.dot.go
         2: variable.function.method.go
       pop: 1
-    - include: match-template-members
+    - include: match-template-attributes
     - include: pop-now
 
   match-template-keyword:
-    - match: (?:block|define|end|partial|template|with)\b
+    - match: (?:block|define|end|template|with)\b
       scope: keyword.control.context.go
       pop: 1
     - match: if\b
@@ -839,7 +836,8 @@ contexts:
   match-template-expressions:
     - include: match-template-groups
     - include: match-template-operators
-    - include: match-template-members
+    - include: match-template-pipes
+    - include: match-template-attributes
     - include: match-template-variables
     - include: match-comma
     - include: match-literals
@@ -863,15 +861,40 @@ contexts:
   match-template-operators:
     - match: \:?=
       scope: keyword.operator.assignment.go
+      push: match-template-function
 
-  match-template-members:
-    - match: (\.)({{ident}})
+  match-template-pipes:
+    # https://pkg.go.dev/text/template#hdr-Pipelines
+    - match: \|
+      scope: keyword.operator.assignment.pipe.go
+      push: match-template-function-after-pipe
+
+  match-template-function-after-pipe:
+    - include: match-template-builtin-function
+    - match: '{{keyword_or_ident}}(?!\.)'
+      scope: variable.function.go
+      pop: 1
+    - match: (?=\.)
+      set: match-template-members-after-pipe
+    - include: pop-before-nonblank
+
+  match-template-members-after-pipe:
+    - match: (\.)({{keyword_or_ident}})(?!\.)
+      captures:
+        1: punctuation.accessor.dot.go
+        2: variable.function.method.go
+      pop: 1
+    - include: match-template-attributes
+    - include: pop-now
+
+  match-template-attributes:
+    - match: (\.)({{keyword_or_ident}})
       captures:
         1: punctuation.accessor.dot.go
         2: variable.other.member.go
 
   match-template-variables:
-    - match: (\$){{ident}}
+    - match: (\$){{keyword_or_ident}}
       scope: variable.other.template.go
       captures:
         1: punctuation.definition.variable.go

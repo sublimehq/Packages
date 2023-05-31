@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+name: JavaScript (Go)
+scope: source.js.go
+version: 2
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+file_extensions:
+  - gojs
+  - go.js
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-text-templates
+
+  strings-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates

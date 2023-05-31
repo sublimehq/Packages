@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+scope: source.js.go-embedded-backtick-string
+version: 2
+hidden: true
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-text-content
+
+  strings-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content
