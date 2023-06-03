@@ -294,7 +294,7 @@ contexts:
       scope: constant.other.xml
       pop: 1
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       set: dtd-element-parens
     - include: dtd-constants
     - include: dtd-content-quoted
@@ -302,10 +302,10 @@ contexts:
   dtd-element-parens:
     - meta_scope: meta.group.xml
     - match: \)
-      scope: punctuation.definition.group.end.xml
+      scope: punctuation.section.group.end.xml
       set: dtd-element-operator
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       push: dtd-element-parens
     - match: '[*?+]'
       scope: keyword.operator.xml
@@ -353,16 +353,16 @@ contexts:
 
   dtd-attlist-parens:
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       push: dtd-attlist-parens-content
 
   dtd-attlist-parens-content:
     - meta_scope: meta.group.enumerated.xml
     - match: \)
-      scope: punctuation.definition.group.end.xml
+      scope: punctuation.section.group.end.xml
       pop: 1
     - match: \|
-      scope: punctuation.separator.logical.xml
+      scope: punctuation.separator.xml
     - include: dtd-constants
     - include: entity
     - include: should-be-entity
