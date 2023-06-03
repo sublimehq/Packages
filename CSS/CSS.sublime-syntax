@@ -1377,10 +1377,13 @@ contexts:
   property-list-body:
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
+    - include: comments
+    - include: property-lists
+    - include: property-identifiers
     - include: nested-selectors
     - include: at-rules
-    - include: property-lists
-    - include: rule-list-body
+    - include: rule-terminators
+    - include: illegal-groups
 
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
