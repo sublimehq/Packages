@@ -886,6 +886,7 @@ contexts:
       push: at-supports-group-body
 
   at-supports-group-body:
+    - meta_include_prototype: false
     - meta_scope: meta.group.css
     - include: group-end
     - include: at-rule-end
@@ -1375,6 +1376,7 @@ contexts:
       push: property-list-body
 
   property-list-body:
+    - meta_include_prototype: false
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
     - include: comments

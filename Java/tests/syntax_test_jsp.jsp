@@ -22,7 +22,7 @@
 //         ^^ punctuation.section.embedded.begin.jsp
 //           ^^^^^^^^^^^^^^^^^ source.java.embedded.jsp
 //                            ^^ punctuation.section.embedded.end.jsp
-            color: <% print("<\%foo%\>"); %>;
+;           color: <% print("<\%foo%\>"); %>;
 //          ^^^^^ support.type.property-name.css
 //               ^ punctuation.separator.key-value.css
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.css meta.embedded.scriptlet.jsp
@@ -32,7 +32,7 @@
 //                           ^^^ constant.character.escape.jsp
 //                                 ^^^ constant.character.escape.jsp
 //                                        ^^ punctuation.section.embedded.end.jsp
-            font-family: "Helve<% print("tic")%>a";
+;           font-family: "Helve<% print("tic")%>a";
 //                       ^^^^^^ meta.string.css - meta.interpolation - meta.embedded
 //                             ^^^^^^^^^^^^^^^^^ meta.string.css meta.interpolation.jsp meta.embedded.scriptlet.jsp
 //                                              ^^ meta.string.css - meta.interpolation - meta.embedded

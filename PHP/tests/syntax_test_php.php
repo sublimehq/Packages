@@ -5831,7 +5831,7 @@ h1 {
 //                            ^ punctuation.section.block.begin.php
 //                              ^^ punctuation.section.embedded.end.php
 
-        font-size: 2em;
+;       font-size: 2em;
 //     ^^^^^^^^^^^^^^^^^ text.html.php source.css.embedded
 //      ^^^^^^^^^ support.type.property-name
 //                 ^ constant.numeric
@@ -5846,7 +5846,7 @@ h1 {
 //            ^ punctuation.section.block.begin.php
 //              ^^ punctuation.section.embedded.end.php
 
-        font-size: 3em;
+;       font-size: 3em;
 //     ^^^^^^^^^^^^^^^^^ text.html.php source.css.embedded
 //      ^^^^^^^^^ support.type.property-name
 //                 ^ constant.numeric
@@ -5880,6 +5880,27 @@ h1 {
 //                ^^^^^ punctuation.section.embedded.begin.php
 //                     ^^^^^^^^^^^ source.php.embedded.css
 //                                ^^ punctuation.section.embedded.end.php
+
+   .<? $selector ?> { <? $attr ?>: <? $value ?>; }
+// ^^^^^^^^^^^^^^^^ source.css.embedded.html - meta.property-list - meta.block
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css
+// ^ meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css
+//  ^^^^^^^^^^^^^^^ meta.selector.css entity.other.attribute-name.class.css meta.embedded.php
+//  ^^ punctuation.section.embedded.begin.php
+//    ^^^^^^^^^^^ source.php.embedded.css
+//               ^^ punctuation.section.embedded.end.php
+//                  ^ punctuation.section.block.begin.css
+//                    ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.embedded.php
+//                    ^^ punctuation.section.embedded.begin.php
+//                      ^^^^^^^ source.php.embedded.css
+//                             ^^ punctuation.section.embedded.end.php
+//                               ^ punctuation.separator.key-value.css
+//                                 ^^^^^^^^^^^^ meta.property-value.css meta.embedded.php
+//                                 ^^ punctuation.section.embedded.begin.php
+//                                   ^^^^^^^^ source.php.embedded.css
+//                                           ^^ punctuation.section.embedded.end.php
+//                                             ^ punctuation.terminator.rule.css
+//                                               ^ punctuation.section.block.end.css
 
 .my-<?php echo $class;?>-name:my-<?php echo $class;?>-class { my-<?php echo $class;?>-name: black }
 // <- meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css
