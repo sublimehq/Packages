@@ -354,9 +354,13 @@
         ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html
             h2 {
 ## <- source.css.embedded.html - source.css source.css
-            ## <- entity.name.tag.html.css
-                font-family: "Arial";
-                ##             ^ string.quoted.double.css
+        ##  ^^ entity.name.tag.html.css
+        ##     ^ punctuation.section.block.begin.css
+        ;      font-family: "Arial";
+        ##     ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css
+        ##                ^ punctuation.separator.key-value.css
+        ##                  ^^^^^^^ meta.property-value.css meta.string.css string.quoted.double.css
+        ##                         ^ punctuation.terminator.rule.css
             }
         --> </style>
         ## <- comment.block.html punctuation.definition.comment.end.html
