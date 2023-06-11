@@ -287,14 +287,14 @@ contexts:
 
   tex-constants:
     - match: (\\){{constants}}{{endcs}}
-      scope: constant.language.tex
+      scope: support.function.tex
       captures:
         1: punctuation.definition.backslash.tex
       push:
         - tex-dimension-value
         - tex-assignment
     - match: (\\){{macroconst}}{{endcs}}
-      scope: constant.language.tex
+      scope: support.function.tex
       captures:
         1: punctuation.definition.backslash.tex
 
