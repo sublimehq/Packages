@@ -345,15 +345,15 @@ from unicode.__init__ . 123 import unicode as unicode
 #           ^ punctuation.accessor.dot.python
 #            ^^^^^^^^ meta.import-name.python - support
 #                     ^^^^^ invalid.illegal.name.python
-#                                  ^^^^^^^ storage.type.python
-#                                             ^^^^^^^ storage.type.python
+#                                  ^^^^^^^ support.type.python
+#                                             ^^^^^^^ support.type.python
 
 import .str
 #      ^ invalid.illegal.unexpected-relative-import.python
-#       ^^^ storage.type.python
+#       ^^^ support.type.python
 
 import str
-#      ^^^ storage.type.python
+#      ^^^ support.type.python
 
 from importlib import import_module
 # <- meta.statement.import.python keyword.control.import.from.python
@@ -1406,7 +1406,7 @@ def _():
 #           ^^ meta.statement.conditional.case.patterns.python meta.function-call.arguments.python
 #             ^ meta.statement.conditional.case.python - meta.function-call
 #   ^^^^ keyword.control.conditional.case.python
-#        ^^^ storage.type.python
+#        ^^^ support.type.python
 #           ^ punctuation.section.arguments.begin.python
 #            ^ punctuation.section.arguments.end.python
 #             ^ punctuation.section.block.conditional.case.python
@@ -1510,7 +1510,7 @@ def _():
 #                                                                                 ^ meta.statement.conditional.case.python
 #                                                                                  ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
-#        ^^^ storage.type.python
+#        ^^^ support.type.python
 #           ^ punctuation.section.arguments.begin.python
 #            ^ punctuation.section.arguments.end.python
 #             ^ punctuation.separator.sequence.python
@@ -1571,7 +1571,7 @@ def _():
     case: int = 0
 #   ^^^^ meta.generic-name.python - keyword
 #       ^ punctuation.separator.annotation.python
-#         ^^^ storage.type.python
+#         ^^^ support.type.python
 #             ^ keyword.operator.assignment.python
 #               ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1580,7 +1580,7 @@ def _():
 #        ^ punctuation.separator.continuation.line.python
     : int = 0
 #   ^ punctuation.separator.annotation.python
-#     ^^^ storage.type.python
+#     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1603,7 +1603,7 @@ def _():
     match: int = 0
 #   ^^^^^ meta.generic-name.python - keyword
 #        ^ punctuation.separator.annotation.python
-#          ^^^ storage.type.python
+#          ^^^ support.type.python
 #              ^ keyword.operator.assignment.python
 #                ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1612,7 +1612,7 @@ def _():
 #         ^ punctuation.separator.continuation.line.python
     : int = 0
 #   ^ punctuation.separator.annotation.python
-#     ^^^ storage.type.python
+#     ^^^ support.type.python
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
@@ -1714,7 +1714,7 @@ def type_annotations(param1: int, param2: MyType | None , param3: max(2, 3), par
 #                    ^^^^^^ variable.parameter
 #                          ^^^^^ meta.function.parameters.annotation
 #                          ^ punctuation.separator.annotation
-#                            ^^^ meta.type.python storage.type.python
+#                            ^^^ meta.type.python support.type.python
 #                               ^ punctuation.separator.parameters
 #                                 ^^^^^^ variable.parameter
 #                                       ^ punctuation.separator.annotation
@@ -1738,7 +1738,7 @@ def type_annotations(param1: int, param2: MyType | None , param3: max(2, 3), par
 #                                                                                               ^^^^^^^^^ string.quoted.double
 #                                                                                                        ^ punctuation.section.parameters.end
 #                                                                                                          ^^ punctuation.separator.return-type.python
-#                                                                                                             ^^^ storage.type
+#                                                                                                             ^^^ support.type
 #                                                                                                                 ^ punctuation.section.function.begin
 
 def type_annotations_arrow_only() ->
@@ -1761,7 +1761,7 @@ def type_annotations_without_terminator_followd_by_comment() -> int # comment
 #                                                               ^^^ meta.function.return-type.python meta.type.python
 #                                                                  ^^^^^^^^^^^ - meta.function - meta.type
 #                                                            ^^ punctuation.separator.return-type.python
-#                                                               ^^^ storage.type.python
+#                                                               ^^^ support.type.python
     pass
 # <- - meta.function - meta.type
 #   ^^^^ keyword.control.flow.pass.python
@@ -1773,7 +1773,7 @@ def type_annotations_line_continuation_without_terminator() \
 #^^^^^ meta.function.python
 #     ^^^^^^ meta.function.return-type
 #     ^^ punctuation.separator.return-type.python
-#        ^^^ meta.type storage.type
+#        ^^^ meta.type support.type
     pass
 
 def type_annotations_line_continuation_without_terminator_but_comment() \
@@ -1783,7 +1783,7 @@ def type_annotations_line_continuation_without_terminator_but_comment() \
 #^^^^^ meta.function.python
 #     ^^^^^^ meta.function.return-type
 #     ^^ punctuation.separator.return-type.python
-#        ^^^ meta.type storage.type
+#        ^^^ meta.type support.type
     pass
 
 def type_annotations_line_continuation() \
@@ -1793,7 +1793,7 @@ def type_annotations_line_continuation() \
 #     ^^^^^^ meta.function.return-type
 #           ^ meta.function.python
 #     ^^ punctuation.separator.return-type.python
-#        ^^^ meta.type storage.type
+#        ^^^ meta.type support.type
 #           ^ punctuation.section.function.begin
     pass
 
@@ -1802,7 +1802,7 @@ def type_annotations_line_continuation() \
       int:
 # <- meta.function.return-type.python - meta.type
 #^^^^^ meta.function.return-type.python - meta.type
-#     ^^^ meta.function.return-type.python meta.type.python storage.type.python
+#     ^^^ meta.function.return-type.python meta.type.python support.type.python
 #        ^ meta.function.python punctuation.section.function.begin.python
     pass
 
@@ -1820,7 +1820,7 @@ def type_annotation_with_defaults(foo: str | None = None)
 #                                      ^^^^^^^^^^ meta.function.parameters.annotation.python meta.type.python - meta.function.parameters.default-value
 #                                                ^ meta.function.parameters.annotation.python - meta.function.parameters.default-value - meta.type
 #                                                 ^^^^^^ meta.function.parameters.default-value.python - meta.function.parameters.annotation
-#                                      ^^^ storage.type.python
+#                                      ^^^ support.type.python
 #                                          ^ keyword.operator.logical.union.python
 #                                            ^^^^ constant.language.null.python
 #                                                 ^ keyword.operator.assignment.python
@@ -1965,7 +1965,7 @@ def func(
 #  ^^^^^^^^^^^ meta.function.parameters
 #   ^^^ variable.parameter.python
 #      ^ punctuation.separator.annotation
-#        ^^^ storage.type.python
+#        ^^^ support.type.python
 #           ^ punctuation.separator.parameters.python
 ): pass
 
@@ -2232,7 +2232,7 @@ mytuple = ("this", 'is', 4, tuple)
 #                      ^ punctuation.separator.sequence
 #                        ^ constant.numeric
 #                         ^ punctuation.separator.sequence
-#                           ^^^^^ storage.type
+#                           ^^^^^ support.type
 #                                ^ punctuation.section.sequence.end
 
 also_a_tuple = ()[-1]
@@ -2544,7 +2544,7 @@ foo, bar = get_vars()
 t = (*tuple(), *[1, 2], 3*1)
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
 #    ^ keyword.operator.arithmetic.python
-#     ^^^^^ storage.type.python
+#     ^^^^^ support.type.python
 #              ^ keyword.operator.unpacking.sequence.python
 #                        ^ keyword.operator.arithmetic.python
 
@@ -2568,7 +2568,7 @@ d = {**d, **dict()}
 #       ^ punctuation.separator.sequence.python
 #         ^^^^^^^^ - meta.mapping.key
 #         ^^ keyword.operator.unpacking.mapping.python
-#           ^^^^ storage.type.python
+#           ^^^^ support.type.python
 
 s = {*d, *set()}
 #   ^^^^^^^^^^^^ meta.set.python
@@ -2576,7 +2576,7 @@ s = {*d, *set()}
 #     ^ meta.path.python
 #      ^ punctuation.separator.set.python
 #        ^ keyword.operator.unpacking.sequence.python
-#         ^^^ storage.type.python
+#         ^^^ support.type.python
 
 generator = (
     i
@@ -2973,7 +2973,7 @@ primes: List[int] = []
 #       ^^^^ meta.type.python support.class.typing.python
 #           ^^^^^ meta.type.python meta.brackets.python
 #           ^ punctuation.section.brackets.begin.python
-#            ^^^ storage.type.python
+#            ^^^ support.type.python
 #               ^ punctuation.section.brackets.end.python
 #                ^^^^^^ - meta.type
 #                 ^ keyword.operator.assignment
@@ -2981,7 +2981,7 @@ primes: List[int] = []
 captain: str  # Note: no initial value!
 #      ^ punctuation.separator.annotation.python
 #      ^^ - meta.type
-#        ^^^ meta.type.python storage.type.python
+#        ^^^ meta.type.python support.type.python
 #           ^^ - meta.type - comment
 #             ^^^^^^^ comment
 
@@ -2990,7 +2990,7 @@ foo: str | None = None
 #    ^^^^^^^^^^ meta.type.python
 #              ^^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.python
-#    ^^^ storage.type.python
+#    ^^^ support.type.python
 #        ^ keyword.operator.logical.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
@@ -3001,7 +3001,7 @@ bar: str | None = 'b'
 #    ^^^^^^^^^^ meta.type.python
 #              ^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.python
-#    ^^^ storage.type.python
+#    ^^^ support.type.python
 #        ^ keyword.operator.logical.union.python
 #          ^^^^ constant.language.null.python
 #               ^ keyword.operator.assignment.python
@@ -3009,7 +3009,7 @@ bar: str | None = 'b'
 
 foo: int := 0
 #  ^ punctuation.separator.annotation.python
-#    ^^^ meta.type.python meta.path.python storage.type.python
+#    ^^^ meta.type.python meta.path.python support.type.python
 #       ^^^^^^ - meta.type
 #        ^^ invalid.illegal.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
@@ -3071,9 +3071,9 @@ foo: (int, float) # illegal type, but python likes them
 #    ^^^^^^^^^^^^ meta.type.python meta.sequence.tuple.python
 #                ^^^^^^^^^^^^^^^^^^ - meta.type
 #    ^ punctuation.section.sequence.begin.python
-#     ^^^ storage.type.python
+#     ^^^ support.type.python
 #        ^ punctuation.separator.sequence.python
-#          ^^^^^ storage.type.python
+#          ^^^^^ support.type.python
 #               ^ punctuation.section.sequence.end.python
 #                 ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
 
@@ -3133,7 +3133,7 @@ primes = 5  # type: ignore  # type: str  # technically ok but weird
 #                   ^^^^^^ keyword.other.ignore.python
 #                             ^^^^ keyword.other.type.python
 #                                 ^ punctuation.separator.type.python
-#                                   ^^^ storage.type.python
+#                                   ^^^ support.type.python
 
 primes = 5  # type: str  # type: ignore  # typical
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
@@ -3154,12 +3154,12 @@ dct = {}  # type: Dict[str, (int, float)] # illegal parens
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
 #                     ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python
 #                     ^ punctuation.section.brackets.begin.python
-#                      ^^^ storage.type.python
+#                      ^^^ support.type.python
 #                         ^ punctuation.separator.sequence.python
 #                           ^ - punctuation
-#                            ^^^ storage.type.python
+#                            ^^^ support.type.python
 #                               ^ punctuation.separator.sequence.python
-#                                 ^^^^^ storage.type.python
+#                                 ^^^^^ support.type.python
 #                                      ^ - punctuation
 #                                       ^ punctuation.section.brackets.end.python
 
@@ -3169,11 +3169,11 @@ dct = {}  # type: Dict[str, str | int]
 #           ^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.sequence
 #                     ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python meta.brackets.python
 #                     ^ punctuation.section.brackets.begin.python
-#                      ^^^ storage.type.python
+#                      ^^^ support.type.python
 #                         ^ punctuation.separator.sequence.python
-#                           ^^^ storage.type.python
+#                           ^^^ support.type.python
 #                               ^ keyword.operator.logical.union.python
-#                                 ^^^ storage.type.python
+#                                 ^^^ support.type.python
 #                                    ^ punctuation.section.brackets.end.python
 
 lst = []  # type: List[Dict[Any, ...]] # comment
@@ -3234,9 +3234,9 @@ for a, b in lst: # type: str, int
 #                  ^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
 #                  ^^^^ keyword.other.type.python
 #                      ^ punctuation.separator.type.python
-#                        ^^^ storage.type.python
+#                        ^^^ support.type.python
 #                           ^ punctuation.separator.sequence.python
-#                             ^^^ storage.type.python
+#                             ^^^ support.type.python
 
 # Python 2.7 function annotations.
 def function(a, b, *c, **d):
@@ -3249,25 +3249,25 @@ def function(a, b, *c, **d):
 #                                       ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.function.return-type.python
 #                                                        ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python - meta.type
 #           ^ punctuation.section.parameters.begin.python
-#            ^^^ storage.type.python
+#            ^^^ support.type.python
 #               ^ punctuation.separator.sequence.python
-#                 ^^^ storage.type.python
+#                 ^^^ support.type.python
 #                    ^ punctuation.separator.sequence.python
 #                      ^^^^ support.class.typing.python
 #                          ^^^^^ meta.brackets.python
 #                          ^ punctuation.section.brackets.begin.python
-#                           ^^^ storage.type.python
+#                           ^^^ support.type.python
 #                              ^ punctuation.section.brackets.end.python
 #                               ^ punctuation.separator.sequence.python
-#                                 ^^^^ storage.type.python
+#                                 ^^^^ support.type.python
 #                                     ^ punctuation.section.parameters.end.python
 #                                       ^^ punctuation.separator.return-type.python
 #                                          ^^^^ support.class.typing.python
 #                                              ^^^^^^^^^^ meta.brackets.python
 #                                              ^ punctuation.section.brackets.begin.python
-#                                               ^^^ storage.type.python
+#                                               ^^^ support.type.python
 #                                                  ^ punctuation.separator.sequence.python
-#                                                    ^^^ storage.type.python
+#                                                    ^^^ support.type.python
 #                                                       ^ punctuation.section.brackets.end.python
 
 class TypeCommentTest:
@@ -3279,7 +3279,7 @@ class TypeCommentTest:
 #                        ^^^^ support.class.typing.python
 #                            ^^^^^^ meta.brackets.python
 #                            ^ punctuation.section.brackets.begin.python
-#                             ^^^^ storage.type.python
+#                             ^^^^ support.type.python
 #                                 ^ punctuation.section.brackets.end.python
 
 
