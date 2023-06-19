@@ -514,12 +514,15 @@ contexts:
     - include: type-hint-body
 
   type-constants:
+    # Note: Enables `None = None` in type hints.
     - match: None\b
       scope: constant.language.null.python
 
   type-separators:
+    # Note: Scoped as normal arithmetic operator for consistency reasons with
+    #       type-hints in annotations, which share syntax with normal expressions
     - match: \|
-      scope: keyword.operator.logical.union.python
+      scope: keyword.operator.arithmetic.python
     - include: sequence-separators
 
 ###[ DECORATORS ]#############################################################
@@ -911,7 +914,6 @@ contexts:
         - function-parameter-annotation-continue
         - function-parameter-annotation-end
     - include: type-constants
-    - include: type-separators
     - include: expression-in-a-group
 
   function-parameter-annotation-continue:
@@ -997,7 +999,6 @@ contexts:
     - include: line-continuation-or-pop
     - include: illegal-assignment-expressions
     - include: type-constants
-    - include: type-separators
     - include: expression-in-a-statement
 
   function-definition-end:
