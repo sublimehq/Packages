@@ -913,6 +913,10 @@ contexts:
       branch:
         - function-parameter-annotation-continue
         - function-parameter-annotation-end
+    - include: function-parameter-annotation-content
+
+  function-parameter-annotation-content:
+    # Note: maybe type-hint expressions
     - include: type-constants
     - include: expression-in-a-group
 
@@ -997,6 +1001,10 @@ contexts:
         2: meta.function.python punctuation.section.function.begin.python
       pop: 1
     - include: line-continuation-or-pop
+    - include: function-return-type-content
+
+  function-return-type-content:
+    # Note: maybe type-hint expressions
     - include: illegal-assignment-expressions
     - include: type-constants
     - include: expression-in-a-statement
@@ -1035,9 +1043,12 @@ contexts:
     - meta_content_scope: meta.type.python
     - match: (?=\s*[\n#):;=\]}])
       pop: 1
-    - include: type-constants
-    - include: type-separators
     - include: line-continuations
+    - include: variable-annotation-content
+
+  variable-annotation-content:
+    # Note: maybe type-hint expressions
+    - include: type-constants
     - include: expression-in-a-statement
 
 ###[ CASE STATEMENTS ]########################################################
