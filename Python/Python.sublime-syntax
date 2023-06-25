@@ -174,6 +174,32 @@ variables:
     # | buffer | file
     )\b
 
+  typing_types: |-
+    (?x:
+    # Super-special typing primitives.
+      Annotated | Any | Callable | ClassVar | Concatenate | Final | ForwardRef
+    | Generic | Literal | Optional | ParamSpec | Protocol | Tuple | Type
+    | TypeVar | TypeVarTuple | Union
+    # ABCs (from collections.abc).
+    | AbstractSet | ByteString | Container | ContextManager | Hashable | ItemsView
+    | Iterable | Iterator | KeysView | Mapping | MappingView | MutableMapping
+    | MutableSequence | MutableSet | Sequence | Sized | ValuesView | Awaitable
+    | AsyncIterator | AsyncIterable | Coroutine | Collection | AsyncGenerator
+    | AsyncContextManager
+    # Structural checks, a.k.a. protocols.
+    | Reversible | SupportsAbs | SupportsBytes | SupportsComplex | SupportsFloat
+    | SupportsIndex | SupportsInt | SupportsRound
+    # Concrete collection types.
+    | ChainMap | Counter | Deque | Dict | DefaultDict | List | OrderedDict
+    | Set | FrozenSet | NamedTuple | TypedDict | Generator
+    # Other concrete types.
+    | BinaryIO | IO | Match | Pattern | TextIO
+    # One-off things.
+    | AnyStr | LiteralString | Never | NewType | NoReturn | NotRequired
+    | ParamSpecArgs | ParamSpecKwargs | Required | Self | Text | TypeAlias
+    | TypeGuard | Unpack
+    )\b
+
   magic_functions: |-
     (?x: __(?:
     # unary operators
@@ -336,7 +362,9 @@ contexts:
   comments:
     - match: \#
       scope: punctuation.definition.comment.python
-      push: comment-body
+      push:
+        - comment-body
+        - type-hint
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
@@ -359,6 +387,143 @@ contexts:
       scope: constant.language.shebang.python
     - match: \n
       pop: 1
+
+###[ TYPE HINTS ]#############################################################
+
+  type-hint:
+    # 1st type hint may be of any type
+    - match: (type)(:)
+      captures:
+        1: keyword.other.type.python
+        2: punctuation.separator.type.python
+      set: type-hint-any
+    - include: else-pop
+    - include: eol-pop
+
+  type-hint-any:
+    - meta_scope: meta.type.python
+    - include: type-hint-end
+    - match: ignore\b
+      scope: keyword.other.ignore.python
+      set:
+        - type-hint-type
+        - type-hint-error-list
+    - match: (?=\S)
+      set:
+        - type-hint-ignore
+        - type-hint-begin
+
+  type-hint-ignore:
+    # 2nd type hint may only be a `type: ignore`
+    # As it isn't a real start of a comment `#` is not scoped punctuation.
+    - match: \s*\#\s*((type)(:)\s*(ignore\b))
+      captures:
+        1: meta.type.python
+        2: keyword.other.type.python
+        3: punctuation.separator.type.python
+        4: keyword.other.ignore.python
+      set: type-hint-error-list
+    - include: immediately-pop
+
+  type-hint-type:
+    # 2nd type hint must not be a `type: ignore`
+    # As it isn't a real start of a comment `#` is not scoped punctuation.
+    - match: \s*\#\s*((type)(:)(?!\s*ignore\b))
+      captures:
+        1: meta.type.python
+        2: keyword.other.type.python
+        3: punctuation.separator.type.python
+      set: type-hint-begin
+    - include: immediately-pop
+
+  type-hint-error-list:
+    - meta_content_scope: meta.type.python
+    - match: \[
+      scope: punctuation.section.sequence.begin.python
+      set: type-hint-error-list-body
+    - include: type-hint-end
+
+  type-hint-error-list-body:
+    - meta_scope: meta.type.python meta.sequence.list.errors.python
+    - match: \]
+      scope: punctuation.section.sequence.end.python
+      pop: 1
+    - include: type-hint-end
+    - include: sequence-separators
+    - match: \b[[:alpha:]_-][[:alnum:]_-]+\b
+      scope: constant.other.error-code.python
+
+  type-hint-begin:
+    - meta_content_scope: meta.type.python
+    - match: \(
+      scope: punctuation.section.parameters.begin.python
+      set: type-hint-function-parameter-list-body
+    - match: (?=\S)
+      set: type-hint-body
+
+  type-hint-function-parameter-list-body:
+    - meta_scope: meta.type.function.parameters.python
+    - match: \)
+      scope: punctuation.section.parameters.end.python
+      set: type-hint-function-return-type
+    - include: type-hint-body
+
+  type-hint-function-return-type:
+    - meta_content_scope: meta.type.function.python
+    - match: ->
+      scope: punctuation.separator.return-type.python
+      set: type-hint-function-return-type-body
+    - include: type-hint-end
+
+  type-hint-function-return-type-body:
+    - meta_scope: meta.type.function.return-type.python
+    - include: type-hint-body
+
+  type-hint-body:
+    - meta_scope: meta.type.python
+    - include: type-hint-end
+    - include: type-hint-expressions
+
+  type-hint-end:
+    - match: (?=\s*[\n#])
+      pop: 1
+
+  type-hint-expressions:
+    - include: type-hint-lists
+    - include: type-separators
+    - include: type-constants
+    - include: constants
+    - include: double-quoted-strings
+    - include: single-quoted-strings
+    - include: builtin-exceptions
+    - include: builtin-types
+    - include: qualified-name
+
+  type-hint-lists:
+    - match: \[
+      scope: punctuation.section.brackets.begin.python
+      push: type-hint-list-body
+
+  type-hint-list-body:
+    # As annotations contain normal expressions use a generic `meta.brackets`
+    # for sake of consistent scoping/highlighting.
+    - meta_scope: meta.brackets.python
+    - match: \]
+      scope: punctuation.section.brackets.end.python
+      pop: 1
+    - include: type-hint-body
+
+  type-constants:
+    # Note: Enables `None = None` in type hints.
+    - match: None\b
+      scope: constant.language.null.python
+
+  type-separators:
+    # Note: Scoped as normal arithmetic operator for consistency reasons with
+    #       type-hints in annotations, which share syntax with normal expressions
+    - match: \|
+      scope: keyword.operator.arithmetic.python
+    - include: sequence-separators
 
 ###[ DECORATORS ]#############################################################
 
@@ -685,7 +850,7 @@ contexts:
       scope: keyword.operator.assignment.python
       set: function-parameter-default-value
     - match: '{{colon}}'
-      scope: punctuation.separator.annotation.parameter.python
+      scope: punctuation.separator.annotation.python
       set: function-parameter-annotation
     - include: comments
     - include: function-parameter-tuples
@@ -730,16 +895,47 @@ contexts:
       scope: invalid.illegal.expected-comma.python
 
   function-parameter-annotation:
+    - meta_include_prototype: false
     - meta_scope: meta.function.parameters.annotation.python
-    - match: (?=[,)=])
+    - include: line-continuations
+    - match: (?=\S)
+      set: function-parameter-annotation-body
+
+  function-parameter-annotation-body:
+    - meta_scope: meta.function.parameters.annotation.python
+    - meta_content_scope: meta.type.python
+    - match: \s*(?=[,)=])
       set: function-parameter-list-body
-    - match: None\b
-      scope: constant.language.null.python
+    # Scope newline `meta.type` only, if type continues on next line.
+    # Note: This is required to workaround ST's line blindness.
+    - match: (?=\s*\n)
+      branch_point: function-parameter-annotation-end
+      branch:
+        - function-parameter-annotation-continue
+        - function-parameter-annotation-end
+    - include: function-parameter-annotation-content
+
+  function-parameter-annotation-content:
+    # Note: maybe type-hint expressions
+    - include: type-constants
     - include: expression-in-a-group
+
+  function-parameter-annotation-continue:
+    - meta_include_prototype: false
+    - match: \s*(?=[,)=])
+      fail: function-parameter-annotation-end
+    - include: comments
+    - include: else-pop
+
+  function-parameter-annotation-end:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+      push: function-parameter-list-body
 
   function-parameter-default-value:
     - meta_scope: meta.function.parameters.default-value.python
-    - match: (?=[,)])
+    - match: (?=[,)=])
       set: function-parameter-list-body
     - include: expression-in-a-group
 
@@ -786,27 +982,45 @@ contexts:
   function-after-parameters:
     - meta_content_scope: meta.function.python
     - match: ->
-      scope: meta.function.annotation.return.python punctuation.separator.annotation.return.python
+      scope: punctuation.separator.return-type.python
       set: function-return-type
     - include: function-definition-end
 
   function-return-type:
-    - meta_content_scope: meta.function.annotation.return.python
-    - include: function-definition-end
+    - meta_include_prototype: false
+    - meta_scope: meta.function.return-type.python
+    - include: line-continuation-or-pop
+    - match: (?=\S)
+      set: function-return-type-body
+
+  function-return-type-body:
+    - meta_content_scope: meta.function.return-type.python meta.type.python
+    - match: (\s*)({{colon}})
+      captures:
+        1: meta.function.return-type.python
+        2: meta.function.python punctuation.section.function.begin.python
+      pop: 1
+    - include: line-continuation-or-pop
+    - include: function-return-type-content
+
+  function-return-type-content:
+    # Note: maybe type-hint expressions
+    - include: illegal-assignment-expressions
+    - include: type-constants
     - include: expression-in-a-statement
 
   function-definition-end:
     - match: '{{colon}}'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: 1
-    - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
+    - include: illegal-assignment-expressions
 
 ###[ ASSIGNMENT STATEMENTS ]##################################################
 
   assignment-statements:
     - match: '{{colon}}'
-      scope: punctuation.separator.annotation.variable.python
+      scope: punctuation.separator.annotation.python
       push: variable-annotation
     - match: '{{augmented_assignment_operators}}'
       scope: keyword.operator.assignment.augmented.python
@@ -820,12 +1034,22 @@ contexts:
     - include: expression-in-a-statement
 
   variable-annotation:
-    - meta_scope: meta.variable.annotation.python
-    - match: (?=$|=|#|;)
+    - meta_include_prototype: false
+    - include: line-continuation-or-pop
+    - match: (?=\S)
+      set: variable-annotation-body
+
+  variable-annotation-body:
+    - meta_content_scope: meta.type.python
+    - match: (?=\s*[\n#):;=\]}])
       pop: 1
-    - match: None\b
-      scope: constant.language.null.python
-    - include: expression-in-a-group
+    - include: line-continuations
+    - include: variable-annotation-content
+
+  variable-annotation-content:
+    # Note: maybe type-hint expressions
+    - include: type-constants
+    - include: expression-in-a-statement
 
 ###[ CASE STATEMENTS ]########################################################
 
@@ -1824,7 +2048,7 @@ contexts:
       set: maybe-item-access-body
 
   maybe-item-access-body:
-    - meta_scope: meta.item-access.python
+    - meta_scope: meta.brackets.python
     - match: \]
       scope: punctuation.section.brackets.end.python
       set: after-expression
@@ -1959,7 +2183,7 @@ contexts:
 
   builtin-exceptions:
     - match: '{{builtin_exceptions}}'
-      scope: support.type.exception.python
+      scope: support.class.exception.python
 
   builtin-functions:
     - match: '{{builtin_functions}}'
@@ -1968,6 +2192,8 @@ contexts:
   builtin-types:
     - match: '{{builtin_types}}'
       scope: support.type.python
+    - match: '{{typing_types}}'
+      scope: support.class.typing.python
 
   magic-functions:
     # these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
@@ -3508,13 +3734,17 @@ contexts:
     - match: (?=\S)
       pop: 1
 
+  eol-pop:
+    - match: $
+      pop: 1
+
   immediately-pop:
     - match: ''
       pop: 1
 
   line-continuation-or-pop:
     - include: line-continuations
-    - match: (?=\s*(?:\n|;|#))
+    - match: (?=\s*[\n;#])
       pop: 1
 
   line-continuations:
@@ -3527,5 +3757,6 @@ contexts:
     - meta_include_prototype: false
     # This prevents strings after a continuation from being a docstring
     - include: strings
-    - match: (?=\S|^\s*$|\n)  # '\n' for when we matched a string earlier
+    - include: else-pop
+    - match: ^(?!\s*[[:alpha:]]*['"])
       pop: 1

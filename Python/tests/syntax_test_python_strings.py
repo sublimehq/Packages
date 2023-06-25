@@ -199,7 +199,10 @@ query = \
                 select 1)
             ELSE NULL
         ) as result
-    """
+    """ + test
+#   ^^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
+#       ^ keyword.operator.arithmetic.python
+#         ^^^^ meta.path.python meta.generic-name.python
 
 query = \
     r"""
