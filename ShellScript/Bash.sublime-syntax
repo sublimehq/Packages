@@ -398,17 +398,19 @@ contexts:
   cmd-arithmetic:
     - match: \(\((?=.+\)\))
       scope: punctuation.section.arithmetic.begin.shell
-      push:
-        - meta_scope: meta.arithmetic.shell
-        - match: \)\)
-          scope: punctuation.section.arithmetic.end.shell
-          pop: 1
-        - include: expressions
+      push: cmd-arithmetic-body
     - match: let{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.let.shell
       push: cmd-arithmetic-args
+
+  cmd-arithmetic-body:
+    - meta_scope: meta.arithmetic.shell
+    - match: \)\)
+      scope: punctuation.section.arithmetic.end.shell
+      pop: 1
+    - include: expressions
 
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell
@@ -1080,7 +1082,7 @@ contexts:
       push: for-args
     - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
-      push: select-args
+      push: loop-iterator-var
     - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
     - match: while{{cmd_break}}
@@ -1165,19 +1167,36 @@ contexts:
     - include: cmd-args-boilerplate
 
   for-args:
-    - match: (?=(do|done){{cmd_break}})
-      pop: 1
-    - include: cmd-args-boilerplate
-    - include: cmd-arithmetic
+    - include: loop-end
+    - match: \(\(
+      scope: punctuation.section.arithmetic.begin.shell
+      set: cmd-arithmetic-body
+    - match: (?=\S)
+      set: loop-iterator-var
+
+  loop-iterator-var:
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
+      set: loop-iterator-range
+    - include: loop-end
     - include: variables
 
-  select-args:
-    - include: cmd-args-boilerplate
-    - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
-    - include: variables
+  loop-iterator-range:
+    - include: loop-end
+    - include: number-range
+    - match: (?=\S)
+      set: loop-iterator-wordlist
+
+  loop-iterator-wordlist:
+    - include: loop-end
+    - include: booleans
+    - include: strings-unquoted
+
+  loop-end:
+    - match: (?=(?:do|done){{cmd_break}})
+      pop: 1
+    - include: redirections
+    - include: eoc-pop
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
@@ -1533,6 +1552,22 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.shell
         2: meta.number.integer.decimal.shell constant.numeric.value.shell
+      pop: 1
+
+  number-range:
+    - match: ({)(([-+]?)\d+)(..)(([-+]?)\d+)(?:(..)(([-+]?)\d+))?(})
+      scope: meta.sequence.range.shell
+      captures:
+        1: punctuation.section.sequence.begin.shell
+        2: meta.number.integer.decimal.shell constant.numeric.value.shell
+        3: keyword.operator.arithmetic.shell
+        4: keyword.operator.range.shell
+        5: meta.number.integer.decimal.shell constant.numeric.value.shell
+        6: keyword.operator.arithmetic.shell
+        7: keyword.operator.range.shell
+        8: meta.number.integer.decimal.shell constant.numeric.value.shell
+        9: keyword.operator.arithmetic.shell
+        10: punctuation.section.sequence.end.shell
       pop: 1
 
 ###[ OPERATORS ]###############################################################
@@ -1972,6 +2007,10 @@ contexts:
       scope: meta.interpolation.tilde.shell variable.language.tilde.shell
 
 ###[ STRINGS ]#################################################################
+
+  strings-unquoted:
+    - match: (?=[^{{metachar}}])
+      push: string-unquoted-body
 
   string-unquoted:
     - match: (?=[^{{metachar}}])

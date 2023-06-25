@@ -5254,11 +5254,33 @@ esac
 # select loops                                                     #
 ####################################################################
 
+select var in 1 2 3 4 5; do echo $i; done;
+# <- keyword.control.loop.select.shell
+#      ^^^ variable.other.readwrite.shell
+#          ^^ keyword.control.in.shell
+#            ^ - string
+#             ^ meta.string.shell string.unquoted.shell
+#              ^ - string
+#               ^ meta.string.shell string.unquoted.shell
+#                ^ - string
+#                 ^ meta.string.shell string.unquoted.shell
+#                  ^ - string
+#                   ^ meta.string.shell string.unquoted.shell
+#                    ^ - string
+#                     ^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.terminator.statement.shell
+#                        ^^ keyword.control.loop.do.shell
+#                           ^^^^ support.function.echo.shell
+#                                ^^ variable.other.readwrite.shell
+#                                  ^ punctuation.terminator.statement.shell
+#                                    ^^^^ keyword.control.loop.end.shell
+#                                        ^ punctuation.terminator.statement.shell
+
 select fname in *;
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
 #            ^^ keyword.control.in.shell
-#               ^ keyword.operator.quantifier.regexp.shell
+#               ^ meta.string.shell string.unquoted.shell
 #                ^ punctuation.terminator.statement.shell
 do
 # <- keyword.control.loop.do.shell
@@ -5520,6 +5542,106 @@ do
     #     ^ meta.function-call.arguments variable.other.readwrite.shell
 done
 # <- keyword.control.loop.end.shell
+
+for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^^^^ meta.string.shell string.unquoted.shell
+#             ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^^^^^^ meta.string.shell string.quoted.double.shell
+#                          ^^^^^^ meta.string.shell string.quoted.single.shell
+#                                 ^^ meta.string.shell string.unquoted.shell
+#                                   ^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^ keyword.control.loop.do.shell
+#                                           ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                                                ^^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                                  ^ punctuation.terminator.statement.shell
+#                                                    ^^^^ keyword.control.loop.end.shell
+#                                                        ^ punctuation.terminator.statement.shell
+
+for i in <files.txt; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^ keyword.operator.assignment.redirection.shell
+#                  ^ punctuation.terminator.statement.shell
+#                    ^^ keyword.control.loop.do.shell
+#                       ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                           ^^^ meta.function-call.arguments.shell
+#                            ^^ variable.other.readwrite.shell
+#                              ^ punctuation.terminator.statement.shell
+#                                ^^^^ keyword.control.loop.end.shell
+#                                    ^ punctuation.terminator.statement.shell
+#
+
+for i in {1..10}; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ meta.variable.shell variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^^^^^^^ meta.sequence.range.shell
+#        ^ punctuation.section.sequence.begin.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^^ keyword.operator.range.shell
+#            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ punctuation.section.sequence.end.shell
+#               ^ punctuation.terminator.statement.shell
+#                 ^^ keyword.control.loop.do.shell
+#                    ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                         ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+#                          ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                           ^ punctuation.terminator.statement.shell
+#                             ^^^^ keyword.control.loop.end.shell
+#                                 ^ punctuation.terminator.statement.shell
+
+for i in {-10..+20}; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ meta.variable.shell variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^^^^^^^^^^ meta.sequence.range.shell
+#        ^ punctuation.section.sequence.begin.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^^ keyword.operator.range.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                 ^ punctuation.section.sequence.end.shell
+#                  ^ punctuation.terminator.statement.shell
+#                    ^^ keyword.control.loop.do.shell
+#                       ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                            ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+#                             ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                              ^ punctuation.terminator.statement.shell
+#                                ^^^^ keyword.control.loop.end.shell
+#                                    ^ punctuation.terminator.statement.shell
+
+for i in {-10..+20..-4}; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ meta.variable.shell variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^^^^^^^^^^ meta.sequence.range.shell
+#        ^ punctuation.section.sequence.begin.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^^ keyword.operator.range.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                 ^^ keyword.operator.range.shell
+#                   ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                     ^ punctuation.section.sequence.end.shell
+#                      ^ punctuation.terminator.statement.shell
+#                        ^^ keyword.control.loop.do.shell
+#                           ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                                ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+#                                 ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                  ^ punctuation.terminator.statement.shell
+#                                    ^^^^ keyword.control.loop.end.shell
+#                                        ^ punctuation.terminator.statement.shell
+
+for i in $*; do echo $i; done;
+#        ^^ meta.interpolation.parameter.shell variable.language.shell
 
 for i in $(seq 100); do
 # <- keyword.control.loop.for.shell
