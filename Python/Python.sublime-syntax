@@ -1915,8 +1915,8 @@ contexts:
 
   maybe-dictionary:
     - match: \{
-      scope: meta.mapping.python punctuation.section.mapping.begin.python
-      set: dictionary-body
+      scope: punctuation.section.mapping.begin.python
+      set: allow-dictionary-unpack-operator
 
   dictionary-end:
     - match: \}
@@ -1925,8 +1925,31 @@ contexts:
 
   dictionary-separator:
     - match: ','
-      scope: meta.mapping.python punctuation.separator.sequence.python
+      scope: punctuation.separator.sequence.python
+      set: allow-dictionary-unpack-operator
+
+  allow-dictionary-unpack-operator:
+    - meta_scope: meta.mapping.python
+    - include: comments
+    - match: \*{3,}
+      scope: invalid.illegal.syntax.python
+      set: dictionary-unpacking-body
+    - match: \*\*
+      scope: keyword.operator.unpacking.mapping.python
+      set: dictionary-unpacking-body
+    - match: \*
+      scope: invalid.illegal.unexpected-operator.python
+      set: dictionary-unpacking-body
+    - match: (?=\S)
       set: dictionary-body
+    - match: ^(?!\s*([#*]|$))
+      set: dictionary-body
+
+  dictionary-unpacking-body:
+    - meta_content_scope: meta.mapping.python
+    - include: dictionary-end
+    - include: dictionary-separator
+    - include: expression-in-a-group
 
   dictionary-body:
     - meta_content_scope: meta.mapping.python
@@ -1934,20 +1957,11 @@ contexts:
     - include: comments
     - include: illegal-assignment-expressions
     - include: illegal-commas
-    - match: \*\*
-      scope: meta.mapping.python keyword.operator.unpacking.mapping.python
-      set: dictionary-unpacking-body
     - match: '{{colon}}'
       scope: meta.mapping.python punctuation.separator.key-value.python
       set: dictionary-value
     - match: (?=\S)
       set: directory-key-body
-
-  dictionary-unpacking-body:
-    - meta_content_scope: meta.mapping.python
-    - include: dictionary-end
-    - include: dictionary-separator
-    - include: expression-in-a-group
 
   directory-key-body:
     - meta_scope: meta.mapping.key.python
@@ -1986,13 +2000,20 @@ contexts:
   maybe-set:
     - match: \{
       scope: punctuation.section.set.begin.python
-      set: maybe-set-body
+      set:
+        - maybe-set-body
+        - maybe-set-begin
+
+  maybe-set-begin:
+    - match: (?=\*\*)  # looks like a dictionary
+      fail: dictionaries-and-sets
+    - include: allow-sequence-unpack-operators
 
   maybe-set-body:
     - meta_scope: meta.set.python
     - match: (?=,|:=)
       set: set-body
-    - match: (?=:|\*\*)
+    - match: (?=:)
       fail: dictionaries-and-sets
     - include: set-body
 
@@ -2003,16 +2024,24 @@ contexts:
       set: after-expression
     - match: ','
       scope: punctuation.separator.set.python
-    - match: \*
-      scope: keyword.operator.unpacking.sequence.python
-      push: set-unpacking-expression-body
+      push: allow-sequence-unpack-operators
     - include: expression-in-a-sequence
     - include: illegal-colons
 
-  set-unpacking-expression-body:
-    - match: (?=[,}])
+  allow-sequence-unpack-operators:
+    - include: comments
+    - match: \*{3,}
+      scope: invalid.illegal.syntax.python
       pop: 1
-    - include: expression-in-a-group
+    - match: \*\*
+      scope: invalid.illegal.unexpected-operator.python
+      pop: 1
+    - match: \*
+      scope: keyword.operator.unpacking.sequence.python
+      pop: 1
+    - include: else-pop
+    - match: ^(?!\s*([#*]|$))
+      pop: 1
 
   empty-dictionaries:
     - match: (\{)\s*(\})

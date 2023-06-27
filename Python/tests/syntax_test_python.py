@@ -2400,6 +2400,22 @@ set_ = {i for i in range(100)}
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.loop.for.generator
 #               ^^ keyword.control.loop.for.in
+set_ = {x * x for x in y}
+#      ^^^^^^^^^^^^^^^^^^ meta.set
+#             ^^^^^^^^ meta.expression.generator
+#      ^ punctuation.section.set.begin
+#         ^ keyword.operator.arithmetic
+#             ^^^ keyword.control.loop.for.generator
+#                   ^^ keyword.control.loop.for.in
+#                       ^ punctuation.section.set.end
+set_ = {x ** 2 for x in y}
+#      ^^^^^^^^^^^^^^^^^^ meta.set
+#              ^^^^^^^^ meta.expression.generator
+#      ^ punctuation.section.set.begin
+#         ^^ keyword.operator.arithmetic
+#              ^^^ keyword.control.loop.for.generator
+#                    ^^ keyword.control.loop.for.in
+#                        ^ punctuation.section.set.end
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #       ^ meta.mapping.python
@@ -2410,6 +2426,30 @@ dict_ = {i: i for i in range(100)}
 #             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.loop.for.generator
 #                   ^^ keyword.control.loop.for.in
+dict_ = {x * x: 1 for x in y}
+#       ^ meta.mapping.python
+#        ^^^^^ meta.mapping.key.python
+#             ^^ meta.mapping.python
+#               ^ meta.mapping.value.python
+#                ^^^^^^^^^^^^ meta.mapping.python
+#       ^ punctuation.section.mapping.begin
+#          ^ keyword.operator.arithmetic
+#             ^ punctuation.separator.key-value
+#                 ^^^ keyword.control.loop.for.generator
+#                       ^^ keyword.control.loop.for.in
+#                           ^ punctuation.section.mapping.end
+dict_ = {x ** 2: 1 for x in y}
+#       ^ meta.mapping.python
+#        ^^^^^^ meta.mapping.key.python
+#              ^^ meta.mapping.python
+#                ^ meta.mapping.value.python
+#                 ^^^^^^^^^^^^ meta.mapping.python
+#       ^ punctuation.section.mapping.begin
+#          ^^ keyword.operator.arithmetic
+#              ^ punctuation.separator.key-value
+#                  ^^^ keyword.control.loop.for.generator
+#                        ^^ keyword.control.loop.for.in
+#                            ^ punctuation.section.mapping.end
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
@@ -2557,11 +2597,12 @@ l = [*l]
 #    ^ keyword.operator.unpacking.sequence.python
 
 d = {1: 3**4, **dict_}
+#   ^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^^ keyword.operator.arithmetic.python
 #             ^^ keyword.operator.unpacking.mapping.python
 
 d = {**d, **dict()}
-#   ^^^^^^^^^^^^^^^ meta.mapping.python
+#   ^^^^^^^^^^^^^^^ meta.mapping.python - meta.mapping meta.mapping
 #    ^^^ - meta.mapping.key
 #    ^^ keyword.operator.unpacking.mapping.python
 #      ^ meta.path.python
@@ -2570,13 +2611,35 @@ d = {**d, **dict()}
 #         ^^ keyword.operator.unpacking.mapping.python
 #           ^^^^ support.type.python
 
+d = {**d, *list()}
+#   ^^^^^^^^^^^^^^ meta.mapping.python - meta.mapping meta.mapping
+#   ^ punctuation.section.mapping.begin.python
+#    ^^^ - meta.mapping.key
+#    ^^ keyword.operator.unpacking.mapping.python
+#      ^ meta.path.python
+#       ^ punctuation.separator.sequence.python
+#         ^^^^^^^ - meta.mapping.key
+#         ^ invalid.illegal.unexpected-operator.python
+#          ^^^^ support.type.python
+#                ^ punctuation.section.mapping.end.python
+
 s = {*d, *set()}
-#   ^^^^^^^^^^^^ meta.set.python
+#   ^^^^^^^^^^^^ meta.set.python - meta.set meta.set
 #    ^ keyword.operator.unpacking.sequence.python
 #     ^ meta.path.python
 #      ^ punctuation.separator.set.python
 #        ^ keyword.operator.unpacking.sequence.python
 #         ^^^ support.type.python
+
+s = {*d, **dict()}
+#   ^^^^^^^^^^^^^^ meta.set.python - meta.set meta.set
+#   ^ punctuation.section.set.begin.python
+#    ^ keyword.operator.unpacking.sequence.python
+#     ^ meta.path.python
+#      ^ punctuation.separator.set.python
+#        ^^ invalid.illegal.unexpected-operator.python
+#          ^^^^ support.type.python
+#                ^ punctuation.section.set.end.python
 
 generator = (
     i
