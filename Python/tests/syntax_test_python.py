@@ -2466,9 +2466,9 @@ generator = ((k1, k2, v) for ((k1, k2), v) in xs)
 #            ^^^^^^^^^^^ meta.sequence.tuple.python
 #           ^^ punctuation.section.sequence.begin.python
 #                      ^ punctuation.section.sequence.end.python
-#                            ^^ punctuation.section.tuple.begin.python
-#                                    ^ punctuation.section.tuple.end.python
-#                                        ^ punctuation.section.tuple.end.python
+#                            ^^ punctuation.section.sequence.begin.python
+#                                    ^ punctuation.section.sequence.end.python
+#                                        ^ punctuation.section.sequence.end.python
 #                                               ^ punctuation.section.sequence.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
@@ -2478,9 +2478,9 @@ list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #       ^ punctuation.section.sequence.begin.python
 #        ^ punctuation.section.sequence.begin.python
 #                  ^ punctuation.section.sequence.end.python
-#                        ^^ punctuation.section.tuple.begin.python
-#                                ^ punctuation.section.tuple.end.python
-#                                    ^ punctuation.section.tuple.end.python
+#                        ^^ punctuation.section.sequence.begin.python
+#                                ^ punctuation.section.sequence.end.python
+#                                    ^ punctuation.section.sequence.end.python
 #                                           ^ punctuation.section.sequence.end.python
 
 dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
@@ -2489,10 +2489,53 @@ dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 #            ^^^^^^^ meta.sequence.tuple.python
 #            ^ punctuation.section.sequence.begin.python
 #                  ^ punctuation.section.sequence.end.python
-#                        ^^ punctuation.section.tuple.begin.python
-#                                ^ punctuation.section.tuple.end.python
-#                                    ^ punctuation.section.tuple.end.python
+#                        ^^ punctuation.section.sequence.begin.python
+#                                ^ punctuation.section.sequence.end.python
+#                                    ^ punctuation.section.sequence.end.python
 #                                           ^ punctuation.section.mapping.end.python
+
+unpack_ = [*(_ for [[][:], *_] in [((1, 2), "woops")])]
+#         ^^ meta.sequence.list.python - meta.sequence.generator
+#           ^^^^^^^ meta.sequence.list.python meta.sequence.generator.python
+#                  ^^^^^^^^^^^ meta.sequence.list.python meta.sequence.generator.python meta.sequence.list.python
+#                             ^^^ meta.sequence.list.python meta.sequence.generator.python
+#                                 ^ meta.sequence.list.python meta.sequence.generator.python meta.sequence.list.python
+#                                  ^ meta.sequence.list.python meta.sequence.generator.python meta.sequence.list.python meta.sequence.tuple.python
+#                                   ^^^^^^ meta.sequence.list.python meta.sequence.generator.python meta.sequence.list.python meta.sequence.tuple.python meta.sequence.tuple.python
+#                                         ^^^^^^^^^^ meta.sequence.list.python meta.sequence.generator.python meta.sequence.list.python meta.sequence.tuple.python
+#                                                   ^ meta.sequence.list.python meta.sequence.generator.python meta.sequence.list.python
+#                                                    ^ meta.sequence.list.python meta.sequence.generator.python
+#                                                     ^ meta.sequence.list.python - meta.sequence.generator
+#                                                      ^ - meta.sequence
+#         ^ punctuation.section.sequence.begin.python
+#          ^ keyword.operator.unpacking.sequence.python
+#           ^ punctuation.section.sequence.begin.python
+#            ^ meta.path.python variable.language.anonymous.python
+#              ^^^ keyword.control.loop.for.generator.python
+#                  ^ punctuation.section.sequence.begin.python
+#                   ^ punctuation.section.sequence.begin.python
+#                    ^ punctuation.section.sequence.end.python
+#                     ^ punctuation.section.brackets.begin.python
+#                      ^ punctuation.separator.slice.python
+#                       ^ punctuation.section.brackets.end.python
+#                        ^ punctuation.separator.sequence.python
+#                          ^ keyword.operator.unpacking.sequence.python
+#                           ^ meta.path.python variable.language.anonymous.python
+#                            ^ punctuation.section.sequence.end.python
+#                              ^^ keyword.control.loop.for.in.python
+#                                 ^ punctuation.section.sequence.begin.python
+#                                  ^ punctuation.section.sequence.begin.python
+#                                   ^ punctuation.section.sequence.begin.python
+#                                    ^ meta.number.integer.decimal.python constant.numeric.value.python
+#                                     ^ punctuation.separator.sequence.python
+#                                       ^ meta.number.integer.decimal.python constant.numeric.value.python
+#                                        ^ punctuation.section.sequence.end.python
+#                                         ^ punctuation.separator.sequence.python
+#                                           ^^^^^^^ meta.string.python string.quoted.double.python
+#                                                  ^ punctuation.section.sequence.end.python
+#                                                   ^ punctuation.section.sequence.end.python
+#                                                    ^ punctuation.section.sequence.end.python
+#                                                     ^ punctuation.section.sequence.end.python
 
 list_ = [lambda: 1 for i in range(10)]
 #       ^ meta.sequence.list.python - meta.function

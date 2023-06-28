@@ -1360,7 +1360,7 @@ contexts:
       set: except-statement-as
     - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
-    - include: target-lists
+    - include: expression-in-a-statement
 
   except-statement-as:
     - meta_content_scope: meta.statement.exception.catch.python
@@ -1389,7 +1389,7 @@ contexts:
       scope: keyword.control.loop.for.in.python
       set: for-statement-in
     - include: line-continuation-or-pop
-    - include: target-lists
+    - include: expression-in-a-statement
 
   for-statement-in:
     - meta_content_scope: meta.statement.loop.for.python
@@ -1622,24 +1622,7 @@ contexts:
       pop: 1
     - match: (?=[)\]}])
       pop: 1
-    - include: comments
-    - include: illegal-name
-    - include: target-lists
-
-  target-lists:
-    - match: \(
-      scope: punctuation.section.tuple.begin.python
-      push: target-list-body
-    - include: sequence-separators
-    - include: name
-
-  target-list-body:
-    - meta_scope: meta.sequence.tuple.python
-    - match: \)
-      scope: punctuation.section.tuple.end.python
-      pop: 1
-    - include: comments
-    - include: target-lists
+    - include: expression-in-a-group
 
 ###[ FLOW EXPRESSIONS ]#######################################################
 
