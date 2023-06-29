@@ -529,6 +529,7 @@ sql = b'just some \
 #            ^^^^^^ constant.other.placeholder.python
 "Weight in tons {0.weight}"       # 'weight' attribute of first positional arg
 #               ^^^^^^^^^^ constant.other.placeholder.python
+#                 ^ punctuation.accessor.dot.python
 "Units destroyed: {players[0]}"   # First element of keyword argument 'players'.
 #                 ^^^^^^^^^^^^ constant.other.placeholder.python
 "Harold's a clever {0!s}"         # Calls str() on the argument first
@@ -586,6 +587,46 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 #                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
 #                                 ^^ punctuation.definition.placeholder.end
 
+# Nested quotes and escaped quotes
+
+"Testing {foo['bar']:'^9}".format(foo={"bar": 1000})
+# <- meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#        ^^^^^^^^^^^^^^^^ constant.other.placeholder
+#                   ^ punctuation.separator.format-spec.python
+#                        ^ punctuation.definition.string.end.python
+#                         ^ punctuation.accessor.dot.python
+
+"Testing {foo[\"bar\"]:\"^9}".format(foo={"bar": 1000})
+# <- meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#        ^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
+#             ^^ constant.character.escape.python
+#                  ^^ constant.character.escape.python
+#                     ^ punctuation.separator.format-spec.python
+#                      ^^ constant.character.escape.python
+#                           ^ punctuation.definition.string.end.python
+#                            ^ punctuation.accessor.dot.python
+
+'Testing {foo["bar"]:"^9}'.format(foo={"bar": 1000})
+# <- meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#        ^^^^^^^^^^^^^^^^ constant.other.placeholder
+#                   ^ punctuation.separator.format-spec.python
+#                        ^ punctuation.definition.string.end.python
+#                         ^ punctuation.accessor.dot.python
+
+'Testing {foo[\'bar\']:\'^9}'.format(foo={"bar": 1000})
+# <- meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#        ^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
+#             ^^ constant.character.escape.python
+#                  ^^ constant.character.escape.python
+#                     ^ punctuation.separator.format-spec.python
+#                      ^^ constant.character.escape.python
+#                           ^ punctuation.definition.string.end.python
+#                            ^ punctuation.accessor.dot.python
+
 a=["aaaa{", "bbbb{"]
 #       ^ - constant.other.placeholder
 #        ^ punctuation.definition.string.end.python
@@ -602,40 +643,92 @@ bar = "}}" # Comment
 # so some of these matches are incorrect because of implementation details.
 
 # Not format specs
-"{:{ }"  # unclosed
+"{:{ }"            # unclosed
 # ^ - constant.other.placeholder
-'{{foo!r:4.2}'  # escaped opening
+'{:{ }'            # unclosed
 # ^ - constant.other.placeholder
-'{{foo!r:4.2}}'  # escaped opening and closing
+"{{foo!r:4.2}"     # escaped opening
 # ^ - constant.other.placeholder
-'{foo!a:ran{dom}'  # unclosed
+'{{foo!r:4.2}'     # escaped opening
+# ^ - constant.other.placeholder
+"{{foo!r:4.2}}"    # escaped opening and closing
+# ^ - constant.other.placeholder
+'{{foo!r:4.2}}'    # escaped opening and closing
+# ^ - constant.other.placeholder
+"{foo!a:ran{dom}"  # unclosed
 # ^ - constant.other.placeholder
 '{foo!a:ran{dom}'  # unclosed
 # ^ - constant.other.placeholder
 
+# Incomplete field elements
+"{foo["      # unclosed elemnt index
+#^^^^^ - constant.other.placeholder
+'{foo['      # unclosed elemnt index
+#^^^^^ - constant.other.placeholder
+"{foo[}"     # unclosed elemnt index
+#^^^^^^ - constant.other.placeholder
+'{foo[}'     # unclosed elemnt index
+#^^^^^^ - constant.other.placeholder
+"{foo[""]}"  # unsupported nested quotes
+#^^^^^^^^^ - constant.other.placeholder
+'{foo['']}'  # unsupported nested quotes
+#^^^^^^^^^ - constant.other.placeholder
+
 # Invalid field names
+"{foo{d}}"
+# ^ - constant.other.placeholder
 '{foo{d}}'
 # ^ - constant.other.placeholder
 "{:{ {}}"  # issue 2232
 # ^ - constant.other.placeholder
+'{:{ {}}'  # issue 2232
+# ^ - constant.other.placeholder
+"{foo.!a:d}"  # incomplete accessor (in simple form)
+# ^ constant.other.placeholder
+#    ^ punctuation.accessor.dot
 '{foo.!a:d}'  # incomplete accessor (in simple form)
 # ^ constant.other.placeholder
+#    ^ punctuation.accessor.dot
 
+# Issue 3649
+{"msg": "Type '{ _client: { _user?: { [x: string]: unknown; | undefined; }"}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted - constant.other.placeholder
+#                                                                          ^ punctuation.section.mapping.end.python
+
+# Syntactically correct, but hardly come up in real code and not covered by
+# https://docs.python.org/3.11/library/string.html#format-string-syntax
 # Syntactically correct, but hardly come up in real code
 "{:{ ()}}".format(0, **{" ()": "d"}) == '0'
-# ^ constant.other.placeholder
+#^^^^^^^^^ meta.string.python string.quoted.double.python
+#^^^^^^ - constant.other.placeholder
 '{foo/bar}'.format(**{"foo/bar": 1}) == '1'
-# ^ - constant.other.placeholder
+#^^^^^^^^^^ meta.string.python string.quoted.single.python
+#^^^^^^^^^ - constant.other.placeholder
+#         ^ punctuation.definition.string.end.python
 
 # Legal but non-standard format spec
-'{foo:{{w}}.{{p}}}'
-# ^ - constant.other.placeholder
-'{foo:w}}}'
-# ^ - constant.other.placeholder
-'{foo!a:random}'
-# ^ - constant.other.placeholder
+'{foo:^}}}'         # valid format specifier
+#^^^^^^^ constant.other.placeholder
+#^ punctuation.definition.placeholder.begin
+#    ^ punctuation.separator.format-spec
+#      ^ punctuation.definition.placeholder.end
+#       ^^ constant.character.escape.python
+'{foo:w}}}'         # invalid format code
+#^^^^^^^ constant.other.placeholder
+#^ punctuation.definition.placeholder.begin
+#    ^ punctuation.separator.format-spec
+#      ^ punctuation.definition.placeholder.end
+#       ^^ constant.character.escape.python
+'{foo:{{w}}.{{p}}}' # invalid format specifier
+#^^^^^^^^^^^^^^^^^ - constant.other.placeholder
+#     ^^ constant.character.escape
+#        ^^ constant.character.escape
+#           ^^ constant.character.escape
+#              ^^ constant.character.escape
+'{foo!a:random}'    # invalid format specifier
+#^^^^^^^^^^^^^^ constant.other.placeholder
 '{foo!a:ran{d}om}'  # nested specification
-# ^ constant.other.placeholder
+#^^^^^^^^^^^^^^^^ constant.other.placeholder
 
 f"string"
 # <- storage.type.string
