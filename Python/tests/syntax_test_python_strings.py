@@ -697,7 +697,6 @@ bar = "}}" # Comment
 
 # Syntactically correct, but hardly come up in real code and not covered by
 # https://docs.python.org/3.11/library/string.html#format-string-syntax
-# Syntactically correct, but hardly come up in real code
 "{:{ ()}}".format(0, **{" ()": "d"}) == '0'
 #^^^^^^^^^ meta.string.python string.quoted.double.python
 #^^^^^^ - constant.other.placeholder
