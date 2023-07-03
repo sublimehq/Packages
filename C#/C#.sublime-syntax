@@ -1916,7 +1916,7 @@ contexts:
         - include: string_escaped
         - match: '(?=\})'
           pop: true
-        - match: '([^}"\\]+(\\.)*)+(?=")'
+        - match: '(?:[^}"\\](?:\\.)*)+(?=")'
           scope: invalid.illegal.unclosed-string-placeholder.cs
           pop: true
         - match: '\{'
@@ -1937,7 +1937,7 @@ contexts:
           pop: true
         - match: \\(?:""|[^"])
           scope: constant.character.escape.cs
-        - match: (?:[^}"]+|"")+(?="(?!"))
+        - match: (?:[^}"]|"")+(?="(?!"))
           scope: invalid.illegal.unclosed-string-placeholder.cs
           pop: true
         - match: \{
