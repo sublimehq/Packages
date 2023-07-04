@@ -36,6 +36,34 @@ var location = $$"""
 ///                                       ^ - constant
    """;
 
+var location = $"""
+///            ^^^^^ meta.string.interpolated string.quoted.triple
+///            ^^^^ punctuation.definition.string.begin
+///                ^ - invalid
+   You are at {{{Longitude}} \t {{Latitude}}}
+///^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
+///             ^^^^^^^^^^^ meta.string.interpolated meta.interpolation - string
+///                        ^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
+///                          ^^ constant.character.escape
+   """;
+/// <- meta.string.interpolated string.quoted.triple
+///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
+///   ^ punctuation.terminator.statement - string
+
+var location = @$"""
+///            ^^^^^ meta.string.interpolated string.quoted.triple
+///            ^^^^ punctuation.definition.string.begin
+///                ^ - invalid
+   You are at {{{Longitude}} \t {{Latitude}}}
+///^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
+///             ^^^^^^^^^^^ meta.string.interpolated meta.interpolation - string
+///                        ^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
+///                          ^^ - constant.character.escape
+   """;
+/// <- meta.string.interpolated string.quoted.triple
+///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
+///   ^ punctuation.terminator.statement - string
+
 var pointMessage = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
 ///                ^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
 ///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
