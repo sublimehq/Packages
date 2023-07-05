@@ -1758,9 +1758,6 @@ contexts:
     - include: string_escaped
     - include: string_placeholder_escape
     - include: format_string_interpolation
-    - match: $\n?
-      scope: invalid.illegal.unclosed-string.cs
-      pop: true
 
   inside_raw_format_string_literal:
     - meta_include_prototype: false
@@ -1770,9 +1767,6 @@ contexts:
       pop: true
     - include: string_placeholder_escape
     - include: format_string_interpolation
-    - match: $\n?
-      scope: invalid.illegal.unclosed-string.cs
-      pop: true
 
   format_string_interpolation:
     - match: \{
