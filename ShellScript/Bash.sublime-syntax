@@ -1439,13 +1439,27 @@ contexts:
     - match: \[
       scope: punctuation.section.item-access.begin.shell
       push:
-        - meta_scope: meta.item-access.shell
-        - match: \]
-          scope: punctuation.section.item-access.end.shell
-          pop: 1
-        - match: '[*@]'
-          scope: variable.language.array.shell
-        - include: expressions
+        - array-item-access-end
+        - array-item-access-begin
+
+  array-item-access-end:
+    - meta_scope: meta.item-access.shell
+    - match: \]
+      scope: punctuation.section.item-access.end.shell
+      pop: 1
+
+  array-item-access-begin:
+    - match: '[*@]'
+      scope: variable.language.array.shell
+      pop: 1
+    - match: ''
+      set: array-key-body
+
+  array-key-body:
+    - meta_scope: meta.string.shell string.unquoted.shell
+    - match: (?=\])
+      pop: 1
+    - include: string-unquoted-body
 
   expressions:
     - match: \(
