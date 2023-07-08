@@ -1626,8 +1626,10 @@ contexts:
       scope: constant.language.path.parent.dosbatch
     - match: \.
       scope: punctuation.separator.path.dosbatch
-    - match: '[*?]'
-      scope: constant.other.placeholder.dosbatch
+    - match: \*
+      scope: variable.language.wildcard.asterisk.dosbatch
+    - match: \?
+      scope: variable.language.wildcard.questionmark.dosbatch
 
   path-pattern-relative:
     - match: \.\.(?=[\\/])
