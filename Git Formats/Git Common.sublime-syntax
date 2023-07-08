@@ -204,10 +204,10 @@ contexts:
 
   fnmatch-dir-pattern:
     - match: \.\.(?=/)
-      scope: constant.language.path.parent.fnmatch.git
+      scope: variable.language.parent.path.fnmatch.git
       pop: 1
     - match: \.(?=/)
-      scope: constant.language.path.self.fnmatch.git
+      scope: variable.language.self.path.fnmatch.git
       pop: 1
     - match: ''
       pop: 1

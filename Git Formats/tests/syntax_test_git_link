@@ -33,14 +33,14 @@ gitdir: ~/../sub..li~me/./packages/.git
 #                                      ^ - string.unquoted.git
 #       ^ variable.language.environment.home.git
 #        ^ punctuation.separator.path.git
-#         ^^ constant.language.path.parent.git
+#         ^^ variable.language.parent.path.git
 #           ^ punctuation.separator.path.git
-#               ^^ - constant.language.path.parent.git
+#               ^^ - variable.language.parent.path.git
 #                   ^ - variable.language.environment.home.git
 #                      ^ punctuation.separator.path.git
-#                       ^ constant.language.path.self.git
+#                       ^ variable.language.self.path.git
 #                        ^ punctuation.separator.path.git
-#                                  ^ - constant.language.path.self.git
+#                                  ^ - variable.language.self.path.git
 gitdir invalid : ../data/s?bl*me/packages/.git
 #^^^^^^^^^^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #              ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
@@ -49,7 +49,7 @@ gitdir invalid : ../data/s?bl*me/packages/.git
 #^^^^^ keyword.other.gitdir.git.link
 #      ^^^^^^^ invalid.illegal.separator-expected.git.link
 #              ^ punctuation.separator.key-value.git.link
-#                ^^ constant.language.path.parent.git
+#                ^^ variable.language.parent.path.git
 #                  ^ punctuation.separator.path.git
 #                       ^ punctuation.separator.path.git
 #                         ^ invalid.illegal.path.git

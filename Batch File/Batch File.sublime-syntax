@@ -1623,7 +1623,7 @@ contexts:
       scope: punctuation.separator.path.dosbatch
       push: path-pattern-relative
     - match: \.\.?(?=[\\/])
-      scope: constant.language.path.parent.dosbatch
+      scope: variable.language.parent.path.dosbatch
     - match: \.
       scope: punctuation.separator.path.dosbatch
     - match: \*
@@ -1633,10 +1633,10 @@ contexts:
 
   path-pattern-relative:
     - match: \.\.(?=[\\/])
-      scope: constant.language.path.parent.dosbatch
+      scope: variable.language.parent.path.dosbatch
       pop: 1
     - match: \.(?=[\\/])
-      scope: constant.language.path.self.dosbatch
+      scope: variable.language.self.path.dosbatch
       pop: 1
     - include: immediately-pop
 

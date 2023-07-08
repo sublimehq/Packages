@@ -17,15 +17,15 @@
 #^ - entity.name.pattern
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.pattern
 # ^ variable.language.environment.home.fnmatch.git
-#   ^^ constant.language.path.parent.fnmatch.git
-#       ^^ - constant.language.path.parent.fnmatch.git
+#   ^^ variable.language.parent.path.fnmatch.git
+#       ^^ - variable.language.parent.path.fnmatch.git
 #          ^^ constant.character.escape.path.fnmatch.git
 #              ^^ constant.character.escape.path.fnmatch.git
 #                     ^ - constant.character.escape.path.fnmatch.git - punctuation.separator.path.fnmatch.git
 #                      ^ variable.language.wildcard.asterisk.fnmatch.git
 #                        ^ - constant.character.escape.path.fnmatch.git - punctuation.separator.path.fnmatch.git
 #                         ^ variable.language.wildcard.questionmark.fnmatch.git
-#                                 ^^ - constant.language.path.parent.fnmatch.git
+#                                 ^^ - variable.language.parent.path.fnmatch.git
 #                                       ^ - entity.name.pattern
 
 # NO HOME pattern
@@ -39,27 +39,27 @@
   ~..fname
 # ^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
 # ^ - variable.language.environment.home.fnmatch.git
-#  ^^ - constant.language.path.parent.fnmatch.git
+#  ^^ - variable.language.parent.path.fnmatch.git
   ~../fname
 # ^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
 # ^ - variable.language.environment.home.fnmatch.git
-#  ^^ - constant.language.path.parent.fnmatch.git
+#  ^^ - variable.language.parent.path.fnmatch.git
 #    ^ punctuation.separator.path.fnmatch.git
 
 # PARENT DIR TESTS
   ../..fname../../
 # ^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
-# ^^ constant.language.path.parent.fnmatch.git
+# ^^ variable.language.parent.path.fnmatch.git
 #   ^ punctuation.separator.path.fnmatch.git
-#    ^^ - constant.language.path.parent.fnmatch.git
-#           ^^ - constant.language.path.parent.fnmatch.git
+#    ^^ - variable.language.parent.path.fnmatch.git
+#           ^^ - variable.language.parent.path.fnmatch.git
 #             ^ punctuation.separator.path.fnmatch.git
-#              ^^ constant.language.path.parent.fnmatch.git
+#              ^^ variable.language.parent.path.fnmatch.git
 #                ^ punctuation.separator.path.fnmatch.git
   ..fname../..
 # ^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
-#        ^^ - constant.language.path.parent.fnmatch.git
-#           ^^ - constant.language.path.parent.fnmatch.git
+#        ^^ - variable.language.parent.path.fnmatch.git
+#           ^^ - variable.language.parent.path.fnmatch.git
 
 # DRIVE SEPARATOR TESTS
   c:/fo:lder:/

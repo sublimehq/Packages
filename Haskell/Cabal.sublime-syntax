@@ -362,10 +362,10 @@ contexts:
 
   literal-path-dir-pattern:
     - match: \.\.(?=[\\/])
-      scope: constant.language.path.parent.cabal
+      scope: variable.language.parent.path.cabal
       pop: 1
     - match: \.(?=[\\/])
-      scope: constant.language.path.self.cabal
+      scope: variable.language.self.path.cabal
       pop: 1
     - match: ''
       pop: 1
