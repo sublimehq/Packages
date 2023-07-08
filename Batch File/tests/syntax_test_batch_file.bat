@@ -1825,7 +1825,7 @@ put arg1 arg2
 ::                                           ^^^^^^ - constant
 ::                                                 ^^ constant.character.escape.dosbatch
 ::                                                   ^^^ - constant
-::                                                      ^ constant.other.placeholder.dosbatch
+::                                                      ^ variable.language.wildcard.asterisk.dosbatch
 ::                                                       ^^ constant.character.escape.dosbatch
 ::                                                         ^ - constant
 ::                                                          ^^ constant.character.escape.dosbatch
