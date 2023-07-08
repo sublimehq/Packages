@@ -189,12 +189,14 @@ contexts:
     - match: '/'          # path separators
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
-    - match: '[*?]'       # unescapable operators
-      scope: keyword.operator.wildcard.fnmatch.git
-    - match: '\\[^$*?]'   # backslash escapes nearly everything
-      scope: constant.character.escape.path.fnmatch.git
     - match: \$\w+
       scope: variable.language.environment.other.fnmatch.git
+    - match: '\*'         # unescapable operators
+      scope: variable.language.wildcard.asterisk.fnmatch.git
+    - match: '\?'         # unescapable operators
+      scope: variable.language.wildcard.questionmark.fnmatch.git
+    - match: '\\[^$*?]'   # backslash escapes nearly everything
+      scope: constant.character.escape.path.fnmatch.git
     - match: ':'          # drive separators
       scope: invalid.illegal.separator.path.fnmatch.git
     - match: '\\(?=\s)'   # single backslash is invalid
