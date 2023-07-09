@@ -2,8 +2,12 @@
 ---
 # https://www.sublimetext.com/docs/file_patterns.html
 name: Sublime File Pattern
-hidden: true
 scope: source.file-pattern
+version: 2
+hidden: true
+
+variables:
+  sep: '[/\\]'
 
 contexts:
   main:
@@ -11,29 +15,71 @@ contexts:
 
   multiple:
     - match: ','
-      scope: punctuation.separator.file-pattern
+      scope: punctuation.separator.sequence.file-pattern
     - include: single
 
   single:
-    - match: \s*(-)?(//)?(?=.)
-      captures:
-        1: keyword.operator.logical.file-pattern
-        2: meta.path.file-pattern constant.language.file-pattern
+    - match: -|(?=\S)
+      scope: keyword.operator.logical.file-pattern
       push: pattern
 
   pattern:
-    - meta_content_scope: meta.path.file-pattern
-    - match: (?=\s*(?:,|$))
-      pop: true
-    - match: \*{2,}
-      scope: invalid.illegal.file-pattern
-    - match: (\*)/|/(\*)(?!\*)
+    - match: (<)(?:current file|open files|open folders|project filters)(>)
+      scope: support.constant.file-pattern
       captures:
-        1: constant.other.wildcard.asterisk.path.file-pattern
-        2: constant.other.wildcard.asterisk.path.file-pattern
+        1: punctuation.definition.constant.begin.file-pattern
+        2: punctuation.definition.constant.end.file-pattern
+      pop: 1
+    - match: (")(?:(//)|(?=[^{{sep}}"]*{{sep}}))
+      captures:
+        1: punctuation.definition.path.begin.file-pattern
+        2: constant.other.path.project-root.file-pattern
+      set: quoted-path-pattern
+    - match: //|(?=[^{{sep}},]*{{sep}})
+      scope: constant.other.path.project-root.file-pattern
+      set: unquoted-path-pattern
+    - match: \"
+      scope: punctuation.definition.file.begin.file-pattern
+      set: quoted-file-pattern
+    - match: (?=\S)
+      set: unquoted-file-pattern
+
+  quoted-file-pattern:
+    - meta_scope: meta.file.file-pattern
+    - match: \"
+      scope: punctuation.definition.file.end.file-pattern
+      pop: 1
+    - include: wildcards
+
+  unquoted-file-pattern:
+    - meta_scope: meta.file.file-pattern
+    - match: (?=\s*(?:,|$))
+      pop: 1
+    - include: wildcards
+
+  quoted-path-pattern:
+    - meta_scope: meta.path.file-pattern
+    - match: \"
+      scope: punctuation.definition.path.end.file-pattern
+      pop: 1
+    - include: separators
+    - include: wildcards
+
+  unquoted-path-pattern:
+    - meta_scope: meta.path.file-pattern
+    - match: (?=\s*(?:,|$))
+      pop: 1
+    - include: separators
+    - include: wildcards
+
+  separators:
+    - match: '{{sep}}'
+      scope: punctuation.separator.path.file-pattern
+
+  wildcards:
+    - match: \*{2,}
+      scope: invalid.illegal.wildcard.file-pattern
     - match: \*
-      scope: constant.other.wildcard.asterisk.file.file-pattern
+      scope: constant.other.wildcard.asterisk.file-pattern
     - match: \?
       scope: constant.other.wildcard.questionmark.file-pattern
-    - match: <(?:current file|open files|open folders|project filters)>
-      scope: support.constant.file-pattern
