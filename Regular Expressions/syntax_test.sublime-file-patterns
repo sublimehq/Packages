@@ -1,11 +1,11 @@
 # SYNTAX TEST "Packages/Regular Expressions/File Pattern.sublime-syntax"
 
 *.py
-# <- variable.language.wildcard.asterisk
+# <- variable.language.wildcard.asterisk.file
 #^^^ meta.path
 #   ^ - meta.path
 */bar.py
-# <- variable.language.wildcard.asterisk
+# <- variable.language.wildcard.asterisk.path
 src/**/foo.java
 #   ^^ invalid.illegal
 *.cs, *.py
