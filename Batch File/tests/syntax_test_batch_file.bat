@@ -287,7 +287,7 @@ ECHO : Not a comment ^
 ::                    ^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                              ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^^ variable.language.parent.path.dosbatch
+::      ^^ constant.other.path.parent.dosbatch
 ::        ^ punctuation.separator.path.dosbatch
 ::            ^ punctuation.separator.path.dosbatch
 ::                ^ punctuation.separator.path.dosbatch
@@ -305,7 +305,7 @@ ECHO : Not a comment ^
 ::                      ^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                                 ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^^ variable.language.parent.path.dosbatch
+::      ^^ constant.other.path.parent.dosbatch
 ::        ^ punctuation.separator.path.dosbatch
 ::         ^ punctuation.section.interpolation.begin.dosbatch
 ::          ^^^ variable.other.readwrite.dosbatch
@@ -835,7 +835,7 @@ ECHO : Not a comment ^
 ::                  ^ punctuation.section.set.begin.dosbatch
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::                          ^ punctuation.separator.comma.dosbatch
-::                            ^^ variable.language.parent.path.dosbatch
+::                            ^^ constant.other.path.parent.dosbatch
 ::                                      ^ punctuation.separator.comma.dosbatch
 ::                                                 ^ punctuation.section.set.end.dosbatch
 ::                                                   ^^ keyword.control.loop.do.dosbatch
@@ -855,7 +855,7 @@ ECHO : Not a comment ^
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::                      ^ punctuation.separator.comma.dosbatch
-::                        ^^ variable.language.parent.path.dosbatch
+::                        ^^ constant.other.path.parent.dosbatch
 ::                                  ^ punctuation.separator.comma.dosbatch
 ::                                             ^ punctuation.section.set.end.dosbatch
 ::                                               ^^ keyword.control.loop.do.dosbatch
@@ -869,7 +869,7 @@ ECHO : Not a comment ^
 ::        ^ punctuation.section.set.begin.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::                ^ punctuation.separator.comma.dosbatch
-::                  ^^ variable.language.parent.path.dosbatch
+::                  ^^ constant.other.path.parent.dosbatch
 ::                            ^ punctuation.separator.comma.dosbatch
 ::                                       ^ punctuation.section.set.end.dosbatch
 ::                                         ^^ keyword.control.loop.do.dosbatch
@@ -882,7 +882,7 @@ ECHO : Not a comment ^
 ::    ^ punctuation.section.set.begin.dosbatch
 ::    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::            ^ punctuation.separator.comma.dosbatch
-::              ^^ variable.language.parent.path.dosbatch
+::              ^^ constant.other.path.parent.dosbatch
 ::                        ^ punctuation.separator.comma.dosbatch
 ::                                   ^ punctuation.section.set.end.dosbatch
 ::                                     ^^ keyword.control.loop.do.dosbatch
@@ -895,7 +895,7 @@ ECHO : Not a comment ^
 :: ^ punctuation.section.set.begin.dosbatch
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::         ^ punctuation.separator.comma.dosbatch
-::           ^^ variable.language.parent.path.dosbatch
+::           ^^ constant.other.path.parent.dosbatch
 ::                     ^ punctuation.separator.comma.dosbatch
 ::                                ^ punctuation.section.set.end.dosbatch
 ::                                  ^^ keyword.control.loop.do.dosbatch
@@ -909,7 +909,7 @@ ECHO : Not a comment ^
       folder1,
 ::           ^ punctuation.separator.comma.dosbatch
       ..\folder2,
-::    ^^ variable.language.parent.path.dosbatch
+::    ^^ constant.other.path.parent.dosbatch
 ::              ^ punctuation.separator.comma.dosbatch
       C:\folder
    ) ^
@@ -1204,7 +1204,7 @@ put arg1 arg2
 :: ^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
 :: ^^^^^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::            ^^^^^^^^^^ meta.function-call.arguments.dosbatch
-:: ^^ variable.language.parent.path.dosbatch
+:: ^^ constant.other.path.parent.dosbatch
 ::   ^ punctuation.separator.path.dosbatch
 ::        ^ punctuation.separator.path.dosbatch
 
@@ -1217,7 +1217,7 @@ put arg1 arg2
 :: ^^^ variable.function.dosbatch
 ::    ^^^^^^ - variable.function
 ::          ^^^^ variable.function.dosbatch
-:: ^^ variable.language.parent.path.dosbatch
+:: ^^ constant.other.path.parent.dosbatch
 ::   ^ punctuation.separator.path.dosbatch
 ::    ^ punctuation.section.interpolation.begin.dosbatch
 ::     ^^^^ variable.other.readwrite.dosbatch
@@ -1234,7 +1234,7 @@ put arg1 arg2
 ::     ^^^^^^ - variable.function
 ::           ^^^^^ variable.function.dosbatch
 :: ^ punctuation.definition.string.begin.dosbatch
-::  ^^ variable.language.parent.path.dosbatch
+::  ^^ constant.other.path.parent.dosbatch
 ::    ^ punctuation.separator.path.dosbatch
 ::     ^ punctuation.section.interpolation.begin.dosbatch
 ::      ^^^^ variable.other.readwrite.dosbatch
@@ -1251,7 +1251,7 @@ put arg1 arg2
 ::     ^^^^^^ - variable.function
 ::           ^^^^^ variable.function.dosbatch
 :: ^ punctuation.definition.string.begin.dosbatch
-::  ^^ variable.language.parent.path.dosbatch
+::  ^^ constant.other.path.parent.dosbatch
 ::    ^ punctuation.separator.path.dosbatch
 ::     ^ punctuation.section.interpolation.begin.dosbatch
 ::      ^^^^ variable.other.readwrite.dosbatch
@@ -1262,7 +1262,7 @@ put arg1 arg2
    %~dp0..\cmd
 :: ^^^^^^^^^^^ meta.function-call.identifier.dosbatch
 :: ^^^^^ meta.interpolation.dosbatch variable.parameter.dosbatch
-::      ^^ variable.language.parent.path.dosbatch
+::      ^^ constant.other.path.parent.dosbatch
 ::        ^ punctuation.separator.path.dosbatch
 ::         ^^^ variable.function.dosbatch
 
@@ -1365,7 +1365,7 @@ put arg1 arg2
 ::                          ^ meta.parameter.dosbatch
 ::                           ^^^^^ meta.parameter.value.dosbatch meta.path.dosbatch meta.string.dosbatch
 ::         ^^^^^^^^^^^ string.unquoted.dosbatch
-::         ^^ variable.language.parent.path.dosbatch
+::         ^^ constant.other.path.parent.dosbatch
 ::           ^ punctuation.separator.path.dosbatch
 ::                   ^ punctuation.separator.path.dosbatch
 ::                     ^^^^^ variable.parameter.option.dosbatch

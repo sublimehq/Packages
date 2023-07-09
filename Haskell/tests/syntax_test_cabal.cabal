@@ -234,7 +234,7 @@ data-files:
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
 --              ^ - meta.path - markup.underline.link - string
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
---               ^^ variable.language.parent.path.cabal
+--               ^^ constant.other.path.parent.cabal
 --                 ^ punctuation.separator.path.cabal
 --                      ^ punctuation.separator.path.cabal
 --                               ^ keyword.operator.wildcard.cabal
