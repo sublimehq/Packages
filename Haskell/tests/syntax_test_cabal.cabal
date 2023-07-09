@@ -291,7 +291,7 @@ preferences: pkg >= 2.*,
 --               ^^ keyword.operator.comparison.cabal
 --                  ^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                   ^ punctuation.separator.decimal.cabal
---                    ^ variable.language.wildcard.asterisk.cabal
+--                    ^ constant.other.wildcard.asterisk.cabal
 --                     ^ punctuation.separator.sequence.cabal
 
 -- 'quux ^>= ...'-style constraints only.
@@ -341,19 +341,19 @@ allow-newer: all:bar, *:baz, *:^quux
 --              ^ keyword.operator.assignment.cabal
 --               ^^^ meta.path.package.cabal
 --                  ^ punctuation.separator.sequence.cabal
---                    ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--                    ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 --                     ^ keyword.operator.assignment.cabal
 --                      ^^^ meta.path.package.cabal
 --                         ^ punctuation.separator.sequence.cabal
---                           ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--                           ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 --                            ^ keyword.operator.assignment.cabal
 --                             ^ keyword.operator.bound.cabal
 --                              ^^^^ meta.path.package.cabal
 
 allow-newer: *:*
---           ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--           ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 --            ^ keyword.operator.assignment.cabal
---             ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--             ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 
 allow-newer: all:all
 --           ^^^ constant.language.all.cabal
@@ -361,10 +361,10 @@ allow-newer: all:all
 --               ^^^ constant.language.all.cabal
 
 allow-newer: *:^*
---           ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--           ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 --            ^ keyword.operator.assignment.cabal
 --             ^ keyword.operator.bound.cabal
---              ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--              ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 
 allow-newer: all:^all
 --           ^^^ constant.language.all.cabal
@@ -376,14 +376,14 @@ allow-newer: all:^all
 allow-newer: pkg-1.2.3:*
 --           ^^^^^^^^^ meta.path.package.cabal
 --                    ^ keyword.operator.assignment.cabal
---                     ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--                     ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 
 -- Disregard only `^>=`-style upper bounds in pkg-1.2.3
 allow-newer: pkg-1.2.3:^*
 --           ^^^^^^^^^ meta.path.package.cabal
 --                    ^ keyword.operator.assignment.cabal
 --                     ^ keyword.operator.bound.cabal
---                      ^ variable.language.wildcard.asterisk.cabal - constant.numeric
+--                      ^ constant.other.wildcard.asterisk.cabal - constant.numeric
 
 allow-newer: pkg-1.2.3:dep-pkg, pkg-1.1.2:dep-pkg
 --           ^^^^^^^^^ meta.path.package.cabal
@@ -448,7 +448,7 @@ executable pandoc
   --       ^^^ constant.language.compiler.cabal
   --           ^ keyword.operator.comparison.cabal
   --             ^^^ meta.number.version.cabal constant.numeric.value.cabal
-  --               ^ variable.language.wildcard.asterisk.cabal
+  --               ^ constant.other.wildcard.asterisk.cabal
   --                ^ punctuation.section.group.end.cabal
      hs-source-dirs: prelude
      -- <- meta.mapping.key.cabal entity.name.tag.cabal

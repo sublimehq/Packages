@@ -127,7 +127,7 @@ $(dir)_sources := $(wildcard $(dir)/*.c)
 #                 ^^ keyword.other.block.begin
 #                            ^^ keyword.other.block.begin
 #                                 ^ keyword.other.block.end
-#                                   ^ variable.language.wildcard.asterisk
+#                                   ^ constant.other.wildcard.asterisk
 #                                      ^ keyword.other.block.end
 define $(dir)_print =
 # ^ keyword.control
@@ -840,12 +840,12 @@ endif
 
 vpath dir/*/whatevs whatevs
 # ^ keyword.control.vpath
-#         ^ variable.language.wildcard.asterisk
+#         ^ constant.other.wildcard.asterisk
 #                   ^ string.unquoted.makefile
 
 vpath asdf/*
 # ^ keyword.control.vpath
-#          ^ variable.language.wildcard.asterisk
+#          ^ constant.other.wildcard.asterisk
 vpath
 # ^ keyword.control.vpath.makefile
 
@@ -901,7 +901,7 @@ kselftest-merge:
 search:
     @$(MAKE) --no-print-directory \
         -f core/core.mk $(addprefix -f,$(wildcard index/*.mk)) -f core/index.mk \
-    #                                                   ^ variable.language.wildcard.asterisk
+    #                                                   ^ constant.other.wildcard.asterisk
         search
 
 CC_VERSION := $(shell $(CC) -dumpversion)

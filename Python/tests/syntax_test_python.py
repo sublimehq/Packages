@@ -122,7 +122,7 @@ from os import *  # comment
 #^^^ keyword.control.import.from.python
 #    ^^ meta.import-name.python
 #       ^^^^^^ keyword.control.import.python
-#              ^ variable.language.wildcard.asterisk.python
+#              ^ constant.other.wildcard.asterisk.python
 #               ^^ - comment - constant - meta.statement
 #                 ^^^^^^^^^^ comment.line.number-sign.python
 from os import *, path # comment
@@ -132,7 +132,7 @@ from os import *, path # comment
 #      ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #               ^^^^^^^^^^^^^^^^^ - meta.statement
-#              ^ variable.language.wildcard.asterisk.python
+#              ^ constant.other.wildcard.asterisk.python
 #               ^ invalid.illegal.unexpected-import.python
 #                 ^^^^ invalid.illegal.unexpected-import.python
 #                      ^^^^^^^^^^ comment.line.number-sign.python
@@ -309,7 +309,7 @@ from sys import (version, # comment
 import path from os
 #           ^^^^ invalid.illegal.name
 from .sub import *
-#                ^ variable.language.wildcard.asterisk.python
+#                ^ constant.other.wildcard.asterisk.python
 import a as b
 #        ^^ keyword.control.import.as.python
 import a as b#comment

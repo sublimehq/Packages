@@ -1,11 +1,11 @@
 # SYNTAX TEST "Packages/Regular Expressions/File Pattern.sublime-syntax"
 
 *.py
-# <- variable.language.wildcard.asterisk.file
+# <- constant.other.wildcard.asterisk.file
 #^^^ meta.path
 #   ^ - meta.path
 */bar.py
-# <- variable.language.wildcard.asterisk.path
+# <- constant.other.wildcard.asterisk.path
 src/**/foo.java
 #   ^^ invalid.illegal
 *.cs, *.py
@@ -17,7 +17,7 @@ src/**/foo.java
 *.cs,-*.aspx.cs
 #   ^ punctuation.separator - meta.path
 #    ^ keyword.operator.logical
-#     ^ variable.language.wildcard.asterisk
+#     ^ constant.other.wildcard.asterisk
 -node_modules/
 # <- keyword.operator.logical
 ssh-agent

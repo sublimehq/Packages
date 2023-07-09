@@ -192,9 +192,9 @@ contexts:
     - match: \$\w+
       scope: variable.language.environment.other.fnmatch.git
     - match: '\*'         # unescapable operators
-      scope: variable.language.wildcard.asterisk.fnmatch.git
+      scope: constant.other.wildcard.asterisk.fnmatch.git
     - match: '\?'         # unescapable operators
-      scope: variable.language.wildcard.questionmark.fnmatch.git
+      scope: constant.other.wildcard.questionmark.fnmatch.git
     - match: '\\[^$*?]'   # backslash escapes nearly everything
       scope: constant.character.escape.path.fnmatch.git
     - match: ':'          # drive separators

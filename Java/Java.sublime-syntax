@@ -575,7 +575,7 @@ contexts:
 
   import-wildcard:
     - match: \*
-      scope: variable.language.wildcard.asterisk.java
+      scope: constant.other.wildcard.asterisk.java
       pop: 2
       set: import-expect-terminator
 
@@ -3130,7 +3130,7 @@ contexts:
 
   type-argument-reference:
     - match: \?
-      scope: variable.language.wildcard.questionmark.java
+      scope: constant.other.wildcard.questionmark.java
       set: type-argument-bounds
     - include: maybe-reference-type
 

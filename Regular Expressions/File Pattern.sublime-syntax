@@ -31,11 +31,11 @@ contexts:
       scope: invalid.illegal.file-pattern
     - match: (\*)/|/(\*)(?!\*)
       captures:
-        1: variable.language.wildcard.asterisk.path.file-pattern
-        2: variable.language.wildcard.asterisk.path.file-pattern
+        1: constant.other.wildcard.asterisk.path.file-pattern
+        2: constant.other.wildcard.asterisk.path.file-pattern
     - match: \*
-      scope: variable.language.wildcard.asterisk.file.file-pattern
+      scope: constant.other.wildcard.asterisk.file.file-pattern
     - match: \?
-      scope: variable.language.wildcard.questionmark.file-pattern
+      scope: constant.other.wildcard.questionmark.file-pattern
     - match: <(?:current file|open files|open folders|project filters)>
       scope: support.constant.file-pattern

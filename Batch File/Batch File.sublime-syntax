@@ -1627,9 +1627,9 @@ contexts:
     - match: \.
       scope: punctuation.separator.path.dosbatch
     - match: \*
-      scope: variable.language.wildcard.asterisk.dosbatch
+      scope: constant.other.wildcard.asterisk.dosbatch
     - match: \?
-      scope: variable.language.wildcard.questionmark.dosbatch
+      scope: constant.other.wildcard.questionmark.dosbatch
 
   path-pattern-relative:
     - match: \.\.(?=[\\/])

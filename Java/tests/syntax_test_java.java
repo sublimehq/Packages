@@ -588,7 +588,7 @@ import static no.terminator
 import * ;
 // <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
-//     ^ meta.import.java meta.path.java variable.language.wildcard.asterisk.java
+//     ^ meta.import.java meta.path.java constant.other.wildcard.asterisk.java
 //      ^^ - meta.import - meta.path
 //       ^ punctuation.terminator.java
 
@@ -598,7 +598,7 @@ import *. ;
 //     ^ meta.import.java meta.path.java
 //      ^ meta.import - meta.path
 //       ^^ - meta.import - meta.path
-//     ^ variable.language.wildcard.asterisk.java
+//     ^ constant.other.wildcard.asterisk.java
 //      ^ invalid.illegal.expect-semicolon.java
 //        ^ punctuation.terminator.java
 
@@ -608,7 +608,7 @@ import *.* ;
 //     ^ meta.import.java meta.path.java
 //      ^^ meta.import - meta.path
 //        ^^ - meta.import - meta.path
-//     ^ variable.language.wildcard.asterisk.java
+//     ^ constant.other.wildcard.asterisk.java
 //      ^^ invalid.illegal.expect-semicolon.java
 //         ^ punctuation.terminator.java
 
@@ -618,7 +618,7 @@ import *.a ;
 //     ^ meta.import.java meta.path.java
 //      ^^ meta.import - meta.path
 //        ^^ - meta.import - meta.path
-//     ^ variable.language.wildcard.asterisk.java
+//     ^ constant.other.wildcard.asterisk.java
 //      ^^ invalid.illegal.expect-semicolon.java
 //         ^ punctuation.terminator.java
 
@@ -631,7 +631,7 @@ import a . * . b ;
 //     ^ variable.namespace.java
 //      ^^^ - variable
 //       ^ punctuation.accessor.dot.java
-//         ^ variable.language.wildcard.asterisk.java
+//         ^ constant.other.wildcard.asterisk.java
 //          ^^^^ - variable
 //           ^ invalid.illegal.expect-semicolon.java
 //             ^ invalid.illegal.expect-semicolon.java
@@ -650,7 +650,7 @@ import a . b . * ;
 //          ^ - variable - punctuation
 //           ^ punctuation.accessor.dot.java - entity - variable
 //            ^ - variable - punctuation
-//             ^ variable.language.wildcard.asterisk.java
+//             ^ constant.other.wildcard.asterisk.java
 //               ^ punctuation.terminator.java
 
 import a.b.Class;
@@ -673,7 +673,7 @@ import a.b.Class.*;
 //        ^ punctuation.accessor.dot.java - entity - variable
 //         ^^^^^ support.class.java
 //              ^ punctuation.accessor.dot.java - entity - variable
-//               ^ variable.language.wildcard.asterisk.java
+//               ^ constant.other.wildcard.asterisk.java
 
 import a.b.Class.SubClass;
 //^^^^^ meta.import.java - meta.path
@@ -826,7 +826,7 @@ import static a.b.Class.*;
 //               ^ punctuation.accessor.dot.java
 //                ^^^^^ support.class.java
 //                     ^ punctuation.accessor.dot.java
-//                      ^ variable.language.wildcard.asterisk.java
+//                      ^ constant.other.wildcard.asterisk.java
 
 import static C.d.ced
 //^^^^^^^^^^^^ meta.import.java
@@ -1156,7 +1156,7 @@ class GenericTest<@Anno A extends @Anno com . @Anno Foo<A, @Anno com . @Anno Bar
 //                                                                                   ^^^^ variable.annotation.java
 //                                                                                        ^^^ support.class.java
 //                                                                                           ^ punctuation.definition.generic.begin.java
-//                                                                                            ^ variable.language.wildcard.questionmark.java
+//                                                                                            ^ constant.other.wildcard.questionmark.java
 //                                                                                              ^^^^^ keyword.declaration.super.java
 //                                                                                                    ^^^ support.class.java
 //                                                                                                       ^ punctuation.definition.generic.end.java
@@ -1209,7 +1209,7 @@ class generictest<@anno a extends @anno com . @anno foo<a, @anno com . @anno bar
 //                                                                                   ^^^^ variable.annotation.java
 //                                                                                        ^^^ support.class.java
 //                                                                                           ^ punctuation.definition.generic.begin.java
-//                                                                                            ^ variable.language.wildcard.questionmark.java
+//                                                                                            ^ constant.other.wildcard.questionmark.java
 //                                                                                              ^^^^^ keyword.declaration.super.java
 //                                                                                                    ^^^ support.class.java
 //                                                                                                       ^ punctuation.definition.generic.end.java
@@ -1244,7 +1244,7 @@ class GenericTest<A> extends Foo<? extends A> {}
 //                          ^ - entity - keyword - storage
 //                           ^^^ entity.other.inherited-class.java
 //                              ^ punctuation.definition.generic.begin.java
-//                               ^ variable.language.wildcard.questionmark.java
+//                               ^ constant.other.wildcard.questionmark.java
 //                                 ^^^^^^^ storage.modifier.extends.java
 //                                         ^ support.class.java
 //                                          ^ punctuation.definition.generic.end.java
@@ -1281,7 +1281,7 @@ class GenericTest<A> extends @Anno com . @Anno Foo<@Anno ? extends @Anno SuperCl
 //                                                ^ punctuation.definition.generic.begin.java
 //                                                 ^ punctuation.definition.annotation.java
 //                                                  ^^^^ variable.annotation.java
-//                                                       ^ variable.language.wildcard.questionmark.java
+//                                                       ^ constant.other.wildcard.questionmark.java
 //                                                         ^^^^^^^ storage.modifier.extends.java
 //                                                                 ^ punctuation.definition.annotation.java
 //                                                                  ^^^^ variable.annotation.java
@@ -1807,7 +1807,7 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //                                       ^^^^^^ entity.other.inherited-class.java
 //                                             ^ punctuation.definition.generic.begin.java
 //                                             ^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
-//                                              ^ variable.language.wildcard.questionmark.java
+//                                              ^ constant.other.wildcard.questionmark.java
 //                                                ^^^^^ keyword.declaration.super.java
 //                                                      ^ support.class.java
 //                                                       ^ punctuation.definition.generic.begin.java
@@ -4013,7 +4013,7 @@ class MethodDelcarationTests {
 //                    ^^^^^^^^^^^^^^^^^ entity.name.function.java
 //                                      ^^^^^^^^^^ support.class.java
 //                                                ^ punctuation.definition.generic.begin.java
-//                                                 ^ variable.language.wildcard.questionmark.java
+//                                                 ^ constant.other.wildcard.questionmark.java
 //                                                   ^^^^^^^ storage.modifier.extends.java
 //                                                           ^ support.class.java
 //                                                            ^ punctuation.definition.generic.end.java
@@ -4040,7 +4040,7 @@ class MethodDelcarationTests {
 //                    ^^^^^^^ storage.modifier.extends.java
 //                            ^^^^^^^^^^ support.class.java
 //                                      ^ punctuation.definition.generic.begin.java
-//                                       ^ variable.language.wildcard.questionmark.java
+//                                       ^ constant.other.wildcard.questionmark.java
 //                                         ^^^^^ keyword.declaration.super.java
 //                                               ^ support.class.java
 //                                                ^^ punctuation.definition.generic.end.java
@@ -5038,7 +5038,7 @@ class LocalVariableDeclarationTests {
 //                       ^ - meta.declaration
 //  ^^^^ support.class.java
 //      ^ punctuation.definition.generic.begin.java
-//       ^ variable.language.wildcard.questionmark.java
+//       ^ constant.other.wildcard.questionmark.java
 //         ^^^^^^^ storage.modifier.extends.java
 //                 ^^^ invalid.illegal.unexpected-keyword.java
 //                    ^ punctuation.definition.generic.end.java
@@ -8275,7 +8275,7 @@ class InstanceCreationExpressionsTests {
 //                ^^ meta.group.java
 //      ^^^^^^^ support.class.java
 //             ^ punctuation.definition.generic.begin.java
-//              ^ variable.language.wildcard.questionmark.java
+//              ^ constant.other.wildcard.questionmark.java
 //               ^ punctuation.definition.generic.end.java
 //                ^ punctuation.section.group.begin.java
 //                 ^ punctuation.section.group.end.java
@@ -8295,7 +8295,7 @@ class InstanceCreationExpressionsTests {
 //                   ^ punctuation.definition.generic.begin.java
 //                    ^ punctuation.definition.annotation.java
 //                     ^^^^ variable.annotation.java
-//                          ^ variable.language.wildcard.questionmark.java
+//                          ^ constant.other.wildcard.questionmark.java
 //                           ^ punctuation.definition.generic.end.java
 //                            ^ punctuation.section.group.begin.java
 //                             ^ punctuation.section.group.end.java
@@ -8306,7 +8306,7 @@ class InstanceCreationExpressionsTests {
 //             ^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
 //                             ^^ meta.instantiation.java meta.group.java
 //             ^ punctuation.definition.generic.begin.java
-//              ^ variable.language.wildcard.questionmark.java
+//              ^ constant.other.wildcard.questionmark.java
 //                ^^^^^^^ storage.modifier.extends.java
 //                        ^^^^ support.class.java
 //                            ^ punctuation.definition.generic.end.java
@@ -8324,7 +8324,7 @@ class InstanceCreationExpressionsTests {
 //                   ^ punctuation.definition.generic.begin.java
 //                    ^ punctuation.definition.annotation.java
 //                     ^^^^ variable.annotation.java
-//                          ^ variable.language.wildcard.questionmark.java
+//                          ^ constant.other.wildcard.questionmark.java
 //                            ^^^^^^^ storage.modifier.extends.java
 //                                    ^ punctuation.definition.annotation.java
 //                                     ^^^^ variable.annotation.java
@@ -8344,7 +8344,7 @@ class InstanceCreationExpressionsTests {
 //                   ^ punctuation.definition.generic.begin.java
 //                    ^ punctuation.definition.annotation.java
 //                     ^^^^ variable.annotation.java
-//                          ^ variable.language.wildcard.questionmark.java
+//                          ^ constant.other.wildcard.questionmark.java
 //                            ^^^^^^^ storage.modifier.extends.java
 //                                    ^ punctuation.definition.annotation.java
 //                                     ^^^^ variable.annotation.java
@@ -8359,7 +8359,7 @@ class InstanceCreationExpressionsTests {
 //             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
 //                                     ^^ meta.instantiation.java meta.group.java
 //             ^ punctuation.definition.generic.begin.java
-//              ^ variable.language.wildcard.questionmark.java
+//              ^ constant.other.wildcard.questionmark.java
 //                ^^^^^^^ storage.modifier.extends.java
 //                        ^^^^ support.class.java
 //                            ^ punctuation.separator.comma.java
@@ -8374,7 +8374,7 @@ class InstanceCreationExpressionsTests {
 //             ^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
 //                           ^^ meta.instantiation.java meta.group.java
 //             ^ punctuation.definition.generic.begin.java
-//              ^ variable.language.wildcard.questionmark.java
+//              ^ constant.other.wildcard.questionmark.java
 //                ^^^^^ keyword.declaration.super.java
 //                      ^^^^ support.class.java
 //                          ^ punctuation.definition.generic.end.java
@@ -8474,7 +8474,7 @@ class InstanceCreationExpressionsTests {
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //               ^ punctuation.definition.generic.begin.java
-//                ^ variable.language.wildcard.questionmark.java
+//                ^ constant.other.wildcard.questionmark.java
 //                 ^ punctuation.definition.generic.end.java
 //                  ^ punctuation.section.brackets.begin.java
 //                   ^ punctuation.section.brackets.end.java
@@ -9242,12 +9242,12 @@ class TypeComparisonExpressionsTests {
 //  ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //             ^ support.class.java
 //              ^ punctuation.definition.generic.begin.java
-//               ^ variable.language.wildcard.questionmark.java
+//               ^ constant.other.wildcard.questionmark.java
 //                ^ punctuation.definition.generic.end.java
 //                 ^ punctuation.accessor.dot.java
 //                  ^ support.class.java
 //                   ^ punctuation.definition.generic.begin.java
-//                    ^ variable.language.wildcard.questionmark.java
+//                    ^ constant.other.wildcard.questionmark.java
 //                     ^ punctuation.definition.generic.end.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
