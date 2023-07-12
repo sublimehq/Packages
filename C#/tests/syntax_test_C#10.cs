@@ -21,12 +21,12 @@ namespace Example;
 
 public record struct Person(string Name);
 /// ^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^ meta.class.record
+///    ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.record.parameters
+///                        ^^^^^^^^^^^^^ meta.class.record.parameters
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^^^^^^ keyword.declaration.struct.record
 ///                  ^^^^^^ entity.name.class
 ///                        ^ punctuation.section.parameters.begin
-///                         ^^^^^^^^^^^^ meta.class.body meta.method.parameters
 ///                         ^^^^^^ storage.type
 ///                                ^^^^ variable.parameter
 ///                                    ^ punctuation.section.parameters.end
@@ -34,7 +34,8 @@ public record struct Person(string Name);
 
 public readonly record struct Person(string Name);
 ///^^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record
+///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.record meta.class.record
+///                                 ^^^^^^^^^^^^^ meta.class.record.parameters - meta.class.record meta.class.record
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^^^^ keyword.declaration.class.record
 ///                    ^^^^^^ keyword.declaration.struct.record

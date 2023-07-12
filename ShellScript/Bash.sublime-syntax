@@ -19,6 +19,7 @@ hidden_file_extensions:
   - .bash_aliases
   - .bash_completions
   - .bash_functions
+  - .bash_history
   - .bash_login
   - .bash_logout
   - .bash_profile
@@ -31,6 +32,7 @@ hidden_file_extensions:
   - .zprofile
   - .zshenv
   - .zshrc
+  - APKBUILD  # https://wiki.alpinelinux.org/wiki/APKBUILD_Reference
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
   - eclass
@@ -39,6 +41,7 @@ first_line_match: |-
   (?xi:
     ^ \#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b            # shebang
   | ^ \s* \# .*? -\*- .*? \bshell(-script)?\b .*? -\*-  # editorconfig
+  | ^ \#(autoload|compdef)\b                            # zsh completions
   )
 
 ###############################################################################
@@ -126,6 +129,10 @@ contexts:
     - include: eol-pop
 
 ###[ PROTOTYPES ]##############################################################
+
+  brace-pop:
+    - match: (?=\})
+      pop: 1
 
   else-pop:
     - match: (?=\S)
@@ -391,17 +398,19 @@ contexts:
   cmd-arithmetic:
     - match: \(\((?=.+\)\))
       scope: punctuation.section.arithmetic.begin.shell
-      push:
-        - meta_scope: meta.arithmetic.shell
-        - match: \)\)
-          scope: punctuation.section.arithmetic.end.shell
-          pop: 1
-        - include: expressions
+      push: cmd-arithmetic-body
     - match: let{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.let.shell
       push: cmd-arithmetic-args
+
+  cmd-arithmetic-body:
+    - meta_scope: meta.arithmetic.shell
+    - match: \)\)
+      scope: punctuation.section.arithmetic.end.shell
+      pop: 1
+    - include: expressions
 
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell
@@ -759,13 +768,49 @@ contexts:
   test-pattern-common:
     - match: (?=\s)
       pop: 1
-    - match: \(
-      scope:
-        meta.group.regexp.shell
-        punctuation.definition.group.begin.regexp.shell
+    - match: ([?*+@!])?(\()
+      captures:
+        1: keyword.operator.quantifier.regexp.shell
+        2: meta.group.regexp.shell
+           punctuation.definition.group.begin.regexp.shell
       push: expansions-pattern-group-body
+    - match: (?=\[)
+      branch_point: test-pattern-set
+      branch:
+        - test-pattern-set
+        - test-pattern-set-fallback
     - include: boolean
-    - include: expansions-and-strings
+    - include: strings
+    - include: expansions-job
+    - include: expansions-variables
+    - include: expansions-pattern-quantifiers
+
+  test-pattern-set:
+    - meta_include_prototype: false
+    # Inherited from `expansions-pattern-set` to fail in case of premature
+    # termination by test expression end ` ]]`.
+    - match: (\[)(?:([!^])|-)?
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      set: test-pattern-set-body
+
+  test-pattern-set-body:
+    - meta_scope: meta.set.regexp.shell
+    - match: $|(?=\s\]\])
+      fail: test-pattern-set
+    - include: expansions-pattern-set-end
+    - include: expansions-pattern-set-common
+    - match: (\[)([!^])?(?=[\.=:])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: test-pattern-set-body
+
+  test-pattern-set-fallback:
+    - meta_include_prototype: false
+    - match: \[
+      pop: 1
 
   test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))
@@ -786,6 +831,7 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: '='
       scope: keyword.operator.assignment.shell
+    - include: comments
     - include: booleans
     - include: numbers
     - include: strings
@@ -1036,7 +1082,7 @@ contexts:
       push: for-args
     - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
-      push: select-args
+      push: loop-iterator-var
     - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
     - match: while{{cmd_break}}
@@ -1100,7 +1146,8 @@ contexts:
           pop: 1
         - include: case-clause-patterns-body
     - include: case-end-ahead
-    - include: expansions-pattern-common
+    - include: expansions-pattern
+    - include: expansions-pattern-group-common
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -1120,19 +1167,36 @@ contexts:
     - include: cmd-args-boilerplate
 
   for-args:
-    - match: (?=(do|done){{cmd_break}})
-      pop: 1
-    - include: cmd-args-boilerplate
-    - include: cmd-arithmetic
+    - include: loop-end
+    - match: \(\(
+      scope: punctuation.section.arithmetic.begin.shell
+      set: cmd-arithmetic-body
+    - match: (?=\S)
+      set: loop-iterator-var
+
+  loop-iterator-var:
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
+      set: loop-iterator-range
+    - include: loop-end
     - include: variables
 
-  select-args:
-    - include: cmd-args-boilerplate
-    - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
-    - include: variables
+  loop-iterator-range:
+    - include: loop-end
+    - include: number-range
+    - match: (?=\S)
+      set: loop-iterator-wordlist
+
+  loop-iterator-wordlist:
+    - include: loop-end
+    - include: booleans
+    - include: strings-unquoted
+
+  loop-end:
+    - match: (?=(?:do|done){{cmd_break}})
+      pop: 1
+    - include: redirections
+    - include: eoc-pop
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
@@ -1375,13 +1439,27 @@ contexts:
     - match: \[
       scope: punctuation.section.item-access.begin.shell
       push:
-        - meta_scope: meta.item-access.shell
-        - match: \]
-          scope: punctuation.section.item-access.end.shell
-          pop: 1
-        - match: '[*@]'
-          scope: variable.language.array.shell
-        - include: expressions
+        - array-item-access-end
+        - array-item-access-begin
+
+  array-item-access-end:
+    - meta_scope: meta.item-access.shell
+    - match: \]
+      scope: punctuation.section.item-access.end.shell
+      pop: 1
+
+  array-item-access-begin:
+    - match: '[*@]'
+      scope: variable.language.array.shell
+      pop: 1
+    - match: ''
+      set: array-key-body
+
+  array-key-body:
+    - meta_scope: meta.string.shell string.unquoted.shell
+    - match: (?=\])
+      pop: 1
+    - include: string-unquoted-body
 
   expressions:
     - match: \(
@@ -1490,6 +1568,22 @@ contexts:
         2: meta.number.integer.decimal.shell constant.numeric.value.shell
       pop: 1
 
+  number-range:
+    - match: ({)(([-+]?)\d+)(..)(([-+]?)\d+)(?:(..)(([-+]?)\d+))?(})
+      scope: meta.sequence.range.shell
+      captures:
+        1: punctuation.section.sequence.begin.shell
+        2: meta.number.integer.decimal.shell constant.numeric.value.shell
+        3: keyword.operator.arithmetic.shell
+        4: keyword.operator.range.shell
+        5: meta.number.integer.decimal.shell constant.numeric.value.shell
+        6: keyword.operator.arithmetic.shell
+        7: keyword.operator.range.shell
+        8: meta.number.integer.decimal.shell constant.numeric.value.shell
+        9: keyword.operator.arithmetic.shell
+        10: punctuation.section.sequence.end.shell
+      pop: 1
+
 ###[ OPERATORS ]###############################################################
 
   line-continuations:
@@ -1518,21 +1612,25 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-quoted-double-body
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-ansi-c-body
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell entity.name.function.shell
         - include: string-quoted-double-body
     - include: expansions-variables
@@ -1543,21 +1641,25 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-quoted-double-body
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-ansi-c-body
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell variable.function.shell
         - include: string-quoted-double-body
     - include: expansions-variables
@@ -1606,7 +1708,7 @@ contexts:
     - include: expansions-tilde
 
   expansions-arithmetic:
-    - match: (\$)(\(\((?=.+\)\)))
+    - match: (\$)(\(\()
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
@@ -1753,7 +1855,7 @@ contexts:
       captures:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
-      set: expansions-parameter-pattern
+      set: expansions-parameter-regexp
     - match: ([@*]?)(@)([QEPAa])(?=})
       captures:
         1: variable.language.shell
@@ -1771,16 +1873,49 @@ contexts:
     - include: line-continuations
     - include: strings
 
-  expansions-parameter-pattern:
+  expansions-parameter-regexp:
     - include: expansions-parameter-common
-    - include: expansions-pattern
+    - include: expansions-parameter-pattern
     - include: expansions-variables
+
+  expansions-parameter-pattern:
+    # [3.5.8.1] Pattern Matching
+    - match: ([?*+@!])(\()
+      captures:
+        1: keyword.operator.quantifier.regexp.shell
+        2: meta.group.regexp.shell
+           punctuation.definition.group.begin.regexp.shell
+      push: expansions-parameter-pattern-group-body
+    - match: (\[)(?:([!^])|-)?(?=.*])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-parameter-pattern-set-body
+    - include: expansions-pattern-quantifiers
+
+  expansions-parameter-pattern-group-body:
+    - meta_content_scope: meta.group.regexp.shell
+    - include: expansions-pattern-group-end
+    - include: expansions-parameter-pattern
+    - include: expansions-pattern-group-common
+    - include: brace-pop
+
+  expansions-parameter-pattern-set-body:
+    - meta_scope: meta.set.regexp.shell
+    - include: expansions-pattern-set-end
+    - include: expansions-pattern-set-common
+    - match: (\[)([!^])?(?=[\.=:])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-parameter-pattern-set-body
+    - include: brace-pop
 
   expansions-parameter-substitution:
     - match: /
       scope: keyword.operator.substitution.shell
       set: expressions-parameter-variable
-    - include: expansions-parameter-pattern
+    - include: expansions-parameter-regexp
 
   expansions-parameter-switch:
     - match: '[/#%]'
@@ -1806,33 +1941,50 @@ contexts:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
+    - include: expansions-pattern-quantifiers
+
+  expansions-pattern-quantifiers:
     - match: '[*?]'
       scope: keyword.operator.quantifier.regexp.shell
 
-  expansions-pattern-common:
-    - match: \|
-      scope: keyword.operator.logical.regexp.shell
-    - include: strings
-    - include: expansions-pattern
-    - include: expansions-variables
-    - include: eol-pop
-
   expansions-pattern-group-body:
     - meta_content_scope: meta.group.regexp.shell
+    - include: expansions-pattern-group-end
+    - include: expansions-pattern
+    - include: expansions-pattern-group-common
+
+  expansions-pattern-group-end:
     - match: \)
       scope:
         meta.group.regexp.shell
         punctuation.definition.group.end.regexp.shell
       pop: 1
-    - include: expansions-pattern-common
+
+  expansions-pattern-group-common:
+    - match: \|
+      scope: keyword.operator.logical.regexp.shell
+    - include: strings
+    - include: expansions-variables
+    - include: eol-pop
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
+    - include: expansions-pattern-set-end
+    - include: expansions-pattern-set-common
+    - match: (\[)([!^])?(?=[\.=:])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      push: expansions-pattern-set-body
+
+  expansions-pattern-set-end:
     - match: -?(\])([*?+]*)
       captures:
         1: punctuation.definition.set.end.regexp.shell
         2: keyword.operator.quantifier.regexp.shell
       pop: 1
+
+  expansions-pattern-set-common:
     - match: ((\.)[[:word:]](\.))(\])
       captures:
         1: constant.character.collate.regexp.shell
@@ -1858,11 +2010,6 @@ contexts:
       pop: 1
     - match: \-
       scope: punctuation.separator.range.regexp.shell
-    - match: (\[)([!^])?(?=[\.=:])
-      captures:
-        1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.regexp.shell
-      push: expansions-pattern-set-body
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
     - include: any-escapes
@@ -1875,38 +2022,52 @@ contexts:
 
 ###[ STRINGS ]#################################################################
 
+  strings-unquoted:
+    - match: (?=[^{{metachar}}])
+      push: string-unquoted-body
+
   string-unquoted:
     - match: (?=[^{{metachar}}])
       set: string-unquoted-body
 
   string-unquoted-body:
-    - meta_scope: meta.string.shell
-    - match: '{{cmd_literal_char}}+'
-      scope: string.unquoted.shell
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.unquoted.shell
+    - include: string-prototype
+    - include: line-continuations
+    - include: any-escapes
+    - include: string-interpolations
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - clear_scopes: 1
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - clear_scopes: 1
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.shell
-        - include:  string-quoted-double-body
+        - include: string-quoted-double-body
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - clear_scopes: 1
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.ansi-c.shell
         - include: string-ansi-c-body
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - clear_scopes: 1
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.locale.shell
         - include: string-quoted-double-body
-    - include: any-escapes
-    - include: line-continuations
-    - include: expansions
-    - include: immediately-pop
+    - include: string-path-separators
+    - match: (?!{{cmd_literal_char}})
+      pop: 1
 
   strings:
     - include: any-escapes
@@ -1914,17 +2075,20 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.single.shell
         - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.double.shell
-        - include:  string-quoted-double-body
+        - include: string-quoted-double-body
     # [Bash] 3.1.2.4
     - match: \$'
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
         - include: string-ansi-c-body
     # [Bash] 3.1.2.5
@@ -1932,6 +2096,7 @@ contexts:
     - match: \$"
       scope: punctuation.definition.string.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.quoted.double.locale.shell
         - include: string-quoted-double-body
 
@@ -1939,14 +2104,17 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
+    - include: string-prototype
     - include: line-continuations
     - include: string-escapes
     - include: string-interpolations
+    - include: string-path-separators
 
   string-ansi-c-body:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
+    - include: string-prototype
     - include: line-continuations
     - include: string-escapes-ansi-c
 
@@ -1954,6 +2122,8 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
+    - include: string-prototype
+    - include: string-path-separators
 
   any-escapes:
     - match: \\.
@@ -1965,6 +2135,10 @@ contexts:
     - match: \\[$`"\\]
       scope: constant.character.escape.shell
 
+  string-path-separators:
+    - match: ':(?=\$|(?:~|\.?\.)?/(?!/))'
+      scope: punctuation.separator.sequence.shell
+
   string-escapes-ansi-c:
     - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
       scope: constant.character.escape.shell
@@ -1975,3 +2149,7 @@ contexts:
         - clear_scopes: 1
         - include: expansions-variables
         - include: immediately-pop
+
+  # for use by inheriting syntaxes to easily inject string interpolation
+  # in any kind of quoted or unquoted string
+  string-prototype: []

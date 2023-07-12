@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.erlang</string>
+    <key>settings</key>
+    <dict>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.parameters.begin</string>
+                <key>end</key>
+                <string>punctuation.section.parameters.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.arguments.begin</string>
+                <key>end</key>
+                <string>punctuation.section.arguments.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.mapping.begin</string>
+                <key>end</key>
+                <string>punctuation.section.mapping.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.sequence.begin</string>
+                <key>end</key>
+                <string>punctuation.section.sequence.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.fields.begin</string>
+                <key>end</key>
+                <string>punctuation.section.fields.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.group.begin</string>
+                <key>end</key>
+                <string>punctuation.section.group.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.sequence.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.sequence.end | punctuation.terminator.clause | punctuation.separator.clauses</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

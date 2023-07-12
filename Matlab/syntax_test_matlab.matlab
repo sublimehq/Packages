@@ -115,6 +115,15 @@ classdef ClassName ... comment
 %    ^^^^^^^^^^ meta.class.matlab entity.other.inherited-class.matlab
 end
 
+classdef MyClass < matlab.mixin.Copyable
+%                  ^^^^^^^^^^^^^^^^^^^^^ meta.path.matlab - meta.path meta.path
+%                  ^^^^^^ variable.namespace.matlab
+%                        ^ punctuation.accessor.dot.matlab
+%                         ^^^^^ variable.namespace.matlab
+%                              ^ punctuation.accessor.dot.matlab
+%                               ^^^^^^^^ entity.other.inherited-class.matlab
+end
+
 
 %---------------------------------------------
 % Parens, brackets, braces, punctuation
@@ -872,10 +881,12 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
    switch plottype
 %  ^^^^^^ meta.block.switch.matlab keyword.control.conditional.switch.matlab
       case 'bar'
+%^^^^^^^^^^^^^^^ meta.disable-dedentation.matlab
 %     ^^^^ meta.block.switch.matlab keyword.control.conditional.case.matlab
          bar(x)
          title('Bar Graph')
       case {'pie', 'pie3'}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.disable-dedentation.matlab
 %     ^^^^ meta.block.switch.matlab keyword.control.conditional.case.matlab
          pie3(x)
          title('Pie Chart')
@@ -1029,3 +1040,12 @@ X = inf(n)
 
 X = nan(n)
 %   ^^^ support.function.builtin.matlab
+
+
+%---------------------------------------------
+% Pop function context if another function appears at the start of a line
+
+function myFunction(x)
+
+function notNestedFunction(x)
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function

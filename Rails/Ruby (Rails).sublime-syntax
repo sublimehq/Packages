@@ -9,6 +9,7 @@ file_extensions:
   - ruby.rail
   - rxml
   - builder
+  - arb
 
 contexts:
 
@@ -46,6 +47,7 @@ contexts:
         | render_without_layout
         | rescue_from
         | url_for
+        | redirect_back_or_to
         | redirect_to
         | redirect_to_path
         | redirect_to_url
@@ -98,6 +100,7 @@ contexts:
         | validates_associated
         | validates_confirmation_of
         | validates_each
+        | validates_with
         | validates_format_of
         | validates_inclusion_of
         | validates_exclusion_of

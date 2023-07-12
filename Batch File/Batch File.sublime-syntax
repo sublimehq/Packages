@@ -9,10 +9,14 @@ file_extensions:
   - bat
   - cmd
 
+hidden_file_extensions:
+  - .bat
+  - .cmd
+
 first_line_match: |-
   (?xi:
-    ^ \s* (?:\:|rem) .*? -\*- .*? \bbat\b .*? -\*-  # editorconfig
-  | ^ \s* @echo\s+(?:on|off)\b
+    ^ [@\s]* (?:\:|rem) .*? -\*- .*? \b(?:bat|cmd)\b .*? -\*-  # editorconfig
+  | ^ [@\s]* (?:if \s .*? [@(\s])? (?:echo \s+ (?:on|off|=)|(?:set|end)local) \b
   )
 
 ###############################################################################
@@ -171,6 +175,14 @@ contexts:
         1: entity.name.label.dosbatch
         2: punctuation.definition.label.dosbatch
       push: ignored-tail-outer
+
+  maybe-label:
+    - match: ((:){{label_name}})
+      captures:
+        1: entity.name.label.dosbatch
+        2: punctuation.definition.label.dosbatch
+      set: ignored-tail-outer
+    - include: else-pop
 
 ###[ BLOCKS ]#################################################################
 
@@ -368,11 +380,16 @@ contexts:
       scope: variable.parameter.option.recursive.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-      push: path-pattern
+      push: ctl-for-maybe-r-args
     - match: (?i:/\S+){{arg_break}}
       scope: invalid.illegal.parameter.dosbatch
       pop: 1
     - include: else-pop
+
+  ctl-for-maybe-r-args:
+    - match: (?={{var_parameter}})
+      pop: 1
+    - include: path-pattern
 
   ctl-for-maybe-f-args:
     - match: \"
@@ -675,7 +692,7 @@ contexts:
       pop: 1
     - match: $
       pop: 2
-    - match: '%%|\^[\W&&\S]'
+    - match: '%%'
       scope: constant.character.escape.dosbatch
     - include: variable-interpolations
 
@@ -757,11 +774,18 @@ contexts:
       push: cmd-rem-body
 
   cmd-rem-body:
+    - include: unquoted-eol-pop
+    - match: \^\n
+      scope: punctuation.separator.continuation.line.dosbatch
+      set: cmd-rem-comment-body
+    - match: (?=\S)
+      set: cmd-rem-comment-body
+
+  cmd-rem-comment-body:
     - meta_scope: meta.command.rem.dosbatch
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
     - meta_content_scope: comment.line.rem.dosbatch
-    - include: line-continuations
     - match: \n
       scope: comment.line.rem.dosbatch
       pop: 1
@@ -1449,8 +1473,9 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
-    - match: \@(?=\S)
+    - match: \@
       scope: keyword.operator.at.dosbatch
+      push: maybe-label
     - match: \&\&?|\|\|
       scope: keyword.operator.logical.dosbatch
     - match: \|
@@ -1515,12 +1540,12 @@ contexts:
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
-    - match: \s*(?=\d*(?:<&?|>[&>]?))
+    - match: \s*(?=\d?(?:<&?|>[&>]?))
       push: redirection-interpolations-body
 
   redirection-interpolations-body:
     - meta_include_prototype: false
-    - match: (\d*)(<&?|>[&>]?)
+    - match: (\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
@@ -1536,12 +1561,12 @@ contexts:
     - include: immediately-pop
 
   redirections:
-    - match: (?=\d*(<&?|>[&>]?))
+    - match: (?=\d?(?:<&?|>[&>]?))
       push: redirection-body
 
   redirection-body:
     - meta_include_prototype: false
-    - match: (\d*)(<&?|>[&>]?)
+    - match: (\d)?(<&?|>[&>]?)
       captures:
         1: meta.number.integer.decimal.dosbatch
            constant.numeric.value.dosbatch
@@ -1571,7 +1596,7 @@ contexts:
       set:
         - path-pattern-quoted-body
         - path-pattern-relative
-    - match: (?=(?!%%)\S)
+    - match: (?=\S)
       set:
         - path-pattern-unquoted-body
         - path-pattern-relative
@@ -1633,7 +1658,7 @@ contexts:
     - include: quoted-eol-pop
 
   escaped-characters:
-    - match: '%%|\^\^!|\^.'
+    - match: '%%|\^.'
       scope: constant.character.escape.dosbatch
 
 ###[ INTERPOLATIONS ]#########################################################

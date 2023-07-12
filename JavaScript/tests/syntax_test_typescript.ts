@@ -226,6 +226,14 @@ import foo;
 //           ^ punctuation.separator.type
 //             ^^^ meta.type support.type.any
 //                ^ punctuation.separator
+
+        1: any,
+//      ^ meta.number.integer.decimal
+//      ^ constant.numeric.value
+//       ^ punctuation.separator.type
+//        ^^^^ meta.type
+//         ^^^ support.type.any
+//            ^ punctuation.separator
     }
 //  ^ meta.block punctuation.section.block.end
 
@@ -336,6 +344,25 @@ import foo;
 //                     ^ keyword.operator.assignment
 //                       ^^^ meta.type-alias support.type.any
 
+    // ensure fixed deadlock caused by incomplete/invalid type expressions
+    // https://github.com/sublimehq/Packages/issues/3598
+    type x = {
+        bar: (cb: (
+//     ^^^^^^ meta.type-alias.js meta.mapping.js - meta.group
+//           ^^^ meta.type-alias.js meta.mapping.js meta.type.js meta.group.js
+//              ^^ meta.type-alias.js meta.mapping.js - meta.group
+//                ^ meta.type-alias.js meta.function.parameters.js
+//      ^^^ variable.other.readwrite.js
+//         ^ punctuation.separator.type.js
+//           ^ punctuation.section.group.begin.js
+//            ^^ support.class.js
+//                ^ punctuation.section.group.begin.js
+    };
+//  ^ meta.type-alias.js meta.mapping.js
+//   ^ - meta.type-alias - meta.mapping
+//  ^ punctuation.section.mapping.end.js
+//   ^ punctuation.terminator.statement.empty.js
+
     class Foo {
         foo: any = 42;
 //      ^^^ variable.other.readwrite
@@ -381,6 +408,10 @@ import foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^^^^^^ meta.function
 //               ^^^ entity.name.function
+
+        accessor foo;
+//      ^^^^^^^^ storage.modifier
+//               ^^^ variable.other.readwrite
 
         readonly;
 //      ^^^^^^^^ variable.other.readwrite
@@ -613,6 +644,12 @@ function f<T, U>() {}
 //          ^ punctuation.separator.comma
 //            ^ variable.parameter.generic
 
+function f<const T>() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^^^^^^^ meta.generic
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+
 function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ punctuation.separator.type
@@ -688,6 +725,10 @@ function f(this : any) {}
 x as boolean;
 //^^ keyword.operator.type
 //   ^^^^^^^ meta.type support.type.primitive.boolean
+
+x satisfies boolean;
+//^^^^^^^^^ keyword.operator.type
+//          ^^^^^^^ meta.type support.type.primitive.boolean
 
 x as const;
 //^^ keyword.operator.type
@@ -1055,13 +1096,39 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
 
-let x: ( ... foo : any ) => any;
-//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
-//     ^^^^^^^^^^^^^^^^^ meta.group
+let x: ( ... foo ? : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^ keyword.operator.spread
 //           ^^^ variable.parameter
-//               ^ punctuation.separator.type
-//                 ^^^ support.type.any
+//               ^ storage.modifier.optional
+//                 ^ punctuation.separator.type
+//                   ^^^ support.type.any
+
+let x: ({ foo }: any) => any;
+//    ^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//      ^^^^^^^ meta.binding.destructuring.mapping
+//      ^ punctuation.section.mapping.begin
+//        ^^^ meta.mapping.key meta.binding.name variable.parameter.function
+//            ^ punctuation.section.mapping.end
+//             ^ punctuation.separator.type
+//               ^^^ support.type.any
+//                  ^ punctuation.section.group.end
+//                    ^^ keyword.declaration.function
+//                       ^^^ support.type.any
+//                          ^ punctuation.terminator.statement
+
+let x: (this: any) => any;
+//    ^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^ meta.group
+//      ^^^^ variable.language.this
+//          ^ punctuation.separator.type
+//            ^^^ support.type.any
+//                 ^^ keyword.declaration.function
+//                    ^^^ support.type.any
+//                       ^ punctuation.terminator.statement
 
 let x: < T > ( ... foo : any ) => any;
 //     ^^^^^ meta.generic
@@ -1198,6 +1265,14 @@ const f = <T,>(): U => {};
 //                ^ support.class
 //                  ^^ keyword.declaration.function.arrow
 
+const f = <T, U = V<any>>() => {};
+//        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^^^^^^^^^^^^^ meta.generic
+//                       ^^ meta.function.parameters
+//                         ^^^^^^ meta.function
+//                          ^^ keyword.declaration.function.arrow
+//                             ^^ meta.block
+
     a != b;
 //    ^^ keyword.operator.comparison
 
@@ -1257,3 +1332,61 @@ const x = {
 //                                           ^^^^ constant.language.null
 //                                               ^ punctuation.terminator.statement
 //                                                 ^^^^^^^^ comment.line.double-slash
+
+const f = (x): ((y) => any) => 42;
+//        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^ meta.function.parameters
+//         ^ meta.binding.name variable.parameter.function
+//           ^ punctuation.separator.type
+//            ^^^^^^^^^^^^^^ meta.type
+//             ^^^^^^^^^^^^ meta.group
+//             ^ punctuation.section.group.begin
+//              ^^^ meta.group
+//              ^ punctuation.section.group.begin
+//               ^ variable.parameter
+//                ^ punctuation.section.group.end
+//                  ^^ keyword.declaration.function
+//                     ^^^ support.type.any
+//                        ^ punctuation.section.group.end
+//                          ^^ keyword.declaration.function.arrow
+//                             ^^ meta.block meta.number.integer.decimal
+//                             ^^ constant.numeric.value
+//                               ^ punctuation.terminator.statement
+
+const f = (x): (y) => 42 => z;
+//    ^ meta.binding.name entity.name.function
+//    ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^ punctuation.section.group.begin
+//         ^ meta.binding.name variable.parameter.function
+//          ^ punctuation.section.group.end
+//           ^ punctuation.separator.type
+//            ^^^^^^^^^^^ meta.type
+//             ^^^ meta.group
+//             ^ punctuation.section.group.begin
+//              ^ variable.parameter
+//               ^ punctuation.section.group.end
+//                 ^^ keyword.declaration.function
+//                    ^^ meta.number.integer.decimal constant.numeric.value
+//                       ^^ keyword.declaration.function.arrow
+//                          ^ meta.block variable.other.readwrite
+//                           ^ punctuation.terminator.statement
+
+try {} catch (e: any) {}
+//     ^^^^^^^^^^^^^^^^^ meta.catch
+//     ^^^^^ keyword.control.exception.catch
+//           ^^^^^^^^ meta.group
+//            ^ variable.other.readwrite
+//             ^ punctuation.separator.type
+//              ^^^^ meta.type
+//               ^^^ support.type.any
+//                    ^^ meta.block
+
+type T<in out U> = V;
+//    ^^^^^^^^^^ meta.generic
+//    ^ punctuation.definition.generic.begin
+//     ^^ storage.modifier.variance
+//        ^^^ storage.modifier.variance
+//            ^ variable.parameter.generic
+//             ^ punctuation.definition.generic.end

@@ -776,6 +776,20 @@ extern(1)
   }
 //^ meta.class.d punctuation.section.block.end.d
 
+  class Foo : Bar
+  if (true) {}
+//^^^ meta.class.d - meta.parens
+//   ^^^^^^ meta.class.d meta.parens.d
+//         ^ meta.class.d - meta.parens - meta.block
+//          ^^ meta.class.d meta.block.d
+//            ^ - meta.class
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.parens.begin.d
+//    ^^^^ constant.language.d
+//        ^ punctuation.section.parens.end.d
+//          ^ punctuation.section.block.begin.d
+//           ^ punctuation.section.block.end.d
+
   interface S;
 //^^^^^^^^^^^^ meta.interface.d
 //^^^^^^^^^ keyword.declaration.interface.d
@@ -1810,6 +1824,35 @@ extern(1)
 //                   ^ meta.function.d meta.block.d punctuation.section.block.begin.d
 //                    ^ meta.function.d meta.block.d punctuation.section.block.end.d
 
+  mixin("alias A", "= B;") foo() {};
+//^^^^^ keyword.control.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^^^^^^^ meta.string.d string.quoted.double.d
+//               ^ punctuation.separator.sequence.d
+//                 ^^^^^^ meta.string.d string.quoted.double.d
+//                       ^ punctuation.section.parens.end.d
+//                         ^^^ meta.function.d entity.name.function.d
+//                            ^ meta.function.parameters.d punctuation.section.group.begin.d
+//                             ^ meta.function.parameters.d punctuation.section.group.end.d
+//                               ^ meta.function.d meta.block.d punctuation.section.block.begin.d
+//                                ^ meta.function.d meta.block.d punctuation.section.block.end.d
+//                                 ^ punctuation.terminator.d
+
+  function mixin("alias A", "= B;") () {};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.d
+//                                  ^^ meta.function.parameters.d
+//                                     ^^ meta.function.d meta.block.d
+//         ^^^^^ keyword.control.d
+//              ^ punctuation.section.parens.begin.d
+//               ^^^^^^^^^ meta.string.d string.quoted.double.d
+//                        ^ punctuation.separator.sequence.d
+//                          ^^^^^^ meta.string.d string.quoted.double.d
+//                                ^ punctuation.section.parens.end.d
+//                                  ^ punctuation.section.group.begin.d
+//                                   ^ punctuation.section.group.end.d
+//                                     ^ punctuation.section.block.begin.d
+//                                      ^ punctuation.section.block.end.d
+//                                       ^ punctuation.terminator.d
 
   foo:
 //^^^ entity.name.label.d
@@ -1854,6 +1897,28 @@ extern(1)
 //               ^^ meta.block.d
 //               ^ punctuation.section.block.begin.d
 //                ^ punctuation.section.block.end.d
+
+  if (a in b) {}
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.parens.begin.d
+//    ^ variable.other.d
+//      ^^ keyword.operator.comparison.d
+//         ^ variable.other.d
+//          ^ punctuation.section.parens.end.d
+//            ^^ meta.block.d
+//            ^ punctuation.section.block.begin.d
+//             ^ punctuation.section.block.end.d
+
+  if (a !in b) {}
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.parens.begin.d
+//    ^ variable.other.d
+//       ^^ keyword.operator.comparison.d
+//          ^ variable.other.d
+//           ^ punctuation.section.parens.end.d
+//             ^^ meta.block.d
+//             ^ punctuation.section.block.begin.d
+//              ^ punctuation.section.block.end.d
 
   while (2) 1;
 //^^^^^ keyword.control.loop.d
@@ -3165,3 +3230,9 @@ extern(1)
 //                   ^ meta.function-call.d meta.path.d variable.other.d
 //                    ^ meta.function-call.d punctuation.section.parens.end.d
 //                     ^ punctuation.terminator.d
+
+    constant = true;
+//  ^^^^^^^^ meta.path.d variable.other.d - storage
+//           ^ keyword.operator.assignment.d
+//             ^^^^ constant.language.d
+//                 ^ punctuation.terminator.d

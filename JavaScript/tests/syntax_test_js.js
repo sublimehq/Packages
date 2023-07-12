@@ -738,8 +738,67 @@ class MyClass extends TheirClass {
 //   ^^^ variable.annotation
 //      ^^^^^^^^^^^^ meta.function - meta.annotation
 
-    ['foo']() {}
+    @foo
+//  ^^^^ meta.annotation
+//      ^ - meta.annotation
+    bar() {}
+//  ^^^^^^^^ meta.function
+
+    @foo
+//  ^^^^ meta.annotation
+//      ^ - meta.annotation
+    ['bar']() {}
 //  ^^^^^^^^^^^^ meta.function
+
+    @foo()
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
+    @(foo)
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
+    @foo // comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.line - meta.annotation
+    bar() {}
+//^^ - meta.annotation
+//  ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.block.js - meta.annotation
+    */bar() {}
+//^^^^ comment.block.js - meta.annotation
+//    ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* block */ /* comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^^^^^^^^^^^^^  - meta.annotation
+//       ^^^^^^^^^^^ comment.block.js
+//                   ^^^^^^^^^^^ comment.block.js
+    bar() {}
+//  ^^^^^^^^^ comment.block.js
+    */bar() {}
+//^^^^ comment.block.js - meta.annotation
+//    ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* block */ /* comment
+//  ^^^^^ meta.annotation.js - comment
+//       ^^^^^^^^^^^ meta.annotation.js comment.block.js
+//                  ^ meta.annotation.js - comment
+//                   ^^^^^^^^^^^ meta.annotation.js comment.block.js
+    bar() {}
+//  ^^^^^^^^^meta.annotation.js comment.block.js
+    */ . bar baz() {}
+//^^^^ meta.annotation.js comment.block.js
+//    ^^^^^^ meta.annotation.js - comment
+//           ^^^^^^^^ meta.function - meta.annotation
 
     static ['foo']() {}
 //         ^^^^^^^^^^^^ meta.function
@@ -970,6 +1029,7 @@ sources.DOM
 // <- variable.other.readwrite
     .status()
     // ^ meta.function-call.method variable.function
+    //       ^ - meta.function-call
 
     foo.#bar();
 //  ^^^^^^^^^^ meta.function-call.method.js
@@ -1024,7 +1084,7 @@ baz(foo(x => x('bar')));
 //                   ^ meta.function-call meta.function-call punctuation.section.group.end
 //                    ^ meta.function-call punctuation.section.group.end
 
-func(a, b);
+func(a, b) ;
 //^^^^^^^^ meta.function-call
 // ^ variable.function
 //  ^^^^^^ meta.group
@@ -1033,6 +1093,7 @@ func(a, b);
 //    ^ punctuation.separator.comma
 //      ^ variable.other.readwrite
 //       ^ punctuation.section.group.end
+//        ^ - meta.function-call
 
 var instance = new Constructor(param1, param2)
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
@@ -1612,7 +1673,7 @@ debugger
 // <- meta.sequence
 
     a ?? b;
-//    ^^ keyword.operator.logical
+//    ^^ keyword.operator.null-coalescing
 
     a &&= b;
 //    ^^^ keyword.operator.assignment.augmented

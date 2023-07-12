@@ -10,6 +10,7 @@
 # All number references refer to the "Make manual" (see link above).
 name: Makefile
 scope: source.makefile
+version: 2
 
 file_extensions:
   - mk
@@ -39,19 +40,20 @@ variables:
   ruleassign: :(?!=)
   function_call_token_begin: \$\$?\(
 
-  # The big "rule lookahead". What we want to do is here is detect if the
+  # The big "rule lookahead". What we want to do here is detect if the
   # line that we are parsing is going to define a rule. So we need to check
   # if we have something of the form <rule-name> : <rule-prerequisites>
   # However matters become complicated by the fact that we can have arbitrary
   # variable substitutions anywhere. We try to remedy this by hacking in a
   # regex that matches up to four levels of nested parentheses, and ignores
   # whatever's inside the parentheses.
+  nps0: '[^()=]*'     # doesn't look like assignment
   nps: '[^()]*'
   open: '(?:\('
   close: '\))?'       # ignore this invalid.illegal
   just_eat: |         # WARNING: INSANITY FOLLOWS!
     (?x)              # ignore whitespace in this regex
-      {{nps}}         #       level 0
+      {{nps0}}        #       level 0
       {{open}}        # start level 1                      __
         {{nps}}       #       level 1          _______    /*_>-<
         {{open}}      # start level 2      ___/ _____ \__/ /
@@ -103,22 +105,11 @@ variables:
         {{close}}     #   end level 2
         {{nps}}       #       level 1
       {{close}}       #   end level 1
-      {{nps}}         #       level 0
-  rule_lookahead: '{{just_eat}}{{ruleassign}}{{just_eat}}'
+      {{nps0}}        #       level 0
+  rule_lookahead: '{{just_eat}}{{ruleassign}}'
 
-  var_lookahead_base: '{{just_eat}}({{varassign}}|{{shellassign}}){{just_eat}}'
   # Just as with rules we want to look ahead if we are going to define a var.
-  # However, due to the possibility of "target-specific" variables (see 6.11),
-  # we want to NOT match if there's a {{ruleassign}} before a {{varassign}}.
-  var_lookahead: (?!{{rule_lookahead}}){{var_lookahead_base}}
-
-  first_assign_then_colon: |
-    (?x)
-      {{just_eat}}
-        {{varassign}}
-      {{just_eat}}
-        {{ruleassign}}
-      {{just_eat}}
+  var_lookahead: '{{just_eat}}(?:{{varassign}}|{{shellassign}})'
 
 #-------------------------------------------------------------------------------
 contexts:
@@ -128,11 +119,12 @@ contexts:
   # variable definitions, directives, and comments.
   main:
     - include: comments
-    - include: variable-definitions
     - match: (?={{rule_lookahead}})
       push: expect-rule
+    - include: variable-definitions
     - include: variable-substitutions
     - include: control-flow
+    - include: line-continuation
     - match: ^\s*(endef)
       captures:
         1: invalid.illegal.stray.endef.makefile
@@ -145,7 +137,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -155,7 +147,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -164,7 +156,7 @@ contexts:
       push:
         - match: \)
           scope: punctuation.section.group.end.makefile
-          pop: true
+          pop: 1
         - include: variable-substitutions
         - match: \,
           scope: punctuation.separator.makefile
@@ -274,7 +266,7 @@ contexts:
     - match: ^(?=\t([-@]{1,2})?)
       set: recipe-with-tabs
     - match: ^
-      pop: true
+      pop: 1
 
   recipe-inline:
     - meta_content_scope: meta.function.body.makefile source.shell.embedded.makefile
@@ -296,7 +288,7 @@ contexts:
         2: constant.language.makefile
     - include: recipe-common
     - match: ^(?![ ]+)
-      pop: true
+      pop: 1
 
   recipe-with-tabs:
     - meta_content_scope: meta.function.body.makefile
@@ -310,7 +302,7 @@ contexts:
         2: constant.language.makefile
     - include: recipe-common
     - match: ^(?!\t)
-      pop: true
+      pop: 1
 
   recipe-common:
     - include: control-flow
@@ -332,11 +324,11 @@ contexts:
       # make sure to resume parsing at next line
       push:
         - match: (?=\S|^\s*$)
-          pop: true
+          pop: 1
 
   pop-on-line-end:
     - match: $
-      pop: true
+      pop: 1
 
   continuation-or-pop-on-line-end:
     - include: line-continuation
@@ -350,7 +342,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -361,7 +353,7 @@ contexts:
         - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
-          pop: true
+          pop: 1
         - include: escape-literals
         - include: line-continuation
         - include: variable-substitutions
@@ -396,13 +388,13 @@ contexts:
     - include: line-continuation
     - match: \\\\
     - match: \n
-      pop: true
+      pop: 1
 
   inside-function-call:
     - meta_content_scope: meta.function-call.arguments.makefile
     - match: \)
       scope: keyword.other.block.end.makefile
-      pop: true
+      pop: 1
     - match: \(
       push: textual-parenthesis-balancer
     - match: \,
@@ -459,7 +451,7 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
-          pop: true
+          pop: 1
         - match: \(
           push: textual-parenthesis-balancer
         - match: \,
@@ -513,19 +505,13 @@ contexts:
         - meta_content_scope: source.shell.embedded.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
-          pop: true
+          pop: 1
         - include: shell-content
 
   variable-definitions:
     - match: \s*(override)\b
       captures:
         1: keyword.control.makefile
-      set:
-        - match: \bdefine\b
-          scope: keyword.control.makefile
-          push: inside-define-directive-context
-        - include: variable-definitions
-        - include: continuation-or-pop-on-line-end
     - match: \s*(define)\b
       captures:
         1: keyword.control.makefile
@@ -540,7 +526,7 @@ contexts:
         - match: (\?|\+|::?)?=
           scope: keyword.operator.assignment.makefile
           set: [value-to-be-defined, eat-whitespace-then-pop]
-    - match: (?={{var_lookahead}}|{{first_assign_then_colon}})
+    - match: (?={{var_lookahead}})
       push:
         - meta_content_scope: variable.other.makefile
         - match: (?=\s*!=)
@@ -559,13 +545,13 @@ contexts:
 
   textual-parenthesis-balancer:
     - match: \)
-      pop: true
+      pop: 1
     - include: variable-substitutions
 
   eat-whitespace-then-pop:
     - clear_scopes: 1
     - match: \s*
-      pop: true
+      pop: 1
 
   value-maybe-shellscript:
     - match: ((?:bash|sh|zsh)\s+-c\s+)(['"`])
@@ -608,44 +594,81 @@ contexts:
     - match: ^\s*(endef)\b
       captures:
         1: keyword.control.makefile
-      pop: true
+      pop: 1
     # keep in balance with nested define statements
     # see: https://github.com/sublimehq/Packages/issues/1998
     - match: ^\s*define\b
       push:
         - match: ^\s*endef\b
-          pop: true
+          pop: 1
 
-  variable-sub-common:
+  variable-substitution-common:
     - match: ':'
       scope: punctuation.definition.substitution.makefile
+      pop: 1
+    - include: highlight-percentage-sign
+    - include: variable-substitutions
+
+  variable-substitution-name-inside-paren:
+    - meta_content_scope: variable.parameter.makefile
+    - match: \)
+      scope: keyword.other.block.end.makefile
+      pop: 2
+    - include: variable-substitution-common
+
+  variable-substitution-reference-inside-paren:
+    - meta_scope: meta.interpolation.makefile
+    - match: \)
+      scope: keyword.other.block.end.makefile
+      pop: 1
+    - include: variable-substitution-reference-common
+
+  variable-substitution-name-inside-brace:
+    - meta_content_scope: variable.parameter.makefile
+    - match: \}
+      scope: keyword.other.block.end.makefile
+      pop: 2
+    - include: variable-substitution-common
+
+  variable-substitution-reference-inside-brace:
+    - meta_scope: meta.interpolation.makefile
+    - match: \}
+      scope: keyword.other.block.end.makefile
+      pop: 1
+    - include: variable-substitution-reference-common
+
+  variable-substitution-reference-common:
     - match: =
-      scope: punctuation.definition.assignment.makefile
+      scope: keyword.operator.assignment.makefile
     - include: highlight-percentage-sign
     - include: variable-substitutions
 
   variable-substitutions:
     - include: function-invocations
-    - match: \$\$?\(
+    - match: \$\(
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: variable.parameter.makefile
-        - match: \)
-          scope: keyword.other.block.end.makefile
-          pop: true
-        - include: variable-sub-common
-    - match: \$\$?{
+        - variable-substitution-reference-inside-paren
+        - variable-substitution-name-inside-paren
+    - match: \${
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: variable.parameter.makefile
-        - match: \}
-          scope: keyword.other.block.end.makefile
-          pop: true
-        - include: variable-sub-common
+        - variable-substitution-reference-inside-brace
+        - variable-substitution-name-inside-brace
     - match: \$\$?[@%<?^+|*]
       scope: variable.language.automatic.makefile
-    - match: \$\$
+    - match: \$(?=\$[{\w])
       scope: constant.character.escape.makefile
+      push:
+        - include: scope:source.shell.bash#expansions-parameter
+        - match: ''
+          pop: 1
+    - match: \$(?=\$\()
+      scope: constant.character.escape.makefile
+      push:
+        - include: scope:source.shell.embedded.makefile#expansions-command
+        - match: ''
+          pop: 1
     - match: (\$)[[:alpha:]]
       captures:
         0: variable.parameter.makefile

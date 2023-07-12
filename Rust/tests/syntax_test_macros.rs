@@ -41,6 +41,8 @@ pub fn macro_tests() {
     unimplemented!("{:?}", e);
 //  ^^^^^^^^^^^^^^ support.macro
 //                  ^^^^ constant.other.placeholder
+    tokio::join!()
+//         ^^^^^ support.macro
 }
 
 my_var = format!("Hello {name}, how are you?",

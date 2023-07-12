@@ -130,9 +130,9 @@ def get_tag_completions(inside_tag=True):
         ('param', 'param name=\"$1\" value=\"$2\">'),
         ('progress', 'progress value=\"$1\" max=\"$2\">'),
         ('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
-        ('slot', 'slot name=name=\"$1\">$0</slot>'),
+        ('slot', 'slot name=\"$1\">$0</slot>'),
         ('source', 'source src=\"$1\" type=\"$2\">'),
-        ('style', 'style type=\"${1:text/css}\">$0</style>'),
+        ('style', 'style${2: type=\"${1:text/css}\"}>$0</style>'),
         ('track', 'track kind=\"$1\" src=\"$2\">'),
         ('wbr', 'wbr>'),
         ('video', 'video src=\"$1\">$0</video>')
@@ -267,9 +267,9 @@ def get_tag_attributes():
             'srcdoc', 'width'
         ],
         'img': [
-            'align', 'alt', 'border', 'crossorigin', 'height', 'hspace',
-            'ismap', 'longdesc', 'name', 'sizes', 'src', 'srcset', 'usemap',
-            'vspace', 'width'
+            'align', 'alt', 'border', 'crossorigin', 'decoding', 'fetchpriority',
+            'height', 'hspace', 'ismap', 'loading', 'longdesc', 'name',
+            'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'vspace', 'width'
         ],
         'input': [
             'accept', 'align', 'alt', 'autocomplete', 'autofocus', 'autosave',
@@ -382,7 +382,7 @@ def get_tag_attributes():
     # Assume that global attributes are common to all HTML elements
     global_attributes = (
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir',
-        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
+        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate',
 
         # event handler attributes
         'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
@@ -477,10 +477,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return self.entity_completions
 
         if ch == '<':
-            # If the caret is in front of `>` complete only tag names.
+            # If the caret is within tag, complete only tag names.
             # see: https://github.com/sublimehq/sublime_text/issues/3508
-            ch = view.substr(locations[0])
-            if ch == '>':
+            if match_selector("meta.tag"):
                 return self.tag_name_completions
             return self.tag_completions
 
@@ -491,7 +490,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                 return self.attribute_completions(view, locations[0], prefix)
             return None
 
-        if match_selector("text.html - meta.tag"):
+        if match_selector("text.html - meta.tag, text.html punctuation.definition.tag.begin"):
             # Expand tag and attribute abbreviations
             return self.expand_tag_attributes(view, locations) or self.tag_abbreviations
 

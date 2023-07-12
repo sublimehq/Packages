@@ -688,13 +688,15 @@ contexts:
     - include: expressions
 
   data-structures-body-enum:
+    - include: comments
     - include: preprocessor-data-structures
     - match: '(?={{before_tag}})'
       push: data-structures
     - match: '{{identifier}}'
       scope: entity.name.constant.c
       push: constant-value
-    - include: expressions
+    - match: ','
+      scope: punctuation.separator.c
 
   constant-value:
     - match: (?=[,;}])

@@ -8,8 +8,10 @@ scope: text.git.mailmap
 version: 2
 
 file_extensions:
-  - .mailmap
   - mailmap
+
+hidden_file_extensions:
+  - .mailmap
 
 contexts:
   main:

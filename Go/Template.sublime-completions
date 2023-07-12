@@ -1,0 +1,81 @@
+{
+	"scope": "source.go.template",
+	"completions": [
+		{
+			"trigger": "and",
+			"kind": "function",
+		},
+		{
+			"trigger": "call",
+			"kind": "function",
+		},
+		{
+			"trigger": "html",
+			"kind": "function",
+		},
+		{
+			"trigger": "index",
+			"kind": "function",
+		},
+		{
+			"trigger": "slice",
+			"kind": "function",
+		},
+		{
+			"trigger": "js",
+			"kind": "function",
+		},
+		{
+			"trigger": "len",
+			"kind": "function",
+		},
+		{
+			"trigger": "not",
+			"kind": "function",
+		},
+		{
+			"trigger": "or",
+			"kind": "function",
+		},
+		{
+			"trigger": "print",
+			"kind": "function",
+		},
+		{
+			"trigger": "printf",
+			"kind": "function",
+		},
+		{
+			"trigger": "println",
+			"kind": "function",
+		},
+		{
+			"trigger": "urlquery",
+			"kind": "function",
+		},
+		{
+			"trigger": "eq",
+			"kind": "function",
+		},
+		{
+			"trigger": "ne",
+			"kind": "function",
+		},
+		{
+			"trigger": "lt",
+			"kind": "function",
+		},
+		{
+			"trigger": "le",
+			"kind": "function",
+		},
+		{
+			"trigger": "gt",
+			"kind": "function",
+		},
+		{
+			"trigger": "ge",
+			"kind": "function",
+		},
+	]
+}

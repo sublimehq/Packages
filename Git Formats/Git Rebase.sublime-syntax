@@ -6,7 +6,7 @@ name: Git Rebase Todo
 scope: text.git.rebase
 version: 2
 
-file_extensions:
+hidden_file_extensions:
   - git-rebase-todo
 
 first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
@@ -24,7 +24,7 @@ contexts:
     - include: branch-commands
     - include: commit-commands
 
-##[ COMMENTS ]#########################################################
+###[ COMMENTS ]################################################################
 
   comments:
     - match: '{{comment_char}}'
@@ -96,6 +96,12 @@ contexts:
         1: keyword.operator.commit.label.git.rebase
         2: punctuation.separator.sequence.git.rebase
         3: keyword.operator.commit.label.git.rebase
+      set: help-cmd-args
+    - match: \b(u)(,) (update-ref)\b
+      captures:
+        1: keyword.operator.commit.update-ref.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.update-ref.git.rebase
       set: help-cmd-args
     - match: \b(m)(,) (merge)\b
       captures:
@@ -203,7 +209,7 @@ contexts:
         4: constant.other.hash.git.rebase
       pop: 1
 
-##[ COMMANDS ]#########################################################
+###[ COMMANDS ]################################################################
 
   branch-commands:
     - match: ^\s*(l|label)\s+(\S+)
@@ -211,6 +217,11 @@ contexts:
         0: meta.branch.label.git.rebase
         1: keyword.other.label.git.rebase
         2: constant.language.branch-name.git.commit
+    - match: ^\s*(u|update-ref)\s+(\S+)
+      captures:
+        0: meta.branch.update-ref.git.rebase
+        1: keyword.operator.update-ref.git.rebase
+        2: constant.language.ref.git.commit
     - match: ^\s*(m|merge)\s+({{option}})\s+({{hash}})\s+(\S+)
       captures:
         0: meta.branch.merge.git.rebase
@@ -298,7 +309,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.git.rebase
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
 
   line-end:
     - match: $\n?

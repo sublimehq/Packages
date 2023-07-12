@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.rust</string>
+    <key>settings</key>
+    <dict>
+        <key>indentationFoldingEnabled</key>
+        <false/>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.group.begin</string>
+                <key>end</key>
+                <string>punctuation.section.group.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.block.begin</string>
+                <key>end</key>
+                <string>punctuation.section.block.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.parameters.begin</string>
+                <key>end</key>
+                <string>punctuation.section.parameters.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.string.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.string.end</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

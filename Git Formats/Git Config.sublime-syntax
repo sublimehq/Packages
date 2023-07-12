@@ -8,7 +8,9 @@ scope: text.git.config
 version: 2
 
 file_extensions:
-  - gitconfig                # /etc/gitconfig
+  - gitconfig                # *.gitconfig, /etc/gitconfig
+
+hidden_file_extensions:
   - .gitconfig               # ~/.gitconfig
   - .gitmodules              # ~/.gitmodules
 
@@ -36,12 +38,19 @@ contexts:
     - match: ^\s*(?=\[)
       push: [key-value-pair, section-header]
 
-##[ SECTION HEADERS ]##################################################
+###[ SECTION HEADERS ]#########################################################
 
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.git.config
-      set: [expect-line-end, section-header-end, section-name]
+      set: [section-header-meta, section-header-end, section-name]
+
+  section-header-meta:
+    - meta_scope: meta.section.header.git.config
+    - match: $\n?
+      pop: 1
+    - match: \S
+      scope: invalid.illegal.expected.eol.git.config
 
   section-header-end:
     - meta_scope: meta.brackets.git.config
@@ -99,19 +108,20 @@ contexts:
     - match: (?=^\s*\[) # start of new section
       pop: 1
     - match: \]
-      scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
+      scope: invalid.illegal.stray-bracket.git.config
 
-##[ SECTION BODY ]#####################################################
+###[ SECTION BODY ]############################################################
 
   # changed = red
   # untracked = bold green
   key-color-pair:
+    - meta_scope: meta.section.body.git.config
     - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
         1: meta.mapping.git.config
         2: meta.mapping.key.git.config variable.other.readwrite.git.config
         3: meta.mapping.git.config
-        4: keyword.operator.assignment.git.config
+        4: punctuation.separator.key-value.git.config
       push:
         - meta_content_scope: meta.mapping.value.git.config
         - include: color-value
@@ -120,19 +130,20 @@ contexts:
 
   # key = val
   key-value-pair:
+    - meta_scope: meta.section.body.git.config
     - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
         1: meta.mapping.git.config
         2: meta.mapping.key.git.config variable.other.readwrite.git.config
         3: meta.mapping.git.config
-        4: keyword.operator.assignment.git.config
+        4: punctuation.separator.key-value.git.config
       push:
         - meta_content_scope: meta.mapping.value.git.config
         - include: other-value
         - include: line-end
     - include: expect-section
 
-##[ VALUES ]###########################################################
+###[ VALUES ]##################################################################
 
   color-value:
     # example: bold, italic, underline
@@ -196,7 +207,7 @@ contexts:
         - include: line-end
         - include: Git Common.sublime-syntax#pretty-formats-as-arg-minimal
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
 
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
@@ -226,7 +237,7 @@ contexts:
     - match: \S
       scope: invalid.illegal.expected.eol.git.config
 
-##[ ILLEGAL ]##########################################################
+###[ ILLEGAL ]#################################################################
 
   illegal-line-end:
     - match: $\n?

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.python</string>
+    <key>settings</key>
+    <dict>
+        <key>indentationFoldingEnabled</key>
+        <true/>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>comment.block.documentation punctuation.definition.comment.begin</string>
+                <key>end</key>
+                <string>comment.block.documentation punctuation.definition.comment.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.arguments.begin</string>
+                <key>end</key>
+                <string>punctuation.section.arguments.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.parameters.begin</string>
+                <key>end</key>
+                <string>punctuation.section.parameters.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.sequence.begin</string>
+                <key>end</key>
+                <string>punctuation.section.sequence.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.group.begin</string>
+                <key>end</key>
+                <string>punctuation.section.group.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.mapping.begin</string>
+                <key>end</key>
+                <string>punctuation.section.mapping.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.set.begin</string>
+                <key>end</key>
+                <string>punctuation.section.set.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.brackets.begin</string>
+                <key>end</key>
+                <string>punctuation.section.brackets.end</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

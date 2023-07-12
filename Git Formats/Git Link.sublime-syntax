@@ -64,7 +64,7 @@ contexts:
     # windows drive letter and separator
     - match: '[A-Za-z](:)(?=[\\/])'
       captures:
-        1: punctuation.separator.drive.git
+        1: punctuation.separator.path.git
       pop: 1
     # homedir tilde operator
     - match: ~(?=/)

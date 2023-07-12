@@ -424,7 +424,7 @@ class Foo {
 ///      ^^^^^^ storage.type
 ///             ^^^^ variable.other
 ///                 ^ punctuation.separator.sequence
-///                   ^ variable.language.deconstruction.discard
+///                   ^ variable.language.anonymous
 ///                    ^ punctuation.separator.sequence
 ///                      ^^^^^^ storage.type
 ///                             ^^^^ variable.other
@@ -436,7 +436,7 @@ class Foo {
 ///          ^ punctuation.separator.sequence
 ///            ^^^^^^^^^^ variable.other
 ///                      ^ punctuation.separator.sequence
-///                        ^ variable.language.deconstruction
+///                        ^ variable.language.anonymous
 ///                         ^ punctuation.section.sequence.end
 ///                           ^ keyword.operator.assignment
         var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
@@ -669,6 +669,14 @@ public readonly struct S
     }
 }
 
+public readonly partial struct MyStruct
+/// ^^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^^ storage.modifier
+///                     ^^^^^^ keyword.declaration.struct
+///                            ^^^^^^^^ entity.name.struct
+{}
+
 // "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be
 // accessed inside the current assembly.
 class BaseClass           { private protected void Foo() {} }
@@ -729,7 +737,7 @@ public readonly ref struct Span<T>
     private readonly int _length;
 }
 
-public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg) ;
 ///    ^^^^^^^^ storage.type.delegate
 ///             ^^^^ storage.type
 ///                  ^^^^^^^^^^ variable.other.member.delegate
@@ -738,6 +746,7 @@ public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
 ///                              ^ punctuation.separator.type
 ///                                ^^ storage.modifier
 ///                                   ^^^^ support.type
+///                                                                 ^ punctuation.terminator.statement.cs
 
 void Test ()
 {

@@ -46,6 +46,14 @@ typedef enum state { DEAD, ALIVE } State;
 /*                   ^ entity.name.constant.objc */
 /*                         ^ entity.name.constant.objc */
 
+enum {
+    FOO,
+/*  ^^^ entity.name.constant.objc */
+/*     ^ punctuation.separator.objc */
+    BAR
+/*  ^^^ entity.name.constant.objc */
+};
+
 struct __declspec(dllimport) X {};
 /*     ^ storage.modifier */
 /*                           ^ entity.name.struct */

@@ -27,13 +27,21 @@ fn foo<A>(i: u32, b: i64) -> u32 {
 // <- meta.block punctuation.section.block.end
 
 
-fn my_other_func(e: OperatingSystem) -> &'a f64 {
+fn my_other_func(e: OperatingSystem) -> &'a Type {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.rust
 // ^^^^^^^^^^^^^ entity.name.function
-//               ^ variable.parameter
-//                ^ punctuation.separator
-//                                      ^ meta.function meta.function.return-type keyword.operator
-//                                       ^^ meta.function meta.function.return-type storage.modifier.lifetime
-//                                          ^^^ meta.function meta.function.return-type storage.type
+//              ^^^^^^^^^^^^^^^^^^^^ meta.function.rust meta.function.parameters.rust
+//              ^ punctuation.section.parameters.begin.rust
+//               ^ variable.parameter.rust
+//                ^ punctuation.separator.rust
+//                  ^^^^^^^^^^^^^^^ storage.type.rust
+//                                 ^ punctuation.section.parameters.end.rust
+//                                   ^^^^^^^^^^ meta.function.return-type.rust
+//                                   ^^ punctuation.separator.rust
+//                                      ^ keyword.operator.rust
+//                                       ^^ storage.modifier.lifetime.rust
+//                                          ^^^^ storage.type.rust
+//                                               ^ meta.block.rust punctuation.section.block.begin.rust
 }
 
 
@@ -144,3 +152,13 @@ fn sum((x, y): (i32, i32)) -> i32 {
 //                 ^ punctuation.separator
 //                   ^^^ storage.type
 //                      ^ punctuation.section.group.end
+}
+
+input.parse::<SnailNum>()
+//           ^^^^^^^^^^ meta.generic.rust
+//           ^ punctuation.definition.generic.begin.rust
+//            ^^^^^^^^ storage.type.rust
+//                    ^ punctuation.definition.generic.end.rust
+//                     ^^ meta.group.rust
+//                     ^ punctuation.section.group.begin.rust
+//                      ^ punctuation.section.group.end.rust

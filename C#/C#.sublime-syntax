@@ -33,7 +33,7 @@ variables:
   escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
-  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)\b)
+  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|nint|nuint|long|ulong|short|ushort|object|string|void)\b)
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: \s*(<[^={};]*>)?\s*
 
@@ -52,6 +52,7 @@ variables:
 contexts:
   prototype:
     - include: comments
+    - include: preprocessor_region
     - match: '^\s*((#)\s*)'
       captures:
         1: keyword.other.preprocessor.cs
@@ -118,14 +119,6 @@ contexts:
       captures:
         1: keyword.other.preprocessor.cs
         2: string.unquoted.cs
-    - match: '\b(region)\b\s*(.*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: entity.name.section.cs
-    - match: '\b(endregion)\b\s*(.*)'
-      captures:
-        1: keyword.other.preprocessor.cs
-        2: variable.other.section.cs
 
     - match: '\b(line)\s+(default|hidden)\b'
       captures:
@@ -159,7 +152,7 @@ contexts:
               pop: true
         - match: '"'
           scope: punctuation.definition.string.begin.cs
-          push: string
+          push: inside_string
         - include: option_done
 
     - match: '(pragma)\s+(warning)\b'
@@ -183,6 +176,26 @@ contexts:
       scope: invalid.illegal.cs
     - match: $
       pop: true
+
+  preprocessor_region:
+    - match: '^\s*(#)\s*(region)\b\s*(\S.*)'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+        3: entity.name.section.cs meta.fold.begin.cs
+    - match: '^\s*(#)\s*(region)\b\s*'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs meta.fold.begin.cs
+    - match: '^\s*(#)\s*(endregion)\b[^\S\n]*(.*)($\n?)'
+      scope: meta.preprocessor.region.cs
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+        3: variable.other.section.cs
+        4: meta.fold.end.cs
 
   # Pops out at the end of the line and handles comments.
   # Marks the rest of the line as invalid.
@@ -223,17 +236,18 @@ contexts:
   using:
     - match: \bglobal\b
       scope: storage.modifier.cs
-    - match: '\b(using)\s+(?={{name}}\s*=\s*)'
+    - match: \b(using)\s+(?=var\b)
+      captures:
+        1: keyword.control.using.cs
+      push: var_declaration
+    - match: \b(using)\s+(?={{name}}\s*=\s*)
       captures:
         1: keyword.control.import.cs
-        2: meta.path.cs
-        3: keyword.operator.assignment.cs
       push: using_namespace
-    - match: '\b(using)(?!\s*\()(?:\s+(static))?\b'
+    - match: \b(using)(?:\s+(static)|(?!\s*\())\b
       captures:
         1: keyword.control.import.cs
         2: keyword.control.import.cs
-        3: meta.path.cs
       push: using_namespace
 
   namespace_variables:
@@ -256,7 +270,7 @@ contexts:
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
     - match: ';'
-      scope: punctuation.terminator.cs
+      scope: punctuation.terminator.statement.cs
       pop: true
     - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
@@ -331,13 +345,14 @@ contexts:
         2: keyword.declaration.class.record.cs
         3: keyword.declaration.struct.record.cs
         4: entity.name.class.cs
-      push: [record_signature, data_type_signature]
-    - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
+      push: [record_signature, data_type_constraint, record_parameters, data_type_signature]
+    - match: (?:\b(readonly)\s+)?(?:\b(partial)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})
       captures:
         1: storage.modifier.cs
         2: storage.modifier.cs
-        3: keyword.declaration.struct.cs
-        4: entity.name.struct.cs
+        3: storage.modifier.cs
+        4: keyword.declaration.struct.cs
+        5: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs
@@ -427,56 +442,77 @@ contexts:
       push: [method_param, method_param_type]
 
   delegate_end:
-    - match: ';'
-      scope: punctuation.terminator.cs
+    - match: \s*(;)
+      captures:
+        1: punctuation.terminator.statement.cs
       pop: true
-    - match: (\s+(?=\S)|\S)
+    - match: \s*(?=\S)
       scope: invalid.illegal.expected.colon
       pop: true
 
-  struct_signature:
-    - meta_scope: meta.struct.cs
-    - match: ''
-      set: [struct_body, data_type_body]
+  record_parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      push: record_params
+    - match: (?=\S)
+      pop: true
+
+  record_params:
+    - clear_scopes: 1
+    - meta_scope: meta.class.record.parameters.cs
+    - match: \)
+      scope: punctuation.section.parameters.end.cs
+      pop: 2
+    - match: (?=\S)
+      push: [method_param, method_param_type]
 
   class_signature:
     - meta_scope: meta.class.cs
-    - match: ''
-      set: [class_body, data_type_body]
-
-  record_signature:
-    - meta_scope: meta.class.record.cs
-    - match: ''
-      set: [class_body, record_type_body]
-
-  interface_signature:
-    - meta_scope: meta.interface.cs
-    - match: ''
-      set: [interface_body, data_type_body]
-
-  struct_body:
-    - meta_content_scope: meta.struct.body.cs
-    - match: ''
-      pop: true
+    - match: (?=\S)
+      set: class_body
 
   class_body:
     - meta_content_scope: meta.class.body.cs
-    - match: ''
-      pop: true
+    - include: data_type_expect_block
+
+  interface_signature:
+    - meta_scope: meta.interface.cs
+    - match: (?=\S)
+      set: interface_body
 
   interface_body:
     - meta_content_scope: meta.interface.body.cs
-    - match: ''
-      pop: true
+    - include: data_type_expect_block
 
-  data_type_body:
+  record_signature:
+    - meta_scope: meta.class.record.cs
+    - match: (?=\S)
+      set: record_body
+
+  record_body:
+    - meta_content_scope: meta.class.record.body.cs
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - include: data_type_expect_block
+
+  struct_signature:
+    - meta_scope: meta.struct.cs
+    - match: (?=\S)
+      set: struct_body
+
+  struct_body:
+    - meta_content_scope: meta.struct.body.cs
+    - include: data_type_expect_block
+
+  data_type_expect_block:
     - match: \{
       scope: punctuation.section.block.begin.cs
       push:
         - meta_scope: meta.block.cs
         - match: \}
           scope: punctuation.section.block.end.cs
-          pop: true
+          pop: 2
         - include: attribute
         - include: class_declaration
         - include: interface_declaration
@@ -484,28 +520,7 @@ contexts:
         - include: method_declaration
         - include: stray_close_bracket
     - match: \S*
-      scope: invalid.illegal
-      pop: true
-
-  record_type_body:
-    - match: \{
-      scope: punctuation.section.block.begin.cs
-      set:
-        - meta_scope: meta.block.cs
-        - match: \}
-          scope: punctuation.section.block.end.cs
-          pop: true
-        - include: attribute
-        - include: class_declaration
-        - include: interface_declaration
-        - include: delegate_declaration
-        - include: method_declaration
-        - include: stray_close_bracket
-    - match: \(
-      scope: punctuation.section.parameters.begin.cs
-      set: [data_type_signature, method_params]
-    - match: ';'
-      scope: punctuation.terminator.cs
+      scope: invalid.illegal.cs
       pop: true
 
   data_type_signature:
@@ -514,6 +529,9 @@ contexts:
       push:
         - meta_content_scope: meta.generic.cs
         - include: type_parameter
+    - include: data_type_constraint
+
+  data_type_constraint:
     - match: ':'
       scope: punctuation.separator.type.cs
       set: type_constraint
@@ -832,7 +850,7 @@ contexts:
             - include: stray_close_bracket
             - include: code_block_in
     - match: ;
-      scope: punctuation.terminator.cs
+      scope: punctuation.terminator.statement.cs
       pop: true
     - match: \S+
       scope: invalid.illegal.cs
@@ -943,9 +961,8 @@ contexts:
         1: keyword.control.using.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [using_block, line_of_code]
-    - match: \b(using)\s*
-      captures:
-        1: keyword.control.using.cs
+    - match: \busing\b
+      scope: keyword.control.using.cs
       push: var_declaration
     - match: \b(fixed)\s*(\()
       captures:
@@ -1250,6 +1267,8 @@ contexts:
     - include: type_no_space
 
   line_of_code_in:
+    - match: (?=\bvar\b)
+      pop: true
     - include: lambdas
     - include: line_of_code_in_no_semicolon
     - match: ';'
@@ -1276,24 +1295,14 @@ contexts:
     - match: '->'
       scope: punctuation.accessor.arrow.cs
     - match: '{{bin_op}}='
-      scope: keyword.operator.cs
+      scope: keyword.operator.assignment.augmented.cs
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.cs
     - match: '{{bin_op}}|{{unary_op}}'
       scope: keyword.operator.cs
     - match: '='
       scope: keyword.operator.assignment.cs
     - include: literals
-    # interpolated strings
-    - match: '\$"'
-      scope: punctuation.definition.string.begin.cs
-      push: format_string
-    # multi-line strings
-    - match: '@"'
-      scope: punctuation.definition.string.begin.cs
-      push: long_string
-    # interpolated multi-line strings
-    - match: '(@\$|\$@)"'
-      scope: punctuation.definition.string.begin.cs
-      push: long_format_string
     - match: '({{name}})(?={{generic_declaration}}\()\s*(<)'
       captures:
         1: variable.function.cs
@@ -1422,7 +1431,7 @@ contexts:
     - match: ':'
       scope: keyword.operator.assignment.cs
     - match: _\b
-      scope: variable.language.deconstruction.discard.cs
+      scope: variable.language.anonymous.cs
     - match: (?!{{reserved}})(?={{namespaced_name}}{{type_suffix}}\s+{{name}}\s*[:,])
       push: var_declaration_explicit
     - match: '({{name}})(<)'
@@ -1670,29 +1679,64 @@ contexts:
       captures:
         1: constant.numeric.value.cs
         2: constant.numeric.suffix.cs
-    # strings
+    - include: strings
+
+  strings:
+    - match: '("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_string_literal
     - match: '"'
       scope: punctuation.definition.string.begin.cs
-      push: string
+      push: inside_string
+    # interpolated strings
+    - match: '\$("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_format_string
+    - match: '\$\$("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_format_string_2
+    - match: '@\$("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_format_string_literal
+    - match: '@\$\$("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_format_string_literal_2
+    - match: '\$"'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_format_string
+    # multi-line strings
+    - match: '@"'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_long_string
+    # interpolated multi-line strings
+    - match: '(@\$|\$@)"'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_long_format_string
 
-  string:
+  inside_raw_string_literal:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.cs
+    - meta_scope: string.quoted.triple.cs
+    - include: string_escaped
+    - match: '\1'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_placeholders
+    - include: extended_string_placeholders
+
+  inside_string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cs string.quoted.double.cs
     - include: string_escaped
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_placeholders
-    - match: '(\{)(\d+)'
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: string_placeholder
+    - include: extended_string_placeholders
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
 
-  format_string:
+  inside_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.cs
     - match: '"'
@@ -1700,21 +1744,80 @@ contexts:
       pop: true
     - include: string_escaped
     - include: string_placeholder_escape
-    - match: \{
-      scope: punctuation.section.interpolation.begin.cs
-      push:
-        - meta_scope: meta.string.interpolated.cs
-        - meta_content_scope: source.cs
-        - clear_scopes: 2
-        - match: $
-          pop: true
-        - include: string_placeholder_format
-        - include: string_interpolation
+    - include: format_string_interpolation
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
 
-  long_format_string:
+  inside_raw_format_string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - match: '\1'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_escaped
+    - include: string_placeholder_escape
+    - include: format_string_interpolation
+
+  inside_raw_format_string_literal:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - match: '\1'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_placeholder_escape
+    - include: format_string_interpolation
+
+  format_string_interpolation:
+    - match: \{
+      scope: punctuation.section.interpolation.begin.cs
+      push: inside_format_string_interpolation
+
+  inside_format_string_interpolation:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.cs
+    - meta_content_scope: source.cs
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - include: string_placeholder_format
+    - include: line_of_code_in
+
+  inside_raw_format_string_2:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - match: '\1'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_escaped
+    - include: string_placeholder_escape
+    - include: format_string_interpolation_2
+
+  inside_raw_format_string_literal_2:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - match: '\1'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_placeholder_escape
+    - include: format_string_interpolation_2
+
+  format_string_interpolation_2:
+    - match: \{\{
+      scope: punctuation.section.interpolation.begin.cs
+      push: inside_format_string_interpolation_2
+
+  inside_format_string_interpolation_2:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.cs
+    - meta_content_scope: source.cs
+    - match: '\}\}'
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - include: string_placeholder_format
+    - include: line_of_code_in
+
+  inside_long_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
     - include: long_string_escaped
@@ -1724,12 +1827,17 @@ contexts:
     - include: string_placeholder_escape
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
-      push:
-        - meta_scope: meta.string.interpolated.cs
-        - meta_content_scope: source.cs
-        - clear_scopes: 2
-        - include: long_string_placeholder_format
-        - include: string_interpolation
+      push: inside_long_format_string_interpolation
+
+  inside_long_format_string_interpolation:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.cs
+    - meta_content_scope: source.cs
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - include: long_string_placeholder_format
+    - include: line_of_code_in
 
   string_placeholder_escape:
     - match: '\{\{|\}\}'
@@ -1745,7 +1853,35 @@ contexts:
         1: punctuation.definition.placeholder.begin.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs invalid.illegal.unclosed-string-placeholder.cs
 
-  inside_string_placeholder:
+  extended_string_placeholders:
+    - match: '(\{)(\d+)'
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+      push: inside_extended_string_placeholder
+
+  inside_extended_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  extended_long_string_placeholders:
+    - match: '(\{)(\d+)'
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+      push: inside_extended_long_string_placeholder
+
+  inside_extended_long_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: long_string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  string_placeholder_end:
     - match: '(\})(\}(?!\}))?'
       captures:
         1: punctuation.definition.placeholder.end.cs
@@ -1754,26 +1890,15 @@ contexts:
     - match: (?=[}"])
       pop: true
 
-  string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: inside_string_placeholder
-    - include: string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
-
-  long_string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: inside_string_placeholder
-    - include: long_string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
-
-  string_placeholder_format:
+  string_placeholder_format_before_colon:
     - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
         3: keyword.operator.arithmetic.cs
+
+  string_placeholder_format:
+    - include: string_placeholder_format_before_colon
     - match: ':(?=")'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -1785,18 +1910,14 @@ contexts:
         - include: string_escaped
         - match: '(?=\})'
           pop: true
-        - match: '([^}"\\]+(\\.)*)+(?=")'
+        - match: '(?:[^}"\\](?:\\.)*)+(?=")'
           scope: invalid.illegal.unclosed-string-placeholder.cs
           pop: true
         - match: '\{'
           scope: invalid.illegal.unescaped-placeholder.cs
 
   long_string_placeholder_format:
-    - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
-      captures:
-        1: punctuation.separator.arguments.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-        3: keyword.operator.arithmetic.cs
+    - include: string_placeholder_format_before_colon
     - match: ':(?="(?!"))'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -1810,31 +1931,21 @@ contexts:
           pop: true
         - match: \\(?:""|[^"])
           scope: constant.character.escape.cs
-        - match: (?:[^}"]+|"")+(?="(?!"))
+        - match: (?:[^}"]|"")+(?="(?!"))
           scope: invalid.illegal.unclosed-string-placeholder.cs
           pop: true
         - match: \{
           scope: invalid.illegal.unescaped-placeholder.cs
 
-  string_interpolation:
-    - match: '\}'
-      scope: punctuation.section.interpolation.end.cs
-      pop: true
-    - include: line_of_code_in
-
-  long_string:
+  inside_long_string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.raw.cs
     - include: long_string_escaped
-    - include: string_placeholders
-    - match: '(\{)(\d+)'
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: long_string_placeholder
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
+    - include: string_placeholders
+    - include: extended_long_string_placeholders
 
   escaped:
     - match: '{{escaped_char}}'
@@ -2073,7 +2184,7 @@ contexts:
               pop: true
             - include: line_of_code_in
         - match: \b_\b
-          scope: variable.language.deconstruction.discard.cs
+          scope: variable.language.anonymous.cs
         - match: '\bwhen\b'
           scope: keyword.control.switch.case.when.cs
         - match: \(
@@ -2086,7 +2197,7 @@ contexts:
             - match: ','
               scope: punctuation.separator.sequence.cs
             - match: _\b
-              scope: variable.language.deconstruction.discard.cs
+              scope: variable.language.anonymous.cs
             - include: line_of_code_in_no_semicolon # needed for "when" syntax?
         - match: (?={{namespaced_name}}\s+(?:\{|(?!{{reserved}}|when\b){{name}}))
           push: [maybe_pattern_matching_object, var_declaration]
@@ -2151,7 +2262,7 @@ contexts:
           scope: meta.sequence.tuple.cs punctuation.section.sequence.end.cs
           pop: true
         - match: _\b
-          scope: variable.language.deconstruction.discard.cs
+          scope: variable.language.anonymous.cs
         - match: '{{name}}'
           scope: variable.other.cs
         - match: ','

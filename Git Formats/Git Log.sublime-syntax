@@ -71,7 +71,7 @@ contexts:
     # using push instead of include as workaround for
     # https://github.com/SublimeTextIssues/Core/issues/2395
     - match: ^
-      push: Git Commit.sublime-syntax
+      push: Git Commit Message.sublime-syntax
 
   extended-patch-headers:
     # https://git-scm.com/docs/git-show#_generating_patch_text_with_p

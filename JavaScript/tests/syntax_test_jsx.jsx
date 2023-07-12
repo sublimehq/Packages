@@ -78,10 +78,35 @@
 //^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
 
     <foo />;
-//  ^^^^^^^ meta.jsx meta.tag
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^ meta.jsx meta.tag - meta.tag.attributes
 //  ^ punctuation.definition.tag.begin
-//   ^^^ meta.tag.name entity.name.tag.native
+//   ^^^ entity.name.tag.native
 //       ^^ punctuation.definition.tag.end
+
+    <foo attr= />;
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^^^^^ meta.jsx meta.tag.attributes
+//             ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^^^ entity.other.attribute-name
+//           ^ punctuation.separator.key-value
+//             ^^ punctuation.definition.tag.end
+
+    <foo attr="val" />;
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^^^^^^^^^^ meta.jsx meta.tag.attributes
+//                  ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^^^ entity.other.attribute-name
+//           ^ punctuation.separator.key-value
+//            ^^^^^ string.quoted.double
+//                  ^^ punctuation.definition.tag.end
 
     <foo>Hello!</foo>;
 //  ^^^^^^^^^^^^^^^^^ meta.jsx
@@ -99,15 +124,19 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
 //  ^^^^^^^^^^^^^ meta.tag
 //   ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
+//   ^^^ entity.name.tag.component
 //      ^ punctuation.accessor
+//       ^^^ entity.name.tag.component
 //          ^ punctuation.accessor
-//           ^^^ entity.name.tag
+//           ^^^ entity.name.tag.component
 //               ^^^^^^ - meta.tag
 //                     ^^^^^^^^^^^^^^ meta.tag
 //                       ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
+//                       ^^^ entity.name.tag.component
 //                          ^ punctuation.accessor
+//                           ^^^ entity.name.tag.component
 //                              ^ punctuation.accessor
-//                               ^^^ entity.name.tag
+//                               ^^^ entity.name.tag.component
 
     <foo>Hello!<bar/>World!</foo>;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
@@ -279,4 +308,4 @@
 </foo>;
 
     <Class />;
-//   ^^^^^ entity.name.tag - entity.name.tag.native
+//   ^^^^^ entity.name.tag.component - entity.name.tag.native

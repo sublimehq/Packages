@@ -1,0 +1,194 @@
+% SYNTAX TEST "Packages/LaTeX/TeX.sublime-syntax"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Macro definitions - \def, \gdef, \edef, \xdef
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Check the main scopes
+  \def\macro{replacement}
+% ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+% Check puncutation scopes
+  \def\macro{replacement}
+% ^ punctuation.definition.backslash.tex
+%     ^ punctuation.definition.backslash.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%                       ^ punctuation.definition.group.brace.end.tex
+
+
+% examples taken from https://en.wikibooks.org/wiki/TeX/def
+
+% With spaces and parameter specification
+ \def \foo [#1]#2{The first argument is ``#1'', the second one is ``#2''}
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex
+%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
+%         ^^^^^^^ meta.function.parameters.tex -meta.function.tex
+%           ^^ variable.parameter.tex
+%              ^^ variable.parameter.tex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+% With line continuation
+ \def \foo [#1]#2%
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^meta.function.tex
+%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
+%         ^^^^^^^ meta.function.parameters.tex
+%                ^^ comment.line.percentage.tex
+  {The first argument is ``#1''.
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+  The second one is ``#2''}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+% With nested braces
+ \def \author {William {\sc Smith}}
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex
+%     ^^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^ meta.function.parameters.tex
+%             ^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+
+% gdef as a global variation of def
+ \gdef\macro{replacement}
+%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+% edef as an immediately expanded version of def. Note that here,
+% argument specifications would not be allowed by TeX.
+ \edef\macro{replacement}
+%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+
+
+% And now, the really weird cases
+%  escaped characters in the argument specification
+%   hash
+ \def\macro\#1#1{replacement}
+%          ^^^^^ meta.function.parameters.tex
+%          ^^ constant.character.escape.tex
+%            ^ - variable.parameter.tex
+%             ^^ variable.parameter.tex
+
+%   open-brace
+ \def\macro\{#1{replacement}
+%          ^^^^ meta.function.parameters.tex
+%          ^^ constant.character.escape.tex
+%            ^^ variable.parameter.tex
+%              ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+
+%    double escape
+ \def\macro\\#1{replacement}
+%          ^^^^ meta.function.parameters.tex
+%          ^^constant.character.escape.tex
+%            ^^ variable.parameter.tex
+
+
+%  defining special character macros
+ \def\_{underscore}
+%^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%    ^^ meta.function.identifier.tex entity.name.definition.tex
+%      ^^^^^^^^^^^^ meta.function.body.tex
+
+%  stop scope for incomplete defs
+\def\text
+
+some other text
+% ^^^^^^^^^^^^^^ - meta.function%
+
+%  incomplete but with parameters; the { comes too late to open the function definition
+\def\text A#1A
+
+  { some other text}
+% ^^^^^^^^^^^^^^ - meta.function
+
+%  command just prefixed with def. Needs to be picked up as a custom command
+\deftext
+%^^^^^^^ support.function.general.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Control flow / Conditionals
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if something \fi
+%^^ keyword.control.conditional.if.tex
+%             ^^^ keyword.control.conditional.end.tex
+
+
+\ifcase 2 a\or b\or c\or d\else e\fi
+%^^^^^^ keyword.control.conditional.switch.tex
+%          ^^^ keyword.control.conditional.case.tex
+%                         ^^^^^ keyword.control.conditional.else.tex
+%                                ^^^ keyword.control.conditional.end.tex
+
+
+% a loop example from https://en.wikibooks.org/wiki/LaTeX/Plain_TeX#Loops
+\count255 = 1
+\loop
+%^^^^ keyword.control.loop.do-while.tex
+  \TeX
+\ifnum\count255 < 10
+%^^^^^ keyword.control.conditional.if.tex
+\advance\count255 by 1
+\repeat
+%^^^^^^ keyword.control.loop.end.tex
+
+
+\if@director
+%^^ - keyword.control.conditional.if
+ custom if
+\else
+%^^^^ keyword.control.conditional.else.tex
+\fi
+%^^ keyword.control.conditional.end.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               Registers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\muskip5
+%^^^^^^ storage.type.tex
+%^^^^^^^ meta.register.tex
+%      ^ meta.number.integer.decimal constant.numeric.value.tex
+
+\box 60
+%^^^ storage.type.tex
+%^^^^^^ meta.register.tex
+%    ^^ meta.number.integer.decimal constant.numeric.value.tex
+
+\skip5 10
+%^^^^^ meta.register.tex
+%      ^^ - meta.register.tex
+
+\counting
+%^^^^^^^^ - meta.register.tex
+
+\newdimen\mydimen
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%        ^^^^^^^^ entity.name.constant.tex
+%        ^ punctuation.definition.backslash.tex
+
+\newcount { \mycounter }
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%         ^^^^^^^^^^^^^^ meta.group.brace.latex
+%           ^^^^^^^^^^ entity.name.constant.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.backslash.tex
+%                      ^ punctuation.definition.group.brace.end.tex
+
+% A very weird case where we use a macro for the register id. In this case
+% we just scope the macro like we would any other.
+\def\five{5}
+\toks \five = 8
+%^^^^^^^^^^^ meta.register.tex
+%^^^^ storage.type.tex
+%     ^^^^^ support.function.general.tex
+%     ^ punctuation.definition.backslash.tex

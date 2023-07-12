@@ -26,7 +26,7 @@ variables:
 
   # A pattern which terminates an incomplete expression at any point.
   # `\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
-  expression_end: (?=[;{}]|\?>|{{keywords}})
+  expression_end: (?=[;{}]|\?>|:(?!:)|{{keywords}})
 
   heredoc_quoted_end: (?=^\s*\4\b)
   heredoc_unquoted_end: (?=^\s*\2\b)
@@ -53,6 +53,7 @@ variables:
     | {{builtin_variables}}
     | function\b
     | as\b
+    | yield\b
     )
 
   keywords: |-
@@ -71,7 +72,7 @@ variables:
     (?xi: case | catch | default | do | (?: end )? (?: for(?:each)? | if | switch | while )
     | else | elseif | finally | switch | try )\b
   flow_keywords: |-
-    (?xi: break | continue | die | exit | finally | goto | return | throw | yield )\b
+    (?xi: break | continue | die | exit | finally | goto | return | throw )\b
 
   # Expression Level Keywords
   builtin_functions: |-
@@ -623,8 +624,6 @@ contexts:
     - match: \*/
       scope: punctuation.definition.comment.end.php
       pop: 1
-    - match: (?=\?>)
-      pop: 1
 
   phpdoc-block-tag:
     - meta_include_prototype: false
@@ -683,11 +682,8 @@ contexts:
 ###[ CLASS DECLARATIONS ]#####################################################
 
   class-declarations:
-    - match: (?i:(abstract|final)\s+)?((?i:class))\b
-      scope: meta.class.php
-      captures:
-        1: storage.modifier.php
-        2: keyword.declaration.class.php
+    - match: (?i:class)\b
+      scope: meta.class.php keyword.declaration.class.php
       push:
         - class-declaration-body
         - class-declaration-name
@@ -791,7 +787,6 @@ contexts:
       set:
         - type-hint-body
         - type-hint-simple-type
-        - type-hint-nullable
     - include: else-pop
 
   enum-declaration-body:
@@ -956,16 +951,13 @@ contexts:
       push: property-type-hint
 
   property-type-hint:
-    - match: (?=(?i:const|function)\b)
+    - match: (?=\$|(?i:const|function)\b)
       pop: 1
     - match: '{{property_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
     - include: static-modifiers
-    - include: type-hint
-    - include: attributes
-    - include: comments
-    - include: else-pop
+    - include: expect-type-hint
 
 ###[ ARROW FUNCTION DECLARATIONS ]############################################
 
@@ -989,19 +981,36 @@ contexts:
       set:
         - arrow-function-body
         - arrow-function-or-fail
+        - arrow-function-return-type
         - arrow-function-parameters
 
   arrow-function-parameters:
     - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: arrow-function-parameters-body
+    - match: (?=\()
+      set:
+        - arrow-function-parameters-body
+        - function-parameter-variable
+        - expect-type-hint
+        - group-begin
     - include: else-pop
 
   arrow-function-parameters-body:
     - clear_scopes: 1
     - meta_scope: meta.function.anonymous.parameters.php meta.group.php
     - include: function-parameters-body
+
+  arrow-function-return-type:
+    - match: ':'
+      scope: punctuation.separator.colon.php
+      set:
+        - arrow-function-return-type-body
+        - type-hint-simple-type
+    - include: else-pop
+
+  arrow-function-return-type-body:
+    - clear_scopes: 1
+    - meta_scope: meta.function.anonymous.return-type.php
+    - include: type-hint-body
 
   arrow-function-or-fail:
     - include: comments
@@ -1075,47 +1084,75 @@ contexts:
       set: function-parameters
 
   constructor-parameters:
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: constructor-parameters-body
+    - meta_include_prototype: false
+    - match: (?=\()
+      set:
+        - constructor-parameters-body
+        - function-parameter-variable
+        - constructor-type-hint
+        - group-begin
+    - include: comments
     - include: else-pop
 
   constructor-parameters-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.php meta.group.php
+    - match: ',|(?=[(?\\[:alpha:]])'  # handle missing comma gracefully
+      scope: punctuation.separator.sequence.php
+      push:
+        - function-parameter-variable
+        - constructor-type-hint
+    - include: function-parameter-values
+    - include: group-end
+    - include: comments
+    - include: else-pop
+
+  constructor-type-hint:
     - match: '{{constructor_modifier}}'
       scope: storage.modifier.php
     - include: access-modifiers
     - include: static-modifiers
-    - include: function-parameters-body
+    - include: expect-type-hint
 
   function-parameters:
     - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.group.begin.php
-      set: function-parameters-body
+    - match: (?=\()
+      set:
+        - function-parameters-body
+        - function-parameter-variable
+        - expect-type-hint
+        - group-begin
+    - include: comments
     - include: else-pop
 
   function-parameters-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.php meta.group.php
-    - match: \)
-      scope: punctuation.section.group.end.php
-      pop: 1
-    - match: =
-      scope: keyword.operator.assignment.php
-      push: single-expression
-    - include: expression-end-pop
-    - include: attributes
+    - match: ',|(?=[(?\\[:alpha:]])'  # handle missing comma gracefully
+      scope: punctuation.separator.sequence.php
+      push:
+        - function-parameter-variable
+        - expect-type-hint
+    - include: function-parameter-values
+    - include: group-end
     - include: comments
-    - include: punctuation-separators
-    - include: reference-modifiers
-    - include: variadic-operators
-    - include: type-hints
+    - include: else-pop
+
+  function-parameter-variable:
     - match: (\$+){{identifier}}
       scope: variable.parameter.php
       captures:
         1: punctuation.definition.variable.php
+      pop: 1
+    - include: reference-modifiers
+    - include: variadic-operators
+    - include: comments
+    - include: else-pop
+
+  function-parameter-values:
+    - match: =
+      scope: keyword.operator.assignment.php
+      push: single-expression
 
   function-use:
     - match: (?i:use)\b
@@ -1129,6 +1166,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       set: function-use-group-body
+    - include: comments
     - include: else-pop
 
   function-use-group-body:
@@ -1142,7 +1180,6 @@ contexts:
       set:
         - function-return-type-body
         - type-hint-simple-type
-        - type-hint-nullable
     - include: else-pop
 
   function-return-type-body:
@@ -1155,6 +1192,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.php
       set: function-block-body
+    - include: comments
     - include: else-pop
 
   function-block-body:
@@ -1240,21 +1278,10 @@ contexts:
       scope: keyword.control.flow.return.php
     - match: (?i:throw)\b
       scope: keyword.control.flow.throw.php
-    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
-    - match: (?i:yield)\b
-      scope: keyword.control.flow.yield.php
-      push: yield-from
 
   goto-label:
     - match: '{{guarded_identifier}}'
       scope: variable.label.php
-    - include: comments
-    - include: else-pop
-
-  yield-from:
-    - match: (?i:from)\b
-      scope: keyword.control.flow.yield.php
-      pop: 1
     - include: comments
     - include: else-pop
 
@@ -1273,21 +1300,21 @@ contexts:
     - meta_content_scope: meta.catch.php
     - match: \(
       scope: punctuation.section.group.begin.php
-      set: catch-arguments-body
+      set:
+        - catch-arguments-body
+        - expect-type-hint
     - include: comments
     - include: else-pop
 
   catch-arguments-body:
     - meta_scope: meta.catch.arguments.php meta.group.php
-    - include: group-end
-    - include: expression-end-pop
-    - include: attributes
-    - include: comments
-    - include: type-hints
     - match: (\$){{identifier}}
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
+    - include: group-end
+    - include: comments
+    - include: else-pop
 
 ###[ FOR STATEMENTS ]#########################################################
 
@@ -1466,6 +1493,12 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.php
       push: group-body
+
+  group-begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      pop: 1
 
   group-body:
     - meta_scope: meta.group.php
@@ -1911,55 +1944,53 @@ contexts:
 
 ###[ TYPE HINTS ]#############################################################
 
-  type-hints:
+  expect-type-hint:
+    - include: attributes
+    - include: comments
     # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
-      push:
-        - type-hint-body
-        - type-hint-simple-type
-        - type-hint-nullable
-
-  type-hint:
-    # https://wiki.php.net/rfc/union_types_v2
-    - match: (?=(?:\?\s*)?\\?{{identifier_start}})
+    - match: (?=\S)
       set:
         - type-hint-body
         - type-hint-simple-type
-        - type-hint-nullable
 
   type-hint-body:
     - meta_scope: meta.type.php
-    - match: \|(?!\s*\$)
+    - match: \(
+      scope: punctuation.section.group.begin.php
+      push:
+        - type-hint-group-body
+        - type-hint-simple-type
+    - match: \|
       scope: punctuation.separator.type.union.php
-      push:
-        - type-hint-simple-type
-        - type-hint-nullable
-    - match: '&(?!\s*\$)'
+      push: type-hint-simple-type
+    - match: \&(?!\s*\$)  # references have precedence
       scope: punctuation.separator.type.intersection.php
-      push:
-        - type-hint-nullable
-        - type-hint-simple-type
+      push: type-hint-simple-type
+    - include: comments
     - include: else-pop
 
-  type-hint-nullable:
-    - match: \?
-      scope: storage.type.nullable.php
+  type-hint-group-body:
+    - meta_scope: meta.group.php
+    - match: \)
+      scope: punctuation.section.group.end.php
       pop: 1
-    - include: else-pop
+    - include: type-hint-body
 
   type-hint-simple-type:
     # note that
     #   - "callable", "never" and "void" are not allowed in property type
-    #   - "false" and "null" are only working in unioned type
     # but we allow them as general types for simplifying syntax definition
-    - match: (?i:iterable|false|mixed|never|null|void|{{storage_types}})\b
+    - match: (?i:iterable|false|mixed|never|null|true|void|{{storage_types}})\b
       scope: storage.type.primitive.php
       pop: 1
     - match: (?=(?i:extends|implements)\b)
       pop: 1
     - include: expression-end-pop
+    - match: \?
+      scope: storage.type.nullable.php
     - include: binding
     - include: class-name
+    - include: comments
     - include: else-pop
 
 ###[ CLASSES ]################################################################
@@ -2139,6 +2170,17 @@ contexts:
       scope: keyword.other.clone.php
     - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
+    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
+    - match: (?i:yield)\b
+      scope: keyword.control.flow.yield.php
+      push: yield-from
+
+  yield-from:
+    - match: (?i:from)\b
+      scope: keyword.control.flow.yield.php
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
@@ -2187,7 +2229,7 @@ contexts:
       scope: storage.modifier.access.php
 
   global-modifiers:
-    - match: (?i:global)\b
+    - match: '{{global_modifier}}'
       scope: storage.modifier.namespace.php
 
   static-modifiers:
@@ -2622,7 +2664,7 @@ contexts:
     - meta_scope: meta.string.php
     - meta_content_scope: string.quoted.single.php
     - include: string-single-quoted-end
-    - include: string-placeholders
+    - include: string-single-quoted-placeholders
     - match: \\[\\'']
       scope: constant.character.escape.php
 
@@ -2664,6 +2706,7 @@ contexts:
 
   string-placeholders:
     # https://www.php.net/manual/en/function.printf.php
+    # https://www.php.net/manual/en/function.strftime
     - match: '%%'
       scope: constant.character.escape.php
     # %[argnum$][flags][width][.precision]specifier
@@ -2674,7 +2717,26 @@ contexts:
         [-+]? (?: [ 0] | '. )?      # flags
         \d*                         # width
         (?: (\.) \d* )?             # precision
-        [bcdeEfFgGhHosuxX]          # specifier
+        [ABCDEFGHIMPRSTUVWXYZabcdefghjklmnoprstuwxyz] # specifier
+      scope: constant.other.placeholder.php
+      captures:
+        1: punctuation.definition.placeholder.php
+        2: punctuation.separator.decimal.php
+
+  string-single-quoted-placeholders:
+    # https://www.php.net/manual/en/function.printf.php
+    # https://www.php.net/manual/en/function.strftime
+    - match: '%%'
+      scope: constant.character.escape.php
+    # %[argnum$][flags][width][.precision]specifier
+    - match: |-
+        (?x)
+        (%)                         # punctuation
+        (?: \d+\$ )?                # argnum
+        [-+]? (?: [ 0] | \\'. )?    # flags
+        \d*                         # width
+        (?: (\.) \d* )?             # precision
+        [ABCDEFGHIMPRSTUVWXYZabcdefghjklmnoprstuwxyz] # specifier
       scope: constant.other.placeholder.php
       captures:
         1: punctuation.definition.placeholder.php

@@ -68,7 +68,6 @@ contexts:
 
   cdata-content:
     - meta_prepend: true
-    - meta_include_prototype: false
     - include: php-interpolations
 
   script-javascript-content:
@@ -126,38 +125,72 @@ contexts:
         4: comment.block.html punctuation.definition.comment.end.html
 
   tag-event-attribute-value:
+    - meta_include_prototype: false
     - match: \"
-      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
-      embed: scope:source.js.php
-      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
-      escape: \"
-      escape_captures:
-        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
+      scope: string.quoted.double.html punctuation.definition.string.begin.html
+      set: tag-event-attribute-value-double-quoted-body
     - match: \'
-      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
-      embed: scope:source.js.php
-      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
-      escape: \'
-      escape_captures:
-        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
+      scope: string.quoted.single.html punctuation.definition.string.begin.html
+      set: tag-event-attribute-value-single-quoted-body
     - include: else-pop
 
-  tag-style-attribute-value:
+  tag-event-attribute-value-double-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.js.embedded.html
     - match: \"
-      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
-      embed: scope:source.css.php#rule-list-body
-      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
-      escape: \"
-      escape_captures:
-        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
+      scope: string.quoted.double.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-event-attribute-value-double-quoted-content
+
+  tag-event-attribute-value-double-quoted-content:
+    - include: scope:source.js.embedded.string.quoted.double.php
+
+  tag-event-attribute-value-single-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.js.embedded.html
     - match: \'
-      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
-      embed: scope:source.css.php#rule-list-body
-      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
-      escape: \'
-      escape_captures:
-        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
+      scope: string.quoted.single.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-event-attribute-value-single-quoted-content
+
+  tag-event-attribute-value-single-quoted-content:
+    - include: scope:source.js.embedded.string.quoted.single.php
+
+  tag-style-attribute-value:
+    - meta_include_prototype: false
+    - match: \"
+      scope: string.quoted.double.html punctuation.definition.string.begin.html
+      set: tag-style-attribute-value-double-quoted-body
+    - match: \'
+      scope: string.quoted.single.html punctuation.definition.string.begin.html
+      set: tag-style-attribute-value-single-quoted-body
     - include: else-pop
+
+  tag-style-attribute-value-double-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.css.embedded.html
+    - match: \"
+      scope: string.quoted.double.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-style-attribute-value-double-quoted-content
+
+  tag-style-attribute-value-double-quoted-content:
+    - include: scope:source.css.embedded.string.quoted.double.php
+
+  tag-style-attribute-value-single-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.css.embedded.html
+    - match: \'
+      scope: string.quoted.single.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-style-attribute-value-single-quoted-content
+
+  tag-style-attribute-value-single-quoted-content:
+    - include: scope:source.css.embedded.string.quoted.single.php
 
   tag-attribute-value-content:
     - meta_prepend: true

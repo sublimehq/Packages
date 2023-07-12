@@ -6,6 +6,7 @@ version: 2
 
 file_extensions:
   - json
+  - jsonc
   - sublime-build
   - sublime-color-scheme
   - sublime-commands
@@ -19,12 +20,17 @@ file_extensions:
   - sublime-theme
   - sublime-workspace
   - ipynb
-  - Pipfile.lock
   - gltf
+  - avsc
+
+hidden_file_extensions:
+  - Pipfile.lock
+  - hidden-color-scheme
+  - sublime_session
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \bjson\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bjsonc?\b .*? -\*-  # editorconfig
   )
 
 contexts:

@@ -21,6 +21,7 @@ public record Person
 ///     ^^^^ keyword.declaration.function.accessor.set
 ///          ^^ keyword.declaration.function.arrow
 ///             ^^^^^^^^ variable.other
+///                               ^^ keyword.operator.null-coalescing
     }
 }
 
@@ -91,7 +92,7 @@ var message = myValue switch
 ///            ^^ constant.numeric.value
 ///               ^^ punctuation.separator.case-expression
     _ => "More than 10"
-/// ^ variable.language.deconstruction.discard
+/// ^ variable.language.anonymous
 ///   ^^ punctuation.separator.case-expression
 } + ".";
 /// <- punctuation.section.block.end
@@ -137,7 +138,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 ///                      ^ punctuation.accessor.dot
 ///                       ^^^^ variable.other
 ///                           ^ punctuation.separator.sequence
-///                             ^ variable.language.deconstruction.discard
+///                             ^ variable.language.anonymous
 ///                              ^ punctuation.section.sequence.end
 ///                                ^^ punctuation.separator.case-expression
 ///                                   ^^^^ constant.language
@@ -300,16 +301,21 @@ if (e is not Customer) { }
 ///          ^^^^^^^^ support.type
 
 public record A(int Num);
-///    ^^^^^^^^^^^^^^^^^ meta.class
-///                     ^ punctuation.terminator.statement
-///           ^ meta.class.record entity.name.class
+///    ^^^^^^^^ meta.class.record
+///            ^^^^^^^^^ meta.class.record.parameters
+///                     ^ - meta.class
+///    ^^^^^^ keyword.declaration.class.record
+///           ^ entity.name.class
 ///            ^ punctuation.section.parameters.begin
-///             ^^^^^^^^ meta.method.parameters
 ///             ^^^ storage.type
 ///                 ^^^ variable.parameter
 ///                    ^ punctuation.section.parameters.end
-public record B<T>(T Num);
+///                     ^ punctuation.terminator.statement
+public record B<T>(T Num)<NoGeneric>;
 ///    ^^^^^^^^^^^ meta.class.record
+///               ^^^^^^^ meta.class.record.parameters
+///                      ^^^^^^^^^^^ meta.class.record - meta.generic
+///                                 ^ - meta.class
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^^^ meta.generic
@@ -317,10 +323,13 @@ public record B<T>(T Num);
 ///             ^ support.type
 ///              ^ punctuation.definition.generic.end
 ///               ^ punctuation.section.parameters.begin
-///                ^^^^^ meta.method.parameters
 ///                     ^ punctuation.section.parameters.end
-///                      ^ punctuation.terminator.statement
+///                                 ^ punctuation.terminator.statement
 public record C<TNum> (TNum Num) where TNum : class;
+///    ^^^^^^^^^^^^^^^ meta.class.record.cs
+///                   ^^^^^^^^^^ meta.class.record.parameters.cs
+///                             ^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
+///                                                ^ - meta.class
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
@@ -336,6 +345,10 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///                                           ^^^^^ storage.type
 ///                                                ^ punctuation.terminator.statement
 public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4; }
+///    ^^^^^^^^^^^^^^^ meta.class.record.cs
+///                   ^^^^^^^^^^ meta.class.record.parameters.cs
+///                             ^^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
+///                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record.body.cs meta.block.cs
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
@@ -372,8 +385,40 @@ public record Person(
 ///                                                          ^ punctuation.separator.parameter.function
     [property: JsonPropertyName("lastName")]string LastName);
 /// ^ punctuation.definition.annotation.begin
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.method.parameters meta.annotation
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record.parameters meta.annotation
 ///                                         ^^^^^^ storage.type
 ///                                                ^^^^^^^^ variable.parameter
 ///                                                        ^ punctuation.section.parameters.end
 ///                                                         ^ punctuation.terminator.statement
+
+public class MyClass { public record MyRecord <T> (int nums) { public const int TEST = 4; } }
+///^^^^ - meta.class
+///    ^^^^^^^^^^^^^^ meta.class - meta.class.body
+///                  ^^^^^^^^^ meta.class.body meta.block
+///                           ^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record - meta.class.record.parameters
+///                                               ^^^^^^^^^^ meta.class.body meta.block meta.class.record.parameters
+///                                                         ^ meta.class.body meta.block meta.class.record - meta.class.record.parameters
+///                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record.body meta.block
+///                                                                                        ^^ meta.class.body meta.block - meta.class meta.class
+///                                                                                          ^ - meta.class
+///^^^ storage.modifier.access
+///    ^^^^^ keyword.declaration.class
+///          ^^^^^^^ entity.name.class
+///                  ^ punctuation.section.block.begin
+///                    ^^^^^^ storage.modifier.access
+///                           ^^^^^^ keyword.declaration.class.record
+///                                  ^^^^^^^^ entity.name.class
+///                                           ^ punctuation.definition.generic.begin
+///                                            ^ support.type
+///                                             ^ punctuation.definition.generic.end
+///                                               ^ meta.class.record.parameters punctuation.section.parameters.begin
+///                                                ^^^ storage.type
+///                                                    ^^^^ variable.parameter
+///                                                        ^ punctuation.section.parameters.end
+///                                                          ^ punctuation.section.block.begin
+///                                                            ^^^^^^ storage.modifier.access
+///                                                                   ^^^^^ storage.modifier
+///                                                                         ^^^ storage.type
+///                                                                             ^^^^ variable.other.member
+///                                                                                       ^ punctuation.section.block.end
+///                                                                                         ^ punctuation.section.block.end

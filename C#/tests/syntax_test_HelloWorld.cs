@@ -5,7 +5,7 @@
 using System;
 ///<- keyword.control.import
 ///    ^ meta.path
-///         ^ punctuation.terminator.cs
+///         ^ punctuation.terminator.statement.cs
 
 namespace HelloWorld
 ///^^^^^^^^^^^^^^^^^ meta.namespace - meta.path

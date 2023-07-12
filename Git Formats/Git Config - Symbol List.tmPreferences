@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>meta.brackets.git.config</string>
+	<string>meta.section.header.git.config meta.brackets.git.config</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

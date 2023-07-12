@@ -1,0 +1,55 @@
+%YAML 1.2
+---
+# Syntax based on documentation here:
+# https://git-scm.com/docs/git-blame#Documentation/git-blame.txt---ignore-revs-fileltfilegt
+# (refers to https://git-scm.com/docs/git-fsck#Documentation/git-fsck.txt-fsckskipList)
+# https://docs.github.com/en/repositories/working-with-files/using-files/viewing-a-file#ignore-commits-in-the-blame-view
+
+name: Git Blame Ignore Revisions
+scope: text.git.blame.ignorerevs
+version: 2
+
+file_extensions:
+  - git-blame-ignore-revs     # *.git-blame-ignore-revs
+
+hidden_file_extensions:
+  - .git-blame-ignore-revs    # ~/.git-blame-ignore-revs
+
+variables:
+  object_name: \b\h{40}\b
+
+contexts:
+
+  main:
+    - include: comments
+    - include: revisions
+    - include: illegal
+
+  comments:
+    - match: \#+
+      scope: punctuation.definition.comment.git.blame.ignorerevs
+      push: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.git.blame.ignorerevs
+    - match: \n
+      pop: 1
+
+  revisions:
+    - match: '{{object_name}}'
+      scope: constant.other.hash.git.blame.ignorerevs
+      push: expect-eol
+
+  expect-eol:
+    - include: comments
+    - include: illegal
+    - include: eol-pop
+
+  illegal:
+    - match: '[^\s#]+'
+      scope: invalid.illegal.stray-character.git.blame.ignorerevs
+
+  eol-pop:
+    - match: $
+      pop: 1

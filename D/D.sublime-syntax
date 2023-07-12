@@ -46,7 +46,7 @@ variables:
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
   definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
-  definitely_declaration_lookahead: '(?=(?:{{name}}\.)*{{name}}(\s+|\s*\*+\s*|\**\[.*\]\s*){{name}}|\b{{type_qualifier}}\b)'
+  definitely_declaration_lookahead: '(?=(?:{{name}}\.)*{{name}}(\s+|\s*\*+\s*|\**\[.*\]\s*){{name}}|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
@@ -69,20 +69,38 @@ variables:
 
   block_statement_loohahead: '(?={)'
 
+  exclamation_mark: '!(?!=|in\b|is\b)'
+
 contexts:
   prototype:
     - include: comment-in
 
   main:
-    - match: '^#!'
-      scope: punctuation.definition.comment.number-sign.d
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.number-sign.d
-        - match: '$\n?'
-          pop: true
+    - meta_include_prototype: false
+    - match: ''
+      set: [d, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.d
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.d
+    # Note: Keep sync with first_line_match!
+    - match: \bg?dmd\b
+      scope: constant.language.shebang.d
+    - match: \n
+      pop: 1
+
+  d:
     - include: module-in
     - include: statement-list-in
+
   module-in:
     - match: \bmodule\b
       scope: keyword.declaration.namespace.d
@@ -770,7 +788,7 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [basic-type2, basic-type2-after-parens, value]
+          set: [basic-type2, basic-type2-after-parens, value-list]
     - match: '{{name_lookahead}}'
       set: [basic-type2, type-identifier-ref]
     - match: '(?=\S)'
@@ -785,7 +803,7 @@ contexts:
     - match: '\b(delegate|function)\b'
       scope: keyword.other.d
       set: [basic-type2, function-type]
-    - match: '!(?!=|is\b)'
+    - match: '{{exclamation_mark}}'
       scope: meta.function-call.template.d keyword.operator.d
       set:
         - match: '\('
@@ -1052,13 +1070,18 @@ contexts:
       captures:
         1: keyword.control.d
         2: punctuation.section.parens.begin.d
-      set: [first-value-parens-after, value]
+      set: [first-value-parens-after, value-list]
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
       set: value-array-list
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+      set: first-value-after
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+      set: first-value-after
     - match: '{{name_lookahead}}'
-      scope: variable.other.d
       set: [first-value-after, value-identifier]
     - match: '(?=\S)'
       set: value-array-list
@@ -1066,7 +1089,7 @@ contexts:
     - match: '\.'
       scope: meta.path.d punctuation.accessor.dot.d
       push: value-identifier
-    - match: '!(?!=|is\b)'
+    - match: '{{exclamation_mark}}'
       scope: meta.function-call.template.d keyword.operator.d
       set:
         - match: '\('
@@ -1360,7 +1383,7 @@ contexts:
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
-    - match: '\b{{name}}\b(?=\s*!(?!=|is\b))'
+    - match: '\b{{name}}\b(?=\s*{{exclamation_mark}})'
       scope: meta.function-call.template.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b(?=\s*\()'
@@ -1589,9 +1612,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: base-class-list
-    - match: '(?={)'
+    - match: '(?=\S)'
       pop: true
-    - include: not-whitespace-illegal-pop
 
   interface-in:
     - match: '\b(interface)\b'
@@ -2173,6 +2195,7 @@ contexts:
       set: [condition-after, first-value]
     - include: not-whitespace-illegal-pop
   condition-after:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       pop: true
