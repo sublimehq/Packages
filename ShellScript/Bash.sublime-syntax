@@ -723,10 +723,10 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: cmd-test-args-group-body
-    - match: ([=!]=|=~)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push: cmd-test-args-pattern
+    - match: '[=!]='
+      scope: keyword.operator.comparison.shell
+    - match: =~
+      scope: invalid.illegal.operator.shell
     - include: test-expression-common
 
   cmd-test-args-group-body:
@@ -735,11 +735,6 @@ contexts:
       scope: punctuation.section.group.end.shell
       pop: 1
     - include: cmd-test-args-common
-    - include: eoc-pop
-
-  cmd-test-args-pattern:
-    - meta_content_scope: meta.pattern.regexp.shell
-    - include: test-pattern-common
     - include: eoc-pop
 
   test-expression-body:
@@ -834,9 +829,8 @@ contexts:
     - include: comments
     - include: booleans
     - include: numbers
-    - include: strings
     - include: expansions-variables
-    - include: variables
+    - include: strings-unquoted
     - include: line-continuations
 
 ###[ UNALIAS BUILTINS ]########################################################
