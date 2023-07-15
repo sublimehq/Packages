@@ -3131,7 +3131,7 @@ main = do
             p {
 --            ^^ source.css.embedded.html meta.property-list.css meta.block.css
 --            ^ punctuation.section.block.begin.css
-                font-family: Helvetica;
+;               font-family: Helvetica;
 --              ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css
             }
 --          ^ source.css.embedded.html meta.property-list.css meta.block.css punctuation.section.block.end.css

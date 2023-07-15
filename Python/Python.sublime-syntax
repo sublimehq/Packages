@@ -45,18 +45,8 @@ variables:
   exponent: (?:[eE][-+]?{{digits}})
   path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
-  format_spec: |-
-    (?x:
-      (?:.? [<>=^])?     # fill align
-      [ +-]?             # sign
-      \#?                # alternate form
-      # technically, octal and hexadecimal integers are also supported as 'width', but rarely used
-      \d*                # width
-      ,?                 # thousands separator
-      (?:\.\d+)?         # precision
-      [bcdeEfFgGnosxX%]? # type
-    )
-  strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
+
+  strftime_spec: (?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))
 
   augmented_assignment_operators: |-
     (?x: >>= | <<= | \*\*= | //= | \+= | -= | \*= | /= | %= | @= | &= | \|= | \^= )
@@ -2569,7 +2559,7 @@ contexts:
 
   triple-double-quoted-plain-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements
+    - include: triple-double-quoted-f-string-replacements
 
   triple-double-quoted-raw-f-strings:
     # Triple-quoted raw f-string, treated as regex
@@ -2591,7 +2581,7 @@ contexts:
 
   triple-double-quoted-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements-regexp
+    - include: triple-double-quoted-f-string-replacements-regexp
 
   triple-double-quoted-plain-raw-u-strings:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -2659,7 +2649,7 @@ contexts:
     - include: string-prototype
     - include: escaped-unicode-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: triple-double-quoted-string-replacements
 
   triple-double-quoted-b-strings:
     # Triple-quoted string, bytes, no syntax embedding
@@ -2680,7 +2670,7 @@ contexts:
     - include: string-continuations
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: triple-double-quoted-string-replacements
 
   triple-double-quoted-f-strings:
     # Triple-quoted f-string
@@ -2699,10 +2689,9 @@ contexts:
   triple-double-quoted-f-string-content:
     - include: string-prototype
     - include: string-continuations
-    - include: escaped-f-string-braces
+    - include: triple-double-quoted-f-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: f-string-replacements
 
   triple-double-quoted-u-strings:
     # Triple-quoted string, unicode or not, will detect SQL
@@ -2747,7 +2736,88 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: triple-double-quoted-string-replacements
+
+  triple-double-quoted-string-replacements:
+    - include: escaped-string-braces
+    - match: (?=\{)
+      branch_point: triple-double-quoted-string-replacement
+      branch:
+        - triple-double-quoted-string-replacement
+        - string-replacement-fallback
+
+  triple-double-quoted-string-replacement:
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      set: triple-double-quoted-string-replacement-body
+
+  triple-double-quoted-string-replacement-body:
+    - meta_scope: constant.other.placeholder.python
+    - include: string-replacement-body
+    - match: \[
+      scope: punctuation.section.brackets.begin.python
+      push: triple-double-string-replacement-brackets-body
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      push: triple-double-quoted-string-replacement-formatspec-body
+    - match: (?!\w) # restrict field names to reduce risk of false positives
+      fail: triple-double-quoted-string-replacement
+
+  triple-double-string-replacement-brackets-body:
+    - include: string-replacement-brackets-body
+    - include: triple-double-quoted-string-replacement-fail
+
+  triple-double-quoted-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: string-replacement-formatspec-body
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      push: triple-double-quoted-string-replacement-body
+    - include: triple-double-quoted-string-replacement-fail
+
+  triple-double-quoted-string-replacement-fail:
+    - match: (?="""|$)
+      fail: triple-double-quoted-string-replacement
+
+  triple-double-quoted-f-string-replacements:
+    - include: f-string-replacements
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-meta
+        - triple-double-quoted-f-string-replacement-formatspec
+        - triple-double-quoted-f-string-replacement-expression
+
+  triple-double-quoted-f-string-replacements-regexp:
+    # Same as f-string-replacements, but will reset the entire scope stack.
+    - include: f-string-replacements-regexp
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-regexp-meta
+        - triple-double-quoted-f-string-replacement-formatspec
+        - triple-double-quoted-f-string-replacement-expression
+
+  triple-double-quoted-f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - include: f-string-replacement-expression
+
+  triple-double-quoted-f-string-replacement-formatspec:
+    - meta_include_prototype: false
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      set: triple-double-quoted-f-string-replacement-formatspec-body
+    - include: triple-double-quoted-f-string-replacement-end
+
+  triple-double-quoted-f-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: triple-double-quoted-f-string-replacement-end
+    - include: triple-double-quoted-f-string-replacements
+
+  triple-double-quoted-f-string-replacement-end:
+    - include: f-string-replacement-end
+    - match: (?=""")
+      pop: 2
 
 ###[ DOUBLE QUOTED STRINGS ]##################################################
 
@@ -2830,7 +2900,7 @@ contexts:
 
   double-quoted-plain-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements
+    - include: double-quoted-f-string-replacements
 
   double-quoted-raw-f-strings:
     # Single-line raw f-string, treated as regex
@@ -2852,7 +2922,7 @@ contexts:
 
   double-quoted-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements-regexp
+    - include: double-quoted-f-string-replacements-regexp
 
   double-quoted-plain-raw-u-strings:
     # Single-line capital R raw string, unicode or not, no syntax embedding
@@ -2918,7 +2988,7 @@ contexts:
   double-quoted-sql-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
-    - include: string-replacements
+    - include: double-quoted-string-replacements
 
   double-quoted-b-strings:
     # Single-line string, bytes
@@ -2938,7 +3008,7 @@ contexts:
     - include: string-prototype
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: double-quoted-string-replacements
 
   double-quoted-f-strings:
     # Single-line f-string
@@ -2956,10 +3026,9 @@ contexts:
 
   double-quoted-f-string-content:
     - include: string-prototype
-    - include: escaped-f-string-braces
+    - include: double-quoted-f-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: f-string-replacements
 
   double-quoted-u-strings:
     - match: ([uU]?)(")
@@ -3003,7 +3072,89 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: double-quoted-string-replacements
+
+  double-quoted-string-replacements:
+    - include: escaped-string-braces
+    - match: (?=\{)
+      branch_point: double-quoted-string-replacement
+      branch:
+        - double-quoted-string-replacement
+        - string-replacement-fallback
+
+  double-quoted-string-replacement:
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      set: double-quoted-string-replacement-body
+
+  double-quoted-string-replacement-body:
+    - meta_scope: constant.other.placeholder.python
+    - include: string-replacement-body
+    - match: \[
+      scope: punctuation.section.brackets.begin.python
+      push: double-quoted-string-replacement-brackets-body
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      push: double-quoted-string-replacement-formatspec-body
+    - match: (?!\w) # restrict field names to reduce risk of false positives
+      fail: double-quoted-string-replacement
+
+  double-quoted-string-replacement-brackets-body:
+    - include: string-replacement-brackets-body
+    - include: double-quoted-string-replacement-fail
+
+  double-quoted-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: string-replacement-formatspec-body
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      push: double-quoted-string-replacement-body
+    - include: double-quoted-string-replacement-fail
+
+  double-quoted-string-replacement-fail:
+    - match: (?="|$)
+      fail: double-quoted-string-replacement
+
+  double-quoted-f-string-replacements:
+    - include: f-string-replacements
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-meta
+        - double-quoted-f-string-replacement-formatspec
+        - double-quoted-f-string-replacement-expression
+
+  double-quoted-f-string-replacements-regexp:
+    # Same as f-string-replacements, but will reset the entire scope stack.
+    - include: f-string-replacements-regexp
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-regexp-meta
+        - double-quoted-f-string-replacement-formatspec
+        - double-quoted-f-string-replacement-expression
+
+  double-quoted-f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - include: f-string-replacement-expression
+    - include: eol-pop
+
+  double-quoted-f-string-replacement-formatspec:
+    - meta_include_prototype: false
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      set: double-quoted-f-string-replacement-formatspec-body
+    - include: double-quoted-f-string-replacement-end
+
+  double-quoted-f-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: double-quoted-f-string-replacement-end
+    - include: double-quoted-f-string-replacements
+
+  double-quoted-f-string-replacement-end:
+    - include: f-string-replacement-end
+    - match: (?="|$)
+      pop: 2
 
 ###[ TRIPLE SINGLE QUOTED STRINGS ]###########################################
 
@@ -3081,7 +3232,7 @@ contexts:
 
   triple-single-quoted-plain-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements
+    - include: triple-single-quoted-f-string-replacements
 
   triple-single-quoted-raw-f-strings:
     # Triple-quoted raw f-string, treated as regex
@@ -3103,7 +3254,7 @@ contexts:
 
   triple-single-quoted-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements-regexp
+    - include: triple-single-quoted-f-string-replacements-regexp
 
   triple-single-quoted-plain-raw-u-strings:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -3170,7 +3321,7 @@ contexts:
     - include: string-prototype
     - include: escaped-unicode-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: triple-single-quoted-string-replacements
 
   triple-single-quoted-b-strings:
     # Triple-quoted string, bytes, no syntax embedding
@@ -3191,7 +3342,7 @@ contexts:
     - include: string-continuations
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: triple-single-quoted-string-replacements
 
   triple-single-quoted-f-strings:
     # Triple-quoted f-string
@@ -3210,10 +3361,9 @@ contexts:
   triple-single-quoted-f-string-content:
     - include: string-prototype
     - include: string-continuations
-    - include: escaped-f-string-braces
+    - include: triple-single-quoted-f-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: f-string-replacements
 
   triple-single-quoted-u-strings:
     # Triple-quoted string, unicode or not, will detect SQL
@@ -3258,7 +3408,88 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: triple-single-quoted-string-replacements
+
+  triple-single-quoted-string-replacements:
+    - include: escaped-string-braces
+    - match: (?=\{)
+      branch_point: triple-single-quoted-string-replacement
+      branch:
+        - triple-single-quoted-string-replacement
+        - string-replacement-fallback
+
+  triple-single-quoted-string-replacement:
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      set: triple-single-quoted-string-replacement-body
+
+  triple-single-quoted-string-replacement-body:
+    - meta_scope: constant.other.placeholder.python
+    - include: string-replacement-body
+    - match: \[
+      scope: punctuation.section.brackets.begin.python
+      push: triple-single-string-replacement-brackets-body
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      push: triple-single-quoted-string-replacement-formatspec-body
+    - match: (?!\w) # restrict field names to reduce risk of false positives
+      fail: triple-single-quoted-string-replacement
+
+  triple-single-string-replacement-brackets-body:
+    - include: string-replacement-brackets-body
+    - include: triple-single-quoted-string-replacement-fail
+
+  triple-single-quoted-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: string-replacement-formatspec-body
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      push: triple-single-quoted-string-replacement-body
+    - include: triple-single-quoted-string-replacement-fail
+
+  triple-single-quoted-string-replacement-fail:
+    - match: (?='''|$)
+      fail: triple-single-quoted-string-replacement
+
+  triple-single-quoted-f-string-replacements:
+    - include: f-string-replacements
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-meta
+        - triple-single-quoted-f-string-replacement-formatspec
+        - triple-single-quoted-f-string-replacement-expression
+
+  triple-single-quoted-f-string-replacements-regexp:
+    # Same as f-string-replacements, but will reset the entire scope stack.
+    - include: f-string-replacements-regexp
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-regexp-meta
+        - triple-single-quoted-f-string-replacement-formatspec
+        - triple-single-quoted-f-string-replacement-expression
+
+  triple-single-quoted-f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - include: f-string-replacement-expression
+
+  triple-single-quoted-f-string-replacement-formatspec:
+    - meta_include_prototype: false
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      set: triple-single-quoted-f-string-replacement-formatspec-body
+    - include: triple-single-quoted-f-string-replacement-end
+
+  triple-single-quoted-f-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: triple-single-quoted-f-string-replacement-end
+    - include: triple-single-quoted-f-string-replacements
+
+  triple-single-quoted-f-string-replacement-end:
+    - include: f-string-replacement-end
+    - match: (?=''')
+      pop: 2
 
 ###[ SINGLE QUOTED STRINGS ]##################################################
 
@@ -3389,7 +3620,7 @@ contexts:
   single-quoted-sql-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
-    - include: string-replacements
+    - include: single-quoted-string-replacements
 
   single-quoted-plain-raw-f-strings:
     # Single-line raw f-string
@@ -3407,7 +3638,7 @@ contexts:
 
   single-quoted-plain-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements
+    - include: single-quoted-f-string-replacements
 
   single-quoted-raw-f-strings:
     # Single-line raw f-string, treated as regex
@@ -3429,7 +3660,7 @@ contexts:
 
   single-quoted-raw-f-string-content:
     - include: string-prototype
-    - include: f-string-replacements-regexp
+    - include: single-quoted-f-string-replacements-regexp
 
   single-quoted-b-strings:
     # Single-line string, bytes
@@ -3449,7 +3680,7 @@ contexts:
     - include: string-prototype
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: single-quoted-string-replacements
 
   single-quoted-f-strings:
     # Single-line f-string
@@ -3467,10 +3698,9 @@ contexts:
 
   single-quoted-f-string-content:
     - include: string-prototype
-    - include: escaped-f-string-braces
+    - include: single-quoted-f-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: f-string-replacements
 
   single-quoted-u-strings:
     - match: ([uU]?)(')
@@ -3514,7 +3744,89 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
     - include: string-placeholders
-    - include: string-replacements
+    - include: single-quoted-string-replacements
+
+  single-quoted-string-replacements:
+    - include: escaped-string-braces
+    - match: (?=\{)
+      branch_point: single-quoted-string-replacement
+      branch:
+        - single-quoted-string-replacement
+        - string-replacement-fallback
+
+  single-quoted-string-replacement:
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      set: single-quoted-string-replacement-body
+
+  single-quoted-string-replacement-body:
+    - meta_scope: constant.other.placeholder.python
+    - include: string-replacement-body
+    - match: \[
+      scope: punctuation.section.brackets.begin.python
+      push: single-string-replacement-brackets-body
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      push: single-quoted-string-replacement-formatspec-body
+    - match: (?!\w) # restrict field names to reduce risk of false positives
+      fail: single-quoted-string-replacement
+
+  single-string-replacement-brackets-body:
+    - include: string-replacement-brackets-body
+    - include: single-quoted-string-replacement-fail
+
+  single-quoted-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: string-replacement-formatspec-body
+    - match: \{
+      scope: punctuation.definition.placeholder.begin.python
+      push: single-quoted-string-replacement-body
+    - include: single-quoted-string-replacement-fail
+
+  single-quoted-string-replacement-fail:
+    - match: (?='|$)
+      fail: single-quoted-string-replacement
+
+  single-quoted-f-string-replacements:
+    - include: f-string-replacements
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-meta
+        - single-quoted-f-string-replacement-formatspec
+        - single-quoted-f-string-replacement-expression
+
+  single-quoted-f-string-replacements-regexp:
+    # Same as f-string-replacements, but will reset the entire scope stack.
+    - include: f-string-replacements-regexp
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - f-string-replacement-regexp-meta
+        - single-quoted-f-string-replacement-formatspec
+        - single-quoted-f-string-replacement-expression
+
+  single-quoted-f-string-replacement-expression:
+    - meta_content_scope: source.python.embedded
+    - include: f-string-replacement-expression
+    - include: eol-pop
+
+  single-quoted-f-string-replacement-formatspec:
+    - meta_include_prototype: false
+    - match: ':'
+      scope: punctuation.separator.format-spec.python
+      set: single-quoted-f-string-replacement-formatspec-body
+    - include: single-quoted-f-string-replacement-end
+
+  single-quoted-f-string-replacement-formatspec-body:
+    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
+    - include: single-quoted-f-string-replacement-end
+    - include: single-quoted-f-string-replacements
+
+  single-quoted-f-string-replacement-end:
+    - include: f-string-replacement-end
+    - match: (?='|$)
+      pop: 2
 
 ###[ STRING CONTENTS ]########################################################
 
@@ -3544,13 +3856,9 @@ contexts:
     - match: \\N\{[-a-zA-Z ]+\}
       scope: constant.character.escape.unicode.name.python
 
-  escaped-f-string-braces:
-    # special-case the '\{{' sequence because it has higher priority than the deprecated '\{'
-    - match: (\\)(\{\{|\}\})
-      scope: constant.character.escape.backslash.regexp
-      captures:
-        1: invalid.deprecated.character.escape.python
-        2: constant.character.escape.python
+  escaped-string-braces:
+    - match: \{\{|\}\}
+      scope: constant.character.escape.python
 
   string-placeholders:
     - match: |- # printf style
@@ -3572,80 +3880,43 @@ contexts:
     - match: '{{strftime_spec}}'
       scope: constant.other.placeholder.python
 
-  string-replacements:
-    - match: \{\{|\}\}
-      scope: constant.character.escape.python
-    # https://docs.python.org/3.6/library/string.html#formatstrings
-    # Technically allows almost every character for the key,
-    # but those are rarely used if ever.
-    - match: |- # simple form
-        (?x)
-        (\{)
-          (?: [\w.\[\]]+)?           # field_name
-          (   ! [ars])?              # conversion
-          (?: (:) ({{format_spec}}|  # format_spec OR
-                   [^}%]*%.[^}]*)    # any format-like string
-          )?
-        (\})
-      scope: constant.other.placeholder.python
-      captures:
-        1: punctuation.definition.placeholder.begin.python
-        2: storage.modifier.conversion.python
-        3: punctuation.separator.format-spec.python
-        4: meta.format-spec.python constant.other.format-spec.python
-        5: punctuation.definition.placeholder.end.python
-    - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
-      branch_point: string-replacement
-      branch:
-        - string-replacement
-        - string-replacement-fallback
-
-  string-replacement:
-    - match: \{
-      scope: punctuation.definition.placeholder.begin.python
-      set: string-replacement-body
-
   string-replacement-body:
-    - meta_scope: constant.other.placeholder.python
     - match: \}
       scope: punctuation.definition.placeholder.end.python
       pop: 1
-    # TODO could match numeric indices or everything else as a key
-    # and also [] indexing
-    - match: '![ars]'
+    - match: \.
+      scope: punctuation.accessor.dot.python
+    - match: '![ars]\b'
       scope: storage.modifier.conversion.python
-    - match: ':'
-      scope: punctuation.separator.format-spec.python
-      push: string-replacement-formatspec-body
-    - match: '[{"''\n]'
-      fail: string-replacement
+    - include: escaped-chars
+
+  string-replacement-brackets-body:
+    - meta_scope: meta.brackets.python
+    - match: \]
+      scope: punctuation.section.brackets.end.python
+      pop: 1
+    - include: eol-pop
+    - include: escaped-chars
 
   string-replacement-formatspec-body:
-    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
-    - match: (?=\})
-      pop: 1
-    - match: (?=\{)
-      push: string-replacement
+    - match: \}
+      scope: punctuation.definition.placeholder.end.python
+      pop: 2
+    - include: escaped-chars
 
   string-replacement-fallback:
     - match: \{
-      scope: meta.debug.string-replacement-fallback.python
       pop: 1
 
   f-string-replacements:
-    # https://www.python.org/dev/peps/pep-0498/
+    # https://peps.python.org/pep-0498
+    # https://peps.python.org/pep-0701
     # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
-    - match: \{\{|\}\}
+    - match: (\\)?(?:\{\{|\}\})
       scope: constant.character.escape.python
-    - match: \{\s*\}
-      scope: invalid.illegal.empty-expression.python
-    - match: \{
-      scope: punctuation.section.interpolation.begin.python
-      push:
-        - f-string-replacement-meta
-        - f-string-replacement-modifier
-        - f-string-replacement-expression
-    - include: illegal-stray-braces
+      captures:
+        1: invalid.deprecated.character.escape.python
+    - include: invalid-f-string-replacements
 
   f-string-replacement-meta:
     - clear_scopes: 1
@@ -3653,38 +3924,14 @@ contexts:
     - meta_scope: meta.interpolation.python
     - include: immediately-pop
 
-  f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
-    - match: (?=\s*(?:=\s*)?(![^=]|:|\}))
-      pop: 1
-    - match: \\
-      scope: invalid.illegal.backslash-in-fstring.python
-    - include: expression-in-a-sequence
-
-  f-string-replacement-modifier:
-    - include: f-string-replacement-end
-    - include: f-string-replacement-common
-    - match: =
-      scope: storage.modifier.debug.python
-
   f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack
     # and has an additional match.
-    - match: \\(\{\{|\}\})
-      scope: constant.character.escape.backslash.regexp
+    - match: \\?(\{\{|\}\})
+      scope: constant.character.escape.regexp
       captures:
         1: constant.character.escape.python
-    - match: \{\{|\}\}
-      scope: constant.character.escape.python
-    - match: \{\s*\}
-      scope: invalid.illegal.empty-expression.python
-    - match: \{
-      scope: punctuation.section.interpolation.begin.python
-      push:
-        - f-string-replacement-regexp-meta
-        - f-string-replacement-regexp-modifier
-        - f-string-replacement-regexp-expression
-    - include: illegal-stray-braces
+    - include: invalid-f-string-replacements
 
   f-string-replacement-regexp-meta:
     # Same as f-string-replacement, but with clear_scopes: true
@@ -3693,37 +3940,25 @@ contexts:
     - meta_scope: source.python meta.string.python meta.interpolation.python
     - include: immediately-pop
 
-  f-string-replacement-regexp-expression:
-    - meta_content_scope: source.python.embedded
-    - match: (?=![^=]|:|\})
+  f-string-replacement-expression:
+    - match: (?:\s*(=)\s*)?(![ars])?(?=[:}])
+      captures:
+        1: storage.modifier.debug.python
+        2: storage.modifier.conversion.python
       pop: 1
     - match: \\
       scope: invalid.illegal.backslash-in-fstring.python
     - include: expression-in-a-sequence
 
-  f-string-replacement-regexp-modifier:
-    - include: f-string-replacement-end
-    - include: f-string-replacement-common
-
-  f-string-replacement-common:
-    - match: '![ars]'
-      scope: storage.modifier.conversion.python
-    - match: ':'
-      scope: meta.format-spec.python constant.other.format-spec.python punctuation.separator.format-spec.python
-      set: f-string-format-spec
-
-  f-string-format-spec:
-    - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
-    # Because replacements can also be used *within* the format-spec,
-    # basically any character is valid and matching {{format_spec}} is useless.
-    # - match: '{{format_spec}}'
-    - include: f-string-replacement-end
-    - include: f-string-replacements
-
   f-string-replacement-end:
     - match: \}
       scope: punctuation.section.interpolation.end.python
       pop: 2
+
+  invalid-f-string-replacements:
+    - match: \{\s*\}
+      scope: invalid.illegal.empty-expression.python
+    - include: illegal-stray-braces
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string
