@@ -2,12 +2,10 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.dosbatch entity.name.label - source.dosbatch entity.name.label punctuation.definition.label</string>
+	<string>source.dosbatch variable.label - source.dosbatch variable.label punctuation.definition.label</string>
 	<key>settings</key>
 	<dict>
-		<key>showInSymbolList</key>
-		<integer>1</integer>
-		<key>showInIndexedSymbolList</key>
+		<key>showInIndexedReferenceList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>s/\^//;</string>
