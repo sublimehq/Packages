@@ -134,9 +134,9 @@ variables:
     | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 | MongoRegex
     | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter
     | OCI-Collection | OCI-Lob | OutOfBoundsException | OutOfRangeException | OuterIterator
-    | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar | PharData
-    | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater
-    | RangeException | RecursiveArrayIterator | RecursiveCachingIterator
+    | OverflowException | Override | PDO | PDOStatement | ParentIterator | ParseError | Phar
+    | PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph
+    | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator
     | RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator
     | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection
     | ReflectionClass | ReflectionEnum | ReflectionEnumBackedCase | ReflectionEnumUnitCase
