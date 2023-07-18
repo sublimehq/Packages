@@ -5806,10 +5806,10 @@ cat <<- INDENTED
   say what now ${foo}
 # ^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
 #              ^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.interpolation.parameter.shell - string
-  INDENTED
-#^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
-# ^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#         ^ - meta.function-call - meta.string - meta.tag - entity
+	INDENTED
+# <- meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
+#^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+#        ^ - meta.function-call - meta.string - meta.tag - entity
 
 cat <<-  'indented_without_expansions'
 #^^^^^^^^ - meta.string - meta.tag
@@ -5822,10 +5822,10 @@ cat <<-  'indented_without_expansions'
     ${foo}
 #^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
 #     ^^^ - variable.other
-    indented_without_expansions
-#^^^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#                              ^ - meta.function-call - meta.string - meta.tag - entity
+		indented_without_expansions
+#^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+#                            ^ - meta.function-call - meta.string - meta.tag - entity
 
 variable=$(cat <<SETVAR
 This variable
@@ -5846,7 +5846,7 @@ cat <<- "FOO"
     no \"escape\'\$ and $expansion
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
-  FOO
+		FOO
 # ^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
 #    ^ - meta.function-call - meta.string - meta.tag - entity
 
@@ -5861,7 +5861,7 @@ cat <<- \FOO
     no \"escape\'\$ and $expansion
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
-  FOO
+		FOO
 # ^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
 #    ^ - meta.function-call - meta.string - meta.tag - entity
 
