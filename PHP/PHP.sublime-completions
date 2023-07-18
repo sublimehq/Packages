@@ -9983,6 +9983,12 @@
 			"details": "Returns the last error occurred"
 		},
 		{
+			"trigger": "json_validate()",
+			"contents": "json_validate(${1:json})",
+			"kind": "function",
+			"details": "Validates if the string contains a valid json."
+		},
+		{
 			"trigger": "judy_type()",
 			"contents": "judy_type(${1:array})",
 			"kind": "function",
