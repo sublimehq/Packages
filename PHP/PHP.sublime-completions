@@ -11224,6 +11224,12 @@
 			"details": "Split multibyte string using regular expression"
 		},
 		{
+			"trigger": "mb_str_pad()",
+			"contents": "mb_str_pad(${1:string}, ${2:length}, string ${3:pad_string})",
+			"kind": "function",
+			"details": "Pad a string to a certain length with another string"
+		},
+		{
 			"trigger": "mb_strcut()",
 			"contents": "mb_strcut(${1:str}, ${2:start})",
 			"kind": "function",
