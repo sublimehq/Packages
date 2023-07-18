@@ -3282,18 +3282,19 @@ $test = new Test1;
 //          ^^^^^ support.class.php - meta.path
 //          ^ support.class.php
 
-$anon = new class{};
-//      ^^^^^^^^^^^ - meta.class meta.class
-//      ^^^^ meta.instantiation.php - meta.class
-//          ^^^^^ meta.instantiation.php meta.class.php - meta.block
-//               ^^ meta.instantiation.php meta.class.php meta.block.php
-//                 ^ - meta.instantiation - meta.class - meta.block
+$anon = new readonly class{};
+//      ^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class
+//      ^^^^          meta.instantiation.php - meta.class
+//          ^^^^^^^^ meta.instantiation.php storage.modifier.php - meta.class
+//                   ^^^^^ meta.instantiation.php meta.class.php - meta.block
+//                        ^^ meta.instantiation.php meta.class.php meta.block.php
+//                          ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
-//          ^ keyword.declaration.class
-//               ^^ meta.class.php
-//               ^^ meta.block.php
-//               ^ punctuation.section.block.begin.php
-//                ^ punctuation.section.block.end.php
+//                   ^ keyword.declaration.class
+//                        ^^ meta.class.php
+//                        ^^ meta.block.php
+//                        ^ punctuation.section.block.begin.php
+//                         ^ punctuation.section.block.end.php
 
 $anon = new class};
 //      ^^^^^^^^^^ - meta.class meta.class
