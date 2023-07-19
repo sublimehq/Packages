@@ -1371,11 +1371,11 @@ contexts:
     - meta_scope: meta.string.heredoc.shell
     - meta_content_scope: string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
-    - match: ^\s*(\3)$ # the third capture from redirections-here-document
+    - match: ^\t*(\3)$ # the third capture from redirections-here-document
       captures:
         1: meta.tag.heredoc.shell entity.name.tag.heredoc.shell
       pop: 1
-    - match: ^\s*\3(\s+)\n # the third capture from redirections-here-document
+    - match: ^\t*\3(\s+)\n # the third capture from redirections-here-document
       captures:
         1: invalid.illegal.unexpected-whitespace.shell
       # rather not pop, but sublime throws an error otherwise.
@@ -1404,11 +1404,11 @@ contexts:
   heredocs-body-allow-tabs-no-expansion:
     - meta_scope: meta.string.heredoc.shell
     - meta_content_scope: string.unquoted.heredoc.shell
-    - match: ^\s*(\5)$ # the fourth capture from redirections-here-document
+    - match: ^\t*(\5)$ # the fourth capture from redirections-here-document
       captures:
         1: meta.tag.heredoc.shell entity.name.tag.heredoc.shell
       pop: 1
-    - match: ^\s*\5(\s+)\n # the fourth capture from redirections-here-document
+    - match: ^\t*\5(\s+)\n # the fourth capture from redirections-here-document
       captures:
         1: invalid.illegal.unexpected-whitespace.shell
       # rather not pop, but sublime throws an error otherwise.
