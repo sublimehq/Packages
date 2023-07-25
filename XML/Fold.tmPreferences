@@ -87,7 +87,7 @@
                 Note: Works only if closing punctuation is already on a separate line.
                 -->
                 <key>begin</key>
-                <string>meta.tag entity.name.tag</string>
+                <string>meta.tag entity.name.tag.localname</string>
                 <key>end</key>
                 <string>meta.tag punctuation.definition.tag</string>
                 <key>excludeTrailingNewlines</key>
