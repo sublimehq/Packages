@@ -22,59 +22,80 @@ contexts:
   main:
     - match: |-
         (?xi)
-        \b(create(?:\s+or\s+replace)?)\s+
-        (aggregate|conversion|database|domain|function|group|((?:fulltext|spatial|unique)\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
-        \b\s*
+        (create (?:\s+ or \s+ replace)?) \s+ (
+          aggregate | conversion | database | domain | function | group
+        | ((?:fulltext | spatial | unique) \s+)? index | language
+        | operator \s+ class | operator | procedure | rule | schema | sequence
+        | table(?:space)? | trigger | type | user | view
+        )\b
       scope: meta.create.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
       push: create-condition
-    - match: (?i:\s*\b(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
+    - match: |-
+        (?xi)
+        (drop) \s+ (
+          aggregate | conversion | database | domain | function | group | index
+        | language | operator \s+ class | operator | procedure | rule | schema
+        | sequence | table| tablespace | trigger | type | user | view
+        )\b
       scope: meta.drop.sql
       captures:
-        1: keyword.other.create.sql
+        1: keyword.other.drop.sql
         2: keyword.other.sql
       push: drop-condition
-    - match: (?i:\s*(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
+    - match: (?i:(drop)\s+(table)\s+((?!\d)\w+)(\s+cascade)?)\b
       scope: meta.drop.sql
       captures:
-        1: keyword.other.create.sql
+        1: keyword.other.drop.sql
         2: keyword.other.table.sql
         3: entity.name.function.sql
         4: keyword.other.cascade.sql
-    - match: (?i:\s*\b(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
+    - match: |-
+        (?xi)
+        (alter) \s+ (
+          aggregate | conversion | database | domain | function | group | index
+        | language | operator \s+ class | operator | procedure | rule | schema
+        | sequence | table | tablespace | trigger | type | user | view
+        )\b
       scope: meta.alter.sql
       captures:
-        1: keyword.other.create.sql
+        1: keyword.other.alter.sql
         2: keyword.other.table.sql
-    - match: (?i:\s*\b(add)\s+(column|constraint|fulltext\s+(index|key)|index|spatial\s+(index|key)))
+    - match: |-
+        (?xi)
+        (add) \s+ (
+          column | constraint | fulltext \s+ (index | key) | index
+        | spatial \s+ (index | key)
+        )\b
       scope: meta.add.sql
       captures:
         1: keyword.other.add.sql
         2: keyword.other.sql
     - match: |-
-        (?xi)
-
-                # normal stuff, capture 1
-                \b(bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\s+precision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
-
-                # numeric suffix, capture 2 + 3i
-                |\b(bit\svarying|character\s+(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
-
-                # optional numeric suffix, capture 4 + 5i
-                |\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
-
-                # special case, capture 6 + 7i + 8i
-                |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
-
-                # special case, captures 9, 10i, 11
-                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\s+time\s+zone\b)?
-
-                # special case, captures 12, 13, 14i, 15
-                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\s+time\s+zone\b)?
-
-
+        (?xi)(
+        # normal stuff, capture 1
+          bigint | bigserial | bit | bool | boolean | box | bytea | cidr
+        | circle | date | datetime | double \s+ precision | enum | inet | int
+        | integer | line | longtext | lseg | macaddr | money | ntext | oid
+        | path | point | polygon | real | serial | smallint | sysdate | sysname
+        | text | tinytext
+        )\b
+        # numeric suffix, capture 2 + 3i
+        | (
+          bit \s+ varying | character (?:\s+ varying)? | tinyint | var \s+ char
+        | float | interval
+        ) \( (\d+) \)
+        # optional numeric suffix, capture 4 + 5i
+        | (char | number | nvarchar | varbinary | varchar\d?)\b (?:\( (\d+) \))?
+        # special case, capture 6 + 7i + 8i
+        | (numeric | decimal)\b (?:\( (\d+) , (\d+) \))?
+        # special case, captures 9, 10i, 11
+        | (times?)\b (?:\( (\d+) \))? (\s+ with(?:out)? \s+ time \s+ zone\b)?
+        # special case, captures 12, 13, 14i, 15
+        | (timestamp(?:s|tz)?)\b (?:\( (\d+) \))?
+          (?:\s+(with | without) \s+ (time) \s+ (zone)\b)?
       captures:
         1: storage.type.sql
         2: storage.type.sql
@@ -88,21 +109,43 @@ contexts:
         10: constant.numeric.sql
         11: storage.type.sql
         12: storage.type.sql
-        13: storage.type.sql
-        14: constant.numeric.sql
+        13: constant.numeric.sql
+        14: storage.type.sql
         15: storage.type.sql
-    - match: (?i:\b(((?:foreign|fulltext|primary|unique)\s+)?key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
+        16: storage.type.sql
+    - match: |-
+        (?xi)(
+          ((?:foreign | fulltext | primary | unique)\s+)? key | references
+        | on \s+ delete (\s+ cascade)? | on \s+ update (\s+ cascade)?
+        | check | constraint | default
+        )\b
       scope: storage.modifier.sql
-    - match: \b\d+\b
+    - match:
+        (?x)
+        (?:\d+ (\.)? \d* (?:[eE] [-+]? \d+)? | (\.) \d+ (?:[eE] [-+]? \d+)?)
+      captures:
+        0: constant.numeric.sql
+        1: punctuation.separator.decimal.sql
+        2: punctuation.separator.decimal.sql
+    - match: \d+
       scope: constant.numeric.sql
-    - match: (?i:\b(true|false)\b)
+    - match: (?i:true|false)\b
       scope: constant.language.boolean.sql
-    - match: (?i:\b(null)\b)
+    - match: (?i:null)\b
       scope: constant.language.null.sql
-    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\s+by|with|case|when|then|else|end|union(\s+all)?|using|order\s+by|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+    - match: |-
+        (?xi)(
+          select (\s+ (distinct | top))?
+        | insert (\s+ (ignore \s+)? into)?
+        | update | delete | truncate | from | set | where | group \s+ by | with
+        | case | when | then | else | end | union (\s+ all)? | using | order \s+ by
+        | limit | (inner | cross) \s+ join | join | straight_join
+        | (left | right) (\s+ outer)? \s+ join
+        | natural (\s+ (left | right) (\s+ outer)?)? \s+ join
+        )\b
       scope: keyword.other.DML.sql
     - include: logical-operators
-    - match: (?i:\blike\b)
+    - match: (?i:like)\b
       scope: keyword.operator.logical.sql
       branch_point: like-strings-branch
       branch:
@@ -110,38 +153,62 @@ contexts:
         - like-string-followed-by-escape-slash
         - like-string-followed-by-escape-caret
         - like-string-followed-by-unknown-escape
-    - match: (?i:\bvalues\b)
+    - match: (?i:values)\b
       scope: keyword.other.DML.II.sql
-    - match: (?i:\b(begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b)
+    - match: (?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
       scope: keyword.other.LUW.sql
-    - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
+    - match: (?i:grant(\s+with\s+grant\s+option)?|revoke)\b
       scope: keyword.other.authorization.sql
-    - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
+    - match: |-
+        (?xi)
+        comment \s+ on \s+ (
+          table | column | aggregate | constraint | database | domain
+        | function | index | operator | rule | schema | sequence | trigger
+        | type | view
+        )\b
       scope: keyword.other.object-comments.sql
-    - match: (?i)\bas\b
+    - match: (?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-    - match: (?i)\b(asc|desc)\b
+    - match: (?i:asc|desc)\b
       scope: keyword.other.order.sql
     - match: \*
       scope: variable.language.wildcard.asterisk.sql
-    - match: "<=>|[!<>]?=|<>|<|>"
+    - match: <=?>|[!<>]?=|[<>]
       scope: keyword.operator.comparison.sql
-    - match: '-|\+|/'
+    - match: '[-+/]'
       scope: keyword.operator.arithmetic.sql
     - match: \|\|
       scope: keyword.operator.concatenation.sql
-    - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
+    - match: (?i:CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
       comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.scalar.sql
-    - match: (?i)\b(AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
+    - match: (?i:AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
       comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.aggregate.sql
-    - match: (?i)\b(CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
+    - match: (?i:CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
-    - match: \b(\w+?)\.(\w+)\b
+    - match: \$\d+
+      comment: Prepared statement parameter
+      scope: constant.other.parameter.sql
+    - match: (?!\d)\w+(?=\()
+      scope: variable.function.sql
+    - match: |-
+        (?x)
+        # database identifier
+          ((?!\d)\w+) (?=(?:\s*\.\s*(?!\d)\w+){2})
+        # table and member identifier
+        | ((?!\d)\w+) (\s*\.\s*) (\s*(?!\d)\w+ | (?=\s*"))
+        # normal variable
+        | ((?!\d)\w+)
+        # accessor punctuation
+        | (\.(?!\d))
       captures:
         1: constant.other.database-name.sql
         2: constant.other.table-name.sql
+        3: punctuation.accessor.dot.sql
+        4: variable.other.member.sql
+        5: variable.other.sql
+        6: punctuation.accessor.dot.sql
     - include: strings
     - include: regexps
     - match: (\()(\))
@@ -150,18 +217,18 @@ contexts:
       captures:
         1: punctuation.section.scope.begin.sql
         2: punctuation.section.scope.end.sql
-    - match: (?i)\bon\b
+    - match: (?i:on)\b
       scope: keyword.operator.word.sql
-    - match: ','
+    - match: \,
       scope: punctuation.separator.sequence.sql
-    - match: ';'
+    - match: ;
       scope: punctuation.terminator.statement.sql
   comments:
     - meta_include_prototype: false
-    - match: '--'
+    - match: --
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
-    - match: '#'
+    - match: \#
       scope: punctuation.definition.comment.sql
       push: inside-number-sign-comment
     - match: /\*
@@ -171,18 +238,18 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-dash.sql
     - match: \n
-      pop: true
+      pop: 1
   inside-number-sign-comment:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
     - match: \n
-      pop: true
+      pop: 1
   inside-comment-block:
     - meta_include_prototype: false
     - meta_scope: comment.block.sql
     - match: \*/
       scope: punctuation.definition.comment.end.sql
-      pop: true
+      pop: 1
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.sql
@@ -194,19 +261,19 @@ contexts:
         - meta_scope: string.regexp.sql
         - match: /
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
-    - match: '%r\{'
+    - match: \%r{
       comment: We should probably handle nested bracket pairs!?! -- Allan
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.regexp.modr.sql
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
   string-escape:
     - meta_include_prototype: false
@@ -214,108 +281,104 @@ contexts:
       scope: constant.character.escape.sql
   string-interpolation:
     - meta_include_prototype: false
-    - match: '(#\{)([^\}]*)(\})'
+    - match: (#{)([^}]*)(})
       scope: string.interpolated.sql
       captures:
         1: punctuation.definition.string.begin.sql
         3: punctuation.definition.string.end.sql
   strings:
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.sql
         - match: "''"
           scope: constant.character.escape.sql
-        - match: "'"
+        - match: \'
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-escape
-    - match: "`"
+    - match: \`
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.other.backtick.sql
-        - match: "`"
+        - match: \`
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-escape
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.sql
         - match: '""'
           scope: constant.character.escape.sql
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
-    - match: '%\{'
+    - match: \%{
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_include_prototype: false
         - meta_scope: string.other.quoted.brackets.sql
-        - match: '\}'
+        - match: \}
           scope: punctuation.definition.string.end.sql
-          pop: true
+          pop: 1
         - include: string-interpolation
   identifier-create:
     - meta_content_scope: meta.toc-list.full-identifier.sql
-    - match: '(?:(\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}'
+    - match: (?:((?!\d)\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}
       scope: meta.toc-list.full-identifier.sql
       captures:
         1: entity.name.function.sql
         2: entity.name.function.sql
         3: entity.name.function.sql
         4: entity.name.function.sql
-      pop: true
+      pop: 1
       # Schema identifiers
-    - match: (?:\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
+    - match: (?x)((?!\d)\w+ | '[^']+' | "[^"]+" | `[^`]+`) \s* (\.)
       captures:
-        1: punctuation.accessor.dot.sql
+        1: variable.other.schema.sql
+        2: punctuation.accessor.dot.sql
       # Handle situations where the schema and .
     - match: '{{end_identifier}}'
-      pop: true
+      pop: 1
   create-condition:
     - include: dml-condition
     - match: (?=\S)
       set: identifier-create
   drop-condition:
     - include: dml-condition
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   dml-condition:
-    - match: (?i:\b(if)\b)
+    - match: (?i:if)\b
       scope: keyword.control.flow.sql
     - include: logical-operators
   logical-operators:
-    - match: (?i:\b(and|or|having|exists|between|in|not|is)\b)
+    - match: (?i:and|or|having|exists|between|in|not|is)\b
       scope: keyword.operator.logical.sql
   like-string-not-followed-by-escape:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-fail, inside-like-single-quoted-string]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-string-followed-by-escape-slash:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-slash, like-escape-pop, inside-like-single-quoted-string-slash-escape]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-string-followed-by-escape-caret:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-caret, like-escape-pop, inside-like-single-quoted-string-caret-escape]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-string-followed-by-unknown-escape:
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set: [like-escape-character-any, like-escape-pop, inside-like-single-quoted-string]
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   inside-like-single-quoted-string-slash-escape:
     - meta_include_prototype: false
     - meta_scope: meta.string.like.sql string.quoted.single.sql
@@ -333,7 +396,7 @@ contexts:
     - meta_scope: meta.string.like.sql string.quoted.single.sql
     - match: \'
       scope: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: |-
         (?x)
         (\[)(\^)?
@@ -349,16 +412,14 @@ contexts:
     - match: '[%_]'
       scope: keyword.operator.wildcard.sql
   like-escape-fail:
-    - match: (?i:\bescape\b)
+    - match: (?i:escape)\b
       fail: like-strings-branch
-    - match: (?=\S)
-      pop: true
+    - include: if-non-space-pop
   like-escape-pop:
-    - match: (?i:\bescape\b)
+    - match: (?i:escape)\b
       scope: keyword.operator.word.sql
-      pop: true
-    - match: (?=\S)
-      pop: true
+      pop: 1
+    - include: if-non-space-pop
   like-escape-character-any:
     - match: (\')([^'])(\')
       captures:
@@ -366,9 +427,8 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
-    - match: (?=\S)
-      pop: true
+      pop: 1
+    - include: if-non-space-pop
   like-escape-character-caret:
     - match: (\')(\^)(\')
       captures:
@@ -376,7 +436,7 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: like-strings-branch
   like-escape-character-slash:
@@ -386,6 +446,9 @@ contexts:
         1: punctuation.definition.string.begin.sql
         2: constant.character.escape.sql
         3: punctuation.definition.string.end.sql
-      pop: true
+      pop: 1
     - match: (?=\S)
       fail: like-strings-branch
+  if-non-space-pop:
+    - match: (?=\S)
+      pop: 1
