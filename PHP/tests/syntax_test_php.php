@@ -1382,6 +1382,22 @@ class B
 //   ^^^^^^^^^^^^^^^^^^ meta.class.php meta.block.php - meta.use
 //    ^ storage.modifier
 
+    public const STR_1
+//  ^^^^^^ storage.modifier
+//         ^^^^^ keyword.declaration.constant.php
+//               ^^^^^ entity.name.constant.php
+
+    public
+//  ^^^^^^ storage.modifier
+      const
+//    ^^^^^ keyword.declaration.constant.php
+      STR_1
+//    ^^^^^ entity.name.constant.php
+      =
+//    ^ keyword.operator.assignment.php
+      '';
+//    ^^ string.quoted.single.php
+
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^ keyword.declaration.constant.php
@@ -1400,6 +1416,79 @@ class B
 //                     ^^^^^ entity.name.constant.php
 //                           ^ keyword.operator.assignment
 //                             ^^^^^ support.function.array.php
+
+    // typed class constants
+
+    private const int A
+//  ^^^^^^^ storage.modifier.access.php
+//          ^^^^^ keyword.declaration.constant.php
+//                ^^^ meta.type.php storage.type.primitive.php
+//                    ^ entity.name.constant.php
+
+    private const int A = 1;
+//  ^^^^^^^ storage.modifier.access.php
+//          ^^^^^ keyword.declaration.constant.php
+//                ^^^ meta.type.php storage.type.primitive.php
+//                    ^ entity.name.constant.php
+//                      ^ keyword.operator.assignment.php
+//                        ^ constant.numeric.value.php
+//                         ^ punctuation.terminator.statement.php
+
+    public const mixed B = 1;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^^^ keyword.declaration.constant.php
+//               ^^^^^ meta.type.php storage.type.primitive.php
+//                     ^ entity.name.constant.php
+//                       ^ keyword.operator.assignment.php
+//                         ^ constant.numeric.value.php
+//                          ^ punctuation.terminator.statement.php
+
+    public
+//  ^^^^^^ storage.modifier.access.php
+      const
+//    ^^^^^ keyword.declaration.constant.php
+      mixed
+//    ^^^^^ meta.type.php storage.type.primitive.php
+      B
+//    ^ entity.name.constant.php
+      =
+//    ^ keyword.operator.assignment.php
+      1;
+//    ^ constant.numeric.value.php
+//     ^ punctuation.terminator.statement.php
+
+    public const Foo|Stringable|null D = null;
+//  ^^^^^^ storage.modifier.access.php
+//         ^^^^^ keyword.declaration.constant.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.block.php meta.type.php
+//               ^^^ support.class.php
+//                  ^ punctuation.separator.type.union.php
+//                   ^^^^^^^^^^ support.class.builtin.php
+//                             ^ punctuation.separator.type.union.php
+//                              ^^^^ storage.type.primitive.php
+//                                   ^ entity.name.constant.php
+//                                     ^ keyword.operator.assignment.php
+//                                       ^^^^ constant.language.null.php
+//                                           ^ punctuation.terminator.statement.php
+
+    public
+//  ^^^^^^ storage.modifier.access.php
+      const
+//    ^^^^^ keyword.declaration.constant.php
+      Foo|Stringable|null
+//    ^^^^^^^^^^^^^^^^^^^ meta.block.php meta.type.php
+//    ^^^ support.class.php
+//       ^ punctuation.separator.type.union.php
+//        ^^^^^^^^^^ support.class.builtin.php
+//                  ^ punctuation.separator.type.union.php
+//                   ^^^^ storage.type.primitive.php
+      D
+//    ^ entity.name.constant.php
+      =
+//    ^ keyword.operator.assignment.php
+      null;
+//    ^^^^ constant.language.null.php
+//        ^ punctuation.terminator.statement.php
 
     public function __construct(
         public readonly int $val = 1
