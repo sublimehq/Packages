@@ -5107,11 +5107,35 @@ $sql = "SELECT `$col` FROM 'my$table--name'";
 //                            ^^^^^^ meta.interpolation.php variable.other.php
 //                                        ^ punctuation.definition.identifier.end.sql
 
-$sql = "SELECT " . $col . "FROM $table WHERE ( first_$name =" . $name . ")" ; . "GROUP BY" ;
 $sql = "SELECT * FROM users where first_name = $user_name";
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
-//                                             ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                             ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string.quoted.double
 //                                                       ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = '$user_name'";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                              ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string.quoted
+//                                                        ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = `$user_name`";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                              ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                        ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name = %r{^$user_name}";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                 ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                           ^^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name LIKE $user_name";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                          ^ meta.string.php - meta.interpolation
+
+$sql = "SELECT * FROM users where first_name LIKE '$user_name'";
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php - meta.interpolation
+//                                                 ^^^^^^^^^^ meta.string.php meta.interpolation.php variable.other.php - string
+//                                                           ^ meta.string.php - meta.interpolation
 
 $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "GROUP BY" ;
 //     ^ meta.string.php - meta.interpolation

@@ -24,12 +24,11 @@ contexts:
 
   inside-like-single-quoted-string:
     - meta_prepend: true
-    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
+    - include: string-interpolation
 
-  string-escape:
-    # this context is included in anonymous string contexts
+  inside-single-quoted-string:
     - meta_prepend: true
-    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
+    - include: string-interpolation
 
   string-interpolation:
     # this context is included in anonymous string contexts
