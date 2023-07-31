@@ -2073,6 +2073,15 @@ GRANT CONTROL ON DATABASE::AdventureWorks2012 TO Sarah;
 --                                            ^^ keyword.context.sql
 --                                               ^^^^^ meta.username.sql
 
+GRANT INSERT ON dbo.some_table TO Sarah;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^ constant.language.sql
+--           ^^ keyword.context.resource.tsql
+--              ^^^^^^^^^^^^^^ string.quoted.tsql
+--                             ^^ keyword.context.sql
+--                                ^^^^^ meta.username.sql
+--                                     ^ punctuation.terminator.statement.sql
+
 GRANT UPDATE ON dbo.some_table (some_id, [some_field]) TO Sarah;
 -- ^^ keyword.other.authorization.sql
 --    ^^^^^^ constant.language.sql

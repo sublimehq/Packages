@@ -1291,7 +1291,7 @@ contexts:
       scope: constant.language.sql
     - match: \b(?i:(?:create|drop)\s*{{ddl_target}})\b
       scope: constant.language.sql
-    - match: \b(?i:select|update|delete)\b
+    - match: \b(?i:select|insert|update|delete)\b
       scope: constant.language.sql
     - match: \b(?i:to)\b
       scope: keyword.context.sql
