@@ -2090,6 +2090,17 @@ GRANT UPDATE ON dbo.some_table (some_id, [some_field]) TO Sarah;
 --                                                        ^^^^^ meta.username.sql
 --                                                             ^ punctuation.terminator.statement.sql
 
+GRANT SELECT ON schema::some_schema TO Sarah;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^ constant.language.sql
+--           ^^ keyword.context.resource.tsql
+--              ^^^^^^ string.quoted.tsql
+--                    ^^ punctuation.accessor.double-colon.tsql
+--                      ^^^^^^^^^^^ string.quoted.tsql
+--                                  ^^ keyword.context.sql
+--                                     ^^^^^ meta.username.sql
+--                                          ^ punctuation.terminator.statement.sql
+
 ALTER ROLE buyers WITH NAME = purchasing;
 --^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql

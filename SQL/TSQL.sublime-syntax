@@ -1022,5 +1022,13 @@ contexts:
         - single-identifier
     - match: (?=\S)
       set:
+        - maybe-double-colon-accessor
         - generic-identifier-name
         - single-identifier
+
+  maybe-double-colon-accessor:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.tsql
+      set: qualified-identifier
+    - match: (?=\S)
+      pop: true
