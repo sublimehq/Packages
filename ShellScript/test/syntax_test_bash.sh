@@ -2061,26 +2061,27 @@ test-=
 test+=
 #^^^^^ - support.function
 
-test var != 0
+test $var != 0
 #<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
-#           ^ meta.function-call.arguments.shell meta.pattern.regexp.shell
-#            ^ - meta.function-call
-#        ^^ keyword.operator.comparison.shell
-#           ^ - constant.numeric
+#   ^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#            ^ meta.function-call.arguments.shell
+#             ^ - meta.function-call
+#         ^^ keyword.operator.comparison.shell
+#            ^ constant.numeric.value.shell
 
-test var == true
+test $var == true
 #<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
-#        ^^ keyword.operator.comparison.shell
-#           ^^^^ constant.language.boolean.shell
+#   ^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^ constant.language.boolean.shell
 
 test str == "str"
 #<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.string.shell string.unquoted.shell
 #        ^^ keyword.operator.comparison.shell
 #           ^^^^^ string.quoted.double.shell
 
@@ -2088,50 +2089,19 @@ test var[0] != var[^0-9]*$
 #<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#       ^^^ meta.item-access.shell
+#    ^^^^^^ meta.string.shell string.unquoted.shell
 #           ^^ keyword.operator.comparison.shell
-#              ^^^^^^^^^^^ meta.pattern.regexp.shell
+#              ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.pattern
 
-test var == [
-# <- meta.function-call.identifier.shell support.function.test.shell
+test ${var[0]} != var[^0-9]*$
+#<- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.variable.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.comparison.shell
-#           ^ meta.pattern.regexp.shell - meta.set
-
-test var == ]
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.variable.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.comparison.shell
-#           ^ meta.pattern.regexp.shell - meta.set
-
-test var == [[:alpha:
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.variable.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.comparison.shell
-#           ^^^^^^^^^ meta.pattern.regexp.shell - meta.set
-
-test var == [[:alpha:]
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.variable.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.comparison.shell
-#           ^ meta.pattern.regexp.shell - meta.set
-#            ^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
-
-test var == [[:alpha:]]
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.variable.shell variable.other.readwrite.shell
-#        ^^ keyword.operator.comparison.shell
-#           ^^^^^^^^^^^ meta.pattern.regexp.shell meta.set.regexp.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^^ variable.other.readwrite.shell
+#         ^^^ meta.item-access.shell
+#              ^^ keyword.operator.comparison.shell
+#                 ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.pattern
 
 test expr -a expr -o expr -- | cmd |& cmd
 # <- meta.function-call.identifier.shell support.function.test.shell
@@ -2155,8 +2125,8 @@ test ! ($line =~ ^[0-9]+$)
 #    ^ keyword.operator.logical.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^ variable.other.readwrite.shell
-#             ^^ keyword.operator.comparison.shell
-#                ^^^^^^^^ meta.pattern.regexp.shell
+#             ^^ invalid.illegal.operator.shell
+#                ^^^^^^^^ meta.string.shell string.unquoted.shell
 
 test ! ($line =~ ^[0-9]+$) >> /file
 # <- meta.function-call.identifier.shell support.function.test.shell
@@ -2169,8 +2139,8 @@ test ! ($line =~ ^[0-9]+$) >> /file
 #    ^ keyword.operator.logical.shell
 #      ^ punctuation.section.group.begin.shell
 #       ^^^^^ variable.other.readwrite.shell
-#             ^^ keyword.operator.comparison.shell
-#                ^^^^^^^^ meta.pattern.regexp.shell
+#             ^^ invalid.illegal.operator.shell
+#                ^^^^^^^^ meta.string.shell string.unquoted.shell
 #                        ^ punctuation.section.group.end.shell
 #                          ^^ keyword.operator.assignment.redirection.shell
 
@@ -5836,10 +5806,10 @@ cat <<- INDENTED
   say what now ${foo}
 # ^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
 #              ^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.interpolation.parameter.shell - string
-  INDENTED
-#^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
-# ^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#         ^ - meta.function-call - meta.string - meta.tag - entity
+	INDENTED
+# <- meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
+#^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+#        ^ - meta.function-call - meta.string - meta.tag - entity
 
 cat <<-  'indented_without_expansions'
 #^^^^^^^^ - meta.string - meta.tag
@@ -5852,10 +5822,10 @@ cat <<-  'indented_without_expansions'
     ${foo}
 #^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
 #     ^^^ - variable.other
-    indented_without_expansions
-#^^^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#                              ^ - meta.function-call - meta.string - meta.tag - entity
+		indented_without_expansions
+#^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+#                            ^ - meta.function-call - meta.string - meta.tag - entity
 
 variable=$(cat <<SETVAR
 This variable
@@ -5876,7 +5846,7 @@ cat <<- "FOO"
     no \"escape\'\$ and $expansion
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
-  FOO
+		FOO
 # ^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
 #    ^ - meta.function-call - meta.string - meta.tag - entity
 
@@ -5891,7 +5861,13 @@ cat <<- \FOO
     no \"escape\'\$ and $expansion
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
-  FOO
+    FOO
+#^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
+	  FOO
+#^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
+  	FOO
+#^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
+		FOO
 # ^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
 #    ^ - meta.function-call - meta.string - meta.tag - entity
 

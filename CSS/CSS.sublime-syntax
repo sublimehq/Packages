@@ -80,7 +80,9 @@ variables:
   # Selectors
   selector_begin: (?={{selector_start}})
   selector_end: (?=[;@(){}])
-  selector_start: '[[:alpha:].:#&*\[{{combinator_char}}]'
+  selector_start: '[[:alpha:]{{nested_selector_start}}]'
+  nested_selector_begin: (?={{nested_selector_start}})
+  nested_selector_start: '[.:#&*\[{{combinator_char}}]'
 
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
@@ -359,9 +361,9 @@ contexts:
 
   stylesheet:
     - include: comments
+    - include: property-lists
     - include: selectors
     - include: at-rules
-    - include: property-lists
     - include: rule-terminators
     - include: illegal-groups
 
@@ -884,6 +886,7 @@ contexts:
       push: at-supports-group-body
 
   at-supports-group-body:
+    - meta_include_prototype: false
     - meta_scope: meta.group.css
     - include: group-end
     - include: at-rule-end
@@ -1040,6 +1043,11 @@ contexts:
     - match: '{{selector_begin}}'
       push: selector-body
 
+  nested-selectors:
+    # https://drafts.csswg.org/css-nesting-1
+    - match: '{{nested_selector_begin}}'
+      push: selector-body
+
   selector-body:
     - meta_scope: meta.selector.css
     - include: selector-end
@@ -1117,6 +1125,8 @@ contexts:
       pop: 1
 
   selector-variables:
+    - match: \&
+      scope: variable.language.parent.css
     - match: \*
       scope: variable.language.wildcard.asterisk.css
 
@@ -1366,12 +1376,20 @@ contexts:
       push: property-list-body
 
   property-list-body:
+    - meta_include_prototype: false
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
-    - include: rule-list-body
+    - include: comments
+    - include: property-lists
+    - include: property-identifiers
+    - include: nested-selectors
+    - include: at-rules
+    - include: rule-terminators
+    - include: illegal-groups
 
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
+    #       No selectors supported in style attributes.
     - include: comments
     - include: property-identifiers
     - include: property-values

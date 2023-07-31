@@ -208,7 +208,7 @@
     '       ^^^^^^^^ source.asp.embedded.html variable.other.asp
     '               ^^ punctuation.section.embedded.end.asp
     '                  ^ punctuation.section.block.begin.css
-    '                    ^^^^^^^^^ meta.embedded.asp
+    '                    ^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.embedded.asp
     '                             ^ punctuation.separator.key-value.css
     '                               ^^^^^^^^^^ meta.property-value.css meta.embedded.asp
     '                                         ^ punctuation.terminator.rule.css
