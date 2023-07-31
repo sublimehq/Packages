@@ -1289,7 +1289,9 @@ contexts:
   grant:
     - match: \b(?i:showplan)\b
       scope: constant.language.sql
-    - match: \b(?i:create\s*{{ddl_target}})\b
+    - match: \b(?i:(?:create|drop)\s*{{ddl_target}})\b
+      scope: constant.language.sql
+    - match: \b(?i:update|delete)\b
       scope: constant.language.sql
     - match: \b(?i:to)\b
       scope: keyword.context.sql
@@ -1297,6 +1299,8 @@ contexts:
         - user-name
         - single-identifier
     - include: pop-on-top-level-reserved-word
+    - match: (?=\()
+      push: column-reference-list
 
   user-name:
     - meta_content_scope: meta.username.sql

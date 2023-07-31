@@ -2073,6 +2073,23 @@ GRANT CONTROL ON DATABASE::AdventureWorks2012 TO Sarah;
 --                                            ^^ keyword.context.sql
 --                                               ^^^^^ meta.username.sql
 
+GRANT UPDATE ON dbo.some_table (some_id, [some_field]) TO Sarah;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^ constant.language.sql
+--           ^^ keyword.context.resource.tsql
+--              ^^^^^^^^^^^^^^ string.quoted.tsql
+--                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                             ^ punctuation.section.group.begin.sql
+--                              ^^^^^^^ meta.column-name.sql
+--                                     ^ punctuation.separator.sequence.sql
+--                                       ^^^^^^^^^^^^ meta.column-name.sql
+--                                       ^ punctuation.definition.identifier.begin.sql
+--                                                  ^ punctuation.definition.identifier.end.sql
+--                                                   ^ punctuation.section.group.end.sql
+--                                                     ^^ keyword.context.sql
+--                                                        ^^^^^ meta.username.sql
+--                                                             ^ punctuation.terminator.statement.sql
+
 ALTER ROLE buyers WITH NAME = purchasing;
 --^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql
