@@ -5759,7 +5759,7 @@ func lang_embedding() {
     //          ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
     //           ^ meta.string.go meta.embedded.go source.sql.embedded.go
         update schema.table
-    //  ^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go keyword.other.DML.sql
+    //  ^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go keyword.other.dml.sql
         set
           some_field = null
         where
