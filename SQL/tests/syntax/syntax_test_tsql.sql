@@ -2243,3 +2243,20 @@ DECLARE @FromTimeUTC DATETIME2, @ToTimeUTC DATETIME2
 --                            ^ punctuation.separator.sequence.tsql
 --                              ^^^^^^^^^^ variable.other.readwrite.declaration.tsql
 --                                         ^^^^^^^^^ storage.type.sql
+
+CREATE CLUSTERED INDEX ix_some_table_some_field_another_field ON dbo.some_table (some_field, another_field);
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+--                                                                                                         ^ punctuation.terminator.statement.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^ keyword.other.ddl.sql
+--               ^^^^^ meta.index.sql keyword.other.ddl.sql
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.index.sql
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.index.sql
+--                                                            ^^ keyword.other.sql
+--                                                               ^^^^^^^^^^^^^^ meta.table-name.sql
+--                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                                                              ^ punctuation.section.group.begin.sql
+--                                                                               ^^^^^^^^^^ meta.column-name.sql
+--                                                                                         ^ punctuation.separator.sequence.sql
+--                                                                                           ^^^^^^^^^^^^^ meta.column-name.sql
+--                                                                                                        ^ punctuation.section.group.end.sql

@@ -32,7 +32,7 @@ variables:
   ddl_target_function_modifier: |-
     (?xi: aggregate )
   ddl_target_index_modifier: |-
-    (?xi: fulltext | spatial | unique )
+    (?xi: clustered | fulltext | spatial | unique )
   ddl_target_table_modifier: |-
     (?xi: temp(?:orary)? )
 
