@@ -84,7 +84,7 @@
 # <- string.quoted.double.git.attributes punctuation.definition.string.begin.git.attributes - entity.name.pattern.git
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.git.attributes
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.pattern.git
-#  ^ keyword.operator.wildcard.fnmatch.git
+#  ^ constant.other.wildcard.questionmark.fnmatch.git
 #    ^^ constant.character.escape.path.fnmatch.git
 #       ^^^^ meta.char-class.fnmatch.git
 #       ^ keyword.control.char-class.begin.fnmatch.git
@@ -108,9 +108,9 @@
 #              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.pattern
 #^^^^^^^^^^^^^^ string.unquoted.git.attributes
 #    ^ punctuation.separator.path.fnmatch.git
-#     ^ keyword.operator.wildcard.fnmatch.git
+#     ^ constant.other.wildcard.asterisk.fnmatch.git
 #      ^ punctuation.separator.path.fnmatch.git
-#         ^ keyword.operator.wildcard.fnmatch.git
+#         ^ constant.other.wildcard.questionmark.fnmatch.git
 #              ^ - variable.language.attribute - keyword.operator.logical
 #               ^^^^^^ variable.language.attribute.git.attributes
 #                     ^ - variable.language.attribute - keyword.operator.logical

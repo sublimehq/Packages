@@ -648,7 +648,7 @@ contexts:
     - meta_scope: meta.statement.import.python
     - include: line-continuation-or-pop
     - match: \*
-      scope: constant.language.import-all.python
+      scope: constant.other.wildcard.asterisk.python
       set: expect-import-end
     - match: (?=\()
       set: imports-from-import-list

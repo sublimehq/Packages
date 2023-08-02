@@ -1128,7 +1128,7 @@ contexts:
     - match: \&
       scope: variable.language.parent.css
     - match: \*
-      scope: variable.language.wildcard.asterisk.css
+      scope: constant.other.wildcard.asterisk.css
 
   vendor-prefixes:
     - match: '{{vendor_prefix}}'
@@ -2786,7 +2786,7 @@ contexts:
         - attr-name-identifier-content
         - attr-name-namespace-content
     - match: \*(?!=)
-      scope: variable.language.wildcard.asterisk.css
+      scope: constant.other.wildcard.asterisk.css
     - match: \|(?!=)
       scope: punctuation.separator.namespace.css
     - include: immediately-pop
@@ -3071,7 +3071,7 @@ contexts:
     - meta_scope: meta.string.css string.unquoted.css
     - include: string-content
     - match: \*
-      scope: variable.language.wildcard.asterisk.css
+      scope: constant.other.wildcard.asterisk.css
     - match: '{{break}}'
       pop: 1
 
