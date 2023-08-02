@@ -44,6 +44,9 @@ variables:
   types_with_optional_number: |-
     (?xi: number | n?(?:var)?char | varbinary )
 
+  builtin_scalar_functions: |-
+    \b(?xi: current_(?: date | time(?:stamp)? ) )\b
+
   builtin_user_functions: |-
     \b(?xi: (?: current | session | system )_user )\b
 
@@ -577,7 +580,7 @@ contexts:
 
   built-in-scalar-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-    - match: \b(?i:current_(?:date|time(?:stamp)?))\b
+    - match: '{{builtin_scalar_functions}}'
       scope: support.function.scalar.sql
       push: function-call-arguments
 
