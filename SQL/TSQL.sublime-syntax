@@ -695,6 +695,40 @@ contexts:
       pop: 1
     - include: like-else-fail
 
+###[ USER MANAGEMENT EXPRESSIONS ]#############################################
+
+  grant:
+    - meta_prepend: true
+    - match: \b(?i:from\s+external\s+provider)\b
+      scope: constant.language.tsql
+    - include: with-options
+    - match: \b(?i:control)\b
+      scope: constant.language.tsql
+    - match: \b(?i:on)\b
+      scope: keyword.context.resource.tsql
+      push: qualified-identifier
+
+  qualified-identifier:
+    - match: \b(?i:(database))(::)
+      captures:
+        1: storage.type.tsql
+        2: punctuation.accessor.double-colon.tsql
+      set:
+        - database-name
+        - single-identifier
+    - match: (?=\S)
+      set:
+        - maybe-double-colon-accessor
+        - generic-identifier-name
+        - single-identifier
+
+  maybe-double-colon-accessor:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.tsql
+      set: qualified-identifier
+    - match: (?=\S)
+      pop: true
+
 ###[ TABLE NAMES ]#############################################################
 
   table-name-or-subquery:
@@ -1000,37 +1034,3 @@ contexts:
   augmented-assignment-operators:
     - match: '[-+/*%^|]='
       scope: keyword.operator.assignment.tsql
-
-###[ USERS AND PERMISSIONS ]###################################################
-
-  grant:
-    - meta_prepend: true
-    - match: \b(?i:from\s+external\s+provider)\b
-      scope: constant.language.tsql
-    - include: with-options
-    - match: \b(?i:control)\b
-      scope: constant.language.tsql
-    - match: \b(?i:on)\b
-      scope: keyword.context.resource.tsql
-      push: qualified-identifier
-
-  qualified-identifier:
-    - match: \b(?i:(database))(::)
-      captures:
-        1: storage.type.tsql
-        2: punctuation.accessor.double-colon.tsql
-      set:
-        - database-name
-        - single-identifier
-    - match: (?=\S)
-      set:
-        - maybe-double-colon-accessor
-        - generic-identifier-name
-        - single-identifier
-
-  maybe-double-colon-accessor:
-    - match: '::'
-      scope: punctuation.accessor.double-colon.tsql
-      set: qualified-identifier
-    - match: (?=\S)
-      pop: true

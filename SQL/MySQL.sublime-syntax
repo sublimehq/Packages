@@ -53,9 +53,7 @@ contexts:
 
   statements:
     - meta_prepend: true
-    - include: grant-statements
     - include: rename-statements
-    - include: revoke-statements
     - include: show-statements
 
 ###[ COMMENTS ]################################################################
@@ -421,11 +419,6 @@ contexts:
         - grant-to-user
         - grant-target
 
-  grant-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.statement.grant.sql
-    - include: immediately-pop
-
   grant-target:
     # grant proxy on name to user
     - match: \b(?i:proxy)\b
@@ -499,11 +492,6 @@ contexts:
         - revoke-meta
         - revoke-options
         - revoke-privileges
-
-  revoke-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.statement.revoke.sql
-    - include: immediately-pop
 
   revoke-privileges:
     - match: (?=[;)]|\b(?i:for|from)\b)

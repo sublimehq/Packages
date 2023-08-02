@@ -67,6 +67,8 @@ contexts:
     - include: drop-statements
     - include: alter-statements
     - include: dml-statements
+    - include: grant-statements
+    - include: revoke-statements
     - include: other-statements
 
 ###[ COMMENTS ]################################################################
@@ -500,12 +502,37 @@ contexts:
   set-target:
     - include: else-pop
 
+###[ GRANT STATEMENTS ]########################################################
+
+  grant-statements:
+    - match: \b(?i:grant(?:\s+with\s+grant\s+option)?)\b
+      scope: keyword.other.authorization.sql
+      push:
+        - grant-meta
+        - grant
+
+  grant-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.grant.sql
+    - include: immediately-pop
+
+###[ REVOKE STATEMENTS ]#######################################################
+
+  revoke-statements:
+    - match: \b(?i:revoke)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - revoke-meta
+        - grant
+
+  revoke-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.revoke.sql
+    - include: immediately-pop
+
 ###[ OTHER STATEMENTS ]########################################################
 
-  other-statements:
-    - match: \b(?i:grant(?:\s+with\s+grant\s+option)?|revoke)\b
-      scope: keyword.other.authorization.sql
-      push: grant
+  other-statements: []
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -689,6 +716,22 @@ contexts:
       scope: constant.other.language.sql
       pop: 1
     - include: else-pop
+
+###[ USER MANAGEMENT EXPRESSIONS ]#############################################
+
+  grant:
+    - match: \b(?i:showplan)\b
+      scope: constant.language.sql
+    - match: \b(?i:(?:create|drop)\s*{{ddl_target}})\b
+      scope: constant.language.sql
+    - match: \b(?i:select|insert|update|delete)\b
+      scope: constant.language.sql
+    - match: \b(?i:to)\b
+      scope: keyword.context.sql
+      push: expect-user-name
+    - include: pop-on-top-level-reserved-word
+    - match: (?=\()
+      push: column-reference-list
 
 ###[ TABLE NAMES ]#############################################################
 
@@ -1361,22 +1404,6 @@ contexts:
   statement-terminators:
     - match: ';'
       scope: punctuation.terminator.statement.sql
-
-###[ USERS AND PERMISSIONS ]###################################################
-
-  grant:
-    - match: \b(?i:showplan)\b
-      scope: constant.language.sql
-    - match: \b(?i:(?:create|drop)\s*{{ddl_target}})\b
-      scope: constant.language.sql
-    - match: \b(?i:select|insert|update|delete)\b
-      scope: constant.language.sql
-    - match: \b(?i:to)\b
-      scope: keyword.context.sql
-      push: expect-user-name
-    - include: pop-on-top-level-reserved-word
-    - match: (?=\()
-      push: column-reference-list
 
 ###[ PROTOTYPES ]##############################################################
 
