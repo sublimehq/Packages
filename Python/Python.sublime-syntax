@@ -2394,7 +2394,7 @@ contexts:
     - meta_content_scope: comment.block.documentation.summary.python
     - match: $
       set: double-quoted-docstring-body
-    - include: double-quoted-docstring-end
+    - include: double-quoted-docstring-body
 
   double-quoted-docstring-end:
     - match: '"""'
@@ -2417,7 +2417,7 @@ contexts:
     - meta_content_scope: comment.block.documentation.summary.python
     - match: $
       set: double-quoted-raw-docstring-body
-    - include: double-quoted-docstring-end
+    - include: double-quoted-raw-docstring-body
 
   double-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
@@ -2450,7 +2450,7 @@ contexts:
     - meta_content_scope: comment.block.documentation.summary.python
     - match: $
       set: single-quoted-docstring-body
-    - include: single-quoted-docstring-end
+    - include: single-quoted-docstring-body
 
   single-quoted-docstring-body:
     - meta_content_scope: comment.block.documentation.python
@@ -2468,7 +2468,7 @@ contexts:
     - meta_content_scope: comment.block.documentation.summary.python
     - match: $
       set: single-quoted-raw-docstring-body
-    - include: single-quoted-docstring-end
+    - include: single-quoted-raw-docstring-body
 
   single-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
