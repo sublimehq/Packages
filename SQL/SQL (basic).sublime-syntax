@@ -11,8 +11,8 @@ variables:
   simple_identifier_break: (?!\w)
 
   reserved: |-
-    (?xi: alter | create | delete | drop | from | group | inner | insert | join
-    | left | on | order | outer | right | select | set | truncate | union
+    (?xi: alter | create | delete | drop | from | grant | group | inner | insert | join
+    | left | on | order | outer | revoke | right | select | set | truncate | union
     | update | where )
   additional_reserved: (?!)
 
@@ -25,7 +25,7 @@ variables:
   ddl_target_function: |-
     (?xi: procedure | function )
   ddl_target_other: |-
-    (?xi: aggregate | constraint | conversion | database | domain | group
+    (?xi: aggregate | column | constraint | conversion | database | domain | group
     | language | member | operator\s+class | operator | role | rule | schema | sequence
     | tablespace | trigger | type | user | view )
 
@@ -720,18 +720,21 @@ contexts:
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 
   grant:
-    - match: \b(?i:showplan)\b
-      scope: constant.language.sql
-    - match: \b(?i:(?:create|drop)\s*{{ddl_target}})\b
-      scope: constant.language.sql
-    - match: \b(?i:select|insert|update|delete)\b
-      scope: constant.language.sql
     - match: \b(?i:to)\b
       scope: keyword.context.sql
       push: expect-user-name
+    - include: comma-separators
+    - include: user-privileges
     - include: pop-on-top-level-reserved-word
-    - match: (?=\()
-      push: column-reference-list
+
+  user-privileges:
+    - include: column-reference-lists
+    - match: \b(?i:all\s+privileges)\b
+      scope: constant.language.sql
+    - match: \b(?i:(?:alter|create|drop|grant|revoke)\s+{{ddl_target}})\b
+      scope: constant.language.sql
+    - match: \b(?i:select|insert|update|delete|truncate)\b
+      scope: constant.language.sql
 
 ###[ TABLE NAMES ]#############################################################
 

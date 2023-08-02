@@ -412,7 +412,7 @@ contexts:
   grant-statements:
     # https://mariadb.com/kb/en/grant
     - match: \b(?i:grant)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.other.authorization.sql
       push:
         - grant-meta
         - grant-options
@@ -440,12 +440,12 @@ contexts:
 
   grant-on-user:
     - match: \b(?i:on)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.context.sql
     - include: expect-user-name
 
   grant-to-user:
     - match: \b(?i:to)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.context.sql
     - include: expect-user-identification-list
 
   grant-options:
@@ -458,7 +458,7 @@ contexts:
   rename-statements:
     # https://mariadb.com/kb/en/rename-user
     - match: \b(?i:rename)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.other.authorization.sql
       push:
         - rename-meta
         - rename-target
@@ -470,7 +470,7 @@ contexts:
 
   rename-target:
     - match: \b(?i:user)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.other.authorization.sql
       set:
         - rename-user
         - expect-user-name
@@ -478,7 +478,7 @@ contexts:
 
   rename-user:
     - match: \b(?i:to)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.context.sql
       push: expect-user-name
     - include: user-name-list
 
@@ -487,7 +487,7 @@ contexts:
   revoke-statements:
     # https://mariadb.com/kb/en/revoke
     - match: \b(?i:revoke)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.other.authorization.sql
       push:
         - revoke-meta
         - revoke-options
@@ -502,7 +502,7 @@ contexts:
 
   revoke-options:
     - match: \b(?i:for|from)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.context.sql
       push:
         - user-name-list
         - expect-user-name
@@ -976,13 +976,12 @@ contexts:
     - include: none-constants
 
   user-privileges:
-    - include: column-reference-lists
-    - include: user-all-privileges
-    - include: user-grant-privileges
-
-  user-all-privileges:
+    - meta_append: true
     - match: \b(?i:all\s+privileges)\b
       scope: constant.language.sql
+    - match: \b(?i:super)\b
+      scope: constant.language.sql
+    - include: user-grant-privileges
 
   user-grant-privileges:
     - match: \b(?i:(?:grant|admin)\s+option)\b
@@ -990,7 +989,7 @@ contexts:
 
   on-privilidge-level:
     - match: \b(?i:on)\b
-      scope: keyword.other.ddl.sql
+      scope: keyword.context.sql
       set: privilidge-level
 
   privilidge-level:

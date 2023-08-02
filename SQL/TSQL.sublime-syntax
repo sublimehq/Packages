@@ -699,14 +699,21 @@ contexts:
 
   grant:
     - meta_prepend: true
-    - match: \b(?i:from\s+external\s+provider)\b
-      scope: constant.language.tsql
-    - include: with-options
-    - match: \b(?i:control)\b
-      scope: constant.language.tsql
     - match: \b(?i:on)\b
       scope: keyword.context.resource.tsql
       push: qualified-identifier
+    - include: with-options
+
+  user-privileges:
+    - meta_prepend: true
+    - match: \b(?i:all(?:\s+permissions)?)\b
+      scope: constant.language.sql
+    - match: \b(?i:control)\b
+      scope: constant.language.tsql
+    - match: \b(?i:from\s+external\s+provider)\b
+      scope: constant.language.tsql
+    - match: \b(?i:showplan)\b
+      scope: constant.language.sql
 
   qualified-identifier:
     - match: \b(?i:(database))(::)

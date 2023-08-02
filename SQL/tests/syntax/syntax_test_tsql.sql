@@ -2040,6 +2040,10 @@ END
 --                            ^^^^^^^^^^^ support.function.user.sql
 --                                        ^^^^ support.function.user.sql
 
+GRANT ALL PERMISSIONS
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^^^^^^^^ constant.language.sql
+
 GRANT CREATE TABLE TO MelanieK;
 -- ^^ keyword.other.authorization.sql
 --    ^^^^^^^^^^^^ constant.language.sql
@@ -2047,12 +2051,10 @@ GRANT CREATE TABLE TO MelanieK;
 --                    ^^^^^^^^ meta.username.sql
 --                            ^ punctuation.terminator.statement.sql
 
-GRANT SHOWPLAN TO AuditMonitor;
+GRANT DROP TABLE, ALTER COLUMN TO me
 -- ^^ keyword.other.authorization.sql
---    ^^^^^^^^ constant.language.sql
---             ^^ keyword.context.sql
---                ^^^^^^^^^^^^ meta.username.sql
---                            ^ punctuation.terminator.statement.sql
+--              ^ punctuation.separator.sequence.sql
+--                             ^^ keyword.context.sql
 
 GRANT CREATE VIEW TO CarmineEs WITH GRANT OPTION;
 -- ^^ keyword.other.authorization.sql
@@ -2109,6 +2111,13 @@ GRANT SELECT ON schema::some_schema TO Sarah;
 --                                  ^^ keyword.context.sql
 --                                     ^^^^^ meta.username.sql
 --                                          ^ punctuation.terminator.statement.sql
+
+GRANT SHOWPLAN TO AuditMonitor;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^ constant.language.sql
+--             ^^ keyword.context.sql
+--                ^^^^^^^^^^^^ meta.username.sql
+--                            ^ punctuation.terminator.statement.sql
 
 ALTER ROLE buyers WITH NAME = purchasing;
 --^^^^^^^^^^^^^^^^ meta.statement.alter.sql

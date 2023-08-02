@@ -2215,60 +2215,60 @@ DROP USER IF EXISTS bob, clara@localhost ;
 -- ----------------------------------------------------------------------------
 
 GRANT
--- <- meta.statement.grant.sql keyword.other.ddl.sql
--- ^^ meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
+-- ^^ meta.statement.grant.sql keyword.other.authorization.sql
 --   ^ meta.statement.grant.sql - keyword
 
 GRANT DROP TABLE, ALTER COLUMN
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
--- ^^ keyword.other.ddl.sql
+-- ^^ keyword.other.authorization.sql
 --              ^ punctuation.separator.sequence.sql
 
 GRANT ALTER COLUMN ON *
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---                 ^^ keyword.other.ddl.sql
+--                 ^^ keyword.context.sql
 --                    ^ meta.other-name.sql constant.other.wildcard.asterisk.sql
 
 GRANT ALTER TABLE ON *.*
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---                ^^ keyword.other.ddl.sql
+--                ^^ keyword.context.sql
 --                   ^^^ meta.other-name.sql
 --                   ^ constant.other.wildcard.asterisk.sql
 --                    ^ punctuation.accessor.dot.sql
 --                     ^ constant.other.wildcard.asterisk.sql
 
 GRANT ALTER INDEX ON db_name.*
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---                ^^ keyword.other.ddl.sql
+--                ^^ keyword.context.sql
 --                   ^^^^^^^^^ meta.other-name.sql
 --                          ^ punctuation.accessor.dot.sql
 --                           ^ constant.other.wildcard.asterisk.sql
 
 GRANT ALTER COLUMN ON db_name.table_name
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---                 ^^ keyword.other.ddl.sql
+--                 ^^ keyword.context.sql
 --                    ^^^^^^^^^^^^^^^^^^ meta.other-name.sql
 --                           ^ punctuation.accessor.dot.sql
 
 GRANT ALTER COLUMN ON table_name
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---                 ^^ keyword.other.ddl.sql
+--                 ^^ keyword.context.sql
 --                    ^^^^^^^^^^ meta.other-name.sql
 
 GRANT CREATE INDEX ON TABLE * TO user1@% IDENTIFIED BY 'password' ;
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
--- ^^ keyword.other.ddl.sql
---                 ^^ keyword.other.ddl.sql
+-- ^^ keyword.other.authorization.sql
+--                 ^^ keyword.context.sql
 --                    ^^^^^ storage.type.sql
 --                          ^ meta.other-name.sql constant.other.wildcard.asterisk.sql
---                            ^^ keyword.other.ddl.sql
+--                            ^^ keyword.context.sql
 --                               ^^^^^^^ meta.username.sql
 --                                    ^ punctuation.accessor.at.sql
 --                                     ^ constant.other.wildcard.percent.sql
@@ -2278,13 +2278,13 @@ GRANT CREATE INDEX ON TABLE * TO user1@% IDENTIFIED BY 'password' ;
 --                                                                ^ punctuation.terminator.statement.sql
 
 GRANT CREATE INDEX ON PROCEDURE *.* TO user1 IDENTIFIED BY PASSWORD 'password_hash' ;
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
--- ^^ keyword.other.ddl.sql
---                 ^^ keyword.other.ddl.sql
+-- ^^ keyword.other.authorization.sql
+--                 ^^ keyword.context.sql
 --                    ^^^^^^^^^ storage.type.sql
 --                              ^^^ meta.other-name.sql
---                                  ^^ keyword.other.ddl.sql
+--                                  ^^ keyword.context.sql
 --                                     ^^^^^ meta.username.sql
 --                                           ^^^^^^^^^^ keyword.other.ddl.sql
 --                                                      ^^ keyword.other.ddl.sql
@@ -2293,13 +2293,13 @@ GRANT CREATE INDEX ON PROCEDURE *.* TO user1 IDENTIFIED BY PASSWORD 'password_ha
 --                                                                                  ^ punctuation.terminator.statement.sql
 
 GRANT CREATE INDEX ON PACKAGE *.* TO "user1" IDENTIFIED VIA auth1 or auth2 ;
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
--- ^^ keyword.other.ddl.sql
---                 ^^ keyword.other.ddl.sql
+-- ^^ keyword.other.authorization.sql
+--                 ^^ keyword.context.sql
 --                    ^^^^^^^ storage.type.sql
 --                            ^^^ meta.other-name.sql
---                                ^^ keyword.other.ddl.sql
+--                                ^^ keyword.context.sql
 --                                   ^^^^^^^ meta.username.sql
 --                                           ^^^^^^^^^^ keyword.other.ddl.sql
 --                                                      ^^^ keyword.other.ddl.sql
@@ -2309,19 +2309,19 @@ GRANT CREATE INDEX ON PACKAGE *.* TO "user1" IDENTIFIED VIA auth1 or auth2 ;
 --                                                                         ^ punctuation.terminator.statement.sql
 
 GRANT PROXY
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^ meta.statement.grant.sql
--- ^^ keyword.other.ddl.sql
+-- ^^ keyword.other.authorization.sql
 --    ^^^^^ keyword.other.ddl.sql
     ON username
 -- <- meta.statement.grant.sql
 -- ^^^^^^^^^^^^^ meta.statement.grant.sql
---  ^^ keyword.other.ddl.sql
+--  ^^ keyword.context.sql
 --     ^^^^^^^^ meta.username.sql
     TO user1 IDENTIFIED BY 'password',
 -- <- meta.statement.grant.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
---  ^^ keyword.other.ddl.sql
+--  ^^ keyword.context.sql
 --     ^^^^^ meta.username.sql
 --           ^^^^^^^^^^ keyword.other.ddl.sql
 --                      ^^ keyword.other.ddl.sql
@@ -2349,11 +2349,11 @@ GRANT PROXY
 --                    ^ punctuation.terminator.statement.sql
 
 GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
--- <- meta.statement.grant.sql keyword.other.ddl.sql
+-- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
--- ^^ keyword.other.ddl.sql
+-- ^^ keyword.other.authorization.sql
 --    ^^^^^^^^ meta.username.sql
---             ^^ keyword.other.ddl.sql
+--             ^^ keyword.context.sql
 --                ^^^^ meta.username.sql
 --                    ^ punctuation.separator.sequence.sql
 --                      ^^^^ meta.username.sql
@@ -2376,32 +2376,32 @@ GRANT rolename TO role, user IDENTIFIED BY 'password' WITH ADMIN OPTION ;
 -- ----------------------------------------------------------------------------
 
 RENAME
--- <- meta.statement.rename.sql keyword.other.ddl.sql
+-- <- meta.statement.rename.sql keyword.other.authorization.sql
 -- ^^^^ meta.statement.rename.sql
--- ^^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
 --    ^ - keyword
 
 RENAME USER
--- <- meta.statement.rename.sql keyword.other.ddl.sql
+-- <- meta.statement.rename.sql keyword.other.authorization.sql
 -- ^^^^^^^^^ meta.statement.rename.sql
--- ^^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
 --    ^ - keyword
---     ^^^^ keyword.other.ddl.sql
+--     ^^^^ keyword.other.authorization.sql
 --         ^ - keyword
 
 RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
--- <- meta.statement.rename.sql keyword.other.ddl.sql
+-- <- meta.statement.rename.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.rename.sql
--- ^^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
 --    ^ - keyword
---     ^^^^ keyword.other.ddl.sql
+--     ^^^^ keyword.other.authorization.sql
 --         ^ - keyword
 --          ^^^^^^^^ meta.username.sql
---                   ^^ keyword.other.ddl.sql
+--                   ^^ keyword.context.sql
 --                      ^^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                        ^ punctuation.separator.sequence.sql
 --                                          ^^^^^^^^ meta.username.sql
---                                                   ^^ keyword.other.ddl.sql
+--                                                   ^^ keyword.context.sql
 --                                                      ^^^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                                                         ^ punctuation.terminator.statement.sql
 
@@ -2423,14 +2423,15 @@ RENAME USER 'donald' TO 'duck'@'localhost', 'mickey' TO 'mouse'@'localhost';
 -- ----------------------------------------------------------------------------
 
 REVOKE ;
--- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- <- meta.statement.revoke.sql keyword.other.authorization.sql
 -- ^^^^ meta.statement.revoke.sql
--- ^^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
 --     ^ punctuation.terminator.statement.sql
 
 REVOKE ALTER COLUMN (`col1`, `names`) ;
--- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- <- meta.statement.revoke.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
+--     ^^^^^^^^^^^^ constant.language.sql
 --                  ^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
 --                  ^ punctuation.section.group.begin.sql
 --                   ^^^^^^ meta.column-name.sql
@@ -2440,48 +2441,49 @@ REVOKE ALTER COLUMN (`col1`, `names`) ;
 --                                    ^ punctuation.terminator.statement.sql
 
 REVOKE ALL PRIVILEGES, GRANT OPTION FROM user@'%', user2 ;
--- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- <- meta.statement.revoke.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
--- ^^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
 --     ^^^^^^^^^^^^^^ constant.language.sql
 --                   ^ punctuation.separator.sequence.sql
 --                     ^^^^^^^^^^^^ constant.language.sql
---                                  ^^^^ keyword.other.ddl.sql
+--                                  ^^^^ keyword.context.sql
 --                                       ^^^^^^^^ meta.username.sql
 --                                               ^ punctuation.separator.sequence.sql
 --                                                 ^^^^^ meta.username.sql
 --                                                       ^ punctuation.terminator.statement.sql
 
 REVOKE SUPER ON *.* FROM 'alexander'@'localhost';
--- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- <- meta.statement.revoke.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
--- ^^^ keyword.other.ddl.sql
---           ^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
+--     ^^^^^ constant.language.sql
+--           ^^ keyword.context.sql
 --              ^^^ meta.other-name.sql
 --              ^ constant.other.wildcard.asterisk.sql
 --               ^ punctuation.accessor.dot.sql
 --                ^ constant.other.wildcard.asterisk.sql
---                  ^^^^ keyword.other.ddl.sql
+--                  ^^^^ keyword.context.sql
 --                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.username.sql
 --                                              ^ punctuation.terminator.statement.sql
 
 REVOKE ADMIN OPTION FOR role FROM grantee, grantee2 ;
--- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- <- meta.statement.revoke.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
--- ^^^ keyword.other.ddl.sql
+-- ^^^ keyword.other.authorization.sql
 --     ^^^^^^^^^^^^ constant.language.sql
---                  ^^^ keyword.other.ddl.sql
+--                  ^^^ keyword.context.sql
 --                      ^^^^ meta.username.sql
---                           ^^^^ keyword.other.ddl.sql
+--                           ^^^^ keyword.context.sql
 --                                ^^^^^^^ meta.username.sql
 --                                       ^ punctuation.separator.sequence.sql
 --                                         ^^^^^^^^ meta.username.sql
 --                                                  ^ punctuation.terminator.statement.sql
 
 REVOKE role1, role2 FROM grantee, grantee2 ;
--- <- meta.statement.revoke.sql keyword.other.ddl.sql
+-- <- meta.statement.revoke.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.revoke.sql
---                  ^^^^ keyword.other.ddl.sql
+--                  ^^^^ keyword.context.sql
 --                       ^^^^^^^ meta.username.sql
 --                              ^ punctuation.separator.sequence.sql
 --                                ^^^^^^^^ meta.username.sql
