@@ -58,13 +58,13 @@ variables:
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
-      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
     # ddl statements
     | ADD | ALTER | CREATE | DROP
     # conditional
     | IF \s+ (?: NOT \s+ )? EXISTS
     # declaration
-    | DECLARE | WITH
+    | DECLARE | WITH | BEGIN
     ) \s )
 
   builtin_exceptions: |-

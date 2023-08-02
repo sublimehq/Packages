@@ -5172,6 +5172,12 @@ $sql = "WITH RECURSION SELECT *";
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                             ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
 
+$sql = "MERGE INTO ";
+//      ^^^^^^^^^^^ source.sql.embedded.php
+//                 ^ punctuation.definition.string.end.php
+$sql = "BEGIN ";
+//      ^^^^^^ source.sql.embedded.php
+//             ^ punctuation.terminator.statement.php
 
 /******************************************************************************
  * SQL String Tests without interpolation
