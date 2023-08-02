@@ -26,9 +26,9 @@ C:\Users
 """Normal docstring \""""
 # <- comment.block.documentation.python punctuation.definition.comment.begin.python
 #^^ comment.block.documentation.python punctuation.definition.comment.begin.python
-#  ^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
-#                       ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#  ^^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                   ^^ constant.character.escape.python
+#                     ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 """
 #^^^ comment.block.documentation.python
@@ -39,6 +39,27 @@ docstring starting on the second line
 docstring starting on the second line
 # <- comment.block.documentation.summary.python
 #^^^ comment.block.documentation.summary.python
+"""
+
+"""
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#^^^^^^ constant.character.escape.unicode.16bit.python
+#         ^^ constant.character.escape.python
+#            ^^ constant.character.escape.python
+\n
+# <- comment.block.documentation.python constant.character.escape.python
+#^ comment.block.documentation.python constant.character.escape.python
+"""
+
+r"""
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python - constant.character.escape
+\n
+# <- comment.block.documentation.python - constant.character.escape
+#^ comment.block.documentation.python - constant.character.escape
 """
 
 debug = False
@@ -69,12 +90,12 @@ C:\Users
 # ^^ - constant.character - invalid
 '''
 
-'''Normal docstring \'''"
+'''Normal docstring \''''
 # <- comment.block.documentation.python punctuation.definition.comment.begin.python
 #^^ comment.block.documentation.python punctuation.definition.comment.begin.python
-#  ^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
-#                       ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#  ^^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                   ^^ constant.character.escape.python
+#                     ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 '''
 #^^^ comment.block.documentation.python
@@ -85,6 +106,27 @@ docstring starting on the second line
 docstring starting on the second line
 # <- comment.block.documentation.summary.python
 #^^^ comment.block.documentation.summary.python
+'''
+
+'''
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#^^^^^^ constant.character.escape.unicode.16bit.python
+#         ^^ constant.character.escape.python
+#            ^^ constant.character.escape.python
+\n
+# <- comment.block.documentation.python constant.character.escape.python
+#^ comment.block.documentation.python constant.character.escape.python
+'''
+
+r'''
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python - constant.character.escape
+\n
+# <- comment.block.documentation.python - constant.character.escape
+#^ comment.block.documentation.python - constant.character.escape
 '''
 
 
