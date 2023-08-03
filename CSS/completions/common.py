@@ -257,6 +257,7 @@ def get_common_values():
             "yellow",
             "yellowgreen",
         ],
+        "container-type": ["normal", "size", "inline-size"],
         "content-distribution": ["space-between", "space-around", "space-evenly", "stretch"],
         "content-position": ["center", "start", "end", "flex-start", "flex-end"],
         "counter-style": [["symbols()", "symbols($1)"]],
