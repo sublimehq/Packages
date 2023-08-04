@@ -430,7 +430,7 @@ SELECT  foo AS foobar, COUNT(*) AS tally
 --                     ^^^^^ support.function.aggregate
 --                          ^^^ meta.group
 --                          ^ punctuation.section.arguments.begin
---                           ^ variable.language.wildcard.asterisk
+--                           ^ constant.other.wildcard.asterisk
 --                            ^ punctuation.section.arguments.end
 --                              ^^ keyword.operator.assignment.alias
 --                                 ^^^^^ meta.column-alias
@@ -447,7 +447,7 @@ from (select * from some_table) alias_table WITH (NOLOCK)
 -- ^ keyword.other.dml
 --   ^ punctuation.section.group.begin
 --    ^^^^^^ keyword.other.dml
---           ^ variable.language.wildcard.asterisk
+--           ^ constant.other.wildcard.asterisk
 --                  ^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.section.group.end
 --                              ^^^^^^^^^^^ meta.table-alias-name
@@ -683,7 +683,7 @@ BEGIN
 --             ^ meta.group variable.other.readwrite punctuation.definition.variable
 --              ^^^^^ meta.group variable.other.readwrite
 --                   ^ meta.group punctuation.section.group.end
---                     ^ variable.language.wildcard.asterisk
+--                     ^ constant.other.wildcard.asterisk
 --                       ^^^^ keyword.other.dml
 --                            ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.definition.identifier.begin
@@ -725,7 +725,7 @@ select A.A
 --  ^ punctuation.separator.sequence
 --    ^^ meta.column-name
 --     ^ punctuation.accessor.dot
---      ^ variable.language.wildcard.asterisk
+--      ^ constant.other.wildcard.asterisk
 into #temp
 -- ^ keyword.other.dml
 --   ^^^^^ meta.table-name
@@ -828,7 +828,7 @@ WITH cte_table AS ( SELECT blah )
 SELECT cte_table.* FROM cte_table
 -- ^^^ keyword.other.dml
 --     ^^^^^^^^^^ meta.column-name
---               ^ variable.language.wildcard.asterisk
+--               ^ constant.other.wildcard.asterisk
 --                 ^^^^ keyword.other.dml
 --                      ^^^^^^^^^ meta.table-name
 

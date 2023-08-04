@@ -1136,7 +1136,7 @@ contexts:
     - match: \s*(\.)\s*(\*)
       captures:
         1: punctuation.accessor.dot.sql
-        2: variable.language.wildcard.asterisk.sql
+        2: constant.other.wildcard.asterisk.sql
       pop: 1
     - match: \s*(\.)
       captures:
@@ -1195,7 +1195,7 @@ contexts:
 
   wildcard-identifiers:
     - match: \*
-      scope: variable.language.wildcard.asterisk.sql
+      scope: constant.other.wildcard.asterisk.sql
 
 ###[ LITERALS ]################################################################
 

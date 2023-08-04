@@ -1020,9 +1020,9 @@ contexts:
     - match: (\*)(?:(\.)(\*))?
       scope: meta.other-name.sql
       captures:
-        1: variable.language.wildcard.asterisk.sql
+        1: constant.other.wildcard.asterisk.sql
         2: punctuation.accessor.dot.sql
-        3: variable.language.wildcard.asterisk.sql
+        3: constant.other.wildcard.asterisk.sql
       pop: 1
     # named privilidge level: database, table or method
     - include: expect-other-name
@@ -1098,24 +1098,24 @@ contexts:
   identifier-host-part:
     - meta_include_prototype: false
     - match: \%
-      scope: variable.language.wildcard.percent.sql
+      scope: constant.other.wildcard.percent.sql
       pop: 1
     - match: (')(%)(')
       captures:
         1: punctuation.definition.identifier.begin.sql
-        2: variable.language.wildcard.percent.sql
+        2: constant.other.wildcard.percent.sql
         3: punctuation.definition.identifier.end.sql
       pop: 1
     - match: (")(%)(")
       captures:
         1: punctuation.definition.identifier.begin.sql
-        2: variable.language.wildcard.percent.sql
+        2: constant.other.wildcard.percent.sql
         3: punctuation.definition.identifier.end.sql
       pop: 1
     - match: (`)(%)(`)
       captures:
         1: punctuation.definition.identifier.begin.sql
-        2: variable.language.wildcard.percent.sql
+        2: constant.other.wildcard.percent.sql
         3: punctuation.definition.identifier.end.sql
       pop: 1
     - include: identifier-part

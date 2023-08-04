@@ -231,7 +231,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo_by_bar AS
 --                                                ^^ keyword.context.block
     SELECT *
 --  ^^^^^^ keyword.other.dml
---         ^ variable.language.wildcard.asterisk
+--         ^ constant.other.wildcard.asterisk
     FROM foo
     WHERE bar IS NOT NULL
     PRIMARY KEY (foo_id, bar_id)
@@ -377,7 +377,7 @@ select uuid(), now(), *
 --           ^ punctuation.separator.sequence
 --             ^^^ meta.function-call support.function
 --                  ^ punctuation.separator.sequence
---                    ^ variable.language.wildcard.asterisk
+--                    ^ constant.other.wildcard.asterisk
 from test_by_example;
 
 COPY table1 (column1, column2, column3) FROM 'table1data.csv'

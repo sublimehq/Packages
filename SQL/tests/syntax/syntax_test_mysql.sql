@@ -1380,7 +1380,7 @@ CREATE USER IF NOT EXISTS
 --         ^ punctuation.definition.identifier.end.sql
 --          ^ punctuation.accessor.at.sql
 --           ^ punctuation.definition.identifier.begin.sql
---            ^ variable.language.wildcard.percent.sql
+--            ^ constant.other.wildcard.percent.sql
 --             ^ punctuation.definition.identifier.end.sql
 --               ^^^^^^^^^^ keyword.other.ddl.sql
 --                          ^^ keyword.other.ddl.sql
@@ -2229,16 +2229,16 @@ GRANT ALTER COLUMN ON *
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 --                 ^^ keyword.other.ddl.sql
---                    ^ meta.other-name.sql variable.language.wildcard.asterisk.sql
+--                    ^ meta.other-name.sql constant.other.wildcard.asterisk.sql
 
 GRANT ALTER TABLE ON *.*
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 --                ^^ keyword.other.ddl.sql
 --                   ^^^ meta.other-name.sql
---                   ^ variable.language.wildcard.asterisk.sql
+--                   ^ constant.other.wildcard.asterisk.sql
 --                    ^ punctuation.accessor.dot.sql
---                     ^ variable.language.wildcard.asterisk.sql
+--                     ^ constant.other.wildcard.asterisk.sql
 
 GRANT ALTER INDEX ON db_name.*
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
@@ -2246,7 +2246,7 @@ GRANT ALTER INDEX ON db_name.*
 --                ^^ keyword.other.ddl.sql
 --                   ^^^^^^^^^ meta.other-name.sql
 --                          ^ punctuation.accessor.dot.sql
---                           ^ variable.language.wildcard.asterisk.sql
+--                           ^ constant.other.wildcard.asterisk.sql
 
 GRANT ALTER COLUMN ON db_name.table_name
 -- <- meta.statement.grant.sql keyword.other.ddl.sql
@@ -2267,11 +2267,11 @@ GRANT CREATE INDEX ON TABLE * TO user1@% IDENTIFIED BY 'password' ;
 -- ^^ keyword.other.ddl.sql
 --                 ^^ keyword.other.ddl.sql
 --                    ^^^^^ storage.type.sql
---                          ^ meta.other-name.sql variable.language.wildcard.asterisk.sql
+--                          ^ meta.other-name.sql constant.other.wildcard.asterisk.sql
 --                            ^^ keyword.other.ddl.sql
 --                               ^^^^^^^ meta.user-name.sql
 --                                    ^ punctuation.accessor.at.sql
---                                     ^ variable.language.wildcard.percent.sql
+--                                     ^ constant.other.wildcard.percent.sql
 --                                       ^^^^^^^^^^ keyword.other.ddl.sql
 --                                                  ^^ keyword.other.ddl.sql
 --                                                     ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
@@ -2458,9 +2458,9 @@ REVOKE SUPER ON *.* FROM 'alexander'@'localhost';
 -- ^^^ keyword.other.ddl.sql
 --           ^^ keyword.other.ddl.sql
 --              ^^^ meta.other-name.sql
---              ^ variable.language.wildcard.asterisk.sql
+--              ^ constant.other.wildcard.asterisk.sql
 --               ^ punctuation.accessor.dot.sql
---                ^ variable.language.wildcard.asterisk.sql
+--                ^ constant.other.wildcard.asterisk.sql
 --                  ^^^^ keyword.other.ddl.sql
 --                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.user-name.sql
 --                                              ^ punctuation.terminator.statement.sql
@@ -2560,7 +2560,7 @@ SET PASSWORD for `user@`@'%' = 'encrypted password';
 --                     ^ punctuation.definition.identifier.end.sql
 --                      ^ punctuation.accessor.at.sql
 --                       ^ punctuation.definition.identifier.begin.sql
---                        ^ variable.language.wildcard.percent.sql
+--                        ^ constant.other.wildcard.percent.sql
 --                         ^ punctuation.definition.identifier.end.sql
 --                           ^ keyword.operator.assignment.sql
 --                             ^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
@@ -2799,7 +2799,7 @@ select
 
 SELECT  *,
 -- ^^^ keyword.other.dml.sql
---      ^ variable.language.wildcard.asterisk.sql
+--      ^ constant.other.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
 --              ^^^^^^^^^^^ meta.column-alias
