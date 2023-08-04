@@ -553,6 +553,118 @@
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
+    @container
+/*  ^^^^^^^^^^^ meta.at-rule.container.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+
+    @container ( {}
+/*  ^^^^^^^^^^^^^^^ meta.at-rule.container.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+/*             ^ punctuation.section.group.begin.css */
+/*               ^^ meta.block.css */
+
+    @container not (width > 2cqw) or (orientation = landscape) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+/*             ^^^ keyword.operator.logical.css */
+/*                 ^ punctuation.section.group.begin.css */
+/*                 ^^^^^^^^^^^^^^ meta.group.css */
+/*                  ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                        ^ keyword.operator.comparison.css */
+/*                          ^^^^ meta.number.integer.decimal.css */
+/*                          ^ constant.numeric.value.css */
+/*                           ^^^ constant.numeric.suffix.css */
+/*                              ^ punctuation.section.group.end.css */
+/*                                ^^ keyword.operator.logical.css */
+/*                                   ^ punctuation.section.group.begin.css */
+/*                                    ^^^^^^^^^^^ support.type.property-name.css */
+/*                                                ^ keyword.operator.comparison.css */
+/*                                                  ^^^^^^^^^ support.constant.property-value.css */
+/*                                                           ^ punctuation.section.group.end.css */
+/*                                                             ^^ meta.block.css */
+
+    @container (min-width: 800px) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+/*             ^ punctuation.section.group.begin.css */
+/*             ^^^^^^^^^^^^^^^^^^ meta.group.css */
+/*              ^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                       ^ punctuation.separator.key-value.css */
+/*                        ^^^^^^ meta.property-value.css */
+/*                         ^^^^^ meta.number.integer.decimal.css */
+/*                              ^ punctuation.section.group.end.css */
+/*                                ^^ meta.block.css */
+
+    @container style(property) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css */
+/*             ^^^^^ meta.function-call.identifier.css */
+/*                  ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+/*             ^^^^^ support.function.style.css */
+/*                  ^ punctuation.section.group.begin.css */
+/*                   ^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                           ^ punctuation.section.group.end.css */
+/*                             ^^ meta.block.css */
+
+    @container style(: black) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css */
+/*             ^^^^^ meta.function-call.identifier.css */
+/*                  ^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+/*             ^^^^^ support.function.style.css */
+/*                  ^ punctuation.section.group.begin.css */
+/*                   ^ punctuation.separator.key-value.css */
+/*                    ^^^^^^ meta.property-value.css */
+/*                     ^^^^^ support.constant.color.w3c.standard.css */
+/*                          ^ punctuation.section.group.end.css */
+/*                            ^^ meta.block.css */
+
+    @container style(background: black) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css */
+/*             ^^^^^ meta.function-call.identifier.css */
+/*                  ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
+/*                  ^ punctuation.section.group.begin.css */
+/*                  ^^^^^^^^^^^^^^^^^^ meta.group.css */
+/*                   ^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*                             ^ punctuation.separator.key-value.css */
+/*                              ^^^^^^ meta.property-value.css */
+/*                               ^^^^^ support.constant.color.w3c.standard.css */
+/*                                    ^ punctuation.section.group.end.css */
+/*                                      ^^ meta.block.css */
+
+    @container /**/ my-layout /**/ ( /**/ inline-size /**/ > /**/ 45em /**/ ) and /**/ style( /**/ ( /**/ background: /**/ black /**/ ) /**/ ) { .media-object {} }
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css - meta.block */
+/*                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.container.css meta.block.css */
+/*  ^^^^^^^^^^ keyword.control.directive.css */
+/*             ^^^^ comment.block.css */
+/*                  ^^^^^^^^^ entity.other.container.css */
+/*                            ^^^^ comment.block.css */
+/*                                   ^^^^ comment.block.css */
+/*                                        ^^^^^^^^^^^ support.type.property-name.css */
+/*                                                    ^^^^ comment.block.css */
+/*                                                         ^ keyword.operator.comparison.css */
+/*                                                           ^^^^ comment.block.css */
+/*                                                                ^^^^ meta.number.integer.decimal.css */
+/*                                                                     ^^^^ comment.block.css */
+/*                                                                            ^^^ keyword.operator.logical.css */
+/*                                                                                ^^^^ comment.block.css */
+/*                                                                                     ^^^^^ support.function.style.css */
+/*                                                                                            ^^^^ comment.block.css */
+/*                                                                                                   ^^^^ comment.block.css */
+/*                                                                                                        ^^^^^^^^^^ support.type.property-name.css */
+/*                                                                                                                    ^^^^ comment.block.css */
+/*                                                                                                                         ^^^^^ support.constant.color.w3c.standard.css */
+/*                                                                                                                               ^^^^ comment.block.css */
+/*                                                                                                                                      ^^^^ comment.block.css */
+
     @media onlyℜ screenℜ screen\211C {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
 /*                                   ^^ meta.at-rule.media.css meta.block.css - meta.property-list */
