@@ -645,8 +645,10 @@ contexts:
         2: keyword.control.set.negation.sql
         3: constant.other.range.sql
         4: keyword.control.set.end.sql
-    - match: '[%_]'
-      scope: keyword.operator.wildcard.sql
+    - match: '%'
+      scope: constant.other.wildcard.percent.sql
+    - match: '_'
+      scope: constant.other.wildcard.underscore.sql
 
   like-else-fail:
     - match: (?=\S)

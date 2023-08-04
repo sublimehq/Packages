@@ -9,12 +9,12 @@ SELECT columns FROM table WHERE
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---               ^ keyword.operator.wildcard
+--               ^ constant.other.wildcard.percent
 --                ^^^ meta.set.like
 --                ^ keyword.control.set.begin
 --                  ^ keyword.control.set.end
 --                   ^^^^^^^^^^^^^^^^^^ - constant - keyword
---                                     ^ keyword.operator.wildcard
+--                                     ^ constant.other.wildcard.percent
 --                                      ^ punctuation.definition.string.end
 --                                       ^^ - meta.string - string
 
@@ -23,12 +23,12 @@ SELECT columns FROM table WHERE
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---               ^ keyword.operator.wildcard
+--               ^ constant.other.wildcard.percent
 --                ^^^^^^^^^^^^^^^^^^^ meta.set.like
 --                ^ keyword.control.set.begin
 --                                  ^ keyword.control.set.end
 --                   ^^^^^^^^^^^^^^^ - constant - keyword
---                                   ^ keyword.operator.wildcard
+--                                   ^ constant.other.wildcard.percent
 --                                    ^ punctuation.definition.string.end
 --                                     ^^ - meta.string - string
 
@@ -37,13 +37,13 @@ SELECT columns FROM table WHERE
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---               ^ keyword.operator.wildcard
+--               ^ constant.other.wildcard.percent
 --                ^^^^^^ meta.set.like
 --                ^ keyword.control.set.begin
 --                 ^ keyword.control.set.negation
 --                   ^ constant.other.range
 --                     ^ keyword.control.set.end
---                      ^ keyword.operator.wildcard
+--                      ^ constant.other.wildcard.percent
 --                       ^ punctuation.definition.string.end
 --                        ^^ - meta.string - string
 
@@ -52,19 +52,19 @@ SELECT columns FROM table WHERE
 --         ^^^^ keyword.operator.logical
 --              ^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
---                    ^ keyword.operator.wildcard
+--                    ^ constant.other.wildcard.underscore
 --                          ^ punctuation.definition.string.end
 --                           ^^ - meta.string - string
 
 SELECT columns FROM table WHERE
     column LIKE '%\[SQL Server Driver]^%\__' ESCAPE '\'
 --         ^^^^ keyword.operator.logical
---               ^ keyword.operator.wildcard
+--               ^ constant.other.wildcard.percent
 --                ^^ constant.character.escape
 --                                    ^ - constant
---                                     ^ keyword.operator.wildcard
+--                                     ^ constant.other.wildcard.percent
 --                                      ^^ constant.character.escape
---                                        ^ keyword.operator.wildcard
+--                                        ^ constant.other.wildcard.underscore
 --                                           ^^^^^^ keyword.operator.word
 --                                                  ^^^ string.quoted.single
 --                                                  ^ punctuation.definition.string.begin
@@ -74,12 +74,12 @@ SELECT columns FROM table WHERE
 SELECT columns FROM table WHERE
     column LIKE '%\[SQL Server Driver]^%\__'
 --         ^^^^ keyword.operator.logical
---               ^ keyword.operator.wildcard
+--               ^ constant.other.wildcard.percent
 --                ^^ constant.character.escape
 --                                    ^ - constant
---                                     ^ keyword.operator.wildcard
+--                                     ^ constant.other.wildcard.percent
 --                                      ^^ constant.character.escape
---                                        ^ keyword.operator.wildcard
+--                                        ^ constant.other.wildcard.underscore
     ESCAPE '\'
 --  ^^^^^^ keyword.operator.word
 --         ^^^ string.quoted.single
@@ -90,11 +90,11 @@ SELECT columns FROM table WHERE
 SELECT columns FROM table WHERE
     column LIKE '%\^[SQL Server Driver]^%_^_' ESCAPE '^'
 --         ^^^^ keyword.operator.logical
---               ^ keyword.operator.wildcard
+--               ^ constant.other.wildcard.percent
 --                ^ - constant
 --                 ^^ constant.character.escape
 --                                     ^^ constant.character.escape
---                                       ^ keyword.operator.wildcard
+--                                       ^ constant.other.wildcard.underscore
 --                                        ^^ constant.character.escape
 --                                            ^^^^^^ keyword.operator.word
 --                                                   ^^^ string.quoted.single
@@ -105,13 +105,13 @@ SELECT columns FROM table WHERE
 SELECT columns FROM table WHERE
     column LIKE '%\^[SQL Server Driver]^%_^_\_{{--' ESCAPE '{' -- uncatered for escape char, scope operators as though unescaped
 --         ^^^^ keyword.operator.logical
---               ^ keyword.operator.wildcard
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+--               ^ constant.other.wildcard.percent
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character.escape
 --                  ^^^^^^^^^^^^^^^^^^^ meta.set.like
 --                                     ^^^^^^^^^^^ - meta.set
---                                      ^^ keyword.operator.wildcard
---                                         ^ keyword.operator.wildcard
---                                           ^ keyword.operator.wildcard
+--                                      ^^ constant.other.wildcard
+--                                         ^ constant.other.wildcard.underscore
+--                                           ^ constant.other.wildcard.underscore
 --                                              ^^^^^^^^^^^^^^^ - comment
 --                                                  ^^^^^^ keyword.operator.word
 --                                                         ^^^ string.quoted.single
