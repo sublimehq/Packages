@@ -75,10 +75,10 @@ contexts:
 
   path-dir-pattern:
     - match: \.\.(?=[\\/])
-      scope: constant.language.path.parent.git
+      scope: constant.other.path.parent.git
       pop: 1
     - match: \.(?=[\\/])
-      scope: constant.language.path.self.git
+      scope: constant.other.path.self.git
       pop: 1
     - match: ''
       pop: 1

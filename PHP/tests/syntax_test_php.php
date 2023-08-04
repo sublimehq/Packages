@@ -5174,6 +5174,12 @@ $sql = "WITH RECURSION SELECT *";
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
 //                             ^ meta.string.php string.quoted.double.php punctuation.definition.string.end.php
 
+$sql = "MERGE INTO ";
+//      ^^^^^^^^^^^ source.sql.embedded.php
+//                 ^ punctuation.definition.string.end.php
+$sql = "BEGIN ";
+//      ^^^^^^ source.sql.embedded.php
+//             ^ punctuation.terminator.statement.php
 
 /******************************************************************************
  * SQL String Tests without interpolation
@@ -5415,7 +5421,7 @@ echo <<<sql
 SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql.embedded.php
 // <- keyword.other.dml
-//     ^ variable.language.wildcard.asterisk
+//     ^ constant.other.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                                  ^^^^^^ variable.other.php
 sql;
@@ -5432,7 +5438,7 @@ echo <<<'SQL'
 SELECT * FROM users WHERE first_name = 'John'\n
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql.embedded.php
 // <- keyword.other.dml
-//     ^ variable.language.wildcard.asterisk
+//     ^ constant.other.wildcard.asterisk
 //                                     ^^^^^^ string.quoted.single
 //                                           ^^ - constant.character.escape.php
 SQL;

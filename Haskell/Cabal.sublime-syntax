@@ -144,7 +144,7 @@ contexts:
 
   dependency-names:
     - match: \*(?!\.)
-      scope: variable.language.wildcard.asterisk.cabal
+      scope: constant.other.wildcard.asterisk.cabal
     - match: \ball\b  # synonym for `*`
       scope: constant.language.all.cabal
     - match: \bnone\b
@@ -362,10 +362,10 @@ contexts:
 
   literal-path-dir-pattern:
     - match: \.\.(?=[\\/])
-      scope: constant.language.path.parent.cabal
+      scope: constant.other.path.parent.cabal
       pop: 1
     - match: \.(?=[\\/])
-      scope: constant.language.path.self.cabal
+      scope: constant.other.path.self.cabal
       pop: 1
     - match: ''
       pop: 1
@@ -421,5 +421,5 @@ contexts:
     - match: (?:\d+|(\*))(\.(?=[*\d]))?
       scope: meta.number.version.cabal constant.numeric.value.cabal
       captures:
-        1: variable.language.wildcard.asterisk.cabal
+        1: constant.other.wildcard.asterisk.cabal
         2: punctuation.separator.decimal.cabal

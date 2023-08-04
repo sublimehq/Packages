@@ -63,6 +63,7 @@ variables:
       %
     | {{absolute_lengths}}
     | {{angle_units}}
+    | {{container_units}}
     | {{duration_units}}
     | {{font_relative_lengths}}
     | {{frequency_units}}
@@ -73,9 +74,12 @@ variables:
   viewport_percentage_lengths: (?i:[sld]?(?:vh|vw|vi|vb|vmin|vmax))\b
   absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)\b
   angle_units: (?i:deg|grad|rad|turn)\b
+  container_units: (?i:cqw|cqh|cqi|cqb|cqmin|cqmax)\b
   duration_units: (?i:s|ms)\b
   frequency_units: (?i:Hz|kHz)\b
   resolution_units: (?i:dpi|dpcm|dppx)\b
+
+  logical_operators: (?i:and|or|not|only)
 
   # Selectors
   selector_begin: (?={{selector_start}})
@@ -394,6 +398,7 @@ contexts:
 
   at-rules:
     - include: at-charset
+    - include: at-container
     - include: at-counter-style
     - include: at-custom-media
     - include: at-document
@@ -423,6 +428,36 @@ contexts:
     - meta_scope: meta.at-rule.charset.css
     - include: quoted-strings
     - include: at-rule-end
+
+  # @container
+  # https://drafts.csswg.org/css-contain-3/#container-rule
+  at-container:
+    - match: (@)(?i:container){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-container-body
+        - at-container-identifier
+
+  at-container-identifier:
+    - meta_include_prototype: false
+    - match: (?=(?i:{{logical_operators}}|style){{break}})
+      pop: 1
+    - match: '{{ident_begin}}'
+      set: at-container-identifier-content
+    - include: comments
+    - include: else-pop
+
+  at-container-identifier-content:
+    - meta_scope: entity.other.container.css
+    - include: identifier-content
+
+  at-container-body:
+    - meta_scope: meta.at-rule.container.css
+    - include: at-rule-block
+    - include: container-queries
+    - include: else-pop
 
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
@@ -874,7 +909,7 @@ contexts:
   at-supports-body:
     - meta_scope: meta.at-rule.supports.css
     - include: at-supports-groups
-    - include: at-supports-operators
+    - include: logical-operators
     - include: font-format-functions
     - include: selector-functions
     - include: at-rule-block
@@ -891,14 +926,10 @@ contexts:
     - include: group-end
     - include: at-rule-end
     - include: at-supports-groups
-    - include: at-supports-operators
+    - include: logical-operators
     - include: font-format-functions
     - include: selector-functions
     - include: rule-list-body
-
-  at-supports-operators:
-    - match: \b(?i:and|or|not){{break}}
-      scope: keyword.operator.logical.css
 
   # @<ident>
   # Fallback context for incomplete or unknown at-rules.
@@ -934,6 +965,53 @@ contexts:
       pop: 1
     - include: comments
 
+###[ CONTAINER QUERIES ]#######################################################
+
+  # https://drafts.csswg.org/css-contain-3/#container-rule
+  container-queries:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: container-query-group-body
+    - include: comments
+    - include: logical-operators
+    - include: comparison-operators
+    - include: container-style-functions
+    - include: property-identifiers
+    - include: property-values
+
+  container-query-group-body:
+    - meta_scope: meta.group.css
+    - include: group-end
+    - include: container-queries
+    - include: else-pop
+
+  container-style-functions:
+    - match: \b(?i:style)(?=\()
+      scope: meta.function-call.identifier.css support.function.style.css
+      push:
+        - container-style-function-arguments-list-body
+        - function-arguments-list-begin
+
+  container-style-function-arguments-list-body:
+    - meta_content_scope: meta.function-call.arguments.css meta.group.css
+    - include: function-arguments-list-end
+    - include: container-style-queries
+
+  container-style-queries:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: container-style-query-group-body
+    - include: comments
+    - include: logical-operators
+    - include: comparison-operators
+    - include: property-identifiers
+    - include: property-values
+
+  container-style-query-group-body:
+    - meta_scope: meta.group.css
+    - include: group-end
+    - include: container-style-queries
+
 ###[ MEDIA QUERIES ]###########################################################
 
   # https://drafts.csswg.org/mediaqueries-4/#media
@@ -946,10 +1024,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.css
       push: media-query-group-body
-    - match: '[<>]=?|='
-      scope: keyword.operator.comparison.css
-    - match: \b(?i:and|or|not|only){{break}}
-      scope: keyword.operator.logical.css
+    - include: comparison-operators
+    - include: logical-operators
 
   media-query-group-body:
     - meta_scope: meta.group.css
@@ -1128,7 +1204,7 @@ contexts:
     - match: \&
       scope: variable.language.parent.css
     - match: \*
-      scope: variable.language.wildcard.asterisk.css
+      scope: constant.other.wildcard.asterisk.css
 
   vendor-prefixes:
     - match: '{{vendor_prefix}}'
@@ -2786,7 +2862,7 @@ contexts:
         - attr-name-identifier-content
         - attr-name-namespace-content
     - match: \*(?!=)
-      scope: variable.language.wildcard.asterisk.css
+      scope: constant.other.wildcard.asterisk.css
     - match: \|(?!=)
       scope: punctuation.separator.namespace.css
     - include: immediately-pop
@@ -3071,7 +3147,7 @@ contexts:
     - meta_scope: meta.string.css string.unquoted.css
     - include: string-content
     - match: \*
-      scope: variable.language.wildcard.asterisk.css
+      scope: constant.other.wildcard.asterisk.css
     - match: '{{break}}'
       pop: 1
 
@@ -3226,9 +3302,23 @@ contexts:
     - match: /
       scope: keyword.operator.arithmetic.css
 
+  comparison-operators:
+    - match: '[<>]=?|='
+      scope: keyword.operator.comparison.css
+      push: comparison-value
+
+  comparison-value:
+    - match: (?={{logical_operators}}{{break}})
+      pop: 1
+    - include: values
+
   important-operators:
     - match: \!\s*(?i:important){{break}}
       scope: keyword.other.important.css
+
+  logical-operators:
+    - match: '{{logical_operators}}{{break}}'
+      scope: keyword.operator.logical.css
 
   color-adjuster-operators:
     - match: '[-+*](?=\s)'

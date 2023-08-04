@@ -1675,18 +1675,20 @@ contexts:
       scope: punctuation.separator.path.dosbatch
       push: path-pattern-relative
     - match: \.\.?(?=[\\/])
-      scope: constant.language.path.parent.dosbatch
+      scope: constant.other.path.parent.dosbatch
     - match: \.
       scope: punctuation.separator.path.dosbatch
-    - match: '[*?]'
-      scope: keyword.operator.wildcard.dosbatch
+    - match: \*
+      scope: constant.other.wildcard.asterisk.dosbatch
+    - match: \?
+      scope: constant.other.wildcard.questionmark.dosbatch
 
   path-pattern-relative:
     - match: \.\.(?=[\\/])
-      scope: constant.language.path.parent.dosbatch
+      scope: constant.other.path.parent.dosbatch
       pop: 1
     - match: \.(?=[\\/])
-      scope: constant.language.path.self.dosbatch
+      scope: constant.other.path.self.dosbatch
       pop: 1
     - include: immediately-pop
 

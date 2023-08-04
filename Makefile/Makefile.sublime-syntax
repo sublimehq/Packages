@@ -208,7 +208,7 @@ contexts:
 
   highlight-wildcard-sign:
     - match: \*
-      scope: variable.language.wildcard.makefile
+      scope: constant.other.wildcard.asterisk.makefile
 
   expect-rule:
     # Anything before the colon is part of the rule's name.

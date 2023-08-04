@@ -233,6 +233,27 @@ SELECT
     END) as result
 '''
 
+query = """
+    WITH OrderedOrders AS
+    (
+        SELECT SalesOrderID, OrderDate,
+        ROW_NUMBER() OVER (ORDER BY OrderDate) AS 'RowNumber'
+        FROM Sales.SalesOrderHeader
+    )
+    SELECT *
+    FROM OrderedOrders
+    WHERE RowNumber BETWEEN 50 AND 60"""
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql - string
+
+query = """
+    MERGE INTO some_table
+    USING another_table
+    ON some_table.id = another_table.id
+    WHEN MATCHED THEN
+        UPDATE
+        SET col1 = another_table.col1"""
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql - string
+
 sql = 'SELECT * FROM foo -- bar baz'
 #       ^ source.sql
 #                            ^ source.sql comment.line.double-dash
@@ -503,6 +524,12 @@ sql = "SELECT `name` FROM `users` \
     WHERE `password` LIKE 'abc'"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql - string.quoted.double
 #                              ^ meta.string.python string.quoted.double.python punctuation.definition.string.end.python
+
+sql = "BEGIN TRANSACTION; \
+    DELETE FROM HumanResources.JobCandidate  \
+    WHERE JobCandidateID = 13; \
+    COMMIT;"
+#   ^^^^^^ meta.string.python source.sql - string
 
 sql = Ur"SELECT `name` FROM `users` \
     WHERE `password` LIKE 'abc'"

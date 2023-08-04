@@ -26,9 +26,9 @@ C:\Users
 """Normal docstring \""""
 # <- comment.block.documentation.python punctuation.definition.comment.begin.python
 #^^ comment.block.documentation.python punctuation.definition.comment.begin.python
-#  ^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
-#                       ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#  ^^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                   ^^ constant.character.escape.python
+#                     ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 """
 #^^^ comment.block.documentation.python
@@ -39,6 +39,27 @@ docstring starting on the second line
 docstring starting on the second line
 # <- comment.block.documentation.summary.python
 #^^^ comment.block.documentation.summary.python
+"""
+
+"""
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#^^^^^^ constant.character.escape.unicode.16bit.python
+#         ^^ constant.character.escape.python
+#            ^^ constant.character.escape.python
+\n
+# <- comment.block.documentation.python constant.character.escape.python
+#^ comment.block.documentation.python constant.character.escape.python
+"""
+
+r"""
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python - constant.character.escape
+\n
+# <- comment.block.documentation.python - constant.character.escape
+#^ comment.block.documentation.python - constant.character.escape
 """
 
 debug = False
@@ -69,12 +90,12 @@ C:\Users
 # ^^ - constant.character - invalid
 '''
 
-'''Normal docstring \'''"
+'''Normal docstring \''''
 # <- comment.block.documentation.python punctuation.definition.comment.begin.python
 #^^ comment.block.documentation.python punctuation.definition.comment.begin.python
-#  ^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
-#                       ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#  ^^^^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                   ^^ constant.character.escape.python
+#                     ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 '''
 #^^^ comment.block.documentation.python
@@ -85,6 +106,27 @@ docstring starting on the second line
 docstring starting on the second line
 # <- comment.block.documentation.summary.python
 #^^^ comment.block.documentation.summary.python
+'''
+
+'''
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#^^^^^^ constant.character.escape.unicode.16bit.python
+#         ^^ constant.character.escape.python
+#            ^^ constant.character.escape.python
+\n
+# <- comment.block.documentation.python constant.character.escape.python
+#^ comment.block.documentation.python constant.character.escape.python
+'''
+
+r'''
+S\u0815mma\ry\n
+# <- comment.block.documentation.summary.python
+#^^^^^^^^^^^^^^ comment.block.documentation.summary.python - constant.character.escape
+\n
+# <- comment.block.documentation.python - constant.character.escape
+#^ comment.block.documentation.python - constant.character.escape
 '''
 
 
@@ -122,7 +164,7 @@ from os import *  # comment
 #^^^ keyword.control.import.from.python
 #    ^^ meta.import-name.python
 #       ^^^^^^ keyword.control.import.python
-#              ^ constant.language.import-all.python
+#              ^ constant.other.wildcard.asterisk.python
 #               ^^ - comment - constant - meta.statement
 #                 ^^^^^^^^^^ comment.line.number-sign.python
 from os import *, path # comment
@@ -132,7 +174,7 @@ from os import *, path # comment
 #      ^ meta.statement.import.python meta.import-source.python - meta.import-path
 #       ^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #               ^^^^^^^^^^^^^^^^^ - meta.statement
-#              ^ constant.language.import-all.python
+#              ^ constant.other.wildcard.asterisk.python
 #               ^ invalid.illegal.unexpected-import.python
 #                 ^^^^ invalid.illegal.unexpected-import.python
 #                      ^^^^^^^^^^ comment.line.number-sign.python
@@ -309,7 +351,7 @@ from sys import (version, # comment
 import path from os
 #           ^^^^ invalid.illegal.name
 from .sub import *
-#                ^ constant.language.import-all.python
+#                ^ constant.other.wildcard.asterisk.python
 import a as b
 #        ^^ keyword.control.import.as.python
 import a as b#comment
