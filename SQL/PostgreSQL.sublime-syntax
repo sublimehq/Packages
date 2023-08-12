@@ -34,7 +34,16 @@ contexts:
 
   statements:
     - meta_prepend: true
+    - match: (\$\$)\s+(LANGUAGE)\s+(\w+)(?:\s+(IMMUTABLE|STABLE)\b)?
+      captures:
+        1: punctuation.section.block.end.psql
+        2: keyword.other.psql
+        3: constant.language.psql
+        4: storage.modifier.psql
     - match: \$\$
+      scope: punctuation.section.block.begin.psql
+    - match: \b(?i:for|loop)\b
+      scope: keyword.control.loop.psql
 
 ###[ DECLARE STATEMENTS ]######################################################
 
@@ -271,6 +280,8 @@ contexts:
       scope: keyword.operator.cast.psql
       push: expect-type
     - include: regex-operators
+    - match: \.\.
+      scope: keyword.operator.psql
 
   regex-operators:
     # https://www.postgresql.org/docs/7.4/functions-matching.html#FUNCTIONS-POSIX-REGEXP

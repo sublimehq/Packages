@@ -483,6 +483,7 @@ CREATE TRIGGER blah AFTER INSERT OR UPDATE
 
 
 CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, something_else boolean) RETURNS varchar[] AS $$
+--                                                                                                                     ^^ punctuation.section.block.begin
 DECLARE
 -- ^^^^ keyword.declaration.variable
     output varchar[];
@@ -497,12 +498,25 @@ DECLARE
 BEGIN
 -- ^^ keyword.other.luw
     FOR I IN array_lower(vals, 1)..array_upper(vals, 1) LOOP
+--  ^^^ keyword.control.loop
+--        ^^ keyword.operator.logical
+--           ^^^^^^^^^^^ meta.function-call support.function
+--                               ^^ keyword.operator
+--                                 ^^^^^^^^^^^ meta.function-call support.function
+--                                                      ^^^^ keyword.control.loop
         output[I] := compute_result(vals[I], something, something_else);
     END LOOP;
+--  ^^^ keyword.control.flow.end
+--      ^^^^ keyword.control.loop
     RETURN output;
 --  ^^^^^^ keyword.control.flow.return
 END;
 $$ LANGUAGE plpgsql STABLE;
+-- <- punctuation.section.block.end
+-- ^^^^^^^^ keyword.other
+--          ^^^^^^^ constant.language
+--                  ^^^^^^ storage.modifier
+--                        ^ punctuation.terminator.statement
 
 DECLARE var varchar[];
 --     ^ - variable
