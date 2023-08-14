@@ -134,9 +134,9 @@ variables:
     | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 | MongoRegex
     | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter
     | OCI-Collection | OCI-Lob | OutOfBoundsException | OutOfRangeException | OuterIterator
-    | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar | PharData
-    | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater
-    | RangeException | RecursiveArrayIterator | RecursiveCachingIterator
+    | OverflowException | Override | PDO | PDOStatement | ParentIterator | ParseError | Phar
+    | PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph
+    | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator
     | RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator
     | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection
     | ReflectionClass | ReflectionEnum | ReflectionEnumBackedCase | ReflectionEnumUnitCase
@@ -921,12 +921,44 @@ contexts:
   constant-declarations:
     - match: (?i:const)\b
       scope: keyword.declaration.constant.php
-      push: constant-declaration-name
+      push: constant-declaration-body
+
+  constant-declaration-body:
+    - include: attributes
+    - include: comments
+    - match: (?=\S)
+      branch_point: constant-declaration
+      branch:
+        - untyped-constant-declaration
+        - typed-constant-declaration
+      pop: 1
+
+  untyped-constant-declaration:
+    - match: '{{guarded_identifier}}'
+      scope: entity.name.constant.php
+      set: untyped-constant-declaration-check
+    - match: (?=\S)
+      fail: constant-declaration
+
+  untyped-constant-declaration-check:
+    - include: comments
+    - match: (?=[=;}]|{{access_modifier}}|{{property_modifier}}|{{static_modifier}})
+      pop: 1
+    - match: (?=\S)
+      fail: constant-declaration
+
+  typed-constant-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - constant-declaration-name
+        - type-hint-body
+        - type-hint-simple-type
 
   constant-declaration-name:
     - match: '{{guarded_identifier}}'
       scope: entity.name.constant.php
-      set: nested-expressions
+      pop: 1
     - include: attributes
     - include: comments
     - include: else-pop
@@ -1726,6 +1758,9 @@ contexts:
   instantiation-body:
     - include: attributes
     - include: comments
+    # such as "readonly" anonymous class
+    - match: '{{storage_modifiers}}'
+      scope: storage.modifier.php
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
     - match: (?i:class)\b
       scope: meta.class.php keyword.declaration.class.php

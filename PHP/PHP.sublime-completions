@@ -9983,6 +9983,12 @@
 			"details": "Returns the last error occurred"
 		},
 		{
+			"trigger": "json_validate()",
+			"contents": "json_validate(${1:json})",
+			"kind": "function",
+			"details": "Validates if the string contains a valid json."
+		},
+		{
 			"trigger": "judy_type()",
 			"contents": "judy_type(${1:array})",
 			"kind": "function",
@@ -11222,6 +11228,12 @@
 			"contents": "mb_split(${1:pattern}, ${2:string})",
 			"kind": "function",
 			"details": "Split multibyte string using regular expression"
+		},
+		{
+			"trigger": "mb_str_pad()",
+			"contents": "mb_str_pad(${1:string}, ${2:length}, string ${3:pad_string})",
+			"kind": "function",
+			"details": "Pad a string to a certain length with another string"
 		},
 		{
 			"trigger": "mb_strcut()",
