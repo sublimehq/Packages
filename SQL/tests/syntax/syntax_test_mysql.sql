@@ -2219,6 +2219,14 @@ GRANT
 -- ^^ meta.statement.grant.sql keyword.other.authorization.sql
 --   ^ meta.statement.grant.sql - keyword
 
+GRANT ALL
+-- ^^ keyword.other.authorization.sql
+--    ^^^ constant.language.sql
+
+GRANT ALL PRIVILEGES
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^^^^^^^ constant.language.sql
+
 GRANT DROP TABLE, ALTER COLUMN
 -- <- meta.statement.grant.sql keyword.other.authorization.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql

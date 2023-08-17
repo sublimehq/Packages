@@ -2040,9 +2040,13 @@ END
 --                            ^^^^^^^^^^^ support.function.user.sql
 --                                        ^^^^ support.function.user.sql
 
-GRANT ALL PERMISSIONS
+GRANT ALL
 -- ^^ keyword.other.authorization.sql
---    ^^^^^^^^^^^^^^^ constant.language.sql
+--    ^^^ constant.language.sql
+
+GRANT ALL PRIVILEGES
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^^^^^^^ constant.language.sql
 
 GRANT CREATE TABLE TO MelanieK;
 -- ^^ keyword.other.authorization.sql

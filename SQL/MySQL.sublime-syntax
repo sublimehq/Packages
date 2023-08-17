@@ -977,8 +977,6 @@ contexts:
 
   user-privileges:
     - meta_append: true
-    - match: \b(?i:all\s+privileges)\b
-      scope: constant.language.sql
     - match: \b(?i:super)\b
       scope: constant.language.sql
     - include: user-grant-privileges

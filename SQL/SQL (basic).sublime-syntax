@@ -729,7 +729,7 @@ contexts:
 
   user-privileges:
     - include: column-reference-lists
-    - match: \b(?i:all\s+privileges)\b
+    - match: \b(?i:all(?:\s+privileges)?)\b
       scope: constant.language.sql
     - match: \b(?i:(?:alter|create|drop|grant|revoke)\s+{{ddl_target}})\b
       scope: constant.language.sql
