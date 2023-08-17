@@ -729,7 +729,7 @@ contexts:
       set:
         - user-name
         - single-identifier
-    - match: \b(?i:(object))(::)
+    - match: \b(?i:(\w+))(::)
       captures:
         1: storage.type.tsql
         2: punctuation.accessor.double-colon.tsql
