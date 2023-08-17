@@ -1031,6 +1031,62 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
+  expect-user-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [user-name-declaration, user-identifier]
+
+  expect-user-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - include: built-in-user-function-call
+    - match: (?=\S)
+      set: [user-name, user-identifier]
+
+  user-identifier:
+    # https://mariadb.com/kb/en/grant/#account-names
+    - meta_include_prototype: false
+    - include: pop-on-top-level-reserved-word
+    - match: ''
+      set:
+        - identifier-host-accessor
+        - identifier-part
+
+  identifier-host-accessor:
+    - meta_include_prototype: false
+    - match: \s*(@)
+      captures:
+        1: punctuation.accessor.at.sql
+      set: identifier-host-part
+    - include: immediately-pop
+
+  identifier-host-part:
+    - meta_include_prototype: false
+    - match: \%
+      scope: constant.other.wildcard.percent.sql
+      pop: 1
+    - match: (')(%)(')
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: constant.other.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - match: (")(%)(")
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: constant.other.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - match: (`)(%)(`)
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: constant.other.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - include: identifier-part
 
 ###[ LITERALS ]################################################################
 
