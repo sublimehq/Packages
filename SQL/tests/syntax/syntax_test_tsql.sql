@@ -2079,6 +2079,16 @@ GRANT CONTROL ON DATABASE::AdventureWorks2012 TO Sarah;
 --                                            ^^ keyword.context.sql
 --                                               ^^^^^ meta.username.sql
 
+GRANT CONTROL ON ROLE::Admin TO Sarah;
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^ constant.language.tsql
+--            ^^ keyword.context.resource.tsql
+--               ^^^^ storage.type.tsql
+--                   ^^ punctuation.accessor.double-colon.tsql
+--                     ^^^^^ meta.username.sql
+--                           ^^ keyword.context.sql
+--                              ^^^^^ meta.username.sql
+
 GRANT INSERT ON dbo.some_table TO Sarah;
 -- ^^ keyword.other.authorization.sql
 --    ^^^^^^ constant.language.sql
@@ -2109,9 +2119,9 @@ GRANT SELECT ON schema::some_schema TO Sarah;
 -- ^^ keyword.other.authorization.sql
 --    ^^^^^^ constant.language.sql
 --           ^^ keyword.context.resource.tsql
---              ^^^^^^ string.quoted.tsql
+--              ^^^^^^ storage.type.tsql
 --                    ^^ punctuation.accessor.double-colon.tsql
---                      ^^^^^^^^^^^ string.quoted.tsql
+--                      ^^^^^^^^^^^ meta.database-name.sql
 --                                  ^^ keyword.context.sql
 --                                     ^^^^^ meta.username.sql
 --                                          ^ punctuation.terminator.statement.sql

@@ -714,12 +714,27 @@ contexts:
       scope: constant.language.sql
 
   qualified-identifier:
-    - match: \b(?i:(database))(::)
+    # https://learn.microsoft.com/en-us/sql/t-sql/statements/grant-transact-sql?view=sql-server-ver16#syntax
+    - match: \b(?i:(database|schema))(::)
       captures:
         1: storage.type.tsql
         2: punctuation.accessor.double-colon.tsql
       set:
         - database-name
+        - single-identifier
+    - match: \b(?i:(login|role|user))(::)
+      captures:
+        1: storage.type.tsql
+        2: punctuation.accessor.double-colon.tsql
+      set:
+        - user-name
+        - single-identifier
+    - match: \b(?i:(object))(::)
+      captures:
+        1: storage.type.tsql
+        2: punctuation.accessor.double-colon.tsql
+      set:
+        - other-name
         - single-identifier
     - match: (?=\S)
       set:
