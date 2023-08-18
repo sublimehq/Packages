@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-# https://cassandra.apache.org/doc/latest/cassandra/cql
+# https://cassandra.apache.org/doc/latest/cassandra/cql/
 name: Cassandra Query Language
 scope: source.sql.cql
 version: 2
