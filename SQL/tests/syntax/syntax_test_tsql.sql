@@ -2303,3 +2303,19 @@ CREATE CLUSTERED INDEX ix_some_table_some_field_another_field ON dbo.some_table 
 --                                                                                         ^ punctuation.separator.sequence.sql
 --                                                                                           ^^^^^^^^^^^^^ meta.column-name.sql
 --                                                                                                        ^ punctuation.section.group.end.sql
+
+SET @local_datetime = cast(t.created_date AT TIME ZONE 'UTC' AT TIME ZONE 'Central European Standard Time' as time)
+--                                        ^^^^^^^^^^^^ storage.modifier.tsql
+--                                                     ^^^^^ meta.string.sql string.quoted.single.sql
+--                                                           ^^^^^^^^^^^^ storage.modifier.tsql
+--                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                                                                         ^^ keyword.operator.assignment.tsql
+--                                                                                                            ^^^^ storage.type.sql
+
+DROP USER IF EXISTS [foo]
+CREATE USER [foo] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[bar]
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+--                ^^^^^^^^^^^^^ storage.modifier.tsql
+--                              ^^^^ keyword.other.dml.sql
+GO
+-- <- keyword.control.flow.go.tsql - meta.statement.create

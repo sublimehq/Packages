@@ -85,6 +85,12 @@ contexts:
     - meta_prepend: true
     - include: target-options
 
+  create-other-args:
+    - meta_prepend: true
+    - match: \b(?i:without\s+\w+)\b
+      scope: storage.modifier.tsql
+
+
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
   alter-common:
@@ -328,6 +334,8 @@ contexts:
       scope: keyword.other.sql
     - match: \b(?i:within\s+group)\b
       scope: keyword.other.tsql
+    - match: \b(?i:at\s+time\s+zone)\b
+      scope: storage.modifier.tsql
 
   built-in-scalar-function-calls:
     - meta_append: true
@@ -510,14 +518,14 @@ contexts:
       set: with-simple-options
 
   with-simple-options:
+    - match: (?=;|\b(?i:GO|END)\b)  # NOTE: we cant use the pop-on-top-level-reserved-word context here because it includes things like GRANT which are valid here
+      pop: true
     - match: '{{simple_identifier}}'
       scope: constant.language.with.tsql
     - match: '='
       scope: keyword.operator.assignment.tsql
       push: with-other-assignment
     - include: comma-separators
-    - match: (?=;)
-      pop: true
 
   maybe-filegroup:
     - match: \b(?i:on)\b(?!\s*{{identifier_for_lookahead}}\s*=)
@@ -553,6 +561,7 @@ contexts:
     - match: (?=[,)])
       pop: 1
     - include: onoff-constants
+    - include: pop-on-top-level-reserved-word
     - include: expressions
     - match: (?=")
       set:
