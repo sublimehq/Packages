@@ -550,9 +550,9 @@ contexts:
       pop: 1
     - match: (:)?(?={{label_start}})
       scope: punctuation.definition.label.dosbatch
-      set: clt-goto-label
+      set: ctl-goto-label
 
-  clt-goto-label:
+  ctl-goto-label:
     - meta_scope: variable.label.dosbatch
     - include: line-continuations
     - include: label-name
