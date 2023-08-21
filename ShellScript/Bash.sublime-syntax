@@ -1850,7 +1850,7 @@ contexts:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
       set: expansions-parameter-regexp
-    - match: ([@*]?)(@)([QEPAa])(?=})
+    - match: ([@*])?(@)([QEPAa])(?=})
       captures:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
@@ -1874,7 +1874,7 @@ contexts:
 
   expansions-parameter-pattern:
     # [3.5.8.1] Pattern Matching
-    - match: ([?*+@!])(\()
+    - match: ([?*+@!])?(\()
       captures:
         1: keyword.operator.quantifier.regexp.shell
         2: meta.group.regexp.shell
@@ -1924,7 +1924,7 @@ contexts:
 
   expansions-pattern:
     # [3.5.8.1] Pattern Matching
-    - match: ([?*+@!])(\()
+    - match: ([?*+@!])?(\()
       captures:
         1: keyword.operator.quantifier.regexp.shell
         2: meta.group.regexp.shell

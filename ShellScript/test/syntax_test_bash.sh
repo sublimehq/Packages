@@ -4151,6 +4151,14 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                   ^ punctuation.definition.set.end.regexp.shell
 #                     ^^ support.function.test.end.shell
 
+[[ foo =~ ^[0-9]+\.[0-9]+(([ab]|rc)[0-9]+)?$ ]]
+#                        ^ meta.group.regexp.shell - meta.group meta.group
+#                         ^^^^^^^^^ meta.group.regexp.shell meta.group.regexp.shell
+#                                  ^^^^^^^ meta.group.regexp.shell - meta.group meta.group
+#                        ^^ punctuation.definition.group.begin.regexp.shell
+#                                 ^ punctuation.definition.group.end.regexp.shell
+#                                        ^ punctuation.definition.group.end.regexp.shell
+
 [[ ' foobar' == [\ ]foo* ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #                          ^ - meta.conditional
