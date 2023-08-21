@@ -96,13 +96,19 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --                                         ^ punctuation.section.group.end
 )
 
-SELECT '\xDEADBEEF';
+-- https://www.postgresql.org/docs/current/datatype-binary.html#id-1.5.7.12.9
+SELECT '\xDEADBEEF'::bytea;
+--      ^^^^^^^^^^ meta.string string.quoted.single constant.character.escape
+--                ^ punctuation.definition.string.end
+--                 ^^ keyword.operator.cast
+--                   ^^^^^ storage.type
 SET bytea_output = 'escape';
-
 SELECT 'abc \153\154\155 \052\251\124'::bytea;
+--          ^^^^^^^^^^^^ constant.character.escape
 --                                    ^^ keyword.operator.cast
 --                                      ^^^^^ storage.type
 --                                           ^ punctuation.terminator.statement
+
 
 CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
 -- ^^^ meta.statement.create keyword.other.ddl

@@ -323,11 +323,14 @@ contexts:
     - include: else-pop
 
   strings:
-    - meta_append: true
+    - meta_prepend: true
     # https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
     - match: (?i:E)\'
       scope: punctuation.definition.string.begin.sql
       push: inside-single-quoted-escape-string
+    - match: \'(?=[^']+'::bytea\b)
+      scope: punctuation.definition.string.begin.sql
+      push: inside-single-quoted-bytea-string
 
   inside-single-quoted-escape-string:
     - meta_include_prototype: false
@@ -344,5 +347,19 @@ contexts:
     - match: \\u\h{4}
       scope: constant.character.escape.sql
     - match: \\U\h{8}
+      scope: constant.character.escape.sql
+    - include: string-escapes
+
+  inside-single-quoted-bytea-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \'\'
+      scope: constant.character.escape.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.sql
+    - match: \\x\h{8}
       scope: constant.character.escape.sql
     - include: string-escapes
