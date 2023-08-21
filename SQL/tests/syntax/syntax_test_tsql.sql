@@ -2350,3 +2350,9 @@ SELECT NEXT VALUE FOR Test.DecSeq;
 -- ^^^ keyword.other.dml
 --     ^^^^^^^^^^ keyword.other
 --                ^^^ keyword.other
+
+set transaction isolation level read committed;
+-- <- meta.statement.set.sql keyword.other.dml.sql
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql constant.language.switch.tsql
+--                              ^^^^^^^^^^^^^^ meta.statement.set.sql constant.language.tsql
+--                                            ^ punctuation.terminator.statement.sql - meta.statement.set

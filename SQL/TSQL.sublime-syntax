@@ -166,8 +166,9 @@ contexts:
         - join-on
         - maybe-table-alias
         - expect-table-name
-    - match: \b(?i:set)\b
-      scope: keyword.other.dml.tsql
+    # - match: \b(?i:set)\b
+    #   scope: keyword.other.dml.tsql
+    #   push: maybe-transaction-isolation-level
     - include: top
 
   dml-delete:
@@ -212,12 +213,22 @@ contexts:
     - match: \b(?i:identity_insert)\b
       scope: constant.language.switch.tsql
       push: expect-table-name
+    - match: \b(?i:transaction\s+isolation\s+level)\b
+      scope: constant.language.switch.tsql
+      set: transaction-isolation-level
     - include: onoff-constants
     - include: variables
     - include: augmented-assignment-operators
     - include: operators
     - match: ','
       scope: punctuation.separator.sequence.tsql
+
+  transaction-isolation-level:
+    - match: \b(?i:READ\s+UNCOMMITTED|READ\s+COMMITTED|REPEATABLE\s+READ|SNAPSHOT|SERIALIZABLE)\b
+      scope: constant.language.tsql
+      pop: 1
+    - match: (?=\S)
+      pop: 1
 
 ###[ OTHER STATEMENTS ]########################################################
 
