@@ -80,6 +80,7 @@ contexts:
     # modifiers
     - match: \b(?i:unique|clustered|nonclustered)\b
       scope: keyword.other.ddl.sql
+    - include: create-sequence
 
   expect-function-characteristics:
     - meta_prepend: true
@@ -90,6 +91,22 @@ contexts:
     - match: \b(?i:without\s+\w+)\b
       scope: storage.modifier.tsql
 
+  create-sequence:
+    - match: \b(?i:sequence)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-sequence-args
+        - expect-other-creation-name
+        - create-other-condition
+
+  create-sequence-args:
+    - match: \b(?i:as)\b
+      scope: keyword.context.block.sql
+      push:
+        - expect-type
+    - match: \b(?i:START\s+WITH|INCREMENT\s+BY|(?:NO\s+)?(?:MINVALUE|MAXVALUE|CYCLE|CACHE))\b
+      scope: keyword.other.ddl.basic
+    - include: create-common-args
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
@@ -185,7 +202,7 @@ contexts:
 
   set-target:
     - meta_prepend: true
-    - match: \b(?i:nocount|ansi_nulls|quoted_identifier)\b
+    - match: \b(?i:nocount|ansi_nulls|quoted_identifier|xact_abort)\b
       scope: constant.language.switch.tsql
     - match: \b(?i:identity_insert)\b
       scope: constant.language.switch.tsql
@@ -194,6 +211,8 @@ contexts:
     - include: variables
     - include: augmented-assignment-operators
     - include: operators
+    - match: ','
+      scope: punctuation.separator.sequence.tsql
 
 ###[ OTHER STATEMENTS ]########################################################
 
@@ -322,7 +341,7 @@ contexts:
       scope: storage.modifier.output.tsql
     - match: \b(?i:over|partition\s+by)\b
       scope: keyword.other.sql
-    - match: \b(?i:unbounded|preceding|following|current\s+row|(?:rows|range)\s+between)\b
+    - match: \b(?i:unbounded|preceding|following|current\s+row|(?:rows|range)\s+between|next\s+value)\b
       scope: keyword.other.sql
     - match: \b(?i:cursor)\b
       scope: support.type.tsql

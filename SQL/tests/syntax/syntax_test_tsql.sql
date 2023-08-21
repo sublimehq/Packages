@@ -327,6 +327,14 @@ SET NOCOUNT ON
 --^ keyword.other.dml
 --  ^^^^^^^ constant.language.switch
 --          ^^ constant.language.boolean
+set nocount, xact_abort on
+-- <- meta.statement.set keyword.other.dml
+--  ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set
+--  ^^^^^^^ constant.language.switch
+--         ^ punctuation.separator.sequence
+--           ^^^^^^^^^^ constant.language.switch
+--                      ^^ constant.language.boolean
+
 EXEC master.dbo.xp_fileexist @FromFile, @FileExists OUTPUT
 -- ^ keyword.control.flow.execute
 --  ^ - meta.procedure-name
@@ -2319,3 +2327,19 @@ CREATE USER [foo] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[bar]
 --                              ^^^^ keyword.other.dml.sql
 GO
 -- <- keyword.control.flow.go.tsql - meta.statement.create
+
+GRANT CREATE SEQUENCE ON SCHEMA::Test TO [AdventureWorks\Larry];
+CREATE SEQUENCE Test.DecSeq
+    AS decimal(3,0)
+    START WITH 125
+    INCREMENT BY 25
+    MINVALUE 100
+    MAXVALUE 200
+    CYCLE
+    CACHE 3;
+--  ^^^^^ meta.statement.create keyword.other.ddl
+
+SELECT NEXT VALUE FOR Test.DecSeq;
+-- ^^^ keyword.other.dml
+--     ^^^^^^^^^^ keyword.other
+--                ^^^ keyword.other
