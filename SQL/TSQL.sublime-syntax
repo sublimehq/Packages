@@ -108,6 +108,11 @@ contexts:
       scope: keyword.other.ddl.basic
     - include: create-common-args
 
+  create-table-args:
+    - meta_prepend: true
+    - match: (?=\b(?i:as)\b)
+      pop: 1
+
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
   alter-common:
@@ -848,6 +853,8 @@ contexts:
         - maybe-with-table-options
         - maybe-filegroup
         - inside-column-declaration-list
+    - match: (?=\S)
+      pop: 1
 
   inside-column-declaration-list:
     - meta_prepend: true
@@ -894,7 +901,9 @@ contexts:
         table
         (?:{{enclosed_type_end}}|\b)
       scope: storage.type.sql
-      pop: 1
+      set:
+        - create-table-args
+        - maybe-column-declaration-list
     - match: |-
         (?xi)
         {{types_with_optional_number}}

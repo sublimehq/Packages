@@ -1559,9 +1559,16 @@ USE AdventureWorks2012;
 GO
 DECLARE @MyTableVar table(
     EmpID INT NOT NULL,
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.table.sql meta.group.table-columns.sql
+--  ^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--        ^^^ storage.type.sql
     OldVacationHours INT,
     NewVacationHours INT,
-    ModifiedDate datetime);
+    ModifiedDate datetime,
+    Primary Key (EmpID));
+--  ^^^^^^^^^^^ meta.table.sql meta.group.table-columns.sql storage.modifier.sql
+--                     ^ meta.table.sql meta.group.table-columns.sql punctuation.section.group.end.sql
+--                      ^ punctuation.terminator.statement.sql - meta.group
 UPDATE TOP (10) HumanResources.Employee
 -- ^^^ keyword.other.dml
 --     ^^^ keyword.other.dml
