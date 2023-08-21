@@ -42,8 +42,28 @@ contexts:
         4: storage.modifier.psql
     - match: \$\$
       scope: punctuation.section.block.begin.psql
-    - match: \b(?i:for|loop)\b
+    - match: \b(?i:if)\b
+      scope: keyword.control.conditional.if.psql
+    - match: \b(?i:for)\b
       scope: keyword.control.loop.psql
+      push:
+        - declaration-variable-name
+        - single-identifier
+    - match: \b(?i:loop)\b
+      scope: keyword.control.loop.psql
+    # TODO: priortise variables over columns when not in a select statement etc.
+
+  built-in-type:
+    - meta_prepend: true
+    - match: |-
+        (?xi)
+        \b{{types_with_optional_number}}\b
+        (\[)(\])
+      scope: storage.type.sql
+      captures:
+        1: punctuation.section.brackets.begin.psql
+        2: punctuation.section.brackets.end.psql
+      set: maybe-group
 
 ###[ DECLARE STATEMENTS ]######################################################
 
@@ -185,8 +205,6 @@ contexts:
       scope: punctuation.section.brackets.begin.psql
     - match: \]
       scope: punctuation.section.brackets.end.psql
-    - match: ':(?!:)'
-      scope: keyword.operator.range.psql
 
 ###[ EXTENSION EXPRESSIONS ]###################################################
 
@@ -279,6 +297,10 @@ contexts:
     - match: '::'
       scope: keyword.operator.cast.psql
       push: expect-type
+    - match: ':='
+      scope: keyword.operator.assignment.psql
+    - match: ':(?!:)'
+      scope: keyword.operator.range.psql
     - include: regex-operators
     - match: \.\.
       scope: keyword.operator.psql
@@ -299,3 +321,28 @@ contexts:
         0: meta.string.regexp.psql punctuation.definition.string.end.psql
       pop: 1
     - include: else-pop
+
+  strings:
+    - meta_append: true
+    # https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
+    - match: (?i:E)\'
+      scope: punctuation.definition.string.begin.sql
+      push: inside-single-quoted-escape-string
+
+  inside-single-quoted-escape-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \'\'
+      scope: constant.character.escape.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.sql
+    - match: \\x\h{1,2}
+      scope: constant.character.escape.sql
+    - match: \\u\h{4}
+      scope: constant.character.escape.sql
+    - match: \\U\h{8}
+      scope: constant.character.escape.sql
+    - include: string-escapes
