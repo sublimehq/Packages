@@ -200,6 +200,11 @@ contexts:
     - include: maybe-condition
 
   create-other-args:
+    - match: \b(?i:(as)\s+(table))\b
+      captures:
+        1: keyword.context.block.sql
+        2: support.type.sql
+      set: maybe-column-declaration-list
     - match: \b(?i:as)\b
       scope: keyword.context.block.sql
       pop: 1

@@ -1474,7 +1474,15 @@ CREATE FUNCTION foo() RETURNS My@TypeName
 --                              ^^^^^^^^^ support.type.sql variable.other.readwrite.sql
 
 CREATE TYPE some_type AS TABLE (
+--          ^^^^^^^^^ entity.name.struct.other.sql
+--                    ^^ keyword.context.block.sql
+--                       ^^^^^ support.type.sql
+--                             ^ meta.group.table-columns.sql punctuation.section.group.begin.sql
     some_id int,
+-- ^^^^^^^^^^^^^^ meta.statement.create.sql meta.group.table-columns.sql
+--  ^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--          ^^^ storage.type.sql
+--             ^ punctuation.separator.sequence.sql
     some_text varchar(64)
 );
 
