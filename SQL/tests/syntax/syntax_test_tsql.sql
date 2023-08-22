@@ -2198,6 +2198,15 @@ grant view server state to somebody;
 --                         ^^^^^^^^ meta.username.sql
 --                                 ^ punctuation.terminator.statement.sql
 
+grant execute on some_schema.some_procedure to somebody;
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^ constant.language.sql
+--            ^^ keyword.context.resource.tsql
+--                                          ^^ keyword.context.sql
+--                                             ^^^^^^^^ meta.username.sql
+--                                                     ^ punctuation.terminator.statement.sql
+
 ALTER ROLE buyers WITH NAME = purchasing;
 --^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql

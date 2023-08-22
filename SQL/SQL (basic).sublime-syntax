@@ -738,7 +738,7 @@ contexts:
       scope: constant.language.sql
     - match: \b(?i:(?:alter|create|drop|grant|revoke)\s+{{ddl_target}})\b
       scope: constant.language.sql
-    - match: \b(?i:select|insert|update|delete|truncate)\b
+    - match: \b(?i:select|insert|update|delete|truncate|execute)\b
       scope: constant.language.sql
 
 ###[ TABLE NAMES ]#############################################################
