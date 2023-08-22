@@ -2190,6 +2190,14 @@ GRANT SHOWPLAN TO AuditMonitor;
 --                ^^^^^^^^^^^^ meta.username.sql
 --                            ^ punctuation.terminator.statement.sql
 
+grant view server state to somebody;
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^^^^^^^^^^^^ constant.language.sql
+--                      ^^ keyword.context.sql
+--                         ^^^^^^^^ meta.username.sql
+--                                 ^ punctuation.terminator.statement.sql
+
 ALTER ROLE buyers WITH NAME = purchasing;
 --^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl.sql

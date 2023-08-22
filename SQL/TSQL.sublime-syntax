@@ -765,6 +765,8 @@ contexts:
       scope: constant.language.tsql
     - match: \b(?i:showplan)\b
       scope: constant.language.sql
+    - match: \b(?i:view\s+server\s+state)\b
+      scope: constant.language.sql
 
   qualified-identifier:
     # https://learn.microsoft.com/en-us/sql/t-sql/statements/grant-transact-sql?view=sql-server-ver16#syntax
