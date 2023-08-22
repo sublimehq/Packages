@@ -1481,7 +1481,7 @@ CREATE TYPE some_type AS TABLE (
 CREATE FUNCTION dbo.select_something (@input some_type READONLY) RETURNS TABLE
 --                                    ^^^^^^ variable.parameter.sql - support
 --                                           ^^^^^^^^^ support.type.sql
---                                                     ^^^^^^^^ storage.modifier.tsql
+--                                                     ^^^^^^^^ storage.modifier.tsql - support
     RETURN SELECT * FROM @input
 --  ^^^^^^ keyword.context.block.sql
 --         ^^^^^^ keyword.other.dml.sql

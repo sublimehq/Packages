@@ -953,8 +953,6 @@ contexts:
   inside-user-type:
     - meta_prepend: true
     - include: variables
-    - match: \b(?i:readonly)\b
-      scope: storage.modifier.tsql
 
   after-type:
     - meta_prepend: true
@@ -965,6 +963,8 @@ contexts:
       set:
         - maybe-table-alias
         - maybe-with-group
+    - match: \b(?i:readonly)\b
+      scope: storage.modifier.tsql
     - include: collate-expressions
 
 ###[ IDENTIFIERS ]#############################################################

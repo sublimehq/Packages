@@ -915,7 +915,7 @@ contexts:
 
   expect-user-type:
     - match: (?=\S)
-      set: [maybe-group, inside-user-type]
+      set: [maybe-group, after-type, inside-user-type]
 
   inside-user-type:
     # note: may contain foreign variable interpolation
