@@ -10,7 +10,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bosascript\b(?!\s-l\sJavaScript)    # shebang
+    ^ \#! .* \bosascript(?!\s+-l\s+JavaScript)\b  # shebang
   | ^ \s* \# .*? -\*- .*? \bosascript\b .*? -\*-  # editorconfig
   )
 
