@@ -1091,6 +1091,8 @@ contexts:
         1: punctuation.definition.variable.sql
     - match: '\$action\b' # has to be lowercase
       scope: variable.language.tsql
+    - match: \b(?i:default)\b
+      scope: variable.language.tsql
 
   maybe-variable-scoped-function-call:
     - match: \s*\.(?=\s*\w+\s*\()

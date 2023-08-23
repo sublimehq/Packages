@@ -2496,5 +2496,6 @@ ON source.some_id = target.some_id
 when matched then
     update set target.b = source.b
 when not matched then
-    insert (a,b) values (source.a, source.b);
+    insert (a,b,c) values (source.a, source.b, default);
+--                                             ^^^^^^^ meta.group.sql variable.language.tsql
 
