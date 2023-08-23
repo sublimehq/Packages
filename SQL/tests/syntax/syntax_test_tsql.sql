@@ -1219,7 +1219,7 @@ MERGE sales.category t
 --                   ^ meta.table-alias-name
 --                    ^ - meta.table-alias-name
     USING sales.category_staging s
---  ^^^^^ keyword.other
+--  ^^^^^ keyword.context.resource.tsql
 --       ^ - meta.table-name
 --        ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                              ^ - meta.table-name - meta.table-alias-name
@@ -2415,3 +2415,86 @@ set transaction isolation level read committed;
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql constant.language.switch.tsql
 --                              ^^^^^^^^^^^^^^ meta.statement.set.sql constant.language.tsql
 --                                            ^ punctuation.terminator.statement.sql - meta.statement.set
+
+
+declare @foo table (a int, b int)
+declare @bar table (a int, b int)
+declare @inserted table (action nvarchar(10), a int, b int)
+
+insert into @foo values
+    (1,2),
+    (3,4)
+
+insert into @bar values
+    (1,22),
+    (2,44)
+
+merge @foo foo
+using @bar bar
+    on foo.a = bar.a
+when matched then
+    update set foo.b = bar.b
+when not matched then
+    insert (a,b) values (bar.a, bar.b)
+output $action, inserted.*
+into @inserted
+;
+
+select * from @foo
+select * from @inserted
+
+merge into @foo foo
+-- ^^^^^^^ keyword.other.tsql
+--         ^^^^ meta.table-name.sql variable.other.readwrite.sql
+--              ^^^ meta.table-alias-name.sql
+using (values (
+-- ^^ keyword.context.resource.tsql
+--    ^ meta.group.sql punctuation.section.group.begin.sql
+--     ^^^^^^ keyword.other.dml
+--            ^ punctuation.section.group.begin.sql
+        1,
+        22
+    )) AS
+--  ^ meta.group.sql meta.group.sql punctuation.section.group.end.sql
+--   ^ meta.group.sql punctuation.section.group.end.sql - meta.group meta.group
+--     ^^ keyword.operator.assignment.alias.sql - meta.group
+    bar (
+--  ^^^ meta.table-alias-name.sql
+--      ^ meta.group.sql punctuation.section.group.begin.sql
+        a,
+--      ^ meta.group.sql meta.column-name.sql
+        b
+    )
+    on foo.a = bar.a
+when matched then
+    update set foo.b = bar.b
+when not matched then
+    insert (a,b) values (bar.a, bar.b)
+
+output $action, inserted.*
+-- ^^^ storage.modifier.output.tsql
+--     ^^^^^^^ variable.language.tsql
+into @inserted
+;
+
+MERGE INTO some_schema.some_table WITH (holdlock) AS target
+-- ^^^^^^^ keyword.other.tsql
+--         ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name.sql
+--                                ^^^^ keyword.other.dml.sql
+--                                     ^ meta.group.sql punctuation.section.group.begin.sql
+--                                      ^^^^^^^^ meta.group.sql constant.language.with.tsql
+--                                              ^ meta.group.sql punctuation.section.group.end.sql
+--                                                ^^ keyword.operator.assignment.alias.sql
+--                                                   ^^^^^^ meta.table-alias-name.sql
+USING some_schema.another_table AS source
+-- ^^ keyword.context.resource.tsql
+--    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name.sql
+--                              ^^ keyword.operator.assignment.alias.sql
+--                                 ^^^^^^ meta.table-alias-name.sql
+ON source.some_id = target.some_id
+-- <- keyword.operator.join.sql
+when matched then
+    update set target.b = source.b
+when not matched then
+    insert (a,b) values (source.a, source.b);
+

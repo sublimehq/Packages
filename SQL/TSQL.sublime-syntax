@@ -154,18 +154,19 @@ contexts:
     - match: \b(?i:open|fetch(?:(?:\s+next)?\s+from)?|close|deallocate)\b
       scope: keyword.other.sql
       push: expect-cursor-name
-    - match: \b(?i:merge)\b
+    - match: \b(?i:merge(?:\s+into)?)\b
       scope: keyword.other.tsql
       push:
         - maybe-table-alias
         - expect-table-name
     - match: \b(?i:using)\b
-      scope: keyword.other.tsql
+      scope: keyword.context.resource.tsql
       push:
         - table-name-or-subquery
         - join-on
-        - maybe-table-alias
-        - expect-table-name
+        #- maybe-table-alias
+        #- maybe-with-table-options
+        - table-name-or-subquery
     # - match: \b(?i:set)\b
     #   scope: keyword.other.dml.tsql
     #   push: maybe-transaction-isolation-level
@@ -509,9 +510,7 @@ contexts:
   with-table-options:
     - match: \b(?i:with)\b
       scope: keyword.other.dml.sql
-      push:
-        - maybe-table-alias
-        - maybe-with-group
+      push: maybe-with-group
 
   maybe-with-group:
     - include: with-group
@@ -1090,6 +1089,8 @@ contexts:
       scope: support.variable.global.sql
       captures:
         1: punctuation.definition.variable.sql
+    - match: '\$action\b' # has to be lowercase
+      scope: variable.language.tsql
 
   maybe-variable-scoped-function-call:
     - match: \s*\.(?=\s*\w+\s*\()
