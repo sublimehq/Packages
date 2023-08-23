@@ -483,12 +483,21 @@ contexts:
 ###[ FUNCTION EXPRESSIONS ]####################################################
 
   expect-function-parameters:
+    - meta_prepend: true
     - match: (@){{simple_identifier}}
       scope: variable.parameter.tsql
       captures:
         1: punctuation.definition.variable.tsql
       push: expect-type
     - include: comma-separators
+
+  expect-parameter-name:
+    - match: (@){{simple_identifier}}
+      captures:
+        0: variable.parameter.sql
+        1: punctuation.definition.variable.tsql
+    - match: \b(?i:as)\b
+      scope: keyword.context.tsql
     - include: else-pop
 
 ###[ WITH EXPRESSIONS ]########################################################
@@ -944,6 +953,8 @@ contexts:
   inside-user-type:
     - meta_prepend: true
     - include: variables
+    - match: \b(?i:readonly)\b
+      scope: storage.modifier.tsql
 
   after-type:
     - meta_prepend: true

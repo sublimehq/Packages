@@ -1435,6 +1435,10 @@ END
 GO
 
 CREATE FUNCTION dbo.fn_GetAllEmployeeOfADepartment(@DeptID AS INT)
+--                                                ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.parameters.sql meta.group.sql
+--                                                 ^^^^^^^ variable.parameter.sql
+--                                                         ^^ keyword.context.tsql
+--                                                            ^^^ storage.type.sql
 RETURNS TABLE
 --^^^^^ keyword.other
 --      ^^^^^ storage.type
@@ -1468,6 +1472,36 @@ CREATE FUNCTION foo() RETURNS My@TypeName
 --                    ^^^^^^^ keyword.other.ddl.sql
 --                            ^^ support.type.sql - variable
 --                              ^^^^^^^^^ support.type.sql variable.other.readwrite.sql
+
+CREATE TYPE some_type AS TABLE (
+    some_id int,
+    some_text varchar(64)
+);
+
+CREATE FUNCTION dbo.select_something (@input some_type READONLY) RETURNS TABLE
+--                                    ^^^^^^ variable.parameter.sql - support
+--                                           ^^^^^^^^^ support.type.sql
+--                                                     ^^^^^^^^ storage.modifier.tsql
+    RETURN SELECT * FROM @input
+--  ^^^^^^ keyword.context.block.sql
+--         ^^^^^^ keyword.other.dml.sql
+--                ^ constant.other.wildcard.asterisk.sql
+--                  ^^^^ keyword.other.dml.sql
+--                       ^ meta.table-name.sql variable.other.readwrite.sql punctuation.definition.variable.sql
+--                        ^^^^^ meta.table-name.sql variable.other.readwrite.sql
+;
+
+
+CREATE FUNCTION dbo.select_something_else (@input int, @another_input char(2)) RETURNS TABLE
+--                                         ^ variable.parameter.sql punctuation.definition.variable.tsql
+--                                          ^^^^^ variable.parameter.sql
+--                                                ^^^ storage.type.sql
+--                                                   ^ punctuation.separator.sequence.sql
+--                                                     ^ punctuation.definition.variable.tsql
+--                                                     ^^^^^^^^^^^^^^ variable.parameter.sql
+--                                                                    ^^^^^^^ storage.type.sql
+    RETURN SELECT @input, @another_input
+;
 
 SELECT * FROM Department D
 CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_results_table
