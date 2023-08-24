@@ -6029,12 +6029,12 @@ h1 {
 
 <p onclick="foo(<?php echo "red" ?>)">text</p>
 //         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
-//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call.js
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call
 //                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
 
 <p onclick='foo(<?php echo 'red' ?>)'>text</p>
 //         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
-//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call.js
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call
 //                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
 
 <![CDATA[Text with <? $php ?> interpolation.]]>
