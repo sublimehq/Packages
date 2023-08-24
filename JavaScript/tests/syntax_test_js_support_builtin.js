@@ -1,16 +1,17 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
     isNaN;
-//  ^^^^^ support.function - meta.function-call
+//  ^^^^^ support.function
 
     isNaN();
-//  ^^^^^^^ meta.function-call - meta.function-call.method
+//  ^^^^^^^ meta.function-call
 //  ^^^^^ support.function
 //       ^^ meta.group
 
     isNaN.call();
-//  ^^^^^^^^^^^^ meta.function-call.method - meta.function-call meta.function-call
+//  ^^^^^ meta.function-call - meta.function-call meta.function-call
 //  ^^^^^ support.function
+//        ^^^^^^ meta.function-call - meta.function-call meta.function-call
 
     new Error();
 //      ^^^^^ support.class.builtin

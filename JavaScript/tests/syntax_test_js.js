@@ -439,6 +439,7 @@ var obj = {
     ...bar(baz),
 //  ^^^ keyword.operator.spread
 //     ^^^^^^^^ meta.function-call
+//        ^^^^^ meta.function-call.arguments
 //     ^^^ variable.function
 //             ^ punctuation.separator.comma
 
@@ -1028,11 +1029,12 @@ sources.DOM.status()
 sources.DOM
 // <- variable.other.readwrite
     .status()
-    // ^ meta.function-call.method variable.function
+    // ^ meta.function-call variable.function
     //       ^ - meta.function-call
 
     foo.#bar();
-//  ^^^^^^^^^^ meta.function-call.method.js
+//      ^^^^^^ meta.function-call
+//          ^^ meta.function-call.arguments
 //      ^^^^ variable.function.js
 //      ^ punctuation.definition.js
 //          ^^ meta.group.js
@@ -1208,7 +1210,7 @@ foo.bar().baz
 width/2 + lineStart * Math.sin(i * 30 * π/180)
 //   ^ keyword.operator.arithmetic
 //                  ^ keyword.operator.arithmetic
-//                         ^^^^^^^^^^^^^^^^^^^ meta.function-call.method
+//                         ^^^^^^^^^^^^^^^^^^^ meta.function-call
 
 var reg = /a+/gimy.exec('aabb')
 //        ^^^^^^^^ meta.string string.regexp
@@ -1701,13 +1703,13 @@ debugger
 //     ^ punctuation.section.brackets.begin
 
     a?.();
-//  ^^^^^ meta.function-call
 //  ^ variable.function
 //   ^^^^ meta.group
 //   ^^ punctuation.accessor
+//    ^^^ meta.function-call
 //     ^ punctuation.section.group.begin
 
     a.b?.();
-//  ^^^^^^^ meta.function-call.method
+//    ^^^^^ meta.function-call
 //    ^ variable.function
 //

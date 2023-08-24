@@ -187,19 +187,6 @@ contexts:
     - match: type{{identifier_break}}
       scope: keyword.control.import-export.ts
 
-  property-access:
-    - meta_prepend: true
-    - match: \!\.
-      scope: punctuation.accessor.js
-      push:
-        - match: '(?={{identifier_name}}\s*(?:\.\?)?\()'
-          set:
-            - call-method-meta
-            - function-call-arguments
-            - call-path
-            - object-property
-        - include: object-property
-
   ts-type-declaration:
     - match: type{{identifier_break}}
       scope: keyword.declaration.type.js
