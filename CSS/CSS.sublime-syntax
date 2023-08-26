@@ -275,15 +275,6 @@ variables:
   counter_system_constants: |-
     \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
-  # @font-face Property Names
-  # https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face
-  font_face_property_names: |-
-    \b(?xi:
-      ascent-override | descent-override | font-display | (?# font-family | ) src
-    | font-feature-settings | font-variation-settings | font-stretch | font-style
-    | font-weight | font-variant | line-gap-override | size-adjust | unicode-range
-    ){{break}}
-
   # @page Margin Names
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
   page_margin_names: |-
@@ -291,21 +282,6 @@ variables:
       (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
     | (?: left | right ) - (?: top | middle | bottom )
     ){{break}}
-
-  # @page Property Names
-  # https://developer.mozilla.org/en-US/docs/Web/CSS/@page
-  page_property_names: |-
-    \b(?xi: bleed | margin | marks | size ){{break}}
-
-  # @property Property Names
-  # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
-  property_property_names: |-
-    \b(?xi: syntax | inherits | initial-value ){{break}}
-
-  # @scroll-timeline Property Names
-  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
-  scroll_timeline_property_names: |-
-    \b(?xi: source | orientation | scroll-offsets ){{break}}
 
   global_property_constants:  |-
     \b(?xi: inherit | initial | revert | revert-layer | unset ){{break}}
@@ -644,29 +620,14 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-font-face-body
+      push:
+        - at-font-face-meta
+        - maybe-property-list
 
-  at-font-face-body:
+  at-font-face-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.font-face.css
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-font-face-block-body
-    - include: at-rule-end
-
-  at-font-face-block-body:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: comments
-    - include: font-family-properties
-    - include: at-font-face-property-names
-    - include: property-values
-    - include: rule-terminators
-    - include: illegal-blocks
-    - include: illegal-groups
-
-  at-font-face-property-names:
-    - match: '{{font_face_property_names}}'
-      scope: meta.property-name.css support.type.property-name.css
+    - include: immediately-pop
 
 ###[ IMPORT AT-RULE ]##########################################################
 
@@ -872,16 +833,17 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-page-body
+      push:
+        - at-page-meta
+        - maybe-property-list
+        - at-page-name-list
 
-  at-page-body:
+  at-page-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.page.css
-    - include: comma-delimiters
-    - include: at-page-block
-    - include: at-page-names
-    - include: at-rule-end
+    - include: immediately-pop
 
-  at-page-names:
+  at-page-name-list:
     - match: (:)(?i:blank|first|left|right|recto|verso){{break}}
       scope: entity.other.pseudo-class.css
       captures:
@@ -892,54 +854,27 @@ contexts:
         1: punctuation.definition.entity.css
     - match: '{{ident_begin}}'
       push: at-page-name-content
+    - include: comma-delimiters
+    - include: comments
+    - include: else-pop
 
   at-page-name-content:
     - meta_scope: entity.other.page-name.css
     - include: identifier-content
-
-  at-page-block:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-page-block-body
-
-  at-page-block-body:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: at-page-margin
-    - include: at-page-property-list-body
-    - include: at-other
 
   at-page-margin:
     - match: (@){{page_margin_names}}
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-page-margin-body
+      push:
+        - at-page-margin-meta
+        - maybe-property-list
 
-  at-page-margin-body:
+  at-page-margin-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.margin.css
-    - include: at-page-property-lists
-    - include: at-rule-end
-
-  at-page-property-lists:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-page-property-list-body
-
-  at-page-property-list-body:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: comments
-    - include: at-page-property-names
-    - include: property-values
-    - include: rule-terminators
-    - include: illegal-blocks
-    - include: illegal-groups
-
-  at-page-property-names:
-    - match: '{{page_property_names}}'
-      scope: meta.property-name.css support.type.property-name.css
-    # Note: Consume unknown identifiers to maintain word boundaries.
-    - match: '{{generic_ident}}'
+    - include: immediately-pop
 
 ###[ PROPERTY AT-RULE ]########################################################
 
@@ -951,38 +886,20 @@ contexts:
       captures:
         1: punctuation.definition.keyword.css
       push:
-        - at-property-property-list
+        - at-property-property-meta
+        - maybe-property-list
         - at-property-name
+
+  at-property-property-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.at-rule.property.css
+    - include: immediately-pop
 
   at-property-name:
     - match: '{{custom_ident_begin}}'
       set: custom-property-content
     - include: comments
     - include: else-pop
-
-  at-property-property-list:
-    - meta_scope: meta.at-rule.property.css
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-property-property-list-body
-    - include: comments
-    - include: else-pop
-
-  at-property-property-list-body:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: comments
-    - include: at-property-property-names
-    - include: property-values
-    - include: rule-terminators
-    - include: illegal-blocks
-    - include: illegal-groups
-
-  at-property-property-names:
-    - match: '{{property_property_names}}'
-      scope: meta.property-name.css support.type.property-name.css
-    # Note: Consume unknown identifiers to maintain word boundaries.
-    - match: '{{generic_ident}}'
 
 ###[ SCROLL-TIMELINE AT-RULE ]#################################################
 
@@ -994,8 +911,14 @@ contexts:
       captures:
         1: punctuation.definition.keyword.css
       push:
-        - at-scroll-timeline-property-list
+        - at-scroll-timeline-meta
+        - maybe-property-list
         - at-scroll-timeline-name
+
+  at-scroll-timeline-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.at-rule.scroll-timeline.css
+    - include: immediately-pop
 
   at-scroll-timeline-name:
     - meta_include_prototype: false
@@ -1007,30 +930,6 @@ contexts:
   at-scroll-timeline-name-content:
     - meta_scope: entity.other.scroll-timeline.css
     - include: identifier-content
-
-  at-scroll-timeline-property-list:
-    - meta_scope: meta.at-rule.scroll-timeline.css
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-scroll-timeline-property-list-body
-    - include: comments
-    - include: else-pop
-
-  at-scroll-timeline-property-list-body:
-    - meta_scope: meta.property-list.css meta.block.css
-    - include: block-end2
-    - include: comments
-    - include: at-scroll-timeline-property-names
-    - include: property-values
-    - include: rule-terminators
-    - include: illegal-blocks
-    - include: illegal-groups
-
-  at-scroll-timeline-property-names:
-    - match: '{{scroll_timeline_property_names}}'
-      scope: meta.property-name.css support.type.property-name.css
-    # Note: Consume unknown identifiers to maintain word boundaries.
-    - match: '{{generic_ident}}'
 
 ###[ SUPPORTS AT-RULE ]########################################################
 
