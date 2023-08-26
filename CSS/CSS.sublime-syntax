@@ -361,15 +361,8 @@ variables:
 contexts:
 
   main:
+    - meta_include_prototype: false
     - include: stylesheet
-
-  stylesheet:
-    - include: comments
-    - include: property-lists
-    - include: selectors
-    - include: at-rules
-    - include: rule-terminators
-    - include: illegal-groups
 
 ###[ COMMENTS ]################################################################
 
@@ -394,26 +387,75 @@ contexts:
       captures:
         1: punctuation.definition.comment.css
 
+###[ STYLESHEETS ]#############################################################
+
+  maybe-stylesheet-block:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      set: stylesheet-block-body
+    - include: comments
+    - include: else-pop
+
+  stylesheet-block-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.block.css
+    - include: block-end
+    - include: stylesheet
+
+  stylesheet:
+    - include: comments
+    - include: property-lists
+    - include: selectors
+    - include: at-rules
+    - include: rule-terminators
+    - include: illegal-groups
+
 ###[ AT RULES ]################################################################
 
   at-rules:
-    - include: at-charset
-    - include: at-container
-    - include: at-counter-style
-    - include: at-custom-media
-    - include: at-document
-    - include: at-font-face
+    # top-level-only
     - include: at-import
-    - include: at-keyframes
+    # with stylesheet blocks
+    - include: at-container
+    - include: at-document
     - include: at-layer
     - include: at-media
+    - include: at-supports
+    # common
+    - include: at-charset
+    - include: at-counter-style
+    - include: at-custom-media
+    - include: at-font-face
+    - include: at-keyframes
     - include: at-namespace
     - include: at-page
     - include: at-page-margin
     - include: at-property
     - include: at-scroll-timeline
-    - include: at-supports
     - include: at-other
+
+  nested-at-rules:
+    # with style-rule blocks
+    - include: nested-at-container
+    - include: nested-at-document
+    - include: nested-at-layer
+    - include: nested-at-media
+    - include: nested-at-supports
+    # common
+    - include: at-charset
+    - include: at-counter-style
+    - include: at-custom-media
+    - include: at-font-face
+    - include: at-keyframes
+    - include: at-namespace
+    - include: at-page
+    - include: at-page-margin
+    - include: at-property
+    - include: at-scroll-timeline
+    - include: at-other
+
+###[ CHARSET AT-RULE ]#########################################################
 
   # @charset
   # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
@@ -422,12 +464,20 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-charset-body
+      push:
+        - at-charset-meta
+        - at-charset-body
+
+  at-charset-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.at-rule.charset.css
+    - include: immediately-pop
 
   at-charset-body:
-    - meta_scope: meta.at-rule.charset.css
-    - include: quoted-strings
-    - include: at-rule-end
+    - include: quoted-string
+    - include: else-pop
+
+###[ CONTAINER AT-RULE ]#######################################################
 
   # @container
   # https://drafts.csswg.org/css-contain-3/#container-rule
@@ -437,8 +487,26 @@ contexts:
       captures:
         1: punctuation.definition.keyword.css
       push:
-        - at-container-body
+        - at-container-meta
+        - maybe-stylesheet-block
+        - container-query
         - at-container-identifier
+
+  nested-at-container:
+    - match: (@)(?i:container){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-container-meta
+        - maybe-property-list
+        - container-query
+        - at-container-identifier
+
+  at-container-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.at-rule.container.css
+    - include: immediately-pop
 
   at-container-identifier:
     - meta_include_prototype: false
@@ -453,11 +521,7 @@ contexts:
     - meta_scope: entity.other.container.css
     - include: identifier-content
 
-  at-container-body:
-    - meta_scope: meta.at-rule.container.css
-    - include: at-rule-block
-    - include: container-queries
-    - include: else-pop
+###[ COUNTER STYLE AT-RULE ]###################################################
 
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
@@ -475,7 +539,8 @@ contexts:
       scope: punctuation.section.block.begin.css
       push: at-counter-style-block-body
     - include: at-counter-style-names
-    - include: at-rule-end
+    - include: comments
+    - include: else-pop
 
   at-counter-style-block-body:
     - meta_scope: meta.property-list.css meta.block.css
@@ -504,6 +569,8 @@ contexts:
     - match: '{{counter_style_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
 
+###[ CUSTOM MEDIA AT-RULE ]####################################################
+
   # @custom-media
   # https://??
   at-custom-media:
@@ -528,8 +595,9 @@ contexts:
 
   at-custom-media-body:
     - meta_scope: meta.at-rule.custom-media.css
-    - include: media-queries
-    - include: at-rule-end
+    - include: media-query-list
+
+###[ DOCUMENT AT-RULE ]########################################################
 
   # @document
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
@@ -538,17 +606,36 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-document-body
+      push:
+        - at-document-meta
+        - maybe-stylesheet-block
+        - at-document-query
 
-  at-document-body:
+  nested-at-document:
+    - match: (@)(?i:document){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-document-meta
+        - maybe-property-list
+        - at-document-query
+
+  at-document-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.document.css
-    - include: comma-delimiters
+    - include: immediately-pop
+
+  at-document-query:
     - include: url-functions
     - include: url-domain-functions
     - include: url-prefix-functions
     - include: url-regexp-functions
-    - include: at-rule-block
-    - include: at-rule-end
+    - include: comma-delimiters
+    - include: comments
+    - include: else-pop
+
+###[ FONT FACE AT-RULE ]#######################################################
 
   # @font-face
   # https://www.w3.org/TR/css-fonts-4/#at-font-face-rule
@@ -581,6 +668,8 @@ contexts:
     - match: '{{font_face_property_names}}'
       scope: meta.property-name.css support.type.property-name.css
 
+###[ IMPORT AT-RULE ]##########################################################
+
   # @import
   # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@import
@@ -589,16 +678,23 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-import-body
+      push:
+        - at-import-media-query
+        - at-import-body
 
   at-import-body:
-    - meta_scope: meta.at-rule.import.css
     - include: quoted-strings
     - include: url-functions
-    - include: media-queries
     - include: layer-functions
     - include: supports-functions
-    - include: at-rule-end
+    - include: comments
+    - include: else-pop
+
+  at-import-media-query:
+    - meta_scope: meta.at-rule.import.css
+    - include: media-query-list
+
+###[ KEYFRAMES AT-RULE ]#######################################################
 
   # @keyframes
   # https://www.w3.org/TR/css3-animations/#at-ruledef-keyframes
@@ -610,32 +706,29 @@ contexts:
       push: at-keyframe-body
 
   at-keyframe-body:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.keyframe.css
-    - include: comma-delimiters
-    - include: at-keyframe-block
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-keyframe-block-body
     - include: at-keyframe-names
-    - include: at-rule-end
+    - include: comma-delimiters
+    - include: comments
+    - include: else-pop
 
   at-keyframe-names:
-    - meta_include_prototype: false
     - match: '{{illegal_custom_ident}}'
       scope: invalid.illegal.identifier.css
     - match: '{{ident_begin}}'
       push: at-keyframe-name-content
     - include: quoted-strings
-    - include: comments
-    - include: else-pop
 
   at-keyframe-name-content:
     - meta_scope: entity.other.animation-name.css
     - include: identifier-content
 
-  at-keyframe-block:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-keyframe-block-body
-
   at-keyframe-block-body:
+    - meta_include_prototype: false
     - meta_scope: meta.block.css
     - include: block-end2
     - include: comments
@@ -655,6 +748,8 @@ contexts:
     - match: \b(?i:from|to){{break}}
       scope: keyword.other.selector.css
 
+###[ LAYER AT-RULE ]###########################################################
+
   # @layer
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@layer
   at-layer:
@@ -662,14 +757,31 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-layer-body
+      push:
+        - at-layer-meta
+        - maybe-stylesheet-block
+        - at-layer-name-list
 
-  at-layer-body:
+  nested-at-layer:
+    - match: (@)(?i:layer){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-layer-meta
+        - maybe-property-list
+        - at-layer-name-list
+
+  at-layer-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.layer.css
-    - include: comma-delimiters
+    - include: immediately-pop
+
+  at-layer-name-list:
     - include: at-layer-names
-    - include: at-rule-block
-    - include: at-rule-end
+    - include: comma-delimiters
+    - include: comments
+    - include: else-pop
 
   at-layer-names:
     - match: '{{ident_begin}}'
@@ -693,6 +805,8 @@ contexts:
       push: clear-pop
     - include: identifier-content
 
+###[ MEDIA AT-RULE ]###########################################################
+
   # @media
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
   at-media:
@@ -700,13 +814,27 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-media-body
+      push:
+        - at-media-meta
+        - maybe-stylesheet-block
+        - media-query-list
 
-  at-media-body:
+  nested-at-media:
+    - match: (@)(?i:media){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-media-meta
+        - maybe-property-list
+        - media-query-list
+
+  at-media-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.media.css
-    - include: media-queries
-    - include: at-rule-block
-    - include: at-rule-end
+    - include: immediately-pop
+
+###[ NAMESPACE AT-RULE ]#######################################################
 
   # @namespace
   # https://www.w3.org/TR/css3-namespace/
@@ -731,7 +859,10 @@ contexts:
     - include: var-functions
     - include: url-functions
     - include: quoted-urls
-    - include: at-rule-end
+    - include: comments
+    - include: else-pop
+
+###[ PAGE AT-RULE ]############################################################
 
   # @page
   # https://www.w3.org/TR/css3-page/#at-ruledef-page
@@ -810,6 +941,8 @@ contexts:
     # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'
 
+###[ PROPERTY AT-RULE ]########################################################
+
   # @property Property Names
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@property
   at-property:
@@ -850,6 +983,8 @@ contexts:
       scope: meta.property-name.css support.type.property-name.css
     # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'
+
+###[ SCROLL-TIMELINE AT-RULE ]#################################################
 
   # @scroll-timeline
   # https://developer.mozilla.org/en-US/docs/Web/CSS/@scroll-timeline
@@ -897,6 +1032,8 @@ contexts:
     # Note: Consume unknown identifiers to maintain word boundaries.
     - match: '{{generic_ident}}'
 
+###[ SUPPORTS AT-RULE ]########################################################
+
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
   at-supports:
@@ -904,16 +1041,33 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-supports-body
+      push:
+        - at-supports-meta
+        - maybe-stylesheet-block
+        - at-supports-query
 
-  at-supports-body:
+  nested-at-supports:
+    - match: (@)(?i:supports){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-supports-meta
+        - maybe-property-list
+        - at-supports-query
+
+  at-supports-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.supports.css
+    - include: immediately-pop
+
+  at-supports-query:
     - include: at-supports-groups
     - include: logical-operators
     - include: font-format-functions
     - include: selector-functions
-    - include: at-rule-block
-    - include: at-rule-end
+    - include: comments
+    - include: else-pop
 
   at-supports-groups:
     - match: \(
@@ -924,12 +1078,15 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.group.css
     - include: group-end
-    - include: at-rule-end
     - include: at-supports-groups
     - include: logical-operators
     - include: font-format-functions
     - include: selector-functions
     - include: rule-list-body
+    - include: comments
+    - include: else-pop
+
+###[ OTHER AT-RULE ]###########################################################
 
   # @<ident>
   # Fallback context for incomplete or unknown at-rules.
@@ -950,25 +1107,15 @@ contexts:
     - meta_scope: meta.block.css
     - include: block-end2
 
-  at-rule-block:
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-rule-block-body
-
-  at-rule-block-body:
-    - meta_scope: meta.block.css
-    - include: block-end2
-    - include: stylesheet
-
   at-rule-end:
-    - match: (?=[;{}])
+    - match: (?=[;{}@])
       pop: 1
     - include: comments
 
 ###[ CONTAINER QUERIES ]#######################################################
 
   # https://drafts.csswg.org/css-contain-3/#container-rule
-  container-queries:
+  container-query:
     - match: \(
       scope: punctuation.section.group.begin.css
       push: container-query-group-body
@@ -978,12 +1125,12 @@ contexts:
     - include: container-style-functions
     - include: property-identifiers
     - include: property-values
+    - include: else-pop
 
   container-query-group-body:
     - meta_scope: meta.group.css
     - include: group-end
-    - include: container-queries
-    - include: else-pop
+    - include: container-query
 
   container-style-functions:
     - match: \b(?i:style)(?=\()
@@ -1015,15 +1162,17 @@ contexts:
 ###[ MEDIA QUERIES ]###########################################################
 
   # https://drafts.csswg.org/mediaqueries-4/#media
-  media-queries:
+  media-query-list:
     - include: comma-delimiters
     - include: media-query-conditions
     - include: media-query-media-types
+    - include: else-pop
 
   media-query-conditions:
     - match: \(
       scope: punctuation.section.group.begin.css
       push: media-query-group-body
+    - include: comments
     - include: comparison-operators
     - include: logical-operators
 
@@ -1032,7 +1181,6 @@ contexts:
     - match: (?=[,;{}])
       pop: 1
     - include: group-end
-    - include: comments
     - include: media-query-conditions
     - include: media-query-property-names
     - include: media-query-property-values
@@ -1446,6 +1594,14 @@ contexts:
 
 ###[ PROPERTY LISTS ]##########################################################
 
+  maybe-property-list:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      set: property-list-body
+    - include: comments
+    - include: else-pop
+
   property-lists:
     - match: \{
       scope: punctuation.section.block.begin.css
@@ -1459,7 +1615,7 @@ contexts:
     - include: property-lists
     - include: property-identifiers
     - include: nested-selectors
-    - include: at-rules
+    - include: nested-at-rules
     - include: rule-terminators
     - include: illegal-groups
 

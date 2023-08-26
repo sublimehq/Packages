@@ -183,6 +183,11 @@
 /*  ^^^^^ - keyword - punctuation */
 /*        ^ punctuation.terminator.rule.css */
 
+    @charset
+/*  ^^^^^^^^^ meta.at-rule.charset.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^ keyword.control.directive.css - punctuation */
+
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
 /*                  ^ - meta.at-rule */
@@ -190,6 +195,14 @@
 /*   ^^^^^^^ keyword.control.directive.css - punctuation */
 /*           ^^^^^^^ meta.string.css string.quoted.double.css */
 /*                  ^ punctuation.terminator.rule.css */
+
+    @charset "UTF-8""value"
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
+/*                  ^^^^^^^ - meta.at-rule */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^ keyword.control.directive.css - punctuation */
+/*           ^^^^^^^ meta.string.css string.quoted.double.css */
+/*                  ^^^^^^^ - string */
 
     @import "x" print;
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
@@ -666,14 +679,10 @@
 /*                                                                                                                                      ^^^^ comment.block.css */
 
     @media onlyℜ screenℜ screen\211C {}
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
-/*                                   ^^ meta.at-rule.media.css meta.block.css - meta.property-list */
-/*                                     ^ - meta.at-rule - meta.block */
+/*  ^^^^^^^ meta.at-rule.media.css - meta.block */
+/*         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.at-rule  */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword - support */
-/*                                   ^ punctuation.section.block.begin.css */
-/*                                    ^ punctuation.section.block.end.css */
 
     @media only screen {}
 /*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
@@ -1243,6 +1252,26 @@
 /*    ^^^^^^ keyword.control.directive.css */
 /*           ^^^^^^ entity.other.layer.css */
 /*                  ^ punctuation.section.block.begin.css */
+        table {
+/*      ^^^^^ meta.selector.css entity.name.tag */
+
+            @layer foo {
+/*         ^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css meta.property-list.css meta.block.css */
+/*          ^^^^^^^^^^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css meta.property-list.css meta.block.css meta.at-rule.layer.css */
+/*                     ^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css meta.property-list.css meta.block.css meta.at-rule.layer.css meta.property-list.css meta.block.css */
+                table {}
+/*              ^^^^^ - entity.name.tag */
+
+                > table {}
+/*              ^^^^^^^^ meta.selector.css */
+
+                font: inherit;
+/*              ^^^^ meta.property-name.css support.type.property-name.css */
+/*                  ^ punctuation.separator.key-value.css */
+/*                   ^^^^^^^^ meta.property-value.css */
+            }
+        }
+
         .foo {
             font: status-bar;
 /*         ^^^^^^^^^^^^^^^^^^^ meta.at-rule.layer.css meta.block.css meta.at-rule.layer.css meta.block.css meta.property-list.css meta.block.css */
@@ -1256,6 +1285,26 @@
 /*    ^ punctuation.section.block.end.css */
     }
 /* ^^ meta.at-rule.layer.css meta.block.css */
+
+    button {
+        font: inherit;
+/*      ^^^^ meta.property-name.css support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*           ^^^^^^^^ meta.property-value.css */
+
+        @layer defaults {
+/*     ^ meta.property-list.css meta.block.css - meta.at-rule */
+/*      ^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.at-rule.layer.css - meta.property-list meta.property-list */
+/*                      ^^ meta.property-list.css meta.block.css meta.at-rule.layer.css meta.property-list.css meta.block.css */
+
+            font: monospace;
+/*          ^^^^ meta.property-name.css support.type.property-name.css */
+/*              ^ punctuation.separator.key-value.css */
+/*               ^^^^^^^^^^ meta.property-value.css */
+        }
+/*     ^^ meta.property-list.css meta.block.css meta.at-rule.layer.css meta.property-list.css meta.block.css */
+    }
+/* ^^ meta.property-list.css meta.block.css */
 
     @property
 /* ^ - meta.at-rule */
