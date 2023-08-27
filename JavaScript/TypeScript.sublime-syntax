@@ -21,9 +21,8 @@ variables:
   dot_accessor: (?:[?!]?\.)
   possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 
-  function_call_lookahead: >-
+  function_call_after_lookahead: >-
     (?x:(?=
-      {{identifier_name}}
       \s*
       (?:
         <
@@ -31,7 +30,7 @@ variables:
         >
         \s*
       )?
-      (?:{{dot_accessor}})?
+      (?:{{dot_accessor}}\s*)?
       \(
     ))
 

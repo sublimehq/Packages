@@ -96,7 +96,7 @@ variables:
       =>
     )
 
-  function_call_lookahead: (?={{identifier_name}}\s*(?:{{dot_accessor}})?\()
+  function_call_after_lookahead: (?=\s*(?:{{dot_accessor}}\s*)?\()
 
   function_assignment_lookahead: |-
     (?x:(?=
@@ -965,7 +965,7 @@ contexts:
     - match: (?=`)
       push: literal-string-template
 
-    - match: (?=(?:{{dot_accessor}})?\()
+    - match: (?={{function_call_after_lookahead}})
       push: function-call-arguments
 
     - match: '{{line_ending_ahead}}'
@@ -1025,7 +1025,7 @@ contexts:
     - match: (?=`)
       push: literal-string-template
 
-    - match: (?=(?:{{dot_accessor}})?\()
+    - match: '{{function_call_after_lookahead}}'
       push: function-call-arguments
 
     - include: property-access
@@ -1948,8 +1948,9 @@ contexts:
           push: expression
 
   function-call-arguments:
-    - match: '{{dot_accessor}}(?=\()'
-      scope: meta.function-call.js punctuation.accessor.js
+    - meta_content_scope: meta.function-call.js
+    - match: '{{dot_accessor}}'
+      scope: punctuation.accessor.js
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
@@ -2057,26 +2058,6 @@ contexts:
       scope: invalid.illegal.numeric.decimal.js
       pop: 1
 
-  call-function-name:
-    - match: '{{dollar_only_identifier}}'
-      scope: meta.function-call.js variable.function.js variable.other.dollar.only.js punctuation.dollar.js
-      pop: 1
-    - match: '{{identifier_name}}'
-      scope: meta.function-call.js variable.function.js
-      pop: 1
-    - include: else-pop
-
-  call-method-name:
-    - include: support-property
-    - match: '(#)?{{identifier_name}}'
-      scope: meta.function-call.js variable.function.js
-      captures:
-        1: punctuation.definition.js
-      pop: 1
-    - include: else-pop
-
-
-
   literal-variable:
     - include: special-identifier
     - include: support
@@ -2094,8 +2075,18 @@ contexts:
       scope: support.class.js
       pop: 1
 
-    - match: '{{function_call_lookahead}}'
-      set: call-function-name
+    # If we don't capture the trailing space here,
+    # it'll get eaten by the arrow function detection.
+    - match: '({{dollar_only_identifier}}){{nothing}}{{function_call_after_lookahead}}'
+      scope: meta.function-call.js
+      captures:
+        1: variable.function.js variable.other.dollar.only.js punctuation.dollar.js
+      pop: 1
+    - match: '({{identifier_name}}){{nothing}}{{function_call_after_lookahead}}'
+      scope: meta.function-call.js
+      captures:
+       1: variable.function.js
+      pop: 1
 
     - include: literal-variable-base
 
@@ -2508,7 +2499,7 @@ contexts:
         - function-name-meta
         - object-property-base
 
-    - match: '(?=#?{{function_call_lookahead}})'
+    - match: '(?=#?{{identifier_name}}{{function_call_after_lookahead}})'
       set: call-method-name
 
     - match: '{{identifier_name}}(?={{nothing}}`)'
@@ -2516,6 +2507,15 @@ contexts:
       pop: 1
 
     - include: object-property-base
+    - include: else-pop
+
+  call-method-name:
+    - include: support-property
+    - match: '(#)?{{identifier_name}}'
+      scope: meta.function-call.js variable.function.js
+      captures:
+        1: punctuation.definition.js
+      pop: 1
     - include: else-pop
 
   object-property-base:

@@ -1702,12 +1702,12 @@ debugger
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.brackets.begin
 
-    a?.();
-//  ^^^^^ meta.function-call
+    a ?. ();
+//  ^^^^^^^ meta.function-call
 //  ^ variable.function
-//   ^^ punctuation.accessor - meta.function-call.arguments
-//     ^^ meta.function-call.arguments meta.group
-//     ^ punctuation.section.group.begin
+//    ^^ punctuation.accessor - meta.function-call.arguments
+//       ^^ meta.function-call.arguments meta.group
+//       ^ punctuation.section.group.begin
 
     a.b?.();
 //    ^^^^^ meta.function-call
