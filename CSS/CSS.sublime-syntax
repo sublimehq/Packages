@@ -334,6 +334,15 @@ contexts:
     - meta_include_prototype: false
     - include: stylesheet
 
+  stylesheet:
+    - include: comments
+    - include: property-lists
+    - include: selectors
+    - include: at-rules
+    - include: rule-terminators
+    - include: illegal-commas
+    - include: illegal-groups
+
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -356,31 +365,6 @@ contexts:
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.css
-
-###[ STYLESHEETS ]#############################################################
-
-  maybe-stylesheet-block:
-    - meta_include_prototype: false
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      set: stylesheet-block-body
-    - include: comments
-    - include: else-pop
-
-  stylesheet-block-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.block.css
-    - include: block-end
-    - include: stylesheet
-
-  stylesheet:
-    - include: comments
-    - include: property-lists
-    - include: selectors
-    - include: at-rules
-    - include: rule-terminators
-    - include: illegal-commas
-    - include: illegal-groups
 
 ###[ AT RULES ]################################################################
 
@@ -459,7 +443,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-container-meta
-        - maybe-stylesheet-block
+        - maybe-style-block
         - container-query
         - at-container-identifier
 
@@ -589,7 +573,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-document-meta
-        - maybe-stylesheet-block
+        - maybe-style-block
         - at-document-query
 
   nested-at-document:
@@ -737,7 +721,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-layer-meta
-        - maybe-stylesheet-block
+        - maybe-style-block
         - at-layer-name-list
 
   nested-at-layer:
@@ -795,7 +779,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-media-meta
-        - maybe-stylesheet-block
+        - maybe-style-block
         - media-query-list
 
   nested-at-media:
@@ -960,7 +944,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-supports-meta
-        - maybe-stylesheet-block
+        - maybe-style-block
         - at-supports-query
 
   nested-at-supports:
@@ -1508,6 +1492,24 @@ contexts:
     - match: (?=\()
       fail: pseudo-element
     - include: identifier-content
+
+###[ STYLE BLOCKS ]############################################################
+
+  maybe-style-block:
+    # https://www.w3.org/TR/css-syntax-3/#declaration-rule-list
+    # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      set: style-block-body
+    - include: comments
+    - include: else-pop
+
+  style-block-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.block.css
+    - include: block-end
+    - include: stylesheet
 
 ###[ PROPERTY LISTS ]##########################################################
 
