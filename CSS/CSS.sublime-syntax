@@ -88,6 +88,8 @@ variables:
   nested_selector_begin: (?={{nested_selector_start}})
   nested_selector_start: '[.:#&*\[{{combinator_char}}]'
 
+  keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
+
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
   combinators: (?:>{1,3}|[~+]|\|{2})
@@ -385,6 +387,7 @@ contexts:
     - include: selectors
     - include: at-rules
     - include: rule-terminators
+    - include: illegal-commas
     - include: illegal-groups
 
 ###[ AT RULES ]################################################################
@@ -664,40 +667,52 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-keyframe-body
+      push:
+        - at-keyframe-meta
+        - at-keyframe-block
+        - at-keyframe-identifier
 
-  at-keyframe-body:
+  at-keyframe-meta:
     - meta_include_prototype: false
     - meta_scope: meta.at-rule.keyframe.css
-    - match: \{
-      scope: punctuation.section.block.begin.css
-      push: at-keyframe-block-body
-    - include: at-keyframe-names
-    - include: comma-delimiters
+    - include: immediately-pop
+
+  at-keyframe-identifier:
+    - meta_include_prototype: false
+    - match: '{{illegal_custom_ident}}'
+      scope: invalid.illegal.identifier.css
+      pop: 1
+    - match: '{{ident_begin}}'
+      set: at-keyframe-identifier-content
+    - include: quoted-string
     - include: comments
     - include: else-pop
 
-  at-keyframe-names:
-    - match: '{{illegal_custom_ident}}'
-      scope: invalid.illegal.identifier.css
-    - match: '{{ident_begin}}'
-      push: at-keyframe-name-content
-    - include: quoted-strings
-
-  at-keyframe-name-content:
+  at-keyframe-identifier-content:
     - meta_scope: entity.other.animation-name.css
     - include: identifier-content
+
+  at-keyframe-block:
+    - meta_include_prototype: false
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      set: at-keyframe-block-body
+    - include: comments
+    - include: else-pop
 
   at-keyframe-block-body:
     - meta_include_prototype: false
     - meta_scope: meta.block.css
-    - include: block-end2
+    - include: block-end
     - include: comments
     - include: property-lists
     - include: at-keyframe-selectors
+    - include: rule-terminators
+    - include: illegal-commas
+    - include: illegal-groups
 
   at-keyframe-selectors:
-    - match: (?=[[:alnum:].,%])
+    - match: '{{keyframe_selector_begin}}'
       push: at-keyframe-selector-body
 
   at-keyframe-selector-body:
@@ -706,7 +721,7 @@ contexts:
     - include: comments
     - include: comma-delimiters
     - include: percentage-constants
-    - match: \b(?i:from|to){{break}}
+    - match: (?i:from|to){{break}}
       scope: keyword.other.selector.css
 
 ###[ LAYER AT-RULE ]###########################################################
@@ -739,6 +754,7 @@ contexts:
     - include: immediately-pop
 
   at-layer-name-list:
+    - meta_include_prototype: false
     - include: at-layer-names
     - include: comma-delimiters
     - include: comments
@@ -1516,6 +1532,7 @@ contexts:
     - include: nested-selectors
     - include: nested-at-rules
     - include: rule-terminators
+    - include: illegal-commas
     - include: illegal-groups
 
   rule-list-body:
@@ -1525,6 +1542,7 @@ contexts:
     - include: property-identifiers
     - include: property-values
     - include: rule-terminators
+    - include: illegal-commas
     - include: illegal-blocks
     - include: illegal-groups
 
@@ -3424,6 +3442,10 @@ contexts:
   rule-terminators:
     - match: ;
       scope: punctuation.terminator.rule.css
+
+  illegal-commas:
+    - match: ','
+      scope: invalid.illegal.unexpected-token.css
 
   illegal-blocks:
     # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors

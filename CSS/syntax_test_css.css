@@ -907,19 +907,47 @@
 /*                                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
-    @keyframes beat, "bounce", none {}
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
-/*                                  ^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list */
-/*                                    ^ - meta.at-rule - meta.block */
+    @keyframes beat {}
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
+/*                  ^^ meta.at-rule.keyframe.css meta.block.css */
+/*                    ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*             ^^^^ entity.other.animation-name.css */
-/*                 ^ punctuation.separator.sequence.css */
-/*                   ^^^^^^^^ meta.string.css string.quoted.double.css */
-/*                           ^ punctuation.separator.sequence.css */
-/*                             ^^^^ invalid.illegal.identifier.css */
-/*                                  ^ punctuation.section.block.begin.css */
-/*                                   ^ punctuation.section.block.end.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                   ^ punctuation.section.block.end.css */
+
+    @keyframes "beat" {}
+/*  ^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
+/*                    ^^ meta.at-rule.keyframe.css meta.block.css */
+/*                      ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
+/*             ^^^^^^ meta.string.css string.quoted.double.css */
+/*                    ^ punctuation.section.block.begin.css */
+/*                     ^ punctuation.section.block.end.css */
+
+    @keyframes none {}
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
+/*                  ^^ meta.at-rule.keyframe.css meta.block.css */
+/*                    ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
+/*             ^^^^ invalid.illegal.identifier.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                   ^ punctuation.section.block.end.css */
+
+    @keyframes beat, none {}
+/*  ^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
+/*                 ^^^^^^^ - meta.at-rule - meta.block */
+/*                        ^^ meta.property-list.css meta.block.css - meta.at-rule */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
+/*             ^^^^ entity.other.animation-name.css */
+/*                 ^ invalid.illegal.unexpected-token.css */
+/*                   ^^^^ entity.name.tag.other.css */
+/*                        ^ punctuation.section.block.begin.css */
+/*                         ^ punctuation.section.block.end.css */
 
     @keyframes- beat, bounce {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.other.css */
@@ -980,10 +1008,24 @@
 /*    ^^ keyword.other.selector.css */
 
     @media ;
-/*  ^^^^^^^^ - keyword - punctuation */
+/*  ^^^^^^ - keyword - punctuation */
+/*         ^ punctuation.terminator.rule.css */
 
     body {}
-/*  ^^^^^^^^ - entity - support */
+/*  ^^^^^^^^ - meta.selector - entity - support */
+/*       ^ punctuation.section.block.begin.css */
+/*        ^ punctuation.section.block.end.css */
+
+    .nested {}
+/*  ^^^^^^^^ - meta.selector - entity - support */
+
+    > nested {}
+/*  ^^^^^^^^^ - meta.selector - entity - support */
+
+    ( group )
+/*  ^ invalid.illegal.unexpected-token.css */
+/*          ^ invalid.illegal.unexpected-token.css */
+
 }
 
     @document url(http://) { }
