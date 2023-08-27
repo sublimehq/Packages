@@ -2068,10 +2068,7 @@ contexts:
 
   call-method-name:
     - include: support-property
-    - match: '{{identifier_name}}'
-      scope: meta.function-call.js variable.function.js
-      pop: 1
-    - match: '(#){{identifier_name}}'
+    - match: '(#)?{{identifier_name}}'
       scope: meta.function-call.js variable.function.js
       captures:
         1: punctuation.definition.js
