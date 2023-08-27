@@ -1703,10 +1703,10 @@ debugger
 //     ^ punctuation.section.brackets.begin
 
     a?.();
+//  ^^^^^ meta.function-call
 //  ^ variable.function
-//   ^^^^ meta.group
-//   ^^ punctuation.accessor
-//    ^^^ meta.function-call
+//   ^^ punctuation.accessor - meta.function-call.arguments
+//     ^^ meta.function-call.arguments meta.group
 //     ^ punctuation.section.group.begin
 
     a.b?.();

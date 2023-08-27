@@ -1948,10 +1948,10 @@ contexts:
           push: expression
 
   function-call-arguments:
-    - match: ({{dot_accessor}})?(\()
-      captures:
-        1: punctuation.accessor.js
-        2: punctuation.section.group.begin.js
+    - match: '{{dot_accessor}}(?=\()'
+      scope: meta.function-call.js punctuation.accessor.js
+    - match: \(
+      scope: punctuation.section.group.begin.js
       set:
         - meta_scope: meta.function-call.arguments.js meta.group.js
         - match: \)
@@ -2074,6 +2074,8 @@ contexts:
         1: punctuation.definition.js
       pop: 1
     - include: else-pop
+
+
 
   literal-variable:
     - include: special-identifier
