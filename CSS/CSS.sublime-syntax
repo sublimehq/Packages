@@ -371,9 +371,9 @@ contexts:
   at-rules:
     # top-level-only
     - include: at-import
+    - include: at-document
     # with stylesheet blocks
     - include: at-container
-    - include: at-document
     - include: at-layer
     - include: at-media
     - include: at-supports
@@ -393,7 +393,6 @@ contexts:
   nested-at-rules:
     # with style-rule blocks
     - include: nested-at-container
-    - include: nested-at-document
     - include: nested-at-layer
     - include: nested-at-media
     - include: nested-at-supports
@@ -574,16 +573,6 @@ contexts:
       push:
         - at-document-meta
         - maybe-style-block
-        - at-document-query
-
-  nested-at-document:
-    - match: (@)(?i:document){{break}}
-      scope: keyword.control.directive.css
-      captures:
-        1: punctuation.definition.keyword.css
-      push:
-        - at-document-meta
-        - maybe-property-list
         - at-document-query
 
   at-document-meta:
