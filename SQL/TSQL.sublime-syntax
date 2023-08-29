@@ -209,7 +209,7 @@ contexts:
 
   set-target:
     - meta_prepend: true
-    - match: \b(?i:nocount|ansi_nulls|quoted_identifier|xact_abort)\b
+    - match: \b(?i:nocount|ansi_nulls|quoted_identifier|xact_abort|ansi_warnings|noexec|showplan_(?:all|text|xml))\b
       scope: constant.language.switch.tsql
     - match: \b(?i:identity_insert)\b
       scope: constant.language.switch.tsql
@@ -217,6 +217,9 @@ contexts:
     - match: \b(?i:transaction\s+isolation\s+level)\b
       scope: constant.language.switch.tsql
       set: transaction-isolation-level
+    - match: \b(?i:deadlock_priority)\b
+      scope: constant.language.switch.tsql
+      set: deadlock-priority
     - include: onoff-constants
     - include: variables
     - include: augmented-assignment-operators
@@ -230,6 +233,12 @@ contexts:
       pop: 1
     - match: (?=\S)
       pop: 1
+
+  deadlock-priority:
+    - match: \b(?i:low|normal|high)\b
+      scope: constant.language.tsql
+      pop: 1
+    - include: else-pop
 
 ###[ OTHER STATEMENTS ]########################################################
 

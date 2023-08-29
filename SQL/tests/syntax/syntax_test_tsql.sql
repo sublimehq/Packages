@@ -2499,6 +2499,22 @@ when not matched then
     insert (a,b,c) values (source.a, source.b, default);
 --                                             ^^^^^^^ meta.group.sql variable.language.tsql
 
+DECLARE @deadlock_var NCHAR(3);
+SET @deadlock_var = N'LOW';
+  
+SET DEADLOCK_PRIORITY @deadlock_var;
+--  ^^^^^^^^^^^^^^^^^ constant.language.switch.tsql
+--                    ^ punctuation.definition.variable.sql
+--                     ^^^^^^^^^^^^ variable.other.readwrite.sql
+--                                 ^ punctuation.terminator.statement.sql
+SET DEADLOCK_PRIORITY NORMAL;
+--  ^^^^^^^^^^^^^^^^^ constant.language.switch.tsql
+--                    ^^^^^^ constant.language.tsql
+SET DEADLOCK_PRIORITY -10;
+--  ^^^^^^^^^^^^^^^^^ constant.language.switch.tsql
+--                    ^ keyword.operator.arithmetic.sql
+--                     ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                       ^ punctuation.terminator.statement.sql
 
 INSERT INTO some_schema.some_table
     (id, some_field)
