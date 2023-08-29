@@ -11,7 +11,7 @@ variables:
   simple_identifier_break: (?!\w)
 
   reserved: |-
-    (?xi: alter | create | delete | drop | from | grant | group | inner | insert | join
+    (?xi: alter | create | cross | delete | drop | from | grant | group | inner | insert | join
     | left | on | order | outer | revoke | right | select | set | truncate | union
     | update | where )
   additional_reserved: (?!)

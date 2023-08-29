@@ -2499,3 +2499,10 @@ when not matched then
     insert (a,b,c) values (source.a, source.b, default);
 --                                             ^^^^^^^ meta.group.sql variable.language.tsql
 
+
+INSERT INTO some_schema.some_table
+    (id, some_field)
+SELECT main.id, other.another_field
+FROM @table_variable AS main
+CROSS JOIN some_func(@param) AS other
+-- ^^^^^^^ keyword.other.dml.sql
